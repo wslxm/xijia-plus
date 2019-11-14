@@ -1,4 +1,4 @@
-package com.ws.lay.adminconsole.service.base;
+package com.ws.ldy.adminconsole.service.base;
 
 import com.ws.ldy.admincore.service.BaseServiceApi;
 

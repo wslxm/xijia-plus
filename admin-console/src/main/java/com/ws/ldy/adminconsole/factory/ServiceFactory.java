@@ -1,7 +1,8 @@
-package com.ws.lay.adminconsole.factory;
+package com.ws.ldy.adminconsole.factory;
 
-import com.ws.lay.adminconsole.service.impl.MenuServiceImpl;
-import com.ws.lay.adminconsole.service.impl.UserServiceImpl;
+import com.ws.ldy.adminconsole.service.impl.MenuServiceImpl;
+import com.ws.ldy.adminconsole.service.impl.RoleServiceImpl;
+import com.ws.ldy.adminconsole.service.impl.UserServiceImpl;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -15,4 +16,6 @@ public class ServiceFactory {
     @Resource
     public MenuServiceImpl menuServiceImpl;
 
+    @Resource
+    public RoleServiceImpl roleServiceImpl;
 }

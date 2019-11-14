@@ -1,8 +1,8 @@
-package com.ws.lay.adminconsole.service.impl;
+package com.ws.ldy.adminconsole.service.impl;
 
-import com.ws.lay.adminconsole.entity.Menu;
-import com.ws.lay.adminconsole.service.MenuService;
-import com.ws.lay.adminconsole.service.base.BaseServiceImpl;
+import com.ws.ldy.adminconsole.entity.Menu;
+import com.ws.ldy.adminconsole.service.MenuService;
+import com.ws.ldy.adminconsole.service.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;

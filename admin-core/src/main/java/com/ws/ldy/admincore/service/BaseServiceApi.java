@@ -2,9 +2,12 @@ package com.ws.ldy.admincore.service;
 
 
 import com.ws.ldy.admincore.dao.BaseDao;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -30,6 +33,14 @@ public  interface  BaseServiceApi<T,ID extends Serializable>{
 
     /** id删除 */
     public Boolean delete(BaseDao dao,ID id) ;
+
+    /** id批量删除 */
+    public Boolean deleteByIds(BaseDao dao,ID[] ids) ;
+
+    /** 分页+条件+排序查询，如有特殊条件使用 service子类重写该实现方法  */
+    public Page<T> page(BaseDao dao,int page, int size, Map<String, Object> param, Sort sort);
+
+
 
 //    public void delete(BaseDao dao,T t);
 //

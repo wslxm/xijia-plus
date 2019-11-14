@@ -16,56 +16,15 @@
 <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
 
     <div class="layui-form-item">
-        <label class="layui-form-label">头像</label>
+        <label class="layui-form-label">角色名称</label>
         <div class="layui-input-inline">
-            <input type="text" id="head" name="head" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">用户名</label>
-        <div class="layui-input-inline">
-            <input type="text" id="username" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            <input type="text" id="name" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">账号</label>
+        <label class="layui-form-label">角色描叙</label>
         <div class="layui-input-inline">
-            <input type="text" id="account" name="account" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">密码</label>
-        <div class="layui-input-inline">
-            <input type="text" id="password" name="password" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">年龄</label>
-        <div class="layui-input-inline">
-            <input type="text" id="age" name="age" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">性别</label>
-        <div class="layui-input-inline">
-            <input type="text" id="gender" name="gender" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">部门</label>
-        <div class="layui-input-inline">
-            <input type="text" id="empId" name="empId" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">地址</label>
-        <div class="layui-input-inline">
-            <input type="text" id="address" name="address" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            <input type="text" id="desc" name="desc" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
 
@@ -78,22 +37,15 @@
 <script>
     $(function () {
         //父页面的值,赋值到当前页
-        $("#head").val(parent.data.head);
-        $("#username").val(parent.data.username);
-        $("#account").val(parent.data.account);
-        $("#password").val(parent.data.password);
-        $("#age").val(parent.data.age);
-        $("#gender").val(parent.data.gender);
-        $("#address").val(parent.data.address);
-        $("#empId").val(parent.data.empId);
+        $("#name").val(parent.data.name);
+        $("#desc").val(parent.data.desc);
     });
 
     layui.use(['form'], function () {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.id = parent.data.id;
-            data.field.time = parent.data.time;
-            ajaxPost(ADMIN_PATH + "/userAdmin/save/2", data.field);
+            ajaxPost(ADMIN_PATH + "/roleAdmin/save/2", data.field);
             parent.layui.table.reload('auth-table');
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);

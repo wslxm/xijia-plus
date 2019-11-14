@@ -1,7 +1,7 @@
-package com.ws.lay.adminconsole.service.base;
+package com.ws.ldy.adminconsole.service.base;
 
-import com.ws.lay.adminconsole.factory.DaoFactory;
-import com.ws.lay.adminconsole.factory.ServiceFactory;
+import com.ws.ldy.adminconsole.factory.DaoFactory;
+import com.ws.ldy.adminconsole.factory.ServiceFactory;
 import com.ws.ldy.admincore.service.impl.BaseServiceApiImpl;
 
 import javax.annotation.Resource;

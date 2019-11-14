@@ -1,7 +1,7 @@
-package com.ws.ldy.admincore;
+package com.ws.ldy;
 
 import org.springframework.boot.SpringApplication;
-        import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class AdminCoreApplication {

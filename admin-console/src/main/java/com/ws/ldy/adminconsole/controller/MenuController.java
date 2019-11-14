@@ -1,8 +1,8 @@
-package com.ws.lay.adminconsole.controller;
+package com.ws.ldy.adminconsole.controller;
 
 
-import com.ws.lay.adminconsole.controller.base.BaseContoller;
-import com.ws.lay.adminconsole.entity.Menu;
+import com.ws.ldy.adminconsole.controller.base.BaseContoller;
+import com.ws.ldy.adminconsole.entity.Menu;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

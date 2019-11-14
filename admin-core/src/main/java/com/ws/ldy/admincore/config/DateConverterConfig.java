@@ -1,4 +1,4 @@
-package com.hy.car.config;
+package com.ws.ldy.admincore.config;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 全局页面传入日期字符串，自动转换成日期格式
+ * TODO    全局页面传入日期字符串，自动转换成日期格式
+ * @author 王松
+ * @WX-QQ 1720696548
+ * @date  2019/11/14 17:36
  */
 @Component
 public class DateConverterConfig implements Converter<String, Date> {

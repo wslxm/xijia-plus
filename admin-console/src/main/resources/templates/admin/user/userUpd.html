@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.springframework.org/schema/jdbc">
 <head>
     <meta charset="utf-8">
-    <title>用户--添加</title>
+    <title>用户--修改</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -78,14 +78,22 @@
 <script>
     $(function () {
         //父页面的值,赋值到当前页
-        $("#name").val(parent.data.name);
+        $("#head").val(parent.data.head);
+        $("#username").val(parent.data.username);
+        $("#account").val(parent.data.account);
+        $("#password").val(parent.data.password);
+        $("#age").val(parent.data.age);
+        $("#gender").val(parent.data.gender);
+        $("#address").val(parent.data.address);
+        $("#empId").val(parent.data.empId);
     });
 
     layui.use(['form'], function () {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            ajaxPost(ADMIN_PATH + "/userAdmin/save/1", data.field);
-            //重载表格
+            data.field.id = parent.data.id;
+            data.field.time = parent.data.time;
+            ajaxPost(ADMIN_PATH + "/userAdmin/save/2", data.field);
             parent.layui.table.reload('auth-table');
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);

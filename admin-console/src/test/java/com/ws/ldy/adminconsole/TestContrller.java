@@ -1,5 +1,5 @@
 
-package com.ws.lay.adminconsole;
+package com.ws.ldy.adminconsole;
 
 //@SpringBootTest
 //class TestContrller{

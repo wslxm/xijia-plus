@@ -1,8 +1,8 @@
-package com.ws.lay.adminconsole.service;
+package com.ws.ldy.adminconsole.service;
 
 
-import com.ws.lay.adminconsole.entity.Menu;
-import com.ws.lay.adminconsole.service.base.BaseService;
+import com.ws.ldy.adminconsole.entity.Menu;
+import com.ws.ldy.adminconsole.service.base.BaseService;
 
 import java.util.List;
 /**

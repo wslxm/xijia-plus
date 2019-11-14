@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc">
     <head>
         <meta charset="UTF-8">
         <title>tree-table</title>
-        <link rel="stylesheet" href="../treetable-lay/assets/layui/css/layui.css">
-        <link rel="stylesheet" href="../treetable-lay/assets/common.css"/>
-        <script language=javascript src='../treetable-lay/assets/layui/layui.js'></script>
-        <script language=javascript src='../js/jquery-3.4.1.js'></script>
-        <script src="../js/app.js"></script>
+        <link rel="stylesheet" th:href="@{/treetable-lay/assets/layui/css/layui.css}">
+        <link rel="stylesheet" th:href="@{/treetable-lay/assets/common.css}"/>
+        <script language=javascript th:src='@{/treetable-lay/assets/layui/layui.js}'></script>
+        <script language=javascript th:src='@{/js/jquery-3.4.1.js}'></script>
+        <script th:src="@{/js/app.js}"></script>
         <style>
             input {
                 height: 33px;
@@ -18,6 +18,7 @@
                 margin-bottom: -2px;
                 outline: none;
             }
+
             input:focus {
                 border-color: #009E94;
             }
@@ -40,10 +41,24 @@
         </div>
 
         <script>
-            //添加菜单当前行数据
+            //数据接口
+            var menuFindAll = ADMIN_PATH + "/menu/findAll";    //查询
+            var menuDelete = ADMIN_PATH + "/menu/delete";      //删除
+            var menu_update1 = ADMIN_PATH + "/menu/update/1";  //修改排序
+            var menu_update2 = ADMIN_PATH + "/menu/update/2";  //修改图标
+            var menu_update3 = ADMIN_PATH + "/menu/update/3";  //修改url
+            var menu_update4 = ADMIN_PATH + "/menu/update/4";  //修改权限id
+
+            var admin_menu_addRoot1 = ADMIN_PATH + "/page/admin_menu_addRoot1";   //添加系统跳转
+            var admin_menu_addRoot2 = ADMIN_PATH + "/page/admin_menu_addRoot2";   //添加一级菜单
+            var admin_menu_addRoot3 = ADMIN_PATH + "/page/admin_menu_addRoot3";   //添加二级菜单
+            var admin_menu_addRoot4 = ADMIN_PATH + "/page/admin_menu_addRoot4";   //添加页面
+            var admin_menu_updName = ADMIN_PATH + "/page/admin_menu_updName";     //菜单名修改
+
+            //添加菜单当前行数据(弹出层获取当前页面值使用)
             var data = null;
             //菜单数据
-            var dataJson = ajaxGet("/menu/findAll");
+            var dataJson = ajaxGet(menuFindAll);
             layui.config({
                 base: '../treetable-lay/module/' //静态资源所在路径
             }).extend({
@@ -76,8 +91,8 @@
                             {field: 'name', width: 200, title: '菜单名称'},//edit: 'text',
                             {field: 'sort', width: 150, edit: 'text', title: '排序'},
                             {field: 'icon', width: 180, edit: 'text', title: '图标'},
-                            {field: 'url', width: 180, edit: 'text', title: '菜单url'},
-                            {field: 'authority', width: 150, edit: 'text', title: '权限id'},
+                            {field: 'url', width: 220, edit: 'text', title: '菜单url'},
+                            {field: 'authority', width: 110, edit: 'text', title: '权限id'},
                             {
                                 field: '', width: 120, title: '类型', edit: 'text', templet: function (res) {
                                     if (res.root === 1) {
@@ -94,7 +109,7 @@
                                     } else {
                                         return '<span class="layui-badge-rim">???</span>';
                                     }
-                                },
+                                }
                             },
                             {
                                 field: 'root', width: 228, title: '添加菜单/页面', templet: function (res) {
@@ -126,7 +141,7 @@
                             },
                             {
                                 field: '', width: 160, title: '操作', templet: function (res) {
-                                    let html ="";
+                                    let html = "";
                                     html += "<a class=\"layui-btn layui-btn-xs\" lay-event=\"upd\">修改名称</a>\n";
                                     html += "<a class=\"layui-btn layui-btn-danger layui-btn-xs\" lay-event=\"del\">删除</a>\n";
                                     return html;
@@ -174,7 +189,7 @@
                 //=======================================================================
                 var $ = layui.$, active = {
                     addRoot1: function () {
-                        tipsWindown("/page/menu_addRoot1", "600px", "200px", "添加系统")
+                        tipsWindown(admin_menu_addRoot1, "440px", "200px", "添加系统");
                     }
                 };
                 //必须在下面/监听class = demoTable内按钮
@@ -196,13 +211,13 @@
                     data = obj.data;
                     //菜单添加
                     if (obj.event === 'addRoot2') {
-                        tipsWindown("/page/menu_addRoot2", "600px", "200px", "添加一级菜单")
+                        tipsWindown(admin_menu_addRoot2, "440px", "260px", "添加一级菜单")
                     }
                     if (obj.event === 'addRoot3') {
-                        tipsWindown("/page/menu_addRoot3", "600px", "200px", "添加二级菜单")
+                        tipsWindown(admin_menu_addRoot3, "440px", "260px", "添加二级菜单")
                     }
                     if (obj.event === 'addRoot4') {
-                        tipsWindown("/page/menu_addRoot4", "600px", "200px", "添加页面")
+                        tipsWindown(admin_menu_addRoot4, "440px", "260px", "添加页面")
                     }
 
 
@@ -214,12 +229,12 @@
                                 , btn: ['必须删', '不删了']
                                 , yes: function (index) {
                                     //获得要删除菜单及所有子菜单/页面
-                                    let result = ajaxPost("/menu/delete", {id: data.id});
+                                    let result = ajaxPost(menuDelete, {id: data.id});
                                     //操作后提示
                                     if (result !== "no") {
                                         layer.msg('操作成功');
                                         obj.del();
-                                    }else{
+                                    } else {
                                         layer.msg('is no error ');
                                     }
                                 }
@@ -229,7 +244,7 @@
 
                     //修改菜单名称
                     if (obj.event === 'upd') {
-                        tipsWindown("/page/menu_updName", "600px", "200px", "修改名称")
+                        tipsWindown(admin_menu_updName, "440px", "200px", "修改名称")
                         // 5、name-修改菜单名
                     }
 
@@ -249,22 +264,22 @@
                     let result = "no";
                     if (field === "sort") {
                         // 1，sort-修改排序
-                        result = ajaxPost("/menu/update/1", {id: data.id, val: val});
+                        result = ajaxPost(menu_update1, {id: data.id, val: val});
                     } else if (field === "icon") {
                         // 2，icon-修改图标
-                        result = ajaxPost("/menu/update/2", {id: data.id, val: val})
+                        result = ajaxPost(menu_update2, {id: data.id, val: val})
                     } else if (field === "url") {
                         // 3、url-修改菜单url
-                        result = ajaxPost("/menu/update/3", {id: data.id, val: val})
+                        result = ajaxPost(menu_update3, {id: data.id, val: val})
                     } else if (field === "authority") {
                         //4、authority-修改权限id
-                        result = ajaxPost("/menu/update/4", {id: data.id, val: val})
-                    }else{
+                        result = ajaxPost(menu_update4, {id: data.id, val: val})
+                    } else {
                         // 5、name-修改菜单名
                     }
-                    if(result !== "no"){
+                    if (result !== "no") {
                         layer.msg('[ID: ' + data.id + '] ' + field + ' 字段更改为：' + value);
-                    }else{
+                    } else {
                         layer.msg('后台异常！处理失败');
                     }
                 });

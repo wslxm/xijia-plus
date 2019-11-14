@@ -41,8 +41,10 @@
 </script>
 <script>
 
-    var findAll = ADMIN_PATH + "/userAdmin/findAll";        //用户查询
-    var deletes = ADMIN_PATH + "/userAdmin/delete";         //用户删除
+    var findAll = ADMIN_PATH + "/roleAdmin/findAll";        //用户查询
+    var deletes = ADMIN_PATH + "/roleAdmin/delete";         //用户删除
+    var pageUpd = ADMIN_PATH + "/page/admin_role_roleUpd";  //用户编辑弹出
+    var pageAdd = ADMIN_PATH + "/page/admin_role_roleAdd";  //用户添加弹出
 
     layui.use('table', function () {
         var table = layui.table;
@@ -55,15 +57,8 @@
                 [
                     {type: 'checkbox', fixed: 'left'}
                     , {field: 'id', title: 'ID', width: 80, fixed: 'left'}
-                    , {field: 'head', title: '头像'}
-                    , {field: 'username', title: '用户名'}
-                    , {field: 'account', title: '账号'}
-                    , {field: 'password', title: '密码'}
-                    , {field: 'age', title: '年龄'}
-                    , {field: 'gender', title: '性别'}
-                    , {field: 'address', title: '地址'}
-                    , {field: 'empId', title: '部门'}
-                    , {field: 'time', title: '注册时间', width: 250}
+                    , {field: 'name', title: '角色名称'}
+                    , {field: 'desc', title: '角色描叙'}
                     , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 250}
                 ]
             ]
@@ -97,7 +92,7 @@
             }
             //添加
             if (obj.event === "add") {
-               tipsWindown("/page/admin_user_userAdd","600px","400px","用户添加");
+                tipsWindown(pageAdd,"600px","400px","用户添加");
             }
         });
 
@@ -133,11 +128,11 @@
             data = obj.data;  //当前行数据
             //菜单添加
             if (obj.event === 'edit') {
-                tipsWindown("/page/admin_user_userUpd","600px","400px","用户编辑");
+                tipsWindown(pageUpd,"600px","400px","用户编辑");
             }
             //删除
             if (obj.event === 'del') {
-               tipsDelete(deletes,{ids : [data.id]},obj);
+                tipsDelete(deletes,{ids : [data.id]},obj);
             }
         });
     });

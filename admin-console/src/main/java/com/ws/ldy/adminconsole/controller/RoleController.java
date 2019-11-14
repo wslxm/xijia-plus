@@ -1,131 +1,76 @@
 package com.ws.ldy.adminconsole.controller;
 
-
 import com.ws.ldy.adminconsole.controller.base.BaseContoller;
-import com.ws.ldy.adminconsole.entity.Menu;
+import com.ws.ldy.adminconsole.entity.Role;
+import com.ws.ldy.admincore.controller.vo.Data;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import java.util.*;
 
 /**
- * TODO  菜单
+ * TODO  角色管理
  *
  * @author 王松
  * @WX-QQ 1720696548
  * @date 2019/11/13 13:38
  */
 @Controller
-@RequestMapping("/menu")
-public class MenuController extends BaseContoller {
+@RequestMapping("/roleAdmin")
+public class RoleController extends BaseContoller {
 
-
-    @RequestMapping("/menu")
-    public String menu() {
-        return "menu/menu";
-    }
-
-    /**
-     * 获取菜单树
-     * @return
-     */
-    @RequestMapping("/menuTree")
-    @ResponseBody
-    public List<Menu> menuTree() {
-        List<Menu> menuTree = service.menuServiceImpl.getMenuTree(1);
-        return menuTree;
-    }
-
-
-    /**
-     * TODO 菜单查询
-     *
-     * @return
+    /***
+     * TODO  分页查询
+     * @date 2019/11/14 15:20
+     * @return Map<String, Object>
      */
     @RequestMapping("/findAll")
     @ResponseBody
-    public List<Menu> findAll() {
+    public Map<String, Object> findAll(int page, int limit,Integer id) {
+        Map<String, Object> param = new HashMap<>(2);
+        param.put("id",id);
+        Sort sort = new Sort(Sort.Direction.ASC, "id");
         //查询所有
-        List<Menu> all = service.menuServiceImpl.findAll(dao.menuDao);
-        return all;
+        Page<Role> roles = service.roleServiceImpl.page(dao.roleDao, page, limit, param, sort);
+        return new Data(roles.getContent(), roles.getTotalPages()).getResData();
     }
 
-    /**
-     * TODO 菜单添加 type=1：添加系统 2：一级菜单 3：二级菜单 4：页面
-     *
-     * @return
+
+    /***
+     * TODO  添加/修改
+     * @param type t=1 添加，=2修改
+     * @param role 对象数据
+     * @date 2019/11/14 17:34
+     * @return java.lang.String
      */
     @RequestMapping("/save/{type}")
     @ResponseBody
-    public String save(String name, Integer pid, String url, String icon, @PathVariable Integer type) {
-        Menu menu = new Menu();
-        menu.setName(name);    //名称
-        menu.setAuthority(0);  //菜单权限(菜单级别3设置权限Id-权限表对应 ）
-        menu.setSort(0);       //排序
-        menu.setRoot(type);    //菜单级别(1、根目录,2、子目录, 3、菜单 4、页面
+    public String save(@PathVariable Integer type, Role role) {
         if (type == 1) {
-            //添加系统
-            menu.setPid(0);          //父id
-            menu.setIcon("");        //图标
-            menu.setUrl("");         //url
-        } else if (type == 2) {
-            //添加一级菜单
-            menu.setPid(pid);        //父id
-            menu.setIcon(icon);      //图标
-            menu.setUrl("");         //url
-        } else if (type == 3) {
-            //添加二级菜单
-            menu.setPid(pid);        //父id
-            menu.setIcon(icon);      //图标
-            menu.setUrl("");         //url
-        } else if (type == 4) {
-            //添加页面
-            menu.setPid(pid);        //父id
-            menu.setIcon("");        //图标
-            menu.setUrl(url);         //url
+            service.roleServiceImpl.save(dao.roleDao, role);
+        } else {
+            service.roleServiceImpl.save(dao.roleDao, role);
         }
-        service.menuServiceImpl.save(dao.menuDao, menu);
         return "success";
     }
 
+
     /**
-     * TODO 删除
+     * TODO  批量删除/单删除
      *
-     * @param id
-     * @return
+     * @param ids 要删除的数据Id数组
+     * @author 王松
+     * @WX-QQ 1720696548
+     * @date 2019/11/14 18:17
      */
     @ResponseBody
     @RequestMapping("/delete")
-    public String delete(Integer id) {
-        service.menuServiceImpl.delete(dao.menuDao, id);
-        return "success";
-    }
-
-
-    /**
-     * TODO 修改
-     *
-     * @param type = 1，修改排序  2，修改图标  3、修改菜单url， 4、修改权限id  5、修改菜单名
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("/update/{type}")
-    public String update(@PathVariable Integer type, Integer id,String val) {
-        Menu menu = service.menuServiceImpl.get(dao.menuDao, id);
-        if (type == 1) {
-            menu.setSort(Integer.parseInt(val));
-        } else if (type == 2) {
-            menu.setIcon(val);
-        } else if (type == 3) {
-            menu.setUrl(val);
-        } else if (type == 4) {
-            menu.setAuthority(Integer.parseInt(val));
-        } else if (type == 5) {
-            menu.setName(val);
-        }
-        service.menuServiceImpl.save(dao.menuDao,menu);
+    public String delete(Integer[] ids) {
+        service.roleServiceImpl.deleteByIds(dao.roleDao, ids);
         return "success";
     }
 }

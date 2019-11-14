@@ -1,15 +1,17 @@
-package com.ws.lay.adminconsole.entity;
+package com.ws.ldy.adminconsole.entity;
 
 import com.ws.ldy.admincore.entity.BaseEntity;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.List;
-
+/**
+ * TODO  菜单  
+ * @author 王松
+ * @WX-QQ 1720696548
+ * @date  2019/11/14 20:49
+ */
 @Data
 @Entity
 @Table(name = "t_admin_menu")
@@ -19,6 +21,7 @@ public class Menu extends BaseEntity {
     private static final long serialVersionUID = -33297418791559528L;
     /** 菜单id  */
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
     /** 父id  */

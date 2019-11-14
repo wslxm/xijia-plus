@@ -1,156 +1,90 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<html xmlns:th="http://www.springframework.org/schema/jdbc">
 <head>
     <meta charset="utf-8">
-    <title>系统用户</title>
+    <title>用户--添加</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" th:href="@{/layuiadmin/layui/css/layui.css}" media="all">
-    <link rel="stylesheet" th:href="@{/layuiadmin/style/admin.css}" media="all">
-    <script th:src="@{/layuiadmin/layui/layui.js}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" th:href="@{/treetable-lay/assets/layui/css/layui.css}">
+    <script language=javascript th:src='@{/layuiadmin/layui/layui.js}'></script>
+    <script language=javascript th:src='@{/js/jquery-3.4.1.js}'></script>
     <script th:src="@{/js/app.js}"></script>
 </head>
 <body>
-<style>
-    /** 搜索行开始的上/左间距 */
-    .demoTable {
-        margin-top: 1%;
-        margin-left: 1%;
-    }
-    /** 搜索input 的宽  */
-    .layui-inline {
-        width: 120px;
-    }
-    /** 搜索input 的高  */
-    .layui-input {
-        height: 30px
-    }
-</style>
-<!-- 搜索 -->
-<div class="demoTable">
-    搜索ID：
-    <div class="layui-inline">
-        <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">头像</label>
+        <div class="layui-input-inline">
+            <input type="text" id="head" name="head" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
     </div>
-    <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="reload">搜索</button>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <input type="text" id="username" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号</label>
+        <div class="layui-input-inline">
+            <input type="text" id="account" name="account" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-inline">
+            <input type="text" id="password" name="password" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">年龄</label>
+        <div class="layui-input-inline">
+            <input type="text" id="age" name="age" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-inline">
+            <input type="text" id="gender" name="gender" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门</label>
+        <div class="layui-input-inline">
+            <input type="text" id="empId" name="empId" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">地址</label>
+        <div class="layui-input-inline">
+            <input type="text" id="address" name="address" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认添加">
+        <input type="button" lay-submit lay-filter="layuiadmin-app-form-edit" id="layuiadmin-app-form-edit" value="确认编辑">
+    </div>
 </div>
-<!-- 表格 -->
-<table class="auth-table" id="auth-table" lay-filter="auth-table"></table>
-<!-- 多删除添加  -->
-<script type="text/html" id="toolbarDemo">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="del">删除</button>
-        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
-    </div>
-</script>
-<!-- 每一行的数据修改或删除  -->
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
+
 <script>
-    //用户查询
-    var userFindAll = ADMIN_PATH + "/userAdmin/findAll";
-
-    layui.use('table', function () {
-        var table = layui.table;
-        table.render({
-            elem: '#auth-table'
-            , url: userFindAll
-            , toolbar: '#toolbarDemo'
-            , title: '用户数据表'
-            , cols: [
-                [
-                    {type: 'checkbox', fixed: 'left'}
-                    , {field: 'id', title: 'ID', width: 80, fixed: 'left'}
-                    , {field: 'head', title: '头像'}
-                    , {field: 'username', title: '用户名'}
-                    , {field: 'password', title: '密码'}
-                    , {field: 'age', title: '年龄'}
-                    , {field: 'gender', title: '性别'}
-                    , {field: 'address', title: '地址'}
-                    , {field: 'time', title: '注册时间', width: 250}
-                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 250}
-                ]
-            ]
-            , page: pageJson
-        });
-
-
-        /**
-         * 工具栏事件（多删除 || 添加）
-         * toolbar = script的 id
-         * auth-table = 数据表格id/lay-filter
-         */
-        table.on('toolbar(auth-table)', function (obj) {
-            var checkStatus = table.checkStatus(obj.config.id);
-            if (obj.event === "del") {
-                var data = checkStatus.data;
-                layer.alert("删除" + JSON.stringify(data));
-            }
-            if (obj.event === "add") {
-                layer.alert("添加");
-            }
-            // //获取选中行
-            // if( obj.event === "getCheckData"){
-            //     var data = checkStatus.data;
-            //     layer.alert(JSON.stringify(data));
-            // }
-            // //获取选中数量
-            // if( obj.event === "getCheckLength"){
-            //     var data = checkStatus.data;
-            //     layer.msg('选中了：'+ data.length + ' 个');
-            // }
-            // //是否全选
-            // if( obj.event === "isAll"){
-            //     layer.msg(checkStatus.isAll ? '全选': '未全选')
-            // }
-        });
-
-
-        /**
-         * 条件搜索，重载数据
-         */
-        var $ = layui.$, active = {
-            reload: function () {
-                var demoReload = $('#demoReload');
-                //执行重载
-                table.reload('testReload', {
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    , where: {
-                        key: {
-                            id: demoReload.val()
-                        }
-                    }
-                }, 'data');
-            }
-        };
-        $('.demoTable .layui-btn').on('click', function () {
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-
-
-        /**
-         * 监听数据表格内按钮（编辑 || 删除）
-         * tool = 表格内按钮
-         * auth-table =表格名
-         */
-        table.on('tool(auth-table)', function (obj) {
-            //当前行数据
-            data = obj.data;
-            //菜单添加
-            if (obj.event === 'edit') {
-                layer.msg("修改");
-            }
-            //删除
-            if (obj.event === 'del') {
-                tipsDelete("//",new Array([data.id]));
-            }
+    layui.use(['form'], function () {
+        //监听提交
+        layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            ajaxPost(ADMIN_PATH + "/userAdmin/save/1", data.field);
+            //重载表格
+            parent.layui.table.reload('auth-table');
+            let index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+            parent.layer.msg('添加成功,请手动刷新页面');
         });
     });
 </script>

@@ -1,6 +1,6 @@
-package com.ws.lay.adminconsole.dao;
+package com.ws.ldy.adminconsole.dao;
 
-import com.ws.lay.adminconsole.entity.Menu;
+import com.ws.ldy.adminconsole.entity.Menu;
 import com.ws.ldy.admincore.dao.BaseDao;
 import org.springframework.stereotype.Repository;
 

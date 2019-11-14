@@ -1,4 +1,4 @@
-package com.hy.car.utils;
+package com.ws.ldy.admincore.utils;
 
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;

@@ -1,0 +1,17 @@
+
+/** 搜索行开始的上/左间距 */
+.demoTable {
+    margin-top: 1.2%;
+    margin-left: 1%;
+}
+
+/** 搜索input 的宽  */
+.layui-inline {
+    width: 160px;
+}
+
+
+/** 搜索input 的高  */
+.layui-input {
+    height: 30px
+}

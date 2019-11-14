@@ -1,4 +1,4 @@
-package com.ws.lay.adminconsole.config;
+package com.ws.ldy.adminconsole.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
