@@ -41,7 +41,7 @@
                 //监听提交
                 layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
                     // 传递菜单id+表单name名称
-                    ajaxPost(ADMIN_PATH + "/menu/update/5", {id: parent.data.id, val: $("#name").val()});
+                    ajaxPost(ADMIN_PATH + "/menuAdmin/update/5", {id: parent.data.id, val: $("#name").val()});
                     // 得到当前iframe层的索引--关闭弹出层并提示
                     let index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);

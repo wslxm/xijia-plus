@@ -37,7 +37,7 @@
                 //监听提交
                 layui.form.on('submit(layuiadmin-app-form-submit)', function(data){
                     data.field.pid = parent.data.id;
-                    ajaxPost(ADMIN_PATH+"/menu/save/4",data.field);
+                    ajaxPost(ADMIN_PATH+"/menuAdmin/save/4",data.field);
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                     parent.layer.msg('添加成功,请手动刷新页面');
