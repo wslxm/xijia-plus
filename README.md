@@ -10,7 +10,7 @@
 
 #### 软件架构
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1117/024447_b426895b_2208600.png "屏幕截图.png")
-
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1117/024625_4836e129_2208600.png "屏幕截图.png")
 
 #### 安装教程
 
