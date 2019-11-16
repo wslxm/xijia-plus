@@ -1,444 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f847276d-2e9a-45e3-84a6-524ac1db5e6d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/base/BaseAdminController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/UserAdminDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/RoleMenuAdmin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleAdminService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleMenuAdminService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/UserAdminService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/base/BaseAdminServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleAdminServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleMenuAdminServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/UserAdminServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleAuth.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/urlAuth.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui/layui2.4.5.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/.travis.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/CHANGELOG.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/bower.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/css/layui.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/css/layui.mobile.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/css/modules/code.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/css/modules/laydate/default/laydate.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/css/modules/layer/default/icon-ext.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/css/modules/layer/default/icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/css/modules/layer/default/layer.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/css/modules/layer/default/loading-0.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/css/modules/layer/default/loading-1.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/css/modules/layer/default/loading-2.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/font/iconfont.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/font/iconfont.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/font/iconfont.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/font/iconfont.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/font/iconfont.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/0.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/1.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/10.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/11.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/12.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/13.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/14.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/15.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/16.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/17.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/18.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/19.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/2.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/20.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/21.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/22.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/23.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/24.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/25.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/26.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/27.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/28.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/29.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/3.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/30.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/31.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/32.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/33.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/34.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/35.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/36.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/37.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/38.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/39.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/4.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/40.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/41.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/42.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/43.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/44.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/45.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/46.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/47.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/48.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/49.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/5.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/50.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/51.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/52.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/53.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/54.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/55.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/56.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/57.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/58.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/59.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/6.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/60.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/61.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/62.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/63.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/64.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/65.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/66.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/67.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/68.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/69.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/7.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/70.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/71.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/8.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/images/face/9.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/carousel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/code.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/colorpicker.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/element.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/flow.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/form.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/jquery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/laydate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/layedit.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/layer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/laypage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/laytpl.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/mobile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/rate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/slider.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/table.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/transfer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/tree.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/upload.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/lay/modules/util.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/layui.all.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/dist/layui.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/doc/Git仓库.url" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/doc/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/doc/在线演示.url" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/doc/快速上手.url" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/admin.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/all.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/button.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/carousel.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/code.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/colorpicker.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/element.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/extend.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/extends/mod1.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/extends/mod2.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/extends/temp.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/flow.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/js/child/test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/js/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/json/table/demo1.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/json/table/demo2.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/json/table/demo3.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/json/upload/demoLayEdit.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/laydate.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/layedit.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/layer.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/layout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/laypage.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/rate.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/responsive.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/slider.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/table.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/transfer.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/tree.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/upload.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/util.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/examples/xingzuo.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/gulpfile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/karma.conf.base.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/karma.conf.sauce.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/karma.conf.unit.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/css/layui.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/css/layui.mobile.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/css/modules/code.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/css/modules/laydate/default/font.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/css/modules/laydate/default/laydate.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/css/modules/layer/default/icon-ext.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/css/modules/layer/default/icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/css/modules/layer/default/layer.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/css/modules/layer/default/loading-0.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/css/modules/layer/default/loading-1.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/css/modules/layer/default/loading-2.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/font/iconfont.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/font/iconfont.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/font/iconfont.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/font/iconfont.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/font/iconfont.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/0.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/1.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/10.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/11.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/12.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/13.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/14.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/15.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/16.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/17.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/18.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/19.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/2.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/20.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/21.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/22.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/23.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/24.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/25.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/26.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/27.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/28.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/29.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/3.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/30.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/31.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/32.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/33.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/34.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/35.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/36.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/37.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/38.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/39.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/4.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/40.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/41.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/42.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/43.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/44.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/45.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/46.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/47.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/48.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/49.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/5.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/50.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/51.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/52.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/53.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/54.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/55.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/56.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/57.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/58.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/59.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/6.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/60.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/61.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/62.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/63.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/64.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/65.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/66.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/67.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/68.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/69.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/7.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/70.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/71.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/8.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/images/face/9.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/all-mobile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/all.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/carousel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/code.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/colorpicker.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/element.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/flow.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/form.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/jquery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/laydate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/layedit.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/layer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/laypage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/laytpl.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/mobile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/mobile/layer-mobile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/mobile/layim-mobile-open.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/mobile/zepto.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/rate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/slider.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/table.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/transfer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/tree.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/upload.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/util.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/layui.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/test/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/test/lay/modules/code.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/test/lay/modules/laydate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/test/lay/modules/laytpl.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/test/layui.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/controller/UserSheepController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/controller/base/BaseSheepController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/dao/UserSheepDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/entity/UserSheep.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/factory/DaoSheepFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/factory/ServiceSheepFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/service/UserSheepService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/service/base/BaseSheepService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/service/base/BaseSheepServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/service/impl/UserSheepServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/MvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/config/MvcConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/MenuAdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/base/BaseContoller.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/MenuDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/MenuAdminDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleAdminDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleMenuAdminDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/MenuAdmin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/RoleAdmin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/UserAdmin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/DaoFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/DaoConsoleFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/ServiceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/ServiceConsoleFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/MenuAdminService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/UserService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/base/BaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/base/BaseAdminService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/base/BaseServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/MenuServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/MenuAdminServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/UserServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/addRoot1.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/addRoot1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/addRoot2.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/addRoot2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/addRoot3.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/addRoot3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/addRoot4.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/addRoot4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/menu.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/updName.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/updName.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/role.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/role.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui/layui.js" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui/layui.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/content/comment.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/content/comment.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/content/contform.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/content/contform.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/content/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/content/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/content/listform.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/content/listform.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/content/tagsform.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/content/tagsform.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/forum/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/forum/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/forum/listform.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/forum/listform.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/forum/replys.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/forum/replys.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/forum/replysform.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/forum/replysform.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/message/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/message/detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/message/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/message/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/workorder/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/workorder/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/workorder/listform.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/app/workorder/listform.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/anim/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/anim/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/auxiliar/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/auxiliar/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/badge/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/badge/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/button/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/button/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/carousel/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/carousel/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/code/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/code/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/colorpicker/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/colorpicker/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/flow/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/flow/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/form/element.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/form/element.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/form/group.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/form/group.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/grid/all.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/grid/all.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/grid/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/grid/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/grid/mobile-pc.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/grid/mobile-pc.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/grid/mobile.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/grid/mobile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/grid/speed-dial.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/grid/speed-dial.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/grid/stack.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/grid/stack.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laydate/demo1.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laydate/demo1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laydate/demo2.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laydate/demo2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laydate/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laydate/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laydate/special-demo.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laydate/special-demo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laydate/theme.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laydate/theme.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/layer/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/layer/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/layer/special-demo.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/layer/special-demo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/layer/theme.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/layer/theme.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laypage/demo1.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laypage/demo1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laypage/demo2.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laypage/demo2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laypage/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laypage/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laytpl/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/laytpl/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/nav/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/nav/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/panel/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/panel/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/progress/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/progress/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/rate/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/rate/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/slider/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/slider/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/auto.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/auto.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/cellEdit.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/cellEdit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/cellEvent.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/cellEvent.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/checkbox.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/checkbox.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/data.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/data.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/fixed.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/fixed.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/form.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/height.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/height.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/initSort.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/initSort.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/onrow.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/onrow.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/operate.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/operate.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/page.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/parseData.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/parseData.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/radio.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/radio.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/reload.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/reload.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/resetPage.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/resetPage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/simple.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/simple.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/static.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/static.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/style.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/style.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/thead.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/thead.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/toolbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/toolbar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/tostatic.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/tostatic.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/totalRow.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/table/totalRow.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/tabs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/tabs/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/timeline/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/timeline/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/upload/demo1.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/upload/demo1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/upload/demo2.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/upload/demo2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/upload/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/upload/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/util/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/component/util/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/home/console.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/home/console.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/home/homepage1.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/home/homepage1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/home/homepage2.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/home/homepage2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/iframe/layer/iframe.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/iframe/layer/iframe.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/senior/echarts/bar.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/senior/echarts/bar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/senior/echarts/line.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/senior/echarts/line.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/senior/echarts/map.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/senior/echarts/map.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/senior/im/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/senior/im/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/set/system/email.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/set/system/email.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/set/system/website.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/set/system/website.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/set/user/info.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/set/user/info.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/set/user/password.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/set/user/password.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/system/get.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/system/get.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/addresslist.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/addresslist.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/caller.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/caller.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/goodslist.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/goodslist.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/msgboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/msgboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/personalpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/personalpage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/search.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/temp.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/temp.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/tips/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/tips/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/tips/error.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/template/tips/error.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/administrators/adminform.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/administrators/adminform.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/administrators/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/administrators/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/administrators/role.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/administrators/role.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/administrators/roleform.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/administrators/roleform.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/forget.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/forget.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/reg.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/reg.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/user/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/user/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/user/userform.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/user/user/userform.html" afterDir="false" />
+    <list default="true" id="128f9991-bc48-4e4d-919b-6e094494c497" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleMenuAuth.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/MenuAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/MenuAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleMenuAdminDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleMenuAdminDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/RoleMenuAdmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/RoleMenuAdmin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/DaoConsoleFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/DaoConsoleFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/MenuAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/MenuAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleMenuAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleMenuAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/MenuAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/MenuAdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleAdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleMenuAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleMenuAdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/application-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleAuth.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/urlAuth.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleUrlAuth.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/BaseServiceApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/BaseServiceApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java" afterDir="false" />
     </list>
+    <ignored path="$PROJECT_DIR$/admin-core/target/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/game-sheep/target/" />
+    <ignored path="$PROJECT_DIR$/admin-console/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -448,66 +32,360 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-        <option value="HTML File" />
-      </list>
-    </option>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="206">
+              <caret line="40" column="57" lean-forward="true" selection-start-line="40" selection-start-column="57" selection-end-line="40" selection-end-column="57" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/user/user.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="325">
+              <caret line="33" column="62" lean-forward="true" selection-start-line="33" selection-start-column="48" selection-end-line="33" selection-end-column="62" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleMenuAuth.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="387">
+              <caret line="279" column="55" lean-forward="true" selection-start-line="279" selection-start-column="55" selection-end-line="279" selection-end-column="55" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/ServiceConsoleFactory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="6" column="48" lean-forward="true" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/MenuAdminServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-376">
+              <caret line="63" column="72" selection-start-line="63" selection-start-column="72" selection-end-line="63" selection-end-column="72" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleAdminServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/MenuAdminService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="32" column="27" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleMenuAdminServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-351">
+              <caret line="35" column="52" lean-forward="true" selection-start-line="35" selection-start-column="52" selection-end-line="35" selection-end-column="52" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#506#507#0" expanded="true" />
+                <element signature="e#563#564#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleMenuAdminService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="149">
+              <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleMenuAdminDao.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="152">
+              <caret line="12" column="7" lean-forward="true" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>alert</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/admin-console/src/main/resources/application-dev.yml" />
+        <option value="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleAuth.html" />
+        <option value="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleUrlAuth.html" />
+        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/DaoConsoleFactory.java" />
+        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleAdminServiceImpl.java" />
+        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/MenuAdminController.java" />
+        <option value="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java" />
+        <option value="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/BaseServiceApi.java" />
+        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/RoleMenuAdmin.java" />
+        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/MenuAdminService.java" />
+        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleMenuAdminDao.java" />
+        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleMenuAdminService.java" />
+        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleMenuAdminServiceImpl.java" />
+        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/MenuAdminServiceImpl.java" />
+        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java" />
+        <option value="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleMenuAuth.html" />
+      </list>
+    </option>
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
         <option name="mavenHome" value="$PROJECT_DIR$/../../../tool/apache-maven-3.5.4" />
+        <option name="userSettingsFile" value="F:\workspace\tool\apache-maven-3.5.4\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="importAutomatically" value="true" />
-      </MavenImportingSettings>
-    </option>
   </component>
-  <component name="ProjectId" id="1TYuCLL29smTjznHJbzUz3pvUpH" />
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand />
+      <select />
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-55" />
+    <option name="y" value="115" />
+    <option name="width" value="1690" />
+    <option name="height" value="945" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ldy" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ldy" type="462c0819:PsiDirectoryNode" />
+              <item name="adminconsole" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ldy" type="462c0819:PsiDirectoryNode" />
+              <item name="adminconsole" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ldy" type="462c0819:PsiDirectoryNode" />
+              <item name="adminconsole" type="462c0819:PsiDirectoryNode" />
+              <item name="dao" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ldy" type="462c0819:PsiDirectoryNode" />
+              <item name="adminconsole" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ldy" type="462c0819:PsiDirectoryNode" />
+              <item name="adminconsole" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="impl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="role" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="game-sheep" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="game-sheep" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="game-sheep" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
+              <item name="game-sheep" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
   <component name="PropertiesComponent">
-    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.path.for.package.tslint" value="project" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1573929269558" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="Errors" />
-  </component>
-  <component name="RecentsManager">
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="com.ws.ldy" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.ws.ldy.adminconsole.service.impl" />
-      <recent name="com.ws.ldy.adminconsole.service" />
-      <recent name="com.ws.ldy.adminconsole.controller.base" />
-      <recent name="com.ws.ldy.adminconsole.dao" />
-      <recent name="com.ws.ldy.adminconsole.entity" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-core\src\main\resources\static\layuiadmin\layui" />
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-core\src\main\resources\static\layuiadmin\layui\lay" />
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\game-sheep\src\main\java\com\ws\ldy\gamesheep\service" />
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\game-sheep\src\main\java\com\ws\ldy\gamesheep" />
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-console\src\main\resources\templates\admin\role" />
-    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -522,8 +400,14 @@
     </option>
   </component>
   <component name="RunManager" selected="Spring Boot.AdminConsoleApplication">
-    <configuration name="AdminConsoleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="AdminConsoleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="admin-console" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ws.ldy.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.ws.ldy.AdminConsoleApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
@@ -532,94 +416,380 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AdminCoreApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="admin-core" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ws.ldy.AdminCoreApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AdminCoreApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="admin-core" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ws.ldy.admincore.AdminCoreApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="GameSheepApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="game-sheep" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.ws.ldy.GameSheepApplication" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="Spring Boot.AdminConsoleApplication" />
-      <item itemvalue="Spring Boot.AdminCoreApplication" />
-      <item itemvalue="Spring Boot.AdminCoreApplication (1)" />
       <item itemvalue="Spring Boot.GameSheepApplication" />
+      <item itemvalue="Spring Boot.AdminConsoleApplication" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.AdminConsoleApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="f847276d-2e9a-45e3-84a6-524ac1db5e6d" name="Default Changelist" comment="" />
-      <created>1573649221468</created>
+      <changelist id="128f9991-bc48-4e4d-919b-6e094494c497" name="Default Changelist" comment="" />
+      <created>1573892723245</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1573649221468</updated>
-      <workItem from="1573649222704" duration="327000" />
-      <workItem from="1573649551884" duration="765000" />
-      <workItem from="1573650344094" duration="2400000" />
-      <workItem from="1573693263136" duration="630000" />
-      <workItem from="1573694903179" duration="29000" />
-      <workItem from="1573698814837" duration="15497000" />
-      <workItem from="1573718039613" duration="9312000" />
-      <workItem from="1573728518350" duration="9526000" />
-      <workItem from="1573781230727" duration="28280000" />
+      <updated>1573892723245</updated>
+      <workItem from="1573892724768" duration="26942000" />
     </task>
     <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="26942000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Image Layers" order="0" />
+      <window_info id="Capture Tool" order="1" />
+      <window_info id="UI Designer" order="2" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info id="Web" order="4" side_tool="true" />
+      <window_info id="Designer" order="5" />
+      <window_info active="true" content_ui="combo" id="Project" order="6" visible="true" weight="0.23793566" />
+      <window_info id="Structure" order="7" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="0" />
+      <window_info anchor="bottom" id="Docker" order="1" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="3" weight="0.3286119" />
+      <window_info anchor="bottom" id="Java Enterprise" order="4" />
+      <window_info anchor="bottom" id="Database Changes" order="5" />
+      <window_info anchor="bottom" id="Version Control" order="6" />
+      <window_info anchor="bottom" id="Tail" order="7" />
+      <window_info anchor="bottom" id="Spring" order="8" />
+      <window_info anchor="bottom" id="Message" order="9" />
+      <window_info anchor="bottom" id="Find" order="10" />
+      <window_info anchor="bottom" id="Run" order="11" weight="0.11189802" />
+      <window_info anchor="bottom" id="Debug" order="12" visible="true" weight="0.18271954" />
+      <window_info anchor="bottom" id="Cvs" order="13" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="14" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="15" />
+      <window_info anchor="right" id="Palette" order="0" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Database" order="2" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="right" id="Bean Validation" order="5" />
+      <window_info anchor="right" id="Maven" order="6" weight="0.09383378" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="7" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="8" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="9" weight="0.25" />
+    </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="29" column="24" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-core/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="62" column="24" selection-start-line="62" selection-start-column="24" selection-end-line="62" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/AdminConsoleApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/pom.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/game-sheep/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/game-sheep/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/game-sheep/src/main/resources/application-dev.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="3" column="48" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/application-dev.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/user/userAdd.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui2.5.5/src/lay/modules/table.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="1856" column="32" lean-forward="true" selection-start-line="1856" selection-start-column="32" selection-end-line="1856" selection-end-column="32" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#td#0;n#tr#0;n#tbody#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/role.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3123" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleAdd.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-150" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleUrlAuth.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="11" column="6" lean-forward="true" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleUpd.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-225" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleAdminService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/UserAdminService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/UserAdminServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../tool/apache-maven-3.5.4/repository/org/springframework/data/spring-data-commons/2.1.10.RELEASE/spring-data-commons-2.1.10.RELEASE.jar!/org/springframework/data/repository/CrudRepository.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="11" column="22" lean-forward="true" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleAdminDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../tool/apache-maven-3.5.4/repository/org/springframework/data/spring-data-commons/2.1.10.RELEASE/spring-data-commons-2.1.10.RELEASE.jar!/org/springframework/data/repository/core/support/RepositoryFactorySupport.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="361" selection-start-line="361" selection-end-line="361" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../tool/apache-maven-3.5.4/repository/org/springframework/spring-tx/5.1.9.RELEASE/spring-tx-5.1.9.RELEASE.jar!/org/springframework/transaction/interceptor/TransactionAspectSupport.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="180" column="52" lean-forward="true" selection-start-line="180" selection-start-column="52" selection-end-line="180" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../tool/apache-maven-3.5.4/repository/org/springframework/data/spring-data-jpa/2.1.10.RELEASE/spring-data-jpa-2.1.10.RELEASE.jar!/org/springframework/data/jpa/repository/support/SimpleJpaRepository.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="491">
+          <caret line="330" column="51" lean-forward="true" selection-start-line="330" selection-start-column="51" selection-end-line="330" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/lang/Iterable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="71" column="48" selection-start-line="71" selection-start-column="48" selection-end-line="71" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/DaoConsoleFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="20" column="23" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="28" column="87" lean-forward="true" selection-start-line="28" selection-start-column="87" selection-end-line="28" selection-end-column="87" />
+          <folding>
+            <element signature="e#903#904#0" expanded="true" />
+            <element signature="e#939#940#0" expanded="true" />
+            <element signature="e#992#993#0" expanded="true" />
+            <element signature="e#1030#1031#0" expanded="true" />
+            <element signature="e#1250#1251#0" expanded="true" />
+            <element signature="e#1296#1297#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/BaseServiceApi.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="43" column="32" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/RoleMenuAdmin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="44" column="1" lean-forward="true" selection-start-line="44" selection-start-column="1" selection-end-line="44" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/MenuAdminController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-997">
+          <caret line="49" column="8" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="73" column="30" selection-start-line="73" selection-start-column="30" selection-end-line="73" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleMenuAdminDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="12" column="7" lean-forward="true" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleMenuAdminService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/ServiceConsoleFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="6" column="48" lean-forward="true" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/MenuAdminService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="32" column="27" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/MenuAdminServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-376">
+          <caret line="63" column="72" selection-start-line="63" selection-start-column="72" selection-end-line="63" selection-end-column="72" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleAdminServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleMenuAdminServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-351">
+          <caret line="35" column="52" lean-forward="true" selection-start-line="35" selection-start-column="52" selection-end-line="35" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#506#507#0" expanded="true" />
+            <element signature="e#563#564#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="40" column="57" lean-forward="true" selection-start-line="40" selection-start-column="57" selection-end-line="40" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/user/user.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="33" column="62" lean-forward="true" selection-start-line="33" selection-start-column="48" selection-end-line="33" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleMenuAuth.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="279" column="55" lean-forward="true" selection-start-line="279" selection-start-column="55" selection-end-line="279" selection-end-column="55" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java</url>
-          <line>63</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java</url>
-          <line>75</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java</url>
-          <line>63</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="masterDetails">
+    <states>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

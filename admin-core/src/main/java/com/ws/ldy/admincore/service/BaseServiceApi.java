@@ -25,6 +25,9 @@ public  interface  BaseServiceApi<T,ID extends Serializable>{
     /** 添加  */
     public T save(BaseDao dao,T t);
 
+    /** 添加  */
+    public Boolean saveAll(BaseDao dao,List<T> ts);
+
     /** 修改 */
     public T update(BaseDao dao,T t);
 
@@ -32,10 +35,13 @@ public  interface  BaseServiceApi<T,ID extends Serializable>{
     public T get(BaseDao dao,ID id);
 
     /** id删除 */
-    public Boolean delete(BaseDao dao,ID id) ;
+    public Boolean deleteById(BaseDao dao,ID id) ;
 
     /** id批量删除 */
-    public Boolean deleteByIds(BaseDao dao,ID[] ids) ;
+    public Boolean deleteByIds(BaseDao dao,ID[] ids);
+
+    /** 对象批量删除 */
+    public Boolean deleteInBatch(BaseDao dao, List<T> ts) ;
 
     /** 分页+条件+排序查询，如有特殊条件使用 service子类重写该实现方法  */
     public Page<T> page(BaseDao dao,int page, int size, Map<String, Object> param, Sort sort);

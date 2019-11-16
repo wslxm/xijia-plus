@@ -19,4 +19,6 @@ public class DaoConsoleFactory {
     public RoleAdminDao roleDao;
     @Resource
     public RoleMenuAdminDao roleMenuDao;
+
+
 }

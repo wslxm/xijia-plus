@@ -8,9 +8,10 @@ import javax.persistence.*;
 
 /**
  * TODO  角色-菜单关联表
+ *
  * @author 王松
  * @WX-QQ 1720696548
- * @date  2019/11/14 20:49
+ * @date 2019/11/14 20:49
  */
 @Data
 @Entity
@@ -18,15 +19,27 @@ import javax.persistence.*;
 @DynamicUpdate(value = true)
 public class RoleMenuAdmin extends BaseEntity {
 
-    private static final long serialVersionUID = 7614866077850939278L;
-    /** 菜单id  */
+    private static final long serialVersionUID = 7936919715202241575L;
+    /**
+     * 菜单id
+     */
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    /** 菜单id  */
+    /**
+     * 菜单id
+     */
     private int menuId;
 
-    /** 角色id  */
+    /**
+     * 角色id
+     */
     private int roleId;
+
+    public RoleMenuAdmin() {}
+    public RoleMenuAdmin(int roleId, int menuId ) {
+        this.menuId = menuId;
+        this.roleId = roleId;
+    }
 }

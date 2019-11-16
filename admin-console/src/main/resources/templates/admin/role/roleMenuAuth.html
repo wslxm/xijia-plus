@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <meta charset="utf-8">
+    <title>角色分配-菜单权限</title>
+    <link rel="stylesheet" th:href="@{/treetable-lay/assets/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/treetable-lay/assets/common.css}"/>
+    <script language=javascript th:src='@{/treetable-lay/assets/layui/layui.js}'></script>
+    <script language=javascript th:src='@{/js/jquery-3.4.1.js}'></script>
+    <script th:src="@{/js/app.js}"></script>
+</head>
+<body>
+
+<!--<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">-->
+<!--<legend>角色菜单权限分配</legend>-->
+<!--</fieldset>-->
+
+<!-- 左边树 -->
+<div style="display: inline-block;float:left; width: 20%; height: 600px; padding: 10px; border: 1px solid #ddd; overflow: auto;margin-top: 5%">
+    <ul id="auth-tree"></ul>
+</div>
+
+
+<!-- 菜单树，数据表格-->
+<div style="float:left; margin-left: 5%">
+    <div class="layui-tab layui-tab-brief" lay-filter="tab">
+        <ul id="tabRoot1" class="layui-tab-title">
+            <!-- 动态加载tab标签 -->
+        </ul>
+        <div class="layui-tab-content" style="height: 100px;">
+            <!-- 数据列表 -->
+            <table id="auth-table" class="layui-table" lay-filter="auth-table"></table>
+        </div>
+    </div>
+</div>
+
+
+<!-- 确认分配按钮  -->
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" onclick="roleMenu()" lay-event="roleMenu">确认分配</button>
+        <font size="2">当前角色: </font> <font size="2" color="red" id="rloeFont">未选择</font>
+        <font size="2"> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;当前系统: </font> <font size="2" color="red" id="menuFont">全部</font>
+    </div>
+</script>
+
+<script>
+    var menuFindAll = ADMIN_PATH + "/menuAdmin/findAll/1";      //菜单查询--数据列表（所有）
+    var menuFindIdAll = ADMIN_PATH + "/menuAdmin/findAll/2";    //菜单查询--数据列表（根据父节点查询所有该父节点下的）
+    var menuRole = ADMIN_PATH + "/roleAdmin/findAll/2";         //角色查询-所有
+    var updRoleMenu = ADMIN_PATH + "/roleAdmin/updRoleMenu";    //角色菜单权限修改
+
+    $(function () {
+        tabRoot1();   // 初始，动态加载tab标签
+    });
+
+    let rolesJson = ajaxGet(menuRole);    // 获得角色列表
+    let dataJson = ajaxGet(menuFindAll);  // 获得菜单数据
+
+    let roleId = 0;             //当前选中的角色Id
+    let pid = 0;                //当前选中的系统Id
+    let rloeFont = "未选择";    //当前选中角色名称
+    let menuFont = "全部";      //当前选中系统名称
+    var checkData = null;       //所有选中菜单数据
+
+
+    /**
+     * TODO    系统级菜单菜单数据-上方的到Tab标签  -->  root=1
+     *
+     * @date  2019/11/16 0016 16:56
+     * @return
+     */
+    function tabRoot1() {
+        let html = "<li   class='layui-this' lay-id=" + -1 + ">" + "所有" + "</li>";
+        $.each(dataJson, function (index) {
+            if (dataJson[index].root === 1) {
+                html += "<li  lay-id=" + dataJson[index].id + ">" + dataJson[index].name + "</li>";
+            }
+        });
+        $("#tabRoot1").html(html);
+    }
+
+
+    layui.config({
+        base: '../treetable-lay/module/' //静态资源所在路径
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['table', 'treetable', 'element', 'tree'], function () {
+        var $ = layui.jquery
+            , tree = layui.tree
+            , table = layui.table
+            , treetable = layui.treetable
+            , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+        //初始化左边边角色数据,treetable用于右边 table 数据重载
+        showTree(tree, treetable);
+        //初始化右边 table 数据
+        tableRender(treetable, dataJson);
+
+        /**
+         * 监听 tab 选项卡重载table数据
+         */
+        element.on('tab(tab)', function (elem) {
+            pid = $(this).attr('lay-id');
+            let url = "";
+            //当前选中系统
+            url += "&&id=" + pid;
+            //当前选中角色
+            url += "&&roleId=" + roleId;
+            if (pid === '-1') {
+                // 获得菜单数据
+                let dataJson = ajaxGet(menuFindAll + "?1+1" + url);
+                //重载
+                tableRender(treetable, dataJson)
+            } else {
+                let dataJson = ajaxGet(menuFindIdAll + "?1+1" + url);
+                tableRender(treetable, dataJson)
+            }
+            //修改分配按钮除显示值
+            menuFont = $(this).html();
+            $("#menuFont").html(menuFont);
+            $("#rloeFont").html(rloeFont);
+            //置空临时保存选中菜单数据
+            checkData = null;
+        });
+
+        /**
+         * TODO    监听复选框选中
+         * @date  2019/11/16 0016 19:43
+         * @return
+         */
+        table.on('checkbox(auth-table)', function (obj) {
+            //获取所有选中，te = 数据表格Id
+            checkData = table.checkStatus('te');
+        });
+    });
+
+
+    /**
+     * TODO    左角色列表
+     *
+     * @date  2019/11/16 0016 16:56
+     * @return
+     */
+    function showTree(tree, treeTable) {
+        //左边角色菜单数据
+        tree({
+            elem: '#auth-tree'
+            , click: function (item) {
+                if(item.id === 0){
+                    return;
+                }
+                // 点击角色监听重载表格
+                let pid = $(".layui-this").attr("lay-id");
+                var url = "";
+                url += "&&id=" + pid;          //当前选中系统
+                url += "&&roleId=" + item.id;  //当前选中角色
+                if (pid === '-1') {
+                    // 获得菜单数据
+                    let dataJson = ajaxGet(menuFindAll + "?1+1" + url);
+                    tableRender(treeTable, dataJson);
+                } else {
+                    let dataJson = ajaxGet(menuFindIdAll + "?1+1" + url);
+                    tableRender(treeTable, dataJson);
+                }
+                //当前选中角色记录
+                roleId = item.id;
+                //修改分配按钮除显示值
+                rloeFont = item.name;
+                $("#menuFont").html(menuFont);
+                $("#rloeFont").html(rloeFont);
+                //置空临时保存选中菜单数据
+                checkData = null;
+                //layer.msg(item.id + "==" + item.name+ "==" +pid);
+            }
+            , nodes: [ //节点
+                {
+                    name: '角色列表'
+                    , id: 0
+                    , spread: true
+                    , children: rolesJson.data  //角色数据
+                }
+            ]
+        });
+        //生成一个模拟树
+        var createTree = function (node, start) {
+            node = node || function () {
+                var arr = [];
+                for (var i = 1; i < 10; i++) {
+                    arr.push({
+                        name: i.toString().replace(/(\d)/, '$1$1$1$1$1$1$1$1$1')
+                    });
+                }
+                return arr;
+            }();
+            start = start || 1;
+            layui.each(node, function (index, item) {
+                if (start < 10 && index < 9) {
+                    var child = [
+                        {
+                            name: (1 + index + start).toString().replace(/(\d)/, '$1$1$1$1$1$1$1$1$1')
+                        }
+                    ];
+                    node[index].children = child;
+                    createTree(child, index + start + 1);
+                }
+            });
+            return node;
+        };
+    }
+
+
+
+    /**
+     * TODO    table数据--（抽离出来方便重载）
+     *
+     * @date  2019/11/16 0016 16:56
+     * @param treetable
+     * @param dataJson
+     * @return
+     */
+    function tableRender(treetable, dataJson) {
+        // 渲染表格
+        layer.load(2);
+        treetable.render({
+            id: "te",
+            toolbar: '#toolbar',
+            treeColIndex: 1,            //菜单列索引 ,加载展开图标
+            treeSpid: 0,                //顶级父id
+            treeIdName: 'id',           //id 名称
+            treePidName: 'pid',         //fid 名称
+            treeDefaultClose: false,     // 是否默认折叠
+            treeLinkage: false,         // 父级展开时是否自动展开所有子级
+            elem: '#auth-table',        //table 的 div
+            // url:'/menu/findAll',                         //后台接口获取数据
+            //url: '../treetable-lay/json/menus.json',     //json文件获取数据
+            data: dataJson,                                //直接加载数据
+            page: false,
+            done: function () {
+                //  $("table").css("width", "96%");
+                layer.closeAll('loading');
+            },
+            cols: [
+                [
+                    {type: 'checkbox'},
+                    // {field: 'id', width: 80, type: 'id', title: 'id'},
+                    {field: 'name', width: 260, title: '菜单列表'},//edit: 'text',
+                    // {field: 'sort', width: 150, edit: 'text', title: '排序'},
+                    {field: 'icon', width: 260, edit: 'text', title: '图标'},
+                    {field: 'url', width: 260, title: '菜单url'}
+                    // {field: 'authority', width: 110, edit: 'text', title: '权限id'}
+                ]
+            ]
+        });
+    }
+
+    /**
+     * TODO    设置角色选中状态
+     * @date  2019/11/16 0016 17:22
+     */
+    $("body").on("mousedown", ".layui-tree a", function () {
+        if (!$(this).siblings('ul').length) {
+            $(".layui-tree a cite").css('color', '#333');
+            $(this).find('cite').css('color', '#009688');
+        }
+    });
+
+    /**
+     * TODO   菜单权限分配
+     * @date  2019/11/16 0016 18:42
+     * @return
+     */
+    function roleMenu() {
+        let menuIds = new Array();
+        for (let i in checkData.data) {
+            menuIds[i] = checkData.data[i].id
+        }
+        ajaxPost(updRoleMenu,{roleId:roleId,pid:pid,menuIds:menuIds});
+        //alert("当前角色"+roleId + " --》 分配菜单"+menuIds);
+        layer.msg("成功分配菜单："+ checkData.data.length+"个")
+    }
+</script>
+
+</body>
+</html>

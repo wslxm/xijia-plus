@@ -39,6 +39,14 @@ public abstract class BaseServiceApiImpl<T, ID extends Serializable> implements 
     }
 
     @Override
+    public Boolean saveAll(BaseDao dao, List<T> ts) {
+        if (dao.saveAll(ts) != null) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public T update(BaseDao dao, T t) {
         return (T) dao.saveAndFlush(t);
     }
@@ -49,7 +57,7 @@ public abstract class BaseServiceApiImpl<T, ID extends Serializable> implements 
     }
 
     @Override
-    public Boolean delete(BaseDao dao, ID id) {
+    public Boolean deleteById(BaseDao dao, ID id) {
         try {
             dao.deleteById(id);
             return true;
@@ -60,12 +68,22 @@ public abstract class BaseServiceApiImpl<T, ID extends Serializable> implements 
 
     @Override
     public Boolean deleteByIds(BaseDao dao, ID[] ids) {
-       // List<ID> ids1 = Arrays.asList(ids);
+        // List<ID> ids1 = Arrays.asList(ids);
         try {
-            for(ID id : ids){
+            for (ID id : ids) {
                 dao.deleteById(id);
             }
             return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean deleteInBatch(BaseDao dao, List<T> ts) {
+        try {
+           dao.deleteInBatch(ts);
+           return true;
         } catch (Exception e) {
             return false;
         }

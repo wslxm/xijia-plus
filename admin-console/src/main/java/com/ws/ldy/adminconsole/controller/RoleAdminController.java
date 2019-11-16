@@ -32,19 +32,18 @@ public class RoleAdminController extends BaseAdminController {
      * @param  limit   记录数
      * @param  id-xxx  查询条件参数
      * @date 2019/11/14 15:20
-     * @return Map<String, Object>
+     * @return Map<String       ,               Object>
      */
     @RequestMapping("/findAll/{type}")
     @ResponseBody
-    public Map<String, Object> findAll(@PathVariable Integer type,Integer page, Integer limit,Integer id) {
-        if(type == 1){
+    public Map<String, Object> findAll(@PathVariable Integer type, Integer page, Integer limit, Integer id) {
+        if (type == 1) {
             Map<String, Object> param = new HashMap<>(2);
-            param.put("id",id);
+            param.put("id", id);
             Sort sort = new Sort(Sort.Direction.ASC, "id");
-            //查询
             Page<RoleAdmin> roles = service.roleServiceImpl.page(dao.roleDao, page, limit, param, sort);
             return new Data(roles.getContent(), roles.getTotalPages()).getResData();
-        }else{
+        } else {
             List<RoleAdmin> roles = service.roleServiceImpl.findAll(dao.roleDao);
             return new Data(roles).getResData();
         }
@@ -82,6 +81,19 @@ public class RoleAdminController extends BaseAdminController {
     @RequestMapping("/delete")
     public String delete(Integer[] ids) {
         service.roleServiceImpl.deleteByIds(dao.roleDao, ids);
+        return "success";
+    }
+
+    /**
+     * TODO  角色菜单权限分配
+     *
+     * @return java.lang.String
+     * @date 2019/11/16 0016 22:46
+     */
+    @ResponseBody
+    @RequestMapping("/updRoleMenu")
+    public String updRoleMenu(Integer roleId, Integer[] menuIds,Integer pid) {
+        service.roleMenuServiceImpl.roleMenuAuth(roleId,menuIds,pid);
         return "success";
     }
 }

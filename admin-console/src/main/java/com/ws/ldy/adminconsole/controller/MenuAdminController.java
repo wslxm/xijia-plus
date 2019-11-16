@@ -99,7 +99,7 @@ public class MenuAdminController extends BaseAdminController {
     @ResponseBody
     @RequestMapping("/delete")
     public String delete(Integer id) {
-        service.menuServiceImpl.delete(dao.menuDao, id);
+        service.menuServiceImpl.deleteById(dao.menuDao, id);
         return "success";
     }
 
