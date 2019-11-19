@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,18 +28,32 @@ public class UserAdminController extends BaseAdminController {
 
     /***
      * TODO  分页查询
+     * @param   type 1 = 用户列表查询  2=角色用户分配查询
      * @date 2019/11/14 15:20
      * @return Map<String, Object>
      */
-    @RequestMapping("/findAll")
+    @RequestMapping("/findAll/{type}")
     @ResponseBody
-    public Map<String, Object> findAll(int page, int limit,Integer id) {
+    public Map<String, Object> findAll(@PathVariable Integer type, int page, int limit, Integer id, Integer roleId) {
         Map<String, Object> param = new HashMap<>(2);
-        param.put("id",id);
-        Sort sort = new Sort(Sort.Direction.ASC, "id");
-        //查询所有
-        Page<UserAdmin> users = service.userServiceImpl.page(dao.userDao, page, limit, param, sort);
-        return new Data(users.getContent(), users.getTotalPages()).getResData();
+        Page<UserAdmin>  userPages = null;
+        if (type == 1) {
+            param.put("id", id);
+            Sort sort = new Sort(Sort.Direction.ASC, "id");
+            //查询所有
+            userPages = service.userServiceImpl.page(dao.userDao, page, limit, param, sort);
+            return new Data(userPages.getContent(), userPages.getTotalPages()).getResData();
+        } else {
+            limit = 999;
+            param.put("id", id);
+            Sort sort = new Sort(Sort.Direction.ASC, "id");
+            //查询所有
+            userPages = service.userServiceImpl.page(dao.userDao, page, limit, param, sort);
+            //角色选中状态处理
+            List<UserAdmin> users = userPages.getContent();
+            users = service.roleUserServiceImpl.RoleUserChecked(users, roleId);
+            return new Data(users, userPages.getTotalPages()).getResData();
+        }
     }
 
 
@@ -75,5 +90,45 @@ public class UserAdminController extends BaseAdminController {
     public String delete(Integer[] ids) {
         service.userServiceImpl.deleteByIds(dao.userDao, ids);
         return "success";
+    }
+
+
+    /***
+     * TODO  账号登录
+     * @param account
+     * @param password
+     * @date 2019/11/18 10:13
+     * @return java.lang.String
+     */
+    @ResponseBody
+    @RequestMapping("/login")
+    public String login(String account, String password) {
+        UserAdmin user = service.userServiceImpl.findAccountPwd(account, password);
+        if (user != null) {
+            session.setAttribute("user", user);
+            return "success";
+        } else {
+            return "no";
+        }
+    }
+
+
+    /***
+     * TODO  密码修改
+     * @param password
+     * @date 2019/11/18 10:13
+     * @return java.lang.String
+     */
+    @ResponseBody
+    @RequestMapping("/updPwd")
+    public String updPwd(String oldPassword,String password) {
+        UserAdmin user = (UserAdmin)session.getAttribute("user");
+        if(user.getPassword().equals(oldPassword)){
+            user.setPassword(password);
+            service.userServiceImpl.save(dao.userDao,user);
+            return "success";
+        }else{
+            return "no";
+        }
     }
 }

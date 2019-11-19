@@ -5,14 +5,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.alibaba.druid.support.http.StatViewServlet;
 
-
+/**
+ * TODO  数据源监控  ip+端口/druid/login.html， 账号：admin/密码：123456
+ * @author 王松
+ * @WX-QQ 1720696548
+ * @date  2019/11/18 20:43 
+ */
 @Configuration
 public class DruidConfiguration {
 
     @Bean
     @SuppressWarnings("unchecked")
     public ServletRegistrationBean statViewServlet(){
-        //创建servlet注册实体，http://127.0.0.1:8080/druid/login.html  账号：admin/密码：123456
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(),"/druid/*");
         //设置ip白名单
         servletRegistrationBean.addInitParameter("allow","127.0.0.1");

@@ -30,4 +30,6 @@ public  interface RoleMenuAdminService extends BaseAdminService<RoleMenuAdmin,In
      * @return void
      */
     void roleMenuAuth(Integer roleId, Integer[] menuIds,Integer pid);
+
+
 }

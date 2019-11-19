@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "outDir": "./build",//输出目录
+    "module": "commonjs",
+    "lib": [
+      "dom",
+      "es5",
+      "es2015.promise",
+      "es2015.collection"
+    ],
+    "target": "es5",
+    "experimentalDecorators": true,
+    "skipLibCheck": true
+  },
+  "exclude": [
+    "node_modules",
+    "library",
+    "local",
+    "temp",
+    "build",
+    "settings"
+  ]
+}

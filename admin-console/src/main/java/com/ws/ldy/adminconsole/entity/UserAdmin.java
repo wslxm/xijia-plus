@@ -1,6 +1,7 @@
 package com.ws.ldy.adminconsole.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ws.ldy.admincore.entity.BaseEntity;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
@@ -51,4 +52,9 @@ public class UserAdmin extends BaseEntity {
 
     /** 注册时间 */
     private Date time;
+
+    /** 是否选中（角色是否有改用户，前台复选框默认选中需要值）  */
+    @JsonProperty  //防止大小写自动转换
+    @Transient
+    Boolean  LAY_CHECKED;
 }

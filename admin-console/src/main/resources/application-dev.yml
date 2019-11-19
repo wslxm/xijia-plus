@@ -1,13 +1,13 @@
 
 server:
   port: 8080   # HTTP (Tomcat) port
-#  servlet:
-#    context-path: /admin   # 配置项目名
+  servlet:
+    context-path: /admin   # 配置项目名 47.107.128.84
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.107.128.84:3306/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://127.0.0.1:3306/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8
     username: root
     password: root123456
     type: com.alibaba.druid.pool.DruidDataSource

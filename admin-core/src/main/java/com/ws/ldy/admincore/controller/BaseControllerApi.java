@@ -4,12 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BaseControllerApi {
 
+    @Autowired
+    protected HttpSession session;
     @Autowired
     protected HttpServletRequest request;
     @Autowired
@@ -26,7 +29,7 @@ public class BaseControllerApi {
         String str = request.getParameter(name);
         if (str == null) {
             return defalut;
-        }else {
+        } else {
             return str;
         }
     }
@@ -132,15 +135,5 @@ public class BaseControllerApi {
                 return defalut;
             }
         }
-    }
-
-    /**
-     * 向request放入对象
-     *
-     * @param name
-     * @param value
-     */
-    public void setAttribute(String name, Object value) {
-        request.setAttribute(name, value);
     }
 }

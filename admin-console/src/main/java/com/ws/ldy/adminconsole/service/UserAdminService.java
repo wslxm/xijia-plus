@@ -6,10 +6,15 @@ import com.ws.ldy.adminconsole.service.base.BaseAdminService;
 
 /**
  * TODO  用户
+ *
  * @author 王松
  * @WX-QQ 1720696548
- * @date  2019/11/13 15:10 
+ * @date 2019/11/13 15:10
  */
-public  interface UserAdminService extends BaseAdminService<UserAdmin,Integer> {
+public interface UserAdminService extends BaseAdminService<UserAdmin, Integer> {
 
+    /**
+     * 账号登录
+     */
+    public UserAdmin findAccountPwd(String account, String password);
 }

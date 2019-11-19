@@ -2,6 +2,7 @@ package com.ws.ldy.adminconsole.service.impl;
 
 import com.ws.ldy.adminconsole.entity.MenuAdmin;
 import com.ws.ldy.adminconsole.entity.RoleMenuAdmin;
+import com.ws.ldy.adminconsole.entity.UserAdmin;
 import com.ws.ldy.adminconsole.service.MenuAdminService;
 import com.ws.ldy.adminconsole.service.base.BaseAdminServiceImpl;
 import org.springframework.stereotype.Service;
@@ -24,13 +25,17 @@ public class MenuAdminServiceImpl extends BaseAdminServiceImpl<MenuAdmin, Intege
     private final static int DEPTH = 4;
 
     @Override
-    public List<MenuAdmin> getMenuTree(Integer uid) {
+    public List<MenuAdmin> getMenuTree(UserAdmin user) {
+        //查询用户当前的角色下的单Id
+        Map<Integer, Integer> roleMenuMap = new HashMap<>(8);
+        List<RoleMenuAdmin> roleMenus = dao.roleMenuDao.findUserIdRoleMenus(user.getId());
+        roleMenus.forEach(item -> roleMenuMap.put(item.getMenuId(), 0));
         // 保存系统级-顶级菜单返回，root == 1 的
         List<MenuAdmin> menuList = new LinkedList<>();
         List<MenuAdmin> menus = dao.menuDao.findAll();
         for (MenuAdmin menu : menus) {
-            if (menu.getRoot() == 1) {
-                nextLowerNode(menus, menu, menu.getRoot());
+            if (menu.getRoot() == 1 && roleMenuMap.containsKey(menu.getId())) {
+                nextLowerNode(menus, menu, menu.getRoot(),roleMenuMap);
                 menuList.add(menu);
             }
         }
@@ -42,17 +47,18 @@ public class MenuAdminServiceImpl extends BaseAdminServiceImpl<MenuAdmin, Intege
      * @param menus 所有节点
      * @param menu  当前菜单节点
      * @param root  递归深度
+     * @param roleMenuMap  当前用户存在的菜单权限
      * @date 2019/11/13 15:20
      * @return void
      */
-    private void nextLowerNode(List<MenuAdmin> menus, MenuAdmin menu, Integer root) {
+    private void nextLowerNode(List<MenuAdmin> menus, MenuAdmin menu, Integer root, Map<Integer, Integer> roleMenuMap) {
         List<MenuAdmin> menuList = new LinkedList<>();
         for (MenuAdmin sonMenu : menus) {
-            if (sonMenu.getPid() == menu.getId() && root <= DEPTH) {
+            if (sonMenu.getPid() == menu.getId()  && roleMenuMap.containsKey(sonMenu.getId()) && root <= DEPTH) {
                 //获取子节点
                 menuList.add(sonMenu);
                 //存在子节点递归遍历获得每个节点下的子节点
-                nextLowerNode(menus, sonMenu, root + 1);
+                nextLowerNode(menus, sonMenu, root + 1, roleMenuMap);
             }
         }
         //保存该节点下的子节点ss

@@ -96,4 +96,18 @@ public class RoleAdminController extends BaseAdminController {
         service.roleMenuServiceImpl.roleMenuAuth(roleId,menuIds,pid);
         return "success";
     }
+
+
+    /**
+     * TODO  角色用户分配
+     *
+     * @return java.lang.String
+     * @date 2019/11/16 0016 22:46
+     */
+    @ResponseBody
+    @RequestMapping("/updRoleUser")
+    public String updRoleUser(Integer roleId, Integer[] userIds) {
+        service.roleUserServiceImpl.updRoleUser(roleId,userIds);
+        return "success";
+    }
 }

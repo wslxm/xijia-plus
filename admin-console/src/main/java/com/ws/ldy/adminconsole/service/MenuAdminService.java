@@ -2,6 +2,7 @@ package com.ws.ldy.adminconsole.service;
 
 
 import com.ws.ldy.adminconsole.entity.MenuAdmin;
+import com.ws.ldy.adminconsole.entity.UserAdmin;
 import com.ws.ldy.adminconsole.service.base.BaseAdminService;
 
 import java.util.List;
@@ -15,13 +16,14 @@ import java.util.List;
  */
 public interface MenuAdminService extends BaseAdminService<MenuAdmin, Integer> {
 
+
     /**
      * TODO   获取数菜单列表
      *
      * @return
      * @date 2019/11/13 14:45
      */
-    public List<MenuAdmin> getMenuTree(Integer uid);
+    public List<MenuAdmin> getMenuTree(UserAdmin user);
 
 
     /***

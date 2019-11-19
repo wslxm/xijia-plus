@@ -3,6 +3,7 @@ package com.ws.ldy.adminconsole.controller;
 
 import com.ws.ldy.adminconsole.controller.base.BaseAdminController;
 import com.ws.ldy.adminconsole.entity.MenuAdmin;
+import com.ws.ldy.adminconsole.entity.UserAdmin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,8 @@ public class MenuAdminController extends BaseAdminController {
     @RequestMapping("/menuTree")
     @ResponseBody
     public List<MenuAdmin> menuTree(Integer id) {
-        List<MenuAdmin> menuTree = service.menuServiceImpl.getMenuTree(1);
+        UserAdmin user = (UserAdmin)session.getAttribute("user");
+        List<MenuAdmin> menuTree = service.menuServiceImpl.getMenuTree(user);
         return menuTree;
 
     }
