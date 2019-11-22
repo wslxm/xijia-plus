@@ -33,7 +33,9 @@
     <modules>
         <module>admin-core</module>       <!-- 自定义核心jar依赖，web/jpa/druid/redis/权限控制核心 -->
         <module>admin-console</module>    <!-- 后台管理：角色/用户/菜单/代码生成等 -->
-        <module>game-sheep</module>       <!-- 养羊游戏 -->
+        <module>game-sheep</module>       <!-- 养羊游戏             -->
+        <module>admin-demo</module>       <!-- 代码生成功能测试项目  -->
+        <module>admin-demo-web</module>   <!-- 代码生成功能测试项目  -->
     </modules>
 
     <!-- spring-boot-starter-test -->
@@ -50,5 +52,4 @@
             </exclusions>
         </dependency>
     </dependencies>
-
 </project>

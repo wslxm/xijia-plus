@@ -51,9 +51,9 @@ public class MvcConfig implements WebMvcConfigurer {
 		excludePatterns.add("/js/**");
 		excludePatterns.add("/layuiadmin/**");
 		excludePatterns.add("/treetable-lay/**");
-		excludePatterns.add("/api/**");                //排除开放Api接口，全已 /api 开头
-		excludePatterns.add("/page/admin_user_login"); //排除登录相关
-		excludePatterns.add("/userAdmin/login");
+		excludePatterns.add("/api/**");                  //排除开放Api接口，全已 /api 开头
+		excludePatterns.add("/page/console_user_login"); //排除登录页面
+		excludePatterns.add("/userAdmin/login");         //排除登录验证接口
 		// 拦截范围
 		List<String> addPathPatterns = new ArrayList<>();
 		addPathPatterns.add("/**");

@@ -6,9 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="admin-demo-web" />
         <module name="admin-core" />
         <module name="game-sheep" />
         <module name="admin-console" />
+        <module name="admin-demo" />
       </profile>
     </annotationProcessing>
   </component>
@@ -16,6 +18,8 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="admin-console" options="-parameters" />
       <module name="admin-core" options="-parameters" />
+      <module name="admin-demo" options="-parameters" />
+      <module name="admin-demo-web" options="-parameters" />
       <module name="game-sheep" options="-parameters" />
     </option>
   </component>

@@ -3,13 +3,13 @@ package com.ws.ldy.adminconsole.service.impl;
 import com.ws.ldy.adminconsole.entity.MenuAdmin;
 import com.ws.ldy.adminconsole.entity.RoleMenuAdmin;
 import com.ws.ldy.adminconsole.service.RoleMenuAdminService;
-import com.ws.ldy.adminconsole.service.base.BaseAdminServiceImpl;
+import com.ws.ldy.adminconsole.service.base.impl.BaseAdminConsoleServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-public class RoleMenuAdminServiceImpl extends BaseAdminServiceImpl<RoleMenuAdmin,Integer> implements RoleMenuAdminService {
+public class RoleMenuAdminServiceImpl extends BaseAdminConsoleServiceImpl<RoleMenuAdmin,Integer> implements RoleMenuAdminService {
 
 
     @Override

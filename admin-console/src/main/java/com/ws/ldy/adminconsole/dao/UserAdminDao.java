@@ -10,8 +10,8 @@ public interface UserAdminDao extends BaseDao<UserAdmin, Integer> {
 
     /***
      * TODO  根据账号密码查询用户信息
- * @param account
- * @param password
+     * @param account
+     * @param password
      * @date 2019/11/18 10:29
      * @return com.ws.ldy.adminconsole.entity.UserAdmin
      */

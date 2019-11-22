@@ -1,0 +1,29 @@
+
+
+1.所有 html文件目录全已 /console  当前项目实际项目名称开头，不要当前项目类型，如无类型，则使用全名
+       admin-console-a      -->     consolea  （全部小写）
+       admin-console        -->     console
+       sheep                -->     sheep
+
+
+2.查询页
+     案例一：
+        表名   = t_admin_role  -->    role      (去除项目类型admin)
+        项目名 = admin-console  -->   console   (去除项目类型admin)
+        结果如下：
+        t_admin_role         -->  /console/role/role.html
+
+     案例二：
+        表名   = t_admin_role_menu  -->   roleMenu       (去除项目类型admin，转为驼峰模式)
+        项目名 = admin-console-a      --> consolea       (去除项目类型admin啊，拼接名称，全小写)
+        结果如下：
+        t_admin_role_menu    -->  /consolea/roleMenu/roleMenu.html
+
+
+                    案例一:                            案例二：
+3.添加页Add:   /console/role/roleAdd.html   ||  /consolea/roleMenu/roleMenuAdd.html
+4.修改页Upd:   /console/role/roleUpd.html   ||   /consolea/roleMenu/roleMenuUpd.html
+
+
+
+

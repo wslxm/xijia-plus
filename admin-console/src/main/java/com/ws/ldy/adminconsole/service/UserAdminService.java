@@ -2,7 +2,7 @@ package com.ws.ldy.adminconsole.service;
 
 
 import com.ws.ldy.adminconsole.entity.UserAdmin;
-import com.ws.ldy.adminconsole.service.base.BaseAdminService;
+import com.ws.ldy.adminconsole.service.base.BaseAdminConsoleService;
 
 /**
  * TODO  用户
@@ -11,7 +11,7 @@ import com.ws.ldy.adminconsole.service.base.BaseAdminService;
  * @WX-QQ 1720696548
  * @date 2019/11/13 15:10
  */
-public interface UserAdminService extends BaseAdminService<UserAdmin, Integer> {
+public interface UserAdminService extends BaseAdminConsoleService<UserAdmin, Integer> {
 
     /**
      * 账号登录

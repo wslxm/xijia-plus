@@ -10,8 +10,9 @@
  *             此配置所有模块的 beng不能重复，如：多模块下的url不可重复，service 注入同理，比如系统管理定义过的: /adminUser/ 不可在定义
  * @type {string}
  */
-var ADMIN_PATH = "/admin";   //后台管理项目路径 -->  /admin
-var SHEEP_PATH = "";   //养🐏游戏        -->  /sheep
+var ADMIN_CONSOLE = "";   //后台管理项目名 -->   /adminconsole  /adminconsole
+var GAME_SHEEP = "";      //养🐏游戏        -->  /gamesheep
+var ADMIN_DEMO_WEB = "";      //养🐏游戏        -->  /gamesheep
 
 /**
  * Layer 添加修改通用弹出层
@@ -56,7 +57,7 @@ function tipsDelete(url, ids, obj) {
                 // 获得要删除菜单及所有子菜单/页面
                 var result = ajaxPost(url, ids);
                 // 后台操作成功前端直接删除当前行删除
-                if (result !== "no") {
+                if (result !== "no" && obj !== null ) {
                     obj.del();
                 }
                 layer.msg('操作成功');

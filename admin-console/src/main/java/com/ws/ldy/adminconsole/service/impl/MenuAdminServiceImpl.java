@@ -4,7 +4,7 @@ import com.ws.ldy.adminconsole.entity.MenuAdmin;
 import com.ws.ldy.adminconsole.entity.RoleMenuAdmin;
 import com.ws.ldy.adminconsole.entity.UserAdmin;
 import com.ws.ldy.adminconsole.service.MenuAdminService;
-import com.ws.ldy.adminconsole.service.base.BaseAdminServiceImpl;
+import com.ws.ldy.adminconsole.service.base.impl.BaseAdminConsoleServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 
 @Service
-public class MenuAdminServiceImpl extends BaseAdminServiceImpl<MenuAdmin, Integer> implements MenuAdminService {
+public class MenuAdminServiceImpl extends BaseAdminConsoleServiceImpl<MenuAdmin, Integer> implements MenuAdminService {
 
     /**
      * =========================================================================

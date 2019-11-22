@@ -1,8 +1,8 @@
 
 server:
   port: 8080   # HTTP (Tomcat) port
-  servlet:
-    context-path: /admin   # 配置项目名 47.107.128.84
+#  servlet:
+#    context-path: /adminconsole   # 配置项目名 47.107.128.84
 
 spring:
   datasource:

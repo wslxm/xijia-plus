@@ -1,6 +1,6 @@
 package com.ws.ldy.adminconsole.controller;
 
-import com.ws.ldy.adminconsole.controller.base.BaseAdminController;
+import com.ws.ldy.adminconsole.controller.base.BaseAdminConsoleController;
 import com.ws.ldy.adminconsole.entity.RoleAdmin;
 import com.ws.ldy.admincore.controller.vo.Data;
 import org.springframework.data.domain.Page;
@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/roleAdmin")
-public class RoleAdminController extends BaseAdminController {
+public class RoleAdminController extends BaseAdminConsoleController {
 
     /***
      * TODO  分页查询

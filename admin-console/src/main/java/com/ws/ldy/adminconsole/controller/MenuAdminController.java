@@ -1,7 +1,7 @@
 package com.ws.ldy.adminconsole.controller;
 
 
-import com.ws.ldy.adminconsole.controller.base.BaseAdminController;
+import com.ws.ldy.adminconsole.controller.base.BaseAdminConsoleController;
 import com.ws.ldy.adminconsole.entity.MenuAdmin;
 import com.ws.ldy.adminconsole.entity.UserAdmin;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/menuAdmin")
-public class MenuAdminController extends BaseAdminController {
+public class MenuAdminController extends BaseAdminConsoleController {
 
     /**
      * TODO 获取菜单树,左导航菜单

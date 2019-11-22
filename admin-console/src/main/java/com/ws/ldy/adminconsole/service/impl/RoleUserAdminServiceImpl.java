@@ -3,7 +3,7 @@ package com.ws.ldy.adminconsole.service.impl;
 import com.ws.ldy.adminconsole.entity.RoleUserAdmin;
 import com.ws.ldy.adminconsole.entity.UserAdmin;
 import com.ws.ldy.adminconsole.service.RoleUserAdminService;
-import com.ws.ldy.adminconsole.service.base.BaseAdminServiceImpl;
+import com.ws.ldy.adminconsole.service.base.impl.BaseAdminConsoleServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class RoleUserAdminServiceImpl extends BaseAdminServiceImpl<RoleUserAdmin, Integer> implements RoleUserAdminService {
+public class RoleUserAdminServiceImpl extends BaseAdminConsoleServiceImpl<RoleUserAdmin, Integer> implements RoleUserAdminService {
 
 
     @Override

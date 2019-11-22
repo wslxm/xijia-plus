@@ -1,10 +1,12 @@
 package com.ws.ldy.admincore.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ResourceUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -135,5 +137,40 @@ public class BaseControllerApi {
                 return defalut;
             }
         }
+    }
+
+
+    /**
+     * TODO  获取项目部署后的classpath目录
+     * @date  2019/11/21 10:01
+     * @return java.lang.String
+     */
+    public String getPath() {
+        // 获取项目跟目录
+        String path = "";
+        try {
+            path = ResourceUtils.getURL("classpath:").getPath();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return path;
+    }
+
+
+    /**
+     * TODO  获取当前项目的父级硬盘目录 --> 如当前：D:\workSpace\tool1\code\spring-boot-plus2
+     * @date  2019/11/21 10:02
+     * @return java.lang.String
+     */
+    public String getPathFather(String entryName) {
+        // 获取项目跟目录
+        String path = "";
+        try {
+            path = ResourceUtils.getURL("classpath:").getPath();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        String upPath = path.replace("/"+entryName+"/target/classes", "");
+        return upPath;
     }
 }

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc">
+    <head>
+        <meta charset="UTF-8">
+        <title>tree-table</title>
+        <link rel="stylesheet" th:href="@{/treetable-lay/assets/layui/css/layui.css}">
+        <link rel="stylesheet" th:href="@{/treetable-lay/assets/common.css}"/>
+        <script language=javascript th:src='@{/js/jquery-3.4.1.js}'></script>
+        <script language=javascript th:src='@{/treetable-lay/assets/layui/layui.js}'></script>
+        <script th:src="@{/js/app.js}"></script>
+        <style>
+            input {
+                height: 33px;
+                line-height: 33px;
+                padding: 0 7px;
+                border: 1px solid #ccc;
+                border-radius: 2px;
+                margin-bottom: -2px;
+                outline: none;
+            }
+
+            input:focus {
+                border-color: #009E94;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 设置数据表格宽 -->
+        <div class="layui-container" style="width: 1600px;margin-left: 2.5%">
+            <br>
+            <br>
+            <div class="layui-btn-group">
+                <button class="layui-btn" id="btn-expand">全部展开</button>
+                <button class="layui-btn" id="btn-fold">全部折叠</button>
+            </div>
+            &nbsp;&nbsp;
+            <input id="edt-search" type="text" placeholder="输入关键字" style="width: 160px;"/>&nbsp;&nbsp;
+            <button class="layui-btn" id="btn-search">&nbsp;&nbsp;搜索&nbsp;&nbsp;</button>
+            <button class="layui-btn layui-btn-warm layui-btn-sm" data-type="addRoot1">添加系统</button>
+            <table id="auth-table" class="layui-table" lay-filter="auth-table"></table>
+        </div>
+
+        <script>
+            // alert(1)
+            // }) $(function () {
+            //
+
+            //数据接口
+            let menuFindAll = ADMIN_CONSOLE + "/menuAdmin/findAll/1";  //查询菜单树
+            let menuDelete = ADMIN_CONSOLE + "/menuAdmin/delete";      //删除
+            let menu_update1 = ADMIN_CONSOLE + "/menuAdmin/update/1";  //修改排序
+            let menu_update2 = ADMIN_CONSOLE + "/menuAdmin/update/2";  //修改图标
+            let menu_update3 = ADMIN_CONSOLE + "/menuAdmin/update/3";  //修改url
+            let menu_update4 = ADMIN_CONSOLE + "/menuAdmin/update/4";  //修改权限id
+
+            let admin_menu_addRoot1 = ADMIN_CONSOLE + "/page/console_menu_addRoot1";   //添加系统跳转
+            let admin_menu_addRoot2 = ADMIN_CONSOLE + "/page/console_menu_addRoot2";   //添加一级菜单
+            let admin_menu_addRoot3 = ADMIN_CONSOLE + "/page/console_menu_addRoot3";   //添加二级菜单
+            let admin_menu_addRoot4 = ADMIN_CONSOLE + "/page/console_menu_addRoot4";   //添加页面
+            let admin_menu_updName = ADMIN_CONSOLE + "/page/console_menu_updName";     //菜单名修改
+
+            //添加菜单当前行数据(弹出层获取当前页面值使用)，var 支持外部调用，let子页面无法获取值
+            var data = null;
+
+            //菜单数据
+            let dataJson = ajaxGet(menuFindAll);
+            layui.config({
+                base: '../treetable-lay/module/' //静态资源所在路径
+            }).extend({
+                treetable: 'treetable-lay/treetable'
+            }).use(['table', 'treetable'], function () {
+                let form = layui.form
+                    , table = layui.table
+                    , treeTable = layui.treetable
+                    , $1 = layui.$;
+                // 渲染表格
+                layer.load(2);
+                treeTable.render({
+                    treeColIndex: 1,            //菜单列索引 ,加载展开图标
+                    treeSpid: 0,                //顶级父id
+                    treeIdName: 'id',           //id 名称
+                    treePidName: 'pid',         //fid 名称
+                    treeDefaultClose: true,     // 是否默认折叠
+                    treeLinkage: false,         // 父级展开时是否自动展开所有子级
+                    elem: '#auth-table',        //table 的 div
+                    //url:'/menu/findAll',                         //后台接口获取数据
+                    //url: '../treetable-lay/json/menus.json',     //json文件获取数据
+                    data: dataJson,                                 //直接加载数据
+                    page: false,
+                    done: function () {
+                        //  $("table").css("width", "96%");
+                        layer.closeAll('loading');
+                    },
+                    cols: [
+                        [
+                            {field: 'id', width: 80, type: 'id', title: 'id'},
+                            {field: 'name', width: 200, title: '菜单名称'},//edit: 'text',
+                            {field: 'sort', width: 150, edit: 'text', title: '排序'},
+                            {field: 'icon', width: 180, edit: 'text', title: '图标'},
+                            {field: 'url', width: 220, edit: 'text', title: '菜单url'},
+                            {field: 'authority', width: 110, edit: 'text', title: '权限id'},
+                            {
+                                field: '', width: 120, title: '类型', edit: 'text', templet: function (res) {
+                                    if (res.root === 1) {
+                                        return '<span class="layui-badge layui-bg-gray">系统</span>';
+                                    }
+                                    if (res.root === 2) {
+                                        return '<span class="layui-badge layui-bg-gray">一级菜单</span>';
+                                    }
+                                    if (res.root === 3) {
+                                        return '<span class="layui-badge layui-bg-gray">二级菜单</span>';
+                                    }
+                                    if (res.root === 4) {
+                                        return '<span class="layui-badge layui-bg-gray">页面</span>';
+                                    } else {
+                                        return '<span class="layui-badge-rim">???</span>';
+                                    }
+                                }
+                            },
+                            {
+                                field: 'root', width: 228, title: '添加菜单/页面', templet: function (res) {
+                                    let html = "";
+                                    if (res.root === 1) {
+                                        html += " <a class=\"layui-btn layui-btn-warm layui-btn-xs\" lay-event=\"addRoot2\">添加一级菜单</a>\n";
+                                        html += " <a class=\"layui-btn layui-btn-xs\" lay-event=\"addRoot4\">添加页面</a>\n";
+                                    } else if (res.root === 2) {
+                                        html += " <a class=\"layui-btn layui-btn-warm layui-btn-xs\" lay-event=\"addRoot3\">添加二级菜单</a>\n";
+                                        html += "<a class=\"layui-btn layui-btn-xs\" lay-event=\"addRoot4\">添加页面</a>";
+                                    } else if (res.root === 3) {
+                                        html += "<a class=\"layui-btn layui-btn-xs\" lay-event=\"addRoot4\">添加页面</a>";
+                                    } else {
+                                        html += '<span class="layui-badge-rim">无</span>';
+                                    }
+                                    return html;
+                                }
+                            },
+                            {
+                                field: '', width: 110, title: '父级变更', templet: function (res) {
+                                    let html = "";
+                                    if (res.root === 2) {
+                                        html += "<a class=\"layui-btn layui-btn-normal layui-btn-xs\" lay-event=\"updFid\">切换系统</a>\n";
+                                    } else if (res.root === 3 || res.root === 4) {
+                                        html += "<a class=\"layui-btn layui-btn-normal layui-btn-xs\" lay-event=\"updFid\">变更父级</a>\n";
+                                    }
+                                    return html;
+                                }
+                            },
+                            {
+                                field: '', width: 160, title: '操作', templet: function (res) {
+                                    let html = "";
+                                    html += "<a class=\"layui-btn layui-btn-xs\" lay-event=\"upd\">修改名称</a>\n";
+                                    html += "<a class=\"layui-btn layui-btn-danger layui-btn-xs\" lay-event=\"del\">删除</a>\n";
+                                    return html;
+                                }
+                            }
+                        ]
+                    ]
+                });
+
+
+                $1('#btn-expand').click(function () {
+                     treeTable.expandAll('#auth-table');
+                });
+
+                $1('#btn-fold').click(function () {
+                     treeTable.foldAll('#auth-table');
+                });
+
+                $1('#btn-search').click(function () {
+                    let keyword = $('#edt-search').val();
+                    let searchCount = 0;
+                    $1('#auth-table').next('.treeTable').find('.layui-table-body tbody tr td').each(function () {
+                        $1(this).css('background-color', 'transparent');
+                        let text = $(this).text();
+                        if (keyword !== '' && text.indexOf(keyword) >= 0) {
+                            $1(this).css('background-color', 'rgba(250,230,160,0.5)');
+                            if (searchCount === 0) {
+                                treeTable.expandAll('#auth-table');
+                                $1('html,body').stop(true);
+                                $1('html,body').animate({scrollTop: $(this).offset().top - 150}, 500);
+                            }
+                            searchCount++;
+                        }
+                    });
+                    if (keyword === '') {
+                        layer.msg("请输入搜索内容", {icon: 5});
+                    } else if (searchCount === 0) {
+                        layer.msg("没有匹配结果", {icon: 5});
+                    }
+                });
+
+
+                //=======================================================================
+                //========================= 数据搜索栏按钮 -->  ==========================
+                //========== addRoot1:  对应 data-type="addRoot1" =======================
+                //=======================================================================
+                let $ = layui.$, active = {
+                    addRoot1: function () {
+                        tipsWindown(admin_menu_addRoot1, "440px", "200px", "添加系统");
+                    }
+                };
+                //必须在下面/监听class = demoTable内按钮
+                $('.layui-container .layui-btn').on('click', function () {
+                    let type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                });
+
+
+                //=======================================================================
+                //========================= 监听数据表格内按钮 ==========================
+                //===================== 添加菜单/页面/编辑/删除 =========================
+                //=======================================================================
+                /**
+                 * 监听数据表格内按钮  tool(auth-table)对应   lay-filter="auth-table"
+                 */
+                table.on('tool(auth-table)', function (obj) {
+                    //当前行数据
+                    data = obj.data;
+                    //菜单添加
+                    if (obj.event === 'addRoot2') {
+                        tipsWindown(admin_menu_addRoot2, "440px", "260px", "添加一级菜单")
+                    }
+                    if (obj.event === 'addRoot3') {
+                        tipsWindown(admin_menu_addRoot3, "440px", "260px", "添加二级菜单")
+                    }
+                    if (obj.event === 'addRoot4') {
+                        tipsWindown(admin_menu_addRoot4, "440px", "260px", "添加页面")
+                    }
+
+
+                    //删除
+                    if (obj.event === 'del') {
+                        layui.use('layer', function () {
+                            layer.msg('你确定要删除么？', {
+                                time: 0
+                                , btn: ['必须删', '不删了']
+                                , yes: function (index) {
+                                    //获得要删除菜单及所有子菜单/页面
+                                    let result = ajaxPost(menuDelete, {id: data.id});
+                                    //操作后提示
+                                    if (result !== "no") {
+                                        layer.msg('操作成功');
+                                        obj.del();
+                                    } else {
+                                        layer.msg('is no error ');
+                                    }
+                                }
+                            });
+                        });
+                    }
+
+                    //修改菜单名称
+                    if (obj.event === 'upd') {
+                        tipsWindown(admin_menu_updName, "440px", "200px", "修改名称")
+                        // 5、name-修改菜单名
+                    }
+
+                });
+
+                //=======================================================================
+                //============================== 监听行修改 ==============================
+                //=======================================================================
+                /**
+                 * 监听数据表格内按钮  edit(auth-table)对应   lay-filter="auth-table"
+                 * //修改排序-图标-菜单url-权限id
+                 */
+                table.on('edit(auth-table)', function (obj) {
+                    let val = obj.value;   //得到修改后的值
+                    let data = obj.data;   //得到所在行所有键值
+                    let field = obj.field; //得到修改的字段
+                    let result = "no";
+                    if (field === "sort") {
+                        // 1，sort-修改排序
+                        result = ajaxPost(menu_update1, {id: data.id, val: val});
+                    } else if (field === "icon") {
+                        // 2，icon-修改图标
+                        result = ajaxPost(menu_update2, {id: data.id, val: val})
+                    } else if (field === "url") {
+                        // 3、url-修改菜单url
+                        result = ajaxPost(menu_update3, {id: data.id, val: val})
+                    } else if (field === "authority") {
+                        //4、authority-修改权限id
+                        result = ajaxPost(menu_update4, {id: data.id, val: val})
+                    } else {
+                        // 5、name-修改菜单名
+                    }
+                    if (result !== "no") {
+                        layer.msg('[ID: ' + data.id + '] ' + field + ' 字段更改为：' + value);
+                    } else {
+                        layer.msg('后台异常！处理失败');
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

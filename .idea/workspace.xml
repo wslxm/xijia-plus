@@ -1,53 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f847276d-2e9a-45e3-84a6-524ac1db5e6d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleUserAdminDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/RoleUserAdmin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleUserAdminService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleUserAdminServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/static/js/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/static/js/src/List.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/static/js/src/impl/ArrayList.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/static/js/src/impl/LinkedList.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/static/js/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/dictionary/dictionary.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleUserAuth.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/user/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/user/userUpdPwd.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/config/ErrorPageConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/config/LoginInterceptor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/ErrorController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/templates/admin/404.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/resources/templates/admin/error.html" afterDir="false" />
+    <list default="true" id="3d1a1456-9a72-4f36-89fd-f9789461db0f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/DictionaryAdminService.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/desc/html命名规范" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/desc/java 命名规范" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/desc/数据库命名规范" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DataBaseController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DictionaryAdminController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/vo/FieldCG.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/DataBaseDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/DictionaryAdminDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/impl/DataBaseDaoImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/DictionaryAdmin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/CodeGeneration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/DataBaseService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/DictionaryAdminService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/base/impl/BaseAdminConsoleServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/CodeGenerationImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/DataBaseServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/DictionaryAdminServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/static/codeDictionaryAdmin.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/static/codeDictionaryAdminController.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/static/template/DemoHtmlAdd.tp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/static/template/DemoHtmlUpd.tp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/dataBase/dataBase.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/dictionary/dictionary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/dictionary/dictionaryAdd.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/dictionary/dictionaryUpd.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/role/demo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/AdminDemoWebApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/controller/TestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/controller/UserSheepController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/controller/base/BaseAdminDemoWebController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/dao/TestDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/entity/Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/factory/DaoAdminDemoWebFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/factory/ServiceAdminDemoWebFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/service/TestService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/service/UserSheepService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/service/base/BaseAdminDemoWebService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/service/base/impl/BaseAdminDemoWebServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/service/impl/TestServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/service/impl/UserSheepServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/resources/application-dev.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/resources/templates/demoweb/test/test.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/resources/templates/demoweb/test/testAdd.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/resources/templates/demoweb/test/testUpd.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/resources/templates/demoweb/user/user.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/resources/templates/demoweb/user/userAdd.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo-web/src/main/resources/templates/demoweb/user/userUpd.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/src/main/java/com/ws/ldy/AdminDemoApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/src/main/java/com/ws/ldy/admindemoweb/factory/DaoAdminDemoFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/src/main/java/com/ws/ldy/admindemoweb/factory/ServiceAdminDemoFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/src/main/java/com/ws/ldy/admindemoweb/service/base/BaseAdminDemoService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/src/main/resources/application-dev.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-demo/src/test/java/com/ws/ldy/admindemoweb/GameSheepApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/admindemoweb/controller/base/BaseGameSheepController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/admindemoweb/factory/DaoGameSheepFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/admindemoweb/factory/ServiceGameSheepFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/admindemoweb/service/base/BaseGameSheepService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/admindemoweb/service/base/impl/BaseGameSheepServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/resources/templates/sheep/roleUser/roleUser.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/resources/templates/sheep/roleUser/roleUserAdd.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game-sheep/src/main/resources/templates/sheep/roleUser/roleUserUpd.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game-sheep/src/test/java/com/ws/ldy/admindemoweb/GameSheepApplicationTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/MenuAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/MenuAdminController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleMenuAdminDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleMenuAdminDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/base/BaseAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/base/BaseAdminConsoleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/UserAdminDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/UserAdminDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/UserAdmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/UserAdmin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/DaoConsoleFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/DaoConsoleFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/ServiceConsoleFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/ServiceConsoleFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/DaoConsoleFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/DaoAdminConsoleFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/ServiceConsoleFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/ServiceAdminConsoleFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/MenuAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/MenuAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleAdminService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleMenuAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleMenuAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleUserAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleUserAdminService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/UserAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/UserAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/base/BaseAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/base/BaseAdminConsoleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/base/BaseAdminServiceImpl.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/MenuAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/MenuAdminServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleAdminServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleMenuAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleMenuAdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleUserAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleUserAdminServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/UserAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/UserAdminServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/application-dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleMenuAuth.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleMenuAuth.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/user/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/user/user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/static/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/static/js/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/dictionary/dictionary.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/addRoot1.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/menu/addRoot1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/addRoot2.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/menu/addRoot2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/addRoot3.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/menu/addRoot3.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/addRoot4.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/menu/addRoot4.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/menu/menu.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/menu/updName.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/menu/updName.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/role.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/role/role.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleAdd.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/role/roleAdd.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleMenuAuth.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/role/roleMenuAuth.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleUpd.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/role/roleUpd.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleUrlAuth.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/role/roleUrlAuth.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/role/roleUserAuth.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/role/roleUserAuth.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/user/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/user/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/user/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/user/user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/user/userAdd.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/user/userAdd.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/user/userUpd.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/user/userUpd.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/admin/user/userUpdPwd.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/user/userUpdPwd.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/config/DruidConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/config/DruidConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/config/LoginInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/config/LoginInterceptor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/config/MvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/config/MvcConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/BaseControllerApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/BaseControllerApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/vo/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/vo/Data.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/PageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/PageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/dao/impl/BaseDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/dao/impl/BaseDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/css/search.css" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/css/search.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui/lay/modules/tree.js" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui/lay/modules/tree.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/treetable-lay/assets/layui/lay/modules/tree.js" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/treetable-lay/assets/layui/lay/modules/tree.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/index1.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/resources/static/views/index1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/game-sheep/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/controller/UserSheepController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/controller/base/BaseSheepController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo/src/main/java/com/ws/ldy/admindemoweb/controller/base/BaseAdminDemoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/dao/UserSheepDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/dao/UserSheepDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/entity/UserSheep.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/entity/UserSheep.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/factory/DaoSheepFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/factory/ServiceSheepFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/service/UserSheepService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/service/base/BaseSheepService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/service/base/BaseSheepServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo/src/main/java/com/ws/ldy/admindemoweb/service/base/impl/BaseAdminDemoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/gamesheep/service/impl/UserSheepServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/test/java/com/ws/ldy/gamesheep/GameSheepApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo-web/src/test/java/com/ws/ldy/admindemoweb/GameSheepApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,9 +157,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="FxmlFile" />
-        <option value="HTML File" />
-        <option value="TypeScript File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -80,54 +174,45 @@
     <option name="generalSettings">
       <MavenGeneralSettings>
         <option name="mavenHome" value="$PROJECT_DIR$/../../../tool/apache-maven-3.5.4" />
-        <option name="userSettingsFile" value="F:\workspace\tool\apache-maven-3.5.4\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
   </component>
-  <component name="ProjectId" id="1ToVEzDR8RihWwQOlTrTQdWskqJ" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectId" id="1TvcB9muwvJW7gkLFHWesSpdWqB" />
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1573929269558" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/admin-console/src/main/resources/static/js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
-    <property name="ts.external.directory.path" value="D:\workSpace\tool1\ideaIU-2019.2.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-console\src\main\resources\static\js" />
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-console\src\main\resources\static\js\src" />
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-console\src\main\resources" />
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-core\src\main\resources" />
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-core\src\main\java\com\ws\ldy\admincore\controller" />
-    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.ws.ldy.adminconsole.service.impl" />
-      <recent name="com.ws.ldy.adminconsole.service" />
-      <recent name="com.ws.ldy.adminconsole.dao" />
-      <recent name="com.ws.ldy.adminconsole.entity" />
+      <recent name="com.ws.ldy.gamesheep.service.base.impl" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-console\src\main\resources\static\js\src1" />
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-console\src\main\resources\static\js" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workSpace\tool1\code\spring-boot-plus2" />
+      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-demo-web" />
+      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-console\src\main\resources\static\template" />
+      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-console\desc" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -142,27 +227,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Node.js.ArrayList.js (1)">
-    <configuration name="Ts测试" type="JavascriptDebugType" uri="http://localhost:8080/">
-      <method v="2">
-        <option name="TypeScript.Before.Run" enabled="true" FAIL_ON_ERROR="true" CONFIG_PATH="$PROJECT_DIR$/admin-console/src/main/resources/static/js/tsconfig.json" />
-      </method>
-    </configuration>
-    <configuration name="ArrayList.js (1)" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/admin-console/src/main/resources/static/js/build/impl/ArrayList.js" working-dir="$PROJECT_DIR$/admin-console/src/main/resources/static/js/build/impl">
-      <method v="2" />
-    </configuration>
-    <configuration name="ArrayList.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/admin-console/src/main/resources/static/js/src/impl/ArrayList.js" working-dir="$PROJECT_DIR$/admin-console/src/main/resources/static/js/src/impl">
-      <method v="2" />
-    </configuration>
-    <configuration name="demo.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/admin-console/src/main/resources/static/js/src/demo.js" working-dir="$PROJECT_DIR$/admin-console/src/main/resources/static/js/src">
-      <method v="2" />
-    </configuration>
-    <configuration name="index.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/admin-console/src/main/resources/static/js/index.js" working-dir="$PROJECT_DIR$/admin-console/src/main/resources/static/js">
-      <method v="2" />
-    </configuration>
-    <configuration name="main.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/admin-console/src/main/resources/static/js/src1/main.js" working-dir="$PROJECT_DIR$/admin-console/src/main/resources/static/js/src1">
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Spring Boot.AdminDemoWebApplication">
     <configuration name="AdminConsoleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="admin-console" />
       <extension name="coverage">
@@ -179,58 +244,70 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameSheepApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="AdminDemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="admin-demo" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ws.ldy.AdminDemoApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AdminDemoWebApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="admin-demo-web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ws.ldy.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ws.ldy.AdminDemoWebApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameSheepApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="game-sheep" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ws.ldy.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.ws.ldy.GameSheepApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="JavaScript Debug.Ts测试" />
-      <item itemvalue="Node.js.ArrayList.js (1)" />
-      <item itemvalue="Node.js.demo.js" />
-      <item itemvalue="Node.js.ArrayList.js" />
-      <item itemvalue="Node.js.index.js" />
-      <item itemvalue="Spring Boot.GameSheepApplication" />
+      <item itemvalue="Spring Boot.AdminDemoApplication" />
       <item itemvalue="Spring Boot.AdminConsoleApplication" />
-      <item itemvalue="Node.js.main.js" />
+      <item itemvalue="Spring Boot.AdminDemoWebApplication" />
+      <item itemvalue="Spring Boot.GameSheepApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.AdminDemoWebApplication" />
+        <item itemvalue="Spring Boot.GameSheepApplication" />
         <item itemvalue="Spring Boot.AdminConsoleApplication" />
-        <item itemvalue="Node.js.main.js" />
-        <item itemvalue="Node.js.ArrayList.js" />
-        <item itemvalue="Node.js.index.js" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="allServicesViewState">
-      <serviceView>
-        <treeState>
-          <expand />
-          <select />
-        </treeState>
-      </serviceView>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="f847276d-2e9a-45e3-84a6-524ac1db5e6d" name="Default Changelist" comment="" />
-      <created>1573892723245</created>
+      <changelist id="3d1a1456-9a72-4f36-89fd-f9789461db0f" name="Default Changelist" comment="" />
+      <created>1574343871523</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1573892723245</updated>
-      <workItem from="1573892724768" duration="26942000" />
-      <workItem from="1574126332101" duration="2628000" />
-      <workItem from="1574132348612" duration="604000" />
-      <workItem from="1574139646341" duration="105000" />
-      <workItem from="1574140581920" duration="173000" />
-      <workItem from="1574143250545" duration="19159000" />
+      <updated>1574343871523</updated>
+      <workItem from="1574343872747" duration="14000" />
+      <workItem from="1574343888572" duration="374000" />
+      <workItem from="1574385882617" duration="16837000" />
+      <workItem from="1574403054355" duration="25984000" />
     </task>
     <servers />
   </component>
@@ -257,82 +334,61 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java</url>
-          <line>109</line>
-          <option name="timeStamp" value="31" />
+          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/CodeGenerationImpl.java</url>
+          <line>253</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleUserAdminServiceImpl.java</url>
+          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DataBaseController.java</url>
+          <line>76</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/BaseControllerApi.java</url>
+          <line>167</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/CodeGenerationImpl.java</url>
+          <line>261</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/vo/FieldCG.java</url>
+          <line>137</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/vo/FieldCG.java</url>
+          <line>121</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DataBaseController.java</url>
+          <line>92</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/CodeGenerationImpl.java</url>
+          <line>239</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/CodeGenerationImpl.java</url>
+          <line>166</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/controller/UserSheepController.java</url>
           <line>62</line>
-          <option name="timeStamp" value="33" />
+          <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleUserAdminServiceImpl.java</url>
-          <line>65</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java</url>
-          <line>124</line>
-          <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/ErrorController.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="46" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/ErrorController.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="47" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/admin-console/src/main/resources/static/js/src/impl/ArrayList.ts</url>
-          <line>26</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="57" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/admin-console/src/main/resources/static/js/build/impl/ArrayList.js</url>
-          <line>12</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="61" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/admin-console/src/main/resources/static/js/build/impl/ArrayList.js</url>
-          <line>32</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="63" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/admin-console/src/main/resources/static/js/build/impl/ArrayList.js</url>
-          <line>26</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="64" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/admin-console/src/main/resources/static/js/build/impl/ArrayList.js</url>
-          <line>34</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="66" />
+          <url>file://$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/controller/UserSheepController.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>1.8</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
 </project>

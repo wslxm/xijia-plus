@@ -156,7 +156,7 @@
         top.location.href = window.location.href;
     }
     layui.config({
-        base: '../' + ADMIN_PATH + '/layuiadmin/' //静态资源所在路径
+        base: '../' + ADMIN_CONSOLE + '/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index',//主入口模块
         treetable: '../treetable-lay/module/treetable-lay/treetable'  //引入treetable组件
@@ -166,10 +166,10 @@
 </script>
 
 <script>
-    let viewsUrl = ADMIN_PATH + "/views/index.html";             //模板查看url
-    let homePage = ADMIN_PATH + "/page/admin_user_user";            //进入系统首页url
-    let updPwd = ADMIN_PATH + "/page/admin_user_userUpdPwd";     //修改密码页面
-    let menuTree = ADMIN_PATH + "/menuAdmin/menuTree";           //树菜单数据
+    let menuTree = ADMIN_CONSOLE + "/menuAdmin/menuTree";             //树菜单数据
+    let viewsUrl = ADMIN_CONSOLE + "/views/index.html";               //模板查看url
+    let homePage = ADMIN_CONSOLE + "/page/console_user_user";         //进入系统首页url
+    let updPwd = ADMIN_CONSOLE + "/page/console_user_userUpdPwd";     //修改密码页面
 
     let dataJson = null;
     $(function () {
