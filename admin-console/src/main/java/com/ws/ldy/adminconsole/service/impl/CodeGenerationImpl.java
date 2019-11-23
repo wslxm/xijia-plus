@@ -1,11 +1,8 @@
 package com.ws.ldy.adminconsole.service.impl;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import com.ws.ldy.adminconsole.controller.vo.FieldCG;
 import com.ws.ldy.adminconsole.service.CodeGeneration;
-import com.ws.ldy.adminconsole.service.base.impl.BaseAdminConsoleServiceImpl;
 import com.ws.ldy.admincore.utils.JsonUtil;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -13,7 +10,7 @@ import java.util.*;
 
 @SuppressWarnings("all")
 @Service
-public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> implements CodeGeneration {
+public class CodeGenerationImpl  implements CodeGeneration {
 
     //生成文件的类注释信息，作者，qq,wx
     private final static String author = "wangsong";
@@ -87,7 +84,7 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
             String selfGrowth = getValue(fieldMap, "selfGrowth", "");
             String type = fieldMap.get("type").toString();
             //添加注释信息
-            fields.append("\r\n    /**  " + fieldMap.get("desc") + "  */");
+            fields.append("\r\n    /** " + fieldMap.get("desc") + " */");
             //id 列主键注解处理
             if (primarykeyId.equals("true")) {
                 fields.append("\r\n    @Id");

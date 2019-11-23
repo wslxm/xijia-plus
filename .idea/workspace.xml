@@ -2,27 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d1a1456-9a72-4f36-89fd-f9789461db0f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/UserSheep.txt/src/main/resources/static/code/UserSheep.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserSheep.txt/src/main/resources/static/code/UserSheepDao.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserSheep.txt/src/main/resources/static/code/UserSheepService.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserSheep.txt/src/main/resources/static/code/UserSheepServiceImpl.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/TestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DictionaryAdminService.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DataBaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DataBaseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSheep.txt/src/main/resources/static/code/UserSheep.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSheep.txt/src/main/resources/static/code/UserSheepController.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSheep.txt/src/main/resources/static/code/UserSheepDao.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSheep.txt/src/main/resources/static/code/UserSheepService.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSheep.txt/src/main/resources/static/code/UserSheepServiceImpl.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/vo/FieldCG.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/vo/FieldCG.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/CodeGeneration.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/CodeGeneration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/CodeGenerationImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/CodeGenerationImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/dataBase/dataBase.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/dataBase/dataBase.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/DataBaseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/DataBaseServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/BaseControllerApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/BaseControllerApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/BaseServiceApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/BaseServiceApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/controller/TestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserSheep.txt/src/main/resources/static/code/UserSheepController.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/controller/UserSheepController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/controller/UserSheepController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/entity/UserSheep.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/entity/UserSheep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/factory/DaoAdminDemoWebFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/factory/DaoAdminDemoWebFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/factory/ServiceAdminDemoWebFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/factory/ServiceAdminDemoWebFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/service/UserSheepService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/service/UserSheepService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo-web/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo-web/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/admindemoweb/factory/ServiceGameSheepFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/admindemoweb/factory/ServiceGameSheepFactory.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -193,7 +186,7 @@
       <workItem from="1574385882617" duration="16837000" />
       <workItem from="1574403054355" duration="26789000" />
       <workItem from="1574472616532" duration="12467000" />
-      <workItem from="1574489860159" duration="8173000" />
+      <workItem from="1574489860159" duration="13526000" />
     </task>
     <servers />
   </component>
@@ -220,11 +213,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/BaseControllerApi.java</url>
-          <line>167</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/controller/UserSheepController.java</url>
           <line>62</line>
           <option name="timeStamp" value="26" />
@@ -248,6 +236,11 @@
           <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/TestController.java</url>
           <line>40</line>
           <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/BaseControllerApi.java</url>
+          <line>168</line>
+          <option name="timeStamp" value="52" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/admin-console/src/main/resources/templates/console/dataBase/dataBase.html</url>

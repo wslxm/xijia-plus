@@ -1,9 +1,6 @@
 package com.ws.ldy.adminconsole.service;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import com.ws.ldy.adminconsole.controller.vo.FieldCG;
-import com.ws.ldy.adminconsole.service.base.BaseAdminConsoleService;
-import org.apache.poi.ss.formula.functions.T;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,7 +13,7 @@ import java.util.Map;
  * @WX-QQ 1720696548
  * @date 2019/11/20 16:28
  */
-public interface CodeGeneration extends BaseAdminConsoleService<T, ID> {
+public interface CodeGeneration  {
 
     /**
      * 解析数据前台成自己方便操作的数据

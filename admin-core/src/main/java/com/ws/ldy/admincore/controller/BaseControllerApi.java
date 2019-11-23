@@ -171,7 +171,9 @@ public class BaseControllerApi {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        String upPath = path.replace("/target/classes", "");
+        String upPath = path.replace("/target/classes", "")
+                .replace("/target/admin-console.jar!/BOOT-INF/admin-console", "")
+                .replace("\\target\\admin-console.jar!\\BOOT-INF\\admin-console", "");
         System.out.println(upPath.length());
         int index = upPath.substring(0,upPath.length()-1).lastIndexOf("/");
         String newUpPath = upPath.substring(0, index)+"/";

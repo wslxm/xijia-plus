@@ -11,7 +11,7 @@
     <groupId>com.ws.ldy</groupId>
     <artifactId>admin-demo-web</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>game-sheep</name>
+    <name>admin-demo-web</name>
     <description>Demo project for Spring Boot</description>
 
     <dependencies>
@@ -26,15 +26,5 @@
             <version>${admin-console.version}</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <finalName>game-sheep</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

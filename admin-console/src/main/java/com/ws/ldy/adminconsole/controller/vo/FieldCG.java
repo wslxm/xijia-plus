@@ -44,7 +44,11 @@ public class FieldCG {
     /**
      * 启动后的服务器跟路径
      */
-    private  String  pathDeploy;
+    private String pathDeploy;
+    /**
+     * 启动后的服务器id+端口
+     */
+    private String basePath;
     /**
      * 生成代码的包名 （从java 目录开始，如当前: com.ws.ldy.adminconsole）
      */
@@ -162,7 +166,7 @@ public class FieldCG {
             }
             value = tables[2].substring(0, 1).toLowerCase() + tables[2].substring(1) + value;
         } else {
-            value = tables[1].substring(0, 1).toLowerCase()+tables[1].substring(1);
+            value = tables[1].substring(0, 1).toLowerCase() + tables[1].substring(1);
         }
         this.htmlNameLower = value;
     }

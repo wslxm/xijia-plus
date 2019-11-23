@@ -11,7 +11,7 @@
     <groupId>com.ws.ldy</groupId>
     <artifactId>admin-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>game-sheep</name>
+    <name>admin-demo</name>
     <description>Demo project for Spring Boot</description>
 
     <dependencies>
