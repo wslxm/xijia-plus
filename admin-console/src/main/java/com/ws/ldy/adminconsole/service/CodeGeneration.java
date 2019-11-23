@@ -5,7 +5,6 @@ import com.ws.ldy.adminconsole.controller.vo.FieldCG;
 import com.ws.ldy.adminconsole.service.base.BaseAdminConsoleService;
 import org.apache.poi.ss.formula.functions.T;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -53,12 +52,12 @@ public interface CodeGeneration extends BaseAdminConsoleService<T, ID> {
     /**
      * 追加dao依赖注如信息
      */
-    public void buildAppendDao(FieldCG fieldCG, String path) throws IOException;
+    public void buildDaoFactory(FieldCG fieldCG, String path) throws IOException;
 
     /**
      * 追加service依赖注如信息
      */
-    public void buildAppendService(FieldCG fieldCG, String path) throws IOException;
+    public void buildServiceFactory(FieldCG fieldCG, String path) throws IOException;
 
     /**
      * 生成前台展示页代码

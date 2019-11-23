@@ -9,10 +9,7 @@ import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SuppressWarnings("all")
 @Service
@@ -30,23 +27,33 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
     /**
      * mysql 关键字处理,如存在下方定义的关键字字段，实体类会自动处理
      */
-    private static final String keyword = "desc,key,value,mysql,info,form";
+    private static final String[] keywordArray = {"desc", "key", "value", "mysql", "info",
+            "form", "sort", "icon", "unlock", "unLock"};
 
 
-    /***
-     * TODO
-     *   @param1 data [{ primarykeyId：true }] 表示为id主键
-     *   @param2 data [{ selfGrowth：true }] 表示为id主键自增
-     *   @param3 data [{ search：true }] 表示要为该字段添加搜索功能
+    /**
+     * 保存预览文件返回的文件地址url
+     */
+    private Map<String, String> pathMap = new HashMap<>();
+
+    public Map<String, String> getPathMap() {
+        return pathMap;
+    }
+
+    /**
+     * TODO json 数据处理成 List<Map<String, Object>>
+     *
      * @param data
-     * @date 2019/11/22 12:08
      * @return java.util.List<java.util.Map < java.lang.String, java.lang.Object>>
+     * @param1 data [{ primarykeyId：true }] 表示为id主键
+     * @param2 data [{ selfGrowth：true }] 表示为id主键自增
+     * @param3 data [{ search：true }] 表示要为该字段添加搜索功能
+     * @date 2019/11/22 12:08
      */
     @Override
     public List<Map<String, Object>> getDataAnalysis(String data) {
         //所有字段数据处理成 List集 -->  每个字段名称，类型，描叙为 Map集
         List<Map<String, Object>> tableList = new ArrayList<>();
-        //JSONObject jsonObject = JSONUtil.parseObj(data);
         List<Object> dataObjs = JsonUtil.getListJson(data, null);
         dataObjs.forEach(item -> tableList.add(JsonUtil.getMapJson(item.toString())));
         //System.out.println(tableList.toString());
@@ -67,8 +74,9 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
     @Override
     public void buildEntity(List<Map<String, Object>> data, FieldCG fieldCG, String path) throws Exception {
         this.mkdirFile(fieldCG.getPathFather() + path);
+        String upPath = fieldCG.getPathFather() + path + fieldCG.getClassNameUp() + this.SUFFIX_NAME_JAVA;
         BufferedReader br = new BufferedReader(new FileReader(fieldCG.getPathFather() + fieldCG.getPathTp() + "/Demo.tp"));
-        BufferedWriter bw = new BufferedWriter(new FileWriter(fieldCG.getPathFather() + path + fieldCG.getClassNameUp() + this.SUFFIX_NAME_JAVA));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(upPath));
         String line = null;
         String newLine = null;
         //数据拼接
@@ -79,7 +87,7 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
             String selfGrowth = getValue(fieldMap, "selfGrowth", "");
             String type = fieldMap.get("type").toString();
             //添加注释信息
-            fields.append("\r\n    /** " + fieldMap.get("desc") + " */");
+            fields.append("\r\n    /**  " + fieldMap.get("desc") + "  */");
             //id 列主键注解处理
             if (primarykeyId.equals("true")) {
                 fields.append("\r\n    @Id");
@@ -88,8 +96,8 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
                     fields.append("\r\n    @GeneratedValue(strategy= GenerationType.IDENTITY)");
                 }
             }
-            //mysql 关键字实体类字段，添加相关映射注解
-            if (this.keyword.indexOf(fieldName) != -1) {
+            //判断是否为mysql 关键字，是实体类字段添加相关映射注解
+            if (Arrays.asList(keywordArray).contains(fieldName)) {
                 fields.append("\r\n    @Column(name = \"`" + fieldName + "`\")");
             }
             //字段
@@ -130,7 +138,8 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
         }
         bw.close();
         br.close();
-        System.out.println("entity-->" + fieldCG.getPathFather() + path + fieldCG.getClassNameUp() + this.SUFFIX_NAME_JAVA);
+        this.pathMap.put("entity", fieldCG.getClassNameUp() + this.SUFFIX_NAME_JAVA);
+        System.out.println("entity-->" + upPath);
     }
 
 
@@ -156,6 +165,7 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
         }
         bw.close();
         br.close();
+        this.pathMap.put("controller", fieldCG.getClassNameUp() + "Controller" + this.SUFFIX_NAME_JAVA);
         System.out.println("controller--> ：" + fieldCG.getPathFather() + path + fieldCG.getClassNameUp() + "Controller" + this.SUFFIX_NAME_JAVA);
     }
 
@@ -163,8 +173,9 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
     @Override
     public void buildService(List<Map<String, Object>> data, FieldCG fieldCG, String path) throws IOException {
         this.mkdirFile(fieldCG.getPathFather() + path);
+        String upPath = fieldCG.getPathFather() + path + fieldCG.getClassNameUp() + "Service" + this.SUFFIX_NAME_JAVA;
         BufferedReader br = new BufferedReader(new FileReader(fieldCG.getPathFather() + fieldCG.getPathTp() + "/DemoService.tp"));
-        BufferedWriter bw = new BufferedWriter(new FileWriter(fieldCG.getPathFather() + path + fieldCG.getClassNameUp() + "Service" + this.SUFFIX_NAME_JAVA));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(upPath));
         String line = null;
         String newLine = null;
         while ((line = br.readLine()) != null) {
@@ -181,7 +192,8 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
         }
         bw.close();
         br.close();
-        System.out.println("Service--> ：" + fieldCG.getPathFather() + path + fieldCG.getClassNameUp() + "Service" + this.SUFFIX_NAME_JAVA);
+        this.pathMap.put("service", fieldCG.getClassNameUp() + "Service" + this.SUFFIX_NAME_JAVA);
+        System.out.println("Service--> ：" + upPath);
     }
 
 
@@ -189,8 +201,9 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
     @Override
     public void buildServiceImpl(List<Map<String, Object>> data, FieldCG fieldCG, String path) throws IOException {
         this.mkdirFile(fieldCG.getPathFather() + path);
+        String upPath = fieldCG.getPathFather() + path + fieldCG.getClassNameUp() + "ServiceImpl" + this.SUFFIX_NAME_JAVA;
         BufferedReader br = new BufferedReader(new FileReader(fieldCG.getPathFather() + fieldCG.getPathTp() + "/DemoServiceImpl.tp"));
-        BufferedWriter bw = new BufferedWriter(new FileWriter(fieldCG.getPathFather() + path + fieldCG.getClassNameUp() + "ServiceImpl" + this.SUFFIX_NAME_JAVA));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(upPath));
         String line = null;
         String newLine = null;
         while ((line = br.readLine()) != null) {
@@ -207,7 +220,9 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
         }
         bw.close();
         br.close();
-        System.out.println("buildServiceImpl--> ：" + fieldCG.getPathFather() + path + fieldCG.getClassNameUp() + "ServiceImpl" + this.SUFFIX_NAME_JAVA);
+        this.pathMap.put("serviceImpl", fieldCG.getClassNameUp() + "ServiceImpl" + this.SUFFIX_NAME_JAVA);
+        System.out.println("ServiceImpl--> ：" + upPath);
+
     }
 
 
@@ -215,8 +230,9 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
     @Override
     public void buildDao(FieldCG fieldCG, String path) throws IOException {
         this.mkdirFile(fieldCG.getPathFather() + path);
+        String upPath = fieldCG.getPathFather() + path + fieldCG.getClassNameUp() + "Dao" + this.SUFFIX_NAME_JAVA;
         BufferedReader br = new BufferedReader(new FileReader(fieldCG.getPathFather() + fieldCG.getPathTp() + "/DemoDao.tp"));
-        BufferedWriter bw = new BufferedWriter(new FileWriter(fieldCG.getPathFather() + path + fieldCG.getClassNameUp() + "Dao" + this.SUFFIX_NAME_JAVA));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(upPath));
         String line = null;
         String newLine = null;
         while ((line = br.readLine()) != null) {
@@ -231,12 +247,13 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
         }
         bw.close();
         br.close();
-        System.out.println("buildDao--> ：" + fieldCG.getPathFather() + path + fieldCG.getClassNameUp() + "Dao" + this.SUFFIX_NAME_JAVA);
+        this.pathMap.put("dao", fieldCG.getClassNameUp() + "Dao" + this.SUFFIX_NAME_JAVA);
+        System.out.println("dao--> ：" + upPath);
     }
 
 
     @Override
-    public void buildAppendDao(FieldCG fieldCG, String path) throws IOException {
+    public void buildDaoFactory(FieldCG fieldCG, String path) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fieldCG.getPathFather() + fieldCG.getPathFactoryTp() + "/Dao" + fieldCG.getEntryNameUp() + "Factory.java"));
         String line = null;
         //判断是否存在
@@ -249,7 +266,8 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
             txtStr.append(line + "\r\n");
         }
         br.close();
-        BufferedWriter bw = new BufferedWriter(new FileWriter(fieldCG.getPathFather() + path + "Dao" + fieldCG.getEntryNameUp() + "Factory" + this.SUFFIX_NAME_JAVA));
+        String upPath = fieldCG.getPathFather() + path + "Dao" + fieldCG.getEntryNameUp() + "Factory" + this.SUFFIX_NAME_JAVA;
+        BufferedWriter bw = new BufferedWriter(new FileWriter(upPath));
         String newtxtStr = null;
         if (resutl == false) {
             int index = txtStr.indexOf("{");
@@ -263,12 +281,13 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
         bw.newLine();
         bw.flush();
         bw.close();
-        System.out.println("buildAppendDao--> ：" + fieldCG.getPathFather() + path + "Dao" + fieldCG.getEntryNameUp() + "Factory" + this.SUFFIX_NAME_JAVA);
+        this.pathMap.put("daoFactory", "Dao" + fieldCG.getEntryNameUp() + "Factory" + this.SUFFIX_NAME_JAVA);
+        System.out.println("daoFactory--> ：" + upPath);
     }
 
 
     @Override
-    public void buildAppendService(FieldCG fieldCG, String path) throws IOException {
+    public void buildServiceFactory(FieldCG fieldCG, String path) throws IOException {
         // 获得大小开头类名
         BufferedReader br = new BufferedReader(new FileReader(fieldCG.getPathFather() + fieldCG.getPathFactoryTp() + "/Service" + fieldCG.getEntryNameUp() + "Factory.java"));
         String line = null;
@@ -282,8 +301,9 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
             txtStr.append(line + "\r\n");
         }
         br.close();
+        String upPath = fieldCG.getPathFather() + path + "Service" + fieldCG.getEntryNameUp() + "Factory" + this.SUFFIX_NAME_JAVA;
         //关闭输入流在所有输出流写如数据覆盖原文件
-        BufferedWriter bw = new BufferedWriter(new FileWriter(fieldCG.getPathFather() + path + "Service" + fieldCG.getEntryNameUp() + "Factory" + this.SUFFIX_NAME_JAVA));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(upPath));
         String newtxtStr = null;
         if (resutl == false) {
             int index = txtStr.indexOf("{");
@@ -297,7 +317,8 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
         bw.newLine();
         bw.flush();
         bw.close();
-        System.out.println("buildAppendService --> ：" + fieldCG.getPathFather() + path + "Service" + fieldCG.getEntryNameUp() + "Factory" + this.SUFFIX_NAME_JAVA);
+        this.pathMap.put("serviceFactory", "Service" + fieldCG.getEntryNameUp() + "Factory" + this.SUFFIX_NAME_JAVA);
+        System.out.println("serviceFactory --> ：" + upPath);
     }
 
 
@@ -311,10 +332,11 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
             String desc = fieldMap.get("desc").toString();
             fieldStr.append("\r\n                   , {field: '" + name + "', title: '" + desc + "'}");
         }
+
         BufferedReader br = new BufferedReader(new FileReader(fieldCG.getPathFather() + fieldCG.getPathTp() + "/DemoHtml.tp"));
         this.mkdirFile(fieldCG.getPathFather() + path + fieldCG.getHtmlNameLower());
-        String updPath = fieldCG.getPathFather() + path + fieldCG.getHtmlNameLower() + "/" + fieldCG.getHtmlNameLower() + this.SUFFIX_NAME_HTML;
-        BufferedWriter bw = new BufferedWriter(new FileWriter(updPath));
+        String upPath = fieldCG.getPathFather() + path + fieldCG.getHtmlNameLower() + "/" + fieldCG.getHtmlNameLower() + this.SUFFIX_NAME_HTML;
+        BufferedWriter bw = new BufferedWriter(new FileWriter(upPath));
         String line = null;
         String newLine = null;
 
@@ -332,7 +354,8 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
         }
         bw.close();
         br.close();
-        System.out.println("buildMainHtml--> ：" + updPath);
+        this.pathMap.put("main", fieldCG.getHtmlNameLower() + "/" + fieldCG.getHtmlNameLower() + this.SUFFIX_NAME_HTML);
+        System.out.println("main--> ：" + upPath);
     }
 
 
@@ -361,8 +384,8 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
 
         BufferedReader br = new BufferedReader(new FileReader(fieldCG.getPathFather() + fieldCG.getPathTp() + "/DemoHtmlAdd.tp"));
         this.mkdirFile(fieldCG.getPathFather() + path + fieldCG.getHtmlNameLower());
-        String updPath = fieldCG.getPathFather() + path + fieldCG.getHtmlNameLower() + "/" + fieldCG.getHtmlNameLower() + "Add" + this.SUFFIX_NAME_HTML;
-        BufferedWriter bw = new BufferedWriter(new FileWriter(updPath));
+        String upPath = fieldCG.getPathFather() + path + fieldCG.getHtmlNameLower() + "/" + fieldCG.getHtmlNameLower() + "Add" + this.SUFFIX_NAME_HTML;
+        BufferedWriter bw = new BufferedWriter(new FileWriter(upPath));
         String line = null;
         String newLine = null;
         while ((line = br.readLine()) != null) {
@@ -375,7 +398,8 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
         }
         bw.close();
         br.close();
-        System.out.println("buildMainHtml--> ：" + updPath);
+        this.pathMap.put("mainAdd", fieldCG.getHtmlNameLower() + "/" + fieldCG.getHtmlNameLower() + "Add" + this.SUFFIX_NAME_HTML);
+        System.out.println("mainAdd--> ：" + upPath);
     }
 
 
@@ -408,8 +432,8 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
         }
         BufferedReader br = new BufferedReader(new FileReader(fieldCG.getPathFather() + fieldCG.getPathTp() + "/DemoHtmlUpd.tp"));
         this.mkdirFile(fieldCG.getPathFather() + path + fieldCG.getHtmlNameLower());
-        String updPath = fieldCG.getPathFather() + path + fieldCG.getHtmlNameLower() + "/" + fieldCG.getHtmlNameLower() + "Upd" + this.SUFFIX_NAME_HTML;
-        BufferedWriter bw = new BufferedWriter(new FileWriter(updPath));
+        String upPath = fieldCG.getPathFather() + path + fieldCG.getHtmlNameLower() + "/" + fieldCG.getHtmlNameLower() + "Upd" + this.SUFFIX_NAME_HTML;
+        BufferedWriter bw = new BufferedWriter(new FileWriter(upPath));
         String line = null;
         String newLine = null;
         while ((line = br.readLine()) != null) {
@@ -427,7 +451,8 @@ public class CodeGenerationImpl extends BaseAdminConsoleServiceImpl<T, ID> imple
         }
         bw.close();
         br.close();
-        System.out.println("buildMainHtml--> ：" + updPath);
+        this.pathMap.put("mainUpd", fieldCG.getHtmlNameLower() + "/" + fieldCG.getHtmlNameLower() + "Upd" + this.SUFFIX_NAME_HTML);
+        System.out.println("mainUpd--> ：" + upPath);
     }
 
 

@@ -166,11 +166,15 @@ public class BaseControllerApi {
         // 获取项目跟目录
         String path = "";
         try {
+            //D:\workSpace\tool1\code\spring-boot-plus2\项目名\target\classes
             path = ResourceUtils.getURL("classpath:").getPath();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        String upPath = path.replace("/"+entryName+"/target/classes", "");
-        return upPath;
+        String upPath = path.replace("/target/classes", "");
+        System.out.println(upPath.length());
+        int index = upPath.substring(0,upPath.length()-1).lastIndexOf("/");
+        String newUpPath = upPath.substring(0, index)+"/";
+        return newUpPath;
     }
 }

@@ -1,0 +1,15 @@
+package com.ws.ldy.usersheep.txt.service;
+
+
+import com.ws.ldy.usersheep.txt.entity.UserSheep;
+import com.ws.ldy.usersheep.txt.service.base.BaseUserSheep.txtService;
+
+/**
+ * TODO  代码生成器自动生成，请自定义描叙
+ * @author  wangsong
+ * @WX-QQ  1720696548
+ * @date  Sat Nov 23 09:53:35 CST 2019
+ */
+public  interface UserSheepService extends BaseUserSheep.txtService<UserSheep,Integer> {
+
+}

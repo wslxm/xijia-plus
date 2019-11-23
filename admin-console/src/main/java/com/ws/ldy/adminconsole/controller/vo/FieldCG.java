@@ -42,6 +42,10 @@ public class FieldCG {
      */
     private String pathFather;
     /**
+     * 启动后的服务器跟路径
+     */
+    private  String  pathDeploy;
+    /**
      * 生成代码的包名 （从java 目录开始，如当前: com.ws.ldy.adminconsole）
      */
     private String packName;

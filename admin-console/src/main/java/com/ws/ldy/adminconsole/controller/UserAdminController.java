@@ -26,6 +26,8 @@ import java.util.Map;
 @RequestMapping("/userAdmin")
 public class UserAdminController extends BaseAdminConsoleController {
 
+
+
     /***
      * TODO  分页查询
      * @param   type 1 = 用户列表查询  2=角色用户分配查询

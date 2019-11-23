@@ -26,18 +26,21 @@
 
 <!-- 确认分配按钮  -->
 <script type="text/html" id="toolbar">
+
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" onclick="toolbarClick()">代码生成</button>
-        <font size="2">当前表: </font> <font size="2" color="red" id="leftFont">未选择</font>
+        <button class="layui-btn layui-btn-sm" onclick="toolbarClick(1)">生成预览代码</button>
+        <button class="layui-btn layui-btn-sm" onclick="toolbarClick(2)">代码生成</button>
+        <font size="2">当前表: </font>
+        <font size="2" color="red" id="leftFont">未选择</font>
     </div>
 </script>
 
 
 <script>
-    let dataBaseTables = ADMIN_CONSOLE + "/dataBase/findTable";      //角色查询-所有
-    let findAll = ADMIN_CONSOLE + "/dataBase/findTableField";        //根据表名称查询数据库字段数据
-    let codeGeneration = ADMIN_CONSOLE + "/dataBase/codeGeneration";   //代码生成
-    let tablesJson = ajaxGet(dataBaseTables);                     // 获得数据库表数据
+    let dataBaseTables = ADMIN_CONSOLE + "/dataBase/findTable";          //角色查询-所有
+    let findAll = ADMIN_CONSOLE + "/dataBase/findTableField";            //根据表名称查询数据库字段数据
+    let codeGeneration = ADMIN_CONSOLE + "/dataBase/codeGeneration/1";   //代码生成
+    let tablesJson = ajaxGet(dataBaseTables);                            // 获得数据库表数据
 
     let leftFont = "未选择";     //左边菜单当前选中名称 leftFont
     let checkData = null;       //当前数据表格所有复选框数据暂存
@@ -224,8 +227,7 @@
      * @date  2019/11/20 16:05
      * @return
      */
-    function toolbarClick() {
-
+    function toolbarClick(type) {
         let newCheckData = checkData.data;       //当前数据表格所有复选框数据暂存
         let newDataJson = dataJson.data;         //当前数据表格所有数据
         //判断是否为选中
@@ -245,16 +247,74 @@
             }
         }
         // alert(JSON.stringify(newData));
+        let data = "";
         if (primaryId === false) {
-            layer.msg("请选择主键Id")
+            layer.msg("请选择主键Id");
+            //跳出
+            return;
+        }
+        if (type === 1) {
+            //数据表格数据,表名称，项目名称,返回生成的文件地址
+            let entryName = "admin-console";
+            data = ajaxPost(codeGeneration, {data: JSON.stringify(newData), tableName: leftFont, entryName: entryName});
+            //预览
+            this.tabTxt(data)
         } else {
             // prompt层
             layer.prompt({title: '生成的代码要保存到那个项目/模块下?'}, function (entryName, index) {
-                //数据表格数据,表名称，项目名称
-                ajaxPost(codeGeneration, {data: JSON.stringify(newData), tableName: leftFont, entryName: entryName});
+                //数据表格数据,表名称，项目名称,返回生成的文件地址
+                data = ajaxPost(codeGeneration, {data: JSON.stringify(newData), tableName: leftFont, entryName: entryName});
                 layer.close(index);
             });
         }
+    }
+
+    /**
+     * 预览停弹出层
+     * @param data
+     */
+    function tabTxt(data) {
+        let jsonData = JSON.parse(data);
+        //tab层
+        let html = "<div style='width: 95%;height: 95%;'><iframe src='/code/{file}' style='width: 100%;height: 730px;margin-top: 1%'></iframe></div>";
+        layer.tab({
+            // type: 2,
+            scrollbar: false,
+            shadeClose: true,
+            area: ['80%', '800px'],
+            tab: [{
+                title: 'entity',
+                content: [html.replace("{file}", jsonData.entity)]
+            }, {
+                title: 'controller',
+                content: [html.replace("{file}", jsonData.controller)]
+            }, {
+                title: 'service',
+                content: [html.replace("{file}", jsonData.service)]
+            }, {
+                title: 'serviceImpl',
+                content: [html.replace("{file}", jsonData.serviceImpl)]
+            }, {
+                title: 'dao',
+                content: [html.replace("{file}", jsonData.dao)]
+            }, {
+                title: 'daoFactory',
+                content: [html.replace("{file}", jsonData.daoFactory)]
+            }, {
+                title: 'serviceFactory',
+                content: [html.replace("{file}", jsonData.serviceFactory)]
+            }, {
+                title: 'main',
+                content: [html.replace("{file}", jsonData.main)]
+            }, {
+                title: 'mainAdd',
+                content: [html.replace("{file}", jsonData.mainAdd)]
+            }, {
+                title: 'mainUpd',
+                content: [html.replace("{file}", jsonData.mainUpd)]
+            }
+            ]
+        });
     }
 </script>
 

@@ -6,6 +6,7 @@ import com.ws.ldy.adminconsole.controller.vo.FieldCG;
 import com.ws.ldy.adminconsole.service.impl.CodeGenerationImpl;
 import com.ws.ldy.admincore.controller.vo.Data;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -70,9 +71,10 @@ public class DataBaseController extends BaseAdminConsoleController {
      * @param3 data [{ search：true }] 表示要为该字段添加搜索功能
      * @date 2019/11/20 16:26
      */
-    @RequestMapping("/codeGeneration")
+    @RequestMapping("/codeGeneration/{type}")
     @ResponseBody
-    public String codeGeneration(String data, String tableName, String entryName, Integer type) throws Exception {
+    public Map<String, String> codeGeneration(@PathVariable Integer type, String data, String tableName, String entryName) throws Exception {
+
         // 模板位置
         final String pathTp = "/admin-console/src/main/resources/static/template";
         // 数据解析成集合,
@@ -83,17 +85,20 @@ public class DataBaseController extends BaseAdminConsoleController {
         fieldCG.setTableName(tableName);          // 数据库名称
         fieldCG.setPathTp(pathTp);                // 模板位置
         fieldCG.setPathFather(super.getPathFather(entryName));   // 父目录位置
+        fieldCG.setPathDeploy(super.getPath());   // 父目录位置
         //数据处理FieldC内的数据
         fieldCG.dataProcessing();
         // 代码生成后的包名称
         fieldCG.setPackName("com.ws.ldy." + fieldCG.getEntryNameSmall());
         // dao，service 的factory代码位置    EntryNameSmall = admin-console -->  adminconsole
         fieldCG.setPathFactoryTp(entryName + "/src/main/java/com/ws/ldy/" + fieldCG.getEntryNameSmall() + "/factory");
-        type = 2;
         if (type == 1) {
-            //生成预览文件
-            fieldCG.setPathJava(entryName + "/src/main/resources/static/code/");     // 预览文件 Java 生成位置
-            fieldCG.setPathHtml(entryName + "/src/main/resources/static/code/");     // 预览文件 html 生成位置
+            //生成预览文件,编译后的的服务器根目录,方便直接url查看
+            String pathJava = super.getPath().replace(fieldCG.getPathFather(), "");
+            fieldCG.setPathJava(pathJava + "/static/code/");              // 预览文件 Java 生成位置 编译后目录classes 目录下
+            fieldCG.setPathHtml(pathJava + "/static/code/");              // 预览文件 html 生成位置 编译后目录
+            //fieldCG.setPathJava( "/src/main/resources/static/code/");   // 预览文件 Java 生成位置 当前项目下目录
+            //fieldCG.setPathHtml( "/src/main/resources/static/code/");   // 预览文件 html 生成位置 当前项目下目录
             CodeGenerationImpl.SUFFIX_NAME_JAVA = ".txt";     //生成java的文件后缀名
             CodeGenerationImpl.SUFFIX_NAME_HTML = ".txt";     //生成html生成的文件后缀名
             //文件生成
@@ -102,8 +107,8 @@ public class DataBaseController extends BaseAdminConsoleController {
             service.codeGenerationImpl.buildService(dataList, fieldCG, fieldCG.getPathJava());         //生成service
             service.codeGenerationImpl.buildServiceImpl(dataList, fieldCG, fieldCG.getPathJava());     //生成serviceImpl
             service.codeGenerationImpl.buildDao(fieldCG, fieldCG.getPathJava());                       //生成dao
-            service.codeGenerationImpl.buildAppendDao(fieldCG, fieldCG.getPathJava());                 //追加dao，依赖注如信息
-            service.codeGenerationImpl.buildAppendService(fieldCG, fieldCG.getPathJava());             //追加service,依赖注如信息
+            service.codeGenerationImpl.buildDaoFactory(fieldCG, fieldCG.getPathJava());                 //追加dao，依赖注如信息
+            service.codeGenerationImpl.buildServiceFactory(fieldCG, fieldCG.getPathJava());             //追加service,依赖注如信息
             //html
             service.codeGenerationImpl.buildMainHtml(dataList, fieldCG,fieldCG.getPathHtml());
             service.codeGenerationImpl.buildAddHtml(dataList, fieldCG,fieldCG.getPathHtml());
@@ -122,7 +127,8 @@ public class DataBaseController extends BaseAdminConsoleController {
                     && tableName.equals("t_admin_menu")
                     && tableName.equals("t_admin_authority")
             ) {
-                return "不可生成";
+                //不可生成
+                return null;
             }
             //文件生成
             service.codeGenerationImpl.buildEntity(dataList, fieldCG, fieldCG.getPathJava() + "entity/");            //生成Entity
@@ -130,15 +136,14 @@ public class DataBaseController extends BaseAdminConsoleController {
             service.codeGenerationImpl.buildService(dataList, fieldCG, fieldCG.getPathJava() + "service/");          //生成service
             service.codeGenerationImpl.buildServiceImpl(dataList, fieldCG, fieldCG.getPathJava() + "service/impl/"); //生成serviceImpl
             service.codeGenerationImpl.buildDao(fieldCG, fieldCG.getPathJava() + "dao/");                            //生成dao
-            service.codeGenerationImpl.buildAppendDao(fieldCG, fieldCG.getPathJava() + "factory/");                  //追加dao，依赖注如信息
-            service.codeGenerationImpl.buildAppendService(fieldCG, fieldCG.getPathJava() + "factory/");              //追加service,依赖注如信息
-
+            service.codeGenerationImpl.buildDaoFactory(fieldCG, fieldCG.getPathJava() + "factory/");                  //追加dao，依赖注如信息
+            service.codeGenerationImpl.buildServiceFactory(fieldCG, fieldCG.getPathJava() + "factory/");              //追加service,依赖注如信息
+            //html
             service.codeGenerationImpl.buildMainHtml(dataList, fieldCG,fieldCG.getPathHtml());
             service.codeGenerationImpl.buildAddHtml(dataList, fieldCG,fieldCG.getPathHtml());
             service.codeGenerationImpl.buildUpdHtml(dataList, fieldCG,fieldCG.getPathHtml());
         }
-
-
-        return "true";
+        //返回预览文件地址
+        return service.codeGenerationImpl.getPathMap();
     }
 }

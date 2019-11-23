@@ -44,6 +44,9 @@ public  interface  BaseServiceApi<T,ID extends Serializable>{
     public Boolean deleteInBatch(BaseDao dao, List<T> ts) ;
 
     /** 分页+条件+排序查询，如有特殊条件使用 service子类重写该实现方法  */
+    public Page<T> fingPage(BaseDao dao, int page, int size, Map<Integer, Map<String, Object>> param, Sort sort);
+
+    /** 分页+条件+排序查询，如有特殊条件使用 service子类重写该实现方法  */
     public Page<T> page(BaseDao dao,int page, int size, Map<String, Object> param, Sort sort);
 
 

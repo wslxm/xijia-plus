@@ -1,7 +1,7 @@
-package com.ws.ldy.admindemoweb.controller;
+package com.ws.ldy.usersheep.txt.controller;
 
-import com.ws.ldy.admindemoweb.controller.base.BaseAdminDemoWebController;
-import com.ws.ldy.admindemoweb.entity.Test;
+import com.ws.ldy.usersheep.txt.controller.base.BaseUserSheep.txtController;
+import com.ws.ldy.usersheep.txt.entity.UserSheep;
 
 import com.ws.ldy.admincore.controller.vo.Data;
 import org.springframework.data.domain.Page;
@@ -21,11 +21,11 @@ import java.util.Map;
  *
  * @author  wangsong
  * @WX-QQ  1720696548
- * @date  Fri Nov 22 21:29:24 CST 2019
+ * @date  Sat Nov 23 09:53:34 CST 2019
  */
 @Controller
-@RequestMapping("/Test")
-public class TestController extends BaseAdminDemoWebController {
+@RequestMapping("/userSheep")
+public class UserSheepController extends BaseUserSheep.txtController {
 
     /**
      * TODO  分页查询
@@ -41,8 +41,8 @@ public class TestController extends BaseAdminDemoWebController {
         Map<String, Object> param = new HashMap<>(2);
         param.put("id", id);
         Sort sort = new Sort(Sort.Direction.ASC, "id");
-        Page<Test> Tests = service.TestServiceImpl.page(dao.TestDao, page, limit, param, sort);
-        return new Data(Tests.getContent(), Tests.getTotalPages()).getResData();
+        Page<UserSheep> userSheeps = service.userSheepServiceImpl.page(dao.userSheepDao, page, limit, param, sort);
+        return new Data(userSheeps.getContent(), userSheeps.getTotalPages()).getResData();
     }
 
 
@@ -50,16 +50,16 @@ public class TestController extends BaseAdminDemoWebController {
      * TODO  添加/修改
      *
      * @param type t=1 添加，=2修改
-     * @param Test 对象数据
+     * @param userSheep 对象数据
      * @return java.lang.String
      */
     @RequestMapping("/save/{type}")
     @ResponseBody
-    public String save(@PathVariable Integer type, Test Test) {
+    public String save(@PathVariable Integer type, UserSheep userSheep) {
         if (type == 1) {
-            service.TestServiceImpl.save(dao.TestDao, Test);
+            service.userSheepServiceImpl.save(dao.userSheepDao, userSheep);
         } else {
-            service.TestServiceImpl.save(dao.TestDao, Test);
+            service.userSheepServiceImpl.save(dao.userSheepDao, userSheep);
         }
         return "success";
     }
@@ -73,7 +73,7 @@ public class TestController extends BaseAdminDemoWebController {
     @ResponseBody
     @RequestMapping("/delete")
     public String delete(Integer[] ids) {
-        service.TestServiceImpl.deleteByIds(dao.TestDao, ids);
+        service.userSheepServiceImpl.deleteByIds(dao.userSheepDao, ids);
         return "success";
     }
 }
