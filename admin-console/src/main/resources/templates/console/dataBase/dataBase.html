@@ -37,9 +37,10 @@
 
 
 <script>
-    let dataBaseTables = ADMIN_CONSOLE + "/dataBase/findTable";          //角色查询-所有
+    let dataBaseTables = ADMIN_CONSOLE + "/dataBase/findTable";          //查询数据库表-所有
     let findAll = ADMIN_CONSOLE + "/dataBase/findTableField";            //根据表名称查询数据库字段数据
-    let codeGeneration = ADMIN_CONSOLE + "/dataBase/codeGeneration/1";   //代码生成
+    let codeGeneration1 = ADMIN_CONSOLE + "/dataBase/codeGeneration/1";   //代码预览txt生成
+    let codeGeneration2 = ADMIN_CONSOLE + "/dataBase/codeGeneration/2";   //代码生成(会覆盖)
     let tablesJson = ajaxGet(dataBaseTables);                            // 获得数据库表数据
 
     let leftFont = "未选择";     //左边菜单当前选中名称 leftFont
@@ -256,14 +257,14 @@
         if (type === 1) {
             //数据表格数据,表名称，项目名称,返回生成的文件地址
             let entryName = "admin-console";
-            data = ajaxPost(codeGeneration, {data: JSON.stringify(newData), tableName: leftFont, entryName: entryName});
+            data = ajaxPost(codeGeneration1, {data: JSON.stringify(newData), tableName: leftFont, entryName: entryName});
             //预览
             this.tabTxt(data)
         } else {
             // prompt层
             layer.prompt({title: '生成的代码要保存到那个项目/模块下?'}, function (entryName, index) {
                 //数据表格数据,表名称，项目名称,返回生成的文件地址
-                data = ajaxPost(codeGeneration, {data: JSON.stringify(newData), tableName: leftFont, entryName: entryName});
+                data = ajaxPost(codeGeneration2, {data: JSON.stringify(newData), tableName: leftFont, entryName: entryName});
                 layer.close(index);
             });
         }

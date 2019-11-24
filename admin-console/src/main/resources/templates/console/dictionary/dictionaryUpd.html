@@ -15,23 +15,31 @@
 
 <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
 
-    
- <div class="layui-form-item">
-        <label class="layui-form-label">描叙</label>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">字典类型</label>
         <div class="layui-input-inline">
-            <input type="text" id="desc" name="desc" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            <input type="text" id="type" name="type" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" disabled>
         </div>
     </div>
- <div class="layui-form-item">
+
+    <div class="layui-form-item">
         <label class="layui-form-label">搜索值</label>
         <div class="layui-input-inline">
             <input type="text" id="key" name="key" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
- <div class="layui-form-item">
+
+    <div class="layui-form-item">
         <label class="layui-form-label">选择值</label>
         <div class="layui-input-inline">
             <input type="text" id="value" name="value" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">描叙</label>
+        <div class="layui-input-inline">
+            <input type="text" id="desc" name="desc" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
 
@@ -46,9 +54,10 @@
     $(function () {
            //父页面的值,赋值到当前页
           
-      $('#desc').val(parent.data.desc);
-      $('#key').val(parent.data.key);
-      $('#value').val(parent.data.value);
+         $('#desc').val(parent.data.desc);
+         $('#key').val(parent.data.key);
+         $('#type').val(parent.data.type);
+         $('#value').val(parent.data.value);
      });
 
 
@@ -56,12 +65,12 @@
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.id = parent.data.id;
-            ajaxPost(ADMIN_CONSOLE + "/dictionaryAdmin/save/1", data.field);
+            ajaxPost(ADMIN_CONSOLE + "/dictionaryAdmin/save/2", data.field);
             //重载表格
             parent.layui.table.reload('auth-table');
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
-            parent.layer.msg('添加成功');
+            parent.layer.msg('修改成功');
         });
     });
 </script>

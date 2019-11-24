@@ -12,36 +12,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
 
 
 /**
  * TODO  代码生成器自动生成，请自定义描叙
  *
- * @author  wangsong
- * @WX-QQ  1720696548
- * @date  Fri Nov 22 17:12:07 CST 2019
+ * @author wangsong
+ * @WX-QQ 1720696548
+ * @date Sun Nov 24 11:23:12 CST 2019
  */
 @Controller
 @RequestMapping("/dictionaryAdmin")
 public class DictionaryAdminController extends BaseAdminConsoleController {
+
+
+    /**
+     * TODO  分页查询
+     *
+     * @param type 字典类型
+     * @return Map<String       ,               Object>
+     */
+    @RequestMapping("/findByType")
+    @ResponseBody
+    public Map<String, Object> findByType(String type) {
+        List<DictionaryAdmin> dictionarys = service.dictionaryAdminServiceImpl.findByType(type);
+        for (DictionaryAdmin dictionary : dictionarys) {
+            dictionary.setName(dictionary.getValue());
+        }
+        return new Data(dictionarys).getResData();
+    }
 
     /**
      * TODO  分页查询
      *
      * @param page   页数
      * @param limit  记录数
-     * @param id-xxx 查询条件参数，id表示id查询
-     * @return Map<String, Object>
+     * @return Map<String , Object>
      */
     @RequestMapping("/findAll")
     @ResponseBody
-    public Map<String, Object> findAll(Integer page, Integer limit, Integer id) {
-        Map<String, Object> param = new HashMap<>(2);
-        param.put("id", id);
+    public Map<String, Object> findAll(Integer page, Integer limit, String type) {
+        Map<Integer, Map<String, Object>> param = new HashMap<>(2);
+        param.put(1, new HashMap<String, Object>(1) {{
+            put("type", type);
+        }});
         Sort sort = new Sort(Sort.Direction.ASC, "id");
-        Page<DictionaryAdmin> dictionaryAdmins = service.dictionaryAdminServiceImpl.page(dao.dictionaryAdminDao, page, limit, param, sort);
+        Page<DictionaryAdmin> dictionaryAdmins = service.dictionaryAdminServiceImpl.fingPage(dao.dictionaryAdminDao, page, limit, param, sort);
         return new Data(dictionaryAdmins.getContent(), dictionaryAdmins.getTotalPages()).getResData();
     }
 
@@ -49,7 +67,7 @@ public class DictionaryAdminController extends BaseAdminConsoleController {
     /**
      * TODO  添加/修改
      *
-     * @param type t=1 添加，=2修改
+     * @param type            t=1 添加，=2修改
      * @param dictionaryAdmin 对象数据
      * @return java.lang.String
      */

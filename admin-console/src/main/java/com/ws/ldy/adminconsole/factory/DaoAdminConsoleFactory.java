@@ -23,8 +23,8 @@ public class DaoAdminConsoleFactory {
     public DataBaseDaoImpl dataBaseDao;
     @Resource
     public DictionaryAdminDao dictionaryAdminDao;  //此为代码生成
-    //{code1} 
 }
+
 
 
 
