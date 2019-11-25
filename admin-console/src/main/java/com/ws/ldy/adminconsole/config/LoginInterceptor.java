@@ -1,4 +1,4 @@
-package com.ws.ldy.admincore.config;
+package com.ws.ldy.adminconsole.config;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 

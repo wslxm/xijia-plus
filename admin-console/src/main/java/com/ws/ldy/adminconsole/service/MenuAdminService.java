@@ -34,6 +34,4 @@ public interface MenuAdminService extends BaseAdminConsoleService<MenuAdmin, Int
      */
     public List<MenuAdmin> getIdNodeMenu(Integer id,Integer roleId, Integer type);
 
-
-//    public List<MenuAdmin>  getRoleMenus(Integer id, Integer roleId);
 }

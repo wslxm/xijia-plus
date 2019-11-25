@@ -16,6 +16,7 @@ import java.util.Map;
  * @date 2019/11/19 9:43
  * @return
  */
+@SuppressWarnings("all")
 @Controller
 public class ErrorController {
 

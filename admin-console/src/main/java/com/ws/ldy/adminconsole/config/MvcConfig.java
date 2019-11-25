@@ -1,4 +1,4 @@
-package com.ws.ldy.admincore.config;
+package com.ws.ldy.adminconsole.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -14,11 +14,12 @@ import java.util.List;
  * @author wangsong
  * @date 2019年4月10日 下午4:21:08
  */
+@SuppressWarnings("all")
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
 	/**
-	 * 
+	 *
 	 * 这里主要做单独的页面跳转 模板自动类：自动指定了/ 前缀（resources\templates） 模板自动类：自动指定了/ 后缀（.html）
 	 * resources同webapp（也就是web根目录） templates同WEB-INF(web无法直接访问的资源)
 	 */

@@ -21,7 +21,7 @@ import java.util.Map;
  * @WX-QQ 1720696548
  * @date 2019/11/20 11:03
  */
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({"all"})
 @Controller
 @RequestMapping("/dataBase")
 public class DataBaseController extends BaseAdminConsoleController {
@@ -110,9 +110,9 @@ public class DataBaseController extends BaseAdminConsoleController {
             service.codeGenerationImpl.buildDaoFactory(fieldCG, fieldCG.getPathJava());                 //追加dao，依赖注如信息
             service.codeGenerationImpl.buildServiceFactory(fieldCG, fieldCG.getPathJava());             //追加service,依赖注如信息
             //html
-            service.codeGenerationImpl.buildMainHtml(dataList, fieldCG,fieldCG.getPathHtml());
-            service.codeGenerationImpl.buildAddHtml(dataList, fieldCG,fieldCG.getPathHtml());
-            service.codeGenerationImpl.buildUpdHtml(dataList, fieldCG,fieldCG.getPathHtml());
+            service.codeGenerationImpl.buildMainHtml(dataList, fieldCG, fieldCG.getPathHtml());
+            service.codeGenerationImpl.buildAddHtml(dataList, fieldCG, fieldCG.getPathHtml());
+            service.codeGenerationImpl.buildUpdHtml(dataList, fieldCG, fieldCG.getPathHtml());
         } else {
             //生成文件，存在会覆盖
             fieldCG.setPathHtml(entryName + "/src/main/resources" + "/templates/" + fieldCG.getEntryNameLast() + "/"); // html 生成位置
@@ -139,9 +139,9 @@ public class DataBaseController extends BaseAdminConsoleController {
             service.codeGenerationImpl.buildDaoFactory(fieldCG, fieldCG.getPathJava() + "factory/");                  //追加dao，依赖注如信息
             service.codeGenerationImpl.buildServiceFactory(fieldCG, fieldCG.getPathJava() + "factory/");              //追加service,依赖注如信息
             //html
-            service.codeGenerationImpl.buildMainHtml(dataList, fieldCG,fieldCG.getPathHtml());
-            service.codeGenerationImpl.buildAddHtml(dataList, fieldCG,fieldCG.getPathHtml());
-            service.codeGenerationImpl.buildUpdHtml(dataList, fieldCG,fieldCG.getPathHtml());
+            service.codeGenerationImpl.buildMainHtml(dataList, fieldCG, fieldCG.getPathHtml());
+            service.codeGenerationImpl.buildAddHtml(dataList, fieldCG, fieldCG.getPathHtml());
+            service.codeGenerationImpl.buildUpdHtml(dataList, fieldCG, fieldCG.getPathHtml());
         }
         //返回预览文件地址
         return service.codeGenerationImpl.getPathMap();

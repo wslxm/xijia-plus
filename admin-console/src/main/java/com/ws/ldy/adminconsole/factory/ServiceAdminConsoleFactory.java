@@ -7,6 +7,12 @@ import javax.annotation.Resource;
 
 @Component
 public class ServiceAdminConsoleFactory {
+    @Resource
+    public RoleAuthAdminServiceImpl roleAuthAdminServiceImpl;  //此为代码生成
+
+    @Resource
+    public AuthorityAdminServiceImpl authorityAdminServiceImpl;  //此为代码生成
+
 
     @Resource
     public UserAdminServiceImpl userServiceImpl;
@@ -27,6 +33,8 @@ public class ServiceAdminConsoleFactory {
     //{code1}
 
 }
+
+
 
 
 

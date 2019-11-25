@@ -22,7 +22,7 @@ public interface RoleMenuAdminDao extends BaseDao<RoleMenuAdmin, Integer> {
 
 
     /**
-     * TODO    查询用户所有角色，在查询角色下所有菜单
+     * TODO    查询用户所有角色，在查询角色下所有菜单id
      *
      * @param userId
      * @return java.util.List<com.ws.ldy.adminconsole.entity.RoleMenuAdmin>

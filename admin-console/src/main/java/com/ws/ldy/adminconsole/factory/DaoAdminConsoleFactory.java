@@ -8,6 +8,12 @@ import javax.annotation.Resource;
 
 @Component
 public class DaoAdminConsoleFactory {
+    @Resource
+    public RoleAuthAdminDao roleAuthAdminDao;  //此为代码生成 
+ 
+    @Resource
+    public AuthorityAdminDao authorityAdminDao;  //此为代码生成 
+ 
 
     @Resource
     public UserAdminDao userDao;
@@ -24,6 +30,8 @@ public class DaoAdminConsoleFactory {
     @Resource
     public DictionaryAdminDao dictionaryAdminDao;  //此为代码生成
 }
+
+
 
 
 

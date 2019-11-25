@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("all")
 @Service
 public class RoleUserAdminServiceImpl extends BaseAdminConsoleServiceImpl<RoleUserAdmin, Integer> implements RoleUserAdminService {
 

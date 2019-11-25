@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface RoleUserAdminService extends BaseAdminConsoleService<RoleUserAdmin, Integer> {
     /**
-     * TODO    查询指定角色所有菜单权限
+     * TODO    查询指定角色当前用户列表
      *
      * @param roleId
      * @return java.util.List<com.ws.ldy.adminconsole.entity.RoleUserAdmin>

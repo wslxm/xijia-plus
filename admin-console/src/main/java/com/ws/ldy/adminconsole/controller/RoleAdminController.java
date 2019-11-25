@@ -99,6 +99,20 @@ public class RoleAdminController extends BaseAdminConsoleController {
 
 
     /**
+     * TODO  角色URL权限分配
+     *
+     * @return java.lang.String
+     * @date 2019/11/16 0016 22:46
+     */
+    @ResponseBody
+    @RequestMapping("/updRoleUrlAuth")
+    public String updRoleUrlAuth(Integer roleId, Integer[] authIds) {
+        service.roleAuthAdminServiceImpl.roleUrlAuth(roleId,authIds);
+        return "success";
+    }
+
+
+    /**
      * TODO  角色用户分配
      *
      * @return java.lang.String
