@@ -3,7 +3,7 @@ package com.ws.ldy.adminconsole.service;
 
 import com.ws.ldy.adminconsole.entity.AuthorityAdmin;
 import com.ws.ldy.adminconsole.entity.RoleAuthAdmin;
-import com.ws.ldy.adminconsole.service.base.BaseAdminConsoleService;
+import com.ws.ldy.admincore.service.BaseServiceApi;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @WX-QQ 1720696548
  * @date Mon Nov 25 11:38:29 CST 2019
  */
-public interface RoleAuthAdminService extends BaseAdminConsoleService<RoleAuthAdmin, Integer> {
+public interface RoleAuthAdminService extends BaseServiceApi<RoleAuthAdmin, Integer> {
 
     /**
      * TODO    根据用户Id 查询查询角色Id 在通过角色Id 获取 URL权限列表

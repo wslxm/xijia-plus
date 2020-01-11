@@ -1,20 +1,26 @@
 package com.ws.ldy.adminconsole.service.impl;
 
+import com.ws.ldy.adminconsole.dao.RoleMenuAdminDao;
 import com.ws.ldy.adminconsole.entity.MenuAdmin;
 import com.ws.ldy.adminconsole.entity.RoleMenuAdmin;
 import com.ws.ldy.adminconsole.service.RoleMenuAdminService;
-import com.ws.ldy.adminconsole.service.base.impl.BaseAdminConsoleServiceImpl;
+import com.ws.ldy.admincore.service.impl.BaseServiceApiImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-public class RoleMenuAdminServiceImpl extends BaseAdminConsoleServiceImpl<RoleMenuAdmin,Integer> implements RoleMenuAdminService {
+public class RoleMenuAdminServiceImpl extends BaseServiceApiImpl<RoleMenuAdmin,Integer> implements RoleMenuAdminService {
 
 
+    @Autowired
+    private RoleMenuAdminDao roleMenuAdminDao;
+    @Autowired
+    private MenuAdminServiceImpl menuAdminServiceImpl;
     @Override
     public List<RoleMenuAdmin> findRoleId(Integer roleId) {
-        return dao.roleMenuDao.findRoleId(roleId);
+        return roleMenuAdminDao.findRoleId(roleId);
     }
 
     @Override
@@ -22,7 +28,7 @@ public class RoleMenuAdminServiceImpl extends BaseAdminConsoleServiceImpl<RoleMe
         //计算添加（遍历前台数据，查看后台是否存在角色权限，不存在添加）
         Map<Integer, RoleMenuAdmin> roleMenuMap = new HashMap<>(8); //后台角色菜单数据，判断添加
         Map<Integer, Integer> roleMenuIdMap = new HashMap<>(8);     //前台传入台角色菜单数据，判断删除
-        List<RoleMenuAdmin> rms = service.roleMenuServiceImpl.findRoleId(roleId);
+        List<RoleMenuAdmin> rms = roleMenuAdminDao.findRoleId(roleId);
         rms.forEach(item -> roleMenuMap.put(item.getMenuId(), item));
         List<RoleMenuAdmin> addRoleMenu = new LinkedList<>();
         if(menuIds != null){
@@ -37,10 +43,10 @@ public class RoleMenuAdminServiceImpl extends BaseAdminConsoleServiceImpl<RoleMe
         List<MenuAdmin>  menus = null;
         if(pid == 0){
             //全部菜单
-            menus = service.menuServiceImpl.getIdNodeMenu(pid,roleId,1);
+            menus = menuAdminServiceImpl.getIdNodeMenu(pid,roleId,1);
         }else{
             //获取指定系统级的菜单
-            menus = service.menuServiceImpl.getIdNodeMenu(pid,roleId,2);
+            menus = menuAdminServiceImpl.getIdNodeMenu(pid,roleId,2);
         }
         List<RoleMenuAdmin> deleteRoleMenu = new ArrayList<>();
         for (MenuAdmin menu:  menus){
@@ -50,11 +56,11 @@ public class RoleMenuAdminServiceImpl extends BaseAdminConsoleServiceImpl<RoleMe
         }
         //添加菜单权限
         if(addRoleMenu.size() > 0){
-            service.roleMenuServiceImpl.saveAll(dao.roleMenuDao, addRoleMenu);
+            roleMenuAdminDao.saveAll( addRoleMenu);
         }
         //删除菜单权限
         if(deleteRoleMenu.size() > 0){
-            service.roleMenuServiceImpl.deleteInBatch(dao.roleMenuDao ,deleteRoleMenu);
+            roleMenuAdminDao.deleteInBatch(deleteRoleMenu);
         }
     }
 }

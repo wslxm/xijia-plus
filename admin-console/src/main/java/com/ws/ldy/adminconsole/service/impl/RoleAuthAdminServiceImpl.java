@@ -1,9 +1,12 @@
 package com.ws.ldy.adminconsole.service.impl;
 
+import com.ws.ldy.adminconsole.dao.AuthorityAdminDao;
+import com.ws.ldy.adminconsole.dao.RoleAuthAdminDao;
 import com.ws.ldy.adminconsole.entity.AuthorityAdmin;
 import com.ws.ldy.adminconsole.entity.RoleAuthAdmin;
 import com.ws.ldy.adminconsole.service.RoleAuthAdminService;
-import com.ws.ldy.adminconsole.service.base.impl.BaseAdminConsoleServiceImpl;
+import com.ws.ldy.admincore.service.impl.BaseServiceApiImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,20 +17,26 @@ import java.util.Map;
 
 @SuppressWarnings("all")
 @Service
-public class RoleAuthAdminServiceImpl extends BaseAdminConsoleServiceImpl<RoleAuthAdmin, Integer> implements RoleAuthAdminService {
+public class RoleAuthAdminServiceImpl extends BaseServiceApiImpl<RoleAuthAdmin, Integer> implements RoleAuthAdminService {
+
+    @Autowired
+    private RoleAuthAdminDao roleAuthAdminDao;
+    @Autowired
+    private AuthorityAdminDao authorityAdminDao;
+
 
     @Override
     public List<RoleAuthAdmin> findUserIdRoleAuthority(Integer userId) {
-        return dao.roleAuthAdminDao.findUserIdRoleAuthority(userId);
+        return roleAuthAdminDao.findUserIdRoleAuthority(userId);
     }
 
 
     @Override
     public List<AuthorityAdmin> findRoleAuthorityChecked(Integer roleId) {
-        List<RoleAuthAdmin> list = dao.roleAuthAdminDao.findRoleId(roleId);
+        List<RoleAuthAdmin> list = roleAuthAdminDao.findRoleId(roleId);
         Map<Integer, Integer> map = new HashMap<>(8);
         list.forEach(item -> map.put(item.getAuthId(), 0));
-        List<AuthorityAdmin> authorityList = dao.authorityAdminDao.findAll();
+        List<AuthorityAdmin> authorityList = authorityAdminDao.findAll();
         for (AuthorityAdmin authority : authorityList) {
             if (map.containsKey(authority.getId())) {
                 authority.setLAY_CHECKED(true);
@@ -41,7 +50,7 @@ public class RoleAuthAdminServiceImpl extends BaseAdminConsoleServiceImpl<RoleAu
         //计算角色用户并添加和删除
         Map<Integer, Integer> roleUserMap = new HashMap<>(8);     //后台当前角色用户--判断添加
         Map<Integer, Integer> roleUserIdsMap = new HashMap<>(8);  //前台传入角色用户--判断删除
-        List<RoleAuthAdmin> roleUsers = dao.roleAuthAdminDao.findRoleId(roleId);
+        List<RoleAuthAdmin> roleUsers = roleAuthAdminDao.findRoleId(roleId);
         roleUsers.forEach(item -> roleUserMap.put(item.getAuthId(), item.getRoleId()));
         //计算添加，遍历传如数据，如发现后台不存在则添加
         List<RoleAuthAdmin> addRoleUser = new ArrayList<>();
@@ -61,10 +70,10 @@ public class RoleAuthAdminServiceImpl extends BaseAdminConsoleServiceImpl<RoleAu
             }
         }
         if (addRoleUser.size() > 0) {
-            dao.roleAuthAdminDao.saveAll(addRoleUser);
+            roleAuthAdminDao.saveAll(addRoleUser);
         }
         if (delRoleUser.size() > 0) {
-            dao.roleAuthAdminDao.deleteInBatch(delRoleUser);
+            roleAuthAdminDao.deleteInBatch(delRoleUser);
         }
     }
 }

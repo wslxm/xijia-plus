@@ -1,8 +1,13 @@
 package com.ws.ldy.adminconsole.controller;
 
-import com.ws.ldy.adminconsole.controller.base.BaseAdminConsoleController;
 import com.ws.ldy.adminconsole.entity.RoleAdmin;
-import com.ws.ldy.admincore.controller.vo.Data;
+import com.ws.ldy.adminconsole.service.impl.RoleAdminServiceImpl;
+import com.ws.ldy.adminconsole.service.impl.RoleAuthAdminServiceImpl;
+import com.ws.ldy.adminconsole.service.impl.RoleMenuAdminServiceImpl;
+import com.ws.ldy.adminconsole.service.impl.RoleUserAdminServiceImpl;
+import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.admincore.controller.vo.ResponseData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -23,8 +28,20 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/roleAdmin")
-public class RoleAdminController extends BaseAdminConsoleController {
+public class RoleAdminController extends BaseController {
 
+
+    @Autowired
+    private RoleAdminServiceImpl roleAdminServiceImpl;
+
+
+
+    @Autowired
+    private RoleMenuAdminServiceImpl roleMenuAdminServiceImpl;
+    @Autowired
+    private RoleAuthAdminServiceImpl roleAuthAdminServiceImpl;
+    @Autowired
+    private RoleUserAdminServiceImpl roleUserAdminServiceImpl;
     /***
      * TODO  分页查询
      * @param  type     =1 分页查询  =2 所有查询
@@ -36,16 +53,16 @@ public class RoleAdminController extends BaseAdminConsoleController {
      */
     @RequestMapping("/findAll/{type}")
     @ResponseBody
-    public Map<String, Object> findAll(@PathVariable Integer type, Integer page, Integer limit, Integer id) {
+    public ResponseData findAll(@PathVariable Integer type, Integer page, Integer limit, Integer id) {
         if (type == 1) {
             Map<String, Object> param = new HashMap<>(2);
             param.put("id", id);
             Sort sort = new Sort(Sort.Direction.ASC, "id");
-            Page<RoleAdmin> roles = service.roleServiceImpl.page(dao.roleDao, page, limit, param, sort);
-            return new Data(roles.getContent(), roles.getTotalPages()).getResData();
+            Page<RoleAdmin> roles = roleAdminServiceImpl.page( page, limit, param, sort);
+            return ResponseData.success(roles.getContent(), roles.getTotalPages());
         } else {
-            List<RoleAdmin> roles = service.roleServiceImpl.findAll(dao.roleDao);
-            return new Data(roles).getResData();
+            List<RoleAdmin> roles = roleAdminServiceImpl.findAll();
+            return ResponseData.success(roles);
         }
     }
 
@@ -61,9 +78,9 @@ public class RoleAdminController extends BaseAdminConsoleController {
     @ResponseBody
     public String save(@PathVariable Integer type, RoleAdmin role) {
         if (type == 1) {
-            service.roleServiceImpl.save(dao.roleDao, role);
+            roleAdminServiceImpl.save( role);
         } else {
-            service.roleServiceImpl.save(dao.roleDao, role);
+            roleAdminServiceImpl.save( role);
         }
         return "success";
     }
@@ -80,7 +97,7 @@ public class RoleAdminController extends BaseAdminConsoleController {
     @ResponseBody
     @RequestMapping("/delete")
     public String delete(Integer[] ids) {
-        service.roleServiceImpl.deleteByIds(dao.roleDao, ids);
+        roleAdminServiceImpl.deleteByIds( ids);
         return "success";
     }
 
@@ -93,7 +110,7 @@ public class RoleAdminController extends BaseAdminConsoleController {
     @ResponseBody
     @RequestMapping("/updRoleMenu")
     public String updRoleMenu(Integer roleId, Integer[] menuIds,Integer pid) {
-        service.roleMenuServiceImpl.roleMenuAuth(roleId,menuIds,pid);
+        roleMenuAdminServiceImpl.roleMenuAuth(roleId,menuIds,pid);
         return "success";
     }
 
@@ -107,7 +124,7 @@ public class RoleAdminController extends BaseAdminConsoleController {
     @ResponseBody
     @RequestMapping("/updRoleUrlAuth")
     public String updRoleUrlAuth(Integer roleId, Integer[] authIds) {
-        service.roleAuthAdminServiceImpl.roleUrlAuth(roleId,authIds);
+        roleAuthAdminServiceImpl.roleUrlAuth(roleId,authIds);
         return "success";
     }
 
@@ -121,7 +138,7 @@ public class RoleAdminController extends BaseAdminConsoleController {
     @ResponseBody
     @RequestMapping("/updRoleUser")
     public String updRoleUser(Integer roleId, Integer[] userIds) {
-        service.roleUserServiceImpl.updRoleUser(roleId,userIds);
+        roleUserAdminServiceImpl.updRoleUser(roleId,userIds);
         return "success";
     }
 }

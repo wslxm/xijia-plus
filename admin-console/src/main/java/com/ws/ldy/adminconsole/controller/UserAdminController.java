@@ -1,9 +1,12 @@
 package com.ws.ldy.adminconsole.controller;
 
-import com.ws.ldy.adminconsole.controller.base.BaseAdminConsoleController;
 import com.ws.ldy.adminconsole.entity.UserAdmin;
+import com.ws.ldy.adminconsole.service.impl.RoleUserAdminServiceImpl;
+import com.ws.ldy.adminconsole.service.impl.UserAdminServiceImpl;
 import com.ws.ldy.admincore.annotation.LdyAuthority;
-import com.ws.ldy.admincore.controller.vo.Data;
+import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.admincore.controller.vo.ResponseData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -25,8 +28,14 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/userAdmin")
-@LdyAuthority(value = {"userAdmin","系统用户"})
-public class UserAdminController extends BaseAdminConsoleController {
+@LdyAuthority(value = {"userAdmin", "系统用户"})
+public class UserAdminController extends BaseController {
+
+    @Autowired
+    private UserAdminServiceImpl userAdminServiceImpl;
+    @Autowired
+    private RoleUserAdminServiceImpl roleUserAdminServiceImpl;
+
     /***
      * TODO  分页查询
      * @param   type 1 = 用户列表查询  2=角色用户分配查询
@@ -35,23 +44,23 @@ public class UserAdminController extends BaseAdminConsoleController {
      */
     @RequestMapping("/findAll/{type}")
     @ResponseBody
-    @LdyAuthority(value = {"user:findAll","查询"})
-    public Map<String, Object> findAll(@PathVariable Integer type, int page, int limit, Integer id, Integer roleId) {
+    @LdyAuthority(value = {"user:findAll", "查询"})
+    public ResponseData findAll(@PathVariable Integer type, int page, int limit, Integer id, Integer roleId) {
         Map<String, Object> param = new HashMap<>(2);
-        Page<UserAdmin>  userPages = null;
+        Page<UserAdmin> userPages = null;
         param.put("id", id);
         Sort sort = new Sort(Sort.Direction.ASC, "id");
         if (type == 1) {
             //查询所有
-            userPages = service.userServiceImpl.page(dao.userDao, page, limit, param, sort);
-            return new Data(userPages.getContent(), userPages.getTotalPages()).getResData();
+            userPages = userAdminServiceImpl.page(page, limit, param, sort);
+            return ResponseData.success(userPages.getContent(), userPages.getTotalPages());
         } else {
             //查询所有
-            userPages = service.userServiceImpl.page(dao.userDao, page, 999, param, sort);
+            userPages = userAdminServiceImpl.page(page, 999, param, sort);
             //角色选中状态处理
             List<UserAdmin> users = userPages.getContent();
-            users = service.roleUserServiceImpl.RoleUserChecked(users, roleId);
-            return new Data(users, userPages.getTotalPages()).getResData();
+            users = roleUserAdminServiceImpl.RoleUserChecked(users, roleId);
+            return ResponseData.success(users, userPages.getTotalPages());
         }
     }
 
@@ -65,13 +74,13 @@ public class UserAdminController extends BaseAdminConsoleController {
      */
     @RequestMapping("/save/{type}")
     @ResponseBody
-    @LdyAuthority(value = {"user:save","添加/修改"})
+    @LdyAuthority(value = {"user:save", "添加/修改"})
     public String save(@PathVariable Integer type, UserAdmin user) {
         if (type == 1) {
             user.setTime(new Date());
-            service.userServiceImpl.save(dao.userDao, user);
+            userAdminServiceImpl.save(user);
         } else {
-            service.userServiceImpl.save(dao.userDao, user);
+            userAdminServiceImpl.save(user);
         }
         return "success";
     }
@@ -87,9 +96,9 @@ public class UserAdminController extends BaseAdminConsoleController {
      */
     @ResponseBody
     @RequestMapping("/delete")
-    @LdyAuthority(value = {"user:delete","删除"})
+    @LdyAuthority(value = {"user:delete", "删除"})
     public String delete(Integer[] ids) {
-        service.userServiceImpl.deleteByIds(dao.userDao, ids);
+        userAdminServiceImpl.deleteByIds(ids);
         return "success";
     }
 
@@ -103,9 +112,9 @@ public class UserAdminController extends BaseAdminConsoleController {
      */
     @ResponseBody
     @RequestMapping("/login")
-    @LdyAuthority(value = {"user:login","登录"})
+    @LdyAuthority(value = {"user:login", "登录"})
     public String login(String account, String password) {
-        UserAdmin user = service.userServiceImpl.findAccountPwd(account, password);
+        UserAdmin user = userAdminServiceImpl.findAccountPwd(account, password);
         if (user != null) {
             session.setAttribute("user", user);
             return "success";
@@ -123,14 +132,14 @@ public class UserAdminController extends BaseAdminConsoleController {
      */
     @ResponseBody
     @RequestMapping("/updPwd")
-    @LdyAuthority(value = {"user:updPwd","密码修改"})
-    public String updPwd(String oldPassword,String password) {
-        UserAdmin user = (UserAdmin)session.getAttribute("user");
-        if(user.getPassword().equals(oldPassword)){
+    @LdyAuthority(value = {"user:updPwd", "密码修改"})
+    public String updPwd(String oldPassword, String password) {
+        UserAdmin user = (UserAdmin) session.getAttribute("user");
+        if (user.getPassword().equals(oldPassword)) {
             user.setPassword(password);
-            service.userServiceImpl.save(dao.userDao,user);
+            userAdminServiceImpl.save(user);
             return "success";
-        }else{
+        } else {
             return "no";
         }
     }

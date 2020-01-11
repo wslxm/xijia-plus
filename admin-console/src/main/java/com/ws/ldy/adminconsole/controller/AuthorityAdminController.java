@@ -1,9 +1,12 @@
 package com.ws.ldy.adminconsole.controller;
 
-import com.ws.ldy.adminconsole.controller.base.BaseAdminConsoleController;
 import com.ws.ldy.adminconsole.entity.AuthorityAdmin;
-import com.ws.ldy.admincore.controller.vo.Data;
+import com.ws.ldy.adminconsole.service.impl.AuthorityAdminServiceImpl;
+import com.ws.ldy.adminconsole.service.impl.RoleAuthAdminServiceImpl;
+import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.admincore.controller.vo.ResponseData;
 import com.ws.ldy.admincore.utils.ClassUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -25,12 +28,16 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/authorityAdmin")
-public class AuthorityAdminController extends BaseAdminConsoleController {
+public class AuthorityAdminController extends BaseController {
     /**
      * url权限注解扫包范围
      */
     private final static String PACKAGE_NAME = "com.ws.ldy";
 
+    @Autowired
+    private AuthorityAdminServiceImpl authorityAdminServiceImpl;
+    @Autowired
+    private RoleAuthAdminServiceImpl roleAuthAdminServiceImpl;
     /**
      * TODO  分页查询
      *
@@ -41,12 +48,12 @@ public class AuthorityAdminController extends BaseAdminConsoleController {
      */
     @RequestMapping("/findAll")
     @ResponseBody
-    public Map<String, Object> findAll(Integer page, Integer limit, Integer id) {
+    public ResponseData findAll(Integer page, Integer limit, Integer id) {
         Map<String, Object> param = new HashMap<>(2);
         param.put("id", id);
         Sort sort = new Sort(Sort.Direction.ASC, "id");
-        Page<AuthorityAdmin> authorityAdmins = service.authorityAdminServiceImpl.page(dao.authorityAdminDao, page, limit, param, sort);
-        return new Data(authorityAdmins.getContent(), authorityAdmins.getTotalPages()).getResData();
+        Page<AuthorityAdmin> authorityAdmins = authorityAdminServiceImpl.page( page, limit, param, sort);
+        return ResponseData.success(authorityAdmins.getContent(), authorityAdmins.getTotalPages());
     }
 
 
@@ -61,9 +68,9 @@ public class AuthorityAdminController extends BaseAdminConsoleController {
     @ResponseBody
     public String save(@PathVariable Integer type, AuthorityAdmin authorityAdmin) {
         if (type == 1) {
-            service.authorityAdminServiceImpl.save(dao.authorityAdminDao, authorityAdmin);
+            authorityAdminServiceImpl.save( authorityAdmin);
         } else {
-            service.authorityAdminServiceImpl.save(dao.authorityAdminDao, authorityAdmin);
+            authorityAdminServiceImpl.save(authorityAdmin);
         }
         return "success";
     }
@@ -77,7 +84,7 @@ public class AuthorityAdminController extends BaseAdminConsoleController {
     @ResponseBody
     @RequestMapping("/delete")
     public String delete(Integer[] ids) {
-        service.authorityAdminServiceImpl.deleteByIds(dao.authorityAdminDao, ids);
+        authorityAdminServiceImpl.deleteByIds(ids);
         return "success";
     }
 
@@ -93,7 +100,7 @@ public class AuthorityAdminController extends BaseAdminConsoleController {
         //获得到所有类
         List<Class<?>> classByPackageName = ClassUtil.getClasses(PACKAGE_NAME);
         //保存
-        service.authorityAdminServiceImpl.putClass(classByPackageName);
+        authorityAdminServiceImpl.putClass(classByPackageName);
         return "success";
     }
 
@@ -106,7 +113,7 @@ public class AuthorityAdminController extends BaseAdminConsoleController {
     @RequestMapping("/findList")
     @ResponseBody
     public List<AuthorityAdmin> findList(Integer roleId) {
-        List<AuthorityAdmin> roleAuthorityChecked = service.roleAuthAdminServiceImpl.findRoleAuthorityChecked(roleId);
+        List<AuthorityAdmin> roleAuthorityChecked = roleAuthAdminServiceImpl.findRoleAuthorityChecked(roleId);
         return roleAuthorityChecked;
     }
 }

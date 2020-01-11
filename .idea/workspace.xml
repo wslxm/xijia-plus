@@ -1,13 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3d1a1456-9a72-4f36-89fd-f9789461db0f" name="Default Changelist" comment="" />
-    <ignored path="$PROJECT_DIR$/admin-demo-web/target/" />
-    <ignored path="$PROJECT_DIR$/admin-console/target/" />
-    <ignored path="$PROJECT_DIR$/target/" />
-    <ignored path="$PROJECT_DIR$/admin-demo/target/" />
-    <ignored path="$PROJECT_DIR$/game-sheep/target/" />
-    <ignored path="$PROJECT_DIR$/admin-core/target/" />
+    <list default="true" id="4d4e3f1b-5817-4541-935e-4ef19b7b631e" name="Default Changelist" comment="重构了core service通用类代码，自动获取泛型T来获取到对应的dao层的bend实例&#10;重构了console 后台管理所有controller，service类对通用service的调用&#10;重构了返回结果字段封装处理&#10;代码生成器生成的代码将不可用，controller，service层代码已发生变化">
+      <change afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/utils/SpringContextUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/$CACHE_FILE$" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/$PRODUCT_WORKSPACE_FILE$" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/$PRODUCT_WORKSPACE_FILE$" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/AopAuthority.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/AopAuthority.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/AuthorityAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/AuthorityAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DataBaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DataBaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DictionaryAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DictionaryAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/MenuAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/MenuAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/TestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/TestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/base/BaseAdminConsoleController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/AuthorityAdminDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/AuthorityAdminDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/impl/DataBaseDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/impl/DataBaseDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/DaoAdminConsoleFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/ServiceAdminConsoleFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/AuthorityAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/AuthorityAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/DictionaryAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/DictionaryAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/MenuAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/MenuAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleAuthAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleAuthAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleMenuAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleMenuAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleUserAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleUserAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/UserAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/UserAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/base/BaseAdminConsoleService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/base/impl/BaseAdminConsoleServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/AuthorityAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/AuthorityAdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/DataBaseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/DataBaseServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/DictionaryAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/DictionaryAdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/MenuAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/MenuAdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleAdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleAuthAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleAuthAdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleMenuAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleMenuAdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleUserAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleUserAdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/UserAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/UserAdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/BaseControllerApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/BaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/ErrorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/ErrorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/vo/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/vo/ResponseData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/BaseServiceApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/BaseServiceApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo-web/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo-web/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/controller/base/BaseAdminDemoWebController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/controller/base/BaseAdminDemoWebController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/src/main/java/com/ws/ldy/AdminDemoApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/src/main/java/com/ws/ldy/admindemoweb/controller/base/BaseAdminDemoController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/src/main/java/com/ws/ldy/admindemoweb/factory/DaoAdminDemoFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/src/main/java/com/ws/ldy/admindemoweb/factory/ServiceAdminDemoFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/src/main/java/com/ws/ldy/admindemoweb/service/base/BaseAdminDemoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/src/main/java/com/ws/ldy/admindemoweb/service/base/impl/BaseAdminDemoServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/src/main/resources/application-dev.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo/src/test/java/com/ws/ldy/admindemoweb/GameSheepApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/GameSheepApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/admindemoweb/controller/base/BaseGameSheepController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/admindemoweb/factory/DaoGameSheepFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/admindemoweb/factory/ServiceGameSheepFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/admindemoweb/service/base/BaseGameSheepService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/java/com/ws/ldy/admindemoweb/service/base/impl/BaseGameSheepServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/resources/application-dev.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/resources/templates/sheep/roleUser/roleUser.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/resources/templates/sheep/roleUser/roleUserAdd.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/main/resources/templates/sheep/roleUser/roleUserUpd.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-sheep/src/test/java/com/ws/ldy/admindemoweb/GameSheepApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-plus2.iml" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,406 +97,44 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/spring_boot_plus2$AdminConsoleApplication.ic" NAME="AdminConsoleApplication Coverage Results" MODIFIED="1574647905272" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>com.ws.ldy.*</FILTER>
-    </SUITE>
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/console/user/user.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="867">
-              <caret line="82" column="11" lean-forward="true" selection-start-line="82" selection-start-column="11" selection-end-line="82" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/MenuAdminController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25">
-              <caret line="52" column="16" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/AopAuthority.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="83" column="16" selection-start-line="83" selection-start-column="16" selection-end-line="83" selection-end-column="16" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/vo/Data.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-53">
-              <caret line="59" column="43" lean-forward="true" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DataBaseController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1375">
-              <caret line="48" column="6" lean-forward="true" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
-              <folding>
-                <element signature="e#725#751#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DictionaryAdminController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25">
-              <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/AuthorityAdminController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="95" column="46" selection-start-line="95" selection-start-column="46" selection-end-line="95" selection-end-column="46" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/AuthorityAdminServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-20">
-              <caret line="27" column="16" selection-start-line="27" selection-start-column="16" selection-end-line="27" selection-end-column="16" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/TestController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2057">
-              <caret line="26" column="27" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="27" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="AnnotationType" />
         <option value="Class" />
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>leftFont</find>
-      <find>接口请求</find>
-    </findStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/admin-console/src/main/resources/application-dev.yml" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/dataBase/dataBase.html" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/DaoAdminConsoleFactory.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/DictionaryAdminDao.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/DictionaryAdminService.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/DictionaryAdminServiceImpl.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/DictionaryAdmin.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/dictionary/dictionaryUpd.html" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/dictionary/dictionaryAdd.html" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DictionaryAdminController.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/dictionary/dictionary.html" />
-        <option value="$PROJECT_DIR$/admin-core/src/main/resources/static/js/app.js" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/annotation/LdyAuthority.java" />
-        <option value="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/utils/ClassUtil.java" />
-        <option value="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/annotation/LdyAuthority.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java" />
-        <option value="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/PageController.java" />
-        <option value="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/ErrorController.java" />
-        <option value="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/config/MvcConfig.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/MvcConfig.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/AopLog.java" />
-        <option value="$PROJECT_DIR$/admin-demo-web/src/main/resources/application-dev.yml" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleMenuAdminDao.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/AuthorityAdminDao.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/LoginInterceptor.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/authority/authority.html" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/AuthorityAdmin.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAuthAdminController.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleUserAdminServiceImpl.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleUserAdminDao.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleAuthAdminDao.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/AuthorityAdminServiceImpl.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/AuthorityAdminService.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleAuthAdminService.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DataBaseController.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/AuthorityAdminController.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleUserAdminService.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleMenuAdminService.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/MenuAdminService.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleAuthAdminServiceImpl.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/RoleAuthAdmin.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/role/roleUrlAuth.html" />
-        <option value="$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui/lay/modules/table.js" />
-        <option value="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/vo/Data.java" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/resources/templates/console/user/user.html" />
-        <option value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/AopAuthority.java" />
-      </list>
-    </option>
-  </component>
-  <component name="JsFlowSettings">
-    <service-enabled>true</service-enabled>
-    <exe-path />
-    <other-services-enabled>true</other-services-enabled>
-    <auto-save>true</auto-save>
-  </component>
   <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="$PROJECT_DIR$/../../../tool/apache-maven-3.5.4" />
-      </MavenGeneralSettings>
-    </option>
     <option name="importingSettings">
       <MavenImportingSettings>
+        <option name="createModuleGroups" value="true" />
         <option name="importAutomatically" value="true" />
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="MavenProjectNavigator">
-    <treeState>
-      <expand>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="spring-boot-plus2" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="spring-boot-plus2" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
-        </path>
-      </expand>
-      <select />
-    </treeState>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="327" />
-    <option name="y" value="107" />
-    <option name="width" value="1498" />
-    <option name="height" value="823" />
-  </component>
-  <component name="ProjectId" id="1TvcB9muwvJW7gkLFHWesSpdWqB" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="ldy" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="ldy" type="462c0819:PsiDirectoryNode" />
-              <item name="adminconsole" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="ldy" type="462c0819:PsiDirectoryNode" />
-              <item name="adminconsole" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="ldy" type="462c0819:PsiDirectoryNode" />
-              <item name="adminconsole" type="462c0819:PsiDirectoryNode" />
-              <item name="controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="console" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="console" type="462c0819:PsiDirectoryNode" />
-              <item name="user" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spring-boot-plus2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spring-boot-plus2" type="462c0819:PsiDirectoryNode" />
-              <item name="admin-console" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-    </panes>
-  </component>
+  <component name="ProjectId" id="1WF7QxHVUTo4GMeGF90DUd88fXv" />
   <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574686264828" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/admin-demo-web/target/classes/static" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.ws.ldy.admincore.annotation" />
-      <recent name="com.ws.ldy.gamesheep.service.base.impl" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\workspace\code\git\spring-boot-plus2\admin-console\src\main\resources\templates\console\authority" />
-      <recent name="F:\workspace\code\git\spring-boot-plus2\admin-console\src\main\java\com\ws\ldy\adminconsole" />
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-demo-web\target\classes\static" />
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2\admin-console\src\main\resources\sql" />
-      <recent name="D:\workSpace\tool1\code\spring-boot-plus2" />
-    </key>
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -430,10 +148,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.AdminConsoleApplication">
-    <configuration name="localhost:8080" type="JavascriptDebugType" nameIsGenerated="true" engineId="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" uri="http://localhost:8080/">
-      <method v="2" />
-    </configuration>
+  <component name="RunManager">
     <configuration name="AdminConsoleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="admin-console" />
       <extension name="coverage">
@@ -443,61 +158,13 @@
         </pattern>
       </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.ws.ldy.AdminConsoleApplication" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AdminDemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="admin-demo" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ws.ldy.AdminDemoApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AdminDemoWebApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="admin-demo-web" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ws.ldy.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ws.ldy.AdminDemoWebApplication" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GameSheepApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="game-sheep" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ws.ldy.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ws.ldy.GameSheepApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="JavaScript Debug.localhost:8080" />
-      <item itemvalue="Spring Boot.AdminDemoApplication" />
-      <item itemvalue="Spring Boot.AdminConsoleApplication" />
-      <item itemvalue="Spring Boot.AdminDemoWebApplication" />
-      <item itemvalue="Spring Boot.GameSheepApplication" />
-    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.AdminConsoleApplication" />
-        <item itemvalue="Spring Boot.AdminDemoWebApplication" />
-        <item itemvalue="Spring Boot.GameSheepApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -506,77 +173,15 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3d1a1456-9a72-4f36-89fd-f9789461db0f" name="Default Changelist" comment="" />
-      <created>1574343871523</created>
+      <changelist id="4d4e3f1b-5817-4541-935e-4ef19b7b631e" name="Default Changelist" comment="" />
+      <created>1578733476814</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1574343871523</updated>
-      <workItem from="1574343872747" duration="14000" />
-      <workItem from="1574343888572" duration="374000" />
-      <workItem from="1574385882617" duration="16837000" />
-      <workItem from="1574403054355" duration="26789000" />
-      <workItem from="1574472616532" duration="12467000" />
-      <workItem from="1574489860159" duration="13526000" />
-      <workItem from="1574561839417" duration="16234000" />
-      <workItem from="1574648022961" duration="2560000" />
-      <workItem from="1574650882845" duration="382000" />
-      <workItem from="1574651374563" duration="20799000" />
+      <updated>1578733476814</updated>
+      <workItem from="1578733479382" duration="1225000" />
+      <workItem from="1578734736141" duration="12679000" />
     </task>
     <servers />
-  </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39975000" />
-  </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
-    <editor active="true" />
-    <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23793566" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Designer" order="2" />
-      <window_info id="Image Layers" order="3" />
-      <window_info id="Capture Tool" order="4" />
-      <window_info id="UI Designer" order="5" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info id="Web" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.41926345" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.11614731" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.3286119" />
-      <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.25637394" />
-      <window_info anchor="bottom" id="Java Enterprise" order="12" />
-      <window_info anchor="bottom" id="Database Changes" order="13" />
-      <window_info anchor="bottom" id="Version Control" order="14" />
-      <window_info anchor="bottom" id="Tail" order="15" />
-      <window_info anchor="right" id="Preview" weight="0.16286863" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Maven" order="3" weight="0.3297587" />
-      <window_info anchor="right" id="Palette" order="4" />
-      <window_info anchor="right" id="Coverage" order="5" side_tool="true" weight="0.12734585" />
-      <window_info anchor="right" id="Capture Analysis" order="6" />
-      <window_info anchor="right" id="Database" order="7" />
-      <window_info anchor="right" id="Palette&#9;" order="8" />
-      <window_info anchor="right" id="Theme Preview" order="9" />
-      <window_info anchor="right" id="Bean Validation" order="10" />
-    </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -587,448 +192,31 @@
         <entry key="MAIN">
           <value>
             <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
               <option name="COLUMN_ORDER" />
             </State>
           </value>
         </entry>
       </map>
     </option>
-    <option name="RECENT_FILTERS">
-      <map>
-        <entry key="Branch">
-          <value>
-            <list />
-          </value>
-        </entry>
-        <entry key="User">
-          <value>
-            <list />
-          </value>
-        </entry>
-      </map>
-    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="重构了core service通用类代码，自动获取泛型T来获取到对应的dao层的bend实例&#10;重构了console 后台管理所有controller，service类对通用service的调用&#10;重构了返回结果字段封装处理&#10;代码生成器生成的代码将不可用，controller，service层代码已发生变化" />
+    <option name="LAST_COMMIT_MESSAGE" value="重构了core service通用类代码，自动获取泛型T来获取到对应的dao层的bend实例&#10;重构了console 后台管理所有controller，service类对通用service的调用&#10;重构了返回结果字段封装处理&#10;代码生成器生成的代码将不可用，controller，service层代码已发生变化" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/AopAuthority.java</url>
-          <line>62</line>
-          <properties />
-          <option name="timeStamp" value="69" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java</url>
-          <line>39</line>
-          <properties />
-          <option name="timeStamp" value="87" />
+          <url>file://$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java</url>
+          <line>150</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
-      <default-breakpoints>
-        <breakpoint enabled="true" type="javascript-exception">
-          <properties />
-        </breakpoint>
-      </default-breakpoints>
     </breakpoint-manager>
   </component>
-  <component name="editorHistoryManager">
-    <entry file="jar://$PROJECT_DIR$/../../../tool/apache-maven-3.5.4/repository/org/apache/tomcat/embed/tomcat-embed-core/9.0.22/tomcat-embed-core-9.0.22.jar!/org/apache/tomcat/util/threads/TaskThread.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="36" column="54" lean-forward="true" selection-start-line="36" selection-start-column="54" selection-end-line="36" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/console/authority/authority.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="61" column="52" lean-forward="true" selection-start-line="61" selection-start-column="52" selection-end-line="61" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/console/role/demo.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/console/role/roleAdd.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/console/role/role.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/MenuAdminDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/MenuAdmin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="52" selection-start-line="52" selection-end-line="55" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="31" column="19" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
-          <folding>
-            <element signature="e#903#904#0" expanded="true" />
-            <element signature="e#939#940#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/MvcConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/LoginInterceptor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAuthAdminController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/ServiceAdminConsoleFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleMenuAdminDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="24" column="36" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleMenuAdminServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-390">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleUserAdminServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="68" column="9" lean-forward="true" selection-start-line="41" selection-start-column="6" selection-end-line="68" selection-end-column="9" />
-          <folding>
-            <element signature="e#436#460#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../../tool/apache-maven-3.5.4/repository/org/springframework/data/spring-data-jpa/2.1.10.RELEASE/spring-data-jpa-2.1.10.RELEASE.jar!/org/springframework/data/jpa/repository/JpaRepository.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="28" column="9" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleUserAdminDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/AuthorityAdminService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleUserAdminService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="36" column="19" lean-forward="true" selection-start-line="36" selection-start-column="19" selection-end-line="36" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleMenuAdminService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="23" column="51" lean-forward="true" selection-start-line="23" selection-start-column="51" selection-end-line="23" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/MenuAdminService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../../tool/apache-maven-3.5.4/repository/org/springframework/spring-core/5.1.9.RELEASE/spring-core-5.1.9.RELEASE.jar!/org/springframework/cglib/proxy/MethodProxy.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="104" selection-start-line="104" selection-end-line="104" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../../tool/apache-maven-3.5.4/repository/org/springframework/spring-aop/5.1.9.RELEASE/spring-aop-5.1.9.RELEASE.jar!/org/springframework/aop/aspectj/AbstractAspectJAdvice.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="414" selection-start-line="414" selection-end-line="414" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../../tool/apache-maven-3.5.4/repository/org/springframework/spring-aop/5.1.9.RELEASE/spring-aop-5.1.9.RELEASE.jar!/org/springframework/aop/aspectj/AspectJAroundAdvice.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="39" selection-start-line="39" selection-end-line="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../../tool/apache-maven-3.5.4/repository/org/springframework/spring-aop/5.1.9.RELEASE/spring-aop-5.1.9.RELEASE.jar!/org/springframework/aop/framework/ReflectiveMethodInvocation.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="77" selection-start-line="77" selection-end-line="77" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../../tool/apache-maven-3.5.4/repository/org/springframework/spring-aop/5.1.9.RELEASE/spring-aop-5.1.9.RELEASE.jar!/org/springframework/aop/interceptor/ExposeInvocationInterceptor.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="43" selection-start-line="43" selection-end-line="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/AuthorityAdminDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/DaoAdminConsoleFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/dao/RoleAuthAdminDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="28" column="49" lean-forward="true" selection-start-line="28" selection-start-column="49" selection-end-line="28" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/AuthorityAdmin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-311">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/entity/RoleAuthAdmin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="33" column="25" lean-forward="true" selection-start-line="33" selection-start-column="25" selection-end-line="34" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/RoleAuthAdminServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="62" selection-start-line="62" selection-end-line="62" />
-          <folding>
-            <element signature="e#388#412#0" expanded="true" />
-            <element signature="e#538#539#0" expanded="true" />
-            <element signature="e#613#614#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleAuthAdminService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="25" column="28" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/console/role/roleUrlAuth.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="196" column="13" lean-forward="true" selection-start-line="196" selection-start-column="13" selection-end-line="196" selection-end-column="13" />
-          <folding>
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="34" column="21" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui/layui.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="12" column="12" lean-forward="true" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui/layui2.4.5.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-31" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui/lay/all.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-core/src/main/resources/static/layuiadmin/layui/lay/modules/table.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="169" column="21" lean-forward="true" selection-start-line="169" selection-start-column="21" selection-end-line="169" selection-end-column="21" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#td#0;n#tr#0;n#tbody#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/static/js/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-150">
-          <folding>
-            <element signature="n#style#0;n#dd#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#dd#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#dd#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-161">
-          <caret line="109" column="47" selection-start-line="109" selection-start-column="47" selection-end-line="109" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/MenuAdminController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="52" column="16" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/TestController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/vo/Data.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-53">
-          <caret line="59" column="43" lean-forward="true" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2057">
-          <caret line="26" column="27" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/resources/templates/console/user/user.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="867">
-          <caret line="82" column="11" lean-forward="true" selection-start-line="82" selection-start-column="11" selection-end-line="82" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DictionaryAdminController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/AopAuthority.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="83" column="16" selection-start-line="83" selection-start-column="16" selection-end-line="83" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DataBaseController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1375">
-          <caret line="48" column="6" lean-forward="true" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
-          <folding>
-            <element signature="e#725#751#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/AuthorityAdminController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="95" column="46" selection-start-line="95" selection-start-column="46" selection-end-line="95" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/AuthorityAdminServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-20">
-          <caret line="27" column="16" selection-start-line="27" selection-start-column="16" selection-end-line="27" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/spring_boot_plus2$AdminConsoleApplication.ic" NAME="AdminConsoleApplication Coverage Results" MODIFIED="1578744606641" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.ws.ldy.*</FILTER>
+    </SUITE>
   </component>
 </project>

@@ -1,9 +1,11 @@
 package com.ws.ldy.adminconsole.service.impl;
 
+import com.ws.ldy.adminconsole.dao.AuthorityAdminDao;
 import com.ws.ldy.adminconsole.entity.AuthorityAdmin;
 import com.ws.ldy.adminconsole.service.AuthorityAdminService;
-import com.ws.ldy.adminconsole.service.base.impl.BaseAdminConsoleServiceImpl;
 import com.ws.ldy.admincore.annotation.LdyAuthority;
+import com.ws.ldy.admincore.service.impl.BaseServiceApiImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,8 +17,10 @@ import java.util.Map;
 
 
 @Service
-public class AuthorityAdminServiceImpl extends BaseAdminConsoleServiceImpl<AuthorityAdmin, Integer> implements AuthorityAdminService {
+public class AuthorityAdminServiceImpl extends BaseServiceApiImpl<AuthorityAdmin, Integer> implements AuthorityAdminService {
 
+    @Autowired
+    private AuthorityAdminDao authorityAdminDao ;
 
     /**
      * TODO    包所有类
@@ -27,7 +31,7 @@ public class AuthorityAdminServiceImpl extends BaseAdminConsoleServiceImpl<Autho
     @Override
     public void putClass(List<Class<?>> classByPackageName) {
         //当前存在url权限列表
-        List<AuthorityAdmin> list = dao.authorityAdminDao.findAll();
+        List<AuthorityAdmin> list = authorityAdminDao.findAll();
         Map<String, AuthorityAdmin> map = new HashMap();
         list.forEach(item -> map.put(item.getName(), item));
         //保存权限
@@ -52,17 +56,17 @@ public class AuthorityAdminServiceImpl extends BaseAdminConsoleServiceImpl<Autho
                 authority.setDesc(ldyClass.value()[1]);
                 authority.setUrl(reqClass.value()[0]);
                 //添加,返回添加信息
-                AuthorityAdmin save = dao.authorityAdminDao.save(authority);
+                AuthorityAdmin save = authorityAdminDao.save(authority);
                 putMethods(classInfo, athorityList, map, save);
             }
         }
         //添加所有方法级权限
-        dao.authorityAdminDao.saveAll(athorityList);
+        authorityAdminDao.saveAll(athorityList);
     }
 
     @Override
     public List<AuthorityAdmin> findUserIdRoleAuthority(Integer userId) {
-        return dao.authorityAdminDao.findUserIdRoleAuthority(userId);
+        return authorityAdminDao.findUserIdRoleAuthority(userId);
     }
 
 

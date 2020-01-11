@@ -1,7 +1,7 @@
 package com.ws.ldy.admindemoweb.controller.base;
 
 
-import com.ws.ldy.admincore.controller.BaseControllerApi;
+import com.ws.ldy.admincore.controller.BaseController;
 import com.ws.ldy.admindemoweb.factory.DaoAdminDemoWebFactory;
 import com.ws.ldy.admindemoweb.factory.ServiceAdminDemoWebFactory;
 
@@ -12,7 +12,7 @@ import javax.annotation.Resource;
  * @WX-QQ 1720696548
  * @date  2019/11/15 10:35
  */
-public class BaseAdminDemoWebController extends BaseControllerApi {
+public class BaseAdminDemoWebController extends BaseController {
 
     @Resource
     protected DaoAdminDemoWebFactory dao;

@@ -1,9 +1,11 @@
 package com.ws.ldy.adminconsole.controller;
 
 
-import com.ws.ldy.adminconsole.controller.base.BaseAdminConsoleController;
 import com.ws.ldy.adminconsole.entity.MenuAdmin;
 import com.ws.ldy.adminconsole.entity.UserAdmin;
+import com.ws.ldy.adminconsole.service.MenuAdminService;
+import com.ws.ldy.admincore.controller.BaseController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,9 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/menuAdmin")
-public class MenuAdminController extends BaseAdminConsoleController {
+public class MenuAdminController extends BaseController {
+    @Autowired
+    private MenuAdminService menuServiceImpl;
 
     /**
      * TODO 获取菜单树,左导航菜单
@@ -31,8 +35,8 @@ public class MenuAdminController extends BaseAdminConsoleController {
     @RequestMapping("/menuTree")
     @ResponseBody
     public List<MenuAdmin> menuTree(Integer id) {
-        UserAdmin user = (UserAdmin)session.getAttribute("user");
-        List<MenuAdmin> menuTree = service.menuServiceImpl.getMenuTree(user);
+        UserAdmin user = (UserAdmin) session.getAttribute("user");
+        List<MenuAdmin> menuTree = menuServiceImpl.getMenuTree(user);
         return menuTree;
 
     }
@@ -41,15 +45,15 @@ public class MenuAdminController extends BaseAdminConsoleController {
     /**
      * TODO 菜单列表查询
      *
-     * @param type =1 获取所有  || =2 获取指定父id下的所有
+     * @param type   =1 获取所有  || =2 获取指定父id下的所有
      * @param id     父id
      * @param roleId 角色Id，判断当前是否有权限并选中
      * @return
      */
     @RequestMapping("/findAll/{type}")
     @ResponseBody
-    public List<MenuAdmin> findAll(@PathVariable Integer type,Integer id,Integer roleId) {
-        List<MenuAdmin>  menus = service.menuServiceImpl.getIdNodeMenu(id,roleId,type);
+    public List<MenuAdmin> findAll(@PathVariable Integer type, Integer id, Integer roleId) {
+        List<MenuAdmin> menus = menuServiceImpl.getIdNodeMenu(id, roleId, type);
         return menus;
     }
 
@@ -87,7 +91,7 @@ public class MenuAdminController extends BaseAdminConsoleController {
             menu.setIcon("");        //图标
             menu.setUrl(url);         //url
         }
-        service.menuServiceImpl.save(dao.menuDao, menu);
+        menuServiceImpl.save(menu);
         return "success";
     }
 
@@ -101,7 +105,7 @@ public class MenuAdminController extends BaseAdminConsoleController {
     @ResponseBody
     @RequestMapping("/delete")
     public String delete(Integer id) {
-        service.menuServiceImpl.deleteById(dao.menuDao, id);
+        menuServiceImpl.deleteById(id);
         return "success";
     }
 
@@ -115,7 +119,7 @@ public class MenuAdminController extends BaseAdminConsoleController {
     @ResponseBody
     @RequestMapping("/update/{type}")
     public String update(@PathVariable Integer type, Integer id, String val) {
-        MenuAdmin menu = service.menuServiceImpl.get(dao.menuDao, id);
+        MenuAdmin menu = menuServiceImpl.get(id);
         if (type == 1) {
             menu.setSort(Integer.parseInt(val));
         } else if (type == 2) {
@@ -127,7 +131,7 @@ public class MenuAdminController extends BaseAdminConsoleController {
         } else if (type == 5) {
             menu.setName(val);
         }
-        service.menuServiceImpl.save(dao.menuDao, menu);
+        menuServiceImpl.save(menu);
         return "success";
     }
 }

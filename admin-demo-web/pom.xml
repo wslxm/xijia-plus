@@ -26,5 +26,4 @@
             <version>${admin-console.version}</version>
         </dependency>
     </dependencies>
-
 </project>

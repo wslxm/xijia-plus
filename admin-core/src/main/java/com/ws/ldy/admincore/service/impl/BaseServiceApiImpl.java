@@ -1,8 +1,10 @@
 package com.ws.ldy.admincore.service.impl;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.ws.ldy.admincore.dao.BaseDao;
 import com.ws.ldy.admincore.service.BaseServiceApi;
+import com.ws.ldy.admincore.utils.SpringContextUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -13,6 +15,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,40 +30,57 @@ import java.util.Map;
  * @date 2019/10/31 21:12
  */
 @SuppressWarnings("ALL")
-public abstract class BaseServiceApiImpl<T, ID extends Serializable> implements BaseServiceApi<T, ID> {
+public class BaseServiceApiImpl<T, ID extends Serializable> implements BaseServiceApi<T, ID> {
+
+    /**
+     * 通过泛型T获取出bengId ，在通过bengId获取到对应dao类的实例
+     */
+    private  BaseDao getDao(){
+        //获取类上的泛型
+        Type types = this.getClass().getGenericSuperclass();
+        Type[] genericType = ((ParameterizedType) types).getActualTypeArguments();
+        // 获取到entity 的类路径
+        String entityCalss = genericType[0].getTypeName();
+        // 获取到Dao类名=bend名称
+        String  daoCalssName = entityCalss.substring(entityCalss.lastIndexOf(".")+1,entityCalss.length())+"Dao" ;
+        // 通过beng 获取到dao实例（首字母小写：hutool 文档: https://apidoc.gitee.com/loolly/hutool/）,
+        BaseDao  dao = (BaseDao) SpringContextUtil.getBean(StrUtil.lowerFirst(daoCalssName));
+        return dao;
+    }
+
 
     @Override
-    public List<T> findAll(BaseDao dao) {
-        return dao.findAll();
+    public List<T> findAll() {
+        return getDao().findAll();
     }
 
     @Override
-    public T save(BaseDao dao, T t) {
-        return (T) dao.save(t);
+    public T save( T t) {
+        return (T) getDao().save(t);
     }
 
     @Override
-    public Boolean saveAll(BaseDao dao, List<T> ts) {
-        if (dao.saveAll(ts) != null) {
+    public Boolean saveAll( List<T> ts) {
+        if (getDao().saveAll(ts) != null) {
             return true;
         }
         return false;
     }
 
     @Override
-    public T update(BaseDao dao, T t) {
-        return (T) dao.saveAndFlush(t);
+    public T update( T t) {
+        return (T) getDao().saveAndFlush(t);
     }
 
     @Override
-    public T get(BaseDao dao, ID id) {
-        return (T) dao.getOne(id);
+    public T get( ID id) {
+        return (T) getDao().getOne(id);
     }
 
     @Override
-    public Boolean deleteById(BaseDao dao, ID id) {
+    public Boolean deleteById( ID id) {
         try {
-            dao.deleteById(id);
+            getDao().deleteById(id);
             return true;
         } catch (Exception e) {
             return false;
@@ -67,11 +88,11 @@ public abstract class BaseServiceApiImpl<T, ID extends Serializable> implements 
     }
 
     @Override
-    public Boolean deleteByIds(BaseDao dao, ID[] ids) {
+    public Boolean deleteByIds( ID[] ids) {
         // List<ID> ids1 = Arrays.asList(ids);
         try {
             for (ID id : ids) {
-                dao.deleteById(id);
+                getDao().deleteById(id);
             }
             return true;
         } catch (Exception e) {
@@ -80,9 +101,9 @@ public abstract class BaseServiceApiImpl<T, ID extends Serializable> implements 
     }
 
     @Override
-    public Boolean deleteInBatch(BaseDao dao, List<T> ts) {
+    public Boolean deleteInBatch( List<T> ts) {
         try {
-            dao.deleteInBatch(ts);
+            getDao().deleteInBatch(ts);
             return true;
         } catch (Exception e) {
             return false;
@@ -125,8 +146,8 @@ public abstract class BaseServiceApiImpl<T, ID extends Serializable> implements 
      * @return
      */
     @Override
-    public Page<T> fingPage(BaseDao dao, int page, int size, Map<Integer, Map<String, Object>> param, Sort sort) {
-        return dao.findAll(new Specification<T>() {
+    public Page<T> fingPage( int page, int size, Map<Integer, Map<String, Object>> param, Sort sort) {
+        return getDao().findAll(new Specification<T>() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -154,7 +175,7 @@ public abstract class BaseServiceApiImpl<T, ID extends Serializable> implements 
                         // 两者之间条件拼接， key ：字段名，start：开始 , ent :结束
                         for (String key : queryMap.keySet()) {
                             Map<String, Object> betweenMap = (Map<String, Object>) queryMap.get(key);
-                            if ( betweenMap.get("start") != null && betweenMap.get("ent") != null) {
+                            if (betweenMap.get("start") != null && betweenMap.get("ent") != null) {
                                 String startTime = betweenMap.get("start").toString();
                                 String entTime = betweenMap.get("ent").toString();
                                 if (!"".equals(key) && !"".equals(startTime) && !"".equals(entTime)) {
@@ -174,7 +195,6 @@ public abstract class BaseServiceApiImpl<T, ID extends Serializable> implements 
                         for (String key : queryMap.keySet()) {
                             if (queryMap.get(key) != null && !"".equals(queryMap.get(key).toString())) {
                                 list.add(cb.lessThanOrEqualTo(root.get(key).as(String.class), queryMap.get(key).toString()));
-
                             }
                         }
                     } else if (keyType == 6) {
@@ -199,9 +219,10 @@ public abstract class BaseServiceApiImpl<T, ID extends Serializable> implements 
         }, PageRequest.of(page - 1, size, sort));
     }
 
+
     @Override
-    public Page<T> page(BaseDao dao, int page, int size, Map<String, Object> param, Sort sort) {
-        return dao.findAll(new Specification<T>() {
+    public Page<T> page( int page, int size, Map<String, Object> param, Sort sort) {
+        return getDao().findAll(new Specification<T>() {
             private static final long serialVersionUID = 1L;
 
             @Override

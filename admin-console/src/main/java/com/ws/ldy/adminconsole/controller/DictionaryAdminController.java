@@ -1,9 +1,10 @@
 package com.ws.ldy.adminconsole.controller;
 
-import com.ws.ldy.adminconsole.controller.base.BaseAdminConsoleController;
 import com.ws.ldy.adminconsole.entity.DictionaryAdmin;
-
-import com.ws.ldy.admincore.controller.vo.Data;
+import com.ws.ldy.adminconsole.service.impl.DictionaryAdminServiceImpl;
+import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.admincore.controller.vo.ResponseData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -25,8 +26,10 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/dictionaryAdmin")
-public class DictionaryAdminController extends BaseAdminConsoleController {
+public class DictionaryAdminController extends BaseController {
 
+    @Autowired
+    private DictionaryAdminServiceImpl dictionaryAdminServiceImpl;
 
     /**
      * TODO  分页查询
@@ -36,12 +39,12 @@ public class DictionaryAdminController extends BaseAdminConsoleController {
      */
     @RequestMapping("/findByType")
     @ResponseBody
-    public Map<String, Object> findByType(String type) {
-        List<DictionaryAdmin> dictionarys = service.dictionaryAdminServiceImpl.findByType(type);
+    public ResponseData findByType(String type) {
+        List<DictionaryAdmin> dictionarys = dictionaryAdminServiceImpl.findByType(type);
         for (DictionaryAdmin dictionary : dictionarys) {
             dictionary.setName(dictionary.getValue());
         }
-        return new Data(dictionarys).getResData();
+        return ResponseData.success(dictionarys);
     }
 
     /**
@@ -53,14 +56,14 @@ public class DictionaryAdminController extends BaseAdminConsoleController {
      */
     @RequestMapping("/findAll")
     @ResponseBody
-    public Map<String, Object> findAll(Integer page, Integer limit, String type) {
+    public ResponseData findAll(Integer page, Integer limit, String type) {
         Map<Integer, Map<String, Object>> param = new HashMap<>(2);
         param.put(1, new HashMap<String, Object>(1) {{
             put("type", type);
         }});
         Sort sort = new Sort(Sort.Direction.ASC, "id");
-        Page<DictionaryAdmin> dictionaryAdmins = service.dictionaryAdminServiceImpl.fingPage(dao.dictionaryAdminDao, page, limit, param, sort);
-        return new Data(dictionaryAdmins.getContent(), dictionaryAdmins.getTotalPages()).getResData();
+        Page<DictionaryAdmin> dictionaryAdmins = dictionaryAdminServiceImpl.fingPage(page, limit, param, sort);
+        return ResponseData.success(dictionaryAdmins.getContent(), dictionaryAdmins.getTotalPages());
     }
 
 
@@ -75,9 +78,9 @@ public class DictionaryAdminController extends BaseAdminConsoleController {
     @ResponseBody
     public String save(@PathVariable Integer type, DictionaryAdmin dictionaryAdmin) {
         if (type == 1) {
-            service.dictionaryAdminServiceImpl.save(dao.dictionaryAdminDao, dictionaryAdmin);
+            dictionaryAdminServiceImpl.save( dictionaryAdmin);
         } else {
-            service.dictionaryAdminServiceImpl.save(dao.dictionaryAdminDao, dictionaryAdmin);
+            dictionaryAdminServiceImpl.save(dictionaryAdmin);
         }
         return "success";
     }
@@ -91,7 +94,7 @@ public class DictionaryAdminController extends BaseAdminConsoleController {
     @ResponseBody
     @RequestMapping("/delete")
     public String delete(Integer[] ids) {
-        service.dictionaryAdminServiceImpl.deleteByIds(dao.dictionaryAdminDao, ids);
+        dictionaryAdminServiceImpl.deleteByIds( ids);
         return "success";
     }
 }

@@ -3,7 +3,7 @@ package com.ws.ldy.adminconsole.service;
 
 import com.ws.ldy.adminconsole.entity.MenuAdmin;
 import com.ws.ldy.adminconsole.entity.UserAdmin;
-import com.ws.ldy.adminconsole.service.base.BaseAdminConsoleService;
+import com.ws.ldy.admincore.service.BaseServiceApi;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @WX-QQ 1720696548
  * @date 2019/11/13 15:10
  */
-public interface MenuAdminService extends BaseAdminConsoleService<MenuAdmin, Integer> {
+public interface MenuAdminService extends BaseServiceApi<MenuAdmin, Integer> {
 
 
     /**

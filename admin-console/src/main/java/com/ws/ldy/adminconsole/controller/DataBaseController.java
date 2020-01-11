@@ -1,10 +1,12 @@
 package com.ws.ldy.adminconsole.controller;
 
 import cn.hutool.core.lang.Dict;
-import com.ws.ldy.adminconsole.controller.base.BaseAdminConsoleController;
 import com.ws.ldy.adminconsole.controller.vo.FieldCG;
 import com.ws.ldy.adminconsole.service.impl.CodeGenerationImpl;
-import com.ws.ldy.admincore.controller.vo.Data;
+import com.ws.ldy.adminconsole.service.impl.DataBaseServiceImpl;
+import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.admincore.controller.vo.ResponseData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +26,12 @@ import java.util.Map;
 @SuppressWarnings({"all"})
 @Controller
 @RequestMapping("/dataBase")
-public class DataBaseController extends BaseAdminConsoleController {
+public class DataBaseController extends BaseController {
 
+    @Autowired
+    private DataBaseServiceImpl dataBaseServiceImpl;
+    @Autowired
+    private CodeGenerationImpl codeGenerationImpl;
 
     /**
      * TODO  查询当前连接数据库所有表名
@@ -35,12 +41,12 @@ public class DataBaseController extends BaseAdminConsoleController {
      */
     @RequestMapping("/findTable")
     @ResponseBody
-    public Map<String, Object> findTable() {
-        List<String> tables = service.dataBaseDaoServiceImpl.findTable();
+    public ResponseData findTable() {
+        List<String> tables =dataBaseServiceImpl.findTable();
         //转为前台需要的树结构数据
         List<Dict> tableList = new ArrayList<>();
         tables.forEach(item -> tableList.add(Dict.create().set("name", item)));
-        return new Data(tableList).getResData();
+        return ResponseData.success(tableList);
     }
 
 
@@ -53,9 +59,9 @@ public class DataBaseController extends BaseAdminConsoleController {
      */
     @RequestMapping("/findTableField")
     @ResponseBody
-    public Map<String, Object> findTableField(String name) {
-        List<Map<String, String>> tableField = service.dataBaseDaoServiceImpl.findTableField(name);
-        return new Data(tableField).getResData();
+    public ResponseData findTableField(String name) {
+        List<Map<String, String>> tableField = dataBaseServiceImpl.findTableField(name);
+        return ResponseData.success(tableField);
     }
 
 
@@ -78,7 +84,7 @@ public class DataBaseController extends BaseAdminConsoleController {
         // 模板位置
         final String pathTp = "/admin-console/src/main/resources/static/template";
         // 数据解析成集合,
-        List<Map<String, Object>> dataList = service.codeGenerationImpl.getDataAnalysis(data);
+        List<Map<String, Object>> dataList = codeGenerationImpl.getDataAnalysis(data);
         //FieldCG 数据保存和处理
         FieldCG fieldCG = new FieldCG();
         fieldCG.setEntryName(entryName);          // 项目实际名称
@@ -102,17 +108,17 @@ public class DataBaseController extends BaseAdminConsoleController {
             CodeGenerationImpl.SUFFIX_NAME_JAVA = ".txt";     //生成java的文件后缀名
             CodeGenerationImpl.SUFFIX_NAME_HTML = ".txt";     //生成html生成的文件后缀名
             //文件生成
-            service.codeGenerationImpl.buildEntity(dataList, fieldCG, fieldCG.getPathJava());          //生成Entity
-            service.codeGenerationImpl.buildController(dataList, fieldCG, fieldCG.getPathJava());      //生成Controller
-            service.codeGenerationImpl.buildService(dataList, fieldCG, fieldCG.getPathJava());         //生成service
-            service.codeGenerationImpl.buildServiceImpl(dataList, fieldCG, fieldCG.getPathJava());     //生成serviceImpl
-            service.codeGenerationImpl.buildDao(fieldCG, fieldCG.getPathJava());                       //生成dao
-            service.codeGenerationImpl.buildDaoFactory(fieldCG, fieldCG.getPathJava());                 //追加dao，依赖注如信息
-            service.codeGenerationImpl.buildServiceFactory(fieldCG, fieldCG.getPathJava());             //追加service,依赖注如信息
+            codeGenerationImpl.buildEntity(dataList, fieldCG, fieldCG.getPathJava());          //生成Entity
+            codeGenerationImpl.buildController(dataList, fieldCG, fieldCG.getPathJava());      //生成Controller
+            codeGenerationImpl.buildService(dataList, fieldCG, fieldCG.getPathJava());         //生成service
+            codeGenerationImpl.buildServiceImpl(dataList, fieldCG, fieldCG.getPathJava());     //生成serviceImpl
+            codeGenerationImpl.buildDao(fieldCG, fieldCG.getPathJava());                       //生成dao
+            codeGenerationImpl.buildDaoFactory(fieldCG, fieldCG.getPathJava());                 //追加dao，依赖注如信息
+            codeGenerationImpl.buildServiceFactory(fieldCG, fieldCG.getPathJava());             //追加service,依赖注如信息
             //html
-            service.codeGenerationImpl.buildMainHtml(dataList, fieldCG, fieldCG.getPathHtml());
-            service.codeGenerationImpl.buildAddHtml(dataList, fieldCG, fieldCG.getPathHtml());
-            service.codeGenerationImpl.buildUpdHtml(dataList, fieldCG, fieldCG.getPathHtml());
+            codeGenerationImpl.buildMainHtml(dataList, fieldCG, fieldCG.getPathHtml());
+            codeGenerationImpl.buildAddHtml(dataList, fieldCG, fieldCG.getPathHtml());
+            codeGenerationImpl.buildUpdHtml(dataList, fieldCG, fieldCG.getPathHtml());
         } else {
             //生成文件，存在会覆盖
             fieldCG.setPathHtml(entryName + "/src/main/resources" + "/templates/" + fieldCG.getEntryNameLast() + "/"); // html 生成位置
@@ -131,19 +137,19 @@ public class DataBaseController extends BaseAdminConsoleController {
                 return null;
             }
             //文件生成
-            service.codeGenerationImpl.buildEntity(dataList, fieldCG, fieldCG.getPathJava() + "entity/");            //生成Entity
-            service.codeGenerationImpl.buildController(dataList, fieldCG, fieldCG.getPathJava() + "controller/");    //生成Controller
-            service.codeGenerationImpl.buildService(dataList, fieldCG, fieldCG.getPathJava() + "service/");          //生成service
-            service.codeGenerationImpl.buildServiceImpl(dataList, fieldCG, fieldCG.getPathJava() + "service/impl/"); //生成serviceImpl
-            service.codeGenerationImpl.buildDao(fieldCG, fieldCG.getPathJava() + "dao/");                            //生成dao
-            service.codeGenerationImpl.buildDaoFactory(fieldCG, fieldCG.getPathJava() + "factory/");                  //追加dao，依赖注如信息
-            service.codeGenerationImpl.buildServiceFactory(fieldCG, fieldCG.getPathJava() + "factory/");              //追加service,依赖注如信息
+            codeGenerationImpl.buildEntity(dataList, fieldCG, fieldCG.getPathJava() + "entity/");            //生成Entity
+            codeGenerationImpl.buildController(dataList, fieldCG, fieldCG.getPathJava() + "controller/");    //生成Controller
+            codeGenerationImpl.buildService(dataList, fieldCG, fieldCG.getPathJava() + "service/");          //生成service
+            codeGenerationImpl.buildServiceImpl(dataList, fieldCG, fieldCG.getPathJava() + "service/impl/"); //生成serviceImpl
+            codeGenerationImpl.buildDao(fieldCG, fieldCG.getPathJava() + "dao/");                            //生成dao
+            codeGenerationImpl.buildDaoFactory(fieldCG, fieldCG.getPathJava() + "factory/");                  //追加dao，依赖注如信息
+            codeGenerationImpl.buildServiceFactory(fieldCG, fieldCG.getPathJava() + "factory/");              //追加service,依赖注如信息
             //html
-            service.codeGenerationImpl.buildMainHtml(dataList, fieldCG, fieldCG.getPathHtml());
-            service.codeGenerationImpl.buildAddHtml(dataList, fieldCG, fieldCG.getPathHtml());
-            service.codeGenerationImpl.buildUpdHtml(dataList, fieldCG, fieldCG.getPathHtml());
+            codeGenerationImpl.buildMainHtml(dataList, fieldCG, fieldCG.getPathHtml());
+            codeGenerationImpl.buildAddHtml(dataList, fieldCG, fieldCG.getPathHtml());
+            codeGenerationImpl.buildUpdHtml(dataList, fieldCG, fieldCG.getPathHtml());
         }
         //返回预览文件地址
-        return service.codeGenerationImpl.getPathMap();
+        return codeGenerationImpl.getPathMap();
     }
 }

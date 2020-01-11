@@ -1,12 +1,10 @@
 package com.ws.ldy.admincore.controller;
 
-import com.ws.ldy.admincore.controller.vo.Data;
+import com.ws.ldy.admincore.controller.vo.ResponseData;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Map;
 
 /**
  * TODO  系统错误页拦截处理，由 ErrorPageConfig配置拦截跳转到此类方法
@@ -54,18 +52,18 @@ public class ErrorController {
      */
     @RequestMapping(value = "/error/{code}")
     @ResponseBody
-    public Map<String, Object> error(@PathVariable int code) {
+    public ResponseData error(@PathVariable int code) {
         switch (code) {
             case 401:
-                return new Data(401, "未授权").getResData();
+                return  ResponseData.error("401", "未授权");
             case 403:
-                return new Data(403, "拒绝访问").getResData();
+                return  ResponseData.error("403", "拒绝访问");
             case 404:
-                return new Data(404, "找不到页面,检查url是否正常").getResData();
+                return  ResponseData.error("404", "找不到页面,检查url是否正常");
             case 500:
-                return new Data(500, "系统错误了").getResData();
+                return  ResponseData.error("500", "系统错误了");
             default:
         }
-        return new Data(999, "未知错误").getResData();
+        return  ResponseData.error("999", "未知错误");
     }
 }

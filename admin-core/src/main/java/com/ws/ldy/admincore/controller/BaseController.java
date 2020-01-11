@@ -11,7 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class BaseControllerApi {
+public class BaseController {
 
     @Autowired
     protected HttpSession session;

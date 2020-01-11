@@ -5,7 +5,7 @@ import com.ws.ldy.adminconsole.dao.RoleAuthAdminDao;
 import com.ws.ldy.adminconsole.entity.AuthorityAdmin;
 import com.ws.ldy.adminconsole.entity.UserAdmin;
 import com.ws.ldy.admincore.annotation.LdyAuthority;
-import com.ws.ldy.admincore.controller.vo.Data;
+import com.ws.ldy.admincore.controller.vo.ResponseData;
 import com.ws.ldy.admincore.utils.JsonUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -70,9 +70,9 @@ public class AopAuthority {
                 HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
                 response.setCharacterEncoding("utf-8");
                 response.setContentType("application/json; charset=utf-8");
-                Map<String, Object> data = new Data(403, "没有权限").getResData();
+                ResponseData responseData = ResponseData.error("403", "没有权限");
                 PrintWriter writer = response.getWriter();
-                writer.write(JsonUtil.getJsonString(data));
+                writer.write(JsonUtil.getJsonString(responseData));
             }
         } catch (Throwable e) {
             e.printStackTrace();
@@ -117,7 +117,7 @@ public class AopAuthority {
     }
 
 
-    /*方法二：速度最快
+    /**
      * 判断是否为整数
      * @param str 传入的字符串
      * @return 是整数返回true,否则返回false

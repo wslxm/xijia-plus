@@ -1,8 +1,10 @@
 package com.ws.ldy.adminconsole.controller;
 
-import com.ws.ldy.adminconsole.controller.base.BaseAdminConsoleController;
 import com.ws.ldy.adminconsole.entity.UserAdmin;
-import com.ws.ldy.admincore.controller.vo.Data;
+import com.ws.ldy.adminconsole.service.impl.UserAdminServiceImpl;
+import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.admincore.controller.vo.ResponseData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -13,11 +15,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class TestController extends BaseAdminConsoleController {
+public class TestController extends BaseController {
+
+    @Autowired
+    private UserAdminServiceImpl userAdminServiceImpl;
 
     @RequestMapping("/api/test")
     @ResponseBody
-    public Map<String, Object> test() {
+    public ResponseData test() {
         Map<Integer, Map<String, Object>> param = new HashMap<>(2);
         Sort sort = new Sort(Sort.Direction.ASC, "id");
         //测试精准查询
@@ -25,7 +30,7 @@ public class TestController extends BaseAdminConsoleController {
 //            put("id", "1");
 //            put("username", "王松");
 //        }});
-//        Page<UserAdmin> userPages = service.userServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
+//        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
 //        System.out.println(userPages.getContent().toString());
 
 
@@ -33,7 +38,7 @@ public class TestController extends BaseAdminConsoleController {
 //        param.put(2, new HashMap<String, Object>() {{
 //            put("address", "四川");
 //        }});
-//        Page<UserAdmin> userPages = service.userServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
+//        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
 //        System.out.println(userPages.getContent().toString());
 
 
@@ -44,7 +49,7 @@ public class TestController extends BaseAdminConsoleController {
 //                put("ent", "2019-11-15 20:00:00");
 //            }});
 //        }});
-//        Page<UserAdmin> userPages = service.userServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
+//        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
 //        System.out.println(userPages.getContent().toString());
 
 
@@ -52,7 +57,7 @@ public class TestController extends BaseAdminConsoleController {
 //        param.put(4, new HashMap<String, Object>() {{
 //            put("age", 23);
 //        }});
-//        Page<UserAdmin> userPages = service.userServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
+//        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
 //        System.out.println(userPages.getContent().toString());
 
 
@@ -60,7 +65,7 @@ public class TestController extends BaseAdminConsoleController {
 //        param.put(5, new HashMap<String, Object>() {{
 //            put("age", 22);
 //        }});
-//        Page<UserAdmin> userPages = service.userServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
+//        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
 //        System.out.println(userPages.getContent().toString());
 //        return new Data(userPages.getContent(), userPages.getTotalPages()).getResData();
 
@@ -69,7 +74,7 @@ public class TestController extends BaseAdminConsoleController {
 //        param.put(6, new HashMap<String, Object>() {{
 //            put("time", "2019-11-15 00:00:00");
 //        }});
-//        Page<UserAdmin> userPages = service.userServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
+//        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
 //        System.out.println(userPages.getContent().toString());
 //        return new Data(userPages.getContent(), userPages.getTotalPages()).getResData();
 
@@ -78,10 +83,10 @@ public class TestController extends BaseAdminConsoleController {
         param.put(7, new HashMap<String, Object>() {{
             put("time", "2019-11-15 00:00:00");
         }});
-        Page<UserAdmin> userPages = service.userServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
+        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(1, 100, param, sort);
         System.out.println(userPages.getContent().toString());
-
         //返回参数
-        return new Data(userPages.getContent(), userPages.getTotalPages()).getResData();
+        return ResponseData.success(userPages.getContent(), userPages.getTotalPages());
+
     }
 }

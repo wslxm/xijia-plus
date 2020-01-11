@@ -1,10 +1,13 @@
 package com.ws.ldy.adminconsole.service.impl;
 
+import com.ws.ldy.adminconsole.dao.MenuAdminDao;
+import com.ws.ldy.adminconsole.dao.RoleMenuAdminDao;
 import com.ws.ldy.adminconsole.entity.MenuAdmin;
 import com.ws.ldy.adminconsole.entity.RoleMenuAdmin;
 import com.ws.ldy.adminconsole.entity.UserAdmin;
 import com.ws.ldy.adminconsole.service.MenuAdminService;
-import com.ws.ldy.adminconsole.service.base.impl.BaseAdminConsoleServiceImpl;
+import com.ws.ldy.admincore.service.impl.BaseServiceApiImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -14,8 +17,13 @@ import java.util.Map;
 
 
 @Service
-public class MenuAdminServiceImpl extends BaseAdminConsoleServiceImpl<MenuAdmin, Integer> implements MenuAdminService {
+public class MenuAdminServiceImpl extends BaseServiceApiImpl<MenuAdmin, Integer> implements MenuAdminService {
 
+    @Autowired
+    private RoleMenuAdminDao roleMenuDao;
+
+    @Autowired
+    private MenuAdminDao menuDao;
     /**
      * =========================================================================
      * ========================   导航树结构菜单查询处理  ======================
@@ -28,11 +36,11 @@ public class MenuAdminServiceImpl extends BaseAdminConsoleServiceImpl<MenuAdmin,
     public List<MenuAdmin> getMenuTree(UserAdmin user) {
         //查询用户当前的角色下的单Id
         Map<Integer, Integer> roleMenuMap = new HashMap<>(8);
-        List<RoleMenuAdmin> roleMenus = dao.roleMenuDao.findUserIdRoleMenus(user.getId());
+        List<RoleMenuAdmin> roleMenus = roleMenuDao.findUserIdRoleMenus(user.getId());
         roleMenus.forEach(item -> roleMenuMap.put(item.getMenuId(), 0));
         // 保存系统级-顶级菜单返回，root == 1 的
         List<MenuAdmin> menuList = new LinkedList<>();
-        List<MenuAdmin> menus = dao.menuDao.findAll();
+        List<MenuAdmin> menus = menuDao.findAll();
         for (MenuAdmin menu : menus) {
             if (menu.getRoot() == 1 && roleMenuMap.containsKey(menu.getId())) {
                 nextLowerNode(menus, menu, menu.getRoot(),roleMenuMap);
@@ -73,10 +81,10 @@ public class MenuAdminServiceImpl extends BaseAdminConsoleServiceImpl<MenuAdmin,
     @Override
     public List<MenuAdmin> getIdNodeMenu(Integer id, Integer roleId, Integer type) {
         List<MenuAdmin> menuList = new LinkedList<>();
-        List<MenuAdmin> menus = dao.menuDao.findAll();
+        List<MenuAdmin> menus = menuDao.findAll();
         //获得角色数据
         Map<Integer, Integer> mapMenu = new HashMap<>();
-        List<RoleMenuAdmin> roleMenus = dao.roleMenuDao.findRoleId(roleId);
+        List<RoleMenuAdmin> roleMenus = roleMenuDao.findRoleId(roleId);
         roleMenus.forEach(item -> mapMenu.put(item.getMenuId(), item.getMenuId()));
         if (type == 1) {
             for (MenuAdmin menu : menus) {

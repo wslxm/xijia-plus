@@ -20,6 +20,4 @@ public interface AuthorityAdminDao extends BaseDao<AuthorityAdmin, Integer> {
             " (SELECT auth_id FROM t_admin_role_auth  where role_id in (" +
             "SELECT role_id FROM t_admin_role_user where user_id=?1))", nativeQuery = true)
     List<AuthorityAdmin> findUserIdRoleAuthority(Integer userId);
-
-
 }

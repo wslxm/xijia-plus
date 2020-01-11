@@ -19,7 +19,7 @@ import java.util.Map;
 public class DataBaseServiceImpl implements DataBaseService {
 
     @Resource
-    DataBaseDao dataBaseDao;
+    private DataBaseDao dataBaseDao;
 
     @Override
     public List<String> findTable() {
