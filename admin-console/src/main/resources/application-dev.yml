@@ -3,7 +3,6 @@ server:
   port: 8080   # HTTP (Tomcat) port
 #  servlet:
 #    context-path: /adminconsole   # 配置项目名 47.107.128.84
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -40,7 +39,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false  # 控制台是否打印sql
 
   # 关闭thymeleaf缓存 开发时使用 否则没有实时画面
   thymeleaf:

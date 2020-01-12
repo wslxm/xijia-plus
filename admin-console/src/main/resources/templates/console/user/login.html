@@ -5,13 +5,15 @@
     <title>登入 - layuiAdmin</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" th:href="@{/layuiadmin/layui/css/layui.css}" media="all">
     <link rel="stylesheet" th:href="@{/layuiadmin/style/admin.css}" media="all">
     <link rel="stylesheet" th:href="@{/layuiadmin/style/login.css}" media="all">
     <script th:src="@{/layuiadmin/layui/layui.js}"></script>
     <script language=javascript th:src='@{/js/jquery-3.4.1.js}'></script>
     <script th:src="@{/js/app.js}"></script>
+    <script th:src="@{/js/md5.js}"></script>
 </head>
 <body>
 
@@ -28,28 +30,32 @@
         <!-- 账号密码输入处  -->
         <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
             <div class="layui-form-item">
-                <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
-                <input type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="用户名" class="layui-input">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-username"
+                       for="LAY-user-login-username"></label>
+                <input type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="用户名"
+                       class="layui-input">
             </div>
             <div class="layui-form-item">
-                <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
-                <input type="password" name="password" id="LAY-user-login-password" lay-verify="required" placeholder="密码" class="layui-input">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-password"
+                       for="LAY-user-login-password"></label>
+                <input type="password" name="password" id="LAY-user-login-password" lay-verify="required"
+                       placeholder="密码" class="layui-input">
             </div>
 
             <!--  验证码设置处  -->
- <!--           <div class="layui-form-item">
-                <div class="layui-row">
-                    <div class="layui-col-xs7">
-                        <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
-                        <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required" placeholder="图形验证码" class="layui-input">
-                    </div>
-                    <div class="layui-col-xs5">
-                        <div style="margin-left: 10px;">
-                            <img src="https://www.oschina.net/action/user/captcha" class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
-                        </div>
-                    </div>
-                </div>
-            </div>-->
+            <!--           <div class="layui-form-item">
+                           <div class="layui-row">
+                               <div class="layui-col-xs7">
+                                   <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
+                                   <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required" placeholder="图形验证码" class="layui-input">
+                               </div>
+                               <div class="layui-col-xs5">
+                                   <div style="margin-left: 10px;">
+                                       <img src="https://www.oschina.net/action/user/captcha" class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
+                                   </div>
+                               </div>
+                           </div>
+                       </div>-->
 
 
             <!-- 设置记住忘记密码添加 处 -->
@@ -89,25 +95,43 @@
 
 <script>
     /** session过期，登录页在内窗口，跳为最顶层窗口 */
-    if(window != top) {
+    if (window != top) {
         top.location.href = window.location.href;
     }
     layui.config({
-        base: '../../'+ADMIN_CONSOLE+'/layuiadmin/' //静态资源所在路径
+        base: '../../' + ADMIN_CONSOLE + '/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'user'], function () {
-        let  form = layui.form;
+        let form = layui.form;
         form.render();
         //提交监听
         form.on('submit(LAY-user-login-submit)', function (obj) {
-             let result = ajaxPost(ADMIN_CONSOLE+"/userAdmin/login",{account:obj.field.username,password:obj.field.password});
-             if(result === "success"){
-                 layer.msg('登入成功');
-                 location.href = '../index'; //后台主页
-             }else{
-                 layer.msg('用户名或密码错误');
-             }
+           // account=1720696548&password=123456&timestamp=1578811547552
+            //sign,timestamp
+           // String mysign = DigestUtils.md5Hex(getContentBytes(preSignStr + APP_KEY, INPUT_CHARSET));
+
+            let APP_KEY = "mykey123456";
+            let account = obj.field.username;
+            let password = obj.field.password;
+            let timestamp = new Date().getTime();
+            let mysign = "account="+account
+                    + "&password="+password
+                    + "&timestamp="+timestamp
+                    +  APP_KEY;
+            let sign =  hex_md5(byteToString(mysign));
+            let result = ajaxPost(ADMIN_CONSOLE + "/userAdmin/login", {
+                account: account ,
+                password: password,
+                timestamp: timestamp,
+                sign: sign
+            });
+            if (result === "success") {
+                layer.msg('登入成功');
+                location.href = '../index'; //后台主页
+            } else {
+                layer.msg('用户名或密码错误');
+            }
         });
     });
 </script>
