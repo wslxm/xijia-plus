@@ -2354,3 +2354,735 @@ Error starting ApplicationContext. To display the conditions report re-run your 
 2020-01-12 15:48:46 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
 2020-01-12 15:48:46 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
 2020-01-12 15:48:46 [INFO] - {dataSource-1} closed
+2020-01-12 15:53:14 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-12 15:53:14 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 2200 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-12 15:53:14 [INFO] - The following profiles are active: dev
+2020-01-12 15:53:16 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-12 15:53:16 [INFO] - Finished Spring Data repository scanning in 131ms. Found 8 repository interfaces.
+2020-01-12 15:53:16 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$f97d60ff] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-12 15:53:17 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-12 15:53:17 [INFO] - Root WebApplicationContext: initialization completed in 2743 ms
+2020-01-12 15:53:17 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-12 15:53:17 [INFO] - Init DruidDataSource
+2020-01-12 15:53:18 [INFO] - {dataSource-1} inited
+2020-01-12 15:53:19 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-12 15:53:19 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-12 15:53:19 [INFO] - HHH000206: hibernate.properties not found
+2020-01-12 15:53:19 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-12 15:53:19 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-12 15:53:20 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 15:53:22 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-12 15:53:22 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 15:53:22 [INFO] - Adding welcome page template: index
+2020-01-12 15:53:22 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 15:53:22 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-12 15:53:22 [INFO] - Started AdminConsoleApplication in 8.998 seconds (JVM running for 10.519)
+2020-01-12 19:12:32 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:12:32 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:12:32 [INFO] - {dataSource-1} closed
+2020-01-12 19:13:46 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-12 19:13:46 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 21980 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-12 19:13:46 [INFO] - The following profiles are active: dev
+2020-01-12 19:13:48 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-12 19:13:48 [INFO] - Finished Spring Data repository scanning in 176ms. Found 8 repository interfaces.
+2020-01-12 19:13:49 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$ce1878ac] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-12 19:13:49 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-12 19:13:49 [INFO] - Root WebApplicationContext: initialization completed in 2887 ms
+2020-01-12 19:13:50 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-12 19:13:50 [INFO] - Init DruidDataSource
+2020-01-12 19:13:50 [INFO] - {dataSource-1} inited
+2020-01-12 19:13:50 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-12 19:13:51 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-12 19:13:51 [INFO] - HHH000206: hibernate.properties not found
+2020-01-12 19:13:51 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-12 19:13:51 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-12 19:13:52 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:14:08 [WARN] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'checkAop': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'factoryCheckAop' defined in file [F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes\com\ws\ldy\adminconsole\factory\FactoryCheckAop.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.ws.ldy.adminconsole.factory.FactoryCheckAop]: Constructor threw exception; nested exception is java.lang.NullPointerException
+2020-01-12 19:14:08 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:14:08 [INFO] - {dataSource-1} closed
+2020-01-12 19:14:08 [INFO] - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2020-01-12 19:14:08 [ERROR] - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'checkAop': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'factoryCheckAop' defined in file [F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes\com\ws\ldy\adminconsole\factory\FactoryCheckAop.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.ws.ldy.adminconsole.factory.FactoryCheckAop]: Constructor threw exception; nested exception is java.lang.NullPointerException
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessProperties(CommonAnnotationBeanPostProcessor.java:324)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1411)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:592)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:845)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:877)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:743)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:390)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:312)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1214)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1203)
+	at com.ws.ldy.AdminConsoleApplication.main(AdminConsoleApplication.java:16)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'factoryCheckAop' defined in file [F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes\com\ws\ldy\adminconsole\factory\FactoryCheckAop.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.ws.ldy.adminconsole.factory.FactoryCheckAop]: Constructor threw exception; nested exception is java.lang.NullPointerException
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1303)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1197)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:204)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.resolveBeanByName(AbstractAutowireCapableBeanFactory.java:452)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.autowireResource(CommonAnnotationBeanPostProcessor.java:526)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.getResource(CommonAnnotationBeanPostProcessor.java:496)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor$ResourceElement.getResourceToInject(CommonAnnotationBeanPostProcessor.java:636)
+	at org.springframework.beans.factory.annotation.InjectionMetadata$InjectedElement.inject(InjectionMetadata.java:180)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:90)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessProperties(CommonAnnotationBeanPostProcessor.java:321)
+	... 17 more
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.ws.ldy.adminconsole.factory.FactoryCheckAop]: Constructor threw exception; nested exception is java.lang.NullPointerException
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:184)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1295)
+	... 31 more
+Caused by: java.lang.NullPointerException
+	at com.ws.ldy.admincore.utils.SpringContextUtil.getBean(SpringContextUtil.java:38)
+	at com.ws.ldy.adminconsole.factory.FactoryCheckAop.<init>(FactoryCheckAop.java:19)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:172)
+	... 33 more
+2020-01-12 19:15:32 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-12 19:15:33 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 16056 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-12 19:15:33 [INFO] - The following profiles are active: dev
+2020-01-12 19:15:35 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-12 19:15:35 [INFO] - Finished Spring Data repository scanning in 141ms. Found 8 repository interfaces.
+2020-01-12 19:15:35 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$21cf8a8c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-12 19:15:36 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-12 19:15:36 [INFO] - Root WebApplicationContext: initialization completed in 3008 ms
+2020-01-12 19:15:36 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-12 19:15:36 [INFO] - Init DruidDataSource
+2020-01-12 19:15:36 [INFO] - {dataSource-1} inited
+2020-01-12 19:15:37 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-12 19:15:37 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-12 19:15:37 [INFO] - HHH000206: hibernate.properties not found
+2020-01-12 19:15:37 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-12 19:15:37 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-12 19:15:38 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:16:06 [WARN] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'checkAop': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'factoryCheckAop' defined in file [F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes\com\ws\ldy\adminconsole\factory\FactoryCheckAop.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.ws.ldy.adminconsole.factory.FactoryCheckAop]: Constructor threw exception; nested exception is java.lang.NullPointerException
+2020-01-12 19:16:06 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:16:06 [INFO] - {dataSource-1} closed
+2020-01-12 19:16:06 [INFO] - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2020-01-12 19:16:06 [ERROR] - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'checkAop': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'factoryCheckAop' defined in file [F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes\com\ws\ldy\adminconsole\factory\FactoryCheckAop.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.ws.ldy.adminconsole.factory.FactoryCheckAop]: Constructor threw exception; nested exception is java.lang.NullPointerException
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessProperties(CommonAnnotationBeanPostProcessor.java:324)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1411)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:592)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:845)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:877)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:743)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:390)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:312)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1214)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1203)
+	at com.ws.ldy.AdminConsoleApplication.main(AdminConsoleApplication.java:16)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'factoryCheckAop' defined in file [F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes\com\ws\ldy\adminconsole\factory\FactoryCheckAop.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.ws.ldy.adminconsole.factory.FactoryCheckAop]: Constructor threw exception; nested exception is java.lang.NullPointerException
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1303)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1197)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:204)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.resolveBeanByName(AbstractAutowireCapableBeanFactory.java:452)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.autowireResource(CommonAnnotationBeanPostProcessor.java:526)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.getResource(CommonAnnotationBeanPostProcessor.java:496)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor$ResourceElement.getResourceToInject(CommonAnnotationBeanPostProcessor.java:636)
+	at org.springframework.beans.factory.annotation.InjectionMetadata$InjectedElement.inject(InjectionMetadata.java:180)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:90)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessProperties(CommonAnnotationBeanPostProcessor.java:321)
+	... 17 more
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.ws.ldy.adminconsole.factory.FactoryCheckAop]: Constructor threw exception; nested exception is java.lang.NullPointerException
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:184)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1295)
+	... 31 more
+Caused by: java.lang.NullPointerException
+	at com.ws.ldy.admincore.utils.SpringContextUtil.getBean(SpringContextUtil.java:38)
+	at com.ws.ldy.adminconsole.factory.FactoryCheckAop.<init>(FactoryCheckAop.java:19)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:172)
+	... 33 more
+2020-01-12 19:17:33 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-12 19:17:34 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 14744 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-12 19:17:34 [INFO] - The following profiles are active: dev
+2020-01-12 19:17:36 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-12 19:17:36 [INFO] - Finished Spring Data repository scanning in 127ms. Found 8 repository interfaces.
+2020-01-12 19:17:36 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$25d13dd0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-12 19:17:37 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-12 19:17:37 [INFO] - Root WebApplicationContext: initialization completed in 2581 ms
+2020-01-12 19:17:37 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-12 19:17:37 [INFO] - Init DruidDataSource
+2020-01-12 19:17:37 [INFO] - {dataSource-1} inited
+2020-01-12 19:17:38 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-12 19:17:38 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-12 19:17:38 [INFO] - HHH000206: hibernate.properties not found
+2020-01-12 19:17:38 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-12 19:17:38 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-12 19:17:39 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:17:40 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:17:40 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:17:40 [INFO] - Adding welcome page template: index
+2020-01-12 19:17:40 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:17:41 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-12 19:17:41 [INFO] - Started AdminConsoleApplication in 7.659 seconds (JVM running for 8.839)
+2020-01-12 19:17:57 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-12 19:17:57 [INFO] - Completed initialization in 15 ms
+2020-01-12 19:19:38 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:19:38 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:19:38 [INFO] - {dataSource-1} closed
+2020-01-12 19:19:47 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-12 19:19:48 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 15820 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-12 19:19:48 [INFO] - The following profiles are active: dev
+2020-01-12 19:19:50 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-12 19:19:50 [INFO] - Finished Spring Data repository scanning in 223ms. Found 8 repository interfaces.
+2020-01-12 19:19:51 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$d7f17397] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-12 19:19:51 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-12 19:19:52 [INFO] - Root WebApplicationContext: initialization completed in 3593 ms
+2020-01-12 19:19:52 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-12 19:19:52 [INFO] - Init DruidDataSource
+2020-01-12 19:19:52 [INFO] - {dataSource-1} inited
+2020-01-12 19:19:52 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-12 19:19:53 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-12 19:19:53 [INFO] - HHH000206: hibernate.properties not found
+2020-01-12 19:19:53 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-12 19:19:53 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-12 19:19:54 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:19:55 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:19:55 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:19:55 [INFO] - Adding welcome page template: index
+2020-01-12 19:19:55 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:19:56 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-12 19:19:56 [INFO] - Started AdminConsoleApplication in 8.731 seconds (JVM running for 11.076)
+2020-01-12 19:19:57 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-12 19:19:57 [INFO] - Completed initialization in 18 ms
+2020-01-12 19:20:00 [INFO] - URL:[/page/console_user_login] --> REQUEST:[[console_user_login]] 
+---------------------------> RESPONSE:[console/user/login]
+2020-01-12 19:22:50 [INFO] - URL:[/userAdmin/login] --> REQUEST:[[1720696548, 123456]] 
+---------------------------> RESPONSE:[success]
+2020-01-12 19:23:36 [INFO] - URL:[/error/404] --> REQUEST:[[404]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=404, data=null, msg=找不到页面,检查url是否正常)]
+2020-01-12 19:23:38 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-12 19:23:38 [INFO] - URL:[/menuAdmin/menuTree] --> REQUEST:[[null]] 
+---------------------------> RESPONSE:[[MenuAdmin(id=1, pid=0, name=系统, url=0, icon=0, sort=1, root=1, authority=0, menus=[MenuAdmin(id=4, pid=1, name=系统管理, url=0, icon=layui-icon-home, sort=1, root=2, authority=0, menus=[MenuAdmin(id=7, pid=4, name=菜单管理, url=/page/console_menu_menu, icon=layui-icon-home, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=21, pid=4, name=系统用户, url=/page/console_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=22, pid=4, name=角色管理, url=/page/console_role_role, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=25, pid=4, name=字典管理, url=/page/console_dictionary_dictionary, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=29, pid=4, name=Test, url=/1111, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=5, pid=1, name=权限管理, url=0, icon=layui-icon-home, sort=2, root=2, authority=0, menus=[MenuAdmin(id=23, pid=5, name=角色菜单权限, url=/page/console_role_roleMenuAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=24, pid=5, name=角色URL权限, url=/page/console_role_roleUrlAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=28, pid=5, name=角色用户管理, url=/page/console_role_roleUserAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=36, pid=5, name=url, url=/page/console_authority_authority, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=6, pid=1, name=代码生成, url=0, icon=layui-icon-home, sort=3, root=2, authority=0, menus=[MenuAdmin(id=30, pid=6, name=数据表, url=/page/console_dataBase_dataBase, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=9, pid=0, name=养🐏, url=, icon=, sort=0, root=1, authority=0, menus=[MenuAdmin(id=10, pid=9, name=用户管理, url=, icon=/, sort=0, root=2, authority=0, menus=[MenuAdmin(id=11, pid=10, name=用户信息, url=/page/game_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=13, pid=0, name=测试系统, url=1, icon=1, sort=1, root=1, authority=2, menus=[MenuAdmin(id=14, pid=13, name=一级菜单, url=, icon=1, sort=0, root=2, authority=0, menus=[MenuAdmin(id=15, pid=14, name=页面, url=, icon=1, sort=0, root=3, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=16, pid=14, name=二级菜单, url=, icon=1, sort=0, root=3, authority=0, menus=[MenuAdmin(id=17, pid=16, name=页面, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=27, pid=14, name=登录, url=/page/console_user_login, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=35, pid=13, name=1, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)]]
+2020-01-12 19:23:53 [INFO] - URL:[/page/console_user_user] --> REQUEST:[[console_user_user]] 
+---------------------------> RESPONSE:[console/user/user]
+2020-01-12 19:26:13 [INFO] - URL:[/userAdmin/login] --> REQUEST:[[1720696548, &lt;script&gt;alert('sss')&lt;/script&gt; ]] 
+---------------------------> RESPONSE:[no]
+2020-01-12 19:26:26 [INFO] - URL:[/userAdmin/login] --> REQUEST:[[1720696548, 123456]] 
+---------------------------> RESPONSE:[success]
+2020-01-12 19:26:29 [INFO] - URL:[/error/404] --> REQUEST:[[404]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=404, data=null, msg=找不到页面,检查url是否正常)]
+2020-01-12 19:26:29 [INFO] - URL:[/menuAdmin/menuTree] --> REQUEST:[[null]] 
+---------------------------> RESPONSE:[[MenuAdmin(id=1, pid=0, name=系统, url=0, icon=0, sort=1, root=1, authority=0, menus=[MenuAdmin(id=4, pid=1, name=系统管理, url=0, icon=layui-icon-home, sort=1, root=2, authority=0, menus=[MenuAdmin(id=7, pid=4, name=菜单管理, url=/page/console_menu_menu, icon=layui-icon-home, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=21, pid=4, name=系统用户, url=/page/console_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=22, pid=4, name=角色管理, url=/page/console_role_role, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=25, pid=4, name=字典管理, url=/page/console_dictionary_dictionary, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=29, pid=4, name=Test, url=/1111, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=5, pid=1, name=权限管理, url=0, icon=layui-icon-home, sort=2, root=2, authority=0, menus=[MenuAdmin(id=23, pid=5, name=角色菜单权限, url=/page/console_role_roleMenuAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=24, pid=5, name=角色URL权限, url=/page/console_role_roleUrlAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=28, pid=5, name=角色用户管理, url=/page/console_role_roleUserAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=36, pid=5, name=url, url=/page/console_authority_authority, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=6, pid=1, name=代码生成, url=0, icon=layui-icon-home, sort=3, root=2, authority=0, menus=[MenuAdmin(id=30, pid=6, name=数据表, url=/page/console_dataBase_dataBase, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=9, pid=0, name=养🐏, url=, icon=, sort=0, root=1, authority=0, menus=[MenuAdmin(id=10, pid=9, name=用户管理, url=, icon=/, sort=0, root=2, authority=0, menus=[MenuAdmin(id=11, pid=10, name=用户信息, url=/page/game_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=13, pid=0, name=测试系统, url=1, icon=1, sort=1, root=1, authority=2, menus=[MenuAdmin(id=14, pid=13, name=一级菜单, url=, icon=1, sort=0, root=2, authority=0, menus=[MenuAdmin(id=15, pid=14, name=页面, url=, icon=1, sort=0, root=3, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=16, pid=14, name=二级菜单, url=, icon=1, sort=0, root=3, authority=0, menus=[MenuAdmin(id=17, pid=16, name=页面, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=27, pid=14, name=登录, url=/page/console_user_login, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=35, pid=13, name=1, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)]]
+2020-01-12 19:26:32 [INFO] - URL:[/page/console_user_user] --> REQUEST:[[console_user_user]] 
+---------------------------> RESPONSE:[console/user/user]
+2020-01-12 19:34:28 [INFO] - URL:[/error/404] --> REQUEST:[[404]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=404, data=null, msg=找不到页面,检查url是否正常)]
+2020-01-12 19:34:28 [INFO] - URL:[/menuAdmin/menuTree] --> REQUEST:[[null]] 
+---------------------------> RESPONSE:[[MenuAdmin(id=1, pid=0, name=系统, url=0, icon=0, sort=1, root=1, authority=0, menus=[MenuAdmin(id=4, pid=1, name=系统管理, url=0, icon=layui-icon-home, sort=1, root=2, authority=0, menus=[MenuAdmin(id=7, pid=4, name=菜单管理, url=/page/console_menu_menu, icon=layui-icon-home, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=21, pid=4, name=系统用户, url=/page/console_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=22, pid=4, name=角色管理, url=/page/console_role_role, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=25, pid=4, name=字典管理, url=/page/console_dictionary_dictionary, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=29, pid=4, name=Test, url=/1111, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=5, pid=1, name=权限管理, url=0, icon=layui-icon-home, sort=2, root=2, authority=0, menus=[MenuAdmin(id=23, pid=5, name=角色菜单权限, url=/page/console_role_roleMenuAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=24, pid=5, name=角色URL权限, url=/page/console_role_roleUrlAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=28, pid=5, name=角色用户管理, url=/page/console_role_roleUserAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=36, pid=5, name=url, url=/page/console_authority_authority, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=6, pid=1, name=代码生成, url=0, icon=layui-icon-home, sort=3, root=2, authority=0, menus=[MenuAdmin(id=30, pid=6, name=数据表, url=/page/console_dataBase_dataBase, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=9, pid=0, name=养🐏, url=, icon=, sort=0, root=1, authority=0, menus=[MenuAdmin(id=10, pid=9, name=用户管理, url=, icon=/, sort=0, root=2, authority=0, menus=[MenuAdmin(id=11, pid=10, name=用户信息, url=/page/game_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=13, pid=0, name=测试系统, url=1, icon=1, sort=1, root=1, authority=2, menus=[MenuAdmin(id=14, pid=13, name=一级菜单, url=, icon=1, sort=0, root=2, authority=0, menus=[MenuAdmin(id=15, pid=14, name=页面, url=, icon=1, sort=0, root=3, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=16, pid=14, name=二级菜单, url=, icon=1, sort=0, root=3, authority=0, menus=[MenuAdmin(id=17, pid=16, name=页面, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=27, pid=14, name=登录, url=/page/console_user_login, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=35, pid=13, name=1, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)]]
+2020-01-12 19:34:28 [INFO] - URL:[/page/console_user_user] --> REQUEST:[[console_user_user]] 
+---------------------------> RESPONSE:[console/user/user]
+2020-01-12 19:34:32 [INFO] - URL:[/page/console_role_roleMenuAuth] --> REQUEST:[[console_role_roleMenuAuth]] 
+---------------------------> RESPONSE:[console/role/roleMenuAuth]
+2020-01-12 19:34:32 [INFO] - URL:[/roleAdmin/findAll/2] --> REQUEST:[[2, null, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=0, data=[RoleAdmin(id=1, name=系统管理员, desc=null), RoleAdmin(id=2, name=开发人员, desc=), RoleAdmin(id=3, name=测试人员, desc=)], msg=ok)]
+2020-01-12 19:34:32 [INFO] - URL:[/menuAdmin/findAll/1] --> REQUEST:[[1, null, null]] 
+---------------------------> RESPONSE:[[MenuAdmin(id=1, pid=0, name=系统, url=0, icon=0, sort=1, root=1, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=4, pid=1, name=系统管理, url=0, icon=layui-icon-home, sort=1, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=5, pid=1, name=权限管理, url=0, icon=layui-icon-home, sort=2, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=6, pid=1, name=代码生成, url=0, icon=layui-icon-home, sort=3, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=7, pid=4, name=菜单管理, url=/page/console_menu_menu, icon=layui-icon-home, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=9, pid=0, name=养🐏, url=, icon=, sort=0, root=1, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=10, pid=9, name=用户管理, url=, icon=/, sort=0, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=11, pid=10, name=用户信息, url=/page/game_user_user, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=13, pid=0, name=测试系统, url=1, icon=1, sort=1, root=1, authority=2, menus=null, LAY_CHECKED=null), MenuAdmin(id=14, pid=13, name=一级菜单, url=, icon=1, sort=0, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=15, pid=14, name=页面, url=, icon=1, sort=0, root=3, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=16, pid=14, name=二级菜单, url=, icon=1, sort=0, root=3, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=17, pid=16, name=页面, url=1, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=19, pid=1, name=Layui 相关, url=, icon=0, sort=0, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=21, pid=4, name=系统用户, url=/page/console_user_user, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=22, pid=4, name=角色管理, url=/page/console_role_role, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=23, pid=5, name=角色菜单权限, url=/page/console_role_roleMenuAuth, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=24, pid=5, name=角色URL权限, url=/page/console_role_roleUrlAuth, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=25, pid=4, name=字典管理, url=/page/console_dictionary_dictionary, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=27, pid=14, name=登录, url=/page/console_user_login, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=28, pid=5, name=角色用户管理, url=/page/console_role_roleUserAuth, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=29, pid=4, name=Test, url=/1111, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=30, pid=6, name=数据表, url=/page/console_dataBase_dataBase, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=35, pid=13, name=1, url=1, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=36, pid=5, name=url, url=/page/console_authority_authority, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null)]]
+2020-01-12 19:34:33 [INFO] - URL:[/page/console_role_roleUrlAuth] --> REQUEST:[[console_role_roleUrlAuth]] 
+---------------------------> RESPONSE:[console/role/roleUrlAuth]
+2020-01-12 19:34:33 [INFO] - URL:[/roleAdmin/findAll/2] --> REQUEST:[[2, null, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=0, data=[RoleAdmin(id=1, name=系统管理员, desc=null), RoleAdmin(id=2, name=开发人员, desc=), RoleAdmin(id=3, name=测试人员, desc=)], msg=ok)]
+2020-01-12 19:34:33 [INFO] - URL:[/authorityAdmin/findList] --> REQUEST:[[null]] 
+---------------------------> RESPONSE:[[AuthorityAdmin(desc=删除, id=72, name=user:delete, pid=78, url=/userAdmin/delete, LAY_CHECKED=null), AuthorityAdmin(desc=添加/修改, id=73, name=user:save, pid=78, url=/userAdmin/save, LAY_CHECKED=null), AuthorityAdmin(desc=登录, id=74, name=user:login, pid=78, url=/userAdmin/login, LAY_CHECKED=null), AuthorityAdmin(desc=密码修改, id=75, name=user:updPwd, pid=78, url=/userAdmin/updPwd, LAY_CHECKED=null), AuthorityAdmin(desc=查询, id=76, name=user:findAll, pid=78, url=/userAdmin/findAll, LAY_CHECKED=null), AuthorityAdmin(desc=系统用户, id=78, name=userAdmin, pid=0, url=/userAdmin, LAY_CHECKED=null)]]
+2020-01-12 19:34:34 [INFO] - URL:[/page/console_role_roleUserAuth] --> REQUEST:[[console_role_roleUserAuth]] 
+---------------------------> RESPONSE:[console/role/roleUserAuth]
+2020-01-12 19:34:34 [INFO] - URL:[/roleAdmin/findAll/2] --> REQUEST:[[2, null, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=0, data=[RoleAdmin(id=1, name=系统管理员, desc=null), RoleAdmin(id=2, name=开发人员, desc=), RoleAdmin(id=3, name=测试人员, desc=)], msg=ok)]
+2020-01-12 19:34:36 [INFO] - URL:[/page/console_authority_authority] --> REQUEST:[[console_authority_authority]] 
+---------------------------> RESPONSE:[console/authority/authority]
+2020-01-12 19:34:36 [INFO] - URL:[/authorityAdmin/findAll] --> REQUEST:[[1, 10, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[AuthorityAdmin(desc=删除, id=72, name=user:delete, pid=78, url=/userAdmin/delete, LAY_CHECKED=null), AuthorityAdmin(desc=添加/修改, id=73, name=user:save, pid=78, url=/userAdmin/save, LAY_CHECKED=null), AuthorityAdmin(desc=登录, id=74, name=user:login, pid=78, url=/userAdmin/login, LAY_CHECKED=null), AuthorityAdmin(desc=密码修改, id=75, name=user:updPwd, pid=78, url=/userAdmin/updPwd, LAY_CHECKED=null), AuthorityAdmin(desc=查询, id=76, name=user:findAll, pid=78, url=/userAdmin/findAll, LAY_CHECKED=null), AuthorityAdmin(desc=系统用户, id=78, name=userAdmin, pid=0, url=/userAdmin, LAY_CHECKED=null)], msg=ok)]
+2020-01-12 19:34:40 [INFO] - URL:[/authorityAdmin/findList] --> REQUEST:[[1]] 
+---------------------------> RESPONSE:[[AuthorityAdmin(desc=删除, id=72, name=user:delete, pid=78, url=/userAdmin/delete, LAY_CHECKED=true), AuthorityAdmin(desc=添加/修改, id=73, name=user:save, pid=78, url=/userAdmin/save, LAY_CHECKED=true), AuthorityAdmin(desc=登录, id=74, name=user:login, pid=78, url=/userAdmin/login, LAY_CHECKED=true), AuthorityAdmin(desc=密码修改, id=75, name=user:updPwd, pid=78, url=/userAdmin/updPwd, LAY_CHECKED=true), AuthorityAdmin(desc=查询, id=76, name=user:findAll, pid=78, url=/userAdmin/findAll, LAY_CHECKED=null), AuthorityAdmin(desc=系统用户, id=78, name=userAdmin, pid=0, url=/userAdmin, LAY_CHECKED=true)]]
+2020-01-12 19:34:42 [INFO] - URL:[/roleAdmin/updRoleUrlAuth] --> REQUEST:[[1, [78, 72, 73, 74, 75, 76]]] 
+---------------------------> RESPONSE:[success]
+2020-01-12 19:34:43 [INFO] - URL:[/error/404] --> REQUEST:[[404]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=404, data=null, msg=找不到页面,检查url是否正常)]
+2020-01-12 19:34:43 [INFO] - URL:[/menuAdmin/menuTree] --> REQUEST:[[null]] 
+---------------------------> RESPONSE:[[MenuAdmin(id=1, pid=0, name=系统, url=0, icon=0, sort=1, root=1, authority=0, menus=[MenuAdmin(id=4, pid=1, name=系统管理, url=0, icon=layui-icon-home, sort=1, root=2, authority=0, menus=[MenuAdmin(id=7, pid=4, name=菜单管理, url=/page/console_menu_menu, icon=layui-icon-home, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=21, pid=4, name=系统用户, url=/page/console_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=22, pid=4, name=角色管理, url=/page/console_role_role, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=25, pid=4, name=字典管理, url=/page/console_dictionary_dictionary, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=29, pid=4, name=Test, url=/1111, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=5, pid=1, name=权限管理, url=0, icon=layui-icon-home, sort=2, root=2, authority=0, menus=[MenuAdmin(id=23, pid=5, name=角色菜单权限, url=/page/console_role_roleMenuAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=24, pid=5, name=角色URL权限, url=/page/console_role_roleUrlAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=28, pid=5, name=角色用户管理, url=/page/console_role_roleUserAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=36, pid=5, name=url, url=/page/console_authority_authority, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=6, pid=1, name=代码生成, url=0, icon=layui-icon-home, sort=3, root=2, authority=0, menus=[MenuAdmin(id=30, pid=6, name=数据表, url=/page/console_dataBase_dataBase, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=9, pid=0, name=养🐏, url=, icon=, sort=0, root=1, authority=0, menus=[MenuAdmin(id=10, pid=9, name=用户管理, url=, icon=/, sort=0, root=2, authority=0, menus=[MenuAdmin(id=11, pid=10, name=用户信息, url=/page/game_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=13, pid=0, name=测试系统, url=1, icon=1, sort=1, root=1, authority=2, menus=[MenuAdmin(id=14, pid=13, name=一级菜单, url=, icon=1, sort=0, root=2, authority=0, menus=[MenuAdmin(id=15, pid=14, name=页面, url=, icon=1, sort=0, root=3, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=16, pid=14, name=二级菜单, url=, icon=1, sort=0, root=3, authority=0, menus=[MenuAdmin(id=17, pid=16, name=页面, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=27, pid=14, name=登录, url=/page/console_user_login, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=35, pid=13, name=1, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)]]
+2020-01-12 19:34:43 [INFO] - URL:[/page/console_user_user] --> REQUEST:[[console_user_user]] 
+---------------------------> RESPONSE:[console/user/user]
+2020-01-12 19:34:43 [INFO] - URL:[/userAdmin/findAll/1] --> REQUEST:[[1, 1, 10, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[UserAdmin(id=1, head=1, username=王松, account=1720696548, password=123456, age=23, gender=1, address=四川成都, empId=1, time=2019-11-14 15:17:50.0, LAY_CHECKED=null), UserAdmin(id=18, head=1, username=1, account=1, password=11111111, age=1, gender=1, address=1, empId=1, time=2019-11-15 10:43:24.79, LAY_CHECKED=null)], msg=ok)]
+2020-01-12 19:34:46 [INFO] - URL:[/page/console_user_user] --> REQUEST:[[console_user_user]] 
+---------------------------> RESPONSE:[console/user/user]
+2020-01-12 19:34:46 [INFO] - URL:[/userAdmin/findAll/1] --> REQUEST:[[1, 1, 10, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[UserAdmin(id=1, head=1, username=王松, account=1720696548, password=123456, age=23, gender=1, address=四川成都, empId=1, time=2019-11-14 15:17:50.0, LAY_CHECKED=null), UserAdmin(id=18, head=1, username=1, account=1, password=11111111, age=1, gender=1, address=1, empId=1, time=2019-11-15 10:43:24.79, LAY_CHECKED=null)], msg=ok)]
+2020-01-12 19:35:26 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:35:26 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:35:26 [INFO] - {dataSource-1} closed
+2020-01-12 19:35:34 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-12 19:35:35 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 22056 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-12 19:35:35 [INFO] - The following profiles are active: dev
+2020-01-12 19:35:37 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-12 19:35:37 [INFO] - Finished Spring Data repository scanning in 128ms. Found 8 repository interfaces.
+2020-01-12 19:35:37 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$12d57bc7] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-12 19:35:38 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-12 19:35:38 [INFO] - Root WebApplicationContext: initialization completed in 2741 ms
+2020-01-12 19:35:38 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-12 19:35:38 [INFO] - Init DruidDataSource
+2020-01-12 19:35:38 [INFO] - {dataSource-1} inited
+2020-01-12 19:35:39 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-12 19:35:39 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-12 19:35:39 [INFO] - HHH000206: hibernate.properties not found
+2020-01-12 19:35:39 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-12 19:35:40 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-12 19:35:41 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:35:42 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:35:42 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:35:42 [INFO] - Adding welcome page template: index
+2020-01-12 19:35:42 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:35:42 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-12 19:35:42 [INFO] - Started AdminConsoleApplication in 7.89 seconds (JVM running for 9.13)
+2020-01-12 19:35:45 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-12 19:35:45 [INFO] - Completed initialization in 15 ms
+2020-01-12 19:35:45 [INFO] - URL:[/page/console_user_login] 
+---------------------------> REQUEST:[[console_user_login]] 
+---------------------------> RESPONSE:[console/user/login]
+2020-01-12 19:35:47 [INFO] - URL:[/userAdmin/login] 
+---------------------------> REQUEST:[[1720696548, 123456]] 
+---------------------------> RESPONSE:[success]
+2020-01-12 19:35:47 [INFO] - URL:[/error/404] 
+---------------------------> REQUEST:[[404]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=404, data=null, msg=找不到页面,检查url是否正常)]
+2020-01-12 19:35:47 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-12 19:35:47 [INFO] - URL:[/menuAdmin/menuTree] 
+---------------------------> REQUEST:[[null]] 
+---------------------------> RESPONSE:[[MenuAdmin(id=1, pid=0, name=系统, url=0, icon=0, sort=1, root=1, authority=0, menus=[MenuAdmin(id=4, pid=1, name=系统管理, url=0, icon=layui-icon-home, sort=1, root=2, authority=0, menus=[MenuAdmin(id=7, pid=4, name=菜单管理, url=/page/console_menu_menu, icon=layui-icon-home, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=21, pid=4, name=系统用户, url=/page/console_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=22, pid=4, name=角色管理, url=/page/console_role_role, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=25, pid=4, name=字典管理, url=/page/console_dictionary_dictionary, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=29, pid=4, name=Test, url=/1111, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=5, pid=1, name=权限管理, url=0, icon=layui-icon-home, sort=2, root=2, authority=0, menus=[MenuAdmin(id=23, pid=5, name=角色菜单权限, url=/page/console_role_roleMenuAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=24, pid=5, name=角色URL权限, url=/page/console_role_roleUrlAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=28, pid=5, name=角色用户管理, url=/page/console_role_roleUserAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=36, pid=5, name=url, url=/page/console_authority_authority, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=6, pid=1, name=代码生成, url=0, icon=layui-icon-home, sort=3, root=2, authority=0, menus=[MenuAdmin(id=30, pid=6, name=数据表, url=/page/console_dataBase_dataBase, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=9, pid=0, name=养🐏, url=, icon=, sort=0, root=1, authority=0, menus=[MenuAdmin(id=10, pid=9, name=用户管理, url=, icon=/, sort=0, root=2, authority=0, menus=[MenuAdmin(id=11, pid=10, name=用户信息, url=/page/game_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=13, pid=0, name=测试系统, url=1, icon=1, sort=1, root=1, authority=2, menus=[MenuAdmin(id=14, pid=13, name=一级菜单, url=, icon=1, sort=0, root=2, authority=0, menus=[MenuAdmin(id=15, pid=14, name=页面, url=, icon=1, sort=0, root=3, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=16, pid=14, name=二级菜单, url=, icon=1, sort=0, root=3, authority=0, menus=[MenuAdmin(id=17, pid=16, name=页面, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=27, pid=14, name=登录, url=/page/console_user_login, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=35, pid=13, name=1, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)]]
+2020-01-12 19:35:47 [INFO] - URL:[/page/console_user_user] 
+---------------------------> REQUEST:[[console_user_user]] 
+---------------------------> RESPONSE:[console/user/user]
+2020-01-12 19:35:47 [INFO] - URL:[/userAdmin/findAll/1] 
+---------------------------> REQUEST:[[1, 1, 10, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[UserAdmin(id=1, head=1, username=王松, account=1720696548, password=123456, age=23, gender=1, address=四川成都, empId=1, time=2019-11-14 15:17:50.0, LAY_CHECKED=null), UserAdmin(id=18, head=1, username=1, account=1, password=11111111, age=1, gender=1, address=1, empId=1, time=2019-11-15 10:43:24.79, LAY_CHECKED=null)], msg=ok)]
+2020-01-12 19:35:49 [INFO] - URL:[/page/console_role_roleMenuAuth] 
+---------------------------> REQUEST:[[console_role_roleMenuAuth]] 
+---------------------------> RESPONSE:[console/role/roleMenuAuth]
+2020-01-12 19:35:49 [INFO] - URL:[/roleAdmin/findAll/2] 
+---------------------------> REQUEST:[[2, null, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=0, data=[RoleAdmin(id=1, name=系统管理员, desc=null), RoleAdmin(id=2, name=开发人员, desc=), RoleAdmin(id=3, name=测试人员, desc=)], msg=ok)]
+2020-01-12 19:35:49 [INFO] - URL:[/menuAdmin/findAll/1] 
+---------------------------> REQUEST:[[1, null, null]] 
+---------------------------> RESPONSE:[[MenuAdmin(id=1, pid=0, name=系统, url=0, icon=0, sort=1, root=1, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=4, pid=1, name=系统管理, url=0, icon=layui-icon-home, sort=1, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=5, pid=1, name=权限管理, url=0, icon=layui-icon-home, sort=2, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=6, pid=1, name=代码生成, url=0, icon=layui-icon-home, sort=3, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=7, pid=4, name=菜单管理, url=/page/console_menu_menu, icon=layui-icon-home, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=9, pid=0, name=养🐏, url=, icon=, sort=0, root=1, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=10, pid=9, name=用户管理, url=, icon=/, sort=0, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=11, pid=10, name=用户信息, url=/page/game_user_user, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=13, pid=0, name=测试系统, url=1, icon=1, sort=1, root=1, authority=2, menus=null, LAY_CHECKED=null), MenuAdmin(id=14, pid=13, name=一级菜单, url=, icon=1, sort=0, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=15, pid=14, name=页面, url=, icon=1, sort=0, root=3, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=16, pid=14, name=二级菜单, url=, icon=1, sort=0, root=3, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=17, pid=16, name=页面, url=1, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=19, pid=1, name=Layui 相关, url=, icon=0, sort=0, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=21, pid=4, name=系统用户, url=/page/console_user_user, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=22, pid=4, name=角色管理, url=/page/console_role_role, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=23, pid=5, name=角色菜单权限, url=/page/console_role_roleMenuAuth, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=24, pid=5, name=角色URL权限, url=/page/console_role_roleUrlAuth, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=25, pid=4, name=字典管理, url=/page/console_dictionary_dictionary, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=27, pid=14, name=登录, url=/page/console_user_login, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=28, pid=5, name=角色用户管理, url=/page/console_role_roleUserAuth, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=29, pid=4, name=Test, url=/1111, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=30, pid=6, name=数据表, url=/page/console_dataBase_dataBase, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=35, pid=13, name=1, url=1, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=36, pid=5, name=url, url=/page/console_authority_authority, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null)]]
+2020-01-12 19:35:50 [INFO] - URL:[/page/console_role_roleUrlAuth] 
+---------------------------> REQUEST:[[console_role_roleUrlAuth]] 
+---------------------------> RESPONSE:[console/role/roleUrlAuth]
+2020-01-12 19:35:50 [INFO] - URL:[/roleAdmin/findAll/2] 
+---------------------------> REQUEST:[[2, null, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=0, data=[RoleAdmin(id=1, name=系统管理员, desc=null), RoleAdmin(id=2, name=开发人员, desc=), RoleAdmin(id=3, name=测试人员, desc=)], msg=ok)]
+2020-01-12 19:35:50 [INFO] - URL:[/authorityAdmin/findList] 
+---------------------------> REQUEST:[[null]] 
+---------------------------> RESPONSE:[[AuthorityAdmin(desc=删除, id=72, name=user:delete, pid=78, url=/userAdmin/delete, LAY_CHECKED=null), AuthorityAdmin(desc=添加/修改, id=73, name=user:save, pid=78, url=/userAdmin/save, LAY_CHECKED=null), AuthorityAdmin(desc=登录, id=74, name=user:login, pid=78, url=/userAdmin/login, LAY_CHECKED=null), AuthorityAdmin(desc=密码修改, id=75, name=user:updPwd, pid=78, url=/userAdmin/updPwd, LAY_CHECKED=null), AuthorityAdmin(desc=查询, id=76, name=user:findAll, pid=78, url=/userAdmin/findAll, LAY_CHECKED=null), AuthorityAdmin(desc=系统用户, id=78, name=userAdmin, pid=0, url=/userAdmin, LAY_CHECKED=null)]]
+2020-01-12 19:35:50 [INFO] - URL:[/page/console_role_roleUserAuth] 
+---------------------------> REQUEST:[[console_role_roleUserAuth]] 
+---------------------------> RESPONSE:[console/role/roleUserAuth]
+2020-01-12 19:35:50 [INFO] - URL:[/roleAdmin/findAll/2] 
+---------------------------> REQUEST:[[2, null, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=0, data=[RoleAdmin(id=1, name=系统管理员, desc=null), RoleAdmin(id=2, name=开发人员, desc=), RoleAdmin(id=3, name=测试人员, desc=)], msg=ok)]
+2020-01-12 19:35:50 [INFO] - URL:[/userAdmin/findAll/2] 
+---------------------------> REQUEST:[[2, 1, 10, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[UserAdmin(id=1, head=1, username=王松, account=1720696548, password=123456, age=23, gender=1, address=四川成都, empId=1, time=2019-11-14 15:17:50.0, LAY_CHECKED=null), UserAdmin(id=18, head=1, username=1, account=1, password=11111111, age=1, gender=1, address=1, empId=1, time=2019-11-15 10:43:24.79, LAY_CHECKED=null)], msg=ok)]
+2020-01-12 19:36:03 [INFO] - URL:[/userAdmin/findAll/2] 
+---------------------------> REQUEST:[[2, 1, 10, null, 2]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[UserAdmin(id=1, head=1, username=王松, account=1720696548, password=123456, age=23, gender=1, address=四川成都, empId=1, time=2019-11-14 15:17:50.0, LAY_CHECKED=true), UserAdmin(id=18, head=1, username=1, account=1, password=11111111, age=1, gender=1, address=1, empId=1, time=2019-11-15 10:43:24.79, LAY_CHECKED=null)], msg=ok)]
+2020-01-12 19:36:08 [INFO] - URL:[/userAdmin/findAll/2] 
+---------------------------> REQUEST:[[2, 1, 10, null, 1]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[UserAdmin(id=1, head=1, username=王松, account=1720696548, password=123456, age=23, gender=1, address=四川成都, empId=1, time=2019-11-14 15:17:50.0, LAY_CHECKED=true), UserAdmin(id=18, head=1, username=1, account=1, password=11111111, age=1, gender=1, address=1, empId=1, time=2019-11-15 10:43:24.79, LAY_CHECKED=true)], msg=ok)]
+2020-01-12 19:41:28 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:41:28 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:41:28 [INFO] - {dataSource-1} closed
+2020-01-12 19:41:37 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-12 19:41:37 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 8668 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-12 19:41:37 [INFO] - The following profiles are active: dev
+2020-01-12 19:41:39 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-12 19:41:39 [INFO] - Finished Spring Data repository scanning in 141ms. Found 8 repository interfaces.
+2020-01-12 19:41:39 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$3b5e8a1] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-12 19:41:40 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-12 19:41:40 [INFO] - Root WebApplicationContext: initialization completed in 2500 ms
+2020-01-12 19:41:40 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-12 19:41:40 [INFO] - Init DruidDataSource
+2020-01-12 19:41:40 [INFO] - {dataSource-1} inited
+2020-01-12 19:41:41 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-12 19:41:41 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-12 19:41:41 [INFO] - HHH000206: hibernate.properties not found
+2020-01-12 19:41:41 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-12 19:41:41 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-12 19:41:42 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:41:43 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:41:43 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:41:43 [INFO] - Adding welcome page template: index
+2020-01-12 19:41:43 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:41:44 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-12 19:41:44 [INFO] - Started AdminConsoleApplication in 7.44 seconds (JVM running for 8.897)
+2020-01-12 19:41:47 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-12 19:41:47 [INFO] - Completed initialization in 12 ms
+2020-01-12 19:41:47 [INFO] - URL:[/page/console_user_login] 
+---------------------------> REQUEST:[[console_user_login]] 
+---------------------------> RESPONSE:[console/user/login]
+2020-01-12 19:41:48 [INFO] - URL:[/userAdmin/login] 
+---------------------------> REQUEST:[[1720696548, 123456]] 
+---------------------------> RESPONSE:[success]
+2020-01-12 19:41:48 [INFO] - URL:[/error/404] 
+---------------------------> REQUEST:[[404]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=404, data=null, msg=找不到页面,检查url是否正常)]
+2020-01-12 19:41:48 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-12 19:41:49 [INFO] - URL:[/menuAdmin/menuTree] 
+---------------------------> REQUEST:[[null]] 
+---------------------------> RESPONSE:[[MenuAdmin(id=1, pid=0, name=系统, url=0, icon=0, sort=1, root=1, authority=0, menus=[MenuAdmin(id=4, pid=1, name=系统管理, url=0, icon=layui-icon-home, sort=1, root=2, authority=0, menus=[MenuAdmin(id=7, pid=4, name=菜单管理, url=/page/console_menu_menu, icon=layui-icon-home, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=21, pid=4, name=系统用户, url=/page/console_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=22, pid=4, name=角色管理, url=/page/console_role_role, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=25, pid=4, name=字典管理, url=/page/console_dictionary_dictionary, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=29, pid=4, name=Test, url=/1111, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=5, pid=1, name=权限管理, url=0, icon=layui-icon-home, sort=2, root=2, authority=0, menus=[MenuAdmin(id=23, pid=5, name=角色菜单权限, url=/page/console_role_roleMenuAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=24, pid=5, name=角色URL权限, url=/page/console_role_roleUrlAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=28, pid=5, name=角色用户管理, url=/page/console_role_roleUserAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=36, pid=5, name=url, url=/page/console_authority_authority, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=6, pid=1, name=代码生成, url=0, icon=layui-icon-home, sort=3, root=2, authority=0, menus=[MenuAdmin(id=30, pid=6, name=数据表, url=/page/console_dataBase_dataBase, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=9, pid=0, name=养🐏, url=, icon=, sort=0, root=1, authority=0, menus=[MenuAdmin(id=10, pid=9, name=用户管理, url=, icon=/, sort=0, root=2, authority=0, menus=[MenuAdmin(id=11, pid=10, name=用户信息, url=/page/game_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=13, pid=0, name=测试系统, url=1, icon=1, sort=1, root=1, authority=2, menus=[MenuAdmin(id=14, pid=13, name=一级菜单, url=, icon=1, sort=0, root=2, authority=0, menus=[MenuAdmin(id=15, pid=14, name=页面, url=, icon=1, sort=0, root=3, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=16, pid=14, name=二级菜单, url=, icon=1, sort=0, root=3, authority=0, menus=[MenuAdmin(id=17, pid=16, name=页面, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=27, pid=14, name=登录, url=/page/console_user_login, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=35, pid=13, name=1, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)]]
+2020-01-12 19:41:49 [INFO] - URL:[/page/console_user_user] 
+---------------------------> REQUEST:[[console_user_user]] 
+---------------------------> RESPONSE:[console/user/user]
+2020-01-12 19:41:49 [INFO] - URL:[/userAdmin/findAll/1] 
+---------------------------> REQUEST:[[1, 1, 10, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[UserAdmin(id=1, head=1, username=王松, account=1720696548, password=123456, age=23, gender=1, address=四川成都, empId=1, time=2019-11-14 15:17:50.0, LAY_CHECKED=null), UserAdmin(id=18, head=1, username=1, account=1, password=11111111, age=1, gender=1, address=1, empId=1, time=2019-11-15 10:43:24.79, LAY_CHECKED=null)], msg=ok)]
+2020-01-12 19:41:51 [INFO] - URL:[/error/404] 
+---------------------------> REQUEST:[[404]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=404, data=null, msg=找不到页面,检查url是否正常)]
+2020-01-12 19:41:58 [INFO] - URL:[/page/console_authority_authority] 
+---------------------------> REQUEST:[[console_authority_authority]] 
+---------------------------> RESPONSE:[console/authority/authority]
+2020-01-12 19:41:59 [INFO] - URL:[/authorityAdmin/findAll] 
+---------------------------> REQUEST:[[1, 10, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[AuthorityAdmin(desc=删除, id=72, name=user:delete, pid=78, url=/userAdmin/delete, LAY_CHECKED=null), AuthorityAdmin(desc=添加/修改, id=73, name=user:save, pid=78, url=/userAdmin/save, LAY_CHECKED=null), AuthorityAdmin(desc=登录, id=74, name=user:login, pid=78, url=/userAdmin/login, LAY_CHECKED=null), AuthorityAdmin(desc=密码修改, id=75, name=user:updPwd, pid=78, url=/userAdmin/updPwd, LAY_CHECKED=null), AuthorityAdmin(desc=查询, id=76, name=user:findAll, pid=78, url=/userAdmin/findAll, LAY_CHECKED=null), AuthorityAdmin(desc=系统用户, id=78, name=userAdmin, pid=0, url=/userAdmin, LAY_CHECKED=null)], msg=ok)]
+2020-01-12 19:42:03 [INFO] - URL:[/page/console_role_roleUserAuth] 
+---------------------------> REQUEST:[[console_role_roleUserAuth]] 
+---------------------------> RESPONSE:[console/role/roleUserAuth]
+2020-01-12 19:42:03 [INFO] - URL:[/roleAdmin/findAll/2] 
+---------------------------> REQUEST:[[2, null, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=0, data=[RoleAdmin(id=1, name=系统管理员, desc=null), RoleAdmin(id=2, name=开发人员, desc=), RoleAdmin(id=3, name=测试人员, desc=)], msg=ok)]
+2020-01-12 19:42:03 [INFO] - URL:[/userAdmin/findAll/2] 
+---------------------------> REQUEST:[[2, 1, 10, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[UserAdmin(id=1, head=1, username=王松, account=1720696548, password=123456, age=23, gender=1, address=四川成都, empId=1, time=2019-11-14 15:17:50.0, LAY_CHECKED=null), UserAdmin(id=18, head=1, username=1, account=1, password=11111111, age=1, gender=1, address=1, empId=1, time=2019-11-15 10:43:24.79, LAY_CHECKED=null)], msg=ok)]
+2020-01-12 19:42:04 [INFO] - URL:[/page/console_role_roleUrlAuth] 
+---------------------------> REQUEST:[[console_role_roleUrlAuth]] 
+---------------------------> RESPONSE:[console/role/roleUrlAuth]
+2020-01-12 19:42:04 [INFO] - URL:[/roleAdmin/findAll/2] 
+---------------------------> REQUEST:[[2, null, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=0, data=[RoleAdmin(id=1, name=系统管理员, desc=null), RoleAdmin(id=2, name=开发人员, desc=), RoleAdmin(id=3, name=测试人员, desc=)], msg=ok)]
+2020-01-12 19:42:04 [INFO] - URL:[/authorityAdmin/findList] 
+---------------------------> REQUEST:[[null]] 
+---------------------------> RESPONSE:[[AuthorityAdmin(desc=删除, id=72, name=user:delete, pid=78, url=/userAdmin/delete, LAY_CHECKED=null), AuthorityAdmin(desc=添加/修改, id=73, name=user:save, pid=78, url=/userAdmin/save, LAY_CHECKED=null), AuthorityAdmin(desc=登录, id=74, name=user:login, pid=78, url=/userAdmin/login, LAY_CHECKED=null), AuthorityAdmin(desc=密码修改, id=75, name=user:updPwd, pid=78, url=/userAdmin/updPwd, LAY_CHECKED=null), AuthorityAdmin(desc=查询, id=76, name=user:findAll, pid=78, url=/userAdmin/findAll, LAY_CHECKED=null), AuthorityAdmin(desc=系统用户, id=78, name=userAdmin, pid=0, url=/userAdmin, LAY_CHECKED=null)]]
+2020-01-12 19:42:21 [INFO] - URL:[/page/console_role_roleMenuAuth] 
+---------------------------> REQUEST:[[console_role_roleMenuAuth]] 
+---------------------------> RESPONSE:[console/role/roleMenuAuth]
+2020-01-12 19:42:21 [INFO] - URL:[/roleAdmin/findAll/2] 
+---------------------------> REQUEST:[[2, null, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=0, data=[RoleAdmin(id=1, name=系统管理员, desc=null), RoleAdmin(id=2, name=开发人员, desc=), RoleAdmin(id=3, name=测试人员, desc=)], msg=ok)]
+2020-01-12 19:42:21 [INFO] - URL:[/menuAdmin/findAll/1] 
+---------------------------> REQUEST:[[1, null, null]] 
+---------------------------> RESPONSE:[[MenuAdmin(id=1, pid=0, name=系统, url=0, icon=0, sort=1, root=1, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=4, pid=1, name=系统管理, url=0, icon=layui-icon-home, sort=1, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=5, pid=1, name=权限管理, url=0, icon=layui-icon-home, sort=2, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=6, pid=1, name=代码生成, url=0, icon=layui-icon-home, sort=3, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=7, pid=4, name=菜单管理, url=/page/console_menu_menu, icon=layui-icon-home, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=9, pid=0, name=养🐏, url=, icon=, sort=0, root=1, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=10, pid=9, name=用户管理, url=, icon=/, sort=0, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=11, pid=10, name=用户信息, url=/page/game_user_user, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=13, pid=0, name=测试系统, url=1, icon=1, sort=1, root=1, authority=2, menus=null, LAY_CHECKED=null), MenuAdmin(id=14, pid=13, name=一级菜单, url=, icon=1, sort=0, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=15, pid=14, name=页面, url=, icon=1, sort=0, root=3, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=16, pid=14, name=二级菜单, url=, icon=1, sort=0, root=3, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=17, pid=16, name=页面, url=1, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=19, pid=1, name=Layui 相关, url=, icon=0, sort=0, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=21, pid=4, name=系统用户, url=/page/console_user_user, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=22, pid=4, name=角色管理, url=/page/console_role_role, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=23, pid=5, name=角色菜单权限, url=/page/console_role_roleMenuAuth, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=24, pid=5, name=角色URL权限, url=/page/console_role_roleUrlAuth, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=25, pid=4, name=字典管理, url=/page/console_dictionary_dictionary, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=27, pid=14, name=登录, url=/page/console_user_login, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=28, pid=5, name=角色用户管理, url=/page/console_role_roleUserAuth, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=29, pid=4, name=Test, url=/1111, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=30, pid=6, name=数据表, url=/page/console_dataBase_dataBase, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=35, pid=13, name=1, url=1, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=36, pid=5, name=url, url=/page/console_authority_authority, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null)]]
+2020-01-12 19:42:22 [INFO] - URL:[/page/console_user_user] 
+---------------------------> REQUEST:[[console_user_user]] 
+---------------------------> RESPONSE:[console/user/user]
+2020-01-12 19:42:22 [INFO] - URL:[/userAdmin/findAll/1] 
+---------------------------> REQUEST:[[1, 1, 10, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[UserAdmin(id=1, head=1, username=王松, account=1720696548, password=123456, age=23, gender=1, address=四川成都, empId=1, time=2019-11-14 15:17:50.0, LAY_CHECKED=null), UserAdmin(id=18, head=1, username=1, account=1, password=11111111, age=1, gender=1, address=1, empId=1, time=2019-11-15 10:43:24.79, LAY_CHECKED=null)], msg=ok)]
+2020-01-12 19:42:23 [INFO] - URL:[/page/console_role_role] 
+---------------------------> REQUEST:[[console_role_role]] 
+---------------------------> RESPONSE:[console/role/role]
+2020-01-12 19:42:23 [INFO] - URL:[/roleAdmin/findAll/1] 
+---------------------------> REQUEST:[[1, 1, 10, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[RoleAdmin(id=1, name=系统管理员, desc=null), RoleAdmin(id=2, name=开发人员, desc=), RoleAdmin(id=3, name=测试人员, desc=)], msg=ok)]
+2020-01-12 19:42:23 [INFO] - URL:[/page/console_dictionary_dictionary] 
+---------------------------> REQUEST:[[console_dictionary_dictionary]] 
+---------------------------> RESPONSE:[console/dictionary/dictionary]
+2020-01-12 19:42:23 [INFO] - URL:[/dictionaryAdmin/findByType] 
+---------------------------> REQUEST:[[root]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=0, data=[DictionaryAdmin(desc=字典表系统自身, id=2, key=root, type=root, value=root, name=root), DictionaryAdmin(desc=1, id=5, key=1, type=root, value=root2, name=root2), DictionaryAdmin(desc=1, id=6, key=2, type=root, value=root3, name=root3)], msg=ok)]
+2020-01-12 19:42:23 [INFO] - URL:[/dictionaryAdmin/findAll] 
+---------------------------> REQUEST:[[1, 10, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[DictionaryAdmin(desc=字典表系统自身, id=2, key=root, type=root, value=root, name=null), DictionaryAdmin(desc=1, id=5, key=1, type=root, value=root2, name=null), DictionaryAdmin(desc=1, id=6, key=2, type=root, value=root3, name=null), DictionaryAdmin(desc=111, id=7, key=1, type=root3, value=1, name=null)], msg=ok)]
+2020-01-12 19:42:26 [INFO] - URL:[/page/game_user_user] 
+---------------------------> REQUEST:[[game_user_user]] 
+---------------------------> RESPONSE:[game/user/user]
+2020-01-12 19:42:26 [ERROR] - [THYMELEAF][http-nio-8080-exec-10] Exception processing template "game/user/user": Error resolving template [game/user/user], template might not exist or might not be accessible by any of the configured Template Resolvers
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template [game/user/user], template might not exist or might not be accessible by any of the configured Template Resolvers
+	at org.thymeleaf.engine.TemplateManager.resolveTemplate(TemplateManager.java:869)
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:607)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1098)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1072)
+	at org.thymeleaf.spring5.view.ThymeleafView.renderFragment(ThymeleafView.java:362)
+	at org.thymeleaf.spring5.view.ThymeleafView.render(ThymeleafView.java:189)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1371)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1117)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1056)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:897)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:123)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:118)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:118)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:118)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:118)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:853)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1587)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+2020-01-12 19:42:26 [INFO] - URL:[/error/500] 
+---------------------------> REQUEST:[[500]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=500, data=null, msg=系统错误了)]
+2020-01-12 19:43:07 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:43:07 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:43:07 [INFO] - {dataSource-1} closed
+2020-01-12 19:47:52 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-12 19:47:53 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 8612 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-12 19:47:53 [INFO] - The following profiles are active: dev
+2020-01-12 19:47:54 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-12 19:47:54 [INFO] - Finished Spring Data repository scanning in 131ms. Found 8 repository interfaces.
+2020-01-12 19:47:55 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$1756d427] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-12 19:47:55 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-12 19:47:55 [INFO] - Root WebApplicationContext: initialization completed in 2313 ms
+2020-01-12 19:47:55 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-12 19:47:56 [INFO] - Init DruidDataSource
+2020-01-12 19:47:56 [INFO] - {dataSource-1} inited
+2020-01-12 19:47:56 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-12 19:47:56 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-12 19:47:56 [INFO] - HHH000206: hibernate.properties not found
+2020-01-12 19:47:57 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-12 19:47:57 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-12 19:47:58 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:47:59 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:47:59 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:47:59 [INFO] - Adding welcome page template: index
+2020-01-12 19:47:59 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:48:00 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-12 19:48:00 [INFO] - Started AdminConsoleApplication in 7.818 seconds (JVM running for 9.277)
+2020-01-12 19:48:00 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-12 19:48:00 [INFO] - Completed initialization in 17 ms
+2020-01-12 19:48:00 [INFO] - URL:[/page/console_user_login] 
+---------------------------> REQUEST:[[console_user_login]] 
+---------------------------> RESPONSE:[console/user/login]
+2020-01-12 19:48:02 [INFO] - URL:[/userAdmin/login] 
+---------------------------> REQUEST:[[1720696548, 123456]] 
+---------------------------> RESPONSE:[success]
+2020-01-12 19:48:02 [INFO] - URL:[/error/404] 
+---------------------------> REQUEST:[[404]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=404, data=null, msg=找不到页面,检查url是否正常)]
+2020-01-12 19:48:02 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-12 19:48:02 [INFO] - URL:[/menuAdmin/menuTree] 
+---------------------------> REQUEST:[[null]] 
+---------------------------> RESPONSE:[[MenuAdmin(id=1, pid=0, name=系统, url=0, icon=0, sort=1, root=1, authority=0, menus=[MenuAdmin(id=4, pid=1, name=系统管理, url=0, icon=layui-icon-home, sort=1, root=2, authority=0, menus=[MenuAdmin(id=7, pid=4, name=菜单管理, url=/page/console_menu_menu, icon=layui-icon-home, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=21, pid=4, name=系统用户, url=/page/console_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=22, pid=4, name=角色管理, url=/page/console_role_role, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=25, pid=4, name=字典管理, url=/page/console_dictionary_dictionary, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=29, pid=4, name=Test, url=/1111, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=5, pid=1, name=权限管理, url=0, icon=layui-icon-home, sort=2, root=2, authority=0, menus=[MenuAdmin(id=23, pid=5, name=角色菜单权限, url=/page/console_role_roleMenuAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=24, pid=5, name=角色URL权限, url=/page/console_role_roleUrlAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=28, pid=5, name=角色用户管理, url=/page/console_role_roleUserAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=36, pid=5, name=url, url=/page/console_authority_authority, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=6, pid=1, name=代码生成, url=0, icon=layui-icon-home, sort=3, root=2, authority=0, menus=[MenuAdmin(id=30, pid=6, name=数据表, url=/page/console_dataBase_dataBase, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=9, pid=0, name=养🐏, url=, icon=, sort=0, root=1, authority=0, menus=[MenuAdmin(id=10, pid=9, name=用户管理, url=, icon=/, sort=0, root=2, authority=0, menus=[MenuAdmin(id=11, pid=10, name=用户信息, url=/page/game_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=13, pid=0, name=测试系统, url=1, icon=1, sort=1, root=1, authority=2, menus=[MenuAdmin(id=14, pid=13, name=一级菜单, url=, icon=1, sort=0, root=2, authority=0, menus=[MenuAdmin(id=15, pid=14, name=页面, url=, icon=1, sort=0, root=3, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=16, pid=14, name=二级菜单, url=, icon=1, sort=0, root=3, authority=0, menus=[MenuAdmin(id=17, pid=16, name=页面, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=27, pid=14, name=登录, url=/page/console_user_login, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=35, pid=13, name=1, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)]]
+2020-01-12 19:48:02 [INFO] - URL:[/page/console_user_user] 
+---------------------------> REQUEST:[[console_user_user]] 
+---------------------------> RESPONSE:[console/user/user]
+2020-01-12 19:48:02 [INFO] - URL:[/userAdmin/findAll/1] 
+---------------------------> REQUEST:[[1, 1, 10, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[UserAdmin(id=1, head=1, username=王松, account=1720696548, password=123456, age=23, gender=1, address=四川成都, empId=1, time=2019-11-14 15:17:50.0, LAY_CHECKED=null), UserAdmin(id=18, head=1, username=1, account=1, password=11111111, age=1, gender=1, address=1, empId=1, time=2019-11-15 10:43:24.79, LAY_CHECKED=null)], msg=ok)]
+2020-01-12 19:48:04 [INFO] - URL:[/page/console_menu_menu] 
+---------------------------> REQUEST:[[console_menu_menu]] 
+---------------------------> RESPONSE:[console/menu/menu]
+2020-01-12 19:48:04 [INFO] - URL:[/menuAdmin/findAll/1] 
+---------------------------> REQUEST:[[1, null, null]] 
+---------------------------> RESPONSE:[[MenuAdmin(id=1, pid=0, name=系统, url=0, icon=0, sort=1, root=1, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=4, pid=1, name=系统管理, url=0, icon=layui-icon-home, sort=1, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=5, pid=1, name=权限管理, url=0, icon=layui-icon-home, sort=2, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=6, pid=1, name=代码生成, url=0, icon=layui-icon-home, sort=3, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=7, pid=4, name=菜单管理, url=/page/console_menu_menu, icon=layui-icon-home, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=9, pid=0, name=养🐏, url=, icon=, sort=0, root=1, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=10, pid=9, name=用户管理, url=, icon=/, sort=0, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=11, pid=10, name=用户信息, url=/page/game_user_user, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=13, pid=0, name=测试系统, url=1, icon=1, sort=1, root=1, authority=2, menus=null, LAY_CHECKED=null), MenuAdmin(id=14, pid=13, name=一级菜单, url=, icon=1, sort=0, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=15, pid=14, name=页面, url=, icon=1, sort=0, root=3, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=16, pid=14, name=二级菜单, url=, icon=1, sort=0, root=3, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=17, pid=16, name=页面, url=1, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=19, pid=1, name=Layui 相关, url=, icon=0, sort=0, root=2, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=21, pid=4, name=系统用户, url=/page/console_user_user, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=22, pid=4, name=角色管理, url=/page/console_role_role, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=23, pid=5, name=角色菜单权限, url=/page/console_role_roleMenuAuth, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=24, pid=5, name=角色URL权限, url=/page/console_role_roleUrlAuth, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=25, pid=4, name=字典管理, url=/page/console_dictionary_dictionary, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=27, pid=14, name=登录, url=/page/console_user_login, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=28, pid=5, name=角色用户管理, url=/page/console_role_roleUserAuth, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=29, pid=4, name=Test, url=/1111, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=30, pid=6, name=数据表, url=/page/console_dataBase_dataBase, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=35, pid=13, name=1, url=1, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null), MenuAdmin(id=36, pid=5, name=url, url=/page/console_authority_authority, icon=, sort=0, root=4, authority=0, menus=null, LAY_CHECKED=null)]]
+2020-01-12 19:48:04 [INFO] - URL:[/page/console_user_user] 
+---------------------------> REQUEST:[[console_user_user]] 
+---------------------------> RESPONSE:[console/user/user]
+2020-01-12 19:48:04 [INFO] - URL:[/userAdmin/findAll/1] 
+---------------------------> REQUEST:[[1, 1, 10, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[UserAdmin(id=1, head=1, username=王松, account=1720696548, password=123456, age=23, gender=1, address=四川成都, empId=1, time=2019-11-14 15:17:50.0, LAY_CHECKED=null), UserAdmin(id=18, head=1, username=1, account=1, password=11111111, age=1, gender=1, address=1, empId=1, time=2019-11-15 10:43:24.79, LAY_CHECKED=null)], msg=ok)]
+2020-01-12 19:48:05 [INFO] - URL:[/page/console_role_role] 
+---------------------------> REQUEST:[[console_role_role]] 
+---------------------------> RESPONSE:[console/role/role]
+2020-01-12 19:48:05 [INFO] - URL:[/roleAdmin/findAll/1] 
+---------------------------> REQUEST:[[1, 1, 10, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[RoleAdmin(id=1, name=系统管理员, desc=null), RoleAdmin(id=2, name=开发人员, desc=), RoleAdmin(id=3, name=测试人员, desc=)], msg=ok)]
+2020-01-12 19:48:45 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:48:45 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:48:45 [INFO] - {dataSource-1} closed
+2020-01-12 19:48:55 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-12 19:48:56 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 21000 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-12 19:48:56 [INFO] - The following profiles are active: dev
+2020-01-12 19:48:57 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-12 19:48:58 [INFO] - Finished Spring Data repository scanning in 148ms. Found 8 repository interfaces.
+2020-01-12 19:48:58 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$64be9294] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-12 19:49:04 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-12 19:49:05 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 15596 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-12 19:49:05 [INFO] - The following profiles are active: dev
+2020-01-12 19:49:06 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-12 19:49:06 [INFO] - Finished Spring Data repository scanning in 128ms. Found 8 repository interfaces.
+2020-01-12 19:49:07 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$e557e4d6] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-12 19:49:07 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-12 19:49:07 [INFO] - Root WebApplicationContext: initialization completed in 2215 ms
+2020-01-12 19:49:07 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-12 19:49:07 [INFO] - Init DruidDataSource
+2020-01-12 19:49:08 [INFO] - {dataSource-1} inited
+2020-01-12 19:49:08 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-12 19:49:09 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-12 19:49:09 [INFO] - HHH000206: hibernate.properties not found
+2020-01-12 19:49:09 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-12 19:49:09 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-12 19:49:10 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:49:11 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:49:11 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:49:11 [INFO] - Adding welcome page template: index
+2020-01-12 19:49:11 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:49:12 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-12 19:49:12 [INFO] - Started AdminConsoleApplication in 7.6 seconds (JVM running for 8.91)
+2020-01-12 19:49:12 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-12 19:49:12 [INFO] - Completed initialization in 12 ms
+2020-01-12 19:49:12 [INFO] -   URL:[/page/console_user_login] ---------------------------> REQUEST:[[console_user_login]] 
+---------------------------> RESPONSE:[console/user/login]
+2020-01-12 19:49:13 [INFO] -   URL:[/userAdmin/login] ---------------------------> REQUEST:[[1720696548, 123456]] 
+---------------------------> RESPONSE:[success]
+2020-01-12 19:49:13 [INFO] -   URL:[/error/404] ---------------------------> REQUEST:[[404]] 
+---------------------------> RESPONSE:[ResponseData(count=0, code=404, data=null, msg=找不到页面,检查url是否正常)]
+2020-01-12 19:49:14 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-12 19:49:14 [INFO] -   URL:[/menuAdmin/menuTree] ---------------------------> REQUEST:[[null]] 
+---------------------------> RESPONSE:[[MenuAdmin(id=1, pid=0, name=系统, url=0, icon=0, sort=1, root=1, authority=0, menus=[MenuAdmin(id=4, pid=1, name=系统管理, url=0, icon=layui-icon-home, sort=1, root=2, authority=0, menus=[MenuAdmin(id=7, pid=4, name=菜单管理, url=/page/console_menu_menu, icon=layui-icon-home, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=21, pid=4, name=系统用户, url=/page/console_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=22, pid=4, name=角色管理, url=/page/console_role_role, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=25, pid=4, name=字典管理, url=/page/console_dictionary_dictionary, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=29, pid=4, name=Test, url=/1111, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=5, pid=1, name=权限管理, url=0, icon=layui-icon-home, sort=2, root=2, authority=0, menus=[MenuAdmin(id=23, pid=5, name=角色菜单权限, url=/page/console_role_roleMenuAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=24, pid=5, name=角色URL权限, url=/page/console_role_roleUrlAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=28, pid=5, name=角色用户管理, url=/page/console_role_roleUserAuth, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=36, pid=5, name=url, url=/page/console_authority_authority, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=6, pid=1, name=代码生成, url=0, icon=layui-icon-home, sort=3, root=2, authority=0, menus=[MenuAdmin(id=30, pid=6, name=数据表, url=/page/console_dataBase_dataBase, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=9, pid=0, name=养🐏, url=, icon=, sort=0, root=1, authority=0, menus=[MenuAdmin(id=10, pid=9, name=用户管理, url=, icon=/, sort=0, root=2, authority=0, menus=[MenuAdmin(id=11, pid=10, name=用户信息, url=/page/game_user_user, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=13, pid=0, name=测试系统, url=1, icon=1, sort=1, root=1, authority=2, menus=[MenuAdmin(id=14, pid=13, name=一级菜单, url=, icon=1, sort=0, root=2, authority=0, menus=[MenuAdmin(id=15, pid=14, name=页面, url=, icon=1, sort=0, root=3, authority=0, menus=[], LAY_CHECKED=null), MenuAdmin(id=16, pid=14, name=二级菜单, url=, icon=1, sort=0, root=3, authority=0, menus=[MenuAdmin(id=17, pid=16, name=页面, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=27, pid=14, name=登录, url=/page/console_user_login, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null), MenuAdmin(id=35, pid=13, name=1, url=1, icon=, sort=0, root=4, authority=0, menus=[], LAY_CHECKED=null)], LAY_CHECKED=null)]]
+2020-01-12 19:49:14 [INFO] -   URL:[/page/console_user_user] ---------------------------> REQUEST:[[console_user_user]] 
+---------------------------> RESPONSE:[console/user/user]
+2020-01-12 19:49:14 [INFO] -   URL:[/userAdmin/findAll/1] ---------------------------> REQUEST:[[1, 1, 10, null, null]] 
+---------------------------> RESPONSE:[ResponseData(count=1, code=0, data=[UserAdmin(id=1, head=1, username=王松, account=1720696548, password=123456, age=23, gender=1, address=四川成都, empId=1, time=2019-11-14 15:17:50.0, LAY_CHECKED=null), UserAdmin(id=18, head=1, username=1, account=1, password=11111111, age=1, gender=1, address=1, empId=1, time=2019-11-15 10:43:24.79, LAY_CHECKED=null)], msg=ok)]
+2020-01-12 19:49:28 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:49:28 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:49:28 [INFO] - {dataSource-1} closed
+2020-01-12 19:49:36 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-12 19:49:37 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 20864 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-12 19:49:37 [INFO] - The following profiles are active: dev
+2020-01-12 19:49:38 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-12 19:49:39 [INFO] - Finished Spring Data repository scanning in 143ms. Found 8 repository interfaces.
+2020-01-12 19:49:39 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$d1d9a6bd] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-12 19:49:40 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-12 19:49:40 [INFO] - Root WebApplicationContext: initialization completed in 3186 ms
+2020-01-12 19:49:40 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-12 19:49:40 [INFO] - Init DruidDataSource
+2020-01-12 19:49:40 [INFO] - {dataSource-1} inited
+2020-01-12 19:49:41 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-12 19:49:41 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-12 19:49:41 [INFO] - HHH000206: hibernate.properties not found
+2020-01-12 19:49:41 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-12 19:49:42 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-12 19:49:43 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:49:44 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:49:44 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:49:44 [INFO] - Adding welcome page template: index
+2020-01-12 19:49:44 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:49:45 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-12 19:49:45 [INFO] - Started AdminConsoleApplication in 8.929 seconds (JVM running for 10.383)
+2020-01-12 19:49:57 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:49:57 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:49:57 [INFO] - {dataSource-1} closed
+2020-01-12 19:50:03 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-12 19:50:04 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 9120 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-12 19:50:04 [INFO] - The following profiles are active: dev
+2020-01-12 19:50:05 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-12 19:50:05 [INFO] - Finished Spring Data repository scanning in 140ms. Found 8 repository interfaces.
+2020-01-12 19:50:06 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$7bb806c7] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-12 19:50:06 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-12 19:50:06 [INFO] - Root WebApplicationContext: initialization completed in 2341 ms
+2020-01-12 19:50:06 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-12 19:50:06 [INFO] - Init DruidDataSource
+2020-01-12 19:50:07 [INFO] - {dataSource-1} inited
+2020-01-12 19:50:07 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-12 19:50:08 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-12 19:50:08 [INFO] - HHH000206: hibernate.properties not found
+2020-01-12 19:50:08 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-12 19:50:08 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-12 19:50:09 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-12 19:50:10 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-12 19:50:10 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:50:10 [INFO] - Adding welcome page template: index
+2020-01-12 19:50:10 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:50:11 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-12 19:50:11 [INFO] - Started AdminConsoleApplication in 7.796 seconds (JVM running for 9.134)
+2020-01-12 19:50:12 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-12 19:50:12 [INFO] - Completed initialization in 17 ms
+2020-01-12 19:50:12 [INFO] -   URL:[/page/console_user_login] -----> REQUEST:[[console_user_login]]
+2020-01-12 19:50:14 [INFO] -   URL:[/userAdmin/login] -----> REQUEST:[[1720696548, 123456]]
+2020-01-12 19:50:14 [INFO] -   URL:[/error/404] -----> REQUEST:[[404]]
+2020-01-12 19:50:14 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-12 19:50:14 [INFO] -   URL:[/menuAdmin/menuTree] -----> REQUEST:[[null]]
+2020-01-12 19:50:14 [INFO] -   URL:[/page/console_user_user] -----> REQUEST:[[console_user_user]]
+2020-01-12 19:50:14 [INFO] -   URL:[/userAdmin/findAll/1] -----> REQUEST:[[1, 1, 10, null, null]]

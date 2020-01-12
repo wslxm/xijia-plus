@@ -1,0 +1,18 @@
+
+            参考： https://blog.csdn.net/qq_41463655/article/details/103946247
+
+            let APP_KEY = "mykey123456";
+            let account = obj.field.username;
+            let password = obj.field.password;
+            let timestamp = new Date().getTime();
+            let mysign = "account="+account
+                    + "&password="+password
+                    + "&timestamp="+timestamp
+                    +  APP_KEY;
+            let sign =  hex_md5(byteToString(mysign));
+            let result = ajaxPost(ADMIN_CONSOLE + "/userAdmin/login", {
+                account: account ,
+                password: password,
+                timestamp: timestamp,
+                sign: sign
+            });
