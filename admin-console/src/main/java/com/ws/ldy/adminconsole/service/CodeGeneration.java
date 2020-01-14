@@ -46,15 +46,6 @@ public interface CodeGeneration  {
      */
     public void buildDao(FieldCG fieldCG, String path) throws IOException;
 
-    /**
-     * 追加dao依赖注如信息
-     */
-    public void buildDaoFactory(FieldCG fieldCG, String path) throws IOException;
-
-    /**
-     * 追加service依赖注如信息
-     */
-    public void buildServiceFactory(FieldCG fieldCG, String path) throws IOException;
 
     /**
      * 生成前台展示页代码

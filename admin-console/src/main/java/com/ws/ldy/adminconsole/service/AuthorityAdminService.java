@@ -2,10 +2,11 @@ package com.ws.ldy.adminconsole.service;
 
 import com.ws.ldy.adminconsole.entity.AuthorityAdmin;
 import com.ws.ldy.admincore.service.BaseServiceApi;
+
 import java.util.List;
 
 /**
- * TODO  权限管理
+ * TODO  Url权限
  *
  * @author wangsong
  * @WX-QQ 1720696548
@@ -16,11 +17,10 @@ public interface AuthorityAdminService extends BaseServiceApi<AuthorityAdmin, In
     /**
      * TODO    刷新所有权限列表数据
      *
-     * @param classByPackageName
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    void putClass(List<Class<?>> classByPackageName);
+    void putClass();
 
     /**
      * TODO    获取指定用户有url权限列表

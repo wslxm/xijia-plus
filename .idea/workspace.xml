@@ -1,22 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d4e3f1b-5817-4541-935e-4ef19b7b631e" name="Default Changelist" comment=" 使用策略模式重构了aop逻辑代码">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/desc/验签示例" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/CheckAopContext.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/template/CheckAopFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/template/impl/AccessRecordLogFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/template/impl/AntiTheftChainFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/template/impl/CheckSignFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/template/impl/RoleAuthorityFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/template/impl/XssDefenseFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/config/GlobalExceptionHandler.java" afterDir="false" />
+    <list default="true" id="4d4e3f1b-5817-4541-935e-4ef19b7b631e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/test/TestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/query/QueryCriteria.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/info/info.log.2020-01-12" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/info/info.log.2020-01-13" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/warn/warn.log.2020-01-12" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/warn/warn.log.2020-01-13" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/Aop.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/CheckAop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/CheckAop.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/CheckAop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/LoginInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/LoginInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/MvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/config/MvcConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/AuthorityAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/AuthorityAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DataBaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DataBaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DictionaryAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DictionaryAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/MenuAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/MenuAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/RoleAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/TestController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/UserAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/CheckAopContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/factory/CheckAopContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/AuthorityAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/AuthorityAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/CodeGeneration.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/CodeGeneration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/DictionaryAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/DictionaryAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleAuthAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleAuthAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleMenuAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleMenuAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleUserAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/RoleUserAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/AuthorityAdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/AuthorityAdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/CodeGenerationImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/service/impl/CodeGenerationImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/template/impl/AccessRecordLogFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/template/impl/AccessRecordLogFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/template/impl/CheckSignFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/template/impl/CheckSignFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/template/impl/RoleAuthorityFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/template/impl/RoleAuthorityFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/template/impl/XssDefenseFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/template/impl/XssDefenseFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/config/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/config/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/BaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/base/BaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/ErrorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/base/ErrorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/PageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/base/PageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/vo/ResponseData.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/controller/vo/ResponseData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/BaseServiceApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/BaseServiceApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/controller/base/BaseAdminDemoWebController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-demo-web/src/main/java/com/ws/ldy/admindemoweb/controller/base/BaseAdminDemoWebController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/error/error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/error/error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/info/info.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/info/info.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/warn/warn.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/warn/warn.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -56,24 +84,31 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/base" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="editing.templates" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.ws.ldy.adminconsole" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.ws.ldy.adminconsole.controller.base" />
+      <recent name="com.ws.ldy.admincore.query.impl" />
+      <recent name="com.ws.ldy.admincore.query" />
       <recent name="com.ws.ldy.adminconsole.config" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\src\main\java\com\ws\ldy\adminconsole\controller\base" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -88,25 +123,71 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
-    <configuration name="AdminConsoleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Spring Boot.AdminConsoleApplication">
+    <configuration name="AdminConsoleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="admin-console" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ws.ldy.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.ws.ldy.AdminConsoleApplication" />
-      <option name="VM_PARAMETERS" value="-Dlog4j.skipJansi=false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="bootstrap" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/smallweigit-avue/avue/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="bootstrap" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/smallweigit-avue/avue/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/smallweigit-avue/avue/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/avue/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:vant" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/smallweigit-avue/avue/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev:vant" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.AdminConsoleApplication" />
+        <item itemvalue="npm.dev (1)" />
+        <item itemvalue="npm.dev:vant" />
+        <item itemvalue="npm.build" />
+        <item itemvalue="npm.bootstrap" />
+        <item itemvalue="npm.dev" />
       </list>
     </recent_temporary>
   </component>
@@ -122,7 +203,11 @@
       <updated>1578733476814</updated>
       <workItem from="1578733479382" duration="1225000" />
       <workItem from="1578734736141" duration="27348000" />
-      <workItem from="1578799276063" duration="22394000" />
+      <workItem from="1578799276063" duration="25422000" />
+      <workItem from="1578847529221" duration="1048000" />
+      <workItem from="1578869811640" duration="3334000" />
+      <workItem from="1578874730021" duration="214000" />
+      <workItem from="1578916638590" duration="14971000" />
     </task>
     <task id="LOCAL-00001" summary="重构了core service通用类代码，自动获取泛型T来获取到对应的dao层的bend实例&#10;重构了console 后台管理所有controller，service类对通用service的调用&#10;重构了返回结果字段封装处理&#10;代码生成器生成的代码将不可用，controller，service层代码已发生变化">
       <created>1578747447840</created>
@@ -138,7 +223,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578815497080</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary=" 使用策略模式重构了aop 逻辑接口验证代码">
+      <created>1578829847160</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1578829847160</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -160,14 +252,15 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="重构了core service通用类代码，自动获取泛型T来获取到对应的dao层的bend实例&#10;重构了console 后台管理所有controller，service类对通用service的调用&#10;重构了返回结果字段封装处理&#10;代码生成器生成的代码将不可用，controller，service层代码已发生变化" />
     <MESSAGE value=" URL权限优化, 添加接口验签（只针对 /public 接口），xss攻击防御，URL特殊字符转译，防盗链, 允许跨域请求，log4j 接口调用的日志记录（每天生成日志文件）" />
-    <option name="LAST_COMMIT_MESSAGE" value=" URL权限优化, 添加接口验签（只针对 /public 接口），xss攻击防御，URL特殊字符转译，防盗链, 允许跨域请求，log4j 接口调用的日志记录（每天生成日志文件）" />
+    <MESSAGE value=" 使用策略模式重构了aop 逻辑接口验证代码" />
+    <option name="LAST_COMMIT_MESSAGE" value=" 使用策略模式重构了aop 逻辑接口验证代码" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/service/impl/BaseServiceApiImpl.java</url>
-          <line>150</line>
+          <line>116</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -179,6 +272,16 @@
           <url>file://$PROJECT_DIR$/admin-core/src/main/java/com/ws/ldy/admincore/utils/SignUtil.java</url>
           <line>250</line>
           <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DataBaseController.java</url>
+          <line>83</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/admin-console/src/main/java/com/ws/ldy/adminconsole/controller/DictionaryAdminController.java</url>
+          <line>83</line>
+          <option name="timeStamp" value="65" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

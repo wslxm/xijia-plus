@@ -19,8 +19,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TODO  3、Url 权限判断
- */
+  * TODO  3、Url 权限判断
+  * @author 王松
+  * @mail  1720696548@qq.com
+  * @date  2020/1/13 0013 20:43
+  */
 @Component
 public class RoleAuthorityFilter extends CheckAopFilter {
     @Resource

@@ -4,7 +4,7 @@ package com.ws.ldy.adminconsole.controller;
 import com.ws.ldy.adminconsole.entity.MenuAdmin;
 import com.ws.ldy.adminconsole.entity.UserAdmin;
 import com.ws.ldy.adminconsole.service.MenuAdminService;
-import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.admincore.controller.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;

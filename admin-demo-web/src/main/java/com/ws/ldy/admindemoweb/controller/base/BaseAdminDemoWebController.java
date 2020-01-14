@@ -1,7 +1,7 @@
 package com.ws.ldy.admindemoweb.controller.base;
 
 
-import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.admincore.controller.base.BaseController;
 import com.ws.ldy.admindemoweb.factory.DaoAdminDemoWebFactory;
 import com.ws.ldy.admindemoweb.factory.ServiceAdminDemoWebFactory;
 

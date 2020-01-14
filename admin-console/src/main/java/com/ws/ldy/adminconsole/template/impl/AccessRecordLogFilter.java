@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * TODO  5、调用业务逻辑，并记录日志 log4j
+ * @author 王松
+ * @mail  1720696548@qq.com
+ * @date  2020/1/13 0013 20:42
  */
 @Component
 public class AccessRecordLogFilter extends CheckAopFilter {

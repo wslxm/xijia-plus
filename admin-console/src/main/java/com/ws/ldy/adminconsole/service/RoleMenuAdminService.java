@@ -7,7 +7,7 @@ import com.ws.ldy.admincore.service.BaseServiceApi;
 import java.util.List;
 
 /**
- * TODO  角色菜单管理
+ * TODO  角色+菜单管理
  *
  * @author 王松
  * @WX-QQ 1720696548

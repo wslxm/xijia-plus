@@ -1,4 +1,4 @@
-package com.ws.ldy.admincore.controller;
+package com.ws.ldy.adminconsole.controller.base;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;

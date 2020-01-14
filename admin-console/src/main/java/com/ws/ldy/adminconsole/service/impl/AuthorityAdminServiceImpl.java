@@ -5,6 +5,7 @@ import com.ws.ldy.adminconsole.entity.AuthorityAdmin;
 import com.ws.ldy.adminconsole.service.AuthorityAdminService;
 import com.ws.ldy.admincore.annotation.LdyAuthority;
 import com.ws.ldy.admincore.service.impl.BaseServiceApiImpl;
+import com.ws.ldy.admincore.utils.ClassUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,14 @@ import java.util.Map;
 @Service
 public class AuthorityAdminServiceImpl extends BaseServiceApiImpl<AuthorityAdmin, Integer> implements AuthorityAdminService {
 
+    /**
+     * url权限注解扫包范围
+     */
+    private final static String PACKAGE_NAME = "com.ws.ldy";
+
+    /**
+     * 权限dao
+     */
     @Autowired
     private AuthorityAdminDao authorityAdminDao ;
 
@@ -29,8 +38,10 @@ public class AuthorityAdminServiceImpl extends BaseServiceApiImpl<AuthorityAdmin
      * @date 2019/11/25 0025 9:02
      */
     @Override
-    public void putClass(List<Class<?>> classByPackageName) {
-        //当前存在url权限列表
+    public void putClass() {
+        // 扫描包，获得包下的所有类
+        List<Class<?>> classByPackageName = ClassUtil.getClasses(PACKAGE_NAME);
+        // 当前存在url权限列表
         List<AuthorityAdmin> list = authorityAdminDao.findAll();
         Map<String, AuthorityAdmin> map = new HashMap();
         list.forEach(item -> map.put(item.getName(), item));
@@ -64,6 +75,7 @@ public class AuthorityAdminServiceImpl extends BaseServiceApiImpl<AuthorityAdmin
         authorityAdminDao.saveAll(athorityList);
     }
 
+
     @Override
     public List<AuthorityAdmin> findUserIdRoleAuthority(Integer userId) {
         return authorityAdminDao.findUserIdRoleAuthority(userId);
@@ -80,7 +92,7 @@ public class AuthorityAdminServiceImpl extends BaseServiceApiImpl<AuthorityAdmin
      * @return void
      * @date 2019/11/25 0025 9:02
      */
-    public void putMethods(Class<?> classInfo, List<AuthorityAdmin> athorityList, Map<String, AuthorityAdmin> map, AuthorityAdmin authority) {
+    private void putMethods(Class<?> classInfo, List<AuthorityAdmin> athorityList, Map<String, AuthorityAdmin> map, AuthorityAdmin authority) {
         Method[] methods = classInfo.getDeclaredMethods();
         AuthorityAdmin auth = null;
         for (Method method : methods) {

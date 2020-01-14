@@ -7,7 +7,7 @@ import com.ws.ldy.admincore.service.BaseServiceApi;
 import java.util.List;
 
 /**
- * TODO  代码生成器自动生成，请自定义描叙
+ * TODO  数据字典
  *
  * @author wangsong
  * @WX-QQ 1720696548

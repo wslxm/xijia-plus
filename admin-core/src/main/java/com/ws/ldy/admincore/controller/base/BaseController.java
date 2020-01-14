@@ -1,4 +1,4 @@
-package com.ws.ldy.admincore.controller;
+package com.ws.ldy.admincore.controller.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
@@ -19,7 +19,6 @@ public class BaseController {
     protected HttpServletRequest request;
     @Autowired
     protected HttpServletResponse response;
-
     /**
      * 获取页面字符串
      *

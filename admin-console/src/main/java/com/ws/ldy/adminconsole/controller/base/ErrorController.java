@@ -1,4 +1,4 @@
-package com.ws.ldy.admincore.controller;
+package com.ws.ldy.adminconsole.controller.base;
 
 import com.ws.ldy.admincore.controller.vo.ResponseData;
 import org.springframework.stereotype.Controller;
@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * TODO  系统错误页拦截处理，由 ErrorPageConfig配置拦截跳转到此类方法
  *
- *  方式1、直接跳转到具体错误页面
- *  方式2、返回json格式数据，由前端处理
+ * @author 王松
+ * @mail 1720696548@qq.com
  * @date 2019/11/19 9:43
- * @return
+ * 方式1、直接跳转到具体错误页面
+ * 方式2、返回json格式数据，由前端处理
  */
 @SuppressWarnings("all")
 @Controller
@@ -55,15 +56,15 @@ public class ErrorController {
     public ResponseData error(@PathVariable int code) {
         switch (code) {
             case 401:
-                return  ResponseData.error("401", "未授权");
+                return ResponseData.error("401", "未授权");
             case 403:
-                return  ResponseData.error("403", "拒绝访问");
+                return ResponseData.error("403", "拒绝访问");
             case 404:
-                return  ResponseData.error("404", "找不到页面,检查url是否正常");
+                return ResponseData.error("404", "找不到页面,检查url是否正常");
             case 500:
-                return  ResponseData.error("500", "系统错误了");
+                return ResponseData.error("500", "系统错误了");
             default:
         }
-        return  ResponseData.error("999", "未知错误");
+        return ResponseData.error("999", "未知错误");
     }
 }

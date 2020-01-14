@@ -1,0 +1,532 @@
+2020-01-13 21:49:21 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 21:49:21 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 1444 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 21:49:21 [INFO] - The following profiles are active: dev
+2020-01-13 21:49:22 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 21:49:23 [INFO] - Finished Spring Data repository scanning in 149ms. Found 8 repository interfaces.
+2020-01-13 21:49:23 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$9149caf0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 21:49:24 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 21:49:24 [INFO] - Root WebApplicationContext: initialization completed in 2678 ms
+2020-01-13 21:49:24 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 21:49:24 [INFO] - Init DruidDataSource
+2020-01-13 21:49:24 [INFO] - {dataSource-1} inited
+2020-01-13 21:49:26 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 21:49:26 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 21:49:26 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 21:49:26 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 21:49:26 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 21:49:27 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 21:49:28 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 21:49:28 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 21:49:29 [INFO] - Adding welcome page template: index
+2020-01-13 21:49:29 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 21:49:29 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-13 21:49:29 [INFO] - Started AdminConsoleApplication in 8.67 seconds (JVM running for 13.115)
+2020-01-13 21:50:17 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-13 21:50:17 [INFO] - Completed initialization in 19 ms
+2020-01-13 21:51:57 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-13 21:52:05 [INFO] - URL:[/api/test] -----> REQUEST:[[]]
+2020-01-13 21:54:12 [INFO] - URL:[/api/test] -----> REQUEST:[[]]
+2020-01-13 21:57:04 [INFO] - URL:[/api/test] -----> REQUEST:[[]]
+2020-01-13 21:59:36 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-13 21:59:36 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 21:59:36 [INFO] - {dataSource-1} closed
+2020-01-13 21:59:48 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 21:59:48 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 3472 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 21:59:48 [INFO] - The following profiles are active: dev
+2020-01-13 21:59:50 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 21:59:50 [INFO] - Finished Spring Data repository scanning in 137ms. Found 8 repository interfaces.
+2020-01-13 21:59:50 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$5455613] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 21:59:51 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 21:59:51 [INFO] - Root WebApplicationContext: initialization completed in 2534 ms
+2020-01-13 21:59:51 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 21:59:51 [INFO] - Init DruidDataSource
+2020-01-13 21:59:51 [INFO] - {dataSource-1} inited
+2020-01-13 21:59:52 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 21:59:52 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 21:59:52 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 21:59:52 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 21:59:53 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 21:59:53 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 21:59:54 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 21:59:54 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 21:59:54 [INFO] - Adding welcome page template: index
+2020-01-13 21:59:55 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 21:59:55 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-13 21:59:55 [INFO] - Started AdminConsoleApplication in 7.427 seconds (JVM running for 9.05)
+2020-01-13 22:08:26 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:08:26 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:08:26 [INFO] - {dataSource-1} closed
+2020-01-13 22:08:31 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 22:08:32 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 14472 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 22:08:32 [INFO] - The following profiles are active: dev
+2020-01-13 22:08:33 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 22:08:33 [INFO] - Finished Spring Data repository scanning in 137ms. Found 8 repository interfaces.
+2020-01-13 22:08:33 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$d253046c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:08:34 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 22:08:34 [INFO] - Root WebApplicationContext: initialization completed in 2284 ms
+2020-01-13 22:08:34 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 22:08:34 [INFO] - Init DruidDataSource
+2020-01-13 22:08:34 [INFO] - {dataSource-1} inited
+2020-01-13 22:08:35 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 22:08:35 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 22:08:35 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 22:08:36 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 22:08:36 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 22:08:37 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:08:38 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:08:38 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 22:08:38 [INFO] - Adding welcome page template: index
+2020-01-13 22:08:38 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 22:08:39 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-13 22:08:39 [INFO] - Started AdminConsoleApplication in 8.192 seconds (JVM running for 9.627)
+2020-01-13 22:08:48 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-13 22:08:48 [INFO] - Completed initialization in 14 ms
+2020-01-13 22:08:56 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-13 22:09:15 [INFO] - URL:[/api/test] -----> REQUEST:[[]]
+2020-01-13 22:12:25 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:12:25 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:12:25 [INFO] - {dataSource-1} closed
+2020-01-13 22:12:32 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 22:12:33 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 16216 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 22:12:33 [INFO] - The following profiles are active: dev
+2020-01-13 22:12:34 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 22:12:34 [INFO] - Finished Spring Data repository scanning in 142ms. Found 8 repository interfaces.
+2020-01-13 22:12:35 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$b3f1c790] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:12:35 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 22:12:35 [INFO] - Root WebApplicationContext: initialization completed in 2392 ms
+2020-01-13 22:12:35 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 22:12:35 [INFO] - Init DruidDataSource
+2020-01-13 22:12:36 [INFO] - {dataSource-1} inited
+2020-01-13 22:12:36 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 22:12:37 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 22:12:37 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 22:12:37 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 22:12:37 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 22:12:38 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:12:39 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:12:39 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 22:12:39 [INFO] - Adding welcome page template: index
+2020-01-13 22:12:39 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 22:12:39 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-13 22:12:39 [INFO] - Started AdminConsoleApplication in 7.38 seconds (JVM running for 8.893)
+2020-01-13 22:13:30 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-13 22:13:30 [INFO] - Completed initialization in 12 ms
+2020-01-13 22:13:57 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-13 22:14:10 [INFO] - URL:[/api/test] -----> REQUEST:[[]]
+2020-01-13 22:22:56 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:22:56 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:22:56 [INFO] - {dataSource-1} closed
+2020-01-13 22:23:04 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 22:23:04 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 14640 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 22:23:04 [INFO] - The following profiles are active: dev
+2020-01-13 22:23:06 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 22:23:06 [INFO] - Finished Spring Data repository scanning in 143ms. Found 8 repository interfaces.
+2020-01-13 22:23:06 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$4b665dd9] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:23:07 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 22:23:07 [INFO] - Root WebApplicationContext: initialization completed in 2608 ms
+2020-01-13 22:23:07 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 22:23:07 [INFO] - Init DruidDataSource
+2020-01-13 22:23:07 [INFO] - {dataSource-1} inited
+2020-01-13 22:23:08 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 22:23:08 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 22:23:08 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 22:23:08 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 22:23:08 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 22:23:09 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:23:10 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:23:10 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 22:23:10 [INFO] - Adding welcome page template: index
+2020-01-13 22:23:10 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 22:23:11 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-13 22:23:11 [INFO] - Started AdminConsoleApplication in 7.489 seconds (JVM running for 9.007)
+2020-01-13 22:38:36 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:38:36 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:38:36 [INFO] - {dataSource-1} closed
+2020-01-13 22:38:49 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 22:38:50 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 15020 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 22:38:50 [INFO] - The following profiles are active: dev
+2020-01-13 22:38:51 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 22:38:51 [INFO] - Finished Spring Data repository scanning in 171ms. Found 8 repository interfaces.
+2020-01-13 22:38:52 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$cdfcd976] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:38:52 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 22:38:52 [INFO] - Root WebApplicationContext: initialization completed in 2471 ms
+2020-01-13 22:38:52 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 22:38:52 [INFO] - Init DruidDataSource
+2020-01-13 22:38:53 [INFO] - {dataSource-1} inited
+2020-01-13 22:38:53 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 22:38:53 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 22:38:53 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 22:38:54 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 22:38:54 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 22:38:55 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:38:56 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:38:56 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 22:38:56 [INFO] - Adding welcome page template: index
+2020-01-13 22:38:56 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 22:38:57 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-13 22:38:57 [INFO] - Started AdminConsoleApplication in 8.297 seconds (JVM running for 9.886)
+2020-01-13 22:42:34 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:42:34 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:42:34 [INFO] - {dataSource-1} closed
+2020-01-13 22:42:47 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 22:42:47 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 13516 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 22:42:47 [INFO] - The following profiles are active: dev
+2020-01-13 22:42:49 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 22:42:49 [INFO] - Finished Spring Data repository scanning in 133ms. Found 8 repository interfaces.
+2020-01-13 22:42:49 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$2a2930c4] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:42:49 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 22:42:50 [INFO] - Root WebApplicationContext: initialization completed in 2203 ms
+2020-01-13 22:42:50 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 22:42:50 [INFO] - Init DruidDataSource
+2020-01-13 22:42:50 [INFO] - {dataSource-1} inited
+2020-01-13 22:42:51 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 22:42:51 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 22:42:51 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 22:42:51 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 22:42:51 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 22:42:52 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:42:53 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:42:53 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 22:42:53 [INFO] - Adding welcome page template: index
+2020-01-13 22:42:53 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 22:42:54 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-13 22:42:54 [INFO] - Started AdminConsoleApplication in 7.359 seconds (JVM running for 8.836)
+2020-01-13 22:43:00 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-13 22:43:00 [INFO] - Completed initialization in 12 ms
+2020-01-13 22:43:01 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-13 22:43:08 [INFO] - URL:[/userAdmin/login] -----> REQUEST:[[1720696548, 123456]]
+2020-01-13 22:43:08 [INFO] - URL:[/menuAdmin/menuTree] -----> REQUEST:[[null]]
+2020-01-13 22:43:08 [INFO] - URL:[/userAdmin/findAll/1] -----> REQUEST:[[1, 1, 10, null, null]]
+2020-01-13 22:43:11 [INFO] - URL:[/dataBase/findTable] -----> REQUEST:[[]]
+2020-01-13 22:43:11 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[null]]
+2020-01-13 22:43:12 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[t_admin_role]]
+2020-01-13 22:43:12 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[t_admin_role_auth]]
+2020-01-13 22:43:13 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[t_admin_role_menu]]
+2020-01-13 22:43:26 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[t_admin_menu]]
+2020-01-13 22:44:11 [INFO] - URL:[/dataBase/codeGeneration/1] -----> REQUEST:[[1, [{&quot;name&quot;:&quot;authority&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#24403;&#21069;&#39029;&#38754;&#26435;&#38480;id&quot;,&quot;LAY_TABLE_INDEX&quot;:0,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;icon&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#22270;&#26631;&quot;,&quot;LAY_TABLE_INDEX&quot;:1,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;id&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&quot;,&quot;LAY_TABLE_INDEX&quot;:2,&quot;LAY_CHECKED&quot;:true,&quot;primarykeyId&quot;:true},{&quot;name&quot;:&quot;name&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#33756;&#21333;&#21517;&quot;,&quot;LAY_TABLE_INDEX&quot;:3,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;pid&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#25351;&#23450;&#29238;id&quot;,&quot;LAY_TABLE_INDEX&quot;:4,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;root&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#30446;&#24405;&#32423;&#21035;(1&#65292;&#31995;&#32479;, 2&#12289;&#19968;&#32423;&#33756;&#21333; &#65292;3&#65292;&#20108;&#32423;&#33756;&#21333;, 4&#12289;&#39029;&#38754;)&quot;,&quot;LAY_TABLE_INDEX&quot;:5,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;sort&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#25490;&#24207;&quot;,&quot;LAY_TABLE_INDEX&quot;:6,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;url&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#33756;&#21333;url&quot;,&quot;LAY_TABLE_INDEX&quot;:7,&quot;LAY_CHECKED&quot;:true}], t_admin_menu, admin-console]]
+2020-01-13 22:45:03 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:45:03 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:45:03 [INFO] - {dataSource-1} closed
+2020-01-13 22:45:10 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 22:45:11 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 9908 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 22:45:11 [INFO] - The following profiles are active: dev
+2020-01-13 22:45:12 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 22:45:13 [INFO] - Finished Spring Data repository scanning in 140ms. Found 8 repository interfaces.
+2020-01-13 22:45:13 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$e6d85661] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:45:13 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 22:45:14 [INFO] - Root WebApplicationContext: initialization completed in 2253 ms
+2020-01-13 22:45:14 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 22:45:14 [INFO] - Init DruidDataSource
+2020-01-13 22:45:14 [INFO] - {dataSource-1} inited
+2020-01-13 22:45:15 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 22:45:15 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 22:45:15 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 22:45:15 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 22:45:15 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 22:45:16 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:45:17 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:45:17 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 22:45:17 [INFO] - Adding welcome page template: index
+2020-01-13 22:45:17 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 22:45:17 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-13 22:45:17 [INFO] - Started AdminConsoleApplication in 7.216 seconds (JVM running for 8.7)
+2020-01-13 22:45:28 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-13 22:45:28 [INFO] - Completed initialization in 13 ms
+2020-01-13 22:45:30 [INFO] - URL:[/userAdmin/login] -----> REQUEST:[[1720696548, 123456]]
+2020-01-13 22:45:31 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-13 22:45:31 [INFO] - URL:[/menuAdmin/menuTree] -----> REQUEST:[[null]]
+2020-01-13 22:45:31 [INFO] - URL:[/userAdmin/findAll/1] -----> REQUEST:[[1, 1, 10, null, null]]
+2020-01-13 22:45:33 [INFO] - URL:[/dataBase/findTable] -----> REQUEST:[[]]
+2020-01-13 22:45:33 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[null]]
+2020-01-13 22:45:33 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[t_admin_menu]]
+2020-01-13 22:45:52 [INFO] - URL:[/dataBase/codeGeneration/1] -----> REQUEST:[[1, [{&quot;name&quot;:&quot;authority&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#24403;&#21069;&#39029;&#38754;&#26435;&#38480;id&quot;,&quot;LAY_TABLE_INDEX&quot;:0,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;icon&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#22270;&#26631;&quot;,&quot;LAY_TABLE_INDEX&quot;:1,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;id&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&quot;,&quot;LAY_TABLE_INDEX&quot;:2,&quot;LAY_CHECKED&quot;:true,&quot;primarykeyId&quot;:true},{&quot;name&quot;:&quot;name&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#33756;&#21333;&#21517;&quot;,&quot;LAY_TABLE_INDEX&quot;:3,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;pid&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#25351;&#23450;&#29238;id&quot;,&quot;LAY_TABLE_INDEX&quot;:4,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;root&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#30446;&#24405;&#32423;&#21035;(1&#65292;&#31995;&#32479;, 2&#12289;&#19968;&#32423;&#33756;&#21333; &#65292;3&#65292;&#20108;&#32423;&#33756;&#21333;, 4&#12289;&#39029;&#38754;)&quot;,&quot;LAY_TABLE_INDEX&quot;:5,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;sort&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#25490;&#24207;&quot;,&quot;LAY_TABLE_INDEX&quot;:6,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;url&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#33756;&#21333;url&quot;,&quot;LAY_TABLE_INDEX&quot;:7,&quot;LAY_CHECKED&quot;:true}], t_admin_menu, admin-console]]
+2020-01-13 22:52:33 [INFO] - URL:[/dataBase/codeGeneration/1] -----> REQUEST:[[1, [{&quot;name&quot;:&quot;authority&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#24403;&#21069;&#39029;&#38754;&#26435;&#38480;id&quot;,&quot;LAY_TABLE_INDEX&quot;:0,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;icon&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#22270;&#26631;&quot;,&quot;LAY_TABLE_INDEX&quot;:1,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;id&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&quot;,&quot;LAY_TABLE_INDEX&quot;:2,&quot;LAY_CHECKED&quot;:true,&quot;primarykeyId&quot;:true},{&quot;name&quot;:&quot;name&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#33756;&#21333;&#21517;&quot;,&quot;LAY_TABLE_INDEX&quot;:3,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;pid&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#25351;&#23450;&#29238;id&quot;,&quot;LAY_TABLE_INDEX&quot;:4,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;root&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#30446;&#24405;&#32423;&#21035;(1&#65292;&#31995;&#32479;, 2&#12289;&#19968;&#32423;&#33756;&#21333; &#65292;3&#65292;&#20108;&#32423;&#33756;&#21333;, 4&#12289;&#39029;&#38754;)&quot;,&quot;LAY_TABLE_INDEX&quot;:5,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;sort&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#25490;&#24207;&quot;,&quot;LAY_TABLE_INDEX&quot;:6,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;url&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#33756;&#21333;url&quot;,&quot;LAY_TABLE_INDEX&quot;:7,&quot;LAY_CHECKED&quot;:true}], t_admin_menu, admin-console]]
+2020-01-13 22:52:33 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:52:33 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:52:33 [INFO] - {dataSource-1} closed
+2020-01-13 22:52:41 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 22:52:42 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 13832 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 22:52:42 [INFO] - The following profiles are active: dev
+2020-01-13 22:52:43 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 22:52:43 [INFO] - Finished Spring Data repository scanning in 137ms. Found 8 repository interfaces.
+2020-01-13 22:52:43 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$3a86c9d4] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:52:44 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 22:52:44 [INFO] - Root WebApplicationContext: initialization completed in 2362 ms
+2020-01-13 22:52:44 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 22:52:44 [INFO] - Init DruidDataSource
+2020-01-13 22:52:44 [INFO] - {dataSource-1} inited
+2020-01-13 22:52:45 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 22:52:45 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 22:52:45 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 22:52:45 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 22:52:46 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 22:52:46 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:52:47 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:52:48 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 22:52:48 [INFO] - Adding welcome page template: index
+2020-01-13 22:52:48 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 22:52:48 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-13 22:52:48 [INFO] - Started AdminConsoleApplication in 7.653 seconds (JVM running for 9.23)
+2020-01-13 22:52:54 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-13 22:52:54 [INFO] - Completed initialization in 13 ms
+2020-01-13 22:53:20 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:53:20 [INFO] - URL:[/userAdmin/login] -----> REQUEST:[[1720696548, 123456]]
+2020-01-13 22:53:20 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:53:20 [INFO] - {dataSource-1} closed
+2020-01-13 22:53:28 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 22:53:28 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 13036 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 22:53:28 [INFO] - The following profiles are active: dev
+2020-01-13 22:53:30 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 22:53:30 [INFO] - Finished Spring Data repository scanning in 139ms. Found 8 repository interfaces.
+2020-01-13 22:53:30 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$9b896cdf] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:53:31 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 22:53:31 [INFO] - Root WebApplicationContext: initialization completed in 2528 ms
+2020-01-13 22:53:31 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 22:53:31 [INFO] - Init DruidDataSource
+2020-01-13 22:53:31 [INFO] - {dataSource-1} inited
+2020-01-13 22:53:32 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 22:53:32 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 22:53:32 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 22:53:32 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 22:53:32 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 22:53:33 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:53:35 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:53:35 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 22:53:35 [INFO] - Adding welcome page template: index
+2020-01-13 22:53:35 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 22:53:35 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-13 22:53:35 [INFO] - Started AdminConsoleApplication in 7.819 seconds (JVM running for 9.491)
+2020-01-13 22:53:37 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-13 22:53:37 [INFO] - Completed initialization in 16 ms
+2020-01-13 22:53:46 [INFO] - URL:[/userAdmin/login] -----> REQUEST:[[1720696548, 123456]]
+2020-01-13 22:53:53 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-13 22:53:54 [INFO] - URL:[/menuAdmin/menuTree] -----> REQUEST:[[null]]
+2020-01-13 22:54:01 [INFO] - URL:[/userAdmin/findAll/1] -----> REQUEST:[[1, 1, 10, null, null]]
+2020-01-13 22:54:09 [INFO] - URL:[/dataBase/findTable] -----> REQUEST:[[]]
+2020-01-13 22:54:09 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[null]]
+2020-01-13 22:54:10 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[t_admin_role_menu]]
+2020-01-13 22:54:11 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[t_admin_role]]
+2020-01-13 22:55:31 [INFO] - URL:[/dataBase/codeGeneration/1] -----> REQUEST:[[1, [{&quot;name&quot;:&quot;desc&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#25551;&#21465;&quot;,&quot;LAY_TABLE_INDEX&quot;:0,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;id&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&quot;,&quot;LAY_TABLE_INDEX&quot;:1,&quot;LAY_CHECKED&quot;:true,&quot;primarykeyId&quot;:true},{&quot;name&quot;:&quot;name&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#35282;&#33394;&#21517;&quot;,&quot;LAY_TABLE_INDEX&quot;:2,&quot;LAY_CHECKED&quot;:true}], t_admin_role, admin-console]]
+2020-01-13 22:55:31 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:55:31 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:55:31 [INFO] - {dataSource-1} closed
+2020-01-13 22:55:56 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 22:55:57 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 14528 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 22:55:57 [INFO] - The following profiles are active: dev
+2020-01-13 22:55:59 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 22:55:59 [INFO] - Finished Spring Data repository scanning in 234ms. Found 8 repository interfaces.
+2020-01-13 22:56:00 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$21cf8a8c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:56:01 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 22:56:01 [INFO] - Root WebApplicationContext: initialization completed in 3908 ms
+2020-01-13 22:56:01 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 22:56:01 [INFO] - Init DruidDataSource
+2020-01-13 22:56:02 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 22:56:02 [INFO] - {dataSource-1} inited
+2020-01-13 22:56:03 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 15768 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 22:56:03 [INFO] - The following profiles are active: dev
+2020-01-13 22:56:04 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 22:56:04 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 22:56:04 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 22:56:04 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 22:56:04 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 22:56:04 [INFO] - Finished Spring Data repository scanning in 165ms. Found 8 repository interfaces.
+2020-01-13 22:56:04 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 22:56:05 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$ff62e2f8] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:56:05 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 22:56:05 [INFO] - Root WebApplicationContext: initialization completed in 2526 ms
+2020-01-13 22:56:05 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 22:56:05 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:56:05 [INFO] - Init DruidDataSource
+2020-01-13 22:56:06 [INFO] - {dataSource-1} inited
+2020-01-13 22:56:07 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 22:56:07 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 22:56:07 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 22:56:07 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:56:07 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 22:56:07 [INFO] - Adding welcome page template: index
+2020-01-13 22:56:07 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 22:56:07 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 22:56:07 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 22:56:07 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-13 22:56:07 [INFO] - Started AdminConsoleApplication in 11.258 seconds (JVM running for 12.749)
+2020-01-13 22:56:08 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:56:09 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:56:09 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 22:56:09 [INFO] - Adding welcome page template: index
+2020-01-13 22:56:09 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 22:56:09 [INFO] - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2020-01-13 22:56:09 [ERROR] - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The Tomcat connector configured to listen on port 8080 failed to start. The port may already be in use or the connector may be misconfigured.
+
+Action:
+
+Verify the connector's configuration, identify and stop any process that's listening on port 8080, or configure this application to listen on another port.
+
+2020-01-13 22:56:09 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:56:09 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:56:09 [INFO] - {dataSource-1} closed
+2020-01-13 22:56:27 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-13 22:56:27 [INFO] - Completed initialization in 17 ms
+2020-01-13 22:56:31 [INFO] - URL:[/userAdmin/login] -----> REQUEST:[[1720696548, 123456]]
+2020-01-13 22:56:31 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-13 22:56:31 [INFO] - URL:[/menuAdmin/menuTree] -----> REQUEST:[[null]]
+2020-01-13 22:56:36 [INFO] - URL:[/userAdmin/findAll/1] -----> REQUEST:[[1, 1, 10, null, null]]
+2020-01-13 22:56:42 [INFO] - URL:[/dataBase/findTable] -----> REQUEST:[[]]
+2020-01-13 22:56:44 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[null]]
+2020-01-13 22:56:50 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[t_admin_user]]
+2020-01-13 22:57:30 [INFO] - URL:[/dataBase/codeGeneration/1] -----> REQUEST:[[1, [{&quot;name&quot;:&quot;account&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#36134;&#21495;&quot;,&quot;LAY_TABLE_INDEX&quot;:0,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;address&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#22320;&#22336;&quot;,&quot;LAY_TABLE_INDEX&quot;:1,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;age&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#24180;&#40836;&quot;,&quot;LAY_TABLE_INDEX&quot;:2,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;emp_id&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#37096;&#38376;id&quot;,&quot;LAY_TABLE_INDEX&quot;:3,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;gender&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#24615;&#21035;&#65288;1&#30007;&#65292;2&#22899;&#65289;&quot;,&quot;LAY_TABLE_INDEX&quot;:4,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;head&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#22836;&#20687;&quot;,&quot;LAY_TABLE_INDEX&quot;:5,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;id&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&quot;,&quot;LAY_TABLE_INDEX&quot;:6,&quot;LAY_CHECKED&quot;:true,&quot;primarykeyId&quot;:true},{&quot;name&quot;:&quot;password&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#23494;&#30721;&quot;,&quot;LAY_TABLE_INDEX&quot;:7,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;time&quot;,&quot;type&quot;:&quot;datetime&quot;,&quot;desc&quot;:&quot;&#27880;&#20876;&#26102;&#38388;&quot;,&quot;LAY_TABLE_INDEX&quot;:8,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;username&quot;,&quot;type&quot;:&quot;varchar&quot;,&quot;desc&quot;:&quot;&#26165;&#31216;&quot;,&quot;LAY_TABLE_INDEX&quot;:9,&quot;LAY_CHECKED&quot;:true}], t_admin_user, admin-console]]
+2020-01-13 22:57:30 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:57:30 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:57:30 [INFO] - {dataSource-1} closed
+2020-01-13 22:57:35 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 22:57:36 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 12764 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 22:57:36 [INFO] - The following profiles are active: dev
+2020-01-13 22:57:37 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 22:57:37 [INFO] - Finished Spring Data repository scanning in 142ms. Found 8 repository interfaces.
+2020-01-13 22:57:38 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$29702b12] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:57:38 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 22:57:38 [INFO] - Root WebApplicationContext: initialization completed in 2275 ms
+2020-01-13 22:57:38 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 22:57:39 [INFO] - Init DruidDataSource
+2020-01-13 22:57:39 [INFO] - {dataSource-1} inited
+2020-01-13 22:57:39 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 22:57:40 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 22:57:40 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 22:57:40 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 22:57:40 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 22:57:41 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:57:42 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:57:42 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 22:57:42 [INFO] - Adding welcome page template: index
+2020-01-13 22:57:42 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 22:57:42 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-13 22:57:42 [INFO] - Started AdminConsoleApplication in 7.306 seconds (JVM running for 8.83)
+2020-01-13 22:57:52 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-13 22:57:52 [INFO] - Completed initialization in 15 ms
+2020-01-13 22:57:53 [INFO] - URL:[/userAdmin/login] -----> REQUEST:[[1720696548, 123456]]
+2020-01-13 22:57:53 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-13 22:57:53 [INFO] - URL:[/menuAdmin/menuTree] -----> REQUEST:[[null]]
+2020-01-13 22:57:54 [INFO] - URL:[/userAdmin/findAll/1] -----> REQUEST:[[1, 1, 10, null, null]]
+2020-01-13 22:57:55 [INFO] - URL:[/dataBase/findTable] -----> REQUEST:[[]]
+2020-01-13 22:57:55 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[null]]
+2020-01-13 22:57:56 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[t_admin_role_menu]]
+2020-01-13 23:02:49 [INFO] - URL:[/dataBase/codeGeneration/1] -----> REQUEST:[[1, [{&quot;name&quot;:&quot;id&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&quot;,&quot;LAY_TABLE_INDEX&quot;:0,&quot;LAY_CHECKED&quot;:true,&quot;primarykeyId&quot;:true},{&quot;name&quot;:&quot;menu_id&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#33756;&#21333;id&quot;,&quot;LAY_TABLE_INDEX&quot;:1,&quot;LAY_CHECKED&quot;:true},{&quot;name&quot;:&quot;role_id&quot;,&quot;type&quot;:&quot;int&quot;,&quot;desc&quot;:&quot;&#29992;&#25143;id&quot;,&quot;LAY_TABLE_INDEX&quot;:2,&quot;LAY_CHECKED&quot;:true}], t_admin_role_menu, admin-console]]
+2020-01-13 23:02:49 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-13 23:02:49 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 23:02:49 [INFO] - {dataSource-1} closed
+2020-01-13 23:02:58 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 23:02:59 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 7056 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 23:02:59 [INFO] - The following profiles are active: dev
+2020-01-13 23:03:00 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 23:03:00 [INFO] - Finished Spring Data repository scanning in 138ms. Found 8 repository interfaces.
+2020-01-13 23:03:01 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$6a1a1f06] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 23:03:01 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 23:03:08 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 23:03:09 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 3512 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 23:03:09 [INFO] - The following profiles are active: dev
+2020-01-13 23:03:10 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 23:03:10 [INFO] - Finished Spring Data repository scanning in 147ms. Found 8 repository interfaces.
+2020-01-13 23:03:11 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$8020b2a3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 23:03:11 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 23:03:11 [INFO] - Root WebApplicationContext: initialization completed in 2249 ms
+2020-01-13 23:03:11 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 23:03:11 [INFO] - Init DruidDataSource
+2020-01-13 23:03:12 [INFO] - {dataSource-1} inited
+2020-01-13 23:03:12 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 23:03:12 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 23:03:12 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 23:03:13 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 23:03:13 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 23:03:14 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 23:03:15 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 23:03:15 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 23:03:15 [INFO] - Adding welcome page template: index
+2020-01-13 23:03:15 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 23:03:15 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-13 23:03:15 [INFO] - Started AdminConsoleApplication in 7.163 seconds (JVM running for 8.61)
+2020-01-13 23:03:19 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-13 23:03:19 [INFO] - Completed initialization in 13 ms
+2020-01-13 23:03:21 [INFO] - URL:[/userAdmin/login] -----> REQUEST:[[1720696548, 123456]]
+2020-01-13 23:03:21 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-13 23:03:21 [INFO] - URL:[/menuAdmin/menuTree] -----> REQUEST:[[null]]
+2020-01-13 23:03:21 [INFO] - URL:[/userAdmin/findAll/1] -----> REQUEST:[[1, 1, 10, null, null]]
+2020-01-13 23:03:23 [INFO] - URL:[/dataBase/findTable] -----> REQUEST:[[]]
+2020-01-13 23:03:23 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[null]]
+2020-01-13 23:03:25 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[t_admin_role_auth]]
+2020-01-13 23:03:36 [INFO] - URL:[/dataBase/codeGeneration/1] -----> REQUEST:[[1, [{"name":"auth_id","type":"int","desc":"url权限id","LAY_TABLE_INDEX":0,"LAY_CHECKED":true},{"name":"id","type":"int","desc":"","LAY_TABLE_INDEX":1,"LAY_CHECKED":true,"primarykeyId":true},{"name":"role_id","type":"int","desc":"角色id","LAY_TABLE_INDEX":2,"LAY_CHECKED":true}], t_admin_role_auth, admin-console]]
+2020-01-13 23:04:51 [INFO] - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-01-13 23:04:51 [INFO] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 23:04:51 [INFO] - {dataSource-1} closed
+2020-01-13 23:05:47 [INFO] - HV000001: Hibernate Validator 6.0.17.Final
+2020-01-13 23:05:48 [INFO] - Starting AdminConsoleApplication on WIN-CDI45048L28 with PID 5260 (F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes started by Administrator in F:\workspace\code\git2020-1\spring-boot-plus2)
+2020-01-13 23:05:48 [INFO] - The following profiles are active: dev
+2020-01-13 23:05:49 [INFO] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 23:05:49 [INFO] - Finished Spring Data repository scanning in 142ms. Found 8 repository interfaces.
+2020-01-13 23:05:50 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$329644e8] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 23:05:50 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2020-01-13 23:05:50 [INFO] - Root WebApplicationContext: initialization completed in 2535 ms
+2020-01-13 23:05:50 [INFO] - Servlet statViewServlet was not registered (possibly already registered?)
+2020-01-13 23:05:50 [INFO] - Init DruidDataSource
+2020-01-13 23:05:51 [INFO] - {dataSource-1} inited
+2020-01-13 23:05:51 [INFO] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-01-13 23:05:52 [INFO] - HHH000412: Hibernate Core {5.3.10.Final}
+2020-01-13 23:05:52 [INFO] - HHH000206: hibernate.properties not found
+2020-01-13 23:05:52 [INFO] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-01-13 23:05:52 [INFO] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 23:05:53 [INFO] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 23:05:54 [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 23:05:54 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 23:05:54 [INFO] - Adding welcome page template: index
+2020-01-13 23:05:54 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-13 23:05:54 [INFO] - Tomcat started on port(s): 8080 (http) with context path ''
+2020-01-13 23:05:54 [INFO] - Started AdminConsoleApplication in 8.001 seconds (JVM running for 9.907)
+2020-01-13 23:05:59 [INFO] - Initializing Servlet 'dispatcherServlet'
+2020-01-13 23:05:59 [INFO] - Completed initialization in 12 ms
+2020-01-13 23:06:01 [INFO] - URL:[/userAdmin/login] -----> REQUEST:[[1720696548, 123456]]
+2020-01-13 23:06:01 [INFO] - HHH000397: Using ASTQueryTranslatorFactory
+2020-01-13 23:06:01 [INFO] - URL:[/menuAdmin/menuTree] -----> REQUEST:[[null]]
+2020-01-13 23:06:01 [INFO] - URL:[/userAdmin/findAll/1] -----> REQUEST:[[1, 1, 10, null, null]]
+2020-01-13 23:06:03 [INFO] - URL:[/dataBase/findTable] -----> REQUEST:[[]]
+2020-01-13 23:06:03 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[null]]
+2020-01-13 23:06:04 [INFO] - URL:[/dataBase/findTableField] -----> REQUEST:[[t_admin_role_auth]]
+2020-01-13 23:06:09 [INFO] - URL:[/dataBase/codeGeneration/1] -----> REQUEST:[[1, [{"name":"auth_id","type":"int","desc":"url权限id","LAY_TABLE_INDEX":0,"LAY_CHECKED":true},{"name":"id","type":"int","desc":"","LAY_TABLE_INDEX":1,"LAY_CHECKED":true,"primarykeyId":true},{"name":"role_id","type":"int","desc":"角色id","LAY_TABLE_INDEX":2,"LAY_CHECKED":true}], t_admin_role_auth, admin-console]]
+2020-01-13 23:06:38 [INFO] - URL:[/dataBase/codeGeneration/1] -----> REQUEST:[[1, [{"name":"auth_id","type":"int","desc":"url权限id","LAY_TABLE_INDEX":0,"LAY_CHECKED":true},{"name":"id","type":"int","desc":"","LAY_TABLE_INDEX":1,"LAY_CHECKED":true,"primarykeyId":true},{"name":"role_id","type":"int","desc":"角色id","LAY_TABLE_INDEX":2,"LAY_CHECKED":true}], t_admin_role_auth, admin-console]]

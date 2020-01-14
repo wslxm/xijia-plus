@@ -9,11 +9,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * 
- * @author wangsong
- * @date 2019年4月10日 下午4:21:08
- */
+  * TODO  登录拦截、赋值文件读写权限、页面跳转
+  * @author 王松
+  * @mail  1720696548@qq.com
+  * @date  2020/1/13 0013 20:20
+  */
 @SuppressWarnings("all")
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {

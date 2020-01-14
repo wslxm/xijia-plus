@@ -4,7 +4,7 @@ import com.ws.ldy.adminconsole.entity.UserAdmin;
 import com.ws.ldy.adminconsole.service.impl.RoleUserAdminServiceImpl;
 import com.ws.ldy.adminconsole.service.impl.UserAdminServiceImpl;
 import com.ws.ldy.admincore.annotation.LdyAuthority;
-import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.admincore.controller.base.BaseController;
 import com.ws.ldy.admincore.controller.vo.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

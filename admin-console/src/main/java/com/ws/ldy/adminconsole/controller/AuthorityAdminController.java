@@ -3,9 +3,8 @@ package com.ws.ldy.adminconsole.controller;
 import com.ws.ldy.adminconsole.entity.AuthorityAdmin;
 import com.ws.ldy.adminconsole.service.impl.AuthorityAdminServiceImpl;
 import com.ws.ldy.adminconsole.service.impl.RoleAuthAdminServiceImpl;
-import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.admincore.controller.base.BaseController;
 import com.ws.ldy.admincore.controller.vo.ResponseData;
-import com.ws.ldy.admincore.utils.ClassUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -29,10 +28,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/authorityAdmin")
 public class AuthorityAdminController extends BaseController {
-    /**
-     * url权限注解扫包范围
-     */
-    private final static String PACKAGE_NAME = "com.ws.ldy";
+
 
     @Autowired
     private AuthorityAdminServiceImpl authorityAdminServiceImpl;
@@ -89,7 +85,7 @@ public class AuthorityAdminController extends BaseController {
     }
 
     /**
-     * TODO    权限列表数据刷新，根据权限注解动态生成权限列表，无权限注解默认然后用户有权限访问
+     * TODO  权限列表数据刷新，根据权限注解动态生成权限列表，无权限注解默认然后用户有权限访问
      *
      * @return java.lang.String
      * @date 2019/11/25 0025 8:08
@@ -98,9 +94,9 @@ public class AuthorityAdminController extends BaseController {
     @RequestMapping("/putAuthority")
     public String putAuthority() {
         //获得到所有类
-        List<Class<?>> classByPackageName = ClassUtil.getClasses(PACKAGE_NAME);
+        // List<Class<?>> classByPackageName = ClassUtil.getClasses(PACKAGE_NAME);
         //保存
-        authorityAdminServiceImpl.putClass(classByPackageName);
+        authorityAdminServiceImpl.putClass();
         return "success";
     }
 

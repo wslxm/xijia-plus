@@ -1,14 +1,72 @@
+2020-01-12 11:01:03  [ main:7573 ] - [ WARN ]  spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:01:03  [ main:7694 ] - [ WARN ]  [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 11:02:23  [ main:8286 ] - [ WARN ]  spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:02:23  [ main:8418 ] - [ WARN ]  [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 11:02:33  [ http-nio-8080-exec-4:18210 ] - [ ERROR ]  >>>>>>  [ServletPath: /userAdmin/login],[args: [1720696548, 123456]]
+2020-01-12 11:02:33  [ http-nio-8080-exec-4:18210 ] - [ WARN ]  >>>>>>  警告日志
+2020-01-12 11:02:33  [ http-nio-8080-exec-6:18445 ] - [ ERROR ]  >>>>>>  [ServletPath: /menuAdmin/menuTree],[args: [null]]
+2020-01-12 11:02:33  [ http-nio-8080-exec-6:18446 ] - [ WARN ]  >>>>>>  警告日志
+2020-01-12 11:02:34  [ http-nio-8080-exec-7:18874 ] - [ ERROR ]  >>>>>>  [ServletPath: /userAdmin/findAll/1],[args: [1, 1, 10, null, null]]
+2020-01-12 11:02:34  [ http-nio-8080-exec-7:18875 ] - [ WARN ]  >>>>>>  警告日志
+2020-01-12 11:02:36  [ http-nio-8080-exec-9:20897 ] - [ ERROR ]  >>>>>>  [ServletPath: /roleAdmin/findAll/2],[args: [2, null, null, null]]
+2020-01-12 11:02:36  [ http-nio-8080-exec-9:20898 ] - [ WARN ]  >>>>>>  警告日志
+2020-01-12 11:02:36  [ http-nio-8080-exec-2:20945 ] - [ ERROR ]  >>>>>>  [ServletPath: /menuAdmin/findAll/1],[args: [1, null, null]]
+2020-01-12 11:02:36  [ http-nio-8080-exec-2:20945 ] - [ WARN ]  >>>>>>  警告日志
+2020-01-12 11:02:37  [ http-nio-8080-exec-4:22321 ] - [ ERROR ]  >>>>>>  [ServletPath: /roleAdmin/findAll/2],[args: [2, null, null, null]]
+2020-01-12 11:02:37  [ http-nio-8080-exec-4:22322 ] - [ WARN ]  >>>>>>  警告日志
+2020-01-12 11:02:37  [ http-nio-8080-exec-3:22340 ] - [ ERROR ]  >>>>>>  [ServletPath: /authorityAdmin/findList],[args: [null]]
+2020-01-12 11:02:37  [ http-nio-8080-exec-3:22340 ] - [ WARN ]  >>>>>>  警告日志
+2020-01-12 11:02:38  [ http-nio-8080-exec-6:23375 ] - [ ERROR ]  >>>>>>  [ServletPath: /menuAdmin/findAll/1],[args: [1, null, null]]
+2020-01-12 11:02:38  [ http-nio-8080-exec-6:23375 ] - [ WARN ]  >>>>>>  警告日志
+2020-01-12 11:02:39  [ http-nio-8080-exec-7:23801 ] - [ ERROR ]  >>>>>>  [ServletPath: /userAdmin/findAll/1],[args: [1, 1, 10, null, null]]
+2020-01-12 11:02:39  [ http-nio-8080-exec-7:23801 ] - [ WARN ]  >>>>>>  警告日志
+2020-01-12 11:04:45  [ main:7671 ] - [ WARN ]  spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:04:45  [ main:7824 ] - [ WARN ]  [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
 2020-01-12 11:04:47  [ http-nio-8080-exec-3:10318 ] - [ ERROR ]  >>>>>>  异常日志
+2020-01-12 11:04:47  [ http-nio-8080-exec-3:10318 ] - [ WARN ]  >>>>>>  警告日志
 2020-01-12 11:04:47  [ http-nio-8080-exec-6:10524 ] - [ ERROR ]  >>>>>>  异常日志
+2020-01-12 11:04:47  [ http-nio-8080-exec-6:10525 ] - [ WARN ]  >>>>>>  警告日志
 2020-01-12 11:04:48  [ http-nio-8080-exec-8:10923 ] - [ ERROR ]  >>>>>>  异常日志
+2020-01-12 11:04:48  [ http-nio-8080-exec-8:10923 ] - [ WARN ]  >>>>>>  警告日志
 2020-01-12 11:04:50  [ http-nio-8080-exec-10:13011 ] - [ ERROR ]  >>>>>>  异常日志
+2020-01-12 11:04:50  [ http-nio-8080-exec-10:13012 ] - [ WARN ]  >>>>>>  警告日志
 2020-01-12 11:04:50  [ http-nio-8080-exec-2:13059 ] - [ ERROR ]  >>>>>>  异常日志
+2020-01-12 11:04:50  [ http-nio-8080-exec-2:13059 ] - [ WARN ]  >>>>>>  警告日志
 2020-01-12 11:04:50  [ http-nio-8080-exec-3:13591 ] - [ ERROR ]  >>>>>>  异常日志
+2020-01-12 11:04:50  [ http-nio-8080-exec-3:13591 ] - [ WARN ]  >>>>>>  警告日志
 2020-01-12 11:04:51  [ http-nio-8080-exec-4:13639 ] - [ ERROR ]  >>>>>>  异常日志
+2020-01-12 11:04:51  [ http-nio-8080-exec-4:13639 ] - [ WARN ]  >>>>>>  警告日志
+2020-01-12 11:06:44  [ main:7773 ] - [ WARN ]  spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:06:44  [ main:7894 ] - [ WARN ]  [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 11:07:23  [ main:6767 ] - [ WARN ]  spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:07:23  [ main:6872 ] - [ WARN ]  [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 11:11:19,628 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:11:19,737 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 11:13:51,137 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:13:51,241 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 11:15:12,187 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:15:12,287 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 11:16:47,760 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:16:47,867 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 11:17:43,260 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:17:43,367 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 11:19:08,523 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:19:08,628 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 11:21:53,104 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:21:53,229 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
 2020-01-12 11:22:09,584 [http-nio-8080-exec-3] [com.ws.ldy.adminconsole.config.AopAuthority] [ERROR] - >>>>>>  异常日志
+2020-01-12 11:22:09,584 [http-nio-8080-exec-3] [com.ws.ldy.adminconsole.config.AopAuthority] [WARN] - >>>>>>  警告日志
 2020-01-12 11:22:09,795 [http-nio-8080-exec-5] [com.ws.ldy.adminconsole.config.AopAuthority] [ERROR] - >>>>>>  异常日志
+2020-01-12 11:22:09,795 [http-nio-8080-exec-5] [com.ws.ldy.adminconsole.config.AopAuthority] [WARN] - >>>>>>  警告日志
 2020-01-12 11:22:10,139 [http-nio-8080-exec-10] [com.ws.ldy.adminconsole.config.AopAuthority] [ERROR] - >>>>>>  异常日志
+2020-01-12 11:22:10,139 [http-nio-8080-exec-10] [com.ws.ldy.adminconsole.config.AopAuthority] [WARN] - >>>>>>  警告日志
 2020-01-12 11:22:11,242 [http-nio-8080-exec-2] [com.ws.ldy.adminconsole.config.AopAuthority] [ERROR] - >>>>>>  异常日志
+2020-01-12 11:22:11,242 [http-nio-8080-exec-2] [com.ws.ldy.adminconsole.config.AopAuthority] [WARN] - >>>>>>  警告日志
+2020-01-12 11:37:22,283 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:37:22,394 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 11:38:21,238 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:38:21,359 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 11:40:25,992 [main] [org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext] [WARN] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'tomcatServletWebServerFactory' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/ServletWebServerFactoryConfiguration$EmbeddedTomcat.class]: Initialization of bean failed; nested exception is java.lang.NullPointerException
 2020-01-12 11:40:26,031 [main] [org.springframework.boot.SpringApplication] [ERROR] - Application run failed
 org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'tomcatServletWebServerFactory' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/ServletWebServerFactoryConfiguration$EmbeddedTomcat.class]: Initialization of bean failed; nested exception is java.lang.NullPointerException
 	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:156)
@@ -51,6 +109,7 @@ Caused by: java.lang.NullPointerException
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1770)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
 	... 16 more
+2020-01-12 11:40:52,508 [main] [org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext] [WARN] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'tomcatServletWebServerFactory' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/ServletWebServerFactoryConfiguration$EmbeddedTomcat.class]: Initialization of bean failed; nested exception is java.lang.NullPointerException
 2020-01-12 11:40:52,538 [main] [org.springframework.boot.SpringApplication] [ERROR] - Application run failed
 org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'tomcatServletWebServerFactory' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/ServletWebServerFactoryConfiguration$EmbeddedTomcat.class]: Initialization of bean failed; nested exception is java.lang.NullPointerException
 	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:156)
@@ -93,6 +152,7 @@ Caused by: java.lang.NullPointerException
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1770)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
 	... 16 more
+2020-01-12 11:42:18,062 [main] [org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext] [WARN] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': Initialization of bean failed; nested exception is java.lang.IllegalArgumentException: error at ::0 formal unbound in pointcut 
 2020-01-12 11:42:18,081 [main] [org.springframework.boot.SpringApplication] [ERROR] - Application run failed
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': Initialization of bean failed; nested exception is java.lang.IllegalArgumentException: error at ::0 formal unbound in pointcut 
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:510)
@@ -152,6 +212,7 @@ Caused by: java.lang.IllegalArgumentException: error at ::0 formal unbound in po
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1782)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
 	... 36 more
+2020-01-12 11:42:27,196 [main] [org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext] [WARN] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': Initialization of bean failed; nested exception is java.lang.IllegalArgumentException: error at ::0 formal unbound in pointcut 
 2020-01-12 11:42:27,213 [main] [org.springframework.boot.SpringApplication] [ERROR] - Application run failed
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': Initialization of bean failed; nested exception is java.lang.IllegalArgumentException: error at ::0 formal unbound in pointcut 
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:510)
@@ -211,9 +272,15 @@ Caused by: java.lang.IllegalArgumentException: error at ::0 formal unbound in po
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1782)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
 	... 36 more
+2020-01-12 11:43:06,906 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:43:07,017 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
 2020-01-12 11:43:43,299 [http-nio-8080-exec-6] [com.ws.ldy.adminconsole.config.AopAuthority] [ERROR] - >>>>>>  异常日志
+2020-01-12 11:43:43,300 [http-nio-8080-exec-6] [com.ws.ldy.adminconsole.config.AopAuthority] [WARN] - >>>>>>  警告日志
 2020-01-12 11:43:44,685 [http-nio-8080-exec-9] [com.ws.ldy.adminconsole.config.AopAuthority] [ERROR] - >>>>>>  异常日志
+2020-01-12 11:43:44,685 [http-nio-8080-exec-9] [com.ws.ldy.adminconsole.config.AopAuthority] [WARN] - >>>>>>  警告日志
 2020-01-12 11:43:48,329 [http-nio-8080-exec-3] [com.ws.ldy.adminconsole.config.AopAuthority] [ERROR] - >>>>>>  异常日志
+2020-01-12 11:43:48,329 [http-nio-8080-exec-3] [com.ws.ldy.adminconsole.config.AopAuthority] [WARN] - >>>>>>  警告日志
+2020-01-12 11:45:23,404 [main] [org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext] [WARN] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'tomcatServletWebServerFactory' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/ServletWebServerFactoryConfiguration$EmbeddedTomcat.class]: Initialization of bean failed; nested exception is java.lang.NullPointerException
 2020-01-12 11:45:23,439 [main] [org.springframework.boot.SpringApplication] [ERROR] - Application run failed
 org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'tomcatServletWebServerFactory' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/ServletWebServerFactoryConfiguration$EmbeddedTomcat.class]: Initialization of bean failed; nested exception is java.lang.NullPointerException
 	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:156)
@@ -256,7 +323,88 @@ Caused by: java.lang.NullPointerException
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1770)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
 	... 16 more
+2020-01-12 11:50:25,280 [main] [org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext] [WARN] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'tomcatServletWebServerFactory' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/ServletWebServerFactoryConfiguration$EmbeddedTomcat.class]: Initialization of bean failed; nested exception is java.lang.NullPointerException
+2020-01-12 11:50:40,409 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 11:50:40,520 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
 2020-01-12 11:50:51,544 [http-nio-8080-exec-2] [com.ws.ldy.adminconsole.config.AopAuthority] [ERROR] - >>>>>>  异常日志
+2020-01-12 11:50:51,751 [http-nio-8080-exec-2] [com.ws.ldy.adminconsole.config.AopAuthority] [WARN] - >>>>>>  警告日志
+2020-01-12 12:11:08,570 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 12:11:08,674 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 13:10:00,822 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 13:10:00,931 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 13:26:56,300 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 13:26:56,407 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 13:29:25,083 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 13:29:25,183 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 13:30:45,114 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 13:30:45,216 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 13:31:43,149 [main] [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 13:31:43,252 [main] [org.thymeleaf.templatemode.TemplateMode] [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 13:36:51,520 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 13:36:51,630 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 13:40:12,104 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 13:40:12,210 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 13:46:51,239 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 13:46:51,348 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 13:50:12,384 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 13:50:12,496 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 13:51:41,314 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 13:51:41,455 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 13:52:39,432 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 13:52:39,541 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:01:09,023 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:01:09,128 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:02:52,442 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:02:52,543 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:04:07,019 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:04:07,151 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:05:34,090 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:05:34,192 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:06:54,260 yyyy-MM-dd HH:mm:ss [WARN] - {spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+}2020-01-12 14:06:54,360 yyyy-MM-dd HH:mm:ss [WARN] - {[THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+}2020-01-12 14:07:37,916 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:07:38,020 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:08:21 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:08:21 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:09:05 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:09:05 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:10:39 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:10:39 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:12:58 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:12:58 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:18:03 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:18:04 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:23:28 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:23:28 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:24:23 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:24:23 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:26:11 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:26:11 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:41:36 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:41:36 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:45:42 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:45:42 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 14:57:55 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 14:57:55 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 15:08:17 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 15:08:17 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 15:38:21 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 15:38:21 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 15:39:13 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 15:39:13 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 15:40:43 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 15:40:43 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 15:41:31 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 15:41:31 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 15:44:34 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 15:44:34 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 15:45:51 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 15:45:51 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 15:46:39 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 15:46:39 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 15:53:22 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 15:53:22 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:14:08 [WARN] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'checkAop': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'factoryCheckAop' defined in file [F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes\com\ws\ldy\adminconsole\factory\FactoryCheckAop.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.ws.ldy.adminconsole.factory.FactoryCheckAop]: Constructor threw exception; nested exception is java.lang.NullPointerException
 2020-01-12 19:14:08 [ERROR] - Application run failed
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'checkAop': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'factoryCheckAop' defined in file [F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes\com\ws\ldy\adminconsole\factory\FactoryCheckAop.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.ws.ldy.adminconsole.factory.FactoryCheckAop]: Constructor threw exception; nested exception is java.lang.NullPointerException
 	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessProperties(CommonAnnotationBeanPostProcessor.java:324)
@@ -308,6 +456,7 @@ Caused by: java.lang.NullPointerException
 	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
 	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:172)
 	... 33 more
+2020-01-12 19:16:06 [WARN] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'checkAop': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'factoryCheckAop' defined in file [F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes\com\ws\ldy\adminconsole\factory\FactoryCheckAop.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.ws.ldy.adminconsole.factory.FactoryCheckAop]: Constructor threw exception; nested exception is java.lang.NullPointerException
 2020-01-12 19:16:06 [ERROR] - Application run failed
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'checkAop': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'factoryCheckAop' defined in file [F:\workspace\code\git2020-1\spring-boot-plus2\admin-console\target\classes\com\ws\ldy\adminconsole\factory\FactoryCheckAop.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.ws.ldy.adminconsole.factory.FactoryCheckAop]: Constructor threw exception; nested exception is java.lang.NullPointerException
 	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessProperties(CommonAnnotationBeanPostProcessor.java:324)
@@ -359,6 +508,14 @@ Caused by: java.lang.NullPointerException
 	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
 	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:172)
 	... 33 more
+2020-01-12 19:17:40 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:17:40 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:19:55 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:19:55 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:35:42 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:35:42 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:41:43 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:41:43 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
 2020-01-12 19:42:26 [ERROR] - [THYMELEAF][http-nio-8080-exec-10] Exception processing template "game/user/user": Error resolving template [game/user/user], template might not exist or might not be accessible by any of the configured Template Resolvers
 org.thymeleaf.exceptions.TemplateInputException: Error resolving template [game/user/user], template might not exist or might not be accessible by any of the configured Template Resolvers
 	at org.thymeleaf.engine.TemplateManager.resolveTemplate(TemplateManager.java:869)
@@ -416,17 +573,11 @@ org.thymeleaf.exceptions.TemplateInputException: Error resolving template [game/
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.lang.Thread.run(Thread.java:748)
-2020-01-13 22:56:09 [ERROR] - 
-
-***************************
-APPLICATION FAILED TO START
-***************************
-
-Description:
-
-The Tomcat connector configured to listen on port 8080 failed to start. The port may already be in use or the connector may be misconfigured.
-
-Action:
-
-Verify the connector's configuration, identify and stop any process that's listening on port 8080, or configure this application to listen on another port.
-
+2020-01-12 19:47:59 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:47:59 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:49:11 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:49:11 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:49:44 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:49:44 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-01-12 19:50:10 [WARN] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-12 19:50:10 [WARN] - [THYMELEAF][main] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.

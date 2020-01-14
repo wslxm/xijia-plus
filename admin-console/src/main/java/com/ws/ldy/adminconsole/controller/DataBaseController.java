@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Dict;
 import com.ws.ldy.adminconsole.controller.vo.FieldCG;
 import com.ws.ldy.adminconsole.service.impl.CodeGenerationImpl;
 import com.ws.ldy.adminconsole.service.impl.DataBaseServiceImpl;
-import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.admincore.controller.base.BaseController;
 import com.ws.ldy.admincore.controller.vo.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +32,6 @@ public class DataBaseController extends BaseController {
     private DataBaseServiceImpl dataBaseServiceImpl;
     @Autowired
     private CodeGenerationImpl codeGenerationImpl;
-
     /**
      * TODO  查询当前连接数据库所有表名
      *
@@ -113,8 +112,6 @@ public class DataBaseController extends BaseController {
             codeGenerationImpl.buildService(dataList, fieldCG, fieldCG.getPathJava());         //生成service
             codeGenerationImpl.buildServiceImpl(dataList, fieldCG, fieldCG.getPathJava());     //生成serviceImpl
             codeGenerationImpl.buildDao(fieldCG, fieldCG.getPathJava());                       //生成dao
-            codeGenerationImpl.buildDaoFactory(fieldCG, fieldCG.getPathJava());                 //追加dao，依赖注如信息
-            codeGenerationImpl.buildServiceFactory(fieldCG, fieldCG.getPathJava());             //追加service,依赖注如信息
             //html
             codeGenerationImpl.buildMainHtml(dataList, fieldCG, fieldCG.getPathHtml());
             codeGenerationImpl.buildAddHtml(dataList, fieldCG, fieldCG.getPathHtml());
@@ -142,8 +139,6 @@ public class DataBaseController extends BaseController {
             codeGenerationImpl.buildService(dataList, fieldCG, fieldCG.getPathJava() + "service/");          //生成service
             codeGenerationImpl.buildServiceImpl(dataList, fieldCG, fieldCG.getPathJava() + "service/impl/"); //生成serviceImpl
             codeGenerationImpl.buildDao(fieldCG, fieldCG.getPathJava() + "dao/");                            //生成dao
-            codeGenerationImpl.buildDaoFactory(fieldCG, fieldCG.getPathJava() + "factory/");                  //追加dao，依赖注如信息
-            codeGenerationImpl.buildServiceFactory(fieldCG, fieldCG.getPathJava() + "factory/");              //追加service,依赖注如信息
             //html
             codeGenerationImpl.buildMainHtml(dataList, fieldCG, fieldCG.getPathHtml());
             codeGenerationImpl.buildAddHtml(dataList, fieldCG, fieldCG.getPathHtml());

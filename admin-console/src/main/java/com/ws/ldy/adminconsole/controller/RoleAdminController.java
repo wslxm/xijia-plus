@@ -5,7 +5,7 @@ import com.ws.ldy.adminconsole.service.impl.RoleAdminServiceImpl;
 import com.ws.ldy.adminconsole.service.impl.RoleAuthAdminServiceImpl;
 import com.ws.ldy.adminconsole.service.impl.RoleMenuAdminServiceImpl;
 import com.ws.ldy.adminconsole.service.impl.RoleUserAdminServiceImpl;
-import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.admincore.controller.base.BaseController;
 import com.ws.ldy.admincore.controller.vo.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,12 +30,8 @@ import java.util.Map;
 @RequestMapping("/roleAdmin")
 public class RoleAdminController extends BaseController {
 
-
     @Autowired
     private RoleAdminServiceImpl roleAdminServiceImpl;
-
-
-
     @Autowired
     private RoleMenuAdminServiceImpl roleMenuAdminServiceImpl;
     @Autowired

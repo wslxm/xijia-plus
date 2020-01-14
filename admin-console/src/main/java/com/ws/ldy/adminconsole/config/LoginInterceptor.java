@@ -5,12 +5,13 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
- * 登录拦截处理
- *
- * @author wangsong
- * @date 2019年4月10日 下午4:24:41
- */
+  * TODO  登录拦截处理
+  * @author 王松
+  * @mail  1720696548@qq.com
+  * @date  2020/1/13 0013 20:20
+  */
 public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
