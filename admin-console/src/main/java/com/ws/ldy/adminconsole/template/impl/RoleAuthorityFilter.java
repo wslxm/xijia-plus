@@ -34,12 +34,15 @@ public class RoleAuthorityFilter extends CheckAopFilter {
         // 1、判断用户是否登录，未登陆前不验证授权
         UserAdmin user = (UserAdmin) request.getSession().getAttribute("user");
         if (user == null) {
+            //用户未登录直接放行
             return ResponseData.success(0);
         }
-        // 2、获取方法, 在获取权限注解
+        // 2、获取方法, 在获取权限注解，jp=aop通知拦截获取的请求信息
         Signature signature = jp.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
+        // 获取请求方法
         Method targetMethod = methodSignature.getMethod();
+        // 获取接口上的LdyAuthority注解
         LdyAuthority annotation = targetMethod.getAnnotation(LdyAuthority.class);
         // 3、无权限注解直接放行
         if (annotation == null) {

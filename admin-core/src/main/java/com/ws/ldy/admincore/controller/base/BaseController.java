@@ -2,6 +2,7 @@ package com.ws.ldy.admincore.controller.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +20,9 @@ public class BaseController {
     protected HttpServletRequest request;
     @Autowired
     protected HttpServletResponse response;
+    @Autowired
+    protected RestTemplate restTemplate;
+
     /**
      * 获取页面字符串
      *
@@ -141,8 +145,9 @@ public class BaseController {
 
     /**
      * TODO  获取项目部署后的classpath目录
-     * @date  2019/11/21 10:01
+     *
      * @return java.lang.String
+     * @date 2019/11/21 10:01
      */
     public String getPath() {
         // 获取项目跟目录
@@ -158,8 +163,9 @@ public class BaseController {
 
     /**
      * TODO  获取当前项目的父级硬盘目录 --> 如当前：D:\workSpace\tool1\code\spring-boot-plus2
-     * @date  2019/11/21 10:02
+     *
      * @return java.lang.String
+     * @date 2019/11/21 10:02
      */
     public String getPathFather(String entryName) {
         // 获取项目跟目录
@@ -174,8 +180,8 @@ public class BaseController {
                 .replace("/target/admin-console.jar!/BOOT-INF/admin-console", "")
                 .replace("\\target\\admin-console.jar!\\BOOT-INF\\admin-console", "");
         System.out.println(upPath.length());
-        int index = upPath.substring(0,upPath.length()-1).lastIndexOf("/");
-        String newUpPath = upPath.substring(0, index)+"/";
+        int index = upPath.substring(0, upPath.length() - 1).lastIndexOf("/");
+        String newUpPath = upPath.substring(0, index) + "/";
         return newUpPath;
     }
 }

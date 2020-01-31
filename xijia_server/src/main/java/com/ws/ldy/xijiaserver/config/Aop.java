@@ -1,8 +1,7 @@
-package com.ws.ldy.adminconsole.config;
+package com.ws.ldy.xijiaserver.config;
 
 import com.ws.ldy.adminconsole.dao.RoleAuthAdminDao;
 import com.ws.ldy.adminconsole.factory.CheckAopContext;
-import com.ws.ldy.admincore.controller.vo.ResponseData;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -16,7 +15,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
   * TODO  URL权限, 验签（只针对 /public 接口），xss攻击防御，URL特殊字符转译，防盗链, 允许跨域，log4j接口调用日志记录
   * @author 王松
@@ -26,10 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("all")
 @Component
 @Aspect
-public class CheckAop {
-
-    private static final Logger log = LoggerFactory.getLogger(CheckAop.class);
-
+public class Aop {
+    private static final Logger log = LoggerFactory.getLogger(Aop.class);
     @Resource
     private RoleAuthAdminDao roleAuthAdminDao;
     @Resource
@@ -46,23 +42,17 @@ public class CheckAop {
      * @date  2020/1/13 0013 20:18
      * @return java.lang.Object
      */
-    @Around("execution(* com.ws.ldy.adminconsole.controller.*.*(..))")
+    @Around("execution(* com.ws.ldy.xijiaserver.xjservice.*.*(..))")
     public Object doAroundAdvice(ProceedingJoinPoint jp) throws Throwable {
-        // 允许所有跨域请求访问接口
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        //获取request
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        //log.info("  URL:[{}] -----> REQUEST:[{}] \r\n---------------------------> RESPONSE:[{}]", request.getServletPath(), args, obj);
+        log.info("URL:[{}]", request.getServletPath());
         // 获取请求参数
         Object[] args = jp.getArgs();
-        // 开始验证 URL权限, 验签（只针对 /public 接口），xss攻击防御，URL特殊字符转译，防盗链,日志记录
-        ResponseData responseData = checkAopContext.Check(jp, request, args);
-        if(responseData.getCode().equals("0")){
-            //成功返回具体参数，不需要二次封装responseData对象
-            return responseData.getData();
-        }else{
-            //错误返回
-            return responseData;
-        }
+        // 调用业务逻辑，并记录日志
+        Object obj = obj = jp.proceed(args);
+        return obj;
     }
 }

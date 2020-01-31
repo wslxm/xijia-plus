@@ -22,6 +22,7 @@
         <!-- 项目/模板版本号管理 -->
         <admin-core.version>0.0.1-SNAPSHOT</admin-core.version>               <!-- admin-core  -->
         <admin-console.version>0.0.1-SNAPSHOT</admin-console.version>         <!-- admin-console -->
+        <xijia_server.version>0.0.1-SNAPSHOT</xijia_server.version>         <!-- admin-console -->
 
         <!-- 依赖版本管理 -->
         <mysql.version>8.0.16</mysql.version>              <!-- mysql  -->
@@ -32,7 +33,7 @@
     <modules>
         <module>admin-core</module>       <!-- 自定义核心jar依赖，web/jpa/druid/redis/权限控制核心 -->
         <module>admin-console</module>    <!-- 后台管理：角色/用户/菜单/代码生成等 -->
-        <module>admin-demo-web</module>   <!-- 代码生成功能测试项目  -->
+        <module>xijia_server</module>     <!-- uni-app 项目后台代码  -->
     </modules>
 
     <!-- spring-boot-starter-test -->

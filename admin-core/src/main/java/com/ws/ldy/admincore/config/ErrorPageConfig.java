@@ -24,6 +24,7 @@ public class ErrorPageConfig implements ErrorPageRegistrar {
         ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/500");
         registry.addErrorPages(error400Page,error401Page,error404Page,error500Page);
     }
+
 }
 
 

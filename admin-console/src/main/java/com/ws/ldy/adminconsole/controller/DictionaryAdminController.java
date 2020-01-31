@@ -42,7 +42,7 @@ public class DictionaryAdminController extends BaseController {
      */
     @RequestMapping("/findByType")
     @ResponseBody
-    @LdyAuthority(value = {"dictionary:findByType", "根据类型查询Type"})
+//    @LdyAuthority(value = {"dictionary:findByType", "根据类型查询Type"})
     public ResponseData findByType(String type) {
         List<DictionaryAdmin> dictionarys = dictionaryAdminServiceImpl.findByType(type);
         for (DictionaryAdmin dictionary : dictionarys) {
@@ -60,7 +60,7 @@ public class DictionaryAdminController extends BaseController {
      */
     @RequestMapping("/findAll")
     @ResponseBody
-    @LdyAuthority(value = {"dictionary:findAll", "分页查询"})
+ //   @LdyAuthority(value = {"dictionary:findAll", "分页查询"})
     public ResponseData findAll(Integer page, Integer limit, String type) {
         Map<String, Map<String, Object>> param = new HashMap<>(2);
         QueryCriteria.equal(param, "type", type);
@@ -79,7 +79,7 @@ public class DictionaryAdminController extends BaseController {
      */
     @RequestMapping("/save/{type}")
     @ResponseBody
-    @LdyAuthority(value = {"dictionary:save", "添加/修改"})
+  //  @LdyAuthority(value = {"dictionary:save", "添加/修改"})
     public String save(@PathVariable Integer type, DictionaryAdmin dictionaryAdmin) {
         if (type == 1) {
             dictionaryAdminServiceImpl.save(dictionaryAdmin);
@@ -97,7 +97,7 @@ public class DictionaryAdminController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/delete")
-    @LdyAuthority(value = {"dictionary:delete", "删除"})
+  //  @LdyAuthority(value = {"dictionary:delete", "删除"})
     public String delete(Integer[] ids) {
         dictionaryAdminServiceImpl.deleteByIds(ids);
         return "success";
