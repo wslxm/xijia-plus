@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <meta charset="utf-8">
+    <title>数据库表-代码生成</title>
+    <link rel="stylesheet" th:href="@{/treetable-lay/assets/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/treetable-lay/assets/common.css}"/>
+    <script language=javascript th:src='@{/treetable-lay/assets/layui/layui.js}'></script>
+    <script language=javascript th:src='@{/js/jquery-3.4.1.js}'></script>
+    <script th:src="@{/js/app.js}"></script>
+</head>
+<body>
+
+
+<!-- 左边树 -->
+<div style="display: inline-block;float:left; width: 20%; height: 800px; padding: 10px; border: 1px solid #ddd; overflow: auto;margin-top: 3%">
+    <ul id="auth-tree"></ul>
+</div>
+
+
+<!-- 数据表格 -->
+<div style="float:left; margin-left: 3%;margin-top: 1.2%;width: 60%">
+    <table id="auth-table" class="layui-table" lay-filter="auth-table"></table>
+</div>
+
+
+<!-- 确认分配按钮  -->
+<script type="text/html" id="toolbar">
+
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" onclick="toolbarClick(1)">生成预览代码</button>
+        <button class="layui-btn layui-btn-sm" onclick="toolbarClick(2)">代码生成</button>
+        <font size="2">当前表: </font>
+        <font size="2" color="red" id="leftFont">未选择</font>
+    </div>
+</script>
+
+
+<script>
+    let dataBaseTables = ADMIN_CONSOLE + "/dataBase/findTable";          //查询数据库表-所有
+    let findAll = ADMIN_CONSOLE + "/dataBase/findTableField";            //根据表名称查询数据库字段数据
+    let codeGeneration1 = ADMIN_CONSOLE + "/dataBase/codeGeneration/1";   //代码预览txt生成
+    let codeGeneration2 = ADMIN_CONSOLE + "/dataBase/codeGeneration/2";   //代码生成(会覆盖)
+    let tablesJson = ajaxGet(dataBaseTables);                            // 获得数据库表数据
+
+    let leftFont = "未选择";     //左边菜单当前选中名称 leftFont
+    let checkData = null;       //当前数据表格所有复选框数据暂存
+    let dataJson = null;        //当前数据表格所有数据
+
+
+    layui.config({
+        base: '../treetable-lay/module/' //静态资源所在路径
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['table', 'treetable', 'element', 'tree', 'form'], function () {
+        let tree = layui.tree
+            , table = layui.table
+            , treetable = layui.treetable
+            , form = layui.form
+            , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+        //初始化左边数据
+        showTree(tree, table);
+        //初始化右边 table 数据
+        tableRender(table);
+
+        /**
+         * TODO    监听复选框选中
+         * @date  2019/11/16 0016 19:43
+         * @return
+         */
+        table.on('checkbox(auth-table)', function (obj) {
+            //获取所有选中，te = 数据表格Id
+            checkData = table.checkStatus('te');
+        });
+
+
+        //监听开关选择操作--》 是否为Id列
+        form.on('switch(primarykeyId)', function (obj) {
+            let selectIfKey = obj.othis;                         // 获取当前控件
+            let parentTr = selectIfKey.parents("tr");            // 获取当前所在行  layui-table-cell
+            let parentTrIndex = parentTr.attr("data-index");     // 获取当前所在行的索引
+            dataJson.data[parentTrIndex].primarykeyId = obj.elem.checked;
+            //layer.msg(JSON.stringify(dataJson.data[parentTrIndex]));
+        });
+        //监听开关选择操作 --》 是否自增
+        form.on('switch(selfGrowth)', function (obj) {
+            let selectIfKey = obj.othis;                         // 获取当前控件
+            let parentTr = selectIfKey.parents("tr");            // 获取当前所在行  layui-table-cell
+            let parentTrIndex = parentTr.attr("data-index");     // 获取当前所在行的索引
+            dataJson.data[parentTrIndex].selfGrowth = obj.elem.checked;
+            //layer.msg(JSON.stringify(dataJson.data[parentTrIndex]));
+        });
+        //监听开关选择操作 --》 是否为搜索条件字段
+        form.on('switch(search)', function (obj) {
+            let selectIfKey = obj.othis;                         // 获取当前控件
+            let parentTr = selectIfKey.parents("tr");            // 获取当前所在行  layui-table-cell
+            let parentTrIndex = parentTr.attr("data-index");     // 获取当前所在行的索引
+            dataJson.data[parentTrIndex].search = obj.elem.checked;
+            //layer.msg(JSON.stringify(dataJson.data[parentTrIndex]));
+        });
+    });
+
+
+    /**
+     * TODO    左角色列表
+     *
+     * @date  2019/11/16 0016 16:56
+     * @return
+     */
+    function showTree(tree, table) {
+        //左边角色菜单数据
+        tree({
+            elem: '#auth-tree'
+            , click: function (item) {
+                if (item.id === 0) {
+                    return;
+                }
+                //当前选中
+                leftFont = item.name;
+                //重载数据
+                tableRender(table, leftFont);
+                //当前表展示
+                $("#leftFont").html(leftFont);
+                //置空临时保存数据
+                checkData = null;
+                //layer.msg("tabId=" + tabId + "   roleId=" + roleId+" --"+   item.name);
+            }
+            , nodes: [ //节点
+                {
+                    name: '表'
+                    , id: 0
+                    , spread: true
+                    , children: tablesJson.data  //角色数据
+                }
+            ]
+
+        });
+        //生成一个模拟树
+        let createTree = function (node, start) {
+            node = node || function () {
+                let arr = [];
+                for (let i = 1; i < 10; i++) {
+                    arr.push({
+                        name: i.toString().replace(/(\d)/, '$1$1$1$1$1$1$1$1$1')
+                    });
+                }
+                return arr;
+            }();
+            start = start || 1;
+            layui.each(node, function (index, item) {
+                if (start < 10 && index < 9) {
+                    let child = [
+                        {
+                            name: (1 + index + start).toString().replace(/(\d)/, '$1$1$1$1$1$1$1$1$1')
+                        }
+                    ];
+                    node[index].children = child;
+                    createTree(child, index + start + 1);
+                }
+            });
+            return node;
+        };
+    }
+
+
+    /**
+     * TODO    table数据--（抽离出来方便重载）
+     *
+     * @date  2019/11/16 0016 16:56
+     * @param treetable
+     * @param dataJson
+     * @return
+     */
+    function tableRender(table, name) {
+        table.render({
+            id: "te" //获取复选框所有选中数据使用
+            , height: 800
+            , elem: '#auth-table'
+            , url: findAll
+            , toolbar: '#toolbar'
+            , title: '用户数据表'
+            , cols: [
+                [
+                    {type: 'checkbox', LAY_CHECKED: true}
+                    , {field: 'name', title: '字段名'}
+                    , {field: 'type', title: '数据类型'}
+                    , {field: 'desc', title: '备注'}
+                    , {
+                    field: 'primary', title: '主键Id', templet: function (res) {
+                        return '<input type="checkbox" name="primarykeyId" lay-filter="primarykeyId" lay-skin="switch" lay-text="yes|no">' +
+                            '<input type="checkbox" name="selfGrowth" lay-filter="selfGrowth" lay-skin="switch" lay-text="ID自增|不自增">'
+
+                    }
+                }
+                    , {
+                    field: 'search', title: '添加为查询条件', templet: function (res) {
+                        return '<input type="checkbox" name="search" lay-filter="search" lay-skin="switch" lay-text="是|否">';
+                    }
+                }
+                ]
+            ]
+            // , page: pageJson
+            , where: {name: name}
+            , done: function (data) {
+                checkData = table.checkStatus('te');
+                dataJson = data;
+            }
+        })
+    }
+
+
+    /**
+     * TODO    设置左菜单选中状态
+     * @date  2019/11/16 0016 17:22
+     */
+    $("body").on("mousedown", ".layui-tree a", function () {
+        if (!$(this).siblings('ul').length) {
+            $(".layui-tree a cite").css('color', '#333');
+            $(this).find('cite').css('color', '#009688');
+        }
+    });
+
+
+    /**
+     * TODO  代码生成
+
+     * @date  2019/11/20 16:05
+     * @return
+     */
+    function toolbarClick(type) {
+        let newCheckData = checkData.data;       //当前数据表格所有复选框数据暂存
+        let newDataJson = dataJson.data;         //当前数据表格所有数据
+        //判断是否为选中
+        let newData = new Array();
+        let num = 0;
+        let primaryId = false;
+        for (let i = 0; i < newDataJson.length; i++) {
+            //判断是否选了主键id
+            if (newDataJson[i].primarykeyId != null) {
+                primaryId = newDataJson[i].primarykeyId;
+            }
+            for (let j = 0; j < newCheckData.length; j++) {
+                if (newDataJson[i].name === newCheckData[j].name) {
+                    newData[num] = newDataJson[i];
+                    num++;
+                }
+            }
+        }
+        // alert(JSON.stringify(newData));
+        let data = "";
+        if (primaryId === false) {
+            layer.msg("请选择主键Id");
+            //跳出
+            return;
+        }
+        if (type === 1) {
+            //数据表格数据,表名称，项目名称,返回生成的文件地址
+            let entryName = "admin-console";
+            data = ajaxPost(codeGeneration1, {
+                data: JSON.stringify(newData),
+                tableName: leftFont,
+                entryName: entryName
+            });
+            //预览
+            this.tabTxt(data)
+        } else {
+            // prompt层
+            layer.prompt({title: '生成的代码要保存到那个项目/模块下?'}, function (entryName, index) {
+                //数据表格数据,表名称，项目名称,返回生成的文件地址
+                data = ajaxPost(codeGeneration2, {
+                    data: JSON.stringify(newData),
+                    tableName: leftFont,
+                    entryName: entryName
+                });
+                layer.close(index);
+            });
+        }
+    }
+
+    /**
+     * 预览停弹出层
+     * @param data
+     */
+    function tabTxt(data) {
+        let jsonData = JSON.parse(data);
+        //tab层
+        let html = "<div style='width: 95%;height: 95%;'><iframe src='/{file}' style='width: 100%;height: 730px;margin-top: 1%'></iframe></div>";
+        layer.tab({
+            // type: 2,
+            scrollbar: false,
+            shadeClose: true,
+            area: ['80%', '800px'],
+            tab: [{
+                title: 'entity',
+                content: [html.replace("{file}", jsonData.entity)]
+            }, {
+                title: 'controller',
+                content: [html.replace("{file}", jsonData.controller)]
+            }, {
+                title: 'service',
+                content: [html.replace("{file}", jsonData.service)]
+            }, {
+                title: 'serviceImpl',
+                content: [html.replace("{file}", jsonData.serviceImpl)]
+            }, {
+                title: 'dao',
+                content: [html.replace("{file}", jsonData.dao)]
+            }, {
+                title: 'main',
+                content: [html.replace("{file}", jsonData.main)]
+            }, {
+                title: 'mainAdd',
+                content: [html.replace("{file}", jsonData.mainAdd)]
+            }, {
+                title: 'mainUpd',
+                content: [html.replace("{file}", jsonData.mainUpd)]
+            }
+            ]
+        });
+    }
+</script>
+
+</body>
+</html>

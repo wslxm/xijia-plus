@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="utf-8">
+    <title>系统用户</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" th:href="@{/layuiadmin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/layuiadmin/style/admin.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/search.css}" media="all">
+    <script language=javascript th:src='@{/js/jquery-3.4.1.js}'></script>
+    <script th:src="@{/layuiadmin/layui/layui.js}"></script>
+    <script th:src="@{/js/app.js}"></script>
+</head>
+<body>
+<style>
+
+</style>
+<!-- 搜索 -->
+<div class="searchTable">
+    搜索ID：
+    <div class="layui-inline">
+        <input class="layui-input" id="id" name="id" autocompvare="off">
+    </div>
+    <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="reload">搜索</button>
+</div>
+<!-- 表格 -->
+<table class="auth-table" id="auth-table" lay-filter="auth-table"></table>
+<!-- 多删除添加  -->
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="delAll">删除</button>
+        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+    </div>
+</script>
+<!-- 每一行的数据修改或删除  -->
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+
+    var findAll = ADMIN_CONSOLE + "/roleAdmin/findAll/1";      //角色查询-分页
+    var devares = ADMIN_CONSOLE + "/roleAdmin/devare";         //角色删除
+    var pageUpd = ADMIN_CONSOLE + "/page/console_role_roleUpd";  //角色编辑弹出
+    var pageAdd = ADMIN_CONSOLE + "/page/console_role_roleAdd";  //角色添加弹出
+
+    var addTips = ["600px", "400px", "添加"];   //添加弹出层大小，名称
+    var updTips = ["600px", "400px", "修改"];   //修改弹出层大小，名称
+
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#auth-table'
+            , url: findAll
+            , toolbar: '#toolbarDemo'
+            , title: '用户数据表'
+            , cols: [
+                [
+                    {type: 'checkbox', fixed: 'left'}
+                    , {field: 'id', title: 'ID', width: 80, fixed: 'left'}
+                    , {field: 'name', title: '角色名称'}
+                    , {field: 'desc', title: '角色描叙'}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 250}
+                ]
+            ]
+            , page: pageJson
+        });
+
+
+        /**
+         * 工具栏事件（多删除 || 添加）
+         * toolbar = script的 id
+         * auth-table = 数据表格id/lay-filter
+         */
+        table.on('toolbar(auth-table)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            //多删除
+            if (obj.event === "delAll") {
+                var ids = new Array();
+                var data = checkStatus.data;
+                for (var i = 0; i < data.length; i++) {
+                    ids[i] = data[i].id;
+                }
+                if (ids.length > 0) {
+                    layer.msg('你确定要删除么？', {
+                        time: 0
+                        , btn: ['必须删', '不删了']
+                        , yes: function (index) {
+                            ajaxPost(devares, {ids: ids});
+                            //执行重载
+                            table.reload('auth-table', {
+                                page: {
+                                    curr: $(".layui-laypage-skip .layui-input").val() //页数
+                                }
+                            }, 'data');
+                            layer.msg('操作成功');
+                        }
+                    });
+                }
+            }
+            //添加
+            if (obj.event === "add") {
+                tipsWindown(pageAdd, addTips[0], addTips[1], addTips[2]);
+            }
+        });
+
+
+        /**
+         * 条件搜索，重载数据
+         */
+        var $ = layui.$, active = {
+            //搜索
+            reload: function () {
+                table.reload('auth-table', {
+                    page: {
+                        curr: 1  //页数
+                    }
+                    , where: {
+                        id: $("#id").val()
+                    }
+                }, 'data');
+            }
+        };
+        $('.searchTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+        /**
+         * 监听数据表格内按钮（编辑 || 删除）
+         * tool = 表格内按钮
+         * auth-table =表格名
+         */
+        table.on('tool(auth-table)', function (obj) {
+            data = obj.data;  //当前行数据
+            //菜单添加
+            if (obj.event === 'edit') {
+                tipsWindown(pageUpd, updTips[0], updTips[1], updTips[2]);
+            }
+            //删除
+            if (obj.event === 'del') {
+                tipsDelete(devares, {ids: [data.id]}, obj);
+            }
+        });
+    });
+    //当前行数据记录,弹出层获取回填值
+    var data = "";
+</script>
+</body>
+</html>

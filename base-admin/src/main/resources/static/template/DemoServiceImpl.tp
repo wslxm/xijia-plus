@@ -1,0 +1,13 @@
+package {code1}.service.impl;
+
+import {code1}.entity.Demo;
+import {code1}.service.DemoService;
+import {code1}.service.base.impl.BaseServiceImpl;
+import org.springframework.stereotype.Service;
+
+
+@Service
+public class DemoServiceImpl extends BaseServiceImpl<Demo,Integer> implements DemoService {
+
+}
+

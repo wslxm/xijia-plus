@@ -1,0 +1,15 @@
+package {code1}.service;
+
+
+import {code1}.entity.Demo;
+import {code1}.service.base.BaseService;
+
+/**
+ * TODO  代码生成器自动生成，请自定义描叙
+ * @author
+ * @WX-QQ
+ * @date
+ */
+public  interface DemoService extends BaseService<Demo,Integer> {
+
+}

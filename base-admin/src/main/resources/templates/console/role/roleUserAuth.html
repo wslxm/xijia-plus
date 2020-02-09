@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <meta charset="utf-8">
+    <title>角色分配-菜单权限</title>
+    <link rel="stylesheet" th:href="@{/treetable-lay/assets/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/treetable-lay/assets/common.css}"/>
+    <script language=javascript th:src='@{/treetable-lay/assets/layui/layui.js}'></script>
+    <script language=javascript th:src='@{/js/jquery-3.4.1.js}'></script>
+    <script th:src="@{/js/app.js}"></script>
+</head>
+<body>
+
+
+<!-- 左边树 -->
+<div style="display: inline-block;float:left; width: 20%; height: 500px; padding: 10px; border: 1px solid #ddd; overflow: auto;margin-top: 5%">
+    <ul id="auth-tree"></ul>
+</div>
+
+
+<!-- 菜单树，数据表格 -->
+<div style="float:left; margin-left: 3%;width: 60%">
+    <!--  <div class="demoTable">
+          &lt;!&ndash; 搜索ID：&ndash;&gt;
+          <div class="layui-inline">
+              <input class="layui-input" id="id" name="id" autocompvare="off">
+          </div>
+          <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="reload">搜索</button>
+      </div>-->
+    <!-- tab -->
+    <div class="layui-tab layui-tab-brief" lay-filter="tab">
+        <ul id="tabRoot1" class="layui-tab-title">
+            <li lay-id="1"> 当前角色</li>
+            <li class='layui-this' lay-id="2"> 所有用户</li>
+        </ul>
+        <div class="layui-tab-content" style="height: 100px;">
+            <!-- 数据列表 -->
+            <table id="auth-table" class="layui-table" lay-filter="auth-table"></table>
+        </div>
+    </div>
+</div>
+
+
+<!-- 确认分配按钮  -->
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" onclick="roleMenu()" lay-event="roleMenu">确认分配</button>
+        <font size="2">当前角色: </font> <font size="2" color="red" id="roleFont">未选择</font>
+    </div>
+</script>
+
+<script>
+    var menuRole = ADMIN_CONSOLE + "/roleAdmin/findAll/2";           //角色查询-所有
+    var updRoleUser = ADMIN_CONSOLE + "/roleAdmin/updRoleUser";      //角色分配用户
+    var findAll = ADMIN_CONSOLE + "/userAdmin/findAll/2";            //用户查询-赋与角色选中状态
+
+
+    var rolesJson = ajaxGet(menuRole);    // 获得角色列表
+
+    var roleId = 0;             //当前选中的角色Id
+    var tabId = 0;              //当前Tab 标签选中的Id
+    var roleFont = "未选择";     //当前选中角色名称
+    var checkData = null;       //所有选中菜单数据
+
+    layui.config({
+        base: '../treetable-lay/module/' //静态资源所在路径
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['table', 'treetable', 'element', 'tree'], function () {
+        var $ = layui.jquery
+            , tree = layui.tree
+            , table = layui.table
+            , treetable = layui.treetable
+            , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+        //初始化左边边角色数据,treetable用于右边 table 数据重载
+        showTree(tree, table);
+        //初始化右边 table 数据
+        tableRender(table);
+
+        /**
+         * 监听 tab 选项卡重载table数据
+         */
+        element.on('tab(tab)', function (elem) {
+            tabId = $(this).attr('lay-id');
+            tableRender(table, roleId);
+            $("#roleFont").html(roleFont);
+            //置空临时保存选中复选框数据
+            checkData = null;
+            if (tabId === '1') {
+                layer.msg("待开发  tabId=" + tabId + "   roleId=" + roleId);
+            }
+        });
+
+
+        /**
+         * TODO    监听复选框选中
+         * @date  2019/11/16 0016 19:43
+         * @return
+         */
+        table.on('checkbox(auth-table)', function (obj) {
+            //获取所有选中，te = 数据表格Id
+            checkData = table.checkStatus('te');
+        });
+    });
+
+
+    /**
+     * TODO    左角色列表
+     *
+     * @date  2019/11/16 0016 16:56
+     * @return
+     */
+    function showTree(tree, table) {
+        //左边角色菜单数据
+        tree({
+            elem: '#auth-tree'
+            , click: function (item) {
+                if (item.id === 0) {
+                    return;
+                }
+                //当前选中角色记录
+                roleId = item.id;
+                roleFont = item.name;
+                //重载数据
+                tableRender(table, roleId);
+                $("#roleFont").html(roleFont);
+                //置空临时保存选中复选框数据
+                checkData = null;
+                //layer.msg("tabId=" + tabId + "   roleId=" + roleId+" --"+   item.name);
+            }
+            , nodes: [ //节点
+                {
+                    name: '角色列表'
+                    , id: 0
+                    , spread: true
+                    , children: rolesJson.data  //角色数据
+                }
+            ]
+
+        });
+        //生成一个模拟树
+        var createTree = function (node, start) {
+            node = node || function () {
+                var arr = [];
+                for (var i = 1; i < 10; i++) {
+                    arr.push({
+                        name: i.toString().replace(/(\d)/, '$1$1$1$1$1$1$1$1$1')
+                    });
+                }
+                return arr;
+            }();
+            start = start || 1;
+            layui.each(node, function (index, item) {
+                if (start < 10 && index < 9) {
+                    var child = [
+                        {
+                            name: (1 + index + start).toString().replace(/(\d)/, '$1$1$1$1$1$1$1$1$1')
+                        }
+                    ];
+                    node[index].children = child;
+                    createTree(child, index + start + 1);
+                }
+            });
+            return node;
+        };
+    }
+
+
+    /**
+     * TODO    table数据--（抽离出来方便重载）
+     *
+     * @date  2019/11/16 0016 16:56
+     * @param treetable
+     * @param dataJson
+     * @return
+     */
+    function tableRender(table, roleId) {
+        table.render({
+            id: "te" //获取复选框所有选中数据使用
+            , elem: '#auth-table'
+            , url: findAll
+            , toolbar: '#toolbar'
+            , title: '用户数据表'
+            , cols: [
+                [
+                    {type: 'checkbox', fixed: 'left'}
+                    , {field: 'username', title: '用户名'}
+                    , {field: 'account', title: '账号'}
+                    , {field: 'age', title: '年龄'}
+                    , {field: 'time', title: '注册时间', width: 250}
+                ]
+            ]
+           // , page: pageJson
+            , where: {roleId: roleId}
+        });
+    }
+
+    /**
+     * TODO    设置角色选中状态
+     * @date  2019/11/16 0016 17:22
+     */
+    $("body").on("mousedown", ".layui-tree a", function () {
+        if (!$(this).siblings('ul').length) {
+            $(".layui-tree a cite").css('color', '#333');
+            $(this).find('cite').css('color', '#009688');
+        }
+    });
+
+
+    /**
+     * TODO   角色用户分配
+     * @date  2019/11/16 0016 18:42
+     * @return
+     */
+    function roleMenu() {
+        var userIds = new Array();
+        for (var i in checkData.data) {
+            userIds[i] = checkData.data[i].id
+        }
+        ajaxPost(updRoleUser, {roleId: roleId, userIds: userIds});
+        layer.msg("成功分配角色：" + checkData.data.length + "个")
+        //alert("当前角色" + roleId + " --》 分配菜单" + userIds);
+    }
+</script>
+
+</body>
+</html>
