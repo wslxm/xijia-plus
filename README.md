@@ -19,7 +19,7 @@
 - 11、接口日志               已完成 （log4j，每天产生一个新的日志文件，按日志级别）
 - 12、通用查询方法fingPage    已完成 （针对fingPage方法提供了QueryCriteria类提供添加搜索条件Api，具体使用可参考TestController）
 - 13、使用swagger2 接口文档         地址：http://localhost/swagger-ui.html
-- 13、使用swagger-ui-layui 接口文档 地址：http://localhost/docs.html
+- 14、使用swagger-ui-layui 接口文档 地址：http://localhost/docs.html
 
 
 #### 项目结构
