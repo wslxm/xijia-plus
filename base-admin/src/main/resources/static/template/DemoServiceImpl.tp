@@ -1,13 +1,19 @@
-package {code1}.service.impl;
+package {packName}.service.impl;
 
-import {code1}.entity.Demo;
-import {code1}.service.DemoService;
-import {code1}.service.base.impl.BaseServiceImpl;
+import {packName}.entity.{Demo};
+import {packName}.service.{Demo}Service;
+import com.ws.ldy.admincore.service.impl.BaseServiceApiImpl;
 import org.springframework.stereotype.Service;
 
-
+/**
+ * TODO  代码生成器自动生成，请自定义描叙
+ * {author}
+ * {email}
+ * {date}
+ */
 @Service
-public class DemoServiceImpl extends BaseServiceImpl<Demo,Integer> implements DemoService {
+public class {Demo}ServiceImpl extends BaseServiceApiImpl<{Demo},{primary-key-type}> implements {Demo}Service {
 
 }
+
 

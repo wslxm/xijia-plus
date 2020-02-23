@@ -1,5 +1,5 @@
 server:
-  port: 80    # HTTP (Tomcat) port
+  port: 9000    # HTTP (Tomcat) port
 #  servlet:
 #    context-path: /sheep   # 配置项目名47.107.128.84
 spring:

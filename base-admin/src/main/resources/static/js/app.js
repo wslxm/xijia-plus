@@ -57,7 +57,7 @@ function tipsDelete(url, ids, obj) {
                 // 获得要删除菜单及所有子菜单/页面
                 var result = ajaxPost(url, ids);
                 // 后台操作成功前端直接删除当前行删除
-                if (result !== "no" && obj !== null ) {
+                if (result !== "no" && obj !== null) {
                     obj.del();
                 }
                 layer.msg('操作成功');
@@ -114,7 +114,7 @@ function ajaxPost(url, data) {
     var result = "no";
     $.ajax({
         type: "post",
-        dataType: "text",
+        dataType: "json",
         url: url,
         data: data,
         traditional: true, //允许传递数组
@@ -215,24 +215,23 @@ function getDateAfter_n(initDate, days, flag) {
 }
 
 
-
 // byte转字符串
 function stringToByte(str) {
     var bytes = new Array();
     var len, c;
     len = str.length;
-    for(var i = 0; i < len; i++) {
+    for (var i = 0; i < len; i++) {
         c = str.charCodeAt(i);
-        if(c >= 0x010000 && c <= 0x10FFFF) {
+        if (c >= 0x010000 && c <= 0x10FFFF) {
             bytes.push(((c >> 18) & 0x07) | 0xF0);
             bytes.push(((c >> 12) & 0x3F) | 0x80);
             bytes.push(((c >> 6) & 0x3F) | 0x80);
             bytes.push((c & 0x3F) | 0x80);
-        } else if(c >= 0x000800 && c <= 0x00FFFF) {
+        } else if (c >= 0x000800 && c <= 0x00FFFF) {
             bytes.push(((c >> 12) & 0x0F) | 0xE0);
             bytes.push(((c >> 6) & 0x3F) | 0x80);
             bytes.push((c & 0x3F) | 0x80);
-        } else if(c >= 0x000080 && c <= 0x0007FF) {
+        } else if (c >= 0x000080 && c <= 0x0007FF) {
             bytes.push(((c >> 6) & 0x1F) | 0xC0);
             bytes.push((c & 0x3F) | 0x80);
         } else {
@@ -246,18 +245,18 @@ function stringToByte(str) {
 
 // 字符串转byte
 function byteToString(arr) {
-    if(typeof arr === 'string') {
+    if (typeof arr === 'string') {
         return arr;
     }
     var str = '',
         _arr = arr;
-    for(var i = 0; i < _arr.length; i++) {
+    for (var i = 0; i < _arr.length; i++) {
         var one = _arr[i].toString(2),
             v = one.match(/^1+?(?=0)/);
-        if(v && one.length == 8) {
+        if (v && one.length == 8) {
             var bytesLength = v[0].length;
             var store = _arr[i].toString(2).slice(7 - bytesLength);
-            for(var st = 1; st < bytesLength; st++) {
+            for (var st = 1; st < bytesLength; st++) {
                 store += _arr[st + i].toString(2).slice(2);
             }
             str += String.fromCharCode(parseInt(store, 2));

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO  通用service 的findPage 方法查询条件封装 Api
+ * TODO  JPA 通用service 的findPage 方法查询条件封装 Api
  *
  * @author 王松
  * @mail 1720696548@qq.com

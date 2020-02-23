@@ -1,25 +1,25 @@
-package {code1}.entity;
+package {packName}.entity;
 
 import com.ws.ldy.admincore.entity.BaseEntity;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
-
+import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 import java.util.Date;
 /**
  * TODO  代码生成器自动生成，请自定义描叙
- * @author
- * @WX-QQ
- * @date
+ * {author}
+ * {email}
+ * {date}
  */
 @Data
 @Entity
-@Table(name = "{code2}")
+@Table(name = "{tableName}")
 @DynamicUpdate(value = true)
-public class Demo extends BaseEntity {
+public class {Demo} extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
-    {code3}
+    {entitys}
 
 }
 

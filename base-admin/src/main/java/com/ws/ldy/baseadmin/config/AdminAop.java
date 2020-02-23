@@ -7,7 +7,7 @@ import com.ws.ldy.baseadmin.entity.UserAdmin;
 import com.ws.ldy.admincore.common.Enum.ErrorConstantEnum;
 import com.ws.ldy.admincore.common.annotation.LdyAuthority;
 import com.ws.ldy.admincore.common.error.ErrorException;
-import com.ws.ldy.admincore.common.utils.SignUtil;
+import com.ws.ldy.admincore.utils.SignUtil;
 import com.ws.ldy.admincore.common.vo.ResponseData;
 import net.sf.json.JSONArray;
 import org.aspectj.lang.ProceedingJoinPoint;

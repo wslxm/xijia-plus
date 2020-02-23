@@ -43,9 +43,6 @@ public class MenuAdmin extends BaseEntity {
     /** 菜单级别，(0、根目录,1、子目录, 2、菜单 3、页面 */
     private int root;
 
-    /** 当前页面权限Id(菜单级别3设置权限Id-权限表对应 )  */
-    private int authority;
-
     /** 当前节点的子节点，获取菜单树数据使用 */
     @Transient
     private List<MenuAdmin> menus;

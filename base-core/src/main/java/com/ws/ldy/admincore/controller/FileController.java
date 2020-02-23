@@ -1,6 +1,8 @@
 package com.ws.ldy.admincore.controller;
 
 import com.ws.ldy.admincore.common.vo.ResponseData;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +24,7 @@ import java.nio.file.Paths;
  * @author peter 2018/10/20 21:32
  */
 @Controller
+@Api(tags = {"base-core-file"}, description = "文件上传")
 public class FileController {
 
     /**
@@ -29,16 +32,10 @@ public class FileController {
      */
     private static String UPLOAD_PATH = "File/image/upload";
 
-    /**
-     * 图片上传，需要赋值读写权限-->
-     *
-     * @param request
-     * @return
-     * @author wangsong
-     * @date 2019年6月14日 下午2:31:49
-     */
-    @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
+    // 图片上传，需要赋值读写权限
+    @PostMapping(value = "/uploadImage")
     @ResponseBody
+    @ApiOperation("图片上传")
     public ResponseData uploadImage(HttpServletRequest request) {
         try {
             MultipartFile image = ((MultipartHttpServletRequest) request).getFile("file");

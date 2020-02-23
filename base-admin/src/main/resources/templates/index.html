@@ -175,7 +175,7 @@
     var logout = ADMIN_CONSOLE + "/userAdmin/logout";                 //退出登录接口
     var dataJson = null;
     $(function () {
-        dataJson = ajaxGet(menuTree);
+        dataJson = ajaxGet(menuTree).data;
         //左边导航默认系统管理
         treeMenu(0);
         //顶部系统级菜单加载

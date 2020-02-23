@@ -4,7 +4,7 @@ import com.ws.ldy.baseadmin.dao.AuthorityAdminDao;
 import com.ws.ldy.baseadmin.entity.AuthorityAdmin;
 import com.ws.ldy.baseadmin.service.AuthorityAdminService;
 import com.ws.ldy.admincore.common.annotation.LdyAuthority;
-import com.ws.ldy.admincore.common.utils.ClassUtil;
+import com.ws.ldy.admincore.utils.ClassUtil;
 import com.ws.ldy.admincore.service.impl.BaseServiceApiImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

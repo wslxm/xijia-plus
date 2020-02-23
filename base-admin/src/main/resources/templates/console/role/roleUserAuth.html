@@ -55,7 +55,7 @@
     var findAll = ADMIN_CONSOLE + "/userAdmin/findAll/2";            //用户查询-赋与角色选中状态
 
 
-    var rolesJson = ajaxGet(menuRole);    // 获得角色列表
+    var rolesJson = ajaxGet(menuRole).data;    // 获得角色列表
 
     var roleId = 0;             //当前选中的角色Id
     var tabId = 0;              //当前Tab 标签选中的Id
@@ -134,7 +134,7 @@
                     name: '角色列表'
                     , id: 0
                     , spread: true
-                    , children: rolesJson.data  //角色数据
+                    , children: rolesJson  //角色数据
                 }
             ]
 

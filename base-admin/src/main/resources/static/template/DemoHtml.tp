@@ -41,10 +41,10 @@
 </script>
 <script>
 
-    let findAll = {code4} + "/demo/findAll";        //分页查询
-    let deletes = {code4} + "/demo/delete";         //删除
-    let pageUpd = {code4} + "/page/{code1}_{code5}_{code5}Upd";  //编辑弹出
-    let pageAdd = {code4} + "/page/{code1}_{code5}_{code5}Add";  //添加弹出
+    let findAll = "/{demo}/findAll";        //分页查询
+    let deletes = "/{demo}/delete";         //删除
+    let pageUpd = "/page/{entryNameSmall}_{htmlNameLower}_{htmlNameLower}Upd";  //编辑弹出
+    let pageAdd = "/page/{entryNameSmall}_{htmlNameLower}_{htmlNameLower}Add";  //添加弹出
 
     let addTips = ["600px", "400px", "添加"];   //添加弹出层大小，名称
     let updTips = ["600px", "400px", "修改"];   //修改弹出层大小，名称
@@ -59,7 +59,7 @@
             , cols: [
                 [
                     {type: 'checkbox', fixed: 'left'}
-                    {code2}
+                    {layui-fields}
                     , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 250}
                 ]
             ]

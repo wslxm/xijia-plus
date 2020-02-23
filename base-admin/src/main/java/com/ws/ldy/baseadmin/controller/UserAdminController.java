@@ -1,12 +1,14 @@
 package com.ws.ldy.baseadmin.controller;
 
-import com.ws.ldy.baseadmin.entity.UserAdmin;
-import com.ws.ldy.baseadmin.service.impl.RoleUserAdminServiceImpl;
-import com.ws.ldy.baseadmin.service.impl.UserAdminServiceImpl;
 import com.ws.ldy.admincore.common.annotation.LdyAuthority;
 import com.ws.ldy.admincore.common.vo.ResponseData;
 import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.baseadmin.entity.UserAdmin;
+import com.ws.ldy.baseadmin.service.impl.RoleUserAdminServiceImpl;
+import com.ws.ldy.baseadmin.service.impl.UserAdminServiceImpl;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,10 +27,11 @@ import java.util.Map;
  * @WX-QQ 1720696548
  * @date 2019/11/13 13:38
  */
+@SuppressWarnings("all")
 @RestController
 @RequestMapping("/userAdmin")
 @LdyAuthority(value = {"userAdmin", "系统用户"})
-@Api(tags = {"admin_user"}, description = "系统用户")
+@Api(tags = {"Admin-User"}, description = "用户管理")
 public class UserAdminController extends BaseController {
 
     @Autowired
@@ -36,19 +39,20 @@ public class UserAdminController extends BaseController {
     @Autowired
     private RoleUserAdminServiceImpl roleUserAdminServiceImpl;
 
-    /***
-     * TODO  分页查询
-     * @param   type 1 = 用户列表查询  2=角色用户分配查询
-     * @date 2019/11/14 15:20
-     * @return Map<String, Object>
-     */
+
     @GetMapping("/findAll/{type}")
     @LdyAuthority(value = {"user:findAll", "查询"})
     @ApiOperation("分页查询")
-    public ResponseData findAll(@PathVariable Integer type, int page, int limit, Integer id, Integer roleId) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "roleId", value = "角色Id,当type=2时必传", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "type", value = "1=用户列表查询  2=用户角色分配列表查询(赋予选中状态)", required = true, paramType = "path"),
+    })
+    public ResponseData findAll(@PathVariable Integer type, int page, int limit, Integer roleId) {
         Map<String, Object> param = new HashMap<>(2);
         Page<UserAdmin> userPages = null;
-        param.put("id", id);
+        param.put("id", getString("id", ""));
         Sort sort = new Sort(Sort.Direction.ASC, "id");
         if (type == 1) {
             //查询所有
@@ -74,14 +78,15 @@ public class UserAdminController extends BaseController {
      */
     @PostMapping("/save/{type}")
     @LdyAuthority(value = {"user:save", "添加/修改"})
-    public String save(@PathVariable Integer type, UserAdmin user) {
+    @ApiOperation("添加/修改")
+    public ResponseData save(@PathVariable Integer type, UserAdmin user) {
         if (type == 1) {
             user.setTime(new Date());
             userAdminServiceImpl.save(user);
         } else {
             userAdminServiceImpl.save(user);
         }
-        return "success";
+        return ResponseData.success("success");
     }
 
 
@@ -93,11 +98,12 @@ public class UserAdminController extends BaseController {
      * @WX-QQ 1720696548
      * @date 2019/11/14 18:17
      */
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     @LdyAuthority(value = {"user:delete", "删除"})
-    public String delete(Integer[] ids) {
+    @ApiOperation("批量删除/单删除")
+    public ResponseData delete(Integer[] ids) {
         userAdminServiceImpl.deleteByIds(ids);
-        return "success";
+        return ResponseData.success("success");
     }
 
 
@@ -110,28 +116,31 @@ public class UserAdminController extends BaseController {
      */
     @PostMapping("/login")
     @LdyAuthority(value = {"user:login", "登录"})
-    public String login(String account, String password) {
+    @ApiOperation("账号登录")
+    public ResponseData login(String account, String password) {
         UserAdmin user = userAdminServiceImpl.findAccountPwd(account, password);
         if (user != null) {
             session.setAttribute("user", user);
-            return "success";
+            return ResponseData.success("success");
         } else {
-            return "no";
+            return ResponseData.success("no");
         }
     }
 
 
     /**
      * TODO  退出登录
-     * @author ws
-     * @mail  1720696548@qq.com
-     * @date  2020/2/9 0009 16:08
+     *
      * @return java.lang.String
+     * @author ws
+     * @mail 1720696548@qq.com
+     * @date 2020/2/9 0009 16:08
      */
-    @GetMapping("/logout")
-    public String logout() {
+    @PostMapping("/logout")
+    @ApiOperation("退出登录")
+    public ResponseData logout() {
         session.removeAttribute("user");
-        return "success";
+        return ResponseData.success("success");
     }
 
     /***
@@ -140,16 +149,17 @@ public class UserAdminController extends BaseController {
      * @date 2019/11/18 10:13
      * @return java.lang.String
      */
-    @PutMapping("/updPwd")
+    @PostMapping("/updPwd")
     @LdyAuthority(value = {"user:updPwd", "密码修改"})
-    public String updPwd(String oldPassword, String password) {
+    @ApiOperation("密码修改")
+    public ResponseData updPwd(String oldPassword, String password) {
         UserAdmin user = (UserAdmin) session.getAttribute("user");
         if (user.getPassword().equals(oldPassword)) {
             user.setPassword(password);
             userAdminServiceImpl.save(user);
-            return "success";
+            return ResponseData.success("success");
         } else {
-            return "no";
+            return ResponseData.success("no");
         }
     }
 }

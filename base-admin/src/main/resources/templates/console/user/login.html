@@ -120,13 +120,13 @@
                     + "&timestamp="+timestamp
                     +  APP_KEY;
             var sign =  hex_md5(byteToString(mysign));
-            var result = ajaxPost(ADMIN_CONSOLE + "/userAdmin/login", {
+            var resultData = ajaxPost(ADMIN_CONSOLE + "/userAdmin/login", {
                 account: account ,
                 password: password,
                 timestamp: timestamp,
                 sign: sign
             });
-            if (result === "success") {
+            if (resultData.data === "success") {
                 layer.msg('登入成功');
                 location.href = '../index'; //后台主页
             } else {

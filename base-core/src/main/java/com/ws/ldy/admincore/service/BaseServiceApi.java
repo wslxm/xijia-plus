@@ -11,37 +11,54 @@ import java.util.Map;
 
 /**
  * TODO  通用 service，自定义通用方法 Api
+ *
  * @author 王松
  * @WX-QQ 1720696548
- * @date  2019/10/31 21:12
+ * @date 2019/10/31 21:12
  */
 @SuppressWarnings("ALL")
- public interface  BaseServiceApi<T,ID extends Serializable>{
+public interface BaseServiceApi<T, ID extends Serializable> {
 
 
-    /** 查询所有  */
-     List<T> findAll();
+    /**
+     * 查询所有
+     */
+    List<T> findAll();
 
-    /** 添加  */
-     T save(T t);
+    /**
+     * 添加
+     */
+    T save(T t);
 
-    /** 添加  */
-     Boolean saveAll(List<T> ts);
+    /**
+     * 添加
+     */
+    Boolean saveAll(List<T> ts);
 
-    /** 修改 */
-     T update(T t);
+    /**
+     * 修改
+     */
+    T update(T t);
 
-    /** id查询 */
-     T get(ID id);
+    /**
+     * id查询
+     */
+    T get(ID id);
 
-    /** id删除 */
-     Boolean deleteById(ID id) ;
+    /**
+     * id删除
+     */
+    Boolean deleteById(ID id);
 
-    /** id批量删除 */
-     Boolean deleteByIds(ID[] ids);
+    /**
+     * id批量删除
+     */
+    Boolean deleteByIds(ID[] ids);
 
-    /** 对象批量删除 */
-     Boolean deleteInBatch(List<T> ts) ;
+    /**
+     * 对象批量删除
+     */
+    Boolean deleteInBatch(List<T> ts);
 
     /**
      * 支持时间段，模糊，各种条件，分页(page,size)，排序（sort）等查询
@@ -65,7 +82,7 @@ import java.util.Map;
      * ----- key = 查询字段，对应实体类字段
      * ----- value = 查询条件，值为null，为空串（""）时排除该查询条件，查询所有或满足其他条件的
      * <p>
-     *
+     * <p>
      * 两者之间 between 查询说明， 外层Map key = between
      * ----- 支持时间段查询
      * ----- 支持数字范围查询
@@ -79,10 +96,12 @@ import java.util.Map;
      * @param sort  排序
      * @return
      */
-     Page<T> fingPage( int page, int size, Map<String, Map<String, Object>> param, Sort sort);
+    Page<T> fingPage(int page, int size, Map<String, Map<String, Object>> param, Sort sort);
 
-    /** 分页+条件+排序查询，如有特殊条件使用 service子类重写该实现方法  */
-     Page<T> page(int page, int size, Map<String, Object> param, Sort sort);
+    /**
+     * 分页+条件+排序查询，如有特殊条件使用 service子类重写该实现方法
+     */
+    Page<T> page(int page, int size, Map<String, Object> param, Sort sort);
 
 
 //     void delete(BaseDao dao,T t);

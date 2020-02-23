@@ -48,12 +48,12 @@
 </script>
 <script>
 
-    let findAll = ADMIN_CONSOLE + "/dictionaryAdmin/findAll";                      //分页查询
-    let deletes = ADMIN_CONSOLE + "/dictionaryAdmin/delete";                      //删除
-    let pageUpd = ADMIN_CONSOLE + "/page/console_dictionary_dictionaryUpd";        //编辑弹出
-    let pageAdd = ADMIN_CONSOLE + "/page/console_dictionary_dictionaryAdd";        //添加弹出
+    let findAll = ADMIN_CONSOLE + "/dictionaryAdmin/findAll";                       //分页查询
+    let deletes = ADMIN_CONSOLE + "/dictionaryAdmin/delete";                        //删除
+    let pageUpd = ADMIN_CONSOLE + "/page/console_dictionary_dictionaryUpd";         //编辑弹出
+    let pageAdd = ADMIN_CONSOLE + "/page/console_dictionary_dictionaryAdd";         //添加弹出
     let findByType = ADMIN_CONSOLE + "/dictionaryAdmin/findByType";                 //字典查询
-    let tablesJson = ajaxGet(findByType + "?type=root");                               //获得字典类型（root）左菜单
+    let tablesJson = ajaxGet(findByType + "?type=root");                            //获得字典类型（root）左菜单
 
     let addTips = ["600px", "400px", "添加"];   //添加弹出层大小，名称
     let updTips = ["600px", "400px", "修改"];   //修改弹出层大小，名称

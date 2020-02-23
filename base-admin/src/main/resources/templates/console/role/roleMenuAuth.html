@@ -78,9 +78,10 @@
      */
     function tabRoot1() {
         var html = "<li   class='layui-this' lay-id=" + -1 + ">" + "所有" + "</li>";
-        $.each(dataJson, function (index) {
-            if (dataJson[index].root === 1) {
-                html += "<li  lay-id=" + dataJson[index].id + ">" + dataJson[index].name + "</li>";
+        var data = dataJson.data;
+        $.each(data, function (index) {
+            if (data[index].root === 1) {
+                html += "<li  lay-id=" + data[index].id + ">" + data[index].name + "</li>";
             }
         });
         $("#tabRoot1").html(html);
@@ -241,7 +242,7 @@
             elem: '#auth-table',        //table 的 div
             // url:'/menu/findAll',                         //后台接口获取数据
             //url: '../treetable-lay/json/menus.json',     //json文件获取数据
-            data: dataJson,                                //直接加载数据
+            data: dataJson.data,                                //直接加载数据
             page: false,
             done: function () {
                 //  $("table").css("width", "96%");

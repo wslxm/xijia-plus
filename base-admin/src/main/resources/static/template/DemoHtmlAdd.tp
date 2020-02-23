@@ -15,7 +15,7 @@
 
 <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
 
-    {code2}
+    {add-htmls}
 
     <div class="layui-form-item layui-hide">
         <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认添加">
@@ -27,12 +27,12 @@
     layui.use(['form'], function () {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            ajaxPost({code4} + "/demo/save/1", data.field);
+            ajaxPost("/{demo}/save/1", data.field);
             //重载表格
             parent.layui.table.reload('auth-table');
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
-            parent.layer.msg('添加成功,请手动刷新页面');
+            parent.layer.msg('添加成功');
         });
     });
 </script>

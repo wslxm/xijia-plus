@@ -1,7 +1,7 @@
 # spring-boot-plus2
 
 #### 介绍
-这是开发一个基于spring-boot + jpa + druid+ mysql8 + layui 的后台快速开发骨架，后台采用级简化代码，
+这是开发一个基于spring-boot + jpa + druid+ mysql8 + layui + swagger2 的后台快速开发骨架，后台采用级简化代码，
 所有基本操作无需写任何的dao，service层代码，包括(增删改查，及多添加/动态修改，多删除，分页/条件/排序查询)
 
 #### 功能列表
@@ -14,12 +14,12 @@
 - 6、url权限          已完成（基于aop +注解实现，前台提供按钮自动扫描权限接口）
 - 7、组织机构         代开发  
 - 8、字典功能         已完成                
-- 9、代码生成？预览   已完成/ 目前生成的代码不可用（项目重构后有问题）
+- 9、代码生成？预览    已完成
 - 10、验签（只针对 /public 接口），xss攻击防御（只针对string字符串参数），URL特殊字符转译，防盗链, 允许跨域，
-- 11、接口日志              已完成 （log4j，每天产生一个新的日志文件，按日志级别）
-- 12、通用查询方法fingPage  已完成 （针对fingPage方法提供了QueryCriteria类提供添加搜索条件Api，具体使用可参考TestController）
-                
-
+- 11、接口日志               已完成 （log4j，每天产生一个新的日志文件，按日志级别）
+- 12、通用查询方法fingPage    已完成 （针对fingPage方法提供了QueryCriteria类提供添加搜索条件Api，具体使用可参考TestController）
+- 13、使用swagger2 接口文档         地址：http://localhost/swagger-ui.html
+- 13、使用swagger-ui-layui 接口文档 地址：http://localhost/docs.html
 
 
 #### 项目结构

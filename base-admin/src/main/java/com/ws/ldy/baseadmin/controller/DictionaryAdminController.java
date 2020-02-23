@@ -1,18 +1,19 @@
 package com.ws.ldy.baseadmin.controller;
 
-import com.ws.ldy.baseadmin.entity.DictionaryAdmin;
-import com.ws.ldy.baseadmin.service.impl.DictionaryAdminServiceImpl;
 import com.ws.ldy.admincore.common.annotation.LdyAuthority;
 import com.ws.ldy.admincore.common.query.QueryCriteria;
 import com.ws.ldy.admincore.common.vo.ResponseData;
 import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.baseadmin.entity.DictionaryAdmin;
+import com.ws.ldy.baseadmin.service.impl.DictionaryAdminServiceImpl;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,9 +27,10 @@ import java.util.Map;
  * @WX-QQ 1720696548
  * @date Sun Nov 24 11:23:12 CST 2019
  */
-@Controller
+@RestController
 @RequestMapping("/dictionaryAdmin")
 @LdyAuthority(value = {"dictionary", "字典表"})
+@Api(tags = {"Admin-Dictionary"}, description = "字典管理")
 public class DictionaryAdminController extends BaseController {
 
     @Autowired
@@ -40,8 +42,8 @@ public class DictionaryAdminController extends BaseController {
      * @param type 字典类型
      * @return Map<String, Object>
      */
-    @RequestMapping("/findByType")
-    @ResponseBody
+    @GetMapping("/findByType")
+    @ApiOperation("根据类型查询字典表")
 //    @LdyAuthority(value = {"dictionary:findByType", "根据类型查询Type"})
     public ResponseData findByType(String type) {
         List<DictionaryAdmin> dictionarys = dictionaryAdminServiceImpl.findByType(type);
@@ -58,9 +60,13 @@ public class DictionaryAdminController extends BaseController {
      * @param limit 记录数
      * @return Map<String, Object>
      */
-    @RequestMapping("/findAll")
-    @ResponseBody
- //   @LdyAuthority(value = {"dictionary:findAll", "分页查询"})
+    @GetMapping("/findAll")
+    @ApiOperation("分页查询")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "type", value = "字典类型", required = true, paramType = "query"),
+    })
     public ResponseData findAll(Integer page, Integer limit, String type) {
         Map<String, Map<String, Object>> param = new HashMap<>(2);
         QueryCriteria.equal(param, "type", type);
@@ -71,22 +77,19 @@ public class DictionaryAdminController extends BaseController {
 
 
     /**
-     * TODO  添加/修改
-     *
-     * @param type            t=1 添加，=2修改
+     * @param type   t=1 添加，=2修改
      * @param dictionaryAdmin 对象数据
-     * @return java.lang.String
      */
-    @RequestMapping("/save/{type}")
-    @ResponseBody
+    @PostMapping("/save/{type}")
+    @ApiOperation("添加/修改")
   //  @LdyAuthority(value = {"dictionary:save", "添加/修改"})
-    public String save(@PathVariable Integer type, DictionaryAdmin dictionaryAdmin) {
+    public ResponseData save(@PathVariable Integer type, DictionaryAdmin dictionaryAdmin) {
         if (type == 1) {
             dictionaryAdminServiceImpl.save(dictionaryAdmin);
         } else {
             dictionaryAdminServiceImpl.save(dictionaryAdmin);
         }
-        return "success";
+        return ResponseData.success("success");
     }
 
 
@@ -95,11 +98,11 @@ public class DictionaryAdminController extends BaseController {
      *
      * @param ids 要删除的数据Id数组
      */
-    @ResponseBody
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
+    @ApiOperation("批量删除/单删除")
   //  @LdyAuthority(value = {"dictionary:delete", "删除"})
-    public String delete(Integer[] ids) {
+    public ResponseData delete(Integer[] ids) {
         dictionaryAdminServiceImpl.deleteByIds(ids);
-        return "success";
+        return  ResponseData.success("success");
     }
 }

@@ -1,0 +1,83 @@
+package com.ws.ldy.xijiaserver.controller;
+
+import com.ws.ldy.admincore.common.vo.ResponseData;
+import com.ws.ldy.admincore.controller.BaseController;
+import com.ws.ldy.xijiaserver.entity.UserSheep;
+import com.ws.ldy.xijiaserver.service.impl.UserSheepServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+/**
+ * TODO  代码生成器自动生成，请自定义描叙
+ *
+ * @author wangsong
+ * @email 1720696548
+ * @date Sun Feb 23 10:48:11 CST 2020
+ */
+@Controller
+@RequestMapping("/userSheep")
+public class UserSheepController extends BaseController {
+
+    @Autowired
+    private UserSheepServiceImpl service;
+
+    /**
+     * TODO  分页查询
+     *
+     * @param page   页数
+     * @param limit  记录数
+     * @return Map<String, Object>
+     */
+    @RequestMapping("/findAll")
+    @ResponseBody
+    public ResponseData findAll(Integer page, Integer limit, Integer id) {
+        //查询条件
+        Map<String, Object> param = new HashMap<>(2);
+        param.put("id", getString("id", ""));
+        //排序
+        Sort sort = new Sort(Sort.Direction.ASC, "id");
+        Page<UserSheep> userSheeps = service.page(page, limit, param, sort);
+        return ResponseData.success(userSheeps.getContent(), userSheeps.getTotalPages());
+    }
+
+
+    /**
+     * TODO  添加/修改
+     *
+     * @param type      t=1 添加，=2修改
+     * @param userSheep 对象数据
+     * @return java.lang.String
+     */
+    @RequestMapping("/save/{type}")
+    @ResponseBody
+    public ResponseData save(@PathVariable Integer type, UserSheep userSheep) {
+        if (type == 1) {
+            service.save(userSheep);
+        } else {
+            service.save(userSheep);
+        }
+        return ResponseData.success("success");
+    }
+
+
+    /**
+     * TODO  批量删除/单删除
+     *
+     * @param ids 要删除的数据Id数组
+     */
+    @ResponseBody
+    @RequestMapping("/delete")
+    public ResponseData delete(Integer[] ids) {
+        service.deleteByIds(ids);
+        return ResponseData.success("success");
+    }
+}

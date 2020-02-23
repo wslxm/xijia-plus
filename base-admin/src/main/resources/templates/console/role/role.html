@@ -42,7 +42,7 @@
 <script>
 
     var findAll = ADMIN_CONSOLE + "/roleAdmin/findAll/1";      //角色查询-分页
-    var devares = ADMIN_CONSOLE + "/roleAdmin/devare";         //角色删除
+    var deletes = ADMIN_CONSOLE + "/roleAdmin/delete";         //角色删除
     var pageUpd = ADMIN_CONSOLE + "/page/console_role_roleUpd";  //角色编辑弹出
     var pageAdd = ADMIN_CONSOLE + "/page/console_role_roleAdd";  //角色添加弹出
 
@@ -142,7 +142,7 @@
             }
             //删除
             if (obj.event === 'del') {
-                tipsDelete(devares, {ids: [data.id]}, obj);
+                tipsDelete(deletes, {ids: [data.id]}, obj);
             }
         });
     });

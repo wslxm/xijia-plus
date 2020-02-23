@@ -1,6 +1,6 @@
 package com.ws.ldy.xijiaserver.openapiutils;
 
-import com.ws.ldy.admincore.common.utils.BaseImg64;
+import com.ws.ldy.admincore.utils.BaseImg64;
 import com.ws.ldy.xijiaserver.openapiutils.toket.BaiduPicTextExtractToket;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
