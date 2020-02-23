@@ -6,7 +6,6 @@
         <groupId>com.ws.ldy</groupId>
         <artifactId>spring-boot-plus2</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>com.ws.lay</groupId>
     <artifactId>base-admin</artifactId>
