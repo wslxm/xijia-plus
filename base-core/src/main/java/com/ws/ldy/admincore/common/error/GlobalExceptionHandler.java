@@ -95,8 +95,7 @@ public class GlobalExceptionHandler extends BaseController {
      */
     @ExceptionHandler(ErrorException.class)
     public ResponseData exceptionHandler(ErrorException e) {
-        StringBuffer url = request.getRequestURL();
-        log.info("### [自定义异常] --> 请求URL:{} --> [code:{},msg:{}]", url, e.getCode(), e.getMsg());
+        log.info("### [自定义异常] --> 请求URL:{} --> [code:{},msg:{}]", request.getRequestURL(), e.getCode(), e.getMsg());
         return ResponseData.error(e.getCode(), e.getMsg());
     }
 }
