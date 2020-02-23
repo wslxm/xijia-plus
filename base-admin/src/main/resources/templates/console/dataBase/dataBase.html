@@ -261,7 +261,7 @@
                 data: JSON.stringify(newData),
                 tableName: leftFont,
                 entryName: entryName
-            });
+            }).data;
             //预览
             this.tabTxt(data)
         } else {
@@ -282,8 +282,8 @@
      * 预览停弹出层
      * @param data
      */
-    function tabTxt(data) {
-        let jsonData = JSON.parse(data);
+    function tabTxt(jsonData) {
+        //let jsonData = JSON.parse(data);
         //tab层
         let html = "<div style='width: 95%;height: 95%;'><iframe src='/{file}' style='width: 100%;height: 730px;margin-top: 1%'></iframe></div>";
         layer.tab({

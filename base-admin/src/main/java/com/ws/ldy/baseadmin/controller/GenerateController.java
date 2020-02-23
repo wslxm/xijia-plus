@@ -1,5 +1,6 @@
 package com.ws.ldy.baseadmin.controller;
 
+import com.ws.ldy.admincore.common.vo.ResponseData;
 import com.ws.ldy.admincore.controller.BaseController;
 import com.ws.ldy.baseadmin.generate.FieldCG;
 import com.ws.ldy.baseadmin.generate.GenerateConfig;
@@ -46,7 +47,7 @@ public class GenerateController extends BaseController {
      */
     @PostMapping("/codeGeneration/{type}")
     @ApiOperation("代码生成")
-    public Map<String, String> GenerationSevice(@PathVariable Integer type, String data, String tableName) throws Exception {
+    public ResponseData GenerationSevice(@PathVariable Integer type, String data, String tableName) throws Exception {
         // 获得客户端发送请求的完整url, 并去除接口获得服务器url路径, 接口名发生变动请手动修改target
         String baseUrl = request.getRequestURL().toString().replace("/dataBase/codeGeneration/1", "").replace("/dataBase/codeGeneration/2", "");
         // 数据库字段相关数据解析成集合
@@ -71,7 +72,7 @@ public class GenerateController extends BaseController {
             generationCode(dataList, GenerateConfig.entryName, tableName);
         }
         System.err.println("代码生成成功，重启项目后可直接访问ip:端口+ /page/" + FieldCG.entryNameSmall + "_" + FieldCG.htmlNameLower + "_" + FieldCG.htmlNameLower );
-        return GenerationSevice.pathMap;
+        return ResponseData.success( GenerationSevice.pathMap);
     }
 
     /**
