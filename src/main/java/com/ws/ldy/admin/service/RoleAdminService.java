@@ -2,7 +2,7 @@ package com.ws.ldy.admin.service;
 
 
 import com.ws.ldy.admin.entity.RoleAdmin;
-import com.ws.ldy.base.service.BaseServiceApi;
+import com.ws.ldy.base.service.BaseService;
 
 /**
  * TODO  角色
@@ -10,6 +10,6 @@ import com.ws.ldy.base.service.BaseServiceApi;
  * @WX-QQ 1720696548
  * @date  2019/11/13 15:10 
  */
-public  interface RoleAdminService extends BaseServiceApi<RoleAdmin,Integer> {
+public  interface RoleAdminService extends BaseService<RoleAdmin,Integer> {
 
 }

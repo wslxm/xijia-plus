@@ -17,7 +17,7 @@ import java.util.Map;
  * @date 2019/10/31 21:12
  */
 @SuppressWarnings("ALL")
-public interface BaseServiceApi<T, ID extends Serializable> {
+public interface BaseService<T, ID extends Serializable> {
 
 
     /**

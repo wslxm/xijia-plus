@@ -3,7 +3,7 @@ package com.ws.ldy.admin.service.impl;
 import com.ws.ldy.admin.dao.AuthorityAdminDao;
 import com.ws.ldy.admin.entity.AuthorityAdmin;
 import com.ws.ldy.admin.service.AuthorityAdminService;
-import com.ws.ldy.base.service.impl.BaseServiceApiImpl;
+import com.ws.ldy.base.service.impl.BaseServiceImpl;
 import com.ws.ldy.common.annotation.LdyAuthority;
 import com.ws.ldy.common.utils.ClassUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 
 @Service
-public class AuthorityAdminServiceImpl extends BaseServiceApiImpl<AuthorityAdmin, Integer> implements AuthorityAdminService {
+public class AuthorityAdminServiceImpl extends BaseServiceImpl<AuthorityAdmin, Integer> implements AuthorityAdminService {
 
     /**
      * url权限注解扫包范围

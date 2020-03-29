@@ -29,7 +29,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/roleAdmin")
-@Api(tags = {"Admin-Role"}, description = "角色管理")
+@Api(value = "RoleAdminController", tags = "角色管理")
 public class RoleAdminController extends BaseController {
 
     @Autowired
@@ -55,10 +55,10 @@ public class RoleAdminController extends BaseController {
             param.put("id", getString("id", ""));
             Sort sort = new Sort(Sort.Direction.ASC, "id");
             Page<RoleAdmin> roles = roleAdminServiceImpl.page(page, limit, param, sort);
-            return Result.success(roles.getContent(), roles.getTotalPages());
+            return success(roles.getContent(), roles.getTotalPages());
         } else {
             List<RoleAdmin> roles = roleAdminServiceImpl.findAll();
-            return Result.success(roles);
+            return success(roles);
         }
     }
 
@@ -76,7 +76,7 @@ public class RoleAdminController extends BaseController {
         } else {
             roleAdminServiceImpl.save(role);
         }
-        return Result.success("success");
+        return success("success");
     }
 
 
@@ -84,7 +84,7 @@ public class RoleAdminController extends BaseController {
     @ApiOperation("批量删除/单删除")
     public Result delete(Integer[] ids) {
         roleAdminServiceImpl.deleteByIds(ids);
-        return Result.success("success");
+        return success("success");
     }
 
 
@@ -92,7 +92,7 @@ public class RoleAdminController extends BaseController {
     @ApiOperation("角色菜单权限分配")
     public Result updRoleMenu(Integer roleId, Integer[] menuIds, Integer pid) {
         roleMenuAdminServiceImpl.roleMenuAuth(roleId, menuIds, pid);
-        return Result.success("success");
+        return success("success");
     }
 
 
@@ -101,7 +101,7 @@ public class RoleAdminController extends BaseController {
     @ApiOperation("角色URL权限分配")
     public Result updRoleUrlAuth(Integer roleId, Integer[] authIds) {
         roleAuthAdminServiceImpl.roleUrlAuth(roleId, authIds);
-        return Result.success("success");
+        return success("success");
     }
 
 
@@ -110,6 +110,6 @@ public class RoleAdminController extends BaseController {
     @ApiOperation("角色用户分配")
     public Result updRoleUser(Integer roleId, Integer[] userIds) {
         roleUserAdminServiceImpl.updRoleUser(roleId, userIds);
-        return Result.success("success");
+        return success("success");
     }
 }

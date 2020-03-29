@@ -1,5 +1,7 @@
 package com.ws.ldy.base.controller;
 
+import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.result.ResultEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.client.RestTemplate;
@@ -24,13 +26,50 @@ public class BaseController {
     @Autowired
     protected RestTemplate restTemplate;
 
+    //TODO  返回成功,带数据+页数
+    public <T> Result<T> success(T data, Integer count) {
+        return new Result(ResultEnum.SYS_SUCCESS, data, count);
+    }
 
-    /**
-     * TODO  获取项目部署后的classpath目录
-     *
-     * @return java.lang.String
-     * @date 2019/11/21 10:01
-     */
+    //TODO  返回成功,带数据-不带页数
+    public <T> Result<T> success(T data) {
+        return new Result(ResultEnum.SYS_SUCCESS, data, 0);
+    }
+
+    // TODO 返回成功，-不带数据 -不带页数
+    public Result<Void> success() {
+        return new Result(ResultEnum.SYS_SUCCESS, null, 0);
+    }
+
+    // TODO 返回失败（传入自定义枚举）
+    public <T> Result<T> error(Integer code, String msg) {
+        return new Result(code, msg, null, 0);
+    }
+
+    // TODO 返回失败（传入自定义枚举）
+    public <T> Result<T> error(ResultEnum resultType) {
+        return new Result(resultType, null, 0);
+    }
+
+
+    //TODO  获取token
+    public String getToken() {
+        String token = request.getHeader("token");
+        return token;
+    }
+
+
+    // TODO 默认值
+    public static Integer castToInt(Object value, Integer defaults) {
+        if (value == null) {
+            return defaults;
+        } else {
+            return Integer.parseInt(value.toString());
+        }
+    }
+
+
+    // TODO 获取项目部署后的classpath目录
     public String getPath() {
         // 获取项目跟目录
         String path = "";
@@ -161,8 +200,6 @@ public class BaseController {
             }
         }
     }
-
-
 
 
     /**

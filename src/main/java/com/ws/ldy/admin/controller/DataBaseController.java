@@ -25,7 +25,7 @@ import java.util.Map;
 @SuppressWarnings({"all"})
 @RestController
 @RequestMapping("/dataBase")
-@Api(tags = {"Admin-DataBase"}, description = "Mysql数据相关")
+@Api(value = "DataBaseController", tags = "数据库表查询")
 public class DataBaseController extends BaseController {
 
 
@@ -34,20 +34,20 @@ public class DataBaseController extends BaseController {
 
 
     @GetMapping("/findTable")
-    @ApiOperation("查询当前连接数据库所有表名")
+    @ApiOperation("查询所有表名")
     public Result findTable() {
         List<String> tables = dataBaseServiceImpl.findTable();
         //转为前台需要的树结构数据
         List<Dict> tableList = new ArrayList<>();
         tables.forEach(item -> tableList.add(Dict.create().set("name", item)));
-        return Result.success(tableList);
+        return success(tableList);
     }
 
 
     @GetMapping("/findTableField")
-    @ApiOperation("根据表名查询改表所有字段及类型，备注")
+    @ApiOperation("查询指定表下使用字段内容")
     public Result findTableField(String name) {
         List<Map<String, String>> tableField = dataBaseServiceImpl.findTableField(name);
-        return Result.success(tableField);
+        return success(tableField);
     }
 }

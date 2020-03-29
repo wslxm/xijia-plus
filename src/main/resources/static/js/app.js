@@ -1,18 +1,8 @@
-/**
- *
- *-------项目模块化配置
- *      _PATH : 设置成对应的项目名，对应 yml 配置的 server.servlet.context-path=xxx
- *      _PATH ：控展，项目部署不是在一个服务器下，可以还需要配置 ip:端口 （可扩展为 --> ip:端口/项目名，）
- *      ADMIN_PATH ： 可直接配置到一个子模块需要启动的项目里面，择子模块项目可以访问所有 admin 项目的内容(系统管理)
- *
- *-------非模块化部署（打包成一个项目）
- *      _PATH ：直接全部设置为空, 并删除启动项目 yml文件配置的 server.servlet.context-path=xxx
- *             此配置所有模块的 beng不能重复，如：多模块下的url不可重复，service 注入同理，比如系统管理定义过的: /adminUser/ 不可在定义
- * @type {string}
- */
-var ADMIN_CONSOLE = "";       //后台管理项目名 -->   /adminconsole  /adminconsole
-var GAME_SHEEP = "";          //养🐏游戏        -->  /gamesheep
-var ADMIN_DEMO_WEB = "";      //养🐏游戏        -->  /gamesheep
+//====================================================================================
+//====================================================================================
+//================================= 添加修改删除通用弹出层 ==============================
+//====================================================================================
+//====================================================================================
 
 /**
  * Layer 添加修改通用弹出层
@@ -66,10 +56,12 @@ function tipsDelete(url, ids, obj) {
     });
 }
 
+//====================================================================================
+//====================================================================================
+//================================= Layui 所有分页配置 ================================
+//====================================================================================
+//====================================================================================
 
-/**
- * Layui 分页配置
- */
 var pageJson = {
     layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'] //自定义分页布局
     //,curr: 5             //设定初始在第 5 页
@@ -81,44 +73,121 @@ var pageJson = {
     // , next: '》'
 };
 
+//====================================================================================
+//====================================================================================
+//=================================  ajax请求 ========================================
+//====================================================================================
+//====================================================================================
+/**
+ * TODO  同步请求
+ * @author ws
+ * @mail  1720696548@qq.com
+ * @param null
+ * @date  2020/3/30 0030 0:05
+ * @return
+ */
+// TODO   get 请求
+function ajaxGet(url) {
+    return ajax(url, null, "get", "json", false);
+}
+
+// TODO   get 请求带json参数
+function ajaxGet(url, data) {
+    return ajax(url, data, "get", "json", false);
+}
+
+// TODO   post 请求
+function ajaxPost(url) {
+    return ajax(url, null, "post", "json", false);
+}
+
+// TODO   post 请求带json参数
+function ajaxPost(url, data) {
+    return ajax(url, data, "post", "json", false);
+}
+
+// TODO   put 请求
+function ajaxPut(url) {
+    return ajax(url, null, "put", "json", false);
+}
+
+// TODO   put 请求带json参数
+function ajaxPut(url, data) {
+    return ajax(url, data, "put", "json", false);
+}
+
+// TODO   delete请求
+function ajaxDelete(url) {
+    return ajax(url, null, "delete", "json", false);
+}
+
+// TODO  delete 请求带json参数
+function ajaxDelete(url, data) {
+    return ajax(url, data, "delete", "json", false);
+}
 
 /**
- * 数据请求 -->  get
- * 参数:  url
- * @return: json
+ * TODO  异步请求
+ * @author ws
+ * @mail  1720696548@qq.com
+ * @param null
+ * @date  2020/3/30 0030 0:05
+ * @return
  */
-function ajaxGet(url) {
-    var result = "no";
-    $.ajax({
-        type: "get",
-        dataType: "json",
-        url: url,
-        async: false, //同步
-        success: function (resultText) {
-            result = resultText;
-        },
-        error: function () {
-            layer.msg('后台异常！处理失败');
-        }
-    });
-    return result;
+// TODO   get 请求
+function ajaxGetAsync(url) {
+    return ajax(url, null, "get", "json", true);
+}
+
+// TODO   get 请求带json参数
+function ajaxGetAsync(url, data) {
+    return ajax(url, data, "get", "json", true);
+}
+
+// TODO   post 请求
+function ajaxPostAsync(url) {
+    return ajax(url, null, "post", "json", true);
+}
+
+// TODO   post 请求带json参数
+function ajaxPostAsync(url, data) {
+    return ajax(url, data, "post", "json", true);
+}
+
+// TODO   put 请求
+function ajaxPutAsync(url) {
+    return ajax(url, null, "put", "json", true);
+}
+
+// TODO   put 请求带json参数
+function ajaxPutAsync(url, data) {
+    return ajax(url, data, "put", "json", true);
+}
+
+// TODO   delete请求
+function ajaxDeleteAsync(url) {
+    return ajax(url, null, "delete", "json", true);
+}
+
+// TODO  delete 请求带json参数
+function ajaxDeleteAsync(url, data) {
+    return ajax(url, data, "delete", "json", true);
 }
 
 
-/**
- * 数据请求 -->  post
- * 参数:  url
- * @return: text
- */
-function ajaxPost(url, data) {
-    var result = "no";
+// TODO  1-url  2-数据 3、请求方式 4、返回数据 5、同步false/异步true
+function ajax(url, data, type, dataType, async) {
+    var result;
     $.ajax({
-        type: "post",
-        dataType: "json",
+        type: type,
+        dataType: dataType,
         url: url,
         data: data,
+        headers: {
+            "token": localStorage.getItem('token')
+        },
+        async: async,      //同步
         traditional: true, //允许传递数组
-        async: false,      //同步
         success: function (resultText) {
             result = resultText;
         },
@@ -126,9 +195,19 @@ function ajaxPost(url, data) {
             layer.msg('后台异常！处理失败');
         }
     });
+    //错误打印
+    if (result.code !== 200) {
+        layer.msg(result.msg);
+        throw new Error();
+    }
     return result;
 }
 
+//====================================================================================
+//====================================================================================
+//=============================== 时间相关 ============================================
+//====================================================================================
+//====================================================================================
 
 /**
  * 判断时间过去了多少天，（只计算到日期yyyy-MM-dd，未计算小时/分/秒HH:mm:ss）
@@ -214,8 +293,21 @@ function getDateAfter_n(initDate, days, flag) {
     return result;
 }
 
+//====================================================================================
+//====================================================================================
+//=========================== byte转字符串--字符串转byte ===============================
+//====================================================================================
+//====================================================================================
 
-// byte转字符串
+
+/**
+ * TODO   byte转字符串
+ * @author ws
+ * @mail  1720696548@qq.com
+ * @param null
+ * @date  2020/3/29 0029 23:54
+ * @return
+ */
 function stringToByte(str) {
     var bytes = new Array();
     var len, c;
@@ -243,7 +335,15 @@ function stringToByte(str) {
 
 }
 
-// 字符串转byte
+
+/**
+ * TODO  字符串转byte
+ * @author ws
+ * @mail  1720696548@qq.com
+ * @param null
+ * @date  2020/3/29 0029 23:54
+ * @return
+ */
 function byteToString(arr) {
     if (typeof arr === 'string') {
         return arr;

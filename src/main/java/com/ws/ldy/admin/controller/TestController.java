@@ -71,7 +71,7 @@ public class TestController extends BaseController {
 
         Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(1, 100, params, sort);
         System.out.println(userPages.getContent().toString());
-        return Result.success(userPages.getContent(), userPages.getTotalPages());
+        return success(userPages.getContent(), userPages.getTotalPages());
     }
 
 

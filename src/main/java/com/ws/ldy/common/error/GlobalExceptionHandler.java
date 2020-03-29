@@ -2,6 +2,7 @@ package com.ws.ldy.common.error;
 
 import com.ws.ldy.common.result.Result;
 import com.ws.ldy.base.controller.BaseController;
+import com.ws.ldy.common.result.ResultEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -50,7 +51,7 @@ public class GlobalExceptionHandler extends BaseController {
     public Result exceptionHandler(Exception e) {
         StringBuffer url = request.getRequestURL();
         log.info("###全局捕获异常###,url:{} -->  ERROR:{}", url, e);
-        return Result.error();
+        return error(ResultEnum.SYS_ERROR);
     }
 
 
@@ -79,7 +80,7 @@ public class GlobalExceptionHandler extends BaseController {
         } else {
             log.info("\n\r### [全局捕获异常] --> 请求URL:{} -->  错误原因:{}\n\r ---------> 详细错误日志:", url, "未解析", e);
         }
-        return Result.error();
+        return error(ResultEnum.SYS_ERROR);
     }
 
 
@@ -99,7 +100,7 @@ public class GlobalExceptionHandler extends BaseController {
     @ExceptionHandler(ErrorException.class)
     public Result exceptionHandler(ErrorException e) {
         log.info("### [自定义异常] --> 请求URL:{} --> [code:{},msg:{}]", request.getRequestURL(), e.getCode(), e.getMsg());
-        return Result.error(e.getCode(), e.getMsg());
+        return error(e.getCode(), e.getMsg());
     }
 }
 

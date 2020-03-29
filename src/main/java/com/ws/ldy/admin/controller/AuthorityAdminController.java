@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/authorityAdmin")
-@Api(tags = {"Admin-Authority"}, description = "URL权限管理")
+@Api(value = "AuthorityAdminController", tags = "URL权限管理")
 public class AuthorityAdminController extends BaseController {
 
 
@@ -50,7 +50,7 @@ public class AuthorityAdminController extends BaseController {
         param.put("id", getString("id", ""));
         Sort sort = new Sort(Sort.Direction.ASC, "id");
         Page<AuthorityAdmin> authorityAdmins = authorityAdminServiceImpl.page(page, limit, param, sort);
-        return Result.success(authorityAdmins.getContent(), authorityAdmins.getTotalPages());
+        return success(authorityAdmins.getContent(), authorityAdmins.getTotalPages());
     }
 
 
@@ -69,7 +69,7 @@ public class AuthorityAdminController extends BaseController {
         } else {
             authorityAdminServiceImpl.save(authorityAdmin);
         }
-        return Result.success("success");
+        return success();
     }
 
 
@@ -82,7 +82,7 @@ public class AuthorityAdminController extends BaseController {
     @ApiOperation("批量删除/单删除")
     public Result delete(Integer[] ids) {
         authorityAdminServiceImpl.deleteByIds(ids);
-        return Result.success("success");
+        return success();
     }
 
 
@@ -93,7 +93,7 @@ public class AuthorityAdminController extends BaseController {
         // List<Class<?>> classByPackageName = ClassUtil.getClasses(PACKAGE_NAME);
         //保存
         authorityAdminServiceImpl.putClass();
-        return Result.success("success");
+        return success();
     }
 
 
@@ -101,6 +101,6 @@ public class AuthorityAdminController extends BaseController {
     @ApiOperation("查询所有,跟据角色赋予选中状态")
     public Result findList(Integer roleId) {
         List<AuthorityAdmin> roleAuthorityChecked = roleAuthAdminServiceImpl.findRoleAuthorityChecked(roleId);
-        return Result.success(roleAuthorityChecked);
+        return success(roleAuthorityChecked);
     }
 }

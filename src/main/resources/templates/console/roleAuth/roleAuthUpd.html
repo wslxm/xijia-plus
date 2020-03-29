@@ -49,7 +49,7 @@
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.id = parent.data.id;
-            ajaxPost(ADMIN_CONSOLE + "/roleAuthAdmin/save/2", data.field);
+            ajaxPost( "/roleAuthAdmin/save/2", data.field);
             //重载表格
             var result =  parent.layui.table.reload('auth-table');
             var index = parent.layer.getFrameIndex(window.name);

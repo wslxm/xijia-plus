@@ -22,8 +22,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/menuAdmin")
-@Api(tags = {"Admin-Menu"}, description = "菜单管理")
+@Api(value = "MenuAdminController", tags = "菜单管理")
 public class MenuAdminController extends BaseController {
+
     @Autowired
     private MenuAdminService menuServiceImpl;
 
@@ -33,7 +34,7 @@ public class MenuAdminController extends BaseController {
     public Result menuTree(Integer id) {
         UserAdmin user = (UserAdmin) session.getAttribute("user");
         List<MenuAdmin> menuTree = menuServiceImpl.getMenuTree(user);
-        return Result.success(menuTree);
+        return success(menuTree);
 
     }
 
@@ -47,7 +48,7 @@ public class MenuAdminController extends BaseController {
     @ApiOperation("获取菜单列表查询")
     public Result findAll(@PathVariable Integer type, Integer id, Integer roleId) {
         List<MenuAdmin> menus = menuServiceImpl.getIdNodeMenu(id, roleId, type);
-        return Result.success(menus);
+        return success(menus);
     }
 
     /**
@@ -83,7 +84,7 @@ public class MenuAdminController extends BaseController {
             menu.setUrl(url);         //url
         }
         menuServiceImpl.save(menu);
-        return Result.success("success");
+        return success("success");
     }
 
 
@@ -91,7 +92,7 @@ public class MenuAdminController extends BaseController {
     @ApiOperation("Id删除")
     public Result delete(Integer id) {
         menuServiceImpl.deleteById(id);
-        return Result.success("success");
+        return success("success");
     }
 
 
@@ -114,6 +115,6 @@ public class MenuAdminController extends BaseController {
             menu.setName(val);
         }
         menuServiceImpl.save(menu);
-        return Result.success("success");
+        return success("success");
     }
 }

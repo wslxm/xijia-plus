@@ -42,10 +42,10 @@
 </script>
 <script>
 
-    var findAll = ADMIN_CONSOLE + "/authorityAdmin/findAll";        //分页查询
-    var devares = ADMIN_CONSOLE + "/authorityAdmin/devare";         //删除
-    var pageUpd = ADMIN_CONSOLE + "/page/console_authority_authorityUpd";  //编辑弹出
-    var pageAdd = ADMIN_CONSOLE + "/page/console_authority_authorityAdd";  //添加弹出
+    var findAll = "/authorityAdmin/findAll";        //分页查询
+    var devares = "/authorityAdmin/devare";         //删除
+    var pageUpd = "/page/console_authority_authorityUpd";  //编辑弹出
+    var pageAdd = "/page/console_authority_authorityAdd";  //添加弹出
 
     var addTips = ["600px", "400px", "添加"];   //添加弹出层大小，名称
     var updTips = ["600px", "400px", "修改"];   //修改弹出层大小，名称
@@ -146,7 +146,7 @@
             }
             //删除
             if (obj.event === 'del') {
-                tipsDevare(devares, {ids: [data.id]}, obj);
+                tipsDelete(devares, {ids: [data.id]}, obj);
             }
         });
     });

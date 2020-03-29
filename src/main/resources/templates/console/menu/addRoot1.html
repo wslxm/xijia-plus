@@ -35,7 +35,7 @@
             layui.use(['form'], function () {
                 //监听提交
                 layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-                    var result = ajaxPost(ADMIN_CONSOLE + "/menuAdmin/save/1", data.field);
+                    var result = ajaxPost("/menuAdmin/save/1", data.field);
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                     parent.layer.msg(result);

@@ -37,7 +37,7 @@
                 //监听提交
                 layui.form.on('submit(layuiadmin-app-form-submit)', function(data){
                     data.field.pid = parent.data.id;
-                    var result = ajaxPost(ADMIN_CONSOLE+"/menuAdmin/save/3",data.field);
+                    var result = ajaxPost("/menuAdmin/save/3",data.field);
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                     parent.layer.msg(result);

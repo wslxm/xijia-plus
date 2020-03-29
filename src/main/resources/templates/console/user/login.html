@@ -94,12 +94,16 @@
 </div>
 
 <script>
+    //登录接口
+    var admin_login = "/userAdmin/login";          //登录接口
+    var admin_index = "../index";                  //后台主页
+
     /** session过期，登录页在内窗口，跳为最顶层窗口 */
     if (window != top) {
         top.location.href = window.location.href;
     }
     layui.config({
-        base: '../../' + ADMIN_CONSOLE + '/layuiadmin/' //静态资源所在路径
+        base: '../../layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'user'], function () {
@@ -107,33 +111,42 @@
         form.render();
         //提交监听
         form.on('submit(LAY-user-login-submit)', function (obj) {
-           // account=1720696548&password=123456&timestamp=1578811547552
-            //sign,timestamp
-           // String mysign = DigestUtils.md5Hex(getContentBytes(preSignStr + APP_KEY, INPUT_CHARSET));
-
-            var APP_KEY = "mykey123456";
-            var account = obj.field.username;
-            var password = obj.field.password;
-            var timestamp = new Date().getTime();
-            var mysign = "account="+account
-                    + "&password="+password
-                    + "&timestamp="+timestamp
-                    +  APP_KEY;
-            var sign =  hex_md5(byteToString(mysign));
-            var resultData = ajaxPost(ADMIN_CONSOLE + "/userAdmin/login", {
-                account: account ,
-                password: password,
-                timestamp: timestamp,
-                sign: sign
+            let res = ajaxGet(admin_login + "?account=" + obj.field.username + "&password=" + obj.field.password);
+            //请求成功后，写入token
+            layui.data(layui.setter.tableName, {
+                key: "token",
+                value: res.data.token
             });
-            if (resultData.data === "success") {
-                layer.msg('登入成功');
-                location.href = '../index'; //后台主页
-            } else {
-                layer.msg('用户名或密码错误');
-            }
+            let token = layui.data(layui.setter.tableName)['token'];
+            //  headers: {"token":layui.data(layui.setter.tableName)['token']}
+            //请求成功后，写入token 字符串数据到本地 // 读取方法 localStorage.getItem('localData')
+            localStorage.setItem('token', res.data.token);
+            //跳转后台主页
+            location.href = admin_index + "?token=" + res.data.token;
         });
     });
 </script>
 </body>
 </html>
+
+
+<!--
+// account=1720696548&password=123456&timestamp=1578811547552
+//sign,timestamp
+// String mysign = DigestUtils.md5Hex(getContentBytes(preSignStr + APP_KEY, INPUT_CHARSET));
+
+// var APP_KEY = "mykey123456";
+var account = obj.field.username;
+var password = obj.field.password;
+//  var timestamp = new Date().getTime();
+//  var mysign = "account="+account
+//          + "&password="+password
+//          + "&timestamp="+timestamp
+//          +  APP_KEY;
+// var sign =  hex_md5(byteToString(mysign));
+var resultData = ajaxPost(login, {
+account: account,
+password: password,
+// timestamp: timestamp,
+// sign: sign
+});-->

@@ -57,7 +57,7 @@
 
 <script>
     layui.config({
-        base: '../../'+ADMIN_CONSOLE+'/layuiadmin/' //静态资源所在路径
+        base: '../../layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'user'], function () {
@@ -68,10 +68,10 @@
             if(obj.field.password !== obj.field.repassword){
                 layer.msg('两次密码输入不一致');
             }else {
-                var result = ajaxPost(ADMIN_CONSOLE+"/userAdmin/updPwd",{oldPassword:obj.field.oldPassword,password:obj.field.password});
+                var result = ajaxPost("/userAdmin/updPwd",{oldPassword:obj.field.oldPassword,password:obj.field.password});
                 if(result === "success"){
                     layer.msg('修改成功,请牢记你的密码');
-                    top.location.href = ADMIN_CONSOLE+'/page/admin_user_login'; //登录页
+                    top.location.href = '/page/admin_user_login'; //登录页
                 }else{
                     layer.msg('原密码错误');
                 }

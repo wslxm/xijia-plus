@@ -3,7 +3,7 @@ package com.ws.ldy.base.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.ws.ldy.base.dao.BaseDao;
-import com.ws.ldy.base.service.BaseServiceApi;
+import com.ws.ldy.base.service.BaseService;
 import com.ws.ldy.common.utils.SpringContextUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +30,7 @@ import java.util.Map;
  * @date 2019/10/31 21:12
  */
 @SuppressWarnings("ALL")
-public class BaseServiceApiImpl<T, ID extends Serializable> implements BaseServiceApi<T, ID> {
+public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<T, ID> {
 
     /**
      * 通过泛型T获取出bengId ，在通过bengId获取到对应dao类的实例

@@ -58,7 +58,7 @@ function nextMenuRoot3(data) {
             html += "</dl>";
             html += "</dd>";
         }else{
-            html += "<dd  style='margin-left: 5%' data-name='console'><a lay-href='"+ADMIN_CONSOLE + data[index].url+"'>"+data[index].name+"</a></dd>";
+            html += "<dd  style='margin-left: 5%' data-name='console'><a lay-href='"+ data[index].url+"'>"+data[index].name+"</a></dd>";
         }
     });
     return html;
@@ -68,7 +68,7 @@ function nextMenuRoot3(data) {
 function nextMenuRoot4(data) {
     let html = "";
     $.each(data, function (index) {
-        html +=  "<dd  style='margin-left: 3%'><a lay-href='"+ADMIN_CONSOLE+data[index].url+"'>"+data[index].name+"</a></dd>";
+        html +=  "<dd  style='margin-left: 3%'><a lay-href='"+data[index].url+"'>"+data[index].name+"</a></dd>";
     });
     return html;
 }

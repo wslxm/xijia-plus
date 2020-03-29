@@ -4,7 +4,6 @@ import com.ws.ldy.admin.entity.UserAdmin;
 import com.ws.ldy.admin.service.impl.RoleUserAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.UserAdminServiceImpl;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.common.annotation.LdyAuthority;
 import com.ws.ldy.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -30,8 +29,7 @@ import java.util.Map;
 @SuppressWarnings("all")
 @RestController
 @RequestMapping("/userAdmin")
-@LdyAuthority(value = {"userAdmin", "系统用户"})
-@Api(tags = {"Admin-User"}, description = "用户管理")
+@Api(value = "UserAdminController", tags = "用户管理")
 public class UserAdminController extends BaseController {
 
     @Autowired
@@ -56,14 +54,14 @@ public class UserAdminController extends BaseController {
         if (type == 1) {
             //查询所有
             userPages = userAdminServiceImpl.page(page, limit, param, sort);
-            return Result.success(userPages.getContent(), userPages.getTotalPages());
+            return success(userPages.getContent(), userPages.getTotalPages());
         } else {
             //查询所有
             userPages = userAdminServiceImpl.page(page, 999, param, sort);
             //角色选中状态处理
             List<UserAdmin> users = userPages.getContent();
             users = roleUserAdminServiceImpl.RoleUserChecked(users, roleId);
-            return Result.success(users, userPages.getTotalPages());
+            return success(users, userPages.getTotalPages());
         }
     }
 
@@ -84,7 +82,7 @@ public class UserAdminController extends BaseController {
         } else {
             userAdminServiceImpl.save(user);
         }
-        return Result.success("success");
+        return success("success");
     }
 
 
@@ -97,48 +95,12 @@ public class UserAdminController extends BaseController {
      * @date 2019/11/14 18:17
      */
     @PostMapping("/delete")
-    @LdyAuthority(value = {"user:delete", "删除"})
     @ApiOperation("批量删除/单删除")
     public Result delete(Integer[] ids) {
         userAdminServiceImpl.deleteByIds(ids);
-        return Result.success("success");
+        return success("success");
     }
 
-
-    /***
-     * TODO  账号登录
-     * @param account
-     * @param password
-     * @date 2019/11/18 10:13
-     * @return java.lang.String
-     */
-    @PostMapping("/login")
-    @ApiOperation("账号登录")
-    public Result login(String account, String password) {
-        UserAdmin user = userAdminServiceImpl.findAccountPwd(account, password);
-        if (user != null) {
-            session.setAttribute("user", user);
-            return Result.success("success");
-        } else {
-            return Result.success("no");
-        }
-    }
-
-
-    /**
-     * TODO  退出登录
-     *
-     * @return java.lang.String
-     * @author ws
-     * @mail 1720696548@qq.com
-     * @date 2020/2/9 0009 16:08
-     */
-    @PostMapping("/logout")
-    @ApiOperation("退出登录")
-    public Result logout() {
-        session.removeAttribute("user");
-        return Result.success("success");
-    }
 
     /***
      * TODO  密码修改
@@ -153,9 +115,9 @@ public class UserAdminController extends BaseController {
         if (user.getPassword().equals(oldPassword)) {
             user.setPassword(password);
             userAdminServiceImpl.save(user);
-            return Result.success("success");
+            return success();
         } else {
-            return Result.success("no");
+            return success();
         }
     }
 }

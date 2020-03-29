@@ -45,7 +45,7 @@
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.id = parent.data.id;
-            ajaxPost(ADMIN_CONSOLE + "/roleAdmin/save/2", data.field);
+            ajaxPost( "/roleAdmin/save/2", data.field);
             var result =parent.layui.table.reload('auth-table');
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);

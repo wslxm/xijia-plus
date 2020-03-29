@@ -93,7 +93,7 @@
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.id = parent.data.id;
             data.field.time = parent.data.time;
-            var result = ajaxPost(ADMIN_CONSOLE + "/userAdmin/save/2", data.field);
+            var result = ajaxPost( "/userAdmin/save/2", data.field);
             parent.layui.table.reload('auth-table');
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);

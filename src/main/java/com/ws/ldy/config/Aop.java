@@ -124,10 +124,10 @@ public class Aop {
         if (servletPath.contains(path)) {    // = if(servletPath.indexOf(path) == -1 )
             Map<String, String> verifyMap = SignUtil.toVerifyMap(request.getParameterMap(), false);
             if (!SignUtil.verify(verifyMap)) {
-                return Result.error("403", "验签失败");
+                return error(ResultEnum.SYS_IS_NO_VISIT.getCode(), "验签失败");
             }
         }
-        return Result.success(0);
+        return success(0);
     }
 
 
@@ -139,7 +139,7 @@ public class Aop {
             //是字符串且不是json数据进行转换， && !isJson(args[i].toString())
             if ((args[i] instanceof String && !isJson(args[i].toString()))) {  //  System.out.println(args[i].toString());
                 // args[i] = StringEscapeUtils.escapeHtml(URLDecoder.decode(args[i].toString()));
-               // args[i] = StringEscapeUtils.escapeHtml(args[i].toString());
+                // args[i] = StringEscapeUtils.escapeHtml(args[i].toString());
                 args[i] = htmlEncode(args[i].toString());
             }
         }
@@ -158,13 +158,13 @@ public class Aop {
         String referer = request.getHeader("referer");
         if (referer == null) {
             //允许url直接访问
-            return Result.success(0);
+            return success(0);
         }
         if (!referer.contains(request.getServerName())) {
-            return Result.error("403", "切勿非法盗用资源");
+            return error(ResultEnum.SYS_IS_NO_VISIT.getCode(), "切勿非法盗用资源");
         }
         //System.out.println("refer is" + "" + referer);
-        return Result.success(0);
+        return success(0);
     }
 
 
@@ -221,5 +221,31 @@ public class Aop {
         }
         html = buffer.toString();
         return html;
+    }
+
+
+    //TODO  返回成功,带数据+页数
+    public <T> Result<T> success(T data, Integer count) {
+        return new Result(ResultEnum.SYS_SUCCESS, data, count);
+    }
+
+    //TODO  返回成功,带数据-不带页数
+    public <T> Result<T> success(T data) {
+        return new Result(ResultEnum.SYS_SUCCESS, data, 0);
+    }
+
+    // TODO 返回成功，-不带数据 -不带页数
+    public Result<Void> success() {
+        return new Result(ResultEnum.SYS_SUCCESS, null, 0);
+    }
+
+    // TODO 返回失败（传入自定义枚举）
+    public <T> Result<T> error(Integer code, String msg) {
+        return new Result(code, msg, null, 0);
+    }
+
+    // TODO 返回失败（传入自定义枚举）
+    public <T> Result<T> error(ResultEnum resultType) {
+        return new Result(resultType, null, 0);
     }
 }

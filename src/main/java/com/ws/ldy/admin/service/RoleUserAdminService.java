@@ -3,7 +3,7 @@ package com.ws.ldy.admin.service;
 
 import com.ws.ldy.admin.entity.RoleUserAdmin;
 import com.ws.ldy.admin.entity.UserAdmin;
-import com.ws.ldy.base.service.BaseServiceApi;
+import com.ws.ldy.base.service.BaseService;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @WX-QQ 1720696548
  * @date 2019/11/13 15:10
  */
-public interface RoleUserAdminService extends BaseServiceApi<RoleUserAdmin, Integer> {
+public interface RoleUserAdminService extends BaseService<RoleUserAdmin, Integer> {
     /**
      * TODO    查询指定角色当前用户列表
      *

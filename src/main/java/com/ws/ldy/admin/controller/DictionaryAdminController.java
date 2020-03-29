@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/dictionaryAdmin")
-@Api(tags = {"Admin-Dictionary"}, description = "字典管理")
+@Api(value = "DictionaryAdminController", tags = "代字典管理")
 public class DictionaryAdminController extends BaseController {
 
     @Autowired
@@ -47,7 +47,7 @@ public class DictionaryAdminController extends BaseController {
         for (DictionaryAdmin dictionary : dictionarys) {
             dictionary.setName(dictionary.getValue());
         }
-        return Result.success(dictionarys);
+        return success(dictionarys);
     }
 
     /**
@@ -69,7 +69,7 @@ public class DictionaryAdminController extends BaseController {
         QueryCriteria.equal(param, "type", type);
         Sort sort = new Sort(Sort.Direction.ASC, "id");
         Page<DictionaryAdmin> dictionaryAdmins = dictionaryAdminServiceImpl.fingPage(page, limit, param, sort);
-        return Result.success(dictionaryAdmins.getContent(), dictionaryAdmins.getTotalPages());
+        return success(dictionaryAdmins.getContent(), dictionaryAdmins.getTotalPages());
     }
 
 
@@ -85,7 +85,7 @@ public class DictionaryAdminController extends BaseController {
         } else {
             dictionaryAdminServiceImpl.save(dictionaryAdmin);
         }
-        return Result.success("success");
+        return success("success");
     }
 
 
@@ -98,6 +98,6 @@ public class DictionaryAdminController extends BaseController {
     @ApiOperation("批量删除/单删除")
     public Result delete(Integer[] ids) {
         dictionaryAdminServiceImpl.deleteByIds(ids);
-        return Result.success("success");
+        return success("success");
     }
 }
