@@ -51,10 +51,10 @@
 </script>
 
 <script>
-    var menuFindAll =  "/menuAdmin/findAll/1";      //菜单查询--数据列表（所有）
-    var menuFindIdAll =  "/menuAdmin/findAll/2";    //菜单查询--数据列表（根据父节点查询所有该父节点下的）
-    var menuRole =  "/roleAdmin/findAll/2";         //角色查询-所有
-    var updRoleMenu =  "/roleAdmin/updRoleMenu";    //角色菜单权限修改
+    var menuFindAll = "/menuAdmin/findAll/1";      //菜单查询--数据列表（所有）
+    var menuFindIdAll = "/menuAdmin/findAll/2";    //菜单查询--数据列表（根据父节点查询所有该父节点下的）
+    var menuRole = "/roleAdmin/findAll/2";         //角色查询-所有
+    var updRoleMenu = "/roleAdmin/updRoleMenu";    //角色菜单权限修改
 
     $(function () {
         tabRoot1();   // 初始，动态加载tab标签
@@ -240,9 +240,9 @@
             treeDefaultClose: false,     // 是否默认折叠
             treeLinkage: false,         // 父级展开时是否自动展开所有子级
             elem: '#auth-table',        //table 的 div
-            // url:'/menu/findAll',                         //后台接口获取数据
-            //url: '../treetable-lay/json/menus.json',     //json文件获取数据
-            data: dataJson.data,                                //直接加载数据
+            // url:'/menu/findAll',                         // 后台接口获取数据
+            //url: '../treetable-lay/json/menus.json',      // json文件获取数据
+            data: dataJson.data,                            // 直接加载数据
             page: false,
             done: function () {
                 //  $("table").css("width", "96%");
@@ -252,7 +252,7 @@
                 [
                     {type: 'checkbox'},
                     // {field: 'id', width: 80, type: 'id', title: 'id'},
-                    {field: 'name',  title: '菜单列表'},//edit: 'text',
+                    {field: 'name', title: '菜单列表'},//edit: 'text',
                     // {field: 'sort', width: 150, edit: 'text', title: '排序'},
                     {field: 'icon', title: '图标'},
                     {field: 'url', title: '菜单url'}

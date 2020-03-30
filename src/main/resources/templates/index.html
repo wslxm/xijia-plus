@@ -80,8 +80,8 @@
 
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript:;">
-                        <!--  <cite>贤心</cite>-->
-                        <cite th:text="${session.user.username}"></cite>
+                        <!--  用户名称 -->
+                        <cite id="username"></cite>
                     </a>
 
                     <dl class="layui-nav-child">
@@ -185,6 +185,7 @@
         $("#homePage").attr("src", homePage);
         $("#updPwd").attr("lay-href", updPwd);
         $("#logout").attr("lay-href", logout);
+        $("#username").val("系统管理员");
     });
 </script>
 </body>

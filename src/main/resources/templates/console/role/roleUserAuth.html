@@ -60,7 +60,9 @@
     var roleId = 0;             //当前选中的角色Id
     var tabId = 0;              //当前Tab 标签选中的Id
     var roleFont = "未选择";     //当前选中角色名称
-    var checkData = null;       //所有选中菜单数据
+    var checkData = null;       //所有复选框选中菜单数据
+
+
 
     layui.config({
         base: '../treetable-lay/module/' //静态资源所在路径
@@ -76,14 +78,14 @@
         //初始化左边边角色数据,treetable用于右边 table 数据重载
         showTree(tree, table);
         //初始化右边 table 数据
-        tableRender(table);
+        tableRender(table, ajaxGet(findAll + "?&page=1&limit=999"));
 
         /**
-         * 监听 tab 选项卡重载table数据
+         * 监听 tab 选项卡重载table数据   int page, int limit
          */
         element.on('tab(tab)', function (elem) {
             tabId = $(this).attr('lay-id');
-            tableRender(table, roleId);
+            tableRender(table, ajaxGet(findAll + "?roleId=" + roleId+"&page=1&limit=999"));
             $("#roleFont").html(roleFont);
             //置空临时保存选中复选框数据
             checkData = null;
@@ -123,7 +125,7 @@
                 roleId = item.id;
                 roleFont = item.name;
                 //重载数据
-                tableRender(table, roleId);
+                tableRender(table, ajaxGet(findAll + "?roleId=" + roleId+"&page=1&limit=999"));
                 $("#roleFont").html(roleFont);
                 //置空临时保存选中复选框数据
                 checkData = null;
@@ -137,7 +139,6 @@
                     , children: rolesJson  //角色数据
                 }
             ]
-
         });
         //生成一个模拟树
         var createTree = function (node, start) {
@@ -166,20 +167,19 @@
         };
     }
 
-
     /**
      * TODO    table数据--（抽离出来方便重载）
      *
      * @date  2019/11/16 0016 16:56
      * @param treetable
-     * @param dataJson
+     * @param dataJson , url: findAll
      * @return
      */
-    function tableRender(table, roleId) {
+    function tableRender(table, dataJson) {
         table.render({
             id: "te" //获取复选框所有选中数据使用
             , elem: '#auth-table'
-            , url: findAll
+            , data: dataJson.data    //直接加载数据
             , toolbar: '#toolbar'
             , title: '用户数据表'
             , cols: [
@@ -191,10 +191,11 @@
                     , {field: 'time', title: '注册时间', width: 250}
                 ]
             ]
-           // , page: pageJson
-            , where: {roleId: roleId}
+            // , page: pageJson
+            //, where: {roleId: roleId}
         });
     }
+
 
     /**
      * TODO    设置角色选中状态

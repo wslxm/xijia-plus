@@ -46,8 +46,8 @@ public class DataBaseController extends BaseController {
 
     @GetMapping("/findTableField")
     @ApiOperation("查询指定表下使用字段内容")
-    public Result findTableField(String name) {
-        List<Map<String, String>> tableField = dataBaseServiceImpl.findTableField(name);
+    public Result findTableField(String tableName) {
+        List<Map<String, String>> tableField = dataBaseServiceImpl.findTableField(tableName);
         return success(tableField);
     }
 }

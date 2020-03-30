@@ -5,7 +5,8 @@
     <title>系统用户</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"  content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" th:href="@{/layuiadmin/layui/css/layui.css}" media="all">
     <link rel="stylesheet" th:href="@{/layuiadmin/style/admin.css}" media="all">
     <link rel="stylesheet" th:href="@{/css/search.css}" media="all">
@@ -41,10 +42,11 @@
 </script>
 <script>
 
-    let findAll =  "/userAdmin/findAll/1";      //用户查询
-    let deletes =  "/userAdmin/delete";         //用户删除
-    let pageUpd =  "/page/console_user_userUpd";  //用户编辑弹出
-    let pageAdd =  "/page/console_user_userAdd";  //用户添加弹出
+    let findAll = "/userAdmin/findAll/1";      //用户查询
+    let deletes = "/userAdmin/delete";         //用户删除
+    let pageUpd = "/page/console_user_userUpd";  //用户编辑弹出
+    let pageAdd = "/page/console_user_userAdd";  //用户添加弹出
+
 
     layui.use('table', function () {
         let table = layui.table;
@@ -53,16 +55,6 @@
             , url: findAll
             , toolbar: '#toolbarDemo'
             , title: '用户数据表'
-            ,parseData: function(res){ //res 即为原始返回的数据
-                // return {
-                //     "code": res.status, //解析接口状态
-                //     "msg": res.message, //解析提示文本
-                //     "count": res.total, //解析数据长度
-                //     "data": res.data.item //解析数据列表
-                // };
-                console.log(res.code);
-                console.log(JSON.stringify(res));
-            }
             , cols: [
                 [
                     {type: 'checkbox', fixed: 'left'}
@@ -78,7 +70,16 @@
                     , {field: 'time', title: '注册时间', width: 250}
                     , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 250}
                 ]
-            ]
+            ], parseData: function (res) { //res 即为原始返回的数据
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.total, //解析数据长度
+                    "data": res.data    //解析数据列表
+                };
+                // console.log(res.code);
+                // console.log(JSON.stringify(res));
+            }
             , page: pageJson
         });
 
@@ -97,8 +98,8 @@
                 for (let i = 0; i < data.length; i++) {
                     ids[i] = data[i].id;
                 }
-                if(ids.length > 0){
-                    ajaxPost(deletes,{ids : ids});
+                if (ids.length > 0) {
+                    ajaxPost(deletes, {ids: ids});
                     //执行重载
                     table.reload('auth-table', {
                         page: {
@@ -109,7 +110,7 @@
             }
             //添加
             if (obj.event === "add") {
-               tipsWindown(pageAdd,"600px","400px","用户添加");
+                tipsWindown(pageAdd, "600px", "400px", "用户添加");
             }
         });
 
@@ -145,11 +146,11 @@
             data = obj.data;  //当前行数据
             //菜单添加
             if (obj.event === 'edit') {
-                tipsWindown(pageUpd,"600px","400px","用户编辑");
+                tipsWindown(pageUpd, "600px", "400px", "用户编辑");
             }
             //删除
             if (obj.event === 'del') {
-               tipsDelete(deletes,{ids : [data.id]},obj);
+                tipsDelete(deletes, {ids: [data.id]}, obj);
             }
         });
     });

@@ -48,10 +48,10 @@
 </script>
 
 <script>
-    var authFindAll =  "/authorityAdmin/findList";        //极限查询--数据列表（所有）
-    var putAuthority =  "/authorityAdmin//putAuthority";  //权限扫描
-    var menuRole =  "/roleAdmin/findAll/2";               //角色查询-所有
-    var updRoleUrlAuth =  "/roleAdmin/updRoleUrlAuth";    //角色URL权限修改
+    var authFindAll = "/authorityAdmin/findList";        //极限查询--数据列表（所有）
+    var putAuthority = "/authorityAdmin//putAuthority";  //权限扫描
+    var menuRole = "/roleAdmin/findAll/2";               //角色查询-所有
+    var updRoleUrlAuth = "/roleAdmin/updRoleUrlAuth";    //角色URL权限修改
 
 
     var rolesJson = ajaxGet(menuRole);    // 获得角色列表
@@ -179,7 +179,7 @@
             treeDefaultClose: false,     // 是否默认折叠
             treeLinkage: false,         // 父级展开时是否自动展开所有子级
             elem: '#auth-table',        //table 的 div
-            data: dataJson.data,                                //直接加载数据
+            data: dataJson.data,         //直接加载数据
             page: false,
             done: function () {
                 //  $("table").css("width", "96%");
@@ -229,7 +229,7 @@
         }
         var result = ajaxPost(updRoleUrlAuth, {roleId: roleId, pid: pid, authIds: authIds});
         //alert("当前角色"+roleId + " --》 分配菜单"+menuIds);
-        layer.msg("分配URL权限：" + checkData.data.length + "个 "+result)
+        layer.msg("分配URL权限：" + checkData.data.length + "个 " + result)
     }
 
     function authority() {

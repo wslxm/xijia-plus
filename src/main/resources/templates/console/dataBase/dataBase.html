@@ -41,9 +41,9 @@
     let findAll = "/dataBase/findTableField";            //根据表名称查询数据库字段数据
     let codeGeneration1 = "/dataBase/codeGeneration/1";   //代码预览txt生成
     let codeGeneration2 = "/dataBase/codeGeneration/2";   //代码生成(会覆盖)
-    let tablesJson = ajaxGet(dataBaseTables);                            // 获得数据库表数据
+    let tablesJson = ajaxGet(dataBaseTables);             // 获得数据库表数据
 
-    let leftFont = "未选择";     //左边菜单当前选中名称 leftFont
+    let tableName = "未选择";     //左边菜单当前选中名称 tableName
     let checkData = null;       //当前数据表格所有复选框数据暂存
     let dataJson = null;        //当前数据表格所有数据
 
@@ -62,7 +62,7 @@
         //初始化左边数据
         showTree(tree, table);
         //初始化右边 table 数据
-        tableRender(table);
+        tableRender(table,  ajaxGet(findAll));
 
         /**
          * TODO    监听复选框选中
@@ -116,12 +116,12 @@
                 if (item.id === 0) {
                     return;
                 }
-                //当前选中
-                leftFont = item.name;
+                //当前选中表
+                tableName = item.name;
                 //重载数据
-                tableRender(table, leftFont);
+                tableRender(table,ajaxGet(findAll+"?tableName="+tableName) );
                 //当前表展示
-                $("#leftFont").html(leftFont);
+                $("#leftFont").html(tableName);
                 //置空临时保存数据
                 checkData = null;
                 //layer.msg("tabId=" + tabId + "   roleId=" + roleId+" --"+   item.name);
@@ -134,7 +134,6 @@
                     , children: tablesJson.data  //角色数据
                 }
             ]
-
         });
         //生成一个模拟树
         let createTree = function (node, start) {
@@ -172,12 +171,13 @@
      * @param dataJson
      * @return
      */
-    function tableRender(table, name) {
+    function tableRender(table, dataJson) {
         table.render({
             id: "te" //获取复选框所有选中数据使用
             , height: 800
             , elem: '#auth-table'
-            , url: findAll
+            //, url: findAll
+            , data: dataJson.data    //直接加载数据
             , toolbar: '#toolbar'
             , title: '用户数据表'
             , cols: [
@@ -200,8 +200,6 @@
                 }
                 ]
             ]
-            // , page: pageJson
-            , where: {name: name}
             , done: function (data) {
                 checkData = table.checkStatus('te');
                 dataJson = data;

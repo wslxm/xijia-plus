@@ -32,10 +32,10 @@ public class MenuAdminController extends BaseController {
     @GetMapping("/menuTree")
     @ApiOperation("获取菜单树,左导航菜单")
     public Result menuTree(Integer id) {
-        UserAdmin user = (UserAdmin) session.getAttribute("user");
+        String token = super.getToken();
+        UserAdmin user = (UserAdmin) session.getAttribute(token);
         List<MenuAdmin> menuTree = menuServiceImpl.getMenuTree(user);
         return success(menuTree);
-
     }
 
 
