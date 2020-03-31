@@ -1,6 +1,8 @@
 package com.ws.ldy.base.service;
 
 
+import com.ws.ldy.common.query.IPage;
+import com.ws.ldy.common.query.QueryCriteria;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
@@ -96,12 +98,14 @@ public interface BaseService<T, ID extends Serializable> {
      * @param sort  排序
      * @return
      */
-    Page<T> fingPage(int page, int size, Map<String, Map<String, Object>> param, Sort sort);
+    Page<T> page(IPage iPage, QueryCriteria queryCriteria);
+
+    Page<T> page(IPage ipage, Map<String, Map<String, Object>> param, Sort sort);
 
     /**
      * 分页+条件+排序查询，如有特殊条件使用 service子类重写该实现方法
      */
-    Page<T> page(int page, int size, Map<String, Object> param, Sort sort);
+    // Page<T> page(int page, int size, Map<String, Object> param, Sort sort);
 
 
 //     void delete(BaseDao dao,T t);

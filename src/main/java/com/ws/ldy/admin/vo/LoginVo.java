@@ -9,5 +9,4 @@ public class LoginVo {
 
     private String token;
 
-
 }

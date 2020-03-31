@@ -11,12 +11,12 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -34,14 +34,9 @@ public class DictionaryAdminController extends BaseController {
     @Autowired
     private DictionaryAdminServiceImpl dictionaryAdminServiceImpl;
 
-    /**
-     * TODO  根据类型查询Type
-     *
-     * @param type 字典类型
-     * @return Map<String, Object>
-     */
-    @GetMapping("/findByType")
+
     @ApiOperation("根据类型查询字典表")
+    @RequestMapping(value = "/findByType", method = RequestMethod.GET)
     public Result findByType(String type) {
         List<DictionaryAdmin> dictionarys = dictionaryAdminServiceImpl.findByType(type);
         for (DictionaryAdmin dictionary : dictionarys) {
@@ -50,35 +45,26 @@ public class DictionaryAdminController extends BaseController {
         return success(dictionarys);
     }
 
-    /**
-     * TODO  分页查询
-     *
-     * @param page  页数
-     * @param limit 记录数
-     * @return Map<String, Object>
-     */
-    @GetMapping("/findAll")
+
+    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     @ApiOperation("分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
             @ApiImplicitParam(name = "type", value = "字典类型", required = true, paramType = "query"),
     })
-    public Result findAll(Integer page, Integer limit, String type) {
-        Map<String, Map<String, Object>> param = new HashMap<>(2);
-        QueryCriteria.equal(param, "type", type);
-        Sort sort = new Sort(Sort.Direction.ASC, "id");
-        Page<DictionaryAdmin> dictionaryAdmins = dictionaryAdminServiceImpl.fingPage(page, limit, param, sort);
+    public Result findAll(String type) {
+        Page<DictionaryAdmin> dictionaryAdmins = dictionaryAdminServiceImpl.page(
+                this.getPage(),
+                new QueryCriteria().equal("type", type).build(),
+                new QueryCriteria().orderByAsc("id").getSort()
+        );
         return success(dictionaryAdmins.getContent(), dictionaryAdmins.getTotalPages());
     }
 
 
-    /**
-     * @param type            t=1 添加，=2修改
-     * @param dictionaryAdmin 对象数据
-     */
-    @PostMapping("/save/{type}")
-    @ApiOperation("添加/修改")
+    @RequestMapping(value = "/save/{type}", method = RequestMethod.POST)
+    @ApiOperation("添加/修改 t=1 添加，=2修改")
     public Result save(@PathVariable Integer type, DictionaryAdmin dictionaryAdmin) {
         if (type == 1) {
             dictionaryAdminServiceImpl.save(dictionaryAdmin);
@@ -89,13 +75,8 @@ public class DictionaryAdminController extends BaseController {
     }
 
 
-    /**
-     * TODO  批量删除/单删除
-     *
-     * @param ids 要删除的数据Id数组
-     */
-    @PostMapping("/delete")
-    @ApiOperation("批量删除/单删除")
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @ApiOperation("批量删除/单删除--要删除的数据Id数组")
     public Result delete(Integer[] ids) {
         dictionaryAdminServiceImpl.deleteByIds(ids);
         return success("success");

@@ -4,6 +4,8 @@ package com.ws.ldy.base.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.ws.ldy.base.dao.BaseDao;
 import com.ws.ldy.base.service.BaseService;
+import com.ws.ldy.common.query.IPage;
+import com.ws.ldy.common.query.QueryCriteria;
 import com.ws.ldy.common.utils.SpringContextUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -110,9 +112,13 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
         }
     }
 
+    @Override
+    public Page<T> page(IPage iPage, QueryCriteria queryCriteria) {
+     return   this.page(iPage,queryCriteria.build(), queryCriteria.getSort());
+    }
 
     @Override
-    public Page<T> fingPage(int page, int size, Map<String, Map<String, Object>> param, Sort sort) {
+    public Page<T> page(IPage iPage, Map<String, Map<String, Object>> param, Sort sort) {
         return getDao().findAll(new Specification<T>() {
             private static final long serialVersionUID = 1L;
 
@@ -182,29 +188,29 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
                 Predicate[] p = list.toArray(new Predicate[0]);
                 return cb.and(p);
             }
-        }, PageRequest.of(page - 1, size, sort));
+        }, PageRequest.of(iPage.getPage() - 1, iPage.getLimit(), sort));
     }
 
 
-    @Override
-    public Page<T> page(int page, int size, Map<String, Object> param, Sort sort) {
-        return getDao().findAll(new Specification<T>() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                // TODO Auto-generated method stub
-                List<Predicate> list = new ArrayList<>();
-                for (String key : param.keySet()) {
-                    if (param.get(key) != null && !"".equals(param.get(key).toString())) {
-                        list.add(cb.equal(root.get(key).as(String.class), (param.get(key)).toString()));
-                    }
-                }
-                Predicate[] p = list.toArray(new Predicate[0]);
-                return cb.and(p);
-            }
-        }, PageRequest.of(page - 1, size, sort));
-    }
+//    @Override
+//    public Page<T> page(int page, int size, Map<String, Object> param) {
+//        return getDao().findAll(new Specification<T>() {
+//            private static final long serialVersionUID = 1L;
+//
+//            @Override
+//            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//                // TODO Auto-generated method stub
+//                List<Predicate> list = new ArrayList<>();
+//                for (String key : param.keySet()) {
+//                    if (param.get(key) != null && !"".equals(param.get(key).toString())) {
+//                        list.add(cb.equal(root.get(key).as(String.class), (param.get(key)).toString()));
+//                    }
+//                }
+//                Predicate[] p = list.toArray(new Predicate[0]);
+//                return cb.and(p);
+//            }
+//        }, PageRequest.of(page - 1, size, sort));
+//    }
 
 //
 //    @Override

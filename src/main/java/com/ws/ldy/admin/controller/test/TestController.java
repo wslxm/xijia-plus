@@ -1,8 +1,9 @@
-package com.ws.ldy.admin.controller;
+package com.ws.ldy.admin.controller.test;
 
 import com.ws.ldy.admin.entity.UserAdmin;
 import com.ws.ldy.admin.service.impl.UserAdminServiceImpl;
 import com.ws.ldy.base.controller.BaseController;
+import com.ws.ldy.common.query.IPage;
 import com.ws.ldy.common.query.QueryCriteria;
 import com.ws.ldy.common.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +11,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.Map;
+
 /**
-  * TODO  测试service 通用查询方法 fingPage 使用
-  * @author 王松
-  * @mail  1720696548@qq.com
-  * @date  2020/1/13 0013 22:28
+ * TODO  测试service 通用查询方法 fingPage 使用
  *
+ * @author 王松
+ * @mail 1720696548@qq.com
+ * @date 2020/1/13 0013 22:28
+ * <p>
  * ----- key = equal                精准搜索 字符串/数字/时间
  * ----- key = like                 模糊搜索 字符串/数字/时间
  * ----- key = between              两者之间， key ：字段名，start：开始 , ent :结束  (数字/时间)
@@ -27,7 +31,7 @@ import java.util.Map;
  * ----- key = lessThanOrEqualTo    小于或等于传入值（字符串/数字/时间）
  * ----- key = greaterThan          大于传入值（字符串/数字/时间）
  * ----- key = lessThan             小于传入值（字符串/数字/时间）
-  */
+ */
 @Controller
 public class TestController extends BaseController {
 
@@ -36,12 +40,13 @@ public class TestController extends BaseController {
 
     /**
      * TODO   测试通用查询： 使用 QueryCriteria 自封装工具类
-     * @author 王松
-     * @mail  1720696548@qq.com
-     * @date  2020/1/13 0013 22:25
+     *
      * @return com.ws.ldy.common.result.ResponseData
+     * @author 王松
+     * @mail 1720696548@qq.com
+     * @date 2020/1/13 0013 22:25
      */
-    @RequestMapping("/api/test")
+    @RequestMapping(value = "/api/test", method = RequestMethod.GET)
     @ResponseBody
     public Result test() {
         Map<String, Map<String, Object>> params = new HashMap<>(2);
@@ -67,21 +72,20 @@ public class TestController extends BaseController {
 //        QueryCriteria.greaterThan(params, "time", "2019-11-15 00:00:00");
 
         // 小于传入值（字符串/数字/时间）
-        QueryCriteria.lessThan(params, "time", "2019-11-15 00:00:00");
 
-        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(1, 100, params, sort);
+        Page<UserAdmin> userPages = userAdminServiceImpl.page(new IPage(1, 100),
+                new QueryCriteria().lessThan("time", "2019-11-15 00:00:00").build()
+                , sort);
         System.out.println(userPages.getContent().toString());
         return success(userPages.getContent(), userPages.getTotalPages());
     }
 
 
-
-
     /**
      * TODO   测试通用查询： 原始方式
      * @author 王松
-     * @mail  1720696548@qq.com
-     * @date  2020/1/13 0013 22:25
+     * @mail 1720696548@qq.com
+     * @date 2020/1/13 0013 22:25
      * @return com.ws.ldy.common.result.ResponseData
      */
 //    @RequestMapping("/api/test")

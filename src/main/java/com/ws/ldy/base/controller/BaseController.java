@@ -1,5 +1,6 @@
 package com.ws.ldy.base.controller;
 
+import com.ws.ldy.common.query.IPage;
 import com.ws.ldy.common.result.Result;
 import com.ws.ldy.common.result.ResultEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class BaseController {
     protected HttpServletResponse response;
     @Autowired
     protected RestTemplate restTemplate;
+//    @Autowired
+//    protected QueryCriteria queryCriteria;
 
     //TODO  返回成功,带数据+页数
     public <T> Result<T> success(T data, Integer count) {
@@ -51,13 +54,26 @@ public class BaseController {
         return new Result(resultType, null, 0);
     }
 
-
     //TODO  获取token
     public String getToken() {
         String token = request.getHeader("token");
         return token;
     }
 
+    //TODO  获取分页对象
+    public IPage getPage() {
+        Object pageObj = request.getAttribute("page");
+        Object limitObj = request.getAttribute("limit");
+        int page = 1;
+        int limit = 20;
+        if (pageObj != null) {
+            page = Integer.parseInt(pageObj.toString());
+        }
+        if (limitObj != null) {
+            limit = Integer.parseInt(limitObj.toString());
+        }
+        return new IPage(page, limit);
+    }
 
     // TODO 默认值
     public static Integer castToInt(Object value, Integer defaults) {
@@ -68,8 +84,7 @@ public class BaseController {
         }
     }
 
-
-    // TODO 获取项目部署后的classpath目录
+    // TODO 获取项目跟目录/ 获取项目部署后的classpath 目录
     public String getPath() {
         // 获取项目跟目录
         String path = "";
@@ -81,14 +96,7 @@ public class BaseController {
         return path;
     }
 
-
-    /**
-     * 获取页面字符串
-     *
-     * @param name
-     * @param defalut
-     * @return String
-     */
+    // TODO 获取页面字符串
     public String getString(String name, String defalut) {
         String str = request.getParameter(name);
         if (str == null) {
@@ -98,13 +106,7 @@ public class BaseController {
         }
     }
 
-    /**
-     * 获取整数对象
-     *
-     * @param name
-     * @param defalut
-     * @return Integer
-     */
+    // TODO 获取整数Integer对象
     public Integer getInt(String name, Integer defalut) {
         String str = request.getParameter(name);
         if (str == null) {
@@ -118,13 +120,7 @@ public class BaseController {
         }
     }
 
-    /**
-     * 获取整数对象
-     *
-     * @param name
-     * @param defalut
-     * @return Long
-     */
+    // TODO  获取整数Long对象
     public Long getLong(String name, Long defalut) {
         String str = request.getParameter(name);
         if (str == null) {
@@ -138,13 +134,7 @@ public class BaseController {
         }
     }
 
-    /**
-     * 获取duoble对象
-     *
-     * @param name
-     * @param defalut
-     * @return Double
-     */
+    // TODO  获取获取duoble对象
     public Double getDoule(String name, Double defalut) {
         String str = request.getParameter(name);
         if (str == null) {
@@ -158,14 +148,7 @@ public class BaseController {
         }
     }
 
-    /**
-     * 获取时间对象
-     *
-     * @param name
-     * @param defalut
-     * @param format
-     * @return Date
-     */
+    // TODO  获取时间对象
     public Date getDate(String name, Date defalut, String format) {
         String str = request.getParameter(name);
         if (str == null) {
@@ -181,13 +164,8 @@ public class BaseController {
         }
     }
 
-    /**
-     * 获取boolean对象
-     *
-     * @param name
-     * @param defalut
-     * @return boolean
-     */
+
+    // TODO  获取boolean对象
     public boolean getBoolean(String name, boolean defalut) {
         String str = request.getParameter(name);
         if (str == null) {
@@ -199,30 +177,5 @@ public class BaseController {
                 return defalut;
             }
         }
-    }
-
-
-    /**
-     * TODO  获取当前项目的父级硬盘目录 --> 如当前：D:\workSpace\tool1\code\spring-boot-plus2
-     *
-     * @return java.lang.String
-     * @date 2019/11/21 10:02
-     */
-    public String getPathFather(String entryName) {
-        // 获取项目跟目录
-        String path = "";
-        try {
-            //D:\workSpace\tool1\code\spring-boot-plus2\项目名\target\classes
-            path = ResourceUtils.getURL("classpath:").getPath();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        String upPath = path.replace("/target/classes", "")
-                .replace("/target/admin-console.jar!/BOOT-INF/admin-console", "")
-                .replace("\\target\\admin-console.jar!\\BOOT-INF\\admin-console", "");
-        System.out.println(upPath.length());
-        int index = upPath.substring(0, upPath.length() - 1).lastIndexOf("/");
-        String newUpPath = upPath.substring(0, index) + "/";
-        return newUpPath;
     }
 }

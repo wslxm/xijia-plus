@@ -1,15 +1,14 @@
 package com.ws.ldy.admin.controller;
 
 import cn.hutool.core.lang.Dict;
-import com.ws.ldy.common.result.Result;
-import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.admin.service.impl.DataBaseServiceImpl;
+import com.ws.ldy.base.controller.BaseController;
+import com.ws.ldy.common.result.Result;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +32,8 @@ public class DataBaseController extends BaseController {
     private DataBaseServiceImpl dataBaseServiceImpl;
 
 
-    @GetMapping("/findTable")
     @ApiOperation("查询所有表名")
+    @RequestMapping(value = "/findTable", method = RequestMethod.GET)
     public Result findTable() {
         List<String> tables = dataBaseServiceImpl.findTable();
         //转为前台需要的树结构数据
@@ -44,9 +43,10 @@ public class DataBaseController extends BaseController {
     }
 
 
-    @GetMapping("/findTableField")
     @ApiOperation("查询指定表下使用字段内容")
-    public Result findTableField(String tableName) {
+    @ApiImplicitParam(name = "tableName", value = "表名", required = true, paramType = "query")
+    @RequestMapping(value = "/findTableField", method = RequestMethod.GET)
+    public Result findTableField(@RequestParam String tableName) {
         List<Map<String, String>> tableField = dataBaseServiceImpl.findTableField(tableName);
         return success(tableField);
     }
