@@ -1,6 +1,6 @@
 package com.ws.ldy.admin.entity;
 
-import com.ws.ldy.base.entity.BaseEntity;
+import com.ws.ldy.base.entity.BaseAdminEntity;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -17,30 +17,32 @@ import javax.persistence.*;
 @Entity
 @Table(name = "t_admin_dictionary")
 @DynamicUpdate(value = true)
-public class DictionaryAdmin extends BaseEntity {
+public class DictionaryAdmin extends BaseAdminEntity {
 
     private static final long serialVersionUID = 0L;
-
+    /**
+     * 数据库自增id
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     /**
      * 描叙
      */
     @Column(name = "`desc`")
     private String desc;
-    /**
-     * id
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+
     /**
      * 搜索值
      */
     @Column(name = "`key`")
     private String key;
+
     /**
      * 字典类型
      */
     private String type;
+
     /**
      * 选择值
      */

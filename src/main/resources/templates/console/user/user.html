@@ -42,7 +42,7 @@
 </script>
 <script>
 
-    let findAll = "/userAdmin/findAll/1";      //用户查询
+    let findAll = "/userAdmin/findPage";      //用户查询
     let deletes = "/userAdmin/delete";         //用户删除
     let pageUpd = "/page/console_user_userUpd";  //用户编辑弹出
     let pageAdd = "/page/console_user_userAdd";  //用户添加弹出
@@ -73,9 +73,9 @@
             ], parseData: function (res) { //res 即为原始返回的数据
                 return {
                     "code": 0, //解析接口状态
-                    "msg": res.message, //解析提示文本
-                    "count": res.total, //解析数据长度
-                    "data": res.data    //解析数据列表
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.totalElements, //解析数据长度
+                    "data": res.data.content    //解析数据列表
                 };
                 // console.log(res.code);
                 // console.log(JSON.stringify(res));

@@ -36,3 +36,7 @@ admin-console，   负责后台管理功能开发，如：菜单/用户/代码�
 service层通用查询方法，支持任意类各种条件查询，及分页，排序
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1123/164659_80e5ece
 b_2208600.png "屏幕截图.png")
+
+
+
+

@@ -19,6 +19,11 @@ public class DataBaseDaoImpl implements DataBaseDao {
 
     @PersistenceContext
     private EntityManager entityManager;
+    /**
+     * TODO  获取bean的属性,数据库连接url
+     */
+    @Value("#{dataSource.url}")
+    private String jdbcUrl;
 
     /**
      * TODO 查询数据库所有表
@@ -62,20 +67,16 @@ public class DataBaseDaoImpl implements DataBaseDao {
     }
 
 
-    /** TODO  获取bean的属性,数据库连接url*/
-    @Value("#{dataSource.url}")
-    private String jdbcUrl;
-
-
     /**
      * TODO  获取当前连接的数据库名称
-     * @date  2019/11/20 15:37
+     *
      * @return java.lang.String
+     * @date 2019/11/20 15:37
      */
-    private String getDatabaseName(){
-        int startIndex= jdbcUrl.lastIndexOf("/" );   //后往前,第一次
-        int endIndex = jdbcUrl.lastIndexOf("?" );    //后往前,第一次
-        String databaseName = jdbcUrl.substring(startIndex+1,endIndex);
+    private String getDatabaseName() {
+        int startIndex = jdbcUrl.lastIndexOf("/");   //后往前,第一次
+        int endIndex = jdbcUrl.lastIndexOf("?");    //后往前,第一次
+        String databaseName = jdbcUrl.substring(startIndex + 1, endIndex);
         return databaseName;
     }
 }

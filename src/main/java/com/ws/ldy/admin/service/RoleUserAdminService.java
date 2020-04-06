@@ -3,6 +3,7 @@ package com.ws.ldy.admin.service;
 
 import com.ws.ldy.admin.entity.RoleUserAdmin;
 import com.ws.ldy.admin.entity.UserAdmin;
+import com.ws.ldy.admin.vo.UserAdminVo;
 import com.ws.ldy.base.service.BaseService;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public interface RoleUserAdminService extends BaseService<RoleUserAdmin, Integer
      * @date 2019/11/18 15:09
      * @return java.util.List<UserAdmin>
      */
-    public List<UserAdmin> RoleUserChecked(List<UserAdmin> users,Integer roleId);
+    public List<UserAdminVo> roleUserChecked(List<UserAdmin> users, Integer roleId);
 
     /***
      * TODO  角色用户分配

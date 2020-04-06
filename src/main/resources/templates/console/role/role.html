@@ -41,7 +41,7 @@
 </script>
 <script>
 
-    var findAll =  "/roleAdmin/findAll/1";      //角色查询-分页
+    var findAll =  "/roleAdmin/findPage";      //角色查询-分页
     var deletes =  "/roleAdmin/delete";         //角色删除
     var pageUpd =  "/page/console_role_roleUpd";  //角色编辑弹出
     var pageAdd =  "/page/console_role_roleAdd";  //角色添加弹出
@@ -68,8 +68,8 @@
                 return {
                     "code": 0, //解析接口状态
                     "msg": res.msg, //解析提示文本
-                    "count": res.count, //解析数据长度
-                    "data": res.data    //解析数据列表
+                    "count": res.data.totalElements, //解析数据长度
+                    "data": res.data.content    //解析数据列表
                 };
                 // console.log(res.code);
                 // console.log(JSON.stringify(res));

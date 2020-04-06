@@ -46,7 +46,7 @@
             //
 
             //数据接口
-            var menuFindAll =  "/menuAdmin/findAll/1";  //查询菜单树
+            var menuFindAll =  "/menuAdmin/list";  //查询菜单树
             var menuDelete =  "/menuAdmin/delete";      //删除
             var menu_update1 =  "/menuAdmin/update/1";  //修改排序
             var menu_update2 =  "/menuAdmin/update/2";  //修改图标
@@ -158,8 +158,8 @@
                         return {
                             "code": 0, //解析接口状态
                             "msg": res.msg, //解析提示文本
-                            "count": res.count, //解析数据长度
-                            "data": res.data    //解析数据列表
+                            "count": res.data.totalElements, //解析数据长度
+                            "data": res.data.content    //解析数据列表
                         };
                         // console.log(res.code);
                         // console.log(JSON.stringify(res));

@@ -1,6 +1,6 @@
 package com.ws.ldy.admin.entity;
 
-import com.ws.ldy.base.entity.BaseEntity;
+import com.ws.ldy.base.entity.BaseAdminEntity;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -17,17 +17,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "t_admin_role_user")
 @DynamicUpdate(value = true)
-public class RoleUserAdmin extends BaseEntity {
+public class RoleUserAdmin extends BaseAdminEntity {
 
 
     private static final long serialVersionUID = 5610627763663770761L;
     /**
-     * 菜单id
+     * 数据库自增id
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     /**
      * 菜单id
      */

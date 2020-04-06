@@ -4,6 +4,7 @@ package com.ws.ldy.admin.controller;
 import com.ws.ldy.admin.entity.UserAdmin;
 import com.ws.ldy.admin.service.impl.UserAdminServiceImpl;
 import com.ws.ldy.admin.vo.LoginVo;
+import com.ws.ldy.base.constant.BaseConstant;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.common.error.ErrorException;
 import com.ws.ldy.common.result.Result;
@@ -14,12 +15,17 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  * TODO  登录
+ *
  * @author ws
- * @mail  1720696548@qq.com
- * @date  2020/3/30 0030 19:53
+ * @mail 1720696548@qq.com
+ * @date 2020/3/30 0030 19:53
  * @return
  */
 @RestController
@@ -55,11 +61,9 @@ public class LoginController extends BaseController {
             throw new ErrorException(ResultEnum.SYS_ERROR.getCode(), "密码错误");
         }
         String token = UUIDUtil.creatUUID();
-        session.setAttribute(token, user);
+        session.setAttribute(BaseConstant.SYS + token, user);
         return success(new LoginVo(token));
     }
-
-
 
 
     /**

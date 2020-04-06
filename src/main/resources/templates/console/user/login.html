@@ -109,20 +109,18 @@
     }).use(['index', 'user'], function () {
         var form = layui.form;
         form.render();
-        //提交监听
+        // 提交监听
         form.on('submit(LAY-user-login-submit)', function (obj) {
             let res = ajaxGet(admin_login + "?account=" + obj.field.username + "&password=" + obj.field.password);
-            //请求成功后，写入token
+            // 请求成功后，Layui 写入token，表格数据统一传递 -》获取token 方法: layui.data(layui.setter.tableName)['token'];, 使用: headers: {"token":layui.data(layui.setter.tableName)['token']}
             layui.data(layui.setter.tableName, {
                 key: "token",
                 value: res.data.token
             });
-            let token = layui.data(layui.setter.tableName)['token'];
-            //  headers: {"token":layui.data(layui.setter.tableName)['token']}
-            //请求成功后，写入token 字符串数据到本地 // 读取方法 localStorage.getItem('localData')
+            // 请求成功后，写入token 字符串数据到本地 // 读取方法 localStorage.getItem('localData')
             localStorage.setItem('token', res.data.token);
             //跳转后台主页
-            location.href = admin_index + "?token=" + res.data.token;
+            location.href = admin_index;
         });
     });
 </script>

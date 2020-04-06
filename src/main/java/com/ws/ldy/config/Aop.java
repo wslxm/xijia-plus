@@ -226,26 +226,26 @@ public class Aop {
 
     //TODO  返回成功,带数据+页数
     public <T> Result<T> success(T data, Integer count) {
-        return new Result(ResultEnum.SYS_SUCCESS, data, count);
+        return new Result(ResultEnum.SYS_SUCCESS, data);
     }
 
     //TODO  返回成功,带数据-不带页数
     public <T> Result<T> success(T data) {
-        return new Result(ResultEnum.SYS_SUCCESS, data, 0);
+        return new Result(ResultEnum.SYS_SUCCESS, data);
     }
 
     // TODO 返回成功，-不带数据 -不带页数
     public Result<Void> success() {
-        return new Result(ResultEnum.SYS_SUCCESS, null, 0);
+        return new Result(ResultEnum.SYS_SUCCESS, null );
     }
 
     // TODO 返回失败（传入自定义枚举）
     public <T> Result<T> error(Integer code, String msg) {
-        return new Result(code, msg, null, 0);
+        return new Result(code, msg, null);
     }
 
     // TODO 返回失败（传入自定义枚举）
     public <T> Result<T> error(ResultEnum resultType) {
-        return new Result(resultType, null, 0);
+        return new Result(resultType, null);
     }
 }

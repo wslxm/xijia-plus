@@ -1,5 +1,6 @@
 package com.ws.ldy.admin.service;
 
+import com.ws.ldy.admin.dao.AuthorityAdminDao;
 import com.ws.ldy.admin.entity.AuthorityAdmin;
 import com.ws.ldy.base.service.BaseService;
 

@@ -37,15 +37,15 @@
 
 
 <script>
-    let dataBaseTables = "/dataBase/findTable";          //查询数据库表-所有
-    let findAll = "/dataBase/findTableField";            //根据表名称查询数据库字段数据
-    let codeGeneration1 = "/dataBase/codeGeneration/1";   //代码预览txt生成
-    let codeGeneration2 = "/dataBase/codeGeneration/2";   //代码生成(会覆盖)
+    let dataBaseTables = "/dataBase/findTable";           // 查询数据库表-所有
+    let findAll = "/dataBase/findTableField";             // 根据表名称查询数据库字段数据
+    let codeGeneration1 = "/dataBase/codeGeneration/1";   // 代码预览txt生成
+    let codeGeneration2 = "/dataBase/codeGeneration/2";   // 代码生成(会覆盖)
     let tablesJson = ajaxGet(dataBaseTables);             // 获得数据库表数据
 
-    let tableName = "未选择";     //左边菜单当前选中名称 tableName
-    let checkData = null;       //当前数据表格所有复选框数据暂存
-    let dataJson = null;        //当前数据表格所有数据
+    let tableName = "未选择";     // 左边菜单当前选中名称 tableName
+    let checkData = null;        // 当前数据表格所有复选框数据暂存
+    let reqDataJson = null;     // 当前数据表格所有数据(最后请求参数)
 
 
     layui.config({
@@ -62,7 +62,7 @@
         //初始化左边数据
         showTree(tree, table);
         //初始化右边 table 数据
-        tableRender(table,  ajaxGet(findAll));
+        tableRender(table, ajaxGet(findAll));
 
         /**
          * TODO    监听复选框选中
@@ -80,7 +80,7 @@
             let selectIfKey = obj.othis;                         // 获取当前控件
             let parentTr = selectIfKey.parents("tr");            // 获取当前所在行  layui-table-cell
             let parentTrIndex = parentTr.attr("data-index");     // 获取当前所在行的索引
-            dataJson.data[parentTrIndex].primarykeyId = obj.elem.checked;
+            reqDataJson.data[parentTrIndex].primarykeyId = obj.elem.checked;
             //layer.msg(JSON.stringify(dataJson.data[parentTrIndex]));
         });
         //监听开关选择操作 --》 是否自增
@@ -88,7 +88,7 @@
             let selectIfKey = obj.othis;                         // 获取当前控件
             let parentTr = selectIfKey.parents("tr");            // 获取当前所在行  layui-table-cell
             let parentTrIndex = parentTr.attr("data-index");     // 获取当前所在行的索引
-            dataJson.data[parentTrIndex].selfGrowth = obj.elem.checked;
+            reqDataJson.data[parentTrIndex].selfGrowth = obj.elem.checked;
             //layer.msg(JSON.stringify(dataJson.data[parentTrIndex]));
         });
         //监听开关选择操作 --》 是否为搜索条件字段
@@ -96,7 +96,7 @@
             let selectIfKey = obj.othis;                         // 获取当前控件
             let parentTr = selectIfKey.parents("tr");            // 获取当前所在行  layui-table-cell
             let parentTrIndex = parentTr.attr("data-index");     // 获取当前所在行的索引
-            dataJson.data[parentTrIndex].search = obj.elem.checked;
+            reqDataJson.data[parentTrIndex].search = obj.elem.checked;
             //layer.msg(JSON.stringify(dataJson.data[parentTrIndex]));
         });
     });
@@ -119,11 +119,11 @@
                 //当前选中表
                 tableName = item.name;
                 //重载数据
-                tableRender(table,ajaxGet(findAll+"?tableName="+tableName) );
+                tableRender(table, ajaxGet(findAll + "?tableName=" + tableName));
                 //当前表展示
                 $("#leftFont").html(tableName);
                 //置空临时保存数据
-                checkData = null;
+                //checkData = null;
                 //layer.msg("tabId=" + tabId + "   roleId=" + roleId+" --"+   item.name);
             }
             , nodes: [ //节点
@@ -202,7 +202,7 @@
             ]
             , done: function (data) {
                 checkData = table.checkStatus('te');
-                dataJson = data;
+                reqDataJson = data;
             }
         })
     }
@@ -228,7 +228,7 @@
      */
     function toolbarClick(type) {
         let newCheckData = checkData.data;       //当前数据表格所有复选框数据暂存
-        let newDataJson = dataJson.data;         //当前数据表格所有数据
+        let newDataJson = reqDataJson.data;         //当前数据表格所有数据
         //判断是否为选中
         let newData = new Array();
         let num = 0;
@@ -254,11 +254,9 @@
         }
         if (type === 1) {
             //数据表格数据,表名称，项目名称,返回生成的文件地址
-            let entryName = "admin-console";
             data = ajaxPost(codeGeneration1, {
                 data: JSON.stringify(newData),
-                tableName: leftFont,
-                entryName: entryName
+                tableName: tableName,
             }).data;
             //预览
             this.tabTxt(data)
@@ -275,6 +273,7 @@
             });
         }
     }
+
 
     /**
      * 预览停弹出层

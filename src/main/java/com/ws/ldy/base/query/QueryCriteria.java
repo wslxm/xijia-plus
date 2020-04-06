@@ -1,13 +1,14 @@
-package com.ws.ldy.common.query;
+package com.ws.ldy.base.query;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
- * TODO  JPA 通用service 的findPage 方法查询条件封装 Api
+ * TODO  JPA 通用service/dao 的查询条件封装 Api构造器
  *
  * @author 王松
  * @mail 1720696548@qq.com
@@ -31,6 +32,7 @@ import java.util.Map;
  * ----- key = lessThanOrEqualTo    小于或等于传入值（字符串/数字/时间）
  * ----- key = greaterThan          大于传入值（字符串/数字/时间）
  * ----- key = lessThan             小于传入值（字符串/数字/时间）
+ * ----- key = in                   多搜索--> 字段数据类型必须对应实体类和数据库（字符串/数字/时间）
  * ----- 搜索api                     对应key的value值
  * <p>
  * param 内参数内层 Map 说明：
@@ -97,16 +99,16 @@ public class QueryCriteria {
     //=====================================================================
 
     //TODO   精准搜索 字符串/数字/时间
-    public QueryCriteria equal(Boolean decide, String key, Object value) {
-        if (decide) {
-            return equal(key, value);
+    public QueryCriteria eq(Boolean b, String key, Object value) {
+        if (b) {
+            return eq(key, value);
         }
         return this;
     }
 
     // TODO    模糊搜索 字符串/数字/时间
-    public QueryCriteria like(Boolean decide, String key, Object value) {
-        if (decide) {
+    public QueryCriteria like(Boolean b, String key, Object value) {
+        if (b) {
             return like(key, value);
         }
         return this;
@@ -114,8 +116,8 @@ public class QueryCriteria {
 
 
     // TODO 两者之间， key ：字段名，start：开始 , ent :结束  (数字/时间)
-    public QueryCriteria between(Boolean decide, String key, String start, String ent) {
-        if (decide) {
+    public QueryCriteria between(Boolean b, String key, String start, String ent) {
+        if (b) {
             return between(key, start, ent);
         }
         return this;
@@ -123,16 +125,16 @@ public class QueryCriteria {
 
 
     // TODO    大于或等于传入值（字符串/数字/时间）
-    public QueryCriteria greaterThanOrEqualTo(Boolean decide, String key, Object value) {
-        if (decide) {
+    public QueryCriteria greaterThanOrEqualTo(Boolean b, String key, Object value) {
+        if (b) {
             return greaterThanOrEqualTo(key, value);
         }
         return this;
     }
 
     // TODO    小于或等于传入值（字符串/数字/时间）
-    public QueryCriteria lessThanOrEqualTo(Boolean decide, String key, Object value) {
-        if (decide) {
+    public QueryCriteria lessThanOrEqualTo(Boolean b, String key, Object value) {
+        if (b) {
             return lessThanOrEqualTo(key, value);
         }
         return this;
@@ -140,8 +142,8 @@ public class QueryCriteria {
 
 
     // TODO 大于传入值（字符串/数字/时间）
-    public QueryCriteria greaterThan(Boolean decide, String key, Object value) {
-        if (decide) {
+    public QueryCriteria greaterThan(Boolean b, String key, Object value) {
+        if (b) {
             return greaterThan(key, value);
         }
         return this;
@@ -149,9 +151,18 @@ public class QueryCriteria {
 
 
     // TODO  小于传入值（字符串/数字/时间）
-    public QueryCriteria lessThan(Boolean decide, String key, Object value) {
-        if (decide) {
+    public QueryCriteria lessThan(Boolean b, String key, Object value) {
+        if (b) {
             return lessThan(key, value);
+        }
+        return this;
+    }
+
+
+    // TODO  in 多搜索--字段数据类型必须对应实体类和数据库（字符串/数字/时间）
+    public <T> QueryCriteria in(Boolean b, String key, List<T> valueList) {
+        if (b) {
+            return in(key, valueList);
         }
         return this;
     }
@@ -162,7 +173,7 @@ public class QueryCriteria {
     //=====================================================================
 
     // TODO 精准搜索 字符串/数字/时间
-    public QueryCriteria equal(String key, Object value) {
+    public QueryCriteria eq(String key, Object value) {
         if (params.containsKey("equal")) {
             params.get("equal").put(key, value);
         } else {
@@ -250,6 +261,19 @@ public class QueryCriteria {
         } else {
             params.put("lessThan", new HashMap<String, Object>() {{
                 put(key, value);
+            }});
+        }
+        return this;
+    }
+
+
+    // TODO  in 多搜索（字符串/数字/时间）
+    public <T> QueryCriteria in(String key, List<T> valueList) {
+        if (params.containsKey("in")) {
+            params.get("in").put(key, valueList);
+        } else {
+            params.put("in", new HashMap<String, Object>() {{
+                put(key, valueList);
             }});
         }
         return this;

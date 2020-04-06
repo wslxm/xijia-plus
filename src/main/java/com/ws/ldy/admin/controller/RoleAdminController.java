@@ -1,12 +1,14 @@
 package com.ws.ldy.admin.controller;
 
+import com.ws.ldy.admin.dto.RoleAdminDto;
 import com.ws.ldy.admin.entity.RoleAdmin;
 import com.ws.ldy.admin.service.impl.RoleAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.RoleAuthAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.RoleMenuAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.RoleUserAdminServiceImpl;
+import com.ws.ldy.admin.vo.RoleAdminVo;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.common.query.QueryCriteria;
+import com.ws.ldy.base.query.QueryCriteria;
 import com.ws.ldy.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -14,10 +16,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,37 +42,39 @@ public class RoleAdminController extends BaseController {
     private RoleUserAdminServiceImpl roleUserAdminServiceImpl;
 
 
-    @RequestMapping(value = "/findAll/{type}", method = RequestMethod.GET)
-    @ApiOperation("分页查询/查询所有")
+    @RequestMapping(value = "/findPage", method = RequestMethod.GET)
+    @ApiOperation("分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "type", value = "1 分页查询  =2 所有查询", required = true, paramType = "query"),
     })
-    public Result findAll(@PathVariable Integer type) {
-        if (type == 1) {
-            QueryCriteria queryCriteria = new QueryCriteria().equal("id", getString("id", "")).orderByAsc("id");
-            Page<RoleAdmin> roles = roleAdminServiceImpl.page(this.getPage(), queryCriteria.build(), queryCriteria.getSort());
-            return success(roles.getContent(), roles.getTotalPages());
-        } else {
-            List<RoleAdmin> roles = roleAdminServiceImpl.findAll();
-            return success(roles);
-        }
+    public Result<Page<RoleAdminVo>> findPage(Integer id) {
+        QueryCriteria queryCriteria = new QueryCriteria().eq(id != null, "id", id).orderByAsc("id");
+        Page<RoleAdmin> rolePage = roleAdminServiceImpl.page(this.getPage(), queryCriteria);
+        return success(this.pageVoStream(rolePage, RoleAdminVo.class));
+    }
+
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ApiOperation("查询所有")
+    public Result<List<RoleAdminVo>> list() {
+        List<RoleAdmin> roles = roleAdminServiceImpl.findAll();
+        return success(this.listVoStream(roles, RoleAdminVo.class));
     }
 
 
     /***
      * TODO  添加/修改
-     * @param type t=1 添加，=2修改
-     * @param role 对象数据
+     * @param type
+     * @param roleAdminDto 对象数据
      */
     @RequestMapping(value = "/save/{type}", method = RequestMethod.POST)
-    @ApiOperation("添加/修改")
-    public Result save(@PathVariable Integer type, RoleAdmin role) {
+    @ApiOperation("添加/修改 ==>>>  t=1 添加，=2修改")
+    public Result<Void> save(@PathVariable Integer type, @RequestBody RoleAdminDto roleAdminDto) {
         if (type == 1) {
-            roleAdminServiceImpl.save(role);
+            roleAdminServiceImpl.save(roleAdminDto.convert(RoleAdmin.class));
         } else {
-            roleAdminServiceImpl.save(role);
+            roleAdminServiceImpl.save(roleAdminDto.convert(RoleAdmin.class));
         }
         return success();
     }
@@ -81,7 +82,7 @@ public class RoleAdminController extends BaseController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("批量删除/单删除")
-    public Result delete(Integer[] ids) {
+    public Result<Void> delete(Integer[] ids) {
         roleAdminServiceImpl.deleteByIds(ids);
         return success();
     }
@@ -89,7 +90,7 @@ public class RoleAdminController extends BaseController {
 
     @RequestMapping(value = "/updRoleMenu", method = RequestMethod.PUT)
     @ApiOperation("角色菜单权限分配")
-    public Result updRoleMenu(Integer roleId, Integer[] menuIds, Integer pid) {
+    public Result<Void> updRoleMenu(@RequestParam Integer roleId, Integer[] menuIds, @RequestParam Integer pid) {
         roleMenuAdminServiceImpl.roleMenuAuth(roleId, menuIds, pid);
         return success();
     }
@@ -97,7 +98,7 @@ public class RoleAdminController extends BaseController {
 
     @RequestMapping(value = "/updRoleUrlAuth", method = RequestMethod.PUT)
     @ApiOperation("角色URL权限分配")
-    public Result updRoleUrlAuth(Integer roleId, Integer[] authIds) {
+    public Result<Void> updRoleUrlAuth(@RequestParam Integer roleId, Integer[] authIds) {
         roleAuthAdminServiceImpl.roleUrlAuth(roleId, authIds);
         return success();
     }
@@ -105,7 +106,7 @@ public class RoleAdminController extends BaseController {
 
     @RequestMapping(value = "/updRoleUser", method = RequestMethod.PUT)
     @ApiOperation("角色用户分配")
-    public Result updRoleUser(Integer roleId, Integer[] userIds) {
+    public Result<Void> updRoleUser(@RequestParam Integer roleId, Integer[] userIds) {
         roleUserAdminServiceImpl.updRoleUser(roleId, userIds);
         return success();
     }

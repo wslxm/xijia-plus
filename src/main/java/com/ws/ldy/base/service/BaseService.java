@@ -1,14 +1,14 @@
 package com.ws.ldy.base.service;
 
 
-import com.ws.ldy.common.query.IPage;
-import com.ws.ldy.common.query.QueryCriteria;
+import com.ws.ldy.base.query.DeleteCriteria;
+import com.ws.ldy.base.query.IPage;
+import com.ws.ldy.base.query.QueryCriteria;
+import com.ws.ldy.base.query.UpdateCriteria;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -19,13 +19,23 @@ import java.util.Map;
  * @date 2019/10/31 21:12
  */
 @SuppressWarnings("ALL")
-public interface BaseService<T, ID extends Serializable> {
+public interface BaseService<T, ID extends Serializable> { //, Dao extends BaseDao
 
 
     /**
      * 查询所有
      */
     List<T> findAll();
+
+    /**
+     * 查询所有
+     */
+    public List<T> list();
+
+    /**
+     * 条件查询 （queryCriteria 构造条件）
+     */
+    public List<T> list(QueryCriteria queryCriteria);
 
     /**
      * 添加
@@ -42,6 +52,12 @@ public interface BaseService<T, ID extends Serializable> {
      */
     T update(T t);
 
+
+    /**
+     * TODO  生成动态条件修改sql（hql 方式） -->  表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
+     */
+    int update(UpdateCriteria updateCriteria);
+
     /**
      * id查询
      */
@@ -56,6 +72,16 @@ public interface BaseService<T, ID extends Serializable> {
      * id批量删除
      */
     Boolean deleteByIds(ID[] ids);
+
+    /**
+     * TODO  生成动态条件删除sql（hql 方式） ===>  删除sql： DELETE FROM 表名称 WHERE 列名称 = 值
+     */
+    int delete(DeleteCriteria deleteCriteria);
+
+    /**
+     * TODO  生成动态条件删除sql（hql 方式） ===>  删除sql： DELETE FROM 表名称 WHERE 列名称 = 值  ==>> 逻辑删除
+     */
+    public int deleted(DeleteCriteria deleteCriteria);
 
     /**
      * 对象批量删除
@@ -100,7 +126,6 @@ public interface BaseService<T, ID extends Serializable> {
      */
     Page<T> page(IPage iPage, QueryCriteria queryCriteria);
 
-    Page<T> page(IPage ipage, Map<String, Map<String, Object>> param, Sort sort);
 
     /**
      * 分页+条件+排序查询，如有特殊条件使用 service子类重写该实现方法

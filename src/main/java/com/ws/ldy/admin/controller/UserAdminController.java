@@ -1,22 +1,22 @@
 package com.ws.ldy.admin.controller;
 
+import com.ws.ldy.admin.dto.UserAdminDto;
 import com.ws.ldy.admin.entity.UserAdmin;
 import com.ws.ldy.admin.service.impl.RoleUserAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.UserAdminServiceImpl;
+import com.ws.ldy.admin.vo.UserAdminVo;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.common.query.IPage;
-import com.ws.ldy.common.query.QueryCriteria;
+import com.ws.ldy.base.entity.BeanDtoVoUtils;
+import com.ws.ldy.base.query.QueryCriteria;
 import com.ws.ldy.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -28,7 +28,6 @@ import java.util.List;
  * @WX-QQ 1720696548
  * @date 2019/11/13 13:38
  */
-@SuppressWarnings("all")
 @RestController
 @RequestMapping("/userAdmin")
 @Api(value = "UserAdminController", tags = "用户管理")
@@ -40,50 +39,57 @@ public class UserAdminController extends BaseController {
     private RoleUserAdminServiceImpl roleUserAdminServiceImpl;
 
 
-    @RequestMapping(value = "/findAll/{type}", method = RequestMethod.GET)
+    @RequestMapping(value = "/findPage", method = RequestMethod.GET)
     @ApiOperation("分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "roleId", value = "角色Id,当type=2时必传", required = false, paramType = "query"),
-            @ApiImplicitParam(name = "type", value = "1=用户列表查询  2=用户角色分配列表查询(赋予选中状态)", required = true, paramType = "path"),
+            @ApiImplicitParam(name = "id", value = "数据Id", required = false, paramType = "path"),
     })
-    public Result findAll(@PathVariable Integer type, int page, int limit, Integer roleId) {
-//        Map<String, Object> param = new HashMap<>(2);
-          Page<UserAdmin> userPages = null;
-//        param.put("id", getString("id", ""));
-//        Sort sort = new Sort(Sort.Direction.ASC, "id");
-        QueryCriteria queryCriteria = new QueryCriteria().equal("id", getString("id", "")).orderByAsc("id");
-        if (type == 1) {
-            //查询所有
-            userPages = userAdminServiceImpl.page(this.getPage(), queryCriteria.build(), queryCriteria.getSort());
-            return success(userPages.getContent(), userPages.getTotalPages());
+    public Result<Page<UserAdminVo>> findPage(Integer id) {
+        Page<UserAdmin> userPage = userAdminServiceImpl.page(this.getPage(), new QueryCriteria()
+                .eq(id != null, "id", id)
+                .orderByAsc("id")
+        );
+        return success(this.pageVoStream(userPage, UserAdminVo.class));
+    }
+
+
+    @RequestMapping(value = "/findRoleIdList", method = RequestMethod.GET)
+    @ApiOperation("查询指定角色下的所有用户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "username", value = "用户名", required = false, paramType = "query")
+    })
+    public Result<List<UserAdminVo>> findRoleIdList(Integer roleId, String username) {
+        List<UserAdmin> userList = null;
+        if (StringUtils.isNotBlank(username)) {
+            userList = userAdminServiceImpl.list(new QueryCriteria().like("username", username));
         } else {
             //查询所有
-            userPages = userAdminServiceImpl.page(new IPage(1,9999), queryCriteria.build(), queryCriteria.getSort());
-            //角色选中状态处理
-            List<UserAdmin> users = userPages.getContent();
-            users = roleUserAdminServiceImpl.RoleUserChecked(users, roleId);
-            return success(users, userPages.getTotalPages());
+            userList = userAdminServiceImpl.findAll();
         }
+        //角色选中状态处理
+        List<UserAdminVo> userAdminVos = roleUserAdminServiceImpl.roleUserChecked(userList, roleId);
+        return success(BeanDtoVoUtils.listVoStream(userAdminVos, UserAdminVo.class));
     }
 
 
     /***
      * TODO  添加/修改
      * @param type t=1 添加，=2修改
-     * @param user 对象数据
+     * @param userAdminDto 对象数据
      * @date 2019/11/14 17:34
      * @return java.lang.String
      */
     @RequestMapping(value = "/save/{type}", method = RequestMethod.POST)
     @ApiOperation("添加/修改")
-    public Result save(@PathVariable Integer type, UserAdmin user) {
+    public Result<Void> save(@PathVariable Integer type, @RequestBody UserAdminDto userAdminDto) {
         if (type == 1) {
-            user.setTime(new Date());
-            userAdminServiceImpl.save(user);
+            userAdminDto.setTime(new Date());
+            userAdminServiceImpl.save(userAdminDto.convert(UserAdmin.class));
         } else {
-            userAdminServiceImpl.save(user);
+            userAdminServiceImpl.save(userAdminDto.convert(UserAdmin.class));
         }
         return success();
     }
@@ -99,7 +105,7 @@ public class UserAdminController extends BaseController {
      */
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("批量删除/单删除")
-    public Result delete(Integer[] ids) {
+    public Result<Void> delete(@RequestBody Integer[] ids) {
         userAdminServiceImpl.deleteByIds(ids);
         return success();
     }
@@ -113,14 +119,14 @@ public class UserAdminController extends BaseController {
      */
     @RequestMapping(value = "/updPwd", method = RequestMethod.PUT)
     @ApiOperation("密码修改")
-    public Result updPwd(String oldPassword, String password) {
-        UserAdmin user = (UserAdmin) session.getAttribute("user");
-        if (user.getPassword().equals(oldPassword)) {
-            user.setPassword(password);
-            userAdminServiceImpl.save(user);
+    public Result<Void> updPwd(@RequestParam String oldPassword, @RequestParam String password) {
+        UserAdmin userAdmin = this.getUserAdmin();
+        if (userAdmin.getPassword().equals(oldPassword)) {
+            userAdmin.setPassword(password);
+            userAdminServiceImpl.save(userAdmin);
             return success();
         } else {
-            return success();
+            return error(500, "原密码错误");
         }
     }
 }

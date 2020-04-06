@@ -1,19 +1,20 @@
 package com.ws.ldy.base.controller;
 
-import com.ws.ldy.common.query.IPage;
+import com.ws.ldy.admin.entity.UserAdmin;
+import com.ws.ldy.base.constant.BaseConstant;
+import com.ws.ldy.base.entity.BeanDtoVoUtils;
+import com.ws.ldy.base.query.IPage;
+import com.ws.ldy.common.error.ErrorException;
 import com.ws.ldy.common.result.Result;
 import com.ws.ldy.common.result.ResultEnum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ResourceUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.FileNotFoundException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
 @SuppressWarnings("all")
 public class BaseController {
@@ -26,46 +27,79 @@ public class BaseController {
     protected HttpServletResponse response;
     @Autowired
     protected RestTemplate restTemplate;
-//    @Autowired
-//    protected QueryCriteria queryCriteria;
 
-    //TODO  返回成功,带数据+页数
-    public <T> Result<T> success(T data, Integer count) {
-        return new Result(ResultEnum.SYS_SUCCESS, data, count);
-    }
 
-    //TODO  返回成功,带数据-不带页数
+    //================================================================
+    //================================================================
+    //=========================== 返回相关 ============================
+    //================================================================
+    //================================================================
+    //TODO  返回成功,带数据
     public <T> Result<T> success(T data) {
-        return new Result(ResultEnum.SYS_SUCCESS, data, 0);
+        return new Result(ResultEnum.SYS_SUCCESS, data);
     }
 
-    // TODO 返回成功，-不带数据 -不带页数
+    // TODO 返回成功，-不带数据
     public Result<Void> success() {
-        return new Result(ResultEnum.SYS_SUCCESS, null, 0);
+        return new Result(ResultEnum.SYS_SUCCESS, null);
     }
 
-    // TODO 返回失败（传入自定义枚举）
+    // TODO 返回失败（传入自定义错误code+msg）
     public <T> Result<T> error(Integer code, String msg) {
-        return new Result(code, msg, null, 0);
+        return new Result(code, msg, null);
     }
 
     // TODO 返回失败（传入自定义枚举）
     public <T> Result<T> error(ResultEnum resultType) {
-        return new Result(resultType, null, 0);
+        return new Result(resultType, null);
     }
 
-    //TODO  获取token
+
+    //================================================================
+    //================================================================
+    //=========================== 系统用户相关 ========================
+    //================================================================
+    //================================================================
+    //TODO  获取系统用户token
     public String getToken() {
-        String token = request.getHeader("token");
+        String token = request.getHeader(BaseConstant.SYS + "token");
         return token;
     }
 
+    //TODO  获取系统用户完整数据
+    public UserAdmin getUserAdmin() {
+        String token = request.getHeader("token");
+        UserAdmin userAdmin = (UserAdmin) session.getAttribute(BaseConstant.SYS + token);
+        this.logOutOfDate(userAdmin);
+        return userAdmin;
+    }
+
+    //TODO  获取系统用户Id
+    public Integer getUserAdminId() {
+        String token = request.getHeader("token");
+        UserAdmin userAdmin = (UserAdmin) session.getAttribute(BaseConstant.SYS + token);
+        this.logOutOfDate(userAdmin);
+        return userAdmin.getId();
+    }
+
+    //TODO  获取系统用户Id
+    public void logOutOfDate(UserAdmin userAdmin) {
+        if (userAdmin == null) {
+            throw new ErrorException(ResultEnum.ADMIN_IS_NO_LOGIN);
+        }
+    }
+    //================================================================
+    //================================================================
+    //=========================== 分页相关 ============================
+    //================================================================
+    //================================================================
+
     //TODO  获取分页对象
     public IPage getPage() {
-        Object pageObj = request.getAttribute("page");
-        Object limitObj = request.getAttribute("limit");
         int page = 1;
         int limit = 20;
+        Object pageObj = request.getParameter("page");
+        Object limitObj = request.getParameter("limit");
         if (pageObj != null) {
             page = Integer.parseInt(pageObj.toString());
         }
@@ -75,107 +109,46 @@ public class BaseController {
         return new IPage(page, limit);
     }
 
-    // TODO 默认值
-    public static Integer castToInt(Object value, Integer defaults) {
-        if (value == null) {
-            return defaults;
-        } else {
-            return Integer.parseInt(value.toString());
-        }
-    }
 
-    // TODO 获取项目跟目录/ 获取项目部署后的classpath 目录
-    public String getPath() {
-        // 获取项目跟目录
-        String path = "";
-        try {
-            path = ResourceUtils.getURL("classpath:").getPath();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return path;
-    }
+    //================================================================
+    //================================================================
+    //======================dot ,Do ,entity 相互转换 ==================
+    //================================================================
+    //================================================================
 
-    // TODO 获取页面字符串
-    public String getString(String name, String defalut) {
-        String str = request.getParameter(name);
-        if (str == null) {
-            return defalut;
-        } else {
-            return str;
-        }
-    }
-
-    // TODO 获取整数Integer对象
-    public Integer getInt(String name, Integer defalut) {
-        String str = request.getParameter(name);
-        if (str == null) {
-            return defalut;
-        } else {
-            try {
-                return Integer.valueOf(str);
-            } catch (NumberFormatException e) {
-                return defalut;
-            }
-        }
-    }
-
-    // TODO  获取整数Long对象
-    public Long getLong(String name, Long defalut) {
-        String str = request.getParameter(name);
-        if (str == null) {
-            return defalut;
-        } else {
-            try {
-                return Long.valueOf(str);
-            } catch (NumberFormatException e) {
-                return defalut;
-            }
-        }
-    }
-
-    // TODO  获取获取duoble对象
-    public Double getDoule(String name, Double defalut) {
-        String str = request.getParameter(name);
-        if (str == null) {
-            return defalut;
-        } else {
-            try {
-                return Double.valueOf(str);
-            } catch (NumberFormatException e) {
-                return defalut;
-            }
-        }
-    }
-
-    // TODO  获取时间对象
-    public Date getDate(String name, Date defalut, String format) {
-        String str = request.getParameter(name);
-        if (str == null) {
-            return defalut;
-        } else {
-            try {
-                SimpleDateFormat sdf = new SimpleDateFormat(format);
-                return sdf.parse(str);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return defalut;
-            }
-        }
+    /**
+     * TODO  dot ,Do ,entity 相互转换
+     * 同：BeanUtils.copyProperties(dtoEntity, newInstance);
+     *
+     * @param oldClass 原数据--Dto，Vo，entity
+     * @param newClass 转换为--Dto，Vo，entity
+     * @return
+     */
+    public <E> E convert(Object oldClass, Class<E> newClass) {
+        return BeanDtoVoUtils.convert(oldClass, newClass);
     }
 
 
-    // TODO  获取boolean对象
-    public boolean getBoolean(String name, boolean defalut) {
-        String str = request.getParameter(name);
-        if (str == null) {
-            return defalut;
-        } else {
-            try {
-                return Boolean.valueOf(str);
-            } catch (NumberFormatException e) {
-                return defalut;
-            }
-        }
+    //TODO  Page<Entity> 分页对象转 Page<Vo>  ( list 循环)
+    public <T, V> Page<V> pageVo(Page<T> page, Class<V> v) {
+        return BeanDtoVoUtils.pageVo(page, v);
+    }
+
+
+    //TODO  Page<Entity> 分页对象转 Page<Vo> （Stream 方式）
+    public <T, V> Page<V> pageVoStream(Page<T> page, Class<V> v) {
+        return BeanDtoVoUtils.pageVoStream(page, v);
+    }
+
+
+    //TODO  list<Entity> 集合对象转list<Vo> ( list 循环)
+    public <T, V> List<V> listVo(List<T> oldList, Class<V> v) {
+        return BeanDtoVoUtils.listVo(oldList, v);
+    }
+
+
+    //TODO  list<Entity> 集合对象转list<Vo> （Stream 方式）
+    public <T, V> List<V> listVoStream(List<T> oldList, Class<V> v) {
+        return BeanDtoVoUtils.listVoStream(oldList, v);
     }
 }

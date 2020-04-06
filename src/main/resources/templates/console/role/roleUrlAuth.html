@@ -50,12 +50,12 @@
 <script>
     var authFindAll = "/authorityAdmin/findList";        //极限查询--数据列表（所有）
     var putAuthority = "/authorityAdmin//putAuthority";  //权限扫描
-    var menuRole = "/roleAdmin/findAll/2";               //角色查询-所有
+    var menuRole = "/roleAdmin/list";                   //角色查询-所有
     var updRoleUrlAuth = "/roleAdmin/updRoleUrlAuth";    //角色URL权限修改
 
 
     var rolesJson = ajaxGet(menuRole);    // 获得角色列表
-    var dataJson = ajaxGet(authFindAll);  // 获得菜单数据
+    var dataJson = ajaxGet(authFindAll);  // 获得url列表
 
     var roleId = 0;             //当前选中的角色Id
     var pid = 0;                //当前选中的系统Id
@@ -176,7 +176,7 @@
             treeSpid: 0,                //顶级父id
             treeIdName: 'id',           //id
             treePidName: 'pid',         //pid 父id
-            treeDefaultClose: false,     // 是否默认折叠
+            treeDefaultClose: false,    // 是否默认折叠
             treeLinkage: false,         // 父级展开时是否自动展开所有子级
             elem: '#auth-table',        //table 的 div
             data: dataJson.data,         //直接加载数据
@@ -221,16 +221,18 @@
             return;
         }
         if (checkData === null || checkData.data === null) {
-            layer.msg("没有选择权限");
+            layer.msg("没有可更新的内容");
+            return;
         }
         var authIds = new Array();
         for (var i in checkData.data) {
             authIds[i] = checkData.data[i].id
         }
-        var result = ajaxPost(updRoleUrlAuth, {roleId: roleId, pid: pid, authIds: authIds});
+        var result = ajaxPut(updRoleUrlAuth, {roleId: roleId, pid: pid, authIds: authIds});
         //alert("当前角色"+roleId + " --》 分配菜单"+menuIds);
-        layer.msg("分配URL权限：" + checkData.data.length + "个 " + result)
+        layer.msg("当前选中URL：" + checkData.data.length + "个 " + result.code)
     }
+
 
     function authority() {
         var result = ajaxPost(putAuthority, {});

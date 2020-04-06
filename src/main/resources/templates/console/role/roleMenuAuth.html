@@ -51,20 +51,20 @@
 </script>
 
 <script>
-    var menuFindAll = "/menuAdmin/findAll/1";      //菜单查询--数据列表（所有）
-    var menuFindIdAll = "/menuAdmin/findAll/2";    //菜单查询--数据列表（根据父节点查询所有该父节点下的）
-    var menuRole = "/roleAdmin/findAll/2";         //角色查询-所有
-    var updRoleMenu = "/roleAdmin/updRoleMenu";    //角色菜单权限修改
+    //var menuFindAll = "/menuAdmin/list";                     //菜单查询--数据列表（所有）
+    var menuFindIdAll = "/menuAdmin/findPidOrRoleIdList";    //菜单查询--数据列表（根据父节点查询所有该父节点下的）
+    var menuRole = "/roleAdmin/list";                       //角色查询-所有
+    var updRoleMenu = "/roleAdmin/updRoleMenu";             //角色菜单权限修改
 
     $(function () {
         tabRoot1();   // 初始，动态加载tab标签
     });
 
     var rolesJson = ajaxGet(menuRole);    // 获得角色列表
-    var dataJson = ajaxGet(menuFindAll);  // 获得菜单数据
+    var dataJson = ajaxGet(menuFindIdAll);  // 获得菜单数据
 
-    var roleId = 0;             //当前选中的角色Id
-    var pid = 0;                //当前选中的系统Id
+    var roleId = -1;             //当前选中的角色Id
+    var pid = -1;                //当前选中的系统Id
     var roleFont = "未选择";    //当前选中角色名称
     var menuFont = "全部";      //当前选中系统名称
     var checkData = null;       //所有选中菜单数据
@@ -116,7 +116,7 @@
             url += "&&roleId=" + roleId;
             if (pid === '-1') {
                 // 获得菜单数据
-                var dataJson = ajaxGet(menuFindAll + "?1+1" + url);
+                var dataJson = ajaxGet(menuFindIdAll + "?1+1" + url);
                 //重载
                 tableRender(treetable, dataJson)
             } else {
@@ -164,7 +164,7 @@
                 url += "&&roleId=" + item.id;  //当前选中角色
                 if (pid === '-1') {
                     // 获得菜单数据
-                    var dataJson = ajaxGet(menuFindAll + "?1+1" + url);
+                    var dataJson = ajaxGet(menuFindIdAll + "?1+1" + url);
                     tableRender(treeTable, dataJson);
                 } else {
                     var dataJson = ajaxGet(menuFindIdAll + "?1+1" + url);
@@ -280,12 +280,16 @@
      */
     function roleMenu() {
         var menuIds = new Array();
+        if (checkData === null || checkData.data === null) {
+            layer.msg("没有可更新的内容");
+            return;
+        }
         for (var i in checkData.data) {
             menuIds[i] = checkData.data[i].id
         }
-        ajaxPost(updRoleMenu, {roleId: roleId, pid: pid, menuIds: menuIds});
+        let result = ajaxPut(updRoleMenu, {roleId: roleId, pid: pid, menuIds: menuIds});
         //alert("当前角色"+roleId + " --》 分配菜单"+menuIds);
-        layer.msg("成功分配菜单：" + checkData.data.length + "个")
+        layer.msg("成功分配菜单：" + checkData.data.length + "个 " + result.code)
     }
 </script>
 

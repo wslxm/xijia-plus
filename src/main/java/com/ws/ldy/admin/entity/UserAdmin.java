@@ -1,8 +1,7 @@
 package com.ws.ldy.admin.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ws.ldy.base.entity.BaseEntity;
+import com.ws.ldy.base.entity.BaseAdminEntity;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -19,12 +18,14 @@ import java.util.Date;
 @Entity
 @Table(name = "t_admin_user")
 @DynamicUpdate(value = true)
-public class UserAdmin extends BaseEntity {
+public class UserAdmin extends BaseAdminEntity {
 
     private static final long serialVersionUID = 4934650100711613453L;
-
+    /**
+     * 数据库自增id
+     */
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     /** 头像 */
     private String head;
@@ -53,8 +54,8 @@ public class UserAdmin extends BaseEntity {
     /** 注册时间 */
     private Date time;
 
-    /** 是否选中（角色是否有改用户，前台复选框默认选中需要值）  */
-    @JsonProperty  //防止大小写自动转换
-    @Transient
-    Boolean  LAY_CHECKED;
+//    /** 是否选中（角色是否有改用户，前台复选框默认选中需要值）  */
+//    @JsonProperty  //防止大小写自动转换
+//    @Transient
+//    Boolean  LAY_CHECKED;
 }

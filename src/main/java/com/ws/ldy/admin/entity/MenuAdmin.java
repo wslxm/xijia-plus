@@ -1,12 +1,11 @@
 package com.ws.ldy.admin.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ws.ldy.base.entity.BaseEntity;
+import com.ws.ldy.base.entity.BaseAdminEntity;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.List;
+
 /**
  * TODO  菜单  
  * @author 王松
@@ -17,14 +16,15 @@ import java.util.List;
 @Entity
 @Table(name = "t_admin_menu")
 @DynamicUpdate(value = true)
-public class MenuAdmin extends BaseEntity {
+public class MenuAdmin extends BaseAdminEntity {
 
     private static final long serialVersionUID = -33297418791559528L;
-    /** 菜单id  */
+    /**
+     * 数据库自增id
+     */
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     /** 父id  */
     private int pid;
 
@@ -42,13 +42,4 @@ public class MenuAdmin extends BaseEntity {
 
     /** 菜单级别，(0、根目录,1、子目录, 2、菜单 3、页面 */
     private int root;
-
-    /** 当前节点的子节点，获取菜单树数据使用 */
-    @Transient
-    private List<MenuAdmin> menus;
-
-    /** 是否选中（是否有权限，前台复选框默认选中需要值）  */
-    @JsonProperty  //防止大小写自动转换
-    @Transient
-    Boolean  LAY_CHECKED;
 }
