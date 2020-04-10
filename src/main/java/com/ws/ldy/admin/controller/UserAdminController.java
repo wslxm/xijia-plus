@@ -45,10 +45,12 @@ public class UserAdminController extends BaseController {
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
             @ApiImplicitParam(name = "id", value = "数据Id", required = false, paramType = "path"),
+            @ApiImplicitParam(name = "username", value = "用户名", required = false, paramType = "path"),
     })
-    public Result<Page<UserAdminVo>> findPage(Integer id) {
+    public Result<Page<UserAdminVo>> findPage(Integer id, String username) {
         Page<UserAdmin> userPage = userAdminServiceImpl.page(this.getPage(), new QueryCriteria()
                 .eq(id != null, "id", id)
+                .like(StringUtils.isNotBlank(username), "username", username)
                 .orderByAsc("id")
         );
         return success(this.pageVoStream(userPage, UserAdminVo.class));
@@ -66,7 +68,7 @@ public class UserAdminController extends BaseController {
         if (StringUtils.isNotBlank(username)) {
             userList = userAdminServiceImpl.list(new QueryCriteria().like("username", username));
         } else {
-            //查询所有
+            // 查询所有
             userList = userAdminServiceImpl.findAll();
         }
         //角色选中状态处理

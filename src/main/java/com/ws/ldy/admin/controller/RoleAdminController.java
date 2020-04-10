@@ -63,6 +63,22 @@ public class RoleAdminController extends BaseController {
     }
 
 
+    @RequestMapping(value = "/findRoleChecked", method = RequestMethod.GET)
+    @ApiOperation("角色分配查询所有--用户当前角色赋予Checked=true")
+    public Result<List<RoleAdminVo>> findRoleChecked(String userId) {
+        List<RoleAdminVo> roles = roleAdminServiceImpl.findRoleChecked(userId);
+        return success(roles);
+    }
+
+
+    @RequestMapping(value = "/updUserRole", method = RequestMethod.PUT)
+    @ApiOperation("用户分配角色")
+    public Result<Void> updUserRole(@RequestParam Integer userId,@RequestParam  Integer[] roleIds) {
+        boolean result = roleAdminServiceImpl.updUserRole(userId, roleIds);
+        return success();
+    }
+
+
     /***
      * TODO  添加/修改
      * @param type

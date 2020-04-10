@@ -355,68 +355,49 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
                     if (keyType.equals("equal")) {
                         //精准搜索条件拼接
                         for (String key : queryMap.keySet()) {
-                            if (queryMap.get(key) != null && !"".equals(queryMap.get(key).toString())) {
-                                list.add(cb.equal(root.get(key).as(String.class), queryMap.get(key).toString()));
-                            }
+                            list.add(cb.equal(root.get(key).as(String.class), queryMap.get(key)));
                         }
                     } else if (keyType.equals("like")) {
                         //模糊搜索条件拼接
                         for (String key : queryMap.keySet()) {
-                            if (queryMap.get(key) != null && !"".equals(queryMap.get(key).toString())) {
-                                list.add(cb.like(root.get(key).as(String.class), ("%" + queryMap.get(key) + "%").toString()));
-                            }
+                            list.add(cb.like(root.get(key).as(String.class), ("%" + queryMap.get(key) + "%")));
                         }
                     } else if (keyType.equals("between")) {
                         // 两者之间条件拼接， key ：字段名，start：开始 , ent :结束
                         for (String key : queryMap.keySet()) {
                             Map<String, Object> betweenMap = (Map<String, Object>) queryMap.get(key);
-                            if (betweenMap.get("start") != null && betweenMap.get("ent") != null) {
-                                String startTime = betweenMap.get("start").toString();
-                                String entTime = betweenMap.get("ent").toString();
-                                if (!"".equals(key) && !"".equals(startTime) && !"".equals(entTime)) {
-                                    list.add(cb.between(root.get(key).as(String.class), startTime, entTime));
-                                }
-                            }
+                            String start = betweenMap.get("start").toString();
+                            String ent = betweenMap.get("ent").toString();
+                            list.add(cb.between(root.get(key).as(String.class), start, ent));
                         }
                     } else if (keyType.equals("greaterThanOrEqualTo")) {
                         //大于或等于传入值（支持字符串/数字/时间）
                         for (String key : queryMap.keySet()) {
-                            if (queryMap.get(key) != null && !"".equals(queryMap.get(key).toString())) {
-                                list.add(cb.greaterThanOrEqualTo(root.get(key).as(String.class), queryMap.get(key).toString()));
-                            }
+                            list.add(cb.greaterThanOrEqualTo(root.get(key).as(String.class), queryMap.get(key).toString()));
                         }
                     } else if (keyType.equals("lessThanOrEqualTo")) {
                         //小于或等于传入值（支持字符串/数字/时间）
                         for (String key : queryMap.keySet()) {
-                            if (queryMap.get(key) != null && !"".equals(queryMap.get(key).toString())) {
-                                list.add(cb.lessThanOrEqualTo(root.get(key).as(String.class), queryMap.get(key).toString()));
-                            }
+                            list.add(cb.lessThanOrEqualTo(root.get(key).as(String.class), queryMap.get(key).toString()));
                         }
                     } else if (keyType.equals("greaterThan")) {
                         //  大于传入值（支持字符串/数字/时间）
                         for (String key : queryMap.keySet()) {
-                            if (queryMap.get(key) != null && !"".equals(queryMap.get(key).toString())) {
-                                list.add(cb.greaterThan(root.get(key).as(String.class), queryMap.get(key).toString()));
-                            }
+                            list.add(cb.greaterThan(root.get(key).as(String.class), queryMap.get(key).toString()));
                         }
                     } else if (keyType.equals("lessThan")) {
                         //  小于传入值（字符串/数字/时间）
                         for (String key : queryMap.keySet()) {
-                            if (queryMap.get(key) != null && !"".equals(queryMap.get(key).toString())) {
-                                list.add(cb.lessThan(root.get(key).as(String.class), queryMap.get(key).toString()));
-                            }
+                            list.add(cb.lessThan(root.get(key).as(String.class), queryMap.get(key).toString()));
                         }
                     } else if (keyType.equals("in")) {
                         for (String key : queryMap.keySet()) {
-                            if (queryMap.get(key) != null && !"".equals(queryMap.get(key).toString())) {
-                                CriteriaBuilder.In<Object> inId = cb.in(root.get(key));
-                                List<Object> idList = (List<Object>) queryMap.get(key);
-                                idList.forEach(item -> inId.value(item));
-                                list.add(inId);
-                            }
+                            CriteriaBuilder.In<Object> inId = cb.in(root.get(key));
+                            List<Object> idList = (List<Object>) queryMap.get(key);
+                            idList.forEach(item -> inId.value(item));
+                            list.add(inId);
                         }
                     }
-
                 }
                 Predicate[] p = list.toArray(new Predicate[0]);
                 return cb.and(p);

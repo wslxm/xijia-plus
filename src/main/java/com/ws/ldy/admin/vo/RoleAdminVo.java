@@ -15,13 +15,14 @@ import lombok.Data;
 @ApiModel(value = "RoleAdminVo", description = "角色表")
 public class RoleAdminVo extends BaseAdminVo {
 
-
-
-
     @ApiModelProperty(value = "角色名")
     private String name;
 
     @ApiModelProperty(value = "描叙")
     private String desc;
+
+    @ApiModelProperty(value = "角色分配, 当前用户拥有角色为true")
+    private Boolean checked;
+
 }
 

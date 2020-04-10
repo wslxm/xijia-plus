@@ -1,0 +1,19 @@
+package com.ws.ldy.xijiaserver.service.impl;
+
+import com.ws.ldy.xijiaserver.entity.DictionaryAdmin;
+import com.ws.ldy.xijiaserver.service.DictionaryAdminService;
+import com.ws.ldy.admincore.service.impl.BaseServiceApiImpl;
+import org.springframework.stereotype.Service;
+
+/**
+ * TODO  代码生成器自动生成，请自定义描叙
+ * @author  wangsong
+ * @email  1720696548
+ * @date  Tue Mar 31 15:45:32 CST 2020
+ */
+@Service
+public class DictionaryAdminServiceImpl extends BaseServiceApiImpl<DictionaryAdmin,Integer> implements DictionaryAdminService {
+
+}
+
+

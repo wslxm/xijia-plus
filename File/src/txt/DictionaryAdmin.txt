@@ -1,0 +1,39 @@
+package com.ws.ldy.xijiaserver.entity;
+
+import com.ws.ldy.admincore.entity.BaseEntity;
+import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
+import io.swagger.annotations.ApiModelProperty;
+import javax.persistence.*;
+import java.util.Date;
+/**
+ * TODO  代码生成器自动生成，请自定义描叙
+ * @author  wangsong
+ * @email  1720696548
+ * @date  Tue Mar 31 15:45:32 CST 2020
+ */
+@Data
+@Entity
+@Table(name = "t_admin_dictionary")
+@DynamicUpdate(value = true)
+public class DictionaryAdmin extends BaseEntity {
+
+    private static final long serialVersionUID = 0L;
+    
+    @ApiModelProperty(notes = "id")
+    @Id
+    private Integer id;
+    @ApiModelProperty(notes = "字典类型")
+    private String type;
+    @ApiModelProperty(notes = "搜索值")
+    @Column(name = "`key`")
+    private String key;
+    @ApiModelProperty(notes = "选择值")
+    @Column(name = "`value`")
+    private String value;
+    @ApiModelProperty(notes = "描叙")
+    @Column(name = "`desc`")
+    private String desc;
+
+}
+

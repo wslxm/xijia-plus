@@ -23,13 +23,13 @@ import javax.persistence.MappedSuperclass;
 @EqualsAndHashCode(callSuper = true) //生成equals(Object other) 和 hashCode()方法
 @Data   // set,get
 @NoArgsConstructor  // 无参构造
-@MappedSuperclass  // 定义通用的父类字段
+@MappedSuperclass   // Jpa-定义通用的父类字段
 public class BaseAdminEntity extends Convert {
     /**
-     * 逻辑删除字段
+     * 逻辑删除字段（0-正常，1-已删除）
      */
     @Delete
-    private int deleted;
+    private int deleted = 0;
 
 //    /**
 //     * 数据库自增id

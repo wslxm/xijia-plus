@@ -24,6 +24,11 @@
     <div class="layui-inline">
         <input class="layui-input" id="id" name="id" autocomplete="off">
     </div>
+    用户名：
+    <div class="layui-inline">
+        <input class="layui-input" id="username" name="username" autocomplete="off">
+    </div>
+
     <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="reload">搜索</button>
 </div>
 <!-- 表格 -->
@@ -37,15 +42,17 @@
 </script>
 <!-- 每一行的数据修改或删除  -->
 <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="roleEdit">角色编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
 
-    let findAll = "/userAdmin/findPage";      //用户查询
-    let deletes = "/userAdmin/delete";         //用户删除
-    let pageUpd = "/page/console_user_userUpd";  //用户编辑弹出
-    let pageAdd = "/page/console_user_userAdd";  //用户添加弹出
+    let findAll = "/userAdmin/findPage";             // 用户查询
+    let deletes = "/userAdmin/delete";               // 用户删除
+    let pageUpd = "/page/console_user_userUpd";      // 用户编辑弹出
+    let pageAdd = "/page/console_user_userAdd";      // 用户添加弹出
+    let pageUpdRole = "/page/console_user_userUpdRole";  // 用户角色分配弹出
 
 
     layui.use('table', function () {
@@ -85,21 +92,31 @@
 
 
         /**
-         * 工具栏事件（多删除 || 添加）
-         * toolbar = script的 id
-         * auth-table = 数据表格id/lay-filter
+         * TODO  工具栏事件（多删除 || 添加）  ==>> toolbar(auth-table): toolbar=监听表格头事件,  auth-table=数据表格elem 名称
+         * @author ws
+         * @mail  1720696548@qq.com
+         * @param null
+         * @date  2020/4/10 0010 0:05
+         * @return
          */
         table.on('toolbar(auth-table)', function (obj) {
-            let checkStatus = table.checkStatus(obj.config.id);
-            //多删除
+
+            // TODO  添加
+            if (obj.event === "add") {
+                tipsWindown(pageAdd, "600px", "400px", "用户添加");
+            }
+            // TODO  多删除
             if (obj.event === "del") {
                 let ids = new Array();
+                // 获取所有选中行
+                let checkStatus = table.checkStatus(obj.config.id);
+                // 获取行数据
                 let data = checkStatus.data;
                 for (let i = 0; i < data.length; i++) {
                     ids[i] = data[i].id;
                 }
                 if (ids.length > 0) {
-                    ajaxPost(deletes, {ids: ids});
+                    this.ajaxPost(deletes, {ids: ids});
                     //执行重载
                     table.reload('auth-table', {
                         page: {
@@ -108,15 +125,16 @@
                     }, 'data');
                 }
             }
-            //添加
-            if (obj.event === "add") {
-                tipsWindown(pageAdd, "600px", "400px", "用户添加");
-            }
         });
 
 
         /**
-         * 条件搜索，重载数据
+         * TODO  条件搜索，重载数据
+         * @author ws
+         * @mail  1720696548@qq.com
+         * @param null
+         * @date  2020/4/10 0010 0:03
+         * @return
          */
         let $ = layui.$, active = {
             //搜索
@@ -126,11 +144,13 @@
                         curr: 1  //页数
                     }
                     , where: {
-                        id: $("#id").val()
+                        id: $("#id").val(),
+                        username: $("#username").val()
                     }
                 }, 'data');
             }
         };
+        // 搜索事件
         $('.searchTable .layui-btn').on('click', function () {
             let type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
@@ -138,17 +158,24 @@
 
 
         /**
-         * 监听数据表格内按钮（编辑 || 删除）
-         * tool = 表格内按钮
-         * auth-table =表格名
+         * TODO  监听数据表格内按钮（编辑 || 删除 || 其他）, tool(auth-table)==> tool =监听按钮， auth-table=数据表格elem对应值
+         * @author ws
+         * @mail  1720696548@qq.com
+         * @param null
+         * @date  2020/4/10 0010 0:03
+         * @return
          */
         table.on('tool(auth-table)', function (obj) {
             data = obj.data;  //当前行数据
-            //菜单添加
+            // TODO  角色分配
+            if (obj.event === 'roleEdit') {
+                tipsWindown(pageUpdRole, "600px", "400px", "角色编辑");
+            }
+            // TODO  用户编辑
             if (obj.event === 'edit') {
                 tipsWindown(pageUpd, "600px", "400px", "用户编辑");
             }
-            //删除
+            // TODO  单行删除
             if (obj.event === 'del') {
                 tipsDelete(deletes, {ids: [data.id]}, obj);
             }

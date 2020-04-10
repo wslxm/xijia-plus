@@ -10,9 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date  2019/10/31 20:45
  */
 @SpringBootApplication
-public class Application {
+public class XiJiaApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(XiJiaApplication.class, args);
     }
 }

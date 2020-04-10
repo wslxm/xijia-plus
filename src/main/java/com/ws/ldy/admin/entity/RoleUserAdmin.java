@@ -28,7 +28,7 @@ public class RoleUserAdmin extends BaseAdminEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     /**
-     * 菜单id
+     * 用户id
      */
     private int userId;
 
