@@ -229,6 +229,7 @@ function judgeTime(data) {
     return iday;
 }
 
+
 /**
  * 获取距离指定时间还有多少天
  * @param {String | Number | Date} dateTime 日期时间
@@ -293,6 +294,7 @@ function getDateAfter_n(initDate, days, flag) {
     return result;
 }
 
+
 //====================================================================================
 //====================================================================================
 //=========================== byte转字符串--字符串转byte ===============================
@@ -331,8 +333,6 @@ function stringToByte(str) {
         }
     }
     return bytes;
-
-
 }
 
 
