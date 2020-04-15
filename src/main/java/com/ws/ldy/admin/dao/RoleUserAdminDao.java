@@ -3,12 +3,13 @@ package com.ws.ldy.admin.dao;
 import com.ws.ldy.admin.entity.RoleUserAdmin;
 import com.ws.ldy.base.dao.BaseDao;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface RoleUserAdminDao extends BaseDao<RoleUserAdmin, Integer> {
+public interface RoleUserAdminDao extends BaseDao<RoleUserAdmin, Integer>, QuerydslPredicateExecutor<RoleUserAdmin> {
 
     /**
      * TODO    查询角色所有用户

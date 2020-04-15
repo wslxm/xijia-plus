@@ -57,7 +57,7 @@ public class DictionaryAdminController extends BaseController {
             @ApiImplicitParam(name = "type", value = "字典类型", required = true, paramType = "query"),
     })
     public Result<Page<DictionaryAdminVo>> findPage(String type) {
-        Page<DictionaryAdmin> dictionaryAdminPage = dictionaryAdminServiceImpl.page(
+        Page<DictionaryAdmin> dictionaryAdminPage = dictionaryAdminServiceImpl.selectPage(
                 this.getPage(), new QueryCriteria().eq("type", type).orderByAsc("id")
         );
         return success(this.pageVo(dictionaryAdminPage, DictionaryAdminVo.class));

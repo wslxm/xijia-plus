@@ -46,18 +46,18 @@
             //
 
             //数据接口
-            var menuFindAll =  "/menuAdmin/list";  //查询菜单树
-            var menuDelete =  "/menuAdmin/delete";      //删除
-            var menu_update1 =  "/menuAdmin/update/1";  //修改排序
-            var menu_update2 =  "/menuAdmin/update/2";  //修改图标
-            var menu_update3 =  "/menuAdmin/update/3";  //修改url
-            var menu_update4 =  "/menuAdmin/update/4";  //修改权限id
+            var menuFindAll = "/menuAdmin/list";  //查询菜单树
+            var menuDelete = "/menuAdmin/delete";      //删除
+            var menu_update1 = "/menuAdmin/update/1";  //修改排序
+            var menu_update2 = "/menuAdmin/update/2";  //修改图标
+            var menu_update3 = "/menuAdmin/update/3";  //修改url
+            var menu_update4 = "/menuAdmin/update/4";  //修改权限id
 
-            var admin_menu_addRoot1 =  "/page/console_menu_addRoot1";   //添加系统跳转
-            var admin_menu_addRoot2 =  "/page/console_menu_addRoot2";   //添加一级菜单
-            var admin_menu_addRoot3 =  "/page/console_menu_addRoot3";   //添加二级菜单
-            var admin_menu_addRoot4 =  "/page/console_menu_addRoot4";   //添加页面
-            var admin_menu_updName =  "/page/console_menu_updName";     //菜单名修改
+            var admin_menu_addRoot1 = "/page/console_menu_addRoot1";   //添加系统跳转
+            var admin_menu_addRoot2 = "/page/console_menu_addRoot2";   //添加一级菜单
+            var admin_menu_addRoot3 = "/page/console_menu_addRoot3";   //添加二级菜单
+            var admin_menu_addRoot4 = "/page/console_menu_addRoot4";   //添加页面
+            var admin_menu_updName = "/page/console_menu_updName";     //菜单名修改
 
             //添加菜单当前行数据(弹出层获取当前页面值使用)，var 支持外部调用，var子页面无法获取值
             var data = null;
@@ -98,7 +98,7 @@
                             {field: 'sort', width: 150, edit: 'text', title: '排序'},
                             {field: 'icon', width: 180, edit: 'text', title: '图标'},
                             {field: 'url', width: 220, edit: 'text', title: '菜单url'},
-                           /* {field: 'authority', width: 110, edit: 'text', title: '权限id'},*/
+                            /* {field: 'authority', width: 110, edit: 'text', title: '权限id'},*/
                             {
                                 field: '', width: 120, title: '类型', templet: function (res) {
                                     if (res.root === 1) {
@@ -161,18 +161,16 @@
                             "count": res.data.totalElements, //解析数据长度
                             "data": res.data.content    //解析数据列表
                         };
-                        // console.log(res.code);
-                        // console.log(JSON.stringify(res));
                     }
                 });
 
 
                 $1('#btn-expand').click(function () {
-                     treeTable.expandAll('#auth-table');
+                    treeTable.expandAll('#auth-table');
                 });
 
                 $1('#btn-fold').click(function () {
-                     treeTable.foldAll('#auth-table');
+                    treeTable.foldAll('#auth-table');
                 });
 
                 $1('#btn-search').click(function () {
@@ -225,7 +223,7 @@
                 table.on('tool(auth-table)', function (obj) {
                     //当前行数据
                     data = obj.data;
-                    //菜单添加
+                    // TODO  菜单添加
                     if (obj.event === 'addRoot2') {
                         tipsWindown(admin_menu_addRoot2, "440px", "260px", "添加一级菜单")
                     }
@@ -237,7 +235,7 @@
                     }
 
 
-                    //删除
+                    // TODO  删除
                     if (obj.event === 'del') {
                         layui.use('layer', function () {
                             layer.msg('你确定要删除么？', {
@@ -245,25 +243,24 @@
                                 , btn: ['必须删', '不删了']
                                 , yes: function (index) {
                                     //获得要删除菜单及所有子菜单/页面
-                                    var result = ajaxPost(menuDelete, {id: data.id});
+                                    var result = ajaxDelete(menuDelete, {id: data.id});
                                     //操作后提示
-                                    if (result !== "no") {
-                                        layer.msg(result);
+                                    if (result.code === 200) {
                                         obj.del();
+                                        layer.msg('删除成功');
                                     } else {
-                                        layer.msg('is no error ');
+                                        layer.msg('删除失败');
                                     }
                                 }
                             });
                         });
                     }
 
-                    //修改菜单名称
+                    // TODO 修改菜单名称
                     if (obj.event === 'upd') {
                         tipsWindown(admin_menu_updName, "440px", "200px", "修改名称")
                         // 5、name-修改菜单名
                     }
-
                 });
 
                 //=======================================================================
@@ -279,22 +276,22 @@
                     var field = obj.field; //得到修改的字段
                     var result = "no";
                     if (field === "sort") {
-                        // 1，sort-修改排序
+                        // TODO  1，sort-修改排序
                         result = ajaxPost(menu_update1, {id: data.id, val: val});
                     } else if (field === "icon") {
-                        // 2，icon-修改图标
+                        // TODO  2，icon-修改图标
                         result = ajaxPost(menu_update2, {id: data.id, val: val})
                     } else if (field === "url") {
-                        // 3、url-修改菜单url
+                        // TODO  3、url-修改菜单url
                         result = ajaxPost(menu_update3, {id: data.id, val: val})
                     } else if (field === "authority") {
-                        //4、authority-修改权限id
+                        // TODO  4、authority-修改权限id
                         result = ajaxPost(menu_update4, {id: data.id, val: val})
                     } else {
-                        // 5、name-修改菜单名
+                        // TODO  5、name-修改菜单名
                     }
                     if (result !== "no") {
-                        layer.msg(result+' : [ID: ' + data.id + '] ' + field + ' 字段更改为：' + value);
+                        layer.msg(result + ' : [ID: ' + data.id + '] ' + field + ' 字段更改为：' + value);
                     } else {
                         layer.msg('后台异常！处理失败');
                     }

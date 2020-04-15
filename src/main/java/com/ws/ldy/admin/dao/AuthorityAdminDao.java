@@ -3,12 +3,13 @@ package com.ws.ldy.admin.dao;
 import com.ws.ldy.admin.entity.AuthorityAdmin;
 import com.ws.ldy.base.dao.BaseDao;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface AuthorityAdminDao extends BaseDao<AuthorityAdmin, Integer> {
+public interface AuthorityAdminDao extends BaseDao<AuthorityAdmin, Integer>, QuerydslPredicateExecutor<AuthorityAdmin> {
 
     /**
      * TODO   根据用户id查询到角色，在查询到权限id，在获取使用权限数据

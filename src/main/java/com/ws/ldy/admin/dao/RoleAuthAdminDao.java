@@ -3,12 +3,13 @@ package com.ws.ldy.admin.dao;
 import com.ws.ldy.admin.entity.RoleAuthAdmin;
 import com.ws.ldy.base.dao.BaseDao;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface RoleAuthAdminDao extends BaseDao<RoleAuthAdmin, Integer> {
+public interface RoleAuthAdminDao extends BaseDao<RoleAuthAdmin, Integer> , QuerydslPredicateExecutor<RoleAuthAdmin> {
     /**
      * TODO    查询用户所有角色，在查询角色下所有URL 权限
      *

@@ -2,10 +2,11 @@ package com.ws.ldy.admin.dao;
 
 import com.ws.ldy.admin.entity.UserAdmin;
 import com.ws.ldy.base.dao.BaseDao;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserAdminDao extends BaseDao<UserAdmin, Integer> {
+public interface UserAdminDao extends BaseDao<UserAdmin, Integer> , QuerydslPredicateExecutor<UserAdmin> {
 
     /**
      * TODO  根据账号查询用户信息

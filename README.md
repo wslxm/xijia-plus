@@ -1,17 +1,17 @@
 # spring-boot-plus2
 
 #### 介绍
-这是开发一个基于spring-boot + jpa + druid+ mysql8 + layui + swagger2 的后台快速开发骨架，后台采用级简化代码，
+这是开发一个基于spring-boot + mybatis-plus(原jpa分支) + druid+ mysql8 + layui + swagger2 的后台快速开发骨架，后台采用级简化代码，
 所有基本操作无需写任何的dao，service层代码，包括(增删改查，及多添加/动态修改，多删除，分页/条件/排序查询)
 
-#### 功能列表
+#### 当前功能列表
 
 - 1、通用dao，service 已完成
 - 2、菜单管理         已完成
 - 3、动态菜单         已完成 （分左侧菜单和上菜单）
 - 4、菜单权限         已完成（菜单切换上级目录未完成） 
 - 5、用户管理         已完成         
-- 6、url权限          已完成（基于aop +注解实现，前台提供按钮自动扫描权限接口）
+- 6、url权限         已完成（基于aop +注解实现，前台提供按钮自动扫描权限接口）
 - 7、组织机构         代开发  
 - 8、字典功能         已完成                
 - 9、代码生成？预览    已完成
@@ -19,13 +19,14 @@
 - 11、接口日志               已完成 （log4j，每天产生一个新的日志文件，按日志级别）
 - 12、通用查询方法fingPage    已完成 （针对fingPage方法提供了QueryCriteria类提供添加搜索条件Api，具体使用可参考TestController）
 - 13、使用swagger2 接口文档         地址：http://localhost/swagger-ui.html
-- 14、使用swagger-ui-layui 接口文档 地址：http://localhost/docs.html
+
+#### 更新笔记-1 2020/4/15
+ 1、放弃 jpa， jpa分支已放弃更新，目前基础功能一切正常运行，代码生成器功能正常，带内部数据暂未处理
+ - 计划： 使用mybatis-plus 3.3.1
 
 
-#### 项目结构
-项目采用模块化开发，分为 
-admin-core，      负责通用方法编写，如BaseDao，BaseService，通用静态资源文件存放，springboot 核心配置
-admin-console，   负责后台管理功能开发，如：菜单/用户/代码生成等等 
+
+
 
 
 #### 软件架构

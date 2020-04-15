@@ -50,7 +50,7 @@ public class RoleAdminController extends BaseController {
     })
     public Result<Page<RoleAdminVo>> findPage(Integer id) {
         QueryCriteria queryCriteria = new QueryCriteria().eq(id != null, "id", id).orderByAsc("id");
-        Page<RoleAdmin> rolePage = roleAdminServiceImpl.page(this.getPage(), queryCriteria);
+        Page<RoleAdmin> rolePage = roleAdminServiceImpl.selectPage(this.getPage(), queryCriteria);
         return success(this.pageVoStream(rolePage, RoleAdminVo.class));
     }
 
@@ -58,7 +58,7 @@ public class RoleAdminController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ApiOperation("查询所有")
     public Result<List<RoleAdminVo>> list() {
-        List<RoleAdmin> roles = roleAdminServiceImpl.findAll();
+        List<RoleAdmin> roles = roleAdminServiceImpl.selectList();
         return success(this.listVoStream(roles, RoleAdminVo.class));
     }
 

@@ -43,7 +43,7 @@ public class MenuAdminController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ApiOperation("菜单列表 ==>>>  列表数据  ==>>>  所有")
     public Result<List<MenuAdminVo>> list() {
-        List<MenuAdmin> menus = menuService.list();
+        List<MenuAdmin> menus = menuService.selectList();
         return success(listVo(menus, MenuAdminVo.class));
     }
 
@@ -108,7 +108,7 @@ public class MenuAdminController extends BaseController {
     @RequestMapping(value = "/update/{type}", method = RequestMethod.PUT)
     @ApiOperation("Id修改---type = 1，修改排序  2，修改图标  3、修改菜单url， 4、修改权限id  5、修改菜单名")
     public Result<Void> update(@PathVariable Integer type, Integer id, String val) {
-        MenuAdmin menu = menuService.get(id);
+        MenuAdmin menu = menuService.selectById(id);
         if (type == 1) {
             menu.setSort(Integer.parseInt(val));
         } else if (type == 2) {

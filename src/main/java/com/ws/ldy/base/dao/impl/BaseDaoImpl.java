@@ -28,7 +28,8 @@ import java.util.*;
  */
 @SuppressWarnings("all")
 @NoRepositoryBean
-public class BaseDaoImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements BaseDao<T, ID> {
+public  class BaseDaoImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements BaseDao<T, ID> {
+
     /**
      * HQL 查询使用( 手动写原生查询 sql，复杂查询必备)
      */
@@ -43,6 +44,7 @@ public class BaseDaoImpl<T, ID extends Serializable> extends SimpleJpaRepository
         this.domainClass = domainClass;
         this.entityManager = entityManager;
     }
+
 
     /**
      * TODO  生成动态修改sql（hql 方式）  ===>  编辑sql： UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
@@ -249,6 +251,7 @@ public class BaseDaoImpl<T, ID extends Serializable> extends SimpleJpaRepository
         System.out.println("  result：" + result);
         return result;
     }
+
 
     /**
      * TODO  字符串/时间-字段添加双引号

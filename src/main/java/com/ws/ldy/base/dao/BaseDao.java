@@ -37,7 +37,7 @@ import java.util.List;
  *   @Transactional : 也可以根据需要添加 @Transactional 对事物的支持，查询超时的设置等
  */
 @NoRepositoryBean
-public interface BaseDao<T, ID extends Serializable> extends JpaRepository<T, ID> {
+public interface BaseDao<T, ID extends Serializable> extends JpaRepository<T, ID> { //, QuerydslPredicateExecutor<T>
 
     /**
      * 分页+排序+条件查询

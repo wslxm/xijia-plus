@@ -26,9 +26,9 @@ public class RoleAdminServiceImpl extends BaseServiceImpl<RoleAdmin, Integer> im
     @Override
     public List<RoleAdminVo> findRoleChecked(String userId) {
         //查询所有角色
-        List<RoleAdmin> roles = this.list();
+        List<RoleAdmin> roles = this.selectList();
         //查询用户当前角色
-        List<RoleUserAdmin> roleUsers = roleUserAdminService.list(new QueryCriteria().eq("userId", userId));
+        List<RoleUserAdmin> roleUsers = roleUserAdminService.selectList(new QueryCriteria().eq("userId", userId));
         Map<Integer, Integer> roleUserMap = new HashMap<>();
         roleUsers.forEach(item -> roleUserMap.put(item.getRoleId(), 0));
         //返回数据

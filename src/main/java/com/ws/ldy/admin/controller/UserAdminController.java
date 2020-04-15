@@ -6,7 +6,6 @@ import com.ws.ldy.admin.service.impl.RoleUserAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.UserAdminServiceImpl;
 import com.ws.ldy.admin.vo.UserAdminVo;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.base.entity.BeanDtoVoUtils;
 import com.ws.ldy.base.query.QueryCriteria;
 import com.ws.ldy.common.result.Result;
 import io.swagger.annotations.Api;
@@ -48,7 +47,7 @@ public class UserAdminController extends BaseController {
             @ApiImplicitParam(name = "username", value = "用户名", required = false, paramType = "path"),
     })
     public Result<Page<UserAdminVo>> findPage(Integer id, String username) {
-        Page<UserAdmin> userPage = userAdminServiceImpl.page(this.getPage(), new QueryCriteria()
+        Page<UserAdmin> userPage = userAdminServiceImpl.selectPage(this.getPage(), new QueryCriteria()
                 .eq(id != null, "id", id)
                 .like(StringUtils.isNotBlank(username), "username", username)
                 .orderByAsc("id")
@@ -66,14 +65,14 @@ public class UserAdminController extends BaseController {
     public Result<List<UserAdminVo>> findRoleIdList(Integer roleId, String username) {
         List<UserAdmin> userList = null;
         if (StringUtils.isNotBlank(username)) {
-            userList = userAdminServiceImpl.list(new QueryCriteria().like("username", username));
+            userList = userAdminServiceImpl.selectList(new QueryCriteria().like("username", username));
         } else {
             // 查询所有
-            userList = userAdminServiceImpl.findAll();
+            userList = userAdminServiceImpl.selectList();
         }
         //角色选中状态处理
         List<UserAdminVo> userAdminVos = roleUserAdminServiceImpl.roleUserChecked(userList, roleId);
-        return success(BeanDtoVoUtils.listVoStream(userAdminVos, UserAdminVo.class));
+        return success(userAdminVos);
     }
 
 

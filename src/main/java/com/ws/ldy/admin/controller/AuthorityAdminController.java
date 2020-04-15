@@ -43,7 +43,7 @@ public class AuthorityAdminController extends BaseController {
             @ApiImplicitParam(name = "id", value = "数据id", required = false, paramType = "query"),
     })
     public Result<Page<AuthorityAdminVo>> findPage(Integer id) {
-        Page<AuthorityAdmin> authorityAdminPage = authorityAdminService.page(this.getPage(), new QueryCriteria()
+        Page<AuthorityAdmin> authorityAdminPage = authorityAdminService.selectPage(this.getPage(), new QueryCriteria()
                 .eq(id != null, "id", id)
                 .orderByAsc("id")
         );
