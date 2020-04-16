@@ -1,9 +1,9 @@
 package com.ws.ldy.admin.controller;
 
 
-import com.ws.ldy.admin.entity.UserAdmin;
+import com.ws.ldy.admin.model.entity.UserAdmin;
+import com.ws.ldy.admin.model.vo.LoginVo;
 import com.ws.ldy.admin.service.impl.UserAdminServiceImpl;
-import com.ws.ldy.admin.vo.LoginVo;
 import com.ws.ldy.base.constant.BaseConstant;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.common.error.ErrorException;
@@ -14,11 +14,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * TODO  登录
@@ -33,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "LoginController", tags = "登录")
 public class LoginController extends BaseController {
 
-    @Autowired
+    @Resource
     private UserAdminServiceImpl userAdminServiceImpl;
 
     /**
@@ -41,7 +42,7 @@ public class LoginController extends BaseController {
      *
      * @param account
      * @param password
-     * @return com.ws.ldy.common.result.Result<com.ws.ldy.admin.vo.LoginVo>
+     * @return com.ws.ldy.common.result.Result<com.ws.ldy.admin.model.vo.LoginVo>
      * @author ws
      * @mail 1720696548@qq.com
      * @date 2020/3/30 0030 19:50

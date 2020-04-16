@@ -1,15 +1,15 @@
 package com.ws.ldy.admin.service.impl;
 
-import com.ws.ldy.admin.dao.AuthorityAdminDao;
-import com.ws.ldy.admin.entity.AuthorityAdmin;
+import com.ws.ldy.admin.dao.mapper.AuthorityAdminMapper;
+import com.ws.ldy.admin.model.entity.AuthorityAdmin;
 import com.ws.ldy.admin.service.AuthorityAdminService;
-import com.ws.ldy.base.service.impl.BaseServiceImpl;
+import com.ws.ldy.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.common.annotation.LdyAuthority;
 import com.ws.ldy.common.utils.ClassUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,8 +18,7 @@ import java.util.Map;
 
 
 @Service
-public class AuthorityAdminServiceImpl extends BaseServiceImpl<AuthorityAdmin, Integer> implements AuthorityAdminService {
-
+public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMapper, AuthorityAdmin> implements AuthorityAdminService {
     /**
      * url权限注解扫包范围
      */
@@ -27,12 +26,12 @@ public class AuthorityAdminServiceImpl extends BaseServiceImpl<AuthorityAdmin, I
     /**
      * 权限dao
      */
-    @Autowired
-    private AuthorityAdminDao authorityAdminDao;
+    @Resource
+    private AuthorityAdminServiceImpl authorityAdminService;
 
     @Override
     public List<AuthorityAdmin> findUserIdRoleAuthority(Integer userId) {
-        return authorityAdminDao.findUserIdRoleAuthority(userId);
+        return authorityAdminService.findUserIdRoleAuthority(userId);
     }
 
 
@@ -47,7 +46,7 @@ public class AuthorityAdminServiceImpl extends BaseServiceImpl<AuthorityAdmin, I
         // 扫描包，获得包下的所有类
         List<Class<?>> classByPackageName = ClassUtil.getClasses(PACKAGE_NAME);
         // 当前当前数据库已经存在的url权限列表
-        List<AuthorityAdmin> list = authorityAdminDao.findAll();
+        List<AuthorityAdmin> list = authorityAdminService.list();
         Map<String, AuthorityAdmin> map = new HashMap();
         list.forEach(item -> map.put(item.getName(), item));
         // 需保存的权限聚合
@@ -73,13 +72,13 @@ public class AuthorityAdminServiceImpl extends BaseServiceImpl<AuthorityAdmin, I
                 reqClass = classInfo.getDeclaredAnnotation(RequestMapping.class);
                 authority.setUrl(reqClass.value()[0]);
                 // 添加类级别权限,返回添加信息
-                AuthorityAdmin save = authorityAdminDao.save(authority);
+                boolean result = authorityAdminService.save(authority);
                 // 添加方法级权限至athorityList
-                this.putMethods(classInfo, athorityList, map, save);
+                this.putMethods(classInfo, athorityList, map, authority);
             }
         }
         //添加所有方法级权限
-        authorityAdminDao.saveAll(athorityList);
+        authorityAdminService.saveBatch(athorityList);
     }
 
 

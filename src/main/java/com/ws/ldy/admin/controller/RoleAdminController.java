@@ -1,23 +1,25 @@
 package com.ws.ldy.admin.controller;
 
-import com.ws.ldy.admin.dto.RoleAdminDto;
-import com.ws.ldy.admin.entity.RoleAdmin;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.admin.model.dto.RoleAdminDto;
+import com.ws.ldy.admin.model.entity.RoleAdmin;
+import com.ws.ldy.admin.model.vo.RoleAdminVo;
 import com.ws.ldy.admin.service.impl.RoleAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.RoleAuthAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.RoleMenuAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.RoleUserAdminServiceImpl;
-import com.ws.ldy.admin.vo.RoleAdminVo;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.base.query.QueryCriteria;
 import com.ws.ldy.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,13 +34,13 @@ import java.util.List;
 @Api(value = "RoleAdminController", tags = "角色管理")
 public class RoleAdminController extends BaseController {
 
-    @Autowired
+    @Resource
     private RoleAdminServiceImpl roleAdminServiceImpl;
-    @Autowired
+    @Resource
     private RoleMenuAdminServiceImpl roleMenuAdminServiceImpl;
-    @Autowired
+    @Resource
     private RoleAuthAdminServiceImpl roleAuthAdminServiceImpl;
-    @Autowired
+    @Resource
     private RoleUserAdminServiceImpl roleUserAdminServiceImpl;
 
 
@@ -48,17 +50,22 @@ public class RoleAdminController extends BaseController {
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
     })
-    public Result<Page<RoleAdminVo>> findPage(Integer id) {
-        QueryCriteria queryCriteria = new QueryCriteria().eq(id != null, "id", id).orderByAsc("id");
-        Page<RoleAdmin> rolePage = roleAdminServiceImpl.selectPage(this.getPage(), queryCriteria);
-        return success(this.pageVoStream(rolePage, RoleAdminVo.class));
+    public Result<IPage<RoleAdminVo>> findPage(Integer id) {
+        Page<RoleAdmin> page = roleAdminServiceImpl.page(this.getPage(), new LambdaQueryWrapper<RoleAdmin>()
+                .orderByAsc(RoleAdmin::getId)
+                .eq(id != null, RoleAdmin::getId, id)
+        );
+        return success(page.convert(item -> item.convert(RoleAdminVo.class)));
+//        QueryCriteria queryCriteria = new QueryCriteria().eq(id != null, "id", id).orderByAsc("id");
+//        Page<RoleAdmin> rolePage = roleAdminServiceImpl.selectPage(this.getPage(), queryCriteria);
+//        return success(this.pageVoStream(rolePage, RoleAdminVo.class));
     }
 
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ApiOperation("查询所有")
     public Result<List<RoleAdminVo>> list() {
-        List<RoleAdmin> roles = roleAdminServiceImpl.selectList();
+        List<RoleAdmin> roles = roleAdminServiceImpl.list();
         return success(this.listVoStream(roles, RoleAdminVo.class));
     }
 
@@ -73,7 +80,7 @@ public class RoleAdminController extends BaseController {
 
     @RequestMapping(value = "/updUserRole", method = RequestMethod.PUT)
     @ApiOperation("用户分配角色")
-    public Result<Void> updUserRole(@RequestParam Integer userId,@RequestParam  Integer[] roleIds) {
+    public Result<Void> updUserRole(@RequestParam Integer userId, @RequestParam Integer[] roleIds) {
         boolean result = roleAdminServiceImpl.updUserRole(userId, roleIds);
         return success();
     }
@@ -99,7 +106,7 @@ public class RoleAdminController extends BaseController {
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("批量删除/单删除")
     public Result<Void> delete(Integer[] ids) {
-        roleAdminServiceImpl.deleteByIds(ids);
+        roleAdminServiceImpl.removeByIds(Arrays.asList(ids));
         return success();
     }
 

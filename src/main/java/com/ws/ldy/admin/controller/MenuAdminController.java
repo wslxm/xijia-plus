@@ -1,21 +1,21 @@
 package com.ws.ldy.admin.controller;
 
 
-import com.ws.ldy.admin.entity.MenuAdmin;
+import com.ws.ldy.admin.model.entity.MenuAdmin;
+import com.ws.ldy.admin.model.vo.MenuAdminVo;
 import com.ws.ldy.admin.service.impl.MenuAdminServiceImpl;
-import com.ws.ldy.admin.vo.MenuAdminVo;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -30,7 +30,7 @@ import java.util.List;
 @Api(value = "MenuAdminController", tags = "菜单管理")
 public class MenuAdminController extends BaseController {
 
-    @Autowired
+    @Resource
     private MenuAdminServiceImpl menuService;
 
     @RequestMapping(value = "/menuTree", method = RequestMethod.GET)
@@ -43,7 +43,7 @@ public class MenuAdminController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ApiOperation("菜单列表 ==>>>  列表数据  ==>>>  所有")
     public Result<List<MenuAdminVo>> list() {
-        List<MenuAdmin> menus = menuService.selectList();
+        List<MenuAdmin> menus = menuService.list();
         return success(listVo(menus, MenuAdminVo.class));
     }
 
@@ -100,7 +100,7 @@ public class MenuAdminController extends BaseController {
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("Id删除")
     public Result<Void> delete(Integer id) {
-        menuService.deleteById(id);
+        menuService.removeById(id);
         return success();
     }
 
@@ -108,7 +108,7 @@ public class MenuAdminController extends BaseController {
     @RequestMapping(value = "/update/{type}", method = RequestMethod.PUT)
     @ApiOperation("Id修改---type = 1，修改排序  2，修改图标  3、修改菜单url， 4、修改权限id  5、修改菜单名")
     public Result<Void> update(@PathVariable Integer type, Integer id, String val) {
-        MenuAdmin menu = menuService.selectById(id);
+        MenuAdmin menu = menuService.getById(id);
         if (type == 1) {
             menu.setSort(Integer.parseInt(val));
         } else if (type == 2) {

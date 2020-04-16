@@ -1,22 +1,24 @@
 package com.ws.ldy.admin.controller;
 
-import com.ws.ldy.admin.dto.UserAdminDto;
-import com.ws.ldy.admin.entity.UserAdmin;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.admin.model.dto.UserAdminDto;
+import com.ws.ldy.admin.model.entity.UserAdmin;
+import com.ws.ldy.admin.model.vo.UserAdminVo;
 import com.ws.ldy.admin.service.impl.RoleUserAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.UserAdminServiceImpl;
-import com.ws.ldy.admin.vo.UserAdminVo;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.base.query.QueryCriteria;
 import com.ws.ldy.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -32,9 +34,9 @@ import java.util.List;
 @Api(value = "UserAdminController", tags = "用户管理")
 public class UserAdminController extends BaseController {
 
-    @Autowired
+    @Resource
     private UserAdminServiceImpl userAdminServiceImpl;
-    @Autowired
+    @Resource
     private RoleUserAdminServiceImpl roleUserAdminServiceImpl;
 
 
@@ -46,13 +48,20 @@ public class UserAdminController extends BaseController {
             @ApiImplicitParam(name = "id", value = "数据Id", required = false, paramType = "path"),
             @ApiImplicitParam(name = "username", value = "用户名", required = false, paramType = "path"),
     })
-    public Result<Page<UserAdminVo>> findPage(Integer id, String username) {
-        Page<UserAdmin> userPage = userAdminServiceImpl.selectPage(this.getPage(), new QueryCriteria()
-                .eq(id != null, "id", id)
-                .like(StringUtils.isNotBlank(username), "username", username)
-                .orderByAsc("id")
+    public Result<IPage<UserAdminVo>> findPage(Integer id, String username) {
+
+        Page<UserAdmin> page = userAdminServiceImpl.page(this.getPage(), new LambdaQueryWrapper<UserAdmin>()
+                .orderByAsc(UserAdmin::getId)
+                .eq(id != null, UserAdmin::getId, id)
+                .like(StringUtils.isNotBlank(username), UserAdmin::getUsername, username)
         );
-        return success(this.pageVoStream(userPage, UserAdminVo.class));
+        return success(page.convert(item -> item.convert(UserAdminVo.class)));
+//        Page<UserAdmin> userPage = userAdminServiceImpl.selectPage(this.getPage(), new QueryCriteria()
+//                .eq(id != null, "id", id)
+//                .like(StringUtils.isNotBlank(username), "username", username)
+//                .orderByAsc("id")
+//        );
+//        return success(this.pageVoStream(userPage, UserAdminVo.class));
     }
 
 
@@ -65,10 +74,12 @@ public class UserAdminController extends BaseController {
     public Result<List<UserAdminVo>> findRoleIdList(Integer roleId, String username) {
         List<UserAdmin> userList = null;
         if (StringUtils.isNotBlank(username)) {
-            userList = userAdminServiceImpl.selectList(new QueryCriteria().like("username", username));
+            userList = userAdminServiceImpl.list(new LambdaQueryWrapper<UserAdmin>()
+                    .like(UserAdmin::getUsername, username)
+            );
         } else {
             // 查询所有
-            userList = userAdminServiceImpl.selectList();
+            userList = userAdminServiceImpl.list();
         }
         //角色选中状态处理
         List<UserAdminVo> userAdminVos = roleUserAdminServiceImpl.roleUserChecked(userList, roleId);
@@ -107,7 +118,7 @@ public class UserAdminController extends BaseController {
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("批量删除/单删除")
     public Result<Void> delete(@RequestBody Integer[] ids) {
-        userAdminServiceImpl.deleteByIds(ids);
+        userAdminServiceImpl.removeByIds(Arrays.asList(ids));
         return success();
     }
 

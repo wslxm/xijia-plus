@@ -1,7 +1,7 @@
 //package com.ws.ldy.admin.controller;
 //
-//import com.ws.ldy.admin.entity.AuthorityAdmin;
-//import com.ws.ldy.admin.entity.DictionaryAdmin;
+//import com.ws.ldy.admin.model.entity.AuthorityAdmin;
+//import com.ws.ldy.admin.model.entity.DictionaryAdmin;
 //import com.ws.ldy.admin.service.impl.AuthorityAdminServiceImpl;
 //import com.ws.ldy.admin.service.impl.DictionaryAdminServiceImpl;
 //import com.ws.ldy.admin.service.impl.UserAdminServiceImpl;

@@ -1,14 +1,12 @@
 package com.ws.ldy.base.controller;
 
-import com.ws.ldy.admin.entity.UserAdmin;
+import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.base.constant.BaseConstant;
-import com.ws.ldy.base.entity.BeanDtoVoUtils;
-import com.ws.ldy.base.query.IPage;
+import com.ws.ldy.base.model.util.BeanDtoVoUtils;
 import com.ws.ldy.common.error.ErrorException;
 import com.ws.ldy.common.result.Result;
 import com.ws.ldy.common.result.ResultEnum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -93,22 +91,49 @@ public class BaseController {
     //=========================== 分页相关 ============================
     //================================================================
     //================================================================
+//
+//    //TODO  获取分页对象  === jpa
+//    public IPage getPage() {
+//        int page = 1;
+//        int limit = 20;
+//        Object pageObj = request.getParameter("page");
+//        Object limitObj = request.getParameter("limit");
+//        if (pageObj != null) {
+//            page = Integer.parseInt(pageObj.toString());
+//        }
+//        if (limitObj != null) {
+//            limit = Integer.parseInt(limitObj.toString());
+//        }
+//        return new IPage(page, limit);
+//    }
 
-    //TODO  获取分页对象
-    public IPage getPage() {
-        int page = 1;
-        int limit = 20;
-        Object pageObj = request.getParameter("page");
-        Object limitObj = request.getParameter("limit");
-        if (pageObj != null) {
-            page = Integer.parseInt(pageObj.toString());
-        }
-        if (limitObj != null) {
-            limit = Integer.parseInt(limitObj.toString());
-        }
-        return new IPage(page, limit);
+
+    /**
+     * TODO 获取分页对象   === mybatis-plus
+     *
+     * @return
+     */
+    protected <T> com.baomidou.mybatisplus.extension.plugins.pagination.Page<T> getPage() {
+        // 页数
+        Integer cursor = this.castToInt(request.getParameter("current"), 1);
+        // 分页大小
+        Integer limit = this.castToInt(request.getParameter("size"), 20);
+        return new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(cursor, limit);
     }
 
+    /**
+     * TODO  默认值
+     *
+     * @author ws
+     * @mail 1720696548@qq.com
+     */
+    public Integer castToInt(Object value, Integer defaults) {
+        if (value == null) {
+            return defaults;
+        } else {
+            return Integer.parseInt(value.toString());
+        }
+    }
 
     //================================================================
     //================================================================
@@ -129,16 +154,16 @@ public class BaseController {
     }
 
 
-    //TODO  Page<Entity> 分页对象转 Page<Vo>  ( list 循环)
-    public <T, V> Page<V> pageVo(Page<T> page, Class<V> v) {
-        return BeanDtoVoUtils.pageVo(page, v);
-    }
-
-
-    //TODO  Page<Entity> 分页对象转 Page<Vo> （Stream 方式）
-    public <T, V> Page<V> pageVoStream(Page<T> page, Class<V> v) {
-        return BeanDtoVoUtils.pageVoStream(page, v);
-    }
+//    //TODO  Page<Entity> 分页对象转 Page<Vo>  ( list 循环)
+//    public <T, V> Page<V> pageVo(Page<T> page, Class<V> v) {
+//        return BeanDtoVoUtils.pageVo(page, v);
+//    }
+//
+//
+//    //TODO  Page<Entity> 分页对象转 Page<Vo> （Stream 方式）
+//    public <T, V> Page<V> pageVoStream(Page<T> page, Class<V> v) {
+//        return BeanDtoVoUtils.pageVoStream(page, v);
+//    }
 
 
     //TODO  list<Entity> 集合对象转list<Vo> ( list 循环)

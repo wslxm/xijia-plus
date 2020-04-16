@@ -1,9 +1,9 @@
 package com.ws.ldy.config;
 
-import com.ws.ldy.admin.dao.AuthorityAdminDao;
-import com.ws.ldy.admin.dao.RoleAuthAdminDao;
-import com.ws.ldy.admin.entity.AuthorityAdmin;
-import com.ws.ldy.admin.entity.UserAdmin;
+import com.ws.ldy.admin.dao.mapper.AuthorityAdminMapper;
+import com.ws.ldy.admin.dao.mapper.RoleAuthAdminMapper;
+import com.ws.ldy.admin.model.entity.AuthorityAdmin;
+import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.common.annotation.LdyAuthority;
 import com.ws.ldy.common.error.ErrorException;
 import com.ws.ldy.common.result.Result;
@@ -42,9 +42,9 @@ import java.util.Map;
 public class Aop {
     private static final Logger log = LoggerFactory.getLogger(Aop.class);
     @Resource
-    private AuthorityAdminDao authorityAdminDao;
+    private AuthorityAdminMapper authorityAdminDao;
     @Resource
-    private RoleAuthAdminDao roleAuthAdminDao;
+    private RoleAuthAdminMapper roleAuthAdminDao;
     /**
      * 验签接口范围
      */

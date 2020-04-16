@@ -1,21 +1,23 @@
 package com.ws.ldy.admin.controller;
 
-import com.ws.ldy.admin.dto.AuthorityAdminDto;
-import com.ws.ldy.admin.entity.AuthorityAdmin;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.admin.model.dto.AuthorityAdminDto;
+import com.ws.ldy.admin.model.entity.AuthorityAdmin;
+import com.ws.ldy.admin.model.vo.AuthorityAdminVo;
 import com.ws.ldy.admin.service.impl.AuthorityAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.RoleAuthAdminServiceImpl;
-import com.ws.ldy.admin.vo.AuthorityAdminVo;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.base.query.QueryCriteria;
 import com.ws.ldy.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,9 +32,9 @@ import java.util.List;
 @Api(value = "AuthorityAdminController", tags = "URL权限管理")
 public class AuthorityAdminController extends BaseController {
 
-    @Autowired
+    @Resource
     private AuthorityAdminServiceImpl authorityAdminService;
-    @Autowired
+    @Resource
     private RoleAuthAdminServiceImpl roleAuthAdminService;
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
@@ -42,12 +44,19 @@ public class AuthorityAdminController extends BaseController {
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
             @ApiImplicitParam(name = "id", value = "数据id", required = false, paramType = "query"),
     })
-    public Result<Page<AuthorityAdminVo>> findPage(Integer id) {
-        Page<AuthorityAdmin> authorityAdminPage = authorityAdminService.selectPage(this.getPage(), new QueryCriteria()
-                .eq(id != null, "id", id)
-                .orderByAsc("id")
+    public Result<IPage<AuthorityAdminVo>> findPage(Integer id) {
+
+        Page<AuthorityAdmin> authorityAdminPage = authorityAdminService.page(this.getPage(), new LambdaQueryWrapper<AuthorityAdmin>()
+                .eq(id != null, AuthorityAdmin::getId, id)
         );
-        return success(this.pageVoStream(authorityAdminPage, AuthorityAdminVo.class));
+
+        //   .orderByAsc(AuthorityAdmin::getId)
+//        Page<AuthorityAdmin> authorityAdminPage = authorityAdminService.selectPage(this.getPage(), new QueryCriteria()
+//                .eq(id != null, "id", id)
+//                .orderByAsc("id")
+//        );
+        IPage<AuthorityAdminVo> convert = authorityAdminPage.convert(item -> item.convert(AuthorityAdminVo.class));
+        return success(convert);
     }
 
 
@@ -66,7 +75,7 @@ public class AuthorityAdminController extends BaseController {
     @ApiOperation("批量删除/单删除")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public Result<Void> delete(@RequestParam Integer[] ids) {
-        authorityAdminService.deleteByIds(ids);
+        authorityAdminService.removeByIds(Arrays.asList(ids));
         return success();
     }
 

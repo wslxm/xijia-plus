@@ -1,5 +1,6 @@
 package com.ws.ldy;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date  2019/10/31 20:45
  */
 @SpringBootApplication
+@MapperScan("com.ws.ldy.admin.dao.mapper")
 public class XiJiaApplication {
 
     public static void main(String[] args) {

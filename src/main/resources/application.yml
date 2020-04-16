@@ -9,10 +9,10 @@ spring:
   #  create-drop 启动时删数据库中的表，然后创建，退出时删除数据表 如果表不存在报错
   #  update 如果启动时表格式不一致则更新表，原有数据保留
   #  validate 项目启动表结构进行校验 如果不一致则报错
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true  # 控制台是否打印sql
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true  # 控制台是否打印sql
   # 关闭thymeleaf缓存 开发时使用 否则没有实时画面
   thymeleaf:
     cache: false
@@ -26,13 +26,28 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
+# mybatis-plus相关配置
+mybatis-plus:
+  ### xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
+#  mapper-locations: classpath:mapper/*.xml
+#  ### 枚举配置，支持*匹配, 多个目录用逗号分隔
+#  type-enums-package: com.trade.api.enums
+  # 以下配置均有默认值,可以不设置
+#  global-config:
+#    db-config:
+#      id-type: auto  #主键类型
+#      field-strategy: NOT_EMPTY     #字段策略
+#      db-type: MYSQL       #数据库类型
+  configuration:
+#    # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
+#    map-underscore-to-camel-case: true
+#    # 如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段
+#    call-setters-on-nulls: true
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 ### 屏蔽swagger+ 无默认值错误日志
 logging:
   level:
     io.swagger.models.parameters.AbstractSerializableParameter: error
     com.alibaba.nacos.client.naming: error
-#    io:
-#      swagger:
-#        models:
-#          parameters:
-#            AbstractSerializableParameter: error
