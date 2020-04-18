@@ -237,8 +237,8 @@
                 return {
                     "code": 0, //解析接口状态
                     "msg": res.msg, //解析提示文本
-                    "count": res.data.totalElements, //解析数据长度
-                    "data": res.data.content    //解析数据列表
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.records    //解析数据列表
                 };
                 // console.log(res.code);
                 // console.log(JSON.stringify(res));

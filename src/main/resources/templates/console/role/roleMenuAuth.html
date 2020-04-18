@@ -51,7 +51,7 @@
 </script>
 
 <script>
-    //var menuFindAll = "/menuAdmin/list";                     //菜单查询--数据列表（所有）
+    //var menuFindAll = "/menuAdmin/list";                   //菜单查询--数据列表（所有）
     var menuFindIdAll = "/menuAdmin/findPidOrRoleIdList";    //菜单查询--数据列表（根据父节点查询所有该父节点下的）
     var menuRole = "/roleAdmin/list";                       //角色查询-所有
     var updRoleMenu = "/roleAdmin/updRoleMenu";             //角色菜单权限修改
@@ -60,7 +60,7 @@
         tabRoot1();   // 初始，动态加载tab标签
     });
 
-    var rolesJson = ajaxGet(menuRole);    // 获得角色列表
+    var rolesJson = ajaxGet(menuRole);     // 获得角色列表
     var dataJson = ajaxGet(menuFindIdAll);  // 获得菜单数据
 
     var roleId = -1;             //当前选中的角色Id

@@ -18,6 +18,20 @@
         /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
     </script>
 </head>
+
+<style>
+    /*!* 标题颜色 *!*/
+    /*.xijia-logo-title {*/
+    /*    color: #d50202*/
+    /*}*/
+    /*!* 菜单名称颜色 *!*/
+    /*.xijia-menu-title {*/
+    /*    color: #0a0a0a*/
+    /*}*/
+    /*.xijia-menu-background {*/
+    /*    background: #cdc2c2*/
+    /*}*/
+</style>
 <body class="layui-layout-body">
 
 <div id="LAY_app">
@@ -106,7 +120,7 @@
         <div class="layui-side layui-side-menu">
             <div class="layui-side-scroll">
                 <div class="layui-logo" lay-href="home/console.html">
-                    <span>spring-boot-plus2</span>
+                    <span class="xijia-logo-title">spring-boot-plus2</span>
                 </div>
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu">

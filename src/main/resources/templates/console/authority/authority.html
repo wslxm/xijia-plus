@@ -42,8 +42,8 @@
 </script>
 <script>
 
-    var findAll = "/authorityAdmin/findAll";        //分页查询
-    var devares = "/authorityAdmin/devare";         //删除
+    var findAll = "/authorityAdmin/findPage";        //分页查询
+    var devares = "/authorityAdmin/delete";         //删除
     var pageUpd = "/page/console_authority_authorityUpd";  //编辑弹出
     var pageAdd = "/page/console_authority_authorityAdd";  //添加弹出
 
@@ -72,8 +72,8 @@
                 return {
                     "code": 0, //解析接口状态
                     "msg": res.msg, //解析提示文本
-                    "count": res.data.totalElements, //解析数据长度
-                    "data": res.data.content    //解析数据列表
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.records    //解析数据列表
                 };
                 // console.log(res.code);
                 // console.log(JSON.stringify(res));

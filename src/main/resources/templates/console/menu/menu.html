@@ -26,7 +26,7 @@
     </head>
     <body>
         <!-- 设置数据表格宽 -->
-        <div class="layui-container" style="width: 1600px;margin-left: 2.5%">
+        <div class="layui-container" style="width: 1237px;margin-left: 40px">
             <br>
             <br>
             <div class="layui-btn-group">
@@ -36,7 +36,7 @@
             &nbsp;&nbsp;
             <input id="edt-search" type="text" placeholder="输入关键字" style="width: 160px;"/>&nbsp;&nbsp;
             <button class="layui-btn" id="btn-search">&nbsp;&nbsp;搜索&nbsp;&nbsp;</button>
-            <button class="layui-btn layui-btn-warm layui-btn-sm" data-type="addRoot1">添加系统</button>
+            <button class="layui-btn layui-btn-warm layui-btn-sm" data-type="addRoot1"> + 系统</button>
             <table id="auth-table" class="layui-table" lay-filter="auth-table"></table>
         </div>
 
@@ -44,7 +44,6 @@
             // alert(1)
             // }) $(function () {
             //
-
             //数据接口
             var menuFindAll = "/menuAdmin/list";  //查询菜单树
             var menuDelete = "/menuAdmin/delete";      //删除
@@ -93,62 +92,43 @@
                     },
                     cols: [
                         [
-                            {field: 'id', width: 80, type: 'id', title: 'id'},
+                            {field: 'id', width: 100, type: 'id', title: 'id'},
                             {field: 'name', width: 200, title: '菜单名称'},//edit: 'text',
-                            {field: 'sort', width: 150, edit: 'text', title: '排序'},
-                            {field: 'icon', width: 180, edit: 'text', title: '图标'},
-                            {field: 'url', width: 220, edit: 'text', title: '菜单url'},
-                            /* {field: 'authority', width: 110, edit: 'text', title: '权限id'},*/
+                            {field: 'sort', width: 100, edit: 'text', title: '排序'},
                             {
-                                field: '', width: 120, title: '类型', templet: function (res) {
-                                    if (res.root === 1) {
-                                        return '<span class="layui-badge layui-bg-gray">系统</span>';
-                                    }
-                                    if (res.root === 2) {
-                                        return '<span class="layui-badge layui-bg-gray">一级菜单</span>';
-                                    }
-                                    if (res.root === 3) {
-                                        return '<span class="layui-badge layui-bg-gray">二级菜单</span>';
-                                    }
-                                    if (res.root === 4) {
-                                        return '<span class="layui-badge layui-bg-gray">页面</span>';
-                                    } else {
-                                        return '<span class="layui-badge-rim">???</span>';
-                                    }
+                                field: 'icon', width: 100, title: '图标', templet: function (res) {
+                                    return "<i class='layui-icon " + res.icon + "'></i>" ;
                                 }
                             },
+                            {field: 'url', width: 300, edit: 'text', title: '菜单url'},
                             {
-                                field: 'root', width: 228, title: '添加菜单/页面', templet: function (res) {
-                                    var html = "";
+                                field: 'root', width: 200, title: '添加菜单/页面', templet: function (res) {
+                                    let html = "";
                                     if (res.root === 1) {
-                                        html += " <a class=\"layui-btn layui-btn-warm layui-btn-xs\" lay-event=\"addRoot2\">添加一级菜单</a>\n";
-                                        html += " <a class=\"layui-btn layui-btn-xs\" lay-event=\"addRoot4\">添加页面</a>\n";
+                                        //系统
+                                        // html += ' <span class="layui-badge layui-bg-gray">系统</span>';
+                                        html += " <a class=\"layui-btn layui-btn-warm layui-btn-xs\" lay-event=\"addRoot2\"> + 菜单</a>\n";
+                                        html += " <a class=\"layui-btn layui-btn-xs\" lay-event=\"addRoot4\"> + 页面</a>\n";
                                     } else if (res.root === 2) {
-                                        html += " <a class=\"layui-btn layui-btn-warm layui-btn-xs\" lay-event=\"addRoot3\">添加二级菜单</a>\n";
-                                        html += "<a class=\"layui-btn layui-btn-xs\" lay-event=\"addRoot4\">添加页面</a>";
+                                        //一级菜单
+                                        //  html += ' <span class="layui-badge layui-bg-gray">菜单</span>';
+                                        html += " <a class=\"layui-btn layui-btn-warm layui-btn-xs\" lay-event=\"addRoot3\"> + 菜单</a>\n";
+                                        html += " <a class=\"layui-btn layui-btn-xs\" lay-event=\"addRoot4\"> + 页面</a>";
                                     } else if (res.root === 3) {
-                                        html += "<a class=\"layui-btn layui-btn-xs\" lay-event=\"addRoot4\">添加页面</a>";
+                                        //二级菜单
+                                        // html += ' <span class="layui-badge layui-bg-gray">菜单</span>';
+                                        html += " <a class=\"layui-btn layui-btn-xs\" lay-event=\"addRoot4\"> + 页面</a>";
                                     } else {
-                                        html += '<span class="layui-badge-rim">无</span>';
+                                        //页面
+                                        html += '<span class="layui-badge layui-bg-gray">页面</span>';
                                     }
                                     return html;
                                 }
                             },
                             {
-                                field: '', width: 110, title: '父级变更', templet: function (res) {
+                                field: '', width: 200, title: '操作', templet: function (res) {
                                     var html = "";
-                                    if (res.root === 2) {
-                                        html += "<a class=\"layui-btn layui-btn-normal layui-btn-xs\" lay-event=\"updFid\">切换系统</a>\n";
-                                    } else if (res.root === 3 || res.root === 4) {
-                                        html += "<a class=\"layui-btn layui-btn-normal layui-btn-xs\" lay-event=\"updFid\">变更父级</a>\n";
-                                    }
-                                    return html;
-                                }
-                            },
-                            {
-                                field: '', width: 160, title: '操作', templet: function (res) {
-                                    var html = "";
-                                    html += "<a class=\"layui-btn layui-btn-xs\" lay-event=\"upd\">修改名称</a>\n";
+                                    html += "<a class=\"layui-btn layui-btn-xs\" lay-event=\"upd\">编辑</a>\n";
                                     html += "<a class=\"layui-btn layui-btn-danger layui-btn-xs\" lay-event=\"del\">删除</a>\n";
                                     return html;
                                 }
@@ -158,8 +138,8 @@
                         return {
                             "code": 0, //解析接口状态
                             "msg": res.msg, //解析提示文本
-                            "count": res.data.totalElements, //解析数据长度
-                            "data": res.data.content    //解析数据列表
+                            "count": res.data.total, //解析数据长度
+                            "data": res.data.records    //解析数据列表
                         };
                     }
                 });

@@ -1,11 +1,9 @@
-
+# HTTP (Tomcat) port
 server:
-  port: 8080   # HTTP (Tomcat) port
-#  servlet:
-#    context-path: /adminconsole   # 配置项目名 47.107.128.84
-  ### 数据源，服务名称
+  port: 8080
+
+# DataSource Config
 spring:
-  # DataSource Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8
