@@ -48,11 +48,11 @@
 </script>
 <script>
 
-    let findAll =  "/dictionaryAdmin/findPage";                      //分页查询
-    let deletes =  "/dictionaryAdmin/delete";                        //删除
-    let pageUpd =  "/page/console_dictionary_dictionaryUpd";         //编辑弹出
-    let pageAdd =  "/page/console_dictionary_dictionaryAdd";         //添加弹出
-    let findByType =  "/dictionaryAdmin/findByType";                 //字典查询
+    let findAll = path + "/dictionaryAdmin/findPage";                      //分页查询
+    let deletes = path + "/dictionaryAdmin/delete";                        //删除
+    let pageUpd = path + "/page/console_dictionary_dictionaryUpd";         //编辑弹出
+    let pageAdd = path + "/page/console_dictionary_dictionaryAdd";         //添加弹出
+    let findByType = path + "/dictionaryAdmin/findByType";                 //字典查询
     let tablesJson = ajaxGet(findByType + "?type=root");             //获得字典类型（root）左菜单
 
     let addTips = ["600px", "400px", "添加"];   //添加弹出层大小，名称
@@ -223,6 +223,9 @@
             , url: findAll
             , toolbar: '#toolbarDemo'
             , title: 'codeDame'
+            , headers: {
+                token: localStorage.getItem('token')
+            }
             , cols: [
                 [
                     {type: 'checkbox', fixed: 'left'}

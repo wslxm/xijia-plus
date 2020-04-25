@@ -52,9 +52,9 @@
 
 <script>
     //var menuFindAll = "/menuAdmin/list";                   //菜单查询--数据列表（所有）
-    var menuFindIdAll = "/menuAdmin/findPidOrRoleIdList";    //菜单查询--数据列表（根据父节点查询所有该父节点下的）
-    var menuRole = "/roleAdmin/list";                       //角色查询-所有
-    var updRoleMenu = "/roleAdmin/updRoleMenu";             //角色菜单权限修改
+    var menuFindIdAll = path + "/menuAdmin/findPidOrRoleIdList";    //菜单查询--数据列表（根据父节点查询所有该父节点下的）
+    var menuRole = path + "/roleAdmin/list";                       //角色查询-所有
+    var updRoleMenu = path + "/roleAdmin/updRoleMenu";             //角色菜单权限修改
 
     $(function () {
         tabRoot1();   // 初始，动态加载tab标签
@@ -116,11 +116,11 @@
             url += "&&roleId=" + roleId;
             if (pid === '-1') {
                 // 获得菜单数据
-                var dataJson = ajaxGet(menuFindIdAll + "?1+1" + url);
+                let dataJson = ajaxGet(menuFindIdAll + "?1+1" + url);
                 //重载
                 tableRender(treetable, dataJson)
             } else {
-                var dataJson = ajaxGet(menuFindIdAll + "?1+1" + url);
+                let dataJson = ajaxGet(menuFindIdAll + "?1+1" + url);
                 tableRender(treetable, dataJson)
             }
             //修改分配按钮除显示值

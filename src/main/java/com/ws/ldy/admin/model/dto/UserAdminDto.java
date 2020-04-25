@@ -1,12 +1,11 @@
 package com.ws.ldy.admin.model.dto;
 
 
+import com.ws.ldy.admin.enums.GenderEnum;
 import com.ws.ldy.base.model.dto.BaseAdminDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.util.Date;
 
 /**
  * TODO  用户
@@ -34,9 +33,7 @@ public class UserAdminDto extends BaseAdminDto {
     @ApiModelProperty(value = "年龄")
     private Integer age;
     @ApiModelProperty(value = "性别（1男，2女）")
-    private Integer gender;
+    private GenderEnum gender;
     @ApiModelProperty(value = "部门id")
     private Integer empId;
-    @ApiModelProperty(value = "注册时间")
-    private Date time;
 }

@@ -9,7 +9,7 @@ import com.ws.ldy.admin.model.vo.AuthorityAdminVo;
 import com.ws.ldy.admin.service.impl.AuthorityAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.RoleAuthAdminServiceImpl;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.common.result.Result;
+import com.ws.ldy.config.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

@@ -4,6 +4,7 @@ package com.ws.ldy.admin.model.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ws.ldy.admin.enums.GenderEnum;
 import com.ws.ldy.base.model.entity.BaseAdminEntity;
 import lombok.Data;
 
@@ -24,7 +25,7 @@ public class UserAdmin extends BaseAdminEntity {
      * 数据库自增id
      */
     @TableId(type = IdType.AUTO) //自增
-    private int id;
+    private Integer id;
     /** 头像 */
     private String head;
 
@@ -38,22 +39,17 @@ public class UserAdmin extends BaseAdminEntity {
     private String password;
 
     /** 年龄  */
-    private int age;
+    private Integer age;
 
     /** 性别  */
-    private String gender;
+    private GenderEnum gender;
 
     /** 地址 */
     private String address;
 
     /** 部门 */
-    private int empId;
+    private Integer empId;
 
     /** 注册时间 */
     private Date time;
-
-//    /** 是否选中（角色是否有改用户，前台复选框默认选中需要值）  */
-//    @JsonProperty  //防止大小写自动转换
-//    @Transient
-//    Boolean  LAY_CHECKED;
 }

@@ -8,7 +8,7 @@
 //import com.ws.ldy.base.controller.BaseController;
 //import com.ws.ldy.base.query.DeleteCriteria;
 //import com.ws.ldy.base.query.UpdateCriteria;
-//import com.ws.ldy.common.result.Result;
+//import com.ws.ldy.config.result.Result;
 //import io.swagger.annotations.Api;
 //import io.swagger.annotations.ApiOperation;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -135,7 +135,7 @@
 ////     * @author 王松
 ////     * @mail  1720696548@qq.com
 ////     * @date  2020/1/13 0013 22:25
-////     * @return com.ws.ldy.common.result.ResponseData
+////     * @return com.ws.ldy.config.result.ResponseData
 ////     */
 ////    @RequestMapping("/api/test")
 ////    @ResponseBody
@@ -178,7 +178,7 @@
 ////     * @author 王松
 //// * @mail  1720696548@qq.com
 //// * @date  2020/1/13 0013 22:25
-//// * @return com.ws.ldy.common.result.ResponseData
+//// * @return com.ws.ldy.config.result.ResponseData
 //// */
 ////  @RequestMapping("/api/test")
 ////  @ResponseBody
@@ -190,7 +190,7 @@
 ////            put("id", "1");
 ////            put("username", "王松");
 ////        }});
-////        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
+////        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(mapper.userDao, 1, 100, param, sort);
 ////        System.out.println(userPages.getContent().toString());
 ////
 ////
@@ -198,7 +198,7 @@
 ////        param.put(2, new HashMap<String, Object>() {{
 ////            put("address", "四川");
 ////        }});
-////        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
+////        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(mapper.userDao, 1, 100, param, sort);
 ////        System.out.println(userPages.getContent().toString());
 ////
 ////
@@ -209,7 +209,7 @@
 ////                put("ent", "2019-11-15 20:00:00");
 ////            }});
 ////        }});
-////        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
+////        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(mapper.userDao, 1, 100, param, sort);
 ////        System.out.println(userPages.getContent().toString());
 ////
 ////
@@ -217,21 +217,21 @@
 ////        param.put(4, new HashMap<String, Object>() {{
 ////            put("age", 23);
 ////        }});
-////        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
+////        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(mapper.userDao, 1, 100, param, sort);
 ////        System.out.println(userPages.getContent().toString());
 ////
 ////    //测试小于等于传入值
 ////        param.put(5, new HashMap<String, Object>() {{
 ////            put("age", 22);
 ////        }});
-////        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
+////        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(mapper.userDao, 1, 100, param, sort);
 ////        System.out.println(userPages.getContent().toString());
 ////        return new Data(userPages.getContent(), userPages.getTotalPages()).getResData();
 ////      //测试大于传入值
 ////        param.put(6, new HashMap<String, Object>() {{
 ////            put("time", "2019-11-15 00:00:00");
 ////        }});
-////        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(dao.userDao, 1, 100, param, sort);
+////        Page<UserAdmin> userPages = userAdminServiceImpl.fingPage(mapper.userDao, 1, 100, param, sort);
 ////        System.out.println(userPages.getContent().toString());
 ////        return new Data(userPages.getContent(), userPages.getTotalPages()).getResData();
 ////     //测试大于传入值

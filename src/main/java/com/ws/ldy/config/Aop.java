@@ -1,21 +1,23 @@
 package com.ws.ldy.config;
 
-import com.ws.ldy.admin.dao.mapper.AuthorityAdminMapper;
-import com.ws.ldy.admin.dao.mapper.RoleAuthAdminMapper;
+import com.ws.ldy.admin.mapper.AuthorityAdminMapper;
+import com.ws.ldy.admin.mapper.RoleAuthAdminMapper;
 import com.ws.ldy.admin.model.entity.AuthorityAdmin;
 import com.ws.ldy.admin.model.entity.UserAdmin;
+import com.ws.ldy.config.constant.BaseConstant;
 import com.ws.ldy.common.annotation.LdyAuthority;
-import com.ws.ldy.common.error.ErrorException;
-import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.result.ResultEnum;
+import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.config.result.Result;
+import com.ws.ldy.config.result.ResultEnum;
+import com.ws.ldy.common.utils.SignUtil;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
+import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -39,8 +41,9 @@ import java.util.Map;
 @SuppressWarnings("all")
 @Component
 @Aspect
+@Slf4j
 public class Aop {
-    private static final Logger log = LoggerFactory.getLogger(Aop.class);
+    //private static final Logger log = LoggerFactory.getLogger(Aop.class);
     @Resource
     private AuthorityAdminMapper authorityAdminDao;
     @Resource
@@ -67,11 +70,19 @@ public class Aop {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         // 允许跨域
         response.setHeader("Access-Control-Allow-Origin", "*");
+        //此处ip地址为需要访问服务器的ip及端口号
+        //response.setHeader("Access-Control-Allow-Origin", "http://192.168.1.1:8080");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Token,Accept, Connection, User-Agent, Cookie");
+        response.setHeader("Access-Control-Max-Age", "3628800");
+
         // 请求参数
         Object[] args = jp.getArgs();
         //请求日志
         //log.info("URL:[{}] -----> REQUEST:[{}]", request.getServletPath(), args);
         log.info("请求URL:{} --> 请求参数:{}", request.getServletPath(), args);
+        this.checkLogin(request);                     // 登录验证
         this.auth(jp, request, args);            // url 权限管理
         this.verify(request);                    // 验签
         this.AntiTheftChain(jp, request, args);  // 防盗链
@@ -80,6 +91,32 @@ public class Aop {
         //响应日志
         // log.info("  URL:[{}] -----> REQUEST:[{}] \r\n---------------------------> RESPONSE:[{}]", request.getServletPath(), args, obj);
         return obj;
+    }
+
+
+    /**
+     * TODO 判断是否登录
+     */
+    public void checkLogin(HttpServletRequest request) {
+        Map<String, String> interfaceMap = new HashMap<>();
+        interfaceMap.put("/userAdmin/login", "登录接口");
+
+        if (!interfaceMap.containsKey(request.getServletPath())) {
+            String token = request.getHeader("token");
+            if ("token".equals(token)) {
+                return;
+            }
+            if (StringUtils.isBlank(token)) {
+                //没有token
+                throw new ErrorException(ResultEnum.ADMIN_IS_NO_TOKEN);
+            }
+            UserAdmin userAdmin = (UserAdmin) request.getSession().getAttribute(BaseConstant.SYS + token);
+            // 判断用户是否登录
+            if (userAdmin == null) {
+                // token无效/登录失效
+                throw new ErrorException(ResultEnum.ADMIN_IS_NO_LOGIN);
+            }
+        }
     }
 
 
@@ -236,7 +273,7 @@ public class Aop {
 
     // TODO 返回成功，-不带数据 -不带页数
     public Result<Void> success() {
-        return new Result(ResultEnum.SYS_SUCCESS, null );
+        return new Result(ResultEnum.SYS_SUCCESS, null);
     }
 
     // TODO 返回失败（传入自定义枚举）

@@ -48,13 +48,13 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
             //内置主题配色方案
             color: [
                 {
-                    main: '#f5f0f0'          // 主题色-左边导航菜单颜色
-                    , bgs: '#eee7e7'         // 主题色-左边导航菜单点击展开后的颜色
-                    , selected: '#ded8d8'    // 主题色-左边导航菜单选中后的颜色
-                    , logo: '#f3efef'        // 主题色-标题处背景色
-                  //  , header: '#efe9e9'      // 顶部栏背景色
-                    , logoTitle:'#938585'    // 字体色-标题处字体色
-                    , menuTitle:'#938585'    // 字体色-左菜单字体色
+                    main: '#f8f7f7'          // 主题色-左边导航菜单颜色
+                    , bgs: '#f3f0f0'         // 主题色-左边导航菜单点击展开后的颜色
+                    , selected: '#dbd7d7'    // 主题色-左边导航菜单选中后的颜色
+                    , logo: '#000000'        // 主题色-标题处背景色
+                    , header: '#000000'      // 顶部栏背景色
+                    , logoTitle:'#ffffff'    // 字体色-标题处字体色
+                    , menuTitle:'#000000'    // 字体色-左菜单字体色
                     , alias: 'classic-white' // 自定义
                 }, {
                     main: '#20222A'          //主题色

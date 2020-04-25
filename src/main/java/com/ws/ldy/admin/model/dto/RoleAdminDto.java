@@ -18,7 +18,6 @@ public class RoleAdminDto extends BaseAdminDto {
 
     private static final long serialVersionUID = 5684918982089765949L;
 
-
     @ApiModelProperty(value = "角色名")
     private String name;
 

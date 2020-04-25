@@ -1,5 +1,6 @@
 package com.ws.ldy;
 
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date  2019/10/31 20:45
  */
 @SpringBootApplication
-@MapperScan("com.ws.ldy.admin.dao.mapper")
+@MapperScan("com.ws.ldy.admin.mapper")
+@EnableAdminServer
 public class XiJiaApplication {
 
     public static void main(String[] args) {

@@ -50,9 +50,9 @@
 
 
 <script>
-    var menuRole = "/roleAdmin/list";                //角色查询-所有
-    var updRoleUser = "/roleAdmin/updRoleUser";      //角色分配用户
-    var findAll = "/userAdmin/findRoleIdList";       //用户查询-赋与角色选中状态
+    var menuRole = path + "/roleAdmin/list";                //角色查询-所有
+    var updRoleUser = path + "/roleAdmin/updRoleUser";      //角色分配用户
+    var findAll = path + "/userAdmin/findRoleIdList";       //用户查询-赋与角色选中状态
 
 
     var rolesJson = ajaxGet(menuRole).data;    // 获得角色列表

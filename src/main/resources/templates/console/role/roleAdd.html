@@ -38,7 +38,7 @@
     layui.use(['form'], function () {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            ajaxPost( "/roleAdmin/save/1", data.field);
+            ajaxPost(path +  "/roleAdmin/save/1", data.field);
             //重载表格
             var result = parent.layui.table.reload('auth-table');
             var index = parent.layer.getFrameIndex(window.name);

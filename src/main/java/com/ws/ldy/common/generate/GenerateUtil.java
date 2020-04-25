@@ -33,8 +33,8 @@ public class GenerateUtil extends BaseController {
     public static List<Map<String, Object>> getDataAnalysis(String data) {
         //所有字段数据处理成 List集 -->  每个字段名称，类型，描叙为 Map集
         List<Map<String, Object>> tableList = new ArrayList<>();
-        List<Object> dataObjs = JsonUtil.getListJson(data, null);
-        dataObjs.forEach(item -> tableList.add(JsonUtil.getMapJson(item.toString())));
+        List<Object> dataObjs = JsonUtil.parseList(data, null);
+        dataObjs.forEach(item -> tableList.add(JsonUtil.parseMap(item.toString())));
         //System.out.println(tableList.toString());
         return tableList;
     }

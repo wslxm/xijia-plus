@@ -1,7 +1,7 @@
 spring:
   profiles:
     active: dev
-  #当遇到同样beng名字的时候，是否允许覆盖注册
+  # 当遇到同样beng名字的时候，是否允许覆盖注册
   main:
     allow-bean-definition-overriding: true
   # 关闭thymeleaf缓存 开发时使用 否则没有实时画面
@@ -17,10 +17,43 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
+  # Spring Boot Admin 配置 actuator监控中心可视化界面
+  boot:
+    admin:
+      context-path: /bootAdmin
+      ui:
+        title: SpringBootAdmin-Server
+      client:
+        ## server地址
+        url: http://localhost:${server.port}${spring.boot.admin.context-path}
+        ## 指定服务器的用户名和密码
+        username: admin
+        password: admin
+        instance:
+          # client地址
+          service-base-url: http://localhost:${server.port}
+          ## 连接服务器的用户名和密码
+          metadata:
+            user:
+              name: admin
+              password: admin
+
+# Actuator配置：暴露敏感路径，默认情况下，敏感路径并不暴露
+management:
+  endpoints:
+    web:
+      exposure:
+        # 暴露xxx端点，如需暴露多个，用,分隔；如需暴露所有端点，用'*'
+        include: "*"
+  endpoint:
+    health:
+      # 是否展示健康检查详情
+      show-details: ALWAYS
+
 # mybatis-plus相关配置
 mybatis-plus:
-  mapper-locations: classpath:mapper/*.xml
-  type-enums-package: com.trade.api.enums
+  # mapper-locations: classpath:mapper/*.xml
+  type-enums-package: com.ws.ldy.admin.enums
   configuration:
     # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
     map-underscore-to-camel-case: true
@@ -29,8 +62,32 @@ mybatis-plus:
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+
 ### 屏蔽swagger+ 无默认值错误日志
 logging:
+  ## 日志文件位置
+  file: F:\workspace\code\git2020-4\spring-boot-plus2\logs\info\log.log.0
   level:
     io.swagger.models.parameters.AbstractSerializableParameter: error
     com.alibaba.nacos.client.naming: error
+
+
+
+
+
+#endpoints:
+#  logfile:
+#    external-file: F:\workspace\code\git2020-4\spring-boot-plus2\logs\info\info.log
+
+#可在线查看日志
+#endpoints:
+#  logfile:
+#    enabled: true
+#  shutdown:
+#    enabled: true
+
+#保护客户端端点数据
+#security:
+#  user:
+#    name: admin
+#    password: 123456

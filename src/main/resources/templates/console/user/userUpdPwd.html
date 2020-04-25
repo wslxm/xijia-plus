@@ -68,7 +68,7 @@
             if(obj.field.password !== obj.field.repassword){
                 layer.msg('两次密码输入不一致');
             }else {
-                var result = ajaxPost("/userAdmin/updPwd",{oldPassword:obj.field.oldPassword,password:obj.field.password});
+                var result = ajaxPost( path + "/userAdmin/updPwd",{oldPassword:obj.field.oldPassword,password:obj.field.password});
                 if(result === "success"){
                     layer.msg('修改成功,请牢记你的密码');
                     top.location.href = '/page/admin_user_login'; //登录页

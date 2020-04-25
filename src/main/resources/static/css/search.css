@@ -15,3 +15,22 @@
 .layui-input {
     height: 30px
 }
+
+/** 分页插件与数据表格和边框的间距--左边  */
+.page-table {
+    margin-left: 1.2%;
+    margin-top: -0.8%;
+}
+
+/** 分页插件与数据表格和边框的间距--右边  */
+/*.page-table {*/
+/*    float:right;*/
+/*    margin-right: 1.2%;*/
+/*    margin-top: -0.8%;*/
+/*}*/
+
+
+/** 分页插件背景色  */
+.layui-laypage a, .layui-laypage span{
+    background-color: #f1f1f1;
+}

@@ -3,6 +3,7 @@ package com.ws.ldy.admin.model.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ws.ldy.admin.enums.MenuRootEnum;
 import com.ws.ldy.base.model.entity.BaseAdminEntity;
 import lombok.Data;
 
@@ -21,9 +22,10 @@ public class MenuAdmin extends BaseAdminEntity {
      * 数据库自增id
      */
     @TableId(type = IdType.AUTO) //自增
-    private int id;
+    private Integer id;
+
     /** 父id  */
-    private int pid;
+    private Integer pid;
 
     /** 菜单名称 */
     private String name;
@@ -35,8 +37,8 @@ public class MenuAdmin extends BaseAdminEntity {
     private String icon;
 
     /** 排序 */
-    private int sort;
+    private Integer sort;
 
     /** 菜单级别，(0、根目录,1、子目录, 2、菜单 3、页面 */
-    private int root;
+    private MenuRootEnum root;
 }

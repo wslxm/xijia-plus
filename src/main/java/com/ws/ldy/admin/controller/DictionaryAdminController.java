@@ -8,7 +8,7 @@ import com.ws.ldy.admin.model.entity.DictionaryAdmin;
 import com.ws.ldy.admin.model.vo.DictionaryAdminVo;
 import com.ws.ldy.admin.service.impl.DictionaryAdminServiceImpl;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.common.result.Result;
+import com.ws.ldy.config.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -65,11 +65,6 @@ public class DictionaryAdminController extends BaseController {
         );
         IPage<DictionaryAdminVo> convert = page.convert(item -> item.convert(DictionaryAdminVo.class));
         return success(convert);
-
-//        Page<DictionaryAdmin> dictionaryAdminPage = dictionaryAdminServiceImpl.selectPage(
-//                this.getPage(), new QueryCriteria().eq("type", type).orderByAsc("id")
-//        );
-//        return success(this.pageVo(dictionaryAdminPage, DictionaryAdminVo.class));
     }
 
 

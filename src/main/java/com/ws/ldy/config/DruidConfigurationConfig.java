@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * TODO  数据源监控  ip+端口/druid/login.html， 账号：admin/密码：123456
+ * TODO  数据源监控  ip+端口/druid/xj_admin_login.html， 账号：admin/密码：123456
  * @author 王松
  * @WX-QQ 1720696548
  * @date  2019/11/18 20:43 

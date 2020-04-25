@@ -48,10 +48,10 @@
 </script>
 
 <script>
-    var authFindAll = "/authorityAdmin/findList";        //极限查询--数据列表（所有）
-    var putAuthority = "/authorityAdmin//putAuthority";  //权限扫描
-    var menuRole = "/roleAdmin/list";                   //角色查询-所有
-    var updRoleUrlAuth = "/roleAdmin/updRoleUrlAuth";    //角色URL权限修改
+    var authFindAll = path + "/authorityAdmin/findList";        //极限查询--数据列表（所有）
+    var putAuthority =path +  "/authorityAdmin//putAuthority";  //权限扫描
+    var menuRole =path +  "/roleAdmin/list";                   //角色查询-所有
+    var updRoleUrlAuth = path + "/roleAdmin/updRoleUrlAuth";    //角色URL权限修改
 
 
     var rolesJson = ajaxGet(menuRole);    // 获得角色列表

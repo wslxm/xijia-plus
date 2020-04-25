@@ -41,10 +41,10 @@
 </script>
 <script>
 
-    var findAll =  "/roleAdmin/findPage";      //角色查询-分页
-    var deletes =  "/roleAdmin/delete";         //角色删除
-    var pageUpd =  "/page/console_role_roleUpd";  //角色编辑弹出
-    var pageAdd =  "/page/console_role_roleAdd";  //角色添加弹出
+    var findAll =  path + "/roleAdmin/findPage";      //角色查询-分页
+    var deletes =  path + "/roleAdmin/delete";         //角色删除
+    var pageUpd =  path + "/page/console_role_roleUpd";  //角色编辑弹出
+    var pageAdd =  path + "/page/console_role_roleAdd";  //角色添加弹出
 
     var addTips = ["600px", "400px", "添加"];   //添加弹出层大小，名称
     var updTips = ["600px", "400px", "修改"];   //修改弹出层大小，名称
@@ -56,6 +56,9 @@
             , url: findAll
             , toolbar: '#toolbarDemo'
             , title: '用户数据表'
+            , headers: {
+                token: localStorage.getItem('token')
+            }
             , cols: [
                 [
                     {type: 'checkbox', fixed: 'left'}

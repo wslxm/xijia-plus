@@ -2,6 +2,7 @@ package com.ws.ldy.admin.model.vo;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ws.ldy.admin.enums.GenderEnum;
 import com.ws.ldy.base.model.vo.BaseAdminVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -27,19 +28,18 @@ public class UserAdminVo extends BaseAdminVo {
     private String username;
     @ApiModelProperty(value = "账号")
     private String account;
-    @ApiModelProperty(value = "密码")
-    private String password;
+//    @ApiModelProperty(value = "密码")
+//    private String password;
     @ApiModelProperty(value = "地址")
     private String address;
     @ApiModelProperty(value = "年龄")
     private Integer age;
-    @ApiModelProperty(value = "性别（1男，2女）")
-    private Integer gender;
+    @ApiModelProperty(value = "性别（1男，0女）")
+    private GenderEnum gender;
     @ApiModelProperty(value = "部门id")
     private Integer empId;
     @ApiModelProperty(value = "注册时间")
     private Date time;
-
     @ApiModelProperty(value = "是否选中（角色是否有改用户，前台复选框默认选中需要值）")
     @JsonProperty  //防止大小写自动转换
     Boolean  LAY_CHECKED;

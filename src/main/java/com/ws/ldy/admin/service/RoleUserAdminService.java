@@ -1,7 +1,7 @@
 package com.ws.ldy.admin.service;
 
 
-import com.ws.ldy.admin.dao.mapper.RoleUserAdminMapper;
+import com.ws.ldy.admin.mapper.RoleUserAdminMapper;
 import com.ws.ldy.admin.model.entity.RoleUserAdmin;
 import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.admin.model.vo.UserAdminVo;

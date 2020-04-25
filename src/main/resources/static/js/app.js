@@ -1,18 +1,28 @@
 //====================================================================================
 //====================================================================================
-//================================= 添加修改删除通用弹出层 ==============================
+//================================= 接口管理 ==========================================
+//====================================================================================
+//====================================================================================
+//let path = "http://192.168.1.104:8080";
+var path = "http://localhost:8080";
+
+//====================================================================================
+//====================================================================================
+//================================= 添加修改删除通用弹出层 ===============================
 //====================================================================================
 //====================================================================================
 
 /**
- * Layer 添加修改通用弹出层
+ *  TODO  Layer 添加修改通用弹出层
 
  * @param url    请求地址
  * @param width  弹出层宽
  * @param height 弹出层高
  * @param name   弹出层名
  */
-function tipsWindown(url, width, height, name) {
+
+function
+tipsWindown(url, width, height, name) {
     layui.use('layer', function () {
         layer.open({
             type: 2,
@@ -25,32 +35,58 @@ function tipsWindown(url, width, height, name) {
             shadeClose: true
             , yes: function (index, layero) {
                 //点击确认触发 iframe 内容中的按钮提交
-                var submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
+                let submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
                 submit.click();
             }
         })
     });
 }
 
+
 /**
- * 通用删除弹出层
+ * TODO 通用删除弹出层，单Id删除，参数接url后
  * @param url 请求地址
- * @param ids 要删除id，数组
+ * @param data 要删除的id
  * @param obj 当前行，多行删除不传，多行删除使用重载
  */
-function tipsDelete(url, ids, obj) {
+function tipsDeleteId(url, obj) {
     layui.use('layer', function () {
         layer.msg('你确定要删除么？', {
             time: 0
             , btn: ['必须删', '不删了']
             , yes: function (index) {
                 // 获得要删除菜单及所有子菜单/页面
-                var result = ajaxPost(url, ids);
+                let result = ajaxDelete(url);
                 // 后台操作成功前端直接删除当前行删除
-                if (result !== "no" && obj !== null) {
+                if (result.code === 200) {
+                    // window.location.reload();
                     obj.del();
                 }
-                layer.msg('操作成功');
+                layer.msg(result.msg);
+            }
+        });
+    });
+}
+
+/**
+ *  TODO 通用删除弹出层 多Id删除，参数为 data 集
+ * @param url 请求地址
+ * @param data 要删除的id
+ * @param obj 当前行，多行删除不传，多行删除使用重载
+ */
+function tipsDeleteIds(url, data, obj) {
+    layui.use('layer', function () {
+        layer.msg('你确定要删除么？', {
+            time: 0
+            , btn: ['必须删', '不删了']
+            , yes: function (index) {
+                // 获得要删除菜单及所有子菜单/页面
+                let result = ajaxDelete(url, data);
+                // 后台操作成功前端直接删除当前行删除
+                if (result.code === 200) {
+                    obj.del();
+                }
+                layer.msg(result.msg);
             }
         });
     });
@@ -61,17 +97,45 @@ function tipsDelete(url, ids, obj) {
 //================================= Layui 所有分页配置 ================================
 //====================================================================================
 //====================================================================================
-
+/**
+ *  TODO  Layui 通用分页配置, 数据表格直接使用 page: pageJson,  layPage插件读取每一个参数值
+ * @param url 请求地址
+ * @param data 要删除的id
+ * @param obj 当前行，多行删除不传，多行删除使用重载
+ */
 var pageJson = {
     layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'] //自定义分页布局
-    //,curr: 5             //设定初始在第 5 页
-    , limits: [10, 15, 20]  //每页显示条数
-    , groups: 5            //只显示 1 个连续页码
-    , first: false         //不显示首页
-    , last: false          //不显示尾页
-    // , prev: '《'
-    // , next: '》'
+    , curr: 1              // 设定初始在第1页
+    , limits: [10, 15, 20]   // 每页显示条数
+    , groups: 5            // 只显示几个连续页码
+    // , first: "首页"      // 显示按钮内容（false为不展示,layout 不支持）
+    // , last: "尾页"       // 显示按钮内容（false为不展示，layout 不支持）
+    , prev: '上一页'        // 上一页按钮内容
+    , next: '下一页'        // 下一页按钮内容
 };
+
+
+/**
+ *  TODO 获取 Layui 当前分页参数 ===>  如：curr=1&limits=10
+ */
+function getPage() {
+    // 分页页数key
+    let pageKey = "current";
+    // 分页记录数key
+    let sizeKey = "size";
+    //获取当前页
+    let pageVal = $(".layui-laypage-skip .layui-input").val();
+    if (pageVal == null) {
+        pageVal = pageJson.curr;
+    }
+    //获取当前页条数
+    let sizeVal = $(".layui-laypage-limits").find("option:selected").val();
+    if (sizeVal == null) {
+        sizeVal = pageJson.limits[0];
+    }
+    let page = "?" + pageKey + "=" + pageVal + "&" + sizeKey + "=" + sizeVal;
+    return page;
+}
 
 //====================================================================================
 //====================================================================================
@@ -177,26 +241,31 @@ function ajaxDeleteAsync(url, data) {
 
 // TODO  1-url  2-数据 3、请求方式 4、返回数据 5、同步false/异步true
 function ajax(url, data, type, dataType, async) {
-    var result;
+    let result;
     $.ajax({
         type: type,
         dataType: dataType,
         url: url,
-        data: data,
+        data: JSON.stringify(data),
+        contentType: "application/json",
         headers: {
             "token": localStorage.getItem('token')
         },
         async: async,      //同步
-        traditional: true, //允许传递数组
+        //traditional: true, //允许传递数组
         success: function (resultText) {
             result = resultText;
         },
-        error: function () {
+        error: function (res) {
             layer.msg('后台异常！处理失败');
         }
     });
     //错误打印
     if (result.code !== 200) {
+        if (result.code === 10000) {
+            //用户未登陆/或登录过期跳登录页
+            location.href = "../login";
+        }
         layer.msg(result.msg);
         throw new Error();
     }

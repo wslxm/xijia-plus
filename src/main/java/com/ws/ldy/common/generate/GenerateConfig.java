@@ -34,7 +34,7 @@ public class GenerateConfig {
     public final static String path_controller = java_path + "controller/";
     public final static String path_service = java_path + "service/";
     public final static String path_service_impl = java_path + "service/impl/";
-    public final static String path_dao = java_path + "dao/";
+    public final static String path_dao = java_path + "mapper/";
     //html 实际代码生成路径
     public final static String html_path = fatherPath + entryName + "/src/main/resources/templates/"+ FieldCG.entryNameSmall+"/";
     public final static String path_html_main = html_path;

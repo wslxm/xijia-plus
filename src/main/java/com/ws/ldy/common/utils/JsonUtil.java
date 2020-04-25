@@ -1,160 +1,1 @@
-package com.ws.ldy.common.utils;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-
-import java.util.*;
-
-@SuppressWarnings("all")
-public class JsonUtil {
-
-	public static Object getObjectJsonString(String jsonString, Class<?> objclass) {
-		Object obj;
-		JSONObject jsonObject = JSONObject.fromObject(jsonString);
-		obj = JSONObject.toBean(jsonObject, objclass);
-		return obj;
-	}
-
-	/**
-	 * 从json对象字符串格式中得到一个map对象
-	 * 
-	 * @param jsonString
-	 * @return
-	 */
-	public static Map<String, Object> getMapJson(String jsonString) {
-		JSONObject jsonObject = JSONObject.fromObject(jsonString);
-		Iterator<?> iter = jsonObject.keys();
-		Object obj;
-		Map<String, Object> valueMap = new HashMap<String, Object>();
-		while (iter.hasNext()) {
-			String key = (String) iter.next();
-			obj = jsonObject.get(key);
-			valueMap.put(key, obj);
-		}
-
-		return valueMap;
-	}
-
-	/**
-	 * 
-	 * 从json对象字符串中获取一个object数组对象
-	 * 
-	 * @param jsonString
-	 * @return
-	 */
-	public static Object[] getObjectArrayJson(String jsonString) {
-		JSONArray jsonarry = JSONArray.fromObject(jsonString);
-		return jsonarry.toArray();
-	}
-
-	/**
-	 * 从json对象字符串中获取一个list对象
-	 * 
-	 * @param jsonString
-	 * @param jsonClass
-	 * @return
-	 */
-
-	public static List<Object> getListJson(String jsonString, Class<?> jsonClass) {
-		JSONArray jsonarray = JSONArray.fromObject(jsonString);
-		// Object obj;
-		// JSONObject jsonobject;
-		List<Object> valueList = new ArrayList<Object>();
-		for (Object object : jsonarray) {
-			// jsonobject = (JSONObject) object;
-			// obj = JSONObject.toBean(jsonobject, jsonClass);
-			valueList.add(object);
-		}
-		return valueList;
-	}
-
-	/**
-	 * 从json对象中获取字符串对象数组
-	 * 
-	 * @param jsonString
-	 * @return
-	 */
-	public static String[] getStringArrayJson(String jsonString) {
-		JSONArray jsonArray = JSONArray.fromObject(jsonString);
-
-		String[] jsonStringArray = new String[jsonArray.size()];
-
-		for (int i = 0; i < jsonArray.size(); i++) {
-			jsonStringArray[i] = jsonArray.getString(i);
-		}
-		return jsonStringArray;
-	}
-
-	/**
-	 * 将java类转换为json数据
-	 * 
-	 * @param obj
-	 * @return
-	 */
-
-	public static String getJsonString(Object obj) {
-
-		JSONObject jsonobject = null;
-		try {
-			JsonConfig jsonConfig = new JsonConfig();
-			DateJsonValueProcessor beanProcessor = new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss");
-			jsonConfig.registerJsonValueProcessor(Date.class, beanProcessor);
-			jsonobject = JSONObject.fromObject(obj, jsonConfig);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return jsonobject.toString();
-
-	}
-
-	/**
-	 * 将java数组数据转换为json数据
-	 * 
-	 * @param obj
-	 * @return
-	 */
-	public static String getJsonString(Object[] obj) {
-		JsonConfig jsonConfig = new JsonConfig();
-		DateJsonValueProcessor beanProcessor = new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss");
-		jsonConfig.registerJsonValueProcessor(Date.class, beanProcessor);
-		JSONArray jsonArray = JSONArray.fromObject(obj, jsonConfig);
-		return jsonArray.toString();
-	}
-
-	/**
-	 * 将list数据转换为json数据
-	 * 
-	 * @param list
-	 * @return
-	 */
-	public static String getJsonString(List<?> list) {
-		JSONArray jsonArray = null;
-		try {
-			JsonConfig jsonConfig = new JsonConfig();
-			DateJsonValueProcessor beanProcessor = new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss");
-			jsonConfig.registerJsonValueProcessor(Date.class, beanProcessor);
-			jsonArray = JSONArray.fromObject(list, jsonConfig);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return jsonArray.toString();
-	}
-
-	/**
-	 * 将map数据转换为json数据
-	 * 
-	 * @param map
-	 * @return
-	 */
-	public static String getJsonString(Map<?, ?> map) {
-		JsonConfig jsonConfig = new JsonConfig();
-		DateJsonValueProcessor beanProcessor = new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss");
-		jsonConfig.registerJsonValueProcessor(Date.class, beanProcessor);
-		JSONObject jsonObject = JSONObject.fromObject(map, jsonConfig);
-		return jsonObject.toString();
-	}
-}
+package com.ws.ldy.common.utils;import com.alibaba.fastjson.JSON;import com.alibaba.fastjson.JSONArray;import com.alibaba.fastjson.JSONObject;import com.alibaba.fastjson.serializer.SerializerFeature;import lombok.Data;import java.util.ArrayList;import java.util.List;import java.util.Map;/** * TODO  fastjson-JSON 工具类扩展 * <p> * // TODO  fastjson - 原API 一览 * // public static final Object parse(String text);                                // 把JSON文本parse为JSONObject或者JSONArray * // public static final JSONObject parseObject(String text)；                     // 把JSON文本parse成JSONObject * // public static final <T> T parseObject(String text, Class<T> clazz);           // 把JSON文本parse为JavaBean * // public static final JSONArray parseArray(String text);                        // 把JSON文本parse成JSONArray * // public static final <T> List<T> parseArray(String text, Class<T> clazz);      // 把JSON文本parse成JavaBean集合 * // public static final String toJSONString(Object object);                       // 将JavaBean 序列化为JSON文本 * // public static final String toJSONString(Object object, boolean prettyFormat); // 将JavaBean 序列化为带格式的JSON文本 * // public static final Object toJSON(Object javaObject);                         // 将JavaBean转换为JSONObject或者JSONArray。 * * @author ws * @mail 1720696548@qq.com * @date 2020/4/24 0024 9:55 */@SuppressWarnings("ALL")public class JsonUtil {    //===================================================================================================    //===================================================================================================    //======================================= 转 Json字符串 ==============================================    //===================================================================================================    //===================================================================================================    /**     * TODO 将任意对象转为json字符串, 并忽略值为 null的属性（默认）     */    public static String toJSONString(Object object) {        return JSON.toJSONString(object);    }    /**     * TODO 将任意对象转为json字符串, 并忽略值为null的属性     */    public static String toJSONStringNoNull(Object object) {        return JSON.toJSONString(object, SerializerFeature.PrettyFormat);    }    /**     * TODO 将任意对象转为json字符串转为json字符串, 并保留值为null的属性     */    public static String toJSONStringIsNull(Object object) {        return JSON.toJSONString(object, SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue);    }    //===================================================================================================    //===================================================================================================    //========================================== 转 Object ==============================================    //===================================================================================================    //===================================================================================================    /**     * TODO 把 JSON字符串转为 Object （接收时可强转任意javaBand）     */    public static Object parse(String text) {        return JSON.parse(text);    }    /**     * TODO 将JavaBean(任意对象) 转换为 Object, （接收时可强转任意javaBand）     */    public static Object toJSON(Object javaObject) {        return JSON.toJSON(javaObject);    }    //===================================================================================================    //===================================================================================================    //=========================================  转 JSONObject ==========================================    //==================================   JSONObject的数据是用 {  } 来表示的）  == ========================    //===================================================================================================    /**     * TODO 把JSON字符串 转为 JSONObject     */    public static JSONObject parseObject(String text) {        return JSON.parseObject(text);    }    //===================================================================================================    //===================================================================================================    //========================================== 转 JSONArray ===========================================    //================== JSONArray，顾名思义是由JSONObject构成的数组，用  [ { } , { } , ......  , { } ]  ====    //===================================================================================================    /**     * TODO 把JSON字符串 转为 JSONArray  ( 来表示的）     */    public static JSONArray parseArray(String text) {        return JSON.parseArray(text);    }    //===================================================================================================    //===================================================================================================    //=========================================== 转 javaBean ===========================================    //===================================================================================================    //===================================================================================================    /**     * TODO 把JSON字符串转为JavaBean     */    public static <T> T parseObject(String text, Class<T> clazz) {        return JSON.parseObject(text, clazz);    }    //===================================================================================================    //===================================================================================================    //============================================= 转实体类 ==============================================    //===================================================================================================    //===================================================================================================    /**     * TODO 把JSON 字符串转为实体类     */    public static <T> T parseEntity(String text, Class<T> clazz) {        return JSON.parseObject(text, clazz);    }    /**     * TODO 将Map 转换为 实体类     */    public static <T> T parseEntity(Map map, Class<T> t) {        String jsons = toJSONStringIsNull(map);        T t1 = JSON.parseObject(jsons, t);        return t1;    }    //===================================================================================================    //===================================================================================================    //============================================= 转Map ==============================================    //===================================================================================================    //===================================================================================================    /**     * TODO 把JSON字符串转为 Map     */    public static Map parseMap(String text) {        return JSON.parseObject(text, Map.class);    }    /**     * TODO 将实体类 转换为  Map     */    public static <T> Map parseMap(T t) {        String jsons = toJSONStringIsNull(t);        Map paramMap = (Map) JSONObject.parseObject(jsons);        return paramMap;    }    //===================================================================================================    //===================================================================================================    //============================================= 转List ==============================================    //===================================================================================================    //===================================================================================================    /**     * TODO 把JSON字符串转为 List     *     * @return     */    public static List parseList(String text) {        return JSON.parseObject(text, List.class);    }    /**     * TODO 把JSON 字符串转为 List<JavaBean>  ==>  List<任意对象>     */    public static <T> List<T> parseList(String text, Class<T> clazz) {        return JSON.parseArray(text, clazz);    }    /**     * TODO  测试     *     * @param args     * @return void     * @author ws     * @mail 1720696548@qq.com     * @date 2020/4/24 0024 10:23     */    public static void main(String[] args) {        // TODO 测试是否包含null的值//        User user = new User();//        user.setId(1L);//        user.setUsername("张三");//        user.setPassword("");//        user.setMobile(null);//        System.out.println("toJSONString-不包含null==" + toJSONString(user));//        System.out.println("toJSONString-包含null==" + toJSONStringIsNull(user));//        System.out.println("toJSONString-不包含null==" + toJSONStringNoNull(user));        // TODO 测试Map 与实体类的相互转换//        User user = new User();//        user.setId(1L);//        user.setUsername("张三");//        user.setPassword("");//        user.setMobile(null);//        Map map = parseMap(user);//        User user2 = parseEntity(map, User.class);//        System.out.println();        // 测试json字符串 转 List<Entity>        User user = new User();        List<User> users = new ArrayList<>();        for (int i = 0; i < 10; i++) {            user.setId(i);            user.setUsername("张三");            user.setPassword("");            user.setMobile(null);            users.add(user);        }        String jsons = toJSONStringIsNull(users);        List list = parseList(jsons);        List<User> users2 = parseList(jsons, User.class);        System.out.println();    }    @Data    static class User {        private long id;        private String username;        private String password;        private String mobile;    }}

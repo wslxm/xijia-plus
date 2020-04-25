@@ -1,6 +1,7 @@
 package com.ws.ldy.admin.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ws.ldy.admin.enums.MenuRootEnum;
 import com.ws.ldy.base.model.vo.BaseAdminVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -34,8 +35,10 @@ public class MenuAdminVo extends BaseAdminVo {
     private String icon;
     @ApiModelProperty(value = "排序")
     private Integer sort;
+
     @ApiModelProperty(value = "目录级别(1，系统, 2、一级菜单 ，3，二级菜单, 4、页面)")
-    private Integer root;
+    private MenuRootEnum root;
+
     @ApiModelProperty(value = "当前页面权限id")
     private Integer authority;
 

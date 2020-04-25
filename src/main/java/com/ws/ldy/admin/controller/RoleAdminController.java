@@ -11,7 +11,7 @@ import com.ws.ldy.admin.service.impl.RoleAuthAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.RoleMenuAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.RoleUserAdminServiceImpl;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.common.result.Result;
+import com.ws.ldy.config.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -55,10 +55,7 @@ public class RoleAdminController extends BaseController {
                 .orderByAsc(RoleAdmin::getId)
                 .eq(id != null, RoleAdmin::getId, id)
         );
-        return success(page.convert(item -> item.convert(RoleAdminVo.class)));
-//        QueryCriteria queryCriteria = new QueryCriteria().eq(id != null, "id", id).orderByAsc("id");
-//        Page<RoleAdmin> rolePage = roleAdminServiceImpl.selectPage(this.getPage(), queryCriteria);
-//        return success(this.pageVoStream(rolePage, RoleAdminVo.class));
+        return successFind(page.convert(item -> item.convert(RoleAdminVo.class)));
     }
 
 
@@ -66,23 +63,23 @@ public class RoleAdminController extends BaseController {
     @ApiOperation("查询所有")
     public Result<List<RoleAdminVo>> list() {
         List<RoleAdmin> roles = roleAdminServiceImpl.list();
-        return success(this.listVoStream(roles, RoleAdminVo.class));
+        return successFind(this.listVoStream(roles, RoleAdminVo.class));
     }
 
 
     @RequestMapping(value = "/findRoleChecked", method = RequestMethod.GET)
     @ApiOperation("角色分配查询所有--用户当前角色赋予Checked=true")
-    public Result<List<RoleAdminVo>> findRoleChecked(String userId) {
+    public Result<List<RoleAdminVo>> findRoleChecked(@RequestParam String userId) {
         List<RoleAdminVo> roles = roleAdminServiceImpl.findRoleChecked(userId);
-        return success(roles);
+        return successUpdate(roles);
     }
 
 
     @RequestMapping(value = "/updUserRole", method = RequestMethod.PUT)
     @ApiOperation("用户分配角色")
-    public Result<Void> updUserRole(@RequestParam Integer userId, @RequestParam Integer[] roleIds) {
+    public Result<Void> updUserRole(@RequestParam Integer userId, Integer[] roleIds) {
         boolean result = roleAdminServiceImpl.updUserRole(userId, roleIds);
-        return success();
+        return successUpdate();
     }
 
 
@@ -99,7 +96,7 @@ public class RoleAdminController extends BaseController {
         } else {
             roleAdminServiceImpl.save(roleAdminDto.convert(RoleAdmin.class));
         }
-        return success();
+        return successInsert();
     }
 
 
@@ -107,7 +104,7 @@ public class RoleAdminController extends BaseController {
     @ApiOperation("批量删除/单删除")
     public Result<Void> delete(Integer[] ids) {
         roleAdminServiceImpl.removeByIds(Arrays.asList(ids));
-        return success();
+        return successDelete();
     }
 
 
@@ -115,7 +112,7 @@ public class RoleAdminController extends BaseController {
     @ApiOperation("角色菜单权限分配")
     public Result<Void> updRoleMenu(@RequestParam Integer roleId, Integer[] menuIds, @RequestParam Integer pid) {
         roleMenuAdminServiceImpl.roleMenuAuth(roleId, menuIds, pid);
-        return success();
+        return successUpdate();
     }
 
 
@@ -123,7 +120,7 @@ public class RoleAdminController extends BaseController {
     @ApiOperation("角色URL权限分配")
     public Result<Void> updRoleUrlAuth(@RequestParam Integer roleId, Integer[] authIds) {
         roleAuthAdminServiceImpl.roleUrlAuth(roleId, authIds);
-        return success();
+        return successUpdate();
     }
 
 
@@ -131,6 +128,6 @@ public class RoleAdminController extends BaseController {
     @ApiOperation("角色用户分配")
     public Result<Void> updRoleUser(@RequestParam Integer roleId, Integer[] userIds) {
         roleUserAdminServiceImpl.updRoleUser(roleId, userIds);
-        return success();
+        return successUpdate();
     }
 }

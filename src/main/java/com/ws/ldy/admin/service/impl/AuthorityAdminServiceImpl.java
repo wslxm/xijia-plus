@@ -1,6 +1,6 @@
 package com.ws.ldy.admin.service.impl;
 
-import com.ws.ldy.admin.dao.mapper.AuthorityAdminMapper;
+import com.ws.ldy.admin.mapper.AuthorityAdminMapper;
 import com.ws.ldy.admin.model.entity.AuthorityAdmin;
 import com.ws.ldy.admin.service.AuthorityAdminService;
 import com.ws.ldy.base.service.impl.BaseIServiceImpl;

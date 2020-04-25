@@ -1,21 +1,24 @@
 package com.ws.ldy.admin.controller;
 
 
+import com.ws.ldy.admin.enums.MenuRootEnum;
+import com.ws.ldy.admin.model.dto.MenuAdminDto;
 import com.ws.ldy.admin.model.entity.MenuAdmin;
+import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.admin.model.vo.MenuAdminVo;
 import com.ws.ldy.admin.service.impl.MenuAdminServiceImpl;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.common.result.Result;
+import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.config.result.Result;
+import com.ws.ldy.config.result.ResultEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,18 +36,35 @@ public class MenuAdminController extends BaseController {
     @Resource
     private MenuAdminServiceImpl menuService;
 
-    @RequestMapping(value = "/menuTree", method = RequestMethod.GET)
-    @ApiOperation("左导航菜单 ===>>> 树结构数据 ===>>> 需先登录才能获取")
-    public Result<List<MenuAdminVo>> menuTree() {
-        List<MenuAdminVo> menuTree = menuService.getMenuTree(this.getUserAdmin());
-        return success(menuTree);
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @ApiOperation("测试")
+    public String test(@RequestParam MenuRootEnum rootEnum) {
+        System.out.println(rootEnum);
+        return "1";
     }
+    @RequestMapping(value = "/test1", method = RequestMethod.POST)
+    @ApiOperation("测试1")
+    public String test1(@RequestBody MenuAdminDto menuAdminDto) {
+        System.out.println(menuAdminDto.getRoot());
+        return "1";
+    }
+
+    @RequestMapping(value = "/menuTree", method = RequestMethod.GET)
+    @ApiOperation("左导航菜单 ===>>> 树结构数据 ===>>> 需先登录")
+    public Result<List<MenuAdminVo>> menuTree() {
+        //当前登录用户信息
+        UserAdmin userAdmin = this.getUserAdmin();
+        //获取菜单
+        List<MenuAdminVo> menuTree = menuService.getMenuTree(userAdmin);
+        return successFind(menuTree);
+    }
+
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ApiOperation("菜单列表 ==>>>  列表数据  ==>>>  所有")
     public Result<List<MenuAdminVo>> list() {
         List<MenuAdmin> menus = menuService.list();
-        return success(listVo(menus, MenuAdminVo.class));
+        return successFind(listVo(menus, MenuAdminVo.class));
     }
 
     /**
@@ -52,75 +72,47 @@ public class MenuAdminController extends BaseController {
      * @param roleId 角色Id，判断当前是否有权限并选中
      */
     @RequestMapping(value = "/findPidOrRoleIdList", method = RequestMethod.GET)
-    @ApiOperation("获取菜单列表查询")
+    @ApiOperation("根据pid +角色Id获取菜单列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "父id", required = false, paramType = "query"),
             @ApiImplicitParam(name = "roleId", value = "角色Id，判断当前是否有权限并选中", required = false, paramType = "query")
     })
     public Result<List<MenuAdminVo>> findPidOrRoleIdList(Integer id, Integer roleId) {
         List<MenuAdminVo> menus = menuService.findIdOrRoleIdList(id, roleId);
-        return success(listVo(menus, MenuAdminVo.class));
+        return successFind(listVo(menus, MenuAdminVo.class));
     }
 
 
-    @RequestMapping(value = "/save/{type}", method = RequestMethod.POST)
-    @ApiOperation("菜单添加 type=1：添加系统 2：一级菜单 3：二级菜单 4：页面")
-    public Result<Void> save(String name, Integer pid, String url, String icon, @PathVariable Integer type) {
-        MenuAdmin menu = new MenuAdmin();
-        menu.setName(name);    //名称
-        //menu.setAuthority(0);  //菜单权限(菜单级别3设置权限Id-权限表对应 ）
-        menu.setSort(0);       //排序
-        menu.setRoot(type);    //菜单级别(1、根目录,2、子目录, 3、菜单 4、页面
-        if (type == 1) {
-            //添加系统
-            menu.setPid(0);          //父id
-            menu.setIcon("");        //图标
-            menu.setUrl("");         //url
-        } else if (type == 2) {
-            //添加一级菜单
-            menu.setPid(pid);        //父id
-            menu.setIcon(icon);      //图标
-            menu.setUrl("");         //url
-        } else if (type == 3) {
-            //添加二级菜单
-            menu.setPid(pid);        //父id
-            menu.setIcon(icon);      //图标
-            menu.setUrl("");         //url
-        } else if (type == 4) {
-            //添加页面
-            menu.setPid(pid);        //父id
-            menu.setIcon("");        //图标
-            menu.setUrl(url);         //url
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @ApiOperation("菜单添加")
+    public Result<Void> insert(@RequestBody MenuAdminDto menuAdminDto) {
+        MenuAdmin menuAdmin = menuAdminDto.convert(MenuAdmin.class);
+        menuService.save(menuAdmin);
+        return successInsert();
+    }
+
+
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @ApiOperation("编辑")
+    public Result<Void> update(@RequestBody MenuAdminDto menuAdminDto) {
+        if (menuAdminDto.getId() == null) {
+            throw new ErrorException(ResultEnum.ADMIN_IS_NO_UPDATE_ID);
         }
-        menuService.save(menu);
-        return success();
+        MenuAdmin menuAdmin = menuAdminDto.convert(MenuAdmin.class);
+        menuService.updateById(menuAdmin);
+        return successUpdate();
     }
 
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    @ApiOperation("Id删除")
-    public Result<Void> delete(Integer id) {
-        menuService.removeById(id);
-        return success();
+    @ApiOperation("ID删除菜单+所有子菜单")
+    public Result<List<Integer>> delete(@RequestParam Integer id) {
+        List<MenuAdminVo> idOrRoleIdList = menuService.findIdOrRoleIdList(id);
+        List<Integer> menuIds = new ArrayList<>();
+        idOrRoleIdList.forEach(item -> menuIds.add(item.getId()));
+        menuService.removeByIds(menuIds);
+        return successDelete(menuIds);
     }
 
 
-    @RequestMapping(value = "/update/{type}", method = RequestMethod.PUT)
-    @ApiOperation("Id修改---type = 1，修改排序  2，修改图标  3、修改菜单url， 4、修改权限id  5、修改菜单名")
-    public Result<Void> update(@PathVariable Integer type, Integer id, String val) {
-        MenuAdmin menu = menuService.getById(id);
-        if (type == 1) {
-            menu.setSort(Integer.parseInt(val));
-        } else if (type == 2) {
-            menu.setIcon(val);
-        } else if (type == 3) {
-            menu.setUrl(val);
-        } else if (type == 4) {
-            // menu.setAuthority(Integer.parseInt(val));
-        } else if (type == 5) {
-            menu.setName(val);
-        }
-        menuService.save(menu);
-        return success();
-    }
 }

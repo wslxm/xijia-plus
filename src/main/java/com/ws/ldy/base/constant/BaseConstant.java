@@ -1,1 +1,0 @@
-package com.ws.ldy.base.constant;/** * TODO   常量配置类 * * @author ws * @mail 1720696548@qq.com * @date 2020/4/3 0003 22:50 * @return */public class BaseConstant {    /**     * 系统用户key前缀     */    public final static String SYS = "sys";}

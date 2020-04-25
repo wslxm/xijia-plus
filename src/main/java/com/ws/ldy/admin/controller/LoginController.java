@@ -4,11 +4,11 @@ package com.ws.ldy.admin.controller;
 import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.admin.model.vo.LoginVo;
 import com.ws.ldy.admin.service.impl.UserAdminServiceImpl;
-import com.ws.ldy.base.constant.BaseConstant;
+import com.ws.ldy.config.constant.BaseConstant;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.common.error.ErrorException;
-import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.result.ResultEnum;
+import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.config.result.Result;
+import com.ws.ldy.config.result.ResultEnum;
 import com.ws.ldy.common.utils.UUIDUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -42,7 +42,7 @@ public class LoginController extends BaseController {
      *
      * @param account
      * @param password
-     * @return com.ws.ldy.common.result.Result<com.ws.ldy.admin.model.vo.LoginVo>
+     * @return com.ws.ldy.config.result.Result<com.ws.ldy.admin.model.vo.LoginVo>
      * @author ws
      * @mail 1720696548@qq.com
      * @date 2020/3/30 0030 19:50
@@ -63,14 +63,14 @@ public class LoginController extends BaseController {
         }
         String token = UUIDUtil.creatUUID();
         session.setAttribute(BaseConstant.SYS + token, user);
-        return success(new LoginVo(token));
+        return success(new LoginVo(token, user.getUsername()));
     }
 
 
     /**
      * TODO  登录
      *
-     * @return com.ws.ldy.common.result.Result
+     * @return com.ws.ldy.config.result.Result
      * @author ws
      * @mail 1720696548@qq.com
      * @date 2020/3/30 0030 19:51

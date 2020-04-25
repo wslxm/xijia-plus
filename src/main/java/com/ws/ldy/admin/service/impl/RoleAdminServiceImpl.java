@@ -1,7 +1,7 @@
 package com.ws.ldy.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ws.ldy.admin.dao.mapper.RoleAdminMapper;
+import com.ws.ldy.admin.mapper.RoleAdminMapper;
 import com.ws.ldy.admin.model.entity.RoleAdmin;
 import com.ws.ldy.admin.model.entity.RoleUserAdmin;
 import com.ws.ldy.admin.model.vo.RoleAdminVo;
@@ -51,6 +51,9 @@ public class RoleAdminServiceImpl extends BaseIServiceImpl<RoleAdminMapper, Role
     public boolean updUserRole(Integer userId, Integer[] roleIds) {
         //删除原角色
         boolean result = roleUserAdminService.remove(new QueryWrapper<RoleUserAdmin>().eq("user_id", userId));
+        if (roleIds.length <= 0) {
+            return true;
+        }
         List<RoleUserAdmin> roleUserList = new ArrayList<>();
         for (int i = 0; i < roleIds.length; i++) {
             roleUserList.add(new RoleUserAdmin(roleIds[i], userId));

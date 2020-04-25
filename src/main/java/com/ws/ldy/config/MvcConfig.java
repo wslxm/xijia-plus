@@ -24,10 +24,11 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         // 主页
-        registry.addViewController("/index").setViewName("index");
+        registry.addViewController("/xj-index").setViewName("xj-index");
+        registry.addViewController("/xj-admin").setViewName("xj-admin");
         // 登录页
-        registry.addViewController("/").setViewName("console/user/login");
-        registry.addViewController("/login").setViewName("console/user/login");
+        registry.addViewController("/").setViewName("xj_admin_login");
+        registry.addViewController("/login").setViewName("xj_admin_login");
     }
 
 
@@ -51,3 +52,4 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }
+//bootAdmin/login
