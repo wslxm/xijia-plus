@@ -11,174 +11,78 @@
 </head>
 <body>
 <style>
-    /*    body .layui-tree-skin-shihuang .layui-tree-branch{color: #EDCA50;}*/
     .layui-tree-branch {
         color: #EDCA50;
     }
 </style>
 
-<!--<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">-->
-<!--<legend>角色菜单权限分配</legend>-->
-<!--</fieldset>-->
-
 <!-- 左边树 -->
-<div style="display: inline-block;float:left; width: 20%; height: 500px; padding: 10px; border: 1px solid #ddd; overflow: auto;margin-top: 5%">
+<div style="display: inline-block;float:left; width: 18%; height: 500px; padding: 10px; border: 1px solid #ddd; overflow: auto;margin-top: 4%">
     <ul id="auth-tree"></ul>
 </div>
 
 
 <!-- 菜单树，数据表格-->
-<div style="float:left; margin-left: 3%;width: 60%">
-    <div class="layui-tab layui-tab-brief" lay-filter="tab">
-        <ul id="tabRoot1" class="layui-tab-title">
-            <!-- 动态加载tab标签 -->
-        </ul>
-        <div class="layui-tab-content" style="height: 100px;">
-            <!-- 数据列表 -->
-            <table id="auth-table" class="layui-table" lay-filter="auth-table"></table>
-        </div>
-    </div>
+<div style="float:left; margin-left: 3%;width: 68%;margin-top: 2.5%;">
+    <table id="auth-table" class="layui-table" lay-filter="auth-table"></table>
 </div>
 
 
 <!-- 确认分配按钮  -->
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" onclick="roleMenu()" lay-event="roleMenu">确认分配</button>
+        <button class="layui-btn layui-btn-warm layui-btn-sm" onclick="xijiaEventUpdClick()">确认分配</button>
         <font size="2">当前角色: </font> <font size="2" color="red" id="roleFont">未选择</font>
-        <font size="2"> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;当前系统: </font> <font size="2" color="red" id="menuFont">全部</font>
     </div>
 </script>
 
 <script>
-    //var menuFindAll = "/menuAdmin/list";                   //菜单查询--数据列表（所有）
-    var menuFindIdAll = path + "/menuAdmin/findPidOrRoleIdList";    //菜单查询--数据列表（根据父节点查询所有该父节点下的）
-    var menuRole = path + "/roleAdmin/list";                       //角色查询-所有
-    var updRoleMenu = path + "/roleAdmin/updRoleMenu";             //角色菜单权限修改
+    let menu_find_id_list = path + "/menuAdmin/findPidOrRoleIdList";       // 菜单查询--数据列表（所有-根据角色Id获取勾选值）
+    let role_find_list = path + "/roleAdmin/list";                         // 角色查询-所有
+    let updRoleMenu = path + "/roleAdmin/updRoleMenu";                     // 角色菜单权限修改
 
-    $(function () {
-        tabRoot1();   // 初始，动态加载tab标签
-    });
+    let res;           // 后台返回完整菜单数据
+    let checkData;     // 所有选中数据
+    let roleId = -1;   // 角色Id
 
-    var rolesJson = ajaxGet(menuRole);     // 获得角色列表
-    var dataJson = ajaxGet(menuFindIdAll);  // 获得菜单数据
-
-    var roleId = -1;             //当前选中的角色Id
-    var pid = -1;                //当前选中的系统Id
-    var roleFont = "未选择";    //当前选中角色名称
-    var menuFont = "全部";      //当前选中系统名称
-    var checkData = null;       //所有选中菜单数据
-
-
-    /**
-     * TODO    系统级菜单菜单数据-上方的到Tab标签  -->  root=1
-     *
-     * @date  2019/11/16 0016 16:56
-     * @return
-     */
-    function tabRoot1() {
-        var html = "<li   class='layui-this' lay-id=" + -1 + ">" + "所有" + "</li>";
-        var data = dataJson.data;
-        $.each(data, function (index) {
-            if (data[index].root === 1) {
-                html += "<li  lay-id=" + data[index].id + ">" + data[index].name + "</li>";
-            }
-        });
-        $("#tabRoot1").html(html);
-    }
-
+    // 组件
+    let tree;
+    let table;
+    let treetable;
 
     layui.config({
         base: '../treetable-lay/module/' //静态资源所在路径
     }).extend({
         treetable: 'treetable-lay/treetable'
     }).use(['table', 'treetable', 'element', 'tree'], function () {
-        var $ = layui.jquery
-            , tree = layui.tree
-            , table = layui.table
-            , treetable = layui.treetable
-            , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
-
-        //初始化左边边角色数据,treetable用于右边 table 数据重载
-        showTree(tree, treetable);
-        //初始化右边 table 数据
-        tableRender(treetable, dataJson);
-
-        /**
-         * 监听 tab 选项卡重载table数据
-         */
-        element.on('tab(tab)', function (elem) {
-            pid = $(this).attr('lay-id');
-            var url = "";
-            //当前选中系统
-            url += "&&id=" + pid;
-            //当前选中角色
-            url += "&&roleId=" + roleId;
-            if (pid === '-1') {
-                // 获得菜单数据
-                let dataJson = ajaxGet(menuFindIdAll + "?1+1" + url);
-                //重载
-                tableRender(treetable, dataJson)
-            } else {
-                let dataJson = ajaxGet(menuFindIdAll + "?1+1" + url);
-                tableRender(treetable, dataJson)
-            }
-            //修改分配按钮除显示值
-            menuFont = $(this).html();
-            $("#menuFont").html(menuFont);
-            $("#roleFont").html(roleFont);
-            //置空临时保存选中菜单数据
-            checkData = null;
-        });
-
-        /**
-         * TODO    监听复选框选中
-         * @date  2019/11/16 0016 19:43
-         * @return
-         */
-        table.on('checkbox(auth-table)', function (obj) {
-            //获取所有选中，te = 数据表格Id
-            checkData = table.checkStatus('te');
-        });
+        tree = layui.tree;
+        table = layui.table;
+        treetable = layui.treetable;
+        // 复选框默认是否选中字段名
+        table = $.extend(table, {config: {checkName: 'isChecked'}});
+        // 获得菜单数据
+        res = ajaxGet(menu_find_id_list);
+        showTree();                    // 初始化左边边角色数据,treetable用于右边 table 数据重载
+        xijiaRenderTable(res);         // 初始化右边 table 数据
+        xijiaEventCheckbox();          // 监听复选框选中
     });
 
 
     /**
-     * TODO    左角色列表
+     * TODO    生成左角色列表
      *
      * @date  2019/11/16 0016 16:56
      * @return
      */
-    function showTree(tree, treeTable) {
-        //左边角色菜单数据
+    function showTree() {
+        // 获得角色列表
+        let roleRes = ajaxGet(role_find_list);
+        // 左边角色菜单数据
         tree({
             elem: '#auth-tree'
             , click: function (item) {
-                if (item.id === 0) {
-                    return;
-                }
-                // 点击角色监听重载表格
-                var pid = $(".layui-this").attr("lay-id");
-                var url = "";
-                url += "&&id=" + pid;          //当前选中系统
-                url += "&&roleId=" + item.id;  //当前选中角色
-                if (pid === '-1') {
-                    // 获得菜单数据
-                    var dataJson = ajaxGet(menuFindIdAll + "?1+1" + url);
-                    tableRender(treeTable, dataJson);
-                } else {
-                    var dataJson = ajaxGet(menuFindIdAll + "?1+1" + url);
-                    tableRender(treeTable, dataJson);
-                }
-                //当前选中角色记录
-                roleId = item.id;
-                //修改分配按钮除显示值
-                roleFont = item.name;
-                $("#menuFont").html(menuFont);
-                $("#roleFont").html(roleFont);
-                //置空临时保存选中菜单数据
-                checkData = null;
-                //layer.msg(item.id + "==" + item.name+ "==" +pid);
+                // 点击回调
+                xijiaEventRoleClick(item);
             }
             , nodes: [ //节点
                 {
@@ -186,16 +90,16 @@
                     , id: 0
                     , skin: 'shihuang'
                     , spread: true
-                    , children: rolesJson.data  //角色数据
+                    , children: roleRes.data  //角色数据
                 }
             ]
 
         });
         //生成一个模拟树
-        var createTree = function (node, start) {
+        let createTree = function (node, start) {
             node = node || function () {
-                var arr = [];
-                for (var i = 1; i < 10; i++) {
+                let arr = [];
+                for (let i = 1; i < 10; i++) {
                     arr.push({
                         name: i.toString().replace(/(\d)/, '$1$1$1$1$1$1$1$1$1')
                     });
@@ -205,7 +109,7 @@
             start = start || 1;
             layui.each(node, function (index, item) {
                 if (start < 10 && index < 9) {
-                    var child = [
+                    let child = [
                         {
                             name: (1 + index + start).toString().replace(/(\d)/, '$1$1$1$1$1$1$1$1$1')
                         }
@@ -223,47 +127,115 @@
      * TODO    table数据--（抽离出来方便重载）
      *
      * @date  2019/11/16 0016 16:56
-     * @param treetable
-     * @param dataJson
      * @return
+     * @param params
      */
-    function tableRender(treetable, dataJson) {
+    function xijiaRenderTable(res) {
         // 渲染表格
         layer.load(2);
         treetable.render({
-            id: "te",
             toolbar: '#toolbar',
-            treeColIndex: 1,            //菜单列索引 ,加载展开图标
-            treeSpid: 0,                //顶级父id
-            treeIdName: 'id',           //id 名称
-            treePidName: 'pid',         //fid 名称
-            treeDefaultClose: false,     // 是否默认折叠
+            id: "te",                   // 定义Id--用于复选框获取数据
+            treeColIndex: 1,            // 菜单列索引 ,加载展开图标
+            treeSpid: 0,                // 顶级父id
+            treeIdName: 'id',           // id 名称
+            treePidName: 'pid',         // fid 名称
+            treeDefaultClose: false,    // 是否默认折叠
             treeLinkage: false,         // 父级展开时是否自动展开所有子级
-            elem: '#auth-table',        //table 的 div
-            // url:'/menu/findAll',                         // 后台接口获取数据
-            //url: '../treetable-lay/json/menus.json',      // json文件获取数据
-            data: dataJson.data,                            // 直接加载数据
-            page: false,
+            elem: '#auth-table',        // table 的 div
+            data: res.data,        // 直接加载数据
             done: function () {
-                //  $("table").css("width", "96%");
                 layer.closeAll('loading');
             },
             cols: [
                 [
                     {type: 'checkbox'},
-                    // {field: 'id', width: 80, type: 'id', title: 'id'},
                     {field: 'name', title: '菜单列表'},//edit: 'text',
-                    // {field: 'sort', width: 150, edit: 'text', title: '排序'},
-                    {field: 'icon', title: '图标'},
-                    {field: 'url', title: '菜单url'}
-                    // {field: 'authority', width: 110, edit: 'text', title: '权限id'}
+                    {
+                        field: 'icon', title: '图标', templet: function (res) {
+                            return "<i class='layui-icon " + res.icon + "'></i>";
+                        }
+                    },
+                    {field: 'url', title: '路由'}
                 ]
             ]
         });
     }
 
+
     /**
-     * TODO    设置角色选中状态
+     * TODO    监听复选框选中
+     * @date  2019/11/16 0016 19:43
+     * @return
+     */
+    function xijiaEventCheckbox() {
+        // obj = 选中行数据
+        table.on('checkbox(auth-table)', function (obj) {
+            //console.log(JSON.stringify(obj))
+            if(obj.type==="all"){
+                // 更新所有选中数据te = 数据表格Id
+                checkData = table.checkStatus('te');
+            }else if(obj.type==="one"){
+                // 递归选中/取消选中
+                isChecked(res.data, obj.data, obj.checked);
+                xijia_window_onbeforeunload();  // 记录滚动条位置
+                xijiaRenderTable(res);          // 重载数据
+                xijia_window_onload();          // 还原滚动条位置
+                // 更新所有选中数据te = 数据表格Id
+                checkData = table.checkStatus('te');
+            }
+        });
+    }
+
+    /**
+     * TODO  遍历子节点判断--> 选中/ 取消选中
+     * @author ws
+     * @mail  1720696548@qq.com
+     * @date  2020/4/27 0027 17:14
+     * @param nodeAll 所有节点
+     * @param node 当前节点
+     * @param checked 选中true / 取消false
+     * @return
+     */
+    function isChecked(nodeAll, node, checked) {
+        // 当菜单级别为3(页面时)，跳出，不往下递归
+        if (node.root.value === 3) {
+            return;
+        }
+        // console.log("父菜单name=" + node.name + "")
+        for (let i = 0; i < nodeAll.length; i++) {
+            if (node.id === nodeAll[i].pid) {
+                //赋值
+                nodeAll[i].isChecked = checked;
+                // console.log("id=" + nodeAll[i].id + "  name=" + nodeAll[i].name)
+                //递归
+                isChecked(nodeAll, nodeAll[i], checked)
+            }
+        }
+    }
+
+    /**
+     * TODO   角色选中回调
+     * @param item 当前选中的角色行数据
+     * @date  2019/11/16 0016 19:43
+     * @return
+     */
+    function xijiaEventRoleClick(item) {
+        let params = "";
+        params += "?roleId=" + item.id;
+        // 获得菜单数据
+        res = ajaxGet(menu_find_id_list + params);
+        // 重载
+        xijiaRenderTable(res)
+        // 展示选中
+        $("#roleFont").html(item.name);
+        // 当前角色id
+        roleId = item.id;
+    }
+
+
+    /**
+     * TODO  角色选中状态添加 CSS样式
      * @date  2019/11/16 0016 17:22
      */
     $("body").on("mousedown", ".layui-tree a", function () {
@@ -273,25 +245,36 @@
         }
     });
 
+
     /**
-     * TODO   菜单权限分配
-     * @date  2019/11/16 0016 18:42
+     * TODO  菜单权限分配( JS点击事件)
+     * @author ws
+     * @mail  1720696548@qq.com
+     * @date  2020/4/10 0010 0:05
      * @return
      */
-    function roleMenu() {
-        var menuIds = new Array();
-        if (checkData === null || checkData.data === null) {
+    function xijiaEventUpdClick() {
+        if (roleId === -1) {
+            layer.msg("没有选选择角色");
+            return;
+        }
+        if (checkData === null || checkData === undefined || checkData.data === null) {
             layer.msg("没有可更新的内容");
             return;
         }
-        for (var i in checkData.data) {
+        // 获取数据
+        let menuIds = [];
+        for (let i in checkData.data) {
             menuIds[i] = checkData.data[i].id
         }
-        let result = ajaxPut(updRoleMenu, {roleId: roleId, pid: pid, menuIds: menuIds});
-        //alert("当前角色"+roleId + " --》 分配菜单"+menuIds);
-        layer.msg("成功分配菜单：" + checkData.data.length + "个 " + result.code)
+        // 拼接数据并修改
+        let params = "";
+        params += "?roleId=" + roleId;
+        params += "&menuIds=" + menuIds;
+        let result = ajaxPut(updRoleMenu + params);
+        layer.msg(result.msg + " 当前角色拥有菜单：" + checkData.data.length + "个 ")
     }
-</script>
 
+</script>
 </body>
 </html>

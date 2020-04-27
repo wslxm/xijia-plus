@@ -96,7 +96,7 @@ public class RoleAdminController extends BaseController {
 
 
     @RequestMapping(value = "/findRoleChecked", method = RequestMethod.GET)
-    @ApiOperation("查询所有角色==> 用户拥有角色赋予 checked=true")
+    @ApiOperation("角色分配 ==> 查询所有角色,用户拥有角色赋予 checked=true")
     public Result<List<RoleAdminVo>> findRoleChecked(@RequestParam String userId) {
         List<RoleAdminVo> roles = roleAdminServiceImpl.findRoleChecked(userId);
         return successFind(roles);
@@ -113,8 +113,8 @@ public class RoleAdminController extends BaseController {
 
     @RequestMapping(value = "/updRoleMenu", method = RequestMethod.PUT)
     @ApiOperation("角色菜单分配")
-    public Result<Void> updRoleMenu(@RequestParam Integer roleId, Integer[] menuIds, @RequestParam Integer pid) {
-        roleMenuAdminServiceImpl.roleMenuAuth(roleId, menuIds, pid);
+    public Result<Void> updRoleMenu(@RequestParam Integer roleId, Integer[] menuIds) {
+        roleMenuAdminServiceImpl.roleMenuAuth(roleId, menuIds);
         return successUpdate();
     }
 

@@ -72,8 +72,10 @@
                     let index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                     parent.layer.msg(result.msg);
-                    // 重载页面--不建议开启--建议使用手动刷新
-                    // parent.window.location.reload();
+                    //重载页面--不建议开启--建议使用手动刷新
+                    xijia_window_onbeforeunload();
+                    parent.window.location.reload();
+                    xijia_window_onload();
                 });
             });
         </script>

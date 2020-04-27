@@ -29,14 +29,12 @@
     <div class="layui-inline">
         <input class="layui-input" id="account" name="account" placeholder="请输入账号搜索" autocomplete="off">
     </div>
-    &nbsp;
     <button class="layui-btn layui-btn-normal layui-btn-sm" data-type="reload">搜索</button>
 </div>
 <!-- 表格 -->
 <table class="auth-table" id="auth-table" lay-filter="auth-table"></table>
 <!-- 分页插件 -->
 <div class="page-table" id="page-table"></div>
-
 <!-- 多删除添加  -->
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
@@ -51,14 +49,14 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
-
+    //接口
     let user_admin_find_page = path + "/userAdmin/findPage"                // 用户查询
     let user_admin_delete = path + "/userAdmin/delete"                     // 用户删除
     let user_admin_deletes = path + "/userAdmin/deleteByIds"               // 批量删除
-    //弹出层
-    let user_admin_page_upd = path + "/page/console_user_upd"          // 用户编辑弹出
-    let user_admin_page_add = path + "/page/console_user_add"          // 用户添加弹出
-    let user_admin_page_upd_role = path + "/page/console_user_updRole" // 用户角色分配弹出
+    //路由
+    let user_admin_page_upd = path + "/page/console_user_userUpd"          // 用户编辑弹出
+    let user_admin_page_add = path + "/page/console_user_userAdd"          // 用户添加弹出
+    let user_admin_page_upd_role = path + "/page/console_user_updRole"     // 用户角色分配弹出
 
 
     let table;     // 数据表格
@@ -184,6 +182,7 @@
         });
     }
 
+
     /**
      * TODO  监听数据表格内按钮（编辑 || 删除 || 其他）, tool(auth-table)==> tool =监听按钮， auth-table=数据表格elem对应值
      * @author ws
@@ -210,6 +209,7 @@
             }
         });
     }
+
 
     /**
      * TODO  条件搜索，重载数据

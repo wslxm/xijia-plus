@@ -1,6 +1,5 @@
 package com.ws.ldy.admin.model.vo;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ws.ldy.base.model.vo.BaseAdminVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -30,8 +29,7 @@ public class AuthorityAdminVo extends BaseAdminVo {
     @ApiModelProperty(value = "请求方式")
     private String type;
     @ApiModelProperty(value = "是否选中-是否选中（是否有权限，前台复选框默认选中需要值）")
-    @JsonProperty  //防止大小写自动转换
-    Boolean LAY_CHECKED;
+    private Boolean isChecked;
 
 }
 

@@ -22,7 +22,7 @@ public class RoleAdminVo extends BaseAdminVo {
     private String desc;
 
     @ApiModelProperty(value = "角色分配, 当前用户拥有角色为true")
-    private Boolean checked;
+    private Boolean isChecked;
 
 }
 

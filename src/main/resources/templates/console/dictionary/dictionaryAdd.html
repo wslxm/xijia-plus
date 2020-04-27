@@ -48,10 +48,8 @@
 </div>
 
 <script>
-
     //父Id
     let pid = 0;
-
     $(function () {
         if (parent.data.lv === 1) {
             //添加类型
@@ -60,8 +58,6 @@
             pid = parent.data.id;
         }
     });
-
-
     layui.use(['form'], function () {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {

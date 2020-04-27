@@ -43,10 +43,11 @@
 </script>
 <script>
 
-    let role_admin_find_page = path + "/roleAdmin/findPage";        //角色查询-分页
-    let role_admin_delete = path + "/roleAdmin/delete";             //角色删除
-    let role_admin_page_add = path + "/page/console_role_roleAdd";  //角色添加弹出
-    let role_admin_page_upd = path + "/page/console_role_roleUpd";  //角色编辑弹出
+    let find_page = path + "/roleAdmin/findPage";        //角色查询-分页
+    let deletes = path + "/roleAdmin/delete";             //角色删除
+    //
+    let page_add = path + "/page/console_role_roleAdd";  //角色添加弹出
+    let page_upd = path + "/page/console_role_roleUpd";  //角色编辑弹出
 
 
     let table;     // 数据表格组件
@@ -77,7 +78,7 @@
         if (params === null || params === "null" || params === undefined || params === "undefined") {
             params = "";
         }
-        res = ajaxGet(role_admin_find_page + getPage() + params);
+        res = ajaxGet(find_page + getPage() + params);
         table.render({
             elem: '#auth-table'
             , data: res.data.records
@@ -149,7 +150,7 @@
         table.on('toolbar(auth-table)', function (obj) {
             //添加
             if (obj.event === "add") {
-                tipsWindown(role_admin_page_add, "600px", "400px", "添加");
+                tipsWindown(page_add, "600px", "400px", "添加");
             }
         });
     }
@@ -167,12 +168,12 @@
             data = obj.data;  //当前行数据
             //编辑
             if (obj.event === 'edit') {
-                tipsWindown(role_admin_page_upd, "600px", "400px", "修改");
+                tipsWindown(page_upd, "600px", "400px", "修改");
             }
             //删除
             if (obj.event === 'del') {
                 let params = "?id=" + data.id;
-                tipsDeleteId(role_admin_delete + params, obj);
+                tipsDeleteId(deletes + params, obj);
             }
         });
     }

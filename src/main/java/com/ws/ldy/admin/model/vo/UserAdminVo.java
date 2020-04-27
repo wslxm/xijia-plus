@@ -1,7 +1,6 @@
 package com.ws.ldy.admin.model.vo;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ws.ldy.admin.enums.GenderEnum;
 import com.ws.ldy.base.model.vo.BaseAdminVo;
 import io.swagger.annotations.ApiModel;
@@ -41,6 +40,5 @@ public class UserAdminVo extends BaseAdminVo {
     @ApiModelProperty(value = "注册时间")
     private Date time;
     @ApiModelProperty(value = "是否选中（角色是否有改用户，前台复选框默认选中需要值）")
-    @JsonProperty  //防止大小写自动转换
-    Boolean  LAY_CHECKED;
+    private Boolean  isChecked;
 }

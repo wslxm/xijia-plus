@@ -36,9 +36,9 @@ public class RoleAdminServiceImpl extends BaseIServiceImpl<RoleAdminMapper, Role
         roles.forEach(role -> {
             RoleAdminVo roleVo = role.convert(RoleAdminVo.class);
             if (roleUserMap.containsKey(role.getId())) {
-                roleVo.setChecked(true);
+                roleVo.setIsChecked(true);
             } else {
-                roleVo.setChecked(false);
+                roleVo.setIsChecked(false);
             }
             roleAdminVoList.add(roleVo);
         });

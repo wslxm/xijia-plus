@@ -54,12 +54,12 @@
             //
 
             // 接口
-            let menuFindAll = path + "/menuAdmin/list";     // 查询菜单树
-            let menuDelete = path + "/menuAdmin/delete";    // 删除
-            let menu_update = path + "/menuAdmin/update";   // 编辑
+            let find_list = path + "/menuAdmin/list";     // 查询菜单树
+            let deletes = path + "/menuAdmin/delete";     // 删除
+            let update = path + "/menuAdmin/update";      // 编辑
             // 路由
-            let admin_menu_add = path + "/page/console_menu_add";     // 添加菜单/页面弹层
-            let admin_menu_upd = path + "/page/console_menu_upd";     // 菜单编辑弹层
+            let page_add = path + "/page/console_menu_menuAdd";     // 添加菜单/页面弹层
+            let page_upd = path + "/page/console_menu_menuUpd";     // 菜单编辑弹层
 
             // 当前行数据
             var data = null;
@@ -95,7 +95,7 @@
              */
             function xijiaRenderTable() {
                 //菜单数据
-                let dataJson = ajaxGet(menuFindAll);
+                let dataJson = ajaxGet(find_list);
                 // 渲染表格
                 layer.load(2);
                 //加载数据
@@ -168,7 +168,7 @@
                     add: function () {
                         data = [];    // 初始化data
                         data.lv = 1;  // 给初始化后的data添加值
-                        tipsWindown(admin_menu_add, "440px", "280px", "添加系统");
+                        tipsWindown(page_add, "440px", "280px", "添加系统");
                     }
                 };
                 //必须在下面/监听class = demoTable内按钮
@@ -194,21 +194,21 @@
                     // TODO  菜单添加
                     if (obj.event === 'add') {
                         data.lv = 2; //表示添加菜单
-                        tipsWindown(admin_menu_add, "440px", "280px", "添加菜单--" + data.name)
+                        tipsWindown(page_add, "440px", "280px", "添加菜单--" + data.name)
                     }
                     // TODO  页面添加
                     if (obj.event === 'addPage') {
                         data.lv = 3;  //表示添加页面
-                        tipsWindown(admin_menu_add, "440px", "340px", "添加页面--" + data.name)
+                        tipsWindown(page_add, "440px", "340px", "添加页面--" + data.name)
                     }
                     // TODO  删除行
                     if (obj.event === 'del') {
                         let delData = "?id=" + data.id;
-                        tipsDeleteId(menuDelete + delData, obj)
+                        tipsDeleteId(deletes + delData, obj)
                     }
                     // TODO 修改菜单名称
                     if (obj.event === 'upd') {
-                        tipsWindown(admin_menu_upd, "440px", "240px", "编辑")
+                        tipsWindown(page_upd, "440px", "240px", "编辑")
                     }
                 });
 
@@ -220,13 +220,13 @@
                     let result;
                     if (field === "sort") {
                         // TODO  1，sort-修改排序
-                        result = ajaxPut(menu_update, {id: data.id, sort: val});
+                        result = ajaxPut(update, {id: data.id, sort: val});
                     } else if (field === "icon") {
                         // TODO  2，icon-修改图标
-                        result = ajaxPut(menu_update, {id: data.id, icon: val})
+                        result = ajaxPut(update, {id: data.id, icon: val})
                     } else if (field === "url") {
                         // TODO  3、url-修改菜单url
-                        result = ajaxPut(menu_update, {id: data.id, url: val})
+                        result = ajaxPut(update, {id: data.id, url: val})
                     } else {
                         // TODO  4、name-修改菜单名
                     }

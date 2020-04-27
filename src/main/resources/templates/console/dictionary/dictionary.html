@@ -55,7 +55,7 @@
 
 <script>
     // 接口
-    let findList = path + "/dictionaryAdmin/findList";     // 查询列表
+    let find_list = path + "/dictionaryAdmin/findList";     // 查询列表
     let deletes = path + "/dictionaryAdmin/delete";        // 删除
     let upd_sort = path + "/dictionaryAdmin/updSort";      // 修改排序
     // 路由
@@ -96,19 +96,19 @@
      */
     function xijiaRenderTable() {
         //菜单数据
-        let dataJson = ajaxGet(findList);
+        let dataJson = ajaxGet(find_list);
         // 渲染表格
         layer.load(2);
         //加载数据
         treeTable.render({
-            treeColIndex: 0,            //菜单列索引 ,加载展开图标
-            treeSpid: 0,                //顶级父id的pid值
-            treeIdName: 'id',           //id 名称
-            treePidName: 'pid',         //fid 名称
+            treeColIndex: 0,            // 菜单列索引 ,加载展开图标
+            treeSpid: 0,                // 顶级父id的pid值
+            treeIdName: 'id',           // id 字段名
+            treePidName: 'pid',         // pid 字段名
             treeDefaultClose: true,     // 是否默认折叠
-            treeLinkage: false,          // 父级展开时是否自动展开所有子级
+            treeLinkage: false,         // 父级展开时是否自动展开所有子级
             elem: '#auth-table',        //table 的 div
-            data: dataJson.data,                           //直接加载数据
+            data: dataJson.data,        //直接加载数据
             done: function () {
                 //  $("table").css("width", "96%");
                 layer.closeAll('loading');
