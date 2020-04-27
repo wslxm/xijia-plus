@@ -1,8 +1,6 @@
 package com.ws.ldy.admin.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ws.ldy.base.model.entity.BaseAdminEntity;
 import lombok.Data;
@@ -18,11 +16,7 @@ import lombok.Data;
 public class RoleAdmin extends BaseAdminEntity {
 
     private static final long serialVersionUID = 5684918982089765949L;
-    /**
-     * 数据库自增id
-     */
-    @TableId(type = IdType.AUTO) //自增
-    private int id;
+
     /**
      * 角色名称
      */

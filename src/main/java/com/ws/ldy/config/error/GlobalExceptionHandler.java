@@ -5,6 +5,7 @@ import com.ws.ldy.config.result.Result;
 import com.ws.ldy.config.result.ResultEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -51,9 +52,12 @@ public class GlobalExceptionHandler extends BaseController {
      */
     @ExceptionHandler(Exception.class)
     public Result<Void> exceptionHandler(Exception e) {
-
         StringBuffer url = request.getRequestURL();
-        log.info("###全局捕获异常###,url:{} -->  ERROR:{}", url, e);
+        if (e instanceof HttpRequestMethodNotSupportedException) {
+            // 请求方式错误
+            log.info("###全局捕获异常###,url:{} ==>  ERROR:{}  ==>  msg:{}", url, ResultEnum.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION, e.getMessage());
+            return new Result(ResultEnum.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION, e.getMessage());
+        }
         return error(ResultEnum.SYS_ERROR);
     }
 
@@ -78,15 +82,18 @@ public class GlobalExceptionHandler extends BaseController {
         StringBuffer url = request.getRequestURL();
         String exceptionClass = e.toString().substring(0, e.toString().indexOf(":"));
         String exceptionClassName = exceptionClass.substring(exceptionClass.lastIndexOf(".") + 1, exceptionClass.length());
-        if(e instanceof HttpMessageNotReadableException){
-            return error(ResultEnum.HTTP_MESSAGE_NOT_READABLE_EXCEPTION_ERROR);
-        }
+        // 后台日志打印
         if (MapException.containsKey(exceptionClassName)) {
             log.info("\n\r### [全局捕获异常] --> 请求URL:{} -->  错误原因:{}\n\r ---------> 详细错误日志:", url, MapException.get(exceptionClassName), e);
         } else {
             log.info("\n\r### [全局捕获异常] --> 请求URL:{} -->  错误原因:{}\n\r ---------> 详细错误日志:", url, "未解析", e);
         }
-        return error(ResultEnum.SYS_ERROR);
+        // 各种错误处理
+        if (e instanceof HttpMessageNotReadableException) {
+            return new Result(ResultEnum.HTTP_MESSAGE_NOT_READABLE_EXCEPTION, e.getMessage());
+        } else {
+            return new Result(ResultEnum.SYS_ERROR, e.getMessage());
+        }
     }
 
 

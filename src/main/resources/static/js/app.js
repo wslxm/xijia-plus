@@ -257,7 +257,7 @@ function ajax(url, data, type, dataType, async) {
             result = resultText;
         },
         error: function (res) {
-            layer.msg('后台异常！处理失败');
+            layer.msg('请求失败! 请检查请求URL是否正确');
         }
     });
     //错误打印

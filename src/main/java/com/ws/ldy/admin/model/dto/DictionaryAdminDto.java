@@ -18,14 +18,19 @@ public class DictionaryAdminDto extends BaseAdminDto {
 
     private static final long serialVersionUID = 0L;
 
-
     @ApiModelProperty(value = "字典类型")
-    private String type;
-    @ApiModelProperty(value = "搜索值")
-    private String key;
-    @ApiModelProperty(value = "选择值")
-    private String value;
+    private String code;
+
+    @ApiModelProperty(value = "字典名称")
+    private String name;
+
+    @ApiModelProperty(value = "父Id")
+    private Integer pid;
+
     @ApiModelProperty(value = "描叙")
     private String desc;
+
+    @ApiModelProperty(value = "排序")
+    private Integer sort;
 }
 

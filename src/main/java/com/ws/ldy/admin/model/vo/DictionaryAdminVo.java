@@ -7,7 +7,7 @@ import lombok.Data;
 
 
 /**
- * TODO  代码生成器自动生成，请自定义描叙
+ * TODO  字典表
  *
  * @author wangsong
  * @WX-QQ 1720696548
@@ -20,14 +20,18 @@ public class DictionaryAdminVo extends BaseAdminVo {
     private static final long serialVersionUID = 0L;
 
     @ApiModelProperty(value = "字典类型")
-    private String type;
-    @ApiModelProperty(value = "搜索值")
-    private String key;
-    @ApiModelProperty(value = "选择值")
-    private String value;
+    private String code;
+
+    @ApiModelProperty(value = "字典名称")
+    private String name;
+
+    @ApiModelProperty(value = "父Id")
+    private Integer pid;
+
     @ApiModelProperty(value = "描叙")
     private String desc;
-    @ApiModelProperty(value = "树菜单列表需要name字段显示")
-    private String name;
+
+    @ApiModelProperty(value = "排序")
+    private Integer sort;
 }
 

@@ -1,8 +1,6 @@
 package com.ws.ldy.admin.model.entity;
 
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ws.ldy.admin.enums.GenderEnum;
 import com.ws.ldy.base.model.entity.BaseAdminEntity;
@@ -21,11 +19,7 @@ import java.util.Date;
 public class UserAdmin extends BaseAdminEntity {
 
     private static final long serialVersionUID = 4934650100711613453L;
-    /**
-     * 数据库自增id
-     */
-    @TableId(type = IdType.AUTO) //自增
-    private Integer id;
+
     /** 头像 */
     private String head;
 

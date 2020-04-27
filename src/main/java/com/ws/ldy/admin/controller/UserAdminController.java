@@ -89,12 +89,7 @@ public class UserAdminController extends BaseController {
     }
 
 
-    /***
-     * TODO  添加
-     * @param userAdminDto 对象数据
-     * @date 2019/11/14 17:34
-     * @return java.lang.String
-     */
+
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation("添加")
     public Result<Void> insert(@RequestBody UserAdminDto userAdminDto) {
@@ -105,12 +100,7 @@ public class UserAdminController extends BaseController {
     }
 
 
-    /***
-     * TODO  修改
-     * @param userAdminDto 对象数据
-     * @date 2019/11/14 17:34
-     * @return java.lang.String
-     */
+
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @ApiOperation("编辑")
     public Result<Void> update(@RequestBody UserAdminDto userAdminDto) {
@@ -135,12 +125,6 @@ public class UserAdminController extends BaseController {
     }
 
 
-    /***
-     * TODO  密码修改
-     * @param password
-     * @date 2019/11/18 10:13
-     * @return java.lang.String
-     */
     @RequestMapping(value = "/updPwd", method = RequestMethod.PUT)
     @ApiOperation("密码修改")
     public Result<Void> updPwd(@RequestParam String oldPassword, @RequestParam String password) {

@@ -70,10 +70,10 @@
                     data.field.root = parent.data.lv;  // 目录级别
                     let result = ajaxPost(path + "/menuAdmin/insert", data.field);
                     let index = parent.layer.getFrameIndex(window.name);
-                    // 重载页面
-                    //parent.window.location.reload();
                     parent.layer.close(index);
                     parent.layer.msg(result.msg);
+                    // 重载页面--不建议开启--建议使用手动刷新
+                    // parent.window.location.reload();
                 });
             });
         </script>

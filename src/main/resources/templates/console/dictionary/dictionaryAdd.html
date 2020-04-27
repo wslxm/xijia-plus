@@ -18,27 +18,27 @@
     <div class="layui-form-item">
         <label class="layui-form-label">字典类型</label>
         <div class="layui-input-inline">
-            <input type="text" id="type" name="type" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" disabled>
+            <input type="text" id="code" name="code" lay-verify="required" placeholder="请尽量使用英文-用于搜索使用" autocomplete="off" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">搜索值</label>
+        <label class="layui-form-label">字典名称</label>
         <div class="layui-input-inline">
-            <input type="text" id="key" name="key" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            <input type="text" id="name" name="name" lay-verify="required" placeholder="请输入字典名称" autocomplete="off" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">选择值</label>
+        <label class="layui-form-label">字典描叙</label>
         <div class="layui-input-inline">
-            <input type="text" id="value" name="value" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            <input type="text" id="desc" name="desc" lay-verify="required" placeholder="请输入字典描叙" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">描叙</label>
+        <label class="layui-form-label">排序</label>
         <div class="layui-input-inline">
-            <input type="text" id="desc" name="desc" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            <input type="text" id="sort" name="sort" lay-verify="required" value="0" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item layui-hide">
@@ -48,20 +48,30 @@
 </div>
 
 <script>
+
+    //父Id
+    let pid = 0;
+
     $(function () {
-        //父页面的值,赋值到当前页
-        $('#type').val(parent.leftFont);
+        if (parent.data.lv === 1) {
+            //添加类型
+        } else if (parent.data.lv === 2) {
+            //添加子类别
+            pid = parent.data.id;
+        }
     });
+
 
     layui.use(['form'], function () {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            var result = ajaxPost(path +  "/dictionaryAdmin/save/1", data.field);
-            //重载表格
-            parent.layui.table.reload('auth-table');
-            var index = parent.layer.getFrameIndex(window.name);
+            data.field.pid = pid;
+            let result = ajaxPost(path + "/dictionaryAdmin/insert", data.field);
+            let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
-            parent.layer.msg(result);
+            parent.layer.msg(result.msg);
+            // 重载页面--不建议开启--建议使用手动刷新
+            // parent.window.location.reload();
         });
     });
 </script>

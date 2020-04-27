@@ -16,10 +16,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -49,11 +49,12 @@ public class RoleAdminController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "name", value = "角色名称", required = false, paramType = "query"),
     })
-    public Result<IPage<RoleAdminVo>> findPage(Integer id) {
+    public Result<IPage<RoleAdminVo>> findPage(String name) {
         Page<RoleAdmin> page = roleAdminServiceImpl.page(this.getPage(), new LambdaQueryWrapper<RoleAdmin>()
                 .orderByAsc(RoleAdmin::getId)
-                .eq(id != null, RoleAdmin::getId, id)
+                .like(StringUtils.isNotBlank(name), RoleAdmin::getName, name)
         );
         return successFind(page.convert(item -> item.convert(RoleAdminVo.class)));
     }
@@ -66,50 +67,52 @@ public class RoleAdminController extends BaseController {
         return successFind(this.listVoStream(roles, RoleAdminVo.class));
     }
 
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @ApiOperation("添加")
+    public Result<Void> insert(@RequestBody RoleAdminDto roleAdminDto) {
+        roleAdminServiceImpl.save(roleAdminDto.convert(RoleAdmin.class));
+        return successInsert();
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @ApiOperation("编辑")
+    public Result<Void> update(@RequestBody RoleAdminDto roleAdminDto) {
+        roleAdminServiceImpl.updateById(roleAdminDto.convert(RoleAdmin.class));
+        return successInsert();
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @ApiOperation("单删除")
+    public Result<Void> delete(Integer id) {
+        roleAdminServiceImpl.removeById(id);
+        return successDelete();
+    }
+
+
+    //=========================================================================
+    //============================ 增删改查外 ===================================
+    //=========================================================================
+    //=========================================================================
+
 
     @RequestMapping(value = "/findRoleChecked", method = RequestMethod.GET)
-    @ApiOperation("角色分配查询所有--用户当前角色赋予Checked=true")
+    @ApiOperation("查询所有角色==> 用户拥有角色赋予 checked=true")
     public Result<List<RoleAdminVo>> findRoleChecked(@RequestParam String userId) {
         List<RoleAdminVo> roles = roleAdminServiceImpl.findRoleChecked(userId);
-        return successUpdate(roles);
+        return successFind(roles);
     }
 
 
     @RequestMapping(value = "/updUserRole", method = RequestMethod.PUT)
-    @ApiOperation("用户分配角色")
+    @ApiOperation("用户角色分配")
     public Result<Void> updUserRole(@RequestParam Integer userId, Integer[] roleIds) {
         boolean result = roleAdminServiceImpl.updUserRole(userId, roleIds);
         return successUpdate();
     }
 
 
-    /***
-     * TODO  添加/修改
-     * @param type
-     * @param roleAdminDto 对象数据
-     */
-    @RequestMapping(value = "/save/{type}", method = RequestMethod.POST)
-    @ApiOperation("添加/修改 ==>>>  t=1 添加，=2修改")
-    public Result<Void> save(@PathVariable Integer type, @RequestBody RoleAdminDto roleAdminDto) {
-        if (type == 1) {
-            roleAdminServiceImpl.save(roleAdminDto.convert(RoleAdmin.class));
-        } else {
-            roleAdminServiceImpl.save(roleAdminDto.convert(RoleAdmin.class));
-        }
-        return successInsert();
-    }
-
-
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    @ApiOperation("批量删除/单删除")
-    public Result<Void> delete(Integer[] ids) {
-        roleAdminServiceImpl.removeByIds(Arrays.asList(ids));
-        return successDelete();
-    }
-
-
     @RequestMapping(value = "/updRoleMenu", method = RequestMethod.PUT)
-    @ApiOperation("角色菜单权限分配")
+    @ApiOperation("角色菜单分配")
     public Result<Void> updRoleMenu(@RequestParam Integer roleId, Integer[] menuIds, @RequestParam Integer pid) {
         roleMenuAdminServiceImpl.roleMenuAuth(roleId, menuIds, pid);
         return successUpdate();
@@ -117,7 +120,7 @@ public class RoleAdminController extends BaseController {
 
 
     @RequestMapping(value = "/updRoleUrlAuth", method = RequestMethod.PUT)
-    @ApiOperation("角色URL权限分配")
+    @ApiOperation("角色URL分配")
     public Result<Void> updRoleUrlAuth(@RequestParam Integer roleId, Integer[] authIds) {
         roleAuthAdminServiceImpl.roleUrlAuth(roleId, authIds);
         return successUpdate();

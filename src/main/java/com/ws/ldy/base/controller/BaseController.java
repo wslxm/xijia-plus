@@ -85,7 +85,7 @@ public class BaseController {
     }
 
     public <T> Result<T> error(ResultEnum resultType) {
-        return new Result(ResultEnum.SYS_OPERATE_ERROR, null);
+        return new Result(resultType, null);
     }
 
 

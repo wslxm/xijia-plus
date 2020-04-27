@@ -1,8 +1,6 @@
 package com.ws.ldy.admin.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ws.ldy.base.model.entity.BaseAdminEntity;
 import lombok.Data;
@@ -20,33 +18,29 @@ public class DictionaryAdmin extends BaseAdminEntity {
 
     private static final long serialVersionUID = 0L;
     /**
-     * 数据库自增id
+     * 字典类型
      */
-    @TableId(type = IdType.AUTO) //自增
-    private int id;
+    @TableField(value = "code")
+    private String code;
+    /**
+     * 字典名称
+     */
+    @TableField(value = "name")
+    private String name;
+    /**
+     * 父Id
+     */
+    @TableField(value = "pid")
+    private Integer pid;
     /**
      * 描叙
      */
     @TableField(value = "`desc`")
     private String desc;
-
     /**
-     * 搜索值
+     * 排序
      */
-    @TableField(value = "`key`")
-    private String key;
-
-    /**
-     * 字典类型
-     */
-    @TableField(value = "`type`")
-    private String type;
-
-    /**
-     * 选择值
-     */
-    @TableField(value = "`value`")
-    private String value;
-
+    @TableField(value = "`sort`")
+    private Integer sort;
 }
 

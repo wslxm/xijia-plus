@@ -17,35 +17,30 @@
 <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list"
      style="padding: 20px 30px 0 0;">
 
-
     <div class="layui-form-item">
         <label class="layui-form-label">字典类型</label>
         <div class="layui-input-inline">
-            <input type="text" id="type" name="type" lay-verify="required" placeholder="" autocomplete="off"
-                   class="layui-input" disabled>
+            <input type="text" id="code" name="code" lay-verify="required" placeholder="请尽量使用英文-用于搜索使用" autocomplete="off" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">搜索值</label>
+        <label class="layui-form-label">字典名称</label>
         <div class="layui-input-inline">
-            <input type="text" id="key" name="key" lay-verify="required" placeholder="请输入" autocomplete="off"
-                   class="layui-input">
+            <input type="text" id="name" name="name" lay-verify="required" placeholder="请输入字典名称" autocomplete="off" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">选择值</label>
+        <label class="layui-form-label">字典描叙</label>
         <div class="layui-input-inline">
-            <input type="text" id="value" name="value" lay-verify="required" placeholder="请输入" autocomplete="off"
-                   class="layui-input">
+            <input type="text" id="desc" name="desc" lay-verify="required" placeholder="请输入字典描叙" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">描叙</label>
+        <label class="layui-form-label">排序</label>
         <div class="layui-input-inline">
-            <input type="text" id="desc" name="desc" lay-verify="required" placeholder="请输入" autocomplete="off"
-                   class="layui-input">
+            <input type="text" id="sort" name="sort" lay-verify="required" value="0" autocomplete="off" class="layui-input">
         </div>
     </div>
 
@@ -61,11 +56,10 @@
 
     $(function () {
         //父页面的值,赋值到当前页
-
+        $('#code').val(parent.data.code);
+        $('#name').val(parent.data.name);
         $('#desc').val(parent.data.desc);
-        $('#key').val(parent.data.key);
-        $('#type').val(parent.data.type);
-        $('#value').val(parent.data.value);
+        $('#sort').val(parent.data.sort);
     });
 
 
@@ -73,12 +67,12 @@
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.id = parent.data.id;
-            var result = ajaxPost( path +  "/dictionaryAdmin/save/2", data.field);
-            //重载表格
-            parent.layui.table.reload('auth-table');
-            var index = parent.layer.getFrameIndex(window.name);
+            let result = ajaxPut(path + "/dictionaryAdmin/update", data.field);
+            let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
-            parent.layer.msg(result);
+            parent.layer.msg(result.msg);
+            // 重载页面--不建议开启--建议使用手动刷新
+            // parent.window.location.reload();
         });
     });
 </script>

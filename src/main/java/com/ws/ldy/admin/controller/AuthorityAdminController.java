@@ -45,16 +45,9 @@ public class AuthorityAdminController extends BaseController {
             @ApiImplicitParam(name = "id", value = "数据id", required = false, paramType = "query"),
     })
     public Result<IPage<AuthorityAdminVo>> findPage(Integer id) {
-
         Page<AuthorityAdmin> authorityAdminPage = authorityAdminService.page(this.getPage(), new LambdaQueryWrapper<AuthorityAdmin>()
                 .eq(id != null, AuthorityAdmin::getId, id)
         );
-
-        //   .orderByAsc(AuthorityAdmin::getId)
-//        Page<AuthorityAdmin> authorityAdminPage = authorityAdminService.selectPage(this.getPage(), new QueryCriteria()
-//                .eq(id != null, "id", id)
-//                .orderByAsc("id")
-//        );
         IPage<AuthorityAdminVo> convert = authorityAdminPage.convert(item -> item.convert(AuthorityAdminVo.class));
         return success(convert);
     }
