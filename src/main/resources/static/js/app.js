@@ -249,7 +249,8 @@ function ajax(url, data, type, dataType, async) {
         data: JSON.stringify(data),
         contentType: "application/json",
         headers: {
-            "token": localStorage.getItem('token')
+           //"token": localStorage.getItem('token')
+          "token": sessionStorage.getItem('token')
         },
         async: async,      //同步
         //traditional: true, //允许传递数组

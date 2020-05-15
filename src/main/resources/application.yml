@@ -4,7 +4,8 @@ spring:
   # 当遇到同样beng名字的时候，是否允许覆盖注册
   main:
     allow-bean-definition-overriding: true
-  # 关闭thymeleaf缓存 开发时使用 否则没有实时画面
+
+  # 关闭thymeleaf缓存 开发时使用,否则没有实时画面
   thymeleaf:
     cache: false
     check-template-location: true
@@ -12,12 +13,13 @@ spring:
     mode: LEGACYHTML5
     prefix: classpath:/templates/
     suffix: .html
+
   #时间格式处理
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
-  # Spring Boot Admin 配置 actuator监控中心可视化界面
+  # Spring Boot Admin 配置 actuator监控中心可视化界面   /bootAdmin
   boot:
     admin:
       context-path: /bootAdmin

@@ -15,9 +15,9 @@ layui.define(['layer', 'table'], function (exports) {
                 treetable.init(param, param.data);
             } else {
                 $.getJSON(param.url, param.where, function (res) {
-                    if("function"==typeof param.parseData){
-                        treetable.init(param,param.parseData(res).data);
-                    }else{
+                    if ("function" == typeof param.parseData) {
+                        treetable.init(param, param.parseData(res).data);
+                    } else {
                         treetable.init(param, res.data);
                     }
                 });

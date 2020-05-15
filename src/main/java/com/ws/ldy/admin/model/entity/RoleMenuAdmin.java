@@ -27,8 +27,10 @@ public class RoleMenuAdmin extends BaseAdminEntity {
      */
     private int roleId;
 
-    public RoleMenuAdmin() {}
-    public RoleMenuAdmin(int roleId, int menuId ) {
+    public RoleMenuAdmin() {
+    }
+
+    public RoleMenuAdmin(int roleId, int menuId) {
         this.menuId = menuId;
         this.roleId = roleId;
     }

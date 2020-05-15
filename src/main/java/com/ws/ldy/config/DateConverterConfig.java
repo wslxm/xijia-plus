@@ -11,55 +11,57 @@ import java.util.List;
 
 /**
  * TODO    全局页面传入日期字符串，自动转换成日期格式
+ *
  * @author 王松
  * @WX-QQ 1720696548
- * @date  2019/11/14 17:36
+ * @date 2019/11/14 17:36
  */
 @Component
 public class DateConverterConfig implements Converter<String, Date> {
 
-	private static final List<String> formarts = new ArrayList<>(4);
-	static {
-		formarts.add("yyyy-MM");
-		formarts.add("yyyy-MM-dd");
-		formarts.add("yyyy-MM-dd hh:mm");
-		formarts.add("yyyy-MM-dd hh:mm:ss");
-	}
+    private static final List<String> formarts = new ArrayList<>(4);
 
-	@Override
-	public Date convert(String source) {
-		String value = source.trim();
-		if ("".equals(value)) {
-			return null;
-		}
-		if (source.matches("^\\d{4}-\\d{1,2}$")) {
-			return parseDate(source, formarts.get(0));
-		} else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
-			return parseDate(source, formarts.get(1));
-		} else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
-			return parseDate(source, formarts.get(2));
-		} else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$")) {
-			return parseDate(source, formarts.get(3));
-		} else {
-			throw new IllegalArgumentException("Invalid boolean value '" + source + "'");
-		}
-	}
+    static {
+        formarts.add("yyyy-MM");
+        formarts.add("yyyy-MM-dd");
+        formarts.add("yyyy-MM-dd hh:mm");
+        formarts.add("yyyy-MM-dd hh:mm:ss");
+    }
 
-	/**
-	 * 格式化日期
-	 *
-	 * @param dateStr String 字符型日期
-	 * @param format  String 格式
-	 * @return Date 日期
-	 */
-	public Date parseDate(String dateStr, String format) {
-		Date date = null;
-		try {
-			DateFormat dateFormat = new SimpleDateFormat(format);
-			date = dateFormat.parse(dateStr);
-		} catch (Exception e) {
-			throw new IllegalArgumentException("Invalid boolean value ");
-		}
-		return date;
-	}
+    @Override
+    public Date convert(String source) {
+        String value = source.trim();
+        if ("".equals(value)) {
+            return null;
+        }
+        if (source.matches("^\\d{4}-\\d{1,2}$")) {
+            return parseDate(source, formarts.get(0));
+        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
+            return parseDate(source, formarts.get(1));
+        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
+            return parseDate(source, formarts.get(2));
+        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$")) {
+            return parseDate(source, formarts.get(3));
+        } else {
+            throw new IllegalArgumentException("Invalid boolean value '" + source + "'");
+        }
+    }
+
+    /**
+     * 格式化日期
+     *
+     * @param dateStr String 字符型日期
+     * @param format  String 格式
+     * @return Date 日期
+     */
+    public Date parseDate(String dateStr, String format) {
+        Date date = null;
+        try {
+            DateFormat dateFormat = new SimpleDateFormat(format);
+            date = dateFormat.parse(dateStr);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid boolean value ");
+        }
+        return date;
+    }
 }

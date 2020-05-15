@@ -7,7 +7,7 @@ import com.ws.ldy.config.constant.BaseConstant;
 import com.ws.ldy.common.utils.BeanDtoVoUtils;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.config.result.Result;
-import com.ws.ldy.config.result.ResultEnum;
+import com.ws.ldy.config.result.ResultType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
@@ -36,47 +36,47 @@ public class BaseController {
     //================================================================
     //TODO  通用返回成功
     public <T> Result<T> success(T data) {
-        return new Result(ResultEnum.SYS_SUCCESS, data);
+        return new Result(ResultType.SYS_SUCCESS, data);
     }
 
     public Result<Void> success() {
-        return new Result(ResultEnum.SYS_SUCCESS, null);
+        return new Result(ResultType.SYS_SUCCESS, null);
     }
 
     // TODO 查询成功
     public Result<Void> successFind() {
-        return new Result(ResultEnum.SYS_SUCCESS_FIND, null);
+        return new Result(ResultType.SYS_SUCCESS_FIND, null);
     }
 
     public <T> Result<T> successFind(T data) {
-        return new Result(ResultEnum.SYS_SUCCESS_FIND, data);
+        return new Result(ResultType.SYS_SUCCESS_FIND, data);
     }
 
     // TODO 添加成功
     public Result<Void> successInsert() {
-        return new Result(ResultEnum.SYS_SUCCESS_INSERT, null);
+        return new Result(ResultType.SYS_SUCCESS_INSERT, null);
     }
 
     public <T> Result<T> successInsert(T data) {
-        return new Result(ResultEnum.SYS_SUCCESS_INSERT, data);
+        return new Result(ResultType.SYS_SUCCESS_INSERT, data);
     }
 
     // TODO 编辑成功
     public Result<Void> successUpdate() {
-        return new Result(ResultEnum.SYS_SUCCESS_UPDATE, null);
+        return new Result(ResultType.SYS_SUCCESS_UPDATE, null);
     }
 
     public <T> Result<T> successUpdate(T data) {
-        return new Result(ResultEnum.SYS_SUCCESS_UPDATE, data);
+        return new Result(ResultType.SYS_SUCCESS_UPDATE, data);
     }
 
     // TODO 删除成功
     public Result<Void> successDelete() {
-        return new Result(ResultEnum.SYS_SUCCESS_DELETE, null);
+        return new Result(ResultType.SYS_SUCCESS_DELETE, null);
     }
 
     public <T> Result<T> successDelete(T data) {
-        return new Result(ResultEnum.SYS_SUCCESS_DELETE, data);
+        return new Result(ResultType.SYS_SUCCESS_DELETE, data);
     }
 
     // TODO 返回失败（传入自定义错误code+msg）+ （传入自定义枚举）
@@ -84,7 +84,7 @@ public class BaseController {
         return new Result(code, msg, null);
     }
 
-    public <T> Result<T> error(ResultEnum resultType) {
+    public <T> Result<T> error(ResultType resultType) {
         return new Result(resultType, null);
     }
 
@@ -106,7 +106,7 @@ public class BaseController {
         UserAdmin userAdmin = (UserAdmin) session.getAttribute(BaseConstant.SYS + token);
         // 判断用户是否登录
         if (userAdmin == null) {
-            throw new ErrorException(ResultEnum.ADMIN_IS_NO_LOGIN);
+            throw new ErrorException(ResultType.ADMIN_IS_NO_LOGIN);
         }
         return userAdmin;
     }
@@ -117,7 +117,7 @@ public class BaseController {
         UserAdmin userAdmin = (UserAdmin) session.getAttribute(BaseConstant.SYS + token);
         // 判断用户是否登录
         if (userAdmin == null) {
-            throw new ErrorException(ResultEnum.ADMIN_IS_NO_LOGIN);
+            throw new ErrorException(ResultType.ADMIN_IS_NO_LOGIN);
         }
         return userAdmin.getId();
     }
@@ -161,6 +161,7 @@ public class BaseController {
     //======================dot ,Do ,entity 相互转换 ==================
     //================================================================
     //================================================================
+
     /**
      * TODO  dot ,Do ,entity 相互转换， 采用 org.springframework.beans.BeanUtils 包
      * 同：BeanUtils.copyProperties(dtoEntity, newInstance);

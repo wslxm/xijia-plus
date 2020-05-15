@@ -1,6 +1,7 @@
 package com.ws.ldy.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ws.ldy.admin.enums.Constant;
 import com.ws.ldy.admin.model.dto.DictionaryAdminDto;
 import com.ws.ldy.admin.model.entity.DictionaryAdmin;
 import com.ws.ldy.admin.model.vo.DictionaryAdminVo;
@@ -24,24 +25,12 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/dictionaryAdmin")
-@Api(value = "DictionaryAdminController", tags = "字典管理")
+@Api(value = "DictionaryAdminController", tags = "字典管理", description = Constant.InterfaceType.PC_ADMIN)
 public class DictionaryAdminController extends BaseController {
 
     @Resource
     private DictionaryAdminServiceImpl dictionaryAdminServiceImpl;
 
-
-//    @ApiOperation("根据类型查询字典表")
-//    @RequestMapping(value = "/findByType", method = RequestMethod.GET)
-//    public Result<List<DictionaryAdminVo>> findByType(String code) {
-//      //  List<DictionaryAdmin> dictionaryList = dictionaryAdminServiceImpl.findByType(code);
-//        List<DictionaryAdmin> dictionaryList = dictionaryAdminServiceImpl.list(new LambdaQueryWrapper<DictionaryAdmin>().eq(DictionaryAdmin::getCode, code));
-//        List<DictionaryAdminVo> dictionaryAdminVos = this.listVo(dictionaryList, DictionaryAdminVo.class);
-//        for (DictionaryAdminVo dictionary : dictionaryAdminVos) {
-//            dictionary.setName(dictionary.getValue());
-//        }
-//        return success(dictionaryAdminVos);
-//    }
 
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiOperation("列表查询")

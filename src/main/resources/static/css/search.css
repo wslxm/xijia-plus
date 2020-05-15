@@ -1,4 +1,3 @@
-
 /** 搜索行开始的上/左间距 */
 .searchTable {
     margin-top: 1.2%;
@@ -31,6 +30,6 @@
 
 
 /** 分页插件背景色  */
-.layui-laypage a, .layui-laypage span{
+.layui-laypage a, .layui-laypage span {
     background-color: #f1f1f1;
 }

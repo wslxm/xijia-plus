@@ -2,13 +2,16 @@ package com.ws.ldy.config.error;
 
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.config.result.Result;
-import com.ws.ldy.config.result.ResultEnum;
+import com.ws.ldy.config.result.ResultType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +19,7 @@ import java.util.Map;
  * 异常处理类/ 全局异常 /自定义异常
  */
 //@ControllerAdvice
-@SuppressWarnings("Java8MapApi")
+@SuppressWarnings("all")
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler extends BaseController {
@@ -25,95 +28,96 @@ public class GlobalExceptionHandler extends BaseController {
     /**
      * 运行时异常log4j日志信息转换中文提示，key=为异常类，value=提示信息，可任意扩展
      */
-    private static Map<String, String> MapException = new HashMap();
+    private static Map<String, String> mapException = null;
 
+    /**
+     * TODO 程序错误
+     */
     public GlobalExceptionHandler() {
-        MapException.put("NullPointerException", "空指针异常");
-        MapException.put("NumberFormatException", "字符串转换为数字异常,比如int i= Integer.parseInt(“ab3”)");
-        MapException.put("ArrayIndexOutOfBoundsException", "数组越界");
-        MapException.put("StringIndexOutOfBoundsException", "字符串越界");
-        MapException.put("ClassCastException", "类型转换错误。比如 Object obj=new Object(); String s=(String)obj");
-        MapException.put("UnsupportedOperationException", "该操作不被支持");
-        MapException.put("ArithmeticException", "算术错误，典型的就是0作为除数的时候");
-        MapException.put("IllegalArgumentException", "非法参数，在把字符串转换成数字的时候经常出现的一个异常");
-        MapException.put("HttpMessageNotReadableException", "通常是参数错误导致jackson反序列化失败异常");
+        mapException = new HashMap<>();
+        mapException.put("NullPointerException", "空指针异常 : ");
+        mapException.put("NumberFormatException", "字符串转换为数字异常,比如int i= Integer.parseInt(“ab3”) : ");
+        mapException.put("ArrayIndexOutOfBoundsException", "数组越界 : ");
+        mapException.put("StringIndexOutOfBoundsException", "字符串越界 : ");
+        mapException.put("ClassCastException", "类型转换错误。比如 Object obj=new Object(); String s=(String)obj : ");
+        mapException.put("UnsupportedOperationException", "该操作不被支持 : ");
+        mapException.put("ArithmeticException", "算术错误，典型的就是0作为除数的时候 : ");
+        mapException.put("IllegalArgumentException", "非法参数，在把字符串转换成数字的时候经常出现的一个异常 : ");
+        mapException.put("UnsupportedEncodingException", "编码编译出错 : ");
     }
 
 
     /**
-     * TODO  全局异常 --> 受检查异常。可以理解为错误，必须要开发者解决以后才能编译通过，
-     * 解决的方法有两种1：throw到上层，2，try-catch处理。
+     * TODO  全局异常|受检查异常 --> Exception 。可以理解为错误，必须要开发者解决以后才能编译通过，这里JSR 303 为受检查异常
+     * TODO  全局异常|运行时异常 --> RuntimeException extends Exception： 运行时异常,又称不受检查异常，不受检查！
+     * 受检查异常解决的方法有两种1：throw到上层，2，try-catch处理。
      *
      * @param e
-     * @return com.ws.ldy.config.result.ResponseData
+     * @return com.ws.ldy.admincore.platform.vo.ResponseData
      * @author ws
      * @mail 1720696548@qq.com
      * @date 2020/2/9 0009 10:06
      */
     @ExceptionHandler(Exception.class)
-    public Result<Void> exceptionHandler(Exception e) {
-        StringBuffer url = request.getRequestURL();
-        if (e instanceof HttpRequestMethodNotSupportedException) {
-            // 请求方式错误
-            log.info("###全局捕获异常###,url:{} ==>  ERROR:{}  ==>  msg:{}", url, ResultEnum.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION, e.getMessage());
-            return new Result(ResultEnum.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION, e.getMessage());
-        }
-        return error(ResultEnum.SYS_ERROR);
-    }
-
-
-    /**
-     * TODO  全局异常--> 运行时异常,又称不受检查异常，不受检查！
-     * <p>
-     * 因为不受检查，所以在代码中可能会有RunTimeException时Java编译检查时不会告诉你有这个异常，但是在实际运行代码时则会暴露出来，比如经典的1/0，空指针等。如果不处理也会被Java自己处理
-     * <p>
-     * RuntimeException是开发中最容易遇到的，下面列举一下常见的RuntimeException：
-     * 1、NullPointerException：见的最多了，其实很简单，一般都是在null对象上调用方法了。
-     * 2、NumberFormatException：继承IllegalArgumentException，字符串转换为数字时出现。比如int i= Integer.parseInt(“ab3”);
-     * 3、ArrayIndexOutOfBoundsException:数组越界。比如 int[] a=new int[3]; int b=a[3];
-     * 4、StringIndexOutOfBoundsException：字符串越界。比如 String s=“hello”; char c=s.chatAt(6);
-     * 5、ClassCastException:类型转换错误。比如 Object obj=new Object(); String s=(String)obj;
-     * 6、UnsupportedOperationException:该操作不被支持。如果我们希望不支持这个方法，可以抛出这个异常。既然不支持还要这个干吗？有可能子类中不想支持父类中有的方法，可以直接抛出这个异常。
-     * 7、ArithmeticException：算术错误，典型的就是0作为除数的时候。
-     * 8、IllegalArgumentException：非法参数，在把字符串转换成数字的时候经常出现的一个异常，我们可以在自己的程序中好好利用这个异常。
-     */
-    @ExceptionHandler(RuntimeException.class)
-    public Result<Void> exceptionHandler(RuntimeException e) {
-        StringBuffer url = request.getRequestURL();
-        String exceptionClass = e.toString().substring(0, e.toString().indexOf(":"));
+    public Result<String> exceptionHandler(Exception e) {
+        // 日志模板
+        String logStr = "\n\r### [全局捕获异常] --> 请求URL: " + request.getRequestURL() + " --> 错误原因: ";
+        // 错误类名
+        String exceptionClass = e.getClass().getName();
         String exceptionClassName = exceptionClass.substring(exceptionClass.lastIndexOf(".") + 1, exceptionClass.length());
-        // 后台日志打印
-        if (MapException.containsKey(exceptionClassName)) {
-            log.info("\n\r### [全局捕获异常] --> 请求URL:{} -->  错误原因:{}\n\r ---------> 详细错误日志:", url, MapException.get(exceptionClassName), e);
-        } else {
-            log.info("\n\r### [全局捕获异常] --> 请求URL:{} -->  错误原因:{}\n\r ---------> 详细错误日志:", url, "未解析", e);
+        // 详细错误信息
+        StringBuffer errorDesc = new StringBuffer();
+        errorDesc.append("\r\n异常类:" + exceptionClass + "\r\n详细错误内容:\r\n");
+        if (e.getStackTrace() != null) {
+            Arrays.stream(e.getStackTrace()).forEach(i -> errorDesc.append(i.toString() + "\r\n"));
         }
-        // 各种错误处理
-        if (e instanceof HttpMessageNotReadableException) {
-            return new Result(ResultEnum.HTTP_MESSAGE_NOT_READABLE_EXCEPTION, e.getMessage());
+        // 全局异常已解析内容错误
+        if (mapException.containsKey(exceptionClassName)) {
+            /**
+             * TODO 程序错误 - mapException 中所有异常类（打印及返回完整错误信息）
+             */
+            log.info(logStr + mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
+            return new Result(ResultType.SYS_ERROR, mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
+        } else if (e instanceof ErrorException) {
+            /**
+             *  TODO 自定义异常()
+             */
+            ErrorException error = (ErrorException) e;
+            log.info(logStr + error.toString());
+            return new Result(error.getCode(), error.getMsg());
+        } else if (e instanceof HttpMessageNotReadableException) {
+            /**
+             * TODO 参数错误 - 枚举参数 |json参数错误, 请检查json是否完整，序列化失败（只打印核心错误内容）
+             */
+            HttpMessageNotReadableException error = (HttpMessageNotReadableException) e;
+            log.info(logStr + ResultType.SYSTEM_PARAMETER_ILLEGAL_PARAM.getMsg(), e.getMessage());
+            return new Result(ResultType.SYSTEM_PARAMETER_ILLEGAL_PARAM, e.getMessage());
+        } else if (e instanceof MethodArgumentNotValidException) {
+            /**
+             * TODO JSR 303 为参数验证错误（只打印核心错误内容）
+             */
+            log.info(logStr + ResultType.SYSTEM_VALID_ILLEGAL_PARAM.getMsg(), e.getMessage());
+            return new Result(ResultType.SYSTEM_VALID_ILLEGAL_PARAM, e.getMessage());
+        } else if (e instanceof MissingServletRequestParameterException) {
+            /**
+             * TODO 未传递 Parameter 参数验证错误, 一般为 @Parameter 指定参数未传递（只打印核心错误内容）
+             */
+            log.info(logStr + ResultType.SYSTEM_PARAMETER_ILLEGAL_PARAM.getMsg(), e.getMessage());
+            return new Result(ResultType.SYSTEM_PARAMETER_ILLEGAL_PARAM, e.getMessage());
+        } else if (e instanceof MethodArgumentTypeMismatchException) {
+            /**
+             * TODO  方法参数类型不匹配mvc
+             */
+            log.info(logStr + ResultType.SYSTEM_PARAMETER_WRONG_TYPE.getMsg(), e.getMessage());
+            return new Result(ResultType.SYSTEM_PARAMETER_WRONG_TYPE, e.getMessage());
         } else {
-            return new Result(ResultEnum.SYS_ERROR, e.getMessage());
+            /**
+             * TODO  未解析到的错误（打印及返回完整错误信息）
+             */
+            log.info(logStr + e.getMessage() + errorDesc.toString());
+            return new Result(ResultType.SYS_ERROR, e.getMessage() + errorDesc.toString());
         }
-    }
-
-
-    /**
-     * TODO  自定义异常捕获（返回用户/前端友好提示）
-     * <p>
-     * 任意地方使用：throw new ErrorException("1000000","自定义异常测试");
-     * 返回：{"code": "1000000","msg": "自定义异常测试"}
-     * <p>
-     *
-     * @param e
-     * @return com.ws.ldy.config.result.ResponseData
-     * @author ws
-     * @mail 1720696548@qq.com
-     * @date 2020/2/9 0009 10:06
-     */
-    @ExceptionHandler(ErrorException.class)
-    public Result<Void> exceptionHandler(ErrorException e) {
-        log.info("### [自定义异常] --> 请求URL:{} --> [code:{},msg:{}]", request.getRequestURL(), e.getCode(), e.getMsg());
-        return error(e.getCode(), e.getMsg());
     }
 }
+
 

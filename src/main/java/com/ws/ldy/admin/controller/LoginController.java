@@ -1,15 +1,16 @@
 package com.ws.ldy.admin.controller;
 
 
+import com.ws.ldy.admin.enums.Constant;
 import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.admin.model.vo.LoginVo;
 import com.ws.ldy.admin.service.impl.UserAdminServiceImpl;
-import com.ws.ldy.config.constant.BaseConstant;
 import com.ws.ldy.base.controller.BaseController;
+import com.ws.ldy.common.utils.UUIDUtil;
+import com.ws.ldy.config.constant.BaseConstant;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.config.result.Result;
-import com.ws.ldy.config.result.ResultEnum;
-import com.ws.ldy.common.utils.UUIDUtil;
+import com.ws.ldy.config.result.ResultType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -30,8 +31,8 @@ import javax.annotation.Resource;
  * @return
  */
 @RestController
-@RequestMapping("/userAdmin")
-@Api(value = "LoginController", tags = "登录")
+@RequestMapping("/loginAdmin")
+@Api(value = "LoginController", tags = "登录", description = Constant.InterfaceType.PC_ADMIN)
 public class LoginController extends BaseController {
 
     @Resource
@@ -56,10 +57,10 @@ public class LoginController extends BaseController {
     public Result<LoginVo> login(@RequestParam String account, @RequestParam String password) {
         UserAdmin user = userAdminServiceImpl.findByAccount(account);
         if (user == null) {
-            throw new ErrorException(ResultEnum.SYS_ERROR.getCode(), "没有用户信息");
+            throw new ErrorException(ResultType.SYS_ERROR.getCode(), "没有用户信息");
         }
         if (!user.getPassword().equals(password)) {
-            throw new ErrorException(ResultEnum.SYS_ERROR.getCode(), "密码错误");
+            throw new ErrorException(ResultType.SYS_ERROR.getCode(), "密码错误");
         }
         String token = UUIDUtil.creatUUID();
         session.setAttribute(BaseConstant.SYS + token, user);
@@ -68,7 +69,7 @@ public class LoginController extends BaseController {
 
 
     /**
-     * TODO  登录
+     * TODO  退出登录
      *
      * @return com.ws.ldy.config.result.Result
      * @author ws

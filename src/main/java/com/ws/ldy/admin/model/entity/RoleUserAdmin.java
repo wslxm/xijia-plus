@@ -28,8 +28,10 @@ public class RoleUserAdmin extends BaseAdminEntity {
      */
     private int roleId;
 
-    public RoleUserAdmin() {}
-    public RoleUserAdmin(int roleId, int userId ) {
+    public RoleUserAdmin() {
+    }
+
+    public RoleUserAdmin(int roleId, int userId) {
         this.userId = userId;
         this.roleId = roleId;
     }

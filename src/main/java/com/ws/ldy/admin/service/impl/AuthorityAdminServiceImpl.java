@@ -1,13 +1,17 @@
 package com.ws.ldy.admin.service.impl;
 
+import com.ws.ldy.admin.enums.Constant;
 import com.ws.ldy.admin.mapper.AuthorityAdminMapper;
 import com.ws.ldy.admin.model.entity.AuthorityAdmin;
 import com.ws.ldy.admin.service.AuthorityAdminService;
 import com.ws.ldy.base.service.impl.BaseIServiceImpl;
-import com.ws.ldy.common.annotation.LdyAuthority;
 import com.ws.ldy.common.utils.ClassUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
@@ -18,6 +22,7 @@ import java.util.Map;
 
 
 @Service
+@Slf4j
 public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMapper, AuthorityAdmin> implements AuthorityAdminService {
     /**
      * url权限注解扫包范围
@@ -36,105 +41,115 @@ public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMa
 
 
     /**
-     * TODO    包所有类
+     * TODO  添加接口--扫描包下所有类
      *
      * @return void
      * @date 2019/11/25 0025 9:02
      */
     @Override
+    @Transactional
     public void putClass() {
         // 扫描包，获得包下的所有类
         List<Class<?>> classByPackageName = ClassUtil.getClasses(PACKAGE_NAME);
-        // 当前当前数据库已经存在的url权限列表
-        List<AuthorityAdmin> list = authorityAdminService.list();
-        Map<String, AuthorityAdmin> map = new HashMap();
-        list.forEach(item -> map.put(item.getName(), item));
-        // 需保存的权限聚合
-        List<AuthorityAdmin> athorityList = new ArrayList<>();
-        AuthorityAdmin authority = null;
-        RequestMapping reqClass = null;
+        // 当前当前数据库已经存在的所有url权限列表--> key=url，value=对象，获取后移除Map中已取出，最后剩下的全部删除
+        Map<String, AuthorityAdmin> authorityMap = new HashMap();
+        List<AuthorityAdmin> authorityList = authorityAdminService.list();
+        if (authorityList != null && authorityList.size() > 0) {
+            authorityList.forEach(item -> authorityMap.put(item.getUrl(), item));
+        }
+        // 遍历所有类
         for (Class<?> classInfo : classByPackageName) {
-            // 判断该类上属否存在 @LdyAuthority 注解
-            LdyAuthority ldyClass = classInfo.getDeclaredAnnotation(LdyAuthority.class);
-            if (ldyClass != null) {
-                System.out.println("类--》" + ldyClass.value()[0] + "-->" + ldyClass.value()[1]);
-                //存在修改，不存在新添加
-                if (map.containsKey(ldyClass.value()[0])) {
-                    //权限名
-                    authority = map.get(ldyClass.value()[0]);
+            // 类上存在 @Api 注解 + @RequestMapping 的类进行下一步操作
+            Api apiClass = classInfo.getDeclaredAnnotation(Api.class);
+            RequestMapping requestMappingClass = classInfo.getDeclaredAnnotation(RequestMapping.class);
+            if (apiClass == null || requestMappingClass == null) {
+                continue;
+            }
+            // 判断当前类是否需要保存到接口权限内（目前：PC_ADMIN=平台 ） 需要
+            if (apiClass.description().equals(Constant.InterfaceType.PC_ADMIN)) {
+                String url = requestMappingClass.value()[0];
+                System.out.println("当前类信息-->" + apiClass.value() + "-->" + apiClass.tags()[0] + " --> " + url);
+                if (authorityMap.containsKey(url)) {
+                    // 存在修改
+                    AuthorityAdmin updAuthority = authorityMap.get(url);
+                    updAuthority.setUrl(url);                               // 接口URL
+                    updAuthority.setDesc(apiClass.tags()[0]);               // 接口描叙
+                    authorityAdminService.updateById(updAuthority);
+                    // 添加方法上的权限
+                    this.putMethods(classInfo, authorityMap, updAuthority);
+                    // 移除Map中已取出
+                    authorityMap.remove(url);
                 } else {
-                    authority = new AuthorityAdmin();
+                    // 不存在新添加
+                    AuthorityAdmin addAuthority = new AuthorityAdmin();
+                    addAuthority.setPid(0);                               // 请求Pid
+                    addAuthority.setMethod("");                           // 请求方式
+                    addAuthority.setUrl(url);                             // 接口URL
+                    addAuthority.setDesc(apiClass.tags()[0]);             // 接口描叙
+                    authorityAdminService.save(addAuthority);
+                    // 添加方法上的权限
+                    this.putMethods(classInfo, authorityMap, addAuthority);
                 }
-                //本类所有方法
-                authority.setPid(0);
-                authority.setName(ldyClass.value()[0]);
-                authority.setDesc(ldyClass.value()[1]);
-                reqClass = classInfo.getDeclaredAnnotation(RequestMapping.class);
-                authority.setUrl(reqClass.value()[0]);
-                // 添加类级别权限,返回添加信息
-                boolean result = authorityAdminService.save(authority);
-                // 添加方法级权限至athorityList
-                this.putMethods(classInfo, athorityList, map, authority);
             }
         }
-        //添加所有方法级权限
-        authorityAdminService.saveBatch(athorityList);
+        // 删除多余数据
+        if (authorityMap.size() > 0) {
+            List<Integer> delIds = new ArrayList<>();
+            authorityMap.forEach((k, v) -> {
+                delIds.add(v.getId());
+            });
+            authorityAdminService.removeByIds(delIds);
+        }
     }
 
 
     /**
      * TODO    添加指定类的所有接口权限到athorityList
      *
-     * @param classInfo
-     * @param authority    方法类的权限数据
-     * @param athorityList 所有方法的权限集
-     * @param map          当前数据库存在权限
+     * @param classInfo    当前类
+     * @param authorityMap 当前数据库存在权限
+     * @param authority    类的权限数据
      * @return void
      * @date 2019/11/25 0025 9:02
      */
-    private void putMethods(Class<?> classInfo, List<AuthorityAdmin> athorityList, Map<String, AuthorityAdmin> map, AuthorityAdmin authority) {
+    private void putMethods(Class<?> classInfo, Map<String, AuthorityAdmin> authorityMap, AuthorityAdmin authority) {
+        // 获取类的所有方法
         Method[] methods = classInfo.getDeclaredMethods();
-        AuthorityAdmin auth = null;
+
         //循环添加方法级权限
         for (Method method : methods) {
-            LdyAuthority ldyMethod = method.getAnnotation(LdyAuthority.class);
-            if (ldyMethod == null) {
+            RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
+            ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
+            if (requestMapping == null || apiOperation == null) {
+                log.info(method.getDeclaringClass().getName() + "." + method.getName() + "方法没有@ApiOperation 或 @RequestMapping注解");
                 continue;
             }
-            //存在修改，不存在新添加
-            if (map.containsKey(ldyMethod.value()[0])) {
-                //获取已经有权限（根据权限名）
-                auth = map.get(ldyMethod.value()[0]);
+            // url
+            String url = authority.getUrl() + requestMapping.value()[0];
+            // 请求方式
+            String requestMethod = requestMapping.method()[0].name();
+            // 描叙
+            String desc = apiOperation.value();
+            log.info("方法:{} URL:{} 请求方式:{} 描叙:{} ", method.getDeclaringClass().getName() + "." + method.getName(), url, requestMethod, desc);
+            // 存在修改，不存在新添加
+            if (authorityMap.containsKey(url)) {
+                // 获取已经有权限（根据权限名）
+                AuthorityAdmin updAuthority = authorityMap.get(url);
+                updAuthority.setPid(authority.getId());   // 类权限id（父级id）
+                updAuthority.setDesc(desc);               // 权限描叙
+                updAuthority.setUrl(url);                 // 接口url
+                updAuthority.setMethod(requestMethod);    // 请求方式
+                authorityAdminService.updateById(updAuthority);
+                // 移除Map中已取出
+                authorityMap.remove(url);
             } else {
-                auth = new AuthorityAdmin();
+                AuthorityAdmin addAuthority = new AuthorityAdmin();
+                addAuthority.setPid(authority.getId());   // 类权限id（父级id）
+                addAuthority.setDesc(desc);               // 权限描叙
+                addAuthority.setUrl(url);                 // 接口url
+                addAuthority.setMethod(requestMethod);    // 请求方式
+                authorityAdminService.save(addAuthority);
             }
-            auth.setPid(authority.getId());            // 类权限id（父级id）
-            auth.setName(ldyMethod.value()[0]);        // 权限名称
-            auth.setDesc(ldyMethod.value()[1]);        // 权限描叙
-            //判断接口类型
-            RequestMapping allMethod = method.getDeclaredAnnotation(RequestMapping.class);
-            PostMapping postMethod = method.getDeclaredAnnotation(PostMapping.class);
-            GetMapping getMethod = method.getDeclaredAnnotation(GetMapping.class);
-            DeleteMapping deleteMethod = method.getDeclaredAnnotation(DeleteMapping.class);
-            PutMapping putMethod = method.getDeclaredAnnotation(PutMapping.class);
-            if (allMethod != null) {
-                auth.setUrl(authority.getUrl() + allMethod.value()[0]);  // 接口url
-                auth.setType("All");  // 支持所有请求方式
-            } else if (postMethod != null) {
-                auth.setUrl(authority.getUrl() + postMethod.value()[0]);
-                auth.setType("POST");
-            } else if (getMethod != null) {
-                auth.setUrl(authority.getUrl() + getMethod.value()[0]);
-                auth.setType("GET");
-            } else if (deleteMethod != null) {
-                auth.setUrl(authority.getUrl() + deleteMethod.value()[0]);
-                auth.setType("DELETE");
-            } else if (putMethod != null) {
-                auth.setUrl(authority.getUrl() + putMethod.value()[0]);
-                auth.setType("PUT");
-            }
-            athorityList.add(auth);
-            System.out.println("方法--》" + ldyMethod.value()[0] + "-->" + ldyMethod.value()[1] + "-->" + auth.getType());
         }
     }
 }

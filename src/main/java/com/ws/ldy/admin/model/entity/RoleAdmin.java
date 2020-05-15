@@ -6,10 +6,11 @@ import com.ws.ldy.base.model.entity.BaseAdminEntity;
 import lombok.Data;
 
 /**
- * TODO  角色  
+ * TODO  角色
+ *
  * @author 王松
  * @WX-QQ 1720696548
- * @date  2019/11/14 20:48 
+ * @date 2019/11/14 20:48
  */
 @Data
 @TableName(value = "t_admin_role")

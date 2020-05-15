@@ -3,6 +3,7 @@ package com.ws.ldy.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.admin.enums.Constant;
 import com.ws.ldy.admin.model.dto.UserAdminDto;
 import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.admin.model.vo.UserAdminVo;
@@ -14,7 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -31,7 +32,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/userAdmin")
-@Api(value = "UserAdminController", tags = "用户管理")
+@Api(value = "UserAdminController", tags = "用户管理", description = Constant.InterfaceType.PC_ADMIN)
 public class UserAdminController extends BaseController {
 
     @Resource
@@ -89,7 +90,6 @@ public class UserAdminController extends BaseController {
     }
 
 
-
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation("添加")
     public Result<Void> insert(@RequestBody UserAdminDto userAdminDto) {
@@ -98,7 +98,6 @@ public class UserAdminController extends BaseController {
         userAdminServiceImpl.save(userAdmin);
         return successInsert();
     }
-
 
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
@@ -131,7 +130,7 @@ public class UserAdminController extends BaseController {
         UserAdmin userAdmin = this.getUserAdmin();
         if (userAdmin.getPassword().equals(oldPassword)) {
             userAdmin.setPassword(password);
-            userAdminServiceImpl.save(userAdmin);
+            userAdminServiceImpl.updateById(userAdmin);
             return successUpdate();
         } else {
             return error(500, "原密码错误");

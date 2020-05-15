@@ -3,6 +3,7 @@ package com.ws.ldy.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.admin.enums.Constant;
 import com.ws.ldy.admin.model.dto.RoleAdminDto;
 import com.ws.ldy.admin.model.entity.RoleAdmin;
 import com.ws.ldy.admin.model.vo.RoleAdminVo;
@@ -31,7 +32,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/roleAdmin")
-@Api(value = "RoleAdminController", tags = "角色管理")
+@Api(value = "RoleAdminController", tags = "角色管理", description = Constant.InterfaceType.PC_ADMIN)
 public class RoleAdminController extends BaseController {
 
     @Resource
@@ -96,7 +97,7 @@ public class RoleAdminController extends BaseController {
 
 
     @RequestMapping(value = "/findRoleChecked", method = RequestMethod.GET)
-    @ApiOperation("角色分配 ==> 查询所有角色,用户拥有角色赋予 checked=true")
+    @ApiOperation("用户角色分配==>查询所有角色,用户拥有角色赋予isChecked=true")
     public Result<List<RoleAdminVo>> findRoleChecked(@RequestParam String userId) {
         List<RoleAdminVo> roles = roleAdminServiceImpl.findRoleChecked(userId);
         return successFind(roles);
@@ -123,14 +124,6 @@ public class RoleAdminController extends BaseController {
     @ApiOperation("角色URL分配")
     public Result<Void> updRoleUrlAuth(@RequestParam Integer roleId, Integer[] authIds) {
         roleAuthAdminServiceImpl.roleUrlAuth(roleId, authIds);
-        return successUpdate();
-    }
-
-
-    @RequestMapping(value = "/updRoleUser", method = RequestMethod.PUT)
-    @ApiOperation("角色用户分配")
-    public Result<Void> updRoleUser(@RequestParam Integer roleId, Integer[] userIds) {
-        roleUserAdminServiceImpl.updRoleUser(roleId, userIds);
         return successUpdate();
     }
 }

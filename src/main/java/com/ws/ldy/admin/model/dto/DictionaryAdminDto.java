@@ -32,5 +32,8 @@ public class DictionaryAdminDto extends BaseAdminDto {
 
     @ApiModelProperty(value = "排序")
     private Integer sort;
+
+
+
 }
 

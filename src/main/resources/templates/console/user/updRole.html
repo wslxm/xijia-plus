@@ -29,13 +29,14 @@
     let user_role_admin_list = path + "/roleAdmin/findRoleChecked";        // 角色分配查询所有--用户当前角色赋予Checked=true
     let user_admin_upd_role = path + "/roleAdmin/updUserRole";             // 角色分配
 
-    let data = "?userId=" + parent.data.id;
-    let result = ajaxGet(user_role_admin_list + data);
-    let checkData = null;        // 当前数据表格所有复选框数据暂存
-
+    // 当前数据表格所有复选框数据暂存
+    let checkData = null;
     layui.use(['table', 'form'], function () {
         let table = layui.table;
         let form = layui.form;
+        //请求数据
+        let data = "?userId=" + parent.data.id;
+        let result = ajaxGet(user_role_admin_list + data);
         table = $.extend(table, {config: {checkName: 'isChecked'}});
         table.render({
             id: "te" //获取复选框所有选中数据使用

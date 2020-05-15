@@ -6,9 +6,10 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+
 public interface RoleAuthAdminMapper extends BaseMapper<RoleAuthAdmin> {
     /**
-     * TODO    查询用户所有角色，在查询角色下所有URL 权限
+     * TODO    查询用户所有角色，在查询角色下所有URL权限
      *
      * @param userId
      * @return java.util.List<com.ws.ldy.adminconsole.entity.RoleMenuAdmin>

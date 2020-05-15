@@ -49,12 +49,15 @@
             <div class="layui-form-item">
                 <div class="layui-row">
                     <div class="layui-col-xs7">
-                        <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
-                        <input type="text" name="vercode" id="LAY-user-login-vercode" value="kkkn" lay-verify="required" placeholder="图形验证码" class="layui-input">
+                        <label class="layadmin-user-login-icon layui-icon layui-icon-vercode"
+                               for="LAY-user-login-vercode"></label>
+                        <input type="text" name="vercode" id="LAY-user-login-vercode" value="kkkn" lay-verify="required"
+                               placeholder="图形验证码" class="layui-input">
                     </div>
                     <div class="layui-col-xs5">
                         <div style="margin-left: 10px;">
-                            <img src="https://www.oschina.net/action/user/captcha" class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
+                            <img src="https://www.oschina.net/action/user/captcha" class="layadmin-user-login-codeimg"
+                                 id="LAY-user-get-vercode">
                         </div>
                     </div>
                 </div>
@@ -99,7 +102,7 @@
 
 <script>
     //登录接口
-    let admin_login = path + "/userAdmin/login";       // 登录接口
+    let admin_login = path + "/loginAdmin/login";       // 登录接口
     let admin_index = path + "/xj-admin";              // 后台主页
 
     /** session过期，登录页在内窗口，跳为最顶层窗口 */
@@ -123,9 +126,10 @@
                 value: res.data.token
             });
             // 请求成功后，写入token 字符串数据到本地 // 读取方法 localStorage.getItem('token')
-            localStorage.setItem('token', res.data.token);
+            sessionStorage.setItem('token', res.data.token);  // localStorage.setItem('token', res.data.token);
             // 请求成功后，写入用户信息
-            localStorage.setItem('username', res.data.username);
+            // localStorage.setItem('username', res.data.username);
+            sessionStorage.setItem('username', res.data.username);// localStorage.setItem('token', res.data.token);
             // 跳转后台主页
             location.href = admin_index;
         });

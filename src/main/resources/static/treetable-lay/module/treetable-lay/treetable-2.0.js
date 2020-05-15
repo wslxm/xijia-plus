@@ -4,137 +4,139 @@ layui.define(['layer', 'table'], function (exports) {
     var table = layui.table;
 
     //数据分类
-    var dataClassification = function(treeSpid,data,resultArr){
-        if(isClass(resultArr)==='Null' || isClass(resultArr)==='Undefined'){
-            resultArr=[];
-        }
-        for (var i = 0; i < data.length; i++) {
-            var index = data[i];
-            if (index.pid == treeSpid) {
-                var childrenList = [];
-                var indexMap = {data:data[i],children:childrenList};
-                resultArr.push(indexMap);
-                dataClassification(data[i].id, data,childrenList);
+    var dataClassification = function (treeSpid, data, resultArr) {
+            if (isClass(resultArr) === 'Null' || isClass(resultArr) === 'Undefined') {
+                resultArr = [];
             }
-        }
-        return resultArr;
-    },
-    //判断数据是什么类型
-    isClass = function (object) {
-        if(object===null) return "Null";
-        if(object===undefined) return "Undefined";
-        return Object.prototype.toString.call(object).slice(8,-1);
-    },
-    //深度克隆参数param，只使用于本项目。慎用！
-    deepClone = function (obj) {
-        var classType = isClass(obj);
-        if(classType==='Null' || classType==='Undefined'){return '';}
-        if(classType==='Array'){
-            return JSON.parse(JSON.stringify(obj));
-        }else if(classType==='Object'){
-            return JSON.parse(JSON.stringify(obj));
-        }else {
-            return obj;
-        }
-    },
-    //递归获取子级
-    findChild = function (id,data,set) {
-        for(var i=0;i<data.length;i++){
-            var index=data[i];
-            if(id===index.pid){
-                set.add(index);
-                findChild(index.id,data,set);
-            }
-        }
-    },
-    //递归获取父级
-    findParent = function (pid,data,set) {
-        for(var i=0;i<data.length;i++){
-            var index=data[i];
-            if(pid===index.id){
-                set.add(index);
-                if(index.pid != -1){
-                    findParent(index.pid,data,set);
-                }
-                break;
-            }
-        }
-    },
-    //递归子级搜索
-    search = function (data,fieldName,keyword,set) {
-        if(isClass(set)==='Null' || isClass(set)==='Undefined'){
-            set=new Set();
-        }
-        for(var i=0;i<data.length;i++){
-            var index = data[i];
-            if(index.data[fieldName].indexOf(keyword)>-1){
-                set.add(index.data);
-            }else {
-                if(index.children.length>0){
-                    search(index.children,fieldName,keyword,set);
+            for (var i = 0; i < data.length; i++) {
+                var index = data[i];
+                if (index.pid == treeSpid) {
+                    var childrenList = [];
+                    var indexMap = {data: data[i], children: childrenList};
+                    resultArr.push(indexMap);
+                    dataClassification(data[i].id, data, childrenList);
                 }
             }
-        }
-        return set;
-    },
-    //有序的放入一个数组集合中
-    toArray = function (data,resultArr) {
-        if(isClass(resultArr)==='Null' || isClass(resultArr)==='Undefined'){
-            resultArr=new Array();
-        }
-        for(var i=0;i<data.length;i++){
-            var index=data[i];
-            resultArr.push(index.data);
-            if(index.children.length>0){
-                index.data.isParent=true;
-                toArray(index.children,resultArr);
+            return resultArr;
+        },
+        //判断数据是什么类型
+        isClass = function (object) {
+            if (object === null) return "Null";
+            if (object === undefined) return "Undefined";
+            return Object.prototype.toString.call(object).slice(8, -1);
+        },
+        //深度克隆参数param，只使用于本项目。慎用！
+        deepClone = function (obj) {
+            var classType = isClass(obj);
+            if (classType === 'Null' || classType === 'Undefined') {
+                return '';
             }
-        }
-        return resultArr;
-    },
-    // 对数据进行排序
-    sort = function (s_pid, data,mData) {
-        if(isClass(mData)==='Null' || isClass(mData)==='Undefined'){
-            mData=new Array();
-        }
-        for (var i = 0; i < data.length; i++) {
-            if (data[i].pid == s_pid) {
-                var len = mData.length;
-                if (len > 0 && mData[len - 1].id == s_pid) {
-                    mData[len - 1].isParent = true;
+            if (classType === 'Array') {
+                return JSON.parse(JSON.stringify(obj));
+            } else if (classType === 'Object') {
+                return JSON.parse(JSON.stringify(obj));
+            } else {
+                return obj;
+            }
+        },
+        //递归获取子级
+        findChild = function (id, data, set) {
+            for (var i = 0; i < data.length; i++) {
+                var index = data[i];
+                if (id === index.pid) {
+                    set.add(index);
+                    findChild(index.id, data, set);
                 }
-                mData.push(data[i]);
-                sort(data[i].id, data,mData);
             }
-        }
-        return mData;
-    },
-    //数据逐级按一定方式排序
-    dataSort = function (data,sortField,sortClass) {
-        data.sort(function (x,y) {
-            var sortX=x.data[sortField],sortY=y.data[sortField];
-            if(typeof sortX === 'string' && typeof sortY === 'string'){
-                sortX=sortX.replace(/-/g,'/');
-                sortX=new Date(sortX).getTime();
-                sortY=sortY.replace(/-/g,'/');
-                sortY=new Date(sortY).getTime();
+        },
+        //递归获取父级
+        findParent = function (pid, data, set) {
+            for (var i = 0; i < data.length; i++) {
+                var index = data[i];
+                if (pid === index.id) {
+                    set.add(index);
+                    if (index.pid != -1) {
+                        findParent(index.pid, data, set);
+                    }
+                    break;
+                }
             }
-            if(isNaN(sortX) || isNaN(sortY)){
-                sortX=x.data[sortField].length;
-                sortY=y.data[sortField].length;
+        },
+        //递归子级搜索
+        search = function (data, fieldName, keyword, set) {
+            if (isClass(set) === 'Null' || isClass(set) === 'Undefined') {
+                set = new Set();
             }
-            if('desc'===sortClass){
-                return sortY-sortX;
-            }else {
-                return sortX-sortY;
+            for (var i = 0; i < data.length; i++) {
+                var index = data[i];
+                if (index.data[fieldName].indexOf(keyword) > -1) {
+                    set.add(index.data);
+                } else {
+                    if (index.children.length > 0) {
+                        search(index.children, fieldName, keyword, set);
+                    }
+                }
             }
-        });
-        for (var i = 0; i < data.length; i++) {
-            if(data[i].children.length>0){
-                dataSort(data[i].children,sortField,sortClass);
+            return set;
+        },
+        //有序的放入一个数组集合中
+        toArray = function (data, resultArr) {
+            if (isClass(resultArr) === 'Null' || isClass(resultArr) === 'Undefined') {
+                resultArr = new Array();
             }
-        }
-    };
+            for (var i = 0; i < data.length; i++) {
+                var index = data[i];
+                resultArr.push(index.data);
+                if (index.children.length > 0) {
+                    index.data.isParent = true;
+                    toArray(index.children, resultArr);
+                }
+            }
+            return resultArr;
+        },
+        // 对数据进行排序
+        sort = function (s_pid, data, mData) {
+            if (isClass(mData) === 'Null' || isClass(mData) === 'Undefined') {
+                mData = new Array();
+            }
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].pid == s_pid) {
+                    var len = mData.length;
+                    if (len > 0 && mData[len - 1].id == s_pid) {
+                        mData[len - 1].isParent = true;
+                    }
+                    mData.push(data[i]);
+                    sort(data[i].id, data, mData);
+                }
+            }
+            return mData;
+        },
+        //数据逐级按一定方式排序
+        dataSort = function (data, sortField, sortClass) {
+            data.sort(function (x, y) {
+                var sortX = x.data[sortField], sortY = y.data[sortField];
+                if (typeof sortX === 'string' && typeof sortY === 'string') {
+                    sortX = sortX.replace(/-/g, '/');
+                    sortX = new Date(sortX).getTime();
+                    sortY = sortY.replace(/-/g, '/');
+                    sortY = new Date(sortY).getTime();
+                }
+                if (isNaN(sortX) || isNaN(sortY)) {
+                    sortX = x.data[sortField].length;
+                    sortY = y.data[sortField].length;
+                }
+                if ('desc' === sortClass) {
+                    return sortY - sortX;
+                } else {
+                    return sortX - sortY;
+                }
+            });
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].children.length > 0) {
+                    dataSort(data[i].children, sortField, sortClass);
+                }
+            }
+        };
 
     var treetable = {
         // 渲染树形表格
@@ -145,20 +147,20 @@ layui.define(['layer', 'table'], function (exports) {
             }
 
             //深度对象拷贝参数
-            var params={};
-            for(var key in param){
-                params[key]=deepClone(param[key]);
+            var params = {};
+            for (var key in param) {
+                params[key] = deepClone(param[key]);
             }
-            treetable.params=params;
+            treetable.params = params;
 
             // 获取数据
             if (param.data) {
                 treetable.init(param, param.data);
             } else {
                 $.getJSON(param.url, param.where, function (res) {
-                    if("function"==typeof param.parseData){
-                        treetable.init(param,param.parseData(res).data);
-                    }else{
+                    if ("function" == typeof param.parseData) {
+                        treetable.init(param, param.parseData(res).data);
+                    } else {
                         treetable.init(param, res.data);
                     }
                 });
@@ -191,24 +193,24 @@ layui.define(['layer', 'table'], function (exports) {
             //拷贝一份数据
             var dataClass = JSON.parse(JSON.stringify(data));
             //数据归类数组
-            var sortArr = dataClassification(param.treeSpid,dataClass);
-            if(param.sortInit){
+            var sortArr = dataClassification(param.treeSpid, dataClass);
+            if (param.sortInit) {
                 //按规则排序
-                dataSort(sortArr,param.sortInit.field,param.sortInit.type);
-                mData=toArray(sortArr);
-            }else {
+                dataSort(sortArr, param.sortInit.field, param.sortInit.type);
+                mData = toArray(sortArr);
+            } else {
                 //不按规则排序
-                mData=sort(param.treeSpid, tNodes);
+                mData = sort(param.treeSpid, tNodes);
             }
 
             //保存数据
-            if(!treetable.treeData || treetable.treeData.length===0){
+            if (!treetable.treeData || treetable.treeData.length === 0) {
                 //深度拷贝缓存数据.注意：此方式不能拷贝undefined的属性，以及只能拷贝基本数据类型的数据，不能拷贝方法等。
                 treetable.treeData = JSON.parse(JSON.stringify(sortArr));
-            }else {
+            } else {
                 //updateTreeDataCache为true则更新缓存的treeData数据，false则不更新。
-                if(isClass(param.updateTreeDataCache)!='Undefined'
-                    && isClass(param.updateTreeDataCache)!='Null' && param.updateTreeDataCache===true){
+                if (isClass(param.updateTreeDataCache) != 'Undefined'
+                    && isClass(param.updateTreeDataCache) != 'Null' && param.updateTreeDataCache === true) {
                     treetable.treeData = JSON.parse(JSON.stringify(sortArr));
                 }
             }
@@ -280,8 +282,8 @@ layui.define(['layer', 'table'], function (exports) {
             var type = $dom.attr('lay-ttype');
             var mId = $dom.attr('lay-tid');
             //执行点击列图标回调事件
-            if(treetable.params.clickIcon){
-                treetable.params.clickIcon(mId,type);
+            if (treetable.params.clickIcon) {
+                treetable.params.clickIcon(mId, type);
             }
             if ('file' == type) {
                 return;
@@ -324,7 +326,7 @@ layui.define(['layer', 'table'], function (exports) {
                 return false;
             }
 
-            if(isClass(param.treeShowName) === 'Null' && isClass(param.treeShowName) === 'Undefined' && param.treeShowName===''){
+            if (isClass(param.treeShowName) === 'Null' && isClass(param.treeShowName) === 'Undefined' && param.treeShowName === '') {
                 layer.msg('参数treeShowName不能为空', {icon: 5});
                 return false;
             }
@@ -353,44 +355,44 @@ layui.define(['layer', 'table'], function (exports) {
             });
         },
         //对外暴露的重新渲染方法where -> {params:{},where:{}}
-        reload:function (where) {
+        reload: function (where) {
             //此为关键字搜索
-            var keyword='';
-            if(isClass(where)!='Undefined' && isClass(where)!='Null'){
-                if(where.params){
-                    if(isClass(where.params.updateTreeDataCache)==='Null' || isClass(where.params.updateTreeDataCache)==='Undefined'){
+            var keyword = '';
+            if (isClass(where) != 'Undefined' && isClass(where) != 'Null') {
+                if (where.params) {
+                    if (isClass(where.params.updateTreeDataCache) === 'Null' || isClass(where.params.updateTreeDataCache) === 'Undefined') {
                         where.params.updateTreeDataCache = false;
                     }
-                    if(isClass(where.params.treeDefaultClose)==='Null' || isClass(where.params.treeDefaultClose)==='Undefined'){
+                    if (isClass(where.params.treeDefaultClose) === 'Null' || isClass(where.params.treeDefaultClose) === 'Undefined') {
                         where.params.treeDefaultClose = true;
                     }
-                    $.extend(this.params,where.params);
+                    $.extend(this.params, where.params);
                 }
-                if(where.where && where.where.keyword){
-                    keyword=where.where.keyword;
+                if (where.where && where.where.keyword) {
+                    keyword = where.where.keyword;
                 }
-            }else {
+            } else {
                 this.params.updateTreeDataCache = false;
                 this.params.treeDefaultClose = true;
             }
-            if(isClass(this.params.data)!='Null' && isClass(this.params.data)!='Undefined'){
+            if (isClass(this.params.data) != 'Null' && isClass(this.params.data) != 'Undefined') {
                 //此为关键字搜索，不用ajax请求后台，只是对前端数据进行搜索，并重新渲染！
                 var data = JSON.stringify(treetable.treeData);
                 data = JSON.parse(data);
-                var existSet = search(data,this.params.treeShowName,keyword);
+                var existSet = search(data, this.params.treeShowName, keyword);
                 var dataArr = toArray(data);
                 var resultSet = new Set();
                 existSet.forEach(function (e) {
-                    if(e.pid!=-1){
-                        findParent(e.pid,dataArr,resultSet);
+                    if (e.pid != -1) {
+                        findParent(e.pid, dataArr, resultSet);
                     }
-                    findChild(e.id,dataArr,resultSet);
+                    findChild(e.id, dataArr, resultSet);
                     resultSet.add(e);
                 });
-                this.params.data=Array.from(resultSet);
-            }else {
+                this.params.data = Array.from(resultSet);
+            } else {
                 //此为ajax后台搜索，得到数据后重新渲染！
-                this.params.where=where.where;
+                this.params.where = where.where;
             }
             this.render(this.params);
         }

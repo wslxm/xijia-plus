@@ -1,6 +1,7 @@
 package com.ws.ldy.admin.controller;
 
 
+import com.ws.ldy.admin.enums.Constant;
 import com.ws.ldy.admin.enums.MenuRootEnum;
 import com.ws.ldy.admin.model.dto.MenuAdminDto;
 import com.ws.ldy.admin.model.entity.MenuAdmin;
@@ -10,7 +11,7 @@ import com.ws.ldy.admin.service.impl.MenuAdminServiceImpl;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.config.result.Result;
-import com.ws.ldy.config.result.ResultEnum;
+import com.ws.ldy.config.result.ResultType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -30,7 +31,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/menuAdmin")
-@Api(value = "MenuAdminController", tags = "菜单管理")
+@Api(value = "MenuAdminController", tags = "菜单管理", description = Constant.InterfaceType.PC_ADMIN)
 public class MenuAdminController extends BaseController {
 
     @Resource
@@ -42,6 +43,7 @@ public class MenuAdminController extends BaseController {
         System.out.println(rootEnum);
         return "1";
     }
+
     @RequestMapping(value = "/test1", method = RequestMethod.POST)
     @ApiOperation("测试1")
     public String test1(@RequestBody MenuAdminDto menuAdminDto) {
@@ -96,7 +98,7 @@ public class MenuAdminController extends BaseController {
     @ApiOperation("编辑")
     public Result<Void> update(@RequestBody MenuAdminDto menuAdminDto) {
         if (menuAdminDto.getId() == null) {
-            throw new ErrorException(ResultEnum.ADMIN_IS_NO_UPDATE_ID);
+            throw new ErrorException(ResultType.ADMIN_IS_NO_UPDATE_ID);
         }
         MenuAdmin menuAdmin = menuAdminDto.convert(MenuAdmin.class);
         menuService.updateById(menuAdmin);

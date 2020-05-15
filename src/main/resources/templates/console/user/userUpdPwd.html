@@ -5,7 +5,8 @@
     <title>设置我的密码</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" th:href="@{/layuiadmin/layui/css/layui.css}" media="all">
     <link rel="stylesheet" th:href="@{/layuiadmin/style/admin.css}" media="all">
     <link rel="stylesheet" th:href="@{/css/search.css}" media="all">
@@ -26,20 +27,23 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">当前密码</label>
                             <div class="layui-input-inline">
-                                <input type="password" name="oldPassword" lay-verify="required" lay-verType="tips" class="layui-input">
+                                <input type="password" name="oldPassword" lay-verify="required" lay-verType="tips"
+                                       class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">新密码</label>
                             <div class="layui-input-inline">
-                                <input type="password" name="password" lay-verify="pass" lay-verType="tips" autocomplete="off" id="LAY_password" class="layui-input">
+                                <input type="password" name="password" lay-verify="pass" lay-verType="tips"
+                                       autocomplete="off" id="LAY_password" class="layui-input">
                             </div>
                             <div class="layui-form-mid layui-word-aux">6到16个字符</div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">确认新密码</label>
                             <div class="layui-input-inline">
-                                <input type="password" name="repassword" lay-verify="repass" lay-verType="tips" autocomplete="off" class="layui-input">
+                                <input type="password" name="repassword" lay-verify="repass" lay-verType="tips"
+                                       autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -48,7 +52,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -61,20 +64,19 @@
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'user'], function () {
-        var  form = layui.form;
+        var form = layui.form;
         form.render();
         //提交监听
         form.on('submit(LAY-user-login-submit)', function (obj) {
-            if(obj.field.password !== obj.field.repassword){
+            if (obj.field.password !== obj.field.repassword) {
                 layer.msg('两次密码输入不一致');
-            }else {
-                var result = ajaxPost( path + "/userAdmin/updPwd",{oldPassword:obj.field.oldPassword,password:obj.field.password});
-                if(result === "success"){
-                    layer.msg('修改成功,请牢记你的密码');
-                    top.location.href = '/page/admin_user_login'; //登录页
-                }else{
-                    layer.msg('原密码错误');
-                }
+            } else {
+                let param = "";
+                param += "?oldPassword=" + obj.field.oldPassword;
+                param += "&password=" + obj.field.password;
+                let result = ajaxPut(path + "/userAdmin/updPwd" + param);
+                layer.msg("修改密码成功,请牢记新密码");
+                //top.location.href = '/page/admin_user_login'; //登录页
             }
         });
     });

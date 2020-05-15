@@ -29,14 +29,14 @@ public class GenerateConfig {
      * =================================================================================
      */
     //java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 模块名
-    public final static String java_path = fatherPath + entryName + "/src/main/java/" + packName.replace(".", "/")  + "/";
+    public final static String java_path = fatherPath + entryName + "/src/main/java/" + packName.replace(".", "/") + "/";
     public final static String path_entity = java_path + "entity/";
     public final static String path_controller = java_path + "controller/";
     public final static String path_service = java_path + "service/";
     public final static String path_service_impl = java_path + "service/impl/";
     public final static String path_dao = java_path + "mapper/";
     //html 实际代码生成路径
-    public final static String html_path = fatherPath + entryName + "/src/main/resources/templates/"+ FieldCG.entryNameSmall+"/";
+    public final static String html_path = fatherPath + entryName + "/src/main/resources/templates/" + FieldCG.entryNameSmall + "/";
     public final static String path_html_main = html_path;
     public final static String path_html_add = html_path;
     public final static String path_html_upd = html_path;
@@ -46,7 +46,7 @@ public class GenerateConfig {
      * =================================================================================
      * =================== 此处内容一般都是不会修改的，特殊情况除外======================
      * =================================================================================
-     *
+     * <p>
      * PATH_TEMPLATE：       代码模版读取位置（目录 resources/static/下）,
      * PATH_PREVIEW：        预览代码生成路径(全生成到一个目录,最好不要动这个)
      * SUFFIX_JAVA_PREVIEW:  预览 java 后缀名（预览指定把该值赋值给 SUFFIX_JAVA）
@@ -66,6 +66,6 @@ public class GenerateConfig {
     /**
      * mysql 关键字配置,如存在下方定义的关键字字段，实体类会进行自动处理
      */
-    public static final String[] KEYWORD_ARRAY = {"time","desc", "name", "key", "value", "mysql", "info", "form", "sort", "icon", "unlock", "unLock"};
+    public static final String[] KEYWORD_ARRAY = {"time", "desc", "name", "key", "value", "mysql", "info", "form", "sort", "icon", "unlock", "unLock"};
 
 }

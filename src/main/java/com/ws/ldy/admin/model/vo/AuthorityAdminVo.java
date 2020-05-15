@@ -20,14 +20,12 @@ public class AuthorityAdminVo extends BaseAdminVo {
 
     @ApiModelProperty(value = "权限类")
     private Integer pid;
-    @ApiModelProperty(value = "权限名")
-    private String name;
     @ApiModelProperty(value = "权限url")
     private String url;
     @ApiModelProperty(value = "权限描叙")
     private String desc;
     @ApiModelProperty(value = "请求方式")
-    private String type;
+    private String method;
     @ApiModelProperty(value = "是否选中-是否选中（是否有权限，前台复选框默认选中需要值）")
     private Boolean isChecked;
 

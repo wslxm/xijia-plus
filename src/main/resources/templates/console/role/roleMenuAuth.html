@@ -172,10 +172,10 @@
         // obj = 选中行数据
         table.on('checkbox(auth-table)', function (obj) {
             //console.log(JSON.stringify(obj))
-            if(obj.type==="all"){
+            if (obj.type === "all") {
                 // 更新所有选中数据te = 数据表格Id
                 checkData = table.checkStatus('te');
-            }else if(obj.type==="one"){
+            } else if (obj.type === "one") {
                 // 递归选中/取消选中
                 isChecked(res.data, obj.data, obj.checked);
                 xijia_window_onbeforeunload();  // 记录滚动条位置

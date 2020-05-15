@@ -10,9 +10,10 @@ import java.util.*;
 
 /**
  * TODO    参数验签工具类
+ *
  * @author ws
- * @mail  1720696548@qq.com
- * @date  2020/2/9 0009 9:45
+ * @mail 1720696548@qq.com
+ * @date 2020/2/9 0009 9:45
  * @return
  */
 @SuppressWarnings("all")
@@ -55,7 +56,7 @@ public class SignUtil {
                 valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
             }
             // 乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
-            if (charset){
+            if (charset) {
                 valueStr = getContentString(valueStr, INPUT_CHARSET);
             }
             params.put(name, valueStr);
@@ -108,7 +109,7 @@ public class SignUtil {
         for (int i = 0; i < keys.size(); i++) {
             String key = keys.get(i);
             String value = params.get(key);
-            if (encode){
+            if (encode) {
                 value = urlEncode(value, INPUT_CHARSET);
             }
             if (i == keys.size() - 1) {// 拼接时，不包括最后一个&字符

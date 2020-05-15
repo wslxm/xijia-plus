@@ -6,10 +6,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * TODO  角色  
+ * TODO  角色
+ *
  * @author 王松
  * @WX-QQ 1720696548
- * @date  2019/11/14 20:48 
+ * @date 2019/11/14 20:48
  */
 @Data
 @ApiModel(value = "RoleAdminVo", description = "角色表")

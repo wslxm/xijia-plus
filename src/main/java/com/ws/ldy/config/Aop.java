@@ -4,12 +4,11 @@ import com.ws.ldy.admin.mapper.AuthorityAdminMapper;
 import com.ws.ldy.admin.mapper.RoleAuthAdminMapper;
 import com.ws.ldy.admin.model.entity.AuthorityAdmin;
 import com.ws.ldy.admin.model.entity.UserAdmin;
+import com.ws.ldy.common.utils.SignUtil;
 import com.ws.ldy.config.constant.BaseConstant;
-import com.ws.ldy.common.annotation.LdyAuthority;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.config.result.Result;
-import com.ws.ldy.config.result.ResultEnum;
-import com.ws.ldy.common.utils.SignUtil;
+import com.ws.ldy.config.result.ResultType;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang.StringUtils;
@@ -82,8 +81,7 @@ public class Aop {
         //请求日志
         //log.info("URL:[{}] -----> REQUEST:[{}]", request.getServletPath(), args);
         log.info("请求URL:{} --> 请求参数:{}", request.getServletPath(), args);
-        this.checkLogin(request);                     // 登录验证
-        this.auth(jp, request, args);            // url 权限管理
+        this.checkLogin(request);                // 登录验证+url 权限管理
         this.verify(request);                    // 验签
         this.AntiTheftChain(jp, request, args);  // 防盗链
         this.XssAttack(jp, request, args);       // Xss攻击
@@ -95,62 +93,59 @@ public class Aop {
 
 
     /**
-     * TODO 判断是否登录
+     * TODO 1、判断是否登录
      */
     public void checkLogin(HttpServletRequest request) {
+        // key = 放行接口URL，value = 放行接口描叙内容
         Map<String, String> interfaceMap = new HashMap<>();
-        interfaceMap.put("/userAdmin/login", "登录接口");
-
-        if (!interfaceMap.containsKey(request.getServletPath())) {
+        interfaceMap.put("/loginAdmin/login", "登录接口");
+        //请求接口
+        String interfaceUrl = request.getServletPath();
+         //
+        if (interfaceMap.containsKey(interfaceUrl)){
+            //放行interfaceMap 内的接口
+        }else{
+            // 登录验证
             String token = request.getHeader("token");
-            if ("token".equals(token)) {
-                return;
-            }
             if (StringUtils.isBlank(token)) {
                 //没有token
-                throw new ErrorException(ResultEnum.ADMIN_IS_NO_TOKEN);
+                throw new ErrorException(ResultType.ADMIN_IS_NO_TOKEN);
             }
             UserAdmin userAdmin = (UserAdmin) request.getSession().getAttribute(BaseConstant.SYS + token);
-            // 判断用户是否登录
             if (userAdmin == null) {
                 // token无效/登录失效
-                throw new ErrorException(ResultEnum.ADMIN_IS_NO_LOGIN);
+                throw new ErrorException(ResultType.ADMIN_IS_NO_LOGIN);
+            }
+            // 4、权限验证
+            List<AuthorityAdmin> list = authorityAdminDao.findUserIdRoleAuthority(userAdmin.getId());
+            Map<String, AuthorityAdmin> map = new HashMap<>();
+            list.forEach(item -> map.put(item.getUrl().trim(), item));
+            // 5、获取接口权限名称，判断是否有权限
+            if (!map.containsKey(interfaceUrl.trim())) {
+                //无权限
+                throw new ErrorException(ResultType.SYS_IS_NO_AUTHORIZATION);
             }
         }
+
     }
 
 
     /**
-     * TODO  1、url 权限管理
+     * TODO  2、url 权限管理
      */
     public void auth(ProceedingJoinPoint jp, HttpServletRequest request, Object[] args) {
-        // 1、判断用户是否登录，未登陆前不验证授权
-        UserAdmin user = (UserAdmin) request.getSession().getAttribute("user");
-        // 访问登陆页和登陆接口直接放行
-        if (user == null) {
-            return;
-        }
-        // 2、获取方法, 在获取权限注解，jp=aop通知拦截获取的请求信息
+        // 1、获取方法, 在获取权限注解，jp=aop通知拦截获取的请求信息
         Signature signature = jp.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         // 获取请求方法
         Method targetMethod = methodSignature.getMethod();
         // 获取接口上的LdyAuthority注解
-        LdyAuthority annotation = targetMethod.getAnnotation(LdyAuthority.class);
-        // 3、无权限注解直接放行
-        if (annotation == null) {
-            return;
-        }
-        // 4、查询角色当前权限并把角色权限url 权限放入map容器（此处应添加缓存）
-        List<AuthorityAdmin> list = authorityAdminDao.findUserIdRoleAuthority(user.getId());
-        Map<String, AuthorityAdmin> map = new HashMap<>();
-        list.forEach(item -> map.put(item.getName(), item));
-        // 5、获取接口权限名称，判断是否有权限
-        String authName = annotation.value()[0];
-        if (!map.containsKey(authName.trim())) {
-            //无权限
-            throw new ErrorException(ResultEnum.SYS_IS_NO_AUTHORIZATION);
-        }
+//        LdyAuthority annotation = targetMethod.getAnnotation(LdyAuthority.class);
+//        // 3、无权限注解直接放行
+//        if (annotation == null) {
+//            return;
+//        }
+
     }
 
     /**
@@ -161,7 +156,7 @@ public class Aop {
         if (servletPath.contains(path)) {    // = if(servletPath.indexOf(path) == -1 )
             Map<String, String> verifyMap = SignUtil.toVerifyMap(request.getParameterMap(), false);
             if (!SignUtil.verify(verifyMap)) {
-                return error(ResultEnum.SYS_IS_NO_VISIT.getCode(), "验签失败");
+                return error(ResultType.SYS_IS_NO_VISIT.getCode(), "验签失败");
             }
         }
         return success(0);
@@ -198,7 +193,7 @@ public class Aop {
             return success(0);
         }
         if (!referer.contains(request.getServerName())) {
-            return error(ResultEnum.SYS_IS_NO_VISIT.getCode(), "切勿非法盗用资源");
+            return error(ResultType.SYS_IS_NO_VISIT.getCode(), "切勿非法盗用资源");
         }
         //System.out.println("refer is" + "" + referer);
         return success(0);
@@ -263,17 +258,17 @@ public class Aop {
 
     //TODO  返回成功,带数据+页数
     public <T> Result<T> success(T data, Integer count) {
-        return new Result(ResultEnum.SYS_SUCCESS, data);
+        return new Result(ResultType.SYS_SUCCESS, data);
     }
 
     //TODO  返回成功,带数据-不带页数
     public <T> Result<T> success(T data) {
-        return new Result(ResultEnum.SYS_SUCCESS, data);
+        return new Result(ResultType.SYS_SUCCESS, data);
     }
 
     // TODO 返回成功，-不带数据 -不带页数
     public Result<Void> success() {
-        return new Result(ResultEnum.SYS_SUCCESS, null);
+        return new Result(ResultType.SYS_SUCCESS, null);
     }
 
     // TODO 返回失败（传入自定义枚举）
@@ -282,7 +277,7 @@ public class Aop {
     }
 
     // TODO 返回失败（传入自定义枚举）
-    public <T> Result<T> error(ResultEnum resultType) {
+    public <T> Result<T> error(ResultType resultType) {
         return new Result(resultType, null);
     }
 }

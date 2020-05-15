@@ -7,9 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * TODO
+ *
  * @author 王松
  * @WX-QQ 1720696548
- * @date  2019/10/31 20:45
+ * @date 2019/10/31 20:45
  */
 @SpringBootApplication
 @MapperScan("com.ws.ldy.admin.mapper")

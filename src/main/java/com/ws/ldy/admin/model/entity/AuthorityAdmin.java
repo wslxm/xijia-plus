@@ -17,27 +17,23 @@ import lombok.Data;
 public class AuthorityAdmin extends BaseAdminEntity {
 
     private static final long serialVersionUID = 0L;
-
+    /**
+     * 权限类Id（方法与类/层级关系展示)
+     */
+    private Integer pid;
     /**
      * 权限描叙
      */
     @TableField(value = "`desc`")
     private String desc;
-    /**
-     * 权限名
-     */
-    private String name;
-    /**
-     * 权限类
-     */
-    private Integer pid;
+
     /**
      * 权限url
      */
     private String url;
     /**
-     * 请求方式
+     * 请求方式（请求方式(GET/POST/PUT/DELETE）
      */
-    private String type;
+    private String method;
 }
 

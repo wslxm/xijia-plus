@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="utf-8">
+    <title>文本转符号</title>
+    <link rel="icon" href="../../pic/icon/xijia.png" type="image/x-icon">  <!--在网页标题左侧显示图标-->
+    <link rel="shortcut icon" href="../../pic/icon/xijia.png" type="image/x-icon"> <!-- 在收藏夹显示图标-->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" th:href="@{/layuiadmin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/layuiadmin/style/admin.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/search.css}" media="all">
+    <script language=javascript th:src='@{/js/jquery-3.4.1.js}'></script>
+    <script th:src="@{/layuiadmin/layui/layui.js}"></script>
+    <script th:src="@{/js/app.js}"></script>
+</head>
+<body>
+<!-- 搜索 -->
+<div class="searchTable">
+    请输入：
+    <div class="layui-inline">
+        <input id="content" class="layui-input" style="width: 240px" placeholder="请输入内容" autocomplete="off"
+               onkeyup="inputMonitor()">
+    </div>
+    <span style="margin-left: 6%">
+         当前缩放大小:<font id="narrow" size="3">4</font>
+        <button style="margin-left: 1%" class="layui-btn layui-btn-normal layui-btn-sm" onclick="plus1()">变大</button>
+        <button class="layui-btn layui-btn-normal layui-btn-sm" onclick="minus1()">变小</button>
+        作者QQ: 1720696548
+    </span>
+    <div id="resultContent" style="margin-top:1%;background:#e5e8ff; color:#ff9e50;width: 500%;height: 800px">
+        展示区
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#content").val("作者: 兮家小二");
+        inputMonitor();
+    });
+
+    // 装换接口
+    let convert = path + "/front/wbConvertFhController/convert";
+
+    //字体缩放大小
+    let narrow = 4;
+    function inputMonitor() {
+        let param = "";
+        param += "?content=" +  $("#content").val();
+        param += "&narrow=" + narrow;
+        let result = ajaxGet(convert + param);
+        $("#resultContent").html(result.data);
+    }
+
+    // 字体缩放大小+1
+    function plus1() {
+        if (narrow <= 1) {
+            alert("不能再变大了");
+            throw new Error();
+        }
+        narrow -= 1;
+        $("#narrow").html(narrow);
+        inputMonitor();
+    }
+
+    // 字体缩放大小-1
+    function minus1() {
+        if (narrow >= 10) {
+            alert("不能再变小了");
+            throw new Error();
+        }
+        narrow += 1;
+        $("#narrow").html(narrow);
+        inputMonitor();
+    }
+
+
+
+</script>
+</body>
+</html>

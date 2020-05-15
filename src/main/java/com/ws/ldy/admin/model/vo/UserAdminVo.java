@@ -11,9 +11,10 @@ import java.util.Date;
 
 /**
  * TODO  用户
+ *
  * @author 王松
  * @WX-QQ 1720696548
- * @date  2019/11/14 21:06
+ * @date 2019/11/14 21:06
  */
 @Data
 @ApiModel(value = "UserAdminVo", description = "用户表")
@@ -27,7 +28,7 @@ public class UserAdminVo extends BaseAdminVo {
     private String username;
     @ApiModelProperty(value = "账号")
     private String account;
-//    @ApiModelProperty(value = "密码")
+    //    @ApiModelProperty(value = "密码")
 //    private String password;
     @ApiModelProperty(value = "地址")
     private String address;
@@ -40,5 +41,5 @@ public class UserAdminVo extends BaseAdminVo {
     @ApiModelProperty(value = "注册时间")
     private Date time;
     @ApiModelProperty(value = "是否选中（角色是否有改用户，前台复选框默认选中需要值）")
-    private Boolean  isChecked;
+    private Boolean isChecked;
 }
