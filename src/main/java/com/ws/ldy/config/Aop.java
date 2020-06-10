@@ -1,5 +1,6 @@
 package com.ws.ldy.config;
 
+import com.ws.ldy.admin.enums.Constant;
 import com.ws.ldy.admin.mapper.AuthorityAdminMapper;
 import com.ws.ldy.admin.mapper.RoleAuthAdminMapper;
 import com.ws.ldy.admin.model.entity.AuthorityAdmin;
@@ -9,6 +10,7 @@ import com.ws.ldy.config.constant.BaseConstant;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.config.result.Result;
 import com.ws.ldy.config.result.ResultType;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang.StringUtils;
@@ -81,7 +83,7 @@ public class Aop {
         //请求日志
         //log.info("URL:[{}] -----> REQUEST:[{}]", request.getServletPath(), args);
         log.info("请求URL:{} --> 请求参数:{}", request.getServletPath(), args);
-        this.checkLogin(request);                // 登录验证+url 权限管理
+        this.checkLogin(jp, request);                // 登录验证+url 权限管理
         this.verify(request);                    // 验签
         this.AntiTheftChain(jp, request, args);  // 防盗链
         this.XssAttack(jp, request, args);       // Xss攻击
@@ -95,17 +97,17 @@ public class Aop {
     /**
      * TODO 1、判断是否登录
      */
-    public void checkLogin(HttpServletRequest request) {
+    public void checkLogin(ProceedingJoinPoint jp, HttpServletRequest request) {
         // key = 放行接口URL，value = 放行接口描叙内容
         Map<String, String> interfaceMap = new HashMap<>();
         interfaceMap.put("/loginAdmin/login", "登录接口");
         //请求接口
         String interfaceUrl = request.getServletPath();
-         //
-        if (interfaceMap.containsKey(interfaceUrl)){
-            //放行interfaceMap 内的接口
-        }else{
-            // 登录验证
+        //
+        if (interfaceMap.containsKey(interfaceUrl)) {
+            //放行定义在 interfaceMap 内的接口
+        } else {
+            // TODO 登录验证
             String token = request.getHeader("token");
             if (StringUtils.isBlank(token)) {
                 //没有token
@@ -116,17 +118,21 @@ public class Aop {
                 // token无效/登录失效
                 throw new ErrorException(ResultType.ADMIN_IS_NO_LOGIN);
             }
-            // 4、权限验证
+
+            // TODO 权限验证
+            // 获取类上的注解@Api 注解, 判断当前类需要接口权限验证（目前：PC_ADMIN=平台 ） 需要
+            Api apiClass = jp.getTarget().getClass().getAnnotation(Api.class);
+            if (!apiClass.description().equals(Constant.InterfaceType.PC_ADMIN)) {
+                return;
+            }
             List<AuthorityAdmin> list = authorityAdminDao.findUserIdRoleAuthority(userAdmin.getId());
             Map<String, AuthorityAdmin> map = new HashMap<>();
             list.forEach(item -> map.put(item.getUrl().trim(), item));
-            // 5、获取接口权限名称，判断是否有权限
+            // 获取接口权限名称，判断是否有权限
             if (!map.containsKey(interfaceUrl.trim())) {
-                //无权限
                 throw new ErrorException(ResultType.SYS_IS_NO_AUTHORIZATION);
             }
         }
-
     }
 
 

@@ -1,6 +1,7 @@
 package com.ws.ldy.admin.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Map;
@@ -12,14 +13,17 @@ import java.util.Map;
  * @WX-QQ 1720696548
  * @date 2019/11/20 11:09
  */
-public interface DataBaseMapper extends BaseMapper {
+public interface DataBaseMapper {
 
     /***
      * TODO  查询数据库的所有表
      * @date 2019/11/20 10:41
      * @return java.util.List<java.lang.String>
      */
-    public List<String> findTable();
+    //@Select("show tables") 没有表注释
+    @Select("SELECT TABLE_NAME name,TABLE_COMMENT comment FROM information_schema.TABLES WHERE table_schema='spring-boot-plus2'")
+    public List<Map<String, String>> findTable();
+
 
     /**
      * TODO  查询数据库下指定表的数据-字段名/类型/备注
@@ -27,5 +31,13 @@ public interface DataBaseMapper extends BaseMapper {
      * @return java.util.List<java.lang.String>
      * @date 2019/11/20 10:41
      */
-    public List<Map<String, String>> findTableField(String table);
+    @Select(" select " +
+            " column_name name,\n" +
+            " data_type type,\n" +
+            " column_comment `desc`,\n" +
+            " column_type typeDetail\n" +
+            " from information_schema.columns \n" +
+            " where table_name = #{table} \n" +
+            " and table_schema='spring-boot-plus2'")
+    public List<Map<String, String>> findTableField(@Param("table") String table);
 }

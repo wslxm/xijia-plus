@@ -1,5 +1,6 @@
 package com.ws.ldy;
 
+import com.ws.ldy.common.utils.ConsoleColors;
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -19,5 +20,7 @@ public class XiJiaApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(XiJiaApplication.class, args);
+        ConsoleColors.getSuccessYellowBright();
+        System.out.println("http://127.0.0.1:80/");
     }
 }

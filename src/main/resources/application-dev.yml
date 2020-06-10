@@ -1,6 +1,6 @@
 # HTTP (Tomcat) port
 server:
-  port: 8080
+  port: 80
 # DataSource Config
 spring:
   datasource:

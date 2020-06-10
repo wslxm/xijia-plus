@@ -1,0 +1,9 @@
+
+## 当前个人部署服务器路径的启动停止命令
+/usr/local/work/xijia2/start.sh stop     停止
+/usr/local/work/xijia2/start.sh start    启动
+/usr/local/work/xijia2/start.sh restart  重启
+
+
+### 实时运行日志
+tail -f log.txt

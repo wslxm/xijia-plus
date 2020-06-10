@@ -68,7 +68,8 @@ mybatis-plus:
 ### 屏蔽swagger+ 无默认值错误日志
 logging:
   ## 日志文件位置
-  file: F:\workspace\code\git2020-4\spring-boot-plus2\logs\info\log.log.0
+  #file: F:\workspace\code\git2020-4\spring-boot-plus2\logs\info\log.log.0
+  file: log.txt
   level:
     io.swagger.models.parameters.AbstractSerializableParameter: error
     com.alibaba.nacos.client.naming: error

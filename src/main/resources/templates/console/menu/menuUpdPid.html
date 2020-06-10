@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/jdbc">
+    <head>
+        <meta charset="utf-8">
+        <title>菜单--变更父级</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <link rel="stylesheet" th:href="@{/treetable-lay/assets/layui/css/layui.css}">
+        <link rel="stylesheet" th:href="@{/treetable-lay/assets/common.css}"/>
+        <script language=javascript th:src='@{/treetable-lay/assets/layui/layui.js}'></script>
+        <script language=javascript th:src='@{/js/jquery-3.4.1.js}'></script>
+        <script th:src="@{/js/app.js}"></script>
+    </head>
+    <body>
+
+        <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list"
+             style="padding: 20px 30px 0 0;">
+            <!-- 确认按钮事件 -->
+            <div class="layui-form-item layui-hide">
+                <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit"
+                       value="确认添加">
+                <input type="button" lay-submit lay-filter="layuiadmin-app-form-edit" id="layuiadmin-app-form-edit"
+                       value="确认编辑">
+            </div>
+        </div>
+
+        <!-- 菜单树，数据表格-->
+        <div style="float:left; margin-left: 3%;width: 90%;margin-top: 0.5%;">
+            <table id="auth-table" class="layui-table" lay-filter="auth-table"></table>
+        </div>
+
+        <script>
+            $(function () {
+
+            });
+
+            // 菜单查询--数据列表（所有-根据角色Id获取勾选值）
+            let menu_find_id_list = path + "/menuAdmin/findPidOrRoleIdList";
+            let update = path + "/menuAdmin/update";
+            // 后台返回完整菜单数据
+            let res;
+
+            layui.config({
+                base: '../treetable-lay/module/' //静态资源所在路径
+            }).extend({
+                treetable: 'treetable-lay/treetable'
+            }).use(['form', 'table', 'treetable', 'element', 'tree'], function () {
+                tree = layui.tree;
+                table = layui.table;
+                treetable = layui.treetable;
+                // 复选框默认是否选中字段名
+                table = $.extend(table, {config: {checkName: 'isChecked'}});
+                // 获得菜单数据
+                res = ajaxGet(menu_find_id_list);
+                // 初始化右边 table 数据
+                xijiaRenderTable();
+                // 监听复选框选中
+                xijiaEventCheckbox();
+                // 回显
+                isCheckedPid(parent.data);
+                // 监听确认更新父Id
+                xijiaEventUpdPid();
+            });
+
+
+            /**
+             * TODO    table数据--（抽离出来方便重载）
+             *
+             * @date  2019/11/16 0016 16:56
+             * @return
+             * @param params
+             */
+            function xijiaRenderTable() {
+                // 渲染表格
+                layer.load(2);
+                treetable.render({
+                    toolbar: '#toolbar',
+                    id: "te",                   // 定义Id--用于复选框获取数据
+                    treeColIndex: 1,            // 菜单列索引 ,加载展开图标
+                    treeSpid: 0,                // 顶级父id
+                    treeIdName: 'id',           // id 名称
+                    treePidName: 'pid',         // fid 名称
+                    treeDefaultClose: false,    // 是否默认折叠
+                    treeLinkage: false,         // 父级展开时是否自动展开所有子级
+                    elem: '#auth-table',        // table 的 div
+                    data: res.data,             // 直接加载数据
+                    done: function () {
+                        layer.closeAll('loading');
+                    },
+                    cols: [
+                        [
+                            {type: 'checkbox'},
+                            {field: 'name', width: '400', title: '菜单列表'},//edit: 'text',
+                            // {
+                            //     field: 'icon', title: '图标', width:'300px',templet: function (res) {
+                            //         return "<i class='layui-icon " + res.icon + "'></i>";
+                            //     }
+                            // },
+                            //  {field: 'url', title: '路由'}
+                        ]
+                    ]
+                });
+            }
+
+
+            /**
+             * TODO    监听复选框选中
+             * @date  2019/11/16 0016 19:43
+             * @return
+             */
+            function xijiaEventCheckbox() {
+
+                // obj = 选中行数据
+                table.on('checkbox(auth-table)', function (obj) {
+                    //console.log(JSON.stringify(obj))
+                    if (!obj.checked) {
+                        return;
+                    }
+                    if (obj.type === "all") {
+                        // for (let i = 0; i < res.data.length; i++) {
+                        //     console.log(res.data[i].name + "---" + res.data[i].isChecked)
+                        // }
+                        layer.msg("请勿选择全选");
+                        //还原数据
+                        isCheckedPid(parent.data);
+                    } else if (obj.type === "one") {
+                        // 递归选中/取消选中
+                        isChecked(obj.data);
+
+                    }
+                });
+            }
+
+
+            /**
+             * TODO  选中节点，删除其他选中节点
+             */
+            function isChecked(node) {
+                for (let i = 0; i < res.data.length; i++) {
+                    //取消所有勾选
+                    res.data[i].isChecked = false;
+                    if (node.id === res.data[i].id) {
+                        // 选中节点勾选
+                        res.data[i].isChecked = true;
+                    }
+                }
+                xijia_window_onbeforeunload();  // 记录滚动条位置
+                xijiaRenderTable();             // 重载数据
+                xijia_window_onload();          // 还原滚动条位置
+            }
+
+
+            /**
+             * TODO  重置父节点，回显父节点
+             */
+            function isCheckedPid(node) {
+                for (let i = 0; i < res.data.length; i++) {
+                    //取消所有勾选
+                    res.data[i].isChecked = false;
+                    if (node.pid === res.data[i].id) {
+                        // 选中节点勾选
+                        res.data[i].isChecked = true;
+                    }
+                }
+                xijia_window_onbeforeunload();  // 记录滚动条位置
+                xijiaRenderTable();             // 重载数据
+                xijia_window_onload();          // 还原滚动条位置
+            }
+
+            /**
+             * TODO  修改父id (监听提交)
+             */
+            function xijiaEventUpdPid() {
+                //监听提交
+                layui.form.on('submit(layuiadmin-app-form-submit)', function () {
+                    let pid = null;
+                    for (let i = 0; i < res.data.length; i++) {
+                        if (res.data[i].isChecked) {
+                            // 选中节点勾选
+                            pid = res.data[i].id;
+                        }
+                    }
+                    if (pid == null) {
+                        layer.msg("没有选择");
+                        throw new Error("没有选择")
+                    }
+                    let data = {
+                        id: parent.data.id,
+                        pid: pid,
+                    };
+                    // 修改
+                    let result = ajaxPut(path + update, data);
+                    // 关闭弹层
+                    let index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                    parent.layer.msg(result.msg);
+                    // 重载页面--不建议开启--建议使用手动刷新
+                    xijia_window_onbeforeunload();  // 记录滚动条位置
+                    parent.window.location.reload();
+                    xijia_window_onload();          // 还原滚动条位置
+
+                });
+            }
+        </script>
+    </body>
+</html>

@@ -4,7 +4,7 @@
 //====================================================================================
 //====================================================================================
 //let path = "http://192.168.1.104:8080";
-var path = "http://localhost:8080";
+var path = "";//http://127.0.0.1:80
 
 //====================================================================================
 //====================================================================================
@@ -242,6 +242,7 @@ function ajaxDeleteAsync(url, data) {
 // TODO  1-url  2-数据 3、请求方式 4、返回数据 5、同步false/异步true
 function ajax(url, data, type, dataType, async) {
     let result;
+    let responseResult = false;
     $.ajax({
         type: type,
         dataType: dataType,
@@ -249,28 +250,44 @@ function ajax(url, data, type, dataType, async) {
         data: JSON.stringify(data),
         contentType: "application/json",
         headers: {
-           //"token": localStorage.getItem('token')
-          "token": sessionStorage.getItem('token')
+            //"token": localStorage.getItem('token')
+            "token": sessionStorage.getItem('token')
         },
-        async: async,      //同步
-        //traditional: true, //允许传递数组
+        async: async,        // true=异步，false=同步
+        //traditional: true, // 允许传递数组
         success: function (resultText) {
             result = resultText;
+            responseResult = true;
         },
         error: function (res) {
             layer.msg('请求失败! 请检查请求URL是否正确');
         }
     });
     //错误打印
-    if (result.code !== 200) {
-        if (result.code === 10000) {
+    if (result.code != 200) {
+        //10003 = 没有token
+        if (result.code == 10000) {
             //用户未登陆/或登录过期跳登录页
             location.href = "../login";
         }
         layer.msg(result.msg);
         throw new Error();
     }
-    return result;
+
+    if (!async) {
+        //同步
+        while (responseResult) {
+            return result;
+        }
+    } else {
+        //异步
+        return result;
+    }
+}
+
+//同步请求回调
+function ajaxCallback(url) {
+
 }
 
 //====================================================================================

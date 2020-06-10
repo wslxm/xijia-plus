@@ -60,6 +60,7 @@
             // 路由
             let page_add = path + "/page/console_menu_menuAdd";     // 添加菜单/页面弹层
             let page_upd = path + "/page/console_menu_menuUpd";     // 菜单编辑弹层
+            let page_updPid = path + "/page/console_menu_menuUpdPid";     // 变更父级
 
             // 当前行数据
             var data = null;
@@ -120,12 +121,12 @@
                             //{field: 'id', width: 100, type: 'id', title: 'id'},
                             {field: 'name', width: 200, title: '菜单名称'},//edit: 'text',
                             {
-                                field: 'icon', width: 150, title: '图标', templet: function (res) {
+                                field: 'icon', width: 130, title: '图标', templet: function (res) {
                                     return "<i class='layui-icon " + res.icon + "'></i>";
                                 }
                             },
-                            {field: 'url', width: 300, edit: 'text', title: '路由'},
-                            {field: 'sort', width: 150, edit: 'text', title: '排序'},
+                            {field: 'url', width: 280, edit: 'text', title: '路由'},
+                            {field: 'sort', width: 130, edit: 'text', title: '排序'},
                             {
                                 field: 'root', width: 200, title: '添加菜单/页面', templet: function (res) {
                                     if (res.root.value === 1) {
@@ -142,9 +143,12 @@
                                 }
                             },
                             {
-                                field: '', width: 200, title: '操作', templet: function (res) {
+                                field: '', width: 280, title: '操作', templet: function (res) {
                                     let html = "";
                                     html += "<a class=\"layui-btn layui-btn-warm layui-btn-xs\" lay-event=\"upd\">编辑</a>\n";
+                                    if (res.root.value != 1) {
+                                        html += "<a class=\"layui-btn layui-btn-warm layui-btn-xs\" lay-event=\"updPid\">变更父级</a>\n";
+                                    }
                                     html += "<a class=\"layui-btn layui-btn-danger layui-btn-xs\" lay-event=\"del\">删除</a>\n";
                                     return html;
                                 }
@@ -168,7 +172,7 @@
                     add: function () {
                         data = [];    // 初始化data
                         data.lv = 1;  // 给初始化后的data添加值
-                        tipsWindown(page_add, "440px", "280px", "添加系统");
+                        tipsWindown(page_add, "440px", "340px", "添加系统");
                     }
                 };
                 //必须在下面/监听class = demoTable内按钮
@@ -194,12 +198,12 @@
                     // TODO  菜单添加
                     if (obj.event === 'add') {
                         data.lv = 2; //表示添加菜单
-                        tipsWindown(page_add, "440px", "280px", "添加菜单--" + data.name)
+                        tipsWindown(page_add, "440px", "320px", "添加菜单--" + data.name)
                     }
                     // TODO  页面添加
                     if (obj.event === 'addPage') {
                         data.lv = 3;  //表示添加页面
-                        tipsWindown(page_add, "440px", "340px", "添加页面--" + data.name)
+                        tipsWindown(page_add, "440px", "400px", "添加页面--" + data.name)
                     }
                     // TODO  删除行
                     if (obj.event === 'del') {
@@ -208,7 +212,14 @@
                     }
                     // TODO 修改菜单名称
                     if (obj.event === 'upd') {
-                        tipsWindown(page_upd, "440px", "240px", "编辑")
+                        tipsWindown(page_upd, "440px", "260px", "编辑")
+                    }
+                    // TODO 变更父级
+                    if (obj.event === 'updPid') {
+                        tipsWindown(page_updPid, "800px", "600px", "变更父级-" + data.name);
+                        // xijia_window_onbeforeunload();  // 记录滚动条位置
+                        // xijiaRenderTable();             // 重载数据
+                        // xijia_window_onload();          // 还原滚动条位置
                     }
                 });
 

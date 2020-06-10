@@ -30,9 +30,20 @@
         <button class="layui-btn layui-btn-normal layui-btn-sm" onclick="minus1()">变小</button>
         作者QQ: 1720696548
     </span>
-    <div id="resultContent" style="margin-top:1%;background:#e5e8ff; color:#ff9e50;width: 500%;height: 800px">
-        展示区
-    </div>
+  <pre> <div id="resultContent" style="margin-top:1%;background:#e5e8ff; color:#ff9e50;width: 500%;height: 800px;"></div></pre>
+    <!--        展示区-->
+    <!--    </div>-->
+    <!--    <div style="margin-top:1%;" class="layui-form-item layui-form-text">-->
+    <!--        <label class="layui-form-label">展示区</label>-->
+    <!--        <div class="layui-input-block">-->
+    <!--            <textarea id="resultContent"  style="height: 600px" class="layui-textarea"></textarea>-->
+    <!--        </div>-->
+    <!--    </div>-->
+     展示区
+<!--
+    <textarea id="resultContent" style="height:600px;margin-top:1%;background:#e5e8ff; color:#ff9e50;white-space: pre" placeholder="请输入内容" class="layui-textarea"></textarea>
+-->
+
 </div>
 <script>
     $(function () {
@@ -45,9 +56,10 @@
 
     //字体缩放大小
     let narrow = 4;
+
     function inputMonitor() {
         let param = "";
-        param += "?content=" +  $("#content").val();
+        param += "?content=" + $("#content").val();
         param += "&narrow=" + narrow;
         let result = ajaxGet(convert + param);
         $("#resultContent").html(result.data);
@@ -74,7 +86,6 @@
         $("#narrow").html(narrow);
         inputMonitor();
     }
-
 
 
 </script>

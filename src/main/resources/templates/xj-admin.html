@@ -55,13 +55,13 @@
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 
                 <!-- 新消息 -->
-                <li class="layui-nav-item" lay-unselect>
-                    <a lay-href="xj-admin.html" layadmin-event="message" lay-text="消息中心">
-                        <i class="layui-icon layui-icon-notice"></i>
-                        <!-- 如果有新消息，则显示小圆点 -->
-                        <span class="layui-badge-dot"></span>
-                    </a>
-                </li>
+                <!--                <li class="layui-nav-item" lay-unselect>-->
+                <!--                    <a lay-href="xj-admin.html" layadmin-event="message" lay-text="消息中心">-->
+                <!--                        <i class="layui-icon layui-icon-notice"></i>-->
+                <!--                        &lt;!&ndash; 如果有新消息，则显示小圆点 &ndash;&gt;-->
+                <!--                        <span class="layui-badge-dot"></span>-->
+                <!--                    </a>-->
+                <!--                </li>-->
 
                 <!--  便签 -->
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
@@ -91,19 +91,19 @@
                     <dl class="layui-nav-child">
                         <dd><a id="updPwd" lay-href="">修改密码</a></dd>
                         <hr>
-                        <dd><a id="logout" style="text-align: center;" lay-href="">退出</a></dd>
+                        <dd><a id="logout" style="text-align: center;" href="" onclick="adminLogout()">退出</a></dd>
                         <!--  <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>-->
                     </dl>
                 </li>
 
                 <!-- 版权信息 -->
-                <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="about"><i
-                            class="layui-icon layui-icon-more-vertical"></i></a>
-                </li>
-                <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>
-                    <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical"></i></a>
-                </li>
+                <!--                <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+                <!--                    <a href="javascript:;" layadmin-event="about"><i-->
+                <!--                            class="layui-icon layui-icon-more-vertical"></i></a>-->
+                <!--                </li>-->
+                <!--                <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>-->
+                <!--                    <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical"></i></a>-->
+                <!--                </li>-->
             </ul>
         </div>
 
@@ -136,8 +136,10 @@
                     </li>
                 </ul>
             </div>
+            <!-- 点击菜单后的监听 -->
             <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
                 <ul class="layui-tab-title" id="LAY_app_tabsheader">
+                    <!-- 没什么用，但不能删，给菜单项赋值  -->
                     <li lay-id="home/console.html" lay-attr="home/console.html" class="layui-this"><i
                             class="layui-icon layui-icon-home"></i></li>
                 </ul>
@@ -148,7 +150,7 @@
         <!-- 主体内容 -->
         <div class="layui-body" id="LAY_app_body">
             <div class="layadmin-tabsbody-item layui-show">
-                <iframe id="homePage" src="home/console.html" frameborder="0" class="layadmin-iframe"></iframe>
+                <iframe id="homePage" src="front/symbol/main.html" frameborder="0" class="layadmin-iframe"></iframe>
             </div>
         </div>
 
@@ -159,6 +161,13 @@
 
 
 <script>
+    let dataJson = null;
+    let viewsUrl = "/views/index.html";               //模板首页url
+    let menuTree = "/menuAdmin/menuTree";             //树菜单数据
+    let logout = "/loginAdmin/logout";                //退出登录接口
+   // let homePage = "/page/front_symbol_main";         //进入系统首页url, /page/console_user_user
+    let homePage = "/page/front_show_show";         //进入系统首页url, /page/console_user_user
+    let updPwd = "/page/console_user_userUpdPwd";     //修改密码页面
 
     $(function () {
         dataJson = ajaxGet(menuTree).data;
@@ -170,18 +179,17 @@
         $("#viewsUrl").attr("href", viewsUrl);
         $("#homePage").attr("src", homePage);
         $("#updPwd").attr("lay-href", updPwd);
-        $("#logout").attr("lay-href", logout);
+       // $("#logout").attr("lay-href", logout);
         //$("#username").html(localStorage.getItem('username'));
         $("#username").html(sessionStorage.getItem('username'));
     });
 
-    let viewsUrl = "/views/index.html";               //模板首页url
-    let menuTree = "/menuAdmin/menuTree";             //树菜单数据
-    let logout = "/loginAdmin/logout";                //退出登录接口
-    let homePage = "/page/console_user_user";         //进入系统首页url
-    let updPwd = "/page/console_user_userUpdPwd";     //修改密码页面
-
-    let dataJson = null;
+    //退出处理
+    function adminLogout() {
+        ajaxGet(logout);
+        window.location.href="../login";
+        window.event.returnValue=false;
+    }
 
 
     /** 如果index在内窗口，直接跳到最顶层窗口 */
@@ -195,7 +203,7 @@
         treetable: '../treetable-lay/module/treetable-lay/treetable'  //引入treetable组件
     }).use('index', function () {
 
-    })
+    });
 
 
     // 系统级菜单展示  -->  root=1

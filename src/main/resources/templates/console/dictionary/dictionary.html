@@ -140,7 +140,7 @@
             add: function () {
                 data = [];    // 初始化data
                 data.lv = 1;  // 给初始化后的data添加值，表示添加顶级类别
-                tipsWindown(page_add, "440px", "360px", "添加类型");
+                tipsWindown(page_add, "440px", "380px", "添加类型");
             }
         };
         //必须在下面/监听class = demoTable内按钮
@@ -166,21 +166,17 @@
             // TODO  添加子类别
             if (obj.event === 'add') {
                 data.lv = 2; // 表示添加子类别
-                tipsWindown(page_add, "440px", "280px", "添加子类别--" + data.name)
+                tipsWindown(page_add, "440px", "380px", "添加子类别--" + data.name)
             }
             // TODO  编辑字典
             if (obj.event === 'edit') {
                 data.lv = 3;  // 编辑字典
-                tipsWindown(page_upd, "440px", "340px", "编辑字典--" + data.name)
+                tipsWindown(page_upd, "440px", "380px", "编辑字典--" + data.name)
             }
             // TODO  删除行
             if (obj.event === 'del') {
                 let params = "?id=" + data.id;
                 tipsDeleteId(deletes + params, obj)
-            }
-            // TODO 修改菜单名称
-            if (obj.event === 'upd') {
-                tipsWindown(admin_menu_upd, "440px", "240px", "编辑")
             }
         });
 

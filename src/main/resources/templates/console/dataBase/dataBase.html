@@ -186,6 +186,7 @@
                     , {field: 'name', title: '字段名'}
                     , {field: 'type', title: '数据类型'}
                     , {field: 'desc', title: '备注'}
+                    , {field: 'typeDetail', title: '备注'}
                     , {
                     field: 'primary', title: '主键Id', templet: function (res) {
                         return '<input type="checkbox" name="primarykeyId" lay-filter="primarykeyId" lay-skin="switch" lay-text="yes|no">' +
@@ -227,8 +228,8 @@
      * @return
      */
     function toolbarClick(type) {
-        let newCheckData = checkData.data;       //当前数据表格所有复选框数据暂存
-        let newDataJson = reqDataJson.data;         //当前数据表格所有数据
+        let newCheckData = checkData.data;       // 当前数据表格所有复选框数据暂存
+        let newDataJson = reqDataJson.data;      // 当前数据表格所有数据
         //判断是否为选中
         let newData = new Array();
         let num = 0;
@@ -254,10 +255,10 @@
         }
         if (type === 1) {
             //数据表格数据,表名称，项目名称,返回生成的文件地址
-            data = ajaxPost(codeGeneration1, {
-                data: JSON.stringify(newData),
-                tableName: tableName,
-            }).data;
+            let param = "";
+            param += "?tableName=" + tableName;
+            param += "&data=" + JSON.stringify(newData);
+            data = ajaxPost(codeGeneration1 + param).data;
             //预览
             this.tabTxt(data)
         } else {
