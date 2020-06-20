@@ -1,5 +1,6 @@
 package com.ws.ldy;
 
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.ws.ldy.common.utils.ConsoleColors;
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.mybatis.spring.annotation.MapperScan;
@@ -12,8 +13,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author 王松
  * @WX-QQ 1720696548
  * @date 2019/10/31 20:45
+ * 说明1: exclude = DruidDataSourceAutoConfigure.class 为排除默认数据源
+ * 说明2:@MapperScan 为mapper 扫包路径
+ * 说明3:@EnableAdminServer 为监控Admin中心,访问地址为项目路径+ /bootAdmin, yml中配置
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
 @MapperScan("com.ws.ldy.admin.mapper")
 @EnableAdminServer
 public class XiJiaApplication {

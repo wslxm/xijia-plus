@@ -1,8 +1,8 @@
 package com.ws.ldy.config.error;
 
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.config.result.Result;
-import com.ws.ldy.config.result.ResultType;
+import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.result.ResultEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -77,7 +77,7 @@ public class GlobalExceptionHandler extends BaseController {
              * TODO 程序错误 - mapException 中所有异常类（打印及返回完整错误信息）
              */
             log.info(logStr + mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
-            return new Result(ResultType.SYS_ERROR, mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
+            return new Result(ResultEnum.SYS_ERROR, mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
         } else if (e instanceof ErrorException) {
             /**
              *  TODO 自定义异常()
@@ -90,32 +90,32 @@ public class GlobalExceptionHandler extends BaseController {
              * TODO 参数错误 - 枚举参数 |json参数错误, 请检查json是否完整，序列化失败（只打印核心错误内容）
              */
             HttpMessageNotReadableException error = (HttpMessageNotReadableException) e;
-            log.info(logStr + ResultType.SYSTEM_PARAMETER_ILLEGAL_PARAM.getMsg(), e.getMessage());
-            return new Result(ResultType.SYSTEM_PARAMETER_ILLEGAL_PARAM, e.getMessage());
+            log.info(logStr + ResultEnum.SYSTEM_PARAMETER_ILLEGAL_PARAM.getMsg(), e.getMessage());
+            return new Result(ResultEnum.SYSTEM_PARAMETER_ILLEGAL_PARAM, e.getMessage());
         } else if (e instanceof MethodArgumentNotValidException) {
             /**
              * TODO JSR 303 为参数验证错误（只打印核心错误内容）
              */
-            log.info(logStr + ResultType.SYSTEM_VALID_ILLEGAL_PARAM.getMsg(), e.getMessage());
-            return new Result(ResultType.SYSTEM_VALID_ILLEGAL_PARAM, e.getMessage());
+            log.info(logStr + ResultEnum.SYSTEM_VALID_ILLEGAL_PARAM.getMsg(), e.getMessage());
+            return new Result(ResultEnum.SYSTEM_VALID_ILLEGAL_PARAM, e.getMessage());
         } else if (e instanceof MissingServletRequestParameterException) {
             /**
              * TODO 未传递 Parameter 参数验证错误, 一般为 @Parameter 指定参数未传递（只打印核心错误内容）
              */
-            log.info(logStr + ResultType.SYSTEM_PARAMETER_ILLEGAL_PARAM.getMsg(), e.getMessage());
-            return new Result(ResultType.SYSTEM_PARAMETER_ILLEGAL_PARAM, e.getMessage());
+            log.info(logStr + ResultEnum.SYSTEM_PARAMETER_ILLEGAL_PARAM.getMsg(), e.getMessage());
+            return new Result(ResultEnum.SYSTEM_PARAMETER_ILLEGAL_PARAM, e.getMessage());
         } else if (e instanceof MethodArgumentTypeMismatchException) {
             /**
              * TODO  方法参数类型不匹配mvc
              */
-            log.info(logStr + ResultType.SYSTEM_PARAMETER_WRONG_TYPE.getMsg(), e.getMessage());
-            return new Result(ResultType.SYSTEM_PARAMETER_WRONG_TYPE, e.getMessage());
+            log.info(logStr + ResultEnum.SYSTEM_PARAMETER_WRONG_TYPE.getMsg(), e.getMessage());
+            return new Result(ResultEnum.SYSTEM_PARAMETER_WRONG_TYPE, e.getMessage());
         } else {
             /**
              * TODO  未解析到的错误（打印及返回完整错误信息）
              */
             log.info(logStr + e.getMessage() + errorDesc.toString());
-            return new Result(ResultType.SYS_ERROR, e.getMessage() + errorDesc.toString());
+            return new Result(ResultEnum.SYS_ERROR, e.getMessage() + errorDesc.toString());
         }
     }
 }

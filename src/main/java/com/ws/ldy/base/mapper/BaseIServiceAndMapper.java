@@ -2,6 +2,7 @@ package com.ws.ldy.base.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 /**
@@ -12,7 +13,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
  * @date 2019/10/31 21:12
  */
 //@Repository
-public class BaseIServiceAndMapper<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> implements com.baomidou.mybatisplus.extension.service.IService<T> {
+public class BaseIServiceAndMapper<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> implements IService<T> {
 
     /**
      * TODO

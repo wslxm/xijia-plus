@@ -1,11 +1,11 @@
 package com.ws.ldy.admin.service.impl;
 
-import com.ws.ldy.admin.enums.Constant;
 import com.ws.ldy.admin.mapper.AuthorityAdminMapper;
 import com.ws.ldy.admin.model.entity.AuthorityAdmin;
 import com.ws.ldy.admin.service.AuthorityAdminService;
+import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.base.service.impl.BaseIServiceImpl;
-import com.ws.ldy.common.utils.ClassUtil;
+import com.ws.ldy.common.utils.ClassUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,15 +27,11 @@ public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMa
      * url权限注解扫包范围
      */
     private final static String PACKAGE_NAME = "com.ws.ldy";
-    /**
-     * 权限dao
-     */
-    @Resource
-    private AuthorityAdminServiceImpl authorityAdminService;
+
 
     @Override
     public List<AuthorityAdmin> findUserIdRoleAuthority(Integer userId) {
-        return authorityAdminService.findUserIdRoleAuthority(userId);
+        return this.findUserIdRoleAuthority(userId);
     }
 
 
@@ -48,15 +43,17 @@ public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMa
      */
     @Override
     @Transactional
-    public void putClass() {
+    public void refreshAuthority() {
         // 扫描包，获得包下的所有类
-        List<Class<?>> classByPackageName = ClassUtil.getClasses(PACKAGE_NAME);
+        List<Class<?>> classByPackageName = ClassUtils.getClasses(PACKAGE_NAME);
+
         // 当前当前数据库已经存在的所有url权限列表--> key=url，value=对象，获取后移除Map中已取出，最后剩下的全部删除
         Map<String, AuthorityAdmin> authorityMap = new HashMap();
-        List<AuthorityAdmin> authorityList = authorityAdminService.list();
+        List<AuthorityAdmin> authorityList = this.list();
         if (authorityList != null && authorityList.size() > 0) {
             authorityList.forEach(item -> authorityMap.put(item.getUrl(), item));
         }
+
         // 遍历所有类
         for (Class<?> classInfo : classByPackageName) {
             // 类上存在 @Api 注解 + @RequestMapping 的类进行下一步操作
@@ -66,7 +63,7 @@ public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMa
                 continue;
             }
             // 判断当前类是否需要保存到接口权限内（目前：PC_ADMIN=平台 ） 需要
-            if (apiClass.description().equals(Constant.InterfaceType.PC_ADMIN)) {
+            if (apiClass.description().equals(BaseConstant.InterfaceType.PC_ADMIN)) {
                 String url = requestMappingClass.value()[0];
                 System.out.println("当前类信息-->" + apiClass.value() + "-->" + apiClass.tags()[0] + " --> " + url);
                 if (authorityMap.containsKey(url)) {
@@ -74,7 +71,7 @@ public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMa
                     AuthorityAdmin updAuthority = authorityMap.get(url);
                     updAuthority.setUrl(url);                               // 接口URL
                     updAuthority.setDesc(apiClass.tags()[0]);               // 接口描叙
-                    authorityAdminService.updateById(updAuthority);
+                    this.updateById(updAuthority);
                     // 添加方法上的权限
                     this.putMethods(classInfo, authorityMap, updAuthority);
                     // 移除Map中已取出
@@ -86,7 +83,7 @@ public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMa
                     addAuthority.setMethod("");                           // 请求方式
                     addAuthority.setUrl(url);                             // 接口URL
                     addAuthority.setDesc(apiClass.tags()[0]);             // 接口描叙
-                    authorityAdminService.save(addAuthority);
+                    this.save(addAuthority);
                     // 添加方法上的权限
                     this.putMethods(classInfo, authorityMap, addAuthority);
                 }
@@ -98,7 +95,7 @@ public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMa
             authorityMap.forEach((k, v) -> {
                 delIds.add(v.getId());
             });
-            authorityAdminService.removeByIds(delIds);
+            this.removeByIds(delIds);
         }
     }
 
@@ -139,7 +136,7 @@ public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMa
                 updAuthority.setDesc(desc);               // 权限描叙
                 updAuthority.setUrl(url);                 // 接口url
                 updAuthority.setMethod(requestMethod);    // 请求方式
-                authorityAdminService.updateById(updAuthority);
+                this.updateById(updAuthority);
                 // 移除Map中已取出
                 authorityMap.remove(url);
             } else {
@@ -148,7 +145,7 @@ public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMa
                 addAuthority.setDesc(desc);               // 权限描叙
                 addAuthority.setUrl(url);                 // 接口url
                 addAuthority.setMethod(requestMethod);    // 请求方式
-                authorityAdminService.save(addAuthority);
+                this.save(addAuthority);
             }
         }
     }

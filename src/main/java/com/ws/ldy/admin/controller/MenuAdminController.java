@@ -1,7 +1,6 @@
 package com.ws.ldy.admin.controller;
 
 
-import com.ws.ldy.admin.enums.Constant;
 import com.ws.ldy.admin.enums.MenuRootEnum;
 import com.ws.ldy.admin.model.dto.MenuAdminDto;
 import com.ws.ldy.admin.model.entity.MenuAdmin;
@@ -9,16 +8,18 @@ import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.admin.model.vo.MenuAdminVo;
 import com.ws.ldy.admin.service.impl.MenuAdminServiceImpl;
 import com.ws.ldy.base.controller.BaseController;
+import com.ws.ldy.base.enums.BaseConstant;
+import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.result.ResultEnum;
+import com.ws.ldy.common.user.AdminUserUtils;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.config.result.Result;
-import com.ws.ldy.config.result.ResultType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +32,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/menuAdmin")
-@Api(value = "MenuAdminController", tags = "菜单管理", description = Constant.InterfaceType.PC_ADMIN)
-public class MenuAdminController extends BaseController {
+@Api(value = "MenuAdminController", tags = "菜单管理", description = BaseConstant.InterfaceType.PC_ADMIN)
+public class MenuAdminController extends BaseController<MenuAdminServiceImpl> {
 
-    @Resource
+    @Autowired
     private MenuAdminServiceImpl menuService;
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
@@ -55,7 +56,7 @@ public class MenuAdminController extends BaseController {
     @ApiOperation("左导航菜单 ===>>> 树结构数据 ===>>> 需先登录")
     public Result<List<MenuAdminVo>> menuTree() {
         //当前登录用户信息
-        UserAdmin userAdmin = this.getUserAdmin();
+        UserAdmin userAdmin = AdminUserUtils.getUserAdmin();
         //获取菜单
         List<MenuAdminVo> menuTree = menuService.getMenuTree(userAdmin);
         return successFind(menuTree);
@@ -98,7 +99,7 @@ public class MenuAdminController extends BaseController {
     @ApiOperation("编辑")
     public Result<Void> update(@RequestBody MenuAdminDto menuAdminDto) {
         if (menuAdminDto.getId() == null) {
-            throw new ErrorException(ResultType.ADMIN_IS_NO_UPDATE_ID);
+            throw new ErrorException(ResultEnum.ADMIN_IS_NO_UPDATE_ID);
         }
         MenuAdmin menuAdmin = menuAdminDto.convert(MenuAdmin.class);
         menuService.updateById(menuAdmin);
@@ -115,6 +116,4 @@ public class MenuAdminController extends BaseController {
         menuService.removeByIds(menuIds);
         return successDelete(menuIds);
     }
-
-
 }

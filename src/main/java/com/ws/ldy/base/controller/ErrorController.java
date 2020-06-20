@@ -27,15 +27,15 @@ public class ErrorController {
      */
     @RequestMapping(value = "/error/{code}")
     public String error(@PathVariable int code, Model model) {
-        String pager = "/admin/error";
+        String pager = "/base/error";
         switch (code) {
             case 404:
                 model.addAttribute("code", 404);
-                pager = "/admin/404";
+                pager = "/base/404";
                 break;
             case 500:
                 model.addAttribute("code", 500);
-                pager = "/admin/error";
+                pager = "/base/error";
                 break;
             default:
         }

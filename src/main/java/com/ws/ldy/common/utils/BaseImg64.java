@@ -1,5 +1,6 @@
 package com.ws.ldy.common.utils;
 
+import cn.hutool.crypto.digest.MD5;
 import sun.misc.BASE64Encoder;
 
 import java.io.FileInputStream;

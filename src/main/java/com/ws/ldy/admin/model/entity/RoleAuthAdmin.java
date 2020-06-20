@@ -1,7 +1,7 @@
 package com.ws.ldy.admin.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ws.ldy.base.model.entity.BaseAdminEntity;
+import com.ws.ldy.admin.baseModel.BaseAdminEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

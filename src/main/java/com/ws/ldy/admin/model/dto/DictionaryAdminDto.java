@@ -1,6 +1,6 @@
 package com.ws.ldy.admin.model.dto;
 
-import com.ws.ldy.base.model.dto.BaseAdminDto;
+import com.ws.ldy.admin.baseModel.BaseAdminDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

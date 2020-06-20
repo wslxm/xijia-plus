@@ -7,10 +7,10 @@ import com.ws.ldy.admin.model.entity.RoleUserAdmin;
 import com.ws.ldy.admin.model.vo.RoleAdminVo;
 import com.ws.ldy.admin.service.RoleAdminService;
 import com.ws.ldy.base.service.impl.BaseIServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.Map;
 @Service
 public class RoleAdminServiceImpl extends BaseIServiceImpl<RoleAdminMapper, RoleAdmin> implements RoleAdminService {
 
-    @Resource
+    @Autowired
     private RoleUserAdminServiceImpl roleUserAdminService;
 
     @Override

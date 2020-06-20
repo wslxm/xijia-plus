@@ -5808,7 +5808,7 @@ org.springframework.web.HttpRequestMethodNotSupportedException: Request method '
 ### [全局捕获异常] --> 请求URL:http://localhost:8088/authorityAdmin/findAll -->  错误原因:未解析
 
  ---------> 详细错误日志:
-org.springframework.dao.InvalidDataAccessApiUsageException: Unable to locate Attribute  with the the given name [sss] on this ManagedType [com.ws.ldy.base.model.entity.BaseEntity]; nested exception is java.lang.IllegalArgumentException: Unable to locate Attribute  with the the given name [sss] on this ManagedType [com.ws.ldy.base.model.entity.BaseEntity]
+org.springframework.dao.InvalidDataAccessApiUsageException: Unable to locate Attribute  with the the given name [sss] on this ManagedType [com.ws.ldy.admin.model.entity.BaseEntity]; nested exception is java.lang.IllegalArgumentException: Unable to locate Attribute  with the the given name [sss] on this ManagedType [com.ws.ldy.admin.model.entity.BaseEntity]
 	at org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:373)
 	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:255)
 	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:527)
@@ -5903,7 +5903,7 @@ org.springframework.dao.InvalidDataAccessApiUsageException: Unable to locate Att
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.lang.Thread.run(Thread.java:748)
-Caused by: java.lang.IllegalArgumentException: Unable to locate Attribute  with the the given name [sss] on this ManagedType [com.ws.ldy.base.model.entity.BaseEntity]
+Caused by: java.lang.IllegalArgumentException: Unable to locate Attribute  with the the given name [sss] on this ManagedType [com.ws.ldy.admin.model.entity.BaseEntity]
 	at org.hibernate.metamodel.internal.AbstractManagedType.checkNotNull(AbstractManagedType.java:128)
 	at org.hibernate.metamodel.internal.AbstractManagedType.getAttribute(AbstractManagedType.java:113)
 	at org.hibernate.metamodel.internal.AbstractManagedType.getAttribute(AbstractManagedType.java:111)
@@ -5934,4 +5934,4 @@ Caused by: java.lang.IllegalArgumentException: Unable to locate Attribute  with 
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
 	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:139)
 	... 88 more
-2020-03-30 23:54:17,169 [http-nio-8088-exec-9] [org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver][WARN] - Resolved [org.springframework.dao.InvalidDataAccessApiUsageException: Unable to locate Attribute  with the the given name [sss] on this ManagedType [com.ws.ldy.base.model.entity.BaseEntity]; nested exception is java.lang.IllegalArgumentException: Unable to locate Attribute  with the the given name [sss] on this ManagedType [com.ws.ldy.base.model.entity.BaseEntity]]
+2020-03-30 23:54:17,169 [http-nio-8088-exec-9] [org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver][WARN] - Resolved [org.springframework.dao.InvalidDataAccessApiUsageException: Unable to locate Attribute  with the the given name [sss] on this ManagedType [com.ws.ldy.admin.model.entity.BaseEntity]; nested exception is java.lang.IllegalArgumentException: Unable to locate Attribute  with the the given name [sss] on this ManagedType [com.ws.ldy.admin.model.entity.BaseEntity]]

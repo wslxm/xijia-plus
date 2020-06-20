@@ -1,6 +1,6 @@
 package com.ws.ldy.admin.model.vo;
 
-import com.ws.ldy.base.model.vo.BaseAdminVo;
+import com.ws.ldy.admin.baseModel.BaseAdminVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

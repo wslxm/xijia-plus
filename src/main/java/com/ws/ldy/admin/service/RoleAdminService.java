@@ -16,7 +16,7 @@ import java.util.List;
  * @WX-QQ 1720696548
  * @date 2019/11/13 15:10
  */
-public interface RoleAdminService extends BaseIService<RoleAdminMapper, RoleAdmin> {
+public interface RoleAdminService {
 
     /**
      * TODO  查询所有角色--用户当前拥有角色赋予checked=true

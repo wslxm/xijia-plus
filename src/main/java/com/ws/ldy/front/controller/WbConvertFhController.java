@@ -2,7 +2,7 @@ package com.ws.ldy.front.controller;
 
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.common.mystic.Transform;
-import com.ws.ldy.config.result.Result;
+import com.ws.ldy.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

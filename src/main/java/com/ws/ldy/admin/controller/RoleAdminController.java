@@ -3,7 +3,6 @@ package com.ws.ldy.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ws.ldy.admin.enums.Constant;
 import com.ws.ldy.admin.model.dto.RoleAdminDto;
 import com.ws.ldy.admin.model.entity.RoleAdmin;
 import com.ws.ldy.admin.model.vo.RoleAdminVo;
@@ -12,15 +11,16 @@ import com.ws.ldy.admin.service.impl.RoleAuthAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.RoleMenuAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.RoleUserAdminServiceImpl;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.config.result.Result;
+import com.ws.ldy.base.enums.BaseConstant;
+import com.ws.ldy.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -32,16 +32,16 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/roleAdmin")
-@Api(value = "RoleAdminController", tags = "角色管理", description = Constant.InterfaceType.PC_ADMIN)
-public class RoleAdminController extends BaseController {
+@Api(value = "RoleAdminController", tags = "角色管理", description = BaseConstant.InterfaceType.PC_ADMIN)
+public class RoleAdminController extends BaseController<RoleAdminServiceImpl> {
 
-    @Resource
-    private RoleAdminServiceImpl roleAdminServiceImpl;
-    @Resource
+//    @Autowired
+//    private RoleAdminServiceImpl roleAdminServiceImpl;
+    @Autowired
     private RoleMenuAdminServiceImpl roleMenuAdminServiceImpl;
-    @Resource
+    @Autowired
     private RoleAuthAdminServiceImpl roleAuthAdminServiceImpl;
-    @Resource
+    @Autowired
     private RoleUserAdminServiceImpl roleUserAdminServiceImpl;
 
 
@@ -53,7 +53,7 @@ public class RoleAdminController extends BaseController {
             @ApiImplicitParam(name = "name", value = "角色名称", required = false, paramType = "query"),
     })
     public Result<IPage<RoleAdminVo>> findPage(String name) {
-        Page<RoleAdmin> page = roleAdminServiceImpl.page(this.getPage(), new LambdaQueryWrapper<RoleAdmin>()
+        Page<RoleAdmin> page = baseService.page(this.getPage(), new LambdaQueryWrapper<RoleAdmin>()
                 .orderByAsc(RoleAdmin::getId)
                 .like(StringUtils.isNotBlank(name), RoleAdmin::getName, name)
         );
@@ -64,28 +64,28 @@ public class RoleAdminController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ApiOperation("查询所有")
     public Result<List<RoleAdminVo>> list() {
-        List<RoleAdmin> roles = roleAdminServiceImpl.list();
-        return successFind(this.listVoStream(roles, RoleAdminVo.class));
+        List<RoleAdmin> roles = baseService.list();
+        return successFind(this.listVo(roles, RoleAdminVo.class));
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation("添加")
     public Result<Void> insert(@RequestBody RoleAdminDto roleAdminDto) {
-        roleAdminServiceImpl.save(roleAdminDto.convert(RoleAdmin.class));
+        baseService.save(roleAdminDto.convert(RoleAdmin.class));
         return successInsert();
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @ApiOperation("编辑")
     public Result<Void> update(@RequestBody RoleAdminDto roleAdminDto) {
-        roleAdminServiceImpl.updateById(roleAdminDto.convert(RoleAdmin.class));
+        baseService.updateById(roleAdminDto.convert(RoleAdmin.class));
         return successInsert();
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("单删除")
     public Result<Void> delete(Integer id) {
-        roleAdminServiceImpl.removeById(id);
+        baseService.removeById(id);
         return successDelete();
     }
 
@@ -99,7 +99,7 @@ public class RoleAdminController extends BaseController {
     @RequestMapping(value = "/findRoleChecked", method = RequestMethod.GET)
     @ApiOperation("用户角色分配==>查询所有角色,用户拥有角色赋予isChecked=true")
     public Result<List<RoleAdminVo>> findRoleChecked(@RequestParam String userId) {
-        List<RoleAdminVo> roles = roleAdminServiceImpl.findRoleChecked(userId);
+        List<RoleAdminVo> roles = baseService.findRoleChecked(userId);
         return successFind(roles);
     }
 
@@ -107,7 +107,7 @@ public class RoleAdminController extends BaseController {
     @RequestMapping(value = "/updUserRole", method = RequestMethod.PUT)
     @ApiOperation("用户角色分配")
     public Result<Void> updUserRole(@RequestParam Integer userId, Integer[] roleIds) {
-        boolean result = roleAdminServiceImpl.updUserRole(userId, roleIds);
+        boolean result = baseService.updUserRole(userId, roleIds);
         return successUpdate();
     }
 

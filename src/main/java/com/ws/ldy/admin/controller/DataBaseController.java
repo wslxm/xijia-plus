@@ -2,11 +2,11 @@ package com.ws.ldy.admin.controller;
 
 import com.ws.ldy.admin.service.impl.DataBaseServiceImpl;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.config.result.Result;
+import com.ws.ldy.base.enums.BaseConstant;
+import com.ws.ldy.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,20 +25,14 @@ import java.util.Map;
 @SuppressWarnings({"all"})
 @RestController
 @RequestMapping("/dataBase")
-@Api(value = "DataBaseController", tags = "数据库表查询")
-public class DataBaseController extends BaseController {
+@Api(value = "DataBaseController", tags = "数据库表查询", description = BaseConstant.InterfaceType.PC_ADMIN)
+public class DataBaseController extends BaseController<DataBaseServiceImpl> {
 
-    @Autowired
-    private DataBaseServiceImpl dataBaseServiceImpl;
 
     @ApiOperation("查询所有表名")
     @RequestMapping(value = "/findTable", method = RequestMethod.GET)
     public Result<List<Map<String, String>>> findTable() {
-        List<Map<String, String>> tables = dataBaseServiceImpl.findTable();
-        //TABLE_NAME-t_sheep_user","TABLE_COMMENT
-        //转为前台需要的树结构数据
-//        List<Dict> tableList = new ArrayList<>();
-//        table.forEach(item -> tableList.add(Dict.create().set("name", item)));
+        List<Map<String, String>> tables = baseService.findTable();
         return success(tables);
     }
 
@@ -46,7 +40,7 @@ public class DataBaseController extends BaseController {
     @ApiImplicitParam(name = "tableName", value = "表名", required = false, paramType = "query")
     @RequestMapping(value = "/findTableField", method = RequestMethod.GET)
     public Result<List<Map<String, String>>> findTableField(@RequestParam(required = false) String tableName) {
-        List<Map<String, String>> tableField = dataBaseServiceImpl.findTableField(tableName);
+        List<Map<String, String>> tableField = baseService.findTableField(tableName);
         return success(tableField);
     }
 }

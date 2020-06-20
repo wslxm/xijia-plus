@@ -1,15 +1,15 @@
 package com.ws.ldy.config;
 
-import com.ws.ldy.admin.enums.Constant;
 import com.ws.ldy.admin.mapper.AuthorityAdminMapper;
 import com.ws.ldy.admin.mapper.RoleAuthAdminMapper;
 import com.ws.ldy.admin.model.entity.AuthorityAdmin;
 import com.ws.ldy.admin.model.entity.UserAdmin;
-import com.ws.ldy.common.utils.SignUtil;
-import com.ws.ldy.config.constant.BaseConstant;
+import com.ws.ldy.base.enums.BaseConstant;
+import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.result.ResultEnum;
+import com.ws.ldy.common.user.AdminUserUtils;
+import com.ws.ldy.common.utils.SignUtils;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.config.result.Result;
-import com.ws.ldy.config.result.ResultType;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
@@ -111,18 +111,18 @@ public class Aop {
             String token = request.getHeader("token");
             if (StringUtils.isBlank(token)) {
                 //没有token
-                throw new ErrorException(ResultType.ADMIN_IS_NO_TOKEN);
+                throw new ErrorException(ResultEnum.ADMIN_IS_NO_TOKEN);
             }
-            UserAdmin userAdmin = (UserAdmin) request.getSession().getAttribute(BaseConstant.SYS + token);
+            UserAdmin userAdmin = (UserAdmin) request.getSession().getAttribute(AdminUserUtils.ADMIN + token);
             if (userAdmin == null) {
                 // token无效/登录失效
-                throw new ErrorException(ResultType.ADMIN_IS_NO_LOGIN);
+                throw new ErrorException(ResultEnum.ADMIN_IS_NO_LOGIN);
             }
 
             // TODO 权限验证
             // 获取类上的注解@Api 注解, 判断当前类需要接口权限验证（目前：PC_ADMIN=平台 ） 需要
             Api apiClass = jp.getTarget().getClass().getAnnotation(Api.class);
-            if (!apiClass.description().equals(Constant.InterfaceType.PC_ADMIN)) {
+            if (!apiClass.description().equals(BaseConstant.InterfaceType.PC_ADMIN)) {
                 return;
             }
             List<AuthorityAdmin> list = authorityAdminDao.findUserIdRoleAuthority(userAdmin.getId());
@@ -130,7 +130,7 @@ public class Aop {
             list.forEach(item -> map.put(item.getUrl().trim(), item));
             // 获取接口权限名称，判断是否有权限
             if (!map.containsKey(interfaceUrl.trim())) {
-                throw new ErrorException(ResultType.SYS_IS_NO_AUTHORIZATION);
+                throw new ErrorException(ResultEnum.SYS_IS_NO_AUTHORIZATION);
             }
         }
     }
@@ -160,9 +160,9 @@ public class Aop {
     public Result verify(HttpServletRequest request) {
         String servletPath = request.getServletPath();
         if (servletPath.contains(path)) {    // = if(servletPath.indexOf(path) == -1 )
-            Map<String, String> verifyMap = SignUtil.toVerifyMap(request.getParameterMap(), false);
-            if (!SignUtil.verify(verifyMap)) {
-                return error(ResultType.SYS_IS_NO_VISIT.getCode(), "验签失败");
+            Map<String, String> verifyMap = SignUtils.toVerifyMap(request.getParameterMap(), false);
+            if (!SignUtils.verify(verifyMap)) {
+                return error(ResultEnum.SYS_IS_NO_VISIT.getCode(), "验签失败");
             }
         }
         return success(0);
@@ -199,7 +199,7 @@ public class Aop {
             return success(0);
         }
         if (!referer.contains(request.getServerName())) {
-            return error(ResultType.SYS_IS_NO_VISIT.getCode(), "切勿非法盗用资源");
+            return error(ResultEnum.SYS_IS_NO_VISIT.getCode(), "切勿非法盗用资源");
         }
         //System.out.println("refer is" + "" + referer);
         return success(0);
@@ -264,17 +264,17 @@ public class Aop {
 
     //TODO  返回成功,带数据+页数
     public <T> Result<T> success(T data, Integer count) {
-        return new Result(ResultType.SYS_SUCCESS, data);
+        return new Result(ResultEnum.SYS_SUCCESS, data);
     }
 
     //TODO  返回成功,带数据-不带页数
     public <T> Result<T> success(T data) {
-        return new Result(ResultType.SYS_SUCCESS, data);
+        return new Result(ResultEnum.SYS_SUCCESS, data);
     }
 
     // TODO 返回成功，-不带数据 -不带页数
     public Result<Void> success() {
-        return new Result(ResultType.SYS_SUCCESS, null);
+        return new Result(ResultEnum.SYS_SUCCESS, null);
     }
 
     // TODO 返回失败（传入自定义枚举）
@@ -283,7 +283,7 @@ public class Aop {
     }
 
     // TODO 返回失败（传入自定义枚举）
-    public <T> Result<T> error(ResultType resultType) {
-        return new Result(resultType, null);
+    public <T> Result<T> error(ResultEnum ResultEnum) {
+        return new Result(ResultEnum, null);
     }
 }

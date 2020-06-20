@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * TODO   接口权限注解
+ * TODO 自定义注解--接口权限注解
  *
  * @date 2019/11/25 0025 7:45
  * @return

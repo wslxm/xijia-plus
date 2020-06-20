@@ -1,8 +1,6 @@
 package com.ws.ldy.admin.service;
 
-import com.ws.ldy.admin.mapper.AuthorityAdminMapper;
 import com.ws.ldy.admin.model.entity.AuthorityAdmin;
-import com.ws.ldy.base.service.BaseIService;
 
 import java.util.List;
 
@@ -13,15 +11,15 @@ import java.util.List;
  * @WX-QQ 1720696548
  * @date Mon Nov 25 08:02:49 CST 2019
  */
-public interface AuthorityAdminService extends BaseIService<AuthorityAdminMapper, AuthorityAdmin> {
+public interface AuthorityAdminService {
 
     /**
-     * TODO    刷新所有权限列表数据
+     * TODO  刷新所有权限列表数据
      *
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    void putClass();
+    void refreshAuthority();
 
     /**
      * TODO    获取指定用户有url权限列表

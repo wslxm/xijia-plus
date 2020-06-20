@@ -14,56 +14,61 @@
     <link rel="stylesheet" th:href="@{/layuiadmin/style/admin.css}" media="all">
     <link rel="stylesheet" th:href="@{/layuiadmin/style/login.css}" media="all">
     <script th:src="@{/layuiadmin/layui/layui.js}"></script>
-    <script language=javascript th:src='@{/js/jquery-3.4.1.js}'></script>
+    <!--    <script language=javascript th:src='@{/js/jquery-3.4.1.js}'></script>-->
     <script th:src="@{/js/app.js}"></script>
     <script th:src="@{/js/MD5.js}"></script>
+    <!--    &lt;!&ndash;  验证码插件 &ndash;&gt;-->
+    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <script th:src="@{/verifCode/jq_slideImage.js}" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 
+<style>
+    .demo1 {
+        width: 100%;
+        height: 300px;
+    }
+
+    .demo2 {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* 默认*/
+    /*.slide-fixcan slideFixCan {*/
+    /*    display: none;*/
+    /*}*/
+</style>
+
 <div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
-
     <div class="layadmin-user-login-main">
-
         <!-- 登录页标题处  -->
         <div class="layadmin-user-login-box layadmin-user-login-header">
-            <h2>兮家后台管理系统</h2>
+            <h2>兮家 * 次元空间</h2>
             <!--  <p>layui 官方出品的单页面后台管理模板系统 </p>-->
         </div>
 
         <!-- 账号密码输入处  -->
         <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
             <div class="layui-form-item">
-                <label class="layadmin-user-login-icon layui-icon layui-icon-username"
-                       for="LAY-user-login-username"></label>
-                <input type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="用户名"
-                       class="layui-input">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-username"  for="LAY-user-login-username"></label>
+                <input type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="用户名"  class="layui-input">
             </div>
             <div class="layui-form-item">
-                <label class="layadmin-user-login-icon layui-icon layui-icon-password"
-                       for="LAY-user-login-password"></label>
-                <input type="password" name="password" id="LAY-user-login-password" lay-verify="required"
-                       placeholder="密码" class="layui-input">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
+                <input type="password" name="password" id="LAY-user-login-password" lay-verify="required"  placeholder="密码" class="layui-input">
             </div>
 
             <!--  验证码设置处  -->
             <div class="layui-form-item">
-                <div class="layui-row">
-                    <div class="layui-col-xs7">
-                        <label class="layadmin-user-login-icon layui-icon layui-icon-vercode"
-                               for="LAY-user-login-vercode"></label>
-                        <input type="text" name="vercode" id="LAY-user-login-vercode" value="kkkn" lay-verify="required"
-                               placeholder="图形验证码" class="layui-input">
-                    </div>
-                    <div class="layui-col-xs5">
-                        <div style="margin-left: 10px;">
-                            <img src="https://www.oschina.net/action/user/captcha" class="layadmin-user-login-codeimg"
-                                 id="LAY-user-get-vercode">
-                        </div>
-                    </div>
+                <div style="width: 100%;margin: 0 auto;height: 180px;"><!--外层这div是为了测试  滑块会不会直接跑右边  不是必要的-->
+                    <div class="demo2" id="slideImageWrap2">
+                    </div> <!--style="display:none;"-->
                 </div>
             </div>
 
-
+            <!-- -->
+       <!--     <span style="float:right ;margin-bottom: 20%" >刷新</span>-->
             <!-- 设置记住忘记密码添加 处 -->
             <!--  <div class="layui-form-item" style="margin-bottom: 20px;">
                 <input type="checkbox" name="remember" lay-skin="primary" title="记住密码">
@@ -104,6 +109,7 @@
     //登录接口
     let admin_login = path + "/loginAdmin/login";       // 登录接口
     let admin_index = path + "/xj-admin";              // 后台主页
+    var verifCode = false;
 
     /** session过期，登录页在内窗口，跳为最顶层窗口 */
     if (window !== top) {
@@ -119,6 +125,10 @@
         form.render();
         // 提交监听
         form.on('submit(LAY-user-login-submit)', function (obj) {
+            if (!verifCode) {
+                layer.msg("请滑动图片进行验证");
+                return;
+            }
             let res = ajaxGet(admin_login + "?account=" + obj.field.username + "&password=" + obj.field.password);
             // 请求成功后，Layui 写入token，表格数据统一传递 -》获取token 方法: layui.data(layui.setter.tableName)['token'];, 使用: headers: {"token":layui.data(layui.setter.tableName)['token']}
             layui.data(layui.setter.tableName, {
@@ -134,6 +144,42 @@
             location.href = admin_index;
         });
     });
+</script>
+
+<!-- 滑动验证码 -->
+<script>
+    // 滑动的随机图片列表
+    let verifCodeImg = [
+        "/verifCode/image/a1.png",
+        "/verifCode/image/a2.png",
+        "/verifCode/image/a3.png",
+    ];
+    let index = Math.floor(Math.random() * verifCodeImg.length);
+    show();
+
+    // $("#slideImageWrap2").on('click', function () {
+    //     //alert("1");
+    //
+    //     show();
+    //     //mySlideImage2.resetSlide();
+    // });
+
+
+    function show() {
+        // 加载验证码
+        let mySlideImage2 = new SlideImageVerify('#slideImageWrap2', {
+            initText: '请滑动拼图完成验证',
+            slideImage: verifCodeImg[index],
+            //slideImage:'https://uploadbeta.com/api/pictures/random/?key=%E4%BA%8C%E6%AC%A1%E5%85%83',
+            slideAreaNum: 20,
+            refreshSlide: false,
+            getSuccessState: function (res) {
+                //成功
+                verifCode = true;
+                console.log(res);
+            }
+        });
+    }
 </script>
 </body>
 </html>

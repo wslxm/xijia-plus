@@ -1,11 +1,9 @@
 package com.ws.ldy.admin.service;
 
 
-import com.ws.ldy.admin.mapper.RoleUserAdminMapper;
 import com.ws.ldy.admin.model.entity.RoleUserAdmin;
 import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.admin.model.vo.UserAdminVo;
-import com.ws.ldy.base.service.BaseIService;
 
 import java.util.List;
 
@@ -16,7 +14,7 @@ import java.util.List;
  * @WX-QQ 1720696548
  * @date 2019/11/13 15:10
  */
-public interface RoleUserAdminService extends BaseIService<RoleUserAdminMapper, RoleUserAdmin> {
+public interface RoleUserAdminService{
     /**
      * TODO    查询指定角色当前用户列表
      *

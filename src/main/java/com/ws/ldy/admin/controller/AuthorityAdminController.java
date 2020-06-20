@@ -1,19 +1,19 @@
 package com.ws.ldy.admin.controller;
 
-import com.ws.ldy.admin.enums.Constant;
 import com.ws.ldy.admin.model.vo.AuthorityAdminVo;
 import com.ws.ldy.admin.service.impl.AuthorityAdminServiceImpl;
 import com.ws.ldy.admin.service.impl.RoleAuthAdminServiceImpl;
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.config.result.Result;
+import com.ws.ldy.base.enums.BaseConstant;
+import com.ws.ldy.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -25,46 +25,17 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/authorityAdmin")
-@Api(value = "AuthorityAdminController", tags = "URL权限管理", description = Constant.InterfaceType.PC_ADMIN)
-public class AuthorityAdminController extends BaseController {
+@Api(value = "AuthorityAdminController", tags = "URL权限管理", description = BaseConstant.InterfaceType.PC_ADMIN)
+public class AuthorityAdminController extends BaseController<AuthorityAdminServiceImpl> {
 
-    @Resource
-    private AuthorityAdminServiceImpl authorityAdminService;
-    @Resource
-    private RoleAuthAdminServiceImpl roleAuthAdminService;
-//
-//    @RequestMapping(value = "/findPage", method = RequestMethod.GET)
-//    @ApiOperation("分页查询")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query"),
-//            @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
-//            @ApiImplicitParam(name = "id", value = "数据id", required = false, paramType = "query"),
-//    })
-//    public Result<IPage<AuthorityAdminVo>> findPage(Integer id) {
-//        Page<AuthorityAdmin> authorityAdminPage = authorityAdminService.page(this.getPage(), new LambdaQueryWrapper<AuthorityAdmin>()
-//                .eq(id != null, AuthorityAdmin::getId, id)
-//        );
-//        IPage<AuthorityAdminVo> convert = authorityAdminPage.convert(item -> item.convert(AuthorityAdminVo.class));
-//        return success(convert);
-//    }
-//
-//
-//    @ApiOperation("添加/修改== 1 添加，2修改")
-//    @RequestMapping(value = "/save/{type}", method = RequestMethod.POST)
-//    public Result<Void> save(@PathVariable Integer type, @RequestBody AuthorityAdminDto authorityAdminDto) {
-//        if (type == 1) {
-//            authorityAdminService.save(authorityAdminDto.convert(AuthorityAdmin.class));
-//        } else {
-//            authorityAdminService.save(authorityAdminDto.convert(AuthorityAdmin.class));
-//        }
-//        return success();
-//    }
+    @Autowired
+    private RoleAuthAdminServiceImpl roleAuthAdminServiceImpl;
 
 
     @ApiOperation("扫描权限：权限列表数据刷新")
     @RequestMapping(value = "/putAuthority", method = RequestMethod.PUT)
-    public Result<Void> putAuthority() {
-        authorityAdminService.putClass();
+    public Result<Void> refreshAuthority() {
+        baseService.refreshAuthority();
         return success();
     }
 
@@ -73,7 +44,7 @@ public class AuthorityAdminController extends BaseController {
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
     public Result<List<AuthorityAdminVo>> findList(Integer roleId) {
-        List<AuthorityAdminVo> roleAuthorityChecked = roleAuthAdminService.findRoleAuthorityChecked(roleId);
+        List<AuthorityAdminVo> roleAuthorityChecked = roleAuthAdminServiceImpl.findRoleAuthorityChecked(roleId);
         return success(roleAuthorityChecked);
     }
 }
