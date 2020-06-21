@@ -59,7 +59,7 @@ public class LoginController extends BaseController<UserAdminServiceImpl> {
         }
         String token = UUIDUtils.creatUUID();
         session.setAttribute(AdminUserUtils.ADMIN + token, user);
-        return success(new LoginVo(token, user.getUsername()));
+        return Result.success(new LoginVo(token, user.getUsername()));
     }
 
 
@@ -75,6 +75,6 @@ public class LoginController extends BaseController<UserAdminServiceImpl> {
     @ApiOperation("退出登录")
     public Result<Void> logout() {
         session.removeAttribute(AdminUserUtils.getToken());
-        return success();
+        return Result.success();
     }
 }

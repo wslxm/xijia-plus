@@ -27,9 +27,9 @@ public class BaseAdminEntity extends Convert {
     @TableId(type = IdType.AUTO) //自增
     private Integer id;
 
-    /**
-     * 逻辑删除字段（0-正常，1-已删除）
-     */
-    private int deleted = 0;
-
+//
+//    /**
+//     * 逻辑删除字段（0-正常，1-已删除）
+//     */
+//    private int deleted = 0;
 }

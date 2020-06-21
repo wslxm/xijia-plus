@@ -33,7 +33,7 @@ public class DataBaseController extends BaseController<DataBaseServiceImpl> {
     @RequestMapping(value = "/findTable", method = RequestMethod.GET)
     public Result<List<Map<String, String>>> findTable() {
         List<Map<String, String>> tables = baseService.findTable();
-        return success(tables);
+        return Result.success(tables);
     }
 
     @ApiOperation("查询指定表下使用字段内容")
@@ -41,6 +41,6 @@ public class DataBaseController extends BaseController<DataBaseServiceImpl> {
     @RequestMapping(value = "/findTableField", method = RequestMethod.GET)
     public Result<List<Map<String, String>>> findTableField(@RequestParam(required = false) String tableName) {
         List<Map<String, String>> tableField = baseService.findTableField(tableName);
-        return success(tableField);
+        return Result.success(tableField);
     }
 }

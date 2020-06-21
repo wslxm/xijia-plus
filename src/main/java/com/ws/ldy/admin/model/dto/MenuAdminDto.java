@@ -30,5 +30,6 @@ public class MenuAdminDto extends BaseAdminDto {
     private String icon;
     @ApiModelProperty(value = "排序")
     private Integer sort;
-
+    @ApiModelProperty(value = "0-启用/1-禁用")
+    private Integer state;
 }

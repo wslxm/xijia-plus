@@ -8,6 +8,7 @@ import com.ws.ldy.admin.service.impl.DictionaryAdminServiceImpl;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.utils.BeanDtoVoUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class DictionaryAdminController extends BaseController<DictionaryAdminSer
     @ApiOperation("列表查询")
     public Result<List<DictionaryAdminVo>> findList() {
         List<DictionaryAdmin> list = baseService.list(new LambdaQueryWrapper<DictionaryAdmin>().orderByAsc(DictionaryAdmin::getSort));
-        return successFind(listVo(list, DictionaryAdminVo.class));
+        return Result.successFind(BeanDtoVoUtils.listVo(list, DictionaryAdminVo.class));
     }
 
 
@@ -41,14 +42,14 @@ public class DictionaryAdminController extends BaseController<DictionaryAdminSer
     @ApiOperation("添加")
     public Result<Void> save(@RequestBody DictionaryAdminDto dictionaryAdminDto) {
         baseService.save(dictionaryAdminDto.convert(DictionaryAdmin.class));
-        return successInsert();
+        return Result.successInsert();
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @ApiOperation("编辑")
     public Result<Void> update(@RequestBody DictionaryAdminDto dictionaryAdminDto) {
         baseService.updateById(dictionaryAdminDto.convert(DictionaryAdmin.class));
-        return successUpdate();
+        return Result.successUpdate();
     }
 
 
@@ -56,7 +57,7 @@ public class DictionaryAdminController extends BaseController<DictionaryAdminSer
     @ApiOperation("ID删除")
     public Result<Void> delete(Integer id) {
         baseService.removeById(id);
-        return successDelete();
+        return Result.successDelete();
     }
 
 
@@ -67,6 +68,6 @@ public class DictionaryAdminController extends BaseController<DictionaryAdminSer
         dict.setId(id);
         dict.setSort(sort);
         baseService.updateById(dict);
-        return successUpdate();
+        return Result.successUpdate();
     }
 }

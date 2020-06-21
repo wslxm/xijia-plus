@@ -12,6 +12,7 @@ import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.common.result.Result;
 import com.ws.ldy.common.user.AdminUserUtils;
+import com.ws.ldy.common.utils.BeanDtoVoUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -43,7 +44,7 @@ public class UserAdminController extends BaseController<UserAdminServiceImpl> {
     @RequestMapping(value = "/findUser", method = RequestMethod.GET)
     @ApiOperation("当前登录用户信息")
     public Result<UserAdminVo> findUser() {
-        return successFind(AdminUserUtils.getUserAdmin().convert(UserAdminVo.class));
+        return Result.successFind(AdminUserUtils.getUserAdmin().convert(UserAdminVo.class));
     }
 
 
@@ -63,7 +64,7 @@ public class UserAdminController extends BaseController<UserAdminServiceImpl> {
                 .eq(StringUtils.isNotBlank(account), UserAdmin::getAccount, account)
                 .like(StringUtils.isNotBlank(username), UserAdmin::getUsername, username)
         );
-        return successFind(pageVo(page, UserAdminVo.class));
+        return Result.successFind(BeanDtoVoUtils.pageVo(page, UserAdminVo.class));
     }
 
 
@@ -85,7 +86,7 @@ public class UserAdminController extends BaseController<UserAdminServiceImpl> {
         }
         //角色选中状态处理
         List<UserAdminVo> userAdminVos = roleUserAdminServiceImpl.roleUserChecked(userList, roleId);
-        return successFind(userAdminVos);
+        return Result.successFind(userAdminVos);
     }
 
 
@@ -95,7 +96,7 @@ public class UserAdminController extends BaseController<UserAdminServiceImpl> {
         UserAdmin userAdmin = userAdminDto.convert(UserAdmin.class);
         userAdmin.setTime(new Date());
         baseService.save(userAdmin);
-        return successInsert();
+        return Result.successInsert();
     }
 
 
@@ -103,7 +104,7 @@ public class UserAdminController extends BaseController<UserAdminServiceImpl> {
     @ApiOperation("编辑")
     public Result<Void> update(@RequestBody UserAdminDto userAdminDto) {
         baseService.updateById(userAdminDto.convert(UserAdmin.class));
-        return successUpdate();
+        return Result.successUpdate();
     }
 
 
@@ -111,7 +112,7 @@ public class UserAdminController extends BaseController<UserAdminServiceImpl> {
     @ApiOperation("单行删除")
     public Result<Void> delete(@RequestParam Integer id) {
         baseService.removeById(id);
-        return successDelete();
+        return Result.successDelete();
     }
 
 
@@ -119,7 +120,7 @@ public class UserAdminController extends BaseController<UserAdminServiceImpl> {
     @ApiOperation("批量删除")
     public Result<Void> deleteByIds(@RequestParam Integer[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
-        return successDelete();
+        return Result.successDelete();
     }
 
 
@@ -130,9 +131,9 @@ public class UserAdminController extends BaseController<UserAdminServiceImpl> {
         if (userAdmin.getPassword().equals(oldPassword)) {
             userAdmin.setPassword(password);
             baseService.updateById(userAdmin);
-            return successUpdate();
+            return Result.successUpdate();
         } else {
-            return error(500, "原密码错误");
+            return Result.error(500, "原密码错误");
         }
     }
 }

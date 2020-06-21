@@ -1,6 +1,7 @@
 package com.ws.ldy.admin.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ws.ldy.admin.enums.MenuRootEnum;
 import com.ws.ldy.admin.model.dto.MenuAdminDto;
 import com.ws.ldy.admin.model.entity.MenuAdmin;
@@ -12,6 +13,7 @@ import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.common.result.Result;
 import com.ws.ldy.common.result.ResultEnum;
 import com.ws.ldy.common.user.AdminUserUtils;
+import com.ws.ldy.common.utils.BeanDtoVoUtils;
 import com.ws.ldy.config.error.ErrorException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -59,15 +61,15 @@ public class MenuAdminController extends BaseController<MenuAdminServiceImpl> {
         UserAdmin userAdmin = AdminUserUtils.getUserAdmin();
         //获取菜单
         List<MenuAdminVo> menuTree = menuService.getMenuTree(userAdmin);
-        return successFind(menuTree);
+        return Result.successFind(menuTree);
     }
 
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ApiOperation("菜单列表 ==>>>  列表数据  ==>>>  所有")
     public Result<List<MenuAdminVo>> list() {
-        List<MenuAdmin> menus = menuService.list();
-        return successFind(listVo(menus, MenuAdminVo.class));
+        List<MenuAdmin> menus = menuService.list(new LambdaQueryWrapper<MenuAdmin>().orderByAsc(MenuAdmin::getSort));
+        return Result.successFind(BeanDtoVoUtils.listVo(menus, MenuAdminVo.class));
     }
 
     /**
@@ -82,7 +84,7 @@ public class MenuAdminController extends BaseController<MenuAdminServiceImpl> {
     })
     public Result<List<MenuAdminVo>> findPidOrRoleIdList(Integer id, Integer roleId) {
         List<MenuAdminVo> menus = menuService.findIdOrRoleIdList(id, roleId);
-        return successFind(listVo(menus, MenuAdminVo.class));
+        return Result.successFind(BeanDtoVoUtils.listVo(menus, MenuAdminVo.class));
     }
 
 
@@ -91,7 +93,7 @@ public class MenuAdminController extends BaseController<MenuAdminServiceImpl> {
     public Result<Void> insert(@RequestBody MenuAdminDto menuAdminDto) {
         MenuAdmin menuAdmin = menuAdminDto.convert(MenuAdmin.class);
         menuService.save(menuAdmin);
-        return successInsert();
+        return Result.successInsert();
     }
 
 
@@ -103,7 +105,7 @@ public class MenuAdminController extends BaseController<MenuAdminServiceImpl> {
         }
         MenuAdmin menuAdmin = menuAdminDto.convert(MenuAdmin.class);
         menuService.updateById(menuAdmin);
-        return successUpdate();
+        return Result.successUpdate();
     }
 
 
@@ -114,6 +116,6 @@ public class MenuAdminController extends BaseController<MenuAdminServiceImpl> {
         List<Integer> menuIds = new ArrayList<>();
         idOrRoleIdList.forEach(item -> menuIds.add(item.getId()));
         menuService.removeByIds(menuIds);
-        return successDelete(menuIds);
+        return Result.successDelete(menuIds);
     }
 }

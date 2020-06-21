@@ -48,4 +48,9 @@ public class MenuAdmin extends BaseAdminEntity {
      * 菜单级别，(0、根目录,1、子目录, 2、菜单 3、页面
      */
     private MenuRootEnum root;
+
+    /**
+     * 是否禁用(0-否 1-是)
+     */
+    private Integer state;
 }

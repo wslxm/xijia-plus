@@ -34,10 +34,11 @@ public class MenuAdminVo extends BaseAdminVo {
     private String icon;
     @ApiModelProperty(value = "排序")
     private Integer sort;
-
     @ApiModelProperty(value = "目录级别(1，系统, 2、一级菜单 ，3，二级菜单, 4、页面)")
     private MenuRootEnum root;
-
+    @ApiModelProperty(value = "是否禁用(0-否 1-是)")
+    private Integer state;
+    
     @ApiModelProperty(value = "当前页面权限id")
     private Integer authority;
 

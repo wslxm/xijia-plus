@@ -84,6 +84,8 @@
                 xijiaEventToolbar();      // 工具栏事件（多删除/添加）
                 xijiaEventTool();         // 监听数据表格内按钮操作（编辑,删除等）
                 xijiaEventSearch();       // 监听条件搜索
+                xijiaEventSwitch();       // 监听Switch开关
+
             });
 
 
@@ -105,8 +107,8 @@
                     treeSpid: 0,                //顶级父id
                     treeIdName: 'id',           //id 名称
                     treePidName: 'pid',         //fid 名称
-                    treeDefaultClose: false,     // 是否默认折叠
-                    treeLinkage: true,          // 父级展开时是否自动展开所有子级
+                    treeDefaultClose: true,     // 是否默认折叠
+                    treeLinkage: false,          // 父级展开时是否自动展开所有子级
                     elem: '#auth-table',        //table 的 div
                     //url:'/menu/findAll',                         //后台接口获取数据
                     //url: '../treetable-lay/json/menus.json',     //json文件获取数据
@@ -121,14 +123,24 @@
                             //{field: 'id', width: 100, type: 'id', title: 'id'},
                             {field: 'name', width: 200, title: '菜单名称'},//edit: 'text',
                             {
-                                field: 'icon', width: 130, title: '图标', templet: function (res) {
+                                field: 'icon', width: 100, title: '图标', templet: function (res) {
                                     return "<i class='layui-icon " + res.icon + "'></i>";
                                 }
                             },
-                            {field: 'url', width: 280, edit: 'text', title: '路由'},
-                            {field: 'sort', width: 130, edit: 'text', title: '排序'},
+                            {field: 'url', width: 300, edit: 'text', title: '路由'},
+                            {field: 'sort', width: 100, edit: 'text', title: '排序'},
                             {
-                                field: 'root', width: 200, title: '添加菜单/页面', templet: function (res) {
+                                field: 'state', width: 100, title: '禁/启用', templet: function (res) {
+                                    let menuId = res.id;
+                                    if (res.state == 0) {
+                                        return "   <input type='checkbox'  menuId = '" + menuId + "' lay-filter='state' lay-skin='switch' lay-text='启用|禁用' checked>"
+                                    } else if (res.state == 1) {
+                                        return "   <input type='checkbox'  menuId = '" + menuId + "'  lay-filter='state' lay-skin='switch' lay-text='启用|禁用'>"
+                                    }
+                                }
+                            },
+                            {
+                                field: 'root', width: 160, title: '添加菜单/页面', templet: function (res) {
                                     if (res.root.value === 1) {
                                         // 系统
                                         return " <a class=\"layui-btn  layui-btn-xs\" lay-event=\"add\"> + 菜单</a>\n";
@@ -143,7 +155,7 @@
                                 }
                             },
                             {
-                                field: '', width: 280, title: '操作', templet: function (res) {
+                                field: '', width: 250, title: '操作', templet: function (res) {
                                     let html = "";
                                     html += "<a class=\"layui-btn layui-btn-warm layui-btn-xs\" lay-event=\"upd\">编辑</a>\n";
                                     if (res.root.value != 1) {
@@ -282,6 +294,29 @@
                     } else if (searchCount === 0) {
                         layer.msg("没有匹配结果", {icon: 5});
                     }
+                });
+            }
+
+
+            /**
+             * TODO 监听单选选中
+             * <p>
+             * switch(state) 对应 lay-filter='state'
+             */
+            function xijiaEventSwitch() {
+                form.on('switch(state)', function (data) {
+                    let state = 0;
+                    if (data.elem.checked) {
+                        state = 0;
+                    } else {
+                        state = 1;
+                    }
+                    let reqData = {
+                        id: data.elem.attributes['menuId'].nodeValue,
+                        state: state
+                    };
+                    let result = ajaxPut(update, reqData);
+                    layer.msg(result.msg)
                 });
             }
         </script>

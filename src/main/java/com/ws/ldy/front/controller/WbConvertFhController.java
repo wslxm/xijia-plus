@@ -39,7 +39,7 @@ public class WbConvertFhController extends BaseController {
         }
         //System.out.println(transform);
         //String replace = transform.replaceAll("\n", "<br>").replaceAll(" ", "&nbsp;&nbsp;");
-        return success(transform);
+        return Result.success(transform);
     }
 }
 //&nbsp; ：一个字符的半角的不断行的空格，如果需要在网页中插入多个空格，可以将“&nbsp;”代码写多遍；

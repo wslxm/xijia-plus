@@ -75,9 +75,9 @@ public class FileController extends BaseController {
             // String path = baseUrl + "/" + PATH + filePath + fileName;
             // 相对路径
             String path = PATH + filePath + fileName;
-            return success(path);
+            return Result.success(path);
         } catch (Exception e) {
-            return error(ResultEnum.SYS_ERROR.getCode(), "文件上传失败");
+            return Result.error(ResultEnum.SYS_ERROR.getCode(), "文件上传失败");
         }
     }
 
@@ -203,7 +203,7 @@ public class FileController extends BaseController {
                 file.delete();
             }
         }
-        return success();
+        return Result.success();
     }
 }
 

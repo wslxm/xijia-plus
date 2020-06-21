@@ -36,7 +36,7 @@ public class AuthorityAdminController extends BaseController<AuthorityAdminServi
     @RequestMapping(value = "/putAuthority", method = RequestMethod.PUT)
     public Result<Void> refreshAuthority() {
         baseService.refreshAuthority();
-        return success();
+        return Result.success();
     }
 
 
@@ -45,6 +45,6 @@ public class AuthorityAdminController extends BaseController<AuthorityAdminServi
     @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
     public Result<List<AuthorityAdminVo>> findList(Integer roleId) {
         List<AuthorityAdminVo> roleAuthorityChecked = roleAuthAdminServiceImpl.findRoleAuthorityChecked(roleId);
-        return success(roleAuthorityChecked);
+        return Result.success(roleAuthorityChecked);
     }
 }
