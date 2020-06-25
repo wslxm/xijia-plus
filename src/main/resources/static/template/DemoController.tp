@@ -1,91 +1,84 @@
-package {packName}.controller;
+package {packPath}.{moduleName}.controller;
 
-import com.ws.ldy.common.result.Result;
-import com.ws.ldy.admincore.controller.BaseController;
-import {packName}.entity.{Demo};
-import {packName}.service.impl.{Demo}ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.annotations.*;
-import java.util.HashMap;
-import java.util.Map;
+
+import {packPath}.{moduleName}.model.entity.{tableNameUp};
+import {packPath}.{moduleName}.model.vo.{tableNameUp}VO;
+import {packPath}.{moduleName}.model.dto.{tableNameUp}DTO;
+import {packPath}.{moduleName}.service.{tableNameUp}Service;
+import {packPath}.base.controller.BaseController;
+import {packPath}.common.result.Result;
+import {packPath}.common.utils.BeanDtoVoUtils;
+import java.util.Arrays;
 
 
 /**
- * TODO  代码生成器自动生成，请自定义描叙
- *
- * @author wangsong
- * @email 1720696548
- * @date Sun Feb 23 10:48:11 CST 2020
+ * TODO  {tableComment}
+ * <p>
+ * {describe}
+ * </p>
+ * {author}
+ * {email}
+ * {date}
  */
 @RestController
-@RequestMapping("/{demo}")
-@Api(tags = {"{entryName}-{Demo}"},description = "")
-public class {Demo}Controller extends BaseController {
+@RequestMapping("/{moduleName}/{tableNameLower}")
+@Api(value ="{tableNameUp}" ,tags = "{tableComment}",description = "{tableComment}")
+public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service>  {
 
-    @Autowired
-    private {Demo}ServiceImpl service;
 
-    /**
-     * TODO  分页查询
-     *
-     * @param page   页数
-     * @param limit  记录数
-     * @return Map<String, Object>
-     */
-    @GetMapping("/findAll")
+    @RequestMapping(value = "/findPage", method = RequestMethod.GET)
     @ApiOperation("分页查询")
     @ApiImplicitParams({
-           @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query"),
-           @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query",example = "1"),
+            @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query",example = "20")
     })
-    public ResponseData findAll(Integer page, Integer limit) {
-        //查询条件
-        Map<String, Object> param = new HashMap<>(2);
-        param.put("id", getString("id", ""));
-        //排序
-        Sort sort = new Sort(Sort.Direction.ASC, "id");
-        Page<{Demo}> {demo}s = service.page(page, limit, param, sort);
-        return ResponseData.success({demo}s.getContent(), {demo}s.getTotalPages());
+    public Result<IPage<{tableNameUp}VO>> findPage({findPageParam}) {
+        Page<{tableNameUp}> page = baseService.page(this.getPage(), new LambdaQueryWrapper<{tableNameUp}>()
+                .orderByAsc({tableNameUp}::getId)
+{findPageMybatisPlus}
+        );
+        return Result.successFind(BeanDtoVoUtils.pageVo(page, {tableNameUp}VO.class));
     }
 
 
-    /**
-     * TODO  添加/修改
-     *
-     * @param type=1 添加，type=2修改
-     * @param {demo} 对象数据
-     * @return java.lang.String
-     */
-    @PostMapping("/save/{type}")
-    @ApiOperation("添加/修改")
-    @ApiImplicitParams({
-           @ApiImplicitParam(name = "type", value = "类型1:添加，2:修改", required = true, paramType = "query"),
-    })
-    public ResponseData save(@PathVariable Integer type, {Demo} {demo}) {
-        if (type == 1) {
-            service.save({demo});
-        } else {
-            service.save({demo});
-        }
-        return ResponseData.success("success");
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @ApiOperation("添加")
+    public Result<Void> insert(@RequestBody @Validated {tableNameUp}DTO dto) {
+        {tableNameUp} {tableNameLower} = dto.convert({tableNameUp}.class);
+        baseService.save({tableNameLower});
+        return Result.successInsert();
     }
 
 
-    /**
-     * TODO  批量删除/单删除
-     *
-     * @param ids 要删除的数据Id数组
-     */
-    @ApiOperation("删除/批量删除")
-    @ApiImplicitParams({
-          @ApiImplicitParam(name = "ids", value = "要删除id集", required = true, paramType = "query"),
-    })
-    @PostMapping("/delete")
-    public ResponseData delete(Integer[] ids) {
-        service.deleteByIds(ids);
-        return ResponseData.success("success");
+    @RequestMapping(value = "/upd", method = RequestMethod.PUT)
+    @ApiOperation("ID编辑")
+    public Result<Void> update(@RequestBody @Validated {tableNameUp}DTO dto) {
+        baseService.updateById(dto.convert({tableNameUp}.class));
+        return Result.successUpdate();
+    }
+
+
+    @RequestMapping(value = "/del", method = RequestMethod.DELETE)
+    @ApiOperation("单删除")
+    public Result<Void> delete(@RequestParam Integer id) {
+        baseService.removeById(id);
+        return Result.successDelete();
+    }
+
+
+    @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
+    @ApiOperation("批量删除")
+    public Result<Void> deleteByIds(@RequestParam Integer[] ids) {
+        baseService.removeByIds(Arrays.asList(ids));
+        return Result.successDelete();
     }
 }

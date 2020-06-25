@@ -3,7 +3,7 @@ package com.ws.ldy.admin.controller;
 
 import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.admin.model.vo.LoginVo;
-import com.ws.ldy.admin.service.impl.UserAdminServiceImpl;
+import com.ws.ldy.admin.service.UserAdminService;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.common.result.Result;
@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/loginAdmin")
 @Api(value = "LoginController", tags = "登录", description = BaseConstant.InterfaceType.PC_ADMIN)
-public class LoginController extends BaseController<UserAdminServiceImpl> {
+public class LoginController extends BaseController<UserAdminService> {
 
     /**
      * TODO 登录

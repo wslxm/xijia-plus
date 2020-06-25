@@ -1,5 +1,6 @@
 package com.ws.ldy.admin.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.admin.model.entity.AuthorityAdmin;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  * @WX-QQ 1720696548
  * @date Mon Nov 25 08:02:49 CST 2019
  */
-public interface AuthorityAdminService {
+public interface AuthorityAdminService  extends IService<AuthorityAdmin> {
 
     /**
      * TODO  刷新所有权限列表数据

@@ -3,6 +3,7 @@ package com.ws.ldy.common.generate;
 
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.common.utils.JsonUtils;
+import com.ws.ldy.common.utils.LocalDateTimeUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -24,10 +25,8 @@ public class GenerateUtil extends BaseController {
      * TODO  json 数据处理成 List<Map<String, Object>> (处理代码生成前端传入数据)
      *
      * @param data
+     * @param data [{ search：true }] 表示要为该字段添加搜索功能
      * @return java.util.List<java.util.Map < java.lang.String, java.lang.Object>>
-     * @param1 data [{ primarykeyId：true }] 表示为id主键
-     * @param2 data [{ selfGrowth：true }] 表示为id主键自增
-     * @param3 data [{ search：true }] 表示要为该字段添加搜索功能
      * @date 2019/11/22 12:08
      */
     public static List<Map<String, Object>> getDataAnalysis(String data) {
@@ -63,7 +62,7 @@ public class GenerateUtil extends BaseController {
 
 
     /***
-     * TODO  获取字段名为空处理
+     * TODO  获取字段名为空处理（为空返回默认值default1）
      * @param objMap
      * @param key
      * @param default1
@@ -107,25 +106,29 @@ public class GenerateUtil extends BaseController {
      * @mail 1720696548@qq.com
      * @date 2020/2/9 0009 21:37
      */
-    public static Map<String, Object> getBrBwPath(String path, String name) throws Exception {
+    public static Map<String, Object> getBrBwPath(String path, String name) {
         Map<String, Object> brBw = new HashMap<>();
         // 路径 + 类名 + name + 后缀
         String upPath = null;
         if (name.indexOf("Html") != -1) {
-            upPath = path + FieldCG.htmlNameLower + name.replace("Html", "") + GenerateConfig.SUFFIX_HTML;
+            upPath = path + FieldCG.TABLE_NAME_LOWER + name.replace("Html", "") + GenerateConfig.SUFFIX;
         } else {
-            upPath = path + FieldCG.classNameUp + name + GenerateConfig.SUFFIX_JAVA;
+            upPath = path + FieldCG.TABLE_NAME_UP + name + GenerateConfig.SUFFIX_JAVA;
         }
         // 检查目录,不存在添加
         mkdirFile(path);
-        // 服务器模板路径（url+ 文件路径）+ 模板名称
-        BufferedReader br = getUrlDetail(FieldCG.pathTp + "/Demo" + name + ".tp");
-        BufferedWriter bw = new BufferedWriter(new FileWriter(upPath));
-        brBw.put("br", br);
-        brBw.put("bw", bw);
-        brBw.put("path", upPath);
-        //打印参数区分
-        brBw.put("name", name);
+        try {
+            // 服务器模板路径（url+ 文件路径）+ 模板名称
+            BufferedReader br = getUrlDetail(FieldCG.PATH_TP + "/Demo" + name + ".tp");
+            BufferedWriter bw = new BufferedWriter(new FileWriter(upPath));
+            brBw.put("br", br);
+            brBw.put("bw", bw);
+            brBw.put("path", upPath);
+            //打印参数区分
+            brBw.put("name", name);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return brBw;
     }
 
@@ -187,39 +190,48 @@ public class GenerateUtil extends BaseController {
      * @mail 1720696548@qq.com
      * @date 2020/2/23 0023 8:12
      */
-    public static void replacBrBwWritee(Map<String, Object> brBwPath) throws IOException {
+    public static void replacBrBwWritee(Map<String, Object> brBwPath) {
         // 获取到getBrBwPath 方法拼装的数据
         BufferedReader br = (BufferedReader) brBwPath.get("br");
         BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
         String line = null;
         String newLine = null;
-        while ((line = br.readLine()) != null) {
-            newLine = line
-                    //注释信息
-                    .replace("{author}", "@author  " + GenerateConfig.author)
-                    .replace("{email}", "@email  " + GenerateConfig.wx_qq)
-                    .replace("{date}", "@date  " + new Date())
-                    //原始数据
-                    .replace("{Demo}", FieldCG.classNameUp)
-                    .replace("{demo}", FieldCG.classNameLower)
-                    .replace("{htmlNameLower}", FieldCG.htmlNameLower)
-                    .replace("{packName}", FieldCG.packName)
-                    .replace("{tableName}", FieldCG.tableName)
-                    .replace("{entryName}", FieldCG.entryName)
-                    .replace("{entryNameUp}", FieldCG.entryNameUp)
-                    .replace("{entryNameLast}", FieldCG.entryNameLast)
-                    .replace("{entryNameSmall}", FieldCG.entryNameSmall)
-                    //代码生成方法内获得的处理数据
-                    .replace("{entitys}", FieldCG.fieldEntitys)
-                    .replace("{primary-key-type}", FieldCG.primaryKeyType)
-                    .replace("{layui-fields}", FieldCG.layuiFields)
-                    .replace("{add-htmls}", FieldCG.addHtmls)
-                    .replace("{upd-htmls}", FieldCG.updhtmls)
-                    .replace("{upd-backfill}", FieldCG.updBackfill)
-                    .replace("{upd-id}", FieldCG.updId);
-            bw.write(newLine);
-            bw.newLine();
-            bw.flush();
+        try {
+            while ((line = br.readLine()) != null) {
+                newLine = line
+                        //注释信息
+                        .replace("{author}", "@author  " + GenerateConfig.AUTHOR)
+                        .replace("{email}", "@email  " + GenerateConfig.EMAIL)
+                        .replace("{describe}", GenerateConfig.DESCRIBE)
+                        .replace("{date}", "@date  " + LocalDateTimeUtils.parse(LocalDateTimeUtils.now()))
+                        //原始数据
+                        .replace("{tableName}", FieldCG.TABLE_NAME) //表名
+                        .replace("{tableNameUp}", FieldCG.TABLE_NAME_UP)//表名大写开头驼峰
+                        .replace("{tableNameLower}", FieldCG.TABLE_NAME_LOWER)//表名小写开头驼峰
+                       // .replace("{htmlNameLower}", FieldCG.TABLE_NAME_LOWER) //表名小写开头驼峰
+                        .replace("{packPath}", FieldCG.PACK_PATH) //包路径
+                        .replace("{moduleName}", GenerateConfig.MODULE_NAME)//模块名
+                        .replace("{tableComment}", FieldCG.TABLE_COMMENT)
+                        //.replace("{entryName}", FieldCG.entryName)
+//                    .replace("{entryNameUp}", FieldCG.entryNameUp)
+//                    .replace("{entryNameLast}", FieldCG.entryNameLast)
+                        //  .replace("{entryNameSmall}", FieldCG.entryNameSmall)
+                        //代码生成方法内获得的处理数据
+                        .replace("{entitys}", FieldCG.FIELD_ENTITYS)
+                        .replace("{findPageParam}", FieldCG.FIND_PAGE_PARAM)
+                        .replace("{findPageMybatisPlus}", FieldCG.FIND_PAGE_MYBATIS_PLUS)
+                        // .replace("{primary-key-type}", FieldCG.PRIMARY_KEY_TYPE)
+                        .replace("{layui-fields}", FieldCG.LAYUI_FIELDS)
+                        .replace("{add-htmls}", FieldCG.ADD_HTMLS)
+                        .replace("{upd-htmls}", FieldCG.UPD_HTMLS)
+                        .replace("{upd-backfill}", FieldCG.UPD_BACKFILL)
+                        .replace("{upd-id}", FieldCG.UPD_ID);
+                bw.write(newLine);
+                bw.newLine();
+                bw.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         System.out.println(brBwPath.get("name") + " --> " + brBwPath.get("path").toString());
     }

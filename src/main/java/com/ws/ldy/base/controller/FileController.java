@@ -151,7 +151,7 @@ public class FileController extends BaseController {
      * @throws UnsupportedEncodingException
      */
     @ApiOperation("单文件下载")
-    @ApiImplicitParam(name = "filePath", value = "文件路径(相对路径||绝对路径)，如: File/image/1.png", required = true)
+    @ApiImplicitParam(name = "filePath", value = "文件路径(相对路径||绝对路径)，如: File/image/1.jpg", required = true)
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void excelxiazan(String filePath) throws UnsupportedEncodingException {
         // 下载文件名
@@ -190,7 +190,7 @@ public class FileController extends BaseController {
 
     @ApiOperation("单文件删除")
     @RequestMapping(value = "/deleteFile", method = RequestMethod.DELETE)
-    @ApiImplicitParam(name = "filePath", value = "文件路径(相对路径||绝对路径), 如: File/image/1.png", required = true)
+    @ApiImplicitParam(name = "filePath", value = "文件路径(相对路径||绝对路径), 如: File/image/1.jpg", required = true)
     public Result deleteFile(String fileName) {
         java.io.File file = new java.io.File(fileName);
         // 判断目录或文件是否存在

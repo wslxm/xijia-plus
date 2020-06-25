@@ -6,4 +6,4 @@
 
 
 ### 实时运行日志
-tail -f log.txt
+tail -1000f /usr/local/work/xijia2/log.txt

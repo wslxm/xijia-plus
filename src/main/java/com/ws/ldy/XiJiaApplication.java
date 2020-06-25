@@ -18,7 +18,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 说明3:@EnableAdminServer 为监控Admin中心,访问地址为项目路径+ /bootAdmin, yml中配置
  */
 @SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
-@MapperScan("com.ws.ldy.admin.mapper")
+@MapperScan("com.ws.ldy.*.mapper")
 @EnableAdminServer
 public class XiJiaApplication {
 

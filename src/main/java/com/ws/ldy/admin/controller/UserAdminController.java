@@ -6,17 +6,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.admin.model.dto.UserAdminDto;
 import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.admin.model.vo.UserAdminVo;
-import com.ws.ldy.admin.service.impl.RoleUserAdminServiceImpl;
-import com.ws.ldy.admin.service.impl.UserAdminServiceImpl;
+import com.ws.ldy.admin.service.RoleUserAdminService;
+import com.ws.ldy.admin.service.UserAdminService;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.common.result.Result;
 import com.ws.ldy.common.user.AdminUserUtils;
 import com.ws.ldy.common.utils.BeanDtoVoUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,10 +32,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/userAdmin")
 @Api(value = "UserAdminController", tags = "用户管理", description = BaseConstant.InterfaceType.PC_ADMIN)
-public class UserAdminController extends BaseController<UserAdminServiceImpl> {
+public class UserAdminController extends BaseController<UserAdminService> {
 
     @Autowired
-    private RoleUserAdminServiceImpl roleUserAdminServiceImpl;
+    private RoleUserAdminService roleUserAdminService;
 
 
     @RequestMapping(value = "/findUser", method = RequestMethod.GET)
@@ -51,13 +48,13 @@ public class UserAdminController extends BaseController<UserAdminServiceImpl> {
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
     @ApiOperation("分页查询")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "id", value = "数据Id", required = false, paramType = "path"),
-            @ApiImplicitParam(name = "username", value = "用户名", required = false, paramType = "path"),
-            @ApiImplicitParam(name = "account", value = "账号", required = false, paramType = "path"),
+            @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query", example = "1"),
+            @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query", example = "20"),
     })
-    public Result<IPage<UserAdminVo>> findPage(Integer id, String username, String account) {
+    public Result<IPage<UserAdminVo>> findPage(
+            @ApiParam(value = "数据Id", required = false) @RequestParam(required = false) Integer id,
+            @ApiParam(value = "用户名", required = false) @RequestParam(required = false) String username,
+            @ApiParam(value = "账号", required = false) @RequestParam(required = false) String account) {
         Page<UserAdmin> page = baseService.page(this.getPage(), new LambdaQueryWrapper<UserAdmin>()
                 .orderByAsc(UserAdmin::getId)
                 .eq(id != null, UserAdmin::getId, id)
@@ -85,7 +82,7 @@ public class UserAdminController extends BaseController<UserAdminServiceImpl> {
             userList = baseService.list();
         }
         //角色选中状态处理
-        List<UserAdminVo> userAdminVos = roleUserAdminServiceImpl.roleUserChecked(userList, roleId);
+        List<UserAdminVo> userAdminVos = roleUserAdminService.roleUserChecked(userList, roleId);
         return Result.successFind(userAdminVos);
     }
 
@@ -101,7 +98,7 @@ public class UserAdminController extends BaseController<UserAdminServiceImpl> {
 
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    @ApiOperation("编辑")
+    @ApiOperation("ID编辑")
     public Result<Void> update(@RequestBody UserAdminDto userAdminDto) {
         baseService.updateById(userAdminDto.convert(UserAdmin.class));
         return Result.successUpdate();
@@ -109,7 +106,7 @@ public class UserAdminController extends BaseController<UserAdminServiceImpl> {
 
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    @ApiOperation("单行删除")
+    @ApiOperation("单删除")
     public Result<Void> delete(@RequestParam Integer id) {
         baseService.removeById(id);
         return Result.successDelete();

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ws.ldy.admin.model.dto.DictionaryAdminDto;
 import com.ws.ldy.admin.model.entity.DictionaryAdmin;
 import com.ws.ldy.admin.model.vo.DictionaryAdminVo;
-import com.ws.ldy.admin.service.impl.DictionaryAdminServiceImpl;
+import com.ws.ldy.admin.service.DictionaryAdminService;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.common.result.Result;
@@ -26,7 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/dictionaryAdmin")
 @Api(value = "DictionaryAdminController", tags = "字典管理", description = BaseConstant.InterfaceType.PC_ADMIN)
-public class DictionaryAdminController extends BaseController<DictionaryAdminServiceImpl> {
+public class DictionaryAdminController extends BaseController<DictionaryAdminService> {
 
 
 

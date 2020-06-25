@@ -19,6 +19,13 @@
         /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
     </script>
 </head>
+<style>
+    .circleImg {
+        border-radius: 30px;
+        width: 40px;
+        height: 40px;
+    }
+</style>
 
 <body class="layui-layout-body">
 <div id="LAY_app">
@@ -76,13 +83,20 @@
                         </a>
                   </li>-->
 
-
+                <!-- 配色方案 -->
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
                     <a href="javascript:;" layadmin-event="theme">
                         <i class="layui-icon layui-icon-theme"></i>
                     </a>
                 </li>
 
+                <!-- 头像 -->
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <img class="circleImg" src="pic/ecy/15.jpg"/>
+                </li>
+
+
+                <!-- 下拉操作 -->
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript:;">
                         <!--  用户名称 -->
@@ -92,18 +106,28 @@
                         <dd><a id="updPwd" lay-href="">修改密码</a></dd>
                         <hr>
                         <dd><a id="logout" style="text-align: center;" href="" onclick="adminLogout()">退出</a></dd>
-                        <!--  <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>-->
                     </dl>
                 </li>
 
                 <!-- 版权信息 -->
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="javascript:;" layadmin-event="about">
+                        <i class="layui-icon layui-icon-more-vertical"></i>
+                    </a>
+                </li>
+
+                <!-- 弹出右边测试菜单 -->
                 <!--                <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
-                <!--                    <a href="javascript:;" layadmin-event="about"><i-->
-                <!--                            class="layui-icon layui-icon-more-vertical"></i></a>-->
+                <!--                    <a href="javascript:;" layadmin-event="test">-->
+                <!--                        <i class="layui-icon ">右弹出</i>-->
+                <!--                    </a>-->
                 <!--                </li>-->
-                <!--                <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>-->
-                <!--                    <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical"></i></a>-->
-                <!--                </li>-->
+
+                <!-- 弹出更多 -->
+<!--                <li class="layui-nav-item" lay-unselect>-->
+<!--                    <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical">-->
+<!--                        &lt;!&ndash;更多&ndash;&gt;</i></a>-->
+<!--                </li>-->
             </ul>
         </div>
 
@@ -149,8 +173,8 @@
 
         <!-- 主体内容 -->
         <div class="layui-body" id="LAY_app_body">
-            <div class="layadmin-tabsbody-item layui-show">
-                <iframe id="homePage" src="front/symbol/main.html" frameborder="0" class="layadmin-iframe"></iframe>
+            <div class="layadmin-tabsbody-item layui-show"><!--src="front/symbol/main.html"-->
+                <iframe id="homePage"  frameborder="0" class="layadmin-iframe"></iframe>
             </div>
         </div>
 
@@ -165,9 +189,8 @@
     let viewsUrl = "/views/index.html";               //模板首页url
     let menuTree = "/menuAdmin/menuTree";             //树菜单数据
     let logout = "/loginAdmin/logout";                //退出登录接口
-   // let homePage = "/page/front_symbol_main";         //进入系统首页url, /page/console_user_user
-    let homePage = "/page/front_show_show";         //进入系统首页url, /page/console_user_user
-    let updPwd = "/page/console_user_userUpdPwd";     //修改密码页面
+    let homePage = "/page/front_show_show";           //进入系统首页url, /page/console_user_user
+    let updPwd = "/page/admin_user_userUpdPwd";       //修改密码页面
 
     $(function () {
         dataJson = ajaxGet(menuTree).data;
@@ -179,7 +202,7 @@
         $("#viewsUrl").attr("href", viewsUrl);
         $("#homePage").attr("src", homePage);
         $("#updPwd").attr("lay-href", updPwd);
-       // $("#logout").attr("lay-href", logout);
+        // $("#logout").attr("lay-href", logout);
         //$("#username").html(localStorage.getItem('username'));
         $("#username").html(sessionStorage.getItem('username'));
     });
@@ -187,8 +210,8 @@
     //退出处理
     function adminLogout() {
         ajaxGet(logout);
-        window.location.href="../login";
-        window.event.returnValue=false;
+        window.location.href = "../login";
+        window.event.returnValue = false;
     }
 
 

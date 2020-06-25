@@ -1,6 +1,6 @@
 package com.ws.ldy.base.controller;
 
-import com.ws.ldy.base.service.impl.BaseIServiceImpl;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.common.utils.DefaultsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @SuppressWarnings("all")
-public class BaseController<S extends BaseIServiceImpl> {
+public class BaseController<S extends IService> {
 
     @Autowired
     protected S baseService;

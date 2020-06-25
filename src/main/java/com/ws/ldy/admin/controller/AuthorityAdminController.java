@@ -1,8 +1,8 @@
 package com.ws.ldy.admin.controller;
 
 import com.ws.ldy.admin.model.vo.AuthorityAdminVo;
-import com.ws.ldy.admin.service.impl.AuthorityAdminServiceImpl;
-import com.ws.ldy.admin.service.impl.RoleAuthAdminServiceImpl;
+import com.ws.ldy.admin.service.AuthorityAdminService;
+import com.ws.ldy.admin.service.RoleAuthAdminService;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.common.result.Result;
@@ -26,10 +26,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/authorityAdmin")
 @Api(value = "AuthorityAdminController", tags = "URL权限管理", description = BaseConstant.InterfaceType.PC_ADMIN)
-public class AuthorityAdminController extends BaseController<AuthorityAdminServiceImpl> {
+public class AuthorityAdminController extends BaseController<AuthorityAdminService> {
 
     @Autowired
-    private RoleAuthAdminServiceImpl roleAuthAdminServiceImpl;
+    private RoleAuthAdminService roleAuthAdminService;
 
 
     @ApiOperation("扫描权限：权限列表数据刷新")
@@ -44,7 +44,7 @@ public class AuthorityAdminController extends BaseController<AuthorityAdminServi
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
     public Result<List<AuthorityAdminVo>> findList(Integer roleId) {
-        List<AuthorityAdminVo> roleAuthorityChecked = roleAuthAdminServiceImpl.findRoleAuthorityChecked(roleId);
+        List<AuthorityAdminVo> roleAuthorityChecked = roleAuthAdminService.findRoleAuthorityChecked(roleId);
         return Result.success(roleAuthorityChecked);
     }
 }

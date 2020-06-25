@@ -13,7 +13,7 @@ var path = "";//http://127.0.0.1:80
 //====================================================================================
 
 /**
- *  TODO  Layer 添加修改通用弹出层
+ *  TODO  Layer 添加添加/修改通用弹出层
 
  * @param url    请求地址
  * @param width  弹出层宽
@@ -32,7 +32,11 @@ tipsWindown(url, width, height, name) {
             btn: ['确定', '取消'],
             closeBtn: 0,
             fixed: false,
-            shadeClose: true
+            shadeClose: true,
+            success: function (layero, index) {
+                // //自适应弹出层
+                // layer.iframeAuto(index);
+            }
             , yes: function (index, layero) {
                 //点击确认触发 iframe 内容中的按钮提交
                 let submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
@@ -242,7 +246,6 @@ function ajaxDeleteAsync(url, data) {
 // TODO  1-url  2-数据 3、请求方式 4、返回数据 5、同步false/异步true
 function ajax(url, data, type, dataType, async) {
     let result;
-    let responseResult = false;
     $.ajax({
         type: type,
         dataType: dataType,
@@ -257,10 +260,9 @@ function ajax(url, data, type, dataType, async) {
         //traditional: true, // 允许传递数组
         success: function (resultText) {
             result = resultText;
-            responseResult = true;
         },
         error: function (res) {
-            layer.msg('请求失败! 请检查请求URL是否正确');
+            layer.msg('AJAX请求失败! 请检查请求URL是否正确');
         }
     });
     //错误打印
@@ -270,19 +272,15 @@ function ajax(url, data, type, dataType, async) {
             //用户未登陆/或登录过期跳登录页
             location.href = "../login";
         }
-        layer.msg(result.msg);
+        try {
+            layer.msg(result.msg);
+        } catch (e) {
+            //没有加载到layer弹出层
+            alert(result.msg);
+        }
         throw new Error();
     }
-
-    if (!async) {
-        //同步
-        while (responseResult) {
-            return result;
-        }
-    } else {
-        //异步
-        return result;
-    }
+    return result;
 }
 
 //同步请求回调

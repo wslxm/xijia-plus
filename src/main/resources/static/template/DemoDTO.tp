@@ -1,4 +1,4 @@
-package {packPath}.{moduleName}.model.entity;
+package {packPath}.{moduleName}.model.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -21,9 +21,8 @@ import java.time.LocalDateTime;
  * {date}
  */
 @Data
-@TableName("{tableName}")
-@ApiModel(value = "{tableNameUp} 对象", description = "{tableComment}")
-public class {tableNameUp} extends Convert {
+@ApiModel(value = "{tableNameUp}DTO 对象", description = "{tableComment}")
+public class {tableNameUp}DTO extends Convert {
 
     private static final long serialVersionUID = 0L;
     {entitys}

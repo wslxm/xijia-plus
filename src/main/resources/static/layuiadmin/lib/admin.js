@@ -407,16 +407,6 @@ layui.define('view', function (exports) {
             othis.find('.layui-badge-dot').remove();
         }
 
-        //弹出主题面板
-        , theme: function () {
-            admin.popupRight({
-                id: 'LAY_adminPopupTheme'
-                , success: function () {
-                    view(this.id).render('system/theme')
-                }
-            });
-        }
-
         //便签
         , note: function (othis) {
             var mobile = admin.screen() < 2
@@ -463,12 +453,33 @@ layui.define('view', function (exports) {
             }
         }
 
+        //弹出主题面板
+        , theme: function () {
+            admin.popupRight({
+                id: 'LAY_adminPopupTheme'
+                , success: function () {
+                    view(this.id).render('system/theme')
+                }
+            });
+        }
+
+
         //弹出关于面板
         , about: function () {
             admin.popupRight({
                 id: 'LAY_adminPopupAbout'
                 , success: function () {
                     view(this.id).render('system/about');
+                }
+            });
+        }
+
+        //弹出测试面板
+        , test: function () {
+            admin.popupRight({
+                id: 'LAY_adminPopupAbout'
+                , success: function () {
+                    view(this.id).render('system/test');
                 }
             });
         }

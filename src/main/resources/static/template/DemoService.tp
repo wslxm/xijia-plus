@@ -1,15 +1,18 @@
-package {packName}.service;
+package {packPath}.{moduleName}.service;
 
-import com.ws.ldy.admincore.service.BaseServiceApi;
-import {packName}.entity.{Demo};
+import com.baomidou.mybatisplus.extension.service.IService;
+import {packPath}.{moduleName}.model.entity.{tableNameUp};
 
 /**
- * TODO  代码生成器自动生成，请自定义描叙
+ * TODO  {tableComment}
+ * <p>
+ * {describe}
+ * </p>
  * {author}
  * {email}
  * {date}
  */
-public  interface {Demo}Service extends BaseServiceApi<{Demo},{primary-key-type}> {
+public interface {tableNameUp}Service extends IService<{tableNameUp}> {
 
 }
 

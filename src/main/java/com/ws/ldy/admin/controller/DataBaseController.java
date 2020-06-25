@@ -31,16 +31,16 @@ public class DataBaseController extends BaseController<DataBaseServiceImpl> {
 
     @ApiOperation("查询所有表名")
     @RequestMapping(value = "/findTable", method = RequestMethod.GET)
-    public Result<List<Map<String, String>>> findTable() {
-        List<Map<String, String>> tables = baseService.findTable();
+    public Result<List<Map<String, Object>>> findTable() {
+        List<Map<String, Object>> tables = baseService.findTable();
         return Result.success(tables);
     }
 
     @ApiOperation("查询指定表下使用字段内容")
     @ApiImplicitParam(name = "tableName", value = "表名", required = false, paramType = "query")
     @RequestMapping(value = "/findTableField", method = RequestMethod.GET)
-    public Result<List<Map<String, String>>> findTableField(@RequestParam(required = false) String tableName) {
-        List<Map<String, String>> tableField = baseService.findTableField(tableName);
+    public Result<List<Map<String, Object>>> findTableField(@RequestParam(required = false) String tableName) {
+        List<Map<String, Object>> tableField = baseService.findTableField(tableName);
         return Result.success(tableField);
     }
 }

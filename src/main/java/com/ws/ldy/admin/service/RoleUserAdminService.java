@@ -1,6 +1,7 @@
 package com.ws.ldy.admin.service;
 
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.admin.model.entity.RoleUserAdmin;
 import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.admin.model.vo.UserAdminVo;
@@ -14,7 +15,7 @@ import java.util.List;
  * @WX-QQ 1720696548
  * @date 2019/11/13 15:10
  */
-public interface RoleUserAdminService{
+public interface RoleUserAdminService extends IService<RoleUserAdmin> {
     /**
      * TODO    查询指定角色当前用户列表
      *

@@ -35,12 +35,13 @@
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             {upd-id}
-            ajaxPost("/{demo}/save/2", data.field);
-            //重载表格
-            parent.layui.table.reload('auth-table');
+            //data.field.id = parent.data.id;
+            let result = ajaxPut(path + "/{moduleName}/{tableNameLower}/upd", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
-            parent.layer.msg('修改成功');
+            parent.layer.msg(result.msg);
+            //重载表格
+            parent.xijiaRenderTable(null);
         });
     });
 </script>

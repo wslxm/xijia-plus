@@ -1,19 +1,22 @@
-package {packName}.service.impl;
+package {packPath}.{moduleName}.service.impl;
 
-import {packName}.entity.{Demo};
-import {packName}.service.{Demo}Service;
-import com.ws.ldy.admincore.service.impl.BaseServiceApiImpl;
+import {packPath}.{moduleName}.mapper.{tableNameUp}Mapper;
+import {packPath}.{moduleName}.model.entity.{tableNameUp};
+import {packPath}.{moduleName}.service.{tableNameUp}Service;
+import {packPath}.base.service.impl.BaseIServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
- * TODO  代码生成器自动生成，请自定义描叙
+ * TODO  {tableComment}
+ * <p>
+ * {describe}
+ * </p>
  * {author}
  * {email}
  * {date}
  */
 @Service
-public class {Demo}ServiceImpl extends BaseServiceApiImpl<{Demo},{primary-key-type}> implements {Demo}Service {
+public class {tableNameUp}ServiceImpl extends BaseIServiceImpl<{tableNameUp}Mapper, {tableNameUp}> implements {tableNameUp}Service {
+
 
 }
-
-

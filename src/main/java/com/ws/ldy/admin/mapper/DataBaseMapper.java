@@ -15,14 +15,6 @@ import java.util.Map;
  */
 public interface DataBaseMapper {
 
-    /***
-     * TODO  查询数据库的所有表
-     * @date 2019/11/20 10:41
-     * @return java.util.List<java.lang.String>
-     */
-    //@Select("show tables") 没有表注释
-    @Select("SELECT TABLE_NAME name,TABLE_COMMENT comment FROM information_schema.TABLES WHERE table_schema='spring-boot-plus2'")
-    public List<Map<String, String>> findTable();
 
 
     /**

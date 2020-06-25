@@ -23,7 +23,6 @@
     <div class="layui-inline">
         <input class="layui-input" id="name" name="name" placeholder="请输入角色名称搜索" autocompvare="off">
     </div>
-    &nbsp;
     <button class="layui-btn layui-btn-normal layui-btn-sm" data-type="reload">搜索</button>
 </div>
 <!-- 表格 -->
@@ -43,8 +42,8 @@
 </script>
 <script>
 
-    let find_page = path + "/roleAdmin/findPage";        //角色查询-分页
-    let deletes = path + "/roleAdmin/delete";             //角色删除
+    let find_page = path + "/roleAdmin/findPage";      //角色查询-分页
+    let deletes = path + "/roleAdmin/delete";          //角色删除
     //
     let page_add = path + "/page/admin_role_roleAdd";  //角色添加弹出
     let page_upd = path + "/page/admin_role_roleUpd";  //角色编辑弹出
@@ -150,7 +149,7 @@
         table.on('toolbar(auth-table)', function (obj) {
             //添加
             if (obj.event === "add") {
-                tipsWindown(page_add, "600px", "400px", "添加");
+                tipsWindown(page_add, "400px", "260px", "添加");
             }
         });
     }
@@ -168,7 +167,7 @@
             data = obj.data;  //当前行数据
             //编辑
             if (obj.event === 'edit') {
-                tipsWindown(page_upd, "600px", "400px", "修改");
+                tipsWindown(page_upd, "400px", "260px", "修改");
             }
             //删除
             if (obj.event === 'del') {

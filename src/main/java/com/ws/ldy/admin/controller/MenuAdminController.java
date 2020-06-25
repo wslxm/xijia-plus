@@ -7,7 +7,7 @@ import com.ws.ldy.admin.model.dto.MenuAdminDto;
 import com.ws.ldy.admin.model.entity.MenuAdmin;
 import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.admin.model.vo.MenuAdminVo;
-import com.ws.ldy.admin.service.impl.MenuAdminServiceImpl;
+import com.ws.ldy.admin.service.MenuAdminService;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.common.result.Result;
@@ -35,10 +35,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/menuAdmin")
 @Api(value = "MenuAdminController", tags = "菜单管理", description = BaseConstant.InterfaceType.PC_ADMIN)
-public class MenuAdminController extends BaseController<MenuAdminServiceImpl> {
+public class MenuAdminController extends BaseController<MenuAdminService> {
 
     @Autowired
-    private MenuAdminServiceImpl menuService;
+    private MenuAdminService menuService;
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
     @ApiOperation("测试")

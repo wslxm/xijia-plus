@@ -6,10 +6,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.admin.model.dto.RoleAdminDto;
 import com.ws.ldy.admin.model.entity.RoleAdmin;
 import com.ws.ldy.admin.model.vo.RoleAdminVo;
-import com.ws.ldy.admin.service.impl.RoleAdminServiceImpl;
-import com.ws.ldy.admin.service.impl.RoleAuthAdminServiceImpl;
-import com.ws.ldy.admin.service.impl.RoleMenuAdminServiceImpl;
-import com.ws.ldy.admin.service.impl.RoleUserAdminServiceImpl;
+import com.ws.ldy.admin.service.RoleAdminService;
+import com.ws.ldy.admin.service.RoleAuthAdminService;
+import com.ws.ldy.admin.service.RoleMenuAdminService;
+import com.ws.ldy.admin.service.RoleUserAdminService;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.common.result.Result;
@@ -34,16 +34,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/roleAdmin")
 @Api(value = "RoleAdminController", tags = "角色管理", description = BaseConstant.InterfaceType.PC_ADMIN)
-public class RoleAdminController extends BaseController<RoleAdminServiceImpl> {
+public class RoleAdminController extends BaseController<RoleAdminService> {
 
 //    @Autowired
 //    private RoleAdminServiceImpl roleAdminServiceImpl;
     @Autowired
-    private RoleMenuAdminServiceImpl roleMenuAdminServiceImpl;
+    private RoleMenuAdminService roleMenuAdminService;
     @Autowired
-    private RoleAuthAdminServiceImpl roleAuthAdminServiceImpl;
+    private RoleAuthAdminService roleAuthAdminService;
     @Autowired
-    private RoleUserAdminServiceImpl roleUserAdminServiceImpl;
+    private RoleUserAdminService roleUserAdminService;
 
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
@@ -84,7 +84,7 @@ public class RoleAdminController extends BaseController<RoleAdminServiceImpl> {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    @ApiOperation("单删除")
+    @ApiOperation("删除")
     public Result<Void> delete(Integer id) {
         baseService.removeById(id);
         return Result.successDelete();
@@ -98,7 +98,7 @@ public class RoleAdminController extends BaseController<RoleAdminServiceImpl> {
 
 
     @RequestMapping(value = "/findRoleChecked", method = RequestMethod.GET)
-    @ApiOperation("用户角色分配==>查询所有角色,用户拥有角色赋予isChecked=true")
+    @ApiOperation("用户角色分配弹出层查询所有角色,用户拥有角色赋予isChecked=true")
     public Result<List<RoleAdminVo>> findRoleChecked(@RequestParam String userId) {
         List<RoleAdminVo> roles = baseService.findRoleChecked(userId);
         return Result.successFind(roles);
@@ -116,7 +116,7 @@ public class RoleAdminController extends BaseController<RoleAdminServiceImpl> {
     @RequestMapping(value = "/updRoleMenu", method = RequestMethod.PUT)
     @ApiOperation("角色菜单分配")
     public Result<Void> updRoleMenu(@RequestParam Integer roleId, Integer[] menuIds) {
-        roleMenuAdminServiceImpl.roleMenuAuth(roleId, menuIds);
+        roleMenuAdminService.roleMenuAuth(roleId, menuIds);
         return Result.successUpdate();
     }
 
@@ -124,7 +124,7 @@ public class RoleAdminController extends BaseController<RoleAdminServiceImpl> {
     @RequestMapping(value = "/updRoleUrlAuth", method = RequestMethod.PUT)
     @ApiOperation("角色URL分配")
     public Result<Void> updRoleUrlAuth(@RequestParam Integer roleId, Integer[] authIds) {
-        roleAuthAdminServiceImpl.roleUrlAuth(roleId, authIds);
+        roleAuthAdminService.roleUrlAuth(roleId, authIds);
         return Result.successUpdate();
     }
 }

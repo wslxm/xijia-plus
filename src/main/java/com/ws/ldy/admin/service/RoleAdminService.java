@@ -1,10 +1,9 @@
 package com.ws.ldy.admin.service;
 
 
-import com.ws.ldy.admin.mapper.RoleAdminMapper;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.admin.model.entity.RoleAdmin;
 import com.ws.ldy.admin.model.vo.RoleAdminVo;
-import com.ws.ldy.base.service.BaseIService;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
  * @WX-QQ 1720696548
  * @date 2019/11/13 15:10
  */
-public interface RoleAdminService {
+public interface RoleAdminService  extends IService<RoleAdmin>{
 
     /**
      * TODO  查询所有角色--用户当前拥有角色赋予checked=true
