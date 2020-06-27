@@ -31,7 +31,7 @@ public class FileController extends BaseController {
 
 
     // 文件保存路径
-    private static String PATH = "File/";
+    private static String FILE_PATH = "File/";
     // 文件路径验证
     private static String UPLOAD_PATH_IMAGE = "image";
     private static String UPLOAD_PATH_MUSIC = "music";
@@ -39,25 +39,25 @@ public class FileController extends BaseController {
     private static String UPLOAD_PATH_EXCEL = "excel";
 
     // 图片上传，需要赋值读写权限
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)    //consumes = "multipart/*", headers = "content-type=multipart/form-data"
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    //consumes = "multipart/*", headers = "content-type=multipart/form-data"
     @ApiOperation("文件上传")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "filePath", value = "文件路径,必须指定开头目录(image/ -图片, music/ -音乐,video/ -视频,excel/ -表格)", required = true)
     })
     public Result uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("filePath") String filePath) {
-
         // 接口名
         String interfaceName = request.getServletPath();
         // 文件名
         String fileName = file.getOriginalFilename();
         // 完整url
         String url = request.getRequestURL().toString();
-        // 去调接口url
+        // 去调接口后url
         String baseUrl = url.replace(interfaceName, "");
         // 验证文件格式及路径
         fileName = getPath(filePath, fileName);
         // 上传路径,判断,不存在创建
-        Path directory = Paths.get(PATH + filePath);
+        Path directory = Paths.get(FILE_PATH + filePath);
         try {
             // 获得文件流
             InputStream inputStream = file.getInputStream();
@@ -66,15 +66,13 @@ public class FileController extends BaseController {
             }
             // 判断文件是否存在,存在删除
             if (Files.exists(directory.resolve(fileName))) {
-                File newFile = new File(PATH + filePath + fileName);
+                File newFile = new File(FILE_PATH + filePath + fileName);
                 newFile.delete();
             }
             // 拷贝流到上传的目录
             Files.copy(inputStream, directory.resolve(fileName));
             // 绝对路径
-            // String path = baseUrl + "/" + PATH + filePath + fileName;
-            // 相对路径
-            String path = PATH + filePath + fileName;
+            String path = baseUrl + "/" + FILE_PATH + filePath + fileName;
             return Result.success(path);
         } catch (Exception e) {
             return Result.error(ResultEnum.SYS_ERROR.getCode(), "文件上传失败");
@@ -103,8 +101,8 @@ public class FileController extends BaseController {
                 throw new ErrorException(100001, "图片仅支持-[jpg,png]");
             }
             //修改fileName的引用
-            fileName = UUIDUtils.creatUUID() + "-"+fileName;
-           // filePath = filePath.replace(suffixName, "") + UUIDUtil.creatUUID() + "-";
+            fileName = UUIDUtils.creatUUID() + "-" + fileName;
+            // filePath = filePath.replace(suffixName, "") + UUIDUtil.creatUUID() + "-";
         } else if (UPLOAD_PATH_MUSIC.equals(path[0])) {
             // 音乐
             if (!"mp3".equals(suffixName)) {

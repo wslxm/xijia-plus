@@ -41,6 +41,8 @@
         <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</button>
         <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
     </div>
+
+
 </script>
 <!-- 每一行的数据修改或删除  -->
 <script type="text/html" id="barDemo">
@@ -95,8 +97,14 @@
                 [
                     {type: 'checkbox', fixed: 'left'}
                     //, {field: 'id', title: 'ID', width: 80, fixed: 'left'}
-                    , {field: 'head', title: '头像'}
-                    , {field: 'username', title: '用户名'}
+                    , {
+                    field: 'head', title: '头像', templet: function (res) {
+                        return "<img src='" + res.head + "'  style='border-radius: 30px;width: 30px;height: 30px;'>";
+                    }
+                }
+
+
+                    , {field: 'username', title: '用户名',}
                     , {field: 'account', title: '账号'}
                     , {field: 'age', title: '年龄'}
                     ,

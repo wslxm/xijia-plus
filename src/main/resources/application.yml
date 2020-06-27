@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: pro
+    active: dev
 
   # 当遇到同样beng名字的时候，是否允许覆盖注册
   main:

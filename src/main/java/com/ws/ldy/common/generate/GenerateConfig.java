@@ -21,7 +21,7 @@ public class GenerateConfig {
     public final static String EMAIL = "1720696548@qq.com";
     public final static String DESCRIBE = " ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 ";
     public final static String PACK_PATH = "com.ws.ldy";
-    public final static String MODULE_NAME = "xijia";
+    public final static String MODULE_NAME = "dev";
     // 代码生成路径 --> 父工程绝对路径
     //public final static String FATHER_PATH = "F:/workspace/code/git2020-1/spring-boot-plus2/";
     public final static String FATHER_PATH = ""; //不填为当前自动为当前项目目录下

@@ -222,6 +222,9 @@ public class GenerateUtil extends BaseController {
                         .replace("{findPageMybatisPlus}", FieldCG.FIND_PAGE_MYBATIS_PLUS)
                         // .replace("{primary-key-type}", FieldCG.PRIMARY_KEY_TYPE)
                         .replace("{layui-fields}", FieldCG.LAYUI_FIELDS)
+                        .replace("{layui-search-pt-str}", FieldCG.LAYUI_SEARCH_PT_STR)
+                        .replace("{layui-search-params-str}", FieldCG.LAYUI_SEARCH_PARAMS_STR)
+                        //
                         .replace("{add-htmls}", FieldCG.ADD_HTMLS)
                         .replace("{upd-htmls}", FieldCG.UPD_HTMLS)
                         .replace("{upd-backfill}", FieldCG.UPD_BACKFILL)

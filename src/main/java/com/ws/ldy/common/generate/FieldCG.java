@@ -38,8 +38,12 @@ public class FieldCG {
     public static String FIND_PAGE_MYBATIS_PLUS = "";  // controller， findPage方法参数拼接到mybatisPlus方法中参数列表
 
 
-    // public static String PRIMARY_KEY_TYPE = "";  // id主键数据类型
-    public static String LAYUI_FIELDS = "";      // 生成html主页，layui数据表格所有字段数据
+    // public static String PRIMARY_KEY_TYPE = "";      // id主键数据类型
+    //html主页参数
+    public static String LAYUI_FIELDS = "";             // 生成html主页，layui数据表格所有字段数据
+    public static String LAYUI_SEARCH_PT_STR = "";      // 生成html主页，搜索条件拼接
+    public static String LAYUI_SEARCH_PARAMS_STR = "";   // 生成html主页，搜索条件url参数
+    //
     public static String ADD_HTMLS = "";         // 生成html 添加页，表单所有添加字段数据
     public static String UPD_HTMLS = "";         // 生成html 修改加页，表单所有添加字段数据
     public static String UPD_ID = "";            // 生成html 修改加页，修改赋值id字段（根据Id修改）

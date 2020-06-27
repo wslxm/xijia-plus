@@ -59,7 +59,7 @@ public class LoginController extends BaseController<UserAdminService> {
         }
         String token = UUIDUtils.creatUUID();
         session.setAttribute(AdminUserUtils.ADMIN + token, user);
-        return Result.success(new LoginVo(token, user.getUsername()));
+        return Result.success(new LoginVo(token, user.getUsername(),user.getHead()));
     }
 
 

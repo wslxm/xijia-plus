@@ -15,4 +15,6 @@ public class LoginVo extends Convert {
     private String token;
     @ApiModelProperty(value = "用户姓名")
     private String username;
+    @ApiModelProperty(value = "头像")
+    private String head;
 }

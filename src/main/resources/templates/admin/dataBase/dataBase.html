@@ -29,6 +29,7 @@
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" onclick="toolbarClick(1)">生成预览代码</button>
         <button class="layui-btn layui-btn-sm" onclick="toolbarClick(2)">代码生成</button>
+        <button class="layui-btn layui-btn-sm" onclick="codePath()">查看生成路径</button>
         <font size="2">当前表: </font> <font size="2" color="red" id="tableName">t_basic</font>
         <font size="2" style="margin-left: 1.5%" color="#6a5acd" id="tableComment"></font>
     </div>
@@ -40,6 +41,8 @@
     let findAll = "/dataBase/findTableField";     // 根据表名称查询数据库字段数据
     let generatePreview = "/generate/preview";    // 代码预览txt生成
     let generateCode = "/generate/generateCode";  // 代码生成(会覆盖),谨慎操作
+    let generatePath = "/generate/getPath";               // 代码生成路径
+    let generateFilePath = "/page/admin_dataBase_filePath";    // 代码生成路径预览页面
 
 
     let tableName = "t_basic";   // 左边菜单当前选中表名称 tableName
@@ -253,21 +256,25 @@
             this.tabTxt(result.data);
         } else {
             // 生成   -->  prompt层
-            layer.prompt({title: '生成的代码保存路径,当前项目为跟目录或者系统盘为跟目录?', value: '/code'}, function (path, index) {
-                // 数据表格数据,表名称，项目名称,返回生成的文件地址
-                result = ajaxPost(generateCode, {
-                    data: JSON.stringify(newDataJson),
-                    tableName: tableName,
-                    tableComment: tableComment,
-                    path: path
-                });
-                layer.close(index);
-                layer.msg("代码生成成功")
+            layer.alert();
+            layer.msg('生成会覆盖原代码,确认要进行代码生成嘛?', {
+                time: 0 //不自动关闭
+                , btn: ['确认', '取消'] //按钮
+                , yes: function (index) {
+                    // 确认
+                    // 数据表格数据,表名称，项目名称,返回生成的文件地址
+                    result = ajaxPost(generateCode, {
+                        data: JSON.stringify(newDataJson),
+                        tableName: tableName,
+                        tableComment: tableComment,
+                        path: path
+                    });
+                    layer.close(index);
+                    layer.msg("代码生成成功")
+                }
             });
-
         }
     }
-
 
     /**
      * TODO 生成的预览弹出层
@@ -317,15 +324,15 @@
         });
     }
 
+    /**
+     * 代码生成路径查询（弹出层获取 findPathMap 展示）
+     */
+    var findPathMap = null;
 
-    /// <summary>
-    /// 转换 Html 内容为纯文本内容
-    /// </summary>
-    /// <param name="HTML">HTML 内容</param>
-    /// <returns>转换后的纯文本内容</returns>
-    function toText(html) {
-        html = html.replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, '').replace(/<[^>]+?>/g, '').replace(/\s+/g, ' ').replace(/ /g, ' ').replace(/>/g, ' ');
-        return html;
+    function codePath() {
+        let result = ajaxGet(generatePath + "?tableName=" + tableName);
+        findPathMap = result.data;
+        tipsWindown(generateFilePath, "800px", "520px", "代码实际生成路径查看 ==> 预览代码目录 File/code/src/......");
     }
 </script>
 

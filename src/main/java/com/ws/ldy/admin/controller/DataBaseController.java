@@ -1,6 +1,6 @@
 package com.ws.ldy.admin.controller;
 
-import com.ws.ldy.admin.service.impl.DataBaseServiceImpl;
+import com.ws.ldy.admin.service.DataBaseService;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.common.result.Result;
@@ -26,7 +26,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/dataBase")
 @Api(value = "DataBaseController", tags = "数据库表查询", description = BaseConstant.InterfaceType.PC_ADMIN)
-public class DataBaseController extends BaseController<DataBaseServiceImpl> {
+public class DataBaseController extends BaseController<DataBaseService> {
 
 
     @ApiOperation("查询所有表名")

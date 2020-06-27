@@ -1,6 +1,7 @@
-package com.ws.ldy.common.generate;
+package com.ws.ldy.common.generate.impl;
 
 import com.ws.ldy.base.service.impl.BaseIServiceImpl;
+import com.ws.ldy.common.generate.*;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 @SuppressWarnings("all")
 @Component
-public class GenerationSeviceImpl extends BaseIServiceImpl {
+public class GenerationSeviceImpl extends BaseIServiceImpl implements GenerationSevice {
 
     /**
      * 保存预览文件返回的文件地址url
@@ -38,7 +39,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl {
                 continue;
             }
             // 字段名称
-            String fieldName = GenerateUtil.getFieldName(fieldMap.get("name").toString());
+            String fieldName = fieldMap.get("name").toString();
             // 字段类型
             String type = fieldMap.get("type").toString();
             // 字段注释信息-->  普通注释 fields.append("\r\n    /** " + fieldMap.get("desc") + " */");
@@ -61,6 +62,8 @@ public class GenerationSeviceImpl extends BaseIServiceImpl {
             } else {
                 fields.append("\r\n    @TableField(value = \"" + fieldName + "\")");
             }
+            //字段,转为驼峰模式
+            fieldName = GenerateUtil.getFieldName(fieldName);
             //字段
             JXModel(fields, fieldName, type);
         }
@@ -278,7 +281,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl {
 
 
     /**
-     * TODO 生成Html-main 展页
+     * TODO 生成Html-main 主页
      *
      * @param data    数据
      * @param fieldCG 数据
@@ -290,15 +293,36 @@ public class GenerationSeviceImpl extends BaseIServiceImpl {
         Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "Html");
         BufferedReader br = (BufferedReader) brBwPath.get("br");
         BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
-
-        StringBuffer fieldStr = new StringBuffer();
+        // 数据表格字段
+        StringBuffer fieldStr = new StringBuffer(" ");
+        // 搜索条件html
+        StringBuffer SearchPtStr = new StringBuffer();
+        // 搜索条件请求值url拼接
+        StringBuffer SearchParamsStr = new StringBuffer();
         for (Map<String, Object> fieldMap : dataList) {
-            String name = fieldMap.get("name").toString();
+            String name = GenerateUtil.getFieldName(fieldMap.get("name").toString());
             String desc = fieldMap.get("desc").toString();
-            fieldStr.append("\r\n                   , {field: '" + name + "', title: '" + desc + "'}");
+            // 数据表格内容
+            fieldStr.append("\r\n                    {field: '" + name + "', title: '" + desc + "'},");
+            Object search = fieldMap.get("search");
+            //是否为搜索值
+            if (search == null || !Boolean.parseBoolean(search.toString())) {
+                continue;
+            }
+            // 搜索内容输入框
+            // 1/ input  * {desc} 字段描叙  * {id}   字段名 * {name} 字段名
+            SearchPtStr.append(SearchPtConfig.INPUT_PT.replace("{id}", name).replace("{name}", name).replace("{desc}", desc));
+            // 搜索内容条件拼接
+            SearchParamsStr.append("                params += \"&" + name + "=\" + $(\"#" + name + "\").val();");
+            // 换行
+            SearchPtStr.append("\r\n");
+            SearchParamsStr.append("\r\n");
         }
         // 数据保存
-        FieldCG.LAYUI_FIELDS = fieldStr.toString();
+        FieldCG.LAYUI_FIELDS = fieldStr.toString().substring(0, fieldStr.length() - 1);
+        FieldCG.LAYUI_SEARCH_PT_STR = SearchPtStr.toString();
+        FieldCG.LAYUI_SEARCH_PARAMS_STR = SearchParamsStr.toString();
+
         // 开始生成文件并进行数据替换
         GenerateUtil.replacBrBwWritee(brBwPath);
         // 文件url记录
@@ -332,7 +356,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl {
                 "    </div>";
         StringBuffer fieldStr = new StringBuffer();
         for (Map<String, Object> fieldMap : dataList) {
-            String name = fieldMap.get("name").toString();
+            String name = GenerateUtil.getFieldName(fieldMap.get("name").toString());
             if ("id".equals(name)) {
                 continue;
             }
@@ -379,7 +403,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl {
         StringBuffer echoDisplay = new StringBuffer();
         String fieldId = "";
         for (Map<String, Object> fieldMap : dataList) {
-            String name = fieldMap.get("name").toString();
+            String name = GenerateUtil.getFieldName(fieldMap.get("name").toString());
             if ("id".equals(name)) {
                 fieldId = "data.field." + name + " = parent.data." + name + ";";
             } else {

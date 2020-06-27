@@ -17,11 +17,18 @@
 
     <div class="layui-form-item">
         <label class="layui-form-label">头像</label>
-        <div class="layui-input-inline">
-            <input type="text" id="head" name="head" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
+        <span class="layui-input-inline">
+            <button type="button" class="layui-btn layui-btn-danger" id="test7" style="width: 180px"><i class="layui-icon"></i>上传头像</button>
+            <!-- 预览图,上传图片后展示 -->
+            <img src="" title="" id="headImg" style="border-radius: 180px;width: 180px;height: 180px; margin-top: 5%">
+            <!-- 隐藏input,最后添加数据 -->
+            <input type="text" id="head" name="head" lay-verify="imgHead" placeholder="请输入" autocomplete="off" hidden>
+        </span>
+        <!-- 提示 -->
+        <font class="layui-word-aux">
+            头像必须小于 200KB
+        </font>
     </div>
-
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-inline">
@@ -76,6 +83,7 @@
     $(function () {
         //父页面的值,赋值到当前页
         $("#head").val(parent.data.head);
+        $("#headImg").attr("src", parent.data.head);
         $("#username").val(parent.data.username);
         $("#account").val(parent.data.account);
         $("#password").val(parent.data.password);
@@ -90,7 +98,7 @@
         });
     });
 
-    layui.use(['form'], function () {
+    layui.use(['form','upload'], function () {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.id = parent.data.id;
@@ -101,6 +109,25 @@
             parent.layer.msg(result.msg);
             //重载表格
             parent.xijiaRenderTable(null);
+        });
+
+        //文件上传--设定文件大小限制
+        layui.upload.render({
+            elem: '#test7'
+            , url: '/file/upload?filePath=image/' //改成您自己的上传接口
+            , size: 200 //限制文件大小，单位 KB
+            , done: function (res) {
+                //如果上传失败
+                if (res.code !== 200) {
+                    return layer.msg('上传失败-' + res.msg);
+                }
+                $("#headImg").attr("src", res.data);
+                $("#headImg").attr("title", res.date);
+                //赋值input
+                $("#head").val(res.data);
+                console.log(res);
+                layer.msg('上传成功');
+            }
         });
     });
 </script>

@@ -150,12 +150,11 @@
                 key: "token",
                 value: res.data.token
             });
-            // 请求成功后，写入token 字符串数据到本地 // 读取方法 localStorage.getItem('token')
-            sessionStorage.setItem('token', res.data.token);  // localStorage.setItem('token', res.data.token);
-            // 请求成功后，写入用户信息
+            // 请求成功后，写入用户信息-token 字符串数据到本地 // 读取方法 sessionStorage.getItem('token')
+            sessionStorage.setItem('token', res.data.token);
+            sessionStorage.setItem('username', res.data.username);
+            sessionStorage.setItem('head', res.data.head);
             // localStorage.setItem('username', res.data.username);
-            sessionStorage.setItem('username', res.data.username);// localStorage.setItem('token', res.data.token);
-            // 跳转后台主页
             location.href = admin_index;
         });
     });

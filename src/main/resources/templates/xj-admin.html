@@ -92,7 +92,7 @@
 
                 <!-- 头像 -->
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <img class="circleImg" src="pic/ecy/15.jpg"/>
+                    <img id="head" class="circleImg" src="pic/ecy/15.jpg"/>
                 </li>
 
 
@@ -205,6 +205,7 @@
         // $("#logout").attr("lay-href", logout);
         //$("#username").html(localStorage.getItem('username'));
         $("#username").html(sessionStorage.getItem('username'));
+        $("#head").attr("src",sessionStorage.getItem('head'));
     });
 
     //退出处理
