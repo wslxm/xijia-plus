@@ -1,7 +1,18 @@
 server:
-  port: 80   # HTTP (Tomcat) port
-#  servlet:
-#    context-path: /adminconsole   # 配置项目名 47.107.128.84
+  port: 9049   # HTTP (Tomcat) port
+
+
+## 阿里云oss配置
+aliyun:
+  oss:
+    # 阿里云下oss 的 accessKeyId和accessKeySecret(访问密钥，您可以在控制台上创建和查看)
+    accessKeyId: LTAI4Fyfy2DTf4yUrvKqHwH4
+    accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8
+    # oss访问地址:内网
+    endpoint: oss-cn-shenzhen-internal.aliyuncs.com
+    # Bucket 名称
+    bucketName: xijia-sz
+
 
 # DataSource Config
 spring:

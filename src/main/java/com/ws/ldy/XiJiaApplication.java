@@ -25,6 +25,5 @@ public class XiJiaApplication {
     public static void main(String[] args) {
         SpringApplication.run(XiJiaApplication.class, args);
         ConsoleColors.getSuccessYellowBright();
-        System.out.println("http://127.0.0.1:80/");
     }
 }

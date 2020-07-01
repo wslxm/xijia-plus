@@ -36,7 +36,7 @@ public class GenerateConfig {
     public final static String BASE_PATH_HTML_YL = "File/code/src/main/resources/templates/" + MODULE_NAME + "/";
     public final static String BASE_PATH_HTML_TXT_YL = "File/code/src/main/resources/templates/" + MODULE_NAME + "/txt/";
     // java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 模块名
-    public final static String BASE_PATH_JAVA_YL = "File/code/src/main/java/" + PACK_PATH.replace(".", "/") + "/";
+    public final static String BASE_PATH_JAVA_YL = "File/code/src/main/java/" + PACK_PATH.replace(".", "/") + "/" + MODULE_NAME + "/";
 
     /**
      * =================================================================================

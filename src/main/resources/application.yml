@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: pro
 
   # 当遇到同样beng名字的时候，是否允许覆盖注册
   main:
@@ -40,7 +40,11 @@ spring:
             user:
               name: admin
               password: admin
-
+  ## 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 1024MB      # 单个文件的最大上限
+      max-request-size: 1024MB   # 单个请求的文件总大小上限
 
 # mybatis-plus相关配置
 mybatis-plus:
