@@ -8,7 +8,7 @@ import com.ws.ldy.admin.service.DictionaryAdminService;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.utils.BeanDtoVoUtils;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -29,12 +29,19 @@ import java.util.List;
 public class DictionaryAdminController extends BaseController<DictionaryAdminService> {
 
 
-
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiOperation("列表查询")
     public Result<List<DictionaryAdminVo>> findList() {
         List<DictionaryAdmin> list = baseService.list(new LambdaQueryWrapper<DictionaryAdmin>().orderByAsc(DictionaryAdmin::getSort));
-        return Result.successFind(BeanDtoVoUtils.listVo(list, DictionaryAdminVo.class));
+        return Result.successFind(BeanDtoVoUtil.listVo(list, DictionaryAdminVo.class));
+    }
+
+
+    @RequestMapping(value = "/findCode", method = RequestMethod.GET)
+    @ApiOperation("Code查询,最多向下2级，A-> BB -> CCCC")
+    public Result<DictionaryAdminVo> findCode(@RequestParam String code) {
+        DictionaryAdminVo dict = baseService.findCode(code);
+        return Result.success(dict);
     }
 
 

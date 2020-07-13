@@ -21,7 +21,7 @@ var path = "";//http://127.0.0.1:80
  * @param name   弹出层名
  */
 
-function  tipsWindown(url, width, height, name) {
+function tipsWindown(url, width, height, name) {
     layui.use('layer', function () {
         layer.open({
             type: 2,
@@ -109,7 +109,7 @@ function tipsDeleteIds(url, data, obj) {
 var pageJson = {
     layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'] //自定义分页布局
     , curr: 1              // 设定初始在第1页
-    , limits: [10, 15, 20,999999]   // 每页显示条数
+    , limits: [10, 15, 20, 999999]   // 每页显示条数
     , groups: 5            // 只显示几个连续页码
     // , first: "首页"      // 显示按钮内容（false为不展示,layout 不支持）
     // , last: "尾页"       // 显示按钮内容（false为不展示，layout 不支持）
@@ -155,95 +155,47 @@ function getPage() {
  */
 // TODO   get 请求
 function ajaxGet(url) {
-    return ajax(url, null, "get", "json", false);
+    return ajax(url, null, "get", "json");
 }
 
 // TODO   get 请求带json参数
 function ajaxGet(url, data) {
-    return ajax(url, data, "get", "json", false);
+    return ajax(url, data, "get", "json");
 }
 
 // TODO   post 请求
 function ajaxPost(url) {
-    return ajax(url, null, "post", "json", false);
+    return ajax(url, null, "post", "json");
 }
 
 // TODO   post 请求带json参数
 function ajaxPost(url, data) {
-    return ajax(url, data, "post", "json", false);
+    return ajax(url, data, "post", "json");
 }
 
 // TODO   put 请求
 function ajaxPut(url) {
-    return ajax(url, null, "put", "json", false);
+    return ajax(url, null, "put", "json");
 }
 
 // TODO   put 请求带json参数
 function ajaxPut(url, data) {
-    return ajax(url, data, "put", "json", false);
+    return ajax(url, data, "put", "json");
 }
 
 // TODO   delete请求
 function ajaxDelete(url) {
-    return ajax(url, null, "delete", "json", false);
+    return ajax(url, null, "delete", "json");
 }
 
 // TODO  delete 请求带json参数
 function ajaxDelete(url, data) {
-    return ajax(url, data, "delete", "json", false);
-}
-
-/**
- * TODO  异步请求
- * @author ws
- * @mail  1720696548@qq.com
- * @param null
- * @date  2020/3/30 0030 0:05
- * @return
- */
-// TODO   get 请求
-function ajaxGetAsync(url) {
-    return ajax(url, null, "get", "json", true);
-}
-
-// TODO   get 请求带json参数
-function ajaxGetAsync(url, data) {
-    return ajax(url, data, "get", "json", true);
-}
-
-// TODO   post 请求
-function ajaxPostAsync(url) {
-    return ajax(url, null, "post", "json", true);
-}
-
-// TODO   post 请求带json参数
-function ajaxPostAsync(url, data) {
-    return ajax(url, data, "post", "json", true);
-}
-
-// TODO   put 请求
-function ajaxPutAsync(url) {
-    return ajax(url, null, "put", "json", true);
-}
-
-// TODO   put 请求带json参数
-function ajaxPutAsync(url, data) {
-    return ajax(url, data, "put", "json", true);
-}
-
-// TODO   delete请求
-function ajaxDeleteAsync(url) {
-    return ajax(url, null, "delete", "json", true);
-}
-
-// TODO  delete 请求带json参数
-function ajaxDeleteAsync(url, data) {
-    return ajax(url, data, "delete", "json", true);
+    return ajax(url, data, "delete", "json");
 }
 
 
 // TODO  1-url  2-数据 3、请求方式 4、返回数据 5、同步false/异步true
-function ajax(url, data, type, dataType, async) {
+function ajax(url, data, type, dataType) {
     let result;
     $.ajax({
         type: type,
@@ -255,13 +207,37 @@ function ajax(url, data, type, dataType, async) {
             //"token": localStorage.getItem('token')
             "token": sessionStorage.getItem('token')
         },
-        async: async,        // true=异步，false=同步
+        async: false,        // true=异步，false=同步
         //traditional: true, // 允许传递数组
-        success: function (resultText) {
-            result = resultText;
+        //请求成功
+        success: function (resultData, status, request) {
+            result = resultData;
+            // token 处理，每次请求后刷新token
+            let token = request.getResponseHeader("token");
+            if (token != null) {
+                sessionStorage.setItem('token', token);
+            }
         },
-        error: function (res) {
-            layer.msg('AJAX请求失败! 请检查请求URL是否正确');
+        //请求失败
+        error: function (xhr, textStatus, errorThrown) {
+            try {
+                if (xhr.responseJSON != null) {
+                    result = xhr.responseJSON;
+                } else {
+                    layer.msg('AJAX请求失败!');
+                }
+            } catch (e) {
+                alert('AJAX请求失败!');
+            }
+            /*错误信息处理*/
+            // alert("进入error---");
+            // alert("状态码：" + xhr.status);
+            // alert("状态:" + xhr.readyState);//当前状态,0-未初始化，1-正在载入，2-已经载入，3-数据进行交互，4-完成。
+            // alert("错误信息:" + xhr.statusText);
+            // alert("返回响应信息：" + xhr.responseText);//这里是详细的信息
+            // alert("请求状态：" + textStatus);
+            // alert(errorThrown);
+            // alert("请求失败");
         }
     });
     //错误打印
@@ -282,10 +258,6 @@ function ajax(url, data, type, dataType, async) {
     return result;
 }
 
-//同步请求回调
-function ajaxCallback(url) {
-
-}
 
 //====================================================================================
 //====================================================================================
@@ -495,6 +467,98 @@ function byteToString(arr) {
 }
 
 
-
-
+/**
+ * TODO  base64 加密/解密
+ * @author 王松
+ * @mail  1720696548@qq.com
+ * @date  2020/7/11 0011 21:16
+ */
+Base64 = {
+    _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+    encode: function (e) {
+        var t = "";
+        var n, r, i, s, o, u, a;
+        var f = 0;
+        e = Base64._utf8_encode(e);
+        while (f < e.length) {
+            n = e.charCodeAt(f++);
+            r = e.charCodeAt(f++);
+            i = e.charCodeAt(f++);
+            s = n >> 2;
+            o = (n & 3) << 4 | r >> 4;
+            u = (r & 15) << 2 | i >> 6;
+            a = i & 63;
+            if (isNaN(r)) {
+                u = a = 64
+            } else if (isNaN(i)) {
+                a = 64
+            }
+            t = t + this._keyStr.charAt(s) + this._keyStr.charAt(o) + this._keyStr.charAt(u) + this._keyStr.charAt(a)
+        }
+        return t
+    },
+    decode: function (e) {
+        var t = "";
+        var n, r, i;
+        var s, o, u, a;
+        var f = 0;
+        e = e.replace(/[^A-Za-z0-9+/=]/g, "");
+        while (f < e.length) {
+            s = this._keyStr.indexOf(e.charAt(f++));
+            o = this._keyStr.indexOf(e.charAt(f++));
+            u = this._keyStr.indexOf(e.charAt(f++));
+            a = this._keyStr.indexOf(e.charAt(f++));
+            n = s << 2 | o >> 4;
+            r = (o & 15) << 4 | u >> 2;
+            i = (u & 3) << 6 | a;
+            t = t + String.fromCharCode(n);
+            if (u != 64) {
+                t = t + String.fromCharCode(r)
+            }
+            if (a != 64) {
+                t = t + String.fromCharCode(i)
+            }
+        }
+        t = Base64._utf8_decode(t);
+        return t
+    }, _utf8_encode: function (e) {
+        e = e.replace(/rn/g, "n");
+        var t = "";
+        for (var n = 0; n < e.length; n++) {
+            var r = e.charCodeAt(n);
+            if (r < 128) {
+                t += String.fromCharCode(r)
+            } else if (r > 127 && r < 2048) {
+                t += String.fromCharCode(r >> 6 | 192);
+                t += String.fromCharCode(r & 63 | 128)
+            } else {
+                t += String.fromCharCode(r >> 12 | 224);
+                t += String.fromCharCode(r >> 6 & 63 | 128);
+                t += String.fromCharCode(r & 63 | 128)
+            }
+        }
+        return t
+    }, _utf8_decode: function (e) {
+        var t = "";
+        var n = 0;
+        var r = c1 = c2 = 0;
+        while (n < e.length) {
+            r = e.charCodeAt(n);
+            if (r < 128) {
+                t += String.fromCharCode(r);
+                n++
+            } else if (r > 191 && r < 224) {
+                c2 = e.charCodeAt(n + 1);
+                t += String.fromCharCode((r & 31) << 6 | c2 & 63);
+                n += 2
+            } else {
+                c2 = e.charCodeAt(n + 1);
+                c3 = e.charCodeAt(n + 2);
+                t += String.fromCharCode((r & 15) << 12 | (c2 & 63) << 6 | c3 & 63);
+                n += 3
+            }
+        }
+        return t
+    }
+};
 

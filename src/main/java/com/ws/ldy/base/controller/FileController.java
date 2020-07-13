@@ -2,7 +2,7 @@ package com.ws.ldy.base.controller;
 
 import com.ws.ldy.common.result.Result;
 import com.ws.ldy.common.result.ResultEnum;
-import com.ws.ldy.common.utils.UUIDUtils;
+import com.ws.ldy.common.utils.UUIDUtil;
 import com.ws.ldy.config.error.ErrorException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -25,7 +25,7 @@ import java.nio.file.Paths;
  * @author peter 2018/10/20 21:32
  */
 @RestController
-@Api(value = "FileController", tags = "文件管理--项目部署服务")
+@Api(value = "FileController", tags = "文件管理--文件保存到项目部署目录")
 @RequestMapping("/file")
 public class FileController extends BaseController {
 
@@ -75,7 +75,7 @@ public class FileController extends BaseController {
             String path = baseUrl + "/" + FILE_PATH + filePath + fileName;
             return Result.success(path);
         } catch (Exception e) {
-            return Result.error(ResultEnum.SYS_ERROR.getCode(), "文件上传失败");
+            return Result.error(ResultEnum.SYS_ERROR_CODE_500.getCode(), "文件上传失败");
         }
     }
 
@@ -89,7 +89,7 @@ public class FileController extends BaseController {
      */
     public String getPath(String filePath, String fileName) {
         if (filePath.lastIndexOf("/") != filePath.length() - 1) {
-            throw new ErrorException(100000, "路径必须已[/]结尾");
+            throw new ErrorException(10002, "路径必须已[/]结尾");
         }
         // 目录开头
         String[] path = filePath.split("/");
@@ -98,28 +98,28 @@ public class FileController extends BaseController {
         if (UPLOAD_PATH_IMAGE.equals(path[0])) {
             // 图片
             if (!"jpg".equals(suffixName) && !"png".equals(suffixName)) {
-                throw new ErrorException(100001, "图片仅支持-[jpg,png]");
+                throw new ErrorException(10002, "图片仅支持-[jpg,png]");
             }
             //修改fileName的引用
-            fileName = UUIDUtils.creatUUID() + "-" + fileName;
+            fileName = UUIDUtil.creatUUID() + "-" + fileName;
             // filePath = filePath.replace(suffixName, "") + UUIDUtil.creatUUID() + "-";
         } else if (UPLOAD_PATH_MUSIC.equals(path[0])) {
             // 音乐
             if (!"mp3".equals(suffixName)) {
-                throw new ErrorException(100002, "音乐仅支持-[mp3]");
+                throw new ErrorException(10002, "音乐仅支持-[mp3]");
             }
         } else if (UPLOAD_PATH_VIDEO.equals(path[0])) {
             // 视频
             if (!"mp4".equals(suffixName)) {
-                throw new ErrorException(100003, "视频仅支持-[mp4]");
+                throw new ErrorException(10002, "视频仅支持-[mp4]");
             }
         } else if (UPLOAD_PATH_EXCEL.equals(path[0])) {
             //excel
             if (!"xlsx".equals(suffixName) && !"xls".equals(suffixName)) {
-                throw new ErrorException(100004, "EXCEL仅支持-[xlxs,xlx]");
+                throw new ErrorException(10002, "EXCEL仅支持-[xlxs,xlx]");
             }
         } else {
-            throw new ErrorException(100005, "路径错误");
+            throw new ErrorException(10002, "路径错误");
         }
         return fileName;
     }

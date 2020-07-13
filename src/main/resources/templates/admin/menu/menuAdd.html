@@ -66,16 +66,18 @@
             layui.use(['form'], function () {
                 // 监听提交
                 layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                    xijia_window_onbeforeunload();
+
                     data.field.pid = parent.data.id;   // 父id
                     data.field.root = parent.data.lv;  // 目录级别
                     let result = ajaxPost(path + "/menuAdmin/insert", data.field);
                     let index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                     parent.layer.msg(result.msg);
-                    //重载页面--不建议开启--建议使用手动刷新
-                    xijia_window_onbeforeunload();
-                    parent.window.location.reload();
-                    xijia_window_onload();
+                    // 重载页面 // parent.window.location.reload();
+                    xijia_window_onbeforeunload();  // 记录滚动条位置
+                    parent.xijiaRenderTable();
+                    xijia_window_onload();          // 还原滚动条位置
                 });
             });
         </script>

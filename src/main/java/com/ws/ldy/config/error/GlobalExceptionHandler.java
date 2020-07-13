@@ -77,7 +77,7 @@ public class GlobalExceptionHandler extends BaseController {
              * TODO 程序错误 - mapException 中所有异常类（打印及返回完整错误信息）
              */
             log.info(logStr + mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
-            return new Result(ResultEnum.SYS_ERROR, mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
+            return new Result(ResultEnum.SYS_ERROR_CODE_500, mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
         } else if (e instanceof ErrorException) {
             /**
              *  TODO 自定义异常()
@@ -115,7 +115,7 @@ public class GlobalExceptionHandler extends BaseController {
              * TODO  未解析到的错误（打印及返回完整错误信息）
              */
             log.info(logStr + e.getMessage() + errorDesc.toString());
-            return new Result(ResultEnum.SYS_ERROR, e.getMessage() + errorDesc.toString());
+            return new Result(ResultEnum.SYS_ERROR_CODE_500, e.getMessage() + errorDesc.toString());
         }
     }
 }

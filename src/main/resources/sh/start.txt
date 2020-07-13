@@ -7,3 +7,6 @@
 
 ### 实时运行日志
 tail -1000f /usr/local/work/xijia2/log.txt
+
+### 重启并打印输出
+/usr/local/work/xijia2/start.sh restart & tail -1000f /usr/local/work/xijia2/log.txt

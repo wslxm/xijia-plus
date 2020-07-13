@@ -130,7 +130,7 @@
                             {field: 'url', width: 300, edit: 'text', title: '路由'},
                             {field: 'sort', width: 100, edit: 'text', title: '排序'},
                             {
-                                field: 'state', width: 100, title: '禁/启用', templet: function (res) {
+                                field: 'state', width: 100, title: '禁用/启用', templet: function (res) {
                                     let menuId = res.id;
                                     if (res.state == 0) {
                                         return "   <input type='checkbox'  menuId = '" + menuId + "' lay-filter='state' lay-skin='switch' lay-text='启用|禁用' checked>"
@@ -217,10 +217,23 @@
                         data.lv = 3;  //表示添加页面
                         tipsWindown(page_add, "440px", "400px", "添加页面--" + data.name)
                     }
-                    // TODO  删除行
+                    // TODO  删除行(加子菜单)
                     if (obj.event === 'del') {
-                        let delData = "?id=" + data.id;
-                        tipsDeleteId(deletes + delData, obj)
+                       // tipsDeleteId(deletes + delData, obj);
+                        layer.msg('你确定要删除么？', {
+                            time: 0
+                            , btn: ['必须删', '不删了']
+                            , yes: function (index) {
+                                // 获得要删除菜单及所有子菜单
+                                let delData = "?id=" + data.id;
+                                let result = ajaxDelete(deletes + delData);
+                                // 重载页面 // parent.window.location.reload();
+                                xijia_window_onbeforeunload();  // 记录滚动条位置
+                                xijiaRenderTable();             // 重载数据
+                                xijia_window_onload();          // 还原滚动条位置
+                                layer.msg(result.msg);
+                            }
+                        });
                     }
                     // TODO 修改菜单名称
                     if (obj.event === 'upd') {

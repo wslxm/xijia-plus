@@ -5,7 +5,7 @@ import com.ws.ldy.admin.model.entity.AuthorityAdmin;
 import com.ws.ldy.admin.service.AuthorityAdminService;
 import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.base.service.impl.BaseIServiceImpl;
-import com.ws.ldy.common.utils.ClassUtils;
+import com.ws.ldy.common.utils.ClassUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMa
     @Transactional
     public void refreshAuthority() {
         // 扫描包，获得包下的所有类
-        List<Class<?>> classByPackageName = ClassUtils.getClasses(PACKAGE_NAME);
+        List<Class<?>> classByPackageName = ClassUtil.getClasses(PACKAGE_NAME);
 
         // 当前当前数据库已经存在的所有url权限列表--> key=url，value=对象，获取后移除Map中已取出，最后剩下的全部删除
         Map<String, AuthorityAdmin> authorityMap = new HashMap();

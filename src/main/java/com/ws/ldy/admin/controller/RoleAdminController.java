@@ -13,7 +13,7 @@ import com.ws.ldy.admin.service.RoleUserAdminService;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.utils.BeanDtoVoUtils;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -66,7 +66,7 @@ public class RoleAdminController extends BaseController<RoleAdminService> {
     @ApiOperation("查询所有")
     public Result<List<RoleAdminVo>> list() {
         List<RoleAdmin> roles = baseService.list();
-        return Result.successFind(BeanDtoVoUtils.listVo(roles, RoleAdminVo.class));
+        return Result.successFind(BeanDtoVoUtil.listVo(roles, RoleAdminVo.class));
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)

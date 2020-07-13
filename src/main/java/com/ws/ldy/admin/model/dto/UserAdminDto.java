@@ -22,10 +22,10 @@ public class UserAdminDto extends BaseAdminDto {
 
     @ApiModelProperty(value = "头像")
     private String head;
-    @ApiModelProperty(value = "昵称")
-    private String username;
     @ApiModelProperty(value = "账号")
-    private String account;
+    private String username;
+    @ApiModelProperty(value = "昵称")
+    private String fullName;
     @ApiModelProperty(value = "密码")
     private String password;
     @ApiModelProperty(value = "地址")
@@ -34,6 +34,6 @@ public class UserAdminDto extends BaseAdminDto {
     private Integer age;
     @ApiModelProperty(value = "性别（1男，2女）")
     private GenderEnum gender;
-    @ApiModelProperty(value = "部门id")
-    private Integer empId;
+    @ApiModelProperty(value = "是否禁用（0-否，1-是）")
+    private Integer state;
 }

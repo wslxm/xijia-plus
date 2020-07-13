@@ -6,7 +6,7 @@ import com.ws.ldy.admin.baseModel.BaseAdminEntity;
 import com.ws.ldy.base.enums.GenderEnum;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * TODO  用户
@@ -21,25 +21,26 @@ public class UserAdmin extends BaseAdminEntity {
 
     private static final long serialVersionUID = 4934650100711613453L;
 
-    /**
-     * 头像
-     */
-    private String head;
 
     /**
-     * 用户名
+     * 姓名/用户名
+     */
+    private String fullName;
+
+    /**
+     * 账号/手机号
      */
     private String username;
-
-    /**
-     * 账号
-     */
-    private String account;
 
     /**
      * 密码
      */
     private String password;
+
+    /**
+     * 头像
+     */
+    private String head;
 
     /**
      * 年龄
@@ -57,12 +58,16 @@ public class UserAdmin extends BaseAdminEntity {
     private String address;
 
     /**
-     * 部门
-     */
-    private Integer empId;
-
-    /**
      * 注册时间
      */
-    private Date time;
+    private LocalDateTime regTime;
+
+    /**
+     * 最后登录时间
+     */
+    private LocalDateTime entTime;
+    /**
+     * 是否禁用
+     */
+    private Integer state;
 }

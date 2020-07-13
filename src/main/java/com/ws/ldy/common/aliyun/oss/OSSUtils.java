@@ -35,9 +35,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-//@Order(999)
 public class OSSUtils {
-
 
     /**
      * endpoint是访问OSS的域名。如果您已经在OSS的控制台上 创建了Bucket，请在控制台上查看域名。
@@ -58,6 +56,7 @@ public class OSSUtils {
     // 阿里云下oss 的 accessKeyId和accessKeySecret(访问密钥，您可以在控制台上创建和查看)
     @Value("${aliyun.oss.accessKeyId}")
     private String accessKeyId;
+
     @Value("${aliyun.oss.accessKeySecret}")
     private String accessKeySecret;
 

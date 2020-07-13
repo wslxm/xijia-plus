@@ -11,15 +11,14 @@ import com.ws.ldy.admin.service.UserAdminService;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.user.AdminUserUtils;
-import com.ws.ldy.common.utils.BeanDtoVoUtils;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,11 +37,11 @@ public class UserAdminController extends BaseController<UserAdminService> {
     private RoleUserAdminService roleUserAdminService;
 
 
-    @RequestMapping(value = "/findUser", method = RequestMethod.GET)
-    @ApiOperation("当前登录用户信息")
-    public Result<UserAdminVo> findUser() {
-        return Result.successFind(AdminUserUtils.getUserAdmin().convert(UserAdminVo.class));
-    }
+//    @RequestMapping(value = "/findUser", method = RequestMethod.GET)
+//    @ApiOperation("当前登录用户信息")
+//    public Result<UserAdminVo> findUser() {
+//        return Result.successFind(AdminUserUtils.getUserAdmin().convert(UserAdminVo.class));
+//    }
 
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
@@ -53,20 +52,20 @@ public class UserAdminController extends BaseController<UserAdminService> {
     })
     public Result<IPage<UserAdminVo>> findPage(
             @ApiParam(value = "数据Id", required = false) @RequestParam(required = false) Integer id,
-            @ApiParam(value = "用户名", required = false) @RequestParam(required = false) String username,
-            @ApiParam(value = "账号", required = false) @RequestParam(required = false) String account) {
+            @ApiParam(value = "账号/手机号", required = false) @RequestParam(required = false) String username,
+            @ApiParam(value = "姓名/用户名", required = false) @RequestParam(required = false) String fullName) {
         Page<UserAdmin> page = baseService.page(this.getPage(), new LambdaQueryWrapper<UserAdmin>()
                 .orderByAsc(UserAdmin::getId)
                 .eq(id != null, UserAdmin::getId, id)
-                .eq(StringUtils.isNotBlank(account), UserAdmin::getAccount, account)
+                .eq(StringUtils.isNotBlank(fullName), UserAdmin::getUsername, fullName)
                 .like(StringUtils.isNotBlank(username), UserAdmin::getUsername, username)
         );
-        return Result.successFind(BeanDtoVoUtils.pageVo(page, UserAdminVo.class));
+        return Result.successFind(BeanDtoVoUtil.pageVo(page, UserAdminVo.class));
     }
 
 
     @RequestMapping(value = "/findRoleIdList", method = RequestMethod.GET)
-    @ApiOperation("查询指定角色下的所有用户")
+    @ApiOperation("查询指定角色下的所有用户(isChecked=true)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query"),
             @ApiImplicitParam(name = "username", value = "用户名", required = false, paramType = "query")
@@ -91,7 +90,8 @@ public class UserAdminController extends BaseController<UserAdminService> {
     @ApiOperation("添加")
     public Result<Void> insert(@RequestBody UserAdminDto userAdminDto) {
         UserAdmin userAdmin = userAdminDto.convert(UserAdmin.class);
-        userAdmin.setTime(new Date());
+        userAdmin.setState(0);//默认启用状态
+        userAdmin.setRegTime(LocalDateTime.now());
         baseService.save(userAdmin);
         return Result.successInsert();
     }
@@ -124,13 +124,14 @@ public class UserAdminController extends BaseController<UserAdminService> {
     @RequestMapping(value = "/updPwd", method = RequestMethod.PUT)
     @ApiOperation("密码修改")
     public Result<Void> updPwd(@RequestParam String oldPassword, @RequestParam String password) {
-        UserAdmin userAdmin = AdminUserUtils.getUserAdmin();
-        if (userAdmin.getPassword().equals(oldPassword)) {
-            userAdmin.setPassword(password);
-            baseService.updateById(userAdmin);
-            return Result.successUpdate();
-        } else {
-            return Result.error(500, "原密码错误");
-        }
+//        UserAdmin userAdmin = AdminUserUtils.getUserAdmin();
+//        if (userAdmin.getPassword().equals(oldPassword)) {
+//            userAdmin.setPassword(password);
+//            baseService.updateById(userAdmin);
+//            return Result.successUpdate();
+//        } else {
+//            return Result.error(500, "原密码错误");
+//        }
+        return null;
     }
 }

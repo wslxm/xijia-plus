@@ -4,7 +4,7 @@ import com.aliyun.oss.model.OSSObjectSummary;
 import com.ws.ldy.common.aliyun.oss.OSSUtils;
 import com.ws.ldy.common.result.Result;
 import com.ws.ldy.common.result.ResultEnum;
-import com.ws.ldy.common.utils.LocalDateTimeUtils;
+import com.ws.ldy.common.utils.LocalDateTimeUtil;
 import com.ws.ldy.config.error.ErrorException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,7 +26,7 @@ import java.util.List;
  * @author peter 2018/10/20 21:32
  */
 @RestController
-@Api(value = "FileOSSController", tags = "文件管理--阿里云OSS")
+@Api(value = "FileOSSController", tags = "文件管理--文件保存到阿里云OSS")
 @RequestMapping("/ossFile")
 public class FileOSSController extends BaseController {
 
@@ -34,7 +34,10 @@ public class FileOSSController extends BaseController {
     @Autowired
     private OSSUtils ossUtils;
 
-    // 文件内网访问域名(下载访问,上传)
+    /**
+     * 文件内网访问OSS域名(下载访问,上传)
+     * 此域名主要作用于返回的访问url拼接，以及下载时 url过滤获取到真正的oss地址路径
+     */
     private final String YM_PATH = "http://xijia.plus/"; //外网: xijia-sz.oss-cn-shenzhen.aliyuncs.com
 
     // 文件保存路径
@@ -43,14 +46,20 @@ public class FileOSSController extends BaseController {
     // 文件保存路径地址
     private final static String UPLOAD_PATH_IMAGE = "image";  //  oss/file/image
     private final static String UPLOAD_PATH_MUSIC = "music";  //  oss/file/music
-    private final static String UPLOAD_PATH_VIDEO = "video";
-    private final static String UPLOAD_PATH_EXCEL = "excel";
+    private final static String UPLOAD_PATH_VIDEO = "video";  //  oss/file/video
+    private final static String UPLOAD_PATH_EXCEL = "excel";  //  oss/file/excel
 
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST) //consumes = "multipart/*", headers = "content-type=multipart/form-data"
     @ApiOperation("OSS-文件上传,返回完整可访问当前服务内网访问OSS的完整URL")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "filePath", value = "文件路径,必须指定开头目录(image/ -图片, music/ -音乐,video/ -视频,excel/ -表格)", required = true)
+            @ApiImplicitParam(name = "filePath", value = "文件路径,必须指定开头目录(" + "\r\n" +
+                    "图片=image/" + "\r\n" +
+                    "头像=image/head" + "\r\n" +
+                    "音乐=music/" + "\r\n" +
+                    "视频=video/" + "\r\n" +
+                    "表格=excel/" + "\r\n" +
+                    ")", required = true)
     })
     public Result<String> uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("filePath") String filePath) {
         // 验证文件格式及路径，并获取文件上传路径, file.getOriginalFilename()=原文件名
@@ -64,7 +73,7 @@ public class FileOSSController extends BaseController {
             // 返回内网访问地址（域名+ oss存储路径）
             return Result.success(YM_PATH + path);
         } catch (Exception e) {
-            return Result.error(ResultEnum.SYS_ERROR.getCode(), "文件上传失败");
+            return Result.error(ResultEnum.SYS_ERROR_CODE_500.getCode(), "文件上传失败");
         }
     }
 
@@ -107,7 +116,7 @@ public class FileOSSController extends BaseController {
             outputStream.close();
         } catch (IOException ex) {
             ex.printStackTrace();
-            throw new ErrorException(ResultEnum.SYS_ERROR.getCode(), "文件下载失败");
+            throw new ErrorException(ResultEnum.SYS_ERROR_CODE_500.getCode(), "文件下载失败");
         }
     }
 
@@ -146,37 +155,37 @@ public class FileOSSController extends BaseController {
      */
     private String getPath(String filePath, String fileName) {
         if (filePath.lastIndexOf("/") != filePath.length() - 1) {
-            throw new ErrorException(100000, "路径必须已[/]结尾");
+            throw new ErrorException(10002, "路径必须已[/]结尾");
         }
         // 目录开头
-        String[] path = filePath.split("/");
+        String path = filePath.split("/")[0];
         // 后缀名
         String suffixName = fileName.substring(fileName.indexOf(".") + 1, fileName.length());
-        if (UPLOAD_PATH_IMAGE.equals(path[0])) {
+        if (UPLOAD_PATH_IMAGE.equals(path)) {
             // 图片
             if (!"jpg".equals(suffixName) && !"png".equals(suffixName)) {
-                throw new ErrorException(100001, "图片仅支持上传-[jpg,png]");
+                throw new ErrorException(10002, "图片仅支持上传-[jpg,png]");
             }
             //修改fileName的引用,提交17位时间+3位随机数(20前缀)
-            fileName = LocalDateTimeUtils.getTimeStr20() + "-" + fileName;
+            fileName = LocalDateTimeUtil.getTimeStr20() + "-" + fileName;
             // filePath = filePath.replace(suffixName, "") + UUIDUtil.creatUUID() + "-";
-        } else if (UPLOAD_PATH_MUSIC.equals(path[0])) {
+        } else if (UPLOAD_PATH_MUSIC.equals(path)){
             // 音乐
             if (!"mp3".equals(suffixName)) {
-                throw new ErrorException(100002, "音乐仅支持上传-[mp3]");
+                throw new ErrorException(10002, "音乐仅支持上传-[mp3]");
             }
-        } else if (UPLOAD_PATH_VIDEO.equals(path[0])) {
+        } else if (UPLOAD_PATH_VIDEO.equals(path)) {
             // 视频
             if (!"mp4".equals(suffixName)) {
-                throw new ErrorException(100003, "视频仅支持上传-[mp4]");
+                throw new ErrorException(10002, "视频仅支持上传-[mp4]");
             }
-        } else if (UPLOAD_PATH_EXCEL.equals(path[0])) {
+        } else if (UPLOAD_PATH_EXCEL.equals(path)) {
             //excel
             if (!"xlsx".equals(suffixName) && !"xls".equals(suffixName)) {
-                throw new ErrorException(100004, "EXCEL仅支持上传-[xlxs,xlx]");
+                throw new ErrorException(10002, "EXCEL仅支持上传-[xlxs,xlx]");
             }
         } else {
-            throw new ErrorException(100005, "路径错误");
+            throw new ErrorException(10002, "路径错误");
         }
         return fileName;
     }

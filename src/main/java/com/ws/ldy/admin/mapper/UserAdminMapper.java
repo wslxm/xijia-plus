@@ -14,6 +14,6 @@ public interface UserAdminMapper extends BaseMapper<UserAdmin> {
      * @return com.ws.ldy.adminconsole.entity.UserAdmin
      * @date 2019/11/18 10:29
      */
-    @Select(value = "select * from t_admin_user where account=${account}")
+    @Select(value = "select * from t_admin_user where account=#{account}")
     public UserAdmin findByAccount(@Param("account") String account);
 }

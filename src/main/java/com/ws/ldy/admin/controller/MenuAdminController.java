@@ -4,15 +4,13 @@ package com.ws.ldy.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ws.ldy.admin.model.dto.MenuAdminDto;
 import com.ws.ldy.admin.model.entity.MenuAdmin;
-import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.admin.model.vo.MenuAdminVo;
 import com.ws.ldy.admin.service.MenuAdminService;
 import com.ws.ldy.base.controller.BaseController;
 import com.ws.ldy.base.enums.BaseConstant;
 import com.ws.ldy.common.result.Result;
 import com.ws.ldy.common.result.ResultEnum;
-import com.ws.ldy.common.user.AdminUserUtils;
-import com.ws.ldy.common.utils.BeanDtoVoUtils;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.error.ErrorException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -36,27 +34,11 @@ import java.util.List;
 public class MenuAdminController extends BaseController<MenuAdminService> {
 
 
-//    @RequestMapping(value = "/test", method = RequestMethod.POST)
-//    @ApiOperation("测试")
-//    public String test(@RequestParam MenuRootEnum rootEnum) {
-//        System.out.println(rootEnum);
-//        return "1";
-//    }
-//
-//    @RequestMapping(value = "/test1", method = RequestMethod.POST)
-//    @ApiOperation("测试1")
-//    public String test1(@RequestBody MenuAdminDto menuAdminDto) {
-//        System.out.println(menuAdminDto.getRoot());
-//        return "1";
-//    }
-
     @RequestMapping(value = "/menuTree", method = RequestMethod.GET)
     @ApiOperation("左导航菜单 ===>>> 树结构数据 ===>>> 需先登录")
     public Result<List<MenuAdminVo>> menuTree() {
-        //当前登录用户信息
-        UserAdmin userAdmin = AdminUserUtils.getUserAdmin();
         //获取菜单
-        List<MenuAdminVo> menuTree = baseService.getMenuTree(userAdmin);
+        List<MenuAdminVo> menuTree = baseService.getMenuTree();
         return Result.successFind(menuTree);
     }
 
@@ -64,8 +46,11 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ApiOperation("菜单列表 ==>>>  列表数据  ==>>>  所有")
     public Result<List<MenuAdminVo>> list() {
-        List<MenuAdmin> menus = baseService.list(new LambdaQueryWrapper<MenuAdmin>().orderByAsc(MenuAdmin::getSort));
-        return Result.successFind(BeanDtoVoUtils.listVo(menus, MenuAdminVo.class));
+        List<MenuAdmin> menus = baseService.list(new LambdaQueryWrapper<MenuAdmin>()
+                .orderByAsc(MenuAdmin::getSort)
+                .orderByAsc(MenuAdmin::getId)
+        );
+        return Result.successFind(BeanDtoVoUtil.listVo(menus, MenuAdminVo.class));
     }
 
     /**
@@ -80,7 +65,7 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
     })
     public Result<List<MenuAdminVo>> findPidOrRoleIdList(Integer id, Integer roleId) {
         List<MenuAdminVo> menus = baseService.findIdOrRoleIdList(id, roleId);
-        return Result.successFind(BeanDtoVoUtils.listVo(menus, MenuAdminVo.class));
+        return Result.successFind(BeanDtoVoUtil.listVo(menus, MenuAdminVo.class));
     }
 
 

@@ -1,6 +1,13 @@
 package com.ws.ldy.common.utils;
 
+/***
+ * TODO  System.out.println 输出颜色
+ * @author 王松
+ * @mail 1720696548@qq.com
+ * @date 2020/7/7 0007 9:00
+ */
 public class ConsoleColors {
+
     // Reset
     public static final String RESET = "\033[0m";  // Text Reset
 
@@ -123,6 +130,7 @@ public class ConsoleColors {
                 "                             #                   ##                "
                 + ConsoleColors.RESET);
     }
+
     /**
      * TODO 启动成功-紫色
      */

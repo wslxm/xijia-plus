@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <meta charset="utf-8">
+    <title>兮家后台管理系统</title>
+    <link rel="icon" href="../../pic/icon/xijia.png" type="image/x-icon">  <!--在网页标题左侧显示图标-->
+    <link rel="shortcut icon" href="../../pic/icon/xijia.png" type="image/x-icon"> <!-- 在收藏夹显示图标-->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" th:href="@{/layuiadmin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/layuiadmin/style/admin.css}" media="all">
+    <script th:src="@{/layuiadmin/layui/layui.js}"></script>
+    <script language=javascript th:src='@{/js/jquery-3.4.1.js}'></script>
+    <script th:src="@{/js/admin/xj-admin.js}"></script>
+    <script th:src="@{/js/app.js}"></script>
+
+    <script>
+        /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
+    </script>
+</head>
+<style>
+    .circleImg {
+        border-radius: 30px;
+        width: 40px;
+        height: 40px;
+    }
+</style>
+
+<body class="layui-layout-body">
+<div id="LAY_app">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+
+            <!-- 头部区域 -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item layadmin-flexible" lay-unselect>
+                    <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                        <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                    </a>
+                </li>
+                <!-- 系统级菜单 -->
+                <ui id="menuRoot1">
+                    <!--                 <li class="layui-nav-item" onclick="menuRoot1Click(0)"><a href="JavaScript:void(0)">系统管理</a></li>-->
+                </ui>
+                <!--<li class="layui-nav-item"><a id="viewsUrl" href="/views/xj-index.html">模版查看</a></li>-->
+                <!--                <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+                <!--                    <a href="http://www.layui.com/admin/" target="_blank" title="前台">-->
+                <!--                        <i class="layui-icon layui-icon-website"></i>-->
+                <!--                    </a>-->
+                <!--                </li>-->
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:;" layadmin-event="refresh" title="刷新">
+                        <i class="layui-icon layui-icon-refresh-3"></i>
+                    </a>
+                </li>
+                <!--                <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+                <!--                    <input type="text" placeholder="搜索..." autocompvare="off" class="layui-input layui-input-search"-->
+                <!--                           layadmin-event="serach" lay-action="template/search.html?keywords=">-->
+                <!--                </li>-->
+            </ul>
+            <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+
+                <!-- 新消息 -->
+                <!--                <li class="layui-nav-item" lay-unselect>-->
+                <!--                    <a lay-href="xj-index.html" layadmin-event="message" lay-text="消息中心">-->
+                <!--                        <i class="layui-icon layui-icon-notice"></i>-->
+                <!--                        &lt;!&ndash; 如果有新消息，则显示小圆点 &ndash;&gt;-->
+                <!--                        <span class="layui-badge-dot"></span>-->
+                <!--                    </a>-->
+                <!--                </li>-->
+
+                <!--  便签 -->
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="javascript:;" layadmin-event="note">
+                        <i class="layui-icon layui-icon-note"></i>
+                    </a>
+                </li>
+                <!-- 全屏 -->
+                <!-- <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="fullscreen">
+                            <i class="layui-icon layui-icon-screen-full"></i>
+                        </a>
+                  </li>-->
+
+                <!-- 配色方案 -->
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="javascript:;" layadmin-event="theme">
+                        <i class="layui-icon layui-icon-theme"></i>
+                    </a>
+                </li>
+
+                <!-- 头像 -->
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <img id="head" class="circleImg" src="../../static/pic/ecy/15.jpg"/>
+                </li>
+
+
+                <!-- 下拉操作 -->
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:;">
+                        <!--  用户名称 -->
+                        <cite id="username"></cite>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a id="updPwd" lay-href="">修改密码</a></dd>
+                        <hr><!--id="logout"-->
+                        <dd><a style="text-align: center;" onclick="adminLogout()">退出</a></dd>
+                    </dl>
+                </li>
+
+                <!-- 版权信息 -->
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="javascript:;" layadmin-event="about">
+                        <i class="layui-icon layui-icon-more-vertical"></i>
+                    </a>
+                </li>
+
+                <!-- 弹出右边测试菜单 -->
+                <!--                <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+                <!--                    <a href="javascript:;" layadmin-event="test">-->
+                <!--                        <i class="layui-icon ">右弹出</i>-->
+                <!--                    </a>-->
+                <!--                </li>-->
+
+                <!-- 弹出更多 -->
+                <!--                <li class="layui-nav-item" lay-unselect>-->
+                <!--                    <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical">-->
+                <!--                        &lt;!&ndash;更多&ndash;&gt;</i></a>-->
+                <!--                </li>-->
+            </ul>
+        </div>
+
+        <!-- 侧边菜单 -->
+        <div class="layui-side layui-side-menu">
+            <div class="layui-side-scroll">
+                <div class="layui-logo" lay-href="home/console.html">
+                    <span class="xijia-logo-title">spring-boot-plus2</span>
+                </div>
+                <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
+                    lay-filter="layadmin-system-side-menu">
+                    <!-- 动态菜单 -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- 页面标签 -->
+        <div class="layadmin-pagetabs" id="LAY_app_tabs">
+            <div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
+            <div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
+            <div class="layui-icon layadmin-tabs-control layui-icon-down">
+                <ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
+                    <li class="layui-nav-item" lay-unselect>
+                        <a href="javascript:;"></a>
+                        <dl class="layui-nav-child layui-anim-fadein">
+                            <dd layadmin-event="closeThisTabs"><a href="javascript:;">关闭当前标签页</a></dd>
+                            <dd layadmin-event="closeOtherTabs"><a href="javascript:;">关闭其它标签页</a></dd>
+                            <dd layadmin-event="closeAllTabs"><a href="javascript:;">关闭全部标签页</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+            <!-- 点击菜单后的监听 -->
+            <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
+                <ul class="layui-tab-title" id="LAY_app_tabsheader">
+                    <!-- 没什么用，但不能删，给菜单项赋值  -->
+                    <li lay-id="home/console.html" lay-attr="home/console.html" class="layui-this"><i
+                            class="layui-icon layui-icon-home"></i></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- 主体内容 -->
+        <div class="layui-body" id="LAY_app_body">
+            <div class="layadmin-tabsbody-item layui-show"><!--src="front/symbol/main.html"-->
+                <iframe id="homePage" frameborder="0" class="layadmin-iframe"></iframe>
+            </div>
+        </div>
+
+        <!-- 辅助元素，一般用于移动设备下遮罩 -->
+        <div class="layadmin-body-shade" layadmin-event="shade"></div>
+    </div>
+</div>
+
+
+<script>
+    let dataJson = null;
+    //  let viewsUrl = "/views/index.html";          // 模板首页url
+    let menuTree = "/menuAdmin/menuTree";            // 树菜单数据
+    let homePage = "/page/admin_user_user";          // 进入系统首页url, /page/console_user_user  / /page/front_show_show
+    let updPwd = "/page/admin_user_userUpdPwd";      // 修改密码页面
+
+    $(function () {
+        dataJson = ajaxGet(menuTree).data;
+        //左边导航默认系统管理
+        treeMenu(0);
+        //顶部系统级菜单加载
+        menuRoot1();
+
+        //url赋值
+        // $("#viewsUrl").attr("href", viewsUrl);
+        //首页
+        $("#homePage").attr("src", homePage);
+        //修改密码页
+        $("#updPwd").attr("lay-href", updPwd);
+
+        // 获取用户信息
+        let userStr = Base64.decode(sessionStorage.getItem('token').split(".")[1]);
+        userStr = userStr.replace(/[\u0000-\u0019]+/g,"");
+        let userData =  JSON.parse(userStr);
+        // 用户名
+        $("#username").html(userData.fullName);
+        // 头像
+        $("#head").attr("src", userData.head);
+    });
+
+
+
+    layui.config({
+        base: '../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index',//主入口模块
+        treetable: '../treetable-lay/module/treetable-lay/treetable'  //引入treetable组件
+    }).use('index', function () {
+
+    });
+</script>
+</body>
+</html>
+
+

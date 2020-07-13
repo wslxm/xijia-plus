@@ -2,8 +2,8 @@ package com.ws.ldy.common.generate;
 
 
 import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.common.utils.JsonUtils;
-import com.ws.ldy.common.utils.LocalDateTimeUtils;
+import com.ws.ldy.common.utils.JsonUtil;
+import com.ws.ldy.common.utils.LocalDateTimeUtil;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -32,8 +32,8 @@ public class GenerateUtil extends BaseController {
     public static List<Map<String, Object>> getDataAnalysis(String data) {
         //所有字段数据处理成 List集 -->  每个字段名称，类型，描叙为 Map集
         List<Map<String, Object>> tableList = new ArrayList<>();
-        List<Object> dataObjs = JsonUtils.parseList(data, null);
-        dataObjs.forEach(item -> tableList.add(JsonUtils.parseMap(item.toString())));
+        List<Object> dataObjs = JsonUtil.parseList(data, null);
+        dataObjs.forEach(item -> tableList.add(JsonUtil.parseMap(item.toString())));
         //System.out.println(tableList.toString());
         return tableList;
     }
@@ -203,7 +203,7 @@ public class GenerateUtil extends BaseController {
                         .replace("{author}", "@author  " + GenerateConfig.AUTHOR)
                         .replace("{email}", "@email  " + GenerateConfig.EMAIL)
                         .replace("{describe}", GenerateConfig.DESCRIBE)
-                        .replace("{date}", "@date  " + LocalDateTimeUtils.parse(LocalDateTimeUtils.now()))
+                        .replace("{date}", "@date  " + LocalDateTimeUtil.parse(LocalDateTimeUtil.now()))
                         //原始数据
                         .replace("{tableName}", FieldCG.TABLE_NAME) //表名
                         .replace("{tableNameUp}", FieldCG.TABLE_NAME_UP)//表名大写开头驼峰

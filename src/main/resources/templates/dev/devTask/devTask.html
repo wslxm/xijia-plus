@@ -17,34 +17,64 @@
 <body>
 <style>
     .layui-inline {
-        width: 260px;
+        width: 210px;
+    }
+    .layui-input-block{
+        width: 140px;
     }
 </style>
 <!-- 搜索 -->
-<div class="searchTable">
+<div class="searchTable layui-form">
+
+    <div class="layui-inline">
+        <label class="layui-form-label">项目:</label>
+        <div class="layui-input-block">
+            <select id="item" name="item">
+                <option value="" selected="">所有</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-inline">
+        <label class="layui-form-label">执行人:</label>
+        <div class="layui-input-block">
+            <select id="taskUserId" name="taskUserId">
+                <option value="" selected="">所有</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">状态:</label>
+        <div class="layui-input-block">
+            <select id="state" name="state">
+                <option value="" selected="">所有</option>
+                <option value="0">未开始</option>
+                <option value="1">正在进行</option>
+                <option value="2">已完成</option>
+                <option value="3">已撤销</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">类型:</label>
+        <div class="layui-input-block">
+            <select id="type" name="type">
+                <option value="" selected="">所有</option>
+                <option value="1">管理端</option>
+                <option value="2">用户端</option>
+                <option value="3">app端</option>
+            </select>
+        </div>
+    </div>
     <div class="layui-inline">
         <label class="layui-form-label">任务名:</label>
         <div class="layui-input-block">
             <input type="text" id="name" name="name" placeholder="请输入任务名..." autocomplete="off" class="layui-input">
         </div>
     </div>
-    <div class="layui-inline">
-        <label class="layui-form-label">任务类型:</label>
-        <div class="layui-input-block">
-            <input type="text" id="type" name="type" placeholder="请输入任务类型(1-管理端 2-用户端 3-app端)..." autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-inline">
-        <label class="layui-form-label">任务状态:</label>
-        <div class="layui-input-block">
-            <input type="text" id="state" name="state" placeholder="请输入任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销)..." autocomplete="off" class="layui-input">
-        </div>
-    </div>
-
-
     <!-- <button class="layui-btn layui-btn-normal layui-btn-sm" data-type="reload">搜索</button>-->
     <div class="layui-inline">
-        <button class="layui-btn layui-btn-normal layui-btn-sm" data-type="reload" style="margin-bottom: 8px">
+        <button class="layui-btn layui-btn-normal layui-btn-sm" data-type="reload" style="margin-bottom: 8px;margin-left: 20%">
             <i class="layui-icon layui-icon-search  layuiadmin-button-btn"></i>
         </button>
     </div>
@@ -61,16 +91,36 @@
 </script>
 <!-- 每一行的数据修改或删除  -->
 <script type="text/html" id="barDemo">
+    {{#  if(d.state ==0){ }}
+    <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="startTask">开始</a>
     <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {{# }if(d.state ==1) { }}
+    <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="entTask">完成</a>
+    <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="rollback">取消开始</a>
+    {{# }if(d.state ==2) { }}
+    <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="undo">撤销</a>
+    {{# }if(d.state ==3) { }}
+    <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="startTask">开始</a>
+    <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {{#  } }}
 </script>
 <script>
 
     let find_page = path + "/dev/devTask/findPage";       //角色查询-分页
     let del = path + "/dev/devTask/del";                  //角色删除
+    let updState = path + "/dev/devTask/updState";             //编辑状态
     //
     let page_add = path + "/page/dev_devTask_devTaskAdd";   //角色添加弹出
     let page_upd = path + "/page/dev_devTask_devTaskUpd";   //角色编辑弹出
+
+
+    let dev_user_list = "/userAdmin/findRoleIdList?roleId=2";    // 查询开发人员(角色)（注意数据库参数是否正确）
+    let item_list = "/dictionaryAdmin/findCode?code=item";      // 查询字典项目列表（注意数据库参数是否正确）
+    let usersData = ajaxGet(dev_user_list);
+    let itemsData = ajaxGet(item_list);
+
 
     let table;     // 数据表格组件
     let laypage;   // 分页组件
@@ -85,7 +135,6 @@
         xijiaEventTool();          //  监听数据表格内按钮操作（编辑,删除等）
         xijiaEventSearch();        //  监听条件搜索
     });
-
 
     /**
      * TODO 重载表格和加载表格
@@ -114,15 +163,44 @@
                           {field: 'deleted', title: '逻辑删除（0：正常  1：删除）'},
                           {field: 'createUserId', title: '创建人id (保留)'},
                           {field: 'taskUserId', title: '指派给id（保留）'},*/
-                    {field: 'name', title: '名称'},
-                    {field: 'content', title: '内容'},
-                    {field: 'type', title: '任务类型'},/*(1-管理端 2-用户端 3-app端)*/
-                    {field: 'state', title: '任务状态'},/*(0-未开始 1-正在进行 2-已完成 3-已撤销)*/
-                    {field: 'plannedTime', title: '计划时间'},
-                    {field: 'entTime', title: '完成时间'},
-                    {field: 'estimateTime', title: '预计耗时S'},
-                    {field: 'takeUpTime', title: '实际耗时S'}
-                    , {title: '操作', toolbar: '#barDemo', width: 250}
+                    {field: 'id', title: '任务ID', width: 75},
+
+                    {
+                        field: 'itemName', title: '项目名', width: 120, templet: function (res) {
+                            for (let i = 0; i < itemsData.data.dictList.length; i++) {
+                                if (res.item === itemsData.data.dictList[i].code) {
+                                    return itemsData.data.dictList[i].name;
+                                }
+                            }
+                        }
+                    },
+                    {
+                        field: 'type', title: '类型', width: 100, templet: function (res) {
+                            return res.type === 1 ? '管理端' : res.type === 2 ? '用户端' : res.type === 3 ? 'app端' : '未知';
+                        }
+                    },
+                    {
+                        field: 'taskUserName', title: '指派人', width: 100, templet: function (res) {
+                            for (let i = 0; i < usersData.data.length; i++) {
+                                if (res.taskUserId === usersData.data[i].id) {
+                                    return usersData.data[i].fullName;
+                                }
+                            }
+                        }
+                    },
+                    {field: 'name', title: '任务名称', width: 160},
+                    {field: 'content', title: '任务内容'},
+
+                    {
+                        field: 'state', title: '任务状态', width: 100, templet: function (res) {
+                            return res.state === 0 ? '未开始' : res.state === 1 ? '正在进行' : res.state === 2 ? '已完成' : res.state === 3 ? '已撤销' : '未知';
+                        }
+                    },
+                    {field: 'plannedTime', title: '计划时间', width: 120},
+                    {field: 'entTime', title: '完成时间', width: 120},
+                    // {field: 'estimateTime', title: '预耗时S', width: 90},
+                    // {field: 'takeUpTime', title: '耗时S', width: 80}
+                     {title: '操作', toolbar: '#barDemo', width: 250}
                 ]
             ]
         });
@@ -175,7 +253,7 @@
         table.on('toolbar(auth-table)', function (obj) {
             //添加
             if (obj.event === "add") {
-                tipsWindown(page_add, "600px", "400px", "添加");
+                tipsWindown(page_add, "640px", "580px", "添加");
             }
         });
     }
@@ -191,14 +269,48 @@
     function xijiaEventTool() {
         table.on('tool(auth-table)', function (obj) {
             data = obj.data;  //当前行数据
-            //编辑
+            // 编辑
             if (obj.event === 'edit') {
-                tipsWindown(page_upd, "600px", "400px", "修改");
+                tipsWindown(page_upd, "640px", "580px", "修改");
             }
-            //删除
+            // 删除
             if (obj.event === 'del') {
                 let params = "?id=" + data.id;
                 tipsDeleteId(del + params, obj);
+            }
+            // 开始
+            if (obj.event === 'startTask') {
+                let params = "?id=" + data.id;
+                params += "&state=" + 1;
+                ajaxPut(updState + params);
+                // 刷新表格
+                refresh();
+            }
+
+            // 完成
+            if (obj.event === 'entTask') {
+                let params = "?id=" + data.id;
+                params += "&state=" + 2;
+                ajaxPut(updState + params);
+                // 刷新表格
+                refresh();
+            }
+
+            // 取消开始
+            if (obj.event === 'rollback') {
+                let params = "?id=" + data.id;
+                params += "&state=" + 0;
+                ajaxPut(updState + params);
+                // 刷新表格
+                refresh();
+            }
+            // 撤销
+            if (obj.event === 'undo') {
+                let params = "?id=" + data.id;
+                params += "&state=" + 3;
+                ajaxPut(updState + params);
+                // 刷新表格
+                refresh();
             }
         });
     }
@@ -215,15 +327,8 @@
         let $ = layui.$, active = {
             //搜索
             reload: function () {
-                let params = "";
-                params += "&name=" + $("#name").val();
-                params += "&type=" + $("#type").val();
-                params += "&state=" + $("#state").val();
-
-                // 数据表格 - 获取表格
-                xijiaRenderTable(params);
-                // 刷新分页插件数据
-                xijiaLayPage();
+                refresh();
+                //layer.msg("查询成功");
             }
         };
         $('.searchTable .layui-btn').on('click', function () {
@@ -231,6 +336,53 @@
             active[type] ? active[type].call(this) : '';
         });
     }
+
+
+    /**
+     * 刷新数据表格
+     */
+    function refresh() {
+        let params = "";
+        params += "&name=" + $("#name").val();
+        params += "&type=" + $("#type").val();
+        params += "&state=" + $("#state").val();
+        params += "&item=" + $("#item").val();
+        params += "&taskUserId=" + $("#taskUserId").val();
+
+        // 数据表格 - 获取表格
+        xijiaRenderTable(params);
+        // 刷新分页插件数据
+        xijiaLayPage();
+    }
+
+
+    //初始化数据
+    $(function () {
+        //开发人员
+        let userListHtml = "<option value=\"\" selected=\"\">所有</option>";
+
+        for (let i = 0; i < usersData.data.length; i++) {
+            if (usersData.data[i].isChecked) {
+                if (userListHtml == null) {
+                    userListHtml += "<option value='" + usersData.data[i].id + "' selected=''>" + usersData.data[i].fullName + "</option>"
+                } else {
+                    userListHtml += "<option value='" + usersData.data[i].id + "' >" + usersData.data[i].fullName + "</option>"
+                }
+            }
+        }
+        //项目
+        let itemListHtml = "<option value=\"\" selected=\"\">所有</option>";
+
+        for (let i = 0; i < itemsData.data.dictList.length; i++) {
+            if (i === 0) {
+                itemListHtml += "<option value='" + itemsData.data.dictList[i].code + "' selected=''>" + itemsData.data.dictList[i].name + "</option>"
+            } else {
+                itemListHtml += "<option value='" + itemsData.data.dictList[i].code + "' >" + itemsData.data.dictList[i].name + "</option>"
+            }
+        }
+        $("#taskUserId").html(userListHtml);
+        $("#item").html(itemListHtml)
+    });
 </script>
 </body>
 </html>

@@ -33,16 +33,9 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">用户名</label>
-        <div class="layui-input-inline">
-            <input type="text" id="username" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
-                   class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
         <label class="layui-form-label">账号</label>
         <div class="layui-input-inline">
-            <input type="text" id="account" name="account" lay-verify="required" placeholder="请输入" autocomplete="off"
+            <input type="text" id="username" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
                    class="layui-input">
         </div>
     </div>
@@ -53,7 +46,22 @@
                    class="layui-input">
         </div>
     </div>
-
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-inline">
+            <input type="text" id="fullName" name="fullName" lay-verify="required" placeholder="请输入" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-inline">
+            <select id="gender" name="gender" lay-verify="" lay-filter="gender">
+                <option value="1" selected>男</option>
+                <option value="0">女</option>
+            </select>
+        </div>
+    </div>
     <div class="layui-form-item">
         <label class="layui-form-label">年龄</label>
         <div class="layui-input-inline">
@@ -61,25 +69,6 @@
                    class="layui-input">
         </div>
     </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">性别</label>
-        <div class="layui-input-inline">
-            <select name="city" lay-verify="" lay-filter="gender">
-                <option value="1" selected>男</option>
-                <option value="0">女</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">部门</label>
-        <div class="layui-input-inline">
-            <input type="text" id="empId" name="empId" lay-verify="required" placeholder="请输入" autocomplete="off"
-                   class="layui-input">
-        </div>
-    </div>
-
     <div class="layui-form-item">
         <label class="layui-form-label">地址</label>
         <div class="layui-input-inline">
@@ -114,7 +103,7 @@
         //文件上传--设定文件大小限制
         layui.upload.render({
             elem: '#test7'
-            , url: '/file/upload?filePath=image/' //改成您自己的上传接口
+            , url: '/ossFile/upload?filePath=image/head/' //改成您自己的上传接口
             , size: 200 //限制文件大小，单位 KB
             , done: function (res) {
                 //如果上传失败

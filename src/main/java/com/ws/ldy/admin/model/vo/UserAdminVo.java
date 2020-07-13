@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * TODO  用户
@@ -24,10 +24,10 @@ public class UserAdminVo extends BaseAdminVo {
 
     @ApiModelProperty(value = "头像")
     private String head;
-    @ApiModelProperty(value = "昵称")
-    private String username;
     @ApiModelProperty(value = "账号")
-    private String account;
+    private String username;
+    @ApiModelProperty(value = "昵称")
+    private String fullName;
     //    @ApiModelProperty(value = "密码")
 //    private String password;
     @ApiModelProperty(value = "地址")
@@ -36,10 +36,14 @@ public class UserAdminVo extends BaseAdminVo {
     private Integer age;
     @ApiModelProperty(value = "性别（1男，0女）")
     private GenderEnum gender;
-    @ApiModelProperty(value = "部门id")
-    private Integer empId;
+    @ApiModelProperty(value = "是否禁用")
+    private Integer state;
     @ApiModelProperty(value = "注册时间")
-    private Date time;
+    private LocalDateTime regTime;
+    @ApiModelProperty(value = "最后登录时间")
+    private LocalDateTime entTime;
     @ApiModelProperty(value = "是否选中（角色是否有改用户，前台复选框默认选中需要值）")
     private Boolean isChecked;
+
+
 }

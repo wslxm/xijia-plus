@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 
 /**
  * TODO  字典表
@@ -33,5 +35,8 @@ public class DictionaryAdminVo extends BaseAdminVo {
 
     @ApiModelProperty(value = "排序")
     private Integer sort;
+
+    @ApiModelProperty(value = "子级")
+    List<DictionaryAdminVo> dictList;
 }
 

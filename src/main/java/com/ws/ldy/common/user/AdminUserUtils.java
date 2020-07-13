@@ -1,24 +1,22 @@
 package com.ws.ldy.common.user;
 
-import com.ws.ldy.admin.model.entity.UserAdmin;
 import com.ws.ldy.common.result.ResultEnum;
 import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.common.utils.auth.JwtUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * 查询系统相关的用户信息
  */
 @Component
 public class AdminUserUtils {
-    /**
-     * 管理端用户key前缀
-     */
-    public final static String ADMIN = "admin-";
-
 
     private static HttpServletRequest request;
     private static HttpSession session;
@@ -44,39 +42,45 @@ public class AdminUserUtils {
      * @date 2020/6/20 0020 16:56
      */
     public static String getToken() {
-        String token = request.getHeader(AdminUserUtils.ADMIN + "token");
+        String token = request.getHeader("token");
+        if (StringUtils.isBlank(token) && !"null".equals(token)) {
+            //没有登录
+            throw new ErrorException(ResultEnum.ADMIN_IS_NO_LOGIN);
+        }
         return token;
     }
 
     /**
-     * TODO   获取系统用户完整数据
+     * TODO   获取系统用户Id
      *
      * @return com.ws.ldy.admin.model.entity.UserAdmin
      * @date 2020/6/20 0020 16:55
      */
-    public static UserAdmin getUserAdmin() {
-        String token = request.getHeader("token");
-        UserAdmin userAdmin = (UserAdmin) session.getAttribute(AdminUserUtils.ADMIN + token);
+    public static Integer getUserId() {
         // 判断用户是否登录
-        if (userAdmin == null) {
-            throw new ErrorException(ResultEnum.ADMIN_IS_NO_LOGIN);
-        }
-        return userAdmin;
+        return Integer.parseInt(JwtUtil.getUserId(getToken()));
+    }
+
+
+    /**
+     * TODO   获取系统用户名
+     *
+     * @return com.ws.ldy.admin.model.entity.UserAdmin
+     * @date 2020/6/20 0020 16:55
+     */
+    public static String getUsername() {
+        // 判断用户是否登录
+        return JwtUtil.getUsername(getToken());
     }
 
     /**
-     * TODO 获取系统用户Id
+     * TODO 获取用户权限列表
      *
      * @return java.lang.Integer
      * @date 2020/6/20 0020 16:55
      */
-    public static Integer getId() {
-        String token = request.getHeader("token");
-        UserAdmin userAdmin = (UserAdmin) session.getAttribute(AdminUserUtils.ADMIN + token);
+    public static List<SimpleGrantedAuthority> getRoles() {
         // 判断用户是否登录
-        if (userAdmin == null) {
-            throw new ErrorException(ResultEnum.ADMIN_IS_NO_LOGIN);
-        }
-        return userAdmin.getId();
+        return JwtUtil.getUserAuth(getToken());
     }
 }

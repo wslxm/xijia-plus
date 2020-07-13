@@ -28,6 +28,7 @@ public class RoleUserAdmin extends BaseAdminEntity {
      */
     private int roleId;
 
+
     public RoleUserAdmin() {
     }
 

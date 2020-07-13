@@ -46,6 +46,7 @@
             layui.use(['form'], function () {
                 //监听提交
                 layui.form.on('submit(layuiadmin-app-form-submit)', function (res) {
+
                     let data = {
                         id: parent.data.id,
                         name: $("#name").val(),
@@ -57,11 +58,9 @@
                     let index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                     parent.layer.msg(result.msg);
-                    // 重载页面--不建议开启--建议使用手动刷新
-                    // parent.window.location.reload();
-                    // 重载页面--不建议开启--建议使用手动刷新
+                    // 重载页面 // parent.window.location.reload();
                     xijia_window_onbeforeunload();  // 记录滚动条位置
-                    parent.window.location.reload();
+                    parent.xijiaRenderTable();
                     xijia_window_onload();          // 还原滚动条位置
                 });
             });

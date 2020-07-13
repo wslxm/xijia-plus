@@ -16,7 +16,7 @@ public interface RoleMenuAdminMapper extends BaseMapper<RoleMenuAdmin> {
      * @return java.util.List<com.ws.ldy.adminconsole.entity.RoleMenuAdmin>
      * @date 2019/11/16 0016 23:00
      */
-    @Select(value = "select * from t_admin_role_menu where role_id = ${roleId}")
+    @Select(value = "select * from t_admin_role_menu where role_id = #{roleId}")
     List<RoleMenuAdmin> findRoleId(@Param("roleId") Integer roleId);
 
 
@@ -27,7 +27,7 @@ public interface RoleMenuAdminMapper extends BaseMapper<RoleMenuAdmin> {
      * @return java.util.List<com.ws.ldy.adminconsole.entity.RoleMenuAdmin>
      * @date 2019/11/16 0016 23:00
      */
-    @Select(value = "SELECT * FROM t_admin_role_menu where role_id in(SELECT role_id FROM t_admin_role_user where user_id= ${userId})")
+    @Select(value = "SELECT * FROM t_admin_role_menu where role_id in(SELECT role_id FROM t_admin_role_user where user_id= #{userId})")
     List<RoleMenuAdmin> findUserIdRoleMenus(@Param("userId") Integer userId);
 
 }

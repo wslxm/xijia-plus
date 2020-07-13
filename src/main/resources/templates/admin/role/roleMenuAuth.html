@@ -221,6 +221,10 @@
      * @return
      */
     function xijiaEventRoleClick(item) {
+        //不能点击角色列表
+        if (item.id === 0) {
+            return;
+        }
         let params = "";
         params += "?roleId=" + item.id;
         // 获得菜单数据
