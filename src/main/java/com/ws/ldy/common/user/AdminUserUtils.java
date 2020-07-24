@@ -2,7 +2,7 @@ package com.ws.ldy.common.user;
 
 import com.ws.ldy.common.result.ResultEnum;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.common.utils.auth.JwtUtil;
+import com.ws.ldy.config.auth.util.JwtUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,8 +1,8 @@
 package com.ws.ldy.config.error;
 
-import com.ws.ldy.base.controller.BaseController;
-import com.ws.ldy.common.result.EnumUtils;
 import com.ws.ldy.common.result.ResultEnum;
+import com.ws.ldy.common.utils.EnumUtil;
+import com.ws.ldy.others.base.controller.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * TODO  WebServerAutoConfiguration 转发异常转发过来的信息，返回 json参数
+ *  WebServerAutoConfiguration 转发异常转发过来的信息，返回 json参数
  *
  * @author 王松
  * @mail 1720696548@qq.com
@@ -23,38 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class ErrorController extends BaseController {
 
-//
-//    /**
-//     * TODO  方式1：系统错误跳指定错误页（不适用于前后端分离）
-//     *
-//     * @param code 对应错误码，ErrorPageConfig配置
-//     * @return
-//     * @date 2019/11/18 21:15
-//     */
-//    @RequestMapping(value = "/error/{code}")
-//    public String error(@PathVariable int code, Model model) {
-//        String referer = request.getHeader("referer");
-//        log.info("模板解析错误 --> 请求来源:{} 错误码:{} ", referer, code);
-//
-//
-//        String pager = "/base/error";
-//        switch (code) {
-//            case 404:
-//                model.addAttribute("code", 404);
-//                pager = "/base/404";
-//                break;
-////            case 500:
-////                model.addAttribute("code", 500);
-////                pager = "/base/error";
-////                break;
-//            default:
-//        }
-//        return pager;
-//    }
-
-
     /**
-     * TODO  方式2：系统错误返回json
+     * 方式2：系统错误返回json
      *
      * @param code 对应错误码，ErrorPageConfig配置
      * @return java.util.Map<java.lang.String, java.lang.Object>
@@ -64,7 +34,7 @@ public class ErrorController extends BaseController {
     @ResponseBody
     public void error(@PathVariable int code) {
         // 根据状态值查询对应的枚举
-        ResultEnum errorConstantEnum = EnumUtils.getByCode(Integer.valueOf(code), ResultEnum.class);
+        ResultEnum errorConstantEnum = EnumUtil.getByCode(Integer.valueOf(code), ResultEnum.class);
         // 返回对应提示
         if (errorConstantEnum != null) {
             throw new ErrorException(errorConstantEnum);

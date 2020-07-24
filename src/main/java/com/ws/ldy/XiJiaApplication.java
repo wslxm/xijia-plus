@@ -7,9 +7,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * TODO
  *
- * @author 王松
+ * 启动类
+ * @author ws
  * @WX-QQ 1720696548
  * @date 2019/10/31 20:45
  * 说明1: exclude = DruidDataSourceAutoConfigure.class 为排除默认数据源
@@ -17,7 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 说明3:@EnableAdminServer 为监控Admin中心,访问地址为项目路径+ /bootAdmin, yml中配置
  */
 @SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
-@MapperScan("com.ws.ldy.*.mapper")
+@MapperScan("com.ws.ldy.modules.*.mapper")
 //@EnableAdminServer
 public class XiJiaApplication {
 

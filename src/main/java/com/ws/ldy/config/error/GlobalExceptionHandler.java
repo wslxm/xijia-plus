@@ -1,6 +1,6 @@
 package com.ws.ldy.config.error;
 
-import com.ws.ldy.base.controller.BaseController;
+import com.ws.ldy.others.base.controller.BaseController;
 import com.ws.ldy.common.result.Result;
 import com.ws.ldy.common.result.ResultEnum;
 import lombok.extern.slf4j.Slf4j;

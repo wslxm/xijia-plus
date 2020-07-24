@@ -1,0 +1,47 @@
+package com.ws.ldy.others.base.model.dev;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.ws.ldy.others.base.model.convert.Convert;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+/**
+ * 通用Entity ,获取反序列类生成UUID
+ *
+ * @author 王松
+ * @WX-QQ 1720696548
+ * @date 2019/10/31 21:12
+ *
+ * <p>
+ */
+@Data   // set,get
+@NoArgsConstructor  // 无参构造
+@EqualsAndHashCode(callSuper = true) //生成equals(Object other) 和 hashCode()方法
+public class BaseDevEntity extends Convert {
+
+    /**
+     * 数据库id
+     */
+    @TableId(type = IdType.AUTO) //自增
+    private Integer id;
+
+    /**
+     * 逻辑删除字段（0-正常，1-已删除）
+     */
+    private Integer deleted = 0;
+
+
+    @ApiModelProperty(notes = "创建时间")
+    @TableField(value = "create_time")
+    private LocalDateTime createTime;
+
+    @ApiModelProperty(notes = "最后更新时间")
+    @TableField(value = "update_time")
+    private LocalDateTime updateTime;
+}
