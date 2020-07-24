@@ -73,7 +73,7 @@ public class SwaggerConfig {
                 .build()
                 .useDefaultResponseMessages(false)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("兮家手册-xijia")
+                        .title("兮家手册-dev")
                         .description("兮家 Swagger API 文档")
                         .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
                         .version("1.0.0")
