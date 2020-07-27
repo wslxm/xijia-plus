@@ -53,6 +53,7 @@
                 <option value="1">管理端</option>
                 <option value="2">用户端</option>
                 <option value="3">app端</option>
+                <option value="4">多端</option>
             </select>
         </div>
     </div>
@@ -72,7 +73,7 @@
 
 
     <div class="layui-form-item">
-        <label class="layui-form-label">计划时间</label>
+        <label class="layui-form-label">预完成时间</label>
         <div class="layui-input-inline">
             <input id="plannedTime" name="plannedTime" type="text" lay-verify="required" class="layui-input" placeholder="yyyy-MM-dd HH:mm:ss">
         </div>
@@ -151,7 +152,7 @@
             parent.layer.close(index);
             parent.layer.msg(result.msg);
             //重载表格
-            parent.xijiaRenderTable(null);
+            parent.refresh();
         });
         //日期时间选择器
         layui.laydate.render({

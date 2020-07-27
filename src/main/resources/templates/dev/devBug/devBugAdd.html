@@ -47,7 +47,7 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">任务类型</label>
+        <label class="layui-form-label">BUG类型</label>
         <div class="layui-input-block">
             <select id="type" name="type" lay-filter="aihao">
                 <option value="1" selected="">管理端</option>
@@ -59,13 +59,13 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">任务名称</label>
+        <label class="layui-form-label">BUG名称</label>
         <div class="layui-input-inline">
             <input type="text" id="name" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">任务内容</label>
+        <label class="layui-form-label">BUG内容</label>
         <div class="layui-input-block">
             <textarea id="content" name="content" style="height: 120px" lay-verify="required" placeholder="请输入内容" class="layui-textarea"></textarea>
         </div>
@@ -134,7 +134,7 @@
         let laydate = layui.laydate;
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            let result = ajaxPost(path + "/dev/devTask/insert", data.field);
+            let result = ajaxPost(path + "/dev/devBug/insert", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

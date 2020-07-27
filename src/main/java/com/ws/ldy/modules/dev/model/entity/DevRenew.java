@@ -2,7 +2,7 @@ package com.ws.ldy.modules.dev.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ws.ldy.others.base.model.dev.BaseDevEntity;
+import com.ws.ldy.others.base.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,7 +19,7 @@ import lombok.Data;
 @Data
 @TableName("t_dev_renew")
 @ApiModel(value = "DevRenew 对象", description = "更新内容")
-public class DevRenew extends BaseDevEntity {
+public class DevRenew extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
     

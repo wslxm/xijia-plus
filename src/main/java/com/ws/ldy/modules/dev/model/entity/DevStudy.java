@@ -2,7 +2,7 @@ package com.ws.ldy.modules.dev.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ws.ldy.others.base.model.dev.BaseDevEntity;
+import com.ws.ldy.others.base.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("t_dev_study")
 @ApiModel(value = "DevStudy 对象", description = "学习计划")
-public class DevStudy extends BaseDevEntity {
+public class DevStudy extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
     

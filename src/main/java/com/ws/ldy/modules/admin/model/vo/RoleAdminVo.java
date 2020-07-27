@@ -1,6 +1,6 @@
 package com.ws.ldy.modules.admin.model.vo;
 
-import com.ws.ldy.others.base.model.admin.BaseAdminVo;
+import com.ws.ldy.others.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "RoleAdminVo", description = "角色表")
-public class RoleAdminVo extends BaseAdminVo {
+public class RoleAdminVo extends BaseVo {
 
     @ApiModelProperty(value = "角色名")
     private String name;

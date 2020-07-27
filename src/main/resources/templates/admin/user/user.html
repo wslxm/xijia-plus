@@ -23,11 +23,11 @@
     </div>
     用户名：
     <div class="layui-inline">
-        <input class="layui-input" id="username" name="username" placeholder="请输入用户名搜索" autocomplete="off">
+        <input class="layui-input" id="username" name="username" placeholder="请输入账号搜索" autocomplete="off">
     </div>
     账号：
     <div class="layui-inline">
-        <input class="layui-input" id="account" name="account" placeholder="请输入账号搜索" autocomplete="off">
+        <input class="layui-input" id="fullName" name="fullName" placeholder="请输入昵称搜索" autocomplete="off">
     </div>
     <button class="layui-btn layui-btn-normal layui-btn-sm" data-type="reload">搜索</button>
 </div>
@@ -193,7 +193,7 @@
                 }
                 if (ids.length > 0) {
                     let result = ajaxDelete(user_admin_deletes + "?ids=" + ids);
-                    xijiaRenderTable(null)
+                    xijiaRenderTable(null);
                     layer.msg(result.msg);
                 }
 
@@ -242,9 +242,9 @@
             //搜索
             reload: function () {
                 let params = "";
-                params += "&id=" + $("#id").val()
-                params += "&username=" + $("#username").val()
-                params += "&account=" + $("#account").val()
+                params += "&id=" + $("#id").val();
+                params += "&username=" + $("#username").val();
+                params += "&fullName=" + $("#fullName").val();
                 // 数据表格 - 获取表格
                 xijiaRenderTable(params);
                 // 刷新分页插件数据

@@ -1,6 +1,6 @@
 package com.ws.ldy.modules.admin.model.dto;
 
-import com.ws.ldy.others.base.model.admin.BaseAdminDto;
+import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "RoleAuthAdminDto", description = " 角色-接口关联表")
-public class RoleAuthAdminDto extends BaseAdminDto {
+public class RoleAuthAdminDto extends BaseDto {
 
 
     @ApiModelProperty(value = "接口id")

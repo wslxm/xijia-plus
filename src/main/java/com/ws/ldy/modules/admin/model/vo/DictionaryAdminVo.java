@@ -1,6 +1,6 @@
 package com.ws.ldy.modules.admin.model.vo;
 
-import com.ws.ldy.others.base.model.admin.BaseAdminVo;
+import com.ws.ldy.others.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Data
 @ApiModel(value = "DictionaryAdminVo", description = "字典表")
-public class DictionaryAdminVo extends BaseAdminVo {
+public class DictionaryAdminVo extends BaseVo {
 
     private static final long serialVersionUID = 0L;
 

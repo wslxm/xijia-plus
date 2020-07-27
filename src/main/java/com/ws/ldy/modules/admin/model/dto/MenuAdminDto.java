@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.admin.model.dto;
 
-import com.ws.ldy.others.base.model.admin.BaseAdminDto;
 import com.ws.ldy.enums.admin.MenuRootEnum;
+import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,7 +15,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "MenuAdminDto", description = "菜单")
-public class MenuAdminDto extends BaseAdminDto {
+public class MenuAdminDto extends BaseDto {
 
     private static final long serialVersionUID = -33297418791559528L;
     @ApiModelProperty(value = "目录级别(1，系统, 2、菜单, 3、页面)")

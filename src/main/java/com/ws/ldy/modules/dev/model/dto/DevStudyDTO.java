@@ -1,6 +1,6 @@
 package com.ws.ldy.modules.dev.model.dto;
 
-import com.ws.ldy.others.base.model.dev.BaseDevDto;
+import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "DevStudyDTO 对象", description = "学习计划")
-public class DevStudyDTO extends BaseDevDto {
+public class DevStudyDTO extends BaseDto {
 
     private static final long serialVersionUID = 0L;
     

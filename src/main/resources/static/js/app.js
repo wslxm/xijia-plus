@@ -109,7 +109,7 @@ function tipsDeleteIds(url, data, obj) {
 var pageJson = {
     layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'] //自定义分页布局
     , curr: 1              // 设定初始在第1页
-    , limits: [10, 15, 20, 999999]   // 每页显示条数
+    , limits: [10, 15, 20,9999]   // 每页显示条数
     , groups: 5            // 只显示几个连续页码
     // , first: "首页"      // 显示按钮内容（false为不展示,layout 不支持）
     // , last: "尾页"       // 显示按钮内容（false为不展示，layout 不支持）

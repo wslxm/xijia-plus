@@ -57,7 +57,7 @@ public class UserAdminController extends BaseController<UserAdminService> {
         Page<UserAdmin> page = baseService.page(this.getPage(), new LambdaQueryWrapper<UserAdmin>()
                 .orderByAsc(UserAdmin::getId)
                 .eq(id != null, UserAdmin::getId, id)
-                .eq(StringUtils.isNotBlank(fullName), UserAdmin::getUsername, fullName)
+                .eq(StringUtils.isNotBlank(fullName), UserAdmin::getFullName, fullName)
                 .like(StringUtils.isNotBlank(username), UserAdmin::getUsername, username)
         );
         return Result.successFind(BeanDtoVoUtil.pageVo(page, UserAdminVo.class));

@@ -1,6 +1,6 @@
 package com.ws.ldy.modules.dev.model.dto;
 
-import com.ws.ldy.others.base.model.dev.BaseDevDto;
+import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,7 +16,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "DevRenewDTO 对象", description = "更新内容")
-public class DevRenewDTO extends BaseDevDto {
+public class DevRenewDTO extends BaseDto {
 
     private static final long serialVersionUID = 0L;
     

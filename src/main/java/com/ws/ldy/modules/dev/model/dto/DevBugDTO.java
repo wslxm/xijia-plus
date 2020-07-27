@@ -8,7 +8,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * TODO  开发任务
+ * TODO  BUG修复
  * <p>
  * ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655
  * </p>
@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
  * @date 2020-06-27 11:14:57
  */
 @Data
-@ApiModel(value = "DevTaskDTO 对象", description = "开发任务")
-public class DevTaskDTO extends BaseDto {
+@ApiModel(value = "DevBugDTO 对象", description = "BUG修复")
+public class DevBugDTO extends BaseDto {
 
     private static final long serialVersionUID = 0L;
 

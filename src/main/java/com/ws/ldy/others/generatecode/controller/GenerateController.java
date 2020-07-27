@@ -1,13 +1,13 @@
 package com.ws.ldy.others.generatecode.controller;
 
-import com.ws.ldy.modules.admin.model.dto.GenerateDto;
-import com.ws.ldy.others.base.controller.BaseController;
-import com.ws.ldy.enums.base.BaseConstant;
-import com.ws.ldy.others.generatecode.model.DsField;
-import com.ws.ldy.others.generatecode.config.GenerateConfig;
-import com.ws.ldy.others.generatecode.util.GenerateUtil;
-import com.ws.ldy.others.generatecode.service.impl.GenerationSeviceImpl;
 import com.ws.ldy.common.result.Result;
+import com.ws.ldy.enums.base.BaseConstant;
+import com.ws.ldy.others.base.controller.BaseController;
+import com.ws.ldy.others.generatecode.config.GenerateConfig;
+import com.ws.ldy.others.generatecode.model.DsField;
+import com.ws.ldy.others.generatecode.model.GenerateDto;
+import com.ws.ldy.others.generatecode.service.impl.GenerationSeviceImpl;
+import com.ws.ldy.others.generatecode.util.GenerateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

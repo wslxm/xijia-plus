@@ -2,8 +2,8 @@ package com.ws.ldy.modules.admin.model.entity;
 
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ws.ldy.others.base.model.admin.BaseAdminEntity;
 import com.ws.ldy.enums.base.GenderEnum;
+import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName(value = "t_admin_user")
-public class UserAdmin extends BaseAdminEntity {
+public class UserAdmin extends BaseEntity {
 
     private static final long serialVersionUID = 4934650100711613453L;
 

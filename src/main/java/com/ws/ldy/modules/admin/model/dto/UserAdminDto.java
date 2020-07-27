@@ -1,8 +1,8 @@
 package com.ws.ldy.modules.admin.model.dto;
 
 
-import com.ws.ldy.others.base.model.admin.BaseAdminDto;
 import com.ws.ldy.enums.base.GenderEnum;
+import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,7 +16,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "RoleUserAdminDto", description = "用户表")
-public class UserAdminDto extends BaseAdminDto {
+public class UserAdminDto extends BaseDto {
 
     private static final long serialVersionUID = 4934650100711613453L;
 

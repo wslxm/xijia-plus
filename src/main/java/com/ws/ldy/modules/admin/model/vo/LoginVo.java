@@ -1,6 +1,6 @@
 package com.ws.ldy.modules.admin.model.vo;
 
-import com.ws.ldy.others.base.model.convert.Convert;
+import com.ws.ldy.others.base.model.Convert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

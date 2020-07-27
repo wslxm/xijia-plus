@@ -1,6 +1,6 @@
 package com.ws.ldy.modules.dev.model.vo;
 
-import com.ws.ldy.others.base.model.dev.BaseDevVo;
+import com.ws.ldy.others.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,12 +18,10 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "DevTaskVO 对象", description = "开发任务")
-public class DevTaskVO extends BaseDevVo {
+public class DevTaskVO extends BaseVo {
 
     private static final long serialVersionUID = 0L;
     
-
-
     @ApiModelProperty(notes = "创建人id (保留)")
     private Integer createUserId;
 
@@ -52,10 +50,10 @@ public class DevTaskVO extends BaseDevVo {
     private LocalDateTime entTime;
 
     @ApiModelProperty(notes = "预计耗时(小时)")
-    private Integer estimateTime;
+    private Double estimateTime;
 
     @ApiModelProperty(notes = "实际耗时(小时)")
-    private Integer takeUpTime;
+    private Double takeUpTime;
 
 }
 

@@ -1,8 +1,8 @@
 package com.ws.ldy.modules.admin.model.vo;
 
 
-import com.ws.ldy.others.base.model.admin.BaseAdminVo;
 import com.ws.ldy.enums.base.GenderEnum;
+import com.ws.ldy.others.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "UserAdminVo", description = "用户表")
-public class UserAdminVo extends BaseAdminVo {
+public class UserAdminVo extends BaseVo {
 
     private static final long serialVersionUID = 4934650100711613453L;
 

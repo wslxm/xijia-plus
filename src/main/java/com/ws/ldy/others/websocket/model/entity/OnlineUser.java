@@ -1,6 +1,6 @@
 package com.ws.ldy.others.websocket.model.entity;
 
-import com.ws.ldy.others.base.model.convert.Convert;
+import com.ws.ldy.others.base.model.Convert;
 import com.ws.ldy.common.utils.LocalDateTimeUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;

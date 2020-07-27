@@ -1,8 +1,8 @@
 package com.ws.ldy.modules.admin.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ws.ldy.others.base.model.admin.BaseAdminEntity;
 import com.ws.ldy.enums.admin.MenuRootEnum;
+import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
 
 /**
@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @TableName(value = "t_admin_menu")
-public class MenuAdmin extends BaseAdminEntity {
+public class MenuAdmin extends BaseEntity {
 
     private static final long serialVersionUID = -33297418791559528L;
 

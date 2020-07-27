@@ -40,7 +40,7 @@
     <div class="layui-inline">
         <label class="layui-form-label">执行人:</label>
         <div class="layui-input-block">
-            <select id="taskUserId" name="taskUserId">
+            <select id="BugUserId" name="BugUserId">
                 <option value="" selected="">全部</option>
             </select>
         </div>
@@ -95,32 +95,32 @@
 <!-- 每一行的数据修改或删除  -->
 <script type="text/html" id="barDemo">
     {{#  if(d.state ==0){ }}
-    <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="startTask">开始</a>
+    <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="startBug">开始</a>
     <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     {{# }if(d.state ==1) { }}
-    <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="entTask">完成</a>
+    <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="entBug">完成</a>
     <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="rollback">取消开始</a>
     {{# }if(d.state ==2) { }}
     <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="undo">撤销</a>
     {{# }if(d.state ==3) { }}
-    <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="startTask">开始</a>
+    <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="startBug">开始</a>
     <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     {{#  } }}
 </script>
 <script>
 
-    let find_page = path + "/dev/devTask/findPage";       //角色查询-分页
-    let del = path + "/dev/devTask/del";                  //角色删除
-    let updState = path + "/dev/devTask/updState";             //编辑状态
+    let find_page = path + "/dev/devBug/findPage";       //查询-分页
+    let del = path + "/dev/devBug/del";                  //角色删除
+    let updState = path + "/dev/devBug/updState";         //编辑状态
     //
-    let page_add = path + "/page/dev_devTask_devTaskAdd";   //角色添加弹出
-    let page_upd = path + "/page/dev_devTask_devTaskUpd";   //角色编辑弹出
+    let page_add = path + "/page/dev_devBug_devBugAdd";   //角色添加弹出
+    let page_upd = path + "/page/dev_devBug_devBugUpd";   //角色编辑弹出
 
 
     let dev_user_list = "/userAdmin/findRoleIdList?roleId=2";    // 查询开发人员(角色)（注意数据库参数是否正确）
-    let item_list = "/dictionaryAdmin/findCode?code=item";      // 查询字典项目列表（注意数据库参数是否正确）
+    let item_list = "/dictionaryAdmin/findCode?code=item";       // 查询字典项目列表（注意数据库参数是否正确）
     let usersData = ajaxGet(dev_user_list);
     let itemsData = ajaxGet(item_list);
 
@@ -155,7 +155,7 @@
             elem: '#auth-table'
             , data: res.data.records
             , toolbar: '#toolbarDemo'
-            , title: '开发任务'
+            , title: 'bug修复'
             ,limit: res.data.size
             , cols: [
                 [
@@ -166,8 +166,8 @@
                           {field: 'updateTime', title: '最后更新时间'},
                           {field: 'deleted', title: '逻辑删除（0：正常  1：删除）'},
                           {field: 'createUserId', title: '创建人id (保留)'},
-                          {field: 'taskUserId', title: '指派给id（保留）'},*/
-                    {field: 'id', title: '任务ID', width: 75},
+                          {field: 'BugUserId', title: '指派给id（保留）'},*/
+                    {field: 'id', title: 'ID', width: 75},
 
                     {
                         field: 'itemName', title: '项目名', width: 120, templet: function (res) {
@@ -192,11 +192,11 @@
                             }
                         }
                     },
-                    {field: 'name', title: '任务名称', width: 180},
-                    {field: 'content', title: '任务内容', width: 360},
+                    {field: 'name', title: 'BUG名称', width: 180},
+                    {field: 'content', title: 'BUG内容', width: 360},
 
                     {
-                        field: 'state', title: '任务状态', width: 100, templet: function (res) {
+                        field: 'state', title: 'BUG状态', width: 100, templet: function (res) {
                             return res.state === 0 ? ' <font color="red">未开始</font>' : res.state === 1 ? '<font color="#ff00ff">正在进行</font>' : res.state === 2 ? '<font color="green">已完成</font>' : res.state === 3 ? '已撤销' : '未知';
                         }
                     },
@@ -204,7 +204,7 @@
                     {field: 'plannedTime', title: '预计完成时间', width: 160},
                     {field: 'entTime', title: '实际完成时间', width: 160},
                     {field: 'estimateTime', title: '预耗时S', width: 80},
-                    {field: 'takeUpTime', title: '耗时S', width: 80},
+                    {field: 'takeUpTime', title: '实耗时S', width: 80},
                     {title: '操作', toolbar: '#barDemo', width: 250}
                 ]
             ]
@@ -284,7 +284,7 @@
                 tipsDeleteId(del + params, obj);
             }
             // 开始
-            if (obj.event === 'startTask') {
+            if (obj.event === 'startBug') {
                 let params = "?id=" + data.id;
                 params += "&state=" + 1;
                 ajaxPut(updState + params);
@@ -293,9 +293,9 @@
             }
 
             // 完成
-            if (obj.event === 'entTask') {
+            if (obj.event === 'entBug') {
                 // prompt层
-                layer.prompt({title: '请输入完成该任务的实际耗时?'}, function (takeUpTime, index) {
+                layer.prompt({title: '请输入修复该Bug的实际耗时?'}, function (takeUpTime, index) {
                     // 实际耗时
                     let params = "?id=" + data.id;
                     params += "&state=" + 2;
@@ -360,7 +360,7 @@
         params += "&type=" + $("#type").val();
         params += "&state=" + $("#state").val();
         params += "&item=" + $("#item").val();
-        params += "&taskUserId=" + $("#taskUserId").val();
+        params += "&BugUserId=" + $("#BugUserId").val();
         // 数据表格 - 获取表格
         xijiaRenderTable(params);
         // 刷新分页插件数据
@@ -390,7 +390,7 @@
                 itemListHtml += "<option value='" + itemsData.data.dictList[i].code + "' >" + itemsData.data.dictList[i].name + "</option>"
             }
         }
-        $("#taskUserId").html(userListHtml);
+        $("#BugUserId").html(userListHtml);
         $("#item").html(itemListHtml)
     });
 </script>

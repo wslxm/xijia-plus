@@ -1,6 +1,6 @@
 package com.ws.ldy.modules.admin.model.dto;
 
-import com.ws.ldy.others.base.model.admin.BaseAdminDto;
+import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "DictionaryAdminDto", description = "字典表")
-public class DictionaryAdminDto extends BaseAdminDto {
+public class DictionaryAdminDto extends BaseDto {
 
     private static final long serialVersionUID = 0L;
 

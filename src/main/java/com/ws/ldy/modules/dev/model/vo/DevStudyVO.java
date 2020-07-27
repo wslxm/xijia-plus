@@ -1,6 +1,6 @@
 package com.ws.ldy.modules.dev.model.vo;
 
-import com.ws.ldy.others.base.model.dev.BaseDevVo;
+import com.ws.ldy.others.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "DevStudyVO 对象", description = "学习计划")
-public class DevStudyVO extends BaseDevVo {
+public class DevStudyVO extends BaseVo {
 
     private static final long serialVersionUID = 0L;
     

@@ -1,6 +1,6 @@
 package com.ws.ldy.modules.admin.model.vo;
 
-import com.ws.ldy.others.base.model.admin.BaseAdminVo;
+import com.ws.ldy.others.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "AuthorityAdminVo", description = "接口权限 ")
-public class AuthorityAdminVo extends BaseAdminVo {
+public class AuthorityAdminVo extends BaseVo {
 
     private static final long serialVersionUID = 0L;
 

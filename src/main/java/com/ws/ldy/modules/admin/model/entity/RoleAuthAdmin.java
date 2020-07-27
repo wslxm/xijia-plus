@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.admin.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ws.ldy.others.base.model.admin.BaseAdminEntity;
+import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @TableName(value = "t_admin_role_auth")
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoleAuthAdmin extends BaseAdminEntity {
+public class RoleAuthAdmin extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
     /**

@@ -1,6 +1,6 @@
 package com.ws.ldy.modules.admin.model.dto;
 
-import com.ws.ldy.others.base.model.admin.BaseAdminDto;
+import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "RoleMenuAdminDto", description = " 角色-菜单关联表")
-public class RoleMenuAdminDto extends BaseAdminDto {
+public class RoleMenuAdminDto extends BaseDto {
 
     private static final long serialVersionUID = 7936919715202241575L;
 

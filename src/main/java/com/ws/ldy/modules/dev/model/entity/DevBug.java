@@ -11,18 +11,18 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * TODO  开发任务
+ * TODO   BUG修复
  * <p>
  *  ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 
  * </p>
- * @author wangsong
- * @email 1720696548@qq.com
- * @date 2020-06-27 11:14:57
+ * @author  wangsong
+ * @email  1720696548@qq.com
+ * @date  2020-06-27 11:14:57
  */
 @Data
-@TableName("t_dev_task")
-@ApiModel(value = "DevTask 对象", description = "开发任务")
-public class DevTask extends BaseEntity {
+@TableName("t_dev_bug")
+@ApiModel(value = "DevBug 对象", description = "BUG修复")
+public class DevBug extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
 
@@ -67,7 +67,7 @@ public class DevTask extends BaseEntity {
     private Double estimateTime;
 
     @ApiModelProperty(notes = "实际耗时(小时)")
-    @TableField(value = "take_up_time", updateStrategy = FieldStrategy.IGNORED)//可更新为null
+    @TableField(value = "take_up_time", updateStrategy = FieldStrategy.IGNORED)//可更新为null)
     private Double takeUpTime;
 
 }

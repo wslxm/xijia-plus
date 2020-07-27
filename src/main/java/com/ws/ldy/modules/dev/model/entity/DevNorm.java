@@ -2,7 +2,7 @@ package com.ws.ldy.modules.dev.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ws.ldy.others.base.model.dev.BaseDevEntity;
+import com.ws.ldy.others.base.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,7 +19,7 @@ import lombok.Data;
 @Data
 @TableName("t_dev_norm")
 @ApiModel(value = "DevNorm 对象", description = "开发规范")
-public class DevNorm extends BaseDevEntity {
+public class DevNorm extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
     

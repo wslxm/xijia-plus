@@ -1,6 +1,6 @@
 package com.ws.ldy.others.websocket.model.vo;
 
-import com.ws.ldy.others.base.model.convert.Convert;
+import com.ws.ldy.others.base.model.Convert;
 import lombok.Data;
 
 /**

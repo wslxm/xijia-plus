@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.admin.model.vo;
 
-import com.ws.ldy.others.base.model.admin.BaseAdminVo;
 import com.ws.ldy.enums.admin.MenuRootEnum;
+import com.ws.ldy.others.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,7 +19,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ApiModel(value = "MenuAdminVo", description = "菜单表")
-public class MenuAdminVo extends BaseAdminVo {
+public class MenuAdminVo extends BaseVo {
 
     private static final long serialVersionUID = -33297418791559528L;
 

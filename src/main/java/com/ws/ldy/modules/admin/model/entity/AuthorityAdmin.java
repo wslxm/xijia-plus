@@ -2,7 +2,7 @@ package com.ws.ldy.modules.admin.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ws.ldy.others.base.model.admin.BaseAdminEntity;
+import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
 
 /**
@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @TableName(value = "t_admin_authority")
-public class AuthorityAdmin extends BaseAdminEntity {
+public class AuthorityAdmin extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
     /**

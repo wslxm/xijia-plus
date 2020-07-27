@@ -1,6 +1,6 @@
 package com.ws.ldy.modules.dev.model.vo;
 
-import com.ws.ldy.others.base.model.dev.BaseDevVo;
+import com.ws.ldy.others.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,7 +16,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "DevRenewVO 对象", description = "更新内容")
-public class DevRenewVO extends BaseDevVo {
+public class DevRenewVO extends BaseVo {
 
     private static final long serialVersionUID = 0L;
     

@@ -1,6 +1,6 @@
-package com.ws.ldy.modules.admin.model.dto;
+package com.ws.ldy.others.generatecode.model;
 
-import com.ws.ldy.others.base.model.convert.Convert;
+import com.ws.ldy.others.base.model.Convert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
