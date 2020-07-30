@@ -1,4 +1,4 @@
-package {packPath}.{moduleName}.controller;
+package {packPath}.{packPathZp}.{moduleName}.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -10,19 +10,19 @@ import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import {packPath}.{moduleName}.model.entity.{tableNameUp};
-import {packPath}.{moduleName}.model.vo.{tableNameUp}VO;
-import {packPath}.{moduleName}.model.dto.{tableNameUp}DTO;
-import {packPath}.{moduleName}.service.{tableNameUp}Service;
-import {packPath}.base.controller.BaseController;
+import {packPath}.{packPathZp}.{moduleName}.model.entity.{tableNameUp};
+import {packPath}.{packPathZp}.{moduleName}.model.vo.{tableNameUp}VO;
+import {packPath}.{packPathZp}.{moduleName}.model.dto.{tableNameUp}DTO;
+import {packPath}.{packPathZp}.{moduleName}.service.{tableNameUp}Service;
 import {packPath}.common.result.Result;
-import {packPath}.common.utils.BeanDtoVoUtils;
+import {packPath}.common.utils.BeanDtoVoUtil;
+import {packPath}.others.base.controller.BaseController;
 import java.util.Arrays;
 import java.time.LocalDateTime;
 
 
 /**
- * TODO  {tableComment}
+ * {tableComment}
  * <p>
  * {describe}
  * </p>
@@ -47,7 +47,7 @@ public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service
                 .orderByAsc({tableNameUp}::getId)
 {findPageMybatisPlus}
         );
-        return Result.successFind(BeanDtoVoUtils.pageVo(page, {tableNameUp}VO.class));
+        return Result.successFind(BeanDtoVoUtil.pageVo(page, {tableNameUp}VO.class));
     }
 
 

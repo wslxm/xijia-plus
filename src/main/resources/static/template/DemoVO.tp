@@ -1,10 +1,10 @@
-package {packPath}.{moduleName}.model.vo;
+package {packPath}.{packPathZp}.{moduleName}.model.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ws.ldy.base.convert.Convert;
+import {packPath}.others.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * TODO  {tableComment}
+ * {tableComment}
  * <p>
  * {describe}
  * </p>
@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "{tableNameUp}VO 对象", description = "{tableComment}")
-public class {tableNameUp}VO extends Convert {
+public class {tableNameUp}VO extends BaseVo {
 
     private static final long serialVersionUID = 0L;
     {entitys}

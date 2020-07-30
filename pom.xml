@@ -11,8 +11,8 @@
     </parent>
 
     <groupId>com.ws.ldy</groupId>
-    <artifactId>spring-boot-plus2</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>xijia-server</artifactId>
+    <version>0.0.1-RELEASE</version>
     <name>spring-boot-plus2</name>
     <packaging>jar</packaging>
     <description>Demo project for Spring Boot</description>
@@ -217,7 +217,6 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>xijia-server-1.0.0</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -26,10 +26,10 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         // 主页,
-        registry.addViewController("/index").setViewName("admin/xj-index");
+        registry.addViewController("/index").setViewName("modules/admin/xj-index");
         // 登录页
-        registry.addViewController("/").setViewName("admin/xj_login");
-        registry.addViewController("/login").setViewName("admin/xj_login");
+        registry.addViewController("/").setViewName("modules/admin/xj_login");
+        registry.addViewController("/login").setViewName("modules/admin/xj_login");
         // 文本转符号
         registry.addViewController("/fh").setViewName("front/symbol/main");
     }

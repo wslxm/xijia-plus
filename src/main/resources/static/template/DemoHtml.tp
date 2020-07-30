@@ -70,7 +70,7 @@
 
 
     /**
-     * TODO 重载表格和加载表格
+     * 重载表格和加载表格
      * ---- getPage()= 获取 layui 当前分页参数 ===> 如：?current=1&size=10
      * ---- res = 后台返回的整个数据，整个页面可获取使用
      * @param params get请求的参数拼接
@@ -98,7 +98,7 @@
 
 
     /**
-     * TODO  分页配置, 数据总数会在下一次点击事更新上一次数据库的总数量
+     * 分页配置, 数据总数会在下一次点击事更新上一次数据库的总数量
      * @author ws
      * @mail  1720696548@qq.com
      * @param result 后台返回数据, 用于第一此加载总数据
@@ -132,7 +132,7 @@
 
 
     /**
-     * TODO  工具栏事件（多删除 || 添加）  ==>> toolbar(auth-table): toolbar=监听表格头事件,  auth-table=数据表格elem 名称
+     * 工具栏事件（多删除 || 添加）  ==>> toolbar(auth-table): toolbar=监听表格头事件,  auth-table=数据表格elem 名称
      * @author ws
      * @mail  1720696548@qq.com
      * @param null
@@ -149,7 +149,7 @@
     }
 
     /**
-     * TODO  监听数据表格内按钮（编辑 || 删除 || 其他）, tool(auth-table)==> tool =监听按钮， auth-table=数据表格elem对应值
+     * 监听数据表格内按钮（编辑 || 删除 || 其他）, tool(auth-table)==> tool =监听按钮， auth-table=数据表格elem对应值
      * @author ws
      * @mail  1720696548@qq.com
      * @param null
@@ -173,7 +173,7 @@
 
 
     /**
-     * TODO  条件搜索，重载数据
+     * 条件搜索，重载数据
      * @author ws
      * @mail  1720696548@qq.com
      * @date  2020/4/10 0010 0:03

@@ -1,13 +1,13 @@
-package {packPath}.{moduleName}.service.impl;
+package {packPath}.{packPathZp}.{moduleName}.service.impl;
 
-import {packPath}.{moduleName}.mapper.{tableNameUp}Mapper;
-import {packPath}.{moduleName}.model.entity.{tableNameUp};
-import {packPath}.{moduleName}.service.{tableNameUp}Service;
-import {packPath}.base.service.impl.BaseIServiceImpl;
+import {packPath}.{packPathZp}.{moduleName}.mapper.{tableNameUp}Mapper;
+import {packPath}.{packPathZp}.{moduleName}.model.entity.{tableNameUp};
+import {packPath}.{packPathZp}.{moduleName}.service.{tableNameUp}Service;
+import {packPath}.others.base.service.impl.BaseIServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
- * TODO  {tableComment}
+ * {tableComment}
  * <p>
  * {describe}
  * </p>

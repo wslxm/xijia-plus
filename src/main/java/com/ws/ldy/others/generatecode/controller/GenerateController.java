@@ -5,7 +5,7 @@ import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.others.base.controller.BaseController;
 import com.ws.ldy.others.generatecode.config.GenerateConfig;
 import com.ws.ldy.others.generatecode.model.DsField;
-import com.ws.ldy.others.generatecode.model.GenerateDto;
+import com.ws.ldy.others.generatecode.model.dto.GenerateDto;
 import com.ws.ldy.others.generatecode.service.impl.GenerationSeviceImpl;
 import com.ws.ldy.others.generatecode.util.GenerateUtil;
 import io.swagger.annotations.Api;
@@ -80,34 +80,6 @@ public class GenerateController extends BaseController<GenerationSeviceImpl> {
     }
 
 
-    /**
-     * 代码生成路径查询(代码生成时前端确认生成路径无误后再生成代码)
-     */
-    @ApiOperation("代码生成路径")
-    @RequestMapping(value = "/getPath", method = RequestMethod.GET)
-    public Result<Map<String, String>> getPath(String tableName) {
-        // 请求地址，去除接口名
-        String baseUrl = request.getRequestURL().toString().replace(request.getServletPath(), "");
-        // 添加代码生成相关通用数据,
-        // 1、包路径
-        // 2、数据库的表名称
-        // 3、代码模板位置,resources/static,
-        new DsField(tableName, null, GenerateConfig.PACK_PATH, baseUrl + GenerateConfig.PATH_TEMPLATE);
-        Map<String, String> mapPath = new HashMap<>();
-        mapPath.put("entity", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_ENTITY + DsField.TABLE_NAME_UP + ".java");
-        mapPath.put("vo", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_VO + DsField.TABLE_NAME_UP + "VO.java");
-        mapPath.put("dto", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_DTO + DsField.TABLE_NAME_UP + "DTO.java");
-        mapPath.put("controller", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_CONTROLLER + DsField.TABLE_NAME_UP + "Controller.java");
-        mapPath.put("service", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE + DsField.TABLE_NAME_UP + "Service.java");
-        mapPath.put("serviceImpl", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE_IMPL + DsField.TABLE_NAME_UP + "ServiceImpl.java");
-        mapPath.put("mapper", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_DAO + DsField.TABLE_NAME_UP + "Mapper.java");
-
-        mapPath.put("htmlMain", GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/" + DsField.TABLE_NAME_LOWER + "Main.html");
-        mapPath.put("htmlAdd", GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/" + DsField.TABLE_NAME_LOWER + "Add.html");
-        mapPath.put("htmlUpd", GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/" + "/" + DsField.TABLE_NAME_LOWER + "Upd.html");
-        mapPath.put("index", "/page/" + GenerateConfig.MODULE_NAME + "_" + DsField.TABLE_NAME_LOWER + "_" + DsField.TABLE_NAME_LOWER);
-        return Result.success(mapPath);
-    }
 
     /**
      * 代码生成对应路径
@@ -151,5 +123,36 @@ public class GenerateController extends BaseController<GenerationSeviceImpl> {
         System.err.println("代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/" + GenerateConfig.MODULE_NAME + "_" + DsField.TABLE_NAME_LOWER + "_" + DsField.TABLE_NAME_LOWER);
 
         return Result.success(generationSeviceImpl.pathMap);
+    }
+
+
+
+    /**
+     * 代码生成路径查询(代码生成时前端确认生成路径无误后再生成代码)
+     */
+    @ApiOperation("代码生成路径")
+    @RequestMapping(value = "/getPath", method = RequestMethod.GET)
+    public Result<Map<String, String>> getPath(String tableName) {
+        // 请求地址，去除接口名
+        String baseUrl = request.getRequestURL().toString().replace(request.getServletPath(), "");
+        // 添加代码生成相关通用数据,
+        // 1、包路径
+        // 2、数据库的表名称
+        // 3、代码模板位置,resources/static,
+        new DsField(tableName, null, GenerateConfig.PACK_PATH, baseUrl + GenerateConfig.PATH_TEMPLATE);
+        Map<String, String> mapPath = new HashMap<>();
+        mapPath.put("entity", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_ENTITY + DsField.TABLE_NAME_UP + ".java");
+        mapPath.put("vo", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_VO + DsField.TABLE_NAME_UP + "VO.java");
+        mapPath.put("dto", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_DTO + DsField.TABLE_NAME_UP + "DTO.java");
+        mapPath.put("controller", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_CONTROLLER + DsField.TABLE_NAME_UP + "Controller.java");
+        mapPath.put("service", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE + DsField.TABLE_NAME_UP + "Service.java");
+        mapPath.put("serviceImpl", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE_IMPL + DsField.TABLE_NAME_UP + "ServiceImpl.java");
+        mapPath.put("mapper", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_DAO + DsField.TABLE_NAME_UP + "Mapper.java");
+
+        mapPath.put("htmlMain", GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/" + DsField.TABLE_NAME_LOWER + "Main.html");
+        mapPath.put("htmlAdd", GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/" + DsField.TABLE_NAME_LOWER + "Add.html");
+        mapPath.put("htmlUpd", GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/" + "/" + DsField.TABLE_NAME_LOWER + "Upd.html");
+        mapPath.put("index", "/page/" + GenerateConfig.MODULE_NAME + "_" + DsField.TABLE_NAME_LOWER + "_" + DsField.TABLE_NAME_LOWER);
+        return Result.success(mapPath);
     }
 }

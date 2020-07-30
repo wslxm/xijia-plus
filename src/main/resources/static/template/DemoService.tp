@@ -1,10 +1,10 @@
-package {packPath}.{moduleName}.service;
+package {packPath}.{packPathZp}.{moduleName}.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import {packPath}.{moduleName}.model.entity.{tableNameUp};
+import {packPath}.{packPathZp}.{moduleName}.model.entity.{tableNameUp};
 
 /**
- * TODO  {tableComment}
+ * {tableComment}
  * <p>
  * {describe}
  * </p>

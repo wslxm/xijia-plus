@@ -208,6 +208,8 @@ public class GenerateUtil extends BaseController {
                         .replace("{author}", "@author  " + GenerateConfig.AUTHOR)
                         .replace("{email}", "@email  " + GenerateConfig.EMAIL)
                         .replace("{describe}", GenerateConfig.DESCRIBE)
+                        .replace("{moduleName}", GenerateConfig.MODULE_NAME)//模块名
+                        .replace("{packPathZp}", GenerateConfig.PACK_PATH_ZP)//模块名子名
                         .replace("{date}", "@date  " + LocalDateTimeUtil.parse(LocalDateTimeUtil.now()))
                         //原始数据
                         .replace("{tableName}", DsField.TABLE_NAME) //表名
@@ -215,12 +217,8 @@ public class GenerateUtil extends BaseController {
                         .replace("{tableNameLower}", DsField.TABLE_NAME_LOWER)//表名小写开头驼峰
                        // .replace("{htmlNameLower}", DsField.TABLE_NAME_LOWER) //表名小写开头驼峰
                         .replace("{packPath}", DsField.PACK_PATH) //包路径
-                        .replace("{moduleName}", GenerateConfig.MODULE_NAME)//模块名
                         .replace("{tableComment}", DsField.TABLE_COMMENT)
                         //.replace("{entryName}", DsField.entryName)
-//                    .replace("{entryNameUp}", DsField.entryNameUp)
-//                    .replace("{entryNameLast}", DsField.entryNameLast)
-                        //  .replace("{entryNameSmall}", DsField.entryNameSmall)
                         //代码生成方法内获得的处理数据
                         .replace("{entitys}", DsField.FIELD_ENTITYS)
                         .replace("{findPageParam}", DsField.FIND_PAGE_PARAM)
