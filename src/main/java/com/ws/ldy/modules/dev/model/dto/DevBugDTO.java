@@ -24,7 +24,7 @@ public class DevBugDTO extends BaseDto {
     private static final long serialVersionUID = 0L;
 
     @ApiModelProperty(notes = "指派给id（保留）")
-    private Integer taskUserId;
+    private String taskUserId;
 
     @ApiModelProperty(notes = "任务名")
     private String name;

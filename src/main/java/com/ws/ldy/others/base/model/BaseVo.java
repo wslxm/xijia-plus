@@ -19,5 +19,5 @@ import lombok.NoArgsConstructor;
 public class BaseVo extends Convert {
 
     @ApiModelProperty(notes = "ID")
-    private Integer id;
+    private String id;
 }

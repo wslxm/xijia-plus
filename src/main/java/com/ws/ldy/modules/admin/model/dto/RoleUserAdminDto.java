@@ -21,9 +21,9 @@ public class RoleUserAdminDto extends BaseDto {
 
 
     @ApiModelProperty(value = "用户id")
-    private int userId;
+    private String userId;
 
 
     @ApiModelProperty(value = "角色id")
-    private int roleId;
+    private String roleId;
 }

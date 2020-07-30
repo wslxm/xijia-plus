@@ -20,8 +20,8 @@ public class RoleMenuAdminDto extends BaseDto {
 
 
     @ApiModelProperty(value = "菜单id")
-    private int menuId;
+    private String menuId;
 
     @ApiModelProperty(value = "角色id")
-    private int roleId;
+    private String roleId;
 }

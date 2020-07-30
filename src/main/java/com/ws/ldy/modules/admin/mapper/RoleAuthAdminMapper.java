@@ -16,7 +16,7 @@ public interface RoleAuthAdminMapper extends BaseMapper<RoleAuthAdmin> {
      * @date 2019/11/16 0016 23:00
      */
     @Select(value = "SELECT * FROM t_admin_role_auth where role_id in(SELECT role_id FROM t_admin_role_user where user_id=#{userId})")
-    List<RoleAuthAdmin> findUserIdRoleAuthority(@Param("userId") Integer userId);
+    List<RoleAuthAdmin> findUserIdRoleAuthority(@Param("userId") String userId);
 
     /**
      * TODO    查询角色所有Url权限
@@ -26,5 +26,5 @@ public interface RoleAuthAdminMapper extends BaseMapper<RoleAuthAdmin> {
      * @date 2019/11/16 0016 23:00
      */
     @Select(value = "select * from t_admin_role_auth where role_id = #{roleId}")
-    List<RoleAuthAdmin> findRoleId(@Param("roleId") Integer roleId);
+    List<RoleAuthAdmin> findRoleId(@Param("roleId") String roleId);
 }

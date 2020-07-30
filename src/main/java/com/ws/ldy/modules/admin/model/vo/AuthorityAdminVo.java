@@ -19,7 +19,7 @@ public class AuthorityAdminVo extends BaseVo {
     private static final long serialVersionUID = 0L;
 
     @ApiModelProperty(value = "权限类")
-    private Integer pid;
+    private String pid;
     @ApiModelProperty(value = "权限url")
     private String url;
     @ApiModelProperty(value = "权限描叙")

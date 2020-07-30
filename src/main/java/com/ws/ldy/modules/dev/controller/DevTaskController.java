@@ -65,7 +65,7 @@ public class DevTaskController extends BaseController<DevTaskService> {
     @ApiOperation("添加")
     public Result<Void> insert(@RequestBody @Validated DevTaskDTO dto) {
         DevTask devTask = dto.convert(DevTask.class);
-        devTask.setCreateUserId(AdminUserUtils.getUserId());
+        devTask.setCreateUser(AdminUserUtils.getUserId() + "");
         devTask.setState(0);//默认未开始
         baseService.save(devTask);
         return Result.successInsert();
@@ -82,7 +82,7 @@ public class DevTaskController extends BaseController<DevTaskService> {
 
     @RequestMapping(value = "/updState", method = RequestMethod.PUT)
     @ApiOperation("ID编辑状态--任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销)")
-    public Result<Void> update(@RequestParam Integer id, Integer state, Double takeUpTime) {
+    public Result<Void> update(@RequestParam String id, Integer state, Double takeUpTime) {
         DevTask devTask = new DevTask();
         devTask.setState(state);
         if (state == 2) {

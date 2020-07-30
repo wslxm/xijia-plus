@@ -3,6 +3,7 @@ package com.ws.ldy.others.generatecode.controller;
 import com.ws.ldy.common.result.Result;
 import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.others.base.controller.BaseController;
+import com.ws.ldy.others.generatecode.config.GenerateConfig;
 import com.ws.ldy.others.generatecode.model.vo.TableFieldVO;
 import com.ws.ldy.others.generatecode.model.vo.TableVO;
 import com.ws.ldy.others.generatecode.service.DataBaseService;
@@ -42,6 +43,13 @@ public class DataBaseController extends BaseController<DataBaseService> {
     @RequestMapping(value = "/findTableField", method = RequestMethod.GET)
     public Result<List<TableFieldVO>> findTableField(@RequestParam(required = false) String tableName) {
         List<TableFieldVO> tableField = baseService.findTableField(tableName);
+        for (TableFieldVO tableFieldVO : tableField) {
+            if (GenerateConfig.BASE_FIELDS.contains(tableFieldVO.getName())) {
+                tableFieldVO.setIsChecked(false);
+            } else {
+                tableFieldVO.setIsChecked(true);
+            }
+        }
         return Result.success(tableField);
     }
 }

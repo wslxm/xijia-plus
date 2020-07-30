@@ -107,7 +107,7 @@ public class RoleAdminController extends BaseController<RoleAdminService> {
 
     @RequestMapping(value = "/updUserRole", method = RequestMethod.PUT)
     @ApiOperation("用户角色分配")
-    public Result<Void> updUserRole(@RequestParam Integer userId, Integer[] roleIds) {
+    public Result<Void> updUserRole(@RequestParam String userId, String[] roleIds) {
         boolean result = baseService.updUserRole(userId, roleIds);
         return Result.successUpdate();
     }
@@ -115,7 +115,7 @@ public class RoleAdminController extends BaseController<RoleAdminService> {
 
     @RequestMapping(value = "/updRoleMenu", method = RequestMethod.PUT)
     @ApiOperation("角色菜单分配")
-    public Result<Void> updRoleMenu(@RequestParam Integer roleId, Integer[] menuIds) {
+    public Result<Void> updRoleMenu(@RequestParam String roleId, String[] menuIds) {
         roleMenuAdminService.roleMenuAuth(roleId, menuIds);
         return Result.successUpdate();
     }
@@ -123,7 +123,7 @@ public class RoleAdminController extends BaseController<RoleAdminService> {
 
     @RequestMapping(value = "/updRoleUrlAuth", method = RequestMethod.PUT)
     @ApiOperation("角色URL分配")
-    public Result<Void> updRoleUrlAuth(@RequestParam Integer roleId, Integer[] authIds) {
+    public Result<Void> updRoleUrlAuth(@RequestParam String roleId, String[] authIds) {
         roleAuthAdminService.roleUrlAuth(roleId, authIds);
         return Result.successUpdate();
     }

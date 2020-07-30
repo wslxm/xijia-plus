@@ -1,3 +1,5 @@
+/* 登录由 jwt+ springSecurity 来处理，config/auth包下 */
+
 //package com.ws.ldy.config.springSecurity.controller;
 //
 //

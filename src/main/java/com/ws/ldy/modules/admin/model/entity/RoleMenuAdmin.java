@@ -20,17 +20,17 @@ public class RoleMenuAdmin extends BaseEntity {
     /**
      * 菜单id
      */
-    private int menuId;
+    private String menuId;
 
     /**
      * 角色id
      */
-    private int roleId;
+    private String roleId;
 
     public RoleMenuAdmin() {
     }
 
-    public RoleMenuAdmin(int roleId, int menuId) {
+    public RoleMenuAdmin(String roleId, String menuId) {
         this.menuId = menuId;
         this.roleId = roleId;
     }

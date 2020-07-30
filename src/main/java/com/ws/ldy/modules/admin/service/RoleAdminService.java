@@ -39,6 +39,6 @@ public interface RoleAdminService  extends IService<RoleAdmin>{
      * @mail 1720696548@qq.com
      * @date 2020/4/10 0010 2:25
      */
-    boolean updUserRole(@RequestParam Integer userId, @RequestParam Integer[] roleIds);
+    boolean updUserRole(@RequestParam String userId, @RequestParam String[] roleIds);
 
 }

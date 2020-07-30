@@ -20,5 +20,5 @@ import lombok.NoArgsConstructor;
 public class BaseDto extends Convert {
 
     @ApiModelProperty(value = "id--> 添加不传，修改必传")
-    private Integer id;
+    private String id;
 }

@@ -79,7 +79,7 @@ public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMa
                 } else {
                     // 不存在新添加
                     AuthorityAdmin addAuthority = new AuthorityAdmin();
-                    addAuthority.setPid(0);                               // 请求Pid
+                    addAuthority.setPid("");                              // 请求Pid
                     addAuthority.setMethod("");                           // 请求方式
                     addAuthority.setUrl(url);                             // 接口URL
                     addAuthority.setDesc(apiClass.tags()[0]);             // 接口描叙
@@ -91,7 +91,7 @@ public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMa
         }
         // 删除多余数据
         if (authorityMap.size() > 0) {
-            List<Integer> delIds = new ArrayList<>();
+            List<String> delIds = new ArrayList<>();
             authorityMap.forEach((k, v) -> {
                 delIds.add(v.getId());
             });

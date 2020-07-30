@@ -21,18 +21,18 @@ public class RoleUserAdmin extends BaseEntity {
     /**
      * 用户id
      */
-    private int userId;
+    private String userId;
 
     /**
      * 角色id
      */
-    private int roleId;
+    private String roleId;
 
 
     public RoleUserAdmin() {
     }
 
-    public RoleUserAdmin(int roleId, int userId) {
+    public RoleUserAdmin(String roleId, String userId) {
         this.userId = userId;
         this.roleId = roleId;
     }

@@ -63,7 +63,7 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
             @ApiImplicitParam(name = "id", value = "父id", required = false, paramType = "query"),
             @ApiImplicitParam(name = "roleId", value = "角色Id，判断当前是否有权限并选中", required = false, paramType = "query")
     })
-    public Result<List<MenuAdminVo>> findPidOrRoleIdList(Integer id, Integer roleId) {
+    public Result<List<MenuAdminVo>> findPidOrRoleIdList(String id, String roleId) {
         List<MenuAdminVo> menus = baseService.findIdOrRoleIdList(id, roleId);
         return Result.successFind(BeanDtoVoUtil.listVo(menus, MenuAdminVo.class));
     }
@@ -92,9 +92,9 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("ID删除菜单+所有子菜单")
-    public Result<List<Integer>> delete(@RequestParam Integer id) {
+    public Result<List<String>> delete(@RequestParam String id) {
         List<MenuAdminVo> idOrRoleIdList = baseService.findIdOrRoleIdList(id);
-        List<Integer> menuIds = new ArrayList<>();
+        List<String> menuIds = new ArrayList<>();
         idOrRoleIdList.forEach(item -> menuIds.add(item.getId()));
         baseService.removeByIds(menuIds);
         return Result.successDelete(menuIds);

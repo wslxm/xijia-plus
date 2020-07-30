@@ -1,14 +1,14 @@
 package com.ws.ldy.modules.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.modules.admin.model.dto.DictionaryAdminDto;
 import com.ws.ldy.modules.admin.model.entity.DictionaryAdmin;
 import com.ws.ldy.modules.admin.model.vo.DictionaryAdminVo;
 import com.ws.ldy.modules.admin.service.DictionaryAdminService;
 import com.ws.ldy.others.base.controller.BaseController;
-import com.ws.ldy.enums.base.BaseConstant;
-import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -70,7 +70,7 @@ public class DictionaryAdminController extends BaseController<DictionaryAdminSer
 
     @RequestMapping(value = "/updSort", method = RequestMethod.PUT)
     @ApiOperation("修改排序")
-    public Result<Void> updSort(@RequestParam Integer id, @RequestParam Integer sort) {
+    public Result<Void> updSort(@RequestParam String id, @RequestParam Integer sort) {
         DictionaryAdmin dict = new DictionaryAdmin();
         dict.setId(id);
         dict.setSort(sort);

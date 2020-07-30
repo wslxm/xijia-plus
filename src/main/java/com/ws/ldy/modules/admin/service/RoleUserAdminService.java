@@ -23,7 +23,7 @@ public interface RoleUserAdminService extends IService<RoleUserAdmin> {
      * @return java.util.List<com.ws.ldy.adminconsole.entity.RoleUserAdmin>
      * @date 2019/11/16 0016 23:00
      */
-    List<RoleUserAdmin> findRoleId(Integer roleId);
+    List<RoleUserAdmin> findRoleId(String roleId);
 
 
     /***
@@ -32,7 +32,7 @@ public interface RoleUserAdminService extends IService<RoleUserAdmin> {
      * @date 2019/11/18 15:09
      * @return java.util.List<UserAdmin>
      */
-    public List<UserAdminVo> roleUserChecked(List<UserAdmin> users, Integer roleId);
+    public List<UserAdminVo> roleUserChecked(List<UserAdmin> users, String roleId);
 
     /***
      * TODO  角色用户分配
@@ -41,5 +41,5 @@ public interface RoleUserAdminService extends IService<RoleUserAdmin> {
      * @date 2019/11/18 15:45
      * @return void
      */
-    public void updRoleUser(Integer roleId, Integer[] userIds);
+    public void updRoleUser(String roleId, String[] userIds);
 }

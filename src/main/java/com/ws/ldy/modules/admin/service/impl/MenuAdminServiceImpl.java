@@ -32,15 +32,15 @@ public class MenuAdminServiceImpl extends BaseIServiceImpl<MenuAdminMapper, Menu
     public List<MenuAdminVo> getMenuTree() {
 
         // 获取当前代理角色所有菜单Id： key=菜单Id, value=0
-        Map<Integer, Integer> roleMenuMap = new HashMap<>();
+        Map<String, String> roleMenuMap = new HashMap<>();
         // 查询用户所有角色，在查询角色下所有菜单id
-        roleMenuAdminMapper.findUserIdRoleMenus( AdminUserUtils.getUserId()).forEach(item -> roleMenuMap.put(item.getMenuId(), item.getMenuId()));
+        roleMenuAdminMapper.findUserIdRoleMenus(AdminUserUtils.getUserId()).forEach(item -> roleMenuMap.put(item.getMenuId(), item.getMenuId()));
         // 系统级  ==>  顶级菜单返回  ==>  root == 1
         List<MenuAdminVo> menuList = new LinkedList<>();
         // 查询所有菜单
         List<MenuAdmin> menuAdminList = this.list(new LambdaQueryWrapper<MenuAdmin>()
                 .orderByAsc(MenuAdmin::getSort)
-                .eq(MenuAdmin::getState,0)
+                .eq(MenuAdmin::getState, 0)
         );
         // 树结构菜单 ==> 递归添加
         List<MenuAdminVo> menuAdminVos = BeanDtoVoUtil.listVoStream(menuAdminList, MenuAdminVo.class);
@@ -62,7 +62,7 @@ public class MenuAdminServiceImpl extends BaseIServiceImpl<MenuAdminMapper, Menu
      * @date 2019/11/13 15:20
      * @return void
      */
-    private MenuAdminVo nextLowerNode(List<MenuAdminVo> menuVos, MenuAdminVo menuVo, Map<Integer, Integer> roleMenuMap) {
+    private MenuAdminVo nextLowerNode(List<MenuAdminVo> menuVos, MenuAdminVo menuVo, Map<String, String> roleMenuMap) {
         List<MenuAdminVo> menuList = new ArrayList<>();
         menuVos.forEach(menuVo2 -> {
             if (menuVo2.getPid().equals(menuVo.getId()) && roleMenuMap.containsKey(menuVo2.getId())) {
@@ -88,7 +88,7 @@ public class MenuAdminServiceImpl extends BaseIServiceImpl<MenuAdminMapper, Menu
      * @date 2020/4/19 0019 20:39
      */
     @Override
-    public List<MenuAdminVo> findIdOrRoleIdTree(Integer pId) {
+    public List<MenuAdminVo> findIdOrRoleIdTree(String pId) {
         return findIdOrRoleIdTree(pId, null);
     }
 
@@ -103,10 +103,10 @@ public class MenuAdminServiceImpl extends BaseIServiceImpl<MenuAdminMapper, Menu
      * @date 2020/4/19 0019 20:39
      */
     @Override
-    public List<MenuAdminVo> findIdOrRoleIdTree(Integer pId, Integer roleId) {
+    public List<MenuAdminVo> findIdOrRoleIdTree(String pId, String roleId) {
         // 获取指定角色所有菜单Id： key=菜单Id, value=0
         // List<RoleMenuAdmin> roleMenus = roleMenuAdminMapper.findRoleId(roleId);
-        Map<Integer, Integer> roleMenuMap = new HashMap<>();
+        Map<String, String> roleMenuMap = new HashMap<>();
         List<RoleMenuAdmin> roleIdList = roleMenuAdminMapper.findRoleId(roleId);
         roleIdList.forEach(item -> roleMenuMap.put(item.getMenuId(), item.getMenuId()));
         // 查询菜单数据
@@ -141,7 +141,7 @@ public class MenuAdminServiceImpl extends BaseIServiceImpl<MenuAdminMapper, Menu
      * @return void
      * @date 2019/11/13 15:20
      */
-    private MenuAdminVo nextLowerIdNode(List<MenuAdminVo> menuVos, MenuAdminVo menuVo, Map<Integer, Integer> roleMenuMap) {
+    private MenuAdminVo nextLowerIdNode(List<MenuAdminVo> menuVos, MenuAdminVo menuVo, Map<String, String> roleMenuMap) {
         List<MenuAdminVo> menuList = new ArrayList<>();
         menuVos.forEach(menuVo2 -> {
             if (menuVo2.getPid().equals(menuVo.getId())) {
@@ -166,7 +166,7 @@ public class MenuAdminServiceImpl extends BaseIServiceImpl<MenuAdminMapper, Menu
      * @date 2020/4/19 0019 20:36
      */
     @Override
-    public List<MenuAdminVo> findIdOrRoleIdList(Integer pId) {
+    public List<MenuAdminVo> findIdOrRoleIdList(String pId) {
         return findIdOrRoleIdList(pId, null);
     }
 
@@ -180,9 +180,9 @@ public class MenuAdminServiceImpl extends BaseIServiceImpl<MenuAdminMapper, Menu
      * @date 2020/4/19 0019 20:36
      */
     @Override
-    public List<MenuAdminVo> findIdOrRoleIdList(Integer pId, Integer roleId) {
+    public List<MenuAdminVo> findIdOrRoleIdList(String pId, String roleId) {
         // 获取指定角色所有菜单Id： key=菜单Id, value=0
-        Map<Integer, Integer> roleMenuMap = new HashMap<>();
+        Map<String, String> roleMenuMap = new HashMap<>();
         if (roleId != null) {
             List<RoleMenuAdmin> roleMenuList = roleMenuAdminMapper.findRoleId(roleId);
             if (roleMenuList != null && roleMenuList.size() > 0) {
@@ -197,7 +197,7 @@ public class MenuAdminServiceImpl extends BaseIServiceImpl<MenuAdminMapper, Menu
         }
         // 系统级  ==>  顶级菜单返回  ==>  root == 1
         List<MenuAdminVo> menuVoList = new LinkedList<>();
-        if (pId != null && pId >= 0) {
+        if (pId != null && Integer.parseInt(pId) >= 0) {
             // 树结构菜单 ==> 递归添加  ==> 指定父Id下
             for (MenuAdminVo menuVo : menuAdminVoList) {
                 if (menuVo.getId().equals(pId)) {
@@ -233,7 +233,7 @@ public class MenuAdminServiceImpl extends BaseIServiceImpl<MenuAdminMapper, Menu
      * @return void
      * @date 2019/11/13 15:20
      */
-    private void nextLowerIdNode(List<MenuAdminVo> menuVos, MenuAdminVo menuVo, Map<Integer, Integer> roleMenuMap, List<MenuAdminVo> menuVoList) {
+    private void nextLowerIdNode(List<MenuAdminVo> menuVos, MenuAdminVo menuVo, Map<String, String> roleMenuMap, List<MenuAdminVo> menuVoList) {
         menuVos.forEach(menuVo2 -> {
             if (menuVo2.getPid().equals(menuVo.getId())) {
                 this.setChecked(menuVo2, roleMenuMap);
@@ -248,7 +248,7 @@ public class MenuAdminServiceImpl extends BaseIServiceImpl<MenuAdminMapper, Menu
     /**
      * 判断并设置为选中状态
      */
-    private void setChecked(MenuAdminVo menu, Map<Integer, Integer> roleMenuMap) {
+    private void setChecked(MenuAdminVo menu, Map<String, String> roleMenuMap) {
         //权限判断设置选中状态
         if (roleMenuMap.containsKey(menu.getId())) {
             menu.setIsChecked(true);

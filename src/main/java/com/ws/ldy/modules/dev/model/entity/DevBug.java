@@ -26,13 +26,9 @@ public class DevBug extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
 
-    @ApiModelProperty(notes = "创建人id (保留)")
-    @TableField(value = "create_user_id")
-    private Integer createUserId;
-
-    @ApiModelProperty(notes = "指派给id（保留）")
+    @ApiModelProperty(notes = "指派给id")
     @TableField(value = "task_user_id")
-    private Integer taskUserId;
+    private String taskUserId;
 
     @ApiModelProperty(notes = "任务名")
     @TableField(value = "`name`")

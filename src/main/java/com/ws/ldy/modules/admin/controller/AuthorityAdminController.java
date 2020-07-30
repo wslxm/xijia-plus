@@ -43,7 +43,7 @@ public class AuthorityAdminController extends BaseController<AuthorityAdminServi
     @ApiOperation("查询所有,跟据角色赋予选中状态")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
-    public Result<List<AuthorityAdminVo>> findList(Integer roleId) {
+    public Result<List<AuthorityAdminVo>> findList(String roleId) {
         List<AuthorityAdminVo> roleAuthorityChecked = roleAuthAdminService.findRoleAuthorityChecked(roleId);
         return Result.success(roleAuthorityChecked);
     }

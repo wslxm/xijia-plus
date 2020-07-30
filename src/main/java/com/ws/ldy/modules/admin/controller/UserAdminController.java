@@ -70,7 +70,7 @@ public class UserAdminController extends BaseController<UserAdminService> {
             @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query"),
             @ApiImplicitParam(name = "username", value = "用户名", required = false, paramType = "query")
     })
-    public Result<List<UserAdminVo>> findRoleIdList(Integer roleId, String username) {
+    public Result<List<UserAdminVo>> findRoleIdList(String roleId, String username) {
         List<UserAdmin> userList = null;
         if (StringUtils.isNotBlank(username)) {
             userList = baseService.list(new LambdaQueryWrapper<UserAdmin>()

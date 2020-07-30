@@ -3,29 +3,32 @@ package com.ws.ldy.modules.dev.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ws.ldy.others.base.controller.BaseController;
-import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.modules.dev.model.dto.DevStudyDTO;
-import com.ws.ldy.modules.dev.model.entity.DevStudy;
-import com.ws.ldy.modules.dev.model.vo.DevStudyVO;
-import com.ws.ldy.modules.dev.service.DevStudyService;
-import io.swagger.annotations.*;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.annotations.*;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.ws.ldy.modules.dev.model.entity.DevStudy;
+import com.ws.ldy.modules.dev.model.vo.DevStudyVO;
+import com.ws.ldy.modules.dev.model.dto.DevStudyDTO;
+import com.ws.ldy.modules.dev.service.DevStudyService;
+import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.others.base.controller.BaseController;
 import java.util.Arrays;
+import java.time.LocalDateTime;
 
 
 /**
- * TODO  学习计划
+ * 学习计划
  * <p>
  *  ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 
  * </p>
  * @author  wangsong
  * @email  1720696548@qq.com
- * @date  2020-06-27 12:23:26
+ * @date  2020-07-31 00:37:27
  */
 @RestController
 @RequestMapping("/dev/devStudy")
@@ -40,12 +43,10 @@ public class DevStudyController extends BaseController<DevStudyService>  {
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query",example = "20")
     })
     public Result<IPage<DevStudyVO>> findPage( 
-            @ApiParam(value = "名称",required = false) @RequestParam(required = false) String name,
-            @ApiParam(value = "0-未开始  1-正在执行 2-已完成",required = false) @RequestParam(required = false) Integer state) {
+            @ApiParam(value = "名称",required = false) @RequestParam(required = false) String name) {
         Page<DevStudy> page = baseService.page(this.getPage(), new LambdaQueryWrapper<DevStudy>()
-                .orderByDesc(DevStudy::getCreateTime)
+                .orderByAsc(DevStudy::getId)
                 .eq(StringUtils.isNotBlank(name),DevStudy::getName,name)
-                .eq(state != null,DevStudy::getState,state)
 
         );
         return Result.successFind(BeanDtoVoUtil.pageVo(page, DevStudyVO.class));

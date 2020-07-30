@@ -18,10 +18,10 @@ public class RoleAuthAdminDto extends BaseDto {
 
 
     @ApiModelProperty(value = "接口id")
-    private Integer authId;
+    private String authId;
 
     @ApiModelProperty(value = "角色id")
-    private Integer roleId;
+    private String roleId;
 
 
 }

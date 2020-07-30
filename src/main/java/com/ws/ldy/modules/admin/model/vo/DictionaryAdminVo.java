@@ -28,7 +28,7 @@ public class DictionaryAdminVo extends BaseVo {
     private String name;
 
     @ApiModelProperty(value = "父Id")
-    private Integer pid;
+    private String pid;
 
     @ApiModelProperty(value = "描叙")
     private String desc;

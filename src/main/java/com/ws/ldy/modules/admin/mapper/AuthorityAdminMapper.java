@@ -19,5 +19,5 @@ public interface AuthorityAdminMapper extends BaseMapper<AuthorityAdmin> {
     @Select(value = "SELECT * FROM  t_admin_authority where id in" +
             " (SELECT auth_id FROM t_admin_role_auth  where role_id in (" +
             "SELECT role_id FROM t_admin_role_user where user_id=#{userId}))")
-    List<AuthorityAdmin> findUserIdRoleAuthority(@Param("userId") Integer userId);
+    List<AuthorityAdmin> findUserIdRoleAuthority(@Param("userId") String userId);
 }

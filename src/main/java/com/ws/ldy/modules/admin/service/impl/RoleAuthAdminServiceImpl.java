@@ -28,17 +28,17 @@ public class RoleAuthAdminServiceImpl extends BaseIServiceImpl<RoleAuthAdminMapp
 
 
     @Override
-    public List<RoleAuthAdmin> findUserIdRoleAuthority(Integer userId) {
+    public List<RoleAuthAdmin> findUserIdRoleAuthority(String userId) {
         return roleAuthAdminMapper.findUserIdRoleAuthority(userId);
     }
 
 
     @Override
-    public List<AuthorityAdminVo> findRoleAuthorityChecked(Integer roleId) {
+    public List<AuthorityAdminVo> findRoleAuthorityChecked(String roleId) {
         // 获取当前角色url权限列表
-        Map<Integer, Integer> map = new HashMap<>(8);
+        Map<String, String> map = new HashMap<>(8);
         if (roleId != null) {
-            roleAuthAdminMapper.findRoleId(roleId).forEach(item -> map.put(item.getAuthId(), 0));
+            roleAuthAdminMapper.findRoleId(roleId).forEach(item -> map.put(item.getAuthId(), "0"));
         }
         // 获取所有url
         List<AuthorityAdmin> authorityList = authorityAdminMapper.selectList(null);
@@ -62,7 +62,7 @@ public class RoleAuthAdminServiceImpl extends BaseIServiceImpl<RoleAuthAdminMapp
 
 
     @Override
-    public void roleUrlAuth(Integer roleId, Integer[] userIds) {
+    public void roleUrlAuth(String roleId, String[] userIds) {
         //删除原数据
         this.remove(new LambdaQueryWrapper<RoleAuthAdmin>().eq(RoleAuthAdmin::getRoleId, roleId));
         //添加新数据

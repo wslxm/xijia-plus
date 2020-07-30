@@ -25,7 +25,7 @@ public class MenuAdminVo extends BaseVo {
 
 
     @ApiModelProperty(value = "指定父id")
-    private Integer pid;
+    private String pid;
     @ApiModelProperty(value = "菜单名")
     private String name;
     @ApiModelProperty(value = "菜单url")

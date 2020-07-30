@@ -23,10 +23,10 @@ public class RoleAuthAdmin extends BaseEntity {
     /**
      * url权限id
      */
-    private Integer authId;
+    private String authId;
     /**
      * 角色id
      */
-    private Integer roleId;
+    private String roleId;
 }
 

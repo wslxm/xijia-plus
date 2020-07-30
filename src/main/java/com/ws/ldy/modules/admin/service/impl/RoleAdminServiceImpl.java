@@ -29,8 +29,8 @@ public class RoleAdminServiceImpl extends BaseIServiceImpl<RoleAdminMapper, Role
         List<RoleAdmin> roles = this.list();
         //查询用户当前角色
         List<RoleUserAdmin> roleUsers = roleUserAdminService.list(new QueryWrapper<RoleUserAdmin>().eq("user_id", userId));
-        Map<Integer, Integer> roleUserMap = new HashMap<>();
-        roleUsers.forEach(item -> roleUserMap.put(item.getRoleId(), 0));
+        Map<String, String> roleUserMap = new HashMap<>();
+        roleUsers.forEach(item -> roleUserMap.put(item.getRoleId(), "0"));
         //返回数据
         List<RoleAdminVo> roleAdminVoList = new ArrayList<>();
         roles.forEach(role -> {
@@ -48,7 +48,7 @@ public class RoleAdminServiceImpl extends BaseIServiceImpl<RoleAdminMapper, Role
 
     @Override
     @Transactional
-    public boolean updUserRole(Integer userId, Integer[] roleIds) {
+    public boolean updUserRole(String userId, String[] roleIds) {
         //删除原角色
         boolean result = roleUserAdminService.remove(new QueryWrapper<RoleUserAdmin>().eq("user_id", userId));
         if (roleIds.length <= 0) {

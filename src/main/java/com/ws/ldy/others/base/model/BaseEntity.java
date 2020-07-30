@@ -26,8 +26,8 @@ public class BaseEntity extends Convert {
     /**
      * 数据库id
      */
-    @TableId(type = IdType.AUTO) //自增, 雪花算法-->IdType.ASSIGN_ID,字符串Id使用
-    private Integer id;
+    @TableId(type = IdType.ASSIGN_ID) //, 雪花算法=IdType.ASSIGN_ID  || 自增=IdType.AUTO
+    private String id;
     /**
      * 创建人(ID)
      */

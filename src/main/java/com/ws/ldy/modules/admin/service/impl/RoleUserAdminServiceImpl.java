@@ -18,14 +18,14 @@ import java.util.Map;
 public class RoleUserAdminServiceImpl extends BaseIServiceImpl<RoleUserAdminMapper, RoleUserAdmin> implements RoleUserAdminService {
 
     @Override
-    public List<RoleUserAdmin> findRoleId(Integer roleId) {
+    public List<RoleUserAdmin> findRoleId(String roleId) {
         return baseMapper.findRoleId(roleId);
     }
 
     @Override
-    public List<UserAdminVo> roleUserChecked(List<UserAdmin> users, Integer roleId) {
+    public List<UserAdminVo> roleUserChecked(List<UserAdmin> users, String roleId) {
         // 当前角色下的用户
-        Map<Integer, Integer> roleUserMap = new HashMap<>(8);
+        Map<String, String> roleUserMap = new HashMap<>(8);
         List<RoleUserAdmin> roleUsers = baseMapper.findRoleId(roleId);
         roleUsers.forEach(item -> roleUserMap.put(item.getUserId(), item.getRoleId()));
         //赋值选中状态
@@ -51,19 +51,19 @@ public class RoleUserAdminServiceImpl extends BaseIServiceImpl<RoleUserAdminMapp
      * @date 2020/4/6 0006 18:05
      */
     @Override
-    public void updRoleUser(Integer roleId, Integer[] userIds) {
+    public void updRoleUser(String roleId, String[] userIds) {
         //后台当前角色用户--判断添加
-        Map<Integer, Integer> roleUserMap = new HashMap<>();
+        Map<String, String> roleUserMap = new HashMap<>();
         List<RoleUserAdmin> roleUsers = baseMapper.findRoleId(roleId);
         baseMapper.findRoleId(roleId).forEach(item -> roleUserMap.put(item.getUserId(), item.getRoleId()));
 
         //前台传入角色用户--判断删除
-        Map<Integer, Integer> roleUserIdsMap = new HashMap<>();
+        Map<String, String> roleUserIdsMap = new HashMap<>();
 
         //计算添加，遍历传如数据，如发现后台不存在则添加
         List<RoleUserAdmin> addRoleUser = new ArrayList<>();
         if (userIds != null) {
-            for (Integer userId : userIds) {
+            for (String userId : userIds) {
                 if (!roleUserMap.containsKey(userId)) {
                     addRoleUser.add(new RoleUserAdmin(roleId, userId));
                 }
@@ -72,7 +72,7 @@ public class RoleUserAdminServiceImpl extends BaseIServiceImpl<RoleUserAdminMapp
         }
 
         //计算删除，遍历后台数据，如发现前台传入值不包含则删除
-        List<Integer> roleUserIds = new ArrayList<>();
+        List<String> roleUserIds = new ArrayList<>();
         for (RoleUserAdmin roleUser : roleUsers) {
             if (!roleUserIdsMap.containsKey(roleUser.getUserId())) {
                 roleUserIds.add(roleUser.getId());

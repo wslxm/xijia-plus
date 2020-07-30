@@ -32,9 +32,9 @@ public interface MenuAdminService  extends IService<MenuAdmin> {
      * @return java.util.List<com.ws.ldy.adminconsole.entity.MenuAdmin>
      * @date 2019/11/15 16:18
      */
-    public List<MenuAdminVo> findIdOrRoleIdTree(Integer pId);
+    public List<MenuAdminVo> findIdOrRoleIdTree(String pId);
 
-    public List<MenuAdminVo> findIdOrRoleIdTree(Integer pId, Integer roleId);
+    public List<MenuAdminVo> findIdOrRoleIdTree(String pId, String roleId);
 
     /**
      * TODO  根据父id+角色Id  查询所有子节点数据 ==>>> list 列表
@@ -43,8 +43,8 @@ public interface MenuAdminService  extends IService<MenuAdmin> {
      * @return java.util.List<com.ws.ldy.adminconsole.entity.MenuAdmin>
      * @date 2019/11/15 16:18
      */
-    public List<MenuAdminVo> findIdOrRoleIdList(Integer pId);
+    public List<MenuAdminVo> findIdOrRoleIdList(String pId);
 
-    public List<MenuAdminVo> findIdOrRoleIdList(Integer pId, Integer roleId);
+    public List<MenuAdminVo> findIdOrRoleIdList(String pId, String roleId);
 
 }

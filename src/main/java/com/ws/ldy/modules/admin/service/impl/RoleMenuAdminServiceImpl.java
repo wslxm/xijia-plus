@@ -15,7 +15,7 @@ public class RoleMenuAdminServiceImpl extends BaseIServiceImpl<RoleMenuAdminMapp
 
 
     @Override
-    public List<RoleMenuAdmin> findRoleId(Integer roleId) {
+    public List<RoleMenuAdmin> findRoleId(String roleId) {
         return baseMapper.findRoleId(roleId);
     }
 
@@ -31,7 +31,7 @@ public class RoleMenuAdminServiceImpl extends BaseIServiceImpl<RoleMenuAdminMapp
      * @date 2020/4/6 0006 17:47
      */
     @Override
-    public void roleMenuAuth(Integer roleId, Integer[] menuIds) {
+    public void roleMenuAuth(String roleId, String[] menuIds) {
         // 删除当前角色所有菜单权限
         this.remove(new LambdaQueryWrapper<RoleMenuAdmin>().eq(RoleMenuAdmin::getRoleId, roleId));
         // 添加新权限

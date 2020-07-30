@@ -17,5 +17,5 @@ public interface RoleUserAdminMapper extends BaseMapper<RoleUserAdmin> {
      * @date 2019/11/16 0016 23:00
      */
     @Select(value = "select * from t_admin_role_user where role_id = #{roleId}")
-    List<RoleUserAdmin> findRoleId(@Param("roleId") Integer roleId);
+    List<RoleUserAdmin> findRoleId(@Param("roleId") String roleId);
 }

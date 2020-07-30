@@ -31,7 +31,7 @@ public class DictionaryAdmin extends BaseEntity {
      * 父Id
      */
     @TableField(value = "pid")
-    private Integer pid;
+    private String pid;
     /**
      * 描叙
      */

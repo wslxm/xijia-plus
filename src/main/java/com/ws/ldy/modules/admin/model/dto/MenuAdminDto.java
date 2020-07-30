@@ -21,7 +21,7 @@ public class MenuAdminDto extends BaseDto {
     @ApiModelProperty(value = "目录级别(1，系统, 2、菜单, 3、页面)")
     private MenuRootEnum root;
     @ApiModelProperty(value = "指定父id")
-    private Integer pid;
+    private String pid;
     @ApiModelProperty(value = "菜单名")
     private String name;
     @ApiModelProperty(value = "菜单url")

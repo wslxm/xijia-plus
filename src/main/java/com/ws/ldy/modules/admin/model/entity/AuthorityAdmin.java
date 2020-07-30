@@ -20,7 +20,7 @@ public class AuthorityAdmin extends BaseEntity {
     /**
      * 权限类Id（方法与类/层级关系展示)
      */
-    private Integer pid;
+    private String pid;
     /**
      * 权限描叙
      */

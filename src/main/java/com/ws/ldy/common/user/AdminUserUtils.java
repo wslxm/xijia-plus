@@ -56,9 +56,9 @@ public class AdminUserUtils {
      * @return com.ws.ldy.admin.model.entity.UserAdmin
      * @date 2020/6/20 0020 16:55
      */
-    public static Integer getUserId() {
+    public static String getUserId() {
         // 判断用户是否登录
-        return Integer.parseInt(JwtUtil.getUserId(getToken()));
+        return JwtUtil.getUserId(getToken());
     }
 
 

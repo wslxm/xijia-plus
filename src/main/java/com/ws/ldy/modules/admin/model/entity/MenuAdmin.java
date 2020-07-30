@@ -22,7 +22,7 @@ public class MenuAdmin extends BaseEntity {
     /**
      * 父id
      */
-    private Integer pid;
+    private String pid;
 
     /**
      * 菜单名称

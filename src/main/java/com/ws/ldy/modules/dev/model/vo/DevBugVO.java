@@ -22,11 +22,11 @@ public class DevBugVO extends BaseVo {
 
     private static final long serialVersionUID = 0L;
     
-    @ApiModelProperty(notes = "创建人id (保留)")
-    private Integer createUserId;
+    @ApiModelProperty(notes = "创建人id ")
+    private String createUser;
 
-    @ApiModelProperty(notes = "指派给id（保留）")
-    private Integer taskUserId;
+    @ApiModelProperty(notes = "指派给id")
+    private String taskUserId;
 
     @ApiModelProperty(notes = "任务名")
     private String name;

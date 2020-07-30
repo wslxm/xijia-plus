@@ -21,7 +21,7 @@ public interface RoleMenuAdminService extends IService<RoleMenuAdmin> {
      * @return java.util.List<com.ws.ldy.adminconsole.entity.RoleMenuAdmin>
      * @date 2019/11/16 0016 23:00
      */
-    List<RoleMenuAdmin> findRoleId(Integer roleId);
+    List<RoleMenuAdmin> findRoleId(String roleId);
 
     /**
      * TODO   角色菜单权限分配
@@ -31,5 +31,5 @@ public interface RoleMenuAdminService extends IService<RoleMenuAdmin> {
      * @return void
      * @date 2019/11/17 0017 2:08
      */
-    void roleMenuAuth(Integer roleId, Integer[] menuIds);
+    void roleMenuAuth(String roleId, String[] menuIds);
 }

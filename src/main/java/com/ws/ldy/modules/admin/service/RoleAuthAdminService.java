@@ -23,7 +23,7 @@ public interface RoleAuthAdminService  extends IService<RoleAuthAdmin> {
      * @return List<RoleAuthAdmin>
      * @date 2019/11/25 0025 18:23
      */
-    List<RoleAuthAdmin> findUserIdRoleAuthority(Integer userId);
+    List<RoleAuthAdmin> findUserIdRoleAuthority(String userId);
 
     /**
      * TODO    获取url权限列表，给指定角色的有的权限数据赋予选中状态
@@ -32,7 +32,7 @@ public interface RoleAuthAdminService  extends IService<RoleAuthAdmin> {
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    List<AuthorityAdminVo> findRoleAuthorityChecked(Integer userId);
+    List<AuthorityAdminVo> findRoleAuthorityChecked(String userId);
 
     /***
      * TODO  角色用户分配
@@ -41,5 +41,5 @@ public interface RoleAuthAdminService  extends IService<RoleAuthAdmin> {
      * @date 2019/11/18 15:45
      * @return void
      */
-    public void roleUrlAuth(Integer roleId, Integer[] userIds);
+    public void roleUrlAuth(String roleId, String[] userIds);
 }
