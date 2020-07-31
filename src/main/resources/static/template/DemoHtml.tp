@@ -48,11 +48,11 @@
 </script>
 <script>
 
-    let find_page = path + "/{moduleName}/{tableNameLower}/findPage";       //角色查询-分页
-    let del = path + "/{moduleName}/{tableNameLower}/del";                  //角色删除
+    let find_page = path + "/{moduleName}/{tableNameLower}/findPage";       //查询-分页
+    let del = path + "/{moduleName}/{tableNameLower}/del";                  //删除
     //
-    let page_add = path + "/page/{packPathZp}_{moduleName}_{tableNameLower}_{tableNameLower}Add";   //角色添加弹出
-    let page_upd = path + "/page/{packPathZp}_{moduleName}_{tableNameLower}_{tableNameLower}Upd";   //角色编辑弹出
+    let page_add = path + "/page/{packPathZp}_{moduleName}_{tableNameLower}_{tableNameLower}Add";   //添加弹出
+    let page_upd = path + "/page/{packPathZp}_{moduleName}_{tableNameLower}_{tableNameLower}Upd";   //编辑弹出
 
     let table;     // 数据表格组件
     let laypage;   // 分页组件

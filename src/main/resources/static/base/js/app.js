@@ -20,7 +20,7 @@ function tipsWindown(url, width, height, name) {
             area: [width, height],  // area: ["600px", "200px"],
             content: [url],         //page/menu_addRoot1
             btn: ['确定', '取消'],
-            closeBtn: 0,
+            closeBtn: 1,
             fixed: false,
             shadeClose: true,
             success: function (layero, index) {
