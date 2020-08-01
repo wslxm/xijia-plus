@@ -1,6 +1,7 @@
 spring:
   profiles:
-    active: dev
+    # maven面板动态切换dev/pro环境
+    active: @profiles.active@
 
   # 当遇到同样beng名字的时候，是否允许覆盖注册
   main:
