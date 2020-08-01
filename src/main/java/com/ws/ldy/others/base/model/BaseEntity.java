@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class BaseEntity extends Convert {
 
     /**

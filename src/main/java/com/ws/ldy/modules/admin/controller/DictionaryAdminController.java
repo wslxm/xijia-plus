@@ -62,7 +62,7 @@ public class DictionaryAdminController extends BaseController<DictionaryAdminSer
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("ID删除")
-    public Result<Void> delete(Integer id) {
+    public Result<Void> delete(String id) {
         baseService.removeById(id);
         return Result.successDelete();
     }

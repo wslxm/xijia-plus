@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.Result;
 import com.ws.ldy.common.user.AdminUserUtils;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.modules.dev.model.dto.DevBugDTO;
 import com.ws.ldy.modules.dev.model.entity.DevBug;
 import com.ws.ldy.modules.dev.model.vo.DevBugVO;
@@ -32,7 +33,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("/dev/devBug")
-@Api(value = "DevBug", tags = "Bug修复", description = "Bug修复")
+@Api(value = "DevBug", tags = "Bug修复", description = BaseConstant.InterfaceType.PC_ADMIN)
 public class DevBugController extends BaseController<DevBugService> {
 
 
@@ -100,7 +101,7 @@ public class DevBugController extends BaseController<DevBugService> {
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation("单删除")
-    public Result<Void> delete(@RequestParam Integer id) {
+    public Result<Void> delete(@RequestParam String id) {
         baseService.removeById(id);
         return Result.successDelete();
     }
@@ -108,7 +109,7 @@ public class DevBugController extends BaseController<DevBugService> {
 
     @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
     @ApiOperation("批量删除")
-    public Result<Void> deleteByIds(@RequestParam Integer[] ids) {
+    public Result<Void> deleteByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
         return Result.successDelete();
     }

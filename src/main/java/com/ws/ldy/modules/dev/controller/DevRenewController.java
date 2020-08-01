@@ -71,7 +71,7 @@ public class DevRenewController extends BaseController<DevRenewService>  {
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation("单删除")
-    public Result<Void> delete(@RequestParam Integer id) {
+    public Result<Void> delete(@RequestParam String id) {
         baseService.removeById(id);
         return Result.successDelete();
     }
@@ -79,7 +79,7 @@ public class DevRenewController extends BaseController<DevRenewService>  {
 
     @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
     @ApiOperation("批量删除")
-    public Result<Void> deleteByIds(@RequestParam Integer[] ids) {
+    public Result<Void> deleteByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
         return Result.successDelete();
     }

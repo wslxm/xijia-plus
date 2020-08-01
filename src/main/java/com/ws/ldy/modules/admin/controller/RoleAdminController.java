@@ -85,7 +85,7 @@ public class RoleAdminController extends BaseController<RoleAdminService> {
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("删除")
-    public Result<Void> delete(Integer id) {
+    public Result<Void> delete(String id) {
         baseService.removeById(id);
         return Result.successDelete();
     }

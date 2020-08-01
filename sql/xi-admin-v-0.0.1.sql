@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 01/08/2020 15:07:22
+ Date: 01/08/2020 17:51:05
 */
 
 SET NAMES utf8mb4;
@@ -22,88 +22,105 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_admin_authority`;
 CREATE TABLE `t_admin_authority`  (
-  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT 'id',
-  `create_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建账户id',
-  `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新账户id',
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'id',
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间(自动插入)',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间(自动插入)',
   `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除字段(0：正常 1：删除)',
   `version` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '乐观锁',
-  `pid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '权限类Id（方法与类/层级关系展示）',
-  `method` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '请求方式(GET/POST/PUT/DELETE)',
-  `url` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '权限url',
-  `desc` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '权限备注信息',
+  `pid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '权限类Id（方法与类/层级关系展示）',
+  `method` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '请求方式(GET/POST/PUT/DELETE)',
+  `url` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '权限url',
+  `desc` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '权限备注信息',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '权限接口表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限接口表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_admin_authority
 -- ----------------------------
-INSERT INTO `t_admin_authority` VALUES ('235', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '0', '', '/authorityAdmin', 'URL权限管理');
-INSERT INTO `t_admin_authority` VALUES ('236', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '235', 'GET', '/authorityAdmin/findList', '查询所有,跟据角色赋予选中状态');
-INSERT INTO `t_admin_authority` VALUES ('237', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '235', 'PUT', '/authorityAdmin/putAuthority', '扫描权限：权限列表数据刷新');
-INSERT INTO `t_admin_authority` VALUES ('238', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '0', '', '/dictionaryAdmin', '字典管理');
-INSERT INTO `t_admin_authority` VALUES ('246', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '0', '', '/menuAdmin', '菜单管理');
-INSERT INTO `t_admin_authority` VALUES ('247', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '246', 'PUT', '/menuAdmin/update', '编辑');
-INSERT INTO `t_admin_authority` VALUES ('248', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '246', 'DELETE', '/menuAdmin/delete', 'ID删除菜单+所有子菜单');
-INSERT INTO `t_admin_authority` VALUES ('249', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '246', 'GET', '/menuAdmin/list', '菜单列表 ==>>>  列表数据  ==>>>  所有');
-INSERT INTO `t_admin_authority` VALUES ('250', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '246', 'POST', '/menuAdmin/insert', '菜单添加');
-INSERT INTO `t_admin_authority` VALUES ('252', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '246', 'GET', '/menuAdmin/findPidOrRoleIdList', '根据pid +角色Id获取菜单列表');
-INSERT INTO `t_admin_authority` VALUES ('254', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '0', '', '/roleAdmin', '角色管理');
-INSERT INTO `t_admin_authority` VALUES ('255', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '254', 'PUT', '/roleAdmin/update', '编辑');
-INSERT INTO `t_admin_authority` VALUES ('256', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '254', 'DELETE', '/roleAdmin/delete', '删除');
-INSERT INTO `t_admin_authority` VALUES ('257', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '254', 'GET', '/roleAdmin/list', '查询所有');
-INSERT INTO `t_admin_authority` VALUES ('258', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '254', 'POST', '/roleAdmin/insert', '添加');
-INSERT INTO `t_admin_authority` VALUES ('259', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '0', '', '/userAdmin', '用户管理');
-INSERT INTO `t_admin_authority` VALUES ('260', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '259', 'GET', '/userAdmin/findUser', '当前登录用户信息');
-INSERT INTO `t_admin_authority` VALUES ('261', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '246', 'GET', '/menuAdmin/menuTree', '左导航菜单 ===>>> 树结构数据 ===>>> 需先登录');
-INSERT INTO `t_admin_authority` VALUES ('262', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '0', '', '/loginAdmin', '登录');
-INSERT INTO `t_admin_authority` VALUES ('263', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '262', 'GET', '/loginAdmin/logout', '退出登录');
-INSERT INTO `t_admin_authority` VALUES ('264', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '262', 'GET', '/loginAdmin/login', '登录');
-INSERT INTO `t_admin_authority` VALUES ('265', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '259', 'PUT', '/userAdmin/update', 'ID编辑');
-INSERT INTO `t_admin_authority` VALUES ('266', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '259', 'DELETE', '/userAdmin/delete', '单删除');
-INSERT INTO `t_admin_authority` VALUES ('267', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '259', 'POST', '/userAdmin/insert', '添加');
-INSERT INTO `t_admin_authority` VALUES ('269', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '254', 'GET', '/roleAdmin/findRoleChecked', '用户角色分配弹出层查询所有角色,用户拥有角色赋予isChecked=true');
-INSERT INTO `t_admin_authority` VALUES ('270', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '254', 'PUT', '/roleAdmin/updRoleUrlAuth', '角色URL分配');
-INSERT INTO `t_admin_authority` VALUES ('271', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '254', 'PUT', '/roleAdmin/updRoleMenu', '角色菜单分配');
-INSERT INTO `t_admin_authority` VALUES ('273', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '254', 'PUT', '/roleAdmin/updUserRole', '用户角色分配');
-INSERT INTO `t_admin_authority` VALUES ('274', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '254', 'GET', '/roleAdmin/findPage', '分页查询');
-INSERT INTO `t_admin_authority` VALUES ('275', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '259', 'GET', '/userAdmin/findRoleIdList', '查询指定角色下的所有用户');
-INSERT INTO `t_admin_authority` VALUES ('276', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '259', 'PUT', '/userAdmin/updPwd', '密码修改');
-INSERT INTO `t_admin_authority` VALUES ('277', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '259', 'DELETE', '/userAdmin/deleteByIds', '批量删除');
-INSERT INTO `t_admin_authority` VALUES ('278', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '259', 'GET', '/userAdmin/findPage', '分页查询');
-INSERT INTO `t_admin_authority` VALUES ('279', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '238', 'PUT', '/dictionaryAdmin/update', '编辑');
-INSERT INTO `t_admin_authority` VALUES ('280', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '238', 'DELETE', '/dictionaryAdmin/delete', 'ID删除');
-INSERT INTO `t_admin_authority` VALUES ('281', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '238', 'POST', '/dictionaryAdmin/insert', '添加');
-INSERT INTO `t_admin_authority` VALUES ('282', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '238', 'GET', '/dictionaryAdmin/findList', '列表查询');
-INSERT INTO `t_admin_authority` VALUES ('283', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '238', 'PUT', '/dictionaryAdmin/updSort', '修改排序');
-INSERT INTO `t_admin_authority` VALUES ('284', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '0', '', '/dataBase', '数据库表查询');
-INSERT INTO `t_admin_authority` VALUES ('285', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '284', 'GET', '/dataBase/findTable', '查询所有表名');
-INSERT INTO `t_admin_authority` VALUES ('286', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '284', 'GET', '/dataBase/findTableField', '查询指定表下使用字段内容');
-INSERT INTO `t_admin_authority` VALUES ('287', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '0', '', '/generate', '代码生成器-只限于页面调用');
-INSERT INTO `t_admin_authority` VALUES ('289', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '287', 'POST', '/generate/preview', '生成预览代码');
-INSERT INTO `t_admin_authority` VALUES ('290', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '287', 'GET', '/generate/getPath', '代码生成路径');
-INSERT INTO `t_admin_authority` VALUES ('291', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 0, '287', 'POST', '/generate/generateCode', '生成代码');
+INSERT INTO `t_admin_authority` VALUES ('1289497183933972482', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '238', 'GET', '/dictionaryAdmin/findCode', 'Code查询,最多向下2级，A-> BB -> CCCC');
+INSERT INTO `t_admin_authority` VALUES ('1289497185192263682', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '', '', '/dev/devBug', 'Bug修复');
+INSERT INTO `t_admin_authority` VALUES ('1289497185209040898', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185192263682', 'PUT', '/dev/devBug/updState', 'ID编辑状态--任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销)');
+INSERT INTO `t_admin_authority` VALUES ('1289497185217429506', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185192263682', 'PUT', '/dev/devBug/upd', 'ID编辑');
+INSERT INTO `t_admin_authority` VALUES ('1289497185225818113', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185192263682', 'DELETE', '/dev/devBug/del', '单删除');
+INSERT INTO `t_admin_authority` VALUES ('1289497185234206721', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185192263682', 'POST', '/dev/devBug/insert', '添加');
+INSERT INTO `t_admin_authority` VALUES ('1289497185250983937', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185192263682', 'GET', '/dev/devBug/findPage', '分页查询');
+INSERT INTO `t_admin_authority` VALUES ('1289497185255178241', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185192263682', 'DELETE', '/dev/devBug/delByIds', '批量删除');
+INSERT INTO `t_admin_authority` VALUES ('1289497185263566849', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '', '', '/dev/devNorm', '开发规范');
+INSERT INTO `t_admin_authority` VALUES ('1289497185271955458', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185263566849', 'PUT', '/dev/devNorm/upd', 'ID编辑');
+INSERT INTO `t_admin_authority` VALUES ('1289497185276149762', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185263566849', 'DELETE', '/dev/devNorm/del', '单删除');
+INSERT INTO `t_admin_authority` VALUES ('1289497185292926977', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185263566849', 'POST', '/dev/devNorm/insert', '添加');
+INSERT INTO `t_admin_authority` VALUES ('1289497185301315586', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185263566849', 'GET', '/dev/devNorm/findPage', '分页查询');
+INSERT INTO `t_admin_authority` VALUES ('1289497185305509890', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185263566849', 'DELETE', '/dev/devNorm/delByIds', '批量删除');
+INSERT INTO `t_admin_authority` VALUES ('1289497185318092802', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '', '', '/dev/devTask', '开发任务');
+INSERT INTO `t_admin_authority` VALUES ('1289497185322287105', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185318092802', 'PUT', '/dev/devTask/updState', 'ID编辑状态--任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销)');
+INSERT INTO `t_admin_authority` VALUES ('1289497185334870018', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185318092802', 'PUT', '/dev/devTask/upd', 'ID编辑');
+INSERT INTO `t_admin_authority` VALUES ('1289497185343258626', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185318092802', 'DELETE', '/dev/devTask/del', '单删除');
+INSERT INTO `t_admin_authority` VALUES ('1289497185355841537', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185318092802', 'POST', '/dev/devTask/insert', '添加');
+INSERT INTO `t_admin_authority` VALUES ('1289497185360035841', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185318092802', 'GET', '/dev/devTask/findPage', '分页查询');
+INSERT INTO `t_admin_authority` VALUES ('1289497185368424450', NULL, NULL, '2020-08-01 17:44:21', '2020-08-01 17:44:21', 0, 0, '1289497185318092802', 'DELETE', '/dev/devTask/delByIds', '批量删除');
+INSERT INTO `t_admin_authority` VALUES ('235', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '0', '', '/authorityAdmin', 'URL权限管理');
+INSERT INTO `t_admin_authority` VALUES ('236', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '235', 'GET', '/authorityAdmin/findList', '查询所有,跟据角色赋予选中状态');
+INSERT INTO `t_admin_authority` VALUES ('237', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '235', 'PUT', '/authorityAdmin/putAuthority', '扫描权限：权限列表数据刷新');
+INSERT INTO `t_admin_authority` VALUES ('238', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '0', '', '/dictionaryAdmin', '字典管理');
+INSERT INTO `t_admin_authority` VALUES ('246', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '0', '', '/menuAdmin', '菜单管理');
+INSERT INTO `t_admin_authority` VALUES ('247', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '246', 'PUT', '/menuAdmin/update', '编辑');
+INSERT INTO `t_admin_authority` VALUES ('248', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '246', 'DELETE', '/menuAdmin/delete', 'ID删除菜单+所有子菜单');
+INSERT INTO `t_admin_authority` VALUES ('249', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '246', 'GET', '/menuAdmin/list', '菜单列表 ==>>>  列表数据  ==>>>  所有');
+INSERT INTO `t_admin_authority` VALUES ('250', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '246', 'POST', '/menuAdmin/insert', '菜单添加');
+INSERT INTO `t_admin_authority` VALUES ('252', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '246', 'GET', '/menuAdmin/findPidOrRoleIdList', '根据pid +角色Id获取菜单列表');
+INSERT INTO `t_admin_authority` VALUES ('254', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '0', '', '/roleAdmin', '角色管理');
+INSERT INTO `t_admin_authority` VALUES ('255', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '254', 'PUT', '/roleAdmin/update', '编辑');
+INSERT INTO `t_admin_authority` VALUES ('256', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '254', 'DELETE', '/roleAdmin/delete', '删除');
+INSERT INTO `t_admin_authority` VALUES ('257', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '254', 'GET', '/roleAdmin/list', '查询所有');
+INSERT INTO `t_admin_authority` VALUES ('258', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '254', 'POST', '/roleAdmin/insert', '添加');
+INSERT INTO `t_admin_authority` VALUES ('259', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '0', '', '/userAdmin', '用户管理');
+INSERT INTO `t_admin_authority` VALUES ('261', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '246', 'GET', '/menuAdmin/menuTree', '左导航菜单 ===>>> 树结构数据 ===>>> 需先登录');
+INSERT INTO `t_admin_authority` VALUES ('265', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '259', 'PUT', '/userAdmin/update', 'ID编辑');
+INSERT INTO `t_admin_authority` VALUES ('266', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '259', 'DELETE', '/userAdmin/delete', '单删除');
+INSERT INTO `t_admin_authority` VALUES ('267', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '259', 'POST', '/userAdmin/insert', '添加');
+INSERT INTO `t_admin_authority` VALUES ('269', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '254', 'GET', '/roleAdmin/findRoleChecked', '用户角色分配弹出层查询所有角色,用户拥有角色赋予isChecked=true');
+INSERT INTO `t_admin_authority` VALUES ('270', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '254', 'PUT', '/roleAdmin/updRoleUrlAuth', '角色URL分配');
+INSERT INTO `t_admin_authority` VALUES ('271', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '254', 'PUT', '/roleAdmin/updRoleMenu', '角色菜单分配');
+INSERT INTO `t_admin_authority` VALUES ('273', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '254', 'PUT', '/roleAdmin/updUserRole', '用户角色分配');
+INSERT INTO `t_admin_authority` VALUES ('274', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '254', 'GET', '/roleAdmin/findPage', '分页查询');
+INSERT INTO `t_admin_authority` VALUES ('275', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '259', 'GET', '/userAdmin/findRoleIdList', '查询指定角色下的所有用户(isChecked=true)');
+INSERT INTO `t_admin_authority` VALUES ('276', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '259', 'PUT', '/userAdmin/updPwd', '密码修改');
+INSERT INTO `t_admin_authority` VALUES ('277', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '259', 'DELETE', '/userAdmin/deleteByIds', '批量删除');
+INSERT INTO `t_admin_authority` VALUES ('278', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '259', 'GET', '/userAdmin/findPage', '分页查询');
+INSERT INTO `t_admin_authority` VALUES ('279', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '238', 'PUT', '/dictionaryAdmin/update', '编辑');
+INSERT INTO `t_admin_authority` VALUES ('280', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '238', 'DELETE', '/dictionaryAdmin/delete', 'ID删除');
+INSERT INTO `t_admin_authority` VALUES ('281', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '238', 'POST', '/dictionaryAdmin/insert', '添加');
+INSERT INTO `t_admin_authority` VALUES ('282', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '238', 'GET', '/dictionaryAdmin/findList', '列表查询');
+INSERT INTO `t_admin_authority` VALUES ('283', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '238', 'PUT', '/dictionaryAdmin/updSort', '修改排序');
+INSERT INTO `t_admin_authority` VALUES ('284', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '0', '', '/dataBase', '数据库表查询');
+INSERT INTO `t_admin_authority` VALUES ('285', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '284', 'GET', '/dataBase/findTable', '查询所有表名');
+INSERT INTO `t_admin_authority` VALUES ('286', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '284', 'GET', '/dataBase/findTableField', '查询指定表下使用字段内容');
+INSERT INTO `t_admin_authority` VALUES ('287', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '0', '', '/generate', '代码生成器-只限于页面调用');
+INSERT INTO `t_admin_authority` VALUES ('289', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '287', 'POST', '/generate/preview', '生成预览代码');
+INSERT INTO `t_admin_authority` VALUES ('290', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '287', 'GET', '/generate/getPath', '代码生成路径');
+INSERT INTO `t_admin_authority` VALUES ('291', NULL, NULL, '2020-07-25 09:28:34', '2020-07-25 09:28:34', 0, 1, '287', 'POST', '/generate/generateCode', '生成代码');
 
 -- ----------------------------
 -- Table structure for t_admin_dictionary
 -- ----------------------------
 DROP TABLE IF EXISTS `t_admin_dictionary`;
 CREATE TABLE `t_admin_dictionary`  (
-  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'id',
-  `create_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建账户id',
-  `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新账户id',
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'id',
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间(自动插入)',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间(自动插入)',
   `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除字段(0：正常 1：删除)',
   `version` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '乐观锁',
-  `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '字典类型',
-  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '字典名称',
-  `pid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '父Id',
-  `desc` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描叙',
+  `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字典类型',
+  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字典名称',
+  `pid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '父Id',
+  `desc` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '描叙',
   `sort` int(11) DEFAULT 0 COMMENT '排序',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '字典表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_admin_dictionary
@@ -126,8 +143,8 @@ INSERT INTO `t_admin_dictionary` VALUES ('6', NULL, NULL, '2020-07-25 09:29:07',
 DROP TABLE IF EXISTS `t_admin_menu`;
 CREATE TABLE `t_admin_menu`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `create_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建账户id',
-  `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新账户id',
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间(自动插入)',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间(自动插入)',
   `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除字段(0：正常 1：删除)',
@@ -202,8 +219,8 @@ INSERT INTO `t_admin_menu` VALUES ('99', NULL, NULL, '2020-07-25 09:29:38', '202
 DROP TABLE IF EXISTS `t_admin_role`;
 CREATE TABLE `t_admin_role`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `create_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建账户id',
-  `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新账户id',
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间(自动插入)',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间(自动插入)',
   `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除字段(0：正常 1：删除)',
@@ -217,7 +234,6 @@ CREATE TABLE `t_admin_role`  (
 -- Records of t_admin_role
 -- ----------------------------
 INSERT INTO `t_admin_role` VALUES ('1', NULL, NULL, '2020-07-25 09:30:08', '2020-07-25 09:30:08', 0, 0, '系统管理员', '1');
-INSERT INTO `t_admin_role` VALUES ('1288869166496907266', NULL, NULL, '2020-07-31 00:08:49', '2020-07-31 00:08:49', 0, 0, 'xxxx', 'bbbb');
 INSERT INTO `t_admin_role` VALUES ('19', NULL, NULL, '2020-07-25 09:30:08', '2020-07-25 09:30:08', 0, 0, '腾讯会员', '1');
 INSERT INTO `t_admin_role` VALUES ('2', NULL, NULL, '2020-07-25 09:30:08', '2020-07-25 09:30:08', 0, 0, '开发人员', '1');
 INSERT INTO `t_admin_role` VALUES ('28', NULL, NULL, '2020-07-25 09:30:08', '2020-07-25 09:30:08', 0, 0, 'bilbil会员', '1');
@@ -230,101 +246,116 @@ INSERT INTO `t_admin_role` VALUES ('31', NULL, NULL, '2020-07-25 09:30:08', '202
 -- ----------------------------
 DROP TABLE IF EXISTS `t_admin_role_auth`;
 CREATE TABLE `t_admin_role_auth`  (
-  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `create_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建账户id',
-  `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新账户id',
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间(自动插入)',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间(自动插入)',
   `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除字段(0：正常 1：删除)',
   `version` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '乐观锁',
-  `auth_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '权限id',
-  `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '角色id',
+  `auth_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '权限id',
+  `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '角色id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '角色/接口权限关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色/接口权限关联表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_admin_role_auth
 -- ----------------------------
-INSERT INTO `t_admin_role_auth` VALUES ('389', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '235', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('390', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '236', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('391', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '237', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('392', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '238', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('393', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '279', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('394', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '280', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('395', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '281', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('396', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '282', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('397', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '283', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('398', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '246', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('399', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '247', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('400', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '248', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('401', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '249', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('402', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '250', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('403', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '251', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('404', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '252', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('405', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '253', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('406', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '261', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('407', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '254', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('408', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '255', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('409', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '256', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('410', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '257', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('411', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '258', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('412', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '269', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('413', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '270', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('414', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '271', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('415', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '273', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('416', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '274', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('417', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '259', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('418', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '260', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('419', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '265', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('420', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '266', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('421', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '267', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('422', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '275', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('423', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '276', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('424', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '277', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('425', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '278', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('426', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '262', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('427', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '263', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('428', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '264', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('429', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '284', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('430', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '285', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('431', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '286', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('432', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '287', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('433', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '289', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('434', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '290', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('435', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '291', '1');
-INSERT INTO `t_admin_role_auth` VALUES ('436', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '236', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('437', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '282', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('438', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '249', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('439', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '252', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('440', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '261', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('441', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '257', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('442', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '274', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('443', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '260', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('444', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '275', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('445', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '278', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('446', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '263', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('447', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '264', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('448', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '285', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('449', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '286', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('450', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '289', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('451', NULL, NULL, '2020-07-25 09:30:23', '2020-07-25 09:30:23', 0, 0, '290', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217505181698', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185192263682', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217521958914', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185209040898', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217521958915', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185217429506', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217530347522', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185225818113', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217530347523', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185234206721', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217538736129', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185250983937', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217538736130', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185255178241', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217538736131', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185263566849', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217538736132', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185271955458', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217538736133', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185276149762', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217538736134', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185292926977', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217547124737', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185301315586', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217547124738', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185305509890', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217551319041', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185318092802', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217551319042', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185322287105', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217551319043', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185334870018', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217559707650', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185343258626', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217559707651', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185355841537', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217563901954', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185360035841', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217563901955', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497185368424450', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217563901956', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '235', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217568096257', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '236', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217568096258', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '237', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217576484866', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '238', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217576484867', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '1289497183933972482', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217576484868', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '279', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217576484869', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '280', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217576484870', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '281', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217576484871', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '282', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217584873474', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '283', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217584873475', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '246', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217584873476', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '247', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217584873477', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '248', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217584873478', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '249', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217589067777', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '250', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217589067778', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '252', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217593262082', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '261', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217593262083', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '254', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217593262084', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '255', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217597456385', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '256', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217597456386', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '257', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217597456387', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '258', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217597456388', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '269', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217605844993', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '270', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217605844994', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '271', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217605844995', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '273', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217614233602', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '274', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217614233603', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '259', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217614233604', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '265', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217614233605', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '266', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217618427905', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '267', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217618427906', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '275', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217618427907', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '276', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217618427908', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '277', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217618427909', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '278', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217618427910', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '284', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217618427911', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '285', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217626816514', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '286', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217626816515', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '287', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217626816516', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '289', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217631010817', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '290', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497217631010818', NULL, NULL, '2020-08-01 17:44:29', '2020-08-01 17:44:29', 0, 0, '291', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517704101890', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '1289497185250983937', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517704101891', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '1289497185301315586', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517708296194', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '1289497185360035841', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517708296195', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '236', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517708296196', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '282', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517708296197', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '249', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517708296198', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '252', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517708296199', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '261', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517708296200', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '257', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517708296201', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '274', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517708296202', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '275', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517708296203', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '278', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517712490497', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '285', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517712490498', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '286', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517712490499', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '289', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1289497517712490500', NULL, NULL, '2020-08-01 17:45:40', '2020-08-01 17:45:40', 0, 0, '290', '31');
 
 -- ----------------------------
 -- Table structure for t_admin_role_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `t_admin_role_menu`;
 CREATE TABLE `t_admin_role_menu`  (
-  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `create_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建账户id',
-  `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新账户id',
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间(自动插入)',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间(自动插入)',
   `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除字段(0：正常 1：删除)',
   `version` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '乐观锁',
-  `menu_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '菜单id',
-  `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '用户id',
+  `menu_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '菜单id',
+  `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '角色/菜单关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色/菜单关联表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_admin_role_menu
@@ -378,6 +409,55 @@ INSERT INTO `t_admin_role_menu` VALUES ('1288879745085267975', NULL, NULL, '2020
 INSERT INTO `t_admin_role_menu` VALUES ('1288879745089462274', NULL, NULL, '2020-07-31 00:50:52', '2020-07-31 00:50:52', 0, 0, '27', '1');
 INSERT INTO `t_admin_role_menu` VALUES ('1288879745089462275', NULL, NULL, '2020-07-31 00:50:52', '2020-07-31 00:50:52', 0, 0, '16', '1');
 INSERT INTO `t_admin_role_menu` VALUES ('1288879745089462276', NULL, NULL, '2020-07-31 00:50:52', '2020-07-31 00:50:52', 0, 0, '40', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387684872194', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '1', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387684872195', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '4', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387684872196', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '7', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387684872197', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '21', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387684872198', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '22', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387684872199', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '25', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260802', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '5', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260803', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '23', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260804', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '24', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260805', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '141', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260806', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '30', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260807', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '95', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260808', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '97', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260809', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '138', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260810', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '99', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260811', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '98', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455106', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '96', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455107', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '1288879303106289665', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455108', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '1288879436422242305', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455109', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '1288879370219347969', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455110', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '100', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455111', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '135', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455112', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '125', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455113', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '123', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455114', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '134', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455115', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '137', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455116', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '101', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649410', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '102', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649411', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '126', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649412', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '124', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649413', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '129', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649414', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '130', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649415', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '133', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649416', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '136', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649417', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '131', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649418', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '139', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649419', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '9', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649420', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '10', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843713', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '11', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843714', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '91', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843715', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '92', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843716', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '93', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843717', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '140', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843718', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '13', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843719', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '14', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843720', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '15', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843721', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '27', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843722', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '16', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843723', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '40', '31');
 INSERT INTO `t_admin_role_menu` VALUES ('474', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '1', '2');
 INSERT INTO `t_admin_role_menu` VALUES ('475', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '4', '2');
 INSERT INTO `t_admin_role_menu` VALUES ('476', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '7', '2');
@@ -440,18 +520,6 @@ INSERT INTO `t_admin_role_menu` VALUES ('532', NULL, NULL, '2020-07-25 09:30:40'
 INSERT INTO `t_admin_role_menu` VALUES ('533', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '46', '3');
 INSERT INTO `t_admin_role_menu` VALUES ('534', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '66', '3');
 INSERT INTO `t_admin_role_menu` VALUES ('535', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '79', '3');
-INSERT INTO `t_admin_role_menu` VALUES ('630', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '1', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('631', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '4', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('632', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '7', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('633', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '21', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('634', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '22', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('635', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '25', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('636', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '5', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('637', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '23', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('638', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '24', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('639', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '6', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('640', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '30', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('641', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '19', '31');
 INSERT INTO `t_admin_role_menu` VALUES ('71', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '5', '0');
 INSERT INTO `t_admin_role_menu` VALUES ('72', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '23', '0');
 INSERT INTO `t_admin_role_menu` VALUES ('73', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '4', '0');
@@ -462,17 +530,17 @@ INSERT INTO `t_admin_role_menu` VALUES ('74', NULL, NULL, '2020-07-25 09:30:40',
 -- ----------------------------
 DROP TABLE IF EXISTS `t_admin_role_user`;
 CREATE TABLE `t_admin_role_user`  (
-  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `create_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建账户id',
-  `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新账户id',
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间(自动插入)',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间(自动插入)',
   `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除字段(0：正常 1：删除)',
   `version` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '乐观锁',
-  `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '用户id',
-  `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '角色id',
+  `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户id',
+  `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '角色id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '角色/用户关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色/用户关联表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_admin_role_user
@@ -493,30 +561,30 @@ INSERT INTO `t_admin_role_user` VALUES ('7', NULL, NULL, '2020-07-25 09:30:54', 
 -- ----------------------------
 DROP TABLE IF EXISTS `t_admin_user`;
 CREATE TABLE `t_admin_user`  (
-  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `create_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建账户id',
-  `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新账户id',
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间(自动插入)',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间(自动插入)',
   `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除字段(0：正常 1：删除)',
   `version` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '乐观锁',
-  `head` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '头像',
-  `username` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '账号/用户/手机号',
-  `full_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '姓名',
-  `password` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '密码',
-  `address` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '地址',
+  `head` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '头像',
+  `username` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '账号/用户/手机号',
+  `full_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '姓名',
+  `password` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
+  `address` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '地址',
   `age` int(3) NOT NULL COMMENT '年龄',
   `gender` int(1) NOT NULL DEFAULT 0 COMMENT '性别（1男，0女）',
   `state` int(1) NOT NULL DEFAULT 0 COMMENT '是否禁用（0-否，1-是）',
   `reg_time` datetime(0) NOT NULL COMMENT '注册时间',
   `ent_time` datetime(0) DEFAULT NULL COMMENT '最后登录时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_admin_user
 -- ----------------------------
-INSERT INTO `t_admin_user` VALUES ('1', NULL, NULL, '2020-07-25 09:31:07', '2020-07-31 18:40:52', 0, 0, 'http://xijia.plus/File/image/7f59169cc42b4a938c5b7a72196f0d65-timg (8).jpg', '1720696548', '王松', '527w10n8c', '四川成都', 23, 1, 0, '2019-11-14 15:17:50', '2020-07-31 18:40:52');
+INSERT INTO `t_admin_user` VALUES ('1', NULL, NULL, '2020-07-25 09:31:07', '2020-08-01 17:43:54', 0, 0, 'http://xijia.plus/File/image/7f59169cc42b4a938c5b7a72196f0d65-timg (8).jpg', '1720696548', '王松', '527w10n8c', '四川成都', 23, 1, 0, '2019-11-14 15:17:50', '2020-08-01 17:43:55');
 INSERT INTO `t_admin_user` VALUES ('20', NULL, NULL, '2020-07-25 09:31:07', '2020-07-25 09:31:07', 0, 0, 'http://xijia.plus/oss/file/image/head/20200712000102739895-1.png', 'admin', '游客', 'admin', '四川成都', 0, 0, 0, '2020-01-31 10:15:07', NULL);
 INSERT INTO `t_admin_user` VALUES ('42', NULL, NULL, '2020-07-25 09:31:07', '2020-07-31 00:13:45', 0, 0, 'http://xijia.plus/oss/file/image/head/20200711235225041786-3.png', '17628689969', '李四', '527w10n8c', '四川成都', 22, 1, 0, '2020-07-11 23:53:24', NULL);
 
@@ -525,32 +593,32 @@ INSERT INTO `t_admin_user` VALUES ('42', NULL, NULL, '2020-07-25 09:31:07', '202
 -- ----------------------------
 DROP TABLE IF EXISTS `t_basic`;
 CREATE TABLE `t_basic`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '数据条目主键id',
-  `create_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据创建账户id',
-  `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据最后更新账户id',
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '数据条目主键id',
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据最后更新账户id',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '数据创建时间 ==创建数据自动获取当前时间插入',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '数据最后更新时间  ==更新数据自动获取当前时间更新',
   `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除字段 ==0：正常 (默认)  1：删除',
   `version` int(11) NOT NULL DEFAULT 0 COMMENT '乐观锁 ==0 (默认)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统基表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统基表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for t_dev_bug
 -- ----------------------------
 DROP TABLE IF EXISTS `t_dev_bug`;
 CREATE TABLE `t_dev_bug`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建账户id',
-  `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新账户id',
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后更新时间',
   `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除（0：正常  1：删除）',
   `version` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '乐观锁',
-  `task_user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '指派给id',
-  `item` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '项目（字典表code）',
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务名',
-  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务内容',
+  `task_user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '指派给id',
+  `item` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '项目（字典表code）',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务名',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务内容',
   `type` int(1) NOT NULL DEFAULT 1 COMMENT '任务类型(1-管理端 2-用户端 3-app端  4-所有端 )',
   `state` int(1) NOT NULL DEFAULT 0 COMMENT '任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销)',
   `planned_time` datetime(0) NOT NULL COMMENT '计划完成时间',
@@ -558,7 +626,7 @@ CREATE TABLE `t_dev_bug`  (
   `estimate_time` double(11, 2) NOT NULL COMMENT '预计耗时(小时)',
   `take_up_time` double(11, 2) DEFAULT NULL COMMENT '实际耗时(小时)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '开发任务' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '开发任务' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_dev_bug
@@ -570,18 +638,18 @@ INSERT INTO `t_dev_bug` VALUES ('19', '2020-07-26 09:45:52', NULL, NULL, '2020-0
 -- ----------------------------
 DROP TABLE IF EXISTS `t_dev_norm`;
 CREATE TABLE `t_dev_norm`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建账户id',
-  `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新账户id',
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后更新时间',
   `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除（0：正常  1：删除）',
   `version` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '乐观锁',
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '规范名称',
-  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '规范内容(md-富文本)',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '规范名称',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '规范内容(md-富文本)',
   `sort` int(11) NOT NULL DEFAULT 0 COMMENT '排序',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '开发规范' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '开发规范' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_dev_norm
@@ -596,35 +664,35 @@ INSERT INTO `t_dev_norm` VALUES ('1289149437230190594', '2020-07-31 18:42:31', N
 -- ----------------------------
 DROP TABLE IF EXISTS `t_dev_renew`;
 CREATE TABLE `t_dev_renew`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
-  `create_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建账户id',
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后更新时间',
   `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除（0：正常  1：删除）',
   `version` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '乐观锁',
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '更新名称',
-  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '更新内容(md-富文本)',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '更新名称',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '更新内容(md-富文本)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '更新内容' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '更新内容' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for t_dev_study
 -- ----------------------------
 DROP TABLE IF EXISTS `t_dev_study`;
 CREATE TABLE `t_dev_study`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建账户id',
-  `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新账户id',
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后更新时间',
   `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除（0：正常  1：删除）',
   `version` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '乐观锁',
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '名称',
-  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '学习内容(md-富文本)',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名称',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '学习内容(md-富文本)',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '学习计划' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '学习计划' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_dev_study
@@ -636,17 +704,17 @@ INSERT INTO `t_dev_study` VALUES ('1288877310027554818', '2020-07-31 00:41:11', 
 -- ----------------------------
 DROP TABLE IF EXISTS `t_dev_task`;
 CREATE TABLE `t_dev_task`  (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ID',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建账户id',
-  `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新账户id',
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后更新时间',
   `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除（0：正常  1：删除）',
   `version` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '乐观锁',
-  `task_user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '指派给id',
-  `item` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '项目（字典表code）',
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务名',
-  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务内容',
+  `task_user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '指派给id',
+  `item` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '项目（字典表code）',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务名',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务内容',
   `type` int(1) NOT NULL DEFAULT 1 COMMENT '任务类型(1-管理端 2-用户端 3-app端  4-所有端 )',
   `state` int(1) NOT NULL DEFAULT 0 COMMENT '任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销)',
   `planned_time` datetime(0) NOT NULL COMMENT '计划完成时间',
@@ -654,13 +722,13 @@ CREATE TABLE `t_dev_task`  (
   `estimate_time` double(11, 2) NOT NULL COMMENT '预计耗时(小时)',
   `take_up_time` double(11, 2) DEFAULT NULL COMMENT '实际耗时(小时)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '开发任务' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '开发任务' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_dev_task
 -- ----------------------------
 INSERT INTO `t_dev_task` VALUES ('1', '2020-06-27 12:04:22', NULL, NULL, '2020-07-12 23:34:55', 0, 0, '1', 'item-xj-admin', '开发任务模块', '类型，状态搜索，开始，完成，撤销任务等', 1, 3, '2020-05-05 00:00:00', NULL, 8.00, NULL);
-INSERT INTO `t_dev_task` VALUES ('10', '2020-07-25 10:10:04', NULL, NULL, '2020-07-25 10:10:10', 0, 0, '1', 'item-xj-admin', '数据库表结构通用字段重定义', '除id外的6大通用字段\n-- 添加\nalter table t_dev_norm add `create_user`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT \'创建账户id\';\nalter table t_dev_norm add `update_user` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT \'更新账户id\';\nalter table t_dev_norm add `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT \'创建时间(自动插入)\';\nalter table t_dev_norm add `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT \'更新时间(自动插入)\';\nalter table t_dev_norm add `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT \'逻辑删除字段(0：正常 1：删除)\';\nalter table t_dev_norm add `version` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT \'乐观锁\';', 1, 2, '2020-07-25 00:00:00', NULL, 1.00, NULL);
+INSERT INTO `t_dev_task` VALUES ('10', '2020-07-25 10:10:04', NULL, NULL, '2020-07-25 10:10:10', 0, 0, '1', 'item-xj-admin', '数据库表结构通用字段重定义', '除id外的6大通用字段\n-- 添加\nalter table t_dev_norm add `create_user`  varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT \'创建账户id\';\nalter table t_dev_norm add `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT \'更新账户id\';\nalter table t_dev_norm add `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT \'创建时间(自动插入)\';\nalter table t_dev_norm add `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT \'更新时间(自动插入)\';\nalter table t_dev_norm add `deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT \'逻辑删除字段(0：正常 1：删除)\';\nalter table t_dev_norm add `version` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT \'乐观锁\';', 1, 2, '2020-07-25 00:00:00', NULL, 1.00, NULL);
 INSERT INTO `t_dev_task` VALUES ('11', '2020-07-25 10:11:52', NULL, NULL, '2020-07-25 10:17:58', 0, 0, '1', 'item-xj-admin', '任务字体颜色修改', '已完成改为绿色\n未开始改为红色\n正在执行默认粉红色\n撤销的默认黑色', 1, 2, '2020-07-25 00:00:00', NULL, 1.00, NULL);
 INSERT INTO `t_dev_task` VALUES ('12', '2020-07-25 10:18:52', NULL, NULL, '2020-07-25 10:39:28', 0, 0, '1', 'item-xj-admin', '添加任务完成时间', '任务完成后没有完成时间', 1, 2, '2020-07-25 00:00:00', '2020-07-25 10:39:28', 1.00, 0.50);
 INSERT INTO `t_dev_task` VALUES ('13', '2020-07-25 10:49:21', NULL, NULL, '2020-07-25 10:51:31', 0, 0, '1', 'item-xj-admin', 'bug修复-完整功能', 'bug修复页的全部功能内容', 1, 0, '2020-08-09 00:00:00', NULL, 8.00, NULL);

@@ -1,9 +1,11 @@
 # spring-boot-plus2
 
 #### 介绍
-这是开发一个基于spring-boot + mybatis-plus(原jpa分支) + druid+ mysql8 + layui + swagger2 的后台快速开发骨架，后台采用级简化代码，
-所有基本操作无需写任何的dao，service层代码，包括(增删改查，及多添加/动态修改，多删除，分页/条件/排序查询,添加，修改，展示的html代码)
 
+这是开发一个基于spring-boot + mybatis-plus+ druid+ mysql8 + layui + swagger2 的后台快速开发骨架，后台采用级简化代码，
+所有基本操作无需写任何的dao，service层代码，包括(增删改查，及多添加/动态修改，多删除，分页/条件/排序查询,添加，修改，展示的html代码
+
+展示地址: [http://xijia.plus/](http://xijia.plus/) 账号：admin  密码：admin
 
 #### 当前功能列表
 
@@ -15,7 +17,8 @@
 - 6、字典功能                      
 - 7、代码生成+预览   
 - 8、使用swagger2 接口文档         地址：http://localhost/swagger-ui.html
-
+- 9、阿里云oss
+- 10、websocket 集成及在线聊天室
 --更多
 
 - 任务管理

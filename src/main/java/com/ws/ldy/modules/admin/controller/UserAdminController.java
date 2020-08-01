@@ -107,7 +107,7 @@ public class UserAdminController extends BaseController<UserAdminService> {
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("单删除")
-    public Result<Void> delete(@RequestParam Integer id) {
+    public Result<Void> delete(@RequestParam String id) {
         baseService.removeById(id);
         return Result.successDelete();
     }
@@ -115,7 +115,7 @@ public class UserAdminController extends BaseController<UserAdminService> {
 
     @RequestMapping(value = "/deleteByIds", method = RequestMethod.DELETE)
     @ApiOperation("批量删除")
-    public Result<Void> deleteByIds(@RequestParam Integer[] ids) {
+    public Result<Void> deleteByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
         return Result.successDelete();
     }

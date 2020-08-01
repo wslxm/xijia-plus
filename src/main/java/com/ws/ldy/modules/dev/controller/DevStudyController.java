@@ -3,22 +3,19 @@ package com.ws.ldy.modules.dev.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.modules.dev.model.dto.DevStudyDTO;
+import com.ws.ldy.modules.dev.model.entity.DevStudy;
+import com.ws.ldy.modules.dev.model.vo.DevStudyVO;
+import com.ws.ldy.modules.dev.service.DevStudyService;
+import com.ws.ldy.others.base.controller.BaseController;
+import io.swagger.annotations.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import io.swagger.annotations.*;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.ws.ldy.modules.dev.model.entity.DevStudy;
-import com.ws.ldy.modules.dev.model.vo.DevStudyVO;
-import com.ws.ldy.modules.dev.model.dto.DevStudyDTO;
-import com.ws.ldy.modules.dev.service.DevStudyService;
-import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.others.base.controller.BaseController;
 import java.util.Arrays;
-import java.time.LocalDateTime;
 
 
 /**
@@ -72,7 +69,7 @@ public class DevStudyController extends BaseController<DevStudyService>  {
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation("单删除")
-    public Result<Void> delete(@RequestParam Integer id) {
+    public Result<Void> delete(@RequestParam String id) {
         baseService.removeById(id);
         return Result.successDelete();
     }
@@ -80,7 +77,7 @@ public class DevStudyController extends BaseController<DevStudyService>  {
 
     @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
     @ApiOperation("批量删除")
-    public Result<Void> deleteByIds(@RequestParam Integer[] ids) {
+    public Result<Void> deleteByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
         return Result.successDelete();
     }
