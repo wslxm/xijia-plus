@@ -64,7 +64,7 @@ public class WebSocketController {
     public Result<Map<String, String>> getPath() {
         // 配置检查
         if (StringUtils.isBlank(ip) || StringUtils.isBlank(port) || StringUtils.isBlank(interfaceName)) {
-            throw new ErrorException(ResultEnum.SYS_SOCKET_CONFIG_ERROR);
+            throw new ErrorException(ResultEnum.SOCKET_CONFIG_ERROR);
         }
         // 随机用户名
         String username = "游客:" + new SimpleDateFormat("ssSSS").format(new Date());

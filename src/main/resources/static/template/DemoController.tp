@@ -44,10 +44,16 @@ public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service
     })
     public Result<IPage<{tableNameUp}VO>> findPage({findPageParam}) {
         Page<{tableNameUp}> page = baseService.page(this.getPage(), new LambdaQueryWrapper<{tableNameUp}>()
-                .orderByAsc({tableNameUp}::getId)
+                .orderByDesc({tableNameUp}::getCreateTime)
 {findPageMybatisPlus}
         );
         return Result.successFind(BeanDtoVoUtil.pageVo(page, {tableNameUp}VO.class));
+    }
+
+    @RequestMapping(value = "/findId", method = RequestMethod.GET)
+    @ApiOperation("ID查询")
+    public Result<DevTask> update(@RequestParam String id) {
+        return Result.successFind(BeanDtoVoUtil.convert( baseService.getById(id),{tableNameUp}.class));
     }
 
 

@@ -4,6 +4,7 @@ import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * TODO  字典表
@@ -19,6 +20,7 @@ public class DictionaryAdminDto extends BaseDto {
     private static final long serialVersionUID = 0L;
 
     @ApiModelProperty(value = "字典类型")
+    @Length(min=1, max=256,message = "必须大于1小于256")
     private String code;
 
     @ApiModelProperty(value = "字典名称")

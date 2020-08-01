@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.user.AdminUserUtils;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.modules.dev.model.dto.DevTaskDTO;
 import com.ws.ldy.modules.dev.model.entity.DevTask;
@@ -33,7 +33,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("/dev/devTask")
-@Api(value = "DevTask", tags = "开发任务",description = BaseConstant.InterfaceType.PC_ADMIN)
+@Api(value = "DevTask", tags = "开发任务", description = BaseConstant.InterfaceType.PC_ADMIN)
 public class DevTaskController extends BaseController<DevTaskService> {
 
 
@@ -62,11 +62,18 @@ public class DevTaskController extends BaseController<DevTaskService> {
     }
 
 
+    @RequestMapping(value = "/findId", method = RequestMethod.GET)
+    @ApiOperation("ID查询")
+    public Result<DevTask> update(@RequestParam String id) {
+        return Result.successFind(BeanDtoVoUtil.convert(baseService.getById(id), DevTask.class));
+    }
+
+
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation("添加")
     public Result<Void> insert(@RequestBody @Validated DevTaskDTO dto) {
         DevTask devTask = dto.convert(DevTask.class);
-        devTask.setCreateUser(AdminUserUtils.getUserId() + "");
+        devTask.setCreateUser(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
         devTask.setState(0);//默认未开始
         baseService.save(devTask);
         return Result.successInsert();

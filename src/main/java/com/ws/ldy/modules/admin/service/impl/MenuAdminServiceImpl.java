@@ -1,6 +1,9 @@
 package com.ws.ldy.modules.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.config.auth.util.JwtUtil;
+import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.modules.admin.mapper.MenuAdminMapper;
 import com.ws.ldy.modules.admin.mapper.RoleMenuAdminMapper;
 import com.ws.ldy.modules.admin.model.entity.MenuAdmin;
@@ -8,8 +11,6 @@ import com.ws.ldy.modules.admin.model.entity.RoleMenuAdmin;
 import com.ws.ldy.modules.admin.model.vo.MenuAdminVo;
 import com.ws.ldy.modules.admin.service.MenuAdminService;
 import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
-import com.ws.ldy.common.user.AdminUserUtils;
-import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ public class MenuAdminServiceImpl extends BaseIServiceImpl<MenuAdminMapper, Menu
         // 获取当前代理角色所有菜单Id： key=菜单Id, value=0
         Map<String, String> roleMenuMap = new HashMap<>();
         // 查询用户所有角色，在查询角色下所有菜单id
-        roleMenuAdminMapper.findUserIdRoleMenus(AdminUserUtils.getUserId()).forEach(item -> roleMenuMap.put(item.getMenuId(), item.getMenuId()));
+        roleMenuAdminMapper.findUserIdRoleMenus(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN))).forEach(item -> roleMenuMap.put(item.getMenuId(), item.getMenuId()));
         // 系统级  ==>  顶级菜单返回  ==>  root == 1
         List<MenuAdminVo> menuList = new LinkedList<>();
         // 查询所有菜单

@@ -3,15 +3,18 @@ package com.ws.ldy.modules.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.result.ResultEnum;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.config.auth.util.JwtUtil;
+import com.ws.ldy.config.auth.util.MD5Util;
+import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.modules.admin.model.dto.UserAdminDto;
 import com.ws.ldy.modules.admin.model.entity.UserAdmin;
 import com.ws.ldy.modules.admin.model.vo.UserAdminVo;
 import com.ws.ldy.modules.admin.service.RoleUserAdminService;
 import com.ws.ldy.modules.admin.service.UserAdminService;
 import com.ws.ldy.others.base.controller.BaseController;
-import com.ws.ldy.enums.base.BaseConstant;
-import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +63,7 @@ public class UserAdminController extends BaseController<UserAdminService> {
                 .eq(StringUtils.isNotBlank(fullName), UserAdmin::getFullName, fullName)
                 .like(StringUtils.isNotBlank(username), UserAdmin::getUsername, username)
         );
-        return Result.successFind(BeanDtoVoUtil.pageVo(page, UserAdminVo.class));
+        return Result.success(BeanDtoVoUtil.pageVo(page, UserAdminVo.class));
     }
 
 
@@ -82,7 +85,7 @@ public class UserAdminController extends BaseController<UserAdminService> {
         }
         //角色选中状态处理
         List<UserAdminVo> userAdminVos = roleUserAdminService.roleUserChecked(userList, roleId);
-        return Result.successFind(userAdminVos);
+        return Result.success(userAdminVos);
     }
 
 
@@ -90,10 +93,11 @@ public class UserAdminController extends BaseController<UserAdminService> {
     @ApiOperation("添加")
     public Result<Void> insert(@RequestBody UserAdminDto userAdminDto) {
         UserAdmin userAdmin = userAdminDto.convert(UserAdmin.class);
+        userAdmin.setPassword(MD5Util.encode(userAdmin.getPassword()));
         userAdmin.setState(0);//默认启用状态
         userAdmin.setRegTime(LocalDateTime.now());
         baseService.save(userAdmin);
-        return Result.successInsert();
+        return Result.success();
     }
 
 
@@ -124,14 +128,13 @@ public class UserAdminController extends BaseController<UserAdminService> {
     @RequestMapping(value = "/updPwd", method = RequestMethod.PUT)
     @ApiOperation("密码修改")
     public Result<Void> updPwd(@RequestParam String oldPassword, @RequestParam String password) {
-//        UserAdmin userAdmin = AdminUserUtils.getUserAdmin();
-//        if (userAdmin.getPassword().equals(oldPassword)) {
-//            userAdmin.setPassword(password);
-//            baseService.updateById(userAdmin);
-//            return Result.successUpdate();
-//        } else {
-//            return Result.error(500, "原密码错误");
-//        }
-        return null;
+        UserAdmin userAdmin = baseService.getById(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
+        if (userAdmin.getPassword().equals(MD5Util.encode(oldPassword))) {
+            userAdmin.setPassword(MD5Util.encode(password));
+            baseService.updateById(userAdmin);
+            return Result.successUpdate();
+        } else {
+            return Result.error(ResultEnum.ADMIN_USER_NO_PASSWORD);
+        }
     }
 }

@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.user.AdminUserUtils;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.modules.dev.model.dto.DevBugDTO;
 import com.ws.ldy.modules.dev.model.entity.DevBug;
@@ -66,7 +66,7 @@ public class DevBugController extends BaseController<DevBugService> {
     @ApiOperation("添加")
     public Result<Void> insert(@RequestBody @Validated DevBugDTO dto) {
         DevBug devBug = dto.convert(DevBug.class);
-        devBug.setCreateUser(AdminUserUtils.getUserId()+"");
+        devBug.setCreateUser(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
         devBug.setState(0);//默认未开始
         baseService.save(devBug);
         return Result.successInsert();

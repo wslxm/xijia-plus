@@ -3,16 +3,14 @@ package com.ws.ldy.config.auth.util;
 import java.security.MessageDigest;
 
 /***
- * TODO  md5 工具类
+ *  md5 工具类
  * @author 王松
  * @mail 1720696548@qq.com
  * @date 2020/7/5 0005 22:06 
  */
 public class MD5Util {
-
-    //md5盐
     /**
-     * 加密盐值
+     * md5盐-加密盐值
      */
     private static final String SALT = "xijia";
 
@@ -43,6 +41,6 @@ public class MD5Util {
     }
 
     public static void main(String[] args) {
-        System.out.println(MD5Util.encode("xijia"));
+        System.out.println(MD5Util.encode("admin"));
     }
 }

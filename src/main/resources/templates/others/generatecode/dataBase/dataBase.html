@@ -195,19 +195,19 @@
             , cols: [
                 [
                     {type: 'checkbox'}//, LAY_CHECKED: true
-                    , {field: 'name', title: '字段名'}
-                    , {field: 'type', title: '数据类型'}
+                    , {field: 'name', title: '字段名',width: 120}
+                    , {field: 'type', title: '数据类型',width: 100}
+                    , {field: 'typeDetail', title: '类型(长度)'}
                     , {field: 'desc', title: '备注'}
-                    , {field: 'typeDetail', title: '备注'}
-                    //, {
-                    // field: 'primary', title: '主键Id', templet: function (res) {
-                    //     return '<input type="checkbox" name="primarykeyId" lay-filter="primarykeyId" lay-skin="switch" lay-text="yes|no">' +
-                    //         '<input type="checkbox" name="selfGrowth" lay-filter="selfGrowth" lay-skin="switch" lay-text="ID自增|不自增">'
-                    //
-                    // }
-                    // }
                     , {
-                    field: 'search', title: '添加为查询条件(eq)', templet: function (res) {
+                    field: 'isNull', title: '必填', width: 60,templet: function (res) {
+                        {
+                            return res.isNull == "NO" ? "是" : "";
+                        }
+                    }
+                }
+                    , {
+                    field: 'search', title: '添加为查询条件', templet: function (res) {
                         return '<input type="checkbox" name="search" lay-filter="search" lay-skin="switch" lay-text="是|否">';
                     }
                 }
@@ -331,6 +331,7 @@
      * 代码生成路径查询（弹出层获取 findPathMap 展示）
      */
     var findPathMap = null;
+
     function codePath() {
         let result = ajaxGet(generatePath + "?tableName=" + tableName);
         findPathMap = result.data;

@@ -96,8 +96,8 @@ public class GlobalExceptionHandler extends BaseController {
             /**
              * TODO JSR 303 为参数验证错误（只打印核心错误内容）
              */
-            log.info(logStr + ResultEnum.SYSTEM_VALID_ILLEGAL_PARAM.getMsg(), e.getMessage());
-            return new Result(ResultEnum.SYSTEM_VALID_ILLEGAL_PARAM, e.getMessage());
+            log.info(logStr + ResultEnum.SYSTEM_PARAMETER_VALID_ILLEGAL.getMsg(), e.getMessage());
+            return new Result(ResultEnum.SYSTEM_PARAMETER_VALID_ILLEGAL, e.getMessage());
         } else if (e instanceof MissingServletRequestParameterException) {
             /**
              * TODO 未传递 Parameter 参数验证错误, 一般为 @Parameter 指定参数未传递（只打印核心错误内容）

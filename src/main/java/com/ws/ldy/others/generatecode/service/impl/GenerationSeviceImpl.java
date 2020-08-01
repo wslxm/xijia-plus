@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -89,12 +90,83 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             String fieldName = GenerateUtil.getFieldName(fieldMap.get("name").toString());
             String type = fieldMap.get("type").toString();
             fields.append("\r\n    @ApiModelProperty(notes = \"" + fieldMap.get("desc") + "\")");
+            String isNull = fieldMap.get("isNull").toString();
+            //
+            String typeDetail = fieldMap.get("typeDetail").toString();
+            //  NO 代表必填,YES 非必填
+            if (("NO").equals(isNull)) {
+                //字段
+                if (type.equals("int")
+                        || type.equals("bigint")) {
+                    //1
+                    String desc = "";
+                    if (fieldMap.get("desc").toString().indexOf("(") != -1) {
+                        desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("(") );
+                    } else {
+                        desc = fieldMap.get("desc").toString();
+                    }
+                    fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空\")");
+                    //2
+                    if (typeDetail.indexOf("(") != -1) {
+                        int length = Integer.parseInt(typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")")));
+                        Double max = (Math.pow(10, length) - 1);
+                        fields.append("\r\n" + "    @Range(min=0, max=" + max.intValue() + "L,message = \"" + desc + " 必须小于" + max.intValue() + "\")");
+                    }
+                } else if (type.equals("double")
+                        || type.equals("float")
+                        || type.equals("decimal")
+                        || type.equals("float")) {//小数 decimal){
+                    //1
+                    String desc = "";
+                    if (fieldMap.get("desc").toString().indexOf("(") != -1) {
+                        desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("(") );
+                    } else {
+                        desc = fieldMap.get("desc").toString();
+                    }
+                    fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空 \")");
+                    //2\
+                    if (typeDetail.indexOf("(") != -1) {
+                        int length = Integer.parseInt(typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(",")));
+                        Double max = Math.pow(10, length) - 1;
+                        fields.append("\r\n" + "    @Range(min=0, max=" + new BigDecimal(max.toString()) + "L,message = \"" + desc + " 必须小于" + new BigDecimal(max.toString()) + "\")");
+                    }
+                } else if (type.equals("varchar")
+                        || type.equals("char")
+                        || type.equals("text")
+                        || type.equals("longtext")) {
+                    //1
+                    String desc = "";
+                    if (fieldMap.get("desc").toString().indexOf("(") != -1) {
+                        desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("(") );
+                    } else {
+                        desc = fieldMap.get("desc").toString();
+                    }
+                    fields.append("\r\n" + "    @NotBlank(message = \"" + desc + " 不能为空\")");
+                    //2
+                    if (typeDetail.indexOf("(") != -1) {
+                        String max = typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")"));
+                        fields.append("\r\n" + "    @Length(min=1, max=" + max + ",message = \"" + desc + " 必须小于" + max + "位\")");
+                    }
+                } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
+                    //1
+                    String desc = "";
+                    if (fieldMap.get("desc").toString().indexOf("(") != -1) {
+                        desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("(") );
+                    } else {
+                        desc = fieldMap.get("desc").toString();
+                    }
+                    fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空\")");
+                }
+            }
+            //生成字段
             JXModel(fields, fieldName, type);
         }
         // 数据保存到替换对象类,使模板中可以读取
         DsField.FIELD_ENTITYS = fields.toString();
         GenerateUtil.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
-        pathMap.put("DTO", brBwPath.get("path").toString());
+        pathMap.put("DTO", brBwPath.get("path").
+
+                toString());
     }
 
     public void buildVO(List<Map<String, Object>> data, String path) {

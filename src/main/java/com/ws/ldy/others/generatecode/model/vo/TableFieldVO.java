@@ -20,6 +20,10 @@ public class TableFieldVO {
     @ApiModelProperty(value = "字段详情")
     private String typeDetail;
 
+    @ApiModelProperty(value = "是否可用为空")
+    private String isNull;
+
+    // 代码判断
     @ApiModelProperty(value = "是否未通用字段")
     Boolean isChecked;
 }

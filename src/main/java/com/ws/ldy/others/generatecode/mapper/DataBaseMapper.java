@@ -38,7 +38,8 @@ public interface DataBaseMapper {
             " column_name name,\n" +
             " data_type type,\n" +
             " column_comment `desc`,\n" +
-            " column_type typeDetail\n" +
+            " column_type typeDetail,\n" +
+            " is_nullable isNull\n" +
             " from information_schema.columns \n" +
             " where table_name = #{table} \n" +
             " and table_schema=#{libraryName} \n" +

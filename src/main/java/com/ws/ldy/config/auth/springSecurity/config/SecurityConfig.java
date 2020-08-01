@@ -67,9 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // 判断密码是否正确, rawPassword 用户输入的密码,  encodedPassword 数据库DB的密码,当 XiJiaUserDetailsServiceImpl的loadUserByUsername方法执行完后执行
             @Override
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                //String rawPass = MD5Util.encode((String) rawPassword);
-                boolean result = rawPassword.equals(encodedPassword);
-                return result;
+                return MD5Util.encode((String) rawPassword).equals(encodedPassword);
             }
         });
         return authenticationProvider;
