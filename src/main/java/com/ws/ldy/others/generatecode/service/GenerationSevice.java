@@ -61,7 +61,7 @@ public interface GenerationSevice {
 
 
     /**
-     * 生成Dao
+     * 生成Mapper
      *
      * @param data    数据
      * @param fieldCG 数据
@@ -71,6 +71,17 @@ public interface GenerationSevice {
      */
     public void buildMapper(List<Map<String, Object>> data, String path);
 
+
+    /**
+     * 生成Mapper.xml
+     *
+     * @param data    数据
+     * @param fieldCG 数据
+     * @param path    生成代码路径
+     * @return void
+     * @date 2019/11/20 19:18
+     */
+    public void buildMapperXml(List<Map<String, Object>> data, String path);
 
     /**
      * 生成Html-main 展页

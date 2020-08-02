@@ -6,6 +6,8 @@ import com.ws.ldy.modules.dev.service.DevTaskService;
 import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * TODO  开发任务
  * <p>
@@ -19,4 +21,8 @@ import org.springframework.stereotype.Service;
 public class DevTaskServiceImpl extends BaseIServiceImpl<DevTaskMapper, DevTask> implements DevTaskService {
 
 
+    @Override
+    public List<DevTask> findList() {
+        return baseMapper.findList();
+    }
 }

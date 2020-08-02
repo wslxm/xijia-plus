@@ -3,8 +3,8 @@ package com.ws.ldy.modules.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.result.ResultEnum;
+import com.ws.ldy.common.result.R;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.auth.util.MD5Util;
@@ -53,7 +53,7 @@ public class UserAdminController extends BaseController<UserAdminService> {
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query", example = "1"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query", example = "20"),
     })
-    public Result<IPage<UserAdminVo>> findPage(
+    public R<IPage<UserAdminVo>> findPage(
             @ApiParam(value = "数据Id", required = false) @RequestParam(required = false) Integer id,
             @ApiParam(value = "账号/手机号", required = false) @RequestParam(required = false) String username,
             @ApiParam(value = "姓名/用户名", required = false) @RequestParam(required = false) String fullName) {
@@ -63,7 +63,7 @@ public class UserAdminController extends BaseController<UserAdminService> {
                 .eq(StringUtils.isNotBlank(fullName), UserAdmin::getFullName, fullName)
                 .like(StringUtils.isNotBlank(username), UserAdmin::getUsername, username)
         );
-        return Result.success(BeanDtoVoUtil.pageVo(page, UserAdminVo.class));
+        return R.success(BeanDtoVoUtil.pageVo(page, UserAdminVo.class));
     }
 
 
@@ -73,7 +73,7 @@ public class UserAdminController extends BaseController<UserAdminService> {
             @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query"),
             @ApiImplicitParam(name = "username", value = "用户名", required = false, paramType = "query")
     })
-    public Result<List<UserAdminVo>> findRoleIdList(String roleId, String username) {
+    public R<List<UserAdminVo>> findRoleIdList(String roleId, String username) {
         List<UserAdmin> userList = null;
         if (StringUtils.isNotBlank(username)) {
             userList = baseService.list(new LambdaQueryWrapper<UserAdmin>()
@@ -85,56 +85,56 @@ public class UserAdminController extends BaseController<UserAdminService> {
         }
         //角色选中状态处理
         List<UserAdminVo> userAdminVos = roleUserAdminService.roleUserChecked(userList, roleId);
-        return Result.success(userAdminVos);
+        return R.success(userAdminVos);
     }
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation("添加")
-    public Result<Void> insert(@RequestBody UserAdminDto userAdminDto) {
+    public R<Void> insert(@RequestBody UserAdminDto userAdminDto) {
         UserAdmin userAdmin = userAdminDto.convert(UserAdmin.class);
         userAdmin.setPassword(MD5Util.encode(userAdmin.getPassword()));
         userAdmin.setState(0);//默认启用状态
         userAdmin.setRegTime(LocalDateTime.now());
         baseService.save(userAdmin);
-        return Result.success();
+        return R.success();
     }
 
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @ApiOperation("ID编辑")
-    public Result<Void> update(@RequestBody UserAdminDto userAdminDto) {
+    public R<Void> update(@RequestBody UserAdminDto userAdminDto) {
         baseService.updateById(userAdminDto.convert(UserAdmin.class));
-        return Result.successUpdate();
+        return R.successUpdate();
     }
 
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("单删除")
-    public Result<Void> delete(@RequestParam String id) {
+    public R<Void> delete(@RequestParam String id) {
         baseService.removeById(id);
-        return Result.successDelete();
+        return R.successDelete();
     }
 
 
     @RequestMapping(value = "/deleteByIds", method = RequestMethod.DELETE)
     @ApiOperation("批量删除")
-    public Result<Void> deleteByIds(@RequestParam String[] ids) {
+    public R<Void> deleteByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
-        return Result.successDelete();
+        return R.successDelete();
     }
 
 
     @RequestMapping(value = "/updPwd", method = RequestMethod.PUT)
     @ApiOperation("密码修改")
-    public Result<Void> updPwd(@RequestParam String oldPassword, @RequestParam String password) {
+    public R<Void> updPwd(@RequestParam String oldPassword, @RequestParam String password) {
         UserAdmin userAdmin = baseService.getById(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
         if (userAdmin.getPassword().equals(MD5Util.encode(oldPassword))) {
             userAdmin.setPassword(MD5Util.encode(password));
             baseService.updateById(userAdmin);
-            return Result.successUpdate();
+            return R.successUpdate();
         } else {
-            return Result.error(ResultEnum.ADMIN_USER_NO_PASSWORD);
+            return R.error(RType.ADMIN_USER_NO_PASSWORD);
         }
     }
 }

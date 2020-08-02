@@ -3,6 +3,8 @@ package com.ws.ldy.modules.dev.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.modules.dev.model.entity.DevTask;
 
+import java.util.List;
+
 /**
  * TODO  开发任务
  * <p>
@@ -13,6 +15,6 @@ import com.ws.ldy.modules.dev.model.entity.DevTask;
  * @date  2020-06-27 11:14:57
  */
 public interface DevTaskService extends IService<DevTask> {
-
+    List<DevTask> findList();
 }
 

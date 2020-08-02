@@ -25,7 +25,7 @@ public class GenerateConfig {
     public final static String DESCRIBE = " ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 ";
     public final static String PACK_PATH = "com.ws.ldy";  // 包根路径（所有代码,启动类的路径）
     public final static String PACK_PATH_ZP = "modules";  // 包根的下一级路径（所有模块的包路径）
-    public final static String MODULE_NAME = "dev";       // 模块路径（当前模块的包路径）
+    public final static String MODULE_NAME = "TEST";       // 模块路径（当前模块的包路径）
 
     /**
      * 建议-默认为相对路径
@@ -41,11 +41,12 @@ public class GenerateConfig {
     // 预览的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
     public final static String BASE_PATH_HTML_TXT_YL = "File/code/src/main/resources/templates/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/txt/";
     public final static String BASE_PATH_JAVA_YL = "File/code/src/main/java/" + PACK_PATH.replace(".", "/") + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
+    public final static String BASE_PATH_XML_YL = "File/code/src/main/resources/mapper/" + PACK_PATH_ZP + "/" + MODULE_NAME+ "/";
 
     // 生成的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
     public final static String BASE_PATH_HTML = "src/main/resources/templates/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
     public final static String BASE_PATH_JAVA = "src/main/java/" + PACK_PATH.replace(".", "/") + "/" + PACK_PATH_ZP + "/" + MODULE_NAME.replace(".", "/") + "/";
-
+    public final static String BASE_PATH_XML = "src/main/resources/mapper/" + PACK_PATH_ZP + "/" + MODULE_NAME+ "/";
 
     /**
      * 生成的各代码具体的生成路径
@@ -56,16 +57,22 @@ public class GenerateConfig {
     public final static String PATH_CONTROLLER = "controller/";
     public final static String PATH_SERVICE = "service/";
     public final static String PATH_SERVICE_IMPL = "service/impl/";
-    public final static String PATH_DAO = "mapper/";
+    public final static String PATH_MAPPER = "mapper/";
+    public final static String PATH_MAPPER_XML = "mapperXml/";
 
     /**
      * 此处内容一般都是不会修改的，特殊情况除外
      */
     public final static String PATH_TEMPLATE = "/template";   // 代码模版读取位置（目录 resources/static/下）
-    public static String SUFFIX_JAVA = ".java";               // 实际 java 后缀名
-    public static String SUFFIX_HTML = ".html";               // 实际 html 后缀名
-    public static String SUFFIX_TXT = ".txt";                 // 预览 html 后缀名
-    public static String SUFFIX = ".html";                    // 最后生成的html 后缀名
+    public static String SUFFIX_JAVA = ".java";             // 实际 java 后缀名
+    public static String SUFFIX_XML = ".xml";               // 实际 xml 后缀名
+    public static String SUFFIX_HTML = ".html";             // 实际 html 后缀名
+    //
+    public static String SUFFIX_TXT = ".txt";               // 预览 html 后缀名
+    //
+    public static String SUFFIX_JAVA_PT = ".txt";           // 最后生成html 后缀名
+    public static String SUFFIX_HTML_PT = ".txt";           // 最后生成的html 后缀名
+    public static String SUFFIX_XML_PT = ".txt";            // 最后生成的html 后缀名
 
 
     /**

@@ -1,7 +1,7 @@
 package com.ws.ldy.others.websocket.controller;
 
-import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.result.ResultEnum;
+import com.ws.ldy.common.result.R;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.others.websocket.model.vo.OnlineUserVO;
 import com.ws.ldy.others.websocket.service.WebsocketService;
 import com.ws.ldy.config.error.ErrorException;
@@ -61,10 +61,10 @@ public class WebSocketController {
      */
     @RequestMapping(value = "/getPath", method = RequestMethod.GET)
     @ApiOperation("游客登录获取websocket连接地址")
-    public Result<Map<String, String>> getPath() {
+    public R<Map<String, String>> getPath() {
         // 配置检查
         if (StringUtils.isBlank(ip) || StringUtils.isBlank(port) || StringUtils.isBlank(interfaceName)) {
-            throw new ErrorException(ResultEnum.SOCKET_CONFIG_ERROR);
+            throw new ErrorException(RType.SOCKET_CONFIG_ERROR);
         }
         // 随机用户名
         String username = "游客:" + new SimpleDateFormat("ssSSS").format(new Date());
@@ -80,7 +80,7 @@ public class WebSocketController {
         map.put("path", path);
         map.put("userId", userId);
         map.put("username", username);
-        return Result.success(map);
+        return R.success(map);
     }
 
     // websocket 逻辑代码
@@ -99,9 +99,9 @@ public class WebSocketController {
             @ApiImplicitParam(name = "content", value = "发送内容", required = true),
             @ApiImplicitParam(name = "extras", value = "附加发送内容", required = true)
     })
-    public Result<Void> send(String form, String username, String to, String content, String extras) {
+    public R<Void> send(String form, String username, String to, String content, String extras) {
         websocketService.send(form, username, to, content, extras);
-        return Result.success();
+        return R.success();
     }
 
     /**
@@ -109,15 +109,15 @@ public class WebSocketController {
      */
     @RequestMapping(value = "/getOnlineCount", method = RequestMethod.GET)
     @ApiOperation("获取在线人数")
-    public Result<Integer> getOnlineCount() {
+    public R<Integer> getOnlineCount() {
         Integer onlineCount = websocketService.getOnlineCount();
-        return Result.success(onlineCount);
+        return R.success(onlineCount);
     }
 
 
     @RequestMapping(value = "/getOnlineUsersList", method = RequestMethod.GET)
     @ApiOperation("获取当前在线用户列表")
-    public Result<List<OnlineUserVO>> getOnlineUsersList() {
-        return Result.success(websocketService.getOnlineUsersList());
+    public R<List<OnlineUserVO>> getOnlineUsersList() {
+        return R.success(websocketService.getOnlineUsersList());
     }
 }

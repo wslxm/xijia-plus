@@ -1,6 +1,6 @@
 package com.ws.ldy.config.error;
 
-import com.ws.ldy.common.result.ResultEnum;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.EnumUtil;
 import com.ws.ldy.others.base.controller.BaseController;
 import lombok.extern.slf4j.Slf4j;
@@ -34,12 +34,12 @@ public class ErrorController extends BaseController {
     @ResponseBody
     public void error(@PathVariable int code) {
         // 根据状态值查询对应的枚举
-        ResultEnum errorConstantEnum = EnumUtil.getByCode(Integer.valueOf(code), ResultEnum.class);
+        RType errorConstantEnum = EnumUtil.getByCode(Integer.valueOf(code), RType.class);
         // 返回对应提示
         if (errorConstantEnum != null) {
             throw new ErrorException(errorConstantEnum);
         }
         //返回500错误
-        throw new ErrorException(ResultEnum.SYS_ERROR_CODE_500);
+        throw new ErrorException(RType.SYS_ERROR_CODE_500);
     }
 }

@@ -101,7 +101,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
                     //1
                     String desc = "";
                     if (fieldMap.get("desc").toString().indexOf("(") != -1) {
-                        desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("(") );
+                        desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
                     } else {
                         desc = fieldMap.get("desc").toString();
                     }
@@ -119,7 +119,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
                     //1
                     String desc = "";
                     if (fieldMap.get("desc").toString().indexOf("(") != -1) {
-                        desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("(") );
+                        desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
                     } else {
                         desc = fieldMap.get("desc").toString();
                     }
@@ -137,7 +137,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
                     //1
                     String desc = "";
                     if (fieldMap.get("desc").toString().indexOf("(") != -1) {
-                        desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("(") );
+                        desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
                     } else {
                         desc = fieldMap.get("desc").toString();
                     }
@@ -151,7 +151,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
                     //1
                     String desc = "";
                     if (fieldMap.get("desc").toString().indexOf("(") != -1) {
-                        desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("(") );
+                        desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
                     } else {
                         desc = fieldMap.get("desc").toString();
                     }
@@ -355,6 +355,36 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         pathMap.put("mapper", brBwPath.get("path").toString());
     }
 
+
+    /**
+     * 生成Dao 对应的xml
+     *
+     * @param data    数据
+     * @param DsField 数据
+     * @param path    生成代码路径
+     * @return void
+     * @date 2019/11/20 19:18
+     */
+    public void buildMapperXml(List<Map<String, Object>> data, String path) {
+        Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "MapperXml");
+        StringBuffer resultMap = new StringBuffer();
+        StringBuffer columnList = new StringBuffer();
+        for (Map<String, Object> fieldMap : data) {
+            //字段名
+            String fieldName = fieldMap.get("name").toString();
+            //驼峰字段名
+            String fieldNameHump = GenerateUtil.getFieldName(fieldName);
+            resultMap.append("\r\n               <result column=\"" + fieldName + "\" property=\"" + fieldNameHump + "\" />");
+            columnList.append("\r\n               " + fieldName + ",");
+        }
+        DsField.RESULT_MAP = resultMap.toString();
+        DsField.COLUMN_LIST = columnList.toString().substring(0, columnList.toString().length() - 1);
+        // <result column="id" property="id" />
+        // 开始生成文件并进行数据替换
+        GenerateUtil.replacBrBwWritee(brBwPath);
+        // 文件url记录
+        pathMap.put("mapperXml", brBwPath.get("path").toString());
+    }
 
     /**
      * 生成Html-main 主页

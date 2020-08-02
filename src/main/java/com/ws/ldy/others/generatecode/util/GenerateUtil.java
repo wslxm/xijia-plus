@@ -116,9 +116,11 @@ public class GenerateUtil extends BaseController {
         // 路径 + 类名 + name + 后缀
         String upPath = null;
         if (name.indexOf("Html") != -1) {
-            upPath = path + DsField.TABLE_NAME_LOWER + name.replace("Html", "") + GenerateConfig.SUFFIX;
+            upPath = path + DsField.TABLE_NAME_LOWER + name.replace("Html", "") + GenerateConfig.SUFFIX_HTML_PT;
+        } else if (name.indexOf("Xml") != -1) {
+            upPath = path + DsField.TABLE_NAME_UP + name + GenerateConfig.SUFFIX_XML_PT;
         } else {
-            upPath = path + DsField.TABLE_NAME_UP + name + GenerateConfig.SUFFIX_JAVA;
+            upPath = path + DsField.TABLE_NAME_UP + name + GenerateConfig.SUFFIX_JAVA_PT;
         }
         // 检查目录,不存在添加
         mkdirFile(path);
@@ -131,7 +133,7 @@ public class GenerateUtil extends BaseController {
             brBw.put("path", upPath);
             //打印参数区分
             brBw.put("name", name);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return brBw;
@@ -215,7 +217,7 @@ public class GenerateUtil extends BaseController {
                         .replace("{tableName}", DsField.TABLE_NAME) //表名
                         .replace("{tableNameUp}", DsField.TABLE_NAME_UP)//表名大写开头驼峰
                         .replace("{tableNameLower}", DsField.TABLE_NAME_LOWER)//表名小写开头驼峰
-                       // .replace("{htmlNameLower}", DsField.TABLE_NAME_LOWER) //表名小写开头驼峰
+                        // .replace("{htmlNameLower}", DsField.TABLE_NAME_LOWER) //表名小写开头驼峰
                         .replace("{packPath}", DsField.PACK_PATH) //包路径
                         .replace("{tableComment}", DsField.TABLE_COMMENT)
                         //.replace("{entryName}", DsField.entryName)
@@ -223,15 +225,20 @@ public class GenerateUtil extends BaseController {
                         .replace("{entitys}", DsField.FIELD_ENTITYS)
                         .replace("{findPageParam}", DsField.FIND_PAGE_PARAM)
                         .replace("{findPageMybatisPlus}", DsField.FIND_PAGE_MYBATIS_PLUS)
-                        // .replace("{primary-key-type}", DsField.PRIMARY_KEY_TYPE)
+                        // mapper - xml
+                        .replace("{resultMap}", DsField.RESULT_MAP)
+                        .replace("{columnList}", DsField.COLUMN_LIST)
+                        // html
                         .replace("{layui-fields}", DsField.LAYUI_FIELDS)
                         .replace("{layui-search-pt-str}", DsField.LAYUI_SEARCH_PT_STR)
                         .replace("{layui-search-params-str}", DsField.LAYUI_SEARCH_PARAMS_STR)
-                        //
+                        // html
                         .replace("{add-htmls}", DsField.ADD_HTMLS)
                         .replace("{upd-htmls}", DsField.UPD_HTMLS)
                         .replace("{upd-backfill}", DsField.UPD_BACKFILL)
                         .replace("{upd-id}", DsField.UPD_ID);
+
+
                 bw.write(newLine);
                 bw.newLine();
                 bw.flush();

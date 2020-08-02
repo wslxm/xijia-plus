@@ -3,7 +3,7 @@ package com.ws.ldy.modules.dev.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.enums.base.BaseConstant;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -43,7 +44,7 @@ public class DevTaskController extends BaseController<DevTaskService> {
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query", example = "1"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query", example = "20")
     })
-    public Result<IPage<DevTaskVO>> findPage(
+    public R<IPage<DevTaskVO>> findPage(
             @ApiParam(value = "任务名", required = false) @RequestParam(required = false) String name,
             @ApiParam(value = "任务类型(1-管理端 2-用户端 3-app端)", required = false) @RequestParam(required = false) Integer type,
             @ApiParam(value = "任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销)", required = false) @RequestParam(required = false) Integer state,
@@ -58,39 +59,40 @@ public class DevTaskController extends BaseController<DevTaskService> {
                 .eq(taskUserId != null, DevTask::getTaskUserId, taskUserId)
 
         );
-        return Result.successFind(BeanDtoVoUtil.pageVo(page, DevTaskVO.class));
+        return R.successFind(BeanDtoVoUtil.pageVo(page, DevTaskVO.class));
     }
 
 
     @RequestMapping(value = "/findId", method = RequestMethod.GET)
     @ApiOperation("ID查询")
-    public Result<DevTask> update(@RequestParam String id) {
-        return Result.successFind(BeanDtoVoUtil.convert(baseService.getById(id), DevTask.class));
+    @ApiImplicitParam(name = "id", value = "id", required = false, paramType = "query")
+    public R<DevTask> update(@RequestParam LocalDateTime id) {
+        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(id), DevTask.class));
     }
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation("添加")
-    public Result<Void> insert(@RequestBody @Validated DevTaskDTO dto) {
+    public R<Void> insert(@RequestBody @Validated DevTaskDTO dto) {
         DevTask devTask = dto.convert(DevTask.class);
         devTask.setCreateUser(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
         devTask.setState(0);//默认未开始
         baseService.save(devTask);
-        return Result.successInsert();
+        return R.successInsert();
     }
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation("ID编辑")
-    public Result<Void> update(@RequestBody @Validated DevTaskDTO dto) {
+    public R<Void> update(@RequestBody @Validated DevTaskDTO dto) {
         baseService.updateById(dto.convert(DevTask.class));
-        return Result.successUpdate();
+        return R.successUpdate();
     }
 
 
     @RequestMapping(value = "/updState", method = RequestMethod.PUT)
     @ApiOperation("ID编辑状态--任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销)")
-    public Result<Void> update(@RequestParam String id, Integer state, Double takeUpTime) {
+    public R<Void> update(@RequestParam String id, Integer state, Double takeUpTime) {
         DevTask devTask = new DevTask();
         devTask.setState(state);
         if (state == 2) {
@@ -102,22 +104,28 @@ public class DevTaskController extends BaseController<DevTaskService> {
         }
         devTask.setId(id);
         baseService.updateById(devTask);
-        return Result.successUpdate();
+        return R.successUpdate();
     }
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation("单删除")
-    public Result<Void> delete(@RequestParam String id) {
+    public R<Void> delete(@RequestParam String id) {
         baseService.removeById(id);
-        return Result.successDelete();
+        return R.successDelete();
     }
 
 
     @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
     @ApiOperation("批量删除")
-    public Result<Void> deleteByIds(@RequestParam String[] ids) {
+    public R<Void> deleteByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
-        return Result.successDelete();
+        return R.successDelete();
+    }
+
+    @RequestMapping(value = "/findList", method = RequestMethod.GET)
+    @ApiOperation("查询所有")
+    public R<List<DevTask>> findList() {
+        return R.success(baseService.findList());
     }
 }

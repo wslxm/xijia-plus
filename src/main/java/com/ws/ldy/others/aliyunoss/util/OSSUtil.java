@@ -24,7 +24,7 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.*;
-import com.ws.ldy.common.result.ResultEnum;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.error.ErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -113,7 +113,7 @@ public class OSSUtil {
             ossObject = ossClient.getObject(bucketName, yourObjectName);
         } catch (OSSException e) {
             e.printStackTrace();
-            throw new ErrorException(ResultEnum.ADMIN_OSS_NO_PATH);
+            throw new ErrorException(RType.ADMIN_OSS_NO_PATH);
         }
         // 关闭OSSClient。
         ossClient.shutdown();

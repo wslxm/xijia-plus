@@ -1,6 +1,6 @@
 package com.ws.ldy.others.front.controller;
 
-import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.result.R;
 import com.ws.ldy.others.base.controller.BaseController;
 import com.ws.ldy.others.front.util.TransformUtil;
 import io.swagger.annotations.Api;
@@ -32,14 +32,14 @@ public class WbConvertFhController extends BaseController {
             @ApiImplicitParam(name = "content", value = "内容", required = false, paramType = "query"),
             @ApiImplicitParam(name = "narrow", value = "缩小倍数（建议3或4）", required = false, paramType = "query")
     })
-    public Result<String> convert(@RequestParam String content, @RequestParam Integer narrow) {
+    public R<String> convert(@RequestParam String content, @RequestParam Integer narrow) {
         String transform = null;
         if (StringUtils.isNotBlank(content)) {
             transform = TransformUtil.transform(content, narrow);
         }
         //System.out.println(transform);
         //String replace = transform.replaceAll("\n", "<br>").replaceAll(" ", "&nbsp;&nbsp;");
-        return Result.success(transform);
+        return R.success(transform);
     }
 }
 //&nbsp; ：一个字符的半角的不断行的空格，如果需要在网页中插入多个空格，可以将“&nbsp;”代码写多遍；

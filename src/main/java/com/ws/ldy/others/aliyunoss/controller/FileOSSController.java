@@ -1,8 +1,8 @@
 package com.ws.ldy.others.aliyunoss.controller;
 
 import com.aliyun.oss.model.OSSObjectSummary;
-import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.result.ResultEnum;
+import com.ws.ldy.common.result.R;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.LocalDateTimeUtil;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.others.aliyunoss.util.OSSUtil;
@@ -62,7 +62,7 @@ public class FileOSSController extends BaseController {
                     "表格=excel/" + "\r\n" +
                     ")", required = true)
     })
-    public Result<String> uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("filePath") String filePath) {
+    public R<String> uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("filePath") String filePath) {
         // 验证文件格式及路径，并获取文件上传路径, file.getOriginalFilename()=原文件名
         String fileName = getPath(filePath, file.getOriginalFilename());
         try {
@@ -72,9 +72,9 @@ public class FileOSSController extends BaseController {
             String path = FILE_PATH + filePath + fileName;
             ossUtil.upload(path, inputStream);
             // 返回内网访问地址（域名+ oss存储路径）
-            return Result.success(YM_PATH + path);
+            return R.success(YM_PATH + path);
         } catch (Exception e) {
-            return Result.error(ResultEnum.SYS_ERROR_CODE_500.getCode(), "文件上传失败");
+            return R.error(RType.SYS_ERROR_CODE_500);
         }
     }
 
@@ -117,7 +117,7 @@ public class FileOSSController extends BaseController {
             outputStream.close();
         } catch (IOException ex) {
             ex.printStackTrace();
-            throw new ErrorException(ResultEnum.SYS_ERROR_CODE_500.getCode(), "文件下载失败");
+            throw new ErrorException(RType.SYS_ERROR_CODE_500.getCode(), "文件下载失败");
         }
     }
 
@@ -127,9 +127,9 @@ public class FileOSSController extends BaseController {
      */
     @ApiOperation("OSS-文件Object列表")
     @RequestMapping(value = "/fileList", method = RequestMethod.GET)
-    public Result<List<OSSObjectSummary>> fileList() {
+    public R<List<OSSObjectSummary>> fileList() {
         List<OSSObjectSummary> objectListing = ossUtil.getObjectListing();
-        return Result.success(objectListing);
+        return R.success(objectListing);
     }
 
 
@@ -139,11 +139,11 @@ public class FileOSSController extends BaseController {
     @ApiOperation("OSS-文件删除")
     @ApiImplicitParam(name = "filePath", value = "文件保存的完整可访问URL,或OSS相对路径", required = true)
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    public Result del(@RequestParam String filePath) {
+    public R del(@RequestParam String filePath) {
         // 去除域名 ,获得oss存储路径
         filePath = filePath.replace(YM_PATH, "");
         ossUtil.deleteObject(filePath);
-        return Result.success();
+        return R.success();
     }
 
 

@@ -8,8 +8,8 @@ import com.ws.ldy.modules.admin.model.vo.MenuAdminVo;
 import com.ws.ldy.modules.admin.service.MenuAdminService;
 import com.ws.ldy.others.base.controller.BaseController;
 import com.ws.ldy.enums.base.BaseConstant;
-import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.result.ResultEnum;
+import com.ws.ldy.common.result.R;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.error.ErrorException;
 import io.swagger.annotations.Api;
@@ -36,21 +36,21 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
 
     @RequestMapping(value = "/menuTree", method = RequestMethod.GET)
     @ApiOperation("左导航菜单 ===>>> 树结构数据 ===>>> 需先登录")
-    public Result<List<MenuAdminVo>> menuTree() {
+    public R<List<MenuAdminVo>> menuTree() {
         //获取菜单
         List<MenuAdminVo> menuTree = baseService.getMenuTree();
-        return Result.successFind(menuTree);
+        return R.successFind(menuTree);
     }
 
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ApiOperation("菜单列表 ==>>>  列表数据  ==>>>  所有")
-    public Result<List<MenuAdminVo>> list() {
+    public R<List<MenuAdminVo>> list() {
         List<MenuAdmin> menus = baseService.list(new LambdaQueryWrapper<MenuAdmin>()
                 .orderByAsc(MenuAdmin::getSort)
                 .orderByAsc(MenuAdmin::getId)
         );
-        return Result.successFind(BeanDtoVoUtil.listVo(menus, MenuAdminVo.class));
+        return R.successFind(BeanDtoVoUtil.listVo(menus, MenuAdminVo.class));
     }
 
     /**
@@ -63,40 +63,40 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
             @ApiImplicitParam(name = "id", value = "父id", required = false, paramType = "query"),
             @ApiImplicitParam(name = "roleId", value = "角色Id，判断当前是否有权限并选中", required = false, paramType = "query")
     })
-    public Result<List<MenuAdminVo>> findPidOrRoleIdList(String id, String roleId) {
+    public R<List<MenuAdminVo>> findPidOrRoleIdList(String id, String roleId) {
         List<MenuAdminVo> menus = baseService.findIdOrRoleIdList(id, roleId);
-        return Result.successFind(BeanDtoVoUtil.listVo(menus, MenuAdminVo.class));
+        return R.successFind(BeanDtoVoUtil.listVo(menus, MenuAdminVo.class));
     }
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation("菜单添加")
-    public Result<Void> insert(@RequestBody MenuAdminDto menuAdminDto) {
+    public R<Void> insert(@RequestBody MenuAdminDto menuAdminDto) {
         MenuAdmin menuAdmin = menuAdminDto.convert(MenuAdmin.class);
         baseService.save(menuAdmin);
-        return Result.successInsert();
+        return R.successInsert();
     }
 
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @ApiOperation("编辑")
-    public Result<Void> update(@RequestBody MenuAdminDto menuAdminDto) {
+    public R<Void> update(@RequestBody MenuAdminDto menuAdminDto) {
         if (menuAdminDto.getId() == null) {
-            throw new ErrorException(ResultEnum.ADMIN_IS_NO_UPDATE_ID);
+            throw new ErrorException(RType.ADMIN_IS_NO_UPDATE_ID);
         }
         MenuAdmin menuAdmin = menuAdminDto.convert(MenuAdmin.class);
         baseService.updateById(menuAdmin);
-        return Result.successUpdate();
+        return R.successUpdate();
     }
 
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("ID删除菜单+所有子菜单")
-    public Result<List<String>> delete(@RequestParam String id) {
+    public R<List<String>> delete(@RequestParam String id) {
         List<MenuAdminVo> idOrRoleIdList = baseService.findIdOrRoleIdList(id);
         List<String> menuIds = new ArrayList<>();
         idOrRoleIdList.forEach(item -> menuIds.add(item.getId()));
         baseService.removeByIds(menuIds);
-        return Result.successDelete(menuIds);
+        return R.successDelete(menuIds);
     }
 }

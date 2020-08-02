@@ -3,7 +3,7 @@ package com.ws.ldy.modules.dev.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.modules.dev.model.dto.DevNormDTO;
@@ -40,46 +40,46 @@ public class DevNormController extends BaseController<DevNormService>  {
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query",example = "1"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query",example = "20")
     })
-    public Result<IPage<DevNormVO>> findPage( 
+    public R<IPage<DevNormVO>> findPage(
             @ApiParam(value = "规范名称",required = false) @RequestParam(required = false) String name) {
         Page<DevNorm> page = baseService.page(this.getPage(), new LambdaQueryWrapper<DevNorm>()
                 .orderByAsc(DevNorm::getId)
                 .eq(StringUtils.isNotBlank(name),DevNorm::getName,name)
 
         );
-        return Result.successFind(BeanDtoVoUtil.pageVo(page, DevNormVO.class));
+        return R.successFind(BeanDtoVoUtil.pageVo(page, DevNormVO.class));
     }
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation("添加")
-    public Result<Void> insert(@RequestBody @Validated DevNormDTO dto) {
+    public R<Void> insert(@RequestBody @Validated DevNormDTO dto) {
         DevNorm devNorm = dto.convert(DevNorm.class);
         baseService.save(devNorm);
-        return Result.successInsert();
+        return R.successInsert();
     }
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation("ID编辑")
-    public Result<Void> update(@RequestBody @Validated DevNormDTO dto) {
+    public R<Void> update(@RequestBody @Validated DevNormDTO dto) {
         baseService.updateById(dto.convert(DevNorm.class));
-        return Result.successUpdate();
+        return R.successUpdate();
     }
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation("单删除")
-    public Result<Void> delete(@RequestParam String id) {
+    public R<Void> delete(@RequestParam String id) {
         baseService.removeById(id);
-        return Result.successDelete();
+        return R.successDelete();
     }
 
 
     @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
     @ApiOperation("批量删除")
-    public Result<Void> deleteByIds(@RequestParam String[] ids) {
+    public R<Void> deleteByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
-        return Result.successDelete();
+        return R.successDelete();
     }
 }

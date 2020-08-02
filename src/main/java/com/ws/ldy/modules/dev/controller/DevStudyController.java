@@ -3,7 +3,7 @@ package com.ws.ldy.modules.dev.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.modules.dev.model.dto.DevStudyDTO;
 import com.ws.ldy.modules.dev.model.entity.DevStudy;
@@ -39,46 +39,46 @@ public class DevStudyController extends BaseController<DevStudyService>  {
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query",example = "1"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query",example = "20")
     })
-    public Result<IPage<DevStudyVO>> findPage( 
+    public R<IPage<DevStudyVO>> findPage(
             @ApiParam(value = "名称",required = false) @RequestParam(required = false) String name) {
         Page<DevStudy> page = baseService.page(this.getPage(), new LambdaQueryWrapper<DevStudy>()
                 .orderByAsc(DevStudy::getId)
                 .eq(StringUtils.isNotBlank(name),DevStudy::getName,name)
 
         );
-        return Result.successFind(BeanDtoVoUtil.pageVo(page, DevStudyVO.class));
+        return R.successFind(BeanDtoVoUtil.pageVo(page, DevStudyVO.class));
     }
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation("添加")
-    public Result<Void> insert(@RequestBody @Validated DevStudyDTO dto) {
+    public R<Void> insert(@RequestBody @Validated DevStudyDTO dto) {
         DevStudy devStudy = dto.convert(DevStudy.class);
         baseService.save(devStudy);
-        return Result.successInsert();
+        return R.successInsert();
     }
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation("ID编辑")
-    public Result<Void> update(@RequestBody @Validated DevStudyDTO dto) {
+    public R<Void> update(@RequestBody @Validated DevStudyDTO dto) {
         baseService.updateById(dto.convert(DevStudy.class));
-        return Result.successUpdate();
+        return R.successUpdate();
     }
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation("单删除")
-    public Result<Void> delete(@RequestParam String id) {
+    public R<Void> delete(@RequestParam String id) {
         baseService.removeById(id);
-        return Result.successDelete();
+        return R.successDelete();
     }
 
 
     @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
     @ApiOperation("批量删除")
-    public Result<Void> deleteByIds(@RequestParam String[] ids) {
+    public R<Void> deleteByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
-        return Result.successDelete();
+        return R.successDelete();
     }
 }

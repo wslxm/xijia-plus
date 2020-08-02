@@ -3,6 +3,8 @@ package com.ws.ldy.modules.dev.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ws.ldy.modules.dev.model.entity.DevTask;
 
+import java.util.List;
+
 /**
  * TODO  开发任务
  * <p>
@@ -14,5 +16,7 @@ import com.ws.ldy.modules.dev.model.entity.DevTask;
  */
 public interface DevTaskMapper extends BaseMapper<DevTask> {
 
+
+   List<DevTask> findList();
 }
 

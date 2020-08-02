@@ -3,6 +3,7 @@ package com.ws.ldy.modules.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.common.result.R;
 import com.ws.ldy.modules.admin.model.dto.RoleAdminDto;
 import com.ws.ldy.modules.admin.model.entity.RoleAdmin;
 import com.ws.ldy.modules.admin.model.vo.RoleAdminVo;
@@ -12,7 +13,6 @@ import com.ws.ldy.modules.admin.service.RoleMenuAdminService;
 import com.ws.ldy.modules.admin.service.RoleUserAdminService;
 import com.ws.ldy.others.base.controller.BaseController;
 import com.ws.ldy.enums.base.BaseConstant;
-import com.ws.ldy.common.result.Result;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -53,41 +53,41 @@ public class RoleAdminController extends BaseController<RoleAdminService> {
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "角色名称", required = false, paramType = "query"),
     })
-    public Result<IPage<RoleAdminVo>> findPage(String name) {
+    public R<IPage<RoleAdminVo>> findPage(String name) {
         Page<RoleAdmin> page = baseService.page(this.getPage(), new LambdaQueryWrapper<RoleAdmin>()
                 .orderByAsc(RoleAdmin::getId)
                 .like(StringUtils.isNotBlank(name), RoleAdmin::getName, name)
         );
-        return Result.successFind(page.convert(item -> item.convert(RoleAdminVo.class)));
+        return R.successFind(page.convert(item -> item.convert(RoleAdminVo.class)));
     }
 
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ApiOperation("查询所有")
-    public Result<List<RoleAdminVo>> list() {
+    public R<List<RoleAdminVo>> list() {
         List<RoleAdmin> roles = baseService.list();
-        return Result.successFind(BeanDtoVoUtil.listVo(roles, RoleAdminVo.class));
+        return R.successFind(BeanDtoVoUtil.listVo(roles, RoleAdminVo.class));
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation("添加")
-    public Result<Void> insert(@RequestBody RoleAdminDto roleAdminDto) {
+    public R<Void> insert(@RequestBody RoleAdminDto roleAdminDto) {
         baseService.save(roleAdminDto.convert(RoleAdmin.class));
-        return Result.successInsert();
+        return R.successInsert();
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @ApiOperation("编辑")
-    public Result<Void> update(@RequestBody RoleAdminDto roleAdminDto) {
+    public R<Void> update(@RequestBody RoleAdminDto roleAdminDto) {
         baseService.updateById(roleAdminDto.convert(RoleAdmin.class));
-        return Result.successInsert();
+        return R.successInsert();
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("删除")
-    public Result<Void> delete(String id) {
+    public R<Void> delete(String id) {
         baseService.removeById(id);
-        return Result.successDelete();
+        return R.successDelete();
     }
 
 
@@ -99,32 +99,32 @@ public class RoleAdminController extends BaseController<RoleAdminService> {
 
     @RequestMapping(value = "/findRoleChecked", method = RequestMethod.GET)
     @ApiOperation("用户角色分配弹出层查询所有角色,用户拥有角色赋予isChecked=true")
-    public Result<List<RoleAdminVo>> findRoleChecked(@RequestParam String userId) {
+    public R<List<RoleAdminVo>> findRoleChecked(@RequestParam String userId) {
         List<RoleAdminVo> roles = baseService.findRoleChecked(userId);
-        return Result.successFind(roles);
+        return R.successFind(roles);
     }
 
 
     @RequestMapping(value = "/updUserRole", method = RequestMethod.PUT)
     @ApiOperation("用户角色分配")
-    public Result<Void> updUserRole(@RequestParam String userId, String[] roleIds) {
+    public R<Void> updUserRole(@RequestParam String userId, String[] roleIds) {
         boolean result = baseService.updUserRole(userId, roleIds);
-        return Result.successUpdate();
+        return R.successUpdate();
     }
 
 
     @RequestMapping(value = "/updRoleMenu", method = RequestMethod.PUT)
     @ApiOperation("角色菜单分配")
-    public Result<Void> updRoleMenu(@RequestParam String roleId, String[] menuIds) {
+    public R<Void> updRoleMenu(@RequestParam String roleId, String[] menuIds) {
         roleMenuAdminService.roleMenuAuth(roleId, menuIds);
-        return Result.successUpdate();
+        return R.successUpdate();
     }
 
 
     @RequestMapping(value = "/updRoleUrlAuth", method = RequestMethod.PUT)
     @ApiOperation("角色URL分配")
-    public Result<Void> updRoleUrlAuth(@RequestParam String roleId, String[] authIds) {
+    public R<Void> updRoleUrlAuth(@RequestParam String roleId, String[] authIds) {
         roleAuthAdminService.roleUrlAuth(roleId, authIds);
-        return Result.successUpdate();
+        return R.successUpdate();
     }
 }

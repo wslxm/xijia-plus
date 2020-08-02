@@ -17,7 +17,7 @@ import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor
-public enum ResultEnum implements IEnum {
+public enum RType implements IEnum {
 
     //--------------------------系统相关错误- SYS_ --------------------------
     SYS_SUCCESS(200, "成功"),
@@ -36,8 +36,8 @@ public enum ResultEnum implements IEnum {
 
     // 参数错误
     SYSTEM_PARAMETER_VALID_ILLEGAL(9999, "参数错误:不符合JSR 303规范"),
-    SYSTEM_PARAMETER_ILLEGAL_PARAM(9999, "参数错误:JSON格式错误/或枚举参数错误"),
-    SYSTEM_PARAMETER_WRONG_TYPE(9999, "参数错误:类型不匹配"),
+    SYSTEM_PARAMETER_ILLEGAL_PARAM(9999, "缺少请求参数"),
+    SYSTEM_PARAMETER_WRONG_TYPE(9999, "参数类型不匹配"),
     ADMIN_IS_NO_INSERT_ID(9999, "添加不能传递Id"),
     ADMIN_IS_NO_UPDATE_ID(9999, "编辑不能没有Id"),
 
@@ -72,7 +72,7 @@ public enum ResultEnum implements IEnum {
     private Integer code;
     private String msg;
 
-    ResultEnum(Integer code, String msg) {
+    RType(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }

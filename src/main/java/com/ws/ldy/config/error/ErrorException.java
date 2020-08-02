@@ -1,7 +1,7 @@
 package com.ws.ldy.config.error;
 
 
-import com.ws.ldy.common.result.ResultEnum;
+import com.ws.ldy.common.result.RType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -33,8 +33,8 @@ public class ErrorException extends RuntimeException {
     }
 
     //枚举传递（建议先定义枚举）
-    public ErrorException(ResultEnum resultEnum) {
-        this.code = resultEnum.getCode();
-        this.msg = resultEnum.getMsg();
+    public ErrorException(RType RType) {
+        this.code = RType.getCode();
+        this.msg = RType.getMsg();
     }
 }

@@ -2,6 +2,7 @@ package com.ws.ldy.config.auth.jwt.filter;
 
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.config.auth.util.JwtUtil;
+import com.ws.ldy.enums.base.BaseConstant;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,6 @@ public class JWTValidFilter extends BasicAuthenticationFilter {
         super(authenticationManager);
         // 获取异常处理类
         this.resolver = resolver;
-        this.resolver = resolver;
     }
 
 
@@ -59,7 +59,7 @@ public class JWTValidFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.info("请求方式:{} 请求URL:{} ", request.getMethod(), request.getServletPath());
         // 获取token, 没有token直接放行
-        String token = request.getHeader("token");
+        String token = request.getHeader(BaseConstant.Sys.TOKEN);
         if (StringUtils.isBlank(token) || "null".equals(token)) {
             super.doFilterInternal(request, response, chain);
             return;
@@ -86,6 +86,7 @@ public class JWTValidFilter extends BasicAuthenticationFilter {
         if (StringUtils.isNotBlank(username) && userAuthList != null) {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, null, userAuthList));
         }
+        // 执行成功，向下走
         super.doFilterInternal(request, response, chain);
     }
 }

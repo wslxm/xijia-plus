@@ -5,7 +5,7 @@ import com.ws.ldy.modules.admin.service.AuthorityAdminService;
 import com.ws.ldy.modules.admin.service.RoleAuthAdminService;
 import com.ws.ldy.others.base.controller.BaseController;
 import com.ws.ldy.enums.base.BaseConstant;
-import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -34,17 +34,17 @@ public class AuthorityAdminController extends BaseController<AuthorityAdminServi
 
     @ApiOperation("扫描权限：权限列表数据刷新")
     @RequestMapping(value = "/putAuthority", method = RequestMethod.PUT)
-    public Result<Void> refreshAuthority() {
+    public R<Void> refreshAuthority() {
         baseService.refreshAuthority();
-        return Result.success();
+        return R.success();
     }
 
 
     @ApiOperation("查询所有,跟据角色赋予选中状态")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
-    public Result<List<AuthorityAdminVo>> findList(String roleId) {
+    public R<List<AuthorityAdminVo>> findList(String roleId) {
         List<AuthorityAdminVo> roleAuthorityChecked = roleAuthAdminService.findRoleAuthorityChecked(roleId);
-        return Result.success(roleAuthorityChecked);
+        return R.success(roleAuthorityChecked);
     }
 }

@@ -1,7 +1,7 @@
 package com.ws.ldy.others.base.controller;
 
-import com.ws.ldy.common.result.Result;
-import com.ws.ldy.common.result.ResultEnum;
+import com.ws.ldy.common.result.R;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.UUIDUtil;
 import com.ws.ldy.config.error.ErrorException;
 import io.swagger.annotations.Api;
@@ -45,7 +45,7 @@ public class FileController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "filePath", value = "文件路径,必须指定开头目录(image/ -图片, music/ -音乐,video/ -视频,excel/ -表格)", required = true)
     })
-    public Result uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("filePath") String filePath) {
+    public R uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("filePath") String filePath) {
         // 接口名
         String interfaceName = request.getServletPath();
         // 文件名
@@ -73,9 +73,9 @@ public class FileController extends BaseController {
             Files.copy(inputStream, directory.resolve(fileName));
             // 绝对路径
             String path = baseUrl + "/" + FILE_PATH + filePath + fileName;
-            return Result.success(path);
+            return R.success(path);
         } catch (Exception e) {
-            return Result.error(ResultEnum.SYS_ERROR_CODE_500.getCode(), "文件上传失败");
+            return R.error(RType.SYS_ERROR_CODE_500);
         }
     }
 
@@ -189,7 +189,7 @@ public class FileController extends BaseController {
     @ApiOperation("单文件删除")
     @RequestMapping(value = "/deleteFile", method = RequestMethod.DELETE)
     @ApiImplicitParam(name = "filePath", value = "文件路径(相对路径||绝对路径), 如: File/image/1.jpg", required = true)
-    public Result deleteFile(String fileName) {
+    public R deleteFile(String fileName) {
         java.io.File file = new java.io.File(fileName);
         // 判断目录或文件是否存在
         boolean result = file.exists();
@@ -201,7 +201,7 @@ public class FileController extends BaseController {
                 file.delete();
             }
         }
-        return Result.success();
+        return R.success();
     }
 }
 

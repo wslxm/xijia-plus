@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.modules.admin.model.dto.DictionaryAdminDto;
@@ -31,50 +31,50 @@ public class DictionaryAdminController extends BaseController<DictionaryAdminSer
 
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiOperation("列表查询")
-    public Result<List<DictionaryAdminVo>> findList() {
+    public R<List<DictionaryAdminVo>> findList() {
         List<DictionaryAdmin> list = baseService.list(new LambdaQueryWrapper<DictionaryAdmin>().orderByAsc(DictionaryAdmin::getSort));
-        return Result.successFind(BeanDtoVoUtil.listVo(list, DictionaryAdminVo.class));
+        return R.successFind(BeanDtoVoUtil.listVo(list, DictionaryAdminVo.class));
     }
 
 
     @RequestMapping(value = "/findCode", method = RequestMethod.GET)
     @ApiOperation("Code查询,最多向下2级，A-> BB -> CCCC")
-    public Result<DictionaryAdminVo> findCode(@RequestParam String code) {
+    public R<DictionaryAdminVo> findCode(@RequestParam String code) {
         DictionaryAdminVo dict = baseService.findCode(code);
-        return Result.success(dict);
+        return R.success(dict);
     }
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation("添加")
-    public Result<Void> save(@RequestBody DictionaryAdminDto dictionaryAdminDto) {
+    public R<Void> save(@RequestBody DictionaryAdminDto dictionaryAdminDto) {
         baseService.save(dictionaryAdminDto.convert(DictionaryAdmin.class));
-        return Result.successInsert();
+        return R.successInsert();
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @ApiOperation("编辑")
-    public Result<Void> update(@RequestBody DictionaryAdminDto dictionaryAdminDto) {
+    public R<Void> update(@RequestBody DictionaryAdminDto dictionaryAdminDto) {
         baseService.updateById(dictionaryAdminDto.convert(DictionaryAdmin.class));
-        return Result.successUpdate();
+        return R.successUpdate();
     }
 
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("ID删除")
-    public Result<Void> delete(String id) {
+    public R<Void> delete(String id) {
         baseService.removeById(id);
-        return Result.successDelete();
+        return R.successDelete();
     }
 
 
     @RequestMapping(value = "/updSort", method = RequestMethod.PUT)
     @ApiOperation("修改排序")
-    public Result<Void> updSort(@RequestParam String id, @RequestParam Integer sort) {
+    public R<Void> updSort(@RequestParam String id, @RequestParam Integer sort) {
         DictionaryAdmin dict = new DictionaryAdmin();
         dict.setId(id);
         dict.setSort(sort);
         baseService.updateById(dict);
-        return Result.successUpdate();
+        return R.successUpdate();
     }
 }

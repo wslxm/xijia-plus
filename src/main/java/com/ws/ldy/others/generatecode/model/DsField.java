@@ -37,6 +37,12 @@ public class DsField {
     public static String FIND_PAGE_PARAM = "";         // controller， findPage方法参数列表
     public static String FIND_PAGE_MYBATIS_PLUS = "";  // controller， findPage方法参数拼接到mybatisPlus方法中参数列表
 
+    public static String RESULT_MAP = "";   // mapper xml 字段映射
+    public static String COLUMN_LIST = "";  // mapper xml 通用字段返回
+
+    //
+//        {resultMap}
+//        {columnList}
 
     // public static String PRIMARY_KEY_TYPE = "";      // id主键数据类型
     //html主页参数

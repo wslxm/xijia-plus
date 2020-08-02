@@ -1,6 +1,6 @@
 package com.ws.ldy.others.generatecode.controller;
 
-import com.ws.ldy.common.result.Result;
+import com.ws.ldy.common.result.R;
 import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.others.base.controller.BaseController;
 import com.ws.ldy.others.generatecode.config.GenerateConfig;
@@ -33,15 +33,15 @@ public class DataBaseController extends BaseController<DataBaseService> {
 
     @ApiOperation("查询所有表名")
     @RequestMapping(value = "/findTable", method = RequestMethod.GET)
-    public Result<List<TableVO>> findTable() {
+    public R<List<TableVO>> findTable() {
         List<TableVO> tables = baseService.findTable();
-        return Result.success(tables);
+        return R.success(tables);
     }
 
     @ApiOperation("查询指定表下使用字段内容")
     @ApiImplicitParam(name = "tableName", value = "表名", required = false, paramType = "query")
     @RequestMapping(value = "/findTableField", method = RequestMethod.GET)
-    public Result<List<TableFieldVO>> findTableField(@RequestParam(required = false) String tableName) {
+    public R<List<TableFieldVO>> findTableField(@RequestParam(required = false) String tableName) {
         List<TableFieldVO> tableField = baseService.findTableField(tableName);
         for (TableFieldVO tableFieldVO : tableField) {
             if (GenerateConfig.BASE_FIELDS.contains(tableFieldVO.getName())) {
@@ -50,6 +50,6 @@ public class DataBaseController extends BaseController<DataBaseService> {
                 tableFieldVO.setIsChecked(true);
             }
         }
-        return Result.success(tableField);
+        return R.success(tableField);
     }
 }
