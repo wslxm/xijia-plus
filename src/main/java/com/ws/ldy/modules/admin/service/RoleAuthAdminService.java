@@ -8,7 +8,7 @@ import com.ws.ldy.modules.admin.model.vo.AuthorityAdminVo;
 import java.util.List;
 
 /**
- * TODO  角色+Url权限
+ *   角色+Url权限
  *
  * @author wangsong
  * @WX-QQ 1720696548
@@ -17,7 +17,7 @@ import java.util.List;
 public interface RoleAuthAdminService  extends IService<RoleAuthAdmin> {
 
     /**
-     * TODO    根据用户Id 查询查询角色Id 在通过角色Id 获取 URL权限列表
+     *     根据用户Id 查询查询角色Id 在通过角色Id 获取 URL权限列表
      *
      * @param userId
      * @return List<RoleAuthAdmin>
@@ -26,7 +26,7 @@ public interface RoleAuthAdminService  extends IService<RoleAuthAdmin> {
     List<RoleAuthAdmin> findUserIdRoleAuthority(String userId);
 
     /**
-     * TODO    获取url权限列表，给指定角色的有的权限数据赋予选中状态
+     *     获取url权限列表，给指定角色的有的权限数据赋予选中状态
      *
      * @param userId 用户id
      * @return void
@@ -35,7 +35,7 @@ public interface RoleAuthAdminService  extends IService<RoleAuthAdmin> {
     List<AuthorityAdminVo> findRoleAuthorityChecked(String userId);
 
     /***
-     * TODO  角色用户分配
+     *   角色用户分配
      * @param roleId
      * @param userIds
      * @date 2019/11/18 15:45

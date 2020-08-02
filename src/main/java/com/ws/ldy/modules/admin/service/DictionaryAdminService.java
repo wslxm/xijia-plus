@@ -6,7 +6,7 @@ import com.ws.ldy.modules.admin.model.entity.DictionaryAdmin;
 import com.ws.ldy.modules.admin.model.vo.DictionaryAdminVo;
 
 /**
- * TODO  数据字典
+ *   数据字典
  *
  * @author wangsong
  * @WX-QQ 1720696548
@@ -18,7 +18,7 @@ public interface DictionaryAdminService extends IService<DictionaryAdmin> {
 
 
     /**
-     * TODO  根据code查询当前字典下所有字典（可多层级）
+     *   根据code查询当前字典下所有字典（可多层级）
      *
      * @param code
      * @return java.util.List<com.ws.ldy.admin.model.vo.DictionaryAdminVo>

@@ -1,7 +1,7 @@
 package com.ws.ldy.common.utils;
 
 /***
- * TODO  System.out.println 输出颜色
+ *   System.out.println 输出颜色
  * @author 王松
  * @mail 1720696548@qq.com
  * @date 2020/7/7 0007 9:00
@@ -89,7 +89,7 @@ public class ConsoleColors {
     }
 
     /**
-     * TODO 启动成功-黄色
+     *  启动成功-黄色
      */
     public static void getSuccessYellowBright() {
         System.out.println(ConsoleColors.YELLOW_BRIGHT +
@@ -111,7 +111,7 @@ public class ConsoleColors {
 
 
     /**
-     * TODO 启动成功-红色
+     *  启动成功-红色
      */
     public static void getSuccessRed() {
         System.out.println(ConsoleColors.RED +
@@ -132,7 +132,7 @@ public class ConsoleColors {
     }
 
     /**
-     * TODO 启动成功-紫色
+     *  启动成功-紫色
      */
     public static void getSuccessPurple() {
         System.out.println(ConsoleColors.PURPLE +

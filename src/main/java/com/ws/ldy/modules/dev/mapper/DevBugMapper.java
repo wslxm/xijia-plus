@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ws.ldy.modules.dev.model.entity.DevBug;
 
 /**
- * TODO   BUG修复
+ *    BUG修复
  * <p>
  *  ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 
  * </p>

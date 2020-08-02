@@ -17,7 +17,7 @@ import java.util.List;
 
 
 /**
- * TODO  字典表
+ *   字典表
  *
  * @author wangsong
  * @WX-QQ 1720696548
@@ -37,9 +37,9 @@ public class DictionaryAdminController extends BaseController<DictionaryAdminSer
     }
 
 
-    @RequestMapping(value = "/findCode", method = RequestMethod.GET)
+    @RequestMapping(value = "/findByCode", method = RequestMethod.GET)
     @ApiOperation("Code查询,最多向下2级，A-> BB -> CCCC")
-    public R<DictionaryAdminVo> findCode(@RequestParam String code) {
+    public R<DictionaryAdminVo> findByCode(@RequestParam String code) {
         DictionaryAdminVo dict = baseService.findCode(code);
         return R.success(dict);
     }
@@ -47,30 +47,31 @@ public class DictionaryAdminController extends BaseController<DictionaryAdminSer
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation("添加")
-    public R<Void> save(@RequestBody DictionaryAdminDto dictionaryAdminDto) {
+    public R<Void> insert(@RequestBody DictionaryAdminDto dictionaryAdminDto) {
         baseService.save(dictionaryAdminDto.convert(DictionaryAdmin.class));
         return R.successInsert();
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation("编辑")
-    public R<Void> update(@RequestBody DictionaryAdminDto dictionaryAdminDto) {
+    public R<Void> upd(@RequestBody DictionaryAdminDto dictionaryAdminDto) {
         baseService.updateById(dictionaryAdminDto.convert(DictionaryAdmin.class));
         return R.successUpdate();
     }
 
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation("ID删除")
-    public R<Void> delete(String id) {
+    public R<Void> del(String id) {
+        // TODO 此次应该删除多层级数据
         baseService.removeById(id);
         return R.successDelete();
     }
 
 
-    @RequestMapping(value = "/updSort", method = RequestMethod.PUT)
+    @RequestMapping(value = "/updBySort", method = RequestMethod.PUT)
     @ApiOperation("修改排序")
-    public R<Void> updSort(@RequestParam String id, @RequestParam Integer sort) {
+    public R<Void> updBySort(@RequestParam String id, @RequestParam Integer sort) {
         DictionaryAdmin dict = new DictionaryAdmin();
         dict.setId(id);
         dict.setSort(sort);

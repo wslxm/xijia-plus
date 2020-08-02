@@ -1,7 +1,8 @@
 package com.ws.ldy.config.auth.jwt.filter;
 
-import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.config.auth.springSecurity.entity.SecurityUser;
 import com.ws.ldy.config.auth.util.JwtUtil;
+import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.base.BaseConstant;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -57,7 +58,7 @@ public class JWTValidFilter extends BasicAuthenticationFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        log.info("请求方式:{} 请求URL:{} ", request.getMethod(), request.getServletPath());
+        //log.info("请求方式:{} 请求URL:{} ", request.getMethod(), request.getServletPath());
         // 获取token, 没有token直接放行
         String token = request.getHeader(BaseConstant.Sys.TOKEN);
         if (StringUtils.isBlank(token) || "null".equals(token)) {
@@ -86,6 +87,14 @@ public class JWTValidFilter extends BasicAuthenticationFilter {
         if (StringUtils.isNotBlank(username) && userAuthList != null) {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, null, userAuthList));
         }
+        //刷新token
+        SecurityUser user = new SecurityUser();
+        user.setId(JwtUtil.getUserId(token));
+        user.setUsername( JwtUtil.getUsername(token));
+        user.setAuthorities(JwtUtil.getUserAuth(token));
+        user.setHead( JwtUtil.getUserHead(token));
+        String newToken = JwtUtil.generateToken(user);
+        response.setHeader(BaseConstant.Sys.TOKEN,newToken);
         // 执行成功，向下走
         super.doFilterInternal(request, response, chain);
     }

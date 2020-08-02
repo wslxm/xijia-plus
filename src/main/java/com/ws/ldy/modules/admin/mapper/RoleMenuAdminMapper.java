@@ -10,7 +10,7 @@ import java.util.List;
 public interface RoleMenuAdminMapper extends BaseMapper<RoleMenuAdmin> {
 
     /**
-     * TODO    查询角色所有权限
+     *     查询角色所有权限
      *
      * @param roleId
      * @return java.util.List<com.ws.ldy.adminconsole.entity.RoleMenuAdmin>
@@ -21,7 +21,7 @@ public interface RoleMenuAdminMapper extends BaseMapper<RoleMenuAdmin> {
 
 
     /**
-     * TODO    查询用户所有角色，在查询角色下所有菜单id
+     *     查询用户所有角色，在查询角色下所有菜单id
      *
      * @param userId
      * @return java.util.List<com.ws.ldy.adminconsole.entity.RoleMenuAdmin>

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * TODO   DataBase数据库操作，这里继承 BaseAdminServiceImpl 只是为了使用 mapper.dataBaseDao
+ *    DataBase数据库操作，这里继承 BaseAdminServiceImpl 只是为了使用 mapper.dataBaseDao
  *
  * @author 王松
  * @WX-QQ 1720696548
@@ -40,7 +40,7 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
     }
 
     /**
-     * TODO  查询数据库下指定表的数据-字段名/类型/备注
+     *   查询数据库下指定表的数据-字段名/类型/备注
      *
      * @return java.util.List<java.lang.String>
      * @date 2019/11/20 10:41

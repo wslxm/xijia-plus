@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * TODO  角色-菜单关联表
+ *   角色-菜单关联表
  *
  * @author 王松
  * @WX-QQ 1720696548

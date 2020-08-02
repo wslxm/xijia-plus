@@ -36,7 +36,7 @@ public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMa
 
 
     /**
-     * TODO  添加接口--扫描包下所有类
+     *   添加接口--扫描包下所有类
      *
      * @return void
      * @date 2019/11/25 0025 9:02
@@ -101,7 +101,7 @@ public class AuthorityAdminServiceImpl extends BaseIServiceImpl<AuthorityAdminMa
 
 
     /**
-     * TODO    添加指定类的所有接口权限到athorityList
+     *     添加指定类的所有接口权限到athorityList
      *
      * @param classInfo    当前类
      * @param authorityMap 当前数据库存在权限

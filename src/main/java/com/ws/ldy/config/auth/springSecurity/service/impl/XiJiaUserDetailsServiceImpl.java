@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO 登录逻辑
+ *  登录逻辑
  */
 @Component
 public class XiJiaUserDetailsServiceImpl implements UserDetailsService {
@@ -40,7 +40,6 @@ public class XiJiaUserDetailsServiceImpl implements UserDetailsService {
         if (userAdmin == null) {
             return null;
         }
-
         // 账号密码及禁用过期等， // 状态 false, springSecurity 将验证失败,并返回不同的异常,失败方法根据不同异常返回不同的提示信息
         SecurityUser userDetail = userAdmin.convert(SecurityUser.class);
         userDetail.setUsername(userAdmin.getUsername());
@@ -49,7 +48,6 @@ public class XiJiaUserDetailsServiceImpl implements UserDetailsService {
         userDetail.setAccountNonLocked(true);        // 是否解锁
         userDetail.setCredentialsNonExpired(true);   // 凭据(密码)是否过期
         userDetail.setEnabled(userAdmin.getState() == 0);   // 是否禁用
-
         // 查询权限并添加权限到userDetail
         List<AuthorityAdmin> userIdRoleAuthority = authorityAdminMapper.findUserIdRoleAuthority(userAdmin.getId());
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -58,7 +56,7 @@ public class XiJiaUserDetailsServiceImpl implements UserDetailsService {
         }
         userDetail.setAuthorities(authorities);
 
-        //最后登录时间刷新
+        // 最后登录时间刷新
         UserAdmin updUserAdmin = new UserAdmin();
         updUserAdmin.setId(userAdmin.getId());
         updUserAdmin.setEntTime(LocalDateTime.now());

@@ -4,7 +4,7 @@ import com.ws.ldy.others.base.model.Convert;
 import lombok.Data;
 
 /**
- * TODO  在线列表信息返回
+ *   在线列表信息返回
  */
 @Data
 public class OnlineUserVO extends Convert {

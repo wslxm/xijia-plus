@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * TODO  系统用户
+ *   系统用户
  *
  * @author 王松
  * @WX-QQ 1720696548
@@ -67,13 +67,13 @@ public class UserAdminController extends BaseController<UserAdminService> {
     }
 
 
-    @RequestMapping(value = "/findRoleIdList", method = RequestMethod.GET)
-    @ApiOperation("查询指定角色下的所有用户(isChecked=true)")
+    @RequestMapping(value = "/findRoleUser", method = RequestMethod.GET)
+    @ApiOperation("查询角色当前用户(isChecked=true)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query"),
             @ApiImplicitParam(name = "username", value = "用户名", required = false, paramType = "query")
     })
-    public R<List<UserAdminVo>> findRoleIdList(String roleId, String username) {
+    public R<List<UserAdminVo>> findByRoleId(String roleId, String username) {
         List<UserAdmin> userList = null;
         if (StringUtils.isNotBlank(username)) {
             userList = baseService.list(new LambdaQueryWrapper<UserAdmin>()
@@ -101,33 +101,33 @@ public class UserAdminController extends BaseController<UserAdminService> {
     }
 
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation("ID编辑")
-    public R<Void> update(@RequestBody UserAdminDto userAdminDto) {
+    public R<Void> upd(@RequestBody UserAdminDto userAdminDto) {
         baseService.updateById(userAdminDto.convert(UserAdmin.class));
         return R.successUpdate();
     }
 
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation("单删除")
-    public R<Void> delete(@RequestParam String id) {
+    public R<Void> del(@RequestParam String id) {
         baseService.removeById(id);
         return R.successDelete();
     }
 
 
-    @RequestMapping(value = "/deleteByIds", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
     @ApiOperation("批量删除")
-    public R<Void> deleteByIds(@RequestParam String[] ids) {
+    public R<Void> delByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
         return R.successDelete();
     }
 
 
-    @RequestMapping(value = "/updPwd", method = RequestMethod.PUT)
+    @RequestMapping(value = "/updByPassword", method = RequestMethod.PUT)
     @ApiOperation("密码修改")
-    public R<Void> updPwd(@RequestParam String oldPassword, @RequestParam String password) {
+    public R<Void> updByPassword(@RequestParam String oldPassword, @RequestParam String password) {
         UserAdmin userAdmin = baseService.getById(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
         if (userAdmin.getPassword().equals(MD5Util.encode(oldPassword))) {
             userAdmin.setPassword(MD5Util.encode(password));

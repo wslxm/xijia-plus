@@ -58,8 +58,8 @@
 <script>
     // 接口
     let find_list = path + "/dictionaryAdmin/findList";     // 查询列表
-    let deletes = path + "/dictionaryAdmin/delete";        // 删除
-    let upd_sort = path + "/dictionaryAdmin/updSort";      // 修改排序
+    let deletes = path + "/dictionaryAdmin/del";             // 删除
+    let upd_sort = path + "/dictionaryAdmin/updBySort";      // 修改排序
     // 路由
     let page_add = path + "/page/modules_admin_dictionary_dictionaryAdd";     // 添加弹层
     let page_upd = path + "/page/modules_admin_dictionary_dictionaryUpd";     // 编辑弹层
@@ -90,7 +90,7 @@
 
 
     /**
-     * TODO  数据表格
+     *   数据表格
      * @author ws
      * @mail  1720696548@qq.com
      * @date  2020/4/19 0019 21:43
@@ -130,7 +130,7 @@
 
 
     /**
-     * TODO  工具栏事件（多删除 || 添加）  ==>> toolbar(auth-table): toolbar=监听表格头事件,  auth-table=数据表格elem 名称
+     *   工具栏事件（多删除 || 添加）  ==>> toolbar(auth-table): toolbar=监听表格头事件,  auth-table=数据表格elem 名称
      * @author ws
      * @mail  1720696548@qq.com
      * @param null
@@ -154,35 +154,35 @@
 
 
     /**
-     * TODO  监听数据表格内按钮（编辑 || 删除 || 其他）, tool(auth-table)==> tool =监听按钮， auth-table=数据表格elem对应值
+     *   监听数据表格内按钮（编辑 || 删除 || 其他）, tool(auth-table)==> tool =监听按钮， auth-table=数据表格elem对应值
      * @author ws
      * @mail  1720696548@qq.com
      * @date  2020/4/10 0010 0:03
      * @return
      */
     function xijiaEventTool() {
-        // TODO 表格内的按钮监听
+        //  表格内的按钮监听
         table.on('tool(auth-table)', function (obj) {
             //当前行数据
             data = obj.data;
-            // TODO  添加子类别
+            //   添加子类别
             if (obj.event === 'add') {
                 data.lv = 2; // 表示添加子类别
                 tipsWindown(page_add, "440px", "380px", "添加子类别--" + data.name)
             }
-            // TODO  编辑字典
+            //   编辑字典
             if (obj.event === 'edit') {
                 data.lv = 3;  // 编辑字典
                 tipsWindown(page_upd, "440px", "380px", "编辑字典--" + data.name)
             }
-            // TODO  删除行
+            //   删除行
             if (obj.event === 'del') {
                 let params = "?id=" + data.id;
                 tipsDeleteId(deletes + params, obj)
             }
         });
 
-        // TODO 表格内直接编辑内容的监听
+        //  表格内直接编辑内容的监听
         table.on('edit(auth-table)', function (obj) {
             let data = obj.data;   // 得到所在行整行数据
             let val = obj.value;   // 得到修改后的值
@@ -200,7 +200,7 @@
     }
 
     /**
-     * TODO  条件搜索
+     *   条件搜索
      * @author ws
      * @mail  1720696548@qq.com
      * @date  2020/4/10 0010 0:03

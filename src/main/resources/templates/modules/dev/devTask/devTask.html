@@ -17,6 +17,7 @@
     .layui-inline {
         width: 210px;
     }
+
     .layui-input-block {
         width: 140px;
     }
@@ -108,14 +109,14 @@
 
     let find_page = path + "/dev/devTask/findPage";       //角色查询-分页
     let del = path + "/dev/devTask/del";                  //角色删除
-    let updState = path + "/dev/devTask/updState";             //编辑状态
+    let updState = path + "/dev/devTask/updByState";      //编辑状态
     //
     let page_add = path + "/page/modules_dev_devTask_devTaskAdd";   //角色添加弹出
     let page_upd = path + "/page/modules_dev_devTask_devTaskUpd";   //角色编辑弹出
 
 
-    let dev_user_list = "/userAdmin/findRoleIdList?roleId=2";    // 查询开发人员(角色)（注意数据库参数是否正确）
-    let item_list = "/dictionaryAdmin/findCode?code=item";      // 查询字典项目列表（注意数据库参数是否正确）
+    let dev_user_list = "/userAdmin/findRoleUser?roleId=2";      // 查询开发人员(角色)（注意数据库参数是否正确）
+    let item_list = "/dictionaryAdmin/findByCode?code=item";     // 查询字典项目列表（注意数据库参数是否正确）
     let usersData = ajaxGet(dev_user_list);
     let itemsData = ajaxGet(item_list);
 
@@ -135,7 +136,7 @@
     });
 
     /**
-     * TODO 重载表格和加载表格
+     *  重载表格和加载表格
      * ---- getPage()= 获取 layui 当前分页参数 ===> 如：?current=1&size=10
      * ---- res = 后台返回的整个数据，整个页面可获取使用
      * @param params get请求的参数拼接
@@ -150,8 +151,10 @@
             elem: '#auth-table'
             , data: res.data.records
             , toolbar: '#toolbarDemo'
-            , title: '开发任务'
-            ,limit: res.data.size
+          //  , title: '开发任务'
+            , limit: res.data.size
+            //, sort: true
+            //, count: res.data.total
             , cols: [
                 [
                     // {type: 'checkbox', fixed: 'left'}   //fixed: 'right', , fixed: 'left'
@@ -175,7 +178,7 @@
                     },
                     {
                         field: 'type', title: '类型', width: 100, templet: function (res) {
-                            return res.type === 1 ? '管理端' : res.type === 2 ? '用户端' : res.type === 3 ? 'app端' : '未知';
+                            return res.type === 1 ? '管理端' : res.type === 2 ? '用户端' : res.type === 3 ? 'app端' : res.type === 4 ? '多端' : '未知';
                         }
                     },
                     {
@@ -196,9 +199,9 @@
                         }
                     },
 
-                    {field: 'plannedTime', title: '预计完成时间', width: 160},
-                    {field: 'entTime', title: '实际完成时间', width: 160},
-                    {field: 'estimateTime', title: '预耗时S', width: 80},
+                    {field: 'plannedTime', title: '预计完成时间', width: 160, sort: true},
+                    {field: 'entTime', title: '实际完成时间', width: 160, sort: true},
+                    {field: 'estimateTime', title: '预耗时', width: 80},
                     {field: 'takeUpTime', title: '耗时S', width: 80},
                     {title: '操作', toolbar: '#barDemo', width: 250}
                 ]
@@ -208,7 +211,7 @@
 
 
     /**
-     * TODO  分页配置, 数据总数会在下一次点击事更新上一次数据库的总数量
+     *   分页配置, 数据总数会在下一次点击事更新上一次数据库的总数量
      * @author ws
      * @mail  1720696548@qq.com
      * @param result 后台返回数据, 用于第一此加载总数据
@@ -235,14 +238,14 @@
                     return;
                 }
                 // 刷新表格
-                xijiaRenderTable(null);
+                xijiaRenderTable(reqParams());
             }
         });
     }
 
 
     /**
-     * TODO  工具栏事件（多删除 || 添加）  ==>> toolbar(auth-table): toolbar=监听表格头事件,  auth-table=数据表格elem 名称
+     *   工具栏事件（多删除 || 添加）  ==>> toolbar(auth-table): toolbar=监听表格头事件,  auth-table=数据表格elem 名称
      * @author ws
      * @mail  1720696548@qq.com
      * @param null
@@ -259,7 +262,7 @@
     }
 
     /**
-     * TODO  监听数据表格内按钮（编辑 || 删除 || 其他）, tool(auth-table)==> tool =监听按钮， auth-table=数据表格elem对应值
+     *   监听数据表格内按钮（编辑 || 删除 || 其他）, tool(auth-table)==> tool =监听按钮， auth-table=数据表格elem对应值
      * @author ws
      * @mail  1720696548@qq.com
      * @param null
@@ -284,7 +287,7 @@
                 params += "&state=" + 1;
                 ajaxPut(updState + params);
                 // 刷新表格
-                refresh();
+                xijiaRenderTable(reqParams());
             }
 
             // 完成
@@ -297,11 +300,9 @@
                     params += "&takeUpTime=" + takeUpTime;
                     ajaxPut(updState + params);
                     // 刷新表格
-                    refresh();
+                    xijiaRenderTable(reqParams());
                     layer.close(index);
                 });
-
-
             }
 
             // 取消开始
@@ -310,7 +311,7 @@
                 params += "&state=" + 0;
                 ajaxPut(updState + params);
                 // 刷新表格
-                refresh();
+                xijiaRenderTable(reqParams());
             }
             // 撤销
             if (obj.event === 'undo') {
@@ -318,14 +319,14 @@
                 params += "&state=" + 3;
                 ajaxPut(updState + params);
                 // 刷新表格
-                refresh();
+                xijiaRenderTable(reqParams());
             }
         });
     }
 
 
     /**
-     * TODO  条件搜索，重载数据
+     *   条件搜索，重载数据
      * @author ws
      * @mail  1720696548@qq.com
      * @date  2020/4/10 0010 0:03
@@ -333,9 +334,14 @@
      */
     function xijiaEventSearch() {
         let $ = layui.$, active = {
-            //搜索
+            // 条件搜索
             reload: function () {
-                refresh();
+                // 重置到第一页
+                $(".layui-laypage-skip .layui-input").val(1);
+                // 刷新表格
+                xijiaRenderTable(reqParams());
+                // 刷新分页数据
+                xijiaLayPage();
                 //layer.msg("查询成功");
             }
         };
@@ -347,19 +353,16 @@
 
 
     /**
-     * 刷新数据表格
+     * 请求参数封装
      */
-    function refresh() {
+    function reqParams() {
         let params = "";
         params += "&name=" + $("#name").val();
         params += "&type=" + $("#type").val();
         params += "&state=" + $("#state").val();
         params += "&item=" + $("#item").val();
         params += "&taskUserId=" + $("#taskUserId").val();
-        // 数据表格 - 获取表格
-        xijiaRenderTable(params);
-        // 刷新分页插件数据
-        xijiaLayPage();
+        return params;
     }
 
 
@@ -388,6 +391,7 @@
         $("#taskUserId").html(userListHtml);
         $("#item").html(itemListHtml)
     });
+
 </script>
 </body>
 </html>

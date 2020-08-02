@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 public interface UserAdminMapper extends BaseMapper<UserAdmin> {
 
     /**
-     * TODO  根据账号查询用户信息
+     *   根据账号查询用户信息
      *
      * @param account
      * @return com.ws.ldy.adminconsole.entity.UserAdmin

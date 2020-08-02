@@ -37,7 +37,7 @@ public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service
 
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
-    @ApiOperation("分页查询")
+    @ApiOperation(value = "分页查询", notes= "")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query",example = "1"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query",example = "20")
@@ -51,14 +51,14 @@ public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service
     }
 
     @RequestMapping(value = "/findId", method = RequestMethod.GET)
-    @ApiOperation("ID查询")
-    public Result<DevTask> update(@RequestParam String id) {
+    @ApiOperation(value = "ID查询", notes= "")
+    public Result<DevTask> findId(@RequestParam String id) {
         return Result.successFind(BeanDtoVoUtil.convert( baseService.getById(id),{tableNameUp}.class));
     }
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    @ApiOperation("添加")
+    @ApiOperation(value = "添加", notes= "必须不传递ID")
     public Result<Void> insert(@RequestBody @Validated {tableNameUp}DTO dto) {
         {tableNameUp} {tableNameLower} = dto.convert({tableNameUp}.class);
         baseService.save({tableNameLower});
@@ -67,24 +67,24 @@ public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
-    @ApiOperation("ID编辑")
-    public Result<Void> update(@RequestBody @Validated {tableNameUp}DTO dto) {
+    @ApiOperation(value = "ID编辑", notes= "必须传递ID")
+    public Result<Void> upd(@RequestBody @Validated {tableNameUp}DTO dto) {
         baseService.updateById(dto.convert({tableNameUp}.class));
         return Result.successUpdate();
     }
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    @ApiOperation("单删除")
-    public Result<Void> delete(@RequestParam String id) {
+    @ApiOperation(value = "ID删除", notes= "")
+    public Result<Void> del(@RequestParam String id) {
         baseService.removeById(id);
         return Result.successDelete();
     }
 
 
     @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
-    @ApiOperation("批量删除")
-    public Result<Void> deleteByIds(@RequestParam String[] ids) {
+    @ApiOperation(value = "批量ID删除", notes= "")
+    public Result<Void> delByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
         return Result.successDelete();
     }

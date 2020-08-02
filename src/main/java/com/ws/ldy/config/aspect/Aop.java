@@ -33,7 +33,7 @@
 //
 //
 ///**
-// * TODO  URL权限, 验签（只针对 /public 接口），xss攻击防御，URL特殊字符转译，防盗链, 允许跨域，log4j接口调用日志记录
+// *   URL权限, 验签（只针对 /public 接口），xss攻击防御，URL特殊字符转译，防盗链, 允许跨域，log4j接口调用日志记录
 // *
 // * @author 王松
 // * @mail 1720696548@qq.com
@@ -54,7 +54,7 @@
 //    private final static String path = "/public";
 //
 //    /**
-//     * TODO  拦截所有模块下的 controller 接口, 环绕通知：可以实现前置通知，后置通知，返回通知，例外通知的所有功能
+//     *   拦截所有模块下的 controller 接口, 环绕通知：可以实现前置通知，后置通知，返回通知，例外通知的所有功能
 //     *
 //     * @param jp 指定的连接点（拦截的业务方法）
 //     * @return java.lang.Object
@@ -94,7 +94,7 @@
 //
 //
 //    /**
-//     * TODO 1、判断是否登录
+//     *  1、判断是否登录
 //     */
 //    public void checkLogin(ProceedingJoinPoint jp, HttpServletRequest request) {
 //        // key = 放行接口URL，value = 放行接口描叙内容
@@ -106,7 +106,7 @@
 //        if (interfaceMap.containsKey(interfaceUrl)) {
 //            //放行定义在 interfaceMap 内的接口
 //        } else {
-//            // TODO 登录验证
+//            //  登录验证
 //            String token = request.getHeader("token");
 //            if (StringUtils.isBlank(token)) {
 //                //没有token
@@ -118,7 +118,7 @@
 //                throw new ErrorException(ResultEnum.ADMIN_IS_NO_LOGIN);
 //            }
 //
-//            // TODO 权限验证
+//            //  权限验证
 //            // 获取类上的注解@Api 注解, 判断当前类需要接口权限验证（目前：PC_ADMIN=平台 ） 需要
 //            Api apiClass = jp.getTarget().getClass().getAnnotation(Api.class);
 //            if (!apiClass.description().equals(BaseConstant.InterfaceType.PC_ADMIN)) {
@@ -136,7 +136,7 @@
 //
 //
 //    /**
-//     * TODO  2、url 权限管理
+//     *   2、url 权限管理
 //     */
 //    public void auth(ProceedingJoinPoint jp, HttpServletRequest request, Object[] args) {
 //        // 1、获取方法, 在获取权限注解，jp=aop通知拦截获取的请求信息
@@ -154,7 +154,7 @@
 //    }
 //
 //    /**
-//     * TODO 2、验签
+//     *  2、验签
 //     */
 //    public Result verify(HttpServletRequest request) {
 //        String servletPath = request.getServletPath();
@@ -169,7 +169,7 @@
 //
 //
 //    /**
-//     * TODO    3、Xss攻击处理
+//     *     3、Xss攻击处理
 //     */
 //    public void XssAttack(ProceedingJoinPoint jp, HttpServletRequest request, Object[] args) {
 //        for (int i = 0; i < args.length; i++) {
@@ -184,7 +184,7 @@
 //
 //
 //    /**
-//     * TODO  4、防盗链处理
+//     *   4、防盗链处理
 //     * <p>
 //     * “如果是直接在浏览器里输入有referer的页面,返回是null,也就是说referer只有从别的页面点击连接来到这页的才会有内容。
 //     * referer为NULL就是手工,非null就是连接过来的。刷新的时候,会检查服务端是否会有更新,
@@ -206,7 +206,7 @@
 //
 //
 //    /**
-//     * TODO  判断string 是否为json，Xss攻击判断
+//     *   判断string 是否为json，Xss攻击判断
 //     */
 //    private boolean isJson(String content) {
 //        try {
@@ -220,7 +220,7 @@
 //
 //
 //    /**
-//     * TODO  xss 攻击过滤  ，慎用StringEscapeUtils.escapeHtml方法，中文及json数据会被转换
+//     *   xss 攻击过滤  ，慎用StringEscapeUtils.escapeHtml方法，中文及json数据会被转换
 //     *
 //     * @param source
 //     * @return java.lang.String
@@ -263,27 +263,27 @@
 //
 ////
 ////
-////    //TODO  返回成功,带数据+页数
+////    //  返回成功,带数据+页数
 ////    public <T> Result<T> success(T data, Integer count) {
 ////        return new Result(ResultEnum.SYS_SUCCESS, data);
 ////    }
 ////
-////    //TODO  返回成功,带数据-不带页数
+////    //  返回成功,带数据-不带页数
 ////    public <T> Result<T> success(T data) {
 ////        return new Result(ResultEnum.SYS_SUCCESS, data);
 ////    }
 ////
-////    // TODO 返回成功，-不带数据 -不带页数
+////    //  返回成功，-不带数据 -不带页数
 ////    public Result<Void> success() {
 ////        return new Result(ResultEnum.SYS_SUCCESS, null);
 ////    }
 ////
-////    // TODO 返回失败（传入自定义枚举）
+////    //  返回失败（传入自定义枚举）
 ////    public <T> Result<T> error(Integer code, String msg) {
 ////        return new Result(code, msg, null);
 ////    }
 ////
-////    // TODO 返回失败（传入自定义枚举）
+////    //  返回失败（传入自定义枚举）
 ////    public <T> Result<T> error(ResultEnum ResultEnum) {
 ////        return new Result(ResultEnum, null);
 ////    }

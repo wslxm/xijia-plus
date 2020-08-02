@@ -9,7 +9,7 @@ import java.net.URLEncoder;
 import java.util.*;
 
 /**
- * TODO    参数验签工具类
+ *     参数验签工具类
  *
  * @author ws
  * @mail 1720696548@qq.com
@@ -173,7 +173,7 @@ public class SignUtil {
         }
     }
 
-    // TODO 签名
+    //  签名
 
     /**
      * 生成要请求的签名参数数组
@@ -236,7 +236,7 @@ public class SignUtil {
         return createLinkString(sign, true);
     }
 
-    // TODO 验证签名
+    //  验证签名
 
     /**
      * 根据反馈回来的信息，生成签名结果

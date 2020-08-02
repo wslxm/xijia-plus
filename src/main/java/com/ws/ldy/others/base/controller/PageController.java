@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class PageController {
 
     @RequestMapping(value = "/page/{fileName}", method = RequestMethod.GET)
-    @ApiOperation("跳转对应templates的目录下的html页面, 如：/page/admin_menu_menu 跳转到 admin/menu/menu.html ,每一层的目录用_分隔")
+    @ApiOperation(value = "页面跳转", notes= "跳转对应templates的目录下的html页面,如：/page/admin_menu_menu 跳转到 admin/menu/menu.html,每一层的目录用_分隔")
     public String add(@PathVariable String fileName) {
         String url = fileName.replace("_", "/");
         return url;

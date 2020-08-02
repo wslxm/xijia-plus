@@ -6,7 +6,7 @@ import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
 
 /**
- * TODO  权限列表
+ *   权限列表
  *
  * @author wangsong
  * @WX-QQ 1720696548

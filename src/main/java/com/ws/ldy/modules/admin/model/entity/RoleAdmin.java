@@ -6,7 +6,7 @@ import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
 
 /**
- * TODO  角色
+ *   角色
  *
  * @author 王松
  * @WX-QQ 1720696548

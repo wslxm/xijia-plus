@@ -8,7 +8,7 @@ import com.ws.ldy.modules.admin.model.vo.MenuAdminVo;
 import java.util.List;
 
 /**
- * TODO  菜单
+ *   菜单
  *
  * @author 王松
  * @WX-QQ 1720696548
@@ -18,7 +18,7 @@ public interface MenuAdminService  extends IService<MenuAdmin> {
 
 
     /**
-     * TODO   获取导航树菜单列表
+     *    获取导航树菜单列表
      *
      * @return
      * @date 2019/11/13 14:45
@@ -26,7 +26,7 @@ public interface MenuAdminService  extends IService<MenuAdmin> {
     public List<MenuAdminVo> getMenuTree();
 
     /**
-     * TODO  根据父id+角色Id 查询所有子节点数据  ==>>> 树结构列表
+     *   根据父id+角色Id 查询所有子节点数据  ==>>> 树结构列表
      *
      * @param pId
      * @return java.util.List<com.ws.ldy.adminconsole.entity.MenuAdmin>
@@ -37,7 +37,7 @@ public interface MenuAdminService  extends IService<MenuAdmin> {
     public List<MenuAdminVo> findIdOrRoleIdTree(String pId, String roleId);
 
     /**
-     * TODO  根据父id+角色Id  查询所有子节点数据 ==>>> list 列表
+     *   根据父id+角色Id  查询所有子节点数据 ==>>> list 列表
      *
      * @param pId
      * @return java.util.List<com.ws.ldy.adminconsole.entity.MenuAdmin>

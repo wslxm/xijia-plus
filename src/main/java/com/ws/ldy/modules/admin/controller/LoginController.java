@@ -23,7 +23,7 @@
 //import org.springframework.web.bind.annotation.RestController;
 //
 ///**
-// * TODO  登录
+// *   登录
 // *
 // * @author ws
 // * @mail 1720696548@qq.com
@@ -36,7 +36,7 @@
 //public class LoginController extends BaseController<UserAdminService> {
 //
 //    /**
-//     * TODO 登录
+//     *  登录
 //     *
 //     * @param account
 //     * @param password
@@ -89,7 +89,7 @@
 //
 //
 //    /**
-//     * TODO  退出登录
+//     *   退出登录
 //     *
 //     * @return com.ws.ldy.common.result.Result
 //     * @author ws

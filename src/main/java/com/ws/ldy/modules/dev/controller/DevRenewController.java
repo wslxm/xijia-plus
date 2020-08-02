@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 
 /**
- * TODO  更新内容
+ *   更新内容
  * <p>
  *  ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 
  * </p>
@@ -63,7 +63,7 @@ public class DevRenewController extends BaseController<DevRenewService>  {
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation("ID编辑")
-    public R<Void> update(@RequestBody @Validated DevRenewDTO dto) {
+    public R<Void> upd(@RequestBody @Validated DevRenewDTO dto) {
         baseService.updateById(dto.convert(DevRenew.class));
         return R.successUpdate();
     }
@@ -71,7 +71,7 @@ public class DevRenewController extends BaseController<DevRenewService>  {
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation("单删除")
-    public R<Void> delete(@RequestParam String id) {
+    public R<Void> del(@RequestParam String id) {
         baseService.removeById(id);
         return R.successDelete();
     }
@@ -79,7 +79,7 @@ public class DevRenewController extends BaseController<DevRenewService>  {
 
     @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
     @ApiOperation("批量删除")
-    public R<Void> deleteByIds(@RequestParam String[] ids) {
+    public R<Void> delByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
         return R.successDelete();
     }

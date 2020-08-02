@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO  菜单
+ *   菜单
  *
  * @author 王松
  * @WX-QQ 1720696548
@@ -34,7 +34,7 @@ import java.util.List;
 public class MenuAdminController extends BaseController<MenuAdminService> {
 
 
-    @RequestMapping(value = "/menuTree", method = RequestMethod.GET)
+    @RequestMapping(value = "/findTree", method = RequestMethod.GET)
     @ApiOperation("左导航菜单 ===>>> 树结构数据 ===>>> 需先登录")
     public R<List<MenuAdminVo>> menuTree() {
         //获取菜单
@@ -43,7 +43,7 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
     }
 
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiOperation("菜单列表 ==>>>  列表数据  ==>>>  所有")
     public R<List<MenuAdminVo>> list() {
         List<MenuAdmin> menus = baseService.list(new LambdaQueryWrapper<MenuAdmin>()
@@ -57,13 +57,13 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
      * @param id     父id
      * @param roleId 角色Id，判断当前是否有权限并选中
      */
-    @RequestMapping(value = "/findPidOrRoleIdList", method = RequestMethod.GET)
+    @RequestMapping(value = "/findByPidOrRoleId", method = RequestMethod.GET)
     @ApiOperation("根据pid +角色Id获取菜单列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "父id", required = false, paramType = "query"),
             @ApiImplicitParam(name = "roleId", value = "角色Id，判断当前是否有权限并选中", required = false, paramType = "query")
     })
-    public R<List<MenuAdminVo>> findPidOrRoleIdList(String id, String roleId) {
+    public R<List<MenuAdminVo>> findByPidOrRoleId(String id, String roleId) {
         List<MenuAdminVo> menus = baseService.findIdOrRoleIdList(id, roleId);
         return R.successFind(BeanDtoVoUtil.listVo(menus, MenuAdminVo.class));
     }
@@ -78,9 +78,9 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
     }
 
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation("编辑")
-    public R<Void> update(@RequestBody MenuAdminDto menuAdminDto) {
+    public R<Void> upd(@RequestBody MenuAdminDto menuAdminDto) {
         if (menuAdminDto.getId() == null) {
             throw new ErrorException(RType.ADMIN_IS_NO_UPDATE_ID);
         }
@@ -90,9 +90,9 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
     }
 
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation("ID删除菜单+所有子菜单")
-    public R<List<String>> delete(@RequestParam String id) {
+    public R<List<String>> del(@RequestParam String id) {
         List<MenuAdminVo> idOrRoleIdList = baseService.findIdOrRoleIdList(id);
         List<String> menuIds = new ArrayList<>();
         idOrRoleIdList.forEach(item -> menuIds.add(item.getId()));

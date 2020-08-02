@@ -103,7 +103,7 @@
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.id = parent.data.id;
             data.field.time = parent.data.time;
-            let result = ajaxPut(path + "/userAdmin/update", data.field);
+            let result = ajaxPut(path + "/userAdmin/upd", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

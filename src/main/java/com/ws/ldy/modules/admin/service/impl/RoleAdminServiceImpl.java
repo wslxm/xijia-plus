@@ -49,7 +49,7 @@ public class RoleAdminServiceImpl extends BaseIServiceImpl<RoleAdminMapper, Role
     @Override
     @Transactional
     public boolean updUserRole(String userId, String[] roleIds) {
-        //删除原角色
+        //删除原角色所有权限数据
         boolean result = roleUserAdminService.remove(new QueryWrapper<RoleUserAdmin>().eq("user_id", userId));
         if (roleIds.length <= 0) {
             return true;

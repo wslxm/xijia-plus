@@ -10,7 +10,7 @@ import java.util.List;
 public interface AuthorityAdminMapper extends BaseMapper<AuthorityAdmin> {
 
     /**
-     * TODO   根据用户id查询到角色，在查询到权限id，在获取当前角色所有权限数据
+     *    根据用户id查询到角色，在查询到权限id，在获取当前角色所有权限数据
      *
      * @param userId
      * @return java.util.List<com.ws.ldy.adminconsole.entity.RoleAuthAdmin>

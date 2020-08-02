@@ -22,7 +22,7 @@ import java.util.Arrays;
 
 
 /**
- * TODO  Bug修复
+ *   Bug修复
  * <p>
  * ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655
  * </p>
@@ -81,7 +81,7 @@ public class DevBugController extends BaseController<DevBugService> {
     }
 
 
-    @RequestMapping(value = "/updState", method = RequestMethod.PUT)
+    @RequestMapping(value = "/updByState", method = RequestMethod.PUT)
     @ApiOperation("ID编辑状态--任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销)")
     public R<Void> update(@RequestParam String id, Integer state, Double takeUpTime) {
         DevBug devBug = new DevBug();

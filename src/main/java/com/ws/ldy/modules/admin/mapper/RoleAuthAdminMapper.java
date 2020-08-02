@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface RoleAuthAdminMapper extends BaseMapper<RoleAuthAdmin> {
     /**
-     * TODO    查询用户所有角色，在查询角色下所有URL权限
+     *     查询用户所有角色，在查询角色下所有URL权限
      *
      * @param userId
      * @return java.util.List<com.ws.ldy.adminconsole.entity.RoleMenuAdmin>
@@ -19,7 +19,7 @@ public interface RoleAuthAdminMapper extends BaseMapper<RoleAuthAdmin> {
     List<RoleAuthAdmin> findUserIdRoleAuthority(@Param("userId") String userId);
 
     /**
-     * TODO    查询角色所有Url权限
+     *     查询角色所有Url权限
      *
      * @param roleId
      * @return java.util.List<com.ws.ldy.adminconsole.entity.RoleMenuAdmin>

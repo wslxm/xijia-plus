@@ -3,16 +3,25 @@ server:
 
 
 ## 阿里云oss配置
+#aliyun:
+#  oss:
+#    # 阿里云下oss 的 accessKeyId和accessKeySecret(访问密钥，您可以在控制台上创建和查看)
+#    accessKeyId: LTAI4Fyfy2DTf4yUrvKqHwH4
+#    accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8
+#    # oss访问地址:内网
+#    endpoint: oss-cn-shenzhen-internal.aliyuncs.com
+#    # Bucket 名称
+#    bucketName: xijia-sz
+## 阿里云oss配置
 aliyun:
   oss:
     # 阿里云下oss 的 accessKeyId和accessKeySecret(访问密钥，您可以在控制台上创建和查看)
     accessKeyId: LTAI4Fyfy2DTf4yUrvKqHwH4
     accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8
-    # oss访问地址:内网
-    endpoint: oss-cn-shenzhen-internal.aliyuncs.com
+    # oss访问地址:外网
+    endpoint: oss-cn-shenzhen.aliyuncs.com
     # Bucket 名称
     bucketName: xijia-sz
-
 
 ## websocket 配置
 websocket:

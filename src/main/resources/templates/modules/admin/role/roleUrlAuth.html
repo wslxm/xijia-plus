@@ -38,10 +38,10 @@
 </script>
 
 <script>
-    let role_find_list = path + "/roleAdmin/list";                      // 角色查询-所有
+    let role_find_list = path + "/roleAdmin/findList";                  // 角色查询-所有
     let auth_find_list = path + "/authorityAdmin/findList";             // 极限查询--数据列表（所有）
-    let auth_upd_authority = path + "/authorityAdmin/putAuthority";     // 权限扫描
-    let updRoleUrlAuth = path + "/roleAdmin/updRoleUrlAuth";      // 角色URL权限修改
+    let auth_upd_authority = path + "/authorityAdmin/refreshAuthority"; // 权限刷新扫描列表
+    let updRoleUrlAuth = path + "/roleAdmin/updRoleAuth";               // 角色URL权限修改
 
 
     let res;           // 后台返回完整菜单数据
@@ -72,7 +72,7 @@
 
 
     /**
-     * TODO    生成左角色列表
+     *     生成左角色列表
      *
      * @date  2019/11/16 0016 16:56
      * @return
@@ -127,7 +127,7 @@
 
 
     /**
-     * TODO    table数据--（抽离出来方便重载）
+     *     table数据--（抽离出来方便重载）
      *
      * @date  2019/11/16 0016 16:56
      * @return
@@ -164,7 +164,7 @@
 
 
     /**
-     * TODO    监听复选框选中
+     *     监听复选框选中
      * @date  2019/11/16 0016 19:43
      * @return
      */
@@ -188,7 +188,7 @@
     }
 
     /**
-     * TODO  遍历子节点判断--> 选中/ 取消选中
+     *   遍历子节点判断--> 选中/ 取消选中
      * @author ws
      * @mail  1720696548@qq.com
      * @date  2020/4/27 0027 17:14
@@ -215,7 +215,7 @@
     }
 
     /**
-     * TODO   角色选中回调
+     *    角色选中回调
      * @param item 当前选中的角色行数据
      * @date  2019/11/16 0016 19:43
      * @return
@@ -239,7 +239,7 @@
 
 
     /**
-     * TODO  角色选中状态添加 CSS样式
+     *   角色选中状态添加 CSS样式
      * @date  2019/11/16 0016 17:22
      */
     $("body").on("mousedown", ".layui-tree a", function () {
@@ -251,7 +251,7 @@
 
 
     /**
-     * TODO  菜单权限分配( JS点击事件)
+     *   菜单权限分配( JS点击事件)
      * @author ws
      * @mail  1720696548@qq.com
      * @date  2020/4/10 0010 0:05
@@ -281,7 +281,7 @@
 
 
     /**
-     * TODO  权限扫描
+     *   权限扫描
      * @author ws
      * @mail  1720696548@qq.com
      * @date  2020/4/28 0028 1:04

@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * TODO  角色接口权限
+ *   角色接口权限
  *
  * @author wangsong
  * @WX-QQ 1720696548

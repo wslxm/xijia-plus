@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 /**
- * TODO  角色
+ *   角色
  *
  * @author 王松
  * @WX-QQ 1720696548
@@ -18,7 +18,7 @@ import java.util.List;
 public interface RoleAdminService  extends IService<RoleAdmin>{
 
     /**
-     * TODO  查询所有角色--用户当前拥有角色赋予checked=true
+     *   查询所有角色--用户当前拥有角色赋予checked=true
      *
      * @param userId
      * @return void
@@ -30,7 +30,7 @@ public interface RoleAdminService  extends IService<RoleAdmin>{
 
 
     /**
-     * TODO  修改用户角色
+     *   修改用户角色
      *
      * @param userId
      * @param roleIds

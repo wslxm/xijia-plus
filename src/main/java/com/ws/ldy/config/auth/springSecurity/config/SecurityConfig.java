@@ -23,7 +23,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import java.util.List;
 
 /**
- * TODO  TODO Security配置文件，项目启动时就加载了
+ *    Security配置文件，项目启动时就加载了
  *
  * @date 2020/7/5 0005 20:44
  * @return
@@ -75,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     /**
-     * TODO 授权
+     *  授权
      *
      * @param http
      * @throws Exception

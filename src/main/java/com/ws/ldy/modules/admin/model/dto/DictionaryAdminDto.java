@@ -7,7 +7,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * TODO  字典表
+ *   字典表
  *
  * @author wangsong
  * @WX-QQ 1720696548

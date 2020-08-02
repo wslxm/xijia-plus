@@ -50,9 +50,9 @@
 
         <script>
             // 接口
-            let find_list = path + "/menuAdmin/list";     // 查询菜单树
-            let deletes = path + "/menuAdmin/delete";     // 删除
-            let update = path + "/menuAdmin/update";      // 编辑
+            let find_list = path + "/menuAdmin/findList";     // 查询菜单树
+            let deletes = path + "/menuAdmin/del";     // 删除
+            let update = path + "/menuAdmin/upd";      // 编辑
             // 路由
             let page_add = path + "/page/modules_admin_menu_menuAdd";        // 添加菜单/页面弹层
             let page_upd = path + "/page/modules_admin_menu_menuUpd";        // 菜单编辑弹层
@@ -85,7 +85,7 @@
 
 
             /**
-             * TODO  数据表格
+             *   数据表格
              * @author ws
              * @mail  1720696548@qq.com
              * @date  2020/4/19 0019 21:43
@@ -167,7 +167,7 @@
 
 
             /**
-             * TODO  工具栏事件（多删除 || 添加）  ==>> toolbar(auth-table): toolbar=监听表格头事件,  auth-table=数据表格elem 名称
+             *  工具栏事件（多删除 || 添加）  ==>> toolbar(auth-table): toolbar=监听表格头事件,  auth-table=数据表格elem 名称
              * @author ws
              * @mail  1720696548@qq.com
              * @param null
@@ -191,28 +191,28 @@
 
 
             /**
-             * TODO  监听数据表格内按钮（编辑 || 删除 || 其他）, tool(auth-table)==> tool =监听按钮， auth-table=数据表格elem对应值
+             *   监听数据表格内按钮（编辑 || 删除 || 其他）, tool(auth-table)==> tool =监听按钮， auth-table=数据表格elem对应值
              * @author ws
              * @mail  1720696548@qq.com
              * @date  2020/4/10 0010 0:03
              * @return
              */
             function xijiaEventTool() {
-                // TODO 表格内的按钮监听
+                //  表格内的按钮监听
                 table.on('tool(auth-table)', function (obj) {
                     //当前行数据
                     data = obj.data;
-                    // TODO  菜单添加
+                    //   菜单添加
                     if (obj.event === 'add') {
                         data.lv = 2; //表示添加菜单
                         tipsWindown(page_add, "440px", "320px", "添加菜单--" + data.name)
                     }
-                    // TODO  页面添加
+                    //   页面添加
                     if (obj.event === 'addPage') {
                         data.lv = 3;  //表示添加页面
                         tipsWindown(page_add, "440px", "400px", "添加页面--" + data.name)
                     }
-                    // TODO  删除行(加子菜单)
+                    //   删除行(加子菜单)
                     if (obj.event === 'del') {
                         // tipsDeleteId(deletes + delData, obj);
                         layer.msg('你确定要删除么？', {
@@ -230,11 +230,11 @@
                             }
                         });
                     }
-                    // TODO 修改菜单名称
+                    //  修改菜单名称
                     if (obj.event === 'upd') {
                         tipsWindown(page_upd, "440px", "260px", "编辑")
                     }
-                    // TODO 变更父级
+                    //  变更父级
                     if (obj.event === 'updPid') {
                         tipsWindown(page_updPid, "800px", "600px", "变更父级-" + data.name);
                         // xijia_window_onbeforeunload();  // 记录滚动条位置
@@ -243,30 +243,30 @@
                     }
                 });
 
-                // TODO 表格内直接编辑内容的监听
+                //  表格内直接编辑内容的监听
                 table.on('edit(auth-table)', function (obj) {
                     let data = obj.data;   // 得到所在行整行数据
                     let val = obj.value;   // 得到修改后的值
                     let field = obj.field; // 得到修改的字段
                     let result;
                     if (field === "sort") {
-                        // TODO  1，sort-修改排序
+                        //   1，sort-修改排序
                         result = ajaxPut(update, {id: data.id, sort: val});
                     } else if (field === "icon") {
-                        // TODO  2，icon-修改图标
+                        //   2，icon-修改图标
                         result = ajaxPut(update, {id: data.id, icon: val})
                     } else if (field === "url") {
-                        // TODO  3、url-修改菜单url
+                        //   3、url-修改菜单url
                         result = ajaxPut(update, {id: data.id, url: val})
                     } else {
-                        // TODO  4、name-修改菜单名
+                        //   4、name-修改菜单名
                     }
                     layer.msg(result.msg);
                 });
             }
 
             /**
-             * TODO  条件搜索
+             *   条件搜索
              * @author ws
              * @mail  1720696548@qq.com
              * @date  2020/4/10 0010 0:03
@@ -307,7 +307,7 @@
 
 
             /**
-             * TODO 监听单选选中
+             *  监听单选选中
              * <p>
              * switch(state) 对应 lay-filter='state'
              */

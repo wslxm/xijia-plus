@@ -5,7 +5,7 @@ import lombok.Data;
 
 
 /***
- * TODO  websocket客服端-发送消息-入参参数
+ *   websocket客服端-发送消息-入参参数
  * @author 王松
  * @mail 1720696548@qq.com
  * @date 2020/6/30 0030 18:24

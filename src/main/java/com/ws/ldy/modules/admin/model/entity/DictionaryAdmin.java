@@ -6,7 +6,7 @@ import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
 
 /**
- * TODO  代码生成器自动生成，请自定义描叙
+ *   代码生成器自动生成，请自定义描叙
  *
  * @author wangsong
  * @WX-QQ 1720696548

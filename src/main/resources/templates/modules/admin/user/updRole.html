@@ -26,8 +26,8 @@
 <script>
 
 
-    let user_role_admin_list = path + "/roleAdmin/findRoleChecked";        // 角色分配查询所有--用户当前角色赋予Checked=true
-    let user_admin_upd_role = path + "/roleAdmin/updUserRole";             // 角色分配
+    let user_role_admin_list = path + "/roleAdmin/findUserRole";      // 角色分配查询所有--用户当前角色赋予Checked=true
+    let user_admin_upd_role = path + "/roleAdmin/updUserRole";        // 角色分配
 
     // 当前数据表格所有复选框数据暂存
     let checkData = null;
@@ -59,7 +59,7 @@
 
 
         /**
-         * TODO    监听复选框选中
+         *     监听复选框选中
          * @date  2019/11/16 0016 19:43
          * @return
          */
@@ -70,7 +70,7 @@
 
 
         /**
-         * TODO  分配角色
+         *   分配角色
          * @author ws
          * @mail  1720696548@qq.com
          * @param null

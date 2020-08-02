@@ -12,7 +12,7 @@ public interface DictionaryAdminMapper extends BaseMapper<DictionaryAdmin> {
 
 
     /***
-     * TODO  查询字典表 数据，基本最多两层，  A --> B,C  -->  B1,B2,B3,C1,C2  = 返回list数据
+     *   查询字典表 数据，基本最多两层，  A --> B,C  -->  B1,B2,B3,C1,C2  = 返回list数据
      * @param code
      * @date 2020/7/12 0012 19:41
      * @return java.util.List<com.ws.ldy.admin.model.entity.DictionaryAdmin>

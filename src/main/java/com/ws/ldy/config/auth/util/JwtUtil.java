@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 /***
- * TODO  jwt 工具类
+ *   jwt 工具类
  * @author 王松
  * @mail 1720696548@qq.com
  * @date 2020/7/5 0005 19:13
@@ -33,7 +33,7 @@ public class JwtUtil {
     private static final String AUTH_CLAIMS = "auth";
 
     /**
-     * TODO  生成token
+     *   生成token
      *
      * @param user
      * @return java.lang.String
@@ -91,6 +91,18 @@ public class JwtUtil {
     public static String getFullName(String token) {
         Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
         return claims.get("fullName").toString();
+    }
+
+
+    /**
+     * 获取用户姓名/用户名
+     *
+     * @param token
+     * @return
+     */
+    public static String getUserHead(String token) {
+        Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
+        return claims.get("head").toString();
     }
 
     /**

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * TODO  接口管理
+ *   接口管理
  *
  * @author wangsong
  * @WX-QQ 1720696548
@@ -33,14 +33,14 @@ public class AuthorityAdminController extends BaseController<AuthorityAdminServi
 
 
     @ApiOperation("扫描权限：权限列表数据刷新")
-    @RequestMapping(value = "/putAuthority", method = RequestMethod.PUT)
+    @RequestMapping(value = "/refreshAuthority", method = RequestMethod.PUT)
     public R<Void> refreshAuthority() {
         baseService.refreshAuthority();
         return R.success();
     }
 
 
-    @ApiOperation("查询所有,跟据角色赋予选中状态")
+    @ApiOperation(value = "查询所有,跟据角色赋予选中状态", notes = "")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
     public R<List<AuthorityAdminVo>> findList(String roleId) {

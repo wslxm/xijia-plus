@@ -198,7 +198,17 @@ public class MenuAdminServiceImpl extends BaseIServiceImpl<MenuAdminMapper, Menu
         }
         // 系统级  ==>  顶级菜单返回  ==>  root == 1
         List<MenuAdminVo> menuVoList = new LinkedList<>();
-        if (pId != null && Integer.parseInt(pId) >= 0) {
+        if (pId == null || pId.equals("") || pId.equals("0")) {
+            // 树结构菜单 ==> 递归添加  ==>  所有
+            for (MenuAdminVo menuVo : menuAdminVoList) {
+                //顶级菜单
+                if (menuVo.getRoot().getValue().equals(1)) {
+                    nextLowerIdNode(menuAdminVoList, menuVo, roleMenuMap, menuVoList);
+                    this.setChecked(menuVo, roleMenuMap);
+                    menuVoList.add(menuVo);
+                }
+            }
+        } else {
             // 树结构菜单 ==> 递归添加  ==> 指定父Id下
             for (MenuAdminVo menuVo : menuAdminVoList) {
                 if (menuVo.getId().equals(pId)) {
@@ -208,16 +218,6 @@ public class MenuAdminServiceImpl extends BaseIServiceImpl<MenuAdminMapper, Menu
                     // if (menuVo.getRoot().equals(1) ) {
                     menuVoList.add(menuVo);
                     // }
-                }
-            }
-        } else {
-            // 树结构菜单 ==> 递归添加  ==>  所有
-            for (MenuAdminVo menuVo : menuAdminVoList) {
-                //顶级菜单
-                if (menuVo.getRoot().getValue().equals(1)) {
-                    nextLowerIdNode(menuAdminVoList, menuVo, roleMenuMap, menuVoList);
-                    this.setChecked(menuVo, roleMenuMap);
-                    menuVoList.add(menuVo);
                 }
             }
         }

@@ -94,9 +94,9 @@
 <script>
 
     // 查询开发人员(角色)（注意数据库参数是否正确）
-    let dev_user_list = "/userAdmin/findRoleIdList?roleId=2";
+    let dev_user_list = "/userAdmin/findRoleUser?roleId=2";
     // 查询字典项目列表（注意数据库参数是否正确）
-    let item_list = "/dictionaryAdmin/findCode?code=item";
+    let item_list = "/dictionaryAdmin/findByCode?code=item";
 
     $(function () {
         //开发人员
@@ -151,8 +151,8 @@
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);
-            //重载表格
-            parent.refresh();
+            // 刷新表格
+            parent.xijiaRenderTable(parent.reqParams());
         });
         //日期时间选择器
         layui.laydate.render({

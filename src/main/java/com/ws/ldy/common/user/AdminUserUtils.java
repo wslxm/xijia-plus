@@ -36,7 +36,7 @@
 //    //=================================================================
 //
 //    /**
-//     * TODO  获取系统用户token
+//     *   获取系统用户token
 //     *
 //     * @return java.lang.String
 //     * @date 2020/6/20 0020 16:56
@@ -51,7 +51,7 @@
 //    }
 //
 //    /**
-//     * TODO   获取系统用户Id
+//     *    获取系统用户Id
 //     *
 //     * @return com.ws.ldy.admin.model.entity.UserAdmin
 //     * @date 2020/6/20 0020 16:55
@@ -63,7 +63,7 @@
 //
 //
 //    /**
-//     * TODO   获取系统用户名
+//     *    获取系统用户名
 //     *
 //     * @return com.ws.ldy.admin.model.entity.UserAdmin
 //     * @date 2020/6/20 0020 16:55
@@ -74,7 +74,7 @@
 //    }
 //
 //    /**
-//     * TODO 获取用户权限列表
+//     *  获取用户权限列表
 //     *
 //     * @return java.lang.Integer
 //     * @date 2020/6/20 0020 16:55
