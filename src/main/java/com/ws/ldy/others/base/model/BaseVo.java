@@ -2,8 +2,6 @@ package com.ws.ldy.others.base.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 /**
  *  通用Vo,获取反序列类生成UUID
@@ -14,8 +12,6 @@ import lombok.NoArgsConstructor;
  * spring
  */
 @Data
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 public class BaseVo extends Convert {
 
     @ApiModelProperty(notes = "ID")

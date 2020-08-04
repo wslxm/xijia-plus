@@ -27,9 +27,9 @@ import java.util.List;
  * @author peter 2018/10/20 21:32
  */
 @RestController
-@Api(value = "FileOSSController", tags = "文件管理--文件保存到阿里云OSS")
-@RequestMapping("/ossFile")
-public class FileOSSController extends BaseController {
+@Api(value = "AliOssController", tags = "文件管理--文件保存到阿里云OSS")
+@RequestMapping("/aliOssFile")
+public class AliOssController extends BaseController {
 
     // 阿里云oss工具类
     @Autowired

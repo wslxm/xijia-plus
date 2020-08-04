@@ -41,7 +41,7 @@ public class RoleAdminController extends BaseController<RoleAdminService> {
     private RoleAuthAdminService roleAuthAdminService;
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
-    @ApiOperation("分页查询")
+    @ApiOperation(value = "分页查询", notes = "")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
@@ -52,34 +52,35 @@ public class RoleAdminController extends BaseController<RoleAdminService> {
                 .orderByAsc(RoleAdmin::getId)
                 .like(StringUtils.isNotBlank(name), RoleAdmin::getName, name)
         );
-        return R.successFind(page.convert(item -> item.convert(RoleAdminVo.class)));
+
+        return R.successFind(BeanDtoVoUtil.pageVo(page, RoleAdminVo.class));
     }
 
 
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
-    @ApiOperation("查询所有")
+    @ApiOperation(value = "查询所有", notes = "")
     public R<List<RoleAdminVo>> findList() {
         List<RoleAdmin> roles = baseService.list();
         return R.successFind(BeanDtoVoUtil.listVo(roles, RoleAdminVo.class));
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    @ApiOperation("添加")
+    @ApiOperation(value = "添加", notes = "")
     public R<Void> insert(@RequestBody RoleAdminDto roleAdminDto) {
         baseService.save(roleAdminDto.convert(RoleAdmin.class));
         return R.successInsert();
     }
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
-    @ApiOperation("编辑")
+    @ApiOperation(value = "ID编辑", notes = "")
     public R<Void> upd(@RequestBody RoleAdminDto roleAdminDto) {
         baseService.updateById(roleAdminDto.convert(RoleAdmin.class));
         return R.successInsert();
     }
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    @ApiOperation("删除")
-    public R<Void> del(String id) {
+    @ApiOperation(value = "ID删除", notes = "")
+    public R<Void> del(@RequestParam String id) {
         baseService.removeById(id);
         return R.successDelete();
     }
@@ -91,7 +92,7 @@ public class RoleAdminController extends BaseController<RoleAdminService> {
     //=========================================================================
 
     @RequestMapping(value = "/findUserRole", method = RequestMethod.GET)//Checked
-    @ApiOperation("获取用户当前角色 ")//用户角色分配弹出层查询所有角色,用户拥有角色赋予isChecked=true
+    @ApiOperation(value = "获取用户的当前角色", notes = "用户角色分配查询到所有角色, 并使用户拥有的角色赋予 isChecked=true")
     public R<List<RoleAdminVo>> findRoleChecked(@RequestParam String userId) {
         List<RoleAdminVo> roles = baseService.findRoleChecked(userId);
         return R.successFind(roles);
@@ -99,7 +100,7 @@ public class RoleAdminController extends BaseController<RoleAdminService> {
 
 
     @RequestMapping(value = "/updUserRole", method = RequestMethod.PUT)
-    @ApiOperation("用户角色分配")
+    @ApiOperation(value = "用户的角色分配", notes = "")
     public R<Void> updUserRole(@RequestParam String userId, String[] roleIds) {
         boolean result = baseService.updUserRole(userId, roleIds);
         return R.successUpdate();
@@ -107,7 +108,7 @@ public class RoleAdminController extends BaseController<RoleAdminService> {
 
 
     @RequestMapping(value = "/updRoleMenu", method = RequestMethod.PUT)
-    @ApiOperation("角色菜单分配")
+    @ApiOperation(value = "角色的菜单分配", notes = "")
     public R<Void> updRoleMenu(@RequestParam String roleId, String[] menuIds) {
         roleMenuAdminService.roleMenuAuth(roleId, menuIds);
         return R.successUpdate();
@@ -115,7 +116,7 @@ public class RoleAdminController extends BaseController<RoleAdminService> {
 
 
     @RequestMapping(value = "/updRoleAuth", method = RequestMethod.PUT)
-    @ApiOperation("角色URL分配")
+    @ApiOperation(value = "角色的URL权限分配", notes = "")
     public R<Void> updRoleAuth(@RequestParam String roleId, String[] authIds) {
         roleAuthAdminService.roleUrlAuth(roleId, authIds);
         return R.successUpdate();

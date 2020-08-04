@@ -35,7 +35,7 @@ public class DevNormController extends BaseController<DevNormService>  {
 
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
-    @ApiOperation("分页查询")
+    @ApiOperation(value = "分页查询", notes = "")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query",example = "1"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query",example = "20")
@@ -52,7 +52,7 @@ public class DevNormController extends BaseController<DevNormService>  {
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    @ApiOperation("添加")
+    @ApiOperation(value = "添加", notes = "")
     public R<Void> insert(@RequestBody @Validated DevNormDTO dto) {
         DevNorm devNorm = dto.convert(DevNorm.class);
         baseService.save(devNorm);
@@ -61,7 +61,7 @@ public class DevNormController extends BaseController<DevNormService>  {
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
-    @ApiOperation("ID编辑")
+    @ApiOperation(value = "ID编辑", notes = "")
     public R<Void> update(@RequestBody @Validated DevNormDTO dto) {
         baseService.updateById(dto.convert(DevNorm.class));
         return R.successUpdate();
@@ -69,16 +69,16 @@ public class DevNormController extends BaseController<DevNormService>  {
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    @ApiOperation("单删除")
-    public R<Void> delete(@RequestParam String id) {
+    @ApiOperation(value = "ID删除", notes = "")
+    public R<Void> del(@RequestParam String id) {
         baseService.removeById(id);
         return R.successDelete();
     }
 
 
     @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
-    @ApiOperation("批量删除")
-    public R<Void> deleteByIds(@RequestParam String[] ids) {
+    @ApiOperation(value = "批量ID删除", notes = "")
+    public R<Void> delByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
         return R.successDelete();
     }

@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.modules.admin.model.entity.DictionaryAdmin;
 import com.ws.ldy.modules.admin.model.vo.DictionaryAdminVo;
 
+import java.util.List;
+
 /**
  *   数据字典
  *
@@ -18,12 +20,17 @@ public interface DictionaryAdminService extends IService<DictionaryAdmin> {
 
 
     /**
-     *   根据code查询当前字典下所有字典（可多层级）
+     *   根据code查询数据+ 下级所有层级数据（无限递归）
      *
      * @param code
      * @return java.util.List<com.ws.ldy.admin.model.vo.DictionaryAdminVo>
      * @date 2020/7/12 0012 19:22
      */
-    DictionaryAdminVo findCode(String code);
+    DictionaryAdminVo findByCodeFetchDictVO(String code);
+
+    /**
+     * 根据code查询数据ID + 加下级所有ID
+     */
+    List<String> findByIdFetchIds(String id);
 
 }

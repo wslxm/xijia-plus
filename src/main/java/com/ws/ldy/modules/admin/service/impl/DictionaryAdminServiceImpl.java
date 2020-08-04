@@ -1,5 +1,7 @@
 package com.ws.ldy.modules.admin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.modules.admin.mapper.DictionaryAdminMapper;
 import com.ws.ldy.modules.admin.model.entity.DictionaryAdmin;
 import com.ws.ldy.modules.admin.model.vo.DictionaryAdminVo;
@@ -16,45 +18,61 @@ public class DictionaryAdminServiceImpl extends BaseIServiceImpl<DictionaryAdmin
 
 
     @Override
-    public DictionaryAdminVo findCode(String code) {
-        List<DictionaryAdminVo> dictList = baseMapper.findCode(code);
-        //找到顶级
-        DictionaryAdminVo dictVO = new DictionaryAdminVo();
-        for (DictionaryAdminVo dict : dictList) {
-            if (code.equals(dict.getCode())) {
-                dictVO = dict;
-                //自己
-                break;
-            }
+    public DictionaryAdminVo findByCodeFetchDictVO(String code) {
+        // 查询当前
+        DictionaryAdmin dict = baseMapper.selectOne(new LambdaQueryWrapper<DictionaryAdmin>().eq(DictionaryAdmin::getCode, code));
+        // 查询所有
+        List<DictionaryAdminVo> dictVoList = BeanDtoVoUtil.listVo(baseMapper.selectList(null), DictionaryAdminVo.class);
+        if (dict == null || dictVoList == null || dictVoList.size() == 0) {
+            return null;
         }
-        //遍历子级，最多两级，2层for
-        for (DictionaryAdminVo dictOne : dictList) {
-            //第一层
-            if (dictOne.getPid().equals(dictVO.getId())) {
-                //没有就创建/有就追加
-                if (dictVO.getDictList() == null) {
-                    dictVO.setDictList(new ArrayList<DictionaryAdminVo>() {{
-                        add(dictOne);
-                    }});
-                } else {
-                    dictVO.getDictList().add(dictOne);
-                }
-                //第二层
-                for (DictionaryAdminVo dictTwo : dictList) {
-                    //没有就创建/有就追加
-                    if (dictTwo.getCode().equals(dictOne.getId())) {
-                        if (dictOne.getDictList() == null) {
-                            dictOne.setDictList(new ArrayList<DictionaryAdminVo>() {{
-                                add(dictTwo);
-                            }});
-                        } else {
-                            dictOne.getDictList().add(dictOne);
-                        }
-                    }
-                }
-            }
-        }
+        DictionaryAdminVo dictVO = dict.convert(DictionaryAdminVo.class);
+        // 递归添加下级数据,  new ArrayList<>() 是没有用的, findByCodeIds收集Ids 所有
+        nextLowerNode(dictVoList, dictVO, new ArrayList<>());
         return dictVO;
+    }
+
+
+    @Override
+    public List<String> findByIdFetchIds(String id) {
+        // 查询当前
+        DictionaryAdmin dict = baseMapper.selectById(id);
+        // 查询所有
+        List<DictionaryAdminVo> dictVoList = BeanDtoVoUtil.listVo(baseMapper.selectList(null), DictionaryAdminVo.class);
+        if (dict == null || dictVoList == null || dictVoList.size() == 0) {
+            return null;
+        }
+        DictionaryAdminVo dictVO = dict.convert(DictionaryAdminVo.class);
+        List<String> ids = new ArrayList<>();
+        ids.add(dict.getId());
+        // 递归添加下级数据
+        nextLowerNode(dictVoList, dictVO, ids);
+        return ids;
+    }
+
+
+    /**
+     * 递归添加下级数据
+     * @param dictVoList 所有节点
+     * @param fatherDict 上级节点
+     * @param ids 收集所有数据id
+     */
+    // @formatter:off
+    private void nextLowerNode(List<DictionaryAdminVo> dictVoList, DictionaryAdminVo fatherDict,List<String> ids) {
+        for (DictionaryAdminVo dict : dictVoList) {
+            // 当前层级类还没有子层级对象就创建/有就追加
+            if (dict.getPid().equals(fatherDict.getId())) {
+                if (fatherDict.getDictList() == null) {
+                    fatherDict.setDictList(new ArrayList<DictionaryAdminVo>() {{ add(dict);}});
+                } else {
+                    fatherDict.getDictList().add(dict);
+                }
+                //获取ids
+                ids.add(dict.getId());
+                //继续添加下级,无限级
+                nextLowerNode(dictVoList, dict,ids);
+            }
+        }
     }
 }
 

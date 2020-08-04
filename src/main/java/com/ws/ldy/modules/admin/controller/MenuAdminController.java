@@ -35,7 +35,7 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
 
 
     @RequestMapping(value = "/findTree", method = RequestMethod.GET)
-    @ApiOperation("左导航菜单 ===>>> 树结构数据 ===>>> 需先登录")
+    @ApiOperation(value = "左导航菜单", notes = "树结构数据,无限级,不限制层次,根据sort字段正序排序,sort越小越靠前")
     public R<List<MenuAdminVo>> menuTree() {
         //获取菜单
         List<MenuAdminVo> menuTree = baseService.getMenuTree();
@@ -44,8 +44,8 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
 
 
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
-    @ApiOperation("菜单列表 ==>>>  列表数据  ==>>>  所有")
-    public R<List<MenuAdminVo>> list() {
+    @ApiOperation(value = "查询所有", notes = "根据sort字段正序排序,sort越小越靠前")
+    public R<List<MenuAdminVo>> findList() {
         List<MenuAdmin> menus = baseService.list(new LambdaQueryWrapper<MenuAdmin>()
                 .orderByAsc(MenuAdmin::getSort)
                 .orderByAsc(MenuAdmin::getId)
@@ -58,10 +58,10 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
      * @param roleId 角色Id，判断当前是否有权限并选中
      */
     @RequestMapping(value = "/findByPidOrRoleId", method = RequestMethod.GET)
-    @ApiOperation("根据pid +角色Id获取菜单列表")
+    @ApiOperation(value = "pid + roleId 查询菜单列表", notes = "1、未传递查询所有: isChecked=false || null \r\n 2、根据 pid + roleId 查询当前角色+指定父菜单下的所有菜单给予选中状态 isChecked=true，包括自身, 不在当前 pid 下和 roleId没有权限角色的: isChecked=false || null, 返回List 列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "父id", required = false, paramType = "query"),
-            @ApiImplicitParam(name = "roleId", value = "角色Id，判断当前是否有权限并选中", required = false, paramType = "query")
+            @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
     })
     public R<List<MenuAdminVo>> findByPidOrRoleId(String id, String roleId) {
         List<MenuAdminVo> menus = baseService.findIdOrRoleIdList(id, roleId);
@@ -70,7 +70,7 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    @ApiOperation("菜单添加")
+    @ApiOperation(value = "菜单添加", notes = "")
     public R<Void> insert(@RequestBody MenuAdminDto menuAdminDto) {
         MenuAdmin menuAdmin = menuAdminDto.convert(MenuAdmin.class);
         baseService.save(menuAdmin);
@@ -79,7 +79,7 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
-    @ApiOperation("编辑")
+    @ApiOperation(value = "编辑", notes = "")
     public R<Void> upd(@RequestBody MenuAdminDto menuAdminDto) {
         if (menuAdminDto.getId() == null) {
             throw new ErrorException(RType.ADMIN_IS_NO_UPDATE_ID);
@@ -91,7 +91,7 @@ public class MenuAdminController extends BaseController<MenuAdminService> {
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    @ApiOperation("ID删除菜单+所有子菜单")
+    @ApiOperation(value = "ID删除", notes = "同时删除当前菜单和当前菜单下的所有子菜单")
     public R<List<String>> del(@RequestParam String id) {
         List<MenuAdminVo> idOrRoleIdList = baseService.findIdOrRoleIdList(id);
         List<String> menuIds = new ArrayList<>();

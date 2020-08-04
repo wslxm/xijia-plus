@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.Version;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -19,8 +17,6 @@ import java.time.LocalDateTime;
  * <p>
  */
 @Data
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
 public class BaseEntity extends Convert {
 
     /**

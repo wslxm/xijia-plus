@@ -51,6 +51,7 @@ public class DevTaskController extends BaseController<DevTaskService> {
             @ApiParam(value = "项目字典code", required = false) @RequestParam(required = false) String item,
             @ApiParam(value = "指派人Id", required = false) @RequestParam(required = false) Integer taskUserId) {
         Page<DevTask> page = baseService.page(this.getPage(), new LambdaQueryWrapper<DevTask>()
+                .orderByAsc(DevTask::getState)
                 .orderByDesc(DevTask::getCreateTime)
                 .like(StringUtils.isNotBlank(name), DevTask::getName, name)
                 .eq(type != null, DevTask::getType, type)
@@ -64,15 +65,14 @@ public class DevTaskController extends BaseController<DevTaskService> {
 
 
     @RequestMapping(value = "/findId", method = RequestMethod.GET)
-    @ApiOperation("ID查询")
-    @ApiImplicitParam(name = "id", value = "id", required = false, paramType = "query")
-    public R<DevTask> update(@RequestParam LocalDateTime id) {
+    @ApiOperation(value = "ID查询", notes = "")
+    public R<DevTask> update(@RequestParam String id) {
         return R.successFind(BeanDtoVoUtil.convert(baseService.getById(id), DevTask.class));
     }
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    @ApiOperation("添加")
+    @ApiOperation(value = "添加", notes = "")
     public R<Void> insert(@RequestBody @Validated DevTaskDTO dto) {
         DevTask devTask = dto.convert(DevTask.class);
         devTask.setCreateUser(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
@@ -83,7 +83,7 @@ public class DevTaskController extends BaseController<DevTaskService> {
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
-    @ApiOperation("ID编辑")
+    @ApiOperation(value = "ID编辑", notes = "")
     public R<Void> update(@RequestBody @Validated DevTaskDTO dto) {
         baseService.updateById(dto.convert(DevTask.class));
         return R.successUpdate();
@@ -91,8 +91,8 @@ public class DevTaskController extends BaseController<DevTaskService> {
 
 
     @RequestMapping(value = "/updByState", method = RequestMethod.PUT)
-    @ApiOperation("ID编辑状态--任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销)")
-    public R<Void> update(@RequestParam String id, Integer state, Double takeUpTime) {
+    @ApiOperation(value = "ID编辑状态", notes = "任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销),---> 任务完成(状态=2 时),添加takeUpTime参数: 任务实际耗时")
+    public R<Void> update(@RequestParam String id, @RequestParam Integer state, Double takeUpTime) {
         DevTask devTask = new DevTask();
         devTask.setState(state);
         if (state == 2) {
@@ -109,7 +109,7 @@ public class DevTaskController extends BaseController<DevTaskService> {
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    @ApiOperation("单删除")
+    @ApiOperation(value = "ID删除", notes = "")
     public R<Void> delete(@RequestParam String id) {
         baseService.removeById(id);
         return R.successDelete();
@@ -117,14 +117,14 @@ public class DevTaskController extends BaseController<DevTaskService> {
 
 
     @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
-    @ApiOperation("批量删除")
+    @ApiOperation(value = "批量ID删除", notes = "")
     public R<Void> deleteByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
         return R.successDelete();
     }
 
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
-    @ApiOperation("查询所有")
+    @ApiOperation(value = "查询所有", notes = "")
     public R<List<DevTask>> findList() {
         return R.success(baseService.findList());
     }

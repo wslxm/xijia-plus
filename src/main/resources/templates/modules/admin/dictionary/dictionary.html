@@ -107,8 +107,8 @@
             treeSpid: 0,                // 顶级父id的pid值
             treeIdName: 'id',           // id 字段名
             treePidName: 'pid',         // pid 字段名
-            treeDefaultClose: true,     // 是否默认折叠
-            treeLinkage: false,         // 父级展开时是否自动展开所有子级
+            treeDefaultClose: false,    // 是否默认折叠
+            treeLinkage: true,          // 父级展开时是否自动展开所有子级
             elem: '#auth-table',        //table 的 div
             data: dataJson.data,        //直接加载数据
             done: function () {
@@ -119,9 +119,9 @@
                 [
                     // {field: 'id', width: 200, title: 'ID'},//edit: 'text',
                     {field: 'name', width: 250, title: '字典名称'},
-                    {field: 'code', width: 250, title: '字典类型'},
-                    {field: 'sort', width: 250, edit: 'text', title: '排序'},
+                    {field: 'code', width: 250, title: '字典Code'},
                     {field: 'desc', title: '字典描叙'},
+                    {field: 'sort', width: 250, edit: 'text', title: '排序'},
                     {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 250}
                 ]
             ]
@@ -177,8 +177,27 @@
             }
             //   删除行
             if (obj.event === 'del') {
-                let params = "?id=" + data.id;
-                tipsDeleteId(deletes + params, obj)
+                // let params = "?id=" + data.id;
+                // tipsDeleteId(deletes + params, obj);
+                // // 重载页面 // parent.window.location.reload();
+                // xijia_window_onbeforeunload();  // 记录滚动条位置
+                // xijiaRenderTable();             // 重载数据
+                // xijia_window_onload();          // 还原滚动条位置
+                // // tipsDeleteId(deletes + delData, obj);
+                layer.msg('你确定要删除么？', {
+                    time: 0
+                    , btn: ['必须删', '不删了']
+                    , yes: function (index) {
+                        // 获得要删除菜单及所有子菜单
+                        let delData = "?id=" + data.id;
+                        let result = ajaxDelete(deletes + delData);
+                        // 重载页面 // parent.window.location.reload();
+                        xijia_window_onbeforeunload();  // 记录滚动条位置
+                        xijiaRenderTable();             // 重载数据
+                        xijia_window_onload();          // 还原滚动条位置
+                        layer.msg(result.msg);
+                    }
+                });
             }
         });
 

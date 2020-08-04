@@ -95,34 +95,12 @@ public class LogAspect {
         log.info("用户ip:[{}] --> 设备名:[{}] --> 端口：[{}] -->  请求类:[{}]  -->  URL: [{}] --> [{}] --> [{}] --> 请求参数:[{}]", ip, host, port,className, url, classDesc, methodDesc, args);
 
         //===========================================================================================================
-        //===========================如需统一日志收集,在此log.info 是内容收集到统一日志收集器中===========================
+        //=========================== 如需统一日志收集,在此log.info 是内容收集到统一日志收集器中 ============================
         //===========================================================================================================
-
-        Object res = null;
         //调用方法
-        res = proceed.proceed();
-
-        // LocalDateTime now = LocalDateTime.now();
-        // Long start = LocalDateTime.now().atZone(ZoneId.of("Asia/Shanghai")).toInstant().toEpochMilli();
-        // Long end = now.atZone(ZoneId.of("Asia/Shanghai")).toInstant().toEpochMilli();
-        //响应参数
+        Object res = proceed.proceed();
         return res;
     }
-
-
-// 统一日志收集对象
-//        LogOperation operationLog = new LogOperation();
-//        operationLog.setIpAddr(ip);
-//        operationLog.setUrl(url);
-//        operationLog.setMethod(annotation.httpMethod());
-//        operationLog.setRequestArgs(JSON.toJSONString(args));
-//        operationLog.setAccount(request.getParameter(Constant.Param.CURRENT_USER_ACCOUNT));
-//        operationLog.setUserName(request.getParameter(Constant.Param.CURRENT_USER_NAME));
-//        operationLog.setTakeTime(end - start);
-//        operationLog.setModel(nickname);
-//        operationLog.setOperation(operationName);
-//        operationLog.setOperateTime(now);
-
 
     /**
      * 获取请求地址

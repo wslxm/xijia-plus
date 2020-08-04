@@ -32,7 +32,7 @@ public class AuthorityAdminController extends BaseController<AuthorityAdminServi
     private RoleAuthAdminService roleAuthAdminService;
 
 
-    @ApiOperation("扫描权限：权限列表数据刷新")
+    @ApiOperation(value = "扫描权限", notes = "扫描权限列表数据, 1、存在变更接口描叙, 2、url变动会重新生成权限数据,角色原有的该接口权限会丢失,需重新分配 3、自动删除的多余接口")
     @RequestMapping(value = "/refreshAuthority", method = RequestMethod.PUT)
     public R<Void> refreshAuthority() {
         baseService.refreshAuthority();
@@ -40,7 +40,7 @@ public class AuthorityAdminController extends BaseController<AuthorityAdminServi
     }
 
 
-    @ApiOperation(value = "查询所有,跟据角色赋予选中状态", notes = "")
+    @ApiOperation(value = "查询所有 || 根据角色ID选中", notes = "1、没有传递角色Id,查询所有权限数据 isChecked=false || null 2、跟据角色ID查询,角色当前拥有权限：isChecked=true 角色没有权限：isChecked=false || null")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
     public R<List<AuthorityAdminVo>> findList(String roleId) {

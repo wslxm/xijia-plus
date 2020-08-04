@@ -20,7 +20,6 @@ public class DictionaryAdminDto extends BaseDto {
     private static final long serialVersionUID = 0L;
 
     @ApiModelProperty(value = "字典类型")
-    @Length(min=1, max=256,message = "必须大于1小于256")
     private String code;
 
     @ApiModelProperty(value = "字典名称")

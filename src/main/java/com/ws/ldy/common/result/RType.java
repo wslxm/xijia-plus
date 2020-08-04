@@ -35,7 +35,8 @@ public enum RType implements IEnum {
 
 
     // 参数错误
-    SYSTEM_PARAMETER_VALID_ILLEGAL(9999, "参数错误:不符合JSR 303规范"),
+    SYSTEM_PARAMETER_IS_NO(9999, "参数错误"),
+    SYSTEM_PARAMETER_VALID_ILLEGAL(9999, "参数错误:不符合JSR 303规范"),//jsr303错误,全局异常单独处理返回msg
     SYSTEM_PARAMETER_ILLEGAL_PARAM(9999, "缺少请求参数"),
     SYSTEM_PARAMETER_WRONG_TYPE(9999, "参数类型不匹配"),
     ADMIN_IS_NO_INSERT_ID(9999, "添加不能传递Id"),
@@ -46,6 +47,9 @@ public enum RType implements IEnum {
 
     // 菜单
     ADMIN_IS_NO_MENU(9998, "当前用户没有任何菜单权限"),
+
+    // 字典
+    ADMIN_DICT_DUPLICATE(9997, "字典重复"),
 
     // 10000前端跳转登录页
     ADMIN_IS_NO_LOGIN(10000, "用户未登陆/或登录过期"),

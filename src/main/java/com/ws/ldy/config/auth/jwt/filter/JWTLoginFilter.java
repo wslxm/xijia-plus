@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.auth.springSecurity.entity.SecurityUser;
+import com.ws.ldy.enums.base.BaseConstant;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -101,7 +102,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
         // 生成jwt 放入 Header
         SecurityUser userEntity = (SecurityUser) authResult.getPrincipal();
         String jwtToken = JwtUtil.generateToken(userEntity);
-        response.addHeader("token", jwtToken);
+        response.addHeader(BaseConstant.Sys.TOKEN, jwtToken);
 
         // 响应
         response.setContentType("application/json;charset=utf-8");

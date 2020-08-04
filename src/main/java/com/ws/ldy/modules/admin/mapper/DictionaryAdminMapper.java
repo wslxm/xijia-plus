@@ -6,8 +6,6 @@ import com.ws.ldy.modules.admin.model.vo.DictionaryAdminVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import java.util.List;
-
 public interface DictionaryAdminMapper extends BaseMapper<DictionaryAdmin> {
 
 
@@ -21,5 +19,5 @@ public interface DictionaryAdminMapper extends BaseMapper<DictionaryAdmin> {
             "    where code =#{code} " +
             "    or pid=(select id from t_admin_dictionary where code =#{code}) " +
             "    or pid in(select id from t_admin_dictionary where pid=(select id from t_admin_dictionary where code=#{code}))")
-    List<DictionaryAdminVo> findCode(@Param("code") String code);
+    DictionaryAdminVo findCode(@Param("code") String code);
 }

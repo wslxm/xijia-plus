@@ -48,7 +48,7 @@ public class UserAdminController extends BaseController<UserAdminService> {
 
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
-    @ApiOperation("分页查询")
+    @ApiOperation(value = "分页查询", notes = "")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query", example = "1"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query", example = "20"),
@@ -58,7 +58,7 @@ public class UserAdminController extends BaseController<UserAdminService> {
             @ApiParam(value = "账号/手机号", required = false) @RequestParam(required = false) String username,
             @ApiParam(value = "姓名/用户名", required = false) @RequestParam(required = false) String fullName) {
         Page<UserAdmin> page = baseService.page(this.getPage(), new LambdaQueryWrapper<UserAdmin>()
-                .orderByAsc(UserAdmin::getId)
+                .orderByDesc(UserAdmin::getCreateTime)
                 .eq(id != null, UserAdmin::getId, id)
                 .eq(StringUtils.isNotBlank(fullName), UserAdmin::getFullName, fullName)
                 .like(StringUtils.isNotBlank(username), UserAdmin::getUsername, username)
@@ -68,29 +68,21 @@ public class UserAdminController extends BaseController<UserAdminService> {
 
 
     @RequestMapping(value = "/findRoleUser", method = RequestMethod.GET)
-    @ApiOperation("查询角色当前用户(isChecked=true)")
+    @ApiOperation(value = "获取指定角色的当前用户", notes = "查询所有用户,拥有当前角色权限的给予：isChecked=true")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query"),
-            @ApiImplicitParam(name = "username", value = "用户名", required = false, paramType = "query")
     })
-    public R<List<UserAdminVo>> findByRoleId(String roleId, String username) {
-        List<UserAdmin> userList = null;
-        if (StringUtils.isNotBlank(username)) {
-            userList = baseService.list(new LambdaQueryWrapper<UserAdmin>()
-                    .like(UserAdmin::getUsername, username)
-            );
-        } else {
-            // 查询所有
-            userList = baseService.list();
-        }
-        //角色选中状态处理
+    public R<List<UserAdminVo>> findRoleUser(@RequestParam String roleId) {
+        // TODO  此方法存在一定问题，当用户多多，性能损耗将随之增加，不应该查询所有用户信息出来进行判断操作，只查询角色当前用户信息，建议使用sql直接查询
+        List<UserAdmin> userList = baseService.list();
+        // 角色选中状态处理
         List<UserAdminVo> userAdminVos = roleUserAdminService.roleUserChecked(userList, roleId);
         return R.success(userAdminVos);
     }
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    @ApiOperation("添加")
+    @ApiOperation(value = "添加", notes = "")
     public R<Void> insert(@RequestBody UserAdminDto userAdminDto) {
         UserAdmin userAdmin = userAdminDto.convert(UserAdmin.class);
         userAdmin.setPassword(MD5Util.encode(userAdmin.getPassword()));
@@ -110,7 +102,7 @@ public class UserAdminController extends BaseController<UserAdminService> {
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    @ApiOperation("单删除")
+    @ApiOperation(value = "ID删除", notes = "")
     public R<Void> del(@RequestParam String id) {
         baseService.removeById(id);
         return R.successDelete();
@@ -118,7 +110,7 @@ public class UserAdminController extends BaseController<UserAdminService> {
 
 
     @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
-    @ApiOperation("批量删除")
+    @ApiOperation(value = "批量ID删除", notes = "")
     public R<Void> delByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
         return R.successDelete();
@@ -126,7 +118,7 @@ public class UserAdminController extends BaseController<UserAdminService> {
 
 
     @RequestMapping(value = "/updByPassword", method = RequestMethod.PUT)
-    @ApiOperation("密码修改")
+    @ApiOperation(value = "密码修改", notes = "判断原密码是否正确,不正确返回错误信息msg ,正确直接修改,密码进行MD5加密 --> val(前端输入密码值)+盐(后端规则指定)=最终密码）")
     public R<Void> updByPassword(@RequestParam String oldPassword, @RequestParam String password) {
         UserAdmin userAdmin = baseService.getById(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
         if (userAdmin.getPassword().equals(MD5Util.encode(oldPassword))) {

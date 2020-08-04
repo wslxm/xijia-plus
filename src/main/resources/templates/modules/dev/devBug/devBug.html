@@ -362,10 +362,9 @@
         return params;
     }
 
-
     //初始化数据
     $(function () {
-        //开发人员select
+        // 开发人员select
         let userListHtml = "<option value=\"\" selected=\"\">全部</option>";
         for (let i = 0; i < usersData.data.length; i++) {
             if (usersData.data[i].isChecked) {
@@ -385,9 +384,10 @@
                 itemListHtml += "<option value='" + itemsData.data.dictList[i].code + "' >" + itemsData.data.dictList[i].name + "</option>"
             }
         }
-        $("#BugUserId").html(userListHtml);
+        $("#taskUserId").html(userListHtml);
         $("#item").html(itemListHtml)
     });
+
 </script>
 </body>
 </html>

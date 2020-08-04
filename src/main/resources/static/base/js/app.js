@@ -184,7 +184,7 @@ function ajax(url, data, type, dataType) {
         contentType: "application/json",
         headers: {
             //"token": localStorage.getItem('token')
-            "token": sessionStorage.getItem('token')
+            "TOKEN": sessionStorage.getItem('TOKEN')
         },
         async: false,        // true=异步，false=同步
         //traditional: true, // 允许传递数组
@@ -192,9 +192,9 @@ function ajax(url, data, type, dataType) {
         success: function (resultData, status, request) {
             result = resultData;
             // token 处理,每次请求后刷新token
-            let token = request.getResponseHeader("token");
+            let token = request.getResponseHeader("TOKEN");
             if (token != null) {
-                sessionStorage.setItem('token', token);
+                sessionStorage.setItem('TOKEN', token);
             }
         },
         //请求失败

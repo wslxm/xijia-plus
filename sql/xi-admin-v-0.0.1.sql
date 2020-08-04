@@ -11,7 +11,7 @@
  Target Server Version : 80016
  File Encoding         : 65001
 
- Date: 03/08/2020 01:35:24
+ Date: 03/08/2020 01:45:44
 */
 
 SET NAMES utf8mb4;
@@ -660,9 +660,9 @@ CREATE TABLE `t_admin_user`  (
 -- ----------------------------
 -- Records of t_admin_user
 -- ----------------------------
-INSERT INTO `t_admin_user` VALUES ('1', NULL, NULL, '2020-08-02 15:11:04', '2020-08-02 17:29:58', 0, 0, 'http://xijia.plus/oss/file/image/head/20200802231102875788-tp (31).jpg', '1720696548', '王松', 'dfd5e22c8ee4de7da4f07a75fefb6420', '四川成都', 24, 1, 0, '2020-08-02 23:11:05', '2020-08-03 01:29:58');
+INSERT INTO `t_admin_user` VALUES ('1', NULL, NULL, '2020-08-02 15:11:04', '2020-08-02 17:44:47', 0, 0, 'http://xijia.plus/oss/file/image/head/20200802231102875788-tp (31).jpg', '1720696548', '王松', 'dfd5e22c8ee4de7da4f07a75fefb6420', '四川成都', 24, 1, 0, '2020-08-02 23:11:05', '2020-08-03 01:44:47');
 INSERT INTO `t_admin_user` VALUES ('1289940576963198978', NULL, NULL, '2020-08-02 15:06:13', '2020-08-02 15:06:13', 0, 0, 'http://xijia.plus/oss/file/image/head/20200802230612821546-tp (23).jpg', '1', '1', '624bef4ab99df8464ac8dc9e4616e067', '1', 1, 1, 0, '2020-08-02 23:06:14', NULL);
-INSERT INTO `t_admin_user` VALUES ('20', NULL, NULL, '2020-07-25 09:31:07', '2020-08-02 17:32:37', 0, 0, 'http://xijia.plus/oss/file/image/head/20200712000102739895-1.png', 'admin', '游客', '58a42a22f652b6cd9a34f840cd4ea559', '四川成都', 0, 0, 0, '2020-01-31 10:15:07', '2020-08-03 01:32:37');
+INSERT INTO `t_admin_user` VALUES ('20', NULL, NULL, '2020-07-25 09:31:07', '2020-08-02 17:37:51', 0, 0, 'http://xijia.plus/oss/file/image/head/20200712000102739895-1.png', 'admin', '游客', '58a42a22f652b6cd9a34f840cd4ea559', '四川成都', 0, 0, 0, '2020-01-31 10:15:07', '2020-08-03 01:37:52');
 INSERT INTO `t_admin_user` VALUES ('42', NULL, NULL, '2020-07-25 09:31:07', '2020-08-01 14:27:21', 0, 0, 'http://xijia.plus/oss/file/image/head/20200711235225041786-3.png', '17628689969', '李四', 'dfd5e22c8ee4de7da4f07a75fefb6420', '四川成都', 22, 1, 0, '2020-07-11 23:53:24', NULL);
 
 -- ----------------------------
@@ -710,6 +710,7 @@ CREATE TABLE `t_dev_bug`  (
 -- ----------------------------
 INSERT INTO `t_dev_bug` VALUES ('1289559552445919234', '2020-08-01 13:52:10', '1', NULL, '2020-08-01 13:53:29', 0, 0, '1', 'item-xj-admin', 'id删除异常', 'id删除字段类型错误', 1, 2, '2020-08-01 00:00:00', '2020-08-01 21:53:30', 1.00, 1.00);
 INSERT INTO `t_dev_bug` VALUES ('1289559832394739714', '2020-08-01 13:53:17', '1', NULL, '2020-08-01 13:53:35', 0, 0, '1', 'item-xj-admin', '权限url扫描异常', '更新权限url 时后台错误', 1, 2, '2020-08-01 00:00:00', '2020-08-01 21:53:35', 1.00, 2.00);
+INSERT INTO `t_dev_bug` VALUES ('1289980627638067202', '2020-08-02 17:45:23', '1', NULL, '2020-08-02 17:45:23', 0, 0, '1', 'item-xj-admin', '服务器添加头像 405 Method Not Allowed', '405 Method Not Allowed，\n前端ajax发起post请求，结果返回405，Not allow method！原因为 Apache、IIS、Nginx等绝大多数web服务器，\n都不允许静态文件响应POST请求。', 1, 0, '2020-08-09 00:00:00', NULL, 2.00, NULL);
 
 -- ----------------------------
 -- Table structure for t_dev_norm
