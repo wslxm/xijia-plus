@@ -2,7 +2,6 @@
 server:
   port: 9048
 
-
 ## 阿里云oss配置
 aliyun:
   oss:
@@ -14,7 +13,6 @@ aliyun:
     # Bucket 名称
     bucketName: xijia-sz
 
-
 ## websocket 配置
 websocket:
   # websocket 服务器部署地址的ip或者域名 --> 本地可以使用127.0.0.1 || localhost
@@ -23,7 +21,6 @@ websocket:
   port: ${server.port}
   # websocket 连接接口， WebsocketServiceImpl的 @ServerEndpoint 内参数
   interfaceName: /websocket
-
 
 # DataSource Config
 spring:
@@ -39,12 +36,12 @@ spring:
           username: root
           password: 123456
           type: com.alibaba.druid.pool.DruidDataSource
-#        db2: # 数据源2配置
-#          driver-class-name: com.mysql.cj.jdbc.Driver
-#          url: jdbc:mysql://127.0.0.1:3306/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8
-#          username: root
-#          password: 123456
-#          type: com.alibaba.druid.pool.DruidDataSource
+
+## logback日志输出：路径当前项目下logs文件
+logging:
+  file: logs
+
+
 
 
 ## 单数据源配置方法

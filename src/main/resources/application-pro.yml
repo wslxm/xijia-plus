@@ -21,7 +21,6 @@ websocket:
   # websocket 连接接口， WebsocketServiceImpl的 @ServerEndpoint 内参数=socket接口名
   interfaceName: /websocket
 
-
 # DataSource Config
 spring:
   autoconfigure:
@@ -36,9 +35,7 @@ spring:
           username: root
           password: root123456
           type: com.alibaba.druid.pool.DruidDataSource
-#        db2: # 数据源2配置
-#          driver-class-name: com.mysql.cj.jdbc.Driver
-#          url: jdbc:mysql://xijia.plus:3306/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8
-#          username: root
-#          password: root123456
-#          type: com.alibaba.druid.pool.DruidDataSource
+
+## logback日志输出：linux 项目放置路径
+logging:
+  file: /usr/local/work/xijia2/logs

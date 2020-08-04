@@ -1,7 +1,10 @@
 spring:
+  # maven面板动态切换dev/pro环境
   profiles:
-    # maven面板动态切换dev/pro环境
     active: @profiles.active@
+  # 项目名
+  application:
+    name: xijia
 
   # 当遇到同样beng名字的时候，是否允许覆盖注册
   main:
@@ -21,26 +24,26 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
-#  # Spring Boot Admin 配置 actuator监控中心可视化界面   /bootAdmin
-#  boot:
-#    admin:
-#      context-path: /bootAdmin
-#      ui:
-#        title: SpringBootAdmin-Server
-#      client:
-#        ## server地址
-#        url: http://localhost:${server.port}${spring.boot.admin.context-path}
-#        ## 指定服务器的用户名和密码
-#        username: admin
-#        password: admin
-#        instance:
-#          # client地址
-#          service-base-url: http://localhost:${server.port}
-#          ## 连接服务器的用户名和密码
-#          metadata:
-#            user:
-#              name: admin
-#              password: admin
+  #  # Spring Boot Admin 配置 actuator监控中心可视化界面   /bootAdmin
+  #  boot:
+  #    admin:
+  #      context-path: /bootAdmin
+  #      ui:
+  #        title: SpringBootAdmin-Server
+  #      client:
+  #        ## server地址
+  #        url: http://localhost:${server.port}${spring.boot.admin.context-path}
+  #        ## 指定服务器的用户名和密码
+  #        username: admin
+  #        password: admin
+  #        instance:
+  #          # client地址
+  #          service-base-url: http://localhost:${server.port}
+  #          ## 连接服务器的用户名和密码
+  #          metadata:
+  #            user:
+  #              name: admin
+  #              password: admin
   ## 文件上传配置
   servlet:
     multipart:
