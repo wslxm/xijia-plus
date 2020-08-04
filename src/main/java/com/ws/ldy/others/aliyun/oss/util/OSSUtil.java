@@ -18,7 +18,7 @@
  * OSS Java SDK的文档地址是：https://help.aliyun.com/document_detail/oss/sdk/java-sdk/install.html?spm=5176.docoss/sdk/java-sdk。
  */
 
-package com.ws.ldy.others.aliyunoss.util;
+package com.ws.ldy.others.aliyun.oss.util;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;

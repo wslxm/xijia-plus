@@ -11,12 +11,14 @@ import com.ws.ldy.modules.admin.model.dto.DictionaryAdminDto;
 import com.ws.ldy.modules.admin.model.entity.DictionaryAdmin;
 import com.ws.ldy.modules.admin.model.vo.DictionaryAdminVo;
 import com.ws.ldy.modules.admin.service.DictionaryAdminService;
+import com.ws.ldy.modules.admin.service.impl.DictionaryAdminServiceImpl;
 import com.ws.ldy.others.base.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -40,8 +42,20 @@ public class DictionaryAdminController extends BaseController<DictionaryAdminSer
     }
 
 
+    @RequestMapping(value = "/findCodeGroup", method = RequestMethod.GET)
+    @ApiOperation(value = "查询所有-code分组", notes = "1、根据Code字段分组排列数据,分组下的数据仍然有层级关系" +
+            "\r\n 2、版本号(key=version)未发送变化后端不返回任何数据,前端请定义全局变量来缓存此字段" +
+            "\r\n 3、所有select选择框,状态字段都使用此接口的数据获取中文值" +
+            "\r\n 4、添加/更新/删除/修改排序后端都会更新版本号,重新拉取直接获取最新数据" +
+            "\r\n 建议: 每一次打开一个新页面时调用此方法,刷新缓存数据"
+    )
+    public R<Map<String, DictionaryAdminVo>> findCodeGroup() {
+        return R.successFind(baseService.findCodeGroup());
+    }
+
+
     @RequestMapping(value = "/findByCode", method = RequestMethod.GET)
-    @ApiOperation(value = "Code查询", notes = "无限层次, 树架构，只能传递字符串Code, 不能传递字符串数字Code")
+    @ApiOperation(value = "Code查询", notes = "无限层次, 树结构，只能传递字符串Code, 不能传递字符串数字Code")
     public R<DictionaryAdminVo> findByCode(@RequestParam String code) {
         // 不能传递字符串数字来查询
         if (StringUtil.isInteger(code)) {
@@ -62,6 +76,8 @@ public class DictionaryAdminController extends BaseController<DictionaryAdminSer
             throw new ErrorException(RType.ADMIN_DICT_DUPLICATE);
         }
         baseService.save(dictionaryAdminDto.convert(DictionaryAdmin.class));
+        //刷新版本号
+        DictionaryAdminServiceImpl.version++;
         return R.successInsert();
     }
 
@@ -80,15 +96,19 @@ public class DictionaryAdminController extends BaseController<DictionaryAdminSer
             }
         }
         baseService.updateById(dictionaryAdminDto.convert(DictionaryAdmin.class));
+        //刷新版本号
+        DictionaryAdminServiceImpl.version++;
         return R.successUpdate();
     }
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    @ApiOperation(value = "根据Code删除", notes = "删除当前Code数据以及该Code下所有的子层级数据")
+    @ApiOperation(value = "ID删除", notes = "删除当前ID数据以及该ID下的所有子层级数据")
     public R<Void> del(@RequestParam String id) {
         List<String> ids = baseService.findByIdFetchIds(id);
         baseService.removeByIds(ids);
+        //刷新版本号
+        DictionaryAdminServiceImpl.version++;
         return R.successDelete();
     }
 
@@ -100,6 +120,8 @@ public class DictionaryAdminController extends BaseController<DictionaryAdminSer
         dict.setId(id);
         dict.setSort(sort);
         baseService.updateById(dict);
+        //刷新版本号
+        DictionaryAdminServiceImpl.version++;
         return R.successUpdate();
     }
 }

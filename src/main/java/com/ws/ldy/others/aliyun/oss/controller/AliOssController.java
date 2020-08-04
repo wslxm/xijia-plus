@@ -1,11 +1,11 @@
-package com.ws.ldy.others.aliyunoss.controller;
+package com.ws.ldy.others.aliyun.oss.controller;
 
 import com.aliyun.oss.model.OSSObjectSummary;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.LocalDateTimeUtil;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.others.aliyunoss.util.OSSUtil;
+import com.ws.ldy.others.aliyun.oss.util.OSSUtil;
 import com.ws.ldy.others.base.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

@@ -5,11 +5,9 @@ spring:
   # 项目名
   application:
     name: xijia
-
   # 当遇到同样beng名字的时候，是否允许覆盖注册
   main:
     allow-bean-definition-overriding: true
-
   # 关闭thymeleaf缓存 开发时使用,否则没有实时画面
   thymeleaf:
     cache: false
@@ -18,32 +16,10 @@ spring:
     mode: LEGACYHTML5
     prefix: classpath:/templates/
     suffix: .html
-
   #时间格式处理
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-
-  #  # Spring Boot Admin 配置 actuator监控中心可视化界面   /bootAdmin
-  #  boot:
-  #    admin:
-  #      context-path: /bootAdmin
-  #      ui:
-  #        title: SpringBootAdmin-Server
-  #      client:
-  #        ## server地址
-  #        url: http://localhost:${server.port}${spring.boot.admin.context-path}
-  #        ## 指定服务器的用户名和密码
-  #        username: admin
-  #        password: admin
-  #        instance:
-  #          # client地址
-  #          service-base-url: http://localhost:${server.port}
-  #          ## 连接服务器的用户名和密码
-  #          metadata:
-  #            user:
-  #              name: admin
-  #              password: admin
   ## 文件上传配置
   servlet:
     multipart:
@@ -65,23 +41,4 @@ mybatis-plus:
 
 
 
-# Actuator配置：暴露敏感路径，默认情况下，敏感路径并不暴露
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        # 暴露xxx端点，如需暴露多个，用,分隔；如需暴露所有端点，用'*'
-#        include: "*"
-#  endpoint:
-#    health:
-#      # 是否展示健康检查详情
-#      show-details: ALWAYS
 
-### 屏蔽swagger+ 无默认值错误日志
-#logging:
-#  ## 日志文件位置
-#  #file: F:\workspace\code\git2020-4\spring-boot-plus2\logs\info\log.log.0
-#  file: log.txt
-#  level:
-#    io.swagger.models.parameters.AbstractSerializableParameter: error
-#    com.alibaba.nacos.client.naming: error

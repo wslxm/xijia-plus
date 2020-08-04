@@ -42,8 +42,6 @@ logging:
   file: logs
 
 
-
-
 ## 单数据源配置方法
 # DataSource Config
 #spring:

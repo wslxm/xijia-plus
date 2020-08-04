@@ -6,6 +6,7 @@ import com.ws.ldy.modules.admin.model.entity.DictionaryAdmin;
 import com.ws.ldy.modules.admin.model.vo.DictionaryAdminVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *   数据字典
@@ -32,5 +33,12 @@ public interface DictionaryAdminService extends IService<DictionaryAdmin> {
      * 根据code查询数据ID + 加下级所有ID
      */
     List<String> findByIdFetchIds(String id);
+
+    /**
+     * 根据code查询数据ID + 加下级所有ID
+     * @return
+     */
+    Map<String, DictionaryAdminVo> findCodeGroup();
+
 
 }

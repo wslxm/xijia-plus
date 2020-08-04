@@ -36,6 +36,9 @@ public class DictionaryAdminVo extends BaseVo {
     @ApiModelProperty(value = "排序")
     private Integer sort;
 
+    @ApiModelProperty(value = "版本号")
+    private Integer version;
+
     @ApiModelProperty(value = "子级")
     List<DictionaryAdminVo> dictList;
 }
