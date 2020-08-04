@@ -67,6 +67,7 @@
 ### 更新笔记-2 版本:无(mybatis-plus分支)  2020/4/16 14:23
  - 1、数据层已全部更换为 mybatis-plus，--- 新分支
  - 2、通用IService 编写完成
+ - 3、模块化jar修改为单项目，模块分包形式
 代处理：
 - 1、后台分页数据变动，页面数据暂无法显示，登录功能已正常，其他代处理
 
@@ -76,6 +77,9 @@
  - 2、计划下版本使用mybatis-plus 3.3.1
 
 
+### 创建项目  2019/10/29
+ 
+创建项目，技术选型为：springboot2.2.0 + jpa + mysql8 +lombok+druid + layui + 模块化开发
 ### 软件架构
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1117/024447_b426895b_2208600.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1117/024625_4836e129_2208600.png "屏幕截图.png")
