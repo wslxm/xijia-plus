@@ -92,7 +92,7 @@
         $("#address").val(parent.data.address);
         // select 回显
         $("#gender").find("option").each(function () {
-            if ($(this).val() == parent.data.gender.value) {
+            if ($(this).val() == parent.data.gender) {
                 $(this).attr("selected", "selected");
             }
         });
@@ -103,7 +103,7 @@
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.id = parent.data.id;
             data.field.time = parent.data.time;
-            let result = ajaxPut(path + "/userAdmin/upd", data.field);
+            let result = ajaxPut(path + "/admin/adminUser/upd", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

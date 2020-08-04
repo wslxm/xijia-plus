@@ -35,12 +35,12 @@ CREATE TABLE `t_admin_authority`  (
 -- ----------------------------
 -- Records of t_admin_authority
 -- ----------------------------
-INSERT INTO `t_admin_authority` VALUES (72, 78, 'user:delete', '/userAdmin/delete', '删除', NULL, 0);
-INSERT INTO `t_admin_authority` VALUES (73, 78, 'user:save', '/userAdmin/save', '添加/修改', NULL, 0);
-INSERT INTO `t_admin_authority` VALUES (74, 78, 'user:login', '/userAdmin/login', '登录', NULL, 0);
-INSERT INTO `t_admin_authority` VALUES (75, 78, 'user:updPwd', '/userAdmin/updPwd', '密码修改', NULL, 0);
-INSERT INTO `t_admin_authority` VALUES (76, 78, 'user:findAll', '/userAdmin/findAll', '查询', NULL, 0);
-INSERT INTO `t_admin_authority` VALUES (78, 0, 'userAdmin', '/userAdmin', '系统用户', NULL, 0);
+INSERT INTO `t_admin_authority` VALUES (72, 78, 'user:delete', '/adminUser/delete', '删除', NULL, 0);
+INSERT INTO `t_admin_authority` VALUES (73, 78, 'user:save', '/adminUser/save', '添加/修改', NULL, 0);
+INSERT INTO `t_admin_authority` VALUES (74, 78, 'user:login', '/adminUser/login', '登录', NULL, 0);
+INSERT INTO `t_admin_authority` VALUES (75, 78, 'user:updPwd', '/adminUser/updPwd', '密码修改', NULL, 0);
+INSERT INTO `t_admin_authority` VALUES (76, 78, 'user:findAll', '/adminUser/findAll', '查询', NULL, 0);
+INSERT INTO `t_admin_authority` VALUES (78, 0, 'adminUser', '/adminUser', '系统用户', NULL, 0);
 INSERT INTO `t_admin_authority` VALUES (79, 0, 'dictionary', '/dictionaryAdmin', '字典表', NULL, 0);
 INSERT INTO `t_admin_authority` VALUES (80, 79, 'dictionary:delete', '/dictionaryAdmin/delete', '删除', NULL, 0);
 INSERT INTO `t_admin_authority` VALUES (81, 79, 'dictionary:save', '/dictionaryAdmin/save', '添加/修改', NULL, 0);

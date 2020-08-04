@@ -38,10 +38,10 @@
 </script>
 
 <script>
-    let role_find_list = path + "/roleAdmin/findList";                  // 角色查询-所有
-    let auth_find_list = path + "/authorityAdmin/findList";             // 极限查询--数据列表（所有）
-    let auth_upd_authority = path + "/authorityAdmin/refreshAuthority"; // 权限刷新扫描列表
-    let updRoleUrlAuth = path + "/roleAdmin/updRoleAuth";               // 角色URL权限修改
+    let role_find_list = path + "/admin/adminRole/findList";                  // 角色查询-所有
+    let auth_find_list = path + "/admin/adminAuthority/findList";             // 极限查询--数据列表（所有）
+    let auth_upd_authority = path + "/admin/adminAuthority/refreshAuthority"; // 权限刷新扫描列表
+    let updRoleUrlAuth = path + "/admin/adminRole/updRoleAuth";               // 角色URL权限修改
 
 
     let res;           // 后台返回完整菜单数据
@@ -153,9 +153,9 @@
             cols: [
                 [
                     {type: 'checkbox'},
-                    {field: 'desc', title: '接口描叙', width: "33.5%"},
-                    {field: 'method', title: '请求方式', width: "16%"},
-                    {field: 'url', title: '接口地址', width: "44%"},
+                    {field: 'desc', title: '接口描叙', width: "22%"},
+                    {field: 'method', title: '请求方式', width: "22%"},
+                    {field: 'url', title: '接口地址', width: "46%"},
 
                 ]
             ]

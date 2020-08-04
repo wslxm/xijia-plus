@@ -114,8 +114,8 @@
     let page_upd = path + "/page/modules_dev_devBug_devBugUpd";   //角色编辑弹出
 
 
-    let dev_user_list = "/userAdmin/findRoleUser?roleId=2";    // 查询开发人员(角色)（注意数据库参数是否正确）
-    let item_list = "/dictionaryAdmin/findByCode?code=item";       // 查询字典项目列表（注意数据库参数是否正确）
+    let dev_user_list = "/adminUser/findRoleUser?roleId=2";     // 查询开发人员(角色)（注意数据库参数是否正确）
+    let item_list = "/adminDictionary/findByCode?code=item";    // 查询字典项目列表（注意数据库参数是否正确）
     let usersData = ajaxGet(dev_user_list);
     let itemsData = ajaxGet(item_list);
 

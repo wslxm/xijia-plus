@@ -1,7 +1,7 @@
 package com.ws.ldy.config.auth.springSecurity.config;
 
-import com.ws.ldy.modules.admin.mapper.AuthorityAdminMapper;
-import com.ws.ldy.modules.admin.model.entity.AuthorityAdmin;
+import com.ws.ldy.modules.admin.mapper.AdminAuthorityMapper;
+import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
 import com.ws.ldy.config.auth.jwt.filter.JWTLoginFilter;
 import com.ws.ldy.config.auth.jwt.filter.JWTValidFilter;
 import com.ws.ldy.config.auth.springSecurity.service.impl.XiJiaUserDetailsServiceImpl;
@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // 当前系统权限表
     @Autowired
-    private AuthorityAdminMapper authorityAdminMapper;
+    private AdminAuthorityMapper adminAuthorityMapper;
 
 
     /**
@@ -84,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         // 只拦截需要拦截的所有接口, 拦截数据库权限表中的所有接口
-        List<AuthorityAdmin> authoritys = authorityAdminMapper.selectList(null);
+        List<AdminAuthority> authoritys = adminAuthorityMapper.selectList(null);
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry eiur = http.authorizeRequests();
         authoritys.forEach((auth) -> {
             eiur.antMatchers(auth.getUrl()).hasAnyAuthority(auth.getUrl());

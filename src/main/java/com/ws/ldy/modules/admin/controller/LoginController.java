@@ -3,9 +3,9 @@
 //package com.ws.ldy.config.springSecurity.controller;
 //
 //
-//import com.ws.ldy.admin.model.entity.UserAdmin;
-//import com.ws.ldy.admin.model.vo.LoginVo;
-//import com.ws.ldy.admin.service.UserAdminService;
+//import com.ws.ldy.admin.model.entity.AdminUser;
+//import com.ws.ldy.admin.model.vo.LoginVO;
+//import com.ws.ldy.admin.service.AdminUserService;
 //import com.ws.ldy.base.controller.BaseController;
 //import com.ws.ldy.base.enums.BaseConstant;
 //import com.ws.ldy.common.result.Result;
@@ -33,14 +33,14 @@
 //@RestController
 //@RequestMapping("/loginAdmin")
 //@Api(value = "LoginController", tags = "登录", description = BaseConstant.InterfaceType.PC_ADMIN)
-//public class LoginController extends BaseController<UserAdminService> {
+//public class LoginController extends BaseController<AdminUserService> {
 //
 //    /**
 //     *  登录
 //     *
 //     * @param account
 //     * @param password
-//     * @return com.ws.ldy.common.result.Result<com.ws.ldy.admin.model.vo.LoginVo>
+//     * @return com.ws.ldy.common.result.Result<com.ws.ldy.admin.model.vo.LoginVO>
 //     * @author ws
 //     * @mail 1720696548@qq.com
 //     * @date 2020/3/30 0030 19:50
@@ -51,9 +51,9 @@
 //            @ApiImplicitParam(name = "account", value = "账号", required = true, paramType = "query"),
 //            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query")
 //    })
-//    public Result<LoginVo> login(@RequestParam String account, @RequestParam String password) {
+//    public Result<LoginVO> login(@RequestParam String account, @RequestParam String password) {
 //        // 1、登录
-//        UserAdmin user = baseService.findByAccount(account);
+//        AdminUser user = baseService.findByAccount(account);
 //        if (user == null) {
 //            throw new ErrorException(ResultEnum.SYS_ERROR_CODE_500.getCode(), "没有用户信息");
 //        }
@@ -63,7 +63,7 @@
 //        // 2、登录成功保存用户信息
 //        String token = UUIDUtils.creatUUID();
 //        session.setAttribute(AdminUserUtils.ADMIN + token, user);
-//        return Result.success(new LoginVo(token, user.getUsername(), user.getHead()));
+//        return Result.success(new LoginVO(token, user.getUsername(), user.getHead()));
 //
 //        // 3、保存权限信息
 //

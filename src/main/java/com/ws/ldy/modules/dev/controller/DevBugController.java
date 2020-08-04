@@ -50,7 +50,7 @@ public class DevBugController extends BaseController<DevBugService> {
             @ApiParam(value = "项目字典code", required = false) @RequestParam(required = false) String item,
             @ApiParam(value = "指派人Id", required = false) @RequestParam(required = false) Integer taskUserId) {
         Page<DevBug> page = baseService.page(this.getPage(), new LambdaQueryWrapper<DevBug>()
-                .orderByAsc(DevBug::getState)
+                //.orderByAsc(DevBug::getState)
                 .orderByDesc(DevBug::getCreateTime)
                 .like(StringUtils.isNotBlank(name), DevBug::getName, name)
                 .eq(type != null, DevBug::getType, type)

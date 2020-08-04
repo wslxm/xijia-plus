@@ -15,12 +15,7 @@
 
 <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">字典类型</label>
-        <div class="layui-input-inline">
-            <input type="text" id="code" name="code" lay-verify="required" placeholder="请尽量使用英文-用于搜索使用" autocomplete="off" class="layui-input">
-        </div>
-    </div>
+
 
     <div class="layui-form-item">
         <label class="layui-form-label">字典名称</label>
@@ -30,9 +25,16 @@
     </div>
 
     <div class="layui-form-item">
+        <label class="layui-form-label">字典类型</label>
+        <div class="layui-input-inline">
+            <input type="text" id="code" name="code" lay-verify="required" placeholder="请尽量使用英文-用于搜索使用" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
         <label class="layui-form-label">字典描叙</label>
         <div class="layui-input-inline">
-            <input type="text" id="desc" name="desc" lay-verify="required" placeholder="请输入字典描叙" autocomplete="off" class="layui-input">
+            <input type="text" id="desc" name="desc" lay-verify="required" value="-" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -62,15 +64,16 @@
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.pid = pid;
-            let result = ajaxPost(path + "/dictionaryAdmin/insert", data.field);
+            let result = ajaxPost(path + "/admin/adminDictionary/insert", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);
             // 重载页面--不建议开启--建议使用手动刷新
             // parent.window.location.reload();
-            xijia_window_onbeforeunload();  // 记录滚动条位置
-            parent.xijiaRenderTable();
-            xijia_window_onload();          // 还原滚动条位置
+            // xijia_window_onbeforeunload();  // 记录滚动条位置
+            // parent.xijiaRenderTable();
+            // xijia_window_onload();          // 还原滚动条位置
+            parent.layer.msg(result.msg+" 请手动刷新");
         });
     });
 </script>

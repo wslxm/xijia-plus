@@ -1,9 +1,9 @@
 //package com.ws.ldy.config;
 //
 //import com.ws.ldy.admin.mapper.AuthorityAdminMapper;
-//import com.ws.ldy.admin.mapper.RoleAuthAdminMapper;
-//import com.ws.ldy.admin.model.entity.AuthorityAdmin;
-//import com.ws.ldy.admin.model.entity.UserAdmin;
+//import com.ws.ldy.admin.mapper.AdminRoleAuthMapper;
+//import com.ws.ldy.admin.model.entity.AdminAuthority;
+//import com.ws.ldy.admin.model.entity.AdminUser;
 //import com.ws.ldy.base.enums.BaseConstant;
 //import com.ws.ldy.common.result.Result;
 //import com.ws.ldy.common.result.ResultEnum;
@@ -47,7 +47,7 @@
 //    @Resource
 //    private AuthorityAdminMapper authorityAdminDao;
 //    @Resource
-//    private RoleAuthAdminMapper roleAuthAdminDao;
+//    private AdminRoleAuthMapper roleAuthAdminDao;
 //    /**
 //     * 验签接口范围
 //     */
@@ -112,7 +112,7 @@
 //                //没有token
 //                throw new ErrorException(ResultEnum.ADMIN_IS_NO_TOKEN);
 //            }
-//            UserAdmin userAdmin = (UserAdmin) request.getSession().getAttribute(AdminUserUtils.ADMIN + token);
+//            AdminUser userAdmin = (AdminUser) request.getSession().getAttribute(AdminUserUtils.ADMIN + token);
 //            if (userAdmin == null) {
 //                // token无效/登录失效
 //                throw new ErrorException(ResultEnum.ADMIN_IS_NO_LOGIN);
@@ -124,8 +124,8 @@
 //            if (!apiClass.description().equals(BaseConstant.InterfaceType.PC_ADMIN)) {
 //                return;
 //            }
-//            List<AuthorityAdmin> list = authorityAdminDao.findUserIdRoleAuthority(userAdmin.getId());
-//            Map<String, AuthorityAdmin> map = new HashMap<>();
+//            List<AdminAuthority> list = authorityAdminDao.findUserIdRoleAuthority(userAdmin.getId());
+//            Map<String, AdminAuthority> map = new HashMap<>();
 //            list.forEach(item -> map.put(item.getUrl().trim(), item));
 //            // 获取接口权限名称，判断是否有权限
 //            if (!map.containsKey(interfaceUrl.trim())) {

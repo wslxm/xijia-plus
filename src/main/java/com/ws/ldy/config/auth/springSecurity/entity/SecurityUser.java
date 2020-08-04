@@ -1,6 +1,6 @@
 package com.ws.ldy.config.auth.springSecurity.entity;
 
-import com.ws.ldy.modules.admin.model.entity.UserAdmin;
+import com.ws.ldy.modules.admin.model.entity.AdminUser;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +11,7 @@ import java.util.Collection;
  * SecurityUser 权限判断类 (用户信息子类)
  */
 @Data
-public class SecurityUser extends UserAdmin implements UserDetails {
+public class SecurityUser extends AdminUser implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 

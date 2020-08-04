@@ -50,10 +50,10 @@
 </script>
 <script>
     //接口
-    let user_admin_find_page = path + "/userAdmin/findPage";              // 用户查询
-    let user_admin_update = path + "/userAdmin/upd";                   // 用户编辑
-    let user_admin_delete = path + "/userAdmin/del";                   // 用户删除
-    let user_admin_deletes = path + "/userAdmin/delByIds";             // 批量删除
+    let user_admin_find_page = path + "/admin/adminUser/findPage";              // 用户查询
+    let user_admin_update = path + "/admin/adminUser/upd";                   // 用户编辑
+    let user_admin_delete = path + "/admin/adminUser/del";                   // 用户删除
+    let user_admin_deletes = path + "/admin/adminUser/delByIds";             // 批量删除
     //路由
     let user_admin_page_upd = path + "/page/modules_admin_user_userUpd";          // 用户编辑弹出
     let user_admin_page_add = path + "/page/modules_admin_user_userAdd";          // 用户添加弹出
@@ -111,7 +111,7 @@
                     ,
                     {
                         field: 'gender', title: '性别', templet: function (res) {
-                            return res.gender.desc;
+                            return res.gender === 1 ? "男" : "女";
                         }
                     },
                     {field: 'address', title: '地址'},

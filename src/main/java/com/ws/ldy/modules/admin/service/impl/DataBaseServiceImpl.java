@@ -21,7 +21,7 @@ import java.util.List;
 public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseService {
 
     @Autowired
-    private DataBaseMapper dataBaseDao;
+    private DataBaseMapper dataBaseMapper;
 
     @Override
     public List<TableVO> findTable() {
@@ -36,7 +36,7 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
 //            respTableMap.put("comment", tableMap.get("TABLE_COMMENT"));
 //            respTableList.add(respTableMap);
 //        });
-        return dataBaseDao.findTable("spring-boot-plus2");
+        return dataBaseMapper.findTable("spring-boot-plus2");
     }
 
     /**
@@ -54,6 +54,6 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
 //                " and table_schema='spring-boot-plus2'" +
 //                " order by ordinal_position asc";//和数据库字段顺序对应
 //        List<Map<String, Object>> tables = jdbcTemplate.queryForList(sql);
-        return dataBaseDao.findTableField(table, "spring-boot-plus2");
+        return dataBaseMapper.findTableField(table, "spring-boot-plus2");
     }
 }

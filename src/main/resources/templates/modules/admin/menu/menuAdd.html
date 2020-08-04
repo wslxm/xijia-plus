@@ -70,7 +70,7 @@
 
                     data.field.pid = parent.data.id;   // 父id
                     data.field.root = parent.data.lv;  // 目录级别
-                    let result = ajaxPost(path + "/menuAdmin/insert", data.field);
+                    let result = ajaxPost(path + "/admin/adminMenu/insert", data.field);
                     let index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                     parent.layer.msg(result.msg);
