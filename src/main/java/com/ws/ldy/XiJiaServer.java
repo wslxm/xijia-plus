@@ -1,7 +1,6 @@
 package com.ws.ldy;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
-import com.ws.ldy.common.utils.ConsoleColors;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,6 +23,5 @@ public class XiJiaServer {
 
     public static void main(String[] args) {
         SpringApplication.run(XiJiaServer.class, args);
-        ConsoleColors.getSuccessYellowBright();
     }
 }
