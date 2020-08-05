@@ -33,7 +33,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin/adminUser")
-@Api(value = "UserAdminController", tags = "用户管理", description = BaseConstant.InterfaceType.PC_ADMIN)
+@Api(value = "AdminUserController", tags = "用户管理", description = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminUserController extends BaseController<AdminUserService> {
 
     @Autowired

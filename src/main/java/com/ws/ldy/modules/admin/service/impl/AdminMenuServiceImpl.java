@@ -1,8 +1,10 @@
 package com.ws.ldy.modules.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
+import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.modules.admin.mapper.AdminMenuMapper;
 import com.ws.ldy.modules.admin.mapper.AdminRoleMenuMapper;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -24,234 +27,213 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
     @Autowired
     private AdminRoleMenuMapper adminRoleMenuMapper;
 
+
     /**
-     * =========================================================================
-     * ========================   导航树结构菜单查询处理  ======================
-     * =========================================================================
+     * 查询 Tree 菜单 -->  不返回没有权限的数据
+     * <P>
+     *     1- 查询用户所有角色菜单数据, 没有返回错误提示
+     *     2- 存在查询当前用户角色的所有菜单权限|  Sort排序 | 未禁用的，没有数据返回错误提示
+     *     3- 递归把List数据处理成树菜单结构数据
+     * <P>
+     *   --return ：第一层数据为顶级菜单 root=1, 下级为 tree数据
+     *
+     * @author wangsong
+     * @date 2020/8/5 0005 15:38
+     * @return java.util.List<com.ws.ldy.modules.admin.model.vo.AdminMenuVO>
+     * @version 1.0.0
      */
     @Override
     public List<AdminMenuVO> getMenuTree() {
-
-        // 获取当前代理角色所有菜单Id： key=菜单Id, value=0
-        Map<String, String> roleMenuMap = new HashMap<>();
-        // 查询用户所有角色，在查询角色下所有菜单id
-        adminRoleMenuMapper.findUserIdRoleMenus(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN))).forEach(item -> roleMenuMap.put(item.getMenuId(), item.getMenuId()));
-        // 系统级  ==>  顶级菜单返回  ==>  root == 1
-        List<AdminMenuVO> menuList = new LinkedList<>();
-        // 查询所有菜单
+        List<AdminRoleMenu> userRoleMenus = adminRoleMenuMapper.findUserIdRoleMenus(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
+        if (userRoleMenus == null || userRoleMenus.size() == 0) {
+            throw new ErrorException(RType.ADMIN_IS_NO_MENU);
+        }
+        List<String> roleMenuIdList = userRoleMenus.stream().map(roleMenu -> roleMenu.getMenuId()).collect(Collectors.toList());
         List<AdminMenu> adminMenuList = this.list(new LambdaQueryWrapper<AdminMenu>()
                 .orderByAsc(AdminMenu::getSort)
                 .eq(AdminMenu::getState, 0)
+                .in(AdminMenu::getId, roleMenuIdList)
         );
-        // 树结构菜单 ==> 递归添加
+        if (adminMenuList == null || adminMenuList.size() == 0) {
+            throw new ErrorException(RType.ADMIN_IS_NO_MENU);
+        }
         List<AdminMenuVO> adminMenuVOS = BeanDtoVoUtil.listVoStream(adminMenuList, AdminMenuVO.class);
-        adminMenuVOS.forEach(menuVo -> {
-            if (menuVo.getRoot() != null && menuVo.getRoot() == 1 && roleMenuMap.containsKey(menuVo.getId())) {
-                AdminMenuVO adminMenuVO = nextLowerNode(adminMenuVOS, menuVo, roleMenuMap);
-                menuList.add(adminMenuVO);
+        //return
+        List<AdminMenuVO> menuList = new LinkedList<>();
+        adminMenuVOS.forEach(fatherMenuVo -> {
+            if (fatherMenuVo.getRoot() == 1) {
+                this.nextLowerNode(adminMenuVOS, fatherMenuVo, roleMenuIdList);
+                menuList.add(fatherMenuVo);
             }
         });
         return menuList;
     }
 
 
-    /***
-     * 菜单数遍历子节点(递归遍历)
+    /**
+     * 菜单数遍历子节点(递归遍历)，不添加没有权限的数据 Tree
      * @param menuVos 所有节点
-     * @param menuVo  当前菜单节点
-     * @param roleMenuMap  当前用户存在的菜单权限
+     * @param fatherMenuVo  当前菜单节点，遍历后得到的数据的父节点
+     * @param roleMenuList  当前用户存在的菜单权限ID
      * @date 2019/11/13 15:20
      * @return void
      */
-    private AdminMenuVO nextLowerNode(List<AdminMenuVO> menuVos, AdminMenuVO menuVo, Map<String, String> roleMenuMap) {
-        List<AdminMenuVO> menuList = new ArrayList<>();
-        menuVos.forEach(menuVo2 -> {
-            if (menuVo2.getPid().equals(menuVo.getId()) && roleMenuMap.containsKey(menuVo2.getId())) {
-                //递归获取子节点
-                AdminMenuVO adminMenuVO = nextLowerNode(menuVos, menuVo2, roleMenuMap);
-                menuList.add(adminMenuVO);
+    //@formatter:off
+    private void nextLowerNode(List<AdminMenuVO> menuVos, AdminMenuVO fatherMenuVo, List<String> roleMenuList) {
+        menuVos.forEach(menuVo -> {
+            if (menuVo.getPid().equals(fatherMenuVo.getId()) && roleMenuList.contains(menuVo.getId())) {
+                if (fatherMenuVo.getMenus() == null) {
+                    fatherMenuVo.setMenus(new ArrayList<AdminMenuVO>(){{add(menuVo);}});
+                } else {
+                    fatherMenuVo.getMenus().add(menuVo);
+                }
+                // 递归
+                this.nextLowerNode(menuVos, menuVo, roleMenuList);
             }
         });
-        // 保存该节点下的子节点
-        menuVo.setMenus(menuList);
-        // 返回当前节点
-        return menuVo;
     }
-
+    //@formatter:on
+    //=========================================================================
+    //=========================================================================
+    //=========================================================================
 
     /**
-     * 根据 pid 查询指定父菜单下的所有菜单，包括自身
-     *
-     * @param pId
+     *  根据 pid + roleId查询Tree 结构菜单 -->  返回无权限数据, 权限 isChecked = true||false 标识
+     * <P>
+     *    - 查询角色拥有的所有菜单，并把id放入 - roleMenuIdList,如果 roleId==null 或没有数据则 roleMenuIdList.size = 0 防止空指针异常
+     *    - 查询所有菜单，存在 pid 只获取指定父级下的数据, 不存在获取所有数据 || 第一层数据= List <root == 1>的数据
+     *    - return ：第一层数据为顶级菜单 root=1, 下级为 tree数据
+     * </P>
+     * @param pId 父Id
+     * @param roleId 父Id
      * @return java.util.List<com.ws.ldy.admin.model.vo.AdminMenuVO>
      * @author ws
      * @mail 1720696548@qq.com
      * @date 2020/4/19 0019 20:39
      */
     @Override
-    public List<AdminMenuVO> findIdOrRoleIdTree(String pId) {
-        return findIdOrRoleIdTree(pId, null);
-    }
-
-    /**
-     * 根据 pid + roleId 查询当前角色+指定父菜单下的所有菜单，包括自身
-     *
-     * @param pId
-     * @param roleId
-     * @return java.util.List<com.ws.ldy.admin.model.vo.AdminMenuVO>
-     * @author ws
-     * @mail 1720696548@qq.com
-     * @date 2020/4/19 0019 20:39
-     */
-    @Override
-    public List<AdminMenuVO> findIdOrRoleIdTree(String pId, String roleId) {
-        // 获取指定角色所有菜单Id： key=菜单Id, value=0
-        // List<AdminRoleMenu> roleMenus = adminRoleMenuMapper.findRoleId(roleId);
-        Map<String, String> roleMenuMap = new HashMap<>();
-        List<AdminRoleMenu> roleIdList = adminRoleMenuMapper.findRoleId(roleId);
-        roleIdList.forEach(item -> roleMenuMap.put(item.getMenuId(), item.getMenuId()));
-        // 查询菜单数据
-        List<AdminMenuVO> adminMenuVOS = BeanDtoVoUtil.listVoStream(this.list(), AdminMenuVO.class);
-        // 系统级  ==>  顶级菜单返回  ==>  root == 1
+    public List<AdminMenuVO> findPIdOrRoleIdTree(String pId, String roleId) {
+        List<AdminRoleMenu> userRoleMenus = roleId != null ? adminRoleMenuMapper.findRoleId(roleId) : null;
+        List<String> roleMenuIdList = userRoleMenus != null && userRoleMenus.size() > 0 ? userRoleMenus.stream().map(i -> i.getMenuId()).collect(Collectors.toList()) : new ArrayList<>();
+        List<AdminMenuVO> adminMenuVOList = BeanDtoVoUtil.listVoStream(this.list(new LambdaQueryWrapper<AdminMenu>().orderByAsc(AdminMenu::getSort)), AdminMenuVO.class);
         List<AdminMenuVO> menuList = new LinkedList<>();
-        // 树结构菜单 ==> 递归添加
-        adminMenuVOS.forEach(menuVo -> {
-            if (pId != null) {
-                if (menuVo.getRoot()== 1 && pId.equals(menuVo.getId())) {
-                    AdminMenuVO adminMenuVO = nextLowerIdNode(adminMenuVOS, menuVo, roleMenuMap);
-                    this.setChecked(menuVo, roleMenuMap);
-                    menuList.add(adminMenuVO);
-                }
-            } else {
+        if (pId == null) {
+            adminMenuVOList.forEach(menuVo -> {
                 if (menuVo.getRoot() == 1) {
-                    AdminMenuVO adminMenuVO = nextLowerIdNode(adminMenuVOS, menuVo, roleMenuMap);
-                    this.setChecked(menuVo, roleMenuMap);
-                    menuList.add(adminMenuVO);
+                    this.nextLowerIdNodeChecked(adminMenuVOList, menuVo, roleMenuIdList);
+                    this.setChecked(menuVo, roleMenuIdList);
+                    menuList.add(menuVo);
                 }
-            }
-        });
+            });
+        } else {
+            adminMenuVOList.forEach(menuVo -> {
+                if (menuVo.getRoot() == 1 && pId.equals(menuVo.getId())) {
+                    this.nextLowerIdNodeChecked(adminMenuVOList, menuVo, roleMenuIdList);
+                    this.setChecked(menuVo, roleMenuIdList);
+                    menuList.add(menuVo);
+                }
+            });
+        }
         return menuList;
     }
 
+
     /**
-     * 获取指定父节点下的子节点(递归遍历)
+     * 获取指定父节点下的子节点(递归遍历) 权限 isChecked = true||false  Tree
      *
      * @param menuVos     所有节点
-     * @param menuVo      当前节点
-     * @param roleMenuMap 选中角色权限
+     * @param fatherMenuVo      当前节点
+     * @param roleMenuIdList 选中角色权限
      * @return void
      * @date 2019/11/13 15:20
      */
-    private AdminMenuVO nextLowerIdNode(List<AdminMenuVO> menuVos, AdminMenuVO menuVo, Map<String, String> roleMenuMap) {
-        List<AdminMenuVO> menuList = new ArrayList<>();
-        menuVos.forEach(menuVo2 -> {
-            if (menuVo2.getPid().equals(menuVo.getId())) {
-                //递归获取子节点
-                AdminMenuVO adminMenuVO = nextLowerNode(menuVos, menuVo2, roleMenuMap);
-                this.setChecked(menuVo2, roleMenuMap);
-                menuList.add(adminMenuVO);
+    //@formatter:off
+    private void nextLowerIdNodeChecked(List<AdminMenuVO> menuVos, AdminMenuVO fatherMenuVo, List<String> roleMenuIdList) {
+        menuVos.forEach(menuVo -> {
+            if (menuVo.getPid().equals(fatherMenuVo.getId())) {
+                if (fatherMenuVo.getMenus() == null) {
+                    fatherMenuVo.setMenus(new ArrayList<AdminMenuVO>(){{add(menuVo);}});
+                } else {
+                    fatherMenuVo.getMenus().add(menuVo);
+                }
+                this.setChecked(menuVo, roleMenuIdList);
+                this.nextLowerIdNodeChecked(menuVos, menuVo, roleMenuIdList);
             }
         });
-        menuVo.setMenus(menuList);
-        return menuVo;
     }
-
+    //@formatter:on
+    //=========================================================================
+    //=========================================================================
+    //=========================================================================
 
     /**
-     * 根据Pid 查询当前菜单下的所有菜单，包括自身, 返回List 列表
+     * 根据父id 查询所有子节点数据（包括自己） , 根据角色权限赋值isChecked = true||false
      *
-     * @param pId
+     * @param pId 父id-非必传,没有获取所有
+     * @param roleId 角色id-非必传, 没有所有 isChecked = false
      * @return java.util.List<com.ws.ldy.admin.model.vo.AdminMenuVO>
      * @author ws
      * @mail 1720696548@qq.com
      * @date 2020/4/19 0019 20:36
      */
     @Override
-    public List<AdminMenuVO> findIdOrRoleIdList(String pId) {
-        return findIdOrRoleIdList(pId, null);
-    }
-
-    /**
-     * 根据 pid + roleId 查询当前角色+指定父菜单下的所有菜单，包括自身, 返回List 列表
-     *
-     * @param pId
-     * @return java.util.List<com.ws.ldy.admin.model.vo.AdminMenuVO>
-     * @author ws
-     * @mail 1720696548@qq.com
-     * @date 2020/4/19 0019 20:36
-     */
-    @Override
-    public List<AdminMenuVO> findIdOrRoleIdList(String pId, String roleId) {
-        // 获取指定角色所有菜单Id： key=菜单Id, value=0
-        Map<String, String> roleMenuMap = new HashMap<>();
-        if (roleId != null) {
-            List<AdminRoleMenu> roleMenuList = adminRoleMenuMapper.findRoleId(roleId);
-            if (roleMenuList != null && roleMenuList.size() > 0) {
-                roleMenuList.forEach(item -> roleMenuMap.put(item.getMenuId(), item.getMenuId()));
-            }
-        }
-        // 查询菜单数据
-        List<AdminMenu> adminMenuList = this.list(new LambdaQueryWrapper<AdminMenu>().orderByAsc(AdminMenu::getSort));
-        List<AdminMenuVO> adminMenuVOList = new ArrayList<>();
-        if (adminMenuList != null && adminMenuList.size() > 0) {
-            adminMenuVOList = BeanDtoVoUtil.listVoStream(adminMenuList, AdminMenuVO.class);
-        }
-        // 系统级  ==>  顶级菜单返回  ==>  root == 1
+    public List<AdminMenuVO> findPIdOrRoleIdList(String pId, String roleId) {
+        List<AdminRoleMenu> userRoleMenus = roleId != null ? adminRoleMenuMapper.findRoleId(roleId) : null;
+        List<String> roleMenuIdList = userRoleMenus != null && userRoleMenus.size() > 0 ? userRoleMenus.stream().map(i -> i.getMenuId()).collect(Collectors.toList()) : new ArrayList<>();
+        List<AdminMenuVO> adminMenuVOList = BeanDtoVoUtil.listVoStream(this.list(new LambdaQueryWrapper<AdminMenu>().orderByAsc(AdminMenu::getSort)), AdminMenuVO.class);
+        // result
         List<AdminMenuVO> menuVoList = new LinkedList<>();
-        if (pId == null || pId.equals("") || pId.equals("0")) {
-            // 树结构菜单 ==> 递归添加  ==>  所有
-            for (AdminMenuVO menuVo : adminMenuVOList) {
-                //顶级菜单
-                if (menuVo.getRoot().equals(1)) {
-                    nextLowerIdNode(adminMenuVOList, menuVo, roleMenuMap, menuVoList);
-                    this.setChecked(menuVo, roleMenuMap);
-                    menuVoList.add(menuVo);
+        if (pId == null) {
+            adminMenuVOList.forEach(fatherMenuVo -> {
+                if (fatherMenuVo.getRoot() == 1) {
+                    menuVoList.add(fatherMenuVo);
+                    this.setChecked(fatherMenuVo, roleMenuIdList);
+                    this.nextLowerIdNodeListChecked(adminMenuVOList, fatherMenuVo, roleMenuIdList, menuVoList);
                 }
-            }
+            });
         } else {
-            // 树结构菜单 ==> 递归添加  ==> 指定父Id下
-            for (AdminMenuVO menuVo : adminMenuVOList) {
-                if (menuVo.getId().equals(pId)) {
-                    nextLowerIdNode(adminMenuVOList, menuVo, roleMenuMap, menuVoList);
-                    this.setChecked(menuVo, roleMenuMap);
-                    //顶级菜单
-                    // if (menuVo.getRoot().equals(1) ) {
-                    menuVoList.add(menuVo);
-                    // }
+            adminMenuVOList.forEach(fatherMenuVo -> {
+                if (pId.equals(fatherMenuVo.getId())) {
+                    menuVoList.add(fatherMenuVo);
+                    this.setChecked(fatherMenuVo, roleMenuIdList);
+                    this.nextLowerIdNodeListChecked(adminMenuVOList, fatherMenuVo, roleMenuIdList, menuVoList);
                 }
-            }
+            });
         }
         return menuVoList;
     }
 
+
     /**
-     * 获取指定父节点下的子节点(递归遍历)
+     * 获取指定父节点下的子节点(递归遍历),权限 isChecked = true||false
      *
      * @param menuVos     所有节点
-     * @param menuVo      当前节点
-     * @param roleMenuMap 选中角色权限
-     * @param menuVoList  最后的返回数据
+     * @param fatherMenuVo  当前节点
+     * @param roleMenuIdList 选中角色权限
+     * @param menuVoList 返回数据,列表
      * @return void
      * @date 2019/11/13 15:20
      */
-    private void nextLowerIdNode(List<AdminMenuVO> menuVos, AdminMenuVO menuVo, Map<String, String> roleMenuMap, List<AdminMenuVO> menuVoList) {
-        menuVos.forEach(menuVo2 -> {
-            if (menuVo2.getPid().equals(menuVo.getId())) {
-                this.setChecked(menuVo2, roleMenuMap);
-                menuVoList.add(menuVo2);
-                //递归获取子节点
-                nextLowerIdNode(menuVos, menuVo2, roleMenuMap, menuVoList);
+    private void nextLowerIdNodeListChecked(List<AdminMenuVO> menuVos, AdminMenuVO fatherMenuVo, List<String> roleMenuIdList, List<AdminMenuVO> menuVoList) {
+        menuVos.forEach(menuVo -> {
+            if (menuVo.getPid().equals(fatherMenuVo.getId())) {
+                menuVoList.add(menuVo);
+                this.setChecked(menuVo, roleMenuIdList);
+                this.nextLowerIdNodeListChecked(menuVos, menuVo, roleMenuIdList, menuVoList);
             }
         });
     }
 
+    //=========================================================================
+    //=========================================================================
+    //=========================================================================
 
     /**
      * 判断并设置为选中状态
      */
-    private void setChecked(AdminMenuVO menu, Map<String, String> roleMenuMap) {
+    private void setChecked(AdminMenuVO menu, List<String> roleMenuIdList) {
         //权限判断设置选中状态
-        if (roleMenuMap.containsKey(menu.getId())) {
+        if (roleMenuIdList.contains(menu.getId())) {
             menu.setIsChecked(true);
         } else {
             menu.setIsChecked(false);

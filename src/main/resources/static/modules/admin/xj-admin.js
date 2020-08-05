@@ -1,4 +1,3 @@
-
 /** 如果index在内窗口，直接跳到最顶层窗口 */
 if (window !== top) {
     top.location.href = window.location.href;
@@ -50,7 +49,7 @@ function treeMenu(i) {
         html += " </a>";
         // html += "<spen class='layui-nav-more'><spen>";
         //判断是否存在下级目录
-        if (data[index].menus.length > 0) {
+        if (data[index].menus != null && data[index].menus.length > 0) {
             html += "<dl class='layui-nav-child' >";            // 二级目录头  --> class="layui-nav-child"
             html += nextMenuRoot3(data[index].menus);           // 二级菜单/页面 --> 获取
             html += "</dl>";
@@ -67,7 +66,7 @@ function nextMenuRoot3(data) {
     //二级菜单
     $.each(data, function (index, item) {
         //判断存在下级目录， 默认展开-> class='layui-nav-itemed'
-        if (data[index].menus.length > 0) {
+        if (data[index].menus != null && data[index].menus.length > 0) {
             html += "<dd  style='margin-left: 10%'>";
             html += "<a href='javascript:;'><i class='layui-icon " + data[index].icon + "'></i>";
             html += "<cite class='xijia-menu-title'>" + data[index].name + "</cite>";  // 菜单名称

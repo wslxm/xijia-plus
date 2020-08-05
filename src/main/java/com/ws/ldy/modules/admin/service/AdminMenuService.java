@@ -26,25 +26,21 @@ public interface AdminMenuService extends IService<AdminMenu> {
     public List<AdminMenuVO> getMenuTree();
 
     /**
-     *   根据父id+角色Id 查询所有子节点数据  ==>>> 树结构列表
+     *   根据父id 查询所有子节点数据（包括自己 Tree数据）, 根据角色权限赋值isChecked = true||false
      *
      * @param pId
      * @return java.util.List<com.ws.ldy.adminconsole.entity.AdminMenu>
      * @date 2019/11/15 16:18
      */
-    public List<AdminMenuVO> findIdOrRoleIdTree(String pId);
-
-    public List<AdminMenuVO> findIdOrRoleIdTree(String pId, String roleId);
+    public List<AdminMenuVO> findPIdOrRoleIdTree(String pId, String roleId);
 
     /**
-     *   根据父id+角色Id  查询所有子节点数据 ==>>> list 列表
+     *   根据父id 查询所有子节点数据（包括自己 List列表） , 根据角色权限赋值isChecked = true||false
      *
      * @param pId
      * @return java.util.List<com.ws.ldy.adminconsole.entity.AdminMenu>
      * @date 2019/11/15 16:18
      */
-    public List<AdminMenuVO> findIdOrRoleIdList(String pId);
-
-    public List<AdminMenuVO> findIdOrRoleIdList(String pId, String roleId);
+    public List<AdminMenuVO> findPIdOrRoleIdList(String pId, String roleId);
 
 }

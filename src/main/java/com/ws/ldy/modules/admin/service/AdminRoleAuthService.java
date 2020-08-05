@@ -26,7 +26,7 @@ public interface AdminRoleAuthService extends IService<AdminRoleAuth> {
     List<AdminRoleAuth> findUserIdRoleAuthority(String userId);
 
     /**
-     *     获取url权限列表，给指定角色的有的权限数据赋予选中状态
+     * 获取url权限列表，给指定角色的有的权限数据赋予选中状态
      *
      * @param userId 用户id
      * @return void

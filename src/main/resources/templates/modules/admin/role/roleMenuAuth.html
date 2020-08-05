@@ -150,13 +150,13 @@
             cols: [
                 [
                     {type: 'checkbox'},
-                    {field: 'name', title: '菜单列表', width: "33.5%"},//edit: 'text',
+                    {field: 'name', title: '菜单列表'},//edit: 'text',
                     {
-                        field: 'icon', title: '图标', width: "16%", templet: function (res) {
+                        field: 'icon', title: '图标' ,templet: function (res) {
                             return "<i class='layui-icon " + res.icon + "'></i>";
                         }
                     },
-                    {field: 'url', title: '路由', width: "44%"}
+                    {field: 'url', title: '路由'}
                 ]
             ]
         });

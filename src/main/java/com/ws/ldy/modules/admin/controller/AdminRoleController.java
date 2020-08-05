@@ -32,7 +32,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin/adminRole")
-@Api(value = "RoleAdminController", tags = "角色管理", description = BaseConstant.InterfaceType.PC_ADMIN)
+@Api(value = "AdminRoleController", tags = "角色管理", description = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminRoleController extends BaseController<AdminRoleService> {
 
     @Autowired

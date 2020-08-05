@@ -44,6 +44,7 @@ public enum RType implements IEnum {
 
     // 用户相关
     ADMIN_USER_NO_PASSWORD(10001, "原密码错误"),
+    ADMIN_USER_NO_ROLE(10001, "当前用户没有分配任何角色"),
 
     // 菜单
     ADMIN_IS_NO_MENU(9998, "当前用户没有任何菜单权限"),

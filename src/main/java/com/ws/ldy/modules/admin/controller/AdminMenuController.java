@@ -2,24 +2,24 @@ package com.ws.ldy.modules.admin.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ws.ldy.common.result.R;
+import com.ws.ldy.common.result.RType;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.modules.admin.model.dto.AdminMenuDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminMenu;
 import com.ws.ldy.modules.admin.model.vo.AdminMenuVO;
 import com.ws.ldy.modules.admin.service.AdminMenuService;
 import com.ws.ldy.others.base.controller.BaseController;
-import com.ws.ldy.enums.base.BaseConstant;
-import com.ws.ldy.common.result.R;
-import com.ws.ldy.common.result.RType;
-import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.config.error.ErrorException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *   菜单
@@ -30,7 +30,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin/adminMenu")
-@Api(value = "MenuAdminController", tags = "菜单管理", description = BaseConstant.InterfaceType.PC_ADMIN)
+@Api(value = "AdminMenuController", tags = "菜单管理", description = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminMenuController extends BaseController<AdminMenuService> {
 
 
@@ -55,7 +55,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
 
     /**
      * @param id     父id
-     * @param roleId 角色Id，判断当前是否有权限并选中
+     * @param roleId 角色Id，判断当前是否有权限并选中 List
      */
     @RequestMapping(value = "/findByPidOrRoleId", method = RequestMethod.GET)
     @ApiOperation(value = "pid + roleId 查询菜单列表", notes = "1、未传递查询所有: isChecked=false || null \r\n 2、根据 pid + roleId 查询当前角色+指定父菜单下的所有菜单给予选中状态 isChecked=true，包括自身, 不在当前 pid 下和 roleId没有权限角色的: isChecked=false || null, 返回List 列表")
@@ -64,7 +64,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
             @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
     })
     public R<List<AdminMenuVO>> findByPidOrRoleId(String id, String roleId) {
-        List<AdminMenuVO> menus = baseService.findIdOrRoleIdList(id, roleId);
+        List<AdminMenuVO> menus = baseService.findPIdOrRoleIdList(id, roleId);
         return R.successFind(BeanDtoVoUtil.listVo(menus, AdminMenuVO.class));
     }
 
@@ -79,7 +79,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
-    @ApiOperation(value = "编辑", notes = "")
+    @ApiOperation(value = "ID编辑", notes = "")
     public R<Void> upd(@RequestBody AdminMenuDTO adminMenuDto) {
         if (adminMenuDto.getId() == null) {
             throw new ErrorException(RType.ADMIN_IS_NO_UPDATE_ID);
@@ -93,9 +93,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation(value = "ID删除", notes = "同时删除当前菜单和当前菜单下的所有子菜单")
     public R<List<String>> del(@RequestParam String id) {
-        List<AdminMenuVO> idOrRoleIdList = baseService.findIdOrRoleIdList(id);
-        List<String> menuIds = new ArrayList<>();
-        idOrRoleIdList.forEach(item -> menuIds.add(item.getId()));
+        List<String> menuIds =  baseService.findPIdOrRoleIdList(id,null).stream().map(i-> i.getId()).collect(Collectors.toList());
         baseService.removeByIds(menuIds);
         return R.successDelete(menuIds);
     }

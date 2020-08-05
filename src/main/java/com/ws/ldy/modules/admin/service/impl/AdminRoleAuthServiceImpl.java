@@ -1,6 +1,7 @@
 package com.ws.ldy.modules.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.modules.admin.mapper.AdminAuthorityMapper;
 import com.ws.ldy.modules.admin.mapper.AdminRoleAuthMapper;
 import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
@@ -12,9 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @SuppressWarnings("all")
@@ -36,28 +36,24 @@ public class AdminRoleAuthServiceImpl extends BaseIServiceImpl<AdminRoleAuthMapp
     @Override
     public List<AdminAuthorityVO> findRoleAuthorityChecked(String roleId) {
         // 获取当前角色url权限列表
-        Map<String, String> map = new HashMap<>(8);
-        if (roleId != null) {
-            adminRoleAuthMapper.findRoleId(roleId).forEach(item -> map.put(item.getAuthId(), "0"));
-        }
-        // 获取所有url
-        List<AdminAuthority> authorityList = adminAuthorityMapper.selectList(null);
+        List<AdminRoleAuth> roleIds = adminRoleAuthMapper.findRoleId(roleId);
+        List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(i -> i.getAuthId()).collect(Collectors.toList()) : new ArrayList<>();
+        // 获取所有url,请求方式排序
+        List<AdminAuthority> authorityList = adminAuthorityMapper.selectList(new LambdaQueryWrapper<AdminAuthority>().orderByAsc(AdminAuthority::getMethod));
         // 返回数据处理
-        List<AdminAuthorityVO> adminAuthorityVOList = new ArrayList<>();
-        if (authorityList == null && authorityList.size() <= 0) {
+        if (authorityList == null || authorityList.size() <= 0) {
             return null;
+        }else{
+            List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authorityList, AdminAuthorityVO.class);
+            adminAuthorityVOList.forEach(authVO -> {
+                if (roleAuthIds.contains(authVO.getId())) {
+                    authVO.setIsChecked(true);
+                } else {
+                    authVO.setIsChecked(false);
+                }
+            });
+            return adminAuthorityVOList;
         }
-        authorityList.forEach(item -> {
-            if (map.containsKey(item.getId())) {
-                AdminAuthorityVO itemVo = item.convert(AdminAuthorityVO.class);
-                itemVo.setIsChecked(true);
-                adminAuthorityVOList.add(itemVo);
-
-            } else {
-                adminAuthorityVOList.add(item.convert(AdminAuthorityVO.class));
-            }
-        });
-        return adminAuthorityVOList;
     }
 
 
