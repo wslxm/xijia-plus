@@ -13,11 +13,13 @@
     <groupId>com.ws.ldy</groupId>
     <artifactId>xijia-server</artifactId>
     <version>0.0.2-RELEASE</version>
-    <name>spring-boot-plus2</name>
+    <name>xijia-server-${revision}</name>
     <packaging>jar</packaging>
     <description>Demo project for Spring Boot</description>
 
     <properties>
+        <!-- 系统版本号 -->
+        <revision>0.0.2</revision>
         <java.version>1.8</java.version>
     </properties>
 
@@ -188,6 +190,7 @@
             <version>4.5.1</version>
         </dependency>
     </dependencies>
+
     <build>
         <finalName>xijia-server</finalName>
         <plugins>
