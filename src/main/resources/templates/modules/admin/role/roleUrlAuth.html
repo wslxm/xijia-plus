@@ -33,7 +33,7 @@
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-warm layui-btn-sm" onclick="xijiaEventUpdClick()">确认分配</button>
         <button class="layui-btn layui-btn-warm layui-btn-sm" onclick="xijiaEventPutAuthority()">扫描权限</button>
-        <font size="2">当前角色: </font> <font size="2" color="red" id="roleFont">未选择</font>
+        <font size="2">当前角色: </font> <font size="2" color="red" id="roleName">未选择</font>
     </div>
 </script>
 
@@ -47,6 +47,7 @@
     let res;           // 后台返回完整菜单数据
     let checkData;     // 所有选中数据
     let roleId = -1;   // 角色Id
+    let roleName;      // 角色名称
 
     // 组件
     let tree;
@@ -184,6 +185,8 @@
                 // 更新所有选中数据te = 数据表格Id
                 checkData = table.checkStatus('te');
             }
+            // 展示选中
+            $("#roleName").html(roleName);
         });
     }
 
@@ -199,7 +202,7 @@
      */
     function isChecked(nodeAll, node, checked) {
         // 当菜单级别为3(页面时)，跳出，不往下递归
-        if (node.pid !== 0) {
+        if (node.pid !== '' && node.pid !== 0) {
             return;
         }
         // console.log("父菜单name=" + node.name + "")
@@ -235,6 +238,9 @@
         $("#roleFont").html(item.name);
         // 当前角色id
         roleId = item.id;
+        roleName = item.name;
+        // 展示选中
+        $("#roleName").html(roleName);
     }
 
 

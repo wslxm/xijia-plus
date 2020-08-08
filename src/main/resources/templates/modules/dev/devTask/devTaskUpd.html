@@ -93,10 +93,8 @@
 
 <script>
 
-    // 查询开发人员(角色)（注意数据库参数是否正确）
-    let dev_user_list = "/admin/adminUser/findRoleUser?roleId=2";
-    // 查询字典项目列表（注意数据库参数是否正确）
-    let item_list = "/admin/adminDictionary/findByCode?code=item";
+    let dev_user_list = "/admin/adminUser/findRoleUser?roleId=" + enums.base.dev_user_role_id;  // 查询开发人员(角色)（注意数据库参数是否正确）
+    let item_list = "/admin/adminDictionary/findByCode?code=" + enums.dev.dev_item;             // 查询字典项目列表（注意字典表参数是否正确）
 
     $(function () {
         //开发人员
@@ -115,7 +113,7 @@
         let itemListHtml;
         let itemsData = ajaxGet(item_list);
         for (let i = 0; i < itemsData.data.dictList.length; i++) {
-            if (itemsData.data.dictList[i].code ===parent.data.item) {
+            if (itemsData.data.dictList[i].code === parent.data.item) {
                 itemListHtml += "<option value='" + itemsData.data.dictList[i].code + "' selected=''>" + itemsData.data.dictList[i].name + "</option>"
             } else {
                 itemListHtml += "<option value='" + itemsData.data.dictList[i].code + "' >" + itemsData.data.dictList[i].name + "</option>"
@@ -138,8 +136,6 @@
         });
 
     });
-
-
 
 
     layui.use(['form', 'laydate'], function () {

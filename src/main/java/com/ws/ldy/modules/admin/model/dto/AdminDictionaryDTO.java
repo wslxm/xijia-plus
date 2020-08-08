@@ -4,7 +4,7 @@ import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
+import lombok.ToString;
 
 /**
  *   字典表
@@ -14,6 +14,7 @@ import org.hibernate.validator.constraints.Length;
  * @date Sun Nov 24 11:23:12 CST 2019
  */
 @Data
+@ToString(callSuper = true)
 @ApiModel(value = "AdminDictionaryDTO", description = "字典表")
 public class AdminDictionaryDTO extends BaseDto {
 
@@ -33,6 +34,9 @@ public class AdminDictionaryDTO extends BaseDto {
 
     @ApiModelProperty(value = "排序")
     private Integer sort;
+
+    @ApiModelProperty(value = "禁用（0-否，1-是）")
+    private Integer disable;
 
 
 

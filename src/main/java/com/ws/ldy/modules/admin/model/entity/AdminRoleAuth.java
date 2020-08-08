@@ -5,6 +5,7 @@ import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  *   角色菜单权限
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
  * @date Mon Nov 25 11:38:29 CST 2019
  */
 @Data
+@ToString(callSuper = true)
 @TableName(value = "t_admin_role_auth")
 @AllArgsConstructor
 @NoArgsConstructor

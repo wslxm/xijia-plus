@@ -4,6 +4,7 @@ import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  *   菜单
@@ -13,6 +14,7 @@ import lombok.Data;
  * @date 2019/11/14 20:49
  */
 @Data
+@ToString(callSuper = true)
 @ApiModel(value = "AdminMenuDTO", description = "菜单")
 public class AdminMenuDTO extends BaseDto {
 
@@ -29,6 +31,6 @@ public class AdminMenuDTO extends BaseDto {
     private String icon;
     @ApiModelProperty(value = "排序")
     private Integer sort;
-    @ApiModelProperty(value = "0-启用/1-禁用")
-    private Integer state;
+    @ApiModelProperty(value = "禁用（0-否，1-是）")
+    private Integer disable;
 }

@@ -116,11 +116,11 @@
                     },
                     {field: 'address', title: '地址'},
                     {
-                        field: 'state', width: 120, title: '禁用/启用', templet: function (res) {
-                            if (res.state == 0) {
-                                return "   <input type='checkbox'  id = '" + res.id + "' lay-filter='state' lay-skin='switch' lay-text='启用|禁用' checked>"
-                            } else if (res.state == 1) {
-                                return "   <input type='checkbox'  id = '" + res.id + "'  lay-filter='state' lay-skin='switch' lay-text='启用|禁用'>"
+                        field: 'disable', width: 120, title: '禁用/启用', templet: function (res) {
+                            if (res.disable == 0) {
+                                return "   <input type='checkbox'  id = '" + res.id + "' lay-filter='disable' lay-skin='switch' lay-text='启用|禁用' checked>"
+                            } else if (res.disable == 1) {
+                                return "   <input type='checkbox'  id = '" + res.id + "' lay-filter='disable' lay-skin='switch' lay-text='启用|禁用'>"
                             }
                         }
                     },
@@ -265,16 +265,16 @@
      * switch(state) 对应 lay-filter='state'
      */
     function xijiaEventSwitch() {
-        form.on('switch(state)', function (data) {
-            let state = 0;
+        form.on('switch(disable)', function (data) {
+            let disable = 0;
             if (data.elem.checked) {
-                state = 0;
+                disable = 0;
             } else {
-                state = 1;
+                disable = 1;
             }
             let reqData = {
                 id: data.elem.attributes['id'].nodeValue,
-                state: state
+                disable: disable
             };
             let result = ajaxPut(user_admin_update, reqData);
             layer.msg(result.msg)

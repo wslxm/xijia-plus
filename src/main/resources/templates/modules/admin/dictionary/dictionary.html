@@ -57,7 +57,8 @@
 
 <script>
     // 接口
-    let find_list = path + "/admin/adminDictionary/findList";     // 查询列表
+    let find_list = path + "/admin/adminDictionary/findList";      // 查询列表
+    let update = path + "/admin/adminDictionary/updByDisable";     // 禁用/启动
     let deletes = path + "/admin/adminDictionary/del";             // 删除
     let upd_sort = path + "/admin/adminDictionary/updBySort";      // 修改排序
     // 路由
@@ -86,6 +87,7 @@
         xijiaEventToolbar();      // 工具栏事件（多删除/添加）
         xijiaEventTool();         // 监听数据表格内按钮操作（编辑,删除等）
         xijiaEventSearch();       // 监听条件搜索
+        xijiaEventSwitch();       // 监听单选-是否禁用
     });
 
 
@@ -119,9 +121,19 @@
                 [
                     // {field: 'id', width: 200, title: 'ID'},//edit: 'text',
                     {field: 'name', width: 250, title: '字典名称'},
-                    {field: 'code', width: 200, title: '字典Code'},
-                    {field: 'desc',width : 400, title: '字典描叙'},
+                    {field: 'code', width: 250, title: '字典Code'},
+                    {field: 'desc',  title: '字典描叙'},
                     {field: 'sort', width: 200, edit: 'text', title: '排序'},
+                    {
+                        field: 'disable', width: 200, title: '禁用/启用', templet: function (res) {
+                            let id = res.id;
+                            if (res.disable == 0) {
+                                return "   <input type='checkbox'  id = '" + id + "' lay-filter='disable' lay-skin='switch' lay-text='启用|禁用' checked>"
+                            } else if (res.disable == 1) {
+                                return "   <input type='checkbox'  id = '" + id + "'  lay-filter='disable' lay-skin='switch' lay-text='启用|禁用'>"
+                            }
+                        }
+                    },
                     {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 250}
                 ]
             ]
@@ -184,7 +196,7 @@
                 // xijiaRenderTable();             // 重载数据
                 // xijia_window_onload();          // 还原滚动条位置
                 // // tipsDeleteId(deletes + delData, obj);
-                let msg = "你确定要删除[ " +data.name+" ]么？";
+                let msg = "你确定要删除[ " + data.name + " ]么？";
                 layer.msg(msg, {
                     time: 0
                     , btn: ['必须删', '不删了']
@@ -197,7 +209,7 @@
                         // xijiaRenderTable();             // 重载数据
                         // xijia_window_onload();          // 还原滚动条位置
                         layer.msg(result.msg);
-                        layer.msg(result.msg+" 请手动刷新");
+                        layer.msg(result.msg + " 请手动刷新");
                     }
                 });
             }
@@ -259,6 +271,29 @@
             }
         });
     }
+
+    /**
+     *  监听单选选中--禁用
+     * <p>
+     * switch(state) 对应 lay-filter='state'
+     */
+    function xijiaEventSwitch() {
+        form.on('switch(disable)', function (data) {
+            let disable = 0;
+            if (data.elem.checked) {
+                disable = 0;
+            } else {
+                disable = 1;
+            }
+            let param = "";
+            param += "?id=" + data.elem.attributes['id'].nodeValue;
+            param += "&disable=" + disable;
+            let result = ajaxPut(update + param);
+            layer.msg(result.msg)
+        });
+    }
+
+
 </script>
 </body>
 </html>

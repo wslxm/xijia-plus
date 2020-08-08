@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  *   权限列表
@@ -13,6 +14,7 @@ import lombok.Data;
  * @date Mon Nov 25 08:02:49 CST 2019
  */
 @Data
+@ToString(callSuper = true)
 @TableName(value = "t_admin_authority")
 public class AdminAuthority extends BaseEntity {
 
@@ -35,5 +37,10 @@ public class AdminAuthority extends BaseEntity {
      * 请求方式（请求方式(GET/POST/PUT/DELETE）
      */
     private String method;
+
+    /**
+     * 禁用 0-否，1-是
+     */
+    private Integer disable;
 }
 

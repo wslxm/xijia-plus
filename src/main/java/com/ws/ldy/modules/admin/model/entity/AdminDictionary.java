@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  *   代码生成器自动生成，请自定义描叙
@@ -13,6 +14,7 @@ import lombok.Data;
  * @date Sun Nov 24 11:23:12 CST 2019
  */
 @Data
+@ToString(callSuper = true)
 @TableName(value = "t_admin_dictionary")
 public class AdminDictionary extends BaseEntity {
 
@@ -42,5 +44,13 @@ public class AdminDictionary extends BaseEntity {
      */
     @TableField(value = "`sort`")
     private Integer sort;
+
+    /**
+     * 禁用 0-否，1-是
+     */
+    private Integer disable;
+
+
+
 }
 

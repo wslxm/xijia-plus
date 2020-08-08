@@ -187,9 +187,9 @@
 <script>
     let dataJson = null;
     //  let viewsUrl = "/views/index.html";          // 模板首页url
-    let menuTree = "/admin/adminMenu/findTree";            // 树菜单数据
-    let homePage = "/page/modules_admin_user_user";          // 进入系统首页url, /page/console_user_user  / /page/front_show_show
-    let updPwd = "/page/modules_admin_user_userUpdPwd";      // 修改密码页面
+    let menuTree = path + "/admin/adminMenu/findTree";            // 树菜单数据
+    let homePage = path + "/page/modules_admin_user_user";          // 进入系统首页url, /page/console_user_user  / /page/front_show_show
+    let updPwd = path + "/page/modules_admin_user_userUpdPwd";      // 修改密码页面
 
     $(function () {
         dataJson = ajaxGet(menuTree).data;

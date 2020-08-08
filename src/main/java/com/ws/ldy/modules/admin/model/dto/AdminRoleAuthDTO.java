@@ -4,6 +4,7 @@ import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  *   角色接口权限
@@ -13,6 +14,7 @@ import lombok.Data;
  * @date Mon Nov 25 11:38:29 CST 2019
  */
 @Data
+@ToString(callSuper = true)
 @ApiModel(value = "AdminRoleAuthDTO", description = " 角色-接口关联表")
 public class AdminRoleAuthDTO extends BaseDto {
 

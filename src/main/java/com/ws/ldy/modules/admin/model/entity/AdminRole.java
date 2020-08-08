@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  *   角色
@@ -13,6 +14,7 @@ import lombok.Data;
  * @date 2019/11/14 20:48
  */
 @Data
+@ToString(callSuper = true)
 @TableName(value = "t_admin_role")
 public class AdminRole extends BaseEntity {
 
@@ -27,5 +29,10 @@ public class AdminRole extends BaseEntity {
      */
     @TableField(value = "`desc`")
     private String desc;
+
+    /**
+     * 禁用 0-否，1-是
+     */
+    private Integer disable;
 }
 

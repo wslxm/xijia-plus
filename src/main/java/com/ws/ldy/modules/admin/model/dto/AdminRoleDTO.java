@@ -4,6 +4,7 @@ import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  *   角色
@@ -13,6 +14,7 @@ import lombok.Data;
  * @date 2019/11/14 20:48
  */
 @Data
+@ToString(callSuper = true)
 @ApiModel(value = "AdminRoleDTO", description = "角色")
 public class AdminRoleDTO extends BaseDto {
 
@@ -24,5 +26,8 @@ public class AdminRoleDTO extends BaseDto {
 
     @ApiModelProperty(value = "描叙")
     private String desc;
+
+    @ApiModelProperty(value = "禁用（0-否，1-是）")
+    private Integer disable;
 }
 

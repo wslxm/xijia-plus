@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
  * {date}
  */
 @Data
+@ToString(callSuper = true)
 @ApiModel(value = "{tableNameUp}VO 对象", description = "{tableComment}")
 public class {tableNameUp}VO extends BaseVo {
 

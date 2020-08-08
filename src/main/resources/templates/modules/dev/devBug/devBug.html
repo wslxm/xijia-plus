@@ -17,6 +17,7 @@
     .layui-inline {
         width: 210px;
     }
+
     .layui-input-block {
         width: 140px;
     }
@@ -95,6 +96,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     {{# }if(d.state ==1) { }}
     <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="entBug">完成</a>
+    <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="rollback">取消开始</a>
     {{# }if(d.state ==2) { }}
     <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="undo">撤销</a>
@@ -114,8 +116,8 @@
     let page_upd = path + "/page/modules_dev_devBug_devBugUpd";   //角色编辑弹出
 
 
-    let dev_user_list = "/adminUser/findRoleUser?roleId=2";     // 查询开发人员(角色)（注意数据库参数是否正确）
-    let item_list = "/adminDictionary/findByCode?code=item";    // 查询字典项目列表（注意数据库参数是否正确）
+    let dev_user_list = "/admin/adminUser/findRoleUser?roleId=" + enums.base.dev_user_role_id;  // 查询开发人员(角色)（注意数据库参数是否正确）
+    let item_list = "/admin/adminDictionary/findByCode?code=" + enums.dev.dev_item;             // 查询字典项目列表（注意数据库参数是否正确）
     let usersData = ajaxGet(dev_user_list);
     let itemsData = ajaxGet(item_list);
 
@@ -151,7 +153,7 @@
             , data: res.data.records
             , toolbar: '#toolbarDemo'
             , title: 'bug修复'
-            ,limit: res.data.size
+            , limit: res.data.size
             , cols: [
                 [
                     // {type: 'checkbox', fixed: 'left'}   //fixed: 'right', , fixed: 'left'
@@ -196,8 +198,8 @@
                         }
                     },
 
-                    {field: 'plannedTime', title: '预计完成时间', width: 160,sort:false},
-                    {field: 'entTime', title: '实际完成时间', width: 160,sort:true},
+                    {field: 'plannedTime', title: '预计完成时间', width: 160, sort: false},
+                    {field: 'entTime', title: '实际完成时间', width: 160, sort: true},
                     {field: 'estimateTime', title: '预耗时', width: 80},
                     {field: 'takeUpTime', title: '耗时S', width: 80},
                     {title: '操作', toolbar: '#barDemo', width: 250}

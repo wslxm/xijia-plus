@@ -4,6 +4,7 @@ package com.ws.ldy.modules.admin.model.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
  * @date 2019/11/14 21:06
  */
 @Data
+@ToString(callSuper = true)
 @TableName(value = "t_admin_user")
 public class AdminUser extends BaseEntity {
 
@@ -66,7 +68,7 @@ public class AdminUser extends BaseEntity {
      */
     private LocalDateTime entTime;
     /**
-     * 是否禁用
+     * 禁用 0-否，1-是
      */
-    private Integer state;
+    private Integer disable;
 }

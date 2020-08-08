@@ -44,6 +44,7 @@ public class JwtUtil {
                 .builder()
                 // 主题
                 .setSubject(SUBJECT)
+                // TODO 用户信息加密
                 // 添加jwt自定义值
                 .claim(AUTH_CLAIMS, user.getAuthorities())
                 .claim("username", user.getUsername())

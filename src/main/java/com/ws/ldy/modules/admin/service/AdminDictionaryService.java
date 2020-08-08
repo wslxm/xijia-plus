@@ -21,7 +21,7 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
 
 
     /**
-     *   根据code查询数据+ 下级所有层级数据（无限递归）
+     *   根据code查询数据+ 下级所有层级数据（无限递归），不包括禁用数据
      *
      * @param code
      * @return java.util.List<com.ws.ldy.admin.model.vo.AdminDictionaryVO>
@@ -30,12 +30,12 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
     AdminDictionaryVO findByCodeFetchDictVO(String code);
 
     /**
-     * 根据code查询数据ID + 加下级所有ID
+     * 根据code查询数据ID + 加下级所有ID，包括禁用数据
      */
     List<String> findByIdFetchIds(String id);
 
     /**
-     * 根据code查询数据ID + 加下级所有ID
+     * 分组查询-key-value数据： 不包括禁用数据
      * @return
      */
     Map<String, AdminDictionaryVO> findCodeGroup();

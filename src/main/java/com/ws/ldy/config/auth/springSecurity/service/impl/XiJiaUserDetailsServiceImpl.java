@@ -47,9 +47,9 @@ public class XiJiaUserDetailsServiceImpl implements UserDetailsService {
         userDetail.setAccountNonExpired(true);       // 是否过期
         userDetail.setAccountNonLocked(true);        // 是否解锁
         userDetail.setCredentialsNonExpired(true);   // 凭据(密码)是否过期
-        userDetail.setEnabled(adminUser.getState() == 0);   // 是否禁用
-        // 查询权限并添加权限到userDetail
-        List<AdminAuthority> userIdRoleAuthority = adminAuthorityMapper.findUserIdRoleAuthority(adminUser.getId());
+        userDetail.setEnabled(adminUser.getDisable() == 0);   // 是否禁用
+        // 查询权限并添加权限到userDetail( 角色没有禁用的)
+        List<AdminAuthority> userIdRoleAuthority = adminAuthorityMapper.findUserIdRoleAuthorityNoDisable(adminUser.getId());
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (AdminAuthority authority : userIdRoleAuthority) {
             authorities.add(new SimpleGrantedAuthority(authority.getUrl()));

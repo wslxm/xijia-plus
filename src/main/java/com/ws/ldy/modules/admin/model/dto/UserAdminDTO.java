@@ -5,6 +5,7 @@ import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  *   用户
@@ -14,6 +15,7 @@ import lombok.Data;
  * @date 2019/11/14 21:06
  */
 @Data
+@ToString(callSuper = true)
 @ApiModel(value = "AdminRoleUserDTO", description = "用户表")
 public class UserAdminDTO extends BaseDto {
 
@@ -31,8 +33,8 @@ public class UserAdminDTO extends BaseDto {
     private String address;
     @ApiModelProperty(value = "年龄")
     private Integer age;
-    @ApiModelProperty(value = "性别（1男，2女）")
+    @ApiModelProperty(value = "性别（1-男，0-女）")
     private Integer gender;
-    @ApiModelProperty(value = "是否禁用（0-否，1-是）")
-    private Integer state;
+    @ApiModelProperty(value = "禁用（0-否，1-是）")
+    private Integer disable;
 }

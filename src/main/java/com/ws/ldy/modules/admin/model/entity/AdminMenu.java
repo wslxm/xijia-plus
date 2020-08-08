@@ -3,6 +3,7 @@ package com.ws.ldy.modules.admin.model.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  *   菜单
@@ -12,6 +13,7 @@ import lombok.Data;
  * @date 2019/11/14 20:49
  */
 @Data
+@ToString(callSuper = true)
 @TableName(value = "t_admin_menu")
 public class AdminMenu extends BaseEntity {
 
@@ -49,7 +51,7 @@ public class AdminMenu extends BaseEntity {
     private Integer root;
 
     /**
-     * 是否禁用(0-否 1-是)
+     * 禁用 0-否，1-是
      */
-    private Integer state;
+    private Integer disable;
 }

@@ -189,6 +189,7 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>xijia-server</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

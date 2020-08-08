@@ -3,6 +3,7 @@ package com.ws.ldy.modules.admin.model.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  *   角色-菜单关联表
@@ -12,6 +13,7 @@ import lombok.Data;
  * @date 2019/11/14 20:49
  */
 @Data
+@ToString(callSuper = true)
 @TableName(value = "t_admin_role_user")
 public class AdminRoleUser extends BaseEntity {
 

@@ -5,6 +5,7 @@ import com.ws.ldy.others.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
  * @date 2019/11/14 21:06
  */
 @Data
+@ToString(callSuper = true)
 @ApiModel(value = "AdminUserVO", description = "用户表")
 public class AdminUserVO extends BaseVo {
 
@@ -35,8 +37,8 @@ public class AdminUserVO extends BaseVo {
     private Integer age;
     @ApiModelProperty(value = "性别（1男，0女）")
     private Integer gender;
-    @ApiModelProperty(value = "是否禁用")
-    private Integer state;
+    @ApiModelProperty(value = "禁用（0-否，1-是）")
+    private Integer disable;
     @ApiModelProperty(value = "注册时间")
     private LocalDateTime regTime;
     @ApiModelProperty(value = "最后登录时间")

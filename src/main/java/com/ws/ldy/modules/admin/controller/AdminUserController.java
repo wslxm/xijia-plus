@@ -40,6 +40,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
     private AdminRoleUserService adminRoleUserService;
 
 
+
 //    @RequestMapping(value = "/findUser", method = RequestMethod.GET)
 //    @ApiOperation("当前登录用户信息")
 //    public Result<AdminUserVO> findUser() {
@@ -86,7 +87,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
     public R<Void> insert(@RequestBody UserAdminDTO userAdminDto) {
         AdminUser adminUser = userAdminDto.convert(AdminUser.class);
         adminUser.setPassword(MD5Util.encode(adminUser.getPassword()));
-        adminUser.setState(0);//默认启用状态
+        adminUser.setDisable(0);//默认启用状态
         adminUser.setRegTime(LocalDateTime.now());
         baseService.save(adminUser);
         return R.success();

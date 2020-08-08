@@ -4,6 +4,7 @@ import com.ws.ldy.others.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * @date Sun Nov 24 11:23:12 CST 2019
  */
 @Data
+@ToString(callSuper = true)
 @ApiModel(value = "AdminDictionaryVO", description = "字典表")
 public class AdminDictionaryVO extends BaseVo {
 
@@ -38,6 +40,9 @@ public class AdminDictionaryVO extends BaseVo {
 
     @ApiModelProperty(value = "版本号")
     private Integer version;
+
+    @ApiModelProperty(value = "禁用（0-否，1-是）")
+    private Integer disable;
 
     @ApiModelProperty(value = "子级")
     List<AdminDictionaryVO> dictList;

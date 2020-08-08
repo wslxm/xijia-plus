@@ -4,6 +4,7 @@ import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  *   角色-菜单关联表
@@ -13,6 +14,7 @@ import lombok.Data;
  * @date 2019/11/14 20:49
  */
 @Data
+@ToString(callSuper = true)
 @ApiModel(value = "AdminRoleMenuDTO", description = " 角色-菜单关联表")
 public class AdminRoleMenuDTO extends BaseDto {
 

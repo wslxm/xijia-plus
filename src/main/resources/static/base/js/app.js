@@ -1,8 +1,23 @@
-
 /**
  * 全局接口访问地址
  */
 var path = "";//http://127.0.0.1:80  //http://192.168.1.104:8080
+
+
+/**
+ * 通用枚举字段key
+ */
+var enums = {
+    base:{
+        dev_user_role_id: "2",        // 开发人员角色Id
+    },
+    dev:{
+        dev_item: "dev-item",    // 项目名
+    },
+    admin:{
+
+    }
+};
 
 
 /**

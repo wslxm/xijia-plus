@@ -67,8 +67,12 @@
                 // 监听提交
                 layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
                     xijia_window_onbeforeunload();
-
-                    data.field.pid = parent.data.id;   // 父id
+                     //顶级菜单父Id=0, 其他为当前选中行
+                     if(parent.data.lv === 1){
+                         data.field.pid = 0;
+                     }else{
+                         data.field.pid = parent.data.id;
+                     }
                     data.field.root = parent.data.lv;  // 目录级别
                     let result = ajaxPost(path + "/admin/adminMenu/insert", data.field);
                     let index = parent.layer.getFrameIndex(window.name);

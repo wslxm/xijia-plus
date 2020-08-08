@@ -35,7 +35,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
 
 
     @RequestMapping(value = "/findTree", method = RequestMethod.GET)
-    @ApiOperation(value = "左导航菜单", notes = "树结构数据,无限级,不限制层次,根据sort字段正序排序,sort越小越靠前")
+    @ApiOperation(value = "左导航菜单", notes = "当前用户对应的角色菜单数据，树结构数据,无限级,不限制层次,根据sort字段正序排序,sort越小越靠前")
     public R<List<AdminMenuVO>> menuTree() {
         //获取菜单
         List<AdminMenuVO> menuTree = baseService.getMenuTree();

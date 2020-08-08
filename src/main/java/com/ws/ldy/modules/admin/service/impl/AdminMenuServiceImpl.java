@@ -31,7 +31,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
     /**
      * 查询 Tree 菜单 -->  不返回没有权限的数据
      * <P>
-     *     1- 查询用户所有角色菜单数据, 没有返回错误提示
+     *     1- 查询用户所有角色菜单数据（非禁用角色的菜单）, 没有返回错误提示
      *     2- 存在查询当前用户角色的所有菜单权限|  Sort排序 | 未禁用的，没有数据返回错误提示
      *     3- 递归把List数据处理成树菜单结构数据
      * <P>
@@ -44,14 +44,14 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
      */
     @Override
     public List<AdminMenuVO> getMenuTree() {
-        List<AdminRoleMenu> userRoleMenus = adminRoleMenuMapper.findUserIdRoleMenus(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
+        List<AdminRoleMenu> userRoleMenus = adminRoleMenuMapper.findUserIdRoleMenusNoDisable(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
         if (userRoleMenus == null || userRoleMenus.size() == 0) {
             throw new ErrorException(RType.ADMIN_IS_NO_MENU);
         }
         List<String> roleMenuIdList = userRoleMenus.stream().map(roleMenu -> roleMenu.getMenuId()).collect(Collectors.toList());
         List<AdminMenu> adminMenuList = this.list(new LambdaQueryWrapper<AdminMenu>()
                 .orderByAsc(AdminMenu::getSort)
-                .eq(AdminMenu::getState, 0)
+                .eq(AdminMenu::getDisable, 0)
                 .in(AdminMenu::getId, roleMenuIdList)
         );
         if (adminMenuList == null || adminMenuList.size() == 0) {

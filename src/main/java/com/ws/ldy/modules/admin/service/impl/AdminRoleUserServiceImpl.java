@@ -28,7 +28,7 @@ public class AdminRoleUserServiceImpl extends BaseIServiceImpl<AdminRoleUserMapp
         Map<String, String> roleUserMap = new HashMap<>(8);
         List<AdminRoleUser> roleUsers = baseMapper.findRoleId(roleId);
         roleUsers.forEach(item -> roleUserMap.put(item.getUserId(), item.getRoleId()));
-        //赋值选中状态
+        // 赋值选中状态
         List<AdminUserVO> userListVo = new ArrayList<>();
         for (AdminUser user : users) {
             AdminUserVO adminUserVO = user.convert(AdminUserVO.class);

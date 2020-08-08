@@ -32,7 +32,7 @@
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-warm layui-btn-sm" onclick="xijiaEventUpdClick()">确认分配</button>
-        <font size="2">当前角色: </font> <font size="2" color="red" id="roleFont">未选择</font>
+        <font size="2">当前角色: </font> <font size="2" color="red" id="roleName">未选择</font>
     </div>
 </script>
 
@@ -44,6 +44,7 @@
     let res;           // 后台返回完整菜单数据
     let checkData;     // 所有选中数据
     let roleId = -1;   // 角色Id
+    let roleName;      // 角色名称
 
     // 组件
     let tree;
@@ -152,7 +153,7 @@
                     {type: 'checkbox'},
                     {field: 'name', title: '菜单列表'},//edit: 'text',
                     {
-                        field: 'icon', title: '图标' ,templet: function (res) {
+                        field: 'icon', title: '图标', templet: function (res) {
                             return "<i class='layui-icon " + res.icon + "'></i>";
                         }
                     },
@@ -184,6 +185,8 @@
                 // 更新所有选中数据te = 数据表格Id
                 checkData = table.checkStatus('te');
             }
+            // 展示选中
+            $("#roleName").html(roleName);
         });
     }
 
@@ -199,7 +202,7 @@
      */
     function isChecked(nodeAll, node, checked) {
         // 当菜单级别为3(页面时)，跳出，不往下递归
-        if (node.root.value === 3) {
+        if (node.root.value >= 3) {
             return;
         }
         // console.log("父菜单name=" + node.name + "")
@@ -230,11 +233,15 @@
         // 获得菜单数据
         res = ajaxGet(menu_find_id_list + params);
         // 重载
-        xijiaRenderTable(res)
-        // 展示选中
-        $("#roleFont").html(item.name);
+        xijiaRenderTable(res);
+
+        //
+        roleName = item.name;
         // 当前角色id
         roleId = item.id;
+        // 展示选中
+        $("#roleName").html(item.name);
+
     }
 
 

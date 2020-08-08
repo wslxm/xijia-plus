@@ -4,6 +4,7 @@ import com.ws.ldy.others.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  *   代码生成器自动生成，请自定义描叙
@@ -13,6 +14,7 @@ import lombok.Data;
  * @date Mon Nov 25 08:02:49 CST 2019
  */
 @Data
+@ToString(callSuper = true)
 @ApiModel(value = "AdminAuthorityVO", description = "接口权限 ")
 public class AdminAuthorityVO extends BaseVo {
 
@@ -26,6 +28,8 @@ public class AdminAuthorityVO extends BaseVo {
     private String desc;
     @ApiModelProperty(value = "请求方式")
     private String method;
+    @ApiModelProperty(value = "禁用（0-否，1-是）")
+    private Integer disable;
     @ApiModelProperty(value = "是否选中-是否选中（是否有权限，前台复选框默认选中需要值）")
     private Boolean isChecked;
 

@@ -48,6 +48,7 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
             "\r\n 2、版本号(key=version)未发送变化后端不返回任何数据,前端请定义全局变量来缓存此字段" +
             "\r\n 3、所有select选择框,状态字段都使用此接口的数据获取中文值" +
             "\r\n 4、添加/更新/删除/修改排序后端都会更新版本号,重新拉取直接获取最新数据" +
+            "\r\n 5、不包括禁用数据" +
             "\r\n 建议: 每一次打开一个新页面时调用此方法,刷新缓存数据"
     )
     public R<Map<String, AdminDictionaryVO>> findCodeGroup() {
@@ -56,7 +57,7 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
 
 
     @RequestMapping(value = "/findByCode", method = RequestMethod.GET)
-    @ApiOperation(value = "Code查询", notes = "无限层次, 树结构，只能传递字符串Code, 不能传递字符串数字Code")
+    @ApiOperation(value = "Code查询", notes = "无限层次, 树结构，只能传递字符串Code, 不能传递字符串数字Code，不包括禁用数据 ")
     public R<AdminDictionaryVO> findByCode(@RequestParam String code) {
         // 不能传递字符串数字来查询
         if (StringUtil.isInteger(code)) {
@@ -120,6 +121,19 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
         AdminDictionary dict = new AdminDictionary();
         dict.setId(id);
         dict.setSort(sort);
+        baseService.updateById(dict);
+        //刷新版本号
+        AdminDictionaryServiceImpl.version++;
+        return R.successUpdate();
+    }
+
+
+    @RequestMapping(value = "/updByDisable", method = RequestMethod.PUT)
+    @ApiOperation(value = "禁用/启用", notes = "0-启用 1-禁用")
+    public R<Void> updByDisable(@RequestParam String id, @RequestParam Integer disable) {
+        AdminDictionary dict = new AdminDictionary();
+        dict.setId(id);
+        dict.setDisable(disable);
         baseService.updateById(dict);
         //刷新版本号
         AdminDictionaryServiceImpl.version++;

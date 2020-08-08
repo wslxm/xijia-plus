@@ -20,19 +20,30 @@ import java.util.Map;
 public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionaryMapper, AdminDictionary> implements AdminDictionaryService {
 
     /**
-     * 分组的字典数据
+     * 分组的字典数据，不包括禁用数据
      * 版本号：version，当版本号一致时, 不返回前台 dictVOGroupMap 数据
      */
     private static Map<String, AdminDictionaryVO> dictVOGroupMap;
     public static Integer version = 0;
 
 
+    /**
+     * 根据code 查询下级所有 ，不包括禁用数据
+     * @author wangsong
+     * @param code
+     * @date 2020/8/8 0008 1:15
+     * @return com.ws.ldy.modules.admin.model.vo.AdminDictionaryVO
+     * @version 1.0.0
+     */
     @Override
     public AdminDictionaryVO findByCodeFetchDictVO(String code) {
         // 查询当前
-        AdminDictionary dict = baseMapper.selectOne(new LambdaQueryWrapper<AdminDictionary>().eq(com.ws.ldy.modules.admin.model.entity.AdminDictionary::getCode, code));
+        AdminDictionary dict = baseMapper.selectOne(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, code));
         // 查询所有
-        List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(baseMapper.selectList(null), AdminDictionaryVO.class);
+        List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
+                .orderByAsc(AdminDictionary::getCode)
+                .eq(AdminDictionary::getDisable, 0)
+        ), AdminDictionaryVO.class);
         if (dict == null || dictVoList == null || dictVoList.size() == 0) {
             return null;
         }
@@ -43,6 +54,14 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     }
 
 
+    /**
+     * 查询下级所有Id, 包括禁用数据
+     * @author wangsong
+     * @param id
+     * @date 2020/8/8 0008 1:16
+     * @return java.util.List<java.lang.String>
+     * @version 1.0.0
+     */
     @Override
     public List<String> findByIdFetchIds(String id) {
         // 查询当前
@@ -61,16 +80,30 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     }
 
 
+    /**
+     * 所有数据， 不包括禁用数据
+     * <p>
+     *     key - value 形式，因为所有添加下层数据是引用。每一个key下的value 数据依然有所有的层级关系数据
+     * </p>
+     * @author wangsong
+     * @date 2020/8/8 0008 1:07
+     * @return java.util.Map<java.lang.String, com.ws.ldy.modules.admin.model.vo.AdminDictionaryVO>
+     * @version 1.0.0
+     */
     @Override
     public Map<String, AdminDictionaryVO> findCodeGroup() {
         // 数据为空或者版本号变动刷新前台数据，未变动不刷新此数据
         if (dictVOGroupMap == null || !version.equals(dictVOGroupMap.get("version").getVersion())) {
             // return
             Map<String, AdminDictionaryVO> respDictVOMap = new HashMap<>();
-            // 查询菜单
-            List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>().orderByAsc(AdminDictionary::getCode)), AdminDictionaryVO.class);
+            // 查询字典数据
+            List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
+                    .orderByAsc(AdminDictionary::getCode)
+                    .eq(AdminDictionary::getDisable, 0)
+            ), AdminDictionaryVO.class);
+
             for (AdminDictionaryVO fatherDictVo : dictVoList) {
-                //  不添加Integer参数时间，设置当前数据为父级，不论当前层次的，递归获取所有当前层次的下级数据
+                //  不添加Integer参数类型，设置当前数据为父级，不论当前层次的，递归获取所有当前层次的下级数据
                 if (StringUtil.isInteger(fatherDictVo.getCode())) {
                     continue;
                 }

@@ -75,7 +75,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     @ApiOperation(value = "ID编辑", notes = "")
     public R<Void> upd(@RequestBody AdminRoleDTO adminRoleDto) {
         baseService.updateById(adminRoleDto.convert(AdminRole.class));
-        return R.successInsert();
+        return R.successUpdate();
     }
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
