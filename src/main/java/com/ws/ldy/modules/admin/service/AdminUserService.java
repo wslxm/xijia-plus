@@ -4,6 +4,8 @@ package com.ws.ldy.modules.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.modules.admin.model.entity.AdminUser;
 
+import java.util.List;
+
 /**
  *   用户
  *
@@ -13,8 +15,14 @@ import com.ws.ldy.modules.admin.model.entity.AdminUser;
  */
 public interface AdminUserService extends IService<AdminUser> {
 
+
     /**
-     * 账号登录
+     * 根据角色Id查询指定用户
+     * @author wangsong
+     * @param roleId
+     * @date 2020/8/9 0009 10:08
+     * @return void
+     * @version 1.0.0
      */
-    public AdminUser findByAccount(String account);
+    public List<AdminUser> findByRoleId(String roleId);
 }

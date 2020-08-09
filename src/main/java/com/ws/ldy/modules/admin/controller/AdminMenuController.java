@@ -3,9 +3,7 @@ package com.ws.ldy.modules.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ws.ldy.common.result.R;
-import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.modules.admin.model.dto.AdminMenuDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminMenu;
@@ -72,8 +70,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "菜单添加", notes = "")
     public R<Void> insert(@RequestBody AdminMenuDTO adminMenuDto) {
-        AdminMenu adminMenu = adminMenuDto.convert(AdminMenu.class);
-        baseService.save(adminMenu);
+        baseService.save(adminMenuDto.convert(AdminMenu.class));
         return R.successInsert();
     }
 
@@ -81,11 +78,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "ID编辑", notes = "")
     public R<Void> upd(@RequestBody AdminMenuDTO adminMenuDto) {
-        if (adminMenuDto.getId() == null) {
-            throw new ErrorException(RType.ADMIN_IS_NO_UPDATE_ID);
-        }
-        AdminMenu adminMenu = adminMenuDto.convert(AdminMenu.class);
-        baseService.updateById(adminMenu);
+        baseService.updateById( adminMenuDto.convert(AdminMenu.class));
         return R.successUpdate();
     }
 

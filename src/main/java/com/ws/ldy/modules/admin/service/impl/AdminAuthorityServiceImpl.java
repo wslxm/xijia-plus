@@ -1,14 +1,20 @@
 package com.ws.ldy.modules.admin.service.impl;
 
-import com.ws.ldy.modules.admin.mapper.AdminAuthorityMapper;
-import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
-import com.ws.ldy.modules.admin.service.AdminAuthorityService;
-import com.ws.ldy.enums.base.BaseConstant;
-import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.ClassUtil;
+import com.ws.ldy.enums.base.BaseConstant;
+import com.ws.ldy.modules.admin.mapper.AdminAuthorityMapper;
+import com.ws.ldy.modules.admin.mapper.AdminRoleAuthMapper;
+import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
+import com.ws.ldy.modules.admin.model.entity.AdminRoleAuth;
+import com.ws.ldy.modules.admin.model.vo.AdminAuthorityVO;
+import com.ws.ldy.modules.admin.service.AdminAuthorityService;
+import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,23 +24,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
 @Slf4j
 public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMapper, AdminAuthority> implements AdminAuthorityService {
     /**
-     * url权限注解扫包范围
+     * url权限注解扫包范围 TODO 应该为直接用代码获取当前项目的路径
      */
     private final static String PACKAGE_NAME = "com.ws.ldy";
 
 
-    @Override
-    public List<AdminAuthority> findUserIdRoleAuthority(Integer userId) {
-        return this.findUserIdRoleAuthority(userId);
-    }
 
-
+    @Autowired
+    private AdminRoleAuthMapper adminRoleAuthMapper;
     /**
      *   添加接口--扫描包下所有类
      *
@@ -147,6 +151,38 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 addAuthority.setMethod(requestMethod);    // 请求方式
                 this.save(addAuthority);
             }
+        }
+    }
+
+
+
+    /**
+     * 获取用户的url权限列表，给指定角色的有的权限数据赋予选中状态
+     *
+     * @param roleId
+     * @return void
+     * @date 2019/11/25 0025 11:55
+     */
+    @Override
+    public List<AdminAuthorityVO> findByRoleIdAuthorityChecked(String roleId) {
+        // 获取当前角色拥有的url权限列表
+        List<AdminRoleAuth> roleIds = adminRoleAuthMapper.selectList(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId,roleId));
+        List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(i -> i.getAuthId()).collect(Collectors.toList()) : new ArrayList<>();
+        // 获取所有url,请求方式排序
+        List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>().orderByAsc(AdminAuthority::getMethod));
+        // 返回数据处理
+        if (authorityList == null || authorityList.size() <= 0) {
+            return null;
+        } else {
+            List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authorityList, AdminAuthorityVO.class);
+            adminAuthorityVOList.forEach(authVO -> {
+                if (roleAuthIds.contains(authVO.getId())) {
+                    authVO.setIsChecked(true);
+                } else {
+                    authVO.setIsChecked(false);
+                }
+            });
+            return adminAuthorityVOList;
         }
     }
 }

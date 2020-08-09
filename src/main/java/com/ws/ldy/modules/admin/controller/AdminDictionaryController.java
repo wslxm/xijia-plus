@@ -72,8 +72,7 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
     @ApiOperation(value = "添加", notes = "字符串Code不能重复,  数字类型的Code可以重复")
     public R<Void> insert(@RequestBody AdminDictionaryDTO adminDictionaryDto) {
         adminDictionaryDto.setCode(adminDictionaryDto.getCode().trim());
-        if (!StringUtil.isInteger(adminDictionaryDto.getCode())
-                && baseService.count(new LambdaQueryWrapper<AdminDictionary>().eq(com.ws.ldy.modules.admin.model.entity.AdminDictionary::getCode, adminDictionaryDto.getCode())) > 0) {
+        if (!StringUtil.isInteger(adminDictionaryDto.getCode()) && baseService.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, adminDictionaryDto.getCode())) > 0) {
             // 字符串code 为string时不能重复, 为Integer时可以重复
             throw new ErrorException(RType.ADMIN_DICT_DUPLICATE);
         }
@@ -85,16 +84,18 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
-    @ApiOperation(value = "编辑", notes = "编辑后当前字典的字符串Code不能与其他字典的字符串Code重复， 不编辑Code 和数字类型的Code 不受影响")
+    @ApiOperation(value = "编辑", notes = "编辑后当前字典的字符串Code不能与其他字典的字符串Code重复， 不编辑Code时 + 编辑数字类型的Code时 不受影响")
     public R<Void> upd(@RequestBody AdminDictionaryDTO adminDictionaryDto) {
-        adminDictionaryDto.setCode(adminDictionaryDto.getCode().trim());
-        //原数据
-        AdminDictionary dict = baseService.getById(adminDictionaryDto.getId());
-        // 修改了code 判断--> 字符串code 为string时不能重复, 为Integer时可以重复
-        if (!dict.getCode().equals(adminDictionaryDto.getCode().trim())) {
-            if (!StringUtil.isInteger(adminDictionaryDto.getCode())
-                    && baseService.count(new LambdaQueryWrapper<AdminDictionary>().eq(com.ws.ldy.modules.admin.model.entity.AdminDictionary::getCode, adminDictionaryDto.getCode())) > 0) {
-                throw new ErrorException(RType.ADMIN_DICT_DUPLICATE);
+        // 因为Code不能重复, 编辑了Code 需单独处理数据
+        if (adminDictionaryDto.getCode() != null) {
+            adminDictionaryDto.setCode(adminDictionaryDto.getCode().trim());
+            // 原数据
+            AdminDictionary dict = baseService.getById(adminDictionaryDto.getId());
+            //  原数据code != new Code, 判断数据库是否存在修改后的code值 ， code为Integer时不处理
+            if (!dict.getCode().equals(adminDictionaryDto.getCode().trim())) {
+                if (!StringUtil.isInteger(adminDictionaryDto.getCode()) && baseService.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, adminDictionaryDto.getCode())) > 0) {
+                    throw new ErrorException(RType.ADMIN_DICT_DUPLICATE);
+                }
             }
         }
         baseService.updateById(adminDictionaryDto.convert(AdminDictionary.class));
@@ -121,19 +122,6 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
         AdminDictionary dict = new AdminDictionary();
         dict.setId(id);
         dict.setSort(sort);
-        baseService.updateById(dict);
-        //刷新版本号
-        AdminDictionaryServiceImpl.version++;
-        return R.successUpdate();
-    }
-
-
-    @RequestMapping(value = "/updByDisable", method = RequestMethod.PUT)
-    @ApiOperation(value = "禁用/启用", notes = "0-启用 1-禁用")
-    public R<Void> updByDisable(@RequestParam String id, @RequestParam Integer disable) {
-        AdminDictionary dict = new AdminDictionary();
-        dict.setId(id);
-        dict.setDisable(disable);
         baseService.updateById(dict);
         //刷新版本号
         AdminDictionaryServiceImpl.version++;

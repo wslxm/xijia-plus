@@ -10,15 +10,12 @@ import com.ws.ldy.modules.admin.model.dto.AdminRoleDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminRole;
 import com.ws.ldy.modules.admin.model.vo.AdminRoleVO;
 import com.ws.ldy.modules.admin.service.AdminRoleService;
-import com.ws.ldy.modules.admin.service.AdminRoleAuthService;
-import com.ws.ldy.modules.admin.service.AdminRoleMenuService;
 import com.ws.ldy.others.base.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,10 +32,6 @@ import java.util.List;
 @Api(value = "AdminRoleController", tags = "角色管理", description = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminRoleController extends BaseController<AdminRoleService> {
 
-    @Autowired
-    private AdminRoleMenuService adminRoleMenuService;
-    @Autowired
-    private AdminRoleAuthService adminRoleAuthService;
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
     @ApiOperation(value = "分页查询", notes = "")
@@ -52,7 +45,6 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
                 .orderByAsc(AdminRole::getId)
                 .like(StringUtils.isNotBlank(name), AdminRole::getName, name)
         );
-
         return R.successFind(BeanDtoVoUtil.pageVo(page, AdminRoleVO.class));
     }
 
@@ -94,7 +86,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     @RequestMapping(value = "/findUserRole", method = RequestMethod.GET)//Checked
     @ApiOperation(value = "获取用户的当前角色", notes = "用户角色分配查询到所有角色, 并使用户拥有的角色赋予 isChecked=true")
     public R<List<AdminRoleVO>> findRoleChecked(@RequestParam String userId) {
-        List<AdminRoleVO> roles = baseService.findRoleChecked(userId);
+        List<AdminRoleVO> roles = baseService.findByUserIdRoleChecked(userId);
         return R.successFind(roles);
     }
 
@@ -110,7 +102,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     @RequestMapping(value = "/updRoleMenu", method = RequestMethod.PUT)
     @ApiOperation(value = "角色的菜单分配", notes = "")
     public R<Void> updRoleMenu(@RequestParam String roleId, String[] menuIds) {
-        adminRoleMenuService.roleMenuAuth(roleId, menuIds);
+        baseService.roleMenuAuth(roleId, menuIds);
         return R.successUpdate();
     }
 
@@ -118,7 +110,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     @RequestMapping(value = "/updRoleAuth", method = RequestMethod.PUT)
     @ApiOperation(value = "角色的URL权限分配", notes = "")
     public R<Void> updRoleAuth(@RequestParam String roleId, String[] authIds) {
-        adminRoleAuthService.roleUrlAuth(roleId, authIds);
+        baseService.roleUrlAuth(roleId, authIds);
         return R.successUpdate();
     }
 }

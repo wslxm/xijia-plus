@@ -23,7 +23,7 @@ public interface AdminMenuService extends IService<AdminMenu> {
      * @return
      * @date 2019/11/13 14:45
      */
-    public List<AdminMenuVO> getMenuTree();
+     List<AdminMenuVO> getMenuTree();
 
     /**
      *   根据父id 查询所有子节点数据（包括自己 Tree数据）, 根据角色权限赋值isChecked = true||false
@@ -32,7 +32,7 @@ public interface AdminMenuService extends IService<AdminMenu> {
      * @return java.util.List<com.ws.ldy.adminconsole.entity.AdminMenu>
      * @date 2019/11/15 16:18
      */
-    public List<AdminMenuVO> findPIdOrRoleIdTree(String pId, String roleId);
+     List<AdminMenuVO> findPIdOrRoleIdTree(String pId, String roleId);
 
     /**
      *   根据父id 查询所有子节点数据（包括自己 List列表） , 根据角色权限赋值isChecked = true||false
@@ -41,6 +41,6 @@ public interface AdminMenuService extends IService<AdminMenu> {
      * @return java.util.List<com.ws.ldy.adminconsole.entity.AdminMenu>
      * @date 2019/11/15 16:18
      */
-    public List<AdminMenuVO> findPIdOrRoleIdList(String pId, String roleId);
+     List<AdminMenuVO> findPIdOrRoleIdList(String pId, String roleId);
 
 }

@@ -25,7 +25,7 @@ import java.nio.file.Paths;
  * @author peter 2018/10/20 21:32
  */
 @RestController
-@Api(value = "FileController", tags = "文件管理--文件保存到项目部署目录")
+@Api(value = "FileController", tags = "文件管理--文件上传到部署项目的服务器")
 @RequestMapping("/file")
 public class FileController extends BaseController {
 

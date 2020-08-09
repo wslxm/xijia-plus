@@ -35,10 +35,12 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      * @date 2019/11/20 19:18
      * @return void
      */
+    @Override
     public void buildEntity(List<Map<String, Object>> data, String path) {
         Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "");
         //数据拼接(所有字段)
         StringBuffer fields = new StringBuffer();
+        int position = 0;
         for (Map<String, Object> fieldMap : data) {
             if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
                 continue;
@@ -49,7 +51,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             String type = fieldMap.get("type").toString();
             // 字段注释信息-->  普通注释 fields.append("\r\n    /** " + fieldMap.get("desc") + " */");
             // 字段注释信息-->  Swagger2 模式
-            fields.append("\r\n    @ApiModelProperty(notes = \"" + fieldMap.get("desc") + "\")");
+            fields.append("\r\n    @ApiModelProperty(notes = \"" + fieldMap.get("desc") + "\" ,position = " + position++ + ")");
             // 字段名为id的 添加id主键注解, int 默认自增, bigint+varchar 默认雪花算法
             if ("id".equals(fieldName)) {
                 // id生成策略
@@ -78,18 +80,19 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         pathMap.put("entity", brBwPath.get("path").toString());
     }
 
-
+    @Override
     public void buildDTO(List<Map<String, Object>> data, String path) {
         Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "DTO");
         //数据拼接(所有字段)
         StringBuffer fields = new StringBuffer();
+        int position = 0;
         for (Map<String, Object> fieldMap : data) {
             if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
                 continue;
             }
             String fieldName = GenerateUtil.getFieldName(fieldMap.get("name").toString());
             String type = fieldMap.get("type").toString();
-            fields.append("\r\n    @ApiModelProperty(notes = \"" + fieldMap.get("desc") + "\")");
+            fields.append("\r\n    @ApiModelProperty(notes = \"" + fieldMap.get("desc") + "\" ,position = " + position++ + ")");
             String isNull = fieldMap.get("isNull").toString();
             //
             String typeDetail = fieldMap.get("typeDetail").toString();
@@ -169,17 +172,19 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
                 toString());
     }
 
+    @Override
     public void buildVO(List<Map<String, Object>> data, String path) {
         Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "VO");
         //数据拼接(所有字段)
         StringBuffer fields = new StringBuffer();
+        int position = 0;
         for (Map<String, Object> fieldMap : data) {
             if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
                 continue;
             }
             String fieldName = GenerateUtil.getFieldName(fieldMap.get("name").toString());
             String type = fieldMap.get("type").toString();
-            fields.append("\r\n    @ApiModelProperty(notes = \"" + fieldMap.get("desc") + "\")");
+            fields.append("\r\n    @ApiModelProperty(notes = \"" + fieldMap.get("desc") + "\" ,position = " + position++ + ")");
             this.JXModel(fields, fieldName, type);
         }
         // 数据保存到替换对象类,使模板中可以读取
@@ -231,6 +236,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      * @return void
      * @date 2019/11/20 19:18
      */
+    @Override
     public void buildController(List<Map<String, Object>> data, String path) {
         Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "Controller");
         // 数据拼接(所有字段)
@@ -309,6 +315,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      * @return void
      * @date 2019/11/20 19:18
      */
+    @Override
     public void buildService(List<Map<String, Object>> data, String path) {
         Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "Service");
         // 开始生成文件并进行数据替换
@@ -329,6 +336,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      * @return void
      * @date 2019/11/20 19:18
      */
+    @Override
     public void buildServiceImpl(List<Map<String, Object>> data, String path) {
         Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "ServiceImpl");
         // 开始生成文件并进行数据替换
@@ -347,6 +355,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      * @return void
      * @date 2019/11/20 19:18
      */
+    @Override
     public void buildMapper(List<Map<String, Object>> data, String path) {
         Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "Mapper");
         // 开始生成文件并进行数据替换
@@ -365,6 +374,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      * @return void
      * @date 2019/11/20 19:18
      */
+    @Override
     public void buildMapperXml(List<Map<String, Object>> data, String path) {
         Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "MapperXml");
         StringBuffer resultMap = new StringBuffer();
@@ -395,6 +405,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      * @return void
      * @date 2019/11/20 19:18
      */
+    @Override
     public void buildMainHtml(List<Map<String, Object>> dataList, String path) {
         Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "Html");
         BufferedReader br = (BufferedReader) brBwPath.get("br");
@@ -447,6 +458,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      * @return void
      * @date 2019/11/20 19:18
      */
+    @Override
     public void buildAddHtml(List<Map<String, Object>> dataList, String path) {
 
         Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "HtmlAdd");
@@ -494,6 +506,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      * @return void
      * @date 2019/11/20 19:18
      */
+    @Override
     public void buildUpdHtml(List<Map<String, Object>> dataList, String path) {
 
         Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "HtmlUpd");

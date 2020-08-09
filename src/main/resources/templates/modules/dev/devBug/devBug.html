@@ -116,10 +116,10 @@
     let page_upd = path + "/page/modules_dev_devBug_devBugUpd";   //角色编辑弹出
 
 
-    let dev_user_list = "/admin/adminUser/findRoleUser?roleId=" + enums.base.dev_user_role_id;  // 查询开发人员(角色)（注意数据库参数是否正确）
+    let dev_user_list = "/admin/adminUser/findByRoleId?roleId=" + enums.base.dev_user_role_id;  // 查询开发人员(角色)（注意数据库参数是否正确）
     let item_list = "/admin/adminDictionary/findByCode?code=" + enums.dev.dev_item;             // 查询字典项目列表（注意数据库参数是否正确）
-    let usersData = ajaxGet(dev_user_list);
-    let itemsData = ajaxGet(item_list);
+    var usersData = ajaxGet(dev_user_list);
+    var itemsData = ajaxGet(item_list);
 
 
     let table;     // 数据表格组件
@@ -369,22 +369,12 @@
         // 开发人员select
         let userListHtml = "<option value=\"\" selected=\"\">全部</option>";
         for (let i = 0; i < usersData.data.length; i++) {
-            if (usersData.data[i].isChecked) {
-                if (userListHtml == null) {
-                    userListHtml += "<option value='" + usersData.data[i].id + "' selected=''>" + usersData.data[i].fullName + "</option>"
-                } else {
-                    userListHtml += "<option value='" + usersData.data[i].id + "' >" + usersData.data[i].fullName + "</option>"
-                }
-            }
+            userListHtml += "<option value='" + usersData.data[i].id + "' >" + usersData.data[i].fullName + "</option>"
         }
         //项目select
         let itemListHtml = "<option value=\"\" selected=\"\">全部</option>";
         for (let i = 0; i < itemsData.data.dictList.length; i++) {
-            if (i === 0) {
-                itemListHtml += "<option value='" + itemsData.data.dictList[i].code + "' selected=''>" + itemsData.data.dictList[i].name + "</option>"
-            } else {
-                itemListHtml += "<option value='" + itemsData.data.dictList[i].code + "' >" + itemsData.data.dictList[i].name + "</option>"
-            }
+            itemListHtml += "<option value='" + itemsData.data.dictList[i].code + "' >" + itemsData.data.dictList[i].name + "</option>"
         }
         $("#taskUserId").html(userListHtml);
         $("#item").html(itemListHtml)

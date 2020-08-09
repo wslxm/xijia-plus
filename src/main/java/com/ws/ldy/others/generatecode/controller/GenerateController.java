@@ -45,7 +45,7 @@ public class GenerateController extends BaseController<GenerationSeviceImpl> {
      */
     @ApiOperation("生成预览代码")
     @RequestMapping(value = "/preview", method = RequestMethod.POST)
-    public R<Map<String, String>> preview(@RequestBody GenerateDto generateDto) throws Exception {
+    public R<Map<String, String>> preview(@RequestBody GenerateDto generateDto) {
         // 解析数据库字段数据
         List<Map<String, Object>> dataList = GenerateUtil.getDataAnalysis(generateDto.getData());
         // 请求地址，去除接口名
@@ -78,7 +78,7 @@ public class GenerateController extends BaseController<GenerationSeviceImpl> {
         generationSeviceImpl.buildUpdHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + DsField.TABLE_NAME_LOWER + "/");
         System.err.println("代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/" + GenerateConfig.PACK_PATH_ZP + "_" + GenerateConfig.MODULE_NAME + "_" + DsField.TABLE_NAME_LOWER + "_" + DsField.TABLE_NAME_LOWER);
 
-        return R.success(generationSeviceImpl.pathMap);
+        return R.success(GenerationSeviceImpl.pathMap);
     }
 
 
@@ -127,7 +127,7 @@ public class GenerateController extends BaseController<GenerationSeviceImpl> {
 //        generationSeviceImpl.buildUpdHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT + DsField.TABLE_NAME_LOWER + "/");
         System.err.println("代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/" + GenerateConfig.PACK_PATH_ZP + "_" + GenerateConfig.MODULE_NAME + "_" + DsField.TABLE_NAME_LOWER + "_" + DsField.TABLE_NAME_LOWER);
 
-        return R.success(generationSeviceImpl.pathMap);
+        return R.success(GenerationSeviceImpl.pathMap);
     }
 
 

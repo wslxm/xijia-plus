@@ -12,12 +12,10 @@ import com.ws.ldy.enums.base.BaseConstant;
 import com.ws.ldy.modules.admin.model.dto.UserAdminDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminUser;
 import com.ws.ldy.modules.admin.model.vo.AdminUserVO;
-import com.ws.ldy.modules.admin.service.AdminRoleUserService;
 import com.ws.ldy.modules.admin.service.AdminUserService;
 import com.ws.ldy.others.base.controller.BaseController;
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -25,7 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *   系统用户
+ *  系统用户
  *
  * @author 王松
  * @WX-QQ 1720696548
@@ -36,17 +34,12 @@ import java.util.List;
 @Api(value = "AdminUserController", tags = "用户管理", description = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminUserController extends BaseController<AdminUserService> {
 
-    @Autowired
-    private AdminRoleUserService adminRoleUserService;
 
-
-
-//    @RequestMapping(value = "/findUser", method = RequestMethod.GET)
-//    @ApiOperation("当前登录用户信息")
-//    public Result<AdminUserVO> findUser() {
-//        return Result.successFind(AdminUserUtils.getUserAdmin().convert(AdminUserVO.class));
-//    }
-
+    @RequestMapping(value = "/findUser", method = RequestMethod.GET)
+    @ApiOperation("个人信息")
+    public R<AdminUserVO> findUser() {
+        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN))), AdminUserVO.class));
+    }
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
     @ApiOperation(value = "分页查询", notes = "")
@@ -67,18 +60,13 @@ public class AdminUserController extends BaseController<AdminUserService> {
         return R.success(BeanDtoVoUtil.pageVo(page, AdminUserVO.class));
     }
 
-
-    @RequestMapping(value = "/findRoleUser", method = RequestMethod.GET)
-    @ApiOperation(value = "获取指定角色的当前用户", notes = "查询所有用户,拥有当前角色权限的给予：isChecked=true")
+    @RequestMapping(value = "/findByRoleId", method = RequestMethod.GET)
+    @ApiOperation(value = "获取指定角色的用户列表", notes = "查询所有用户")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query"),
     })
-    public R<List<AdminUserVO>> findRoleUser(@RequestParam String roleId) {
-        // TODO  此方法存在一定问题，当用户多多，性能损耗将随之增加，不应该查询所有用户信息出来进行判断操作，只查询角色当前用户信息，建议使用sql直接查询
-        List<AdminUser> userList = baseService.list();
-        // 角色选中状态处理
-        List<AdminUserVO> adminUserVOS = adminRoleUserService.roleUserChecked(userList, roleId);
-        return R.success(adminUserVOS);
+    public R<List<AdminUserVO>> findByRoleId(@RequestParam String roleId) {
+        return R.success(BeanDtoVoUtil.listVo(baseService.findByRoleId(roleId), AdminUserVO.class));
     }
 
 
@@ -87,7 +75,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
     public R<Void> insert(@RequestBody UserAdminDTO userAdminDto) {
         AdminUser adminUser = userAdminDto.convert(AdminUser.class);
         adminUser.setPassword(MD5Util.encode(adminUser.getPassword()));
-        adminUser.setDisable(0);//默认启用状态
+        adminUser.setDisable(0); //默认启用状态
         adminUser.setRegTime(LocalDateTime.now());
         baseService.save(adminUser);
         return R.success();

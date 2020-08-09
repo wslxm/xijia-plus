@@ -21,7 +21,7 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfig {
     @Bean
-    public Docket baseApi() {
+    public Docket baseApi() {  //swagger.ui-config.operations-sorter=method
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("BASE-全局通用接口")
                 .globalOperationParameters(getGlobalParameter())

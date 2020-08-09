@@ -93,32 +93,16 @@
 
 <script>
 
-    let dev_user_list = "/admin/adminUser/findRoleUser?roleId=" + enums.base.dev_user_role_id;  // 查询开发人员(角色)（注意数据库参数是否正确）
-    let item_list = "/admin/adminDictionary/findByCode?code=" + enums.dev.dev_item;             // 查询字典项目列表（注意字典表参数是否正确）
-
-
     $(function () {
-        //开发人员
-        let userListHtml;
-        let usersData = ajaxGet(dev_user_list);
-        for (let i = 0; i < usersData.data.length; i++) {
-            if (usersData.data[i].isChecked) {
-                if (usersData.data[i].id === parent.data.taskUserId) {
-                    userListHtml += "<option value='" + usersData.data[i].id + "' selected=''>" + usersData.data[i].fullName + "</option>"
-                } else {
-                    userListHtml += "<option value='" + usersData.data[i].id + "' >" + usersData.data[i].fullName + "</option>"
-                }
-            }
+        // 开发人员select
+        let userListHtml = "<option value=\"\" selected=\"\">全部</option>";
+        for (let i = 0; i < parent.usersData.data.length; i++) {
+            userListHtml += "<option value='" + parent.usersData.data[i].id + "' >" + parent.usersData.data[i].fullName + "</option>"
         }
-        //项目
-        let itemListHtml;
-        let itemsData = ajaxGet(item_list);
-        for (let i = 0; i < itemsData.data.dictList.length; i++) {
-            if (itemsData.data.dictList[i].code ===parent.data.item) {
-                itemListHtml += "<option value='" + itemsData.data.dictList[i].code + "' selected=''>" + itemsData.data.dictList[i].name + "</option>"
-            } else {
-                itemListHtml += "<option value='" + itemsData.data.dictList[i].code + "' >" + itemsData.data.dictList[i].name + "</option>"
-            }
+        //项目select
+        let itemListHtml = "<option value=\"\" selected=\"\">全部</option>";
+        for (let i = 0; i < parent.itemsData.data.dictList.length; i++) {
+            itemListHtml += "<option value='" + parent.itemsData.data.dictList[i].code + "' >" + parent.itemsData.data.dictList[i].name + "</option>"
         }
         $("#taskUserId").html(userListHtml);
         $("#item").html(itemListHtml);
@@ -126,19 +110,28 @@
         //<!-- 父页面的值,赋值到当前页 -->
         $('#name').val(parent.data.name);
         $('#content').val(parent.data.content);
-        $('#type').val(parent.data.type);
         $('#plannedTime').val(parent.data.plannedTime);
         $('#estimateTime').val(parent.data.estimateTime);
-        // select 回显
+        // 任务类型 --select 回显
         $("#type").find("option").each(function () {
-            if ($(this).val() == parent.data.type) {
+            if ($(this).val() === parent.data.type) {
+                $(this).attr("selected", "selected");
+            }
+        });
+        // 项目 --select 回显
+        $("#item").find("option").each(function () {
+            if ($(this).val() === parent.data.item) {
+                $(this).attr("selected", "selected");
+            }
+        });
+        // 指派人 -- select 回显
+        $("#taskUserId").find("option").each(function () {
+            if ($(this).val() === parent.data.taskUserId) {
                 $(this).attr("selected", "selected");
             }
         });
 
     });
-
-
 
 
     layui.use(['form', 'laydate'], function () {

@@ -2,6 +2,7 @@ package com.ws.ldy.modules.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
+import com.ws.ldy.modules.admin.model.vo.AdminAuthorityVO;
 
 import java.util.List;
 
@@ -22,13 +23,14 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      */
     void refreshAuthority();
 
+
+
     /**
-     *     获取指定用户有url权限列表
+     * 获取用户的url权限列表，给指定角色的有的权限数据赋予选中状态
      *
      * @param userId 用户id
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    List<AdminAuthority> findUserIdRoleAuthority(Integer userId);
-
+    List<AdminAuthorityVO> findByRoleIdAuthorityChecked(String userId);
 }

@@ -58,7 +58,7 @@
 <script>
     // 接口
     let find_list = path + "/admin/adminDictionary/findList";      // 查询列表
-    let update = path + "/admin/adminDictionary/updByDisable";     // 禁用/启动
+    let update = path + "/admin/adminDictionary/upd";              // 编辑
     let deletes = path + "/admin/adminDictionary/del";             // 删除
     let upd_sort = path + "/admin/adminDictionary/updBySort";      // 修改排序
     // 路由
@@ -285,10 +285,14 @@
             } else {
                 disable = 1;
             }
-            let param = "";
-            param += "?id=" + data.elem.attributes['id'].nodeValue;
-            param += "&disable=" + disable;
-            let result = ajaxPut(update + param);
+            let reqData = {
+                id: data.elem.attributes['id'].nodeValue,
+                disable: disable
+            };
+            // let param = "";
+            // param += "?id=" + data.elem.attributes['id'].nodeValue;
+            // param += "&disable=" + disable;
+            let result = ajaxPut(update , reqData);
             layer.msg(result.msg)
         });
     }
