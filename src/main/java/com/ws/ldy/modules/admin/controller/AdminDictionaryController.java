@@ -1,12 +1,13 @@
 package com.ws.ldy.modules.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.google.common.base.CaseFormat;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.StringUtil;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.enums.base.BaseConstant;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.admin.model.dto.AdminDictionaryDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminDictionary;
 import com.ws.ldy.modules.admin.model.vo.AdminDictionaryVO;
@@ -53,6 +54,13 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
     )
     public R<Map<String, AdminDictionaryVO>> findCodeGroup() {
         return R.successFind(baseService.findCodeGroup());
+    }
+
+
+    @RequestMapping(value = "/findVersion", method = RequestMethod.GET)
+    @ApiOperation(value = "获取字典版本", notes = "获取数据字典版本信息, 如果判断到本地版本和线上版本不一致,调用 findCodeGroup 接口刷新字典数据")
+    public R<Integer> findVersion() {
+        return R.success(AdminDictionaryServiceImpl.version);
     }
 
 
@@ -126,5 +134,45 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
         //刷新版本号
         AdminDictionaryServiceImpl.version++;
         return R.successUpdate();
+    }
+
+
+    @RequestMapping(value = "/generateEnum", method = RequestMethod.GET)
+    @ApiOperation(value = "生成枚举", notes = "排序数字越小,越靠前")
+    public R<String> generateEnum() {
+        AdminDictionaryVO dict = baseService.findByCodeFetchDictVO("ENUMS");
+        StringBuffer sb = new StringBuffer();
+        sb.append("package com.ws.ldy.enums;\n");
+        sb.append("\nimport lombok.AllArgsConstructor;\n");
+        sb.append("\nimport lombok.Getter;;\n");
+        sb.append("public interface Enums {\n");
+        //模块名
+        for (AdminDictionaryVO dictModule : dict.getDictList()) {
+            sb.append("\n     /** ");
+            sb.append("\n      * " + dictModule.getDesc() + "");
+            sb.append("\n      */ ");
+            sb.append("\n    interface " + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictModule.getCode() + "{\n"));
+            //枚举字典的-枚举名--驼峰模式
+            for (AdminDictionaryVO dictField : dictModule.getDictList()) {
+                String moduleName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictField.getCode());
+                sb.append("\n        @Getter\n");
+                sb.append("        @AllArgsConstructor\n");
+                sb.append("        enum " + moduleName + "{\n");
+                //枚举字典的-枚举属性
+                for (AdminDictionaryVO dictValue : dictField.getDictList()) {
+                    sb.append("            " + dictField.getCode() + "_" + dictValue.getCode() + "(" + dictValue.getCode() + ", \"" + dictValue.getName() + "\"),\n");
+                }
+                sb.append("            ;\n");
+                sb.append("            private int value;\n");
+                sb.append("            private String desc;\n");
+                sb.append("        }\n");
+            }
+            sb.append("    }\n");
+        }
+        sb.append("}\n");
+        //刷新版本号
+        AdminDictionaryServiceImpl.version++;
+        System.out.println(sb.toString());
+        return R.success(sb.toString());
     }
 }

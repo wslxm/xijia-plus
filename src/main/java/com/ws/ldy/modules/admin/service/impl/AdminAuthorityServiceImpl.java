@@ -3,7 +3,7 @@ package com.ws.ldy.modules.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.ClassUtil;
-import com.ws.ldy.enums.base.BaseConstant;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.admin.mapper.AdminAuthorityMapper;
 import com.ws.ldy.modules.admin.mapper.AdminRoleAuthMapper;
 import com.ws.ldy.modules.admin.model.entity.AdminAuthority;

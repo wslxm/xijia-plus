@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
-import com.ws.ldy.enums.base.BaseConstant;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.dev.model.dto.DevTaskDTO;
 import com.ws.ldy.modules.dev.model.entity.DevTask;
 import com.ws.ldy.modules.dev.model.vo.DevTaskVO;
@@ -46,18 +46,18 @@ public class DevTaskController extends BaseController<DevTaskService> {
     })
     public R<IPage<DevTaskVO>> findPage(
             @ApiParam(value = "任务名", required = false) @RequestParam(required = false) String name,
-            @ApiParam(value = "任务类型(1-管理端 2-用户端 3-app端)", required = false) @RequestParam(required = false) Integer type,
+            @ApiParam(value = "任务类型(1-管理端 2-用户端 3-app端)", required = false) @RequestParam(required = false) String type,
             @ApiParam(value = "任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销)", required = false) @RequestParam(required = false) Integer state,
             @ApiParam(value = "项目字典code", required = false) @RequestParam(required = false) String item,
-            @ApiParam(value = "指派人Id", required = false) @RequestParam(required = false) Integer taskUserId) {
+            @ApiParam(value = "指派人Id", required = false) @RequestParam(required = false) String taskUserId) {
         Page<DevTask> page = baseService.page(this.getPage(), new LambdaQueryWrapper<DevTask>()
                 //.orderByAsc(DevTask::getState)
                 .orderByDesc(DevTask::getCreateTime)
                 .like(StringUtils.isNotBlank(name), DevTask::getName, name)
-                .eq(type != null, DevTask::getType, type)
                 .eq(state != null, DevTask::getState, state)
                 .eq(StringUtils.isNotBlank(item), DevTask::getItem, item)
-                .eq(taskUserId != null, DevTask::getTaskUserId, taskUserId)
+                .like(StringUtils.isNotBlank(type), DevTask::getType, type)
+                .like(StringUtils.isNotBlank(taskUserId), DevTask::getTaskUserId, taskUserId)
 
         );
         return R.successFind(BeanDtoVoUtil.pageVo(page, DevTaskVO.class));

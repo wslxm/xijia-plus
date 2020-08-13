@@ -3,7 +3,7 @@ package com.ws.ldy.config.auth.jwt.filter;
 import com.ws.ldy.config.auth.springSecurity.entity.SecurityUser;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.enums.base.BaseConstant;
+import com.ws.ldy.enums.BaseConstant;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
@@ -90,11 +90,11 @@ public class JWTValidFilter extends BasicAuthenticationFilter {
         //刷新token
         SecurityUser user = new SecurityUser();
         user.setId(JwtUtil.getUserId(token));
-        user.setUsername( JwtUtil.getUsername(token));
+        user.setUsername(JwtUtil.getUsername(token));
         user.setAuthorities(JwtUtil.getUserAuth(token));
-        user.setHead( JwtUtil.getUserHead(token));
+        user.setHead(JwtUtil.getUserHead(token));
         String newToken = JwtUtil.generateToken(user);
-        response.setHeader(BaseConstant.Sys.TOKEN,newToken);
+        response.setHeader(BaseConstant.Sys.TOKEN, newToken);
         // 执行成功，向下走
         super.doFilterInternal(request, response, chain);
     }

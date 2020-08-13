@@ -51,6 +51,7 @@ public class LogAspect {
     }
 
 
+
     /**
      * 日志记录
      * @author wang-song
@@ -60,6 +61,8 @@ public class LogAspect {
      * @version 1.0.0
      */
     private Object saveOpLogs(ProceedingJoinPoint proceed) throws Throwable {
+        // 允许跨域
+      //  this.setAllowOrigin();
         // 获取请求参数
         RequestAttributes ra = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes sra = (ServletRequestAttributes) ra;
@@ -92,7 +95,7 @@ public class LogAspect {
             classDesc = classAnnotation.tags().length > 0 ? classAnnotation.tags()[0] : classAnnotation.value();
         }
         Object[] args = proceed.getArgs(); // uri ： 接口  包： packageName,
-        log.info("用户ip:[{}] --> 设备名:[{}] --> 端口：[{}] -->  请求类:[{}]  -->  URL: [{}] --> [{}] --> [{}] --> 请求参数:[{}]", ip, host, port,className, url, classDesc, methodDesc, args);
+        log.info("用户ip:[{}] --> 设备名:[{}] --> 端口：[{}] -->  请求类:[{}]  -->  URL: [{}] --> [{}] --> [{}] --> 请求参数:[{}]", ip, host, port, className, url, classDesc, methodDesc, args);
 
         //===========================================================================================================
         //=========================== 如需统一日志收集,在此log.info 是内容收集到统一日志收集器中 ============================
@@ -101,6 +104,23 @@ public class LogAspect {
         Object res = proceed.proceed();
         return res;
     }
+
+
+//
+//    /**
+//     * 允许请求跨域
+//     */
+//    public void setAllowOrigin() {
+//        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+//        //HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        //此处ip地址为需要访问服务器的ip及端口号
+//        response.setHeader("Access-Control-Allow-Origin", "*");
+//        response.setHeader("Access-Control-Allow-Credentials", "true");
+//        response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
+//        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Token,Accept, Connection, User-Agent, Cookie");
+//        //response.setHeader("Access-Control-Max-Age", "3628800");
+//    }
+
 
     /**
      * 获取请求地址

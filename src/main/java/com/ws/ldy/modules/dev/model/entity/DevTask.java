@@ -40,7 +40,7 @@ public class DevTask extends BaseEntity {
 
     @ApiModelProperty(notes = "任务类型(1-管理端 2-用户端 3-app端)")
     @TableField(value = "type")
-    private Integer type;
+    private String type;
 
     @ApiModelProperty(notes = "任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销)")
     @TableField(value = "state")

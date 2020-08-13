@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.admin.controller;
 
 import com.ws.ldy.common.result.R;
-import com.ws.ldy.enums.base.BaseConstant;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.admin.model.vo.AdminAuthorityVO;
 import com.ws.ldy.modules.admin.service.AdminAuthorityService;
 import com.ws.ldy.others.base.controller.BaseController;

@@ -5,7 +5,7 @@ import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.enums.base.BaseConstant;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.admin.mapper.AdminMenuMapper;
 import com.ws.ldy.modules.admin.mapper.AdminRoleMenuMapper;
 import com.ws.ldy.modules.admin.model.entity.AdminMenu;

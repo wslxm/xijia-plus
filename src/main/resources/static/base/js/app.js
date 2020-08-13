@@ -8,16 +8,71 @@ var path = "";//http://127.0.0.1:80  //http://192.168.1.104:8080
  * 通用枚举字段key
  */
 var enums = {
-    base:{
+    base: {
         dev_user_role_id: "2",        // 开发人员角色Id
+        token: "TOKEN",               // token 命名
     },
-    dev:{
-        dev_item: "dev-item",    // 项目名
+    dev: {
+        dev_item: "BASE_ITEM",    // 项目名
     },
-    admin:{
-
-    }
+    admin: {}
 };
+
+
+/**
+ * 刷新字典数据（从后台获取字典数据并缓存到localStorage, 当字典数据没有发生变化时，后台请求的 dictData 数据除了版本信息(version),将没有任何返回数据）
+ * <P>
+ *   每次打开新的页面调用此方法刷新一下字典数据，如何后台没有更新，则只会查询版本号，不会查询字典数据，节约带宽，大大的提升访问速度
+ * </P>
+ */
+function refreshDict() {
+    let version = ajaxGet(path + "/admin/adminDictionary/findVersion").data;
+    let dictCache = getDict();
+    if (dictCache == null || version !== dictCache.VERSION.version) {
+        let dictData = ajaxGet(path + "/admin/adminDictionary/findCodeGroup");
+        localStorage.setItem('dictCache', JSON.stringify(dictData.data));
+    }
+}
+
+/**
+ * 获取字典数据
+ */
+function getDict() {
+    // 从后台获取字典数据并缓存到localStorage
+    return JSON.parse(localStorage.getItem('dictCache'));
+}
+
+
+/**
+ * 转换工具类 --> 数字转换字典Name值
+ */
+function convertDict(enumKay, code) {
+    return getDict()[enumKay].dictMap[code];
+}
+
+
+/**
+ * 测试方法
+ */
+function getDictTest() {
+    // 直接获取字典数据并转换
+    let test1 = getDict()[enums.dev.dev_item].dictMap[1];
+    let test2 = getDict()[enums.dev.dev_item].dictMap[2];
+    console.log(test1.code + " : " + test1.name);
+    console.log(test2.code + " : " + test2.name);
+
+    // 使用转换方法转换
+    let test3 = convertDict(enums.dev.dev_item, 3);
+    let test4 = convertDict(enums.dev.dev_item, 4);
+    console.log(test3.code + " : " + test3.name);
+    console.log(test4.code + " : " + test4.name);
+
+    //获取性别测试
+    let test5 = convertDict("GENDER", 1);
+    let test6 = convertDict("GENDER", 0);
+    console.log(test5.code + " : " + test5.name);
+    console.log(test6.code + " : " + test6.name);
+}
 
 
 /**
@@ -112,7 +167,7 @@ function tipsDeleteIds(url, data, obj) {
 var pageJson = {
     layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'] //自定义分页布局
     , curr: 1              // 设定初始在第1页
-    , limits: [10, 15, 20, 9999]   // 每页显示条数
+    , limits: [15, 20, 25, 9999]   // 每页显示条数
     , groups: 5            // 只显示几个连续页码
     // , first: "首页"      // 显示按钮内容（false为不展示,layout 不支持）
     // , last: "尾页"       // 显示按钮内容（false为不展示，layout 不支持）
@@ -207,9 +262,9 @@ function ajax(url, data, type, dataType) {
         success: function (resultData, status, request) {
             result = resultData;
             // token 处理,每次请求后刷新token
-            let token = request.getResponseHeader("TOKEN");
+            let token = request.getResponseHeader(enums.base.token);
             if (token != null) {
-                sessionStorage.setItem('TOKEN', token);
+                sessionStorage.setItem(enums.base.token, token);
             }
         },
         //请求失败

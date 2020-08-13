@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
-import com.ws.ldy.enums.base.BaseConstant;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.dev.model.dto.DevBugDTO;
 import com.ws.ldy.modules.dev.model.entity.DevBug;
 import com.ws.ldy.modules.dev.model.vo.DevBugVO;
@@ -48,7 +48,7 @@ public class DevBugController extends BaseController<DevBugService> {
             @ApiParam(value = "任务类型(1-管理端 2-用户端 3-app端 4-全端)", required = false) @RequestParam(required = false) Integer type,
             @ApiParam(value = "任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销)", required = false) @RequestParam(required = false) Integer state,
             @ApiParam(value = "项目字典code", required = false) @RequestParam(required = false) String item,
-            @ApiParam(value = "指派人Id", required = false) @RequestParam(required = false) Integer taskUserId) {
+            @ApiParam(value = "指派人Id", required = false) @RequestParam(required = false) String taskUserId) {
         Page<DevBug> page = baseService.page(this.getPage(), new LambdaQueryWrapper<DevBug>()
                 //.orderByAsc(DevBug::getState)
                 .orderByDesc(DevBug::getCreateTime)

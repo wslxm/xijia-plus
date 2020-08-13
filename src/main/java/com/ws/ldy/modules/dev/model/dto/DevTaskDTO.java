@@ -45,10 +45,10 @@ public class DevTaskDTO extends BaseDto {
     @NotBlank(message = "任务内容 不能为空")
     private String content;
 
-    @ApiModelProperty(notes = "任务类型(1-管理端 2-用户端 3-app端  4-所有端 )")
-    @NotNull(message = "任务类型 不能为空")
-    @Range(min=0, max=9L,message = "任务类型 必须小于9")
-    private Integer type;
+    @ApiModelProperty(notes = "任务端(1-管理端 2-用户端 3-app端  4-所有端 )")
+    @NotNull(message = "任务端不能为空")
+    @Length(min=1, max=32,message = "任务端 必须小于32位")
+    private String type;
 
 //    @ApiModelProperty(notes = "任务状态(0-未开始 1-正在进行 2-已完成 3-已撤销)")
 //    @NotNull(message = "任务状态 不能为空")

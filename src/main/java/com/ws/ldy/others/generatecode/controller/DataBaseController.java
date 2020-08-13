@@ -1,7 +1,7 @@
 package com.ws.ldy.others.generatecode.controller;
 
 import com.ws.ldy.common.result.R;
-import com.ws.ldy.enums.base.BaseConstant;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.others.base.controller.BaseController;
 import com.ws.ldy.others.generatecode.config.GenerateConfig;
 import com.ws.ldy.others.generatecode.model.vo.TableFieldVO;

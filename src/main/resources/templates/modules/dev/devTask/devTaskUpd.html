@@ -32,31 +32,28 @@
         <div class="layui-input-block">
             <select id="item" name="item" lay-filter="aihao">
 
-
             </select>
         </div>
     </div>
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">指派给</label>
-        <div class="layui-input-block">
-            <select id="taskUserId" name="taskUserId" lay-filter="aihao">
+    <div class="layui-form-item" pane="">
+        <label class="layui-form-label">执行人:</label>
+        <div class="layui-input-block" id="taskUserId">
 
-            </select>
         </div>
     </div>
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">任务类型</label>
-        <div class="layui-input-block">
-            <select id="type" name="type">
-                <option value="1">管理端</option>
-                <option value="2">用户端</option>
-                <option value="3">app端</option>
-                <option value="4">多端</option>
-            </select>
+
+    <div class="layui-form-item" pane="">
+        <label class="layui-form-label">任务端:</label>
+        <div class="layui-input-block" id="taskType">
+            <input type="checkbox" name="taskType" value="1" lay-skin="primary" title="管理端" checked=""/>
+            <input type="checkbox" name="taskType" value="2" lay-skin="primary" title="用户端"/>
+            <input type="checkbox" name="taskType" value="3" lay-skin="primary" title="app端"/>
+            <input type="checkbox" name="taskType" value="4" lay-skin="primary" title="多端"/>
         </div>
     </div>
+
 
     <div class="layui-form-item">
         <label class="layui-form-label">任务名称</label>
@@ -94,10 +91,10 @@
 <script>
 
     $(function () {
-        // 开发人员select
-        let userListHtml = "<option value=\"\" selected=\"\">全部</option>";
+        // 开发人员checkbox
+        let userListHtml = "";
         for (let i = 0; i < parent.usersData.data.length; i++) {
-            userListHtml += "<option value='" + parent.usersData.data[i].id + "' >" + parent.usersData.data[i].fullName + "</option>"
+            userListHtml += "<input type='checkbox' name='taskUserId' value='" + parent.usersData.data[i].id + "' lay-skin='primary' title='" + parent.usersData.data[i].fullName + "'/>";
         }
         //项目select
         let itemListHtml = "<option value=\"\" selected=\"\">全部</option>";
@@ -112,31 +109,50 @@
         $('#content').val(parent.data.content);
         $('#plannedTime').val(parent.data.plannedTime);
         $('#estimateTime').val(parent.data.estimateTime);
-        // 任务类型 --select 回显
-        $("#type").find("option").each(function () {
-            if ($(this).val() === parent.data.type) {
-                $(this).attr("selected", "selected");
-            }
-        });
+
         // 项目 --select 回显
         $("#item").find("option").each(function () {
             if ($(this).val() === parent.data.item) {
                 $(this).attr("selected", "selected");
             }
         });
-        // 指派人 -- select 回显
-        $("#taskUserId").find("option").each(function () {
-            if ($(this).val() === parent.data.taskUserId) {
-                $(this).attr("selected", "selected");
+        // 任务类型 --checkbox 回显
+        $("#taskType").find("input").each(function () {
+            let types = parent.data.type.split(",");
+            for (let i = 0; i < types.length; i++) {
+                if ($(this).val() === types[i]) {
+                    $(this).attr("checked", "");
+                }
             }
         });
-
+        // 指派人 -- checkbox 回显
+        $("#taskUserId").find("input").each(function () {
+            let taskUserIds = parent.data.taskUserId.split(",");
+            for (let i = 0; i < taskUserIds.length; i++) {
+                if ($(this).val() === taskUserIds[i]) {
+                    $(this).attr("checked", "");
+                }
+            }
+        });
     });
 
 
     layui.use(['form', 'laydate'], function () {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            // 任务端
+            let types = "";
+            $("input[name='taskType']:checked").each(function (i) {
+                types += $(this).val() + ",";
+            });
+            // 任务执行人
+            let taskUserIds = "";
+            $("input[name='taskUserId']:checked").each(function (i) {
+                taskUserIds += $(this).val() + ",";
+            });
+            data.field.taskUserId = taskUserIds.substring(0, taskUserIds.length - 1);
+            data.field.type = types.substring(0, types.length - 1);
+            //
             data.field.id = parent.data.id;
             //data.field.id = parent.data.id;
             let result = ajaxPut(path + "/dev/devTask/upd", data.field);

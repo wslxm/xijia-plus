@@ -8,7 +8,7 @@ import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.auth.util.MD5Util;
-import com.ws.ldy.enums.base.BaseConstant;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.admin.model.dto.UserAdminDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminUser;
 import com.ws.ldy.modules.admin.model.vo.AdminUserVO;

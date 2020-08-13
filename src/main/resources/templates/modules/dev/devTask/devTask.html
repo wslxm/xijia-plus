@@ -177,17 +177,29 @@
                         }
                     },
                     {
-                        field: 'type', title: '类型', width: 100, templet: function (res) {
-                            return res.type === 1 ? '管理端' : res.type === 2 ? '用户端' : res.type === 3 ? 'app端' : res.type === 4 ? '多端' : '未知';
+                        field: 'type', title: '类型', width: 160, templet: function (res) {
+                            let typeNames = "";
+                            let types = res.type.toString().split(",");
+                            for (let i = 0; i < types.length; i++) {
+                              let type =  Number(types[i]);
+                                typeNames += type === 1 ? '管理端' : type === 2 ? '用户端' : type === 3 ? 'app端' : type === 4 ? '多端' : '未知';
+                                typeNames += ",";
+                            }
+                            return typeNames.substring(0, typeNames.length - 1);
                         }
                     },
                     {
-                        field: 'taskUserName', title: '指派人', width: 100, templet: function (res) {
+                        field: 'taskUserName', title: '指派人', width: 130, templet: function (res) {
+                            let fullNames = "";
                             for (let i = 0; i < usersData.data.length; i++) {
-                                if (res.taskUserId === usersData.data[i].id) {
-                                    return usersData.data[i].fullName;
+                                let taskUserIds = res.taskUserId.split(",");
+                                for (let j = 0; j < taskUserIds.length; j++) {
+                                    if (taskUserIds[j] === usersData.data[i].id) {
+                                        fullNames += usersData.data[i].fullName + ","
+                                    }
                                 }
                             }
+                            return fullNames.substring(0, fullNames.length - 1);
                         }
                     },
                     {field: 'name', title: '任务名称', width: 180},
@@ -364,7 +376,6 @@
         params += "&taskUserId=" + $("#taskUserId").val();
         return params;
     }
-
 
 
     //初始化数据

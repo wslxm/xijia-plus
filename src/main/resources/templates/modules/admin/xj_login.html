@@ -13,8 +13,7 @@
     <link rel="stylesheet" href="/components/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/components/layuiadmin/style/admin.css" media="all">
     <link rel="stylesheet" href="/components/layuiadmin/style/login.css" media="all">
-    <!-- <script src="/components/layuiadmin/layui/layui.js"></script>-->
-    <script src="/components/layuiadmin/layui/layui.all.js"></script>
+    <script src="/components/layuiadmin/layui/layui.js"></script>
     <script src="/base/js/app.js"></script>
     <script src="/base/js/MD5.js"></script>
     <!--    &lt;!&ndash;  验证码插件 &ndash;&gt;-->
@@ -131,37 +130,40 @@
         top.location.href = window.location.href;
     }
 
-    // layui.config({
-    //     base: '../../components/layuiadmin/' //静态资源所在路径
-    // }).extend({
-    //     index: 'lib/index' //主入口模块
-    // }).use(['index', 'user'], function () {
-    layui.form.render();
-    // 提交监听
-    layui.form.on('submit(LAY-user-login-submit)', function (obj) {
-        if (!verifCode) {
-            layer.msg("请滑动图片进行验证");
-            return;
-        }
-        let data = {
-            username: obj.field.username,
-            password: obj.field.password
-        };
-        let res = ajaxPost(admin_login, data);
-        // let res = ajaxGet(admin_login + "?account=" + obj.field.username + "&password=" + obj.field.password);
-        // 请求成功后，Layui 写入token，表格数据统一传递 -》获取token 方法: layui.data(layui.setter.tableName)['token'];, 使用: headers: {"token":layui.data(layui.setter.tableName)['token']}
-        // layui.data(layui.setter.tableName, {
-        //     key: "token",
-        //     value: res.data.token
-        // });
-        // // 请求成功后，写入用户信息-token 字符串数据到本地 // 读取方法 sessionStorage.getItem('token')
-        // sessionStorage.setItem('token', res.data.token);
-        // sessionStorage.setItem('username', res.data.username);
-        // sessionStorage.setItem('head', res.data.head);
-        // localStorage.setItem('username', res.data.username);
-        location.href = admin_index;
+    layui.config({
+        base: '../../components/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'user'], function () {
+        layui.form.render();
+        // 提交监听
+        layui.form.on('submit(LAY-user-login-submit)', function (obj) {
+            if (!verifCode) {
+                layer.msg("请滑动图片进行验证");
+                return;
+            }
+            let data = {
+                username: obj.field.username,
+                password: obj.field.password
+            };
+            // 请求成功，会在ajax请求响应后自动写入用户信息-token 字符串数据到本地 // 读取方法 sessionStorage.getItem('token')
+            let res = ajaxPost(admin_login, data);
+
+
+            // let res = ajaxGet(admin_login + "?account=" + obj.field.username + "&password=" + obj.field.password);
+            // 请求成功后，Layui 写入token，表格数据统一传递 -》获取token 方法: layui.data(layui.setter.tableName)['token'];, 使用: headers: {"token":layui.data(layui.setter.tableName)['token']}
+            // layui.data(layui.setter.tableName, {
+            //     key: "token",
+            //     value: res.data.token
+            // });
+            // // 请求成功后，写入用户信息-token 字符串数据到本地 // 读取方法 sessionStorage.getItem('token')
+            // sessionStorage.setItem('token', res.data.token);
+            // sessionStorage.setItem('username', res.data.username);
+            // sessionStorage.setItem('head', res.data.head);
+            // localStorage.setItem('username', res.data.username);
+            location.href = admin_index;
+        });
     });
-    // });
 </script>
 
 <!-- 滑动验证码 -->
@@ -178,14 +180,6 @@
     ];
     let index = Math.floor(Math.random() * verifCodeImg.length);
     show();
-
-    // $("#slideImageWrap2").on('click', function () {
-    //     //alert("1");
-    //
-    //     show();
-    //     //mySlideImage2.resetSlide();
-    // });
-
 
     function show() {
         // 加载验证码

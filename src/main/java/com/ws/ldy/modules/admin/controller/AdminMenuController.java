@@ -4,7 +4,7 @@ package com.ws.ldy.modules.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.enums.base.BaseConstant;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.admin.model.dto.AdminMenuDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminMenu;
 import com.ws.ldy.modules.admin.model.vo.AdminMenuVO;

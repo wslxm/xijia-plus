@@ -92,51 +92,41 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      */
     @Override
     public Map<String, AdminDictionaryVO> findCodeGroup() {
-        // 数据为空或者版本号变动刷新前台数据，未变动不刷新此数据
-        if (dictVOGroupMap == null || !version.equals(dictVOGroupMap.get("version").getVersion())) {
-            // return
-            Map<String, AdminDictionaryVO> respDictVOMap = new HashMap<>();
-            // 查询字典数据
-            List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
-                    .orderByAsc(AdminDictionary::getCode)
-                    .eq(AdminDictionary::getDisable, 0)
-            ), AdminDictionaryVO.class);
-
-            for (AdminDictionaryVO fatherDictVo : dictVoList) {
-                //  不添加Integer参数类型，设置当前数据为父级，不论当前层次的，递归获取所有当前层次的下级数据
-                if (StringUtil.isInteger(fatherDictVo.getCode())) {
-                    continue;
-                }
-                respDictVOMap.put(fatherDictVo.getCode(), fatherDictVo);
-                for (AdminDictionaryVO dictVo : dictVoList) {
-                    if (dictVo.getPid().equals(fatherDictVo.getId())) {
-                        if (fatherDictVo.getDictList() == null) {
-                            // @formatter:off
-                            fatherDictVo.setDictList(new ArrayList<AdminDictionaryVO>() {{  add(dictVo); }});
-                        } else {
-                            fatherDictVo.getDictList().add(dictVo);
-                        }
+        // return
+        Map<String, AdminDictionaryVO> respDictVOMap = new HashMap<>();
+        // 查询所有字典数据
+        List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
+                .orderByAsc(AdminDictionary::getCode)
+                .eq(AdminDictionary::getDisable, 0)
+        ), AdminDictionaryVO.class);
+        //
+        for (AdminDictionaryVO fatherDictVo : dictVoList) {
+            //  不添加Integer参数类型，设置当前数据为父级，不论当前层次的，递归获取所有当前层次的下级数据
+            if (StringUtil.isInteger(fatherDictVo.getCode())) {
+                continue;
+            }
+            respDictVOMap.put(fatherDictVo.getCode(), fatherDictVo);
+            // 添加子级
+            for (AdminDictionaryVO dictVo : dictVoList) {
+                if (dictVo.getPid().equals(fatherDictVo.getId())) {
+                    if (fatherDictVo.getDictMap() == null) {
+                        fatherDictVo.setDictMap(new HashMap<String, AdminDictionaryVO>() {{
+                            put(dictVo.getCode(), dictVo);
+                        }});
+                    } else {
+                        fatherDictVo.getDictMap().put(dictVo.getCode(), dictVo);
                     }
                 }
             }
-            dictVOGroupMap = respDictVOMap;
-            // 添加版本号
-            AdminDictionaryVO adminDictionaryVO = new AdminDictionaryVO();
-            adminDictionaryVO.setVersion(version);
-            adminDictionaryVO.setName("版本号");
-            adminDictionaryVO.setDesc("根据版本号来判断是否刷新本地缓存数据");
-            dictVOGroupMap.put("version", adminDictionaryVO);
-            return dictVOGroupMap;
-        } else {
-            // 没有变更, 添加当前版本号信息
-            Map<String, AdminDictionaryVO> respDictVOMap = new HashMap<>();
-            AdminDictionaryVO adminDictionaryVO = new AdminDictionaryVO();
-            adminDictionaryVO.setVersion(version);
-            adminDictionaryVO.setName("版本号");
-            adminDictionaryVO.setDesc("当前版本没有更新,不返回任何数据,请获取本地的缓存数据,如需获取最新服务器数据,可尝试增/删/改操作后重新访问改接口");
-            respDictVOMap.put("version", adminDictionaryVO);
-            return respDictVOMap;
         }
+        dictVOGroupMap = respDictVOMap;
+        // 添加版本号
+        AdminDictionaryVO adminDictionaryVO = new AdminDictionaryVO();
+        adminDictionaryVO.setVersion(version);
+        adminDictionaryVO.setName("当前版本号");
+        adminDictionaryVO.setDesc("调用版本号来判断是否和当前版本号一致，不一致重新调用本接口刷新本地缓存数据");
+        dictVOGroupMap.put("VERSION", adminDictionaryVO);
+        return dictVOGroupMap;
     }
 
 

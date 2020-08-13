@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.auth.springSecurity.entity.SecurityUser;
-import com.ws.ldy.enums.base.BaseConstant;
+import com.ws.ldy.enums.BaseConstant;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -126,6 +126,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
      * @throws IOException
      * @throws ServletException
      */
+    @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) {
         if (ex instanceof UsernameNotFoundException || ex instanceof BadCredentialsException) {
             resolver.resolveException(request, response, null, new ErrorException(401, "用户名或密码错误"));

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -46,5 +47,8 @@ public class AdminDictionaryVO extends BaseVo {
 
     @ApiModelProperty(value = "子级")
     List<AdminDictionaryVO> dictList;
+
+    @ApiModelProperty(value = "子级,key=code")
+    Map<String,AdminDictionaryVO> dictMap;
 }
 
