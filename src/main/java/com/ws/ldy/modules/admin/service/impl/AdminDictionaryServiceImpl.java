@@ -1,6 +1,7 @@
 package com.ws.ldy.modules.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.google.common.base.CaseFormat;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.StringUtil;
 import com.ws.ldy.modules.admin.mapper.AdminDictionaryMapper;
@@ -136,22 +137,139 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * @param fatherDict 上级节点
      * @param ids 收集所有数据id
      */
-    // @formatter:off
-    public void nextLowerNode(List<AdminDictionaryVO> dictVoList, AdminDictionaryVO fatherDict,List<String> ids) {
+    public void nextLowerNode(List<AdminDictionaryVO> dictVoList, AdminDictionaryVO fatherDict, List<String> ids) {
         for (AdminDictionaryVO dict : dictVoList) {
             // 当前层级类还没有子层级对象就创建/有就追加
             if (dict.getPid().equals(fatherDict.getId())) {
                 if (fatherDict.getDictList() == null) {
-                    fatherDict.setDictList(new ArrayList<AdminDictionaryVO>() {{ add(dict);}});
+                    fatherDict.setDictList(new ArrayList<AdminDictionaryVO>() {{
+                        add(dict);
+                    }});
                 } else {
                     fatherDict.getDictList().add(dict);
                 }
                 //获取ids
                 ids.add(dict.getId());
                 //继续添加下级,无限级
-                nextLowerNode(dictVoList, dict,ids);
+                nextLowerNode(dictVoList, dict, ids);
             }
         }
     }
+
+
+    /**
+     * 生成java 代码枚举对象， 请将生成好的代码直接替换到 enums/Enums 类
+     * @author wangsong
+     * @mail 1720696548@qq.com
+     * @date 2020/8/16 0016 0:10
+     * @version 1.0.0
+     */
+    @Override
+    public String generateEnumJava(AdminDictionaryVO dict) {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("package com.ws.ldy.enums;\n");
+        sb.append("\nimport lombok.AllArgsConstructor;");
+        sb.append("\nimport lombok.Getter;\n");
+        sb.append("\npublic interface Enums {\n");
+        //模块名
+        for (AdminDictionaryVO dictModule : dict.getDictList()) {
+            sb.append("\n     /** ");
+            sb.append("\n      * " + dictModule.getDesc() + "");
+            sb.append("\n      */ ");
+            sb.append("\n    interface " + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictModule.getCode() + "{\n"));
+            //枚举字典的-枚举名--驼峰模式
+            for (AdminDictionaryVO dictField : dictModule.getDictList()) {
+                String moduleName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictField.getCode());
+                sb.append("\n        // " + dictField.getDesc() + "\n");
+                sb.append("        @Getter\n");
+                sb.append("        @AllArgsConstructor\n");
+                sb.append("        enum " + moduleName + "{\n");
+                //枚举字典的-枚举属性
+                for (AdminDictionaryVO dictValue : dictField.getDictList()) {
+                    sb.append("            " + dictField.getCode() + "_" + dictValue.getCode() + "(" + dictValue.getCode() + ", \"" + dictValue.getName() + "\"),    // " + dictValue.getDesc() + "\n");
+                }
+                //
+                sb.append("            ;\n");
+                sb.append("            private int value;\n");
+                sb.append("            private String desc;\n");
+                sb.append("        }\n");
+            }
+            sb.append("    }\n");
+        }
+        sb.append("}\n");
+        //刷新版本号
+        AdminDictionaryServiceImpl.version++;
+        System.out.println();
+        return sb.toString();
+    }
+
+
+    /**
+     * 拼接js 字典数据-KEY
+     * @author wangsong
+     * @mail 1720696548@qq.com
+     * @date 2020/8/16 0016 0:29
+     * @version 1.0.0
+     */
+    @Override
+    public String generateEnumJs(AdminDictionaryVO dict) {
+        StringBuffer sb = new StringBuffer();
+        //
+        sb.append("var Enums = {");
+        //模块名
+        for (AdminDictionaryVO dictModule : dict.getDictList()) {
+            sb.append("\n    // " + dictModule.getName() + "");
+            sb.append("\n    " + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictModule.getCode() + ": {"));
+            //枚举字典的-枚举名--驼峰模式
+            for (AdminDictionaryVO dictField : dictModule.getDictList()) {
+                String moduleName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictField.getCode());
+                sb.append("\n        " + moduleName + " : \"" + dictField.getCode() + "\",  // " + dictField.getName() );
+            }
+            sb.append("\n    },");
+        }
+        sb.append("\n};");
+        return sb.toString();
+    }
+
+
+//    /**
+//     * 拼接js 对应的枚举字典数据
+//     * @author wangsong
+//     * @mail 1720696548@qq.com
+//     * @date 2020/8/16 0016 0:29
+//     * @version 1.0.0
+//     */
+//    @Override
+//    public String generateEnumJs(AdminDictionaryVO dict) {
+//        StringBuffer sb = new StringBuffer();
+//        //
+//        sb.append("var enums = {\n");
+//        //模块名
+//        for (AdminDictionaryVO dictModule : dict.getDictList()) {
+//            sb.append("\n     /** ");
+//            sb.append("\n      * " + dictModule.getDesc() + "");
+//            sb.append("\n      */ ");
+//            sb.append("\n      " + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictModule.getCode() + ": {\n"));
+//            //枚举字典的-枚举名--驼峰模式
+//            for (AdminDictionaryVO dictField : dictModule.getDictList()) {
+//                String moduleName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictField.getCode());
+//                sb.append("         // " + dictField.getDesc() + "\n");
+//                sb.append("         " + moduleName + " : {\n");
+//                sb.append("           key: \"" + dictField.getCode()  + "\",\n");
+//                sb.append("           value: [\n");
+//                //枚举字典的-枚举属性
+//                for (AdminDictionaryVO dictValue : dictField.getDictList()) {
+//                    sb.append("          {\""+ dictValue.getCode()+"\":\""+dictValue.getName()+"\"},   // " + dictValue.getDesc() + "\n");
+//                }
+//                //
+//                sb.append("            ],\n");
+//                sb.append("        },\n");
+//            }
+//            sb.append("    },\n");
+//        }
+//        sb.append("};\n");
+//        return sb.toString();
+//    }
 }
 

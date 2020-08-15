@@ -80,7 +80,7 @@
 <script type="text/javascript">
 
     // 和socket连接地址，连接地址url中自带登录用户的账号信息,前端无需关心
-    let JsonData = ajaxGet(path + "/websocket/getPath");
+    let JsonData = Ajax.get(path + "/websocket/getPath");
     //
     let socketPath = JsonData.data.path;   //连接地址
     let formUserId = JsonData.data.userId;     //用户Id

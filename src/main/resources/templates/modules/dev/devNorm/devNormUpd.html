@@ -80,7 +80,7 @@
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.id = parent.data.id;
             data.field.content = $("#L_content").val();
-            let result = ajaxPut(path + "/dev/devNorm/upd", data.field);
+            let result = Ajax.put(path + "/dev/devNorm/upd", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

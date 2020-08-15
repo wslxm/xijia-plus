@@ -53,7 +53,7 @@
                 // 复选框默认是否选中字段名
                 table = $.extend(table, {config: {checkName: 'isChecked'}});
                 // 获得菜单数据
-                res = ajaxGet(menu_find_id_list);
+                res = Ajax.get(menu_find_id_list);
                 // 初始化右边 table 数据
                 xijiaRenderTable();
                 // 监听复选框选中
@@ -146,9 +146,9 @@
                         res.data[i].isChecked = true;
                     }
                 }
-                xijia_window_onbeforeunload();  // 记录滚动条位置
+                WindowPos.onbeforeunload();  // 记录滚动条位置
                 xijiaRenderTable();             // 重载数据
-                xijia_window_onload();          // 还原滚动条位置
+                WindowPos.onload();          // 还原滚动条位置
             }
 
 
@@ -164,9 +164,9 @@
                         res.data[i].isChecked = true;
                     }
                 }
-                xijia_window_onbeforeunload();  // 记录滚动条位置
+                WindowPos.onbeforeunload();  // 记录滚动条位置
                 xijiaRenderTable();             // 重载数据
-                xijia_window_onload();          // 还原滚动条位置
+                WindowPos.onload();          // 还原滚动条位置
             }
 
             /**
@@ -191,15 +191,15 @@
                         pid: pid,
                     };
                     // 修改
-                    let result = ajaxPut(path + update, data);
+                    let result = Ajax.put(path + update, data);
                     // 关闭弹层
                     let index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                     parent.layer.msg(result.msg);
                     // 重载页面 // parent.window.location.reload();
-                    xijia_window_onbeforeunload();  // 记录滚动条位置
+                    WindowPos.onbeforeunload();  // 记录滚动条位置
                     parent.xijiaRenderTable();
-                    xijia_window_onload();          // 还原滚动条位置
+                    WindowPos.onload();          // 还原滚动条位置
 
                 });
             }

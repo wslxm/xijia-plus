@@ -116,7 +116,7 @@
         let laydate = layui.laydate;
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            let result = ajaxPost(path + "/dev/devBug/insert", data.field);
+            let result = Ajax.post(path + "/dev/devBug/insert", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

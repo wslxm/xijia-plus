@@ -111,7 +111,7 @@
      */
     function showTree() {
         // 获得数据库表数据
-        let tablesJson = ajaxGet(dataBaseTables);
+        let tablesJson = Ajax.get(dataBaseTables);
 
         //左边角色菜单数据
         tree({
@@ -183,7 +183,7 @@
      * @return
      */
     function tableRender() {
-        let dataJson = ajaxGet(findAll + "?tableName=" + tableName);
+        let dataJson = Ajax.get(findAll + "?tableName=" + tableName);
         table.render({
             id: "te" //获取复选框所有选中数据使用
             , height: 800
@@ -249,7 +249,7 @@
         let result = "";
         if (type === 1) {
             // 预览  --> 数据表格数据,表名称，项目名称,返回生成的文件地址
-            result = ajaxPost(generatePreview, {
+            result = Ajax.post(generatePreview, {
                 data: JSON.stringify(newDataJson),
                 tableName: tableName,
                 tableComment: tableComment,
@@ -266,7 +266,7 @@
                 , yes: function (index) {
                     // 确认
                     // 数据表格数据,表名称，项目名称,返回生成的文件地址
-                    result = ajaxPost(generateCode, {
+                    result = Ajax.post(generateCode, {
                         data: JSON.stringify(newDataJson),
                         tableName: tableName,
                         tableComment: tableComment,
@@ -336,9 +336,9 @@
     var findPathMap = null;
 
     function codePath() {
-        let result = ajaxGet(generatePath + "?tableName=" + tableName);
+        let result = Ajax.get(generatePath + "?tableName=" + tableName);
         findPathMap = result.data;
-        tipsWindown(generateFilePath, "800px", "520px", "实际生成路径[root/] ==> 预览代码目录[File/code/]");
+        Pop.tipsWindown(generateFilePath, "800px", "520px", "实际生成路径[root/] ==> 预览代码目录[File/code/]");
     }
 </script>
 </body>

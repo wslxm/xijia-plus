@@ -130,7 +130,7 @@
             data.field.taskUserId = taskUserIds.substring(0, taskUserIds.length - 1);
             data.field.type = types.substring(0, types.length - 1);
             //
-            let result = ajaxPost(path + "/dev/devTask/insert", data.field);
+            let result = Ajax.post(path + "/dev/devTask/insert", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

@@ -88,7 +88,7 @@
         if (params === null || params === "null" || params === undefined || params === "undefined") {
             params = "";
         }
-        res = ajaxGet(user_admin_find_page + getPage() + params);
+        res = Ajax.get(user_admin_find_page + getPage() + params);
         table.render({
             elem: '#auth-table'
             //, url: findAll
@@ -178,7 +178,7 @@
         table.on('toolbar(auth-table)', function (obj) {
             //   添加
             if (obj.event === "add") {
-                tipsWindown(user_admin_page_add, "800px", "560px", "用户添加");
+                Pop.tipsWindown(user_admin_page_add, "800px", "560px", "用户添加");
             }
             //   多删除
             if (obj.event === "del") {
@@ -191,7 +191,7 @@
                     ids[i] = data[i].id;
                 }
                 if (ids.length > 0) {
-                    let result = ajaxDelete(user_admin_deletes + "?ids=" + ids);
+                    let result = Ajax.delete(user_admin_deletes + "?ids=" + ids);
                     xijiaRenderTable(null);
                     layer.msg(result.msg);
                 }
@@ -214,16 +214,16 @@
             data = obj.data;  //当前行数据
             //   角色分配
             if (obj.event === 'roleEdit') {
-                tipsWindown(user_admin_page_upd_role, "800px", "560px", "角色分配");
+                Pop.tipsWindown(user_admin_page_upd_role, "800px", "560px", "角色分配");
             }
             //   用户编辑
             if (obj.event === 'edit') {
-                tipsWindown(user_admin_page_upd, "800px", "560px", "用户编辑");
+                Pop.tipsWindown(user_admin_page_upd, "800px", "560px", "用户编辑");
             }
             //   单行删除
             if (obj.event === 'del') {
                 let params = "?id=" + data.id;
-                tipsDeleteId(user_admin_delete + params, obj);
+                Pop.tipsDeleteId(user_admin_delete + params, obj);
             }
         });
     }
@@ -276,7 +276,7 @@
                 id: data.elem.attributes['id'].nodeValue,
                 disable: disable
             };
-            let result = ajaxPut(user_admin_update, reqData);
+            let result = Ajax.put(user_admin_update, reqData);
             layer.msg(result.msg)
         });
     }

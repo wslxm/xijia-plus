@@ -53,15 +53,15 @@
                         icon: $("#icon").val()
                     };
                     // 修改
-                    let result = ajaxPut(path + "/admin/adminMenu/upd", data);
+                    let result = Ajax.put(path + "/admin/adminMenu/upd", data);
                     // 关闭弹层
                     let index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                     parent.layer.msg(result.msg);
                     // 重载页面 // parent.window.location.reload();
-                    xijia_window_onbeforeunload();  // 记录滚动条位置
+                    WindowPos.onbeforeunload();  // 记录滚动条位置
                     parent.xijiaRenderTable();
-                    xijia_window_onload();          // 还原滚动条位置
+                    WindowPos.onload();          // 还原滚动条位置
                 });
             });
         </script>

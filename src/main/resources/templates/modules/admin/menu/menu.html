@@ -93,7 +93,7 @@
              */
             function xijiaRenderTable() {
                 //菜单数据
-                let dataJson = ajaxGet(find_list);
+                let dataJson = Ajax.get(find_list);
                 // 渲染表格
                 layer.load(2);
                 //加载数据
@@ -179,7 +179,7 @@
                     add: function () {
                         data = [];    // 初始化data
                         data.lv = 1;  // 给初始化后的data添加值
-                        tipsWindown(page_add, "440px", "340px", "添加系统");
+                        Pop.tipsWindown(page_add, "440px", "340px", "添加系统");
                     }
                 };
                 //必须在下面/监听class = demoTable内按钮
@@ -205,41 +205,41 @@
                     //   菜单添加
                     if (obj.event === 'add') {
                         data.lv = 2; //表示添加菜单
-                        tipsWindown(page_add, "440px", "320px", "添加菜单--" + data.name)
+                        Pop.tipsWindown(page_add, "440px", "320px", "添加菜单--" + data.name)
                     }
                     //   页面添加
                     if (obj.event === 'addPage') {
                         data.lv = 3;  //表示添加页面
-                        tipsWindown(page_add, "440px", "400px", "添加页面--" + data.name)
+                        Pop.tipsWindown(page_add, "440px", "400px", "添加页面--" + data.name)
                     }
                     //   删除行(加子菜单)
                     if (obj.event === 'del') {
-                        // tipsDeleteId(deletes + delData, obj);
+                        // Pop.tipsDeleteId(deletes + delData, obj);
                         layer.msg('你确定要删除么？', {
                             time: 0
                             , btn: ['必须删', '不删了']
                             , yes: function (index) {
                                 // 获得要删除菜单及所有子菜单
                                 let delData = "?id=" + data.id;
-                                let result = ajaxDelete(deletes + delData);
+                                let result = Ajax.delete(deletes + delData);
                                 // 重载页面 // parent.window.location.reload();
-                                xijia_window_onbeforeunload();  // 记录滚动条位置
+                                WindowPos.onbeforeunload();  // 记录滚动条位置
                                 xijiaRenderTable();             // 重载数据
-                                xijia_window_onload();          // 还原滚动条位置
+                                WindowPos.onload();          // 还原滚动条位置
                                 layer.msg(result.msg);
                             }
                         });
                     }
                     //  修改菜单名称
                     if (obj.event === 'upd') {
-                        tipsWindown(page_upd, "440px", "260px", "编辑")
+                        Pop.tipsWindown(page_upd, "440px", "260px", "编辑")
                     }
                     //  变更父级
                     if (obj.event === 'updPid') {
-                        tipsWindown(page_updPid, "800px", "600px", "变更父级-" + data.name);
-                        // xijia_window_onbeforeunload();  // 记录滚动条位置
+                        Pop.tipsWindown(page_updPid, "800px", "600px", "变更父级-" + data.name);
+                        // WindowPos.onbeforeunload();  // 记录滚动条位置
                         // xijiaRenderTable();             // 重载数据
-                        // xijia_window_onload();          // 还原滚动条位置
+                        // WindowPos.onload();          // 还原滚动条位置
                     }
                 });
 
@@ -251,13 +251,13 @@
                     let result;
                     if (field === "sort") {
                         //   1，sort-修改排序
-                        result = ajaxPut(update, {id: data.id, sort: val});
+                        result = Ajax.put(update, {id: data.id, sort: val});
                     } else if (field === "icon") {
                         //   2，icon-修改图标
-                        result = ajaxPut(update, {id: data.id, icon: val})
+                        result = Ajax.put(update, {id: data.id, icon: val})
                     } else if (field === "url") {
                         //   3、url-修改菜单url
-                        result = ajaxPut(update, {id: data.id, url: val})
+                        result = Ajax.put(update, {id: data.id, url: val})
                     } else {
                         //   4、name-修改菜单名
                     }
@@ -323,7 +323,7 @@
                         id: data.elem.attributes['menuId'].nodeValue,
                         disable: disable
                     };
-                    let result = ajaxPut(update, reqData);
+                    let result = Ajax.put(update, reqData);
                     layer.msg(result.msg)
                 });
             }

@@ -60,7 +60,7 @@
         let param = "";
         param += "?content=" + $("#content").val();
         param += "&narrow=" + narrow;
-        let result = ajaxGet(convert + param);
+        let result = Ajax.get(convert + param);
         $("#resultContent").html(result.data);
     }
 

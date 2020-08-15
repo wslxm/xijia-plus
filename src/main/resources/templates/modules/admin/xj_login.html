@@ -147,10 +147,10 @@
                 password: obj.field.password
             };
             // 请求成功，会在ajax请求响应后自动写入用户信息-token 字符串数据到本地 // 读取方法 sessionStorage.getItem('token')
-            let res = ajaxPost(admin_login, data);
+            let res = Ajax.post(admin_login, data);
 
 
-            // let res = ajaxGet(admin_login + "?account=" + obj.field.username + "&password=" + obj.field.password);
+            // let res = Ajax.get(admin_login + "?account=" + obj.field.username + "&password=" + obj.field.password);
             // 请求成功后，Layui 写入token，表格数据统一传递 -》获取token 方法: layui.data(layui.setter.tableName)['token'];, 使用: headers: {"token":layui.data(layui.setter.tableName)['token']}
             // layui.data(layui.setter.tableName, {
             //     key: "token",
@@ -215,7 +215,7 @@ var password = obj.field.password;
 //          + "&timestamp="+timestamp
 //          +  APP_KEY;
 // var sign =  hex_md5(byteToString(mysign));
-var resultData = ajaxPost(login, {
+var resultData = Ajax.post(login, {
 account: account,
 password: password,
 // timestamp: timestamp,

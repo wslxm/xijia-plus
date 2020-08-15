@@ -16,7 +16,6 @@
 <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
 
 
-
     <div class="layui-form-item">
         <label class="layui-form-label">字典名称</label>
         <div class="layui-input-inline">
@@ -64,16 +63,17 @@
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.pid = pid;
-            let result = ajaxPost(path + "/admin/adminDictionary/insert", data.field);
+            let result = Ajax.post(path + "/admin/adminDictionary/insert", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);
             // 重载页面--不建议开启--建议使用手动刷新
             // parent.window.location.reload();
-            // xijia_window_onbeforeunload();  // 记录滚动条位置
-            // parent.xijiaRenderTable();
-            // xijia_window_onload();          // 还原滚动条位置
-            parent.layer.msg(result.msg+" 请手动刷新");
+            WindowPos.onbeforeunload();  // 记录滚动条位置
+            parent.xijiaRenderTable();
+            WindowPos.onload();          // 还原滚动条位置
+            layer.msg(result.msg);
+           // parent.layer.msg(result.msg + " 请手动刷新");
         });
     });
 </script>

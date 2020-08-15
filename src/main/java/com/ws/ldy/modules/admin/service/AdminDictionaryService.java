@@ -39,4 +39,17 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
     Map<String, AdminDictionaryVO> findCodeGroup();
 
 
+    /**
+     * 拼接java 枚举类
+     * @param dict
+     */
+    String generateEnumJava(AdminDictionaryVO dict);
+
+    /**
+     * 拼接js 字典数据
+     * @param dict
+     */
+    String generateEnumJs(AdminDictionaryVO dict);
+
+
 }

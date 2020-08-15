@@ -155,7 +155,7 @@
             //
             data.field.id = parent.data.id;
             //data.field.id = parent.data.id;
-            let result = ajaxPut(path + "/dev/devTask/upd", data.field);
+            let result = Ajax.put(path + "/dev/devTask/upd", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

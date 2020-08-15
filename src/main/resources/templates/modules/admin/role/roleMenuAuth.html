@@ -62,7 +62,7 @@
         // 复选框默认是否选中字段名
         table = $.extend(table, {config: {checkName: 'isChecked'}});
         // 获得菜单数据
-        res = ajaxGet(menu_find_id_list);
+        res = Ajax.get(menu_find_id_list);
         showTree();                    // 初始化左边边角色数据,treetable用于右边 table 数据重载
         xijiaRenderTable(res);         // 初始化右边 table 数据
         xijiaEventCheckbox();          // 监听复选框选中
@@ -77,7 +77,7 @@
      */
     function showTree() {
         // 获得角色列表
-        let roleRes = ajaxGet(role_find_list);
+        let roleRes = Ajax.get(role_find_list);
         // 左边角色菜单数据
         tree({
             elem: '#auth-tree'
@@ -179,9 +179,9 @@
             } else if (obj.type === "one") {
                 // 递归选中/取消选中
                 isChecked(res.data, obj.data, obj.checked);
-                xijia_window_onbeforeunload();  // 记录滚动条位置
+                WindowPos.onbeforeunload();  // 记录滚动条位置
                 xijiaRenderTable(res);          // 重载数据
-                xijia_window_onload();          // 还原滚动条位置
+                WindowPos.onload();          // 还原滚动条位置
                 // 更新所有选中数据te = 数据表格Id
                 checkData = table.checkStatus('te');
             }
@@ -231,7 +231,7 @@
         let params = "";
         params += "?roleId=" + item.id;
         // 获得菜单数据
-        res = ajaxGet(menu_find_id_list + params);
+        res = Ajax.get(menu_find_id_list + params);
         // 重载
         xijiaRenderTable(res);
 
@@ -282,7 +282,7 @@
         let params = "";
         params += "?roleId=" + roleId;
         params += "&menuIds=" + menuIds;
-        let result = ajaxPut(updRoleMenu + params);
+        let result = Ajax.put(updRoleMenu + params);
         layer.msg(result.msg + " 当前角色拥有菜单：" + checkData.data.length + "个 ")
     }
 </script>

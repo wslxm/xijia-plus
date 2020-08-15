@@ -81,7 +81,7 @@
         if (params === null || params === "null" || params === undefined || params === "undefined") {
             params = "";
         }
-        res = ajaxGet(find_page + getPage() + params);
+        res = Ajax.get(find_page + getPage() + params);
         table.render({
             elem: '#auth-table'
             , data: res.data.records
@@ -163,7 +163,7 @@
         table.on('toolbar(auth-table)', function (obj) {
             //添加
             if (obj.event === "add") {
-                tipsWindown(page_add, "400px", "260px", "添加");
+                Pop.tipsWindown(page_add, "400px", "260px", "添加");
             }
         });
     }
@@ -181,12 +181,12 @@
             data = obj.data;  //当前行数据
             //编辑
             if (obj.event === 'edit') {
-                tipsWindown(page_upd, "400px", "260px", "修改");
+                Pop.tipsWindown(page_upd, "400px", "260px", "修改");
             }
             //删除
             if (obj.event === 'del') {
                 let params = "?id=" + data.id;
-                tipsDeleteId(deletes + params, obj);
+                Pop.tipsDeleteId(deletes + params, obj);
             }
         });
     }
@@ -236,7 +236,7 @@
                 id: data.elem.attributes['id'].nodeValue,
                 disable: disable
             };
-            let result = ajaxPut(update , reqData);
+            let result = Ajax.put(update , reqData);
             layer.msg(result.msg)
         });
     }

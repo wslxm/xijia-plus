@@ -1,7 +1,6 @@
 package com.ws.ldy.modules.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.google.common.base.CaseFormat;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
@@ -18,6 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +65,7 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
 
 
     @RequestMapping(value = "/findByCode", method = RequestMethod.GET)
-    @ApiOperation(value = "Code查询", notes = "无限层次, 树结构，只能传递字符串Code, 不能传递字符串数字Code，不包括禁用数据 ")
+    @ApiOperation(value = "Code查询(Tree)", notes = "无限层次, 树结构，只能传递字符串Code, 不能传递字符串数字Code，不包括禁用数据 ")
     public R<AdminDictionaryVO> findByCode(@RequestParam String code) {
         // 不能传递字符串数字来查询
         if (StringUtil.isInteger(code)) {
@@ -138,41 +138,16 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
 
 
     @RequestMapping(value = "/generateEnum", method = RequestMethod.GET)
-    @ApiOperation(value = "生成枚举", notes = "排序数字越小,越靠前")
-    public R<String> generateEnum() {
+    @ApiOperation(value = "生成枚举", notes = "排序数字越小,越靠前, \n 返回参数Map<String, String> ==> \n map.java = 完整的java枚举字段 \n map.js = 代码枚举字典key，前端直接通过key获取对应值")
+    public R<Map<String, String>> generateEnum() {
         AdminDictionaryVO dict = baseService.findByCodeFetchDictVO("ENUMS");
-        StringBuffer sb = new StringBuffer();
-        sb.append("package com.ws.ldy.enums;\n");
-        sb.append("\nimport lombok.AllArgsConstructor;\n");
-        sb.append("\nimport lombok.Getter;;\n");
-        sb.append("public interface Enums {\n");
-        //模块名
-        for (AdminDictionaryVO dictModule : dict.getDictList()) {
-            sb.append("\n     /** ");
-            sb.append("\n      * " + dictModule.getDesc() + "");
-            sb.append("\n      */ ");
-            sb.append("\n    interface " + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictModule.getCode() + "{\n"));
-            //枚举字典的-枚举名--驼峰模式
-            for (AdminDictionaryVO dictField : dictModule.getDictList()) {
-                String moduleName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictField.getCode());
-                sb.append("\n        @Getter\n");
-                sb.append("        @AllArgsConstructor\n");
-                sb.append("        enum " + moduleName + "{\n");
-                //枚举字典的-枚举属性
-                for (AdminDictionaryVO dictValue : dictField.getDictList()) {
-                    sb.append("            " + dictField.getCode() + "_" + dictValue.getCode() + "(" + dictValue.getCode() + ", \"" + dictValue.getName() + "\"),\n");
-                }
-                sb.append("            ;\n");
-                sb.append("            private int value;\n");
-                sb.append("            private String desc;\n");
-                sb.append("        }\n");
-            }
-            sb.append("    }\n");
-        }
-        sb.append("}\n");
-        //刷新版本号
-        AdminDictionaryServiceImpl.version++;
-        System.out.println(sb.toString());
-        return R.success(sb.toString());
+        String enumsJava = baseService.generateEnumJava(dict);
+        String enumsJs = baseService.generateEnumJs(dict);
+        Map<String, String> map = new HashMap<>();
+        map.put("java", enumsJava); // 完整的枚举字典
+        map.put("js", enumsJs);     // 枚举字典key，直接通过key获取
+        System.out.println(enumsJava);
+        System.out.println(enumsJs);
+        return R.success(map);
     }
 }

@@ -36,7 +36,7 @@
         let form = layui.form;
         //请求数据
         let data = "?userId=" + parent.data.id;
-        let result = ajaxGet(user_role_admin_list + data);
+        let result = Ajax.get(user_role_admin_list + data);
         table = $.extend(table, {config: {checkName: 'isChecked'}});
         table.render({
             id: "te" //获取复选框所有选中数据使用
@@ -89,7 +89,7 @@
             let params = "";
             params += "?userId=" + parent.data.id;
             params += "&roleIds=" + ids;
-            let result = ajaxPut(user_admin_upd_role + params);
+            let result = Ajax.put(user_admin_upd_role + params);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

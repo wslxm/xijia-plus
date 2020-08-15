@@ -79,7 +79,7 @@
         // 监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.content = $("#L_content").val();
-            let result = ajaxPost(path + "/dev/devNorm/insert", data.field);
+            let result = Ajax.post(path + "/dev/devNorm/insert", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

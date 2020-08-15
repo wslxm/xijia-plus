@@ -68,7 +68,7 @@
                 let param = "";
                 param += "?oldPassword=" + obj.field.oldPassword;
                 param += "&password=" + obj.field.password;
-                let result = ajaxPut(path + "/admin/adminUser/updPassword" + param);
+                let result = Ajax.put(path + "/admin/adminUser/updPassword" + param);
                 layer.msg("修改密码成功,请牢记新密码");
             }
         });

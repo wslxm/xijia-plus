@@ -192,7 +192,7 @@
     let updPwd = path + "/page/modules_admin_user_userUpdPwd";           // 修改密码页面
 
     $(function () {
-        dataJson = ajaxGet(menuTree).data;
+        dataJson = Ajax.get(menuTree).data;
         //左边导航默认系统管理
         treeMenu(0);
         //顶部系统级菜单加载
@@ -205,7 +205,7 @@
         $("#updPwd").attr("lay-href", updPwd);
 
         // 获取用户信息
-        let userStr = Base64.decode(sessionStorage.getItem(enums.base.token).split(".")[1]);
+        let userStr = Base64.decode(sessionStorage.getItem(BaseConfig.token).split(".")[1]);
         userStr = userStr.replace(/[\u0000-\u0019]+/g, "");
         let userData = JSON.parse(userStr);
         // 用户名
@@ -213,9 +213,9 @@
         // 头像
         $("#head").attr("src", userData.head);
         //获取字典数据
-        refreshDict();
+        Dict.refreshDict();
         //字典数据测试
-        getDictTest()
+        Dict.getDictTest()
     });
 
 
