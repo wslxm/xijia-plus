@@ -5,8 +5,10 @@
 这是开发一个基于spring-boot + mybatis-plus+ druid+ mysql8 + layui + swagger2 的后台快速开发骨架，后台采用级简化代码，
 所有基本操作无需写任何的dao，service层代码，包括(增删改查，及多添加/动态修改，多删除，分页/条件/排序查询,添加，修改，展示的html代码
 
-展示地址: [http://xijia.plus/](http://xijia.plus/) 
-测试账号：admin  密码：admin
+展示地址:
+ [http://xijia.plus/](http://xijia.plus/) 
+账号：admin  
+密码：admin
 
 ### 最新说明
 - 当前主分支为v-0.0.3 的分支最后更新代码,可稳定运行, 下个更新版本的版本 v-0.0.4 
