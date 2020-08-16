@@ -51,7 +51,6 @@ public class LogAspect {
     }
 
 
-
     /**
      * 日志记录
      * @author wang-song
@@ -61,25 +60,23 @@ public class LogAspect {
      * @version 1.0.0
      */
     private Object saveOpLogs(ProceedingJoinPoint proceed) throws Throwable {
-        // 允许跨域
-      //  this.setAllowOrigin();
         // 获取请求参数
         RequestAttributes ra = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes sra = (ServletRequestAttributes) ra;
         HttpServletRequest request = sra.getRequest();
         // 获取用户真实ip
         String ip = getIpAddress(request);
-        // 返回请求行中的资源名称
+        // 请求行中的接口名称
         String uri = request.getRequestURI();
         // 获得客户端发送请求的完整url
         String url = request.getRequestURL().toString();
-        // 返回发出请求的客户机的主机名
+        // 请求的客户机的主机名
         String host = request.getRemoteHost();
-        // 返回发出请求的客户机的端口号
+        // 请求的客户机的端口号
         int port = request.getRemotePort();
-        // 类名
+        // 请求的类名
         String className = proceed.getTarget().getClass().getName();
-        // 包名
+        // 请求的包名
         String packageName = proceed.getTarget().getClass().getPackage().getName();
         // 方法swagger描叙
         MethodSignature signature = (MethodSignature) proceed.getSignature();
@@ -104,22 +101,6 @@ public class LogAspect {
         Object res = proceed.proceed();
         return res;
     }
-
-
-//
-//    /**
-//     * 允许请求跨域
-//     */
-//    public void setAllowOrigin() {
-//        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-//        //HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        //此处ip地址为需要访问服务器的ip及端口号
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        response.setHeader("Access-Control-Allow-Credentials", "true");
-//        response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
-//        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Token,Accept, Connection, User-Agent, Cookie");
-//        //response.setHeader("Access-Control-Max-Age", "3628800");
-//    }
 
 
     /**
@@ -150,5 +131,21 @@ public class LogAspect {
         }
         return ip;
     }
+
+
+    //
+//    /**
+//     * 允许请求跨域  跨域配置在：MvcConfig 中配置
+//     */
+//    public void setAllowOrigin() {
+//        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+//        //HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        //此处ip地址为需要访问服务器的ip及端口号
+//        response.setHeader("Access-Control-Allow-Origin", "*");
+//        response.setHeader("Access-Control-Allow-Credentials", "true");
+//        response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
+//        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Token,Accept, Connection, User-Agent, Cookie");
+//        //response.setHeader("Access-Control-Max-Age", "3628800");
+//    }
 }
 

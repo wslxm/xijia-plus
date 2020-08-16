@@ -29,6 +29,7 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
 
     @ApiOperation(value = "扫描权限", notes = "扫描权限列表数据, 1、存在变更接口描叙, 2、url变动会重新生成权限数据,角色原有的该接口权限会丢失,需重新分配 3、自动删除的多余接口")
     @RequestMapping(value = "/refreshAuthority", method = RequestMethod.PUT)
+    @Deprecated
     public R<Void> refreshAuthority() {
         baseService.refreshAuthority();
         return R.success();

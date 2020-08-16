@@ -21,18 +21,28 @@
     <ul id="auth-tree"></ul>
 </div>
 
-
+<div class="searchTable layui-form">
+    <div class="layui-inline" style="padding-top:  2%;margin-left: 50%" >
+        <input type="checkbox" lay-filter="method" name="method" value="1" lay-skin="primary" title="GET"/>
+        <input type="checkbox" lay-filter="method" name="method" value="2" lay-skin="primary" title="PUT"/>
+        <input type="checkbox" lay-filter="method" name="method" value="3" lay-skin="primary" title="POST"/>
+        <input type="checkbox" lay-filter="method" name="method" value="4" lay-skin="primary" title="DELETE"/>
+    </div>
+</div>
 <!-- 菜单树，数据表格-->
-<div style="float:left; margin-left: 3%;width: 68%;margin-top: 2.5%;">
+<div style="float:left; margin-left: 3%;width: 68%;margin-top: 0%;">
     <table id="auth-table" class="layui-table" lay-filter="auth-table"></table>
 </div>
-
 
 <!-- 确认分配按钮  -->
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-warm layui-btn-sm" onclick="xijiaEventUpdClick()">确认分配</button>
-        <button class="layui-btn layui-btn-warm layui-btn-sm" onclick="xijiaEventPutAuthority()">扫描权限</button>
+        <!--  <button class="layui-btn layui-btn-warm layui-btn-sm" onclick="xijiaEventPutAuthority()">扫描权限</button>-->
+        <!--        <button id="GET" class="layui-btn layui-btn-primary layui-btn-sm" onclick="xijiaSelected(1)">GET</button>-->
+        <!--        <button id="PUT" class="layui-btn layui-btn-primary layui-btn-sm" onclick="xijiaSelected(2)">PUT</button>-->
+        <!--        <button id="POST" class="layui-btn layui-btn-primary layui-btn-sm" onclick="xijiaSelected(3)">POST</button>-->
+        <!--        <button id="DELETE" class="layui-btn layui-btn-primary layui-btn-sm" onclick="xijiaSelected(4)">DELETE</button>-->
         <font size="2">当前角色: </font> <font size="2" color="red" id="roleName">未选择</font>
     </div>
 </script>
@@ -51,6 +61,7 @@
 
     // 组件
     let tree;
+    let form;
     let table;
     let treetable;
 
@@ -58,7 +69,8 @@
         base: '../components/treetable-lay/module/' //静态资源所在路径
     }).extend({
         treetable: 'treetable-lay/treetable'
-    }).use(['table', 'treetable', 'element', 'tree'], function () {
+    }).use(['table', 'treetable', 'element', 'tree', 'form'], function () {
+        form = layui.form;
         tree = layui.tree;
         table = layui.table;
         treetable = layui.treetable;
@@ -69,6 +81,7 @@
         showTree();                    // 初始化左边边角色数据,treetable用于右边 table 数据重载
         xijiaRenderTable(res);         // 初始化右边 table 数据
         xijiaEventCheckbox();          // 监听复选框选中
+        xijiaSelected();
     });
 
 
@@ -234,8 +247,6 @@
         res = Ajax.get(auth_find_list + params);
         // 重载
         xijiaRenderTable(res);
-        // 展示选中
-        $("#roleFont").html(item.name);
         // 当前角色id
         roleId = item.id;
         roleName = item.name;
@@ -296,6 +307,87 @@
     function xijiaEventPutAuthority() {
         let result = Ajax.put(auth_upd_authority);
         layer.msg(result.msg + ",请刷新页面");
+    }
+
+    /**
+     * 选中指定请求的所有
+     */
+    var GET = false;
+    var PUT = false;
+    var POST = false;
+    var DELETE = false;
+
+    function xijiaSelected() {
+        form.on('checkbox(method)', function (data) {
+            GET = false;
+            PUT = false;
+            POST = false;
+            DELETE = false;
+            $("input[name='method']:checked").each(function (i) {
+                if ($(this).val() === "1") {
+                    GET = true;
+                }
+                if ($(this).val() === "2") {
+                    PUT = true;
+                }
+                if ($(this).val() === "3") {
+                    POST = true;
+                }
+                if ($(this).val() === "4") {
+                    DELETE = true;
+                }
+            });
+
+            // 递归选中/取消选中
+            for (let i = 0; i < res.data.length; i++) {
+                if (res.data[i].method === "GET") {
+                    res.data[i].isChecked = GET;
+                }
+                if (res.data[i].method === "PUT") {
+                    res.data[i].isChecked = PUT;
+                }
+                if (res.data[i].method === "POST") {
+                    res.data[i].isChecked = POST;
+                }
+                if (res.data[i].method === "DELETE") {
+                    res.data[i].isChecked = DELETE;
+                }
+            }
+            // 父id, 如果自己存在选中,那就选中这个父id
+            for (let i = 0; i < res.data.length; i++) {
+                if (res.data[i].pid === "") {
+                    for (let j = 0; j < res.data.length; j++) {
+                        if (res.data[j].pid === res.data[i].id && res.data[j].isChecked) {
+                            res.data[i].isChecked = true;
+                        }
+                    }
+                    res.data[i].isChecked = GET;
+                }
+            }
+            WindowPos.onbeforeunload();  // 记录滚动条位置
+            xijiaRenderTable(res);          // 重载数据
+            WindowPos.onload();          // 还原滚动条位置
+            // 更新所有选中数据te = 数据表格Id
+            checkData = table.checkStatus('te');
+
+            // 重载数据后显示角色
+            $("#roleName").html(roleName);
+            //还原复选选中状态
+            $("#method").find("input").each(function () {
+                if ($(this).val() === "1" && GET) {
+                    $(this).attr("checked", "");
+                }
+                if ($(this).val() === "2" && PUT) {
+                    $(this).attr("checked", "");
+                }
+                if ($(this).val() === "3" && POST) {
+                    $(this).attr("checked", "");
+                }
+                if ($(this).val() === "4" && DELETE) {
+                    $(this).attr("checked", "");
+                }
+            });
+        });
     }
 </script>
 </body>

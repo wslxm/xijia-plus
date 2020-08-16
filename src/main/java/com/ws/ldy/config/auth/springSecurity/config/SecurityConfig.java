@@ -1,11 +1,11 @@
 package com.ws.ldy.config.auth.springSecurity.config;
 
-import com.ws.ldy.modules.admin.mapper.AdminAuthorityMapper;
-import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
 import com.ws.ldy.config.auth.jwt.filter.JWTLoginFilter;
 import com.ws.ldy.config.auth.jwt.filter.JWTValidFilter;
 import com.ws.ldy.config.auth.springSecurity.service.impl.XiJiaUserDetailsServiceImpl;
 import com.ws.ldy.config.auth.util.MD5Util;
+import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
+import com.ws.ldy.modules.admin.service.AdminAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.List;
@@ -43,8 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // 当前系统权限表
     @Autowired
-    private AdminAuthorityMapper adminAuthorityMapper;
-
+    private AdminAuthorityService adminAuthorityService;
 
     /**
      * 认证
@@ -82,16 +82,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+        // 启动项目时刷新权限接口
+        adminAuthorityService.refreshAuthority();
         // 只拦截需要拦截的所有接口, 拦截数据库权限表中的所有接口
-        List<AdminAuthority> authoritys = adminAuthorityMapper.selectList(null);
+        List<AdminAuthority> authoritys = adminAuthorityService.list(null);
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry eiur = http.authorizeRequests();
         authoritys.forEach((auth) -> {
             eiur.antMatchers(auth.getUrl()).hasAnyAuthority(auth.getUrl());
         });
         // 配置token验证及登录认证,过滤器
         eiur
-                // 登录接口不需要权限控制,可删除，目前该接口不在权限列表中
+                // 登录接口不需要权限控制,可删除该行配置，目前该接口不在权限列表中
                 .antMatchers("/auth/login", "POST").permitAll()
                 // 设置JWT过滤器
                 .and()
@@ -101,11 +102,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // 开启跨域访问
-        http.cors().disable();
+        http.cors(); //.disable();
         // 开启模拟请求，比如API POST测试工具的测试，不开启时，API POST为报403错误
         http.csrf().disable();
         // iframe 跳转错误处理 Refused to display 'url' in a frame because it set 'X-Frame-Options' to 'deny'
         http.headers().frameOptions().disable();
+        // 当出现跨域的OPTIONS请求时，发现被拦截，加入下面设置可实现对OPTIONS请求的放行。
+        http.authorizeRequests().
+                requestMatchers(CorsUtils::isPreFlightRequest).
+                permitAll();
     }
 
 
@@ -119,5 +124,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static NoOpPasswordEncoder passwordEncoder() {
         return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
     }
-
 }

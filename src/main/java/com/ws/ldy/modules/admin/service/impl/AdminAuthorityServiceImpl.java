@@ -1,8 +1,10 @@
 package com.ws.ldy.modules.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ws.ldy.XiJiaServer;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.ClassUtil;
+import com.ws.ldy.common.utils.IdUtil;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.admin.mapper.AdminAuthorityMapper;
 import com.ws.ldy.modules.admin.mapper.AdminRoleAuthMapper;
@@ -21,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,14 +32,14 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMapper, AdminAuthority> implements AdminAuthorityService {
     /**
-     * url权限注解扫包范围 TODO 应该为直接用代码获取当前项目的路径
+     * url权限注解扫包范围( 直接获取启动类的包路径)
      */
-    private final static String PACKAGE_NAME = "com.ws.ldy";
-
+    private final static String PACKAGE_NAME = XiJiaServer.class.getPackage().getName();
 
 
     @Autowired
     private AdminRoleAuthMapper adminRoleAuthMapper;
+
     /**
      *   添加接口--扫描包下所有类
      *
@@ -48,16 +49,15 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     @Override
     @Transactional
     public void refreshAuthority() {
+        log.info("  @.@...正在更新接口资源,所有被权限管理的接口将被打印出来…… ^.^ ");
         // 扫描包，获得包下的所有类
         List<Class<?>> classByPackageName = ClassUtil.getClasses(PACKAGE_NAME);
-
         // 当前当前数据库已经存在的所有url权限列表--> key=url，value=对象，获取后移除Map中已取出，最后剩下的全部删除
-        Map<String, AdminAuthority> authorityMap = new HashMap();
-        List<AdminAuthority> authorityList = this.list();
-        if (authorityList != null && authorityList.size() > 0) {
-            authorityList.forEach(item -> authorityMap.put(item.getUrl(), item));
-        }
-
+        Map<String, AdminAuthority> authorityMap = this.list().stream().collect(Collectors.toMap(AdminAuthority::getUrl, item -> item));
+        //
+        List<AdminAuthority> updAuth = new ArrayList<>();  // 所有需要修改
+        List<AdminAuthority> addAuth = new ArrayList<>();  // 所有需要添加
+        List<String> delIds = new ArrayList<>();           // 所有需要删除的Id
         // 遍历所有类
         for (Class<?> classInfo : classByPackageName) {
             // 类上存在 @Api 注解 + @RequestMapping 的类进行下一步操作
@@ -69,38 +69,50 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             // 判断当前类是否需要保存到接口权限内（目前：PC_ADMIN=平台 ） 需要
             if (apiClass.description().equals(BaseConstant.InterfaceType.PC_ADMIN)) {
                 String url = requestMappingClass.value()[0];
-                System.out.println("当前类信息-->" + apiClass.value() + "-->" + apiClass.tags()[0] + " --> " + url);
+                //System.out.println("当前类信息-->" + apiClass.value() + "-->" + apiClass.tags()[0] + " --> " + url);
+                String classLog = "  接口类：--------------@.@[" + apiClass.tags()[0] + "-" + apiClass.value() + "]--";
+                log.info(String.format("%-100s", classLog).replace(" ", "-"));
                 if (authorityMap.containsKey(url)) {
                     // 存在修改
                     AdminAuthority updAuthority = authorityMap.get(url);
                     updAuthority.setUrl(url);                               // 接口URL
                     updAuthority.setDesc(apiClass.tags()[0]);               // 接口描叙
-                    this.updateById(updAuthority);
+                    updAuth.add(updAuthority);
                     // 添加方法上的权限
-                    this.putMethods(classInfo, authorityMap, updAuthority);
-                    // 移除Map中已取出
+                    this.putMethods(classInfo, authorityMap, updAuthority, updAuth, addAuth);
+                    // 移除Map中已取出的数据
                     authorityMap.remove(url);
                 } else {
                     // 不存在新添加
                     AdminAuthority addAuthority = new AdminAuthority();
+                    addAuthority.setId(IdUtil.snowflakeId());
                     addAuthority.setPid("");                              // 请求Pid
                     addAuthority.setMethod("");                           // 请求方式
                     addAuthority.setUrl(url);                             // 接口URL
                     addAuthority.setDesc(apiClass.tags()[0]);             // 接口描叙
-                    this.save(addAuthority);
+                    addAuth.add(addAuthority);
                     // 添加方法上的权限
-                    this.putMethods(classInfo, authorityMap, addAuthority);
+                    this.putMethods(classInfo, authorityMap, addAuthority, updAuth, addAuth);
                 }
             }
         }
-        // 删除多余数据
+        log.info("  本次刷新接口数量为: " + updAuth.size() + " ,如接口[备注信息]或[请求方式]发送改变,则已被刷新");
+        log.info("  本次添加接口数量为: " + addAuth.size());
+        // 更新数据库
+        if (updAuth.size() > 0) {
+            this.updateBatchById(updAuth, 1024);
+        }
+        if (addAuth.size() > 0) {
+            this.saveBatch(addAuth, 1024);
+
+        }
         if (authorityMap.size() > 0) {
-            List<String> delIds = new ArrayList<>();
-            authorityMap.forEach((k, v) -> {
-                delIds.add(v.getId());
-            });
+            // 删除多余数据
+            authorityMap.forEach((k, v) -> delIds.add(v.getId()));
             this.removeByIds(delIds);
         }
+        log.info("  本次删除接口数量为: " + delIds.size());
+        log.info("  当前被管理的总接口数量为: " + (updAuth.size() + addAuth.size()));
     }
 
 
@@ -113,25 +125,23 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      * @return void
      * @date 2019/11/25 0025 9:02
      */
-    private void putMethods(Class<?> classInfo, Map<String, AdminAuthority> authorityMap, AdminAuthority authority) {
+    private void putMethods(Class<?> classInfo, Map<String, AdminAuthority> authorityMap, AdminAuthority authority, List<AdminAuthority> updAuth, List<AdminAuthority> addAuth) {
         // 获取类的所有方法
         Method[] methods = classInfo.getDeclaredMethods();
-
         //循环添加方法级权限
         for (Method method : methods) {
             RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
             ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
             if (requestMapping == null || apiOperation == null) {
-                log.info(method.getDeclaringClass().getName() + "." + method.getName() + "方法没有@ApiOperation 或 @RequestMapping注解");
+                // log.info("  接口资源：[{}]  -->  [{}]  -->  [{}] ", String.format("%-6s", requestMethod), String.format("%-40s", url), "NO");
+                // log.info(method.getDeclaringClass().getName() + "." + method.getName() + "方法没有@ApiOperation 或 @RequestMapping注解");
                 continue;
             }
-            // url
-            String url = authority.getUrl() + requestMapping.value()[0];
-            // 请求方式
-            String requestMethod = requestMapping.method()[0].name();
-            // 描叙
+            String url = authority.getUrl() + requestMapping.value()[0]; // url
+            String requestMethod = requestMapping.method()[0].name();    // 请求方式
             String desc = apiOperation.value();
-            log.info("方法:{} URL:{} 请求方式:{} 描叙:{} ", method.getDeclaringClass().getName() + "." + method.getName(), url, requestMethod, desc);
+            // 日志输出, 使用占位方式让日志对齐
+            log.info("  接口资源：[{}]  -->  [{}]  -->  [{}] ", String.format("%-6s", requestMethod), String.format("%-40s", url), desc);
             // 存在修改，不存在新添加
             if (authorityMap.containsKey(url)) {
                 // 获取已经有权限（根据权限名）
@@ -140,20 +150,20 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 updAuthority.setDesc(desc);               // 权限描叙
                 updAuthority.setUrl(url);                 // 接口url
                 updAuthority.setMethod(requestMethod);    // 请求方式
-                this.updateById(updAuthority);
-                // 移除Map中已取出
+                updAuth.add(updAuthority);
+                // 移除Map中已取出的数据
                 authorityMap.remove(url);
             } else {
                 AdminAuthority addAuthority = new AdminAuthority();
+                addAuthority.setId(IdUtil.snowflakeId());
                 addAuthority.setPid(authority.getId());   // 类权限id（父级id）
                 addAuthority.setDesc(desc);               // 权限描叙
                 addAuthority.setUrl(url);                 // 接口url
                 addAuthority.setMethod(requestMethod);    // 请求方式
-                this.save(addAuthority);
+                addAuth.add(addAuthority);
             }
         }
     }
-
 
 
     /**
@@ -166,7 +176,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     @Override
     public List<AdminAuthorityVO> findByRoleIdAuthorityChecked(String roleId) {
         // 获取当前角色拥有的url权限列表
-        List<AdminRoleAuth> roleIds = adminRoleAuthMapper.selectList(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId,roleId));
+        List<AdminRoleAuth> roleIds = adminRoleAuthMapper.selectList(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, roleId));
         List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(i -> i.getAuthId()).collect(Collectors.toList()) : new ArrayList<>();
         // 获取所有url,请求方式排序
         List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>().orderByAsc(AdminAuthority::getMethod));

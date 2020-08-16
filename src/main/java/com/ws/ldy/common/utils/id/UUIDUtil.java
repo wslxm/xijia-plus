@@ -1,4 +1,4 @@
-package com.ws.ldy.common.utils;
+package com.ws.ldy.common.utils.id;
 
 
 import java.util.UUID;

@@ -65,7 +65,8 @@
     <!-- 拦截堆错误包 -->
     <logger name="com.lplb" level="INFO"/>
     <logger name="com.lplb" level="DEBUG"/>
-    <logger name="com.alibaba.nacos.client.config.impl.ClientWorker" level="ERROR"/>
+    <logger name="com.alibaba.nacos.client.config.impl.ClientWorker" level="ERROR"/><!--不打印INFO级别的日志-->
+    <logger name="springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator" level="ERROR"/>
 
     <!-- 日志输出级别 -->
     <root level="INFO">

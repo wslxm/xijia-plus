@@ -2,7 +2,7 @@ package com.ws.ldy.others.base.controller;
 
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
-import com.ws.ldy.common.utils.UUIDUtil;
+import com.ws.ldy.common.utils.id.UUIDUtil;
 import com.ws.ldy.config.error.ErrorException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

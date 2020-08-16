@@ -42,6 +42,14 @@ public enum RType implements IEnum {
     ADMIN_IS_NO_INSERT_ID(9999, "添加不能传递Id"),
     ADMIN_IS_NO_UPDATE_ID(9999, "编辑不能没有Id"),
 
+    // 登录错误
+    LOGIN_ERROR_USER_PASSWORD(10001, "用户名或密码错误"),
+    LOGIN_IS_NO_ACCOUNT(10001, "没有账号信息"),
+    LOGIN_IS_NO_DISABLE(10001, "账户被禁用"),
+    LOGIN_FAILED(10001, "登录失败"),
+
+
+
     // 用户相关
     ADMIN_USER_NO_PASSWORD(10001, "原密码错误"),
     ADMIN_USER_NO_ROLE(10001, "当前用户没有分配任何角色"),

@@ -1,7 +1,7 @@
 /**
  * TODO 后台接口访问地址
  */
-path = "";//http://127.0.0.1:80  //http://192.168.1.104:8080
+path = "http://127.0.0.1:9049"; // 线上地址 "http://127.0.0.1:9049" ||  http://47.107.128.84:9049 || http://xijia.plus
 
 /**
  * TODO 系统相关配置
@@ -127,6 +127,7 @@ Pop = {
                 closeBtn: 1,
                 fixed: false,
                 shadeClose: true,
+                crossDomain: true,//跨域，https://www.cnblogs.com/autoXingJY/p/11419860.html
                 success: function (layero, index) {
                     // //自适应弹出层
                     // layer.iframeAuto(index);
@@ -292,7 +293,8 @@ Ajax = {
             contentType: "application/json",
             headers: {
                 //"token": localStorage.getItem('token')
-                "TOKEN": sessionStorage.getItem('TOKEN')
+                "TOKEN": sessionStorage.getItem(BaseConfig.token),
+               //"Accept": "*/*"
             },
             async: false,        // true=异步，false=同步
             //traditional: true, // 允许传递数组
@@ -317,14 +319,14 @@ Ajax = {
                     alert('AJAX请求失败!');
                 }
                 /*错误信息处理*/
-                alert("进入error---");
-                alert("状态码：" + xhr.status);
-                alert("状态:" + xhr.readyState);//当前状态,0-未初始化，1-正在载入，2-已经载入，3-数据进行交互，4-完成。
-                alert("错误信息:" + xhr.statusText);
-                alert("返回响应信息：" + xhr.responseText);//这里是详细的信息
-                alert("请求状态：" + textStatus);
-                alert(errorThrown);
-                alert("请求失败");
+                // alert("进入error---");
+                // alert("状态码：" + xhr.status);
+                // alert("状态:" + xhr.readyState);//当前状态,0-未初始化，1-正在载入，2-已经载入，3-数据进行交互，4-完成。
+                // alert("错误信息:" + xhr.statusText);
+                // alert("返回响应信息：" + xhr.responseText);//这里是详细的信息
+                // alert("请求状态：" + textStatus);
+                // alert(errorThrown);
+                // alert("请求失败");
             }
         });
         //错误打印
@@ -460,7 +462,7 @@ WindowPos = {
         if (typeof window.pageYOffset != 'undefined') {
             scrollPos = window.pageYOffset;
         } else if (typeof document.compatMode != 'undefined' &&
-            document.compatMode != 'BackCompat') {
+            document.compatMode !== 'BackCompat') {
             scrollPos = document.documentElement.scrollTop;
         } else if (typeof document.body != 'undefined') {
             scrollPos = document.body.scrollTop;

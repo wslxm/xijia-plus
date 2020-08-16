@@ -49,6 +49,13 @@ public class JWTValidFilter extends BasicAuthenticationFilter {
 
     /**
      * 拦截请求
+     * <>
+     *     token认证，授权认证，
+     *     没有Token 直接放行, 让请求接入权限认证, 需要授权的接口没有token当然是认证不过的啦
+     *     需要授权的接口, 在token 中获取当前登录用户的权限, 当前用户没有当前请求的接口权限当然也是认证不过的啦
+     *     //===
+     *     前端接口认证：暂无处理
+     * </>
      *
      * @param request
      * @param response
@@ -83,11 +90,11 @@ public class JWTValidFilter extends BasicAuthenticationFilter {
             resolver.resolveException(request, response, null, new ErrorException(10000, "JWT解析错误"));
             return;
         }
-        //  添加账户的权限信息，和账号是否为空，然后保存到Security的Authentication授权管理器中
+        //  添加账户的权限信息，和账号是否为空，然后保存到Security的 Authentication授权管理器中
         if (StringUtils.isNotBlank(username) && userAuthList != null) {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, null, userAuthList));
         }
-        //刷新token
+        // 每次请求接口刷新token
         SecurityUser user = new SecurityUser();
         user.setId(JwtUtil.getUserId(token));
         user.setUsername(JwtUtil.getUsername(token));

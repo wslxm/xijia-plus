@@ -1,11 +1,12 @@
 package com.ws.ldy.config.auth.jwt.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.config.auth.util.JwtUtil;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.auth.springSecurity.entity.SecurityUser;
+import com.ws.ldy.config.auth.util.JwtUtil;
+import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -17,6 +18,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -72,19 +74,36 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
      * @return
      * @throws AuthenticationException
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         SecurityUser user = null;
+        Map<String, String> map = null;
         try {
-            user = new ObjectMapper().readValue(request.getInputStream(), SecurityUser.class);
-        } catch (IOException e) {
-            // e.printStackTrace();
-            resolver.resolveException(request, response, null, new ErrorException(401, "没有传递对应的参数"));
+            // 封装请求参数到 map 中
+            StringBuffer data = new StringBuffer();
+            String line = null;
+            BufferedReader reader = request.getReader();
+            while (null != (line = reader.readLine())) {
+                data.append(line);
+            }
+            map = JSON.parseObject(data.toString(), Map.class);
+        } catch (Exception e) {
+            resolver.resolveException(request, response, null, new ErrorException(RType.SYSTEM_PARAMETER_IS_NO));
+            return null;
+        }
+        // 获取请求参数
+        String username = map.get("username");
+        String password = map.get("password");
+        // 参数判断
+        if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
+            resolver.resolveException(request, response, null, new ErrorException(RType.SYSTEM_PARAMETER_IS_NO));
             return null;
         }
         // 调用springSecurity的 XiJiaUserDetailsServiceImpl 的 loadUserByUsername 方法进行登录认证，传递账号密码
-        return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), new ArrayList<>()));
+        return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>()));
     }
+
 
     /**
      * 一旦调用 springSecurity认证登录成功，立即执行该方法
@@ -129,13 +148,17 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) {
         if (ex instanceof UsernameNotFoundException || ex instanceof BadCredentialsException) {
-            resolver.resolveException(request, response, null, new ErrorException(401, "用户名或密码错误"));
+            // 账号密码错误
+            resolver.resolveException(request, response, null, new ErrorException(RType.LOGIN_ERROR_USER_PASSWORD));
         } else if (ex instanceof InternalAuthenticationServiceException) {
-            resolver.resolveException(request, response, null, new ErrorException(401, "没有账号信息"));
+            // 账号不存在
+            resolver.resolveException(request, response, null, new ErrorException(RType.LOGIN_IS_NO_ACCOUNT));
         } else if (ex instanceof DisabledException) {
-            resolver.resolveException(request, response, null, new ErrorException(401, "账户被禁用"));
+            // 账号禁用
+            resolver.resolveException(request, response, null, new ErrorException(RType.LOGIN_IS_NO_DISABLE));
         } else {
-            resolver.resolveException(request, response, null, new ErrorException(401, "登录失败!"));
+            // 登录失败
+            resolver.resolveException(request, response, null, new ErrorException(RType.LOGIN_FAILED));
         }
     }
 }
