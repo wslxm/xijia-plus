@@ -10,7 +10,7 @@
 账号：admin  
 密码：admin
 
-更新内容文档: [https://gitee.com/wslxm/spring-boot-plus2/blob/v-0.0.4/VERSION_LOG.md]
+更新内容文档: [https://gitee.com/wslxm/spring-boot-plus2/blob/v-0.0.4/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/v-0.0.4/VERSION_LOG.md) 
 
 ### 最新说明
 - 当前主分支为v-0.0.3 的分支最后更新代码,可稳定运行, 下个更新版本的版本 v-0.0.4 
