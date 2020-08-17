@@ -294,7 +294,7 @@ Ajax = {
             headers: {
                 //"token": localStorage.getItem('token')
                 "TOKEN": sessionStorage.getItem(BaseConfig.token),
-               //"Accept": "*/*"
+                //"Accept": "*/*"
             },
             async: false,        // true=异步，false=同步
             //traditional: true, // 允许传递数组
