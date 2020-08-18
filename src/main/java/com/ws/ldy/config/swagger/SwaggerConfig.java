@@ -1,6 +1,7 @@
 package com.ws.ldy.config.swagger;
 
 import com.google.common.collect.Lists;
+import com.ws.ldy.enums.BaseConstant;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -62,7 +63,7 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public Docket xijiaApi() {
+    public Docket devApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("dev-开发计划模块接口")
                 .globalOperationParameters(getGlobalParameter())
@@ -82,15 +83,14 @@ public class SwaggerConfig {
     }
 
 
-
     /**
      * swagger全局header参数添加
      */
     private List<Parameter> getGlobalParameter() {
         ParameterBuilder parameterBuilder = new ParameterBuilder();
         parameterBuilder
+                .name(BaseConstant.Sys.TOKEN)
                 .scalarExample("token") //账号默认token
-                .name("Token")
                 .description("请求头参数")
                 .modelRef(new ModelRef("string")).parameterType("header")
                 .required(false)
