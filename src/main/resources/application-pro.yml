@@ -1,7 +1,7 @@
 server:
   port: 9049   # HTTP (Tomcat) port
 
-## 阿里云oss配置
+## 阿里云oss配置, 此阿里云为个人账号提供, 请自行切换为自己的阿里云oss地址，一旦发现滥用，将关闭此服务地址
 aliyun:
   oss:
     # 阿里云下oss 的 accessKeyId和accessKeySecret(访问密钥，您可以在控制台上创建和查看)
@@ -21,7 +21,8 @@ websocket:
   # websocket 连接接口， WebsocketServiceImpl的 @ServerEndpoint 内参数=socket接口名
   interfaceName: /websocket
 
-# DataSource Config
+# DataSource Config， 此数据源为服务器上的Docker搭建, 因服务器唯1核2G 轻量级服务器,安装了 nginx ，mysql，docker, 以及当前项目的jar服务,
+# 仅供当前项目使用, 切勿使用到其他场景, 否则容易蹦掉，一旦发现滥用，将关闭此测试数据源, sql 有脚本,建议使用本地数据库来测试
 spring:
   autoconfigure:
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure  # 为了某些版本的springboot  @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class}) 无法生效
@@ -36,6 +37,6 @@ spring:
           password: root123456
           type: com.alibaba.druid.pool.DruidDataSource
 
-## logback日志输出：linux 项目放置路径
+## logback日志输出：linux 项目放置路径, 请自行配置log在服务器的输出路径，由 logback-spring.xml 读取此配置信息
 logging:
   file: /usr/local/work/xijia2/logs

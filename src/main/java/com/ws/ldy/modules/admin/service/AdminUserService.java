@@ -25,4 +25,5 @@ public interface AdminUserService extends IService<AdminUser> {
      * @version 1.0.0
      */
     public List<AdminUser> findByRoleId(String roleId);
+
 }

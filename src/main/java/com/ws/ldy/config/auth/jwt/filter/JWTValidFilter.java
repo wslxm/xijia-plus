@@ -1,9 +1,9 @@
 package com.ws.ldy.config.auth.jwt.filter;
 
-import com.ws.ldy.config.auth.springSecurity.entity.SecurityUser;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.modules.admin.model.entity.AdminUser;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +66,8 @@ public class JWTValidFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         //log.info("请求方式:{} 请求URL:{} ", request.getMethod(), request.getServletPath());
-        // 获取token, 没有token直接放行
+
+        // 获取token, 没有token直接放行，放行接口在 SecurityConfig 中配置
         String token = request.getHeader(BaseConstant.Sys.TOKEN);
         if (StringUtils.isBlank(token) || "null".equals(token)) {
             super.doFilterInternal(request, response, chain);
@@ -94,15 +95,35 @@ public class JWTValidFilter extends BasicAuthenticationFilter {
         if (StringUtils.isNotBlank(username) && userAuthList != null) {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, null, userAuthList));
         }
-        // 每次请求接口刷新token
-        SecurityUser user = new SecurityUser();
+        //  每次请求接口刷新 Token
+        List<SimpleGrantedAuthority> userAuth = JwtUtil.getUserAuth(token);
+        AdminUser user = new AdminUser();
+        user.setFullName(JwtUtil.getFullName(token));
         user.setId(JwtUtil.getUserId(token));
         user.setUsername(JwtUtil.getUsername(token));
-        user.setAuthorities(JwtUtil.getUserAuth(token));
         user.setHead(JwtUtil.getUserHead(token));
-        String newToken = JwtUtil.generateToken(user);
+        String newToken = JwtUtil.generateToken(user, userAuth);
         response.setHeader(BaseConstant.Sys.TOKEN, newToken);
+        System.out.println( response.getHeader(BaseConstant.Sys.TOKEN));
         // 执行成功，向下走
         super.doFilterInternal(request, response, chain);
     }
 }
+
+//            从任意地方相关当前登录用户的权限信息
+//            //========================================================
+//            //这一段仅仅是更新当前登录用户的权限列表 ，登出后将释放 ，当再次从数据库获取权限数据时将还原 ，因此如果需要持久性的更改权限，
+//            // 还需要修改数据库信息 ，懒得写 ，这里就不做修改数据库演示了
+//            //
+//            // 得到当前的认证信息
+//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            // 生成当前的所有授权
+//            List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
+//            // 添加 ROLE_VIP 授权
+//            updatedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + authName));
+//            // 生成新的认证信息
+//            Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
+//            // 重置认证信息
+//            SecurityContextHolder.getContext().setAuthentication(newAuth);
+//            //========================================================
+

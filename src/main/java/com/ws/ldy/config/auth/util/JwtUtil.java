@@ -2,7 +2,7 @@ package com.ws.ldy.config.auth.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.ws.ldy.config.auth.springSecurity.entity.SecurityUser;
+import com.ws.ldy.modules.admin.model.entity.AdminUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -35,18 +35,19 @@ public class JwtUtil {
     /**
      *   生成token
      *
-     * @param user
+     * @param user 用户信息
+     * @param auth 用户权限
      * @return java.lang.String
      * @date 2020/7/6 0006 9:26
      */
-    public static String generateToken(SecurityUser user) {
+    public static String generateToken(AdminUser user,  List<SimpleGrantedAuthority> auth) {
         String token = Jwts
                 .builder()
                 // 主题
                 .setSubject(SUBJECT)
                 // TODO 用户信息加密
                 // 添加jwt自定义值
-                .claim(AUTH_CLAIMS, user.getAuthorities())
+                .claim(AUTH_CLAIMS, auth)
                 .claim("username", user.getUsername())
                 .claim("fullName", user.getFullName())
                 .claim("userId", user.getId())

@@ -1,17 +1,17 @@
 package com.ws.ldy.common.utils;
 
 /***
- *   System.out.println 输出颜色
+ * System.out.println 输出颜色
  * @author 王松
  * @mail 1720696548@qq.com
  * @date 2020/7/7 0007 9:00
  */
 public class ConsoleColors {
 
-    // Reset
+    // Reset 重置
     public static final String RESET = "\033[0m";  // Text Reset
 
-    // Regular Colors
+    // Regular Colors 常规颜色
     public static final String BLACK = "\033[0;30m";   // BLACK
     public static final String RED = "\033[0;31m";     // RED
     public static final String GREEN = "\033[0;32m";   // GREEN
@@ -41,7 +41,7 @@ public class ConsoleColors {
     public static final String CYAN_UNDERLINED = "\033[4;36m";   // CYAN
     public static final String WHITE_UNDERLINED = "\033[4;37m";  // WHITE
 
-    // Background
+    // Background 背景
     public static final String BLACK_BACKGROUND = "\033[40m";  // BLACK
     public static final String RED_BACKGROUND = "\033[41m";    // RED
     public static final String GREEN_BACKGROUND = "\033[42m";  // GREEN
@@ -51,7 +51,7 @@ public class ConsoleColors {
     public static final String CYAN_BACKGROUND = "\033[46m";   // CYAN
     public static final String WHITE_BACKGROUND = "\033[47m";  // WHITE
 
-    // High Intensity
+    // High Intensity 高强度
     public static final String BLACK_BRIGHT = "\033[0;90m";  // BLACK
     public static final String RED_BRIGHT = "\033[0;91m";    // RED
     public static final String GREEN_BRIGHT = "\033[0;92m";  // GREEN
@@ -61,7 +61,7 @@ public class ConsoleColors {
     public static final String CYAN_BRIGHT = "\033[0;96m";   // CYAN
     public static final String WHITE_BRIGHT = "\033[0;97m";  // WHITE
 
-    // Bold High Intensity
+    // Bold High Intensity 粗体高强度
     public static final String BLACK_BOLD_BRIGHT = "\033[1;90m"; // BLACK
     public static final String RED_BOLD_BRIGHT = "\033[1;91m";   // RED
     public static final String GREEN_BOLD_BRIGHT = "\033[1;92m"; // GREEN
@@ -71,15 +71,15 @@ public class ConsoleColors {
     public static final String CYAN_BOLD_BRIGHT = "\033[1;96m";  // CYAN
     public static final String WHITE_BOLD_BRIGHT = "\033[1;97m"; // WHITE
 
-    // High Intensity backgrounds
-    public static final String BLACK_BACKGROUND_BRIGHT = "\033[0;100m";// BLACK
-    public static final String RED_BACKGROUND_BRIGHT = "\033[0;101m";// RED
-    public static final String GREEN_BACKGROUND_BRIGHT = "\033[0;102m";// GREEN
-    public static final String YELLOW_BACKGROUND_BRIGHT = "\033[0;103m";// YELLOW
-    public static final String BLUE_BACKGROUND_BRIGHT = "\033[0;104m";// BLUE
+    // High Intensity backgrounds 高强度背景
+    public static final String BLACK_BACKGROUND_BRIGHT = "\033[0;100m";  // BLACK
+    public static final String RED_BACKGROUND_BRIGHT = "\033[0;101m";    // RED
+    public static final String GREEN_BACKGROUND_BRIGHT = "\033[0;102m";  // GREEN
+    public static final String YELLOW_BACKGROUND_BRIGHT = "\033[0;103m"; // YELLOW
+    public static final String BLUE_BACKGROUND_BRIGHT = "\033[0;104m";   // BLUE
     public static final String PURPLE_BACKGROUND_BRIGHT = "\033[0;105m"; // PURPLE
-    public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";  // CYAN
-    public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";   // WHITE
+    public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";   // CYAN
+    public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";  // WHITE
 
 
     public static void main(String[] args) {

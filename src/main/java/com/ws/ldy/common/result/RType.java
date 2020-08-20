@@ -44,7 +44,7 @@ public enum RType implements IEnum {
 
     // 登录错误
     LOGIN_ERROR_USER_PASSWORD(10001, "用户名或密码错误"),
-    LOGIN_IS_NO_ACCOUNT(10001, "没有账号信息"),
+    LOGIN_IS_NO_ACCOUNT(10001, "用户/账号不存在"),
     LOGIN_IS_NO_DISABLE(10001, "账户被禁用"),
     LOGIN_FAILED(10001, "登录失败"),
 

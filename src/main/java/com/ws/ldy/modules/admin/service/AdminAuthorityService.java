@@ -3,6 +3,7 @@ package com.ws.ldy.modules.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.admin.model.vo.AdminAuthorityVO;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
@@ -34,4 +35,14 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      * @date 2019/11/25 0025 11:55
      */
     List<AdminAuthorityVO> findByRoleIdAuthorityChecked(String userId);
+
+
+    /**
+     * 获取用户的url权限列表，只返回未禁用的 url
+     *
+     * @param  userId 用户id
+     * @return void
+     * @date 2019/11/25 0025 11:55
+     */
+    List<SimpleGrantedAuthority> findUserIdRoleAuthorityNoDisable(String userId);
 }

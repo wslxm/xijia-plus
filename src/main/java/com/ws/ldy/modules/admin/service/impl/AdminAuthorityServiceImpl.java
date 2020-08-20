@@ -17,6 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -193,6 +194,28 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 }
             });
             return adminAuthorityVOList;
+        }
+    }
+
+
+    /**
+     * 获取用户的url权限列表，只返回未禁用的 url
+     *
+     * @param  userId 用户id
+     * @return void
+     * @date 2019/11/25 0025 11:55
+     */
+    @Override
+    public List<SimpleGrantedAuthority> findUserIdRoleAuthorityNoDisable(String userId) {
+        List<AdminAuthority> auth = baseMapper.findUserIdRoleAuthorityNoDisable(userId);
+        if (auth == null) {
+            return null;
+        } else {
+            List<SimpleGrantedAuthority> collect = new ArrayList<>();
+            for (AdminAuthority item : auth) {
+                collect.add(new SimpleGrantedAuthority(item.getUrl()));
+            }
+            return collect;
         }
     }
 }

@@ -93,7 +93,7 @@ Dict = {
      * disable 禁用（0-否，1-是）
      */
     getDictTest: function () {
-        // 测试中的 .name 可以去上方注释中的任意参数
+        // 测试中的 .name 可以获取上方注释中的任意参数
         console.log("项目code=1:  ==>   " + Dict.convertDict(Enums.Dev.BaseItem, 1));
         console.log("项目code=2:   ==>   " + Dict.convertDict(Enums.Dev.BaseItem, 2));
         console.log("项目code=2:   ==>   " + Dict.convertDict(Enums.Dev.BaseItem, 2).name);

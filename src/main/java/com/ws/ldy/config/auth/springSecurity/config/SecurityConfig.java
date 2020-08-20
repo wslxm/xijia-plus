@@ -1,40 +1,30 @@
 package com.ws.ldy.config.auth.springSecurity.config;
 
-import com.ws.ldy.config.auth.jwt.filter.JWTLoginFilter;
 import com.ws.ldy.config.auth.jwt.filter.JWTValidFilter;
-import com.ws.ldy.config.auth.springSecurity.service.impl.XiJiaUserDetailsServiceImpl;
-import com.ws.ldy.config.auth.util.MD5Util;
 import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.admin.service.AdminAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.List;
 
 /**
- *    Security配置文件，项目启动时就加载了
+ * Security配置文件，项目启动时就加载了
  *
  * @date 2020/7/5 0005 20:44
  * @return
  */
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    // 登录-认证方法->loadUserByUsername
-    @Autowired
-    private XiJiaUserDetailsServiceImpl xiJiaUserDetailsService;
 
 
     // 异常处理类,在 filter无法使用全局异常,在 .addFilter(new JWTValidFilter 中传递该对象过去，便于返回异常信息
@@ -46,33 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AdminAuthorityService adminAuthorityService;
 
-    /**
-     * 认证
-     *
-     * @return
-     */
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        //对默认的UserDetailsService进行覆盖
-        authenticationProvider.setUserDetailsService(xiJiaUserDetailsService);
-        authenticationProvider.setPasswordEncoder(new PasswordEncoder() {
 
-            // 对密码MD5
-            @Override
-            public String encode(CharSequence rawPassword) {
-                return MD5Util.encode((String) rawPassword);
-            }
-
-            // 判断密码是否正确, rawPassword 用户输入的密码,  encodedPassword 数据库DB的密码,当 XiJiaUserDetailsServiceImpl的loadUserByUsername方法执行完后执行
-            @Override
-            public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                return MD5Util.encode((String) rawPassword).equals(encodedPassword);
-            }
-        });
-        return authenticationProvider;
-    }
-
+    // 认证，不需要使用它的认证方法，使用自己的 Login接口authenticationProvider
 
     /**
      *  授权
@@ -93,11 +58,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 配置token验证及登录认证,过滤器
         eiur
                 // 登录接口不需要权限控制,可删除该行配置，目前该接口不在权限列表中
-                .antMatchers("/auth/login", "POST").permitAll()
+                .antMatchers("/admin/login", "POST").permitAll()
                 // 设置JWT过滤器
                 .and()
                 .addFilter(new JWTValidFilter(authenticationManager(), resolver))
-                .addFilter(new JWTLoginFilter(authenticationManager(), resolver)).csrf().disable()
+                //.addFilter(new JWTLoginFilter(authenticationManager(), resolver)).csrf().disable()
                 // 剔除session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

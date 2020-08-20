@@ -44,11 +44,18 @@ public class DataBaseController extends BaseController<DataBaseService> {
     public R<List<TableFieldVO>> findTableField(@RequestParam(required = false) String tableName) {
         List<TableFieldVO> tableField = baseService.findTableField(tableName);
         for (TableFieldVO tableFieldVO : tableField) {
+            // 判断是否为通用字段
             if (GenerateConfig.BASE_FIELDS.contains(tableFieldVO.getName())) {
                 tableFieldVO.setIsChecked(false);
             } else {
                 tableFieldVO.setIsChecked(true);
             }
+            // 判断空串
+//            if ("".equals(tableFieldVO.getDefaultVal())) {
+//                tableFieldVO.setIsChecked(false);
+//            } else {
+//                tableFieldVO.setIsChecked(true);
+//            }
         }
         return R.success(tableField);
     }
