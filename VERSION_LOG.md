@@ -95,7 +95,7 @@
 - 9、增加 IdUtil 工具类, 可直接生成uuid + 雪花算法Id
 
 
-## 6、 版本: v-0.0.4
+## 7、 版本: v-0.0.4
 
 - 1、添加登录接口 admin/login ，删除jwt 登录器（ auth/login-太繁琐，明明一个接口就能搞定，Security + jwt 要一大串)
 - 2、删除Security 登录相关配置

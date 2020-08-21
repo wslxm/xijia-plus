@@ -89,10 +89,12 @@ public class SwaggerConfig {
     private List<Parameter> getGlobalParameter() {
         ParameterBuilder parameterBuilder = new ParameterBuilder();
         parameterBuilder
-                .name(BaseConstant.Sys.TOKEN)
-                .scalarExample("token") //账号默认token
-                .description("请求头参数")
-                .modelRef(new ModelRef("string")).parameterType("header")
+                .name(BaseConstant.Sys.TOKEN) // key
+                .scalarExample("token")       // value 默认token
+                .description("请求头参数")      // 描叙
+                .modelRef(new ModelRef("string"))
+                .parameterType("header")
+                .order(-1)
                 .required(false)
                 .build();
         List<Parameter> parameters = Lists.newArrayList();

@@ -136,15 +136,15 @@
                 layer.msg("请滑动图片进行验证");
                 return;
             }
-            let param = "";
-            param += "?username=" + obj.field.username;
-            param += "&password=" + obj.field.password;
+            // let param = "";
+            // param += "?username=" + obj.field.username;
+            // param += "&password=" + obj.field.password;
             // let data = {
             //     username: obj.field.username,
             //     password: obj.field.password
             // };
             // 请求成功，会在ajax请求响应后自动写入用户信息-token 字符串数据到本地 // 读取方法 sessionStorage.getItem('token')
-            let res = Ajax.post(admin_login + param);
+            let res = Ajax.post(admin_login , obj.field);
 
 
             // let res = Ajax.get(admin_login + "?account=" + obj.field.username + "&password=" + obj.field.password);

@@ -6,6 +6,7 @@ import com.ws.ldy.others.base.controller.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -21,7 +22,6 @@ import java.util.Map;
 /**
  * 异常处理类/ 全局异常 /自定义异常
  */
-//@ControllerAdvice
 @SuppressWarnings("all")
 @RestControllerAdvice
 @Slf4j
@@ -98,9 +98,19 @@ public class GlobalExceptionHandler extends BaseController {
             return R.error(RType.SYSTEM_PARAMETER_ILLEGAL_PARAM, errorMsg);
         } else if (e instanceof MethodArgumentNotValidException) {
             /**
-             * JSR 303 为参数验证错误（只打印核心错误内容）
+             * body JSR 303 为参数验证错误（只打印核心错误内容）
              */
             List<FieldError> fieldErrors = ((MethodArgumentNotValidException) e).getBindingResult().getFieldErrors();
+            String field = fieldErrors.get(0).getField();   // 错误字段，多个错误，取第一个
+            String msg = fieldErrors.get(0).getDefaultMessage(); //错误 message，多个错误，取第一个
+            String errorMsg = RType.SYSTEM_PARAMETER_VALID_ILLEGAL.getMsg() + "  --> 【字段=" + field + " --> 提示用户的错误信息=" + msg + "】    -->    完整的栈错误信息：" + e.getMessage();
+            log.info(logStr + errorMsg);
+            return R.error(RType.SYSTEM_PARAMETER_VALID_ILLEGAL.getCode(), msg, errorMsg);
+        } else if (e instanceof BindException) {
+            /**
+             * query JSR 303 为参数验证错误（只打印核心错误内容）
+             */
+            List<FieldError> fieldErrors = ((BindException) e).getBindingResult().getFieldErrors();
             String field = fieldErrors.get(0).getField();   // 错误字段，多个错误，取第一个
             String msg = fieldErrors.get(0).getDefaultMessage(); //错误 message，多个错误，取第一个
             String errorMsg = RType.SYSTEM_PARAMETER_VALID_ILLEGAL.getMsg() + "  --> 【字段=" + field + " --> 提示用户的错误信息=" + msg + "】    -->    完整的栈错误信息：" + e.getMessage();
