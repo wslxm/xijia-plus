@@ -32,6 +32,10 @@ public class AdminAuthorityVO extends BaseVo {
     private Integer disable;
     @ApiModelProperty(value = "是否选中-是否选中（是否有权限，前台复选框默认选中需要值）")
     private Boolean isChecked;
+    @ApiModelProperty(notes = "终端(字典code, 如 0-管理端 1-用户端)" ,position = 5)
+    private Integer type;
+    @ApiModelProperty(notes = "授权状态(字典code  0-无需登录 1-需登录 2-需登录+授权)" ,position = 6)
+    private Integer state;
 
 }
 

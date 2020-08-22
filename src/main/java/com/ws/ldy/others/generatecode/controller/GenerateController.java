@@ -29,7 +29,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/generate")
-@Api(value = "GenerateController", tags = "代码生成器-只限于页面调用", description = BaseConstant.InterfaceType.PC_ADMIN)
+@Api(value = "GenerateController", tags = "代码生成器-只限于页面调用", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class GenerateController extends BaseController<GenerationSeviceImpl> {
 
 

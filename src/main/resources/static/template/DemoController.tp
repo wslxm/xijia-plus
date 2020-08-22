@@ -14,7 +14,7 @@ import {packPath}.{packPathZp}.{moduleName}.model.entity.{tableNameUp};
 import {packPath}.{packPathZp}.{moduleName}.model.vo.{tableNameUp}VO;
 import {packPath}.{packPathZp}.{moduleName}.model.dto.{tableNameUp}DTO;
 import {packPath}.{packPathZp}.{moduleName}.service.{tableNameUp}Service;
-import {packPath}.common.result.Result;
+import {packPath}.common.result.R;
 import {packPath}.common.utils.BeanDtoVoUtil;
 import {packPath}.others.base.controller.BaseController;
 import java.util.Arrays;
@@ -42,50 +42,50 @@ public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service
             @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query",example = "1"),
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query",example = "20")
     })
-    public Result<IPage<{tableNameUp}VO>> findPage({findPageParam}) {
+    public R<IPage<{tableNameUp}VO>> findPage({findPageParam}) {
         Page<{tableNameUp}> page = baseService.page(this.getPage(), new LambdaQueryWrapper<{tableNameUp}>()
                 .orderByDesc({tableNameUp}::getCreateTime)
 {findPageMybatisPlus}
         );
-        return Result.successFind(BeanDtoVoUtil.pageVo(page, {tableNameUp}VO.class));
+        return R.successFind(BeanDtoVoUtil.pageVo(page, {tableNameUp}VO.class));
     }
 
     @RequestMapping(value = "/findId", method = RequestMethod.GET)
     @ApiOperation(value = "ID查询", notes= "")
-    public Result<DevTask> findId(@RequestParam String id) {
-        return Result.successFind(BeanDtoVoUtil.convert( baseService.getById(id),{tableNameUp}.class));
+    public R<{tableNameUp}VO> findId(@RequestParam String id) {
+        return R.successFind(BeanDtoVoUtil.convert( baseService.getById(id),{tableNameUp}VO.class));
     }
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "添加", notes= "必须不传递ID")
-    public Result<Void> insert(@RequestBody @Validated {tableNameUp}DTO dto) {
+    public R<Void> insert(@RequestBody @Validated {tableNameUp}DTO dto) {
         {tableNameUp} {tableNameLower} = dto.convert({tableNameUp}.class);
         baseService.save({tableNameLower});
-        return Result.successInsert();
+        return R.successInsert();
     }
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "ID编辑", notes= "必须传递ID")
-    public Result<Void> upd(@RequestBody @Validated {tableNameUp}DTO dto) {
+    public R<Void> upd(@RequestBody @Validated {tableNameUp}DTO dto) {
         baseService.updateById(dto.convert({tableNameUp}.class));
-        return Result.successUpdate();
+        return R.successUpdate();
     }
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation(value = "ID删除", notes= "")
-    public Result<Void> del(@RequestParam String id) {
+    public R<Void> del(@RequestParam String id) {
         baseService.removeById(id);
-        return Result.successDelete();
+        return R.successDelete();
     }
 
 
     @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
     @ApiOperation(value = "批量ID删除", notes= "")
-    public Result<Void> delByIds(@RequestParam String[] ids) {
+    public R<Void> delByIds(@RequestParam String[] ids) {
         baseService.removeByIds(Arrays.asList(ids));
-        return Result.successDelete();
+        return R.successDelete();
     }
 }

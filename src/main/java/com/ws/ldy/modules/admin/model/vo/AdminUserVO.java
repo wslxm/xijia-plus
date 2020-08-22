@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  *   用户
@@ -45,6 +46,8 @@ public class AdminUserVO extends BaseVo {
     private LocalDateTime entTime;
     @ApiModelProperty(value = "是否选中（角色是否有改用户，前台复选框默认选中需要值）")
     private Boolean isChecked;
+    @ApiModelProperty(value = "用户权限")
+    List<String> authList;
 
 
 }

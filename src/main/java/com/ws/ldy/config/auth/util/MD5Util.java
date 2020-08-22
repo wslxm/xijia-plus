@@ -9,6 +9,7 @@ import java.security.MessageDigest;
  * @date 2020/7/5 0005 22:06 
  */
 public class MD5Util {
+
     /**
      * md5盐-加密盐值
      */

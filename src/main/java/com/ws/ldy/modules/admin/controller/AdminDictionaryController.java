@@ -11,7 +11,6 @@ import com.ws.ldy.modules.admin.model.dto.AdminDictionaryDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminDictionary;
 import com.ws.ldy.modules.admin.model.vo.AdminDictionaryVO;
 import com.ws.ldy.modules.admin.service.AdminDictionaryService;
-import com.ws.ldy.modules.admin.service.impl.AdminDictionaryServiceImpl;
 import com.ws.ldy.others.base.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +30,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/admin/adminDictionary")
-@Api(value = "AdminDictionaryController", tags = "字典管理", description = BaseConstant.InterfaceType.PC_ADMIN)
+@Api(value = "AdminDictionaryController", tags = "字典管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminDictionaryController extends BaseController<AdminDictionaryService> {
 
 
@@ -60,7 +59,7 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
     @RequestMapping(value = "/findVersion", method = RequestMethod.GET)
     @ApiOperation(value = "获取字典版本", notes = "获取数据字典版本信息, 如果判断到本地版本和线上版本不一致,调用 findCodeGroup 接口刷新字典数据")
     public R<Integer> findVersion() {
-        return R.success(AdminDictionaryServiceImpl.version);
+        return R.success(BaseConstant.Cache.DICT_VERSION++);
     }
 
 
@@ -69,7 +68,7 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
     public R<AdminDictionaryVO> findByCode(@RequestParam String code) {
         // 不能传递字符串数字来查询
         if (StringUtil.isInteger(code)) {
-            throw new ErrorException(RType.SYSTEM_PARAMETER_IS_NO);
+            throw new ErrorException(RType.PARAM_ERROR);
         }
         AdminDictionaryVO dict = baseService.findByCodeFetchDictVO(code);
         return R.success(dict);
@@ -82,11 +81,11 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
         adminDictionaryDto.setCode(adminDictionaryDto.getCode().trim());
         if (!StringUtil.isInteger(adminDictionaryDto.getCode()) && baseService.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, adminDictionaryDto.getCode())) > 0) {
             // 字符串code 为string时不能重复, 为Integer时可以重复
-            throw new ErrorException(RType.ADMIN_DICT_DUPLICATE);
+            throw new ErrorException(RType.DICT_DUPLICATE);
         }
         baseService.save(adminDictionaryDto.convert(AdminDictionary.class));
         //刷新版本号
-        AdminDictionaryServiceImpl.version++;
+        BaseConstant.Cache.DICT_VERSION++;
         return R.successInsert();
     }
 
@@ -102,13 +101,13 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
             //  原数据code != new Code, 判断数据库是否存在修改后的code值 ， code为Integer时不处理
             if (!dict.getCode().equals(adminDictionaryDto.getCode().trim())) {
                 if (!StringUtil.isInteger(adminDictionaryDto.getCode()) && baseService.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, adminDictionaryDto.getCode())) > 0) {
-                    throw new ErrorException(RType.ADMIN_DICT_DUPLICATE);
+                    throw new ErrorException(RType.DICT_DUPLICATE);
                 }
             }
         }
         baseService.updateById(adminDictionaryDto.convert(AdminDictionary.class));
         //刷新版本号
-        AdminDictionaryServiceImpl.version++;
+        BaseConstant.Cache.DICT_VERSION++;
         return R.successUpdate();
     }
 
@@ -119,7 +118,7 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
         List<String> ids = baseService.findByIdFetchIds(id);
         baseService.removeByIds(ids);
         //刷新版本号
-        AdminDictionaryServiceImpl.version++;
+        BaseConstant.Cache.DICT_VERSION++;
         return R.successDelete();
     }
 
@@ -132,7 +131,7 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
         dict.setSort(sort);
         baseService.updateById(dict);
         //刷新版本号
-        AdminDictionaryServiceImpl.version++;
+        BaseConstant.Cache.DICT_VERSION++;
         return R.successUpdate();
     }
 

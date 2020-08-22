@@ -3,7 +3,6 @@ package com.ws.ldy.modules.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.admin.model.vo.AdminAuthorityVO;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
@@ -17,14 +16,22 @@ import java.util.List;
 public interface AdminAuthorityService extends IService<AdminAuthority> {
 
     /**
+     *  查询所有权限数据，根据不同的端的枚举code 拼接最顶级的目录, 顶级目录ID = -1
+     *
+     * @return void
+     * @date 2019/11/25 0025 11:55
+     */
+    List<AdminAuthorityVO> findList();
+
+
+    /**
      *   刷新所有权限列表数据
      *
      * @return void
      * @date 2019/11/25 0025 11:55
      */
 
-    void refreshAuthority();
-
+    void refreshAuthDB();
 
 
     /**
@@ -44,5 +51,16 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    List<SimpleGrantedAuthority> findUserIdRoleAuthorityNoDisable(String userId);
+    List<String> findByUserIdaAndDisableFetchAuthority(String userId);
+
+
+    /**
+     * 刷新接口
+     *
+     * @param
+     * @return void
+     * @date 2019/11/25 0025 11:55
+     */
+    public void refreshAuthCache();
+
 }

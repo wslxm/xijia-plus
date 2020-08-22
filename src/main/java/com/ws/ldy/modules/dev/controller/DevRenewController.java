@@ -29,7 +29,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("/dev/devRenew")
-@Api(value ="DevRenew" ,tags = "更新内容",description = "更新内容")
+@Api(value ="DevRenew" ,tags = "更新内容",consumes = "更新内容")
 public class DevRenewController extends BaseController<DevRenewService>  {
 
 

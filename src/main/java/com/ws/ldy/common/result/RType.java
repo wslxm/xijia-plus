@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.core.enums.IEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 /**
  * 异常常量类
  *
@@ -17,7 +15,7 @@ import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor
-public enum RType implements IEnum {
+public enum RType implements IEnum<Integer> {
 
     //--------------------------系统相关错误- SYS_ --------------------------
     SYS_SUCCESS(200, "成功"),
@@ -29,70 +27,56 @@ public enum RType implements IEnum {
     SYS_ERROR_CODE_400(400, "400错误"),
     SYS_ERROR_CODE_401(401, "401-禁止非法访问"),
     SYS_ERROR_CODE_403(403, "403-无权限访问"),
-    SYS_ERROR_CODE_404(404, "404错误"),
+    SYS_ERROR_CODE_404(404, "404-找不到该请求"),
     SYS_ERROR_CODE_415(415, "415错误"),
     SYS_ERROR_CODE_500(500, "服务器错误"),
 
 
     // 参数错误
-    SYSTEM_PARAMETER_IS_NO(9999, "参数错误"),
-    SYSTEM_PARAMETER_VALID_ILLEGAL(9999, "参数错误:不符合JSR 303规范"),//jsr303错误,全局异常单独处理返回msg
-    SYSTEM_PARAMETER_ILLEGAL_PARAM(9999, "缺少请求参数"),
-    SYSTEM_PARAMETER_WRONG_TYPE(9999, "参数类型不匹配"),
-    ADMIN_IS_NO_INSERT_ID(9999, "添加不能传递Id"),
-    ADMIN_IS_NO_UPDATE_ID(9999, "编辑不能没有Id"),
+    PARAM_ERROR(9999, "参数错误"),
+    PARAM_ERROR_JSR303(9999, "参数错误:不符合JSR 303规范"),//jsr303错误,全局异常单独处理返回msg
+    PARAM_MISSING(9999, "缺少参数"),
+    PARAM_TYPE_DOES_NOT_MATCH(9999, "参数类型不匹配"),
+    PARAM_ID_REQUIRED_FALSE(9999, "添加不能传递Id"),
+    PARAM_ID_REQUIRED_TRUE(9999, "编辑必须传递Id"),
 
-    // 登录错误
+    // 登录
     LOGIN_ERROR_USER_PASSWORD(10001, "用户名或密码错误"),
     LOGIN_IS_NO_ACCOUNT(10001, "用户/账号不存在"),
     LOGIN_IS_NO_DISABLE(10001, "账户被禁用"),
     LOGIN_FAILED(10001, "登录失败"),
 
 
+    // 接口/授权
+    AUTHORITY_LOGIN_EXPIRED(10000, "登录过期"),
+    AUTHORITY_DISABLE(10002, "该接口已被禁止访问"),
+    AUTHORITY_JWT_SIGN_ERROR(10002, "JWT签名与本地计算签名不匹配"),
+    AUTHORITY_JWT_PARSING_ERROR(10002, "JWT解析错误"),
+    AUTHORITY_NO_PERMISSION(10002, "没有权限"),
 
-    // 用户相关
-    ADMIN_USER_NO_PASSWORD(10001, "原密码错误"),
-    ADMIN_USER_NO_ROLE(10001, "当前用户没有分配任何角色"),
-
-    // 菜单
-    ADMIN_IS_NO_MENU(9998, "当前用户没有任何菜单权限"),
+    // 用户
+    USER_PASSWORD_ERROR(10003, "原密码错误"),
+    USER_NO_ROLE(10003, "当前用户没有角色"),
+    USER_NO_MENU(10003, "当前用户没有菜单"),
 
     // 字典
-    ADMIN_DICT_DUPLICATE(9997, "字典重复"),
-
-    // 10000前端跳转登录页
-    ADMIN_IS_NO_LOGIN(10000, "用户未登陆/或登录过期"),
-    ADMIN_IS_NO_TOKEN(10000, "没有TOKEN信息"),
+    DICT_DUPLICATE(10004, "字典重复"),
 
     // 文件
-    ADMIN_OSS_NO_PATH(9998, "路径错误或文件不存在"),
+    FILE_PATH_ERROR(10005, "路径错误或文件不存在"),
+    FILE_DOWNLOAD_FAILED(10005, "文件下载失败"),
+    FILE_UPLOAD_FAILED(10005, "文件上传失败"),
 
-
-
-
-    // 后台管理相关错误-ADMIN_
-    SOCKET_CONFIG_ERROR(9999, "请检查socket配置信息是否配置"),
-
-
-    //--------------------------前端API相关错误-API_ --------------------------
-//    API_IS_NO_LOGIN(20000, "用户未登陆"),
-//    API_IS_NO_INSERT_ID(20001, "添加不能传递Id"),
-//    API_IS_NO_UPDATE_ID(20002, "编辑不能没有Id"),
-//    API_IS_NO_TOKEN(20003, "没有TOKEN信息"),
+    // websocket
+    WEBSOCKET_CONFIG_ERROR(10006, "请检查webSocket配置信息是否配置"),
     ;
 
 
-    private Integer code;
+    private Integer value;
     private String msg;
 
-    RType(Integer code, String msg) {
-        this.code = code;
+    RType(Integer value, String msg) {
+        this.value = value;
         this.msg = msg;
-    }
-
-
-    @Override
-    public Serializable getValue() {
-        return code;
     }
 }

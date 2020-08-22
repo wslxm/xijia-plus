@@ -75,7 +75,7 @@ public class FileController extends BaseController {
             String path = baseUrl + "/" + FILE_PATH + filePath + fileName;
             return R.success(path);
         } catch (Exception e) {
-            return R.error(RType.SYS_ERROR_CODE_500);
+            return R.error(RType.FILE_UPLOAD_FAILED);
         }
     }
 

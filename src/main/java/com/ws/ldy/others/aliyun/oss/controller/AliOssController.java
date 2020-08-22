@@ -74,7 +74,7 @@ public class AliOssController extends BaseController {
             // 返回内网访问地址（域名+ oss存储路径）
             return R.success(YM_PATH + path);
         } catch (Exception e) {
-            return R.error(RType.SYS_ERROR_CODE_500);
+            return R.error(RType.FILE_UPLOAD_FAILED);
         }
     }
 
@@ -117,7 +117,7 @@ public class AliOssController extends BaseController {
             outputStream.close();
         } catch (IOException ex) {
             ex.printStackTrace();
-            throw new ErrorException(RType.SYS_ERROR_CODE_500.getCode(), "文件下载失败");
+            throw new ErrorException(RType.FILE_DOWNLOAD_FAILED);
         }
     }
 

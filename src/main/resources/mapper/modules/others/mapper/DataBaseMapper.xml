@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ws.ldy.others.generatecode.mapper.DataBaseMapper">
+
+
+    <select id="findTable" resultType="com.ws.ldy.others.generatecode.model.vo.TableVO">
+        select table_name name,table_comment `comment` from information_schema.tables where table_schema=#{libraryName}
+    </select>
+
+    <select id="findTableField" resultType="com.ws.ldy.others.generatecode.model.vo.TableFieldVO">
+        
+        select
+             column_name as name,
+             data_type as type,
+             column_comment as `desc`,
+             column_type as typeDetail,
+             is_nullable as isNull,
+             column_default as defaultVal
+         from information_schema.columns
+         where table_name = #{table}
+         and table_schema=#{libraryName}
+         order by ordinal_position asc
+    </select>
+</mapper>
+

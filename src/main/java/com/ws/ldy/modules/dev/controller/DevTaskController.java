@@ -34,7 +34,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/dev/devTask")
-@Api(value = "DevTask", tags = "开发任务", description = BaseConstant.InterfaceType.PC_ADMIN)
+@Api(value = "DevTask", tags = "开发任务", consumes = BaseConstant.InterfaceType.PC_USER)
 public class DevTaskController extends BaseController<DevTaskService> {
 
 
@@ -75,7 +75,7 @@ public class DevTaskController extends BaseController<DevTaskService> {
     @ApiOperation(value = "添加", notes = "")
     public R<Void> insert(@RequestBody @Validated DevTaskDTO dto) {
         DevTask devTask = dto.convert(DevTask.class);
-        devTask.setCreateUser(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
+        devTask.setCreateUser(JwtUtil.getUser(request.getHeader(BaseConstant.Sys.TOKEN)).getId());
         devTask.setState(0);//默认未开始
         baseService.save(devTask);
         return R.successInsert();

@@ -6,6 +6,7 @@ import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.admin.mapper.AdminMenuMapper;
 import com.ws.ldy.modules.admin.mapper.AdminRoleMenuMapper;
 import com.ws.ldy.modules.admin.model.entity.AdminMenu;
@@ -31,7 +32,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
     /**
      * 查询 Tree 菜单 -->  不返回没有权限的数据
      * <P>
-     *     1- 查询用户所有角色菜单数据（非禁用角色的菜单）, 没有返回错误提示
+     *     1- 查询用户所有角色菜单数据（非禁用角色+ 非禁用菜单）, 没有返回错误提示
      *     2- 存在查询当前用户角色的所有菜单权限|  Sort排序 | 未禁用的，没有数据返回错误提示
      *     3- 递归把List数据处理成树菜单结构数据
      * <P>
@@ -44,9 +45,9 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
      */
     @Override
     public List<AdminMenuVO> getMenuTree() {
-        List<AdminRoleMenu> userRoleMenus = adminRoleMenuMapper.findUserIdRoleMenusNoDisable(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
+        List<AdminRoleMenu> userRoleMenus = adminRoleMenuMapper.findByUserIdAndDisableFetchMenu(JwtUtil.getUser(request.getHeader(BaseConstant.Sys.TOKEN)).getId(), Enums.Base.Disable.DISABLE_0.getValue());
         if (userRoleMenus == null || userRoleMenus.size() == 0) {
-            throw new ErrorException(RType.ADMIN_IS_NO_MENU);
+            throw new ErrorException(RType.USER_NO_MENU);
         }
         List<String> roleMenuIdList = userRoleMenus.stream().map(roleMenu -> roleMenu.getMenuId()).collect(Collectors.toList());
         List<AdminMenu> adminMenuList = this.list(new LambdaQueryWrapper<AdminMenu>()
@@ -55,7 +56,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
                 .in(AdminMenu::getId, roleMenuIdList)
         );
         if (adminMenuList == null || adminMenuList.size() == 0) {
-            throw new ErrorException(RType.ADMIN_IS_NO_MENU);
+            throw new ErrorException(RType.USER_NO_MENU);
         }
         List<AdminMenuVO> adminMenuVOS = BeanDtoVoUtil.listVoStream(adminMenuList, AdminMenuVO.class);
         //return

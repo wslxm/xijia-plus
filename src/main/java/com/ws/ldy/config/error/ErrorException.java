@@ -34,7 +34,7 @@ public class ErrorException extends RuntimeException {
 
     //枚举传递（建议先定义枚举）
     public ErrorException(RType RType) {
-        this.code = RType.getCode();
+        this.code = RType.getValue();
         this.msg = RType.getMsg();
     }
 }

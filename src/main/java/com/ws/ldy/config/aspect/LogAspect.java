@@ -1,5 +1,6 @@
 package com.ws.ldy.config.aspect;
 
+import com.ws.ldy.common.utils.JsonUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,6 @@ public class LogAspect {
         return saveOpLogs(proceed);
     }
 
-
     /**
      * 日志记录
      * @author wang-song
@@ -92,16 +92,18 @@ public class LogAspect {
             classDesc = classAnnotation.tags().length > 0 ? classAnnotation.tags()[0] : classAnnotation.value();
         }
         Object[] args = proceed.getArgs(); // uri ： 接口  包： packageName,  请求类： 接口+类描叙+接口描叙
-        log.info("用户ip:[{}] --> 设备名:[{}] --> 端口：[{}] -->  请求类:[{}]  -->  URL: [{}] --> [{}] --> [{}] --> 请求参数:[{}]",
-                 ip ,
+        log.info("用户ip:[{}] --> 设备名:[{}] --> 端口：[{}] -->  请求类:[{}]  -->  URL: [{}] -->  PARAM:[{}]  -->  模块:[{}] -- [{}]",
+                ip,
                 host,
                 port,
-                className,
-                url,
+                String.format("%-65s", className),
+                String.format("%-65s", url),
+                String.format("%-50s", JsonUtil.toJSONString(args)),
                 classDesc,
-                methodDesc,
-                args
+                methodDesc
         );
+//        String s2 = String.format("%6s",new String(classDesc.getBytes(),"ISO-8859-1"));
+//        s2 = new String(s2.getBytes("ISO-8859-1"));
 
         //===========================================================================================================
         //=========================== 如需统一日志收集,在此log.info 是内容收集到统一日志收集器中 ============================
@@ -140,21 +142,5 @@ public class LogAspect {
         }
         return ip;
     }
-
-
-//
-//    /**
-//     * 允许请求跨域  跨域配置已在：MvcConfig 中配置
-//     */
-//    public void setAllowOrigin() {
-//        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-//        //HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        //此处ip地址为需要访问服务器的ip及端口号
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        response.setHeader("Access-Control-Allow-Credentials", "true");
-//        response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
-//        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Token,Accept, Connection, User-Agent, Cookie");
-//        //response.setHeader("Access-Control-Max-Age", "3628800");
-//    }
 }
 

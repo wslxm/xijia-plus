@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.base.CaseFormat;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.StringUtil;
+import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.admin.mapper.AdminDictionaryMapper;
 import com.ws.ldy.modules.admin.model.entity.AdminDictionary;
 import com.ws.ldy.modules.admin.model.vo.AdminDictionaryVO;
@@ -19,13 +21,6 @@ import java.util.Map;
 
 @Service
 public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionaryMapper, AdminDictionary> implements AdminDictionaryService {
-
-    /**
-     * 分组的字典数据，不包括禁用数据
-     * 版本号：version，当版本号一致时, 不返回前台 dictVOGroupMap 数据
-     */
-    private static Map<String, AdminDictionaryVO> dictVOGroupMap;
-    public static Integer version = 0;
 
 
     /**
@@ -43,7 +38,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         // 查询所有
         List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
                 .orderByAsc(AdminDictionary::getCode)
-                .eq(AdminDictionary::getDisable, 0)
+                .eq(AdminDictionary::getDisable, Enums.Base.Disable.DISABLE_0)
         ), AdminDictionaryVO.class);
         if (dict == null || dictVoList == null || dictVoList.size() == 0) {
             return null;
@@ -120,14 +115,15 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
                 }
             }
         }
-        dictVOGroupMap = respDictVOMap;
         // 添加版本号
         AdminDictionaryVO adminDictionaryVO = new AdminDictionaryVO();
-        adminDictionaryVO.setVersion(version);
+        adminDictionaryVO.setVersion(BaseConstant.Cache.DICT_VERSION);
         adminDictionaryVO.setName("当前版本号");
         adminDictionaryVO.setDesc("调用版本号来判断是否和当前版本号一致，不一致重新调用本接口刷新本地缓存数据");
-        dictVOGroupMap.put("VERSION", adminDictionaryVO);
-        return dictVOGroupMap;
+        respDictVOMap.put("VERSION", adminDictionaryVO);
+        // 缓存到jvm
+        BaseConstant.Cache.DICT_MAP_GROUP = respDictVOMap;
+        return BaseConstant.Cache.DICT_MAP_GROUP;
     }
 
 
@@ -184,23 +180,20 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
                 sb.append("\n        // " + dictField.getDesc() + "\n");
                 sb.append("        @Getter\n");
                 sb.append("        @AllArgsConstructor\n");
-                sb.append("        enum " + moduleName + "{\n");
+                sb.append("        enum " + moduleName + " implements IEnum<Integer> {\n");
                 //枚举字典的-枚举属性
                 for (AdminDictionaryVO dictValue : dictField.getDictList()) {
                     sb.append("            " + dictField.getCode() + "_" + dictValue.getCode() + "(" + dictValue.getCode() + ", \"" + dictValue.getName() + "\"),    // " + dictValue.getDesc() + "\n");
                 }
                 //
                 sb.append("            ;\n");
-                sb.append("            private int value;\n");
+                sb.append("            private Integer value;\n");
                 sb.append("            private String desc;\n");
                 sb.append("        }\n");
             }
             sb.append("    }\n");
         }
         sb.append("}\n");
-        //刷新版本号
-        AdminDictionaryServiceImpl.version++;
-        System.out.println();
         return sb.toString();
     }
 
@@ -224,7 +217,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
             //枚举字典的-枚举名--驼峰模式
             for (AdminDictionaryVO dictField : dictModule.getDictList()) {
                 String moduleName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictField.getCode());
-                sb.append("\n        " + moduleName + " : \"" + dictField.getCode() + "\",  // " + dictField.getName() );
+                sb.append("\n        " + moduleName + " : \"" + dictField.getCode() + "\",  // " + dictField.getName());
             }
             sb.append("\n    },");
         }

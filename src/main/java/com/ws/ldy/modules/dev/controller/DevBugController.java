@@ -33,7 +33,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("/dev/devBug")
-@Api(value = "DevBug", tags = "Bug修复", description = BaseConstant.InterfaceType.PC_ADMIN)
+@Api(value = "DevBug", tags = "Bug修复", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class DevBugController extends BaseController<DevBugService> {
 
 
@@ -67,7 +67,7 @@ public class DevBugController extends BaseController<DevBugService> {
     @ApiOperation(value = "添加", notes = "")
     public R<Void> insert(@RequestBody @Validated DevBugDTO dto) {
         DevBug devBug = dto.convert(DevBug.class);
-        devBug.setCreateUser(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
+        devBug.setCreateUser(JwtUtil.getUser(request.getHeader(BaseConstant.Sys.TOKEN)).getId());
         devBug.setState(0);//默认未开始
         baseService.save(devBug);
         return R.successInsert();

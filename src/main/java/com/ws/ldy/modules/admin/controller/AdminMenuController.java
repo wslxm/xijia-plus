@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/admin/adminMenu")
-@Api(value = "AdminMenuController", tags = "菜单管理", description = BaseConstant.InterfaceType.PC_ADMIN)
+@Api(value = "AdminMenuController", tags = "菜单管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminMenuController extends BaseController<AdminMenuService> {
 
 

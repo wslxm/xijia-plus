@@ -113,7 +113,7 @@ public class OSSUtil {
             ossObject = ossClient.getObject(bucketName, yourObjectName);
         } catch (OSSException e) {
             e.printStackTrace();
-            throw new ErrorException(RType.ADMIN_OSS_NO_PATH);
+            throw new ErrorException(RType.FILE_PATH_ERROR);
         }
         // 关闭OSSClient。
         ossClient.shutdown();

@@ -20,7 +20,6 @@ import com.ws.ldy.others.base.controller.BaseController;
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -36,7 +35,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin/adminUser")
-@Api(value = "AdminUserController", tags = "用户管理", description = BaseConstant.InterfaceType.PC_ADMIN)
+@Api(value = "AdminUserController", tags = "用户管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminUserController extends BaseController<AdminUserService> {
 
 
@@ -48,8 +47,9 @@ public class AdminUserController extends BaseController<AdminUserService> {
     @RequestMapping(value = "/findUser", method = RequestMethod.GET)
     @ApiOperation("个人信息")
     public R<AdminUserVO> findUser() {
-        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN))), AdminUserVO.class));
+        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(JwtUtil.getUser(request.getHeader(BaseConstant.Sys.TOKEN)).getId()), AdminUserVO.class));
     }
+
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
     @ApiOperation(value = "分页查询", notes = "")
@@ -119,13 +119,13 @@ public class AdminUserController extends BaseController<AdminUserService> {
     @RequestMapping(value = "/updByPassword", method = RequestMethod.PUT)
     @ApiOperation(value = "密码修改", notes = "判断原密码是否正确,不正确返回错误信息msg ,正确直接修改,密码进行MD5加密 --> val(前端输入密码值)+盐(后端规则指定)=最终密码）")
     public R<Void> updByPassword(@RequestParam String oldPassword, @RequestParam String password) {
-        AdminUser adminUser = baseService.getById(JwtUtil.getUserId(request.getHeader(BaseConstant.Sys.TOKEN)));
+        AdminUser adminUser = baseService.getById(JwtUtil.getUser(request.getHeader(BaseConstant.Sys.TOKEN)).getId());
         if (adminUser.getPassword().equals(MD5Util.encode(oldPassword))) {
             adminUser.setPassword(MD5Util.encode(password));
             baseService.updateById(adminUser);
             return R.successUpdate();
         } else {
-            return R.error(RType.ADMIN_USER_NO_PASSWORD);
+            return R.error(RType.USER_PASSWORD_ERROR);
         }
     }
 
@@ -155,14 +155,14 @@ public class AdminUserController extends BaseController<AdminUserService> {
             throw new ErrorException(RType.LOGIN_ERROR_USER_PASSWORD);
         }
         // 3、判断禁用
-        if (user.getDisable() != Enums.Base.Disable.DISABLE_0.getValue()) {
+        if (!user.getDisable().equals(Enums.Base.Disable.DISABLE_0.getValue())) {
             throw new ErrorException(RType.LOGIN_IS_NO_DISABLE);
         }
         // 登录成功
         // 4、获取权限列表-未禁用
-        List<SimpleGrantedAuthority> auth = adminAuthorityService.findUserIdRoleAuthorityNoDisable(user.getId());
+        List<String> auth = adminAuthorityService.findByUserIdaAndDisableFetchAuthority(user.getId());
         // 5、生成jwt
-        String jwtToken = JwtUtil.generateToken(user, auth);
+        String jwtToken = JwtUtil.createToken(user, auth);
         response.setHeader(BaseConstant.Sys.TOKEN, jwtToken);
         // 6、刷新登录时间
         AdminUser updAdminUser = new AdminUser();

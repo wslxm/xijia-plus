@@ -1,21 +1,15 @@
-package com.ws.ldy.config.auth.springSecurity.config;
+package com.ws.ldy.config.auth;
 
-import com.ws.ldy.config.auth.jwt.filter.JWTValidFilter;
-import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
-import com.ws.ldy.modules.admin.service.AdminAuthorityService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-
-import java.util.List;
 
 /**
  * Security配置文件，项目启动时就加载了
@@ -24,17 +18,15 @@ import java.util.List;
  * @return
  */
 @Configuration
+@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
-    // 异常处理类,在 filter无法使用全局异常,在 .addFilter(new JWTValidFilter 中传递该对象过去，便于返回异常信息
+    /**
+     * 异常处理类,在 filter无法使用全局异常,在 .addFilter(new JWTValidFilter 中传递该对象过去，便于返回异常信息
+     */
     @Autowired
     @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver resolver;
-
-    // 当前系统权限表
-    @Autowired
-    private AdminAuthorityService adminAuthorityService;
 
 
     // 认证，不需要使用它的认证方法，使用自己的 Login接口authenticationProvider
@@ -47,25 +39,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // 启动项目时刷新权限接口
-        adminAuthorityService.refreshAuthority();
-        // 只拦截需要拦截的所有接口, 拦截数据库权限表中的所有接口
-        List<AdminAuthority> authoritys = adminAuthorityService.list(null);
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry eiur = http.authorizeRequests();
-        authoritys.forEach((auth) -> {
-            eiur.antMatchers(auth.getUrl()).hasAnyAuthority(auth.getUrl());
-        });
-        // 配置token验证及登录认证,过滤器
-        eiur
-                // 登录接口不需要权限控制,可删除该行配置，目前该接口不在权限列表中
-                .antMatchers("/admin/login", "POST").permitAll()
-                // 设置JWT过滤器
-                .and()
-                .addFilter(new JWTValidFilter(authenticationManager(), resolver))
-                //.addFilter(new JWTLoginFilter(authenticationManager(), resolver)).csrf().disable()
-                // 剔除session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        // 缓存httpSecurity，让权限数据被修改后可动态刷新
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry eiur = http.authorizeRequests();
+
+        // 加载权限到SecurityConfig中，SecurityConfig权限管理太繁琐,自己重写
+        // eiur.antMatchers(auth.getUrl()).hasAnyAuthority(auth.getUrl());
+
+        // 加载权限SecurityConfig中的接口必须配置放行, 不然没登录是无法访问的
+        // eiur.antMatchers(uri).permitAll();
+
+        // 设置登录/ 授权过滤器
+        eiur.and().addFilter(new JWTValidFilter(authenticationManager(), resolver));
+        // 剔除 session
+        eiur.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // 开启跨域访问
         http.cors(); //.disable();
         // 开启模拟请求，比如API POST测试工具的测试，不开启时，API POST为报403错误
@@ -73,9 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // iframe 跳转错误处理 Refused to display 'url' in a frame because it set 'X-Frame-Options' to 'deny'
         http.headers().frameOptions().disable();
         // 当出现跨域的OPTIONS请求时，发现被拦截，加入下面设置可实现对OPTIONS请求的放行。
-        http.authorizeRequests().
-                requestMatchers(CorsUtils::isPreFlightRequest).
-                permitAll();
+        http.authorizeRequests().requestMatchers(CorsUtils::isPreFlightRequest).permitAll();
     }
 
 
@@ -85,8 +70,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      *
      * @return
      */
-    @Bean
-    public static NoOpPasswordEncoder passwordEncoder() {
-        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
-    }
+//    @Bean
+//    public static NoOpPasswordEncoder passwordEncoder() {
+//        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+//    }
 }

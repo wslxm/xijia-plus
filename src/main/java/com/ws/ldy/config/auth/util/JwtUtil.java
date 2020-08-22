@@ -1,12 +1,11 @@
 package com.ws.ldy.config.auth.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
+import com.ws.ldy.common.utils.JsonUtil;
 import com.ws.ldy.modules.admin.model.entity.AdminUser;
+import com.ws.ldy.modules.admin.model.vo.AdminUserVO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Date;
 import java.util.List;
@@ -17,6 +16,7 @@ import java.util.List;
  * @mail 1720696548@qq.com
  * @date 2020/7/5 0005 19:13
  */
+@SuppressWarnings("ALL")
 public class JwtUtil {
 
     // 主题
@@ -40,7 +40,7 @@ public class JwtUtil {
      * @return java.lang.String
      * @date 2020/7/6 0006 9:26
      */
-    public static String generateToken(AdminUser user,  List<SimpleGrantedAuthority> auth) {
+    public static String createToken(AdminUser user, List<String> auth) {
         String token = Jwts
                 .builder()
                 // 主题
@@ -48,10 +48,7 @@ public class JwtUtil {
                 // TODO 用户信息加密
                 // 添加jwt自定义值
                 .claim(AUTH_CLAIMS, auth)
-                .claim("username", user.getUsername())
-                .claim("fullName", user.getFullName())
-                .claim("userId", user.getId())
-                .claim("head", user.getHead())
+                .claim("user", JsonUtil.toJSONStringNoNull(user))
                 .setIssuedAt(new Date())
                 // 过期时间
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRITION))
@@ -62,63 +59,20 @@ public class JwtUtil {
 
 
     /**
-     * 获取用户Id
+     * 获取用户信息
      *
      * @param token
      * @return
      */
-    public static String getUserId(String token) {
+    public static AdminUserVO getUser(String token) {
         Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
-        return claims.get("userId").toString();
-    }
-
-
-    /**
-     * 获取用户账号/手机号
-     *
-     * @param token
-     * @return
-     */
-    public static String getUsername(String token) {
-        Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
-        return claims.get("username").toString();
-    }
-
-    /**
-     * 获取用户姓名/用户名
-     *
-     * @param token
-     * @return
-     */
-    public static String getFullName(String token) {
-        Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
-        return claims.get("fullName").toString();
-    }
-
-
-    /**
-     * 获取用户姓名/用户名
-     *
-     * @param token
-     * @return
-     */
-    public static String getUserHead(String token) {
-        Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
-        return claims.get("head").toString();
-    }
-
-    /**
-     * 获取用户角色的权限列表, 没有返回空
-     *
-     * @param token
-     * @return
-     */
-    public static List<SimpleGrantedAuthority> getUserAuth(String token) {
-        Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
-        List auths = (List) claims.get(AUTH_CLAIMS);
-        String json = JSONArray.toJSONString(auths);
-        List<SimpleGrantedAuthority> grantedAuthorityList = JSON.parseArray(json, SimpleGrantedAuthority.class);
-        return grantedAuthorityList;
+        // user
+        AdminUserVO user = JsonUtil.parseEntity(claims.get("user").toString(), AdminUserVO.class);
+        // auth
+        Object obj = claims.get(AUTH_CLAIMS);
+        List list = obj == null ? null : JsonUtil.parseList(JsonUtil.toJSONString(obj));
+        user.setAuthList(list);
+        return user;
     }
 
     /**

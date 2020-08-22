@@ -125,9 +125,9 @@
                     {field: 'name', width: 250, title: '字典名称'},
                     {field: 'code', width: 250, title: '字典Code'},
                     {field: 'desc', title: '字典描叙'},
-                    {field: 'sort', width: 200, edit: 'text', title: '排序'},
+                    {field: 'sort', width: 150, edit: 'text', title: '排序'},
                     {
-                        field: 'disable', width: 200, title: '禁用/启用', templet: function (res) {
+                        field: 'disable', width: 180, title: '禁用/启用', templet: function (res) {
                             let id = res.id;
                             if (res.disable === 0) {
                                 return "   <input type='checkbox'  id = '" + id + "' lay-filter='disable' lay-skin='switch' lay-text='启用|禁用' checked>"

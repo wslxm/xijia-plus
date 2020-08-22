@@ -82,7 +82,7 @@
 //        //请求日志
 //        //log.info("URL:[{}] -----> REQUEST:[{}]", request.getServletPath(), args);
 //        log.info("请求URL:{} --> 请求参数:{}", request.getServletPath(), args);
-////        this.checkLogin(jp, request);                // 登录验证+url 权限管理
+////        this.checkLogin(jp, request);             // 登录验证+url 权限管理
 ////        this.verify(request);                    // 验签
 ////        this.AntiTheftChain(jp, request, args);  // 防盗链
 ////        this.XssAttack(jp, request, args);       // Xss攻击

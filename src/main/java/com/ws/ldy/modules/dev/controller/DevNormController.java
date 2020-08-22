@@ -30,7 +30,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("/dev/devNorm")
-@Api(value ="DevNorm" ,tags = "开发规范",description = BaseConstant.InterfaceType.PC_ADMIN)
+@Api(value ="DevNorm" ,tags = "开发规范",consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class DevNormController extends BaseController<DevNormService>  {
 
 

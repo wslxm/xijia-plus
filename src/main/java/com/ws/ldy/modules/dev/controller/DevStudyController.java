@@ -29,7 +29,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("/dev/devStudy")
-@Api(value ="DevStudy" ,tags = "学习计划",description = "学习计划")
+@Api(value ="DevStudy" ,tags = "学习计划",consumes = "学习计划")
 public class DevStudyController extends BaseController<DevStudyService>  {
 
 

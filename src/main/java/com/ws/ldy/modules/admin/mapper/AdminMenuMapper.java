@@ -5,4 +5,6 @@ import com.ws.ldy.modules.admin.model.entity.AdminMenu;
 
 public interface AdminMenuMapper extends BaseMapper<AdminMenu> {
 
+
+
 }
