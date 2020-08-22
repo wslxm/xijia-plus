@@ -44,7 +44,7 @@
                 SELECT auth_id FROM t_admin_role_auth  where role_id in (
                      SELECT role_id FROM t_admin_role_user ru,t_admin_role r where ru.role_id=r.id and disable=#{disable} and user_id = #{userId}
                 )
-         ) and disable=#{disable}
+         ) and disable=#{disable} and state=#{state}
     </select>
 
 

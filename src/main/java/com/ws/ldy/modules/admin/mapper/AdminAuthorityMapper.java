@@ -16,7 +16,7 @@ public interface AdminAuthorityMapper extends BaseMapper<AdminAuthority> {
      * @return java.util.List<com.ws.ldy.adminconsole.entity.AdminRoleAuth>
      * @date 2019/11/25 0025 11:54
      */
-    List<AdminAuthority> findByUserIdaAndDisableFetchAuthority(@Param("userId") String userId, @Param("disable") Integer disable);
+    List<AdminAuthority> findByUserIdaAndDisableFetchAuthority(@Param("userId") String userId, @Param("disable") Integer disable, @Param("state") Integer state);
 
 
 }

@@ -51,7 +51,8 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
     @ApiOperation(value = "查询所有 || 根据角色ID选中", notes = "" +
             "1、没有传递角色Id,查询所有权限数据 isChecked=false \r\n" +
             "2、跟据角色ID查询,角色当前拥有权限：isChecked=true 角色没有权限：isChecked=false \r\n" +
-            "3、数据按请求方式排序 "
+            "3、只查询管理端 \r\n"+
+            "4、数据按请求方式排序 "
     )
     @RequestMapping(value = "/findByRoleIdList", method = RequestMethod.GET)
     @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")

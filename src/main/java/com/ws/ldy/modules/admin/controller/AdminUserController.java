@@ -159,7 +159,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
             throw new ErrorException(RType.LOGIN_IS_NO_DISABLE);
         }
         // 登录成功
-        // 4、获取权限列表-未禁用
+        // 4、获取权限列表-未禁用,管理端(登录+认证的)
         List<String> auth = adminAuthorityService.findByUserIdaAndDisableFetchAuthority(user.getId());
         // 5、生成jwt
         String jwtToken = JwtUtil.createToken(user, auth);

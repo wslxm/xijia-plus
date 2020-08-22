@@ -80,7 +80,6 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     }
 
 
-
     /**
      *   添加接口--扫描包下所有类
      *
@@ -251,8 +250,11 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         // 获取当前角色拥有的url权限列表
         List<AdminRoleAuth> roleIds = adminRoleAuthMapper.selectList(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, roleId));
         List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
-        // 获取所有url,请求方式排序
-        List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>().orderByAsc(AdminAuthority::getMethod));
+        // 获取所有管理端的url,请求方式排序( PC_admin)
+        List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
+                .orderByAsc(AdminAuthority::getMethod)
+                .eq(AdminAuthority::getType, Enums.Admin.AuthorityType.AUTHORITY_TYPE_0.getValue())
+        );
         // 返回数据处理
         if (authorityList == null || authorityList.size() <= 0) {
             return null;
@@ -271,7 +273,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     /**
-     * 获取用户的url权限列表，只返回未禁用的 url
+     * 获取用户的url权限列表，只返回未禁用的 需要登录+授权的url
      *
      * @param  userId 用户id
      * @return void
@@ -279,7 +281,9 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      */
     @Override
     public List<String> findByUserIdaAndDisableFetchAuthority(String userId) {
-        List<AdminAuthority> auth = baseMapper.findByUserIdaAndDisableFetchAuthority(userId, Enums.Base.Disable.DISABLE_0.getValue());
+        List<AdminAuthority> auth = baseMapper.findByUserIdaAndDisableFetchAuthority(
+                userId, Enums.Base.Disable.DISABLE_0.getValue(), Enums.Admin.AuthorityState.AUTHORITY_STATE_2.getValue()
+        );
         if (auth == null) {
             return null;
         } else {
