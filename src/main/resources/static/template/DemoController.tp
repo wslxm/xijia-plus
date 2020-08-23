@@ -43,7 +43,8 @@ public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service
             @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query",example = "20"),
 {swaggerRemark}
     })
-    public R<IPage<{tableNameUp}VO>> findPage({findPageParam}) {
+    public R<IPage<{tableNameUp}VO>> findPage({findPageParam}
+                                              ) {
         Page<{tableNameUp}> page = baseService.page(this.getPage(), new LambdaQueryWrapper<{tableNameUp}>()
                 .orderByDesc({tableNameUp}::getCreateTime)
 {findPageMybatisPlus}

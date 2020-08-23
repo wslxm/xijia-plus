@@ -258,7 +258,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             swaggerRemark.append("           @ApiImplicitParam(name = \"" + fieldName + "\", value = \"" + desc + "\", required = false, paramType = \"query\",example = \"\"),\r\n");
             //每个字段前内容
             //findPageParam.append("            @ApiParam(value = \"" + desc + "\",required = false) @RequestParam(required = false) ");
-            findPageParam.append("\r\n            @RequestParam(required = false) ");
+            findPageParam.append("\r\n                                            @RequestParam(required = false) ");
             //首字母大写
             String fieldNameUp = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
             //字段
