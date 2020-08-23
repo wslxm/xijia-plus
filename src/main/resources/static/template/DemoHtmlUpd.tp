@@ -41,7 +41,7 @@
             parent.layer.close(index);
             parent.layer.msg(result.msg);
             //重载表格
-            parent.xijiaRenderTable(null);
+            parent.xijiaRenderTable();
         });
     });
 </script>

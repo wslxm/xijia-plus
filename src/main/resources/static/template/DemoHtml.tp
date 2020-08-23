@@ -5,8 +5,7 @@
     <title>{tableComment}</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="/components/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/components/layuiadmin/style/admin.css" media="all">
     <link rel="stylesheet" href="/base/css/search.css" media="all">
@@ -20,6 +19,7 @@
         width: 260px;
     }
 </style>
+
 <!-- 搜索 -->
 <div class="searchTable">
 {layui-search-pt-str}
@@ -31,28 +31,35 @@
         </button>
     </div>
 </div>
+
 <!-- 表格 -->
 <table class="auth-table" id="auth-table" lay-filter="auth-table"></table>
+
 <!-- 分页插件 -->
 <div class="page-table" id="page-table"></div>
+
 <!-- 多删除-添加  -->
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
     </div>
 </script>
+
 <!-- 每一行的数据修改或删除  -->
 <script type="text/html" id="barDemo">
     <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
+
 <script>
 
-    let find_page = path + "/{moduleName}/{tableNameLower}/findPage";       //查询-分页
-    let del = path + "/{moduleName}/{tableNameLower}/del";                  //删除
-    //
-    let page_add = path + "/page/{packPathZp}_{moduleName}_{tableNameLower}_{tableNameLower}Add";   //添加弹出
-    let page_upd = path + "/page/{packPathZp}_{moduleName}_{tableNameLower}_{tableNameLower}Upd";   //编辑弹出
+    // 接口
+    let {tableNameLower}FindPage = path + "/{moduleName}/{tableNameLower}/findPage";        //查询-分页
+    let {tableNameLower}Del = path + "/{moduleName}/{tableNameLower}/del";                  //删除
+
+    // 路由
+    let {tableNameLower}PageAdd =  "/page/{packPathZp}_{moduleName}_{tableNameLower}_{tableNameLower}Add";   //添加弹出
+    let {tableNameLower}PageUpd =  "/page/{packPathZp}_{moduleName}_{tableNameLower}_{tableNameLower}Upd";   //编辑弹出
 
     let table;     // 数据表格组件
     let laypage;   // 分页组件
@@ -61,7 +68,7 @@
     layui.use(['table', 'laypage'], function () {
         table = layui.table;
         laypage = layui.laypage;
-        xijiaRenderTable(null);    //  数据表格 - 获取表格
+        xijiaRenderTable();        //  数据表格 - 获取表格
         xijiaLayPage();            //  分页插件
         xijiaEventToolbar();       //  工具栏事件（多删除/添加）
         xijiaEventTool();          //  监听数据表格内按钮操作（编辑,删除等）
@@ -77,10 +84,7 @@
      *
      */
     function xijiaRenderTable(params) {
-        if (params === null || params === "null" || params === undefined || params === "undefined") {
-            params = "";
-        }
-        res = Ajax.get(find_page + getPage() + params);
+        res = Ajax.get({tableNameLower}FindPage + getPage() + xijiaSearchParam());
         table.render({
             elem: '#auth-table'
             , data: res.data.records
@@ -125,7 +129,7 @@
                     return;
                 }
                 // 刷新表格
-                xijiaRenderTable(null);
+                xijiaRenderTable();
             }
         });
     }
@@ -143,7 +147,7 @@
         table.on('toolbar(auth-table)', function (obj) {
             //添加
             if (obj.event === "add") {
-                Pop.tipsWindown(page_add, "600px", "400px", "添加");
+                Pop.tipsWindown({tableNameLower}PageAdd, "600px", "400px", "添加");
             }
         });
     }
@@ -161,16 +165,15 @@
             data = obj.data;  //当前行数据
             //编辑
             if (obj.event === 'edit') {
-                Pop.tipsWindown(page_upd, "600px", "400px", "修改");
+                Pop.tipsWindown({tableNameLower}PageUpd, "600px", "400px", "修改");
             }
             //删除
             if (obj.event === 'del') {
                 let params = "?id=" + data.id;
-                Pop.tipsDeleteId(del + params, obj);
+                Pop.tipsDeleteId({tableNameLower}Del + params, obj);
             }
         });
     }
-
 
     /**
      * 条件搜索，重载数据
@@ -183,11 +186,11 @@
         let $ = layui.$, active = {
             //搜索
             reload: function () {
-                let params = "";
-{layui-search-params-str}
-                // 数据表格 - 获取表格
-                xijiaRenderTable(params);
-                // 刷新分页插件数据
+                // 重置到第一页
+                $(".layui-laypage-skip .layui-input").val(1);
+                // 重载-数据表格(带所有查询参数)
+                xijiaRenderTable();
+                // 重载后-刷新分页数据
                 xijiaLayPage();
             }
         };
@@ -195,6 +198,20 @@
             let type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
+    }
+
+
+    /**
+     * 搜索参数
+     * @author wangsong
+     * @date 2020/8/23 0023 22:53
+     * @return
+     * @version 1.0.0
+     */
+    function xijiaSearchParam() {
+            let params = "";
+{layui-search-params-str}
+            return params;
     }
 </script>
 </body>

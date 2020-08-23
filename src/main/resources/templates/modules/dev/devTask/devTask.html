@@ -143,10 +143,7 @@
      *
      */
     function xijiaRenderTable(params) {
-        if (params === null || params === "null" || params === undefined || params === "undefined") {
-            params = "";
-        }
-        res = Ajax.get(find_page + getPage() + params);
+        res = Ajax.get(find_page + getPage() + xijiaSearchParam());
         table.render({
             elem: '#auth-table'
             , data: res.data.records
@@ -250,7 +247,7 @@
                     return;
                 }
                 // 刷新表格
-                xijiaRenderTable(reqParams());
+                xijiaRenderTable();
             }
         });
     }
@@ -299,7 +296,7 @@
                 params += "&state=" + 1;
                 Ajax.put(updState + params);
                 // 刷新表格
-                xijiaRenderTable(reqParams());
+                xijiaRenderTable();
             }
 
             // 完成
@@ -312,7 +309,7 @@
                     params += "&takeUpTime=" + takeUpTime;
                     Ajax.put(updState + params);
                     // 刷新表格
-                    xijiaRenderTable(reqParams());
+                    xijiaRenderTable();
                     layer.close(index);
                 });
             }
@@ -323,7 +320,7 @@
                 params += "&state=" + 0;
                 Ajax.put(updState + params);
                 // 刷新表格
-                xijiaRenderTable(reqParams());
+                xijiaRenderTable();
             }
             // 撤销
             if (obj.event === 'undo') {
@@ -331,7 +328,7 @@
                 params += "&state=" + 3;
                 Ajax.put(updState + params);
                 // 刷新表格
-                xijiaRenderTable(reqParams());
+                xijiaRenderTable();
             }
         });
     }
@@ -351,7 +348,7 @@
                 // 重置到第一页
                 $(".layui-laypage-skip .layui-input").val(1);
                 // 刷新表格
-                xijiaRenderTable(reqParams());
+                xijiaRenderTable();
                 // 刷新分页数据
                 xijiaLayPage();
                 //layer.msg("查询成功");
@@ -367,7 +364,7 @@
     /**
      * 请求参数封装
      */
-    function reqParams() {
+    function xijiaSearchParam() {
         let params = "";
         params += "&name=" + $("#name").val();
         params += "&type=" + $("#type").val();

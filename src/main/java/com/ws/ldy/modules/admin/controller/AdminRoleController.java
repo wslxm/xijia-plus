@@ -65,7 +65,14 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "ID编辑", notes = "")
     public R<Boolean> upd(@RequestBody AdminRoleDTO adminRoleDto) {
-        return R.successUpdate(baseService.updateById(adminRoleDto.convert(AdminRole.class)));
+        if (baseService.updateById(adminRoleDto.convert(AdminRole.class))) {
+            // 刷新登录中的用户角色 -> 角色权限
+            BaseConstant.Cache.AUTH_VERSION++;
+            return R.successUpdate(true);
+        } else {
+            return R.successUpdate(false);
+        }
+
     }
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)

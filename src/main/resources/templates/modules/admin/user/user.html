@@ -70,7 +70,7 @@
         form = layui.form;
         table = layui.table;
         laypage = layui.laypage;
-        xijiaRenderTable(null);   // 数据表格 - 获取表格
+        xijiaRenderTable();   // 数据表格 - 获取表格
         xijiaLayPage();           // 分页插件
         xijiaEventToolbar();      // 工具栏事件（多删除/添加）
         xijiaEventTool();         // 监听数据表格内按钮操作（编辑,删除等）
@@ -84,11 +84,8 @@
      * ---- res = 后台返回的整个数据，整个页面可获取使用
      * @param params get请求的参数拼接
      */
-    function xijiaRenderTable(params) {
-        if (params === null || params === "null" || params === undefined || params === "undefined") {
-            params = "";
-        }
-        res = Ajax.get(user_admin_find_page + getPage() + params);
+    function xijiaRenderTable() {
+        res = Ajax.get(user_admin_find_page + getPage() + xijiaSearchParam());
         table.render({
             elem: '#auth-table'
             //, url: findAll
@@ -161,7 +158,7 @@
                     return;
                 }
                 // 刷新表格
-                xijiaRenderTable(null);
+                xijiaRenderTable();
             }
         });
     }
@@ -192,7 +189,7 @@
                 }
                 if (ids.length > 0) {
                     let result = Ajax.delete(user_admin_deletes + "?ids=" + ids);
-                    xijiaRenderTable(null);
+                    xijiaRenderTable();
                     layer.msg(result.msg);
                 }
 
@@ -240,14 +237,10 @@
         let $ = layui.$, active = {
             //搜索
             reload: function () {
-                let params = "";
-                params += "&id=" + $("#id").val();
-                params += "&username=" + $("#username").val();
-                params += "&fullName=" + $("#fullName").val();
                 // 重置到第一页
                 $(".layui-laypage-skip .layui-input").val(1);
                 // 数据表格 - 获取表格
-                xijiaRenderTable(params);
+                xijiaRenderTable();
                 // 刷新分页插件数据
                 xijiaLayPage();
             }
@@ -257,6 +250,23 @@
             let type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
+    }
+
+
+
+    /**
+     * 搜索参数
+     * @author wangsong
+     * @date 2020/8/23 0023 22:53
+     * @return
+     * @version 1.0.0
+     */
+    function xijiaSearchParam() {
+        let params = "";
+        params += "&id=" + $("#id").val();
+        params += "&username=" + $("#username").val();
+        params += "&fullName=" + $("#fullName").val();
+        return params;
     }
 
     /**

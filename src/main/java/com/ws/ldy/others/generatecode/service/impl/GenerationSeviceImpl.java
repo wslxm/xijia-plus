@@ -239,9 +239,14 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
     @Override
     public void buildController(List<Map<String, Object>> data, String path) {
         Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "Controller");
-        // 数据拼接(所有字段)
+        // 参数拼接(所有字段)
         StringBuffer findPageParam = new StringBuffer(" ");//添加一个空，防止没有条件时空指针异常
-        StringBuffer findPageMybatisPlus = new StringBuffer();
+        // MybatisPlus搜索条件数据拼接
+        StringBuffer findPageMybatisPlus = new StringBuffer(" ");
+        // swagger注释信息拼接
+        StringBuffer swaggerRemark = new StringBuffer(" ");
+
+        // 处理参数
         for (Map<String, Object> fieldMap : data) {
             String fieldName = GenerateUtil.getFieldName(fieldMap.get("name").toString());
             String type = fieldMap.get("type").toString();
@@ -250,10 +255,10 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             if (search == null || !Boolean.parseBoolean(search.toString())) {
                 continue;
             }
-            //每生成一次换一次行
-            findPageParam.append("\r\n");
+            swaggerRemark.append("           @ApiImplicitParam(name = \"" + fieldName + "\", value = \"" + desc + "\", required = false, paramType = \"query\",example = \"\"),\r\n");
             //每个字段前内容
-            findPageParam.append("            @ApiParam(value = \"" + desc + "\",required = false) @RequestParam(required = false) ");
+            //findPageParam.append("            @ApiParam(value = \"" + desc + "\",required = false) @RequestParam(required = false) ");
+            findPageParam.append("\r\n            @RequestParam(required = false) ");
             //首字母大写
             String fieldNameUp = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
             //字段
@@ -270,11 +275,11 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             } else if (type.equals("varchar") || type.equals("char")) {
                 //字符串
                 findPageParam.append("String " + fieldName + ",");
-                findPageMybatisPlus.append("                .eq(StringUtils.isNotBlank(" + fieldName + ")," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
+                findPageMybatisPlus.append("                .eq(StringUtils.isNotBlank(" + fieldName + ".trim())," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ".trim())");
             } else if (type.equals("text") || type.equals("longtext")) {
                 //大文本、超大文本
                 findPageParam.append("String " + fieldName + ",");
-                findPageMybatisPlus.append("                .eq(StringUtils.isNotBlank(" + fieldName + ")," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
+                findPageMybatisPlus.append("                .eq(StringUtils.isNotBlank(" + fieldName + ").trim()," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ").trim()");
             } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
                 //时间
                 findPageParam.append("@DateTimeFormat(pattern = \"yyyy-MM-dd HH:mm:ss\") LocalDateTime " + fieldName + ",");
@@ -298,6 +303,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         // System.out.println(findPageMybatisPlus.toString()); //
         DsField.FIND_PAGE_PARAM = findPageParam.substring(0, findPageParam.length() - 1);
         DsField.FIND_PAGE_MYBATIS_PLUS = findPageMybatisPlus.toString();
+        DsField.SWAGGER_REMARK = swaggerRemark.toString();
 
         // 开始生成文件并进行数据替换
         GenerateUtil.replacBrBwWritee(brBwPath);
@@ -417,8 +423,18 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         // 搜索条件请求值url拼接
         StringBuffer SearchParamsStr = new StringBuffer();
         for (Map<String, Object> fieldMap : dataList) {
+            // 判断是否选中
+            if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
+                continue;
+            }
             String name = GenerateUtil.getFieldName(fieldMap.get("name").toString());
-            String desc = fieldMap.get("desc").toString();
+            //1
+            String desc = "";
+            if (fieldMap.get("desc").toString().indexOf("(") != -1) {
+                desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
+            } else {
+                desc = fieldMap.get("desc").toString();
+            }
             // 数据表格内容
             fieldStr.append("\r\n                    {field: '" + name + "', title: '" + desc + "'},");
             Object search = fieldMap.get("search");
@@ -430,7 +446,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             // 1/ input  * {desc} 字段描叙  * {id}   字段名 * {name} 字段名
             SearchPtStr.append(SearchPtConfig.INPUT_PT.replace("{id}", name).replace("{name}", name).replace("{desc}", desc));
             // 搜索内容条件拼接
-            SearchParamsStr.append("                params += \"&" + name + "=\" + $(\"#" + name + "\").val();");
+            SearchParamsStr.append("            params += \"&" + name + "=\" + $(\"#" + name + "\").val();");
             // 换行
             SearchPtStr.append("\r\n");
             SearchParamsStr.append("\r\n");
@@ -474,11 +490,21 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
                 "    </div>";
         StringBuffer fieldStr = new StringBuffer();
         for (Map<String, Object> fieldMap : dataList) {
+            // 判断是否选中
+            if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
+                continue;
+            }
             String name = GenerateUtil.getFieldName(fieldMap.get("name").toString());
             if ("id".equals(name)) {
                 continue;
             }
-            String desc = fieldMap.get("desc").toString();
+            //1
+            String desc = "";
+            if (fieldMap.get("desc").toString().indexOf("(") != -1) {
+                desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
+            } else {
+                desc = fieldMap.get("desc").toString();
+            }
 //            String primarykeyId = GenerateUtil.getValue(fieldMap, "primarykeyId", ""); //是否id
 //            String selfGrowth = GenerateUtil.getValue(fieldMap, "selfGrowth", "");//是否自增
             //  if (!primarykeyId.equals("true")) {
@@ -522,14 +548,25 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         StringBuffer echoDisplay = new StringBuffer();
         String fieldId = "";
         for (Map<String, Object> fieldMap : dataList) {
+
             String name = GenerateUtil.getFieldName(fieldMap.get("name").toString());
             if ("id".equals(name)) {
                 fieldId = "data.field." + name + " = parent.data." + name + ";";
             } else {
-                String desc = fieldMap.get("desc").toString();
-//            String primarykeyId = GenerateUtil.getValue(fieldMap, "primarykeyId", ""); //是否id
-//            String selfGrowth = GenerateUtil.getValue(fieldMap, "selfGrowth", "");//是否自增
-//            if (!primarykeyId.equals("true")) {
+                // 判断是否选中
+                if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
+                    continue;
+                }
+                //1
+                String desc = "";
+                if (fieldMap.get("desc").toString().indexOf("(") != -1) {
+                    desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
+                } else {
+                    desc = fieldMap.get("desc").toString();
+                }
+                //  String primarykeyId = GenerateUtil.getValue(fieldMap, "primarykeyId", ""); //是否id
+                //  String selfGrowth = GenerateUtil.getValue(fieldMap, "selfGrowth", "");//是否自增
+                //  if (!primarykeyId.equals("true")) {
                 echoDisplay.append("\r\n         $('#" + name + "').val(parent.data." + name + ");");
                 fieldStr.append("\r\n" + htmlAdd
                         .replace("fieldTitle", desc)

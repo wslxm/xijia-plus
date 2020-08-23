@@ -51,11 +51,9 @@ public class DataBaseController extends BaseController<DataBaseService> {
                 tableFieldVO.setIsChecked(true);
             }
             // 判断空串
-//            if ("".equals(tableFieldVO.getDefaultVal())) {
-//                tableFieldVO.setIsChecked(false);
-//            } else {
-//                tableFieldVO.setIsChecked(true);
-//            }
+            if ("CURRENT_TIMESTAMP".equals(tableFieldVO.getDefaultVal())) {
+                tableFieldVO.setDefaultVal("当前时间");
+            }
         }
         return R.success(tableField);
     }

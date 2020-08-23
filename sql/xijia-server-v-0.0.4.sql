@@ -11,7 +11,7 @@
  Target Server Version : 80016
  File Encoding         : 65001
 
- Date: 23/08/2020 03:50:16
+ Date: 24/08/2020 00:28:31
 */
 
 SET NAMES utf8mb4;
@@ -42,77 +42,115 @@ CREATE TABLE `t_admin_authority`  (
 -- ----------------------------
 -- Records of t_admin_authority
 -- ----------------------------
-INSERT INTO `t_admin_authority` VALUES ('457203749895671808', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 35, '', '', '/admin/adminAuthority', 'URL权限管理', -1, 0, -1);
-INSERT INTO `t_admin_authority` VALUES ('457203749899866112', NULL, NULL, '2020-08-22 17:31:17', '2020-08-22 17:31:17', 0, 35, '457203749895671808', 'GET', '/admin/adminAuthority/findByRoleIdList', '查询所有 || 根据角色ID选中', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749899866113', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 35, '457203749895671808', 'GET', '/admin/adminAuthority/findList', '查询所有', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749899866114', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 19:22:30', 0, 35, '457203749895671808', 'PUT', '/admin/adminAuthority/upd', 'ID编辑', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749899866115', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 19:22:17', 0, 35, '457203749895671808', 'PUT', '/admin/adminAuthority/refreshAuthority', '扫描权限', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749904060416', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 35, '', '', '/admin/adminDictionary', '字典管理', -1, 0, -1);
-INSERT INTO `t_admin_authority` VALUES ('457203749904060417', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 35, '457203749904060416', 'POST', '/admin/adminDictionary/insert', '添加', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749904060418', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 35, '457203749904060416', 'PUT', '/admin/adminDictionary/updBySort', '修改排序', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749904060419', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 35, '457203749904060416', 'GET', '/admin/adminDictionary/findList', '查询所有', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749904060420', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 35, '457203749904060416', 'PUT', '/admin/adminDictionary/upd', '编辑', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749904060421', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 35, '457203749904060416', 'DELETE', '/admin/adminDictionary/del', 'ID删除', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749908254720', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 35, '457203749904060416', 'GET', '/admin/adminDictionary/generateEnum', '生成枚举', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749908254721', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 35, '457203749904060416', 'GET', '/admin/adminDictionary/findCodeGroup', '查询所有-code分组', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749908254722', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 35, '457203749904060416', 'GET', '/admin/adminDictionary/findByCode', 'Code查询(Tree)', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749908254723', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 35, '457203749904060416', 'GET', '/admin/adminDictionary/findVersion', '获取字典版本', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749912449024', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 35, '', '', '/admin/adminMenu', '菜单管理', -1, 0, -1);
-INSERT INTO `t_admin_authority` VALUES ('457203749912449025', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 35, '457203749912449024', 'POST', '/admin/adminMenu/insert', '菜单添加', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749912449026', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 35, '457203749912449024', 'GET', '/admin/adminMenu/findByPidOrRoleId', 'pid + roleId 查询菜单列表', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749912449027', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 35, '457203749912449024', 'GET', '/admin/adminMenu/findList', '查询所有', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749916643328', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 35, '457203749912449024', 'PUT', '/admin/adminMenu/upd', 'ID编辑', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749916643329', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 35, '457203749912449024', 'DELETE', '/admin/adminMenu/del', 'ID删除', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749916643330', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 35, '457203749912449024', 'GET', '/admin/adminMenu/findTree', '左导航菜单', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749916643331', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 35, '', '', '/admin/adminRole', '角色管理', -1, 0, -1);
-INSERT INTO `t_admin_authority` VALUES ('457203749916643332', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 35, '457203749916643331', 'POST', '/admin/adminRole/insert', '添加', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749920837632', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 35, '457203749916643331', 'GET', '/admin/adminRole/findList', '查询所有', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749920837633', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 35, '457203749916643331', 'PUT', '/admin/adminRole/upd', 'ID编辑', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749920837634', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 35, '457203749916643331', 'DELETE', '/admin/adminRole/del', 'ID删除', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749920837635', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 35, '457203749916643331', 'PUT', '/admin/adminRole/updRoleMenu', '角色的菜单分配', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749920837636', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 35, '457203749916643331', 'GET', '/admin/adminRole/findUserRole', '获取用户的当前角色', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749920837637', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 35, '457203749916643331', 'GET', '/admin/adminRole/findPage', '分页查询', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749920837638', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 35, '457203749916643331', 'PUT', '/admin/adminRole/updUserRole', '用户的角色分配', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749920837639', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 35, '457203749916643331', 'PUT', '/admin/adminRole/updRoleAuth', '角色的URL权限分配', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749920837640', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 35, '', '', '/admin/adminUser', '用户管理', -1, 0, -1);
-INSERT INTO `t_admin_authority` VALUES ('457203749925031936', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 35, '457203749920837640', 'POST', '/admin/adminUser/insert', '添加', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749925031937', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 35, '457203749920837640', 'PUT', '/admin/adminUser/upd', 'ID编辑', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749925031938', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 35, '457203749920837640', 'DELETE', '/admin/adminUser/del', 'ID删除', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749925031939', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 35, '457203749920837640', 'GET', '/admin/adminUser/findByRoleId', '获取指定角色的用户列表', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749925031940', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 35, '457203749920837640', 'DELETE', '/admin/adminUser/delByIds', '批量ID删除', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749925031941', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 35, '457203749920837640', 'PUT', '/admin/adminUser/updByPassword', '密码修改', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749925031942', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:33:39', 0, 35, '457203749920837640', 'POST', '/admin/adminUser/login', '登录', 0, 0, 0);
-INSERT INTO `t_admin_authority` VALUES ('457203749925031943', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 35, '457203749920837640', 'GET', '/admin/adminUser/findPage', '分页查询', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749929226240', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 35, '457203749920837640', 'GET', '/admin/adminUser/findUser', '个人信息', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749929226241', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 35, '', '', '/dev/devBug', 'Bug修复', -1, 0, -1);
-INSERT INTO `t_admin_authority` VALUES ('457203749929226242', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 35, '457203749929226241', 'PUT', '/dev/devBug/updByState', 'ID编辑状态', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749929226243', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 35, '457203749929226241', 'PUT', '/dev/devBug/upd', 'ID编辑', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749929226244', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 35, '457203749929226241', 'DELETE', '/dev/devBug/del', 'ID删除', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749933420544', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 35, '457203749929226241', 'POST', '/dev/devBug/insert', '添加', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749933420545', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 35, '457203749929226241', 'GET', '/dev/devBug/findPage', '分页查询', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749933420546', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 35, '457203749929226241', 'DELETE', '/dev/devBug/delByIds', 'ID批量删除', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749933420547', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 35, '', '', '/dev/devNorm', '开发规范', -1, 0, -1);
-INSERT INTO `t_admin_authority` VALUES ('457203749933420548', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 35, '457203749933420547', 'PUT', '/dev/devNorm/upd', 'ID编辑', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749933420549', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 35, '457203749933420547', 'POST', '/dev/devNorm/insert', '添加', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749937614848', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 35, '457203749933420547', 'DELETE', '/dev/devNorm/del', 'ID删除', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749937614849', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 35, '457203749933420547', 'DELETE', '/dev/devNorm/delByIds', '批量ID删除', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749937614850', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 35, '457203749933420547', 'GET', '/dev/devNorm/findPage', '分页查询', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749937614851', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 35, '', '', '/dev/devTask', '开发任务', -1, 1, -1);
-INSERT INTO `t_admin_authority` VALUES ('457203749937614852', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:34:16', 0, 35, '457203749937614851', 'PUT', '/dev/devTask/updByState', 'ID编辑状态', 0, 1, 1);
-INSERT INTO `t_admin_authority` VALUES ('457203749937614853', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 35, '457203749937614851', 'PUT', '/dev/devTask/upd', 'ID编辑', 0, 1, 1);
-INSERT INTO `t_admin_authority` VALUES ('457203749937614854', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 35, '457203749937614851', 'GET', '/dev/devTask/findId', 'ID查询', 0, 1, 1);
-INSERT INTO `t_admin_authority` VALUES ('457203749941809152', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 35, '457203749937614851', 'DELETE', '/dev/devTask/del', 'ID删除', 0, 1, 1);
-INSERT INTO `t_admin_authority` VALUES ('457203749941809153', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 35, '457203749937614851', 'POST', '/dev/devTask/insert', '添加', 0, 1, 1);
-INSERT INTO `t_admin_authority` VALUES ('457203749941809154', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 19:45:05', 0, 35, '457203749937614851', 'GET', '/dev/devTask/findList', '查询所有', 0, 1, 1);
-INSERT INTO `t_admin_authority` VALUES ('457203749941809155', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 19:47:19', 0, 35, '457203749937614851', 'GET', '/dev/devTask/findPage', '分页查询', 0, 1, 1);
-INSERT INTO `t_admin_authority` VALUES ('457203749941809156', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 35, '457203749937614851', 'DELETE', '/dev/devTask/delByIds', '批量ID删除', 0, 1, 1);
-INSERT INTO `t_admin_authority` VALUES ('457203749941809157', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 35, '', '', '/dataBase', '数据库表查询', -1, 0, -1);
-INSERT INTO `t_admin_authority` VALUES ('457203749946003456', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 35, '457203749941809157', 'GET', '/dataBase/findTableField', '查询指定表下使用字段内容', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749946003457', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 35, '457203749941809157', 'GET', '/dataBase/findTable', '查询所有表名', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749946003458', NULL, NULL, '2020-08-22 17:31:23', '2020-08-22 17:31:23', 0, 35, '', '', '/generate', '代码生成器-只限于页面调用', -1, 0, -1);
-INSERT INTO `t_admin_authority` VALUES ('457203749946003459', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 35, '457203749946003458', 'GET', '/generate/getPath', '代码生成路径', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749946003460', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 35, '457203749946003458', 'POST', '/generate/generateCode', '生成代码', 0, 0, 2);
-INSERT INTO `t_admin_authority` VALUES ('457203749946003461', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 35, '457203749946003458', 'POST', '/generate/preview', '生成预览代码', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749895671808', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 63, '', '', '/admin/adminAuthority', 'URL权限管理', -1, 0, -1);
+INSERT INTO `t_admin_authority` VALUES ('457203749899866112', NULL, NULL, '2020-08-22 17:31:17', '2020-08-22 17:31:17', 0, 63, '457203749895671808', 'GET', '/admin/adminAuthority/findByRoleIdList', '查询所有 || 根据角色ID选中', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749899866113', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 63, '457203749895671808', 'GET', '/admin/adminAuthority/findList', '查询所有', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749899866114', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 19:22:30', 0, 63, '457203749895671808', 'PUT', '/admin/adminAuthority/upd', 'ID编辑', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749899866115', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 19:22:17', 0, 63, '457203749895671808', 'PUT', '/admin/adminAuthority/refreshAuthority', '扫描权限', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749904060416', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 63, '', '', '/admin/adminDictionary', '字典管理', -1, 0, -1);
+INSERT INTO `t_admin_authority` VALUES ('457203749904060417', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 63, '457203749904060416', 'POST', '/admin/adminDictionary/insert', '添加', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749904060418', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 63, '457203749904060416', 'PUT', '/admin/adminDictionary/updBySort', '修改排序', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749904060419', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 63, '457203749904060416', 'GET', '/admin/adminDictionary/findList', '查询所有', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749904060420', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 63, '457203749904060416', 'PUT', '/admin/adminDictionary/upd', '编辑', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749904060421', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 63, '457203749904060416', 'DELETE', '/admin/adminDictionary/del', 'ID删除', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749908254720', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 63, '457203749904060416', 'GET', '/admin/adminDictionary/generateEnum', '生成枚举', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749908254721', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 63, '457203749904060416', 'GET', '/admin/adminDictionary/findCodeGroup', '查询所有-code分组', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749908254722', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 63, '457203749904060416', 'GET', '/admin/adminDictionary/findByCode', 'Code查询(Tree)', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749908254723', NULL, NULL, '2020-08-22 17:31:18', '2020-08-22 17:31:18', 0, 63, '457203749904060416', 'GET', '/admin/adminDictionary/findVersion', '获取字典版本', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749912449024', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 63, '', '', '/admin/adminMenu', '菜单管理', -1, 0, -1);
+INSERT INTO `t_admin_authority` VALUES ('457203749912449025', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 63, '457203749912449024', 'POST', '/admin/adminMenu/insert', '菜单添加', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749912449026', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 63, '457203749912449024', 'GET', '/admin/adminMenu/findByPidOrRoleId', 'pid + roleId 查询菜单列表', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749912449027', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 63, '457203749912449024', 'GET', '/admin/adminMenu/findList', '查询所有', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749916643328', NULL, NULL, '2020-08-22 17:31:19', '2020-08-23 04:21:47', 0, 63, '457203749912449024', 'PUT', '/admin/adminMenu/upd', 'ID编辑', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749916643329', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 63, '457203749912449024', 'DELETE', '/admin/adminMenu/del', 'ID删除', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749916643330', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 63, '457203749912449024', 'GET', '/admin/adminMenu/findTree', '左导航菜单', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749916643331', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 63, '', '', '/admin/adminRole', '角色管理', -1, 0, -1);
+INSERT INTO `t_admin_authority` VALUES ('457203749916643332', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 63, '457203749916643331', 'POST', '/admin/adminRole/insert', '添加', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749920837632', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 63, '457203749916643331', 'GET', '/admin/adminRole/findList', '查询所有', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749920837633', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 63, '457203749916643331', 'PUT', '/admin/adminRole/upd', 'ID编辑', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749920837634', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 63, '457203749916643331', 'DELETE', '/admin/adminRole/del', 'ID删除', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749920837635', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 63, '457203749916643331', 'PUT', '/admin/adminRole/updRoleMenu', '角色的菜单分配', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749920837636', NULL, NULL, '2020-08-22 17:31:19', '2020-08-22 17:31:19', 0, 63, '457203749916643331', 'GET', '/admin/adminRole/findUserRole', '获取用户的当前角色', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749920837637', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 63, '457203749916643331', 'GET', '/admin/adminRole/findPage', '分页查询', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749920837638', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 63, '457203749916643331', 'PUT', '/admin/adminRole/updUserRole', '用户的角色分配', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749920837639', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 63, '457203749916643331', 'PUT', '/admin/adminRole/updRoleAuth', '角色的URL权限分配', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749920837640', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 63, '', '', '/admin/adminUser', '用户管理', -1, 0, -1);
+INSERT INTO `t_admin_authority` VALUES ('457203749925031936', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 63, '457203749920837640', 'POST', '/admin/adminUser/insert', '添加', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749925031937', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 63, '457203749920837640', 'PUT', '/admin/adminUser/upd', 'ID编辑', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749925031938', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 63, '457203749920837640', 'DELETE', '/admin/adminUser/del', 'ID删除', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749925031939', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 63, '457203749920837640', 'GET', '/admin/adminUser/findByRoleId', '获取指定角色的用户列表', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749925031940', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 63, '457203749920837640', 'DELETE', '/admin/adminUser/delByIds', '批量ID删除', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749925031941', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 63, '457203749920837640', 'PUT', '/admin/adminUser/updByPassword', '密码修改', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749925031942', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:33:39', 0, 63, '457203749920837640', 'POST', '/admin/adminUser/login', '登录', 0, 0, 0);
+INSERT INTO `t_admin_authority` VALUES ('457203749925031943', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 63, '457203749920837640', 'GET', '/admin/adminUser/findPage', '分页查询', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749929226240', NULL, NULL, '2020-08-22 17:31:20', '2020-08-22 17:31:20', 0, 63, '457203749920837640', 'GET', '/admin/adminUser/findUser', '个人信息', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749929226241', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 63, '', '', '/dev/devBug', 'Bug修复', -1, 0, -1);
+INSERT INTO `t_admin_authority` VALUES ('457203749929226242', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 63, '457203749929226241', 'PUT', '/dev/devBug/updByState', 'ID编辑状态', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749929226243', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 63, '457203749929226241', 'PUT', '/dev/devBug/upd', 'ID编辑', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749929226244', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 63, '457203749929226241', 'DELETE', '/dev/devBug/del', 'ID删除', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749933420544', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 63, '457203749929226241', 'POST', '/dev/devBug/insert', '添加', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749933420545', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 63, '457203749929226241', 'GET', '/dev/devBug/findPage', '分页查询', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749933420546', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 63, '457203749929226241', 'DELETE', '/dev/devBug/delByIds', 'ID批量删除', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749933420547', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 63, '', '', '/dev/devNorm', '开发规范', -1, 0, -1);
+INSERT INTO `t_admin_authority` VALUES ('457203749933420548', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 63, '457203749933420547', 'PUT', '/dev/devNorm/upd', 'ID编辑', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749933420549', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 63, '457203749933420547', 'POST', '/dev/devNorm/insert', '添加', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749937614848', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 63, '457203749933420547', 'DELETE', '/dev/devNorm/del', 'ID删除', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749937614849', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 63, '457203749933420547', 'DELETE', '/dev/devNorm/delByIds', '批量ID删除', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749937614850', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 63, '457203749933420547', 'GET', '/dev/devNorm/findPage', '分页查询', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749937614851', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 63, '', '', '/dev/devTask', '开发任务', -1, 1, -1);
+INSERT INTO `t_admin_authority` VALUES ('457203749937614852', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:34:16', 0, 63, '457203749937614851', 'PUT', '/dev/devTask/updByState', 'ID编辑状态', 0, 1, 1);
+INSERT INTO `t_admin_authority` VALUES ('457203749937614853', NULL, NULL, '2020-08-22 17:31:21', '2020-08-22 17:31:21', 0, 63, '457203749937614851', 'PUT', '/dev/devTask/upd', 'ID编辑', 0, 1, 1);
+INSERT INTO `t_admin_authority` VALUES ('457203749937614854', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 63, '457203749937614851', 'GET', '/dev/devTask/findId', 'ID查询', 0, 1, 1);
+INSERT INTO `t_admin_authority` VALUES ('457203749941809152', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 63, '457203749937614851', 'DELETE', '/dev/devTask/del', 'ID删除', 0, 1, 1);
+INSERT INTO `t_admin_authority` VALUES ('457203749941809153', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 63, '457203749937614851', 'POST', '/dev/devTask/insert', '添加', 0, 1, 1);
+INSERT INTO `t_admin_authority` VALUES ('457203749941809154', NULL, NULL, '2020-08-22 17:31:22', '2020-08-23 04:33:45', 0, 63, '457203749937614851', 'GET', '/dev/devTask/findList', '查询所有', 0, 1, 1);
+INSERT INTO `t_admin_authority` VALUES ('457203749941809155', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 19:47:19', 0, 63, '457203749937614851', 'GET', '/dev/devTask/findPage', '分页查询', 0, 1, 1);
+INSERT INTO `t_admin_authority` VALUES ('457203749941809156', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 63, '457203749937614851', 'DELETE', '/dev/devTask/delByIds', '批量ID删除', 0, 1, 1);
+INSERT INTO `t_admin_authority` VALUES ('457203749941809157', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 63, '', '', '/dataBase', '数据库表查询', -1, 0, -1);
+INSERT INTO `t_admin_authority` VALUES ('457203749946003456', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 63, '457203749941809157', 'GET', '/dataBase/findTableField', '查询指定表下使用字段内容', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749946003457', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 63, '457203749941809157', 'GET', '/dataBase/findTable', '查询所有表名', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749946003458', NULL, NULL, '2020-08-22 17:31:23', '2020-08-22 17:31:23', 0, 63, '', '', '/generate', '代码生成器-只限于页面调用', -1, 0, -1);
+INSERT INTO `t_admin_authority` VALUES ('457203749946003459', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 63, '457203749946003458', 'GET', '/generate/getPath', '代码生成路径', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749946003460', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 63, '457203749946003458', 'POST', '/generate/generateCode', '生成代码', 0, 0, 2);
+INSERT INTO `t_admin_authority` VALUES ('457203749946003461', NULL, NULL, '2020-08-22 17:31:22', '2020-08-22 17:31:22', 0, 63, '457203749946003458', 'POST', '/generate/preview', '生成预览代码', 0, 0, 2);
+
+-- ----------------------------
+-- Table structure for t_admin_banner
+-- ----------------------------
+DROP TABLE IF EXISTS `t_admin_banner`;
+CREATE TABLE `t_admin_banner`  (
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `deleted` int(1) NOT NULL DEFAULT 0 COMMENT '逻辑删除(0：正常 1：删除)',
+  `version` int(11) NOT NULL DEFAULT 0 COMMENT '乐观锁',
+  `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'banner标题',
+  `desc` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'banner描叙',
+  `img_url` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'banner图片',
+  `sort` int(11) NOT NULL DEFAULT 0 COMMENT 'banner排序',
+  `disable` int(1) NOT NULL COMMENT 'banner禁用(0-启用 1-禁用)',
+  `is_skip` int(1) NOT NULL DEFAULT 0 COMMENT '是否跳转(0-无  1-内部链接 2-外部链接)',
+  `skip_url` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '跳转地址url(地址直接添加或字典表配置)',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'banner表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of t_admin_banner
+-- ----------------------------
+INSERT INTO `t_admin_banner` VALUES ('1297542919313518594', NULL, NULL, '2020-08-23 14:35:12', '2020-08-23 14:49:43', 0, 0, '1', '2', '3', 3, 3, 3, '34');
+INSERT INTO `t_admin_banner` VALUES ('1297542968424624130', NULL, NULL, '2020-08-23 14:35:24', '2020-08-23 14:51:00', 0, 0, '4', '2', '2', 2, 2, 2, '2');
+INSERT INTO `t_admin_banner` VALUES ('1297544335478321153', NULL, NULL, '2020-08-23 14:40:49', '2020-08-23 14:40:49', 0, 0, '1', '1', '1', 1, 1, 1, '1');
+INSERT INTO `t_admin_banner` VALUES ('1297544358421164034', NULL, NULL, '2020-08-23 14:40:55', '2020-08-23 14:40:55', 0, 0, '1', '1', '1', 1, 1, 1, '1');
+INSERT INTO `t_admin_banner` VALUES ('1297544390046216193', NULL, NULL, '2020-08-23 14:41:03', '2020-08-23 14:49:50', 0, 0, '45', '4', '4', 4, 4, 4, '4');
+INSERT INTO `t_admin_banner` VALUES ('1297544416243838978', NULL, NULL, '2020-08-23 14:41:09', '2020-08-23 14:50:08', 0, 0, '5', '55', '5', 5, 5, 5, '5');
+INSERT INTO `t_admin_banner` VALUES ('1297544445788516353', NULL, NULL, '2020-08-23 14:41:18', '2020-08-23 14:41:18', 0, 0, '6', '6', '6', 6, 6, 6, '6');
+INSERT INTO `t_admin_banner` VALUES ('1297546446064676866', NULL, NULL, '2020-08-23 14:49:13', '2020-08-23 14:49:13', 0, 0, '5', '5', '5', 5, 5, 5, '5');
+INSERT INTO `t_admin_banner` VALUES ('1297546634170822657', NULL, NULL, '2020-08-23 14:49:58', '2020-08-23 14:49:58', 0, 0, '8', '8', '8', 8, 8, 8, '8');
+INSERT INTO `t_admin_banner` VALUES ('1297553687614447617', NULL, NULL, '2020-08-23 15:17:59', '2020-08-23 15:17:59', 0, 0, '1', '1', '1', 1, 1, 1, '1');
+INSERT INTO `t_admin_banner` VALUES ('1297553724478185473', NULL, NULL, '2020-08-23 15:18:08', '2020-08-23 15:18:08', 0, 0, '2', '2', '2', 2, 2, 2, '2');
+INSERT INTO `t_admin_banner` VALUES ('1297553966887985154', NULL, NULL, '2020-08-23 15:19:06', '2020-08-23 15:19:06', 0, 0, '1', '1', '1', 1, 1, 1, '1');
 
 -- ----------------------------
 -- Table structure for t_admin_dictionary
@@ -138,7 +176,7 @@ CREATE TABLE `t_admin_dictionary`  (
 -- ----------------------------
 -- Records of t_admin_dictionary
 -- ----------------------------
-INSERT INTO `t_admin_dictionary` VALUES ('1290684671448936449', NULL, NULL, '2020-08-05 00:23:00', '2020-08-22 12:39:57', 0, 0, 'ENUMS', '枚举字典', '0', '状态/动态字段值，如：state，type，gender等, 可直接生成 前/ 后端枚举对象类代码', 0, 0);
+INSERT INTO `t_admin_dictionary` VALUES ('1290684671448936449', NULL, NULL, '2020-08-05 00:23:00', '2020-08-23 04:21:14', 0, 0, 'ENUMS', '枚举字典', '0', '状态/动态字段值，如：state，type，gender等, 可直接生成 前/ 后端枚举对象类代码', 0, 0);
 INSERT INTO `t_admin_dictionary` VALUES ('1290686507555844098', NULL, NULL, '2020-08-05 00:30:17', '2020-08-09 17:38:53', 0, 0, 'ADMIN', '系统模块', '1290684671448936449', '-', 0, 0);
 INSERT INTO `t_admin_dictionary` VALUES ('1290686763962036225', NULL, NULL, '2020-08-05 00:31:18', '2020-08-09 17:38:45', 0, 0, 'DEV', '开发模块', '1290684671448936449', '-', 0, 0);
 INSERT INTO `t_admin_dictionary` VALUES ('1290687277911076865', NULL, NULL, '2020-08-05 00:33:21', '2020-08-09 17:41:00', 0, 0, 'MENU_ROOT', '菜单级别', '1290686507555844098', '-', 0, 0);
@@ -220,6 +258,7 @@ INSERT INTO `t_admin_menu` VALUES ('1288879370219347969', NULL, NULL, '2020-07-3
 INSERT INTO `t_admin_menu` VALUES ('1288879436422242305', NULL, NULL, '2020-07-31 00:49:38', '2020-07-31 01:25:54', 0, 0, '1288879303106289665', '展示', '/page/modules_dev_markdown_detail', 'layui-icon-file-b', 0, 3, 0);
 INSERT INTO `t_admin_menu` VALUES ('129', NULL, NULL, '2020-07-25 09:29:38', '2020-07-25 09:29:38', 0, 0, '134', '蚂蚁课堂', 'http://www.mayikt.com/', 'layui-icon-file-b', 60007, 3, 0);
 INSERT INTO `t_admin_menu` VALUES ('1297047088646905857', NULL, NULL, '2020-08-22 05:44:58', '2020-08-22 06:13:44', 0, 0, '4', '接口管理', '/page/modules_admin_authority_authority', 'layui-icon-file-b', 10005, 3, 0);
+INSERT INTO `t_admin_menu` VALUES ('1297533242571763714', NULL, NULL, '2020-08-23 13:56:45', '2020-08-23 13:56:45', 0, 0, '4', 'Banner 管理', '	/page/modules_admin_adminBanner_adminBanner', 'layui-icon-file-b', 10008, 3, 0);
 INSERT INTO `t_admin_menu` VALUES ('13', NULL, NULL, '2020-07-25 09:29:38', '2020-07-25 09:29:38', 0, 0, '0', '测试系统', '', '1', 3, 1, 0);
 INSERT INTO `t_admin_menu` VALUES ('130', NULL, NULL, '2020-07-25 09:29:38', '2020-07-25 09:29:38', 0, 0, '134', '腾讯课堂', 'https://ke.qq.com/user/index/index.html#/plan/cid=291872&term_id=102601151', 'layui-icon-file-b', 60008, 3, 0);
 INSERT INTO `t_admin_menu` VALUES ('131', NULL, NULL, '2020-07-25 09:29:38', '2020-07-25 09:29:38', 0, 0, '133', '哔哩哔哩', 'https://www.bilibili.com/', 'layui-icon-file-b', 60009, 3, 0);
@@ -301,36 +340,6 @@ CREATE TABLE `t_admin_role_auth`  (
 -- ----------------------------
 -- Records of t_admin_role_auth
 -- ----------------------------
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347828994049', NULL, NULL, '2020-08-22 19:44:25', '2020-08-22 19:44:25', 0, 0, '457203749929226241', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347854159873', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749933420545', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347854159874', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749895671808', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347854159875', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749899866112', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347854159876', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749899866113', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347858354177', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749916643331', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347858354178', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749920837637', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347858354179', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749920837636', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347858354180', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749920837632', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347858354181', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749904060416', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347858354182', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749908254721', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347858354183', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749904060419', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347862548481', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749908254720', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347862548482', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749908254722', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347862548483', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749908254723', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347862548484', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749946003458', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347862548485', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749946003459', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347862548486', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749941809157', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347862548487', NULL, NULL, '2020-08-22 19:44:26', '2020-08-22 19:44:26', 0, 0, '457203749946003457', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347866742786', NULL, NULL, '2020-08-22 19:44:27', '2020-08-22 19:44:27', 0, 0, '457203749946003456', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347866742787', NULL, NULL, '2020-08-22 19:44:27', '2020-08-22 19:44:27', 0, 0, '457203749933420547', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347866742788', NULL, NULL, '2020-08-22 19:44:27', '2020-08-22 19:44:27', 0, 0, '457203749937614850', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347866742789', NULL, NULL, '2020-08-22 19:44:27', '2020-08-22 19:44:27', 0, 0, '457203749912449024', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347866742790', NULL, NULL, '2020-08-22 19:44:27', '2020-08-22 19:44:27', 0, 0, '457203749916643330', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347866742791', NULL, NULL, '2020-08-22 19:44:27', '2020-08-22 19:44:27', 0, 0, '457203749912449026', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347866742792', NULL, NULL, '2020-08-22 19:44:27', '2020-08-22 19:44:27', 0, 0, '457203749912449027', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347870937089', NULL, NULL, '2020-08-22 19:44:27', '2020-08-22 19:44:27', 0, 0, '457203749920837640', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347870937090', NULL, NULL, '2020-08-22 19:44:27', '2020-08-22 19:44:27', 0, 0, '457203749925031939', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347870937091', NULL, NULL, '2020-08-22 19:44:27', '2020-08-22 19:44:27', 0, 0, '457203749925031943', '31');
-INSERT INTO `t_admin_role_auth` VALUES ('1297258347870937092', NULL, NULL, '2020-08-22 19:44:27', '2020-08-22 19:44:27', 0, 0, '457203749929226240', '31');
 INSERT INTO `t_admin_role_auth` VALUES ('1297258379932196866', NULL, NULL, '2020-08-22 19:44:33', '2020-08-22 19:44:33', 0, 0, '457203749929226241', '1');
 INSERT INTO `t_admin_role_auth` VALUES ('1297258379936391169', NULL, NULL, '2020-08-22 19:44:33', '2020-08-22 19:44:33', 0, 0, '457203749933420546', '1');
 INSERT INTO `t_admin_role_auth` VALUES ('1297258379940585474', NULL, NULL, '2020-08-22 19:44:33', '2020-08-22 19:44:33', 0, 0, '457203749929226244', '1');
@@ -393,6 +402,36 @@ INSERT INTO `t_admin_role_auth` VALUES ('1297258379965751303', NULL, NULL, '2020
 INSERT INTO `t_admin_role_auth` VALUES ('1297258379965751304', NULL, NULL, '2020-08-22 19:44:37', '2020-08-22 19:44:37', 0, 0, '457203749925031936', '1');
 INSERT INTO `t_admin_role_auth` VALUES ('1297258379965751305', NULL, NULL, '2020-08-22 19:44:37', '2020-08-22 19:44:37', 0, 0, '457203749925031937', '1');
 INSERT INTO `t_admin_role_auth` VALUES ('1297258379965751306', NULL, NULL, '2020-08-22 19:44:37', '2020-08-22 19:44:37', 0, 0, '457203749925031941', '1');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006766202881', NULL, NULL, '2020-08-23 04:15:39', '2020-08-23 04:15:39', 0, 0, '457203749929226241', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006782980097', NULL, NULL, '2020-08-23 04:15:39', '2020-08-23 04:15:39', 0, 0, '457203749933420545', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006782980098', NULL, NULL, '2020-08-23 04:15:39', '2020-08-23 04:15:39', 0, 0, '457203749895671808', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006782980099', NULL, NULL, '2020-08-23 04:15:39', '2020-08-23 04:15:39', 0, 0, '457203749899866112', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006782980100', NULL, NULL, '2020-08-23 04:15:40', '2020-08-23 04:15:40', 0, 0, '457203749899866113', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006787174402', NULL, NULL, '2020-08-23 04:15:40', '2020-08-23 04:15:40', 0, 0, '457203749916643331', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006787174403', NULL, NULL, '2020-08-23 04:15:40', '2020-08-23 04:15:40', 0, 0, '457203749920837637', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006787174404', NULL, NULL, '2020-08-23 04:15:40', '2020-08-23 04:15:40', 0, 0, '457203749920837636', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006791368706', NULL, NULL, '2020-08-23 04:15:40', '2020-08-23 04:15:40', 0, 0, '457203749920837632', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006791368707', NULL, NULL, '2020-08-23 04:15:40', '2020-08-23 04:15:40', 0, 0, '457203749904060416', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006791368708', NULL, NULL, '2020-08-23 04:15:40', '2020-08-23 04:15:40', 0, 0, '457203749908254721', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006791368709', NULL, NULL, '2020-08-23 04:15:40', '2020-08-23 04:15:40', 0, 0, '457203749904060419', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006795563010', NULL, NULL, '2020-08-23 04:15:40', '2020-08-23 04:15:40', 0, 0, '457203749908254720', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006795563011', NULL, NULL, '2020-08-23 04:15:40', '2020-08-23 04:15:40', 0, 0, '457203749908254722', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006795563012', NULL, NULL, '2020-08-23 04:15:40', '2020-08-23 04:15:40', 0, 0, '457203749908254723', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006795563013', NULL, NULL, '2020-08-23 04:15:40', '2020-08-23 04:15:40', 0, 0, '457203749946003458', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006799757313', NULL, NULL, '2020-08-23 04:15:41', '2020-08-23 04:15:41', 0, 0, '457203749946003459', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006799757314', NULL, NULL, '2020-08-23 04:15:41', '2020-08-23 04:15:41', 0, 0, '457203749941809157', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006799757315', NULL, NULL, '2020-08-23 04:15:41', '2020-08-23 04:15:41', 0, 0, '457203749946003457', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006803951617', NULL, NULL, '2020-08-23 04:15:41', '2020-08-23 04:15:41', 0, 0, '457203749946003456', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006803951618', NULL, NULL, '2020-08-23 04:15:41', '2020-08-23 04:15:41', 0, 0, '457203749933420547', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006803951619', NULL, NULL, '2020-08-23 04:15:41', '2020-08-23 04:15:41', 0, 0, '457203749937614850', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006803951620', NULL, NULL, '2020-08-23 04:15:41', '2020-08-23 04:15:41', 0, 0, '457203749912449024', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006808145922', NULL, NULL, '2020-08-23 04:15:41', '2020-08-23 04:15:41', 0, 0, '457203749916643330', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006808145923', NULL, NULL, '2020-08-23 04:15:41', '2020-08-23 04:15:41', 0, 0, '457203749912449026', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006808145924', NULL, NULL, '2020-08-23 04:15:41', '2020-08-23 04:15:41', 0, 0, '457203749912449027', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006812340226', NULL, NULL, '2020-08-23 04:15:41', '2020-08-23 04:15:41', 0, 0, '457203749920837640', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006812340227', NULL, NULL, '2020-08-23 04:15:41', '2020-08-23 04:15:41', 0, 0, '457203749925031939', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006812340228', NULL, NULL, '2020-08-23 04:15:41', '2020-08-23 04:15:41', 0, 0, '457203749925031943', '31');
+INSERT INTO `t_admin_role_auth` VALUES ('1297387006812340229', NULL, NULL, '2020-08-23 04:15:41', '2020-08-23 04:15:41', 0, 0, '457203749929226240', '31');
 
 -- ----------------------------
 -- Table structure for t_admin_role_menu
@@ -414,55 +453,6 @@ CREATE TABLE `t_admin_role_menu`  (
 -- ----------------------------
 -- Records of t_admin_role_menu
 -- ----------------------------
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387684872194', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '1', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387684872195', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '4', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387684872196', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '7', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387684872197', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '21', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387684872198', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '22', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387684872199', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '25', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260802', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '5', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260803', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '23', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260804', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '24', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260805', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '141', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260806', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '30', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260807', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '95', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260808', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '97', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260809', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '138', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260810', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '99', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387693260811', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '98', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455106', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '96', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455107', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '1288879303106289665', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455108', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '1288879436422242305', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455109', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '1288879370219347969', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455110', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '100', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455111', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '135', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455112', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '125', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455113', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '123', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455114', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '134', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455115', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '137', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387697455116', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '101', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649410', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '102', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649411', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '126', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649412', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '124', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649413', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '129', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649414', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '130', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649415', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '133', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649416', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '136', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649417', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '131', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649418', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '139', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649419', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '9', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387701649420', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '10', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843713', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '11', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843714', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '91', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843715', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '92', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843716', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '93', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843717', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '140', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843718', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '13', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843719', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '14', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843720', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '15', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843721', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '27', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843722', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '16', '31');
-INSERT INTO `t_admin_role_menu` VALUES ('1289497387705843723', NULL, NULL, '2020-08-01 17:45:09', '2020-08-01 17:45:09', 0, 0, '40', '31');
 INSERT INTO `t_admin_role_menu` VALUES ('1291794867738976257', NULL, NULL, '2020-08-07 17:54:30', '2020-08-07 17:54:30', 0, 0, '1', '2');
 INSERT INTO `t_admin_role_menu` VALUES ('1291794867743170562', NULL, NULL, '2020-08-07 17:54:30', '2020-08-07 17:54:30', 0, 0, '4', '2');
 INSERT INTO `t_admin_role_menu` VALUES ('1291794867743170563', NULL, NULL, '2020-08-07 17:54:30', '2020-08-07 17:54:30', 0, 0, '7', '2');
@@ -511,54 +501,103 @@ INSERT INTO `t_admin_role_menu` VALUES ('1291794867768336392', NULL, NULL, '2020
 INSERT INTO `t_admin_role_menu` VALUES ('1291794867768336393', NULL, NULL, '2020-08-07 17:54:34', '2020-08-07 17:54:34', 0, 0, '14', '2');
 INSERT INTO `t_admin_role_menu` VALUES ('1291794867768336394', NULL, NULL, '2020-08-07 17:54:34', '2020-08-07 17:54:34', 0, 0, '27', '2');
 INSERT INTO `t_admin_role_menu` VALUES ('1291794867768336395', NULL, NULL, '2020-08-07 17:54:34', '2020-08-07 17:54:34', 0, 0, '15', '2');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812162', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '1', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812163', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '4', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812164', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '7', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812165', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '21', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812166', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '22', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812167', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '25', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812168', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '1297047088646905857', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812169', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '23', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812170', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '24', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812171', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '141', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812172', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '30', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812173', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '95', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812174', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '97', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812175', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '138', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812176', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '99', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415806812177', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '98', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338114', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '96', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338115', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '1288879303106289665', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338116', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '1288879370219347969', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338117', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '1288879436422242305', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338118', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '91', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338119', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '92', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338120', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '93', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338121', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '140', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338122', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '100', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338123', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '135', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338124', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '125', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338125', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '123', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338126', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '134', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338127', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '137', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338128', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '101', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338129', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '102', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338130', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '126', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338131', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '124', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338132', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '129', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338133', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '130', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338134', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '133', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338135', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '136', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338136', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '131', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338137', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '139', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338138', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '9', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338139', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '10', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338140', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '11', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338141', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '13', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338142', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '14', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338143', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '15', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338144', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '27', '1');
-INSERT INTO `t_admin_role_menu` VALUES ('1297047415861338145', NULL, NULL, '2020-08-22 05:46:16', '2020-08-22 05:46:16', 0, 0, '40', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036351057922', NULL, NULL, '2020-08-23 04:11:48', '2020-08-23 04:11:48', 0, 0, '1', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036430749698', NULL, NULL, '2020-08-23 04:11:48', '2020-08-23 04:11:48', 0, 0, '4', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036430749699', NULL, NULL, '2020-08-23 04:11:48', '2020-08-23 04:11:48', 0, 0, '7', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036430749700', NULL, NULL, '2020-08-23 04:11:48', '2020-08-23 04:11:48', 0, 0, '21', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036439138306', NULL, NULL, '2020-08-23 04:11:48', '2020-08-23 04:11:48', 0, 0, '22', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036447526914', NULL, NULL, '2020-08-23 04:11:48', '2020-08-23 04:11:48', 0, 0, '25', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036451721218', NULL, NULL, '2020-08-23 04:11:48', '2020-08-23 04:11:48', 0, 0, '1297047088646905857', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036451721219', NULL, NULL, '2020-08-23 04:11:48', '2020-08-23 04:11:48', 0, 0, '23', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036451721220', NULL, NULL, '2020-08-23 04:11:48', '2020-08-23 04:11:48', 0, 0, '24', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036455915521', NULL, NULL, '2020-08-23 04:11:48', '2020-08-23 04:11:48', 0, 0, '141', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036455915522', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '30', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036455915523', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '95', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036455915524', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '97', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036455915525', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '138', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036464304130', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '99', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036464304131', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '98', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036464304132', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '96', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036468498433', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '1288879303106289665', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036468498434', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '1288879370219347969', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036468498435', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '1288879436422242305', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036468498436', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '91', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036476887042', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '92', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036476887043', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '93', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036476887044', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '140', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036481081345', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '100', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036481081346', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '135', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036481081347', NULL, NULL, '2020-08-23 04:11:49', '2020-08-23 04:11:49', 0, 0, '125', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036481081348', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '123', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036485275649', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '134', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036485275650', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '137', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036485275651', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '101', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036485275652', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '102', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036485275653', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '126', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036485275654', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '124', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036485275655', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '129', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036485275656', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '130', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036485275657', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '133', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036485275658', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '136', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036493664257', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '131', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036493664258', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '139', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036493664259', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '9', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036493664260', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '10', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036493664261', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '11', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036493664262', NULL, NULL, '2020-08-23 04:11:50', '2020-08-23 04:11:50', 0, 0, '13', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036493664263', NULL, NULL, '2020-08-23 04:11:51', '2020-08-23 04:11:51', 0, 0, '14', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036493664264', NULL, NULL, '2020-08-23 04:11:51', '2020-08-23 04:11:51', 0, 0, '15', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036493664265', NULL, NULL, '2020-08-23 04:11:51', '2020-08-23 04:11:51', 0, 0, '27', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297386036493664266', NULL, NULL, '2020-08-23 04:11:51', '2020-08-23 04:11:51', 0, 0, '40', '31');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301824696321', NULL, NULL, '2020-08-23 13:56:59', '2020-08-23 13:56:59', 0, 0, '1', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301828890625', NULL, NULL, '2020-08-23 13:56:59', '2020-08-23 13:56:59', 0, 0, '4', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301828890626', NULL, NULL, '2020-08-23 13:56:59', '2020-08-23 13:56:59', 0, 0, '7', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301833084930', NULL, NULL, '2020-08-23 13:56:59', '2020-08-23 13:56:59', 0, 0, '21', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301833084931', NULL, NULL, '2020-08-23 13:56:59', '2020-08-23 13:56:59', 0, 0, '22', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301833084932', NULL, NULL, '2020-08-23 13:56:59', '2020-08-23 13:56:59', 0, 0, '25', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301833084933', NULL, NULL, '2020-08-23 13:56:59', '2020-08-23 13:56:59', 0, 0, '1297047088646905857', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301833084934', NULL, NULL, '2020-08-23 13:56:59', '2020-08-23 13:56:59', 0, 0, '23', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301837279233', NULL, NULL, '2020-08-23 13:56:59', '2020-08-23 13:56:59', 0, 0, '24', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301837279234', NULL, NULL, '2020-08-23 13:56:59', '2020-08-23 13:56:59', 0, 0, '1297533242571763714', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301837279235', NULL, NULL, '2020-08-23 13:56:59', '2020-08-23 13:56:59', 0, 0, '141', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301837279236', NULL, NULL, '2020-08-23 13:56:59', '2020-08-23 13:56:59', 0, 0, '30', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301837279237', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '95', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301837279238', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '97', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301837279239', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '138', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301837279240', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '99', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301837279241', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '98', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301841473537', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '96', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301841473538', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '1288879303106289665', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301841473539', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '1288879370219347969', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301841473540', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '1288879436422242305', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301841473541', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '91', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301841473542', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '92', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301841473543', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '93', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301841473544', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '140', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301845667841', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '100', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301845667842', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '135', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301845667843', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '125', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301845667844', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '123', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301845667845', NULL, NULL, '2020-08-23 13:57:00', '2020-08-23 13:57:00', 0, 0, '134', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301845667846', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '137', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301845667847', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '101', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301845667848', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '102', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301849862145', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '126', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301849862146', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '124', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301849862147', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '129', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301849862148', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '130', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301849862149', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '133', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301849862150', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '136', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301849862151', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '131', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301849862152', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '139', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301849862153', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '9', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301854056449', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '10', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301854056450', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '11', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301854056451', NULL, NULL, '2020-08-23 13:57:01', '2020-08-23 13:57:01', 0, 0, '13', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301854056452', NULL, NULL, '2020-08-23 13:57:02', '2020-08-23 13:57:02', 0, 0, '40', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301854056453', NULL, NULL, '2020-08-23 13:57:02', '2020-08-23 13:57:02', 0, 0, '14', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301854056454', NULL, NULL, '2020-08-23 13:57:02', '2020-08-23 13:57:02', 0, 0, '27', '1');
+INSERT INTO `t_admin_role_menu` VALUES ('1297533301854056455', NULL, NULL, '2020-08-23 13:57:02', '2020-08-23 13:57:02', 0, 0, '15', '1');
 INSERT INTO `t_admin_role_menu` VALUES ('505', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '1', '3');
 INSERT INTO `t_admin_role_menu` VALUES ('506', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '4', '3');
 INSERT INTO `t_admin_role_menu` VALUES ('507', NULL, NULL, '2020-07-25 09:30:40', '2020-07-25 09:30:40', 0, 0, '7', '3');
@@ -619,7 +658,7 @@ INSERT INTO `t_admin_role_user` VALUES ('1', NULL, NULL, '2020-07-25 09:30:54', 
 INSERT INTO `t_admin_role_user` VALUES ('1289941838182023169', NULL, NULL, '2020-08-02 15:11:14', '2020-08-02 15:11:14', 0, 0, '1289941795546923009', '1');
 INSERT INTO `t_admin_role_user` VALUES ('1289941838194606081', NULL, NULL, '2020-08-02 15:11:14', '2020-08-02 15:11:14', 0, 0, '1289941795546923009', '2');
 INSERT INTO `t_admin_role_user` VALUES ('1291570476593795074', NULL, NULL, '2020-08-07 03:02:52', '2020-08-07 03:02:52', 0, 0, '1291570418964058114', '2');
-INSERT INTO `t_admin_role_user` VALUES ('1292277542723645441', NULL, NULL, '2020-08-09 09:52:30', '2020-08-09 09:52:30', 0, 0, '20', '31');
+INSERT INTO `t_admin_role_user` VALUES ('1297388491570790401', NULL, NULL, '2020-08-23 04:21:33', '2020-08-23 04:21:33', 0, 0, '20', '31');
 INSERT INTO `t_admin_role_user` VALUES ('42', NULL, NULL, '2020-07-25 09:30:54', '2020-07-25 09:30:54', 0, 0, '33', '1');
 INSERT INTO `t_admin_role_user` VALUES ('43', NULL, NULL, '2020-07-25 09:30:54', '2020-07-25 09:30:54', 0, 0, '33', '2');
 INSERT INTO `t_admin_role_user` VALUES ('44', NULL, NULL, '2020-07-25 09:30:54', '2020-07-25 09:30:54', 0, 0, '33', '3');
@@ -657,9 +696,9 @@ CREATE TABLE `t_admin_user`  (
 -- ----------------------------
 -- Records of t_admin_user
 -- ----------------------------
-INSERT INTO `t_admin_user` VALUES ('1', NULL, NULL, '2020-08-02 15:11:04', '2020-08-22 18:27:46', 0, 0, 'http://xijia.plus/oss/file/image/head/20200822150143006266-5.png', '1720696548', '王松', 'dfd5e22c8ee4de7da4f07a75fefb6420', '四川成都', 24, 1, 0, '2020-08-02 23:11:05', '2020-08-23 02:27:48');
-INSERT INTO `t_admin_user` VALUES ('1291570418964058114', NULL, NULL, '2020-08-07 03:02:38', '2020-08-10 13:35:08', 0, 0, 'http://xijia.plus/oss/file/image/head/20200807110236510316-2.jpg', '15828327664', '顾全', '229db5460300fdcede08e56a90529475', '四川成都', 25, 1, 0, '2020-08-07 11:02:39', '2020-08-10 21:35:09');
-INSERT INTO `t_admin_user` VALUES ('20', NULL, NULL, '2020-07-25 09:31:07', '2020-08-22 19:44:49', 0, 0, 'http://xijia.plus/oss/file/image/head/20200712000102739895-1.png', 'admin', '游客', '58a42a22f652b6cd9a34f840cd4ea559', '四川成都', 0, 0, 0, '2020-01-31 10:15:07', '2020-08-23 03:44:50');
+INSERT INTO `t_admin_user` VALUES ('1', NULL, NULL, '2020-08-02 15:11:04', '2020-08-23 15:52:22', 0, 0, 'http://xijia.plus/oss/file/image/head/20200822150143006266-5.png', '1720696548', '王松', 'dfd5e22c8ee4de7da4f07a75fefb6420', '四川成都', 24, 1, 0, '2020-08-02 23:11:05', '2020-08-23 23:52:22');
+INSERT INTO `t_admin_user` VALUES ('1291570418964058114', NULL, NULL, '2020-08-07 03:02:38', '2020-08-23 04:34:33', 0, 0, 'http://xijia.plus/oss/file/image/head/20200807110236510316-2.jpg', '15828327664', '顾全', '229db5460300fdcede08e56a90529475', '四川成都', 25, 1, 0, '2020-08-07 11:02:39', '2020-08-10 21:35:09');
+INSERT INTO `t_admin_user` VALUES ('20', NULL, NULL, '2020-07-25 09:31:07', '2020-08-23 15:16:11', 0, 0, 'http://xijia.plus/oss/file/image/head/20200712000102739895-1.png', 'admin', '游客', '58a42a22f652b6cd9a34f840cd4ea559', '四川成都', 0, 0, 0, '2020-01-31 10:15:07', '2020-08-23 23:16:12');
 
 -- ----------------------------
 -- Table structure for t_basic
@@ -840,7 +879,7 @@ INSERT INTO `t_dev_task` VALUES ('1292776778116399105', '2020-08-10 10:56:17', '
 INSERT INTO `t_dev_task` VALUES ('1292777200369565698', '2020-08-10 10:57:57', '1', NULL, '2020-08-10 13:11:44', 0, 0, '1', '4', '审核退回', '退回修改为退回到内勤审核，不退回到业务员', '1', 0, '2020-08-11 00:00:00', NULL, 4.00, NULL);
 INSERT INTO `t_dev_task` VALUES ('1292777639320256514', '2020-08-10 10:59:42', '1', NULL, '2020-08-10 12:53:10', 0, 0, '1291570418964058114,1', '4', '不要跟单', '跟单修改为查看所有审核数据，没有功能操作，只有查看，删除掉操作，把详情留下', '1', 0, '2020-08-11 00:00:00', NULL, 2.00, NULL);
 INSERT INTO `t_dev_task` VALUES ('1292778169228623873', '2020-08-10 11:01:48', '1', NULL, '2020-08-10 13:10:58', 0, 0, '1291570418964058114,1', '4', '添加备注', 'pc 审核页添加客户+配偶+紧急联系人+担保人备注', '1', 0, '2020-08-11 00:00:00', NULL, 2.00, NULL);
-INSERT INTO `t_dev_task` VALUES ('1292781381587324930', '2020-08-10 11:14:34', '1', NULL, '2020-08-10 11:14:34', 0, 0, '1', '1', '任务端+任务人改为多选', '任务端+ 任务人改为多选，一个任务可能多个人同时执行', '1', 0, '2020-08-11 00:00:00', NULL, 2.00, NULL);
+INSERT INTO `t_dev_task` VALUES ('1292781381587324930', '2020-08-10 11:14:34', '1', NULL, '2020-08-23 15:50:04', 0, 0, '1', '1', '任务端+任务人改为多选', '任务端+ 任务人改为多选，一个任务可能多个人同时执行', '1', 0, '2020-08-11 00:00:00', NULL, 2.00, NULL);
 INSERT INTO `t_dev_task` VALUES ('1292782644550979585', '2020-08-10 11:19:35', '1', NULL, '2020-08-10 13:13:07', 0, 0, '1291570418964058114', '4', '角色菜单分配Bug', '分配菜单时没有同时选中父级菜单参数传递给后端， 导致分配的下级菜单无法展示', '1', 0, '2020-08-11 00:00:00', NULL, 2.00, NULL);
 INSERT INTO `t_dev_task` VALUES ('13', '2020-07-25 10:49:21', NULL, NULL, '2020-08-09 17:36:39', 0, 0, '1', '1', 'bug修复-完整功能', 'bug修复页的全部功能内容', '1', 2, '2020-08-09 00:00:00', '2020-08-01 21:46:39', 8.00, 2.00);
 INSERT INTO `t_dev_task` VALUES ('14', '2020-07-25 10:51:01', NULL, NULL, '2020-08-09 17:36:39', 0, 0, '1', '1', '学习计划-完整功能', '学习计划页的全部功能内容', '1', 0, '2020-08-08 00:00:00', NULL, 8.00, NULL);

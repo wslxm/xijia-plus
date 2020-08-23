@@ -19,7 +19,7 @@
 
 
 <!-- 数据表格 -->
-<div style="float:left; margin-left: 3%;margin-top: 1.2%;width: 60%">
+<div style="float:left; margin-left: 3%;margin-top: 1.2%;width: 72%">
     <table id="auth-table" class="layui-table" lay-filter="auth-table"></table>
 </div>
 
@@ -195,23 +195,29 @@
             , cols: [
                 [
                     {type: 'checkbox'}//, LAY_CHECKED: true
-                    , {field: 'name', title: '字段名', width: 120}
+                    , {field: 'name', title: '字段名', width: 140}
                     , {field: 'type', title: '数据类型', width: 100}
-                    , {field: 'typeDetail', title: '类型(长度)'}
-                    , {field: 'defaultVal', title: '默认值'}
-                    , {field: 'desc', title: '描叙'}
-                    , {
-                    field: 'isNull', title: '必填', width: 60, templet: function (res) {
-                        {
+                    , {field: 'typeDetail', title: '类型(长度)', width: 120}
+                    , {field: 'defaultVal', title: '默认值', width: 100}
+                    , {field: 'desc', title: '描叙', width: 220}
+                    ,
+                    {
+                        field: 'isNull', title: '必填', width: 100, templet: function (res) {
                             return res.isNull == "NO" ? "是" : "";
                         }
                     }
-                }
-                    , {
-                    field: 'search', title: '添加为查询条件', templet: function (res) {
-                        return '<input type="checkbox" name="search" lay-filter="search" lay-skin="switch" lay-text="是|否">';
-                    }
-                }
+                    ,
+                    {
+                        field: 'search', title: '查询( eq | select )',  width: 180,templet: function (res) {
+                            return '<input type="checkbox" name="search" lay-filter="search" lay-skin="switch" lay-text="是|否">'
+                                + '&nbsp;&nbsp;|&nbsp;&nbsp;<input type="checkbox" name="search" lay-filter="searchSelect" lay-skin="switch" lay-text="是|否">';
+                        }
+                    },
+                    {
+                        field: 'switch', title: 'switch-开关', templet: function (res) {
+                            return '<input type="checkbox" name="switch" lay-filter="switch" lay-skin="switch" lay-text="是|否">';
+                        }
+                    },
                 ]
             ]
             , limit: dataJson.data.length

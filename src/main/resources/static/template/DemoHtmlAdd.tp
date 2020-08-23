@@ -32,7 +32,9 @@
                    parent.layer.close(index);
                    parent.layer.msg(result.msg);
                    //重载表格
-                   parent.xijiaRenderTable(null);
+                   parent.xijiaRenderTable();
+                   // 重载后-刷新分页数据
+                   parent.xijiaLayPage();
         });
 
     });

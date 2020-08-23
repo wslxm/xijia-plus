@@ -225,6 +225,7 @@ public class GenerateUtil extends BaseController {
                         .replace("{entitys}", DsField.FIELD_ENTITYS)
                         .replace("{findPageParam}", DsField.FIND_PAGE_PARAM)
                         .replace("{findPageMybatisPlus}", DsField.FIND_PAGE_MYBATIS_PLUS)
+                        .replace("{swaggerRemark}", DsField.SWAGGER_REMARK)
                         // mapper - xml
                         .replace("{resultMap}", DsField.RESULT_MAP)
                         .replace("{columnList}", DsField.COLUMN_LIST)
