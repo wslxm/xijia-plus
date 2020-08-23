@@ -35,14 +35,15 @@
 
 
 ## 项目展示
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1117/024447_b426895b_2208600.png "屏幕截图.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1117/024625_4836e129_2208600.png "屏幕截图.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1123/164312_6a8e6a2c_2208600.png "屏幕截图.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1123/164615_5679f96f_2208600.png "屏幕截图.png")
-service层通用查询方法，支持任意类各种条件查询，及分页，排序
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1123/164659_80e5ece
-b_2208600.png "屏幕截图.png")
-
+![菜单管理](https://images.gitee.com/uploads/images/2020/0824/003416_67f0845e_2208600.png "屏幕截图.png")
+![用户管理](https://images.gitee.com/uploads/images/2020/0824/003649_366041fa_2208600.png "屏幕截图.png")
+![字典管理](https://images.gitee.com/uploads/images/2020/0824/003721_804ff0cb_2208600.png "屏幕截图.png")
+![接口管理](https://images.gitee.com/uploads/images/2020/0824/003832_7b34376d_2208600.png "屏幕截图.png")
+![菜单权限分配](https://images.gitee.com/uploads/images/2020/0824/003803_c0a7e10e_2208600.png "屏幕截图.png")
+![数据表,代码生成](https://images.gitee.com/uploads/images/2020/0824/003919_71e7253c_2208600.png "屏幕截图.png")
+![代码生成预览](https://images.gitee.com/uploads/images/2020/0824/004742_e68409f5_2208600.png "屏幕截图.png")
+![socket聊天测试](https://images.gitee.com/uploads/images/2020/0824/004826_f35a8b57_2208600.png "屏幕截图.png")
+更多自行访问展示地址
 
 
 
