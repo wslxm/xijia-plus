@@ -53,6 +53,7 @@ public enum RType implements IEnum<Integer> {
     AUTHORITY_JWT_SIGN_ERROR(10002, "JWT签名与本地计算签名不匹配"),
     AUTHORITY_JWT_PARSING_ERROR(10002, "JWT解析错误"),
     AUTHORITY_NO_PERMISSION(10002, "没有权限"),
+    AUTHORITY_NO_TOKEN(10002, "没有TOKEN"),
 
     // 用户
     USER_PASSWORD_ERROR(10003, "原密码错误"),

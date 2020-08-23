@@ -1,7 +1,7 @@
 package com.ws.ldy.config.auth.util;
 
 import com.ws.ldy.common.utils.JsonUtil;
-import com.ws.ldy.modules.admin.model.entity.AdminUser;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.admin.model.vo.AdminUserVO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -31,6 +31,7 @@ public class JwtUtil {
 
     // 用户url权限列表key
     private static final String AUTH_CLAIMS = "auth";
+    private static final String AUTH_USER = "user";
 
     /**
      *   生成token
@@ -40,15 +41,21 @@ public class JwtUtil {
      * @return java.lang.String
      * @date 2020/7/6 0006 9:26
      */
-    public static String createToken(AdminUser user, List<String> auth) {
+    public static String createToken(AdminUserVO userVO) {
+        // 重新赋值权限数据
+        List<String> authList = userVO.getAuthList();
+        // 清除部分数据
+        userVO.setAuthList(null);
+        // 添加权限数据版本号,当发生改变时，直接刷新token信息
+        userVO.setAuthVersion(BaseConstant.Cache.AUTH_VERSION);
         String token = Jwts
                 .builder()
                 // 主题
                 .setSubject(SUBJECT)
                 // TODO 用户信息加密
                 // 添加jwt自定义值
-                .claim(AUTH_CLAIMS, auth)
-                .claim("user", JsonUtil.toJSONStringNoNull(user))
+                .claim(AUTH_CLAIMS, authList)
+                .claim(AUTH_USER, JsonUtil.toJSONStringNoNull(userVO))
                 .setIssuedAt(new Date())
                 // 过期时间
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRITION))
@@ -67,7 +74,7 @@ public class JwtUtil {
     public static AdminUserVO getUser(String token) {
         Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
         // user
-        AdminUserVO user = JsonUtil.parseEntity(claims.get("user").toString(), AdminUserVO.class);
+        AdminUserVO user = JsonUtil.parseEntity(claims.get(AUTH_USER).toString(), AdminUserVO.class);
         // auth
         Object obj = claims.get(AUTH_CLAIMS);
         List list = obj == null ? null : JsonUtil.parseList(JsonUtil.toJSONString(obj));

@@ -1,5 +1,6 @@
 package com.ws.ldy.config.auth;
 
+import com.ws.ldy.modules.admin.service.AdminAuthorityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,6 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private HandlerExceptionResolver resolver;
 
 
+    @Autowired
+    private AdminAuthorityService adminAuthorityService;
+
     // 认证，不需要使用它的认证方法，使用自己的 Login接口authenticationProvider
 
     /**
@@ -50,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // eiur.antMatchers(uri).permitAll();
 
         // 设置登录/ 授权过滤器
-        eiur.and().addFilter(new JWTValidFilter(authenticationManager(), resolver));
+        eiur.and().addFilter(new JWTValidFilter(authenticationManager(), resolver,adminAuthorityService));
         // 剔除 session
         eiur.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // 开启跨域访问

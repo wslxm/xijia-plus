@@ -58,23 +58,20 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "添加", notes = "")
-    public R<Void> insert(@RequestBody AdminRoleDTO adminRoleDto) {
-        baseService.save(adminRoleDto.convert(AdminRole.class));
-        return R.successInsert();
+    public R<Boolean> insert(@RequestBody AdminRoleDTO adminRoleDto) {
+        return R.successUpdate(baseService.save(adminRoleDto.convert(AdminRole.class)));
     }
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "ID编辑", notes = "")
-    public R<Void> upd(@RequestBody AdminRoleDTO adminRoleDto) {
-        baseService.updateById(adminRoleDto.convert(AdminRole.class));
-        return R.successUpdate();
+    public R<Boolean> upd(@RequestBody AdminRoleDTO adminRoleDto) {
+        return R.successUpdate(baseService.updateById(adminRoleDto.convert(AdminRole.class)));
     }
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation(value = "ID删除", notes = "")
-    public R<Void> del(@RequestParam String id) {
-        baseService.removeById(id);
-        return R.successDelete();
+    public R<Boolean> del(@RequestParam String id) {
+        return R.successDelete(baseService.removeById(id));
     }
 
 
@@ -93,24 +90,32 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
 
     @RequestMapping(value = "/updUserRole", method = RequestMethod.PUT)
     @ApiOperation(value = "用户的角色分配", notes = "")
-    public R<Void> updUserRole(@RequestParam String userId, String[] roleIds) {
-        boolean result = baseService.updUserRole(userId, roleIds);
-        return R.successUpdate();
+    public R<Boolean> updUserRole(@RequestParam String userId, String[] roleIds) {
+        if (baseService.updUserRole(userId, roleIds)) {
+            // 刷新登录中的用户角色 -> 角色权限
+            BaseConstant.Cache.AUTH_VERSION++;
+            return R.successUpdate(true);
+        } else {
+            return R.successUpdate(false);
+        }
     }
-
-
-    @RequestMapping(value = "/updRoleMenu", method = RequestMethod.PUT)
-    @ApiOperation(value = "角色的菜单分配", notes = "")
-    public R<Void> updRoleMenu(@RequestParam String roleId, String[] menuIds) {
-        baseService.roleMenuAuth(roleId, menuIds);
-        return R.successUpdate();
-    }
-
 
     @RequestMapping(value = "/updRoleAuth", method = RequestMethod.PUT)
     @ApiOperation(value = "角色的URL权限分配", notes = "")
-    public R<Void> updRoleAuth(@RequestParam String roleId, String[] authIds) {
-        baseService.roleUrlAuth(roleId, authIds);
-        return R.successUpdate();
+    public R<Boolean> updRoleAuth(@RequestParam String roleId, String[] authIds) {
+        if (baseService.roleUrlAuth(roleId, authIds)) {
+            // 刷新登录中的用户权限
+            BaseConstant.Cache.AUTH_VERSION++;
+            return R.successUpdate(true);
+        } else {
+            return R.successUpdate(false);
+        }
+    }
+
+    @RequestMapping(value = "/updRoleMenu", method = RequestMethod.PUT)
+    @ApiOperation(value = "角色的菜单分配", notes = "")
+    public R<Boolean> updRoleMenu(@RequestParam String roleId, String[] menuIds) {
+        // 菜单每次都是重新请求接口获取的,不用做任何配置
+        return R.successUpdate(baseService.roleMenuAuth(roleId, menuIds));
     }
 }

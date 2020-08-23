@@ -46,8 +46,11 @@ public class AdminUserVO extends BaseVo {
     private LocalDateTime entTime;
     @ApiModelProperty(value = "是否选中（角色是否有改用户，前台复选框默认选中需要值）")
     private Boolean isChecked;
-    @ApiModelProperty(value = "用户权限")
+
+    @ApiModelProperty(value = "权限数据版本号-后台刷新用户信息使用")
+    Integer version;
+    @ApiModelProperty(value = "用户信息版本号-后台刷新权限数据使用")
+    Integer authVersion;
+    @ApiModelProperty(value = "用户权限-后台生成token，刷新token等使用")
     List<String> authList;
-
-
 }

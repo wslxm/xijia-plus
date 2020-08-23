@@ -1,17 +1,17 @@
 package com.ws.ldy.config.auth;
 
 import com.ws.ldy.common.result.RType;
-import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
-import com.ws.ldy.modules.admin.model.entity.AdminUser;
 import com.ws.ldy.modules.admin.model.vo.AdminUserVO;
+import com.ws.ldy.modules.admin.service.AdminAuthorityService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -39,14 +39,20 @@ public class JWTValidFilter extends BasicAuthenticationFilter {
     // 异常处理类
     private HandlerExceptionResolver resolver;
 
+
+    // 权限server
+    private AdminAuthorityService adminAuthorityService;
+
     /**
      * SecurityConfig 配置中创建该类实例
      */
-    public JWTValidFilter(AuthenticationManager authenticationManager, HandlerExceptionResolver resolver) {
+    public JWTValidFilter(AuthenticationManager authenticationManager, HandlerExceptionResolver resolver, AdminAuthorityService adminAuthorityService) {
         // 获取授权管理
         super(authenticationManager);
         // 获取异常处理类
         this.resolver = resolver;
+        // 获取权限server
+        this.adminAuthorityService = adminAuthorityService;
     }
 
 
@@ -87,18 +93,18 @@ public class JWTValidFilter extends BasicAuthenticationFilter {
             // 0- 无需登录
         } else if (adminAuthority.getState().equals(Enums.Admin.AuthorityState.AUTHORITY_STATE_1.getValue())) {
             // 1- 需登录
-            AdminUserVO userVO = this.loginVerification(request, response);
+            AdminUserVO userVO = this.getUserAndTokenCheck(request, response);
             if (userVO == null) {
                 return;
             }
             this.refreshToken(response, userVO);
         } else if (adminAuthority.getState().equals(Enums.Admin.AuthorityState.AUTHORITY_STATE_2.getValue())) {
             // 2- 需登录+授权
-            AdminUserVO userVO = this.loginVerification(request, response);
+            AdminUserVO userVO = this.getUserAndTokenCheck(request, response);
             if (userVO == null) {
                 return;
             }
-            if (!userVO.getAuthList().contains(request.getRequestURI())) {
+            if (userVO.getAuthList() == null || !userVO.getAuthList().contains(request.getRequestURI())) {
                 resolver.resolveException(request, response, null, new ErrorException(RType.AUTHORITY_NO_PERMISSION));
                 return;
             }
@@ -115,9 +121,14 @@ public class JWTValidFilter extends BasicAuthenticationFilter {
      * @param response
      * @return
      */
-    public AdminUserVO loginVerification(HttpServletRequest request, HttpServletResponse response) {
+    public AdminUserVO getUserAndTokenCheck(HttpServletRequest request, HttpServletResponse response) {
         try {
-            return JwtUtil.getUser(request.getHeader(BaseConstant.Sys.TOKEN));
+            String token = request.getHeader(BaseConstant.Sys.TOKEN);
+            if (StringUtils.isNotBlank(token)) {
+                return JwtUtil.getUser(token);
+            }
+            //没有token
+            resolver.resolveException(request, response, null, new ErrorException(RType.AUTHORITY_NO_TOKEN));
         } catch (SignatureException ex) {
             resolver.resolveException(request, response, null, new ErrorException(RType.AUTHORITY_JWT_SIGN_ERROR));
         } catch (ExpiredJwtException ex) {
@@ -128,21 +139,23 @@ public class JWTValidFilter extends BasicAuthenticationFilter {
         return null;
     }
 
+
     /**
-     * 重新生成token，每次的有效请求接口都将刷新 Token(同时刷新有效期 和 用户当前权限)
+     * 重新生成token，每次的有效请求接口都将刷新 Token(同时刷新有效期 和 用户当前权限), 获取原数据 AdminUserVO userVo = JwtUtil.getUser(request.getHeader(BaseConstant.Sys.TOKEN));
      * @param response
      * @param userVo
      * @return
      */
     public void refreshToken(HttpServletResponse response, AdminUserVO userVo) {
-        // 获取原数据
-        //AdminUserVO userVo = JwtUtil.getUser(request.getHeader(BaseConstant.Sys.TOKEN));
-        // 用户数据
-        AdminUser adminUser = BeanDtoVoUtil.convert(userVo, AdminUser.class);
-        // 权限数据
-        List<String> authList = userVo.getAuthList();
-        // 生成token
-        String newToken = JwtUtil.createToken(adminUser, authList);
+        // 判断用户的角色权限数据是否发生改变, 如果发生改变了实时刷新用户权限，（角色分配权限时 AUTH_VERSION会++）
+        if (!BaseConstant.Cache.AUTH_VERSION.equals(userVo.getAuthVersion())) {
+            List<String> authorityList = adminAuthorityService.findByUserIdaAndDisableFetchAuthority(userVo.getId());
+            userVo.setAuthList(authorityList);
+            userVo.setAuthVersion(BaseConstant.Cache.AUTH_VERSION);
+            log.info("用户ID:[{}] 用户名:[{}] 的权限数据已刷新", userVo.getId(), userVo.getFullName());
+        }
+        // 重新生成token
+        String newToken = JwtUtil.createToken(userVo);
         // 放入Header
         response.setHeader(BaseConstant.Sys.TOKEN, newToken);
     }
