@@ -94,7 +94,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     public Boolean upd(@RequestBody UserAdminDTO userAdminDto) {
         AdminUser adminUser = this.getById(userAdminDto.getId());
         //判重账号
-        if(!adminUser.getUsername().equals(userAdminDto.getUsername())){
+        if (!adminUser.getUsername().equals(userAdminDto.getUsername())) {
             if (this.count(new LambdaUpdateWrapper<AdminUser>()
                     .eq(AdminUser::getUsername, userAdminDto.getUsername())
                     .eq(AdminUser::getDeleted, Enums.Base.Deleted.DELETED_0.getValue())
@@ -103,7 +103,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
             }
         }
         //判重电话
-        if(!adminUser.getPhone().equals(userAdminDto.getPhone())) {
+        if (!adminUser.getPhone().equals(userAdminDto.getPhone())) {
             if (this.count(new LambdaUpdateWrapper<AdminUser>()
                     .eq(AdminUser::getPhone, userAdminDto.getPhone())
                     .eq(AdminUser::getDeleted, Enums.Base.Deleted.DELETED_0.getValue())
@@ -113,7 +113,9 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         }
         this.updateById(userAdminDto.convert(AdminUser.class));
         //分配角色
-        adminRoleService.updUserRole(userAdminDto.getId(), userAdminDto.getRoles());
+        if (userAdminDto.getRoles() != null) {
+            adminRoleService.updUserRole(userAdminDto.getId(), userAdminDto.getRoles());
+        }
         return true;
     }
 
@@ -175,6 +177,6 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
             throw new ErrorException(RType.LOGIN_ERROR_USER_PASSWORD);
         }
         //绑定
-        return this.update(new LambdaUpdateWrapper<AdminUser>().eq(AdminUser::getWxOpenId,openId));
+        return this.update(new LambdaUpdateWrapper<AdminUser>().eq(AdminUser::getWxOpenId, openId));
     }
 }
