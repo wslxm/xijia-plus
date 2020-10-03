@@ -1,8 +1,8 @@
 package com.ws.ldy.others.websocket.model.vo;
 
-import com.ws.ldy.others.base.model.Convert;
-import com.ws.ldy.others.websocket.service.impl.WebsocketServiceImpl;
 import com.ws.ldy.common.utils.LocalDateTimeUtil;
+import com.ws.ldy.others.base.model.Convert;
+import com.ws.ldy.others.websocket.server.WebsocketServer;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -55,7 +55,6 @@ public class SendMsgVO extends Convert {
 //     */
 //    private Integer msgType;
 
-
     /**
      * @param mesType  消息类型(1-上线通知 2-下线通知 3-在线名单通知  4-代表普通消息通知 )
      * @param from     发送人Id(来源Id),上下线为上线人的用户id
@@ -71,7 +70,7 @@ public class SendMsgVO extends Convert {
         this.to = to;
         this.content = content;
         this.extras = extras;
-        this.onlineNum = WebsocketServiceImpl.onlineNumber.intValue();
+        this.onlineNum = WebsocketServer.clients.size();
         this.createTime = LocalDateTimeUtil.parse(LocalDateTime.now());
     }
 }

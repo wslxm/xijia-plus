@@ -1,6 +1,7 @@
 package com.ws.ldy.modules.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.R;
@@ -14,15 +15,12 @@ import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.admin.model.dto.UserAdminDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminUser;
 import com.ws.ldy.modules.admin.model.vo.AdminUserVO;
-import com.ws.ldy.modules.admin.service.AdminAuthorityService;
 import com.ws.ldy.modules.admin.service.AdminUserService;
 import com.ws.ldy.others.base.controller.BaseController;
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,36 +37,61 @@ import java.util.List;
 public class AdminUserController extends BaseController<AdminUserService> {
 
 
-    //权限
-    @Autowired
-    private AdminAuthorityService adminAuthorityService;
-
-
     @RequestMapping(value = "/findUser", method = RequestMethod.GET)
     @ApiOperation("个人信息")
     public R<AdminUserVO> findUser() {
-        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(JwtUtil.getUser(request.getHeader(BaseConstant.Sys.TOKEN)).getId()), AdminUserVO.class));
+        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(JwtUtil.getAdminUser(request.getHeader(BaseConstant.Sys.TOKEN)).getId()), AdminUserVO.class));
     }
 
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
     @ApiOperation(value = "分页查询", notes = "")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query", example = "1"),
-            @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query", example = "20"),
+            @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
+            @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),
     })
     public R<IPage<AdminUserVO>> findPage(
             @ApiParam(value = "数据Id", required = false) @RequestParam(required = false) Integer id,
             @ApiParam(value = "账号/手机号", required = false) @RequestParam(required = false) String username,
-            @ApiParam(value = "姓名/用户名", required = false) @RequestParam(required = false) String fullName) {
+            @ApiParam(value = "姓名/用户名", required = false) @RequestParam(required = false) String fullName,
+            @ApiParam(value = "职位:字典code 0=系统用户 1=销售", required = false) @RequestParam(required = false) Integer position,
+            @ApiParam(value = "禁用(字典code )", required = false) @RequestParam(required = false) Integer disable) {
         Page<AdminUser> page = baseService.page(this.getPage(), new LambdaQueryWrapper<AdminUser>()
                 .orderByDesc(AdminUser::getCreateTime)
                 .eq(id != null, AdminUser::getId, id)
                 .eq(StringUtils.isNotBlank(fullName), AdminUser::getFullName, fullName)
+                .eq(position != null, AdminUser::getPosition, position)
+                .eq(disable != null, AdminUser::getDisable, disable)
                 .like(StringUtils.isNotBlank(username), AdminUser::getUsername, username)
         );
         return R.success(BeanDtoVoUtil.pageVo(page, AdminUserVO.class));
     }
+
+
+    @RequestMapping(value = "/findListByPosition", method = RequestMethod.GET)
+    @ApiOperation(value = "根据职位查询未禁用的列表(字典code) , 默认查询所有销售人员", notes = "")
+    public R<List<AdminUserVO>> findListByPosition(Integer position) {
+        if (position == null) {
+            position = Enums.Admin.AdminUserPosition.ADMIN_USER_POSITION_1.getValue();
+        }
+        List<AdminUser> list = baseService.list(new LambdaQueryWrapper<AdminUser>()
+                .orderByDesc(AdminUser::getCreateTime)
+                .eq(AdminUser::getPosition, position)
+                .eq(AdminUser::getDisable, Enums.Base.Disable.DISABLE_0.getValue())
+        );
+        return R.success(BeanDtoVoUtil.listVo(list, AdminUserVO.class));
+    }
+
+
+    @RequestMapping(value = "/findId", method = RequestMethod.GET)
+    @ApiOperation(value = "ID查询", notes = "")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户Id", required = false, paramType = "query"),
+    })
+    public R<AdminUserVO> findId(@RequestParam String id) {
+        return R.success(baseService.findId(id));
+    }
+
 
     @RequestMapping(value = "/findByRoleId", method = RequestMethod.GET)
     @ApiOperation(value = "获取指定角色的用户列表", notes = "查询所有用户")
@@ -82,48 +105,54 @@ public class AdminUserController extends BaseController<AdminUserService> {
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "添加", notes = "")
-    public R<Void> insert(@RequestBody UserAdminDTO userAdminDto) {
-        AdminUser adminUser = userAdminDto.convert(AdminUser.class);
-        adminUser.setPassword(MD5Util.encode(adminUser.getPassword()));
-        adminUser.setDisable(0); //默认启用状态
-        adminUser.setRegTime(LocalDateTime.now());
-        baseService.save(adminUser);
-        return R.success();
+    public R<Boolean> insert(@RequestBody UserAdminDTO dto) {
+        if (StringUtils.isNotBlank(dto.getId())) {
+            throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
+        }
+        return R.success(baseService.insert(dto));
     }
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation("ID编辑")
-    public R<Void> upd(@RequestBody UserAdminDTO userAdminDto) {
-        baseService.updateById(userAdminDto.convert(AdminUser.class));
-        return R.successUpdate();
+    public R<Boolean> upd(@RequestBody UserAdminDTO dto) {
+        if (StringUtils.isBlank(dto.getId())) {
+            throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
+        }
+        return R.successUpdate(baseService.upd(dto));
     }
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation(value = "ID删除", notes = "")
-    public R<Void> del(@RequestParam String id) {
-        baseService.removeById(id);
-        return R.successDelete();
+    public R<Boolean> del(@RequestParam String id) {
+        return R.successDelete(baseService.removeById(id));
     }
 
 
     @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
     @ApiOperation(value = "批量ID删除", notes = "")
-    public R<Void> delByIds(@RequestParam String[] ids) {
-        baseService.removeByIds(Arrays.asList(ids));
-        return R.successDelete();
+    public R<Boolean> delByIds(@RequestParam String[] ids) {
+        return R.successDelete(baseService.removeByIds(Arrays.asList(ids)));
+    }
+
+
+    @RequestMapping(value = "/updResetPassword", method = RequestMethod.PUT)
+    @ApiOperation(value = "重置任意用户密码", notes = "")
+    public R<Boolean> updResetPassword(@RequestParam String id, @RequestParam String password) {
+        return R.successUpdate(baseService.update(new LambdaUpdateWrapper<AdminUser>()
+                .set(AdminUser::getPassword, MD5Util.encode(password))
+                .eq(AdminUser::getId, id)));
     }
 
 
     @RequestMapping(value = "/updByPassword", method = RequestMethod.PUT)
-    @ApiOperation(value = "密码修改", notes = "判断原密码是否正确,不正确返回错误信息msg ,正确直接修改,密码进行MD5加密 --> val(前端输入密码值)+盐(后端规则指定)=最终密码）")
-    public R<Void> updByPassword(@RequestParam String oldPassword, @RequestParam String password) {
-        AdminUser adminUser = baseService.getById(JwtUtil.getUser(request.getHeader(BaseConstant.Sys.TOKEN)).getId());
+    @ApiOperation(value = "当前登录用户密码修改", notes = "判断原密码是否正确,不正确返回错误信息msg ,正确直接修改,密码进行MD5加密 --> val(前端输入密码值)+盐(后端规则指定)=最终密码）")
+    public R<Boolean> updByPassword(@RequestParam String oldPassword, @RequestParam String password) {
+        AdminUser adminUser = baseService.getById(JwtUtil.getAdminUser(request.getHeader(BaseConstant.Sys.TOKEN)).getId());
         if (adminUser.getPassword().equals(MD5Util.encode(oldPassword))) {
             adminUser.setPassword(MD5Util.encode(password));
-            baseService.updateById(adminUser);
-            return R.successUpdate();
+            return R.successUpdate(baseService.updateById(adminUser));
         } else {
             return R.error(RType.USER_PASSWORD_ERROR);
         }
@@ -141,36 +170,19 @@ public class AdminUserController extends BaseController<AdminUserService> {
     @ApiOperation("登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "账号", required = false, paramType = "query"),
-            @ApiImplicitParam(name = "password", value = "密码", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "username", value = "账号/手机号", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query"),
     })
-    public R<Void> login(@RequestParam String username, @RequestParam String password) {
-        // 1、判断账号
-        AdminUser user = baseService.getOne(new LambdaQueryWrapper<AdminUser>().eq(AdminUser::getUsername, username));
-        if (user == null) {
-            throw new ErrorException(RType.LOGIN_IS_NO_ACCOUNT);
-        }
-        // 2、判断密码
-        if (!user.getPassword().equals(MD5Util.encode(password))) {
-            throw new ErrorException(RType.LOGIN_ERROR_USER_PASSWORD);
-        }
-        // 3、判断禁用
-        if (!user.getDisable().equals(Enums.Base.Disable.DISABLE_0.getValue())) {
-            throw new ErrorException(RType.LOGIN_IS_NO_DISABLE);
-        }
-        // 登录成功
-        AdminUserVO userVO = user.convert(AdminUserVO.class);
-        // 4、获取权限列表,保存权限-未禁用,管理端(登录+认证的)
-        List<String> authList = adminAuthorityService.findByUserIdaAndDisableFetchAuthority(user.getId());
-        userVO.setAuthList(authList);
-        // 5、生成jwt
-        String jwtToken = JwtUtil.createToken(userVO);
-        response.setHeader(BaseConstant.Sys.TOKEN, jwtToken);
-        // 6、刷新登录时间
-        AdminUser updAdminUser = new AdminUser();
-        updAdminUser.setId(user.getId());
-        updAdminUser.setEntTime(LocalDateTime.now());
-        baseService.updateById(updAdminUser);
-        return R.success();
+    public R<Boolean> login(@RequestParam String username, @RequestParam String password) {
+        baseService.login(username, password);
+        return R.success(true);
     }
+
+
+    @RequestMapping(value = "/bindWeChatMq", method = RequestMethod.POST)
+    @ApiOperation(value = "微信公众号openId绑定", notes = "")
+    public R<Boolean> bindWeChatMq(@RequestParam String username, @RequestParam String password, @RequestParam String openId) {
+        return R.success(baseService.bindWeChatMq(username, password, openId));
+    }
+
 }

@@ -27,7 +27,7 @@ import java.util.List;
 @SuppressWarnings({"all"})
 @RestController
 @RequestMapping("/dataBase")
-@Api(value = "DataBaseController", tags = "数据库表查询", consumes = BaseConstant.InterfaceType.PC_ADMIN)
+@Api(value = "DataBaseController", tags = "v-1.0 -- 代码生成 --> 查询数据库表数据", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class DataBaseController extends BaseController<DataBaseService> {
 
 
@@ -51,7 +51,7 @@ public class DataBaseController extends BaseController<DataBaseService> {
                 tableFieldVO.setIsChecked(true);
             }
             // 判断空串
-            if ("CURRENT_TIMESTAMP".equals(tableFieldVO.getDefaultVal())) {
+            if ("CURRend_timeSTAMP".equals(tableFieldVO.getDefaultVal())) {
                 tableFieldVO.setDefaultVal("当前时间");
             }
         }

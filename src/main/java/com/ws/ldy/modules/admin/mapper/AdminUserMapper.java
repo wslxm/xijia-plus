@@ -9,8 +9,6 @@ import java.util.List;
 public interface AdminUserMapper extends BaseMapper<AdminUser> {
 
 
-
-
     /**
      * 根据角色Id查询指定用户信息
      * @author wangsong

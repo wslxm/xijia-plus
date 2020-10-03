@@ -6,6 +6,7 @@ import com.ws.ldy.others.generatecode.model.vo.TableFieldVO;
 import com.ws.ldy.others.generatecode.model.vo.TableVO;
 import com.ws.ldy.others.generatecode.service.DataBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,11 @@ import java.util.List;
  */
 @Service
 public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseService {
+
+    private static String dbName = "yabei";
+
+    @Value("${spring.datasource.dynamic.datasource.db1.url}")
+    private String dbUrl;
 
     @Autowired
     private DataBaseMapper dataBaseMapper;
@@ -36,7 +42,7 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
 //            respTableMap.put("comment", tableMap.get("TABLE_COMMENT"));
 //            respTableList.add(respTableMap);
 //        });
-        return dataBaseMapper.findTable("spring-boot-plus2");
+        return dataBaseMapper.findTable(getDbName());
     }
 
     /**
@@ -54,6 +60,21 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
 //                " and table_schema='spring-boot-plus2'" +
 //                " order by ordinal_position asc";//和数据库字段顺序对应
 //        List<Map<String, Object>> tables = jdbcTemplate.queryForList(sql);
-        return dataBaseMapper.findTableField(table, "spring-boot-plus2");
+        return dataBaseMapper.findTableField(table, getDbName());
+    }
+
+
+    /**
+     * 获取数据库名称
+     * @author wangsong
+     * @date 2020/10/3 0003 10:41
+     * @return java.lang.String
+     * @version 1.0.0
+     */
+    private String getDbName() {
+        int endIndex = dbUrl.indexOf("?");
+        int startIndex = dbUrl.lastIndexOf("/");
+        String dbName = dbUrl.substring(startIndex+1, endIndex );
+        return dbName;
     }
 }

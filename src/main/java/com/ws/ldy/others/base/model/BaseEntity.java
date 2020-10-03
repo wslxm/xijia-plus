@@ -2,6 +2,7 @@ package com.ws.ldy.others.base.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.Version;
 import lombok.Data;
 
@@ -43,7 +44,7 @@ public class BaseEntity extends Convert {
     /**
      * 逻辑删除字段 int 默认值为0，(0、正常，1、删除) (mybatis-plus 策略, 添加了 @TableLogic 注解自动为逻辑删除)
      */
-    //@TableLogic
+    @TableLogic
     private Integer deleted;
     /**
      * 乐观锁(mybatis-plus 策略, 使用id修改自动带版本号修改数据，version版本号如不同修改数据失败返回 0)

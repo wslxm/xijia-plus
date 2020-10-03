@@ -9,7 +9,7 @@ import java.net.URLEncoder;
 import java.util.*;
 
 /**
- *     参数验签工具类
+ *  参数验签工具类
  *
  * @author ws
  * @mail 1720696548@qq.com

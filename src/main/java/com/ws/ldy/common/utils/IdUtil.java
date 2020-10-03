@@ -3,6 +3,9 @@ package com.ws.ldy.common.utils;
 import com.ws.ldy.common.utils.id.SnowflakeIdUtil;
 import com.ws.ldy.common.utils.id.UUIDUtil;
 
+import java.util.Calendar;
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * Id 生成工具类
  * @author wangsong
@@ -28,4 +31,20 @@ public class IdUtil {
     public static String uuid() {
         return UUIDUtil.creatUUID();
     }
+
+    /**
+     * uuid
+     * @return
+     */
+    private static final AtomicLong AUTO_INCREMENT = new AtomicLong(1);
+
+    public static String ybCodeNo() {
+        String id = Long.toString(Calendar.getInstance().getTime().getTime() + AUTO_INCREMENT.getAndIncrement()).substring(1);
+        return "YB-" + id;
+    }
+
+    public static String generateNo() {
+        return Long.toString(Calendar.getInstance().getTime().getTime() + AUTO_INCREMENT.getAndIncrement()).substring(1);
+    }
+
 }

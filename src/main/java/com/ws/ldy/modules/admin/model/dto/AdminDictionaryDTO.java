@@ -38,7 +38,5 @@ public class AdminDictionaryDTO extends BaseDto {
     @ApiModelProperty(value = "禁用（0-否，1-是）")
     private Integer disable;
 
-
-
 }
 

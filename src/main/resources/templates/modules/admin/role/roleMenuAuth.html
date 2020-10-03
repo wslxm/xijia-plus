@@ -279,10 +279,11 @@
             menuIds[i] = checkData.data[i].id
         }
         // 拼接数据并修改
-        let params = "";
-        params += "?roleId=" + roleId;
-        params += "&menuIds=" + menuIds;
-        let result = Ajax.put(updRoleMenu + params);
+        let data = {
+            roleId: roleId,
+            menuIds: menuIds
+        };
+        let result = Ajax.put(updRoleMenu , data);
         layer.msg(result.msg + " 当前角色拥有菜单：" + checkData.data.length + "个 ")
     }
 </script>

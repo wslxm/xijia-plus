@@ -1,6 +1,5 @@
 package com.ws.ldy.config.aspect;
 
-import com.ws.ldy.common.utils.JsonUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -64,6 +63,8 @@ public class LogAspect {
         RequestAttributes ra = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes sra = (ServletRequestAttributes) ra;
         HttpServletRequest request = sra.getRequest();
+        // 获取域名
+        String serverName = request.getServerName();
         // 获取用户真实ip
         String ip = getIpAddress(request);
         // 请求行中的接口名称
@@ -98,7 +99,7 @@ public class LogAspect {
                 port,
                 String.format("%-65s", className),
                 String.format("%-65s", url),
-                String.format("%-50s", JsonUtil.toJSONString(args)),
+                args,
                 classDesc,
                 methodDesc
         );

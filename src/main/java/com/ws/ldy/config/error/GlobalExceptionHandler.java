@@ -5,6 +5,7 @@ import com.ws.ldy.common.result.RType;
 import com.ws.ldy.others.base.controller.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -124,17 +125,53 @@ public class GlobalExceptionHandler extends BaseController {
             String parameterType = ((MissingServletRequestParameterException) e).getParameterType();
             String errorMsg = RType.PARAM_MISSING.getMsg() + "  --> 【 " + parameterName + ":" + parameterType + "】  --->  详细错误信息:" + e.getMessage();
             log.info(logStr + errorMsg);
-            return R.error(RType.PARAM_MISSING, errorMsg);
+            //  返回前端提示name参数:类型 类型参数未传递
+            return R.error(RType.PARAM_MISSING.getValue(), parameterName + ":" + parameterType + RType.PARAM_MISSING.getValue(), errorMsg);
         } else if (e instanceof MethodArgumentTypeMismatchException) {
             /**
-             * 方法参数类型不匹配mvc
+             * 方法参数类型不匹配 mvc
              */
             MethodParameter parameter = ((MethodArgumentTypeMismatchException) e).getParameter();
             String name = ((MethodArgumentTypeMismatchException) e).getName();
             Class<?> requiredType = ((MethodArgumentTypeMismatchException) e).getRequiredType();
             String errorMsg = RType.PARAM_TYPE_DOES_NOT_MATCH.getMsg() + "  --> 【 " + name + " : " + requiredType + "】  --->  详细错误信息:" + e.getMessage();
             log.info(logStr + errorMsg);
-            return R.error(RType.PARAM_TYPE_DOES_NOT_MATCH, errorMsg);
+            //  返回前端提示name参数:类型 参数不匹配
+            return R.error(RType.PARAM_TYPE_DOES_NOT_MATCH.getValue(), name + ":" + requiredType + RType.PARAM_TYPE_DOES_NOT_MATCH.getMsg(), errorMsg);
+        } else if (e instanceof DataIntegrityViolationException) {
+            /**
+             * 保存到数据库DB相关错误
+             */
+            DataIntegrityViolationException e1 = (DataIntegrityViolationException) e;
+            String message = e1.getMessage();
+            if (message.indexOf("doesn't have a default value") != -1) {
+                /**
+                 * 数据没有默认值
+                 * Field 'name' doesn't have a default value; nested exception is java.sql.SQLException: Field 'name' doesn't have a default value
+                 */
+                // 获取到数据库错误字段name
+                int indexStart = message.indexOf("'");
+                int indexEnd = message.indexOf("'", indexStart + 1);
+                String name = message.substring(indexStart + 1, indexEnd);
+                String errorMsg = RType.PARAM_SAVE_TO_DB_MISSING.getMsg() + "  --> 【 " + name + " : " + name + "】  --->  详细错误信息:" + e.getMessage();
+                log.info(logStr + errorMsg);
+                // 返回前端提示name参数不存在
+                return R.error(RType.PARAM_SAVE_TO_DB_MISSING.getValue(), name + RType.PARAM_SAVE_TO_DB_MISSING.getMsg(), errorMsg);
+            } else if (message.indexOf("for key 'PRIMARY'") != -1) {
+                /**
+                 * 主键ID重复
+                 * ### Cause: java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'string' for key 'PRIMARY'
+                 */
+                String errorMsg = RType.PARAM_SAVE_TO_DB_ID_REPEAT.getMsg();
+                log.info(logStr + message);
+                return R.error(RType.PARAM_SAVE_TO_DB_ID_REPEAT, message);
+            } else {
+                /**
+                 * 执行sql时的其他错误
+                 */
+                log.info(logStr + message);
+                return R.error(RType.DB_EXECUTE_SQL_ERROR, message);
+            }
         } else {
             /**
              *  未解析到的错误（打印及返回完整错误信息）

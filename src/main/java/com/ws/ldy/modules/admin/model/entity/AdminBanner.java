@@ -1,16 +1,12 @@
 package com.ws.ldy.modules.admin.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ws.ldy.others.base.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
-
-import java.time.LocalDateTime;
 
 /**
  * banner表
@@ -28,7 +24,11 @@ import java.time.LocalDateTime;
 public class AdminBanner extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
-    
+
+    @ApiModelProperty(notes = "banner位置(字典code) " ,position = 0)
+    @TableField(value = "position")
+    private Integer position;
+
     @ApiModelProperty(notes = "banner标题" ,position = 0)
     @TableField(value = "`name`")
     private String name;
@@ -46,7 +46,7 @@ public class AdminBanner extends BaseEntity {
     private Integer sort;
 
     @ApiModelProperty(notes = "banner禁用(0-启用 1-禁用)" ,position = 4)
-    @TableField(value = "disable")
+    @TableField(value = "`disable`")
     private Integer disable;
 
     @ApiModelProperty(notes = "是否跳转(0-无  1-内部链接 2-外部链接)" ,position = 5)

@@ -12,26 +12,24 @@
 
     <groupId>com.ws.ldy</groupId>
     <artifactId>xijia-server</artifactId>
-    <version>0.0.2-RELEASE</version>
+    <version>${revision}-RELEASE</version>
     <name>xijia-server-${revision}</name>
     <packaging>jar</packaging>
     <description>Demo project for Spring Boot</description>
 
     <properties>
+        <!-- 系统版本号 -->
+        <revision>0.0.5</revision>
         <!-- 文件拷贝时的编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- 编译时的编码 -->
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <!-- jdk 版本-->
+        <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
-        <java.version>1.8</java.version>
-
-        <!-- 系统版本号 -->
-        <revision>0.0.5</revision>
-        <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
@@ -56,7 +54,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.3.0</version>
+            <version>3.1.0</version>
         </dependency>
         <!-- 代码生成插件 mybatis-plus-generator-->
         <dependency>
@@ -200,6 +198,36 @@
             <artifactId>aliyun-java-sdk-core</artifactId>
             <version>4.5.1</version>
         </dependency>
+        <!-- zuul 实现类似于nginx的转发功能,进行oss内网访问 -->
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-zuul -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+            <version>2.2.0.RELEASE</version>
+        </dependency>
+        <!-- excel2003使用的包 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <!-- excel2007+使用的包 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml-schemas</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <!-- 微信公众号 WxJava 开源sdk包 -->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>3.9.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -223,6 +251,12 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
         </profile>
         <profile>
             <id>pro</id>

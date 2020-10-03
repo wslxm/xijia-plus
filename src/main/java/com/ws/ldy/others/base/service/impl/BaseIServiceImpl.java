@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  * @WX-QQ 1720696548
  * @date 2019/10/31 21:12
  */
+@SuppressWarnings("all")
 @Slf4j
-//public class BaseIServiceImpl<M extends BaseMapper<T>, T> implements BaseIService<M, T> {
 public class BaseIServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
 
     /**
@@ -30,6 +31,12 @@ public class BaseIServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     protected HttpServletRequest request;
     @Autowired
     protected HttpServletResponse response;
+
+    /**
+     * rpc工具,可以直接发起http请求
+     */
+    @Autowired
+    protected RestTemplate restTemplate;
     /**
      * execute：可以执行所有SQL语句，没有返回值, 一般用于执行DDL语句。
      * update：用于执行INSERT、UPDATE、DELETE等DML语句。
@@ -38,9 +45,9 @@ public class BaseIServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     @Autowired
     protected JdbcTemplate jdbcTemplate;
     /**
-     * this = 当前继承BaseIServiceImpl+T 类的 Iservice类 （baseMapper增强, 提供批量操作方法）
+     * this = 当前继承BaseIServiceImpl+T 类的 Iservice类 （对 baseMapper 进行增强, 提供批量操作方法）
      */
-    // protected this
+    //protected this;
 }
 
 

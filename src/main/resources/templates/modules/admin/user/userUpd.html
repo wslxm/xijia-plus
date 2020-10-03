@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/components/treetable-lay/assets/layui/css/layui.css">
     <script src="/components/layuiadmin/layui/layui.js"></script>
     <script src='/base/js/jquery-3.4.1.js'></script>
+    <script src='/base/js/Convert_Pinyin.js'></script>
     <script src="/base/js/app.js"></script>
 </head>
 <body>
@@ -29,7 +30,13 @@
             头像必须小于 200KB
         </font>
     </div>
-
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-inline">
+            <input type="text" id="fullName" name="fullName" lay-verify="required" onkeyup="updUsername()" placeholder="请输入" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
     <div class="layui-form-item">
         <label class="layui-form-label">账号</label>
         <div class="layui-input-inline">
@@ -37,26 +44,27 @@
                    class="layui-input">
         </div>
     </div>
-<!--    <div class="layui-form-item">-->
-<!--        <label class="layui-form-label">密码</label>-->
-<!--        <div class="layui-input-inline">-->
-<!--            <input type="text" id="password" name="password" lay-verify="required" placeholder="请输入" autocomplete="off"-->
-<!--                   class="layui-input">-->
-<!--        </div>-->
-<!--    </div>-->
     <div class="layui-form-item">
-        <label class="layui-form-label">姓名</label>
+        <label class="layui-form-label">手机号</label>
         <div class="layui-input-inline">
-            <input type="text" id="fullName" name="fullName" lay-verify="required" placeholder="请输入" autocomplete="off"
+            <input type="text" id="phone" name="phone" lay-verify="required" placeholder="请输入" autocomplete="off"
                    class="layui-input">
         </div>
     </div>
+    <!--    <div class="layui-form-item">-->
+    <!--        <label class="layui-form-label">密码</label>-->
+    <!--        <div class="layui-input-inline">-->
+    <!--            <input type="text" id="password" name="password" lay-verify="required" placeholder="请输入" autocomplete="off"-->
+    <!--                   class="layui-input">-->
+    <!--        </div>-->
+    <!--    </div>-->
+
     <div class="layui-form-item">
         <label class="layui-form-label">性别</label>
         <div class="layui-input-inline">
             <select id="gender" name="gender" lay-verify="" lay-filter="gender">
-                <option value="1" selected>男</option>
-                <option value="0">女</option>
+                <!--                <option value="1" selected>男</option>-->
+                <!--                <option value="0">女</option>-->
             </select>
         </div>
     </div>
@@ -87,9 +95,13 @@
         $("#head").val(parent.data.head);
         $("#headImg").attr("src", parent.data.head);
         $("#username").val(parent.data.username);
+        $("#phone").val(parent.data.phone);
         $("#fullName").val(parent.data.fullName);
         $("#age").val(parent.data.age);
         $("#address").val(parent.data.address);
+
+        //
+        $("#gender").html(Dict.getDictSelect(Enums.Base.Gender));   // 性别
         // select 回显
         $("#gender").find("option").each(function () {
             if ($(this).val() == parent.data.gender) {
@@ -98,7 +110,25 @@
         });
     });
 
-    layui.use(['form','upload'], function () {
+
+    /**
+     * 输入姓名->生成账号
+     */
+    function updUsername() {
+        let fullName = $("#fullName").val();
+        //获取全写拼音（调用js中方法）
+        let username = pinyin.getFullChars(fullName);
+        $("#username").val(username.toLowerCase());
+        //获取全写拼音（调用js中方法）
+        // let username = pinyin.getFullChars(fullName);
+        //获取简写拼音（调用js中方法）
+        // var easyName = pinyin.getCamelChars(chinaName);
+        // //给两个文本框赋值
+        // $('#fullName').val(fullName);
+        // $('#easyName').val(easyName);
+    }
+
+    layui.use(['form', 'upload'], function () {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.id = parent.data.id;

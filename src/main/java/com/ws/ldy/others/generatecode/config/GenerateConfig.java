@@ -96,6 +96,7 @@ public class GenerateConfig {
             "icon",
             "unlock",
             "unLock",
-            "comment"
+            "comment",
+            "disable",
     };
 }

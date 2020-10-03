@@ -1,8 +1,18 @@
 package com.ws.ldy.config.swagger;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Lists;
+import com.ws.ldy.common.result.RType;
+import com.ws.ldy.config.auth.util.JwtUtil;
+import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.modules.admin.model.entity.AdminUser;
+import com.ws.ldy.modules.admin.model.vo.AdminUserVO;
+import com.ws.ldy.modules.admin.service.AdminAuthorityService;
+import com.ws.ldy.modules.admin.service.AdminUserService;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -20,12 +30,23 @@ import java.util.List;
 
 @Configuration
 @EnableSwagger2
+@Slf4j
 public class SwaggerConfig {
+
+    @Autowired
+    private AdminUserService adminUserService;
+
+    @Autowired
+    private AdminAuthorityService adminAuthorityService;
+
+
+
+
     @Bean
     public Docket baseApi() {  //swagger.ui-config.operations-sorter=method
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("BASE-全局通用接口")
-                .globalOperationParameters(getGlobalParameter())
+                .groupName("BASE--通用接口")
+                .globalOperationParameters(getGlobalParameter(1))
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.others"))  // 自行修改为自己的包路径
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
@@ -33,8 +54,8 @@ public class SwaggerConfig {
                 .build()
                 .useDefaultResponseMessages(false)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("兮家手册-BASE")
-                        .description("兮家 Swagger API 文档")
+                        .title("牙贝美塑--BASE")
+                        .description("牙贝美塑 Swagger API 文档")
                         .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
                         .version("1.0.0")
                         .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
@@ -45,8 +66,8 @@ public class SwaggerConfig {
     @Bean
     public Docket adminApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("ADMIN-系统模块接口")
-                .globalOperationParameters(getGlobalParameter())
+                .groupName("ADMIN--系统模块")
+                .globalOperationParameters(getGlobalParameter(1))
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.admin"))   // 自行修改为自己的包路径
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
@@ -54,28 +75,50 @@ public class SwaggerConfig {
                 .build()
                 .useDefaultResponseMessages(false)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("兮家手册-ADMIN")
-                        .description("兮家 Swagger API 文档")
+                        .title("牙贝美塑--ADMIN")
+                        .description("牙贝美塑 Swagger API 文档")
                         .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
                         .version("1.0.0")
                         .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
                         .build());
     }
 
+
     @Bean
-    public Docket devApi() {
+    public Docket yaBeiAdminApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("dev-开发计划模块接口")
-                .globalOperationParameters(getGlobalParameter())
+                .groupName("牙贝--管理端")
+                .globalOperationParameters(getGlobalParameter(1))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.dev"))   // 自行修改为自己的包路径
+                .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.yabei.admin.controller"))   // 自行修改为自己的包路径
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
                 .build()
                 .useDefaultResponseMessages(false)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("兮家手册-dev")
-                        .description("兮家 Swagger API 文档")
+                        .title("牙贝--后台管理端")
+                        .description("牙贝美塑 Swagger API 文档")
+                        .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
+                        .version("1.0.0")
+                        .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
+                        .build());
+    }
+
+
+    @Bean
+    public Docket yaBeiDoctorApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("牙贝--医生端")
+                .globalOperationParameters(getGlobalParameter(2))
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.yabei.consumer.controller"))   // 自行修改为自己的包路径
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+                .paths(PathSelectors.any())
+                .build()
+                .useDefaultResponseMessages(false)
+                .apiInfo(new ApiInfoBuilder()
+                        .title("牙贝--医生端")
+                        .description("牙贝美塑 Swagger API 文档")
                         .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
                         .version("1.0.0")
                         .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
@@ -85,20 +128,64 @@ public class SwaggerConfig {
 
     /**
      * swagger全局header参数添加
+     * type = 1 管理端  2 医生端
      */
-    private List<Parameter> getGlobalParameter() {
-        ParameterBuilder parameterBuilder = new ParameterBuilder();
-        parameterBuilder
-                .name(BaseConstant.Sys.TOKEN) // key
-                .scalarExample("token")       // value 默认token
-                .description("请求头参数")      // 描叙
-                .modelRef(new ModelRef("string"))
-                .parameterType("header")
-                .order(-1)
-                .required(false)
-                .build();
-        List<Parameter> parameters = Lists.newArrayList();
-        parameters.add(parameterBuilder.build());
-        return parameters;
+    private List<Parameter> getGlobalParameter(Integer type) {
+        if (type == 1) {
+            ParameterBuilder parameterBuilder = new ParameterBuilder();
+            parameterBuilder
+                    .name(BaseConstant.Sys.TOKEN) // key
+                    .scalarExample(getAdminUserToken("10000"))    //用户端账号 -->     value 默认token值
+                    .description("请求头参数")      // 描叙
+                    .modelRef(new ModelRef("string"))
+                    .parameterType("header")
+                    .order(-1)
+                    .required(false)
+                    .build();
+            List<Parameter> parameters = Lists.newArrayList();
+            parameters.add(parameterBuilder.build());
+            return parameters;
+        } else if (type == 2) {
+            ParameterBuilder parameterBuilder = new ParameterBuilder();
+            parameterBuilder
+                    .name(BaseConstant.Sys.TOKEN) // key
+                    .scalarExample(null)    //用户端账号 -->     value 默认token值
+                    .description("请求头参数")      // 描叙
+                    .modelRef(new ModelRef("string"))
+                    .parameterType("header")
+                    .order(-1)
+                    .required(false)
+                    .build();
+            List<Parameter> parameters = Lists.newArrayList();
+            parameters.add(parameterBuilder.build());
+            return parameters;
+        }
+        return null;
     }
+
+
+    /**
+     * 获取系统超管账号，默认swagger token
+     * @param username
+     * @return
+     */
+    public String getAdminUserToken(String username) {
+        // 1、判断账号
+        AdminUser user = adminUserService.getOne(new LambdaQueryWrapper<AdminUser>().eq(AdminUser::getUsername, username));
+        if (user == null) {
+            log.info("管理端账号注入swagger 失败，没有获取到账号信息");
+            throw new ErrorException(RType.LOGIN_IS_NO_ACCOUNT);
+        }
+        // 登录成功
+        AdminUserVO userVO = user.convert(AdminUserVO.class);
+        // 4、获取权限列表,保存权限-未禁用,管理端(登录+认证的)
+        List<String> authList = adminAuthorityService.findByUserIdaAndDisableFetchAuthority(user.getId());
+        userVO.setAuthList(authList);
+        // 5、生成jwt
+        String token = JwtUtil.createToken(userVO);
+        log.info("管理端账号注入swagger 默认token成功，当前账号为:{} 账号姓名为：{} " + userVO.getUsername(), userVO.getFullName());
+        return token;
+    }
+
+
 }

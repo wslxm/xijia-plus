@@ -34,9 +34,9 @@
 
                 '<p class="code-img-con">' +
 
-                '<p class="code-mask"><img src="../img/front(1).png"></p>' +
+                '<p class="code-mask"><img src="../cropper/front(1).png"></p>' +
 
-                '<img src="../img/back(1).png"></p>' +
+                '<img src="../cropper/back(1).png"></p>' +
 
                 '<p class="code-push"><i class="icon-login-bg icon-w-25 icon-push">刷新</i><span class="code-tip"></span></p>' +
 

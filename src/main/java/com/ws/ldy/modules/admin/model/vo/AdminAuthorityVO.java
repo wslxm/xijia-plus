@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.List;
+
 /**
  *   代码生成器自动生成，请自定义描叙
  *
@@ -37,5 +39,7 @@ public class AdminAuthorityVO extends BaseVo {
     @ApiModelProperty(notes = "授权状态(字典code  0-无需登录 1-需登录 2-需登录+授权)" ,position = 6)
     private Integer state;
 
+    @ApiModelProperty(notes = "下级数据" ,position = 8)
+    private List<AdminAuthorityVO> authoritys;
 }
 

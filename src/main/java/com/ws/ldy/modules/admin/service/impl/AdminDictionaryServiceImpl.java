@@ -13,14 +13,30 @@ import com.ws.ldy.modules.admin.service.AdminDictionaryService;
 import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
 public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionaryMapper, AdminDictionary> implements AdminDictionaryService {
+
+
+    @Override
+    public List<AdminDictionaryVO> findTree() {
+        List<AdminDictionaryVO> respDictList = new ArrayList<>();
+        List<AdminDictionary> dictList = this.list(new LambdaQueryWrapper<AdminDictionary>()
+                .orderByAsc(AdminDictionary::getSort)
+                .orderByAsc(AdminDictionary::getCode)
+        );
+        List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(dictList, AdminDictionaryVO.class);
+        // 递归添加下级数据,  new ArrayList<>() 是没有用的, findByCodeIds收集Ids 所有
+        dictVoList.forEach(item -> {
+            if ("0".equals(item.getPid())) {
+                nextLowerNode(dictVoList, item, new ArrayList<>());
+                respDictList.add(item);
+            }
+        });
+        return respDictList;
+    }
 
 
     /**
@@ -32,13 +48,14 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * @version 1.0.0
      */
     @Override
-    public AdminDictionaryVO findByCodeFetchDictVO(String code) {
+    public AdminDictionaryVO findByCodeFetchDictVO(String code, boolean isDisable) {
         // 查询当前
         AdminDictionary dict = baseMapper.selectOne(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, code));
         // 查询所有
         List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
+                .orderByAsc(AdminDictionary::getSort)
                 .orderByAsc(AdminDictionary::getCode)
-                .eq(AdminDictionary::getDisable, Enums.Base.Disable.DISABLE_0)
+                .eq(isDisable, AdminDictionary::getDisable, Enums.Base.Disable.DISABLE_0.getValue())
         ), AdminDictionaryVO.class);
         if (dict == null || dictVoList == null || dictVoList.size() == 0) {
             return null;
@@ -87,43 +104,43 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * @version 1.0.0
      */
     @Override
-    public Map<String, AdminDictionaryVO> findCodeGroup() {
-        // return
-        Map<String, AdminDictionaryVO> respDictVOMap = new HashMap<>();
-        // 查询所有字典数据
-        List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
-                .orderByAsc(AdminDictionary::getCode)
-                .eq(AdminDictionary::getDisable, 0)
-        ), AdminDictionaryVO.class);
-        //
-        for (AdminDictionaryVO fatherDictVo : dictVoList) {
-            //  不添加Integer参数类型，设置当前数据为父级，不论当前层次的，递归获取所有当前层次的下级数据
-            if (StringUtil.isInteger(fatherDictVo.getCode())) {
-                continue;
-            }
-            respDictVOMap.put(fatherDictVo.getCode(), fatherDictVo);
-            // 添加子级
-            for (AdminDictionaryVO dictVo : dictVoList) {
-                if (dictVo.getPid().equals(fatherDictVo.getId())) {
-                    if (fatherDictVo.getDictMap() == null) {
-                        fatherDictVo.setDictMap(new HashMap<String, AdminDictionaryVO>() {{
-                            put(dictVo.getCode(), dictVo);
-                        }});
-                    } else {
-                        fatherDictVo.getDictMap().put(dictVo.getCode(), dictVo);
+    public Map<String, AdminDictionaryVO.FindCodeGroup> findCodeGroup() {
+        if (BaseConstant.Cache.DICT_MAP_GROUP != null) {
+            // 缓存获取数据
+            return BaseConstant.Cache.DICT_MAP_GROUP;
+        } else {
+            // return -按添加顺序排序
+            Map<String, AdminDictionaryVO.FindCodeGroup> respDictVOMap = new HashMap<>();
+            // 查询所有字典数据
+            List<AdminDictionaryVO.FindCodeGroup> dictVoList = BeanDtoVoUtil.listVo(baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
+                    .orderByAsc(AdminDictionary::getSort)
+                    .orderByAsc(AdminDictionary::getCode)
+                    .eq(AdminDictionary::getDisable, 0)
+            ), AdminDictionaryVO.FindCodeGroup.class);
+            //
+            for (AdminDictionaryVO.FindCodeGroup fatherDictVo : dictVoList) {
+                // 不添加Integer参数类型，设置当前数据为父级，不论当前层次的，递归获取所有当前层次的下级数据
+                if (StringUtil.isInteger(fatherDictVo.getCode())) {
+                    continue;
+                }
+                respDictVOMap.put(fatherDictVo.getCode(), fatherDictVo);
+                // 添加子级
+                for (AdminDictionaryVO.FindCodeGroup dictVo : dictVoList) {
+                    if (dictVo.getPid().equals(fatherDictVo.getId())) {
+                        if (fatherDictVo.getDictMap() == null) {
+                            fatherDictVo.setDictMap(new LinkedHashMap<String, AdminDictionaryVO.FindCodeGroup>() {{
+                                put(dictVo.getCode(), dictVo);
+                            }});
+                        } else {
+                            fatherDictVo.getDictMap().put(dictVo.getCode(), dictVo);
+                        }
                     }
                 }
             }
+            // 缓存到jvm
+            BaseConstant.Cache.DICT_MAP_GROUP = respDictVOMap;
+            return BaseConstant.Cache.DICT_MAP_GROUP;
         }
-        // 添加版本号
-        AdminDictionaryVO adminDictionaryVO = new AdminDictionaryVO();
-        adminDictionaryVO.setVersion(BaseConstant.Cache.DICT_VERSION);
-        adminDictionaryVO.setName("当前版本号");
-        adminDictionaryVO.setDesc("调用版本号来判断是否和当前版本号一致，不一致重新调用本接口刷新本地缓存数据");
-        respDictVOMap.put("VERSION", adminDictionaryVO);
-        // 缓存到jvm
-        BaseConstant.Cache.DICT_MAP_GROUP = respDictVOMap;
-        return BaseConstant.Cache.DICT_MAP_GROUP;
     }
 
 
@@ -144,9 +161,9 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
                 } else {
                     fatherDict.getDictList().add(dict);
                 }
-                //获取ids
+                // 获取ids
                 ids.add(dict.getId());
-                //继续添加下级,无限级
+                // 继续添加下级,无限级
                 nextLowerNode(dictVoList, dict, ids);
             }
         }
@@ -175,6 +192,9 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
             sb.append("\n      */ ");
             sb.append("\n    interface " + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictModule.getCode() + "{\n"));
             //枚举字典的-枚举名--驼峰模式
+            if (dictModule.getDictList() == null) {
+                continue;
+            }
             for (AdminDictionaryVO dictField : dictModule.getDictList()) {
                 String moduleName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictField.getCode());
                 sb.append("\n        // " + dictField.getDesc() + "\n");
@@ -182,6 +202,9 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
                 sb.append("        @AllArgsConstructor\n");
                 sb.append("        enum " + moduleName + " implements IEnum<Integer> {\n");
                 //枚举字典的-枚举属性
+                if (dictField.getDictList() == null) {
+                    continue;
+                }
                 for (AdminDictionaryVO dictValue : dictField.getDictList()) {
                     sb.append("            " + dictField.getCode() + "_" + dictValue.getCode() + "(" + dictValue.getCode() + ", \"" + dictValue.getName() + "\"),    // " + dictValue.getDesc() + "\n");
                 }

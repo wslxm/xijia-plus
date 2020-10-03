@@ -11,10 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -51,7 +48,7 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
     @ApiOperation(value = "查询所有 || 根据角色ID选中", notes = "" +
             "1、没有传递角色Id,查询所有权限数据 isChecked=false \r\n" +
             "2、跟据角色ID查询,角色当前拥有权限：isChecked=true 角色没有权限：isChecked=false \r\n" +
-            "3、只查询管理端 \r\n"+
+            "3、只查询管理端 \r\n" +
             "4、数据按请求方式排序 "
     )
     @RequestMapping(value = "/findByRoleIdList", method = RequestMethod.GET)
@@ -61,6 +58,17 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
         return R.success(roleAuthorityChecked);
     }
 
+
+    @RequestMapping(value = "/findByRoleIdAuthorityTreeChecked", method = RequestMethod.GET)
+    @ApiOperation(value = "查询所有 || 根据角色ID选中 -> Tree ", notes = "" +
+            "1、没有传递角色Id,查询所有权限数据 isChecked=false \r\n" +
+            "2、跟据角色ID查询,角色当前拥有权限：isChecked=true 角色没有权限：isChecked=false \r\n" +
+            "3、只查询管理端 \r\n" +
+            "4、数据按请求方式排序 ")
+    @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
+    public R<List<AdminAuthorityVO>> findByRoleIdAuthorityTreeChecked(String roleId) {
+        return R.successFind(baseService.findByRoleIdAuthorityTreeChecked(roleId));
+    }
 
 
     @ApiOperation(value = "扫描权限", notes = "扫描权限列表数据, 1、存在变更接口描叙, 2、url变动会重新生成权限数据,角色原有的该接口权限会丢失,需重新分配 3、自动删除的多余接口")

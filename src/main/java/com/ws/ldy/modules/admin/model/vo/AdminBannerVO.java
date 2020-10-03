@@ -1,16 +1,10 @@
 package com.ws.ldy.modules.admin.model.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.ws.ldy.others.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
-
-import java.time.LocalDateTime;
 
 /**
  * banner表
@@ -27,7 +21,10 @@ import java.time.LocalDateTime;
 public class AdminBannerVO extends BaseVo {
 
     private static final long serialVersionUID = 0L;
-    
+
+    @ApiModelProperty(notes = "banner位置(字典code) " ,position = 0)
+    private Integer position;
+
     @ApiModelProperty(notes = "banner标题" ,position = 0)
     private String name;
 

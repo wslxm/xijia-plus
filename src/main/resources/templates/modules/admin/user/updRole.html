@@ -86,10 +86,11 @@
                 ids[i] = data[i].id;
             }
             // 修改
-            let params = "";
-            params += "?userId=" + parent.data.id;
-            params += "&roleIds=" + ids;
-            let result = Ajax.put(user_admin_upd_role + params);
+            let updData = {
+                userId:  parent.data.id,
+                roleIds: ids
+            };
+            let result = Ajax.put(user_admin_upd_role , updData);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

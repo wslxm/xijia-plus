@@ -18,7 +18,7 @@
 
 .icon-login-bg{
 
-    background-image: url(../img/icon/loginicon.png);
+    background-image: url(../cropper/icon/loginicon.png);
 
     background-repeat: no-repeat;
 
@@ -140,7 +140,7 @@
 
 .code-btn-img{
 
-    background-image:url(../img/icon/codejt.png);
+    background-image:url(../cropper/icon/codejt.png);
 
     background-repeat: no-repeat;
 

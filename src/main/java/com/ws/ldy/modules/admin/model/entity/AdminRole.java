@@ -33,6 +33,7 @@ public class AdminRole extends BaseEntity {
     /**
      * 禁用 0-否，1-是
      */
+    @TableField(value = "`disable`")
     private Integer disable;
 }
 

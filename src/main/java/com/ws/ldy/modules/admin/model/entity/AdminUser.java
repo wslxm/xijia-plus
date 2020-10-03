@@ -1,6 +1,7 @@
 package com.ws.ldy.modules.admin.model.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
@@ -29,9 +30,13 @@ public class AdminUser extends BaseEntity {
     private String fullName;
 
     /**
-     * 账号/手机号
+     * 账号/用户名
      */
     private String username;
+    /**
+     * 手机号/第二账号
+     */
+    private String phone;
 
     /**
      * 密码
@@ -66,9 +71,21 @@ public class AdminUser extends BaseEntity {
     /**
      * 最后登录时间
      */
-    private LocalDateTime entTime;
+    private LocalDateTime endTime;
     /**
      * 禁用 0-否，1-是
      */
+    @TableField(value = "`disable`")
     private Integer disable;
+
+    /**
+     * 职位 职位(字典code)
+     */
+    private Integer position;
+
+    /**
+     * 微信openId
+     */
+    private String wxOpenId;
+
 }

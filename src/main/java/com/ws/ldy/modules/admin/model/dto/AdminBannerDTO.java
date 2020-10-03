@@ -1,21 +1,12 @@
 package com.ws.ldy.modules.admin.model.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.ws.ldy.others.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-import java.time.LocalDateTime;
 
 /**
  * banner表
@@ -28,13 +19,16 @@ import java.time.LocalDateTime;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "AdminBannerDTO 对象", description = "banner表")
+@ApiModel(value = " 对象", description = "banner表")
 public class AdminBannerDTO extends BaseDto {
 
     private static final long serialVersionUID = 0L;
-    
+
+    @ApiModelProperty(notes = "banner位置(字典code) " ,position = 0)
+    @Range(min=0, max=99,message = "banner位置  必须小于99")
+    private Integer position;
+
     @ApiModelProperty(notes = "banner标题" ,position = 0)
-    @NotBlank(message = "banner标题 不能为空")
     @Length(min=1, max=128,message = "banner标题 必须小于128位")
     private String name;
 
@@ -42,22 +36,18 @@ public class AdminBannerDTO extends BaseDto {
     private String desc;
 
     @ApiModelProperty(notes = "banner图片" ,position = 2)
-    @NotBlank(message = "banner图片 不能为空")
     @Length(min=1, max=256,message = "banner图片 必须小于256位")
     private String imgUrl;
 
     @ApiModelProperty(notes = "banner排序" ,position = 3)
-    @NotNull(message = "banner排序 不能为空")
     @Range(min=0, max=2147483647L,message = "banner排序 必须小于2147483647")
     private Integer sort;
 
     @ApiModelProperty(notes = "banner禁用(0-启用 1-禁用)" ,position = 4)
-    @NotNull(message = "banner禁用 不能为空")
     @Range(min=0, max=9L,message = "banner禁用 必须小于9")
     private Integer disable;
 
     @ApiModelProperty(notes = "是否跳转(0-无  1-内部链接 2-外部链接)" ,position = 5)
-    @NotNull(message = "是否跳转 不能为空")
     @Range(min=0, max=9L,message = "是否跳转 必须小于9")
     private Integer isSkip;
 

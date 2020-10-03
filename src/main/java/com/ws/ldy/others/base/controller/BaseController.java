@@ -35,4 +35,34 @@ public class BaseController<S extends IService> {
         Integer limit = DefaultsUtil.castToInt(request.getParameter("size"), 20);
         return new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(cursor, limit);
     }
+
+
+    /**
+     * 获取请求地址
+     * @author wang-song
+     * @param request
+     * @date 2020/7/14 0014 14:16
+     * @return java.lang.String
+     * @version 1.0.0
+     */
+    protected static String getIpAddress(HttpServletRequest request) {
+        String unknown = "unknown";
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
+    }
 }

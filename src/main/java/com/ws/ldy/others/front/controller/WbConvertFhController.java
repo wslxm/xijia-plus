@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/front/wbConvertFhController")
-@Api(value = "wbConvertFhController", tags = "文字转符号")
+@Api(value = "wbConvertFhController", tags = "v-1.0 -- 文字转符号")
 public class WbConvertFhController extends BaseController {
 
 

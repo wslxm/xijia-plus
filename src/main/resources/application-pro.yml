@@ -1,28 +1,11 @@
+## 正式环境
+
+## HTTP (Tomcat) port
 server:
-  port: 9049   # HTTP (Tomcat) port
+  port: 9048
 
-## 阿里云oss配置, 此阿里云为个人账号提供, 请自行切换为自己的阿里云oss地址，一旦发现滥用，将关闭此服务地址
-aliyun:
-  oss:
-    # 阿里云下oss 的 accessKeyId和accessKeySecret(访问密钥，您可以在控制台上创建和查看)
-    accessKeyId: LTAI4Fyfy2DTf4yUrvKqHwH4
-    accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8
-    # oss访问地址:内网
-    endpoint: oss-cn-shenzhen-internal.aliyuncs.com
-    # Bucket 名称
-    bucketName: xijia-sz
 
-## websocket 配置
-websocket:
-  # websocket 服务器部署地址的ip或者域名 --> 本地可以使用127.0.0.1 || localhost
-  ip: xijia.plus
-  # websocket 服务器端口,获取当前服务器端口
-  port: ${server.port}
-  # websocket 连接接口， WebsocketServiceImpl的 @ServerEndpoint 内参数=socket接口名
-  interfaceName: /websocket
-
-# DataSource Config， 此数据源为服务器上的Docker搭建, 因服务器唯1核2G 轻量级服务器,安装了 nginx ，mysql，docker, 以及当前项目的jar服务,
-# 仅供当前项目使用, 切勿使用到其他场景, 否则容易蹦掉，一旦发现滥用，将关闭此测试数据源, sql 有脚本,建议使用本地数据库来测试
+# DataSource Config spring.datasource.dynamic.datasource.db1.url
 spring:
   autoconfigure:
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure  # 为了某些版本的springboot  @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class}) 无法生效
@@ -32,11 +15,46 @@ spring:
       datasource:
         db1: # 数据源1配置
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://xijia.plus:3306/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8
-          username: root
-          password: root123456
+          url: jdbc:mysql:// ip / 库名?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8
+          username:
+          password:
           type: com.alibaba.druid.pool.DruidDataSource
 
-## logback日志输出：linux 项目放置路径, 请自行配置log在服务器的输出路径，由 logback-spring.xml 读取此配置信息
+
+## 微信公众号 相关配置信息
+wx:
+  mp:
+    configs:
+      - appId:                     # 第一个公众号的appid (需要微信功能必填)
+        secret:                    # 公众号的appsecret  (需要微信功能必填)
+        token:                     # 接口配置里的Token值 (非必填)
+        aesKey:                    # 接口配置里的EncodingAESKey值(非必填)
+
+
+## 阿里云oss配置, 此阿里云为个人账号提供, 请自行切换为自己的阿里云oss地址，一旦发现滥用，将关闭此服务地址
+aliyun:
+  oss:
+    # oss 访问地址:外网
+    endpoint:
+    # 阿里云下oss 的 accessKeyId和accessKeySecret(访问密钥，您可以在控制台上创建和查看)
+    accessKeyId:
+    accessKeySecret:
+    # Bucket 名称
+    bucketName:
+
+
+## 路由转发, 目前主要用于阿里云oss 文件访问路由转发：外网
+zuul:
+  routes:
+    ali-oss:
+      id: aliOss
+      path: /oss/**
+      stripPrefix: false
+      url: 阿里云外网和内网访问文件路径
+
+
+## logback日志输出：linux 项目放置路径, 请自行配置log在服务器的输出路径，由 logback-spring.xml 读取此配置信息, 线上请配置linux路径: /usr/local/work/xijia2/logs
 logging:
-  file: /usr/local/work/xijia2/logs
+  file: linux项目的部署路径
+
+

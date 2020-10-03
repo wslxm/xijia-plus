@@ -108,7 +108,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
                     } else {
                         desc = fieldMap.get("desc").toString();
                     }
-                    fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空\")");
+                    // fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空\")");
                     //2
                     if (typeDetail.indexOf("(") != -1) {
                         int length = Integer.parseInt(typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")")));
@@ -126,12 +126,12 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
                     } else {
                         desc = fieldMap.get("desc").toString();
                     }
-                    fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空 \")");
+                    //   fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空 \")");
                     //2\
                     if (typeDetail.indexOf("(") != -1) {
                         int length = Integer.parseInt(typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(",")));
                         Double max = Math.pow(10, length) - 1;
-                        fields.append("\r\n" + "    @Range(min=0, max=" + new BigDecimal(max.toString()) + "L,message = \"" + desc + " 必须小于" + new BigDecimal(max.toString()) + "\")");
+                        fields.append("\r\n" + "    @Range(min=0, max=" + new BigDecimal(max.toString()).intValue() + ",message = \"" + desc + " 必须小于" + new BigDecimal(max.toString()).intValue() + "\")");
                     }
                 } else if (type.equals("varchar")
                         || type.equals("char")
@@ -144,7 +144,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
                     } else {
                         desc = fieldMap.get("desc").toString();
                     }
-                    fields.append("\r\n" + "    @NotBlank(message = \"" + desc + " 不能为空\")");
+                    //   fields.append("\r\n" + "    @NotBlank(message = \"" + desc + " 不能为空\")");
                     //2
                     if (typeDetail.indexOf("(") != -1) {
                         String max = typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")"));
@@ -158,7 +158,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
                     } else {
                         desc = fieldMap.get("desc").toString();
                     }
-                    fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空\")");
+                    //   fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空\")");
                 }
             }
             //生成字段
@@ -275,11 +275,11 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             } else if (type.equals("varchar") || type.equals("char")) {
                 //字符串
                 findPageParam.append("String " + fieldName + ",");
-                findPageMybatisPlus.append("                .eq(StringUtils.isNotBlank(" + fieldName + ".trim())," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ".trim())");
+                findPageMybatisPlus.append("                .eq(StringUtils.isNotBlank(" + fieldName + ")," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
             } else if (type.equals("text") || type.equals("longtext")) {
                 //大文本、超大文本
                 findPageParam.append("String " + fieldName + ",");
-                findPageMybatisPlus.append("                .eq(StringUtils.isNotBlank(" + fieldName + ").trim()," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ").trim()");
+                findPageMybatisPlus.append("                .eq(StringUtils.isNotBlank(" + fieldName + ")," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
             } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
                 //时间
                 findPageParam.append("@DateTimeFormat(pattern = \"yyyy-MM-dd HH:mm:ss\") LocalDateTime " + fieldName + ",");

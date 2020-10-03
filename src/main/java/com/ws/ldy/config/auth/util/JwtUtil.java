@@ -2,6 +2,7 @@ package com.ws.ldy.config.auth.util;
 
 import com.ws.ldy.common.utils.JsonUtil;
 import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.admin.model.vo.AdminUserVO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -23,8 +24,9 @@ public class JwtUtil {
     private static final String SUBJECT = "xijia";
 
     // jwt的token有效期，
-    //private static final long EXPIRITION = 1000L * 60 * 60 * 24 * 7;//7天
-    private static final long EXPIRITION = 1000L * 60 * 30;   // 半小时
+    // private static final long EXPIRITION = 1000L * 60 * 60 * 24 * 180;//7天
+    private static final long EXPIRITION = 1000L * 60 * 60;   // 半小时
+    //private static final long EXPIRITION = 1000L * 60 * 5;   // 5分钟
 
     // 加密key（黑客没有该值无法篡改token内容）
     private static final String APPSECRET_KEY = "xijia";
@@ -32,9 +34,10 @@ public class JwtUtil {
     // 用户url权限列表key
     private static final String AUTH_CLAIMS = "auth";
     private static final String AUTH_USER = "user";
+    private static final String AUTH_USER_TYPE = "type"; //token类型，管理端/用户端/等
 
     /**
-     *   生成token
+     *   生成管理端的 token
      *
      * @param user 用户信息
      * @param auth 用户权限
@@ -54,6 +57,7 @@ public class JwtUtil {
                 .setSubject(SUBJECT)
                 // TODO 用户信息加密
                 // 添加jwt自定义值
+                .claim(AUTH_USER_TYPE, Enums.Admin.AuthorityType.AUTHORITY_TYPE_0.getValue())
                 .claim(AUTH_CLAIMS, authList)
                 .claim(AUTH_USER, JsonUtil.toJSONStringNoNull(userVO))
                 .setIssuedAt(new Date())
@@ -66,12 +70,12 @@ public class JwtUtil {
 
 
     /**
-     * 获取用户信息
+     * 获取管理端的用户信息
      *
      * @param token
      * @return
      */
-    public static AdminUserVO getUser(String token) {
+    public static AdminUserVO getAdminUser(String token) {
         Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
         // user
         AdminUserVO user = JsonUtil.parseEntity(claims.get(AUTH_USER).toString(), AdminUserVO.class);
@@ -81,6 +85,58 @@ public class JwtUtil {
         user.setAuthList(list);
         return user;
     }
+
+    /**
+     * ============================================================================================
+     * ============================================================================================
+     * ==================================== 牙贝用户端 ==============================================
+     * ============================================================================================
+     * ============================================================================================
+     * ============================================================================================
+     */
+
+    /**
+     *   生成用户端的 token
+     *
+     * @param user 用户信息
+     * @param auth 用户权限
+     * @return java.lang.String
+     * @date 2020/7/6 0006 9:26
+     */
+    public static String createToken(Object ybUserVO) {
+        return null;
+    }
+
+
+    /**
+     * 获取牙贝-用户端的用户信息
+     *
+     * @param token
+     * @return
+     */
+    public static Object getYbUser(String token) {
+       return null;
+    }
+
+
+    //==============================================================================================
+    //=====================================  通用方法 ================================================
+    //==============================================================================================
+    //==============================================================================================
+
+    /**
+     * 获取登录token的用户类型
+     *
+     * @param token
+     * @return
+     */
+    public static Integer getType(String token) {
+        Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
+        // user
+        String type = claims.get(AUTH_USER_TYPE).toString();
+        return Integer.parseInt(type);
+    }
+
 
     /**
      * 是否过期

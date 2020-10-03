@@ -22,10 +22,10 @@ package com.ws.ldy.others.aliyun.oss.util;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
-import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.*;
-import com.ws.ldy.common.result.RType;
-import com.ws.ldy.config.error.ErrorException;
+import com.aliyun.oss.model.OSSObjectSummary;
+import com.aliyun.oss.model.ObjectListing;
+import com.aliyun.oss.model.ObjectMetadata;
+import com.aliyun.oss.model.PutObjectRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -75,7 +75,7 @@ public class OSSUtil {
      * @param inputStream    文件流
      * @return
      */
-    public boolean upload(String yourObjectName, InputStream inputStream) {
+    public String upload(String yourObjectName, InputStream inputStream) {
         // 创建ossClient
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
         // 创建PutObjectRequest对象。
@@ -91,34 +91,7 @@ public class OSSUtil {
         log.info("上传-" + yourObjectName + " 成功");
         // 关闭OSSClient。
         ossClient.shutdown();
-        return true;
-    }
-
-
-    /**
-     * 从OSS 下载文件
-     * <p>
-     * 下载文件。详细请参看“SDK手册 > Java-SDK > 下载文件”。
-     * 链接地址是：https://help.aliyun.com/document_detail/oss/sdk/java-sdk/download_object.html?spm=5176.docoss/sdk/java-sdk/manage_object
-     * </P>
-     *
-     * @param yourObjectName 表示上文件在OSS时包含文件后缀在内的完整路径，例如abc/efg/123.jpg。
-     * @return
-     */
-    public InputStream download(String yourObjectName) {
-        // 创建ossClient
-        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-        OSSObject ossObject = null;
-        try {
-            ossObject = ossClient.getObject(bucketName, yourObjectName);
-        } catch (OSSException e) {
-            e.printStackTrace();
-            throw new ErrorException(RType.FILE_PATH_ERROR);
-        }
-        // 关闭OSSClient。
-        ossClient.shutdown();
-        //返回InputStream
-        return ossObject.getObjectContent();
+        return yourObjectName;
     }
 
 
@@ -139,6 +112,7 @@ public class OSSUtil {
         return objectSummary;
     }
 
+
     /**
      * 删除, 删除文件夹 --> 如: file/
      */
@@ -154,7 +128,7 @@ public class OSSUtil {
 
 
     /**
-     * 判断获取文件保存内存
+     * 判断获取文件类型在保存,否则可能出现无法直接访问的问题
      *
      * @param FilenameExtension
      * @return

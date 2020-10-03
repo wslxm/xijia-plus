@@ -1,4 +1,4 @@
-//package com.ws.ldy.config;
+package com.ws.ldy.config.aspect;//package com.ws.ldy.config;
 //
 //import com.ws.ldy.admin.mapper.AuthorityAdminMapper;
 //import com.ws.ldy.admin.mapper.AdminRoleAuthMapper;

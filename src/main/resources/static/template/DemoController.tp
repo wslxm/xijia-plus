@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import com.ws.ldy.enums.BaseConstant;
 
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
+import com.ws.ldy.config.error.ErrorException;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import {packPath}.{packPathZp}.{moduleName}.model.entity.{tableNameUp};
@@ -15,6 +17,7 @@ import {packPath}.{packPathZp}.{moduleName}.model.vo.{tableNameUp}VO;
 import {packPath}.{packPathZp}.{moduleName}.model.dto.{tableNameUp}DTO;
 import {packPath}.{packPathZp}.{moduleName}.service.{tableNameUp}Service;
 import {packPath}.common.result.R;
+import com.ws.ldy.common.result.RType;
 import {packPath}.common.utils.BeanDtoVoUtil;
 import {packPath}.others.base.controller.BaseController;
 import java.util.Arrays;
@@ -32,15 +35,15 @@ import java.time.LocalDateTime;
  */
 @RestController
 @RequestMapping("/{moduleName}/{tableNameLower}")
-@Api(value ="{tableNameUp}" ,tags = "{tableComment}",description = "{tableComment}")
+@Api(value ="{tableNameUp}" ,tags = "{tableComment}", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service>  {
 
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
     @ApiOperation(value = "分页查询", notes= "")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query",example = "1"),
-            @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query",example = "20"),
+            @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query",example = "1"),
+            @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query",example = "20"),
 {swaggerRemark}
     })
     public R<IPage<{tableNameUp}VO>> findPage({findPageParam}
@@ -62,6 +65,9 @@ public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "添加", notes= "必须不传递ID")
     public R<Boolean> insert(@RequestBody @Validated {tableNameUp}DTO dto) {
+        if (StringUtils.isNotBlank(dto.getId())) {
+            throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
+        }
         {tableNameUp} {tableNameLower} = dto.convert({tableNameUp}.class);
         return R.successInsert(baseService.save({tableNameLower}));
     }
@@ -70,6 +76,9 @@ public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "ID编辑", notes= "必须传递ID")
     public R<Boolean> upd(@RequestBody @Validated {tableNameUp}DTO dto) {
+        if (StringUtils.isBlank(dto.getId())) {
+            throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
+        }
         return R.successUpdate(baseService.updateById(dto.convert({tableNameUp}.class)));
     }
 

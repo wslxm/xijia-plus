@@ -21,7 +21,7 @@
         <result column="gender" property="gender"/>
         <result column="disable" property="disable"/>
         <result column="reg_time" property="regTime"/>
-        <result column="ent_time" property="entTime"/>
+        <result column="end_time" property="endTime"/>
     </resultMap>
 
     <!-- 通用查询结果列: <include refid="Base_Column_List"></include>  -->
@@ -43,10 +43,10 @@
                gender,
                disable,
                reg_time,
-               ent_time
+               end_time
         </sql>
 
-       <select id="findByRoleId" resultType="com.ws.ldy.modules.admin.model.entity.AdminUser">
+    <select id="findByRoleId" resultType="com.ws.ldy.modules.admin.model.entity.AdminUser">
               select * from t_admin_user where id in (
                      select user_id from t_admin_role_user where role_id = #{roleId}
               )

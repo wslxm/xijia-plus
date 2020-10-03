@@ -1,5 +1,6 @@
 package com.ws.ldy.modules.admin.model.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
@@ -53,5 +54,6 @@ public class AdminMenu extends BaseEntity {
     /**
      * 禁用 0-否，1-是
      */
+    @TableField(value = "`disable`")
     private Integer disable;
 }

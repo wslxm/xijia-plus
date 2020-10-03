@@ -26,11 +26,13 @@ public class AdminUserVO extends BaseVo {
 
     @ApiModelProperty(value = "头像")
     private String head;
-    @ApiModelProperty(value = "账号")
+    @ApiModelProperty(value = "账号/用户名")
     private String username;
+    @ApiModelProperty(value = "手机号/第二账号")
+    private String phone;
     @ApiModelProperty(value = "昵称")
     private String fullName;
-    //    @ApiModelProperty(value = "密码")
+ //   @ApiModelProperty(value = "密码")
 //    private String password;
     @ApiModelProperty(value = "地址")
     private String address;
@@ -43,14 +45,23 @@ public class AdminUserVO extends BaseVo {
     @ApiModelProperty(value = "注册时间")
     private LocalDateTime regTime;
     @ApiModelProperty(value = "最后登录时间")
-    private LocalDateTime entTime;
+    private LocalDateTime endTime;
     @ApiModelProperty(value = "是否选中（角色是否有改用户，前台复选框默认选中需要值）")
     private Boolean isChecked;
 
+    @ApiModelProperty(value = "职位（字典code）")
+    private Integer position;
+
+    @ApiModelProperty(value = "用户角色")
+    List<String> roles;
+
+    /**
+     *
+     */
     @ApiModelProperty(value = "权限数据版本号-后台刷新用户信息使用")
-    Integer version;
+    private Integer version;
     @ApiModelProperty(value = "用户信息版本号-后台刷新权限数据使用")
-    Integer authVersion;
+    private Integer authVersion;
     @ApiModelProperty(value = "用户权限-后台生成token，刷新token等使用")
-    List<String> authList;
+    private List<String> authList;
 }

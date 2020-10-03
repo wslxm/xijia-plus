@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @date 2019/11/13 9:49
  */
 @Controller
-@Api(value = "PageController", tags = "通用路径跳转")
+@Api(value = "PageController", tags = "v-1.0 -- Freemarker --> 通用路由跳转")
 public class PageController {
 
     @RequestMapping(value = "/page/{fileName}", method = RequestMethod.GET)

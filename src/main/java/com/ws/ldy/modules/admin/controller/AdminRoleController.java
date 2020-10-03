@@ -4,9 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.admin.model.dto.AdminRoleDTO;
+import com.ws.ldy.modules.admin.model.dto.role.RoleAuthDTO;
+import com.ws.ldy.modules.admin.model.dto.role.RoleMenuDTO;
+import com.ws.ldy.modules.admin.model.dto.role.UserRoleDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminRole;
 import com.ws.ldy.modules.admin.model.vo.AdminRoleVO;
 import com.ws.ldy.modules.admin.service.AdminRoleService;
@@ -36,8 +41,8 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
     @ApiOperation(value = "分页查询", notes = "")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
+            @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),
             @ApiImplicitParam(name = "name", value = "角色名称", required = false, paramType = "query"),
     })
     public R<IPage<AdminRoleVO>> findPage(String name) {
@@ -58,22 +63,29 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "添加", notes = "")
-    public R<Boolean> insert(@RequestBody AdminRoleDTO adminRoleDto) {
-        return R.successUpdate(baseService.save(adminRoleDto.convert(AdminRole.class)));
+    public R<Boolean> insert(@RequestBody AdminRoleDTO dto) {
+        if (StringUtils.isNotBlank(dto.getId())) {
+            throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
+        }
+        return R.successInsert(baseService.insert(dto));
     }
+
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "ID编辑", notes = "")
-    public R<Boolean> upd(@RequestBody AdminRoleDTO adminRoleDto) {
-        if (baseService.updateById(adminRoleDto.convert(AdminRole.class))) {
+    public R<Boolean> upd(@RequestBody AdminRoleDTO dto) {
+        if (StringUtils.isBlank(dto.getId())) {
+            throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
+        }
+        if (baseService.updateById(dto.convert(AdminRole.class))) {
             // 刷新登录中的用户角色 -> 角色权限
             BaseConstant.Cache.AUTH_VERSION++;
             return R.successUpdate(true);
         } else {
             return R.successUpdate(false);
         }
-
     }
+
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation(value = "ID删除", notes = "")
@@ -95,10 +107,42 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     }
 
 
+//    @RequestMapping(value = "/updUserRole", method = RequestMethod.PUT)
+//    @ApiOperation(value = "用户的角色分配", notes = "")
+//    public R<Boolean> updUserRole(@RequestParam String userId, String[] roleIds) {
+//        if (baseService.updUserRole(userId, roleIds)) {
+//            // 刷新登录中的用户角色 -> 角色权限
+//            BaseConstant.Cache.AUTH_VERSION++;
+//            return R.successUpdate(true);
+//        } else {
+//            return R.successUpdate(false);
+//        }
+//    }
+//
+//    @RequestMapping(value = "/updRoleAuth", method = RequestMethod.PUT)
+//    @ApiOperation(value = "角色的URL权限分配", notes = "")
+//    public R<Boolean> updRoleAuth(@RequestParam String roleId, String[] authIds) {
+//        if (baseService.roleUrlAuth(roleId, authIds)) {
+//            // 刷新登录中的用户权限
+//            BaseConstant.Cache.AUTH_VERSION++;
+//            return R.successUpdate(true);
+//        } else {
+//            return R.successUpdate(false);
+//        }
+//    }
+//
+//    @RequestMapping(value = "/updRoleMenu", method = RequestMethod.PUT)
+//    @ApiOperation(value = "角色的菜单分配", notes = "")
+//    public R<Boolean> updRoleMenu(@RequestParam String roleId, String[] menuIds) {
+//        // 菜单每次都是重新请求接口获取的,不用做任何配置
+//        return R.successUpdate(baseService.roleMenuAuth(roleId, menuIds));
+//    }
+
+
     @RequestMapping(value = "/updUserRole", method = RequestMethod.PUT)
     @ApiOperation(value = "用户的角色分配", notes = "")
-    public R<Boolean> updUserRole(@RequestParam String userId, String[] roleIds) {
-        if (baseService.updUserRole(userId, roleIds)) {
+    public R<Boolean> updUserRole(@RequestBody UserRoleDTO dto) {
+        if (baseService.updUserRole(dto)) {
             // 刷新登录中的用户角色 -> 角色权限
             BaseConstant.Cache.AUTH_VERSION++;
             return R.successUpdate(true);
@@ -109,8 +153,8 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
 
     @RequestMapping(value = "/updRoleAuth", method = RequestMethod.PUT)
     @ApiOperation(value = "角色的URL权限分配", notes = "")
-    public R<Boolean> updRoleAuth(@RequestParam String roleId, String[] authIds) {
-        if (baseService.roleUrlAuth(roleId, authIds)) {
+    public R<Boolean> updRoleAuth(@RequestBody RoleAuthDTO dto) {
+        if (baseService.roleUrlAuth(dto)) {
             // 刷新登录中的用户权限
             BaseConstant.Cache.AUTH_VERSION++;
             return R.successUpdate(true);
@@ -121,8 +165,8 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
 
     @RequestMapping(value = "/updRoleMenu", method = RequestMethod.PUT)
     @ApiOperation(value = "角色的菜单分配", notes = "")
-    public R<Boolean> updRoleMenu(@RequestParam String roleId, String[] menuIds) {
+    public R<Boolean> updRoleMenu(@RequestBody RoleMenuDTO dto) {
         // 菜单每次都是重新请求接口获取的,不用做任何配置
-        return R.successUpdate(baseService.roleMenuAuth(roleId, menuIds));
+        return R.successUpdate(baseService.roleMenuAuth(dto));
     }
 }

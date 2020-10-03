@@ -3,7 +3,9 @@ package com.ws.ldy.modules.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.admin.model.dto.AdminMenuDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminMenu;
@@ -14,6 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,7 +59,8 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
      * @param roleId 角色Id，判断当前是否有权限并选中 List
      */
     @RequestMapping(value = "/findByPidOrRoleId", method = RequestMethod.GET)
-    @ApiOperation(value = "pid + roleId 查询菜单列表", notes = "1、未传递查询所有: isChecked=false || null \r\n 2、根据 pid + roleId 查询当前角色+指定父菜单下的所有菜单给予选中状态 isChecked=true，包括自身, 不在当前 pid 下和 roleId没有权限角色的: isChecked=false || null, 返回List 列表")
+    @ApiOperation(value = "pid + roleId 查询菜单列表", notes = "1、未传递查询所有: isChecked=false || null \r\n " +
+            "2、根据 pid + roleId 查询当前角色+指定父菜单下的所有菜单给予选中状态 isChecked=true，包括自身, 不在当前 pid 下和 roleId没有权限角色的: isChecked=false || null, 返回List 列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "父id", required = false, paramType = "query"),
             @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
@@ -67,18 +71,42 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
     }
 
 
+    /**
+     * @param id     父id
+     * @param roleId 角色Id，判断当前是否有权限并选中 Tree
+     */
+    @RequestMapping(value = "/findByPidOrRoleIdTree", method = RequestMethod.GET)
+    @ApiOperation(value = "pid + roleId 查询菜单列表", notes = "1、未传递查询所有: isChecked=false || null \r\n " +
+            "2、根据 pid + roleId 查询当前角色+指定父菜单下的所有菜单给予选中状态 isChecked=true，包括自身, 不在当前 pid 下和 roleId没有权限角色的: isChecked=false || null, 返回List->Tree ")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "父id", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
+    })
+    public R<List<AdminMenuVO>> findByPidOrRoleIdTree(String id, String roleId) {
+        List<AdminMenuVO> menus = baseService.findPIdOrRoleIdTree(id, roleId);
+        return R.successFind(BeanDtoVoUtil.listVo(menus, AdminMenuVO.class));
+    }
+
+
+
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "菜单添加", notes = "")
-    public R<Void> insert(@RequestBody AdminMenuDTO adminMenuDto) {
-        baseService.save(adminMenuDto.convert(AdminMenu.class));
+    public R<Void> insert(@RequestBody AdminMenuDTO dto) {
+        if (StringUtils.isNotBlank(dto.getId())) {
+            throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
+        }
+        baseService.save(dto.convert(AdminMenu.class));
         return R.successInsert();
     }
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "ID编辑", notes = "")
-    public R<Void> upd(@RequestBody AdminMenuDTO adminMenuDto) {
-        baseService.updateById( adminMenuDto.convert(AdminMenu.class));
+    public R<Void> upd(@RequestBody AdminMenuDTO dto) {
+        if (StringUtils.isBlank(dto.getId())) {
+            throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
+        }
+        baseService.updateById(dto.convert(AdminMenu.class));
         return R.successUpdate();
     }
 
@@ -86,7 +114,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation(value = "ID删除", notes = "同时删除当前菜单和当前菜单下的所有子菜单")
     public R<List<String>> del(@RequestParam String id) {
-        List<String> menuIds =  baseService.findPIdOrRoleIdList(id,null).stream().map(i-> i.getId()).collect(Collectors.toList());
+        List<String> menuIds = baseService.findPIdOrRoleIdList(id, null).stream().map(i -> i.getId()).collect(Collectors.toList());
         baseService.removeByIds(menuIds);
         return R.successDelete(menuIds);
     }

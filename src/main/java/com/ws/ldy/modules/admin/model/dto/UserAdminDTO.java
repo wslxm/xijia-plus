@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.List;
+
 /**
  *   用户
  *
@@ -23,8 +25,10 @@ public class UserAdminDTO extends BaseDto {
 
     @ApiModelProperty(value = "头像")
     private String head;
-    @ApiModelProperty(value = "账号")
+    @ApiModelProperty(value = "账号/用户名")
     private String username;
+    @ApiModelProperty(value = "手机号/第二账号")
+    private String phone;
     @ApiModelProperty(value = "昵称")
     private String fullName;
     @ApiModelProperty(value = "密码")
@@ -37,4 +41,10 @@ public class UserAdminDTO extends BaseDto {
     private Integer gender;
     @ApiModelProperty(value = "禁用（0-否，1-是）")
     private Integer disable;
+
+    @ApiModelProperty(value = "职位（字典code）")
+    private Integer position;
+
+    @ApiModelProperty(value = "角色Id")
+    List<String> roles;
 }

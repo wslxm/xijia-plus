@@ -46,6 +46,7 @@
 <script type="text/html" id="barDemo">
     <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="roleEdit">角色管理</a>
     <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="resetPassword">重置密码</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
@@ -54,6 +55,8 @@
     let user_admin_update = path + "/admin/adminUser/upd";                   // 用户编辑
     let user_admin_delete = path + "/admin/adminUser/del";                   // 用户删除
     let user_admin_deletes = path + "/admin/adminUser/delByIds";             // 批量删除
+    let user_admin_upd_reset_pws = path + "/admin/adminUser/updResetPassword";  // 重置密码
+
     //路由
     let user_admin_page_upd = "/page/modules_admin_user_userUpd";          // 用户编辑弹出
     let user_admin_page_add = "/page/modules_admin_user_userAdd";          // 用户添加弹出
@@ -93,22 +96,24 @@
             , toolbar: '#toolbarDemo'
             , title: '用户数据表'
             , sort: true
+            ,limit: res.data.size //显示的数量
             , cols: [
                 [
                     {type: 'checkbox', fixed: 'left'}
                     //, {field: 'id', title: 'ID', width: 80, fixed: 'left'}
                     , {
-                    field: 'head', title: '头像', templet: function (res) {
+                    field: 'head', title: '头像',  width: 70,templet: function (res) {
                         return "<img src='" + res.head + "'  style='border-radius: 30px;width: 30px;height: 30px;'>";
                     }
                 }
-                    , {field: 'username', title: '账号/手机号', width: 120,}
+                    , {field: 'username', title: '账号', width: 120,}
+                    , {field: 'phone', title: '手机号', width: 120,}
                     , {field: 'fullName', title: '姓名/用户名'}
                     , {field: 'age', title: '年龄', sort: true}
                     ,
                     {
                         field: 'gender', title: '性别', templet: function (res) {
-                            return res.gender === 1 ? "男" : "女";
+                            return Dict.convert(Enums.Base.Gender, res.gender);
                         }
                     },
                     {field: 'address', title: '地址'},
@@ -122,8 +127,8 @@
                         }
                     },
                     {field: 'regTime', title: '注册时间', width: 165}
-                    , {field: 'entTime', title: '最后登录时间', width: 165}
-                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 250}
+                    , {field: 'endTime', title: '最后登录时间', width: 165}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 330}
                 ]
             ]
         });
@@ -131,7 +136,7 @@
 
 
     /**
-     *   分页配置, 数据总数会在下一次点击事更新上一次数据库的总数量
+     * 分页配置, 数据总数会在下一次点击事更新上一次数据库的总数量
      * @author ws
      * @mail  1720696548@qq.com
      * @param result 后台返回数据, 用于第一此加载总数据
@@ -222,6 +227,22 @@
                 let params = "?id=" + data.id;
                 Pop.tipsDeleteId(user_admin_delete + params, obj);
             }
+            //   重置密码
+            if (obj.event === 'resetPassword') {
+                //例子2 //输入框类型，支持0（文本）默认1（密码）2（多行文本）
+                layer.prompt({
+                    formType: 0,
+                    value: '123456',
+                    title: '重置密码',
+                    area: ['300px', '200px'] //自定义文本域宽高
+                }, function (value, index, elem) {
+                    let params = "?id=" + data.id;
+                    params += "&password=" + value;
+                    let result = Ajax.put(user_admin_upd_reset_pws + params);
+                    layer.msg(result.msg);
+                    layer.close(index);
+                });
+            }
         });
     }
 
@@ -251,7 +272,6 @@
             active[type] ? active[type].call(this) : '';
         });
     }
-
 
 
     /**

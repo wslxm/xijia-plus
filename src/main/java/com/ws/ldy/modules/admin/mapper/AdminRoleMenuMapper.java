@@ -26,7 +26,7 @@ public interface AdminRoleMenuMapper extends BaseMapper<AdminRoleMenu> {
      * @return java.util.List<com.ws.ldy.adminconsole.entity.AdminRoleMenu>
      * @date 2019/11/16 0016 23:00
      */
-    List<AdminRoleMenu> findByUserIdAndDisableFetchMenu(@Param("userId") String userId, @Param("disable") Integer disable );
+    List<AdminRoleMenu> findByUserIdAndDisableFetchMenu(@Param("userId") String userId, @Param("disable") Integer disable);
 
 
 }

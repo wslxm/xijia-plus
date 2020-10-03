@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ws.ldy.XiJiaServer;
+import com.ws.ldy.XijiaServer;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.ClassUtil;
 import com.ws.ldy.common.utils.EnumUtil;
@@ -38,7 +38,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     /**
      * url权限注解扫包范围( 直接获取启动类的包路径)
      */
-    private final static String PACKAGE_NAME = XiJiaServer.class.getPackage().getName();
+    private final static String PACKAGE_NAME = XijiaServer.class.getPackage().getName();
 
 
     @Autowired
@@ -107,21 +107,20 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             if (apiClass == null || requestMappingClass == null) {
                 continue;
             }
-            // 判断当前类是否需要保存到接口权限内（目前：PC_ADMIN=平台 / PC_USER  用户端）
+            // 判断当前类是否需要保存到接口权限内（目前：PC_ADMIN=平台 / PC_USER  用户端），,代码生成器生成的代码默认(BaseConstant.InterfaceType.RELEASE)不需要任何权限可访问,需手动修改BaseConstant.InterfaceType. 参数
             Integer uriType = null;
             Integer state = null;
             if (apiClass.consumes().equals(BaseConstant.InterfaceType.PC_ADMIN)) {
-                // 管理端
-                uriType = Enums.Admin.AuthorityType.AUTHORITY_TYPE_0.getValue();
-                // 默认需登录+授权
-                state = Enums.Admin.AuthorityState.AUTHORITY_STATE_2.getValue();
+                uriType = Enums.Admin.AuthorityType.AUTHORITY_TYPE_0.getValue();   // 管理端
+                state = Enums.Admin.AuthorityState.AUTHORITY_STATE_2.getValue();   // 默认需登录+授权
             } else if (apiClass.consumes().equals(BaseConstant.InterfaceType.PC_USER)) {
-                //  用户端
-                uriType = Enums.Admin.AuthorityType.AUTHORITY_TYPE_1.getValue();
-                //  默认需登录
-                state = Enums.Admin.AuthorityState.AUTHORITY_STATE_1.getValue();
+                uriType = Enums.Admin.AuthorityType.AUTHORITY_TYPE_1.getValue();   // 用户端
+                state = Enums.Admin.AuthorityState.AUTHORITY_STATE_1.getValue();   // 默认需登录
+            } else if (apiClass.consumes().equals(BaseConstant.InterfaceType.RELEASE)) {
+                // 未分类
+                uriType = Enums.Admin.AuthorityType.AUTHORITY_TYPE_100.getValue(); // 未分类
+                state = Enums.Admin.AuthorityState.AUTHORITY_STATE_0.getValue();   // 默认无需登录+无需授权
             }
-            //
             if (uriType != null) {
                 String url = requestMappingClass.value()[0];
                 //System.out.println("当前类信息-->" + apiClass.value() + "-->" + apiClass.tags()[0] + " --> " + url);
@@ -133,6 +132,8 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                     updAuthority.setUrl(url);                               // 接口URL
                     updAuthority.setDesc(apiClass.tags()[0]);               // 接口描叙
                     updAuthority.setType(uriType);                          // 终端
+                    updAuthority.setState(state);                           // 授权(类是在游历在法律之外的)
+                    updAuthority.setDisable(Enums.Base.Disable.DISABLE_0.getValue());  // 默认启用(类是在游历在法律之外的)
                     // 添加方法上的权限
                     this.putMethods(classInfo, authorityMap, updAuthority, updAuth, addAuth);
                     //
@@ -268,6 +269,55 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 }
             });
             return adminAuthorityVOList;
+        }
+    }
+
+    /**
+     * 查询接口列表，树结构
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<AdminAuthorityVO> findByRoleIdAuthorityTreeChecked(String roleId) {
+        // 获取当前角色拥有的url权限列表
+        List<AdminRoleAuth> roleIds = adminRoleAuthMapper.selectList(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, roleId));
+        List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
+        // 获取所有管理端的url,请求方式排序( PC_admin)
+        List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
+                .orderByAsc(AdminAuthority::getMethod)
+                .eq(AdminAuthority::getType, Enums.Admin.AuthorityType.AUTHORITY_TYPE_0.getValue())
+        );
+
+        List<AdminAuthorityVO> respAuthorityVOList = new ArrayList<>();
+
+        // 返回数据处理
+        if (authorityList == null || authorityList.size() <= 0) {
+            return null;
+        } else {
+            List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authorityList, AdminAuthorityVO.class);
+            adminAuthorityVOList.forEach(authVO -> {
+                if (roleAuthIds.contains(authVO.getId())) {
+                    authVO.setIsChecked(true);
+                } else {
+                    authVO.setIsChecked(false);
+                }
+                // 拼接下级tree数据
+                if (authVO.getPid().equals("") || authVO.getPid().equals(0)) {
+                    adminAuthorityVOList.forEach(authTwoVO -> {
+                        if (authTwoVO.getPid().equals(authVO.getId())) {
+                            if (authVO.getAuthoritys() == null) {
+                                authVO.setAuthoritys(new ArrayList<AdminAuthorityVO>() {{
+                                    add(authTwoVO);
+                                }});
+                            } else {
+                                authVO.getAuthoritys().add(authTwoVO);
+                            }
+                        }
+                    });
+                    respAuthorityVOList.add(authVO);
+                }
+            });
+            return respAuthorityVOList;
         }
     }
 

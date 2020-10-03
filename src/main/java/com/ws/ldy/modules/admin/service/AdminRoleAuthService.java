@@ -17,8 +17,4 @@ import java.util.List;
 public interface AdminRoleAuthService extends IService<AdminRoleAuth> {
 
 
-
-
-
-
 }

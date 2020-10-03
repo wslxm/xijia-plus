@@ -37,11 +37,13 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
     /**
      * 获取用户的url权限列表，给指定角色的有的权限数据赋予选中状态
      *
-     * @param userId 用户id
+     * @param roleId 角色id
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    List<AdminAuthorityVO> findByRoleIdAuthorityChecked(String userId);
+    List<AdminAuthorityVO> findByRoleIdAuthorityChecked(String roleId);
+
+    List<AdminAuthorityVO> findByRoleIdAuthorityTreeChecked(String roleId);
 
 
     /**
@@ -52,7 +54,6 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      * @date 2019/11/25 0025 11:55
      */
     List<String> findByUserIdaAndDisableFetchAuthority(String userId);
-
 
     /**
      * 刷新接口

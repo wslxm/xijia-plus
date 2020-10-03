@@ -1,4 +1,4 @@
-//package com.ws.ldy.common.user;
+package com.ws.ldy.common.user;//package com.ws.ldy.common.user;
 //
 //import com.ws.ldy.common.result.ResultEnum;
 //import com.ws.ldy.config.error.ErrorException;

@@ -22,7 +22,7 @@
 </div>
 
 <div class="searchTable layui-form">
-    <div class="layui-inline" style="padding-top:  2%;margin-left: 50%" >
+    <div class="layui-inline" style="padding-top:  2%;margin-left: 50%">
         <input type="checkbox" lay-filter="method" name="method" value="1" lay-skin="primary" title="GET"/>
         <input type="checkbox" lay-filter="method" name="method" value="2" lay-skin="primary" title="PUT"/>
         <input type="checkbox" lay-filter="method" name="method" value="3" lay-skin="primary" title="POST"/>
@@ -289,10 +289,11 @@
             authIds[i] = checkData.data[i].id
         }
         // 拼接数据并修改
-        let params = "";
-        params += "?roleId=" + roleId;
-        params += "&authIds=" + authIds;
-        let result = Ajax.put(updRoleUrlAuth + params);
+        let data = {
+            roleId: roleId,
+            authIds: authIds
+        };
+        let result = Ajax.put(updRoleUrlAuth, data);
         layer.msg(result.msg + " 当前角色拥有菜单：" + checkData.data.length + "个 ")
     }
 

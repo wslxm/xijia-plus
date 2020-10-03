@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.admin.model.dto.AdminBannerDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminBanner;
 import com.ws.ldy.modules.admin.model.vo.AdminBannerVO;
@@ -32,15 +35,15 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("/admin/adminBanner")
-@Api(value = "AdminBanner", tags = "banner表", description = "banner表")
+@Api(value = "AdminBanner", tags = "banner表", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminBannerController extends BaseController<AdminBannerService> {
 
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
     @ApiOperation(value = "分页查询", notes = "")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query", example = "1"),
-            @ApiImplicitParam(name = "limit", value = "记录数", required = true, paramType = "query", example = "20"),
+            @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
+            @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),
             @ApiImplicitParam(name = "name", value = "banner标题", required = false, paramType = "query", example = ""),
 
     })
@@ -48,7 +51,7 @@ public class AdminBannerController extends BaseController<AdminBannerService> {
     ) {
         Page<AdminBanner> page = baseService.page(this.getPage(), new LambdaQueryWrapper<AdminBanner>()
                 .orderByDesc(AdminBanner::getCreateTime)
-                .eq(StringUtils.isNotBlank(name.trim()), AdminBanner::getName, name.trim())
+                .eq(StringUtils.isNotBlank(name), AdminBanner::getName, name)
 
         );
         return R.successFind(BeanDtoVoUtil.pageVo(page, AdminBannerVO.class));
@@ -64,6 +67,9 @@ public class AdminBannerController extends BaseController<AdminBannerService> {
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "添加", notes = "必须不传递ID")
     public R<Boolean> insert(@RequestBody @Validated AdminBannerDTO dto) {
+        if (StringUtils.isNotBlank(dto.getId())) {
+            throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
+        }
         AdminBanner adminBanner = dto.convert(AdminBanner.class);
         return R.successInsert(baseService.save(adminBanner));
     }
@@ -72,6 +78,9 @@ public class AdminBannerController extends BaseController<AdminBannerService> {
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "ID编辑", notes = "必须传递ID")
     public R<Boolean> upd(@RequestBody @Validated AdminBannerDTO dto) {
+          if (StringUtils.isBlank(dto.getId())) {
+              throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
+          }
         return R.successUpdate(baseService.updateById(dto.convert(AdminBanner.class)));
     }
 
