@@ -8,16 +8,17 @@
 展示地址:
  [http://xijia.plus/](http://xijia.plus/) 
  
-账号：admin  
-密码：admin
-
-更新内容文档: [https://gitee.com/wslxm/spring-boot-plus2/blob/v-0.0.4/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/v-0.0.4/VERSION_LOG.md) 
+账号：10000  
+密码：10000
 
 ### 最新说明
-- 当前主分支为v-0.0.4 的分支最后更新代码,可稳定运行, 下个更新版本的版本 v-0.0.5 
+- 当前主分支为v-0.0.5 的分支最后更新代码,可稳定运行, 下个更新版本的版本 v-0.0.6 
 - v-0.0.2 版本时增加 maven 版本标识
 - v-0.0.3 + v-0.0.4 因代码变动代码生成器的html代码部分生成数据未处理
 - v-0.0.4 各功能可正常运行,权限+角色数据全部修改为热更新-[禁用资源,需登录(状态),需授权(状态),禁用角色,分配用户角色,分配角色权限],已登录的正在使用的用户都将在用户的下一次有效操作中被刷新权限
+- v-0.0.5 更新/优化第三方接口(微信openId获取,公众号消息推送，阿里云短信,快递100,顺丰寄送),增加了banner管理, 全局配置管理, Excel导出的ExcelUtil工具类,优化了websocket,阿里云oss等
+
+详细更新内容文档: [https://gitee.com/wslxm/spring-boot-plus2/blob/v-0.0.4/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/v-0.0.4/VERSION_LOG.md) 
 
 ### 当前功能列表
 
