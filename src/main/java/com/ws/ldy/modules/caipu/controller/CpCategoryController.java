@@ -5,13 +5,11 @@ import com.ws.ldy.common.function.LambdaUtils;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.common.utils.IdUtil;
 import com.ws.ldy.common.utils.StringUtil;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.admin.model.dto.AdminDictionaryDTO;
 import com.ws.ldy.modules.caipu.model.entity.CpCategory;
-import com.ws.ldy.modules.caipu.model.entity.CpInfo;
 import com.ws.ldy.modules.caipu.model.vo.CpCategoryVO;
 import com.ws.ldy.modules.caipu.service.CpCategoryService;
 import com.ws.ldy.modules.caipu.service.CpInfoService;
@@ -23,7 +21,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -164,26 +161,26 @@ public class CpCategoryController extends BaseController<CpCategoryService>  {
 
 
 
-    @RequestMapping(value = "/insertInit", method = RequestMethod.PUT)
-    @ApiOperation(value = "初始数据写人", notes = "排序数字越小,越靠前")
-    public R<Void> insertInit() {
-        List<CpInfo> list = cpInfoService.list(new LambdaQueryWrapper<CpInfo>()
-                .select(CpInfo::getZid)
-                .groupBy(CpInfo::getZid)
-        );
-        List<CpCategory> addCpInfo = new ArrayList<>();
-        for (int i = 1; i < list.size() + 1 ; i++) {
-            CpCategory dict = new CpCategory();
-            dict.setId(IdUtil.snowflakeId());
-            dict.setName(list.get(i-1).getZid());
-            dict.setCode(i+"");
-            dict.setDesc("-");
-            dict.setDisable(0);
-            dict.setSort(0);
-            dict.setPid("1298865592406097921");
-            addCpInfo.add(dict);
-        }
-        baseService.saveBatch(addCpInfo);
-        return R.successUpdate();
-    }
+//    @RequestMapping(value = "/insertInit", method = RequestMethod.PUT)
+//    @ApiOperation(value = "初始数据写人", notes = "排序数字越小,越靠前")
+//    public R<Void> insertInit() {
+//        List<CpInfo> list = cpInfoService.list(new LambdaQueryWrapper<CpInfo>()
+//                .select(CpInfo::getZid)
+//                .groupBy(CpInfo::getZid)
+//        );
+//        List<CpCategory> addCpInfo = new ArrayList<>();
+//        for (int i = 1; i < list.size() + 1 ; i++) {
+//            CpCategory dict = new CpCategory();
+//            dict.setId(IdUtil.snowflakeId());
+//            dict.setName(list.get(i-1).getZid());
+//            dict.setCode(i+"");
+//            dict.setDesc("-");
+//            dict.setDisable(0);
+//            dict.setSort(0);
+//            dict.setPid("1298865592406097921");
+//            addCpInfo.add(dict);
+//        }
+//        baseService.saveBatch(addCpInfo);
+//        return R.successUpdate();
+//    }
 }
