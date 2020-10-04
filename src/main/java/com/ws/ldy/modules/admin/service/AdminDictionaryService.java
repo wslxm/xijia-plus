@@ -18,7 +18,13 @@ import java.util.Map;
 public interface AdminDictionaryService extends IService<AdminDictionary> {
 
 
-   List<AdminDictionaryVO>  findTree();
+ /**
+  *
+  * @param
+  * @return
+  */
+    List<AdminDictionaryVO> findTree();
+
 
     /**
      *  根据code查询数据+ 下级所有层级数据（无限递归），不包括禁用数据,数据Sort排序，在根据 Code排序
