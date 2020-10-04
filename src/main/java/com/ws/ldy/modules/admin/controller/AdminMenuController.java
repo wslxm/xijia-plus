@@ -7,7 +7,6 @@ import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
-import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.admin.model.dto.AdminMenuDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminMenu;
 import com.ws.ldy.modules.admin.model.vo.AdminMenuVO;
@@ -47,18 +46,12 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
 
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiOperation(value = "查询所有", notes = "根据sort字段正序排序,sort越小越靠前")
-    @ApiImplicitParam(name = "isBottomLayer", value = "true 需要最后一级 false 不需要最后一级(默认true)", required = true, paramType = "query", example = "true")
-    public R<List<AdminMenuVO>> findList(Boolean isBottomLayer) {
+    public R<List<AdminMenuVO>> findList() {
         List<AdminMenu> menus = baseService.list(new LambdaQueryWrapper<AdminMenu>()
                 .orderByAsc(AdminMenu::getSort)
                 .orderByAsc(AdminMenu::getId)
         );
-        if (isBottomLayer==null || isBottomLayer) {
-            return R.successFind(BeanDtoVoUtil.listVo(menus, AdminMenuVO.class));
-        } else {
-            List<AdminMenu> newMenus = menus.stream().filter(i -> !i.getRoot().equals(Enums.Admin.MenuRoot.MENU_ROOT_3.getValue())).collect(Collectors.toList());
-            return R.successFind(BeanDtoVoUtil.listVo(newMenus, AdminMenuVO.class));
-        }
+        return R.successFind(BeanDtoVoUtil.listVo(menus, AdminMenuVO.class));
     }
 
     /**
@@ -70,7 +63,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
             "2、根据 pid + roleId 查询当前角色+指定父菜单下的所有菜单给予选中状态 isChecked=true，包括自身, 不在当前 pid 下和 roleId没有权限角色的: isChecked=false || null, 返回List 列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "父id", required = false, paramType = "query"),
-            @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
     })
     public R<List<AdminMenuVO>> findByPidOrRoleId(String id, String roleId) {
         List<AdminMenuVO> menus = baseService.findPIdOrRoleIdList(id, roleId);
@@ -93,6 +86,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
         List<AdminMenuVO> menus = baseService.findPIdOrRoleIdTree(id, roleId);
         return R.successFind(BeanDtoVoUtil.listVo(menus, AdminMenuVO.class));
     }
+
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
