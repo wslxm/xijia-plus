@@ -14,7 +14,6 @@ import com.ws.ldy.modules.admin.model.vo.AdminDictionaryVO;
 import com.ws.ldy.modules.admin.service.AdminDictionaryService;
 import com.ws.ldy.others.base.controller.BaseController;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 /**
@@ -40,30 +38,16 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
 
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiOperation(value = "查询所有", notes = "")
-    @ApiImplicitParam(name = "isBottomLayer", value = "true 需要最后一级 false 不需要最后一级(默认true)", required = true, paramType = "query", example = "true")
-    public R<List<AdminDictionaryVO>> findList(Boolean isBottomLayer) {
+    public R<List<AdminDictionaryVO>> findList() {
         List<AdminDictionary> list = baseService.list(new LambdaQueryWrapper<AdminDictionary>()
                 .orderByAsc(AdminDictionary::getSort)
                 .orderByAsc(AdminDictionary::getCode));
-        if (isBottomLayer==null || isBottomLayer) {
-            return R.successFind(BeanDtoVoUtil.listVo(list, AdminDictionaryVO.class));
-        } else {
-            List<AdminDictionary> newList = list.stream().filter(i -> !StringUtil.isInteger(i.getCode())).collect(Collectors.toList());
-            return R.successFind(BeanDtoVoUtil.listVo(newList, AdminDictionaryVO.class));
-        }
-
+        return R.successFind(BeanDtoVoUtil.listVo(list, AdminDictionaryVO.class));
     }
 
     @RequestMapping(value = "/findTree", method = RequestMethod.GET)
     @ApiOperation(value = "查询所有 Tree", notes = "")
     public R<List<AdminDictionaryVO>> findTree() {
-        return R.successFind(baseService.findTree());
-    }
-
-
-    @RequestMapping(value = "/findUpdPidTree", method = RequestMethod.GET)
-    @ApiOperation(value = "变更父级查询所有 Tree", notes = "不查询code为数字的")
-    public R<List<AdminDictionaryVO>> findUpdPidTree() {
         return R.successFind(baseService.findTree());
     }
 

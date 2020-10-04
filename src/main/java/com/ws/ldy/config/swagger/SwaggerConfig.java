@@ -54,8 +54,8 @@ public class SwaggerConfig {
                 .build()
                 .useDefaultResponseMessages(false)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("BASE--通用接口")
-                        .description("BASE--通用接口 Swagger API 文档")
+                        .title("牙贝美塑--BASE")
+                        .description("牙贝美塑 Swagger API 文档")
                         .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
                         .version("1.0.0")
                         .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
@@ -75,8 +75,8 @@ public class SwaggerConfig {
                 .build()
                 .useDefaultResponseMessages(false)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("ADMIN--系统模块")
-                        .description("ADMIN--系统模块Swagger API 文档")
+                        .title("牙贝美塑--ADMIN")
+                        .description("牙贝美塑 Swagger API 文档")
                         .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
                         .version("1.0.0")
                         .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
@@ -87,23 +87,43 @@ public class SwaggerConfig {
     @Bean
     public Docket yaBeiAdminApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("食谱API")
+                .groupName("牙贝--管理端")
                 .globalOperationParameters(getGlobalParameter(1))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.caipu.controller"))   // 自行修改为自己的包路径
+                .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.yabei.admin.controller"))   // 自行修改为自己的包路径
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
                 .build()
                 .useDefaultResponseMessages(false)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("食谱API")
-                        .description("食谱API Swagger API 文档")
+                        .title("牙贝--后台管理端")
+                        .description("牙贝美塑 Swagger API 文档")
                         .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
                         .version("1.0.0")
                         .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
                         .build());
     }
 
+
+    @Bean
+    public Docket yaBeiDoctorApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("牙贝--医生端")
+                .globalOperationParameters(getGlobalParameter(2))
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.yabei.consumer.controller"))   // 自行修改为自己的包路径
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+                .paths(PathSelectors.any())
+                .build()
+                .useDefaultResponseMessages(false)
+                .apiInfo(new ApiInfoBuilder()
+                        .title("牙贝--医生端")
+                        .description("牙贝美塑 Swagger API 文档")
+                        .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
+                        .version("1.0.0")
+                        .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
+                        .build());
+    }
 
 
     /**
