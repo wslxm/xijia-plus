@@ -170,6 +170,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     }
 
 
+
     /**
      * 生成java 代码枚举对象， 请将生成好的代码直接替换到 enums/Enums 类
      * @author wangsong
