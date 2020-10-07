@@ -31,6 +31,7 @@ public class CpCategoryServiceImpl extends BaseIServiceImpl<CpCategoryMapper, Cp
         List<CpCategory> dictList = this.list(new LambdaQueryWrapper<CpCategory>()
                 .orderByAsc(CpCategory::getSort)
                 .orderByAsc(CpCategory::getCode)
+                .eq( CpCategory::getDisable, Enums.Base.Disable.DISABLE_0.getValue())
         );
         List<CpCategoryVO> dictVoList = BeanDtoVoUtil.listVo(dictList, CpCategoryVO.class);
         // 递归添加下级数据,  new ArrayList<>() 是没有用的, findByCodeIds收集Ids 所有

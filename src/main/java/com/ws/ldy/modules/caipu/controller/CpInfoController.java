@@ -3,25 +3,25 @@ package com.ws.ldy.modules.caipu.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import com.ws.ldy.enums.BaseConstant;
-
-import io.swagger.annotations.*;
-import org.apache.commons.lang3.StringUtils;
-import com.ws.ldy.config.error.ErrorException;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.ws.ldy.modules.caipu.model.entity.CpInfo;
-import com.ws.ldy.modules.caipu.model.vo.CpInfoVO;
-import com.ws.ldy.modules.caipu.model.dto.CpInfoDTO;
-import com.ws.ldy.modules.caipu.service.CpInfoService;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.modules.caipu.model.dto.CpInfoDTO;
+import com.ws.ldy.modules.caipu.model.entity.CpInfo;
+import com.ws.ldy.modules.caipu.model.vo.CpInfoVO;
+import com.ws.ldy.modules.caipu.service.CpInfoService;
 import com.ws.ldy.others.base.controller.BaseController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
-import java.time.LocalDateTime;
 
 
 /**
@@ -44,16 +44,31 @@ public class CpInfoController extends BaseController<CpInfoService>  {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query",example = "1"),
             @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query",example = "20"),
- 
+            @ApiImplicitParam(name = "cid", value = "分类", required = false, paramType = "query",example = ""),
+            @ApiImplicitParam(name = "zid", value = "主分类", required = false, paramType = "query",example = ""),
+            @ApiImplicitParam(name = "title", value = "菜谱标题", required = false, paramType = "query",example = ""),
+            @ApiImplicitParam(name = "difficulty", value = "难度（0初级、1中级、3高级", required = false, paramType = "query",example = ""),
+
     })
     public R<IPage<CpInfoVO>> findPage(
-                                              ) {
+            @RequestParam(required = false) String cid,
+            @RequestParam(required = false) String zid,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) Integer difficulty
+    ) {
         Page<CpInfo> page = baseService.page(this.getPage(), new LambdaQueryWrapper<CpInfo>()
                 .orderByDesc(CpInfo::getCreateTime)
- 
+                .like(StringUtils.isNotBlank(cid),CpInfo::getCid,cid)
+                .like(StringUtils.isNotBlank(zid),CpInfo::getZid,zid)
+                .like(StringUtils.isNotBlank(title),CpInfo::getTitle,title)
+                .eq(difficulty != null,CpInfo::getDifficulty,difficulty)
+
         );
         return R.successFind(BeanDtoVoUtil.pageVo(page, CpInfoVO.class));
     }
+
+
+
 
     @RequestMapping(value = "/findId", method = RequestMethod.GET)
     @ApiOperation(value = "ID查询", notes= "")

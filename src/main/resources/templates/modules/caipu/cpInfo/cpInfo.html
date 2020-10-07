@@ -28,6 +28,30 @@
 
 <!-- 搜索 -->
 <div class="searchTable">
+    <div class="layui-inline">
+        <label class="layui-form-label">菜名:</label>
+        <div class="layui-input-block">
+            <input type="text" id="title" name="title" placeholder="请输入菜谱标题..." autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">主分类:</label>
+        <div class="layui-input-block">
+            <input type="text" id="zid" name="zid" placeholder="请输入主分类..." autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">分类:</label>
+        <div class="layui-input-block">
+            <input type="text" id="cid" name="cid" placeholder="请输入分类..." autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">难度</label>
+        <div class="layui-input-block">
+            <input type="text" id="difficulty" name="difficulty" placeholder="请输入难度（0初级、1中级、3高级..." autocomplete="off" class="layui-input">
+        </div>
+    </div>
 
 
     <!-- <button class="layui-btn layui-btn-normal layui-btn-sm" data-type="reload">搜索</button>-->
@@ -179,7 +203,7 @@
         table.on('toolbar(auth-table)', function (obj) {
             //添加
             if (obj.event === "add") {
-                Pop.tipsWindown(cpInfoPageAdd, "600px", "400px", "添加");
+                Pop.tipsWindown(cpInfoPageAdd, "65%", "800px", "添加");
             }
         });
     }
@@ -197,7 +221,7 @@
             data = obj.data;  //当前行数据
             //编辑
             if (obj.event === 'edit') {
-                Pop.tipsWindown(cpInfoPageUpd, "600px", "400px", "修改");
+                Pop.tipsWindown(cpInfoPageUpd, "65%", "800px", "修改");
             }
             //删除
             if (obj.event === 'del') {
@@ -242,10 +266,13 @@
      */
     function xijiaSearchParam() {
         let params = "";
+        params += "&cid=" + $("#cid").val();
+        params += "&zid=" + $("#zid").val();
+        params += "&title=" + $("#title").val();
+        params += "&difficulty=" + $("#difficulty").val();
 
         return params;
     }
-
 
     /**
      * 鼠标移动到菜品上的展示

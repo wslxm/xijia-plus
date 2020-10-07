@@ -29,7 +29,7 @@ public interface CpCategoryService extends IService<CpCategory> {
      *  根据code查询数据+ 下级所有层级数据（无限递归），不包括禁用数据,数据Sort排序，在根据 Code排序
      *
      * @param code
-     * @param isDisable 是否查询禁用数据
+     * @param isDisable 是否不查询禁用数据(true=不查询)
      * @return java.util.List<com.ws.ldy.admin.model.vo.AdminDictionaryVO>
      * @date 2020/7/12 0012 19:22
      */
