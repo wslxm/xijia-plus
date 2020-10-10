@@ -23,6 +23,10 @@ public class AdminRoleAuth extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
     /**
+     * 不使用逻辑删除 --> 逻辑删除字段 int 默认值为0，(0、正常，1、删除) (mybatis-plus 策略, 添加了 @TableLogic 注解自动为逻辑删除)
+     */
+    private Integer deleted;
+    /**
      * url权限id
      */
     private String authId;
@@ -30,5 +34,10 @@ public class AdminRoleAuth extends BaseEntity {
      * 角色id
      */
     private String roleId;
+
+    public AdminRoleAuth(String authId, String roleId) {
+        this.authId = authId;
+        this.roleId = roleId;
+    }
 }
 

@@ -50,6 +50,8 @@ public class AdminBannerController extends BaseController<AdminBannerService> {
     public R<IPage<AdminBannerVO>> findPage(@RequestParam(required = false) String name
     ) {
         Page<AdminBanner> page = baseService.page(this.getPage(), new LambdaQueryWrapper<AdminBanner>()
+                .orderByAsc(AdminBanner::getPosition)
+                .orderByAsc(AdminBanner::getSort)
                 .orderByDesc(AdminBanner::getCreateTime)
                 .eq(StringUtils.isNotBlank(name), AdminBanner::getName, name)
 

@@ -2,6 +2,7 @@ package com.ws.ldy.modules.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.admin.mapper.AdminRoleMapper;
 import com.ws.ldy.modules.admin.model.dto.AdminRoleDTO;
 import com.ws.ldy.modules.admin.model.dto.role.RoleAuthDTO;
@@ -32,6 +33,9 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
 
     @Autowired
     private AdminRoleAuthService adminRoleAuthService;
+
+    @Autowired
+    private AdminRoleService adminRoleService;
 
     /**
      * 添加角色-默认有所有URL 权限
@@ -64,7 +68,6 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      */
     @Override
     public List<AdminRoleVO> findByUserIdRoleChecked(String userId) {
-        //TODO 代码不够完美，代优化
         //查询所有角色
         List<AdminRole> roles = this.list();
         //查询用户当前角色
@@ -109,20 +112,6 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      * @return boolean
      * @version 1.0.0
      */
-//    @Override
-//
-//    public boolean updUserRole(String userId, String[] roleIds) {
-//        //删除原角色所有权限数据
-//        boolean result = roleUserAdminService.remove(new QueryWrapper<AdminRoleUser>().eq("user_id", userId));
-//        if (roleIds == null || roleIds.length <= 0) {
-//            return true;
-//        }
-//        List<AdminRoleUser> roleUserList = new ArrayList<>();
-//        for (int i = 0; i < roleIds.length; i++) {
-//            roleUserList.add(new AdminRoleUser(roleIds[i], userId));
-//        }
-//        return roleUserAdminService.saveBatch(roleUserList, 1024);
-//    }
     @Override
     @Transactional
     public boolean updUserRole(UserRoleDTO dto) {
@@ -147,19 +136,6 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      * @mail 1720696548@qq.com
      * @date 2020/4/6 0006 17:47
      */
-//    @Override
-//    public boolean roleMenuAuth(String roleId, String[] menuIds) {
-//        // 删除当前角色所有菜单权限
-//        boolean result = adminRoleMenuService.remove(new LambdaQueryWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, roleId));
-//        if (menuIds == null || menuIds.length <= 0) {
-//            return true;
-//        }
-//        List<AdminRoleMenu> addRoleMenu = new LinkedList<>();
-//        for (int i = 0; i < menuIds.length; i++) {
-//            addRoleMenu.add(new AdminRoleMenu(roleId, menuIds[i]));
-//        }
-//        return adminRoleMenuService.saveBatch(addRoleMenu, 1024);
-//    }
     @Override
     @Transactional
     public boolean roleMenuAuth(RoleMenuDTO dto) {
@@ -177,6 +153,34 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
 
 
     /**
+     * 所有角色拥有所有权限
+     * @author wangsong
+     * @date 2020/10/9 0009 15:50
+     * @return boolean
+     * @version 1.0.0
+     */
+    @Override
+    public boolean roleAuthAll() {
+        List<AdminRole> roleList = adminRoleService.list();
+        List<AdminAuthority> authList = adminAuthorityService.list(new LambdaQueryWrapper<AdminAuthority>()
+                .select(AdminAuthority::getId)
+                .eq(AdminAuthority::getType, Enums.Admin.AuthorityType.AUTHORITY_TYPE_0.getValue())
+        );
+        //
+        List<AdminRoleAuth> addRoleAuthList = new ArrayList<>();
+        for (AdminRole role : roleList) {
+            for (AdminAuthority auth : authList) {
+                addRoleAuthList.add(new AdminRoleAuth(auth.getId(), role.getId()));
+            }
+        }
+        //删除所有
+        adminRoleAuthService.remove(null);
+        //更新权限
+        boolean result = adminRoleAuthService.saveBatch(addRoleAuthList, 1024);
+        return result;
+    }
+
+    /**
      *  分配角色url权限
      *
      * @return void
@@ -184,19 +188,6 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      * @mail 1720696548@qq.com
      * @date 2020/4/6 0006 17:47
      */
-//    @Override
-//    public boolean roleUrlAuth(String roleId, String[] authIds) {
-//        //删除原数据
-//        boolean result = adminRoleAuthService.remove(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, roleId));
-//        if (authIds == null || authIds.length <= 0) {
-//            return true;
-//        }
-//        List<AdminRoleAuth> roleAuthList = new ArrayList<>();
-//        for (int i = 0; i < authIds.length; i++) {
-//            roleAuthList.add(new AdminRoleAuth(authIds[i], roleId));
-//        }
-//        return adminRoleAuthService.saveBatch(roleAuthList, 1024);
-//    }
     @Override
     @Transactional
     public boolean roleUrlAuth(RoleAuthDTO dto) {

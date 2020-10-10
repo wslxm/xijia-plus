@@ -66,6 +66,15 @@ public interface AdminRoleService extends IService<AdminRole> {
     // boolean roleMenuAuth(String roleId, String[] menuIds);
     boolean roleMenuAuth(RoleMenuDTO dto);
 
+
+    /***
+     *  分配所有角色拥有所有权限
+     * @date 2019/11/18 15:45
+     * @return void
+     */
+    // boolean roleUrlAuth(String roleId, String[] authIds);
+    boolean roleAuthAll();
+
     /***
      *  分配角色url权限
      * @date 2019/11/18 15:45

@@ -169,4 +169,11 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
         // 菜单每次都是重新请求接口获取的,不用做任何配置
         return R.successUpdate(baseService.roleMenuAuth(dto));
     }
+
+    @RequestMapping(value = "/updRoleAuthAll", method = RequestMethod.PUT)
+    @ApiOperation(value = "所有角色拥有所有权限", notes = "")
+    public R<Boolean> updRoleAuthAll() {
+        return R.successUpdate(baseService.roleAuthAll());
+    }
+
 }
