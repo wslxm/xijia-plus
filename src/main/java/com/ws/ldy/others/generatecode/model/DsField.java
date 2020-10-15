@@ -64,13 +64,20 @@ public class DsField {
      * 4、pathTp;            // 代码模板路径
      */
     public DsField(String tableName, String tableComment, String packPath, String pathTp) {
-        this.PATH_TP = pathTp;
-        this.TABLE_NAME = tableName;
-        this.TABLE_COMMENT = tableComment;
-        this.PACK_PATH = packPath;
-        String newTableName = tableName.replace("t_", ""); //去掉数据库表名称的 t_
-        this.TABLE_NAME_UP = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, newTableName);    // test_data --> TestData
-        this.TABLE_NAME_LOWER = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, newTableName); // test_data --> testData
+        PATH_TP = pathTp;
+        TABLE_NAME = tableName;
+        TABLE_COMMENT = tableComment;
+        PACK_PATH = packPath;
+        //获取前缀
+        String prefix = tableName.substring(0, 2);
+        String newTableName = tableName;
+        // 如果为?_  去除 ?_
+        if ("t_".equals(prefix)) {
+            //去掉数据库表的前缀，如 t_
+            newTableName = tableName.substring(2);
+        }
+        TABLE_NAME_UP = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, newTableName);    // test_data --> TestData
+        TABLE_NAME_LOWER = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, newTableName); // test_data --> testData
     }
 
 
@@ -78,7 +85,8 @@ public class DsField {
     public static void main(String[] args) {
         System.out.println(CaseFormat.LOWER_HYPHEN.to(CaseFormat.LOWER_CAMEL, "t_test-data"));//testData
         System.out.println(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, "t_test_data"));//testData
-        System.out.println(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, "t_test_data"));//TestData
+        System.out.println(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, "t_test_data_test"));//TestData
+        System.out.println(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, "pay_account_change"));//TestData
         System.out.println(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "testdata"));//testdata
         System.out.println(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "TestData"));//test_data
         System.out.println(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, "testData"));//test-data
