@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 顺丰快递 Api 接口对接， 官网文档-零担下单： https://freight.sf-express.com/api/api.html#id=30
+ * 快递100： 官网地址： https://api.kuaidi100.com/login/
  * <P>
- * 请求头必须添加： "Content-type","application/x-www-form-urlencoded;charset=UTF-8”
+ * 统一请求头： "Content-type","application/x-www-form-urlencoded”
  *
  * </P>
  * @author wangsong
