@@ -70,5 +70,8 @@ public class SFOrder {
      * 顺丰月结卡号
      */
     private String monthlyCard;
-
+    /**
+     * 下单备注
+     */
+    private String remark;
 }

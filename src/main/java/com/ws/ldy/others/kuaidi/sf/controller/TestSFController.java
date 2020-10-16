@@ -55,8 +55,7 @@ public class TestSFController {
         en.setContactInfoList(contactInfoList);
         en.setCargoDetails(cargoDetails1);
         en.setOrderId(orderId);
-        en.setLanguage("zh_CN"); // 顺丰接口返回中文
-        en.setIsDocall(1);       // 快递终端
+        en.setRemark("下单备注");
         return R.success(sfService.placeAnOrder(en));
     }
 
