@@ -39,7 +39,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 
         //扩展的第三方模块
         , extend: [
-            'echarts', //echarts 核心包
+            'echarts',     //echarts 核心包
             'echartsTheme' //echarts 主题
         ]
 
@@ -48,22 +48,22 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
             //内置主题配色方案
             color: [
                 {
-                    main: '#20222A'          //主题色
-                    , bgs: '#20222A'         //主题色-左边导航菜单点击展开后的颜色
-                    , selected: '#009688'    //选中色
-                    // , logoTitle:'red'    // 字体色-标题处字体色
-                    // , menuTitle:'red'    // 字体色-左菜单字体色
-                    , alias: 'default'       //默认别名
+                    main: '#20222A'          // 主题色
+                    , bgs: '#20222A'         // 主题色-左边导航菜单点击展开后的颜色
+                    , selected: '#009688'    // 选中色
+                    // , logoTitle:'red'     // 字体色-标题处字体色
+                    // , menuTitle:'red'     // 字体色-左菜单字体色
+                    , alias: 'default'       // 默认别名
                 },
                 {
-                    main: '#f8f7f7'          // 主题色-左边导航菜单颜色
-                    , bgs: '#f3f0f0'         // 主题色-左边导航菜单点击展开后的颜色
-                    , selected: '#dbd7d7'    // 主题色-左边导航菜单选中后的颜色
-                    , logo: '#000000'        // 主题色-标题处背景色
-                    , header: '#000000'      // 顶部栏背景色
+                    main: '#f8f7f7'           // 主题色-左边导航菜单颜色
+                    , bgs: '#f3f0f0'          // 主题色-左边导航菜单点击展开后的颜色
+                    , selected: '#dbd7d7'     // 主题色-左边导航菜单选中后的颜色
+                    , logo: '#000000'         // 主题色-标题处背景色
+                    , header: '#000000'       // 顶部栏背景色
                     , logoTitle: '#ffffff'    // 字体色-标题处字体色
                     , menuTitle: '#000000'    // 字体色-左菜单字体色
-                    , alias: 'classic-white' // 自定义
+                    , alias: 'classic-white'  // 自定义
                 }, {
                     main: '#20222A'          //主题色
                     , bgs: '#20222A'         //主题色-左边导航菜单点击展开后的颜色
