@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/consumer/caipu/cpInfo")
-@Api(value = "CpInfo", tags = "用户端--菜谱表", consumes = BaseConstant.InterfaceType.PC_USER)
+@Api(value = "CpInfo", tags = "用户端--菜谱表")
 public class UCpInfoController extends BaseController<CpInfoService> {
 
 
@@ -54,7 +54,7 @@ public class UCpInfoController extends BaseController<CpInfoService> {
                         i.like(CpInfo::getCid, search)
                                 .or().like(CpInfo::getZid, search)
                                 .or().like(CpInfo::getTitle, search)
-                ).eq(StringUtils.isNotBlank(zid),CpInfo::getZid,zid)
+                ).eq(StringUtils.isNotBlank(zid), CpInfo::getZid, zid)
         );
         return R.successFind(BeanDtoVoUtil.pageVo(page, CpInfoVO.class));
     }

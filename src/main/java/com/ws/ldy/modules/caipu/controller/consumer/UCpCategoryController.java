@@ -25,7 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/consumer/caipu/cpCategory")
-@Api(value = "CpCategory", tags = "用户端--菜谱类别字典表", consumes = BaseConstant.InterfaceType.PC_USER)
+@Api(value = "CpCategory", tags = "用户端--菜谱类别字典表")
 public class UCpCategoryController extends BaseController<CpCategoryService> {
 
     @RequestMapping(value = "/findTree", method = RequestMethod.GET)
