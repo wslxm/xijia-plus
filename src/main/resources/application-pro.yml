@@ -57,4 +57,3 @@ zuul:
 logging:
   file: linux项目的部署路径
 
-

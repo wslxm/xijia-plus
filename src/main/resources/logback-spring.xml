@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
-   <!-- <property name="LOG_HOME" value="logs"/>-->
+    <!-- <property name="LOG_HOME" value="logs"/>-->
 
     <!-- 读取spring.application.name中的属性来生成日志文件名，需yml中定义 -->
-    <springProperty scope="context" name="LOG_NAME" source="spring.application.name" defaultValue="log.log"/>
-    <springProperty scope="context" name="LOG_HOME" source="logging.file" defaultValue="logs"/>
+    <springProperty scope="context" name="LOG_NAME" source="spring.application.name" defaultValue="xijia"/>
+    <springProperty scope="context" name="LOG_HOME" source="logging.filePath" defaultValue="logs"/>
 
     <!-- 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -67,11 +67,15 @@
     <logger name="com.lplb" level="DEBUG"/>
     <logger name="com.alibaba.nacos.client.config.impl.ClientWorker" level="ERROR"/><!--不打印INFO级别的日志-->
     <logger name="springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator" level="ERROR"/>
+    <logger name="de.codecentric.boot.admin.server.web.servlet.InstancesProxyController" level="ERROR"/><!-- 屏蔽系统监控日志，太多,在每秒实现  -->
+
+    <!-- 解决SpringBootAdmin错误日志问题 -->
+    <logger name="org.apache.catalina.connector.CoyoteAdapter" level="OFF"/>
 
     <!-- 日志输出级别 -->
     <root level="INFO">
         <appender-ref ref="STDOUT"/>           <!--控制台输出-->
-        <appender-ref ref="FILE_INFO"/>        <!--INFO 日志文件输出-->
-        <appender-ref ref="FILE_ERROR"/>       <!--ERROR 日志文件输出-->
+        <appender-ref ref="FILE_INFO"/>        <!--INFO 日志文件输出 -->
+        <appender-ref ref="FILE_ERROR"/>       <!--ERROR 日志文件输出 -->
     </root>
 </configuration>
