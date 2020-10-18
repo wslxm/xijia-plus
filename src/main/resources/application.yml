@@ -25,6 +25,19 @@ spring:
     multipart:
       max-file-size: 1024MB      # 单个文件的最大上限
       max-request-size: 1024MB   # 单个请求的文件总大小上限
+  ## spring-boot-admin 配置
+  boot:
+    admin:
+      ## admin 服务端访问地址
+      context-path: /bootAdmin/
+      ## admin 客户端连接服务端
+      client:
+        # 为了显示客户端的ip否则是以主机名显示的，这样需要添加hosts影射。
+        instance:
+          prefer-ip: true
+        url: http://localhost:${server.port}/${spring.boot.admin.context-path}/
+        #username: admin
+        #password: admin@12345
 
 # mybatis-plus相关配置
 mybatis-plus:
@@ -38,7 +51,13 @@ mybatis-plus:
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-
-
-
+# actuator 监控, 配置spring-boot-admin使用
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
 

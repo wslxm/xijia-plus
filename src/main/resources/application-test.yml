@@ -51,8 +51,11 @@ zuul:
       stripPrefix: false
       url: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
 
-
-## logback日志输出：linux 项目放置路径, 请自行配置log在服务器的输出路径，由 logback-spring.xml 读取此配置信息, 线上请配置linux路径: /usr/local/work/xijia2/logs
+## logback日志输出
 logging:
-  file: logs
+  # 日志目录, 线上请配置linux 绝对路径 如：/usr/local/work/xijia2/logs
+  filePath: logs
+  # 配置日志路径即可实时输出到 spring-boot-admin 日志管理
+  file: src/main/resources/static/log/xijia.log
+
 

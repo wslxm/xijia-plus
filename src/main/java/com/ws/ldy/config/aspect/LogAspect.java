@@ -63,6 +63,8 @@ public class LogAspect {
         RequestAttributes ra = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes sra = (ServletRequestAttributes) ra;
         HttpServletRequest request = sra.getRequest();
+
+
         // 获取域名
         String serverName = request.getServerName();
         // 获取用户真实ip
@@ -71,6 +73,8 @@ public class LogAspect {
         String uri = request.getRequestURI();
         // 获得客户端发送请求的完整url
         String url = request.getRequestURL().toString();
+
+
         // 请求的客户机的主机名
         String host = request.getRemoteHost();
         // 请求的客户机的端口号
@@ -93,16 +97,19 @@ public class LogAspect {
             classDesc = classAnnotation.tags().length > 0 ? classAnnotation.tags()[0] : classAnnotation.value();
         }
         Object[] args = proceed.getArgs(); // uri ： 接口  包： packageName,  请求类： 接口+类描叙+接口描叙
-        log.info("用户ip:[{}] --> 设备名:[{}] --> 端口：[{}] -->  请求类:[{}]  -->  URL: [{}] -->  PARAM:[{}]  -->  模块:[{}] -- [{}]",
-                ip,
-                host,
-                port,
-                String.format("%-65s", className),
-                String.format("%-65s", url),
-                args,
-                classDesc,
-                methodDesc
-        );
+        // 打印除监控日志以外的所有请求日志
+        if (uri.indexOf("bootAdmin/instances") == -1) {
+            log.info("用户ip:[{}] --> 设备名:[{}] --> 端口：[{}] -->  请求类:[{}]  -->  URL: [{}] -->  PARAM:[{}]  -->  模块:[{}] -- [{}]",
+                    ip,
+                    host,
+                    port,
+                    String.format("%-65s", className),
+                    String.format("%-65s", url),
+                    args,
+                    classDesc,
+                    methodDesc
+            );
+        }
 //        String s2 = String.format("%6s",new String(classDesc.getBytes(),"ISO-8859-1"));
 //        s2 = new String(s2.getBytes("ISO-8859-1"));
 
