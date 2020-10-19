@@ -18,7 +18,7 @@
 - v-0.0.4 各功能可正常运行,权限+角色数据全部修改为热更新-[禁用资源,需登录(状态),需授权(状态),禁用角色,分配用户角色,分配角色权限],已登录的正在使用的用户都将在用户的下一次有效操作中被刷新权限
 - v-0.0.5 更新/优化第三方接口(微信openId获取,公众号消息推送，阿里云短信,快递100,顺丰寄送),增加了banner管理, 全局配置管理, Excel导出的ExcelUtil工具类,优化了websocket,阿里云oss等
 
-详细更新内容文档: [https://gitee.com/wslxm/spring-boot-plus2/blob/v-0.0.4/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/v-0.0.4/VERSION_LOG.md) 
+详细更新内容文档: [https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md) 
 
 ### 当前功能列表
 
