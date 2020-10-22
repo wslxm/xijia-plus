@@ -24,6 +24,8 @@ var Enums = {
         BannerIsSkip : "BANNER_IS_SKIP",  // banner是否跳转
         BannerPosition : "BANNER_POSITION",  // banner 位置
         ConfigCode : "CONFIG_CODE",  // 系统配置类型
+        HelpCategory : "HELP_CATEGORY",  // 帮助中心类别
+        HelpVersion : "HELP_VERSION",  // 帮助中心版本
         MenuRoot : "MENU_ROOT",  // 菜单级别
         MsgType : "MSG_TYPE",  // 及时消息类型
         MsgUserType : "MSG_USER_TYPE",  // 及时消息终端
@@ -36,28 +38,6 @@ var Enums = {
         IsMail : "IS_MAIL",  // 是否邮寄
         IsNeedMail : "IS_NEED_MAIL",  // 是否需要邮寄
         IsRead : "IS_READ",  // 是否已读
-    },
-    // 开发模块
-    Dev: {
-        BaseItem : "BASE_ITEM",  // 项目名称
-        BaseState : "BASE_STATE",  // 任务状态
-    },
-    // 牙贝模块
-    Yb: {
-        ArticlePosition : "ARTICLE_POSITION",  // 帮助中心位置
-        ArticleType : "ARTICLE_TYPE",  // 文章类型
-        IsRepeat : "IS_REPEAT",  // 是否已添加为复诊
-        LogisticsState : "LOGISTICS_STATE",  // 是否寄送牙模
-        OrderAdminType : "ORDER_ADMIN_TYPE",  // 订单流程状态
-        OrderFeatures : "ORDER_FEATURES",  // 患者特征
-        OrderIsAppliance : "ORDER_IS_APPLIANCE",  // 是否需要重新制作矫治器
-        OrderIsDraft : "ORDER_IS_DRAFT",  // 是否草稿
-        OrderIsFinal : "ORDER_IS_FINAL",  // 是否终诊
-        OrderLogState : "ORDER_LOG_STATE",  // 操作状态
-        OrderStage : "ORDER_STAGE",  // 诊疗阶段
-        OrderState : "ORDER_STATE",  // 订单流程状态
-        OrderUserType : "ORDER_USER_TYPE",  // 订单流程控制类型
-        YbUserType : "YB_USER_TYPE",  // 用户类型
     },
 };
 
