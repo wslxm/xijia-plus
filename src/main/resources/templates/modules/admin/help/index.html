@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <meta charset="utf-8">
+    <title>兮家</title>
+    <link rel="icon" href="/base/pic/icon/xijia.png" type="image/x-icon">          <!--在网页标题左侧显示图标-->
+    <link rel="shortcut icon" href="/base/pic/icon/xijia.png" type="image/x-icon"> <!-- 在收藏夹显示图标-->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- 部分自定义样式  -->
+    <link rel="stylesheet" href="/components/easyeditor/css/easyeditor.css">
+    <!-- layui样式 -->
+    <link rel="stylesheet" href="/components/easyeditor/layui/css/layui.css">
+    <!-- 图标  -->
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_1531710_xb357ub1wmg.css"/>
+    <script src="/components/easyeditor/js/marked.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/components/easyeditor/layui/layui.js"></script>
+    <!---->
+    <script src='/base/js/jquery-3.4.1.min.js'></script>
+    <script src="/base/js/app.js"></script>
+</head>
+
+<style>
+    .oneTitle {
+        margin-top: 5%;
+        margin-left: 10%;
+        font-weight: bold; /*加粗*/
+        font-size: 18px;
+        border: 2px solid #FFFBFB;
+        width: 75%;
+    }
+
+    .twoTitle {
+        cursor: pointer; /* 鼠标放到文字上显示手 */
+        margin-left: 15%;
+        font-size: 16px;
+        margin-top: 2%;
+        border: 2px solid #FFFBFB;
+        width: 65%;
+    }
+</style>
+<body class="layui-container">
+<div style="width:20%;height:100%;background-color:#FFFBFB;display: block; position: fixed; top:2%; left:4%; text-decoration: none;">
+    <!-- 左菜单区  -->
+    <div id="helpMenu">
+        <!-- 动态获取 -->
+        <!--        <div>-->
+        <!--            <div class="oneTitle">一级目录</div>-->
+        <!--            <div value="" class="twoTitle" onclick="getHelp(this)" onmouseover="place(this)" onmouseout="moveAway(this)">二级目录</div>-->
+        <!--            <div class="twoTitle" onclick="getHelp(this)" onmouseover="place(this)" onmouseout="moveAway(this)">二级目录</div>-->
+        <!--            <div class="twoTitle" onclick="getHelp(this)" onmouseover="place(this)" onmouseout="moveAway(this)">二级目录</div>-->
+        <!--        </div>-->
+    </div>
+    <!-- -->
+    <div style="width:75%;height:100%;overflow-y:auto;background-color:#FFFBFB;display: block; position: fixed; top:2%; left:25%; text-decoration: none;">
+        <!-- md 文本解析 -->
+        <div class="easyeditor-panel detail-box" style="margin-top:0px!important;">
+            <!-- markdown文本内容 加入Class属性进行md的样式修饰。防止与框架CSS冲突。非必填easyeditor-content -->
+            <div id="content" class="easyeditor-content">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    var easyeditor;
+    layui.config({
+        base: '../components/easyeditor/mods/' //存放layui拓展模块的目录位置
+    }).extend({
+        easyeditor: 'easyeditor'
+    }).use(['easyeditor'], function () {
+        easyeditor = layui.easyeditor;
+        easyeditor.render({
+            elem: ".easyeditor-content" //存放md内容的元素ID
+        })
+    });
+
+
+    // 选中色和对应的Rgb,不一致无法复制选中色
+    let color = "#FF6E9C";
+    let colorRgb = "rgb(255, 110, 156)";
+
+    /**
+     * 鼠标点击颜色处理 + 数据查询
+     */
+    function getHelp(ths, id) {
+        //清除除选中的其他所有
+        $(".twoTitle").css("color", "#000000");
+        // 设置当前选中
+        ths.style.color = color;
+        // 查询数据，value = 数据id
+        help(id)
+    }
+
+    /**
+     * 鼠标放置样式,不是选中就赋值
+     */
+    function place(ths) {
+        if (ths.style.color !== colorRgb) {
+            ths.style.color = "#D855FF";
+        }
+    }
+
+    /**
+     * 鼠标移开样式,不是选中就赋值
+     */
+    function moveAway(ths) {
+        if (ths.style.color !== colorRgb) {
+            ths.style.color = "#000000";
+        }
+    }
+
+    /**
+     * 动态菜单
+     */
+    function initMenu() {
+        let res = Ajax.get(path + "/admin/adminHelp/findTree");
+        let helpMenuHtml = "";
+        let data = res.data;
+        for (let i = 0; i < data.length; i++) {
+            helpMenuHtml += "<div>";
+            helpMenuHtml += "<div class='oneTitle'>" + data[i].name + "</div>";
+            let ybHelpTreeVOS = data[i].ybHelpTreeVOS;
+            if (ybHelpTreeVOS !== null) {
+                for (let j = 0; j < ybHelpTreeVOS.length; j++) {
+                    helpMenuHtml += " <div class='twoTitle' onclick='getHelp(this,\"" + ybHelpTreeVOS[j].id + "\")' onmouseover='place(this)' onmouseout='moveAway(this)'>" + ybHelpTreeVOS[j].name + "</div>"
+                }
+            }
+            helpMenuHtml += "</div>";
+        }
+        $("#helpMenu").html(helpMenuHtml);
+    }
+
+
+    /**
+     * 加载文章
+     */
+    function help(id) {
+        let res = Ajax.get(path + "/admin/adminHelp/findById?id=" + id);
+        $("#content").html(res.data.content);
+        // 解析md数据
+        easyeditor.render({
+            elem: ".easyeditor-content" //存放md内容的元素ID
+        })
+    }
+
+
+    $(function () {
+        // 加载菜单
+        initMenu();
+        // 加载默认数据
+        help("1318531741886971905");
+    })
+</script>
+</html>
+
+
