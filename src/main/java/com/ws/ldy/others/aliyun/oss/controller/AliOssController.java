@@ -101,7 +101,7 @@ public class AliOssController extends BaseController {
                     "任意文件=file/" + "\r\n" +
                     ")", required = true, example = "image/")
     })
-    public R<List<String>> uploads( @RequestParam("file") MultipartFile[] files, @RequestParam("filePath") String filePath) {
+    public R<List<String>> uploads(@RequestParam("files") MultipartFile[] files, @RequestParam("filePath") String filePath) {
         //接收到的文件
         // List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
         List<String> pathList = new ArrayList();
@@ -222,6 +222,8 @@ public class AliOssController extends BaseController {
         } else {
             throw new ErrorException(10002, "路径错误");
         }
+        //去除空格和逗号
+        fileName = fileName.replaceAll(" ", "").replace(",","");
         return fileName;
     }
 }

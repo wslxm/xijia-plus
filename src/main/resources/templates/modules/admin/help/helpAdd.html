@@ -42,7 +42,8 @@
 </div>
 <!-- Markdown编辑器元素 -->
 <textarea id="L_content" name="content" placeholder="请输入发表内容" class="layui-textarea editor"></textarea>
-
+<!-- 图片粘贴复制拖拽，Markdown编辑器元素  textarea id必须为 L_content，并且该引入必须在 textarea的下方，否则无法读取到 L_content 参数 -->
+<script src="/components/easyeditor/mods/imgCopyPull.js"></script>
 
 <script>
     layui.use(['form'], function () {
@@ -55,9 +56,9 @@
             //初始化Markdown编辑器
             easyeditor.init({
                 elem: '.editor' //textarea 元素class
-                , uploadUrl: '/upload' //图片上传地址
+                , uploadUrl: path + '/aliOssFile/upload?filePath=image/markdown/'   // 图片上传地址
                 , uploadSize: ''  // 限制的上传大小 单位kb 默认 1024k
-                , style: 'fangge'// 内置样式  目前只有默认 和 方格两种
+              //  , style: 'fangge' // 内置样式  目前只有默认 和 方格两种
                 //,codeStyle:'layuiCode' // 代码风格 layuiCode风格 与 默认风格
                 // ,codeSkin:'notepad'    // 代码框样式 默认不填 与notepad 该属性与codeStyle='layuiCodexw'搭配使用
                 , buttonColor: '#FFB800' // 自定义按钮颜色

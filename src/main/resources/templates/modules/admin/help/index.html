@@ -23,12 +23,19 @@
 
 <style>
     .oneTitle {
+        cursor: pointer; /* 鼠标放到文字上显示手 */
         margin-top: 5%;
         margin-left: 10%;
         font-weight: bold; /*加粗*/
         font-size: 18px;
         border: 2px solid #FFFBFB;
         width: 75%;
+        /* 禁止复制 */
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
 
     .twoTitle {
@@ -39,9 +46,18 @@
         border: 2px solid #FFFBFB;
         width: 65%;
     }
+
+    .small-numbers {
+        font-size: 12px;
+        color: #ffc3b8;
+    }
 </style>
 <body class="layui-container">
 <div style="width:20%;height:100%;background-color:#FFFBFB;display: block; position: fixed; top:2%; left:4%; text-decoration: none;">
+    <div style="font-size: 25px;margin-left: 10%;margin-top: 2%">兮家手册
+        <span style="font-size: 16px;"> (0.x)</span>
+    </div>
+    <hr/>
     <!-- 左菜单区  -->
     <div id="helpMenu">
         <!-- 动态获取 -->
@@ -72,15 +88,19 @@
         easyeditor: 'easyeditor'
     }).use(['easyeditor'], function () {
         easyeditor = layui.easyeditor;
+        //
         easyeditor.render({
             elem: ".easyeditor-content" //存放md内容的元素ID
-        })
+        });
+        // 加载菜单
+        initMenu();
     });
 
 
     // 选中色和对应的Rgb,不一致无法复制选中色
     let color = "#FF6E9C";
     let colorRgb = "rgb(255, 110, 156)";
+
 
     /**
      * 鼠标点击颜色处理 + 数据查询
@@ -120,17 +140,23 @@
         let helpMenuHtml = "";
         let data = res.data;
         for (let i = 0; i < data.length; i++) {
-            helpMenuHtml += "<div>";
-            helpMenuHtml += "<div class='oneTitle'>" + data[i].name + "</div>";
             let ybHelpTreeVOS = data[i].ybHelpTreeVOS;
-            if (ybHelpTreeVOS !== null) {
+            helpMenuHtml += "<div>";
+            helpMenuHtml += "<div class='oneTitle' onclick='expandAndContract(" + i + "," + data.length + ")'>" + data[i].name + " <span class='small-numbers'>(" + ybHelpTreeVOS.length + ")</span></div>";
+            if (ybHelpTreeVOS.length > 0) {
                 for (let j = 0; j < ybHelpTreeVOS.length; j++) {
-                    helpMenuHtml += " <div class='twoTitle' onclick='getHelp(this,\"" + ybHelpTreeVOS[j].id + "\")' onmouseover='place(this)' onmouseout='moveAway(this)'>" + ybHelpTreeVOS[j].name + "</div>"
+                    helpMenuHtml += " <div id='" + ybHelpTreeVOS[j].id + "' class='twoTitle twoTitle-" + i + "' onclick='getHelp(this,\"" + ybHelpTreeVOS[j].id + "\")' onmouseover='place(this)' onmouseout='moveAway(this)'>" + ybHelpTreeVOS[j].name + "</div>"
                 }
             }
             helpMenuHtml += "</div>";
         }
         $("#helpMenu").html(helpMenuHtml);
+        // 默认展开第一个
+        expandAndContract(0, res.data.length);
+        // 默认展示第一个列表的第一篇文章
+        help(data[0].ybHelpTreeVOS[0].id);
+        // 设置选中色
+        let ss = $("#" + data[0].ybHelpTreeVOS[0].id).css("color", color);
     }
 
 
@@ -146,13 +172,36 @@
         })
     }
 
-
-    $(function () {
-        // 加载菜单
-        initMenu();
-        // 加载默认数据
-        help("1318531741886971905");
-    })
+    /**
+     * 展示目录-展开，收缩
+     * index = 当前选中
+     * len = index 总数
+     */
+    var showIndex;  //当前选中
+    var showState;  //当前选中是否已展开，已展开true
+    var showTime = 300;   //展示收缩时间
+    function expandAndContract(index, len) {
+        if (showIndex === index) {
+            if (showState) {
+                $(".twoTitle-" + index).hide(showTime);
+                showState = false;
+            } else {
+                $(".twoTitle-" + index).show(showTime);
+                showState = true;
+            }
+        } else {
+            //上次选中不是当前选中,展示
+            $(".twoTitle-" + index).show(showTime);
+            showState = true;
+        }
+        // 关闭当前未选中的其他所有
+        for (let i = 0; i < len; i++) {
+            if (index !== i) {
+                $(".twoTitle-" + i).hide(showTime);
+            }
+        }
+        showIndex = index;
+    }
 </script>
 </html>
 

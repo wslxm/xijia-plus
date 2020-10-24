@@ -36,7 +36,7 @@ layui.define(["jquery", "layer", "form", "element", "upload", "code", "face"], f
                                 var h = b.find("input[name=\"image\"]");
                                 (null == a.uploadUrl || "" == a.uploadUrl) && c.msg("\u672A\u914D\u7F6E\u56FE\u7247\u4E0A\u4F20\u8DEF\u5F84,\u56FE\u7247\u65E0\u6CD5\u4FDD\u5B58", {icon: 5}), f.render({
                                     elem: "#uploadImg", url: a.uploadUrl, size: a.uploadSize || 1024, done: function (a) {
-                                        0 == a.code ? h.val(a.url) : c.msg(a.msg, {icon: 5})
+                                        200 == a.code ? h.val(a.data) : c.msg(a.msg, {icon: 5})
                                     }
                                 }), d.on("submit(uploadImages)", function (a) {
                                     var b = a.field;
@@ -183,7 +183,10 @@ layui.define(["jquery", "layer", "form", "element", "upload", "code", "face"], f
                 let a = b(this), c = a.text();
                 a.html(j.content(c))
             }), d()
+        }, cvUpdate: function () {
+
         }
     };
     j.faces || (j.faces = g), a("easyeditor", j)
 });
+
