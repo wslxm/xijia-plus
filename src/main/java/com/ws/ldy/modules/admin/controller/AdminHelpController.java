@@ -54,8 +54,10 @@ public class AdminHelpController extends BaseController<AdminHelpService> {
     })
     public R<IPage<AdminHelpVO>> findPage(@RequestParam(required = false) String title) {
         Page<AdminHelp> page = baseService.page(this.getPage(), new LambdaQueryWrapper<AdminHelp>()
-                .orderByAsc(AdminHelp::getSort)
-                .orderByDesc(AdminHelp::getCreateTime)
+                .orderByAsc(AdminHelp::getHelpVersion)  // 先版本排序
+                .orderByAsc(AdminHelp::getCategory)     // 在类别排序
+                .orderByAsc(AdminHelp::getSort)         // 在sort排序
+                .orderByDesc(AdminHelp::getCreateTime)  // 在时间排序
                 .eq(StringUtils.isNotBlank(title), AdminHelp::getTitle, title)
 
         );

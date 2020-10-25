@@ -43,7 +43,12 @@ public class AdminHelpServiceImpl extends BaseIServiceImpl<AdminHelpMapper, Admi
         if (byCodeFetchDictVO == null || byCodeFetchDictVO.getDictList() == null) {
             return null;
         }
-        List<AdminHelp> ybHelp = this.list(new LambdaQueryWrapper<AdminHelp>().orderByAsc(AdminHelp::getSort).orderByDesc(AdminHelp::getCreateTime));
+        List<AdminHelp> ybHelp = this.list(new LambdaQueryWrapper<AdminHelp>()
+                .orderByAsc(AdminHelp::getHelpVersion)  // 先版本排序
+                .orderByAsc(AdminHelp::getCategory)     // 在类别排序
+                .orderByAsc(AdminHelp::getSort)         // 在sort排序
+                .orderByDesc(AdminHelp::getCreateTime)  // 在时间排序
+        );
         if (ybHelp == null || ybHelp.size() <= 0) {
             return null;
         }
