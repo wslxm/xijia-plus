@@ -89,6 +89,7 @@
             elem: '#auth-table'
             , data: res.data.records
             , toolbar: '#toolbarDemo'
+            , limit: res.data.size //显示的数量
             , title: '{tableComment}'
             , cols: [
                 [
