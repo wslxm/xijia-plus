@@ -98,5 +98,6 @@ public class GenerateConfig {
             "unLock",
             "comment",
             "disable",
+            "force",
     };
 }

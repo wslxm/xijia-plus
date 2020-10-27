@@ -175,7 +175,7 @@ Dict = {
 //TODO Layui 通用弹出层封装
 Pop = {
     /**
-     *  Layer 添加添加/修改通用弹出层 添加修改删除通用弹出层
+     *  Layer 添加/修改通用弹出层 添加修改删除通用弹出层
      * @param url    请求地址
      * @param width  弹出层宽
      * @param height 弹出层高
@@ -190,7 +190,12 @@ Pop = {
                 content: [url],         //page/menu_addRoot1
                 btn: ['确定', '取消'],
                 closeBtn: 1,
-                fixed: false,
+                anim: 0,       // 打开动画  ,参考：https://www.layui.com/doc/modules/layer.html#anim
+                maxmin: true,  // 开启最大化最小化按钮
+                resize: true,  // 是否可以拉伸(右下拉伸)
+                fixed: false,  // 是否固定窗口
+                moveOut: true, // 是否允许拖拽到窗口外
+                zIndex: 1000,  // 层高(拉出位置位于其他底层)
                 shadeClose: true,
                 crossDomain: true,//跨域，https://www.cnblogs.com/autoXingJY/p/11419860.html
                 success: function (layero, index) {
