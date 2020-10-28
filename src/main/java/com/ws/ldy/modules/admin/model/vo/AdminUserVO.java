@@ -54,14 +54,4 @@ public class AdminUserVO extends BaseVo {
 
     @ApiModelProperty(value = "用户角色")
     List<String> roles;
-
-    /**
-     *
-     */
-    @ApiModelProperty(value = "权限数据版本号-后台刷新用户信息使用")
-    private Integer version;
-    @ApiModelProperty(value = "用户信息版本号-后台刷新权限数据使用")
-    private Integer authVersion;
-    @ApiModelProperty(value = "用户权限-后台生成token，刷新token等使用")
-    private List<String> authList;
 }

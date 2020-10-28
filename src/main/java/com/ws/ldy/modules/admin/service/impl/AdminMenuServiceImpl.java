@@ -45,7 +45,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
      */
     @Override
     public List<AdminMenuVO> getMenuTree() {
-        List<AdminRoleMenu> userRoleMenus = adminRoleMenuMapper.findByUserIdAndDisableFetchMenu(JwtUtil.getAdminUser(request.getHeader(BaseConstant.Sys.TOKEN)).getId(), Enums.Base.Disable.DISABLE_0.getValue());
+        List<AdminRoleMenu> userRoleMenus = adminRoleMenuMapper.findByUserIdAndDisableFetchMenu(JwtUtil.getJwtUser(request.getHeader(BaseConstant.Sys.TOKEN)).getUserId(), Enums.Base.Disable.DISABLE_0.getValue());
         if (userRoleMenus == null || userRoleMenus.size() == 0) {
             throw new ErrorException(RType.USER_NO_MENU);
         }

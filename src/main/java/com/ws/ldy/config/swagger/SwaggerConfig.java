@@ -3,9 +3,11 @@ package com.ws.ldy.config.swagger;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Lists;
 import com.ws.ldy.common.result.RType;
+import com.ws.ldy.config.auth.entity.JwtUser;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.admin.model.entity.AdminUser;
 import com.ws.ldy.modules.admin.model.vo.AdminUserVO;
 import com.ws.ldy.modules.admin.service.AdminAuthorityService;
@@ -157,14 +159,22 @@ public class SwaggerConfig {
             throw new ErrorException(RType.LOGIN_IS_NO_ACCOUNT);
         }
         // 登录成功
-        AdminUserVO userVO = user.convert(AdminUserVO.class);
         // 4、获取权限列表,保存权限-未禁用,管理端(登录+认证的)
         List<String> authList = adminAuthorityService.findByUserIdaAndDisableFetchAuthority(user.getId());
-        userVO.setAuthList(authList);
         // 5、生成jwt
-        String token = JwtUtil.createToken(userVO);
-        log.info("管理端账号注入swagger 默认token成功，当前账号为:{} 账号姓名为：{} " + userVO.getUsername(), userVO.getFullName());
-        return token;
+        JwtUser jwtUser = new JwtUser();
+        jwtUser.setUserId(user.getId());
+        jwtUser.setUsername(user.getUsername());
+        jwtUser.setFullName(user.getFullName());
+        jwtUser.setType(Enums.Admin.AuthorityType.AUTHORITY_TYPE_0.getValue());
+        jwtUser.setHead(user.getHead());
+        jwtUser.setPhone(user.getPhone());
+        // 添加权限 和 权限数据版本号,当权限发生改变时，直接刷新token信息
+        jwtUser.setAuthList(authList);
+        jwtUser.setAuthVersion(BaseConstant.Cache.AUTH_VERSION);
+        String jwtToken = JwtUtil.createToken(jwtUser);
+        log.info("管理端账号注入swagger 默认token成功，当前账号为:{} 账号姓名为：{} " + user.getUsername(), user.getFullName());
+        return jwtToken;
     }
 
 

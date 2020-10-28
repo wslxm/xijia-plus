@@ -3,6 +3,7 @@ package com.ws.ldy.modules.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ws.ldy.common.result.RType;
+import com.ws.ldy.config.auth.entity.JwtUser;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.auth.util.MD5Util;
 import com.ws.ldy.config.error.ErrorException;
@@ -140,12 +141,20 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
             throw new ErrorException(RType.LOGIN_IS_NO_DISABLE);
         }
         // 登录成功
-        AdminUserVO userVO = user.convert(AdminUserVO.class);
         // 4、获取权限列表,保存权限-未禁用,管理端(登录+认证的)
         List<String> authList = adminAuthorityService.findByUserIdaAndDisableFetchAuthority(user.getId());
-        userVO.setAuthList(authList);
         // 5、生成jwt
-        String jwtToken = JwtUtil.createToken(userVO);
+        JwtUser jwtUser = new JwtUser();
+        jwtUser.setUserId(user.getId());
+        jwtUser.setUsername(user.getUsername());
+        jwtUser.setFullName(user.getFullName());
+        jwtUser.setType(Enums.Admin.AuthorityType.AUTHORITY_TYPE_0.getValue());
+        jwtUser.setHead(user.getHead());
+        jwtUser.setPhone(user.getPhone());
+        // 添加权限 和 权限数据版本号,当权限发生改变时，直接刷新token信息
+        jwtUser.setAuthList(authList);
+        jwtUser.setAuthVersion(BaseConstant.Cache.AUTH_VERSION);
+        String jwtToken = JwtUtil.createToken(jwtUser);
         response.setHeader(BaseConstant.Sys.TOKEN, jwtToken);
         // 6、刷新登录时间
         AdminUser updAdminUser = new AdminUser();
