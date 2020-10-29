@@ -2,6 +2,7 @@ package com.ws.ldy.config.aspect;
 
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
+import com.ws.ldy.config.auth.entity.JwtUser;
 import com.ws.ldy.config.auth.filter.JwtFilter;
 import com.ws.ldy.config.auth.filter.LogFilter;
 import com.ws.ldy.modules.admin.model.entity.AdminLog;
@@ -20,6 +21,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.*;
 
 /**
  * 用户操作日志
@@ -39,6 +41,11 @@ public class LogAspect {
     @Autowired
     private LogFilter logFilter;
 
+
+    /**
+     * 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待
+     */
+    final ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
 
     @Around("@annotation(org.springframework.web.bind.annotation.GetMapping)")
     public Object aroundGet(ProceedingJoinPoint proceed) throws Throwable {
@@ -74,6 +81,7 @@ public class LogAspect {
      * @version 1.0.0
      */
     private Object saveOpLogs(ProceedingJoinPoint proceed) throws Throwable {
+        long startAopTime = System.currentTimeMillis();
         // 获取请求参数
         RequestAttributes ra = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes sra = (ServletRequestAttributes) ra;
@@ -88,24 +96,67 @@ public class LogAspect {
         if (uri.indexOf("/page") != -1) {
             return proceed.proceed();
         }
+        // 排除--模板解析错误
         if (uri.indexOf("/error") != -1) {
             return proceed.proceed();
         }
-        // 1、记录请求日志
-        AdminLog log = logFilter.log(proceed, request, response);
+        // 排除--查看日志
+        if (uri.indexOf("/admin/adminLog/") != -1) {
+            return proceed.proceed();
+        }
+        // 1、记录请求日志, 异步执行, future 为线程的返回值，用于后面异步执行响应结果
+        Future<AdminLog> future = fixedThreadPool.submit(new Callable<AdminLog>() {
+            @Override
+            public AdminLog call() {
+                return logFilter.log(proceed, request, response);
+            }
+        });
+
         // 2、登录认证
-        R result = jwtFilter.doFilterInternal(request, response);
+        R<JwtUser> result = jwtFilter.doFilterInternal(request, response);
         if (!result.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-            // 记录请求结果
-            logFilter.updLog(log.getId(), 0, result);
+            // 记录请求结果(state=0-失败)
+            this.updLog(future, 0, System.currentTimeMillis() - startAopTime, 0L, result);
             return result;
         }
         // 3、调用业务方法
+        long startTime = System.currentTimeMillis();
         Object obj = proceed.proceed();
-        // 记录请求结果
-        logFilter.updLog(log.getId(), 1, obj);
-        // 4、返回
+
+        // 4、记录响应结果(state=1-成功，异步执行,不影响程序响应)
+        this.updLog(future, 1, System.currentTimeMillis() - startAopTime, System.currentTimeMillis() - startTime, obj);
+
+        // 5、返回
         return obj;
+    }
+
+
+    /**
+     * 记录响应日志
+     * @author wangsong
+     * @mail 1720696548@qq.com
+     * @date 2020/10/29 0029 11:24 
+     * @version 1.0.0
+     */
+    public void updLog(Future<AdminLog> future, Integer state, Long executeTime, Long businessTime, Object obj) {
+        fixedThreadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    // 判断记录请求日志是否记录完成(true=完成)
+                    if (future.isDone()) {
+                        AdminLog log = null;
+                        try {
+                            log = future.get();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        logFilter.updLog(log.getId(), state, executeTime, businessTime, obj);
+                        break;
+                    }
+                }
+            }
+        });
     }
 }
 
