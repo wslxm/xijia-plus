@@ -2,6 +2,7 @@ package com.ws.ldy.modules.admin.controller;
 
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.admin.model.dto.AdminAuthorityDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.admin.model.vo.AdminAuthorityVO;
@@ -13,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.EnumSet;
 import java.util.List;
 
 /**

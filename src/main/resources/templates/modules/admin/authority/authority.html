@@ -47,9 +47,9 @@
 
 
     <script type="text/html" id="barDisable">
-        {{#  if(d.disable ==0){ }}
+        {{#  if(d.disable ==0 && d.url != '/admin/adminAuthority/upd' && d.url != '/admin/adminAuthority/findList' ){ }}
         <input type='checkbox' authId={{d.id}} lay-filter='disable' lay-skin='switch' lay-text='启用|禁用' checked>
-        {{# }if(d.disable ==1){ }}
+        {{# }if(d.disable ==1 && d.url != '/admin/adminAuthority/upd' && d.url != '/admin/adminAuthority/findList'){ }}
         <input type='checkbox' authId={{d.id}} lay-filter='disable' lay-skin='switch' lay-text='启用|禁用'>
         {{#  } }}
     </script>
@@ -131,9 +131,9 @@
                 [
                     //{field: 'pid', title: '权限类Id(方法与类/层级关系展示)'},
 
-                    {field: 'desc', title: '权限备注信息',width: "18%"},
+                    {field: 'desc', title: '权限备注信息', width: "18%"},
                     {field: 'method', title: '请求方式', width: 180},
-                    {field: 'url', title: '权限url',width: "18%"},
+                    {field: 'url', title: '权限url', width: "18%"},
                     {
                         field: 'type', title: '终端', width: 180, templet: function (res) {
                             return Dict.convert(Enums.Admin.AuthorityType, res.type);

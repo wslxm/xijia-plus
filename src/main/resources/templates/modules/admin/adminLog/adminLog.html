@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.springframework.org/schema/data/jaxb">
 <head>
     <meta charset="utf-8">
-    <title>帮助中心表</title>
+    <title>操作记录表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -15,9 +15,6 @@
 </head>
 <body>
 <style>
-    /*.layui-table-tips-main{display:none}*/
-    /*.layui-table-tips-c{display:none}*/
-
     .layui-inline {
         width: 260px;
     }
@@ -26,9 +23,27 @@
 <!-- 搜索 -->
 <div class="searchTable">
     <div class="layui-inline">
-        <label class="layui-form-label">标题:</label>
+        <label class="layui-form-label">请求人:</label>
         <div class="layui-input-block">
-            <input type="text" id="title" name="title" placeholder="请输入标题..." autocomplete="off" class="layui-input">
+            <input type="text" id="fullName" name="fullName" placeholder="请输入请求人..." autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">请求uri:</label>
+        <div class="layui-input-block">
+            <input type="text" id="uri" name="uri" placeholder="请输入请求uri..." autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">请求功能:</label>
+        <div class="layui-input-block">
+            <input type="text" id="classDesc" name="methodDesc" placeholder="请输入求功能..." autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">请求方法:</label>
+        <div class="layui-input-block">
+            <input type="text" id="methodDesc" name="methodDesc" placeholder="请输入请求方法..." autocomplete="off" class="layui-input">
         </div>
     </div>
 
@@ -50,31 +65,31 @@
 <!-- 多删除-添加  -->
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+       <!-- <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>-->
     </div>
 </script>
 
 <!-- 每一行的数据修改或删除  -->
 <script type="text/html" id="barDemo">
-    <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="edit">查看</a>
+    <!--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>-->
 </script>
 
 <script>
 
     // 接口
-    let adminHelpFindPage = path + "/admin/adminHelp/findPage";        //查询-分页
-    let adminHelpDel = path + "/admin/adminHelp/del";                  //删除
+    let adminLogFindPage = path + "/admin/adminLog/findPage";        //查询-分页
+    let adminLogDel = path + "/admin/adminLog/del";                  //删除
 
     // 路由
-    let adminHelpPageAdd = "/page/modules_admin_help_helpAdd";   //添加弹出
-    let adminHelpPageUpd = "/page/modules_admin_help_helpUpd";   //编辑弹出
+    let adminLogPageAdd = "/page/modules_admin_adminLog_adminLogAdd";   //添加弹出
+    let adminLogPageUpd = "/page/modules_admin_adminLog_adminLogUpd";   //编辑弹出
 
     let table;     // 数据表格组件
     let laypage;   // 分页组件
     let res;       // 完整的后台数据
     var data;      // 当前行数据（弹出层时可直接parent.data获取）
-    layui.use(['jquery', 'table', 'laypage'], function () {
+    layui.use(['table', 'laypage'], function () {
         table = layui.table;
         laypage = layui.laypage;
         xijiaRenderTable();        //  数据表格 - 获取表格
@@ -93,36 +108,43 @@
      *
      */
     function xijiaRenderTable(params) {
-        res = Ajax.get(adminHelpFindPage + getPage() + xijiaSearchParam());
+        res = Ajax.get(adminLogFindPage + getPage() + xijiaSearchParam());
         table.render({
             elem: '#auth-table'
             , data: res.data.records
             , toolbar: '#toolbarDemo'
-            , title: '帮助中心表'
             , limit: res.data.size //显示的数量
+            , title: '操作记录表'
             , cols: [
                 [
-                    {field: 'title', title: '标题'},
-                    {
-                        field: 'category', title: '分类', templet: function (res) {
-                            return Dict.convert(Enums.Admin.HelpCategory, res.category);
-                        }
-                    },
                     // {type: 'checkbox', fixed: 'left'}   //fixed: 'right', , fixed: 'left'
-                    //{field: 'icon', title: '图标 | 封面图'},
-                    {
-                        field: 'helpVersion', title: '版本', templet: function (res) {
-                            return Dict.convert(Enums.Admin.HelpVersion, res.helpVersion);
-                        }
-                    },
-                    {field: 'content', title: '内容 '},
-                    {field: 'sort', title: '排序'},
-                    {field: 'browseNum', title: '浏览量'}
-                    , {title: '操作', toolbar: '#barDemo', width: 250}
+                    {field: 'fullName', title: '请求人'},
+                    {field: 'createTime', title: '请求时间',width: 180},
+                    // {field: 'userId', title: '请求人Id '},
+                    // {field: 'type', title: '请求终端'},
+                    // {field: 'referer', title: '请求来源'},
+                    // {field: 'url', title: '请求url'},
+                    {field: 'uri', title: '请求uri',width: 240},
+                    // {field: 'ip', title: '用户真实Ip'},
+                    // {field: 'host', title: '用户主机名'},
+                    {field: 'method', title: '请求方式'},
+                    // {field: 'serverName', title: '服务器地址'},
+                    // {field: 'port', title: '服务器端口'},
+                    // {field: 'packageName', title: '请求包'},
+                    // {field: 'className', title: '请求类'},
+                    {field: 'classDesc', title: '请求功能'},
+                    {field: 'methodDesc', title: '请求方法',width: 220},
+                    {field: 'requestData', title: '请求数据'},
+                    {field: 'responseData', title: '返回数据'},
+                    {field: 'state', title: '1成功 0失败',width: 100},
+                    {field: 'businessTime', title: '业务耗时',width: 80},
+                    {field: 'executeTime', title: '总耗时',width: 80},
+                     {title: '操作', toolbar: '#barDemo', width: 150}
                 ]
             ]
         });
     }
+
 
     /**
      * 分页配置, 数据总数会在下一次点击事更新上一次数据库的总数量
@@ -155,8 +177,6 @@
                 xijiaRenderTable();
             }
         });
-
-
     }
 
 
@@ -172,7 +192,7 @@
         table.on('toolbar(auth-table)', function (obj) {
             //添加
             if (obj.event === "add") {
-                Pop.tipsWindown(adminHelpPageAdd, "90%", "90%", "添加");
+                Pop.tipsWindown(adminLogPageAdd, "600px", "400px", "添加");
             }
         });
     }
@@ -190,12 +210,12 @@
             data = obj.data;  //当前行数据
             //编辑
             if (obj.event === 'edit') {
-                Pop.tipsWindown(adminHelpPageUpd, "90%", "90%", "修改");
+                Pop.tipsWindown(adminLogPageUpd, "600px", "400px", "修改");
             }
             //删除
             if (obj.event === 'del') {
                 let params = "?id=" + data.id;
-                Pop.tipsDeleteId(adminHelpDel + params, obj);
+                Pop.tipsDeleteId(adminLogDel + params, obj);
             }
         });
     }
@@ -235,32 +255,13 @@
      */
     function xijiaSearchParam() {
         let params = "";
-        params += "&title=" + $("#title").val();
+        params += "&fullName=" + $("#fullName").val();
+        params += "&uri=" + $("#uri").val();
+        params += "&classDesc=" + $("#classDesc").val();
+        params += "&methodDesc=" + $("#methodDesc").val();
+
         return params;
     }
-
-    //
-    // /***
-    //  * 显示省略内容
-    //  * @author wangsong
-    //  * @mail  1720696548@qq.com
-    //  * @date  2020/10/27 0027 19:22
-    //  * @version 1.0.0
-    //  */
-    // function showOmittedContent() {
-    //     $("td").mouseover(function () {
-    //         //js主要利用offsetWidth和scrollWidth判断是否溢出。
-    //         //在这里scrollWidth是包含内容的完全高度，offsetWidth是当前表格单元格的宽度。
-    //         // 当前完整
-    //         let that = this;
-    //         let text = $(this).text();
-    //         window.layer.tips(text, that, {
-    //             // area: ['500px', 'auto'],
-    //             tips: [1, '#03020a'],
-    //             time: 2000
-    //         });
-    //     });
-    // }
 </script>
 </body>
 </html>

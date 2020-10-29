@@ -40,7 +40,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
     @RequestMapping(value = "/findUser", method = RequestMethod.GET)
     @ApiOperation("个人信息")
     public R<AdminUserVO> findUser() {
-        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(JwtUtil.getAdminUser(request.getHeader(BaseConstant.Sys.TOKEN)).getId()), AdminUserVO.class));
+        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(JwtUtil.getJwtUser(request).getUserId()), AdminUserVO.class));
     }
 
 
@@ -149,7 +149,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
     @RequestMapping(value = "/updByPassword", method = RequestMethod.PUT)
     @ApiOperation(value = "当前登录用户密码修改", notes = "判断原密码是否正确,不正确返回错误信息msg ,正确直接修改,密码进行MD5加密 --> val(前端输入密码值)+盐(后端规则指定)=最终密码）")
     public R<Boolean> updByPassword(@RequestParam String oldPassword, @RequestParam String password) {
-        AdminUser adminUser = baseService.getById(JwtUtil.getAdminUser(request.getHeader(BaseConstant.Sys.TOKEN)).getId());
+        AdminUser adminUser = baseService.getById(JwtUtil.getJwtUser(request).getUserId());
         if (adminUser.getPassword().equals(MD5Util.encode(oldPassword))) {
             adminUser.setPassword(MD5Util.encode(password));
             return R.successUpdate(baseService.updateById(adminUser));
