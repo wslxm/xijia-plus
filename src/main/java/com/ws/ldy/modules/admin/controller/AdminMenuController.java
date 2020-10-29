@@ -47,7 +47,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
 
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiOperation(value = "查询所有", notes = "根据sort字段正序排序,sort越小越靠前")
-    @ApiImplicitParam(name = "isBottomLayer", value = "true 需要最后一级 false 不需要最后一级(默认true)", required = true, paramType = "query", example = "true")
+    @ApiImplicitParam(name = "isBottomLayer", value = "true=需要最后一级的数据  false=不需要最后一级 (默认true)", required = true, paramType = "query", example = "true")
     public R<List<AdminMenuVO>> findList(Boolean isBottomLayer) {
         List<AdminMenu> menus = baseService.list(new LambdaQueryWrapper<AdminMenu>()
                 .orderByAsc(AdminMenu::getSort)

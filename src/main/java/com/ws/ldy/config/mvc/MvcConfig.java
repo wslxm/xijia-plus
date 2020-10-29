@@ -1,5 +1,7 @@
 package com.ws.ldy.config.mvc;
 
+import com.ws.ldy.config.auth.filter.JwtAuthFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -61,6 +63,13 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
 
+    /**
+     * 跨域处理
+     * @author wangsong
+     * @mail 1720696548@qq.com
+     * @date 2020/10/29 0029 19:16 
+     * @version 1.0.0
+     */
     @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
@@ -74,5 +83,20 @@ public class MvcConfig implements WebMvcConfigurer {
         corsConfiguration.addExposedHeader("Authorization");
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(urlBasedCorsConfigurationSource);
+    }
+
+
+    /**
+     * 登录授权过滤
+     * @return
+     */
+    @Bean
+    public FilterRegistrationBean jwtAuthFilter() {
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        filterRegistrationBean.setFilter(new JwtAuthFilter());
+        filterRegistrationBean.addUrlPatterns("/*");      // 拦截所有
+        filterRegistrationBean.setName("jwtAuthFilter");  // 设置过滤器名称
+        filterRegistrationBean.setOrder(-1);//执行次序
+        return filterRegistrationBean;
     }
 }

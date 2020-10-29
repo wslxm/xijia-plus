@@ -155,7 +155,7 @@ public class GlobalExceptionHandler extends BaseController {
                 String name = message.substring(indexStart + 1, indexEnd);
                 String errorMsg = RType.PARAM_SAVE_TO_DB_MISSING.getMsg() + "  --> 【 " + name + " : " + name + "】  --->  详细错误信息:" + e.getMessage();
                 log.info(logStr + errorMsg);
-                // 返回前端提示name参数不存在
+                // 返回前端提示 name参数不存在
                 return R.error(RType.PARAM_SAVE_TO_DB_MISSING.getValue(), name + RType.PARAM_SAVE_TO_DB_MISSING.getMsg(), errorMsg);
             } else if (message.indexOf("for key 'PRIMARY'") != -1) {
                 /**
