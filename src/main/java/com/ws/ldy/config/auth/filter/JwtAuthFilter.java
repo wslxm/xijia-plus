@@ -21,7 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /***
- * 过滤器定义参考： https://www.cnblogs.com/ibigboy/p/11528775.html
+ * 登录授权 过滤器
+ * <P>
+ *   过滤器定义参考： https://www.cnblogs.com/ibigboy/p/11528775.html
+ * </P>
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/10/29 0029 17:50
@@ -48,20 +51,11 @@ public class JwtAuthFilter implements Filter {
     public void init(FilterConfig filterConfig) {
     }
 
-    /**
-     * 登录授权
-     * @param servletRequest
-     * @param servletResponse
-     * @param filterChain
-     * @throws IOException
-     * @throws ServletException
-     */
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        // 记录请求时间,用于后续记录请求耗时,该过滤器执行顺序为最高,会优先执行
-        response.setHeader("startTime", System.currentTimeMillis() + "");
         // 1、排除
         String uri = request.getRequestURI();
         for (String excludeUri : excludeUriList) {

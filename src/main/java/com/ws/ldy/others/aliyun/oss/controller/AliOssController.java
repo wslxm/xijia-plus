@@ -7,6 +7,7 @@ import com.ws.ldy.common.utils.FileDownloadUtil;
 import com.ws.ldy.common.utils.LocalDateTimeUtil;
 import com.ws.ldy.common.utils.PathUtil;
 import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.others.aliyun.oss.util.OSSUtil;
 import com.ws.ldy.others.base.controller.BaseController;
 import io.swagger.annotations.Api;
@@ -31,7 +32,7 @@ import java.util.List;
  * @author peter 2018/10/20 21:32
  */
 @RestController
-@Api(value = "AliOssController", tags = "v-1.1 -- 文件管理 --> 阿里云OSS")
+@Api(value = "AliOssController", tags = "v-1.1 -- 文件管理 --> 阿里云OSS",consumes = BaseConstant.InterfaceType.PC_BASE)
 @RequestMapping("/aliOssFile")
 public class AliOssController extends BaseController {
 

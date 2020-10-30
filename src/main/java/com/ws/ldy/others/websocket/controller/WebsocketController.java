@@ -1,6 +1,7 @@
 package com.ws.ldy.others.websocket.controller;
 
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.others.base.controller.BaseController;
 import com.ws.ldy.others.websocket.model.vo.OnlineUserVO;
 import com.ws.ldy.others.websocket.service.WebsocketService;
@@ -32,7 +33,7 @@ import java.util.Map;
  * @version 1.0.0
  */
 @SuppressWarnings("all")
-@Api(value = "WebsocketController", tags = "v-1.2 -- Websocket --> 消息通知/即时通讯")
+@Api(value = "WebsocketController", tags = "v-1.2 -- Websocket --> 消息通知/即时通讯",consumes = BaseConstant.InterfaceType.PC_BASE)
 @RequestMapping("/websocket")
 @RestController
 @Slf4j

@@ -19,12 +19,13 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -45,6 +46,19 @@ public class LogAspect {
      * 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待
      */
     final ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
+
+
+    /**
+     * 需要进行接口验证的uri 集, 静态资源, css, js ,路由等等, 只要uri包含以下定义的内容, 将直接跳过改过滤器
+     */
+    private static List<String> excludeUriList = new ArrayList<String>() {{
+        add("/bootAdmin/instances");  // springbootAdmin监控相关
+        add("/actuator");             // 系统监控相关
+        add("/druid/");               // sql监控相关
+        add("/page/");                // 页面跳转(路由)
+        add("/error");                // 模板解析错误
+        add("/admin/adminLog/");      // 日志相关
+    }};
 
 
     @Around("@annotation(org.springframework.web.bind.annotation.GetMapping)")
@@ -81,41 +95,34 @@ public class LogAspect {
      * @version 1.0.0
      */
     private Object saveOpLogs(ProceedingJoinPoint proceed) throws Throwable {
-        long startAopTime = System.currentTimeMillis();
         // 获取请求参数
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = sra.getRequest();
-        HttpServletResponse response = sra.getResponse();
-        String uri = request.getRequestURI();
-        // 排除--springbootAdmin监控相关
-        if (uri.indexOf("bootAdmin/instances") != -1) {
-            return proceed.proceed();
+        String uri = sra.getRequest().getRequestURI();
+        // 排除相关
+        for (String excludeUri : excludeUriList) {
+            if (uri.contains(excludeUri)) {
+                // 直接执行返回
+                return proceed.proceed();
+            }
         }
-        // 排除--页面跳转(路由)
-        if (uri.indexOf("/page") != -1) {
-            return proceed.proceed();
-        }
-        // 排除--模板解析错误
-        if (uri.indexOf("/error") != -1) {
-            return proceed.proceed();
-        }
-        // 排除--查看日志
-        if (uri.indexOf("/admin/adminLog/") != -1) {
-            return proceed.proceed();
-        }
-        // 1、记录请求日志, 异步执行, future 为线程的返回值，用于后面异步执行响应结果
+        // 1、记录请求日志, 将异步执行(与业务代码并行处理),不影响程序响应, future 为线程的返回值，用于后面异步执行响应结果
         Future<AdminLog> future = fixedThreadPool.submit(new Callable<AdminLog>() {
             @Override
             public AdminLog call() {
-                return log(proceed, request, response);
+                return log(proceed, sra.getRequest(), sra.getResponse());
             }
         });
         // 2、调用业务方法
-        long startTime = System.currentTimeMillis();
+        // startTimeOrder1 = 程序开始执行时间, 由RequestFilter 过滤器中添加
+        // startTimeOrder2 = 业务代码开始执行时间
+        // endTimeOrder1   = 程序结束时间
+        long startTimeOrder1 = Long.parseLong(sra.getResponse().getHeader("startTime"));
+        long startTimeOrder2 = System.currentTimeMillis();
         Object obj = proceed.proceed();
-        String startTime1 = response.getHeader("startTime");
-        // 3、记录响应结果(state=1-成功，异步执行,不影响程序响应)
-        this.updLog(future, 1, System.currentTimeMillis() - Long.parseLong(startTime1), System.currentTimeMillis() - startTime, obj);
+        long endTimeOrder1 = System.currentTimeMillis();
+
+        // 3、记录响应结果(state=1-成功，将异步执行,不影响程序响应)
+        this.updLog(future, 1, (endTimeOrder1 - startTimeOrder1), (endTimeOrder1 - startTimeOrder2), obj);
         // 4、返回
         return obj;
     }

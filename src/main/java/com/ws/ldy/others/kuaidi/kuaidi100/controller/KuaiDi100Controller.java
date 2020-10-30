@@ -1,6 +1,7 @@
 package com.ws.ldy.others.kuaidi.kuaidi100.controller;
 
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.others.kuaidi.kuaidi100.entity.KuaiDiCode;
 import com.ws.ldy.others.kuaidi.kuaidi100.service.KuaiDi100Service;
 import io.swagger.annotations.Api;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/kuaidi100/")
-@Api(value = "KuaiDi100Controller", tags = "v-1.3 -- 快递100")
+@Api(value = "KuaiDi100Controller", tags = "v-1.3 -- 快递100",consumes = BaseConstant.InterfaceType.PC_BASE)
 public class KuaiDi100Controller {
 
     @Autowired

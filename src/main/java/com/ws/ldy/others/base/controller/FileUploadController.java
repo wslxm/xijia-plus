@@ -4,6 +4,7 @@ import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.id.UUIDUtil;
 import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.enums.BaseConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -25,7 +26,7 @@ import java.nio.file.Paths;
  * @author peter 2018/10/20 21:32
  */
 @RestController
-@Api(value = "FileUploadController", tags = "v-1.1 -- 文件管理 --> 本地服务器")
+@Api(value = "FileUploadController", tags = "v-1.1 -- 文件管理 --> 本地服务器",consumes = BaseConstant.InterfaceType.PC_BASE)
 @RequestMapping("/file")
 public class FileUploadController extends BaseController {
 

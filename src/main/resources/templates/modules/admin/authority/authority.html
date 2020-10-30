@@ -47,15 +47,21 @@
 
 
     <script type="text/html" id="barDisable">
-        {{#  if(d.disable ==0 && d.url != '/admin/adminAuthority/upd' && d.url != '/admin/adminAuthority/findList' ){ }}
+        {{#  if(d.url != '/admin/adminAuthority/upd' && d.url != '/admin/adminAuthority/findList' && d.method != '' ){  }}
+
+        {{#  if(d.disable ==0 ){ }}
         <input type='checkbox' authId={{d.id}} lay-filter='disable' lay-skin='switch' lay-text='启用|禁用' checked>
-        {{# }if(d.disable ==1 && d.url != '/admin/adminAuthority/upd' && d.url != '/admin/adminAuthority/findList'){ }}
+        {{# }if(d.disable ==1 ){ }}
         <input type='checkbox' authId={{d.id}} lay-filter='disable' lay-skin='switch' lay-text='启用|禁用'>
+        {{#  } }}
+
         {{#  } }}
     </script>
 
     <!-- 每一行的数据修改或删除  -->
     <script type="text/html" id="barState">
+        {{#  if( d.method != '' ){  }}
+
         {{#  if(d.state ==0){ }}
         <input type='checkbox' name="stateLogin-{{d.id}}" authId={{d.id}} lay-filter='stateLogin' lay-skin='switch' lay-text='需登录|不登录'>
         <input type='checkbox' name="stateAuth-{{d.id}}" authId={{d.id}} lay-filter='stateAuth' lay-skin='switch' lay-text='需授权|不授权'>
@@ -65,6 +71,8 @@
         {{# }if(d.state ==2){ }}
         <input type='checkbox' name="stateLogin-{{d.id}}" authId={{d.id}} lay-filter='stateLogin' lay-skin='switch' lay-text='需登录|不登录' checked>
         <input type='checkbox' name="stateAuth-{{d.id}}" authId={{d.id}} lay-filter='stateAuth' lay-skin='switch' lay-text='需授权|不授权' checked>
+        {{#  } }}
+
         {{#  } }}
     </script>
 </div>
@@ -130,7 +138,6 @@
             cols: [
                 [
                     //{field: 'pid', title: '权限类Id(方法与类/层级关系展示)'},
-
                     {field: 'desc', title: '权限备注信息', width: "18%"},
                     {field: 'method', title: '请求方式', width: 180},
                     {field: 'url', title: '权限url', width: "18%"},
@@ -141,7 +148,11 @@
                     },
                     {
                         field: 'state', title: '授权状态', width: 180, templet: function (res) {
-                            return Dict.convert(Enums.Admin.AuthorityState, res.state);
+                            if(res.method === ''){
+                                return '';
+                            }else{
+                                return Dict.convert(Enums.Admin.AuthorityState, res.state);
+                            }
                         }
                     },
                     {title: '是否禁用', toolbar: '#barDisable', width: 144},

@@ -1,6 +1,7 @@
 package com.ws.ldy.others.kuaidi.sf.controller;
 
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.others.kuaidi.sf.entity.placeAnOrder.request.CargoDetails;
 import com.ws.ldy.others.kuaidi.sf.entity.placeAnOrder.request.ContactInfoList;
 import com.ws.ldy.others.kuaidi.sf.entity.placeAnOrder.request.SFOrder;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/sf/")
-@Api(value = "TestSFController", tags = "v-1.3 -- 顺丰快递 --> test-API")
+@Api(value = "TestSFController", tags = "v-1.3 -- 顺丰快递 --> test-API",consumes = BaseConstant.InterfaceType.PC_BASE)
 public class TestSFController {
 
     @Autowired

@@ -1,6 +1,7 @@
 package com.ws.ldy.config.mvc;
 
 import com.ws.ldy.config.auth.filter.JwtAuthFilter;
+import com.ws.ldy.config.auth.filter.RequestFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -87,16 +88,31 @@ public class MvcConfig implements WebMvcConfigurer {
 
 
     /**
-     * 登录授权过滤
+     * 请求参数过滤器
+     * @return
+     */
+    @Bean
+    public FilterRegistrationBean requestFilter() {
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        filterRegistrationBean.setFilter(new JwtAuthFilter());
+        filterRegistrationBean.addUrlPatterns("/*");      // 拦截所有
+        filterRegistrationBean.setName("requestFilter");  // 设置过滤器名称
+        filterRegistrationBean.setOrder(1);//执行次序
+        return filterRegistrationBean;
+    }
+
+
+    /**
+     * 登录授权过滤器
      * @return
      */
     @Bean
     public FilterRegistrationBean jwtAuthFilter() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(new JwtAuthFilter());
+        filterRegistrationBean.setFilter(new RequestFilter());
         filterRegistrationBean.addUrlPatterns("/*");      // 拦截所有
         filterRegistrationBean.setName("jwtAuthFilter");  // 设置过滤器名称
-        filterRegistrationBean.setOrder(-1);//执行次序
+        filterRegistrationBean.setOrder(2);//执行次序
         return filterRegistrationBean;
     }
 }

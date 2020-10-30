@@ -22,8 +22,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
     @Autowired
     private AdminAuthorityService adminAuthorityService;
-
-
+    
     @Override
     public void run(String... args) {
         // 启动成功图

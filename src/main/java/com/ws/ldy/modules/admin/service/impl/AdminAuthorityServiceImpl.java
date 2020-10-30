@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMapper, AdminAuthority> implements AdminAuthorityService {
 
     /**
-     * url权限注解扫包范围( 直接获取启动类的包路径)
+     * url 权限注解扫包范围( 直接获取启动类的包路径)
      */
     private final static String PACKAGE_NAME = XijiaServer.class.getPackage().getName();
 
@@ -53,27 +53,30 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      */
     @Override
     public List<AdminAuthorityVO> findList() {
+        // 查询所有
         List<AdminAuthority> list = this.list(new LambdaQueryWrapper<AdminAuthority>()
                 .orderByDesc(AdminAuthority::getType)
                 .orderByDesc(AdminAuthority::getMethod)
         );
         List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(list, AdminAuthorityVO.class);
-        // 拼下级数据, pid等于枚举字典的code值
+        // pid='' 的数据设置 pid 为枚举字典的code 值
         adminAuthorityVOList.forEach(i -> {
             if (StringUtils.isBlank(i.getPid())) {
                 Enums.Admin.AuthorityType byCode = EnumUtil.getByCode(i.getType(), Enums.Admin.AuthorityType.class);
                 i.setPid(byCode.getValue().toString());
             }
         });
-        // 添加终端数据，有多少条枚举字段就拼接几条数据
+        // 生成Enums.Admin.AuthorityType 的权限数据放入列表, 有多少条枚举字段就添加几条数据进去, id=枚举的code, pid=''的也设置为了枚举code, 同等于设置了父子级关系
         for (Enums.Admin.AuthorityType authorityType : Enums.Admin.AuthorityType.values()) {
             AdminAuthorityVO adminAuthorityVO = new AdminAuthorityVO();
             adminAuthorityVO.setId(authorityType.getValue().toString());
-            adminAuthorityVO.setPid("-1"); //顶级目录Id
-            adminAuthorityVO.setType(-1); //游历在法律之外
             adminAuthorityVO.setDesc(authorityType.getDesc());
-            adminAuthorityVO.setState(-1);
-            adminAuthorityVO.setDisable(-1);
+            // 设置顶级 pid
+            adminAuthorityVO.setPid("-1");
+            adminAuthorityVO.setMethod("");
+            adminAuthorityVO.setType(null);
+            adminAuthorityVO.setState(null);
+            adminAuthorityVO.setDisable(null);
             adminAuthorityVOList.add(adminAuthorityVO);
         }
         return adminAuthorityVOList;
@@ -81,23 +84,29 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     /**
-     *   添加接口--扫描包下所有类
+     *   接口自动扫描
+     *   <p>
+     *       扫描添加接口信息，扫描启动类下的所有包
+     *       存在修改（不修改原数据的禁用启动和权限状态,防止重启项目时修改被还原）
+     *       不存在添加
+     *       多余的生成
+     *   </p>
      *
      * @return void
      * @date 2019/11/25 0025 9:02
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void refreshAuthDB() {
         log.info("  @.@...正在更新接口资源,所有被权限管理的接口将被打印出来…… ^.^ ");
         // 扫描包，获得包下的所有类
         List<Class<?>> classByPackageName = ClassUtil.getClasses(PACKAGE_NAME);
         // 当前当前数据库已经存在的所有url权限列表--> key=url，value=对象，获取后移除Map中已取出，最后剩下的全部删除
         Map<String, AdminAuthority> authorityMap = this.list().stream().collect(Collectors.toMap(AdminAuthority::getUrl, item -> item));
-        //
-        List<AdminAuthority> updAuth = new ArrayList<>();  // 所有需要修改
-        List<AdminAuthority> addAuth = new ArrayList<>();  // 所有需要添加
-        List<String> delIds = new ArrayList<>();           // 所有需要删除的Id
+        // 所有需要修改list |添加list |删除的Ids
+        List<AdminAuthority> updAuth = new ArrayList<>();
+        List<AdminAuthority> addAuth = new ArrayList<>();
+        List<String> delIds = new ArrayList<>();
         int classNum = 0;
         // 遍历所有类
         for (Class<?> classInfo : classByPackageName) {
@@ -111,32 +120,31 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             Integer uriType = null;
             Integer state = null;
             if (apiClass.consumes().equals(BaseConstant.InterfaceType.PC_ADMIN)) {
-                uriType = Enums.Admin.AuthorityType.AUTHORITY_TYPE_0.getValue();   // 管理端
-                state = Enums.Admin.AuthorityState.AUTHORITY_STATE_2.getValue();   // 默认需登录+授权
+                // 管理端 | 默认需登录+授权
+                uriType = Enums.Admin.AuthorityType.AUTHORITY_TYPE_0.getValue();
+                state = Enums.Admin.AuthorityState.AUTHORITY_STATE_2.getValue();
             } else if (apiClass.consumes().equals(BaseConstant.InterfaceType.PC_USER)) {
-                uriType = Enums.Admin.AuthorityType.AUTHORITY_TYPE_1.getValue();   // 用户端
-                state = Enums.Admin.AuthorityState.AUTHORITY_STATE_1.getValue();   // 默认需登录
-            } else if (apiClass.consumes().equals(BaseConstant.InterfaceType.RELEASE)) {
-                // 未分类
-                uriType = Enums.Admin.AuthorityType.AUTHORITY_TYPE_100.getValue(); // 未分类
-                state = Enums.Admin.AuthorityState.AUTHORITY_STATE_0.getValue();   // 默认无需登录+无需授权
+                // 用户端 | 默认需登录
+                uriType = Enums.Admin.AuthorityType.AUTHORITY_TYPE_1.getValue();
+                state = Enums.Admin.AuthorityState.AUTHORITY_STATE_1.getValue();
+            } else if (apiClass.consumes().equals(BaseConstant.InterfaceType.PC_BASE)) {
+                // 通用 | 默认无需登录+无需授权
+                uriType = Enums.Admin.AuthorityType.AUTHORITY_TYPE_100.getValue();
+                state = Enums.Admin.AuthorityState.AUTHORITY_STATE_0.getValue();
             }
             if (uriType != null) {
                 String url = requestMappingClass.value()[0];
-                //System.out.println("当前类信息-->" + apiClass.value() + "-->" + apiClass.tags()[0] + " --> " + url);
                 String classLog = "  接口类：--------------@.@[" + apiClass.tags()[0] + "-" + apiClass.value() + "]--";
                 log.info(String.format("%-100s", classLog).replace(" ", "-"));
                 if (authorityMap.containsKey(url)) {
                     // 存在修改
                     AdminAuthority updAuthority = authorityMap.get(url);
-                    updAuthority.setUrl(url);                               // 接口URL
-                    updAuthority.setDesc(apiClass.tags()[0]);               // 接口描叙
-                    updAuthority.setType(uriType);                          // 终端
-                    updAuthority.setState(state);                           // 授权(类是在游历在法律之外的)
-                    updAuthority.setDisable(Enums.Base.Disable.DISABLE_0.getValue());  // 默认启用(类是在游历在法律之外的)
+                    updAuthority.setUrl(url);
+                    updAuthority.setDesc(apiClass.tags()[0]);
+                    updAuthority.setType(uriType);
+                    updAuthority.setState(state);
                     // 添加方法上的权限
                     this.putMethods(classInfo, authorityMap, updAuthority, updAuth, addAuth);
-                    //
                     updAuth.add(updAuthority);
                     // 移除Map中已取出的数据
                     authorityMap.remove(url);
@@ -144,13 +152,13 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                     // 不存在新添加
                     AdminAuthority addAuthority = new AdminAuthority();
                     addAuthority.setId(IdUtil.snowflakeId());
-                    addAuthority.setPid("");                              // 父类Pid
-                    addAuthority.setMethod("");                           // 请求方式
-                    addAuthority.setUrl(url);                             // 接口URL
-                    addAuthority.setDesc(apiClass.tags()[0]);             // 接口描叙
-                    addAuthority.setType(uriType);                        // 终端
-                    addAuthority.setState(state);                         // 授权(类是在游历在法律之外的)
-                    addAuthority.setDisable(Enums.Base.Disable.DISABLE_0.getValue());  // 默认启用(类是在游历在法律之外的)
+                    addAuthority.setPid("");
+                    addAuthority.setMethod("");
+                    addAuthority.setUrl(url);
+                    addAuthority.setDesc(apiClass.tags()[0]);
+                    addAuthority.setType(uriType);
+                    addAuthority.setState(state);
+                    addAuthority.setDisable(Enums.Base.Disable.DISABLE_0.getValue());
                     // 添加方法上的权限
                     this.putMethods(classInfo, authorityMap, addAuthority, updAuth, addAuth);
                     addAuth.add(addAuthority);
@@ -168,7 +176,6 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         }
         if (addAuth.size() > 0) {
             this.saveBatch(addAuth, 1024);
-
         }
         if (authorityMap.size() > 0) {
             // 删除多余数据
@@ -192,10 +199,8 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      * @date 2019/11/25 0025 9:02
      */
     private void putMethods(Class<?> classInfo, Map<String, AdminAuthority> authorityMap, AdminAuthority authority, List<AdminAuthority> updAuth, List<AdminAuthority> addAuth) {
-        // 获取类的所有方法
-        Method[] methods = classInfo.getDeclaredMethods();
-        //循环添加方法级权限
-        for (Method method : methods) {
+        // 获取类的所有方法循环添加方法级权限
+        for (Method method : classInfo.getDeclaredMethods()) {
             RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
             ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
             if (requestMapping == null || apiOperation == null) {
@@ -203,39 +208,36 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 // log.info(method.getDeclaringClass().getName() + "." + method.getName() + "方法没有@ApiOperation 或 @RequestMapping注解");
                 continue;
             }
-            String url = authority.getUrl() + requestMapping.value()[0]; // url
-            String requestMethod = requestMapping.method()[0].name();    // 请求方式
+            // url | 请求方式 | 方法swagger注释
+            String url = authority.getUrl() + requestMapping.value()[0];
+            String requestMethod = requestMapping.method()[0].name();
             String desc = apiOperation.value();
             // 日志输出, 使用占位方式让日志对齐
             log.info("  接口资源：[{}]  -->  [{}]  -->  [{}] ", String.format("%-6s", requestMethod), String.format("%-40s", url), desc);
             // 存在修改，不存在新添加
             if (authorityMap.containsKey(url)) {
-                // 获取已经有权限（根据权限名）
                 AdminAuthority updAuthority = authorityMap.get(url);
-                updAuthority.setPid(authority.getId());        // 类权限id（父级id）
-                updAuthority.setDesc(desc);                    // 权限描叙
-                updAuthority.setUrl(url);                      // 接口url
-                updAuthority.setMethod(requestMethod);         // 请求方式
-                updAuthority.setType(authority.getType());     // 终端
+                updAuthority.setPid(authority.getId());
+                updAuthority.setDesc(desc);
+                updAuthority.setUrl(url);
+                updAuthority.setMethod(requestMethod);
+                updAuthority.setType(authority.getType());
                 updAuth.add(updAuthority);
                 // 移除Map中已取出的数据
                 authorityMap.remove(url);
             } else {
                 AdminAuthority addAuthority = new AdminAuthority();
                 addAuthority.setId(IdUtil.snowflakeId());
-                addAuthority.setPid(authority.getId());           // 类权限id（父级id）
-                addAuthority.setDesc(desc);                       // 权限描叙
-                addAuthority.setUrl(url);                         // 接口url
-                addAuthority.setMethod(requestMethod);            // 请求方式
-                addAuthority.setType(authority.getType());        // 终端
-                addAuthority.setState(authority.getState());      // 默认授权方式,随父节点
-                addAuthority.setDisable(authority.getDisable());  // 默认启用
+                addAuthority.setPid(authority.getId());
+                addAuthority.setDesc(desc);
+                addAuthority.setUrl(url);
+                addAuthority.setMethod(requestMethod);
+                addAuthority.setType(authority.getType());
+                addAuthority.setState(authority.getState());
+                addAuthority.setDisable(authority.getDisable());
                 addAuth.add(addAuthority);
             }
         }
-        // 不论添加编辑,类的数据授权+禁用状态永远= -1
-        authority.setState(-1);      // 授权(类是在游历在法律之外的)
-        authority.setDisable(-1);    // 默认启用(类是在游历在法律之外的)
     }
 
 

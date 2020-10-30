@@ -1,6 +1,7 @@
 package com.ws.ldy.others.wechat.templatemsg.controller;
 
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.others.wechat.templatemsg.service.WxChatTemplateMsgService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/wechat/template/msg")
-@Api(value = "WxChatTemplateMsgController", tags = "v-1.2 -- WeChat --> 微信模板消息推送")
+@Api(value = "WxChatTemplateMsgController", tags = "v-1.2 -- WeChat --> 微信模板消息推送",consumes = BaseConstant.InterfaceType.PC_BASE)
 public class WxChatTemplateMsgController {
 
     @Autowired
