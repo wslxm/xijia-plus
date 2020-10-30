@@ -13,6 +13,13 @@ BaseConfig = {
 
 
 /**
+ * 全局的headers 配置
+ */
+headers = {
+    "TOKEN": sessionStorage.getItem(BaseConfig.token)
+};
+
+/**
  * TODO 枚举字典 key
  */
 var Enums = {
@@ -361,11 +368,7 @@ Ajax = {
             url: url,
             data: JSON.stringify(data),
             contentType: "application/json",
-            headers: {
-                //"token": localStorage.getItem('token')
-                "TOKEN": sessionStorage.getItem(BaseConfig.token),
-                //"Accept": "*/*"
-            },
+            headers: headers,
             async: false,        // true=异步，false=同步
             //traditional: true, // 允许传递数组
             //请求成功

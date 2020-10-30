@@ -29,13 +29,13 @@
         </span>
         <!-- 提示 -->
         <font class="layui-word-aux">
-            头像必须小于 200KB
+            头像必须小于 500KB
         </font>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">姓名</label>
         <div class="layui-input-inline">
-            <input type="text" id="fullName" name="fullName" lay-verify="required"  onkeyup="updUsername()" placeholder="请输入" autocomplete="off"
+            <input type="text" id="fullName" name="fullName" lay-verify="required" onkeyup="updUsername()" placeholder="请输入" autocomplete="off"
                    class="layui-input">
         </div>
     </div>
@@ -66,8 +66,8 @@
         <label class="layui-form-label">性别</label>
         <div class="layui-input-inline">
             <select id="gender" name="gender" lay-verify="" lay-filter="gender">
-<!--                <option value="1" selected>男</option>-->
-<!--                <option value="0">女</option>-->
+                <!--                <option value="1" selected>男</option>-->
+                <!--                <option value="0">女</option>-->
             </select>
         </div>
     </div>
@@ -109,14 +109,12 @@
         });
 
 
-
-
         //文件上传--设定文件大小限制
         layui.upload.render({
             elem: '#test7'
-            , url: path+ '/aliOssFile/upload?filePath=image/head/' //改成您自己的上传接口
-            , size: 200 //限制文件大小，单位 KB
-            , headers: {"TOKEN": sessionStorage.getItem('token')}
+            , url: path + '/aliOssFile/upload?filePath=image/head/' //改成您自己的上传接口
+            , size: 500 //限制文件大小，单位 KB
+            , headers: headers
             , done: function (res) {
                 //如果上传失败
                 if (res.code !== 200) {
