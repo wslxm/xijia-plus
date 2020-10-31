@@ -39,6 +39,49 @@ spring:
         #username: admin
         #password: admin@12345
 
+  ## 数据源的连接的基础配置
+  datasource:
+    dynamic:
+      druid:
+        initialSize: 5    # 初始化大小
+        minIdle: 5        # 最小值
+        maxActive: 20     # 最大值
+        maxWait: 60000    # 最大等待时间，配置获取连接等待超时，时间单位都是毫秒ms
+        timeBetweenEvictionRunsMillis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接
+        minEvictableIdleTimeMillis: 300000    # 配置一个连接在池中最小生存的时间
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，
+        # 'wall'用于防火墙，SpringBoot中没有log4j，我改成了 slf4j | log4j2
+        filters: stat,wall,slf4j
+        #最大PSCache连接
+        maxPoolPreparedStatementPerConnectionSize: 20
+        useGlobalDataSourceStat: true
+        # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+    ## 监控平台配置
+    druid:
+      # 配置StatFilter
+      web-stat-filter:
+        #默认为false，设置为true启动
+        enabled: true
+        url-pattern: "/*"
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+      #配置StatViewServlet
+      stat-view-servlet:
+        # 访问地址
+        url-pattern: "/druid/*"   # 访问地址 ip+端口/druid
+        # allow: 127.0.0.1        # 允许那些ip, 不配置允许所有
+        login-username: admin     # 账号
+        login-password: 123456    # 密码
+        deny: 192.168.1.102       # 禁止那些ip
+        reset-enable: true        # 是否可以重置
+        enabled: true             # 启用
+
+
 # mybatis-plus相关配置
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*.xml
@@ -49,7 +92,7 @@ mybatis-plus:
     # 如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段
     call-setters-on-nulls: true
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 # actuator 监控, 配置spring-boot-admin使用
 management:

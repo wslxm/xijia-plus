@@ -2,6 +2,7 @@ package com.ws.ldy.others.wechat.auth.controller;
 
 
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.others.wechat.wxbase.util.WeChetH5AuthUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/wechat/auth")
-@Api(value = "WeChetH5AuthController", tags = "v-1.2 -- WeChat --> 微信网页授权")
+@Api(value = "WeChetH5AuthController", tags = "v-1.2 -- WeChat --> 微信网页授权",consumes = BaseConstant.InterfaceType.PC_BASE)
 public class WeChetH5AuthController {
 
     @Autowired

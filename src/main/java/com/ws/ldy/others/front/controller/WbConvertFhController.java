@@ -1,6 +1,7 @@
 package com.ws.ldy.others.front.controller;
 
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.others.base.controller.BaseController;
 import com.ws.ldy.others.front.util.TransformUtil;
 import io.swagger.annotations.Api;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/front/wbConvertFhController")
-@Api(value = "wbConvertFhController", tags = "v-1.0 -- 文字转符号")
+@Api(value = "wbConvertFhController", tags = "v-1.0 -- 文字转符号",consumes = BaseConstant.InterfaceType.PC_BASE)
 public class WbConvertFhController extends BaseController {
 
 

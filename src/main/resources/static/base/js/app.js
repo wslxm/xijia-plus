@@ -13,6 +13,13 @@ BaseConfig = {
 
 
 /**
+ * 全局的headers 配置
+ */
+headers = {
+    "TOKEN": sessionStorage.getItem(BaseConfig.token)
+};
+
+/**
  * TODO 枚举字典 key
  */
 var Enums = {
@@ -273,8 +280,8 @@ Pop = {
 pageJson = {
     layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'] //自定义分页布局
     , curr: 1              // 设定初始在第1页
-    , limits: [15, 20, 25, 9999]   // 每页显示条数
-    , groups: 5            // 只显示几个连续页码
+    , limits: [10, 15, 20, 9999]   // 每页显示条数
+    , groups: 5             // 只显示几个连续页码
     // , first: "首页"      // 显示按钮内容（false为不展示,layout 不支持）
     // , last: "尾页"       // 显示按钮内容（false为不展示，layout 不支持）
     , prev: '上一页'        // 上一页按钮内容
@@ -361,11 +368,7 @@ Ajax = {
             url: url,
             data: JSON.stringify(data),
             contentType: "application/json",
-            headers: {
-                //"token": localStorage.getItem('token')
-                "TOKEN": sessionStorage.getItem(BaseConfig.token),
-                //"Accept": "*/*"
-            },
+            headers: headers,
             async: false,        // true=异步，false=同步
             //traditional: true, // 允许传递数组
             //请求成功

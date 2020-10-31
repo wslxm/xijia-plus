@@ -115,10 +115,11 @@ function upload(fileList) {
             processData: false,
             contentType: false,
             xhrFields: {withCredentials: true},
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': 'true'
-            },
+            headers: headers,
+            // headers: {
+            //     'Access-Control-Allow-Origin': '*',
+            //     'Access-Control-Allow-Credentials': 'true'
+            // },
             success: function (res) {
                 if (res.code === 200) {
                     //let img = document.createElement('img');
@@ -156,9 +157,11 @@ function upload(fileList) {
         if (oTxt1.selectionStart) {//非IE浏览器
             cursurPosition = oTxt1.selectionStart;
         } else {//IE
-            let range = document.selection.createRange();
-            range.moveStart("character", -oTxt1.value.length);
-            cursurPosition = range.text.length;
+            if(document.selection!=null){
+                let range = document.selection.createRange();
+                range.moveStart("character", -oTxt1.value.length);
+                cursurPosition = range.text.length;
+            }
         }
         return cursurPosition;
         //  alert(cursurPosition);

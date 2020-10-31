@@ -20,6 +20,10 @@ public class AdminAuthority extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
     /**
+     * 不使用逻辑删除 --> 逻辑删除字段 int 默认值为0，(0、正常，1、删除) (mybatis-plus 策略, 添加了 @TableLogic 注解自动为逻辑删除)
+     */
+    private Integer deleted;
+    /**
      * 权限类Id（方法与类/层级关系展示)
      */
     private String pid;

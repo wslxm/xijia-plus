@@ -27,7 +27,7 @@
         </span>
         <!-- 提示 -->
         <font class="layui-word-aux">
-            头像必须小于 200KB
+            头像必须小于 500KB
         </font>
     </div>
     <div class="layui-form-item">
@@ -146,7 +146,7 @@
             elem: '#test7'
             , url: path+'/aliOssFile/upload?filePath=image/head/' //改成您自己的上传接口
             , size: 200 //限制文件大小，单位 KB
-            , headers: {"TOKEN": sessionStorage.getItem('token')}
+            , headers: headers
             , done: function (res) {
                 //如果上传失败
                 if (res.code !== 200) {

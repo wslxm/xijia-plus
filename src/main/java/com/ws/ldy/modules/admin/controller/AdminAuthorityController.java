@@ -29,7 +29,6 @@ import java.util.List;
 @Api(value = "AdminAuthorityController", tags = "URL权限管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminAuthorityController extends BaseController<AdminAuthorityService> {
 
-
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiOperation(value = "查询所有", notes = "查询所有权限数据，根据不同的端的枚举code 拼接最顶级的目录, 顶级目录ID = -1")
     public R<List<AdminAuthorityVO>> findList() {
@@ -80,5 +79,4 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
         baseService.refreshAuthDB();
         return R.success();
     }
-
 }

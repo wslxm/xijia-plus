@@ -1,5 +1,6 @@
 package com.ws.ldy.config.auth.filter;
 
+import com.alibaba.fastjson.JSON;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.auth.entity.JwtUser;
@@ -12,24 +13,91 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * 接口登录授权
- *
+/***
+ * 登录授权 过滤器
+ * <P>
+ *   过滤器定义参考： https://www.cnblogs.com/ibigboy/p/11528775.html
+ * </P>
  * @author wangsong
  * @mail 1720696548@qq.com
- * @date 2020/10/28 0028 19:50 
+ * @date 2020/10/29 0029 17:50
  * @version 1.0.0
  */
-@Component
 @Slf4j
-public class JwtFilter {
+@Component
+public class JwtAuthFilter implements Filter {
 
-    // 接口权限
-    @Autowired
+
+    // 权限对象
     private AdminAuthorityService adminAuthorityService;
+
+    /**
+     * 需要进行接口验证的uri 集, 静态资源, css, js ,路由等等, 只要uri包含以下定义的内容, 将直接跳过改过滤器
+     */
+    private static List<String> excludeUriList = new ArrayList<String>() {{
+        add("/bootAdmin/instances");  // springbootAdmin监控相关
+        add("/actuator");             // 系统监控相关
+        add("/druid/");               // sql监控相关
+        add("/page/");                // 页面跳转(路由)
+    }};
+
+    public JwtAuthFilter(AdminAuthorityService adminAuthorityService) {
+        this.adminAuthorityService = adminAuthorityService;
+    }
+
+
+    @Override
+    public void init(FilterConfig filterConfig) {
+    }
+
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+        // 1、排除
+        String uri = request.getRequestURI();
+        for (String excludeUri : excludeUriList) {
+            if (uri.contains(excludeUri)) {
+                // doFilter将请求转发给过滤器链下一个filter , 如果没有filter那就是你请求的资源
+                filterChain.doFilter(servletRequest, servletResponse);
+                // 中断程序
+                return;
+            }
+        }
+        if (!BaseConstant.Cache.AUTH_MAP.containsKey(uri)) {
+            log.info("检测到未被管理的请求uri=" + uri);
+        }
+        //  2、登录授权认证
+        R<JwtUser> result = loginAuth(request, response);
+        //  3、判断登录授权结果(失败直接返回,成功调用 doFilter 向下走)
+        if (result.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+            filterChain.doFilter(servletRequest, servletResponse);
+        } else {
+            // 返回错误
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json; charset=utf-8");
+            PrintWriter writer = response.getWriter();
+            writer.write(JSON.toJSONString(result));
+            writer.flush();
+            writer.close();
+        }
+    }
+
+
+    @Override
+    public void destroy() {
+
+    }
+
 
     /**
      * 登录授权认证
@@ -46,7 +114,7 @@ public class JwtFilter {
      * @param request
      * @param response
      */
-    public R<JwtUser> doFilterInternal(HttpServletRequest request, HttpServletResponse response) {
+    public R<JwtUser> loginAuth(HttpServletRequest request, HttpServletResponse response) {
         // 1、是否为绝对放行接口,是直接放行
         String uri = request.getRequestURI();
         if (BaseConstant.Sys.URIS.contains(uri)) {

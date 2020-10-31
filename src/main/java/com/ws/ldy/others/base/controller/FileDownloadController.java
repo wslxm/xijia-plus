@@ -1,6 +1,7 @@
 package com.ws.ldy.others.base.controller;
 
 import com.ws.ldy.common.utils.FileDownloadUtil;
+import com.ws.ldy.enums.BaseConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -18,7 +19,7 @@ import java.util.Arrays;
  * @author peter 2018/10/20 21:32
  */
 @RestController
-@Api(value = "FileDownloadController", tags = "v-1.1 -- 文件下载")
+@Api(value = "FileDownloadController", tags = "v-1.1 -- 文件下载",consumes = BaseConstant.InterfaceType.PC_BASE)
 @RequestMapping("/download")
 public class FileDownloadController extends BaseController {
 

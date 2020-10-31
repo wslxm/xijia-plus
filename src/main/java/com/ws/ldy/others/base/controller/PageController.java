@@ -1,5 +1,6 @@
 package com.ws.ldy.others.base.controller;
 
+import com.ws.ldy.enums.BaseConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @date 2019/11/13 9:49
  */
 @Controller
-@Api(value = "PageController", tags = "v-1.0 -- Freemarker --> 通用路由跳转")
+@Api(value = "PageController", tags = "v-1.0 -- Freemarker --> 通用路由跳转",consumes = BaseConstant.InterfaceType.PC_BASE)
 public class PageController {
 
     @RequestMapping(value = "/page/{fileName}", method = RequestMethod.GET)
