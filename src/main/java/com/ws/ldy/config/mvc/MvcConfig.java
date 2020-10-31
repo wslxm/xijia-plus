@@ -2,6 +2,8 @@ package com.ws.ldy.config.mvc;
 
 import com.ws.ldy.config.auth.filter.JwtAuthFilter;
 import com.ws.ldy.config.auth.filter.RequestFilter;
+import com.ws.ldy.modules.admin.service.AdminAuthorityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +25,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SuppressWarnings("all")
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
+
+
+    @Autowired
+    private AdminAuthorityService adminAuthorityService;
 
     /**
      * 访问URL路径与 resources\templates 页面(.html）路径映射配置, 这里主要做单独的页面跳转
@@ -94,7 +100,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Bean
     public FilterRegistrationBean requestFilter() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(new JwtAuthFilter());
+        filterRegistrationBean.setFilter(new JwtAuthFilter(adminAuthorityService));
         filterRegistrationBean.addUrlPatterns("/*");      // 拦截所有
         filterRegistrationBean.setName("requestFilter");  // 设置过滤器名称
         filterRegistrationBean.setOrder(1);//执行次序

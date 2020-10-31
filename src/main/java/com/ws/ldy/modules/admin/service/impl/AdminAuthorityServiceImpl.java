@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -96,13 +97,17 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      * @date 2019/11/25 0025 9:02
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    //@Transactional(rollbackFor = Exception.class)
     public void refreshAuthDB() {
         log.info("  @.@...正在更新接口资源,所有被权限管理的接口将被打印出来…… ^.^ ");
         // 扫描包，获得包下的所有类
         List<Class<?>> classByPackageName = ClassUtil.getClasses(PACKAGE_NAME);
         // 当前当前数据库已经存在的所有url权限列表--> key=url，value=对象，获取后移除Map中已取出，最后剩下的全部删除
-        Map<String, AdminAuthority> authorityMap = this.list().stream().collect(Collectors.toMap(AdminAuthority::getUrl, item -> item));
+        List<AdminAuthority> list = this.list();
+        Map<String, AdminAuthority> authorityMap = new HashMap<>();
+        if (list != null && list.size() > 0 ) {
+            authorityMap = list.stream().collect(Collectors.toMap(AdminAuthority::getUrl, item -> item));
+        }
         // 所有需要修改list |添加list |删除的Ids
         List<AdminAuthority> updAuth = new ArrayList<>();
         List<AdminAuthority> addAuth = new ArrayList<>();

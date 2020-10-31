@@ -11,6 +11,7 @@ import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.admin.service.AdminAuthorityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,12 @@ import java.util.List;
  * @version 1.0.0
  */
 @Slf4j
+@Component
 public class JwtAuthFilter implements Filter {
+
+
+    // 权限对象
+    private AdminAuthorityService adminAuthorityService;
 
     /**
      * 需要进行接口验证的uri 集, 静态资源, css, js ,路由等等, 只要uri包含以下定义的内容, 将直接跳过改过滤器
@@ -43,8 +49,9 @@ public class JwtAuthFilter implements Filter {
         add("/page/");                // 页面跳转(路由)
     }};
 
-    @Autowired
-    private AdminAuthorityService adminAuthorityService;
+    public JwtAuthFilter(AdminAuthorityService adminAuthorityService) {
+        this.adminAuthorityService = adminAuthorityService;
+    }
 
 
     @Override

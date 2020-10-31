@@ -197,7 +197,7 @@ public class AliOssController extends BaseController {
         String suffixName = fileName.substring(fileName.indexOf(".") + 1, fileName.length());
         if (UPLOAD_PATH_IMAGE.equals(path)) {
             // 图片
-            if (!"jpg".equals(suffixName) && !"png".equals(suffixName) && !"jpeg".equals(suffixName)) {
+            if (!"jpg".equals(suffixName) && !"png".equals(suffixName) && !"jpeg".equals(suffixName)  && !"gif".equals(suffixName)) {
                 throw new ErrorException(10002, "图片仅支持上传-[jpg,png,jpeg]");
             }
             //修改fileName的引用,提交17位时间+3位随机数(20前缀)
