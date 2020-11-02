@@ -16,7 +16,7 @@ BaseConfig = {
  * 全局的headers 配置
  */
 headers = {
-    "TOKEN": sessionStorage.getItem(BaseConfig.token)
+    "TOKEN": sessionStorage.getItem(BaseConfig.token) == null ? "" : sessionStorage.getItem(BaseConfig.token)
 };
 
 /**
@@ -25,26 +25,26 @@ headers = {
 var Enums = {
     // 系统模块
     Admin: {
-        AdminUserPosition : "ADMIN_USER_POSITION",  // 职位
-        AuthorityState : "AUTHORITY_STATE",  // 权限状态
-        AuthorityType : "AUTHORITY_TYPE",  // 权限终端
-        BannerIsSkip : "BANNER_IS_SKIP",  // banner是否跳转
-        BannerPosition : "BANNER_POSITION",  // banner 位置
-        ConfigCode : "CONFIG_CODE",  // 系统配置类型
-        HelpCategory : "HELP_CATEGORY",  // 帮助中心类别
-        HelpVersion : "HELP_VERSION",  // 帮助中心版本
-        MenuRoot : "MENU_ROOT",  // 菜单级别
-        MsgType : "MSG_TYPE",  // 及时消息类型
-        MsgUserType : "MSG_USER_TYPE",  // 及时消息终端
+        AdminUserPosition: "ADMIN_USER_POSITION",  // 职位
+        AuthorityState: "AUTHORITY_STATE",  // 权限状态
+        AuthorityType: "AUTHORITY_TYPE",  // 权限终端
+        BannerIsSkip: "BANNER_IS_SKIP",  // banner是否跳转
+        BannerPosition: "BANNER_POSITION",  // banner 位置
+        ConfigCode: "CONFIG_CODE",  // 系统配置类型
+        HelpCategory: "HELP_CATEGORY",  // 帮助中心类别
+        HelpVersion: "HELP_VERSION",  // 帮助中心版本
+        MenuRoot: "MENU_ROOT",  // 菜单级别
+        MsgType: "MSG_TYPE",  // 及时消息类型
+        MsgUserType: "MSG_USER_TYPE",  // 及时消息终端
     },
     // 通用枚举
     Base: {
-        Deleted : "DELETED",  // 逻辑删除
-        Disable : "DISABLE",  // 是否禁用
-        Gender : "GENDER",  // 性别
-        IsMail : "IS_MAIL",  // 是否邮寄
-        IsNeedMail : "IS_NEED_MAIL",  // 是否需要邮寄
-        IsRead : "IS_READ",  // 是否已读
+        Deleted: "DELETED",  // 逻辑删除
+        Disable: "DISABLE",  // 是否禁用
+        Gender: "GENDER",  // 性别
+        IsMail: "IS_MAIL",  // 是否邮寄
+        IsNeedMail: "IS_NEED_MAIL",  // 是否需要邮寄
+        IsRead: "IS_READ",  // 是否已读
     },
 };
 
