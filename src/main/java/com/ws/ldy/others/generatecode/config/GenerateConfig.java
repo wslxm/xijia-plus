@@ -11,7 +11,7 @@ import java.util.List;
  * @date 2020/2/11 0011 0:08
  * @return
  */
-@SuppressWarnings("ALL")
+@SuppressWarnings({"ALL", "AlibabaAvoidCommentBehindStatement"})
 public class GenerateConfig {
 
     /**
@@ -23,13 +23,13 @@ public class GenerateConfig {
     public final static String AUTHOR = "wangsong";
     public final static String EMAIL = "1720696548@qq.com";
     public final static String DESCRIBE = " ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 ";
-    public final static String PACK_PATH = "com.ws.ldy";  // 包根路径（所有代码,启动类的路径）
-    public final static String PACK_PATH_ZP = "modules";  // 包根的下一级路径（所有模块的包路径）
-    public final static String MODULE_NAME = "admin";       // 模块路径（当前模块的包路径）
+    public final static String PACK_PATH = "com.ws.ldy";    // 包根路径（所有代码,启动类的路径）
+    public final static String PACK_PATH_ZP = "modules";    // 包根的下一级路径（所有模块的包路径）
+    public final static String MODULE_NAME = "caipu";       // 模块名/路径（当前模块的包路径）
 
     /**
-     * 建议-默认为相对路径
-     * 相对路径： value=""  （当前项目目录下）
+     * 生成路径
+     * 相对路径： value=""  当前项目目录下(建议-默认为相对路径)
      * 绝对路径:  value="F:/workspace/code/git2020-1/spring-boot-plus2/"
      */
     public final static String FATHER_PATH = "";
@@ -41,12 +41,12 @@ public class GenerateConfig {
     // 预览的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
     public final static String BASE_PATH_HTML_TXT_YL = "File/code/src/main/resources/templates/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/txt/";
     public final static String BASE_PATH_JAVA_YL = "File/code/src/main/java/" + PACK_PATH.replace(".", "/") + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
-    public final static String BASE_PATH_XML_YL = "File/code/src/main/resources/mapper/" + PACK_PATH_ZP + "/" + MODULE_NAME+ "/";
+    public final static String BASE_PATH_XML_YL = "File/code/src/main/resources/mapper/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
 
     // 生成的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
     public final static String BASE_PATH_HTML = "src/main/resources/templates/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
     public final static String BASE_PATH_JAVA = "src/main/java/" + PACK_PATH.replace(".", "/") + "/" + PACK_PATH_ZP + "/" + MODULE_NAME.replace(".", "/") + "/";
-    public final static String BASE_PATH_XML = "src/main/resources/mapper/" + PACK_PATH_ZP + "/" + MODULE_NAME+ "/";
+    public final static String BASE_PATH_XML = "src/main/resources/mapper/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
 
     /**
      * 生成的各代码具体的生成路径
@@ -78,7 +78,15 @@ public class GenerateConfig {
     /**
      * mysql 数据表通用字段
      */
-    public static final List<String> BASE_FIELDS = Arrays.asList("id,create_user,update_user,create_time,update_time,deleted,version".split(","));
+    public static final List<String> BASE_FIELDS = Arrays.asList(
+            ("id" +
+                    ",create_user" +
+                    ",update_user" +
+                    ",create_time" +
+                    ",update_time" +
+                    ",deleted" +
+                    ",version")
+                    .split(","));
 
     /**
      * mysql 关键字配置,如存在下方定义的关键字字段,实体类会进行自动处理
