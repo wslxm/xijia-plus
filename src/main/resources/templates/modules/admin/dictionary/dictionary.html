@@ -313,7 +313,7 @@
 
 
     /**
-     *  生成的预览弹出层
+     *  生成的枚举数据，预览弹出层
      * @param data
      */
     function generateEnum() {
@@ -327,10 +327,10 @@
             shadeClose: true,
             closeBtn: 1,
             fixed: false,
-            area: ['60%', '600px'],
+            area: ['100%', '100%'],
             tab: [{
                 title: 'java',
-                content: ["<pre><code>" + res.data.java + "</code></pre>"]
+                content: ["<pre><code>" + res.data.java.replaceAll(">","&gt;").replaceAll("<","&lt;") + "</code></pre>"]
             }, {
                 title: 'js',
                 content: ["<pre><code>" + res.data.js + "</code></pre>"]
