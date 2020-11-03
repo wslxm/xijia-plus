@@ -1,6 +1,7 @@
 package com.ws.ldy.config.swagger;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import com.google.common.collect.Lists;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.auth.entity.JwtUser;

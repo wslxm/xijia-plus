@@ -67,6 +67,10 @@ public class MvcConfig implements WebMvcConfigurer {
 
         // 需要用到的webjars（包含js、css等）
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+        //
+        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
 
@@ -121,4 +125,6 @@ public class MvcConfig implements WebMvcConfigurer {
         filterRegistrationBean.setOrder(2);//执行次序
         return filterRegistrationBean;
     }
+
+
 }
