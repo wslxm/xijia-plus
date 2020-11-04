@@ -177,7 +177,7 @@
      */
     function help(id) {
         let res = Ajax.get(path + "/admin/adminHelp/findById?id=" + id);
-        $("#content").html(res.data.content);
+        $("#content").html(res.data.content.replaceAll(">","&gt;").replaceAll("<","&lt;"));
         // 解析md数据
         easyeditor.render({
             elem: ".easyeditor-content" //存放md内容的元素ID

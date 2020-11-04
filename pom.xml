@@ -18,8 +18,8 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <!-- 系统版本号 -->
-        <revision>0.1</revision>
+        <!-- 当前系统版本号 -->
+        <revision>0.0.7</revision>
         <!-- 文件拷贝时的编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -30,6 +30,36 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+
+        <!-- 引入依赖版本管理-->
+        <!-- 数据库相关 -->
+        <mybatis-plus-boot-starter.version>3.1.0</mybatis-plus-boot-starter.version>
+        <mybatis-plus-generator.version>3.3.1.tmp</mybatis-plus-generator.version>
+        <mysql-connector-java.version>8.0.16</mysql-connector-java.version>
+        <druid-spring-boot-starter.version>1.1.22</druid-spring-boot-starter.version>
+        <dynamic-datasource-spring-boot-starter.version>2.5.4</dynamic-datasource-spring-boot-starter.version>
+        <!-- 接口文档 -->
+        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+        <springfox-swagger2-ui.version>2.9.2</springfox-swagger2-ui.version>
+        <swagger-models.version>1.5.22</swagger-models.version>
+        <knife4j-spring-boot-starter.version>2.0.6</knife4j-spring-boot-starter.version>
+        <!-- 工具 -->
+        <commons-lang3.version>3.9</commons-lang3.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <fastjson.version>1.2.61</fastjson.version>
+        <json-lib.version>2.4</json-lib.version>
+        <poi.version>3.17</poi.version>
+        <poi-ooxml.version>3.17</poi-ooxml.version>
+        <poi-ooxml-schemas.version>3.17</poi-ooxml-schemas.version>
+        <hutool-all.version>5.4.7</hutool-all.version>
+        <!-- sdk -->
+        <aliyun-sdk-oss.version>3.8.0</aliyun-sdk-oss.version>
+        <aliyun-java-sdk-core.version>4.5.1</aliyun-java-sdk-core.version>
+        <weixin-java-mp.version>3.9.0</weixin-java-mp.version>
+        <!-- 其他 -->
+        <spring-cloud-starter-netflix-zuul.version>2.2.0.RELEASE</spring-cloud-starter-netflix-zuul.version>
+        <spring-boot-admin-starter-server.version>2.2.2</spring-boot-admin-starter-server.version>
+        <spring-boot-admin-starter-client.version>2.2.2</spring-boot-admin-starter-client.version>
     </properties>
 
     <dependencies>
@@ -50,49 +80,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- mybatisPlus 核心库 -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-        <!-- 代码生成插件 mybatis-plus-generator-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.3.1.tmp</version>
-        </dependency>
-        <!-- mybatis-plus-generator velocity 模板引擎 -->
-        <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity-engine-core</artifactId>
-            <version>2.2</version>
-        </dependency>
-        <!-- mybatis-plus-generator freemarker 模板引擎 -->
-        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>2.3.29</version>
-        </dependency>
-        <!-- mysql 8.0.16 -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.16</version>
-            <scope>runtime</scope>
-        </dependency>
-        <!-- druid 阿里巴巴数据源 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.22</version>
-        </dependency>
-        <!-- mybatis-plus dynamic 多数据源 -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-            <version>2.5.4</version>
-        </dependency>
         <!-- aop -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -104,29 +91,66 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <!-- Hutool是一个小而全的Java工具类库  -->
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>5.0.4</version>
-        </dependency>
         <!--解析html包-thymeleaf -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-
-        <!-- 验签需要的包，如果使用excel的包,可注释 -->
+        <!-- websocket -->
         <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.10</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <!-- actuator 监控中心 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!-- ======================================================= -->
+        <!-- =============== 以下版本为手动引入 ======================= -->
+        <!-- ======================================================= -->
+        <!-- mybatisPlus 核心库 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plus-boot-starter.version}</version>
+        </dependency>
+        <!-- 代码生成插件 mybatis-plus-generator-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>${mybatis-plus-generator.version}</version>
+        </dependency>
+        <!-- mysql 8.0.16 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector-java.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- druid 阿里巴巴数据源 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid-spring-boot-starter.version}</version>
+        </dependency>
+        <!-- mybatis-plus dynamic 多数据源 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>${dynamic-datasource-spring-boot-starter.version}</version>
+        </dependency>
+        <!-- Hutool是一个小而全的Java工具类库  -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool-all.version}</version>
         </dependency>
         <!--SpringBoot整合 swagger2 -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <version>${springfox-swagger2.version}</version>
             <!-- 排除自带低版本swagger-models -->
             <exclusions>
                 <exclusion>
@@ -139,72 +163,62 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-models</artifactId>
-            <version>1.5.22</version>
+            <version>${swagger-models.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>${springfox-swagger2-ui.version}</version>
         </dependency>
         <!--  commons-lang3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.9</version>
+            <version>${commons-lang3.version}</version>
         </dependency>
-        <!-- websocket -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-websocket</artifactId>
-        </dependency>
-        <!-- spring-security 5.2.0-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-security</artifactId>-->
-<!--        </dependency>-->
         <!-- jwt -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
+            <version>${jjwt.version}</version>
         </dependency>
         <!-- fastjson -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.61</version>
+            <version>${fastjson.version}</version>
         </dependency>
         <!-- jsonObject 支持  -->
         <dependency>
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>
-            <version>2.4</version>
+            <version>${json-lib.version}</version>
             <classifier>jdk15</classifier>
         </dependency>
         <!-- 阿里云OSS -->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
-            <version>3.8.0</version>
+            <version>${aliyun-sdk-oss.version}</version>
         </dependency>
         <!-- 阿里云短信 -->
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-core</artifactId>
-            <version>4.5.1</version>
+            <version>${aliyun-java-sdk-core.version}</version>
         </dependency>
         <!-- zuul 实现类似于nginx的转发功能,进行oss内网访问 -->
         <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-zuul -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
-            <version>2.2.0.RELEASE</version>
+            <version>${spring-cloud-starter-netflix-zuul.version}</version>
         </dependency>
         <!-- excel2003使用的包 -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>3.17</version>
+            <version>${poi.version}</version>
         </dependency>
         <!-- excel2007+使用的包 -->
         <dependency>
@@ -212,43 +226,39 @@
             <artifactId>poi-ooxml</artifactId>
             <version>3.17</version>
         </dependency>
+        <!-- 验签需要的包，如果使用excel的包,可注释 -->
+        <!-- <dependency>-->
+        <!--     <groupId>commons-codec</groupId>-->
+        <!--     <artifactId>commons-codec</artifactId>-->
+        <!--     <version>1.10</version>-->
+        <!-- </dependency>-->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml-schemas</artifactId>
-            <version>3.17</version>
+            <version>${poi-ooxml-schemas.version}</version>
         </dependency>
         <!-- 微信公众号 WxJava 开源sdk包 -->
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
-            <version>3.9.0</version>
+            <version>${weixin-java-mp.version}</version>
         </dependency>
-        <!-- actuator 监控中心 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <!-- spring-boot-admin ，必须有 actuator监控中心 -->
+        <!-- spring-boot-admin,必须先引入 actuator 监控 -->
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-server</artifactId>
-            <version>2.2.2</version>
+            <version>${spring-boot-admin-starter-server.version}</version>
         </dependency>
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
-            <version>2.2.2</version>
+            <version>${spring-boot-admin-starter-client.version}</version>
         </dependency>
-        <!--  -->
-<!--        <dependency>-->
-<!--            <groupId>com.github.xiaoymin</groupId>-->
-<!--            <artifactId>knife4j-spring-boot-starter</artifactId>-->
-<!--            <version>1.9.6</version>-->
-<!--        </dependency>-->
+        <!-- knife4j  -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>2.0.6</version>
+            <version>${knife4j-spring-boot-starter.version}</version>
         </dependency>
     </dependencies>
     <build>

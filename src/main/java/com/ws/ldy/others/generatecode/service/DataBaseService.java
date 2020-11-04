@@ -20,7 +20,7 @@ public interface DataBaseService  extends IService{
      * @date 2019/11/20 10:41
      * @return java.util.List<java.lang.String>
      */
-    public List<TableVO> findTable();
+    public List<TableVO> findTable(String dataSourceId);
 
     /**
      * 查询数据库下指定表的数据-字段名/类型/备注
@@ -28,5 +28,5 @@ public interface DataBaseService  extends IService{
      * @return java.util.List<java.lang.String>
      * @date 2019/11/20 10:41
      */
-    public List<TableFieldVO> findTableField(String table);
+    public List<TableFieldVO> findTableField(String table, String dataSourceId);
 }

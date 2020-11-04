@@ -14,7 +14,14 @@
 
 <!-- 左边树 -->
 <div style="display: inline-block;float:left; width: 20%; height: 800px; padding: 10px; border: 1px solid #ddd; overflow: auto;margin-top: 3%">
-    <ul id="auth-tree"></ul>
+    <!-- 数据源 -->
+    <div class="layui-input-inline layui-form" style="width: 240px;margin-left: 2%">
+        <select id="dataSource" name="dataSource" lay-filter="dataSource">
+            <option value="" selected>默认数据源</option>
+        </select>
+    </div>
+    <!-- -->
+    <ul style="margin-top: 4%" id="auth-tree"></ul>
 </div>
 
 
@@ -27,10 +34,13 @@
 <!-- 确认分配按钮  -->
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
+        <!--<button class="layui-btn layui-btn-sm" onclick="toolbarClick(3)">选择数据源</button>-->
+
         <button class="layui-btn layui-btn-sm" onclick="toolbarClick(1)">生成预览代码</button>
         <button class="layui-btn layui-btn-sm" onclick="toolbarClick(2)">代码生成</button>
         <button class="layui-btn layui-btn-sm" onclick="codePath()">查看生成路径</button>
-        <font size="2">当前表: </font> <font size="2" color="red" id="tableName">t_basic</font>
+        <font size="2">当前数据源: </font> <font size="2" color="red" id="dataSourceName">默认数据源</font>
+        <font size="2" style="margin-left: 1.5%">当前表: </font> <font size="2" color="red" id="tableName">t_basic</font>
         <font size="2" style="margin-left: 1.5%" color="#6a5acd" id="tableComment"></font>
     </div>
 </script>
@@ -49,6 +59,7 @@
     let tableComment = "";       // 左边菜单当前选中表名称描叙
     let checkData = null;        // 当前数据表格所有复选框数据暂存
     let reqDataJson = null;      // 当前数据表格中的所有数据(最后请求参数)
+    let dataSourceId = "";      // 当前数据源Id, 空串为当前server连接db
 
     let tree;
     let table;
@@ -72,6 +83,7 @@
         tableRender();                    // 初始化右边 table 数据
         xijiaEventCheck();                // 监听复选框选中
         xijiaEventSwitch();               // 监听开关选择操作
+        xijiaEventDataSource();           // 监听数据源切换
     });
 
     /**
@@ -111,8 +123,10 @@
      */
     function showTree() {
         // 获得数据库表数据
-        let tablesJson = Ajax.get(dataBaseTables);
-
+        let uri = dataBaseTables + "?dataSourceId=" + dataSourceId;
+        let tablesJson = Ajax.get(uri);
+        // 清除上一个
+        $("#auth-tree").html("");
         //左边角色菜单数据
         tree({
             elem: '#auth-tree'
@@ -132,7 +146,7 @@
             }
             , nodes: [ //节点
                 {
-                    name: '数据表'
+                    name: '数据表 ('+tablesJson.data.length+')'
                     , id: 0
                     , spread: true
                     , children: tablesJson.data  // 表数据
@@ -175,7 +189,7 @@
     });
 
     /**
-     *     table数据--（抽离出来方便重载）
+     *  table数据--（抽离出来方便重载）
      *
      * @date  2019/11/16 0016 16:56
      * @param treetable
@@ -183,7 +197,7 @@
      * @return
      */
     function tableRender() {
-        let dataJson = Ajax.get(findAll + "?tableName=" + tableName);
+        let dataJson = Ajax.get(findAll + "?tableName=" + tableName + "&dataSourceId=" + dataSourceId);
         table.render({
             id: "te" //获取复选框所有选中数据使用
             , height: 800
@@ -208,7 +222,7 @@
                     }
                     ,
                     {
-                        field: 'search', title: '查询( eq | select )',  width: 180,templet: function (res) {
+                        field: 'search', title: '查询( eq | select )', width: 180, templet: function (res) {
                             return '<input type="checkbox" name="search" lay-filter="search" lay-skin="switch" lay-text="是|否">'
                                 + '&nbsp;&nbsp;|&nbsp;&nbsp;<input type="checkbox" name="search" lay-filter="searchSelect" lay-skin="switch" lay-text="是|否">';
                         }
@@ -347,6 +361,37 @@
         findPathMap = result.data;
         Pop.tipsWindown(generateFilePath, "800px", "520px", "实际生成路径[root/] ==> 预览代码目录[File/code/]");
     }
+
+
+    /**
+     * 数据源选中事件
+     */
+    function xijiaEventDataSource() {
+        form.on('select(dataSource)', function (data) {
+            //得到被选中的值
+            dataSourceId = data.value;
+            $("#dataSourceName").html(data.elem[data.elem.selectedIndex].text);
+            //重载左菜单
+            showTree();
+        });
+        alert($(this).val());
+    }
+
+    /**
+     *
+     */
+    $(function () {
+        /**
+         * 数据源列表
+         * @type {null}
+         */
+        let dataSourceList = Ajax.get(path + "/xj/xjDatasource/findList").data;
+        let dataSourceHtml = "<option value='' selected>默认数据源</option>";
+        for (let i = 0; i < dataSourceList.length; i++) {
+            dataSourceHtml += "<option value='" + dataSourceList[i].id + "'>" + dataSourceList[i].dbTitle + " -> " + dataSourceList[i].dbName + "</option>";
+        }
+        $("#dataSource").html(dataSourceHtml);
+    })
 </script>
 </body>
 </html>
