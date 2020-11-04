@@ -33,5 +33,4 @@ public class XijiaServer {
         SpringApplication.run(XijiaServer.class, args);
     }
 
-
 }

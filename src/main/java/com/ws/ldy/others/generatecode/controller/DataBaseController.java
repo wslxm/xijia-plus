@@ -9,6 +9,7 @@ import com.ws.ldy.others.generatecode.model.vo.TableVO;
 import com.ws.ldy.others.generatecode.service.DataBaseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,28 +34,21 @@ public class DataBaseController extends BaseController<DataBaseService> {
 
     @ApiOperation("查询所有表名")
     @RequestMapping(value = "/findTable", method = RequestMethod.GET)
-    public R<List<TableVO>> findTable() {
-        List<TableVO> tables = baseService.findTable();
+    @ApiImplicitParam(name = "dataSourceId", value = "数据源Id (如果没有选择数据源,默认查询当前项目的数据源一)", required = false, paramType = "query", example = "")
+    public R<List<TableVO>> findTable(String dataSourceId) {
+        List<TableVO> tables = baseService.findTable(dataSourceId);
         return R.success(tables);
     }
 
+
     @ApiOperation("查询指定表下使用字段内容")
-    @ApiImplicitParam(name = "tableName", value = "表名", required = false, paramType = "query")
     @RequestMapping(value = "/findTableField", method = RequestMethod.GET)
-    public R<List<TableFieldVO>> findTableField(@RequestParam(required = false) String tableName) {
-        List<TableFieldVO> tableField = baseService.findTableField(tableName);
-        for (TableFieldVO tableFieldVO : tableField) {
-            // 判断是否为通用字段
-            if (GenerateConfig.BASE_FIELDS.contains(tableFieldVO.getName())) {
-                tableFieldVO.setIsChecked(false);
-            } else {
-                tableFieldVO.setIsChecked(true);
-            }
-            // 判断空串
-            if ("CURRend_timeSTAMP".equals(tableFieldVO.getDefaultVal())) {
-                tableFieldVO.setDefaultVal("当前时间");
-            }
-        }
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "tableName", value = "表名", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "dataSourceId", value = "数据源Id (如果没有选择数据源,默认查询当前项目的数据源一)", required = false, paramType = "query", example = "")
+    })
+    public R<List<TableFieldVO>> findTableField(@RequestParam(required = false) String tableName, String dataSourceId) {
+        List<TableFieldVO> tableField = baseService.findTableField(tableName,dataSourceId);
         return R.success(tableField);
     }
 }
