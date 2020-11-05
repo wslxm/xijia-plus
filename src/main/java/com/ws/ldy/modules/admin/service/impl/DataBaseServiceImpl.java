@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.admin.service.impl;
 
-import com.ws.ldy.modules.xj.model.entity.XjDatasource;
-import com.ws.ldy.modules.xj.service.XjDatasourceService;
+import com.ws.ldy.others.generatecode.model.entity.XjDatasource;
+import com.ws.ldy.others.generatecode.service.XjDatasourceService;
 import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.others.generatecode.config.GenerateConfig;
 import com.ws.ldy.others.generatecode.jdbc.JDBCPool;
@@ -9,7 +9,6 @@ import com.ws.ldy.others.generatecode.mapper.DataBaseMapper;
 import com.ws.ldy.others.generatecode.model.vo.TableFieldVO;
 import com.ws.ldy.others.generatecode.model.vo.TableVO;
 import com.ws.ldy.others.generatecode.service.DataBaseService;
-import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -33,6 +33,7 @@ public enum RType implements IEnum<Integer> {
     SYS_ERROR_DOES_NOT_EXIST(500, "没有找到数据/数据不存在"),
 
     //
+    TEMPLATE_RESOLVING_ERROR(9997,"Html模板解析错误"),
     DB_EXECUTE_SQL_ERROR(9998, "执行sql时出错"),
 
 
@@ -52,7 +53,6 @@ public enum RType implements IEnum<Integer> {
     LOGIN_IS_NO_DISABLE(10001, "账户被禁用"),
     LOGIN_FAILED(10001, "登录失败"),
     LOGIN_THERE_ARE_MULTIPLE(10001, "存在多个账号信息,请选择登录"),
-
 
     // 接口/授权
     AUTHORITY_LOGIN_EXPIRED(10000, "登录过期"),
@@ -100,6 +100,8 @@ public enum RType implements IEnum<Integer> {
     // 文章-帮助中心
     ARTICLE_POSITION_REPEAT(10010, "位置重复"),
 
+    // 代码生成
+    GENERATE_CODE_JDBC_ERROR(10020,"数据源连接信息错误")
     ;
 
 

@@ -29,7 +29,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         ConsoleColors.getSuccessYellowBright();
         // 启动项目后-更新数据表权限数据
         adminAuthorityService.refreshAuthDB();
-        // 启动项目后-更新JVM缓存数据
+        // 启动项目后-更新JVM的权限缓存数据
         adminAuthorityService.refreshAuthCache();
     }
 }

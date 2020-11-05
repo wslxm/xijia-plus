@@ -27,6 +27,9 @@ public class AdminRoleVO extends BaseVo {
     @ApiModelProperty(value = "禁用（0-否，1-是）")
     private Integer disable;
 
+    @ApiModelProperty(value = "查询code")
+    private String code;
+
     @ApiModelProperty(value = "角色分配, 当前用户拥有角色为true")
     private Boolean isChecked;
 

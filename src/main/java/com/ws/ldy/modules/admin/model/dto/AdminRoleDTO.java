@@ -27,6 +27,9 @@ public class AdminRoleDTO extends BaseDto {
     @ApiModelProperty(value = "描叙")
     private String desc;
 
+    @ApiModelProperty(value = "查询code")
+    private String code;
+
     @ApiModelProperty(value = "禁用（0-否，1-是）")
     private Integer disable;
 }

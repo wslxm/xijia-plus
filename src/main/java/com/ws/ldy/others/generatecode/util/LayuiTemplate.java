@@ -1,9 +1,9 @@
-package com.ws.ldy.others.generatecode.config;
+package com.ws.ldy.others.generatecode.util;
 
 /**
  * 搜索Html 模板配置
  */
-public class SearchPtConfig {
+public class LayuiTemplate {
 
     /**
      * 单选

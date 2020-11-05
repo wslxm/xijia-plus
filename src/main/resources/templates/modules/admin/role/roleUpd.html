@@ -22,6 +22,12 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">Code</label>
+        <div class="layui-input-inline">
+            <input type="text" id="code" name="code" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">角色描叙</label>
         <div class="layui-input-inline">
             <input type="text" id="desc" name="desc" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
@@ -39,6 +45,7 @@
         //父页面的值,赋值到当前页
         $("#name").val(parent.data.name);
         $("#desc").val(parent.data.desc);
+        $("#code").val(parent.data.code);
     });
 
     layui.use(['form'], function () {

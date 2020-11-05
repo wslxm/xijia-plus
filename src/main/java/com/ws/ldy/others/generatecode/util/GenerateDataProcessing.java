@@ -23,7 +23,7 @@ import java.util.Map;
  * @date 2020/2/9 0009 20:33
  */
 @SuppressWarnings("all")
-public class GenerateUtil extends BaseController {
+public class GenerateDataProcessing {
 
 
     /**

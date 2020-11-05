@@ -10,10 +10,16 @@ import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.admin.mapper.AdminAuthorityMapper;
 import com.ws.ldy.modules.admin.mapper.AdminRoleAuthMapper;
+import com.ws.ldy.modules.admin.mapper.AdminRoleMenuMapper;
 import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
+import com.ws.ldy.modules.admin.model.entity.AdminRole;
 import com.ws.ldy.modules.admin.model.entity.AdminRoleAuth;
+import com.ws.ldy.modules.admin.model.entity.AdminRoleMenu;
 import com.ws.ldy.modules.admin.model.vo.AdminAuthorityVO;
 import com.ws.ldy.modules.admin.service.AdminAuthorityService;
+import com.ws.ldy.modules.admin.service.AdminRoleAuthService;
+import com.ws.ldy.modules.admin.service.AdminRoleMenuService;
+import com.ws.ldy.modules.admin.service.AdminRoleService;
 import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,10 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -43,7 +46,9 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     @Autowired
-    private AdminRoleAuthMapper adminRoleAuthMapper;
+    private AdminRoleAuthService adminRoleAuthService;
+    @Autowired
+    private AdminRoleService adminRoleService;
 
 
     /**
@@ -97,7 +102,6 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      * @date 2019/11/25 0025 9:02
      */
     @Override
-    //@Transactional(rollbackFor = Exception.class)
     public void refreshAuthDB() {
         log.info("  @.@...正在更新接口资源,所有被权限管理的接口将被打印出来…… ^.^ ");
         // 扫描包，获得包下的所有类
@@ -105,7 +109,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         // 当前当前数据库已经存在的所有url权限列表--> key=url，value=对象，获取后移除Map中已取出，最后剩下的全部删除
         List<AdminAuthority> list = this.list();
         Map<String, AdminAuthority> authorityMap = new HashMap<>();
-        if (list != null && list.size() > 0 ) {
+        if (list != null && list.size() > 0) {
             authorityMap = list.stream().collect(Collectors.toMap(AdminAuthority::getUrl, item -> item));
         }
         // 所有需要修改list |添加list |删除的Ids
@@ -180,6 +184,16 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             this.updateBatchById(updAuth, 1024);
         }
         if (addAuth.size() > 0) {
+            // 给管理员角色添加所有新接口的权限
+            AdminRole role = adminRoleService.getOne(new LambdaQueryWrapper<AdminRole>().eq(AdminRole::getCode, BaseConstant.ADMIN.ROLE_SYS));
+            List<AdminRoleAuth> addRoleAuth = new LinkedList<>();
+            for (AdminAuthority adminAuthority : addAuth) {
+                addRoleAuth.add(new AdminRoleAuth(adminAuthority.getId(), role.getId()));
+            }
+            adminRoleAuthService.saveBatch(addRoleAuth, 1024);
+            log.info("  本次给角色:[{}] 分配了接口权限 {} 个", role.getName(), addAuth.size());
+
+            // 添加权限
             this.saveBatch(addAuth, 1024);
         }
         if (authorityMap.size() > 0) {
@@ -256,7 +270,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     @Override
     public List<AdminAuthorityVO> findByRoleIdAuthorityChecked(String roleId) {
         // 获取当前角色拥有的url权限列表
-        List<AdminRoleAuth> roleIds = adminRoleAuthMapper.selectList(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, roleId));
+        List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, roleId).groupBy(AdminRoleAuth::getAuthId));
         List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
         // 获取所有管理端的url,请求方式排序( PC_admin)
         List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
@@ -287,7 +301,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     @Override
     public List<AdminAuthorityVO> findByRoleIdAuthorityTreeChecked(String roleId) {
         // 获取当前角色拥有的url权限列表
-        List<AdminRoleAuth> roleIds = adminRoleAuthMapper.selectList(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, roleId));
+        List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, roleId));
         List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
         // 获取所有管理端的url,请求方式排序( PC_admin)
         List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()

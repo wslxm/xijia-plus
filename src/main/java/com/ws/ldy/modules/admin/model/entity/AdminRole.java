@@ -35,5 +35,10 @@ public class AdminRole extends BaseEntity {
      */
     @TableField(value = "`disable`")
     private Integer disable;
+
+    /**
+     * 查询code
+     */
+    private String code;
 }
 
