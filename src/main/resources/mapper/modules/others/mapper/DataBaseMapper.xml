@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ws.ldy.others.generatecode.mapper.DataBaseMapper">
+<mapper namespace="com.ws.ldy.modules.xj.mapper.DataBaseMapper">
 
 
     <select id="findTable" resultType="com.ws.ldy.others.generatecode.model.vo.TableVO">

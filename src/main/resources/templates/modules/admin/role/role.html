@@ -88,7 +88,8 @@
                 [
                     // {type: 'checkbox', fixed: 'left'}   //fixed: 'right', , fixed: 'left'
                    // {field: 'id', title: 'ID', width: 150}
-                     {field: 'name', title: '角色名称'}
+                     {field: 'name', title: '角色名称'},
+                     {field: 'code', title: '查询code'}
                     , {field: 'desc', title: '角色描叙'},
                     {
                         field: 'disable', width: 200, title: '禁用/启用', templet: function (res) {
@@ -160,7 +161,7 @@
         table.on('toolbar(auth-table)', function (obj) {
             //添加
             if (obj.event === "add") {
-                Pop.tipsWindown(page_add, "400px", "260px", "添加");
+                Pop.tipsWindown(page_add, "400px", "320px", "添加");
             }
         });
     }
@@ -178,7 +179,7 @@
             data = obj.data;  //当前行数据
             //编辑
             if (obj.event === 'edit') {
-                Pop.tipsWindown(page_upd, "400px", "260px", "修改");
+                Pop.tipsWindown(page_upd, "400px", "320px", "修改");
             }
             //删除
             if (obj.event === 'del') {
