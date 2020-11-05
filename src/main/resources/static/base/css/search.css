@@ -30,14 +30,30 @@
 /*}*/
 
 
-/** 分页插件背景色  */
+/**
+ * 分页插件背景色
+ */
 .layui-laypage a, .layui-laypage span {
     background-color: #f1f1f1;
 }
 
 
-/* 数据表格-->搜索上下箭头图标宽度,防止文字过长被省略 */
+/**
+ * 数据表格-->搜索上下箭头图标宽度,防止文字过长被省略
+ */
 .layui-table-cell .layui-table-sort {
     width: 18px;
 }
 
+
+/**
+ * 必填标记， css上添加：  layui-required
+ */
+.layui-form-label.layui-required:after {
+    content: "*";
+    color: red;
+    position: absolute;
+    top: 40%;
+    left: 15px;
+    font-size: 20px;
+}

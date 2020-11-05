@@ -7,7 +7,7 @@ import com.ws.ldy.others.generatecode.config.GenerateConfig;
 import com.ws.ldy.others.generatecode.model.DsField;
 import com.ws.ldy.others.generatecode.model.dto.GenerateDto;
 import com.ws.ldy.others.generatecode.service.impl.GenerationSeviceImpl;
-import com.ws.ldy.others.generatecode.util.GenerateUtil;
+import com.ws.ldy.others.generatecode.util.GenerateDataProcessing;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ public class GenerateController extends BaseController<GenerationSeviceImpl> {
     @RequestMapping(value = "/preview", method = RequestMethod.POST)
     public R<Map<String, String>> preview(@RequestBody GenerateDto generateDto) {
         // 解析数据库字段数据
-        List<Map<String, Object>> dataList = GenerateUtil.getDataAnalysis(generateDto.getData());
+        List<Map<String, Object>> dataList = GenerateDataProcessing.getDataAnalysis(generateDto.getData());
         // 请求地址，去除接口名
         String baseUrl = request.getRequestURL().toString().replace(request.getServletPath(), "");
         // 添加代码生成相关通用数据,
@@ -93,7 +93,7 @@ public class GenerateController extends BaseController<GenerationSeviceImpl> {
     @RequestMapping(value = "/generateCode", method = RequestMethod.POST)
     public R<Map<String, String>> generateCode(@RequestBody GenerateDto generateDto) {
         // 解析数据库字段数据
-        List<Map<String, Object>> dataList = GenerateUtil.getDataAnalysis(generateDto.getData());
+        List<Map<String, Object>> dataList = GenerateDataProcessing.getDataAnalysis(generateDto.getData());
         // 请求地址，去除接口名
         String baseUrl = request.getRequestURL().toString().replace(request.getServletPath(), "");
         // 添加代码生成相关通用数据,

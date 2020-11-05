@@ -2,10 +2,10 @@ package com.ws.ldy.others.generatecode.service.impl;
 
 import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.others.generatecode.config.GenerateConfig;
-import com.ws.ldy.others.generatecode.config.SearchPtConfig;
+import com.ws.ldy.others.generatecode.util.GenerateDataProcessing;
+import com.ws.ldy.others.generatecode.util.LayuiTemplate;
 import com.ws.ldy.others.generatecode.model.DsField;
 import com.ws.ldy.others.generatecode.service.GenerationSevice;
-import com.ws.ldy.others.generatecode.util.GenerateUtil;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -37,7 +37,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      */
     @Override
     public void buildEntity(List<Map<String, Object>> data, String path) {
-        Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "");
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "");
         //数据拼接(所有字段)
         StringBuffer fields = new StringBuffer();
         int position = 0;
@@ -70,19 +70,19 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
                 fields.append("\r\n    @TableField(value = \"" + fieldName + "\")");
             }
             //字段,转为驼峰模式
-            fieldName = GenerateUtil.getFieldName(fieldName);
+            fieldName = GenerateDataProcessing.getFieldName(fieldName);
             //字段
             JXModel(fields, fieldName, type);
         }
         // 数据保存到替换对象类,使模板中可以读取
         DsField.FIELD_ENTITYS = fields.toString();
-        GenerateUtil.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
+        GenerateDataProcessing.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
         pathMap.put("entity", brBwPath.get("path").toString());
     }
 
     @Override
     public void buildDTO(List<Map<String, Object>> data, String path) {
-        Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "DTO");
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "DTO");
         //数据拼接(所有字段)
         StringBuffer fields = new StringBuffer();
         int position = 0;
@@ -90,7 +90,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
                 continue;
             }
-            String fieldName = GenerateUtil.getFieldName(fieldMap.get("name").toString());
+            String fieldName = GenerateDataProcessing.getFieldName(fieldMap.get("name").toString());
             String type = fieldMap.get("type").toString();
             fields.append("\r\n    @ApiModelProperty(notes = \"" + fieldMap.get("desc") + "\" ,position = " + position++ + ")");
             String isNull = fieldMap.get("isNull").toString();
@@ -166,7 +166,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         }
         // 数据保存到替换对象类,使模板中可以读取
         DsField.FIELD_ENTITYS = fields.toString();
-        GenerateUtil.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
+        GenerateDataProcessing.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
         pathMap.put("DTO", brBwPath.get("path").
 
                 toString());
@@ -174,7 +174,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
 
     @Override
     public void buildVO(List<Map<String, Object>> data, String path) {
-        Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "VO");
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "VO");
         //数据拼接(所有字段)
         StringBuffer fields = new StringBuffer();
         int position = 0;
@@ -182,14 +182,14 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
                 continue;
             }
-            String fieldName = GenerateUtil.getFieldName(fieldMap.get("name").toString());
+            String fieldName = GenerateDataProcessing.getFieldName(fieldMap.get("name").toString());
             String type = fieldMap.get("type").toString();
             fields.append("\r\n    @ApiModelProperty(notes = \"" + fieldMap.get("desc") + "\" ,position = " + position++ + ")");
             this.JXModel(fields, fieldName, type);
         }
         // 数据保存到替换对象类,使模板中可以读取
         DsField.FIELD_ENTITYS = fields.toString();
-        GenerateUtil.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
+        GenerateDataProcessing.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
         pathMap.put("VO", brBwPath.get("path").toString());
     }
 
@@ -238,7 +238,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      */
     @Override
     public void buildController(List<Map<String, Object>> data, String path) {
-        Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "Controller");
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "Controller");
         // 参数拼接(所有字段)
         StringBuffer findPageParam = new StringBuffer(" ");//添加一个空，防止没有条件时空指针异常
         // MybatisPlus搜索条件数据拼接
@@ -248,7 +248,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
 
         // 处理参数
         for (Map<String, Object> fieldMap : data) {
-            String fieldName = GenerateUtil.getFieldName(fieldMap.get("name").toString());
+            String fieldName = GenerateDataProcessing.getFieldName(fieldMap.get("name").toString());
             String type = fieldMap.get("type").toString();
             String desc = fieldMap.get("desc").toString();
             Object search = fieldMap.get("search");
@@ -306,7 +306,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         DsField.SWAGGER_REMARK = swaggerRemark.toString();
 
         // 开始生成文件并进行数据替换
-        GenerateUtil.replacBrBwWritee(brBwPath);
+        GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // 文件url记录
         pathMap.put("controller", brBwPath.get("path").toString());
     }
@@ -323,9 +323,9 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      */
     @Override
     public void buildService(List<Map<String, Object>> data, String path) {
-        Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "Service");
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "Service");
         // 开始生成文件并进行数据替换
-        GenerateUtil.replacBrBwWritee(brBwPath);
+        GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // 文件url记录
         pathMap.put("service", brBwPath.get("path").toString());
     }
@@ -344,9 +344,9 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      */
     @Override
     public void buildServiceImpl(List<Map<String, Object>> data, String path) {
-        Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "ServiceImpl");
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "ServiceImpl");
         // 开始生成文件并进行数据替换
-        GenerateUtil.replacBrBwWritee(brBwPath);
+        GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // 文件url记录
         pathMap.put("serviceImpl", brBwPath.get("path").toString());
     }
@@ -363,9 +363,9 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      */
     @Override
     public void buildMapper(List<Map<String, Object>> data, String path) {
-        Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "Mapper");
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "Mapper");
         // 开始生成文件并进行数据替换
-        GenerateUtil.replacBrBwWritee(brBwPath);
+        GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // 文件url记录
         pathMap.put("mapper", brBwPath.get("path").toString());
     }
@@ -382,14 +382,14 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      */
     @Override
     public void buildMapperXml(List<Map<String, Object>> data, String path) {
-        Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "MapperXml");
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "MapperXml");
         StringBuffer resultMap = new StringBuffer();
         StringBuffer columnList = new StringBuffer();
         for (Map<String, Object> fieldMap : data) {
             //字段名
             String fieldName = fieldMap.get("name").toString();
             //驼峰字段名
-            String fieldNameHump = GenerateUtil.getFieldName(fieldName);
+            String fieldNameHump = GenerateDataProcessing.getFieldName(fieldName);
             resultMap.append("\r\n               <result column=\"" + fieldName + "\" property=\"" + fieldNameHump + "\" />");
             columnList.append("\r\n               " + fieldName + ",");
         }
@@ -397,7 +397,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         DsField.COLUMN_LIST = columnList.toString().substring(0, columnList.toString().length() - 1);
         // <result column="id" property="id" />
         // 开始生成文件并进行数据替换
-        GenerateUtil.replacBrBwWritee(brBwPath);
+        GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // 文件url记录
         pathMap.put("mapperXml", brBwPath.get("path").toString());
     }
@@ -413,7 +413,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
      */
     @Override
     public void buildMainHtml(List<Map<String, Object>> dataList, String path) {
-        Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "Html");
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "Html");
         BufferedReader br = (BufferedReader) brBwPath.get("br");
         BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
         // 数据表格字段
@@ -427,7 +427,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
                 continue;
             }
-            String name = GenerateUtil.getFieldName(fieldMap.get("name").toString());
+            String name = GenerateDataProcessing.getFieldName(fieldMap.get("name").toString());
             //1
             String desc = "";
             if (fieldMap.get("desc").toString().indexOf("(") != -1) {
@@ -444,7 +444,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             }
             // 搜索内容输入框
             // 1/ input  * {desc} 字段描叙  * {id}   字段名 * {name} 字段名
-            SearchPtStr.append(SearchPtConfig.INPUT_PT.replace("{id}", name).replace("{name}", name).replace("{desc}", desc));
+            SearchPtStr.append(LayuiTemplate.INPUT_PT.replace("{id}", name).replace("{name}", name).replace("{desc}", desc));
             // 搜索内容条件拼接
             SearchParamsStr.append("            params += \"&" + name + "=\" + $(\"#" + name + "\").val();");
             // 换行
@@ -457,7 +457,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         DsField.LAYUI_SEARCH_PARAMS_STR = SearchParamsStr.toString();
 
         // 开始生成文件并进行数据替换
-        GenerateUtil.replacBrBwWritee(brBwPath);
+        GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // 文件url记录
         pathMap.put("main", brBwPath.get("path").toString());
     }
@@ -477,7 +477,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
     @Override
     public void buildAddHtml(List<Map<String, Object>> dataList, String path) {
 
-        Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "HtmlAdd");
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "HtmlAdd");
         BufferedReader br = (BufferedReader) brBwPath.get("br");
         BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
 
@@ -494,7 +494,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
                 continue;
             }
-            String name = GenerateUtil.getFieldName(fieldMap.get("name").toString());
+            String name = GenerateDataProcessing.getFieldName(fieldMap.get("name").toString());
             if ("id".equals(name)) {
                 continue;
             }
@@ -505,8 +505,8 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             } else {
                 desc = fieldMap.get("desc").toString();
             }
-//            String primarykeyId = GenerateUtil.getValue(fieldMap, "primarykeyId", ""); //是否id
-//            String selfGrowth = GenerateUtil.getValue(fieldMap, "selfGrowth", "");//是否自增
+//            String primarykeyId = GenerateDataProcessing.getValue(fieldMap, "primarykeyId", ""); //是否id
+//            String selfGrowth = GenerateDataProcessing.getValue(fieldMap, "selfGrowth", "");//是否自增
             //  if (!primarykeyId.equals("true")) {
             fieldStr.append("\r\n" + htmlAdd
                     .replace("fieldTitle", desc)
@@ -517,7 +517,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         // 数据保存
         DsField.ADD_HTMLS = fieldStr.toString();
         // 开始生成文件并进行数据替换
-        GenerateUtil.replacBrBwWritee(brBwPath);
+        GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // url保存
         pathMap.put("mainAdd", brBwPath.get("path").toString());
     }
@@ -535,7 +535,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
     @Override
     public void buildUpdHtml(List<Map<String, Object>> dataList, String path) {
 
-        Map<String, Object> brBwPath = GenerateUtil.getBrBwPath(path, "HtmlUpd");
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "HtmlUpd");
         BufferedReader br = (BufferedReader) brBwPath.get("br");
         BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
         String htmlAdd = " <div class=\"layui-form-item\">\n" +
@@ -549,7 +549,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         String fieldId = "";
         for (Map<String, Object> fieldMap : dataList) {
 
-            String name = GenerateUtil.getFieldName(fieldMap.get("name").toString());
+            String name = GenerateDataProcessing.getFieldName(fieldMap.get("name").toString());
             if ("id".equals(name)) {
                 fieldId = "data.field." + name + " = parent.data." + name + ";";
             } else {
@@ -564,8 +564,8 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
                 } else {
                     desc = fieldMap.get("desc").toString();
                 }
-                //  String primarykeyId = GenerateUtil.getValue(fieldMap, "primarykeyId", ""); //是否id
-                //  String selfGrowth = GenerateUtil.getValue(fieldMap, "selfGrowth", "");//是否自增
+                //  String primarykeyId = GenerateDataProcessing.getValue(fieldMap, "primarykeyId", ""); //是否id
+                //  String selfGrowth = GenerateDataProcessing.getValue(fieldMap, "selfGrowth", "");//是否自增
                 //  if (!primarykeyId.equals("true")) {
                 echoDisplay.append("\r\n         $('#" + name + "').val(parent.data." + name + ");");
                 fieldStr.append("\r\n" + htmlAdd
@@ -580,7 +580,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         DsField.UPD_BACKFILL = echoDisplay.toString();
         DsField.UPD_ID = fieldId;
         // 开始生成文件并进行数据替换
-        GenerateUtil.replacBrBwWritee(brBwPath);
+        GenerateDataProcessing.replacBrBwWritee(brBwPath);
         pathMap.put("mainUpd", brBwPath.get("path").toString());
     }
 }

@@ -35,10 +35,10 @@
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
         <!--<button class="layui-btn layui-btn-sm" onclick="toolbarClick(3)">选择数据源</button>-->
-
-        <button class="layui-btn layui-btn-sm" onclick="toolbarClick(1)">生成预览代码</button>
-        <button class="layui-btn layui-btn-sm" onclick="toolbarClick(2)">代码生成</button>
-        <button class="layui-btn layui-btn-sm" onclick="codePath()">查看生成路径</button>
+        <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="dataSource()">数据源配置</button>
+        <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="codePath()">查看生成路径</button>
+        <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="toolbarClick(1)">生成预览代码</button>
+        <button class="layui-btn layui-btn-warm layui-btn-sm" onclick="toolbarClick(2)">代码生成</button>
         <font size="2">当前数据源: </font> <font size="2" color="red" id="dataSourceName">默认数据源</font>
         <font size="2" style="margin-left: 1.5%">当前表: </font> <font size="2" color="red" id="tableName">t_basic</font>
         <font size="2" style="margin-left: 1.5%" color="#6a5acd" id="tableComment"></font>
@@ -53,7 +53,7 @@
     let generateCode = "/generate/generateCode";  // 代码生成(会覆盖),谨慎操作
     let generatePath = "/generate/getPath";               // 代码生成路径
     let generateFilePath = "/page/others_generatecode_dataBase_filePath";    // 代码生成路径预览页面
-
+    let   datasourceList = "/page/others_generatecode_xjDatasource_xjDatasource";
 
     let tableName = "t_basic";   // 左边菜单当前选中表名称 tableName
     let tableComment = "";       // 左边菜单当前选中表名称描叙
@@ -146,7 +146,7 @@
             }
             , nodes: [ //节点
                 {
-                    name: '数据表 ('+tablesJson.data.length+')'
+                    name: '数据表 (' + tablesJson.data.length + ')'
                     , id: 0
                     , spread: true
                     , children: tablesJson.data  // 表数据
@@ -360,6 +360,16 @@
         let result = Ajax.get(generatePath + "?tableName=" + tableName);
         findPathMap = result.data;
         Pop.tipsWindown(generateFilePath, "800px", "520px", "实际生成路径[root/] ==> 预览代码目录[File/code/]");
+    }
+
+
+    /**
+     * 数据源配置
+     **/
+    function dataSource() {
+
+        Pop.tipsWindown(datasourceList, "90%", "90%", "数据源");
+
     }
 
 

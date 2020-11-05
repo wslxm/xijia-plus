@@ -1,6 +1,11 @@
 package com.ws.ldy.others.generatecode.jdbc;
 
 
+import com.baomidou.mybatisplus.extension.api.R;
+import com.ws.ldy.common.result.RType;
+import com.ws.ldy.config.error.ErrorException;
+import lombok.extern.slf4j.Slf4j;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,6 +19,7 @@ import java.sql.Statement;
  * @author wangsong
  * @date 2019年6月15日 下午1:27:50
  */
+@Slf4j
 public class JDBCPool {
 
     /**
@@ -34,7 +40,9 @@ public class JDBCPool {
             Class.forName(driverClass);
             conn = DriverManager.getConnection(newUrl, newUsername, newPassword);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info("");
+            throw new ErrorException(RType.GENERATE_CODE_JDBC_ERROR);
+            //  e.printStackTrace();
         }
         return conn;
     }
