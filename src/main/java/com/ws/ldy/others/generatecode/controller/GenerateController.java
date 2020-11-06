@@ -6,10 +6,13 @@ import com.ws.ldy.others.base.controller.BaseController;
 import com.ws.ldy.others.generatecode.config.GenerateConfig;
 import com.ws.ldy.others.generatecode.model.DsField;
 import com.ws.ldy.others.generatecode.model.dto.GenerateDto;
+import com.ws.ldy.others.generatecode.model.entity.XjDatasource;
+import com.ws.ldy.others.generatecode.service.XjDatasourceService;
 import com.ws.ldy.others.generatecode.service.impl.GenerationSeviceImpl;
 import com.ws.ldy.others.generatecode.util.GenerateDataProcessing;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +39,8 @@ public class GenerateController extends BaseController<GenerationSeviceImpl> {
     @Autowired
     private GenerationSeviceImpl generationSeviceImpl;
 
+    @Autowired
+    private XjDatasourceService xjDatasourceService;
     /**
      *  预览代码生成 (查询预览代码，预览代码存放于File/code/src.... 目录下，前端可直接访问)
      *
@@ -46,6 +51,15 @@ public class GenerateController extends BaseController<GenerationSeviceImpl> {
     @ApiOperation("生成预览代码")
     @RequestMapping(value = "/preview", method = RequestMethod.POST)
     public R<Map<String, String>> preview(@RequestBody GenerateDto generateDto) {
+        // 表前缀和字段前缀配置
+        if(StringUtils.isNotBlank(generateDto.getDataSourceId())){
+            XjDatasource datasource = xjDatasourceService.getById(generateDto.getDataSourceId());
+            GenerateConfig.TABLE_PREFIX = datasource.getDbPrefix();
+            GenerateConfig.FIELD_PREFIX = datasource.getDbFieldPrefix();
+        }else{
+            GenerateConfig.TABLE_PREFIX = GenerateConfig.TABLE_PREFIX_DEFAULT;
+            GenerateConfig.FIELD_PREFIX = GenerateConfig.FIELD_PREFIX_DEFAULT;
+        }
         // 解析数据库字段数据
         List<Map<String, Object>> dataList = GenerateDataProcessing.getDataAnalysis(generateDto.getData());
         // 请求地址，去除接口名
@@ -92,6 +106,15 @@ public class GenerateController extends BaseController<GenerationSeviceImpl> {
     @ApiOperation("生成代码")
     @RequestMapping(value = "/generateCode", method = RequestMethod.POST)
     public R<Map<String, String>> generateCode(@RequestBody GenerateDto generateDto) {
+        // 表前缀和字段前缀配置
+        if(StringUtils.isNotBlank(generateDto.getDataSourceId())){
+            XjDatasource datasource = xjDatasourceService.getById(generateDto.getDataSourceId());
+            GenerateConfig.TABLE_PREFIX = datasource.getDbPrefix();
+            GenerateConfig.FIELD_PREFIX = datasource.getDbFieldPrefix();
+        }else{
+            GenerateConfig.TABLE_PREFIX = GenerateConfig.TABLE_PREFIX_DEFAULT;
+            GenerateConfig.FIELD_PREFIX = GenerateConfig.FIELD_PREFIX_DEFAULT;
+        }
         // 解析数据库字段数据
         List<Map<String, Object>> dataList = GenerateDataProcessing.getDataAnalysis(generateDto.getData());
         // 请求地址，去除接口名

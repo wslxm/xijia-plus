@@ -27,12 +27,12 @@
             <input type="text" id="dbTitle" name="dbTitle" lay-verify="required" placeholder="请输入自定义名称" autocomplete="off" class="layui-input">
         </div>
     </div>
-<!--    <div class="layui-form-item">-->
-<!--        <label class="layui-form-label layui-required">库名</label>-->
-<!--        <div class="layui-input-inline">-->
-<!--            <input type="text" id="dbName" name="dbName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">-->
-<!--        </div>-->
-<!--    </div>-->
+    <div class="layui-form-item">
+        <label class="layui-form-label layui-required">库名</label>
+        <div class="layui-input-inline">
+            <input type="text" id="dbName" name="dbName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
 <!--    <div class="layui-form-item">-->
 <!--        <label class="layui-form-label layui-required">连接地址</label>-->
 <!--        <div class="layui-input-inline">-->
@@ -55,6 +55,12 @@
         <label class="layui-form-label">表前缀</label>
         <div class="layui-input-inline">
             <input type="text" id="dbPrefix" name="dbPrefix" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">字段前缀</label>
+        <div class="layui-input-inline">
+            <input type="text" id="dbFieldPrefix" name="dbFieldPrefix" placeholder="字段前缀, 用与过滤字段前缀数据" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -99,6 +105,7 @@
          $('#dbUsername').val(parent.data.dbUsername);
          $('#dbPassword').val(parent.data.dbPassword);
          $('#dbPrefix').val(parent.data.dbPrefix);
+         $('#dbFieldPrefix').val(parent.data.dbFieldPrefix);
          $('#dbGeneralField').val(parent.data.dbGeneralField);
          $('#packPath').val(parent.data.packPath);
          $('#modules').val(parent.data.modules);

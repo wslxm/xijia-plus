@@ -2,6 +2,7 @@ package com.ws.ldy.modules.admin.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
 import com.ws.ldy.others.base.model.BaseEntity;
 import lombok.Data;
 import lombok.ToString;
