@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -77,7 +79,7 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
         String dbName = "";
         if (StringUtils.isBlank(dataSourceId)) {
             dbUrl = dbUrl.replace("jdbc:mysql://", "");
-            dbName =dbUrl.substring(dbUrl.lastIndexOf("/") + 1, dbUrl.indexOf("?"));
+            dbName = dbUrl.substring(dbUrl.lastIndexOf("/") + 1, dbUrl.indexOf("?"));
         } else {
             // 使用动态选择的数据源
             dbName = datasource.getDbName();
@@ -89,7 +91,7 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
         if (StringUtils.isBlank(dataSourceId)) {
             pstmt = JDBCPool.getPstmt(dbUrl.substring(0, dbUrl.indexOf("?")), dbUserName, dbPassWord, sql);
         } else {
-            pstmt = JDBCPool.getPstmt(datasource.getDbUrl() , datasource.getDbUsername(), datasource.getDbPassword(), sql);
+            pstmt = JDBCPool.getPstmt(datasource.getDbUrl(), datasource.getDbUsername(), datasource.getDbPassword(), sql);
         }
         // 4、处理返回sql
         ResultSet rs = null;
@@ -126,7 +128,7 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
         String dbName = "";
         if (StringUtils.isBlank(dataSourceId)) {
             dbUrl = dbUrl.replace("jdbc:mysql://", "");
-            dbName =dbUrl.substring(dbUrl.lastIndexOf("/") + 1, dbUrl.indexOf("?"));
+            dbName = dbUrl.substring(dbUrl.lastIndexOf("/") + 1, dbUrl.indexOf("?"));
         } else {
             // 使用动态选择的数据源
             dbName = datasource.getDbName();
@@ -149,7 +151,7 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
         if (StringUtils.isBlank(dataSourceId)) {
             pstmt = JDBCPool.getPstmt(dbUrl.substring(0, dbUrl.indexOf("?")), dbUserName, dbPassWord, sql);
         } else {
-            pstmt = JDBCPool.getPstmt(datasource.getDbUrl() , datasource.getDbUsername(), datasource.getDbPassword(), sql);
+            pstmt = JDBCPool.getPstmt(datasource.getDbUrl(), datasource.getDbUsername(), datasource.getDbPassword(), sql);
         }
         ResultSet rs = null;
         List<TableFieldVO> vos = new ArrayList<>();
@@ -171,16 +173,35 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
         } finally {
             JDBCPool.closeQueryRes(rs);
         }
-        for (TableFieldVO tableFieldVO : vos) {
-            // 判断是否为通用字段
-            if (GenerateConfig.BASE_FIELDS.contains(tableFieldVO.getName())) {
-                tableFieldVO.setIsChecked(false);
-            } else {
-                tableFieldVO.setIsChecked(true);
+        //
+        if (datasource != null && StringUtils.isNotBlank(datasource.getDbGeneralField())) {
+            // 使用数据源配置的通用字段 (当使用了其他数据源和配置了通用字段时使用)
+            List<String> fields = Arrays.asList( datasource.getDbGeneralField().split(","));
+            for (TableFieldVO tableFieldVO : vos) {
+                // 判断是否为通用字段
+                if (fields.contains(tableFieldVO.getName())) {
+                    tableFieldVO.setIsChecked(false);
+                } else {
+                    tableFieldVO.setIsChecked(true);
+                }
+                // 判断空串
+                if ("CURRend_timeSTAMP".equals(tableFieldVO.getDefaultVal())) {
+                    tableFieldVO.setDefaultVal("当前时间");
+                }
             }
-            // 判断空串
-            if ("CURRend_timeSTAMP".equals(tableFieldVO.getDefaultVal())) {
-                tableFieldVO.setDefaultVal("当前时间");
+        } else {
+            // 使用默认通用字段
+            for (TableFieldVO tableFieldVO : vos) {
+                // 判断是否为通用字段
+                if (GenerateConfig.BASE_FIELDS.contains(tableFieldVO.getName())) {
+                    tableFieldVO.setIsChecked(false);
+                } else {
+                    tableFieldVO.setIsChecked(true);
+                }
+                // 判断空串
+                if ("CURRend_timeSTAMP".equals(tableFieldVO.getDefaultVal())) {
+                    tableFieldVO.setDefaultVal("当前时间");
+                }
             }
         }
         return vos;

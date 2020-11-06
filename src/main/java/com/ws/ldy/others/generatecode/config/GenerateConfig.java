@@ -1,5 +1,8 @@
 package com.ws.ldy.others.generatecode.config;
 
+import com.ws.ldy.others.generatecode.model.entity.XjDatasource;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,6 +37,16 @@ public class GenerateConfig {
      */
     public final static String FATHER_PATH = "";
 
+    /**
+     * 前缀配置（非默认数据源允许被篡改）
+     * 表前缀：TABLE_PREFIX
+     * 字段前缀：FIELD_PREFIX
+     * _DEFAULT = 默认配置
+     */
+    public static String TABLE_PREFIX = GenerateConfig.TABLE_PREFIX_DEFAULT;
+    public static String FIELD_PREFIX = GenerateConfig.FIELD_PREFIX_DEFAULT;
+    public static String TABLE_PREFIX_DEFAULT = "t_";
+    public static String FIELD_PREFIX_DEFAULT = "";
 
     /**
      * 生成代码位置基本不用改变，除目录结构发生变化

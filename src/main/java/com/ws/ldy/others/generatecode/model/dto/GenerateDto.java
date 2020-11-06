@@ -19,6 +19,9 @@ public class GenerateDto extends Convert {
     @ApiModelProperty(value = "表名称")
     private String tableName;
 
+    @ApiModelProperty(value = "数据源Id")
+    private String dataSourceId;
+
     @ApiModelProperty(value = "表注释")
     private String tableComment;
 }

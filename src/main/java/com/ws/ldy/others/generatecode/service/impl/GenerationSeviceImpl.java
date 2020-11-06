@@ -1,5 +1,6 @@
 package com.ws.ldy.others.generatecode.service.impl;
 
+import com.google.common.base.CaseFormat;
 import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.others.generatecode.config.GenerateConfig;
 import com.ws.ldy.others.generatecode.util.GenerateDataProcessing;
@@ -69,7 +70,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             } else {
                 fields.append("\r\n    @TableField(value = \"" + fieldName + "\")");
             }
-            //字段,转为驼峰模式
+            // 字段,转为驼峰模式
             fieldName = GenerateDataProcessing.getFieldName(fieldName);
             //字段
             JXModel(fields, fieldName, type);
@@ -482,7 +483,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
 
 
-        String htmlAdd = " <div class=\"layui-form-item\">\n" +
+        String htmlAdd = "    <div class=\"layui-form-item\">\n" +
                 "        <label class=\"layui-form-label\">fieldTitle</label>\n" +
                 "        <div class=\"layui-input-inline\">\n" +
                 "            <input type=\"text\" id=\"fieldId\" name=\"fieldName\" lay-verify=\"required\" placeholder=\"请输入\" autocomplete=\"off\" class=\"layui-input\">\n" +
@@ -538,7 +539,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "HtmlUpd");
         BufferedReader br = (BufferedReader) brBwPath.get("br");
         BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
-        String htmlAdd = " <div class=\"layui-form-item\">\n" +
+        String htmlAdd = "    <div class=\"layui-form-item\">\n" +
                 "        <label class=\"layui-form-label\">fieldTitle</label>\n" +
                 "        <div class=\"layui-input-inline\">\n" +
                 "            <input type=\"text\" id=\"fieldId\" name=\"fieldName\" lay-verify=\"required\" placeholder=\"请输入\" autocomplete=\"off\" class=\"layui-input\">\n" +

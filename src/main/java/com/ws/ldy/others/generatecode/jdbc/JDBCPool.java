@@ -34,6 +34,7 @@ public class JDBCPool {
         try {
             String driverClass = "com.mysql.cj.jdbc.Driver";
             String newUrl = "jdbc:mysql://"+url + "?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8";
+            newUrl += "&autoReconnect=false"; // 当数据库连接异常中断时，是否自动重新连接，不重连
             String newUsername = username;
             String newPassword = password;
             // 注册驱动
@@ -41,8 +42,8 @@ public class JDBCPool {
             conn = DriverManager.getConnection(newUrl, newUsername, newPassword);
         } catch (Exception e) {
             log.info("");
+            //e.printStackTrace(); //CommunicationsException ip错误  | SQLNonTransientConnectionException 连接超时
             throw new ErrorException(RType.GENERATE_CODE_JDBC_ERROR);
-            //  e.printStackTrace();
         }
         return conn;
     }

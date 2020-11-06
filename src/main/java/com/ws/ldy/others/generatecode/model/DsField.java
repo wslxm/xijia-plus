@@ -1,7 +1,9 @@
 package com.ws.ldy.others.generatecode.model;
 
 import com.google.common.base.CaseFormat;
+import com.ws.ldy.others.generatecode.config.GenerateConfig;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *  代码生成需要的字段 (公共字段，公共字段处理类，通过赋值和计算获得)
@@ -68,16 +70,23 @@ public class DsField {
         TABLE_NAME = tableName;
         TABLE_COMMENT = tableComment;
         PACK_PATH = packPath;
-        //获取前缀
-        String prefix = tableName.substring(0, 2);
-        String newTableName = tableName;
-        // 如果为?_  去除 ?_
-        if ("t_".equals(prefix)) {
-            //去掉数据库表的前缀，如 t_
-            newTableName = tableName.substring(2);
+        // 如果需要，去除表前缀
+        if(StringUtils.isNotBlank(GenerateConfig.TABLE_PREFIX)){
+            // 获取前缀
+            String prefix = tableName.substring(0, GenerateConfig.TABLE_PREFIX.length() );
+            String newTableName = tableName;
+            // 去除表前缀(如果为?_  去除 ?_)
+            if (GenerateConfig.TABLE_PREFIX.equals(prefix)) {
+                //去掉数据库表的前缀，如 t_
+                newTableName = tableName.substring(GenerateConfig.TABLE_PREFIX.length());
+            }
+            TABLE_NAME_UP = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, newTableName);    // test_data --> TestData
+            TABLE_NAME_LOWER = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, newTableName); // test_data --> testData
+        }else{
+            TABLE_NAME_UP = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName);    // test_data --> TestData
+            TABLE_NAME_LOWER = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, tableName); // test_data --> testData
         }
-        TABLE_NAME_UP = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, newTableName);    // test_data --> TestData
-        TABLE_NAME_LOWER = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, newTableName); // test_data --> testData
+
     }
 
 

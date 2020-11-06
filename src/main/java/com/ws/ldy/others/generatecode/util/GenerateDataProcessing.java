@@ -1,11 +1,13 @@
 package com.ws.ldy.others.generatecode.util;
 
 
+import com.google.common.base.CaseFormat;
 import com.ws.ldy.common.utils.JsonUtil;
 import com.ws.ldy.common.utils.LocalDateTimeUtil;
 import com.ws.ldy.others.base.controller.BaseController;
 import com.ws.ldy.others.generatecode.config.GenerateConfig;
 import com.ws.ldy.others.generatecode.model.DsField;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -51,18 +53,38 @@ public class GenerateDataProcessing {
      * @date 2019/11/20 19:22
      */
     public static String getFieldName(String field) {
-        String[] fields = field.split("_");
-        if (fields.length > 1) {
-            String fieldUp = fields[0];
-            for (int i = 0; i < fields.length; i++) {
-                if (i > 0) {
-                    fieldUp += fields[i].substring(0, 1).toUpperCase() + fields[i].substring(1);
-                }
-            }
-            return fieldUp;
-        } else {
-            return fields[0];
-        }
+        // 如果需要，去除字段前缀
+       if(StringUtils.isNotBlank(GenerateConfig.FIELD_PREFIX) ){
+           // 获取前缀
+           String prefix = field.substring(0, GenerateConfig.FIELD_PREFIX.length() );
+           String newField = field;
+           if (GenerateConfig.FIELD_PREFIX.equals(prefix)) {
+               newField = field.substring(GenerateConfig.FIELD_PREFIX.length());
+           }
+           // 转小写处理为驼峰
+           String lowerNewField = newField.toLowerCase();
+           String fieldName =  CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, lowerNewField);
+           return fieldName;
+       }else{
+           // 先转为全小写，兼容数据库是全大写策略
+           String lowerField = field.toLowerCase();
+           // 变更为驼峰模式
+           String fieldName =  CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, lowerField);
+           return fieldName;
+       }
+
+//        String[] fields = field.split("_");
+//        if (fields.length > 1) {
+//            String fieldUp = fields[0];
+//            for (int i = 0; i < fields.length; i++) {
+//                if (i > 0) {
+//                    fieldUp += fields[i].substring(0, 1).toUpperCase() + fields[i].substring(1);
+//                }
+//            }
+//            return fieldUp;
+//        } else {
+//            return fields[0];
+//        }
     }
 
 
@@ -113,13 +135,17 @@ public class GenerateDataProcessing {
      */
     public static Map<String, Object> getBrBwPath(String path, String name) {
         Map<String, Object> brBw = new HashMap<>();
-        // 路径 + 类名 + name + 后缀
+        // 生成路径=[路径 + 类名 + name + 后缀]
         String upPath = null;
         if (name.indexOf("Html") != -1) {
+            // html 文件
             upPath = path + DsField.TABLE_NAME_LOWER + name.replace("Html", "") + GenerateConfig.SUFFIX_HTML_PT;
         } else if (name.indexOf("Xml") != -1) {
-            upPath = path + DsField.TABLE_NAME_UP + name + GenerateConfig.SUFFIX_XML_PT;
+            // xml文件 去除文件名上的 Xml
+            String newName = name.substring(0, name.length() - 3);
+            upPath = path + DsField.TABLE_NAME_UP + newName + GenerateConfig.SUFFIX_XML_PT;
         } else {
+            // java 文件
             upPath = path + DsField.TABLE_NAME_UP + name + GenerateConfig.SUFFIX_JAVA_PT;
         }
         // 检查目录,不存在添加

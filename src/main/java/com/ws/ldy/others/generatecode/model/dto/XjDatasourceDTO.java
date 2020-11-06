@@ -56,6 +56,9 @@ public class XjDatasourceDTO extends BaseDto {
     @ApiModelProperty(notes = "数据表前缀" ,position = 5)
     private String dbPrefix;
 
+    @ApiModelProperty(notes = "数据字段前缀" ,position = 5)
+    private String dbFieldPrefix;
+
     @ApiModelProperty(notes = "数据库通用字段,逗号分隔" ,position = 6)
     private String dbGeneralField;
 
