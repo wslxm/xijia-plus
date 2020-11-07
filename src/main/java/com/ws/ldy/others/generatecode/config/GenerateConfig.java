@@ -1,6 +1,5 @@
 package com.ws.ldy.others.generatecode.config;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.ws.ldy.others.generatecode.model.entity.XjDatasource;
 import org.apache.commons.lang3.StringUtils;
 
@@ -54,7 +53,6 @@ public class GenerateConfig {
      * entitySwagger : 实体类是否使用swagger注释, true=是  false=否
      */
     public static boolean entitySwagger = false;
-
 
     /**
      * 生成代码位置基本不用改变，除目录结构发生变化
