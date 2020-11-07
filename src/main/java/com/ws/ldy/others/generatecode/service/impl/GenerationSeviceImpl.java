@@ -50,9 +50,15 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             String fieldName = fieldMap.get("name").toString();
             // 字段类型
             String type = fieldMap.get("type").toString();
-            // 字段注释信息-->  普通注释 fields.append("\r\n    /** " + fieldMap.get("desc") + " */");
-            // 字段注释信息-->  Swagger2 模式
-            fields.append("\r\n    @ApiModelProperty(notes = \"" + fieldMap.get("desc") + "\" ,position = " + position++ + ")");
+
+
+            if(GenerateConfig.entitySwagger){
+                // 字段注释信息-->  Swagger2 模式
+                fields.append("\r\n    @ApiModelProperty(notes = \"" + fieldMap.get("desc") + "\" ,position = " + position++ + ")");
+            }else{
+                // 字段注释信息-->  doc 注释
+                fields.append("\r\n    /** \r\n     * " + fieldMap.get("desc") + " \r\n     */");
+            }
             // 字段名为id的 添加id主键注解, int 默认自增, bigint+varchar 默认雪花算法
             if ("id".equals(fieldName)) {
                 // id生成策略

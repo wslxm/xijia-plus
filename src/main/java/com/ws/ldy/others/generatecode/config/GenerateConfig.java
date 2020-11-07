@@ -49,6 +49,12 @@ public class GenerateConfig {
     public static String FIELD_PREFIX_DEFAULT = "";
 
     /**
+     * entity / vo / dto 是否使用swagger 注释
+     * entitySwagger : 实体类是否使用swagger注释, true=是  false=否
+     */
+    public static boolean entitySwagger = false;
+
+    /**
      * 生成代码位置基本不用改变，除目录结构发生变化
      */
     // 预览的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
