@@ -103,7 +103,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             String isNull = fieldMap.get("isNull").toString();
             //
             String typeDetail = fieldMap.get("typeDetail").toString();
-            //  NO 代表必填,YES 非必填
+            //  NO 代表必填,YES 非必填( 生成jsr303验证数据)
             if (("NO").equals(isNull)) {
                 //字段
                 if (type.equals("int")
@@ -157,7 +157,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
                         String max = typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")"));
                         fields.append("\r\n" + "    @Length(min=1, max=" + max + ",message = \"" + desc + " 必须小于" + max + "位\")");
                     }
-                } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
+                } else if (type.equals("date") ||  type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
                     //1
                     String desc = "";
                     if (fieldMap.get("desc").toString().indexOf("(") != -1) {
@@ -216,7 +216,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         } else if (type.equals("text") || type.equals("longtext")) {
             //大文本、超大文本
             fields.append("\r\n" + "    private String " + fieldName + ";");
-        } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
+        } else if (type.equals("date") || type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
             //时间
             fields.append("\r\n" + "    private LocalDateTime " + fieldName + ";");
         } else if (type.equals("double")) {
@@ -228,6 +228,9 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
         } else if (type.equals("decimal")) {
             //小数 decimal
             fields.append("\r\n" + "    private BigDecimal " + fieldName + ";");
+        } else if (type.equals("tinyint")) {
+            //布尔 tinyint
+            fields.append("\r\n" + "    private Boolean " + fieldName + ";");
         }
         //每生成一次换一次行
         fields.append("\r\n");
