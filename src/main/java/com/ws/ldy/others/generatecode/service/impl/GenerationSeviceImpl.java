@@ -50,8 +50,6 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             String fieldName = fieldMap.get("name").toString();
             // 字段类型
             String type = fieldMap.get("type").toString();
-
-
             if(GenerateConfig.entitySwagger){
                 // 字段注释信息-->  Swagger2 模式
                 fields.append("\r\n    @ApiModelProperty(notes = \"" + fieldMap.get("desc") + "\" ,position = " + position++ + ")");
