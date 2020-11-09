@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date  2020-09-23 10:40:23
  */
 @RestController
-@RequestMapping("/admin/adminMsg")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/admin/adminMsg")
 @Api(value ="AdminMsgController" ,tags = "及时消息通知表", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminMsgController extends BaseController<AdminMsgService>  {
 

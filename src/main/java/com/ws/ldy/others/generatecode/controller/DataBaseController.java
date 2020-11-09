@@ -27,7 +27,7 @@ import java.util.List;
  */
 @SuppressWarnings({"all"})
 @RestController
-@RequestMapping("/dataBase")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/dataBase")
 @Api(value = "DataBaseController", tags = "v-1.0 -- 代码生成 --> 查询数据库表数据", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class DataBaseController extends BaseController<DataBaseService> {
 

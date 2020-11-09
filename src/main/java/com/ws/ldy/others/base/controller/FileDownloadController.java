@@ -20,7 +20,7 @@ import java.util.Arrays;
  */
 @RestController
 @Api(value = "FileDownloadController", tags = "v-1.1 -- 文件下载",consumes = BaseConstant.InterfaceType.PC_BASE)
-@RequestMapping("/download")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/download")
 public class FileDownloadController extends BaseController {
 
 

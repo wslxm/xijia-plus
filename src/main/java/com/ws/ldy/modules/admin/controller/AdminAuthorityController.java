@@ -25,7 +25,7 @@ import java.util.List;
  * @date Mon Nov 25 08:02:49 CST 2019
  */
 @RestController
-@RequestMapping("/admin/adminAuthority")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX +  "/admin/adminAuthority")
 @Api(value = "AdminAuthorityController", tags = "URL权限管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminAuthorityController extends BaseController<AdminAuthorityService> {
 

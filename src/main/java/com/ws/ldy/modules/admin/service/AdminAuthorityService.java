@@ -64,4 +64,13 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      */
     public void refreshAuthCache();
 
+
+    /**
+     * 子级找父级
+     *
+     * @param
+     * @return void
+     * @date 2019/11/25 0025 11:55
+     */
+    public AdminAuthority findFatherAuth(String uri);
 }

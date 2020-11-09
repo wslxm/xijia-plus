@@ -52,10 +52,10 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             String type = fieldMap.get("type").toString();
 
 
-            if(GenerateConfig.entitySwagger){
+            if (GenerateConfig.entitySwagger) {
                 // 字段注释信息-->  Swagger2 模式
                 fields.append("\r\n    @ApiModelProperty(notes = \"" + fieldMap.get("desc") + "\" ,position = " + position++ + ")");
-            }else{
+            } else {
                 // 字段注释信息-->  doc 注释
                 fields.append("\r\n    /** \r\n     * " + fieldMap.get("desc") + " \r\n     */");
             }
@@ -106,8 +106,7 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
             //  NO 代表必填,YES 非必填( 生成jsr303验证数据)
             if (("NO").equals(isNull)) {
                 //字段
-                if (type.equals("int")
-                        || type.equals("bigint")) {
+                if (type.equals("int") || type.equals("bigint")) {
                     //1
                     String desc = "";
                     if (fieldMap.get("desc").toString().indexOf("(") != -1) {
@@ -157,7 +156,16 @@ public class GenerationSeviceImpl extends BaseIServiceImpl implements Generation
                         String max = typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")"));
                         fields.append("\r\n" + "    @Length(min=1, max=" + max + ",message = \"" + desc + " 必须小于" + max + "位\")");
                     }
-                } else if (type.equals("date") ||  type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
+                } else if (type.equals("date") || type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
+                    //1
+                    String desc = "";
+                    if (fieldMap.get("desc").toString().indexOf("(") != -1) {
+                        desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
+                    } else {
+                        desc = fieldMap.get("desc").toString();
+                    }
+                    //   fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空\")");
+                } else if (type.equals("tinyint")) {
                     //1
                     String desc = "";
                     if (fieldMap.get("desc").toString().indexOf("(") != -1) {

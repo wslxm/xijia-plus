@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
  * @date  2020-10-28 20:44:32
  */
 @RestController
-@RequestMapping("/admin/adminLog")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/admin/adminLog")
 @Api(value ="AdminLogController" ,tags = "操作记录表", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminLogController extends BaseController<AdminLogService>  {
 

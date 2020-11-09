@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date Mon Nov 25 08:02:49 CST 2019
  */
 @RestController
-@RequestMapping("/front/wbConvertFhController")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/front/wbConvertFhController")
 @Api(value = "wbConvertFhController", tags = "v-1.0 -- 文字转符号",consumes = BaseConstant.InterfaceType.PC_BASE)
 public class WbConvertFhController extends BaseController {
 

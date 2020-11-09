@@ -34,7 +34,7 @@ import java.util.Map;
  */
 @SuppressWarnings("all")
 @Api(value = "WebsocketController", tags = "v-1.2 -- Websocket --> 消息通知/即时通讯",consumes = BaseConstant.InterfaceType.PC_BASE)
-@RequestMapping("/websocket")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/websocket")
 @RestController
 @Slf4j
 public class WebsocketController extends BaseController {
