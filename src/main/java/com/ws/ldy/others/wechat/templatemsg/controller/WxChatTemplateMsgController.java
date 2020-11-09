@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0.0
  */
 @RestController
-@RequestMapping("/wechat/template/msg")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/wechat/template/msg")
 @Api(value = "WxChatTemplateMsgController", tags = "v-1.2 -- WeChat --> 微信模板消息推送",consumes = BaseConstant.InterfaceType.PC_BASE)
 public class WxChatTemplateMsgController {
 

@@ -31,7 +31,7 @@ import java.util.Map;
  * @date 2020/2/9 0009 20:33
  */
 @RestController
-@RequestMapping("/generate")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/generate")
 @Api(value = "GenerateController", tags = "v-1.0 -- 代码生成", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class GenerateController extends BaseController<GenerationSeviceImpl> {
 

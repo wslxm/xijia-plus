@@ -27,7 +27,7 @@ import java.nio.file.Paths;
  */
 @RestController
 @Api(value = "FileUploadController", tags = "v-1.1 -- 文件管理 --> 本地服务器",consumes = BaseConstant.InterfaceType.PC_BASE)
-@RequestMapping("/file")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/file")
 public class FileUploadController extends BaseController {
 
 

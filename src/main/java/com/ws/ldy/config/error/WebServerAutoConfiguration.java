@@ -1,4 +1,4 @@
-package com.ws.ldy.config.auth.error;
+package com.ws.ldy.config.error;
 
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;

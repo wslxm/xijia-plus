@@ -33,7 +33,7 @@ import java.util.List;
  */
 @RestController
 @Api(value = "AliOssController", tags = "v-1.1 -- 文件管理 --> 阿里云OSS",consumes = BaseConstant.InterfaceType.PC_BASE)
-@RequestMapping("/aliOssFile")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/aliOssFile")
 public class AliOssController extends BaseController {
 
     // 阿里云oss工具类

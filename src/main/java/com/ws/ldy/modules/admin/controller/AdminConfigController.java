@@ -34,7 +34,7 @@ import java.util.Arrays;
  * @date 2020-08-31 18:31:44
  */
 @RestController
-@RequestMapping("/admin/adminConfig")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/admin/adminConfig")
 @Api(value = "AdminConfig", tags = "全局配置表-Config", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminConfigController extends BaseController<AdminConfigService> {
 

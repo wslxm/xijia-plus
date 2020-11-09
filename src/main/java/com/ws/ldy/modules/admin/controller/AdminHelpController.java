@@ -39,7 +39,7 @@ import java.util.List;
  * @date 2020-10-20 16:42:28
  */
 @RestController
-@RequestMapping("/admin/adminHelp")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/admin/adminHelp")
 @Api(value = "AdminHelp", tags = "帮助中心表", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminHelpController extends BaseController<AdminHelpService> {
 

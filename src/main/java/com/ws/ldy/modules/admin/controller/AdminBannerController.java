@@ -34,7 +34,7 @@ import java.util.Arrays;
  * @date 2020-08-23 23:14:01
  */
 @RestController
-@RequestMapping("/admin/adminBanner")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/admin/adminBanner")
 @Api(value = "AdminBanner", tags = "banner表", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminBannerController extends BaseController<AdminBannerService> {
 

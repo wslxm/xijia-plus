@@ -180,6 +180,65 @@ public class GlobalExceptionHandler extends BaseController {
             return R.error(RType.SYS_ERROR_CODE_500, e.getMessage() + errorDesc.toString());
         }
     }
+
+
+
+
+//    @ExceptionHandler(Exception.class)
+//    public R<String> exceptionHandler(Exception e) {
+//        // 日志模板
+//        String logStr = "\n\r### [全局捕获异常] --> 请求URL: " + request.getRequestURL() + " --> 错误原因: ";
+//        // 错误类名
+//        String exceptionClass = e.getClass().getName();
+//        String exceptionClassName = exceptionClass.substring(exceptionClass.lastIndexOf(".") + 1, exceptionClass.length());
+//        // 详细错误信息
+//        StringBuffer errorDesc = new StringBuffer();
+//        errorDesc.append("\r\n异常类:" + exceptionClass + "\r\n详细错误内容:\r\n");
+//        if (e.getStackTrace() != null) {
+//            Arrays.stream(e.getStackTrace()).forEach(i -> errorDesc.append(i.toString() + "\r\n"));
+//        }
+//        // 全局异常已解析内容错误
+//        if (mapException.containsKey(exceptionClassName)) {
+//            /**
+//             * 程序错误 - mapException 中所有异常类（打印及返回完整错误信息）
+//             */
+//        } else if (e instanceof ErrorException) {
+//            /**
+//             * 自定义异常->类ErrorException
+//             */
+//        } else if (e instanceof HttpMessageNotReadableException) {
+//            /**
+//             * 传递参数错误 - 枚举参数 |json参数错误, 请检查json是否完整，序列化失败（只打印核心错误内容）
+//             */
+//        } else if (e instanceof MethodArgumentNotValidException) {
+//            /**
+//             * body JSR 303 为参数验证错误（只打印核心错误内容）
+//             */
+//
+//        } else if (e instanceof BindException) {
+//            /**
+//             * query JSR 303 为参数验证错误（只打印核心错误内容）
+//             */
+//
+//        } else if (e instanceof MissingServletRequestParameterException) {
+//            /**
+//             * 未传递 Parameter 参数验证错误, 一般为 @Parameter 指定参数未传递（只打印核心错误内容）
+//             */
+//
+//        } else if (e instanceof MethodArgumentTypeMismatchException) {
+//            /**
+//             * 方法参数类型不匹配 mvc
+//             */
+//
+//        } else if (e instanceof DataIntegrityViolationException) {
+//            /**
+//             * 保存到数据库DB相关错误
+//             */
+//
+//        } else {
+//
+//        }
+//    }
 }
 
 

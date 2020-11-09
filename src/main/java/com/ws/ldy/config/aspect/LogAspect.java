@@ -2,13 +2,17 @@ package com.ws.ldy.config.aspect;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.ws.ldy.XijiaServer;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.auth.entity.JwtUser;
 import com.ws.ldy.config.auth.util.JwtUtil;
+import com.ws.ldy.config.error.GlobalExceptionHandler;
 import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.admin.model.entity.AdminLog;
+import com.ws.ldy.modules.admin.service.AdminAuthorityService;
 import com.ws.ldy.modules.admin.service.AdminLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +28,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -38,18 +43,28 @@ import java.util.concurrent.*;
 @Aspect
 @Component
 public class LogAspect {
-
+    /**
+     * 权限
+     */
+    @Autowired
+    private AdminAuthorityService adminAuthorityService;
+    /**
+     * 日志
+     */
     @Autowired
     private AdminLogService adminLogService;
-
+    /**
+     * 全局异常
+     */
+    @Autowired
+    private GlobalExceptionHandler globalExceptionHandler;
     /**
      * 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待
      */
     final ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
 
-
     /**
-     * 需要进行接口验证的uri 集, 静态资源, css, js ,路由等等, 只要uri包含以下定义的内容, 将直接跳过改过滤器
+     * 不需要记录日志的 uri 集, 静态资源, css, js ,路由等等, 只要uri包含以下定义的内容, 将直接跳过改过滤器
      */
     private static List<String> excludeUriList = new ArrayList<String>() {{
         add("/bootAdmin/instances");  // springbootAdmin监控相关
@@ -61,42 +76,57 @@ public class LogAspect {
     }};
 
 
+    /**
+     * 拦截范围
+     * @param proceed
+     * @return
+     * @throws Throwable
+     */
     @Around("@annotation(org.springframework.web.bind.annotation.GetMapping)")
     public Object aroundGet(ProceedingJoinPoint proceed) throws Throwable {
-        return saveOpLogs(proceed);
+        return run(proceed);
     }
 
     @Around("@annotation(org.springframework.web.bind.annotation.PostMapping)")
     public Object aroundSave(ProceedingJoinPoint proceed) throws Throwable {
-        return saveOpLogs(proceed);
+        return run(proceed);
     }
 
     @Around("@annotation(org.springframework.web.bind.annotation.PutMapping)")
     public Object aroundUpdate(ProceedingJoinPoint proceed) throws Throwable {
-        return saveOpLogs(proceed);
+        return run(proceed);
     }
 
     @Around("@annotation(org.springframework.web.bind.annotation.DeleteMapping)")
     public Object aroundDelete(ProceedingJoinPoint proceed) throws Throwable {
-        return saveOpLogs(proceed);
+        return run(proceed);
     }
 
     @Around("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public Object aroundRequest(ProceedingJoinPoint proceed) throws Throwable {
-        return saveOpLogs(proceed);
+        return run(proceed);
     }
 
     /**
      * 日志记录
+     * <P>
+     *  // startTime1 = 程序开始执行时间, 由RequestFilter 过滤器中添加
+     *  // startTime2 = 业务代码开始执行时间
+     *  // endTime1   = 程序结束时间
+     * </P>
      * @author wang-song
      * @param proceed
      * @date 2020/7/14 0014 14:14
      * @return java.lang.Object
      * @version 1.0.0
      */
-    private Object saveOpLogs(ProceedingJoinPoint proceed) throws Throwable {
+    private Object run(ProceedingJoinPoint proceed) throws Throwable {
+
+        long startTime1 = System.currentTimeMillis();
         // 获取请求参数
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = sra.getRequest();
+        HttpServletResponse response = sra.getResponse();
         String uri = sra.getRequest().getRequestURI();
         // 排除相关
         for (String excludeUri : excludeUriList) {
@@ -106,54 +136,37 @@ public class LogAspect {
             }
         }
         // 1、记录请求日志, 将异步执行(与业务代码并行处理),不影响程序响应, future 为线程的返回值，用于后面异步执行响应结果
-        Future<AdminLog> future = fixedThreadPool.submit(new Callable<AdminLog>() {
-            @Override
-            public AdminLog call() {
-                return log(proceed, sra.getRequest(), sra.getResponse());
-            }
-        });
-        // 2、调用业务方法
-        // startTimeOrder1 = 程序开始执行时间, 由RequestFilter 过滤器中添加
-        // startTimeOrder2 = 业务代码开始执行时间
-        // endTimeOrder1   = 程序结束时间
-        long startTimeOrder1 = Long.parseLong(sra.getResponse().getHeader("startTime"));
-        long startTimeOrder2 = System.currentTimeMillis();
-        Object obj = proceed.proceed();
-        long endTimeOrder1 = System.currentTimeMillis();
-
-        // 3、记录响应结果(state=1-成功，将异步执行,不影响程序响应)
-        this.updLog(future, 1, (endTimeOrder1 - startTimeOrder1), (endTimeOrder1 - startTimeOrder2), obj);
-        // 4、返回
+//        Future<AdminLog> future = fixedThreadPool.submit(new Callable<AdminLog>() {
+//            @Override
+//            public AdminLog call() {
+//                return log(proceed, sra.getRequest(), sra.getResponse());
+//            }
+//        });
+        AdminLog log = log(proceed, sra.getRequest(), sra.getResponse());
+        // 2、登录授权认证
+        R<JwtUser> jwtUserR = loginAuth(request, response);
+        if (!jwtUserR.getCode().equals(RType.SYS_SUCCESS)) {
+            // 登录认证失败
+            Object obj = jwtUserR;
+            long endTime1 = System.currentTimeMillis();
+            long startTime2 = System.currentTimeMillis();
+            this.updLog(log, 1, (endTime1 - startTime1), (endTime1 - startTime2), obj);
+        }
+        long startTime2 = System.currentTimeMillis();
+        Object obj = null;
+        try {
+            // 3、调用业务方法
+            obj = proceed.proceed();
+        } catch (Exception e) {
+            // 业务代码异常, 这里try后, 全局异常将不生效，在直接主动调用(如果没有try exceptionHandler在异常时会自动进行拦截,在这里拦截主要是记录响应结果信息)
+            R<String> errorDataR = globalExceptionHandler.exceptionHandler(e);
+            obj = errorDataR;
+        }
+        long endTime1 = System.currentTimeMillis();
+        // 4、记录响应结果(state=1-成功，将异步执行,不影响程序响应)
+        this.updLog(log, 1, (endTime1 - startTime1), (endTime1 - startTime2), obj);
+        // 5、返回结果
         return obj;
-    }
-
-
-    /**
-     * 记录响应日志
-     * @author wangsong
-     * @mail 1720696548@qq.com
-     * @date 2020/10/29 0029 11:24 
-     * @version 1.0.0
-     */
-    private void updLog(Future<AdminLog> future, Integer state, Long executeTime, Long businessTime, Object obj) {
-        fixedThreadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    // 判断记录请求日志是否记录完成(true=完成)
-                    if (future.isDone()) {
-                        AdminLog log = null;
-                        try {
-                            log = future.get();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        updLog(log.getId(), state, executeTime, businessTime, obj);
-                        break;
-                    }
-                }
-            }
-        });
     }
 
 
@@ -167,7 +180,7 @@ public class LogAspect {
      * @date 2020/10/28 0028 15:04
      * @version 1.0.0
      */
-    private AdminLog log(ProceedingJoinPoint proceed, HttpServletRequest request, HttpServletResponse response) {
+    private synchronized AdminLog log(ProceedingJoinPoint proceed, HttpServletRequest request, HttpServletResponse response) {
         // 获取域名(服务器路径)
         String serverName = request.getServerName();
         // 请求来源(发起者当前页面路径)
@@ -202,39 +215,11 @@ public class LogAspect {
             classDesc = classAnnotation.tags().length > 0 ? classAnnotation.tags()[0] : classAnnotation.value();
         }
         Object[] args = proceed.getArgs(); // uri ： 接口  包： packageName,  请求类： 接口+类描叙+接口描叙
-        // 控制台打印
-        log.info("用户ip:[{}] --> 设备名:[{}] --> 端口：[{}] -->  请求类:[{}]  -->  URL: [{}] -->  PARAM:[{}]  -->  模块:[{}] -- [{}]",
-                ip,
-                host,
-                port,
-                String.format("%-65s", className),
-                String.format("%-65s", url),
-                args,
-                classDesc,
-                methodDesc
-        );
-        // 获取登录用户信息
-        R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request);
+        printLog(ip, host, port, className, url, args, classDesc, methodDesc);
         // 记录到数据库
         AdminLog log = new AdminLog();
-        // 记录日志时不管token是否过期等，是否有效等, 能获取到用户信息表示已登录,否则表示未登录
-        if (jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-            // 已登录
-            JwtUser jwtUser = jwtUserR.getData();
-            log.setFullName(jwtUser.getFullName());
-            log.setUserId(jwtUser.getUserId());
-            log.setType(jwtUser.getType());
-        } else {
-            // 未登录
-            log.setFullName("未登录用户");
-            log.setUserId("0");
-            AdminAuthority adminAuthority = BaseConstant.Cache.AUTH_MAP.get(uri);
-            if (adminAuthority != null) {
-                log.setType(adminAuthority.getType());
-            } else {
-                log.setType(-1);
-            }
-        }
+        // 记录用户信息
+        log = setJwtUser(request, log);
         log.setReferer(referer);
         log.setUrl(url);
         log.setUri(uri);
@@ -252,7 +237,7 @@ public class LogAspect {
             String jsonParam = JSON.toJSONString(args);
             log.setRequestData(jsonParam);
         } catch (Exception e) {
-            log.setRequestData("无法解析该数据");
+            log.setRequestData("无法解析");
         }
         log.setResponseData(null);     // 返回数据
         log.setState(0);               // 默认失败
@@ -263,7 +248,7 @@ public class LogAspect {
 
     /**
      * 访问结束后添加日志结果到数据库
-     * @param id :
+     * @param1 future 请求日志记录线程
      * @param state=0 失败 (默认)  type=1 成功
      * @param obj 返回数据
      * @param executeTime aop 执行总耗时
@@ -273,12 +258,29 @@ public class LogAspect {
      * @date 2020/10/28 0028 20:03
      * @version 1.0.0
      */
-    private void updLog(String id, Integer state, Long executeTime, Long businessTime, Object obj) {
+    //   private void updLog(Future<AdminLog> future, Integer state, Long executeTime, Long businessTime, String uri, Object obj) {
+    private void updLog(AdminLog log, Integer state, Long executeTime, Long businessTime, Object obj) {
+//        fixedThreadPool.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                long time = System.currentTimeMillis();
+//                while (true) {
+//                    // 如果没有回来，避免死循环
+//                    if ((System.currentTimeMillis() - time) > 15000) {
+//                        System.err.println("注意：程序在15秒内没有正常执行完毕, 日志记录失败, 请求uri = " + uri);
+//                        break;
+//                    }
+//                    // 判断记录请求日志是否记录完成(true=完成)
+//                    if (future.isDone()) {
+        //======================== 请求已记录完成，开始记录响应 ============================
+        // 避免记录到其他请求的数据
+//        AdminLog log = null;
         String data = "";
         try {
+            // log = future.get();
             data = JSON.toJSONString(obj);
         } catch (Exception e) {
-            data = "无法解析该数据";
+            data = "无法解析";
         }
         // log.info("状态：{} ,返回数据：{} ", state, obj);
         // 记录返回数据
@@ -287,8 +289,14 @@ public class LogAspect {
                 .set(AdminLog::getBusinessTime, businessTime)
                 .set(AdminLog::getState, state)
                 .set(AdminLog::getResponseData, data)
-                .eq(AdminLog::getId, id)
+                .eq(AdminLog::getId, log.getId())
         );
+        //======================== 响应记录完成 ============================
+//                        break;
+//                    }
+//                }
+//            }
+//        });
     }
 
 
@@ -320,5 +328,138 @@ public class LogAspect {
         }
         return ip;
     }
+
+
+    /**
+     *  打印请求信息
+     * @author wangsong
+     * @param ip
+     * @param host
+     * @param port
+     * @param className
+     * @param url
+     * @param args
+     * @param classDesc
+     * @param methodDesc
+     * @date 2020/11/9 0009 16:33
+     * @return void
+     * @version 1.0.0
+     */
+    private void printLog(String ip, String host, Integer port, String className, String url, Object[] args, String classDesc, String methodDesc) {
+        // 控制台打印
+        log.info("用户ip:[{}] --> 设备名:[{}] --> 端口：[{}] -->  请求类:[{}]  -->  URL: [{}] -->  PARAM:[{}]  -->  模块:[{}] -- [{}]",
+                ip,
+                host,
+                port,
+                String.format("%-65s", className),
+                String.format("%-65s", url),
+                args,
+                classDesc,
+                methodDesc
+        );
+    }
+
+
+    /**
+     * 日志中记录用户信息
+     * @return
+     */
+    private AdminLog setJwtUser(HttpServletRequest request, AdminLog log) {
+        String uri = request.getRequestURI();
+        // 获取登录用户信息
+        R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request);
+        // 记录日志时不管token是否过期等，是否有效等, 能获取到用户信息表示已登录,否则表示未登录
+        if (jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+            // 已登录
+            JwtUser jwtUser = jwtUserR.getData();
+            log.setFullName(jwtUser.getFullName());
+            log.setUserId(jwtUser.getUserId());
+            log.setType(jwtUser.getType());
+        } else {
+            // 未登录
+            log.setFullName("╥﹏╥");
+            log.setUserId("0");
+            AdminAuthority adminAuthority = BaseConstant.Cache.AUTH_MAP.get(uri);
+            if (adminAuthority != null) {
+                log.setType(adminAuthority.getType());
+            } else {
+                log.setType(-1);
+            }
+        }
+        return log;
+    }
+
+
+    /**
+     * 登录授权认证
+     * <>
+     *     token认证，授权认证，
+     *     没有Token 直接放行, 让请求接入权限认证, 需要授权的接口没有token当然是认证不过的啦
+     *     需要授权的接口, 在token 中获取当前登录用户的权限, 当前用户没有当前请求的接口权限当然也是认证不过的啦
+     *     // ===
+     *     前端接口认证：暂无处理
+     *     返回：
+     *       - 如果需要登录, 返回的jwt存储的用户信息, 用于记录日志, 如果接口不需要登录,返回的 null
+     *       - 如果登录过期或无接口权限,返回对应的错误信息，会直接返回到前端
+     * </>
+     * @param request
+     * @param response
+     */
+    private R<JwtUser> loginAuth(HttpServletRequest request, HttpServletResponse response) {
+        // 1、是否为绝对放行接口,是直接放行
+        String uri = request.getRequestURI();
+        if (BaseConstant.Sys.URIS.contains(uri)) {
+            return R.success(null);
+        }
+        // 2、是否被权限管理, 没有直接放行，log.info("请求方式:{} 请求URL:{} ", request.getMethod(), request.getServletPath());
+        if (!BaseConstant.Cache.AUTH_MAP.containsKey(uri)) {
+            return R.success(null);
+        }
+        // 3、接口是否禁用，是直接返回禁用信息
+        AdminAuthority adminAuthority = BaseConstant.Cache.AUTH_MAP.get(uri);
+        if (adminAuthority.getDisable().equals(Enums.Base.Disable.DISABLE_1.getValue())) {
+            //禁用
+            return R.error(RType.AUTHORITY_DISABLE);
+        }
+        // 4、登录/授权验证
+        if (adminAuthority.getState().equals(Enums.Admin.AuthorityState.AUTHORITY_STATE_0.getValue())) {
+            /**
+             *  0- 无需登录 (不做任何处理)
+             */
+            return R.success(null);
+        } else if (adminAuthority.getState().equals(Enums.Admin.AuthorityState.AUTHORITY_STATE_1.getValue())) {
+            /**
+             *  1- 需登录 (能获取用户信息jwtUser 即成功)
+             */
+            R<JwtUser> result = JwtUtil.getJwtUserR(request);
+            if (!result.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+                // error
+                return result;
+            }
+            // 刷新token有效期
+            JwtUser jwtUser = result.getData();
+            JwtUtil.refreshToken(adminAuthorityService, response, jwtUser);
+            return R.success(jwtUser);
+        } else if (adminAuthority.getState().equals(Enums.Admin.AuthorityState.AUTHORITY_STATE_2.getValue())) {
+            /**
+             *  2- 需登录+授权 (100% 管理端才会进入, 验证用户信息的权限列表中是否存在当前接口，存在放行，不存在拦截返回无权限访问)
+             */
+            R<JwtUser> result = JwtUtil.getJwtUserR(request);
+            if (!result.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+                // error
+                return result;
+            }
+            // 判断权限
+            JwtUser jwtUser = result.getData();
+            if (jwtUser.getAuthList() == null || !jwtUser.getAuthList().contains(request.getRequestURI())) {
+                return R.error(RType.AUTHORITY_NO_PERMISSION);
+            }
+            // 刷新token有效期
+            JwtUtil.refreshToken(adminAuthorityService, response, jwtUser);
+            return R.success(jwtUser);
+        }
+        return R.success(null);
+    }
+
 }
 

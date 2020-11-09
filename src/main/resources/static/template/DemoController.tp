@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
  * {date}
  */
 @RestController
-@RequestMapping("/{moduleName}/{tableNameLower}")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/{moduleName}/{tableNameLower}")
 @Api(value ="{tableNameUp}Controller" ,tags = "{tableComment}", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service>  {
 

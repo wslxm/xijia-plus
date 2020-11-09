@@ -32,7 +32,7 @@ import java.util.List;
  * @date 2019/11/13 13:38
  */
 @RestController
-@RequestMapping("/admin/adminUser")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/admin/adminUser")
 @Api(value = "AdminUserController", tags = "用户管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminUserController extends BaseController<AdminUserService> {
 

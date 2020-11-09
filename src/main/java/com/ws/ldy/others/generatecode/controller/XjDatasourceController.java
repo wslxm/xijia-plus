@@ -37,7 +37,7 @@ import java.util.List;
  * @date 2020-11-04 20:11:08
  */
 @RestController
-@RequestMapping("/xj/xjDatasource")
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/xj/xjDatasource")
 @Api(value = "XjDatasourceController", tags = "代码生成数据源维护表", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class XjDatasourceController extends BaseController<XjDatasourceService> {
 

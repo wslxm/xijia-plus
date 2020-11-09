@@ -404,5 +404,21 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         log.info("权限数据加载成功, 当前 [需登录/授权] 的接口数量为: {}", authorityCountState2);
         log.info("权限数据加载成功, 当前 [所有接口] 的接口数量为:    {}", authorityCount);
     }
+
+
+    @Override
+    public AdminAuthority findFatherAuth(String uri) {
+        Map<String, AdminAuthority> authMap = BaseConstant.Cache.AUTH_MAP;
+        AdminAuthority adminAuthority = BaseConstant.Cache.AUTH_MAP.get(uri);
+        if(adminAuthority==null){
+            return null;
+        }
+        for (AdminAuthority auth : authMap.values()) {
+            if (adminAuthority.getPid().equals(auth.getId())) {
+                return auth;
+            }
+        }
+        return null;
+    }
 }
 
