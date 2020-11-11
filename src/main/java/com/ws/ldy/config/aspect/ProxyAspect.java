@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.concurrent.*;
 
 /**
- * 用户操作日志
+ * Controller 请求操作
  *
  * @author wbg
  * @date 2019-11-23 9:49
@@ -44,7 +44,7 @@ import java.util.concurrent.*;
 @Slf4j
 @Aspect
 @Component
-public class LogAspect {
+public class ProxyAspect {
     /**
      * 权限
      */
@@ -92,6 +92,7 @@ public class LogAspect {
         add("/page/");                // 页面跳转(路由)
         add("/error");                // 模板解析错误
         add("/admin/adminLog/");      // 日志相关
+        add("/swagger-resources/");   // swagger访问
     }};
 
 
@@ -166,7 +167,7 @@ public class LogAspect {
         // 2、登录授权认证
         R<JwtUser> jwtUserR = loginAuth(request, response);
         if (!jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-            this.updLog(future, 1, (System.currentTimeMillis() - startTime1), (System.currentTimeMillis() - startTime1), uri, jwtUserR);
+            this.updLog(future, 0, (System.currentTimeMillis() - startTime1) ,0L , uri, jwtUserR);
             return jwtUserR;
         }
 
@@ -303,13 +304,17 @@ public class LogAspect {
                 }
                 // log.info("状态：{} ,返回数据：{} ", state, obj);
                 // 记录返回数据
-                adminLogService.update(new LambdaUpdateWrapper<AdminLog>()
-                        .set(AdminLog::getExecuteTime, executeTime)
-                        .set(AdminLog::getBusinessTime, businessTime)
-                        .set(AdminLog::getState, state)
-                        .set(AdminLog::getResponseData, data)
-                        .eq(AdminLog::getId, logs.getId())
-                );
+                if (logs != null) {
+                    adminLogService.update(new LambdaUpdateWrapper<AdminLog>()
+                            .set(AdminLog::getExecuteTime, executeTime)
+                            .set(AdminLog::getBusinessTime, businessTime)
+                            .set(AdminLog::getState, state)
+                            .set(AdminLog::getResponseData, data)
+                            .eq(AdminLog::getId, logs.getId())
+                    );
+                } else {
+                    System.err.println("注意： 日志记录失败,logs=null, 请求uri = " + uri);
+                }
                 System.out.println(logs.getClassDesc() + logs.getUrl() + "  --> " + data);
                 //======================== 响应记录完成 ============================
                 break;

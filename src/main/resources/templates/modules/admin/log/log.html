@@ -65,7 +65,7 @@
 <!-- 多删除-添加  -->
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-       <!-- <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>-->
+        <!-- <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>-->
     </div>
 </script>
 
@@ -82,8 +82,7 @@
     let adminLogDel = path + "/admin/adminLog/del";                  //删除
 
     // 路由
-    let adminLogPageAdd = "/page/modules_admin_adminLog_adminLogAdd";   //添加弹出
-    let adminLogPageUpd = "/page/modules_admin_adminLog_adminLogUpd";   //编辑弹出
+    let adminLogPageUpd = "/page/modules_admin_log_logDetails.html";   //编辑弹出
 
     let table;     // 数据表格组件
     let laypage;   // 分页组件
@@ -94,7 +93,6 @@
         laypage = layui.laypage;
         xijiaRenderTable();        //  数据表格 - 获取表格
         xijiaLayPage();            //  分页插件
-        xijiaEventToolbar();       //  工具栏事件（多删除/添加）
         xijiaEventTool();          //  监听数据表格内按钮操作（编辑,删除等）
         xijiaEventSearch();        //  监听条件搜索
     });
@@ -119,12 +117,12 @@
                 [
                     // {type: 'checkbox', fixed: 'left'}   //fixed: 'right', , fixed: 'left'
                     {field: 'fullName', title: '请求人'},
-                    {field: 'createTime', title: '请求时间',width: 180},
+                    {field: 'createTime', title: '请求时间', width: 180},
                     // {field: 'userId', title: '请求人Id '},
                     // {field: 'type', title: '请求终端'},
                     // {field: 'referer', title: '请求来源'},
                     // {field: 'url', title: '请求url'},
-                    {field: 'uri', title: '请求uri',width: 240},
+                    {field: 'uri', title: '请求uri', width: 240},
                     // {field: 'ip', title: '用户真实Ip'},
                     // {field: 'host', title: '用户主机名'},
                     {field: 'method', title: '请求方式'},
@@ -133,13 +131,13 @@
                     // {field: 'packageName', title: '请求包'},
                     // {field: 'className', title: '请求类'},
                     {field: 'classDesc', title: '请求功能'},
-                    {field: 'methodDesc', title: '请求方法',width: 220},
+                    {field: 'methodDesc', title: '请求方法', width: 220},
                     {field: 'requestData', title: '请求数据'},
                     {field: 'responseData', title: '返回数据'},
-                    {field: 'state', title: '1成功 0失败',width: 100},
-                    {field: 'businessTime', title: '业务耗时',width: 80},
-                    {field: 'executeTime', title: '总耗时',width: 80},
-                     {title: '操作', toolbar: '#barDemo', width: 150}
+                    {field: 'state', title: '1成功 0失败', width: 100},
+                    {field: 'businessTime', title: '业务耗时', width: 80},
+                    {field: 'executeTime', title: '总耗时', width: 80},
+                    {title: '操作', toolbar: '#barDemo', width: 150}
                 ]
             ]
         });
@@ -181,23 +179,6 @@
 
 
     /**
-     * 工具栏事件（多删除 || 添加）  ==>> toolbar(auth-table): toolbar=监听表格头事件,  auth-table=数据表格elem 名称
-     * @author ws
-     * @mail  1720696548@qq.com
-     * @param null
-     * @date  2020/4/10 0010 0:05
-     * @return
-     */
-    function xijiaEventToolbar() {
-        table.on('toolbar(auth-table)', function (obj) {
-            //添加
-            if (obj.event === "add") {
-                Pop.tipsWindown(adminLogPageAdd, "600px", "400px", "添加");
-            }
-        });
-    }
-
-    /**
      * 监听数据表格内按钮（编辑 || 删除 || 其他）, tool(auth-table)==> tool =监听按钮， auth-table=数据表格elem对应值
      * @author ws
      * @mail  1720696548@qq.com
@@ -210,7 +191,7 @@
             data = obj.data;  //当前行数据
             //编辑
             if (obj.event === 'edit') {
-                Pop.tipsWindown(adminLogPageUpd, "600px", "400px", "修改");
+                Pop.tipsWindown(adminLogPageUpd, "80%", "80%","查看请求：" + data.classDesc + " -> " + data.methodDesc + "  >>> " + data.createTime , []);
             }
             //删除
             if (obj.event === 'del') {

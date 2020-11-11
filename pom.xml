@@ -60,6 +60,7 @@
         <spring-cloud-starter-netflix-zuul.version>2.2.0.RELEASE</spring-cloud-starter-netflix-zuul.version>
         <spring-boot-admin-starter-server.version>2.2.2</spring-boot-admin-starter-server.version>
         <spring-boot-admin-starter-client.version>2.2.2</spring-boot-admin-starter-client.version>
+        <cglib.version>3.2.4</cglib.version>
     </properties>
 
     <dependencies>
@@ -259,6 +260,12 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>${knife4j-spring-boot-starter.version}</version>
+        </dependency>
+        <!-- cglib -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>${cglib.version}</version>
         </dependency>
     </dependencies>
     <build>
