@@ -35,16 +35,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
+
 /**
- * Controller 请求操作
- *
- * @author wbg
- * @date 2019-11-23 9:49
+ * Controller 请求操作/记录/权鉴
+ * @author wangsong
+ * @mail 1720696548@qq.com
+ * @date 2020/11/15 0015 11:16
+ * @version 1.0.0
  */
 @Slf4j
 @Aspect
 @Component
-public class ProxyAspect {
+public class SysAspect {
     /**
      * 权限
      */
@@ -87,6 +89,7 @@ public class ProxyAspect {
      */
     private static List<String> excludeUriList = new ArrayList<String>() {{
         add("/bootAdmin/instances");  // springbootAdmin监控相关
+        add("/bootAdmin");            //
         add("/actuator");             // 系统监控相关
         add("/druid/");               // sql监控相关
         add("/page/");                // 页面跳转(路由)
@@ -147,14 +150,14 @@ public class ProxyAspect {
         HttpServletRequest request = sra.getRequest();
         HttpServletResponse response = sra.getResponse();
         String uri = sra.getRequest().getRequestURI();
-        // 排除相关
+        // 1、排除不需要处理的请求
         for (String excludeUri : excludeUriList) {
             if (uri.contains(excludeUri)) {
                 // 直接执行返回
                 return proceed.proceed();
             }
         }
-        // 1、记录请求日志, 将异步执行(与业务代码并行处理),不影响程序响应, future 为线程的返回值，用于后面异步执行响应结果
+        // 2、记录请求日志, 将异步执行(与业务代码并行处理),不影响程序响应, future 为线程的返回值，用于后面异步执行响应结果
         Future<AdminLog> future = executorService.submit(new Callable<AdminLog>() {
             @Override
             public AdminLog call() {
@@ -164,14 +167,14 @@ public class ProxyAspect {
             }
         });
 
-        // 2、登录授权认证
+        // 3、登录授权认证
         R<JwtUser> jwtUserR = loginAuth(request, response);
         if (!jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-            this.updLog(future, 0, (System.currentTimeMillis() - startTime1) ,0L , uri, jwtUserR);
+            this.updLog(future, 0, (System.currentTimeMillis() - startTime1), 0L, uri, jwtUserR);
             return jwtUserR;
         }
 
-        // 3、调用业务方法并记录执行时间
+        // 4、调用业务方法并记录执行时间
         long startTime2 = System.currentTimeMillis();
         Object obj = null;
         try {
@@ -181,11 +184,11 @@ public class ProxyAspect {
             obj = globalExceptionHandler.exceptionHandler(e);
         }
 
-        // 4、记录响应结果(state=1-成功，将异步执行,不影响程序响应)
+        // 5、记录响应结果和记录响应时间(state=1-成功,等待请求线程执行完毕立即执行)
         long endTime1 = System.currentTimeMillis();
         this.updLog(future, 1, (endTime1 - startTime1), (endTime1 - startTime2), uri, obj);
 
-        // 5、返回结果
+        // 6、返回结果
         return obj;
     }
 
@@ -284,13 +287,11 @@ public class ProxyAspect {
         while (true) {
             // 如果没有回来，避免死循环
             if ((System.currentTimeMillis() - time) > 5000) {
-                System.err.println("注意：程序在5秒内没有正常执行完毕, 日志记录失败, 请求uri = " + uri);
+                log.info("注意：程序在5秒内没有正常执行完毕, 日志记录失败, 请求uri = " + uri);
                 break;
             }
             // 判断记录请求日志是否记录完成(true=完成)
             if (future.isDone()) {
-                //======================== 请求已记录完成，开始记录响应 ============================
-                // 避免记录到其他请求的数据
                 AdminLog logs = null;
                 String data = "";
                 try {
@@ -302,7 +303,6 @@ public class ProxyAspect {
                 } catch (Exception e) {
                     data = "无法解析";
                 }
-                // log.info("状态：{} ,返回数据：{} ", state, obj);
                 // 记录返回数据
                 if (logs != null) {
                     adminLogService.update(new LambdaUpdateWrapper<AdminLog>()
@@ -313,10 +313,9 @@ public class ProxyAspect {
                             .eq(AdminLog::getId, logs.getId())
                     );
                 } else {
-                    System.err.println("注意： 日志记录失败,logs=null, 请求uri = " + uri);
+                    log.info("注意： 日志记录失败,logs=null, 请求uri = " + uri);
                 }
-                System.out.println(logs.getClassDesc() + logs.getUrl() + "  --> " + data);
-                //======================== 响应记录完成 ============================
+                // System.out.println(logs.getClassDesc() + logs.getUrl() + "  --> " + data);
                 break;
             }
         }
@@ -385,6 +384,10 @@ public class ProxyAspect {
 
     /**
      * 日志中记录用户信息
+     * <p>
+     *  1、 从 JwtUtil 中获取用户信息
+     *  2、 把用户信息放入log并返回，如果没有用户信息则用户名为： ╥﹏╥ ，用户id为：0
+     * <p/>
      * @return
      */
     private AdminLog setJwtUser(HttpServletRequest request, AdminLog log) {

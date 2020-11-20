@@ -146,11 +146,15 @@ public class FileDownloadUtil {
             if (StringUtils.isBlank(filePath)) {
                 continue;
             }
-            File inputFile = new File(filePath);  //根据文件路径创建文件
-            //
+            // 获取文件名前的路径
             int index = filePath.lastIndexOf("/");
             String newFilePath = filePath.substring(0, index + 1);
             String fileName = filePath.substring(index + 1);
+
+            // 根据文件路径创建文件, 替换文件名称，先获取后缀名
+            File inputFile = new File(filePath);  //根据文件路径创建文件
+            // String suffixName = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length());
+            // File inputFile = new File(newFilePath + fileName + "1." + suffixName);
             try {
                 newFilePath = newFilePath + URLEncoder.encode(fileName, "utf-8");
                 URL url = new URL(newFilePath);

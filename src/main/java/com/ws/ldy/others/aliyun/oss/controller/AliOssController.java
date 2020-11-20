@@ -8,6 +8,7 @@ import com.ws.ldy.common.utils.LocalDateTimeUtil;
 import com.ws.ldy.common.utils.PathUtil;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.enums.Enums;
 import com.ws.ldy.others.aliyun.oss.util.OSSUtil;
 import com.ws.ldy.others.base.controller.BaseController;
 import io.swagger.annotations.Api;
@@ -32,7 +33,7 @@ import java.util.List;
  * @author peter 2018/10/20 21:32
  */
 @RestController
-@Api(value = "AliOssController", tags = "v-1.1 -- 文件管理 --> 阿里云OSS",consumes = BaseConstant.InterfaceType.PC_BASE)
+@Api(value = "AliOssController", tags = "v-1.1 -- 文件管理 --> 阿里云OSS", consumes = BaseConstant.InterfaceType.PC_BASE)
 @RequestMapping(BaseConstant.Sys.URI_PREFIX + "/aliOssFile")
 public class AliOssController extends BaseController {
 
@@ -194,10 +195,10 @@ public class AliOssController extends BaseController {
         // 目录开头
         String path = filePath.split("/")[0];
         // 后缀名
-        String suffixName = fileName.substring(fileName.indexOf(".") + 1, fileName.length());
+        String suffixName = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
         if (UPLOAD_PATH_IMAGE.equals(path)) {
             // 图片
-            if (!"jpg".equals(suffixName) && !"png".equals(suffixName) && !"jpeg".equals(suffixName)  && !"gif".equals(suffixName)) {
+            if (!"jpg".equals(suffixName) && !"png".equals(suffixName) && !"jpeg".equals(suffixName) && !"gif".equals(suffixName)) {
                 throw new ErrorException(10002, "图片仅支持上传-[jpg,png,jpeg]");
             }
             //修改fileName的引用,提交17位时间+3位随机数(20前缀)
@@ -224,7 +225,7 @@ public class AliOssController extends BaseController {
             throw new ErrorException(10002, "路径错误");
         }
         //去除空格和逗号
-        fileName = fileName.replaceAll(" ", "").replace(",","");
+        fileName = fileName.replaceAll(" ", "").replace(",", "");
         return fileName;
     }
 }

@@ -47,14 +47,14 @@
 
 
 <script>
-    let dataBaseTables =path+ "/dataBase/findTable";   // 查询数据库表-所有
-    let findAll = path+ "/dataBase/findTableField";     // 根据表名称查询数据库字段数据
-    let generatePreview = path+ "/generate/preview";    // 代码预览txt生成
-    let generateCode = path+ "/generate/generateCode";  // 代码生成(会覆盖),谨慎操作
-    let generatePath = path+ "/generate/getPath";               // 代码生成路径
+    let dataBaseTables = path + "/dataBase/findTable";   // 查询数据库表-所有
+    let findAll = path + "/dataBase/findTableField";     // 根据表名称查询数据库字段数据
+    let generatePreview = path + "/generate/preview";    // 代码预览txt生成
+    let generateCode = path + "/generate/generateCode";  // 代码生成(会覆盖),谨慎操作
+    let generatePath = path + "/generate/getPath";               // 代码生成路径
     //
     let generateFilePath = "/page/others_generatecode_dataBase_filePath";    // 代码生成路径预览页面
-    let   datasourceList = "/page/others_generatecode_xjDatasource_xjDatasource";
+    let datasourceList = "/page/others_generatecode_xjDatasource_xjDatasource";
 
     let tableName = "t_basic";   // 左边菜单当前选中表名称 tableName
     let tableComment = "";       // 左边菜单当前选中表名称描叙
@@ -210,29 +210,28 @@
             , cols: [
                 [
                     {type: 'checkbox'}//, LAY_CHECKED: true
-                    , {field: 'name', title: '字段名', width: 140}
-                    , {field: 'type', title: '数据类型', width: 100}
-                    , {field: 'typeDetail', title: '类型(长度)', width: 120}
-                    , {field: 'defaultVal', title: '默认值', width: 100}
-                    , {field: 'desc', title: '描叙', width: 220}
+                    , {field: 'name', title: '字段名', width: 150}
+                    , {field: 'type', title: '数据类型', width: 150}
+                    , {field: 'typeDetail', title: '类型(长度)', width: 150}
+                    , {field: 'defaultVal', title: '默认值', width: 150}
+                    , {field: 'desc', title: '描叙', width: 225}
                     ,
                     {
-                        field: 'isNull', title: '必填', width: 100, templet: function (res) {
+                        field: 'isNull', title: '必填', width: 150, templet: function (res) {
                             return res.isNull == "NO" ? "是" : "";
                         }
-                    }
-                    ,
-                    {
-                        field: 'search', title: '查询( eq | select )', width: 180, templet: function (res) {
-                            return '<input type="checkbox" name="search" lay-filter="search" lay-skin="switch" lay-text="是|否">'
-                                + '&nbsp;&nbsp;|&nbsp;&nbsp;<input type="checkbox" name="search" lay-filter="searchSelect" lay-skin="switch" lay-text="是|否">';
-                        }
                     },
                     {
-                        field: 'switch', title: 'switch-开关', templet: function (res) {
-                            return '<input type="checkbox" name="switch" lay-filter="switch" lay-skin="switch" lay-text="是|否">';
+                        field: 'search', title: '添加搜索(eq)', width: 180, templet: function (res) {
+                            return '<input type="checkbox" name="search" lay-filter="search" lay-skin="switch" lay-text="是|否">';
+                            //   + '&nbsp;&nbsp;|&nbsp;&nbsp;<input type="checkbox" name="search" lay-filter="searchSelect" lay-skin="switch" lay-text="是|否">';
                         }
                     },
+                    // {
+                    //     field: 'switch', title: 'switch-开关', templet: function (res) {
+                    //         return '<input type="checkbox" name="switch" lay-filter="switch" lay-skin="switch" lay-text="是|否">';
+                    //     }
+                    // },
                 ]
             ]
             , limit: dataJson.data.length
@@ -276,7 +275,7 @@
                 tableName: tableName,
                 tableComment: tableComment,
                 dataSourceId: dataSourceId
-               // path: path
+                // path: path
             });
             // 预览
             this.tabTxt(result.data);
