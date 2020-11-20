@@ -19,6 +19,8 @@
 - 15、添加二维码生成工具类 CreatrQrCode.java，可生成中间带 头像的二维码图片
 - 16、优化BeanDtoVoUtil的 cglib 的BeanCopier,添加Copier缓存（2020-11-20）
 - 17、添加比cglib强的转换工具 mapstruct 可使用,可移除,习惯了BeanDtoVoUtil,性能cglib略佳一点,mapstruct功能强一点(2020-11-18)
+- 18、更新 Markdown 文档展示
+
 
 ## 版本: v-0.0.6
 ------------------------------ 2020-11-1
