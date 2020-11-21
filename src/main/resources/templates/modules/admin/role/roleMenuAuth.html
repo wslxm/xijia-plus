@@ -21,7 +21,6 @@
     <ul id="auth-tree"></ul>
 </div>
 
-
 <!-- 菜单树，数据表格-->
 <div style="float:left; margin-left: 3%;width: 68%;margin-top: 2.5%;">
     <table id="auth-table" class="layui-table" lay-filter="auth-table"></table>
@@ -66,11 +65,16 @@
         showTree();                    // 初始化左边边角色数据,treetable用于右边 table 数据重载
         xijiaRenderTable(res);         // 初始化右边 table 数据
         xijiaEventCheckbox();          // 监听复选框选中
+
+        /**
+         * 默认加载选择行的菜单
+         */
+        xijiaEventRoleClick(parent.data)
     });
 
 
     /**
-     *     生成左角色列表
+     * 生成左角色列表
      *
      * @date  2019/11/16 0016 16:56
      * @return
@@ -125,7 +129,7 @@
 
 
     /**
-     *     table数据--（抽离出来方便重载）
+     * table数据--（抽离出来方便重载）
      *
      * @date  2019/11/16 0016 16:56
      * @return
@@ -191,7 +195,7 @@
     }
 
     /**
-     *   遍历子节点判断--> 选中/ 取消选中
+     * 遍历子节点判断--> 选中/ 取消选中
      * @author ws
      * @mail  1720696548@qq.com
      * @date  2020/4/27 0027 17:14
@@ -218,7 +222,7 @@
     }
 
     /**
-     *    角色选中回调
+     * 角色选中回调
      * @param item 当前选中的角色行数据
      * @date  2019/11/16 0016 19:43
      * @return
@@ -246,7 +250,7 @@
 
 
     /**
-     *   角色选中状态添加 CSS样式
+     * 角色选中状态添加 CSS样式
      * @date  2019/11/16 0016 17:22
      */
     $("body").on("mousedown", ".layui-tree a", function () {
@@ -283,9 +287,11 @@
             roleId: roleId,
             menuIds: menuIds
         };
-        let result = Ajax.put(updRoleMenu , data);
+        let result = Ajax.put(updRoleMenu, data);
         layer.msg(result.msg + " 当前角色拥有菜单：" + checkData.data.length + "个 ")
     }
+
+
 </script>
 </body>
 </html>

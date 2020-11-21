@@ -250,11 +250,11 @@
             showState = true;
         }
         // 关闭当前未选中的其他所有
-        // for (let i = 0; i < len; i++) {
-        //     if (index !== i) {
-        //         $(".twoTitle-" + i).hide(showTime);
-        //     }
-        // }
+        for (let i = 0; i < len; i++) {
+            if (index !== i) {
+                $(".twoTitle-" + i).hide(showTime);
+            }
+        }
         showIndex = index;
     }
 </script>
