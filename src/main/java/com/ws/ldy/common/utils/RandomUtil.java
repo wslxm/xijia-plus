@@ -14,17 +14,17 @@ public class RandomUtil {
     /**
      * 获取指定位数的随机验证码
      * @author wangsong
-    
- * @param digits
+
+     * @param len
      * @date 2020/9/22 0022 18:50
      * @return java.lang.String
      * @version 1.0.0
      */
-    public static String code(Integer digits) {
+    public static String code(Integer len) {
         String code = "";
         Random x = new Random();
-        for (int i = 0; i < digits; i++) {
-            code +=  x.nextInt(10);
+        for (int i = 0; i < len; i++) {
+            code += x.nextInt(10);
         }
         return code;
     }

@@ -2,7 +2,7 @@ package com.ws.ldy.others.base.controller;
 
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
-import com.ws.ldy.common.utils.id.UUIDUtil;
+import com.ws.ldy.common.utils.IdUtil;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
 import io.swagger.annotations.Api;
@@ -102,7 +102,7 @@ public class FileUploadController extends BaseController {
                 throw new ErrorException(10002, "图片仅支持-[jpg,png]");
             }
             //修改fileName的引用
-            fileName = UUIDUtil.creatUUID() + "-" + fileName;
+            fileName = IdUtil.uuid() + "-" + fileName;
             // filePath = filePath.replace(suffixName, "") + UUIDUtil.creatUUID() + "-";
         } else if (UPLOAD_PATH_MUSIC.equals(path[0])) {
             // 音乐

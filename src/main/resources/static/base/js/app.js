@@ -188,14 +188,17 @@ Pop = {
      * @param height 弹出层高
      * @param name   弹出层名
      */
-    tipsWindown: function (url, width, height, name) {
+    tipsWindown: function (url, width, height, name, btn) {
+        if (btn == null) {
+            btn = ['确定', '取消']
+        }
         layui.use('layer', function () {
             layer.open({
                 type: 2,
                 title: [name],
                 area: [width, height],  // area: ["600px", "200px"],
                 content: [url],         //page/menu_addRoot1
-                btn: ['确定', '取消'],
+                btn: btn,
                 closeBtn: 1,
                 anim: 0,       // 打开动画  ,参考：https://www.layui.com/doc/modules/layer.html#anim
                 maxmin: true,  // 开启最大化最小化按钮

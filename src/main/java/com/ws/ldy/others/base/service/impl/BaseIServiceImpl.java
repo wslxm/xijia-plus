@@ -20,10 +20,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 @SuppressWarnings("all")
 @Slf4j
-public class BaseIServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
+public class BaseIServiceImpl<M extends BaseMapper<T>,  T> extends ServiceImpl<M, T> {
 
     /**
-     * baseMapper = 当前继承BaseIServiceImpl类传递的Mapper 类 (提供Api操作，及Mapper.xml自定义sql)
+     * 当前继承this类传递的Mapper 类 (提供Api操作，及Mapper.xml自定义sql)
      */
     @Autowired
     protected M baseMapper;
@@ -38,6 +38,7 @@ public class BaseIServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M,
     @Autowired
     protected RestTemplate restTemplate;
     /**
+     * 数据库操作
      * execute：可以执行所有SQL语句，没有返回值, 一般用于执行DDL语句。
      * update：用于执行INSERT、UPDATE、DELETE等DML语句。
      * queryXxx：用于DQL数据查询语句。

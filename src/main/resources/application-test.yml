@@ -7,7 +7,8 @@ server:
 # DataSource Config
 spring:
   autoconfigure:
-    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure  # 为了某些版本的springboot  @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class}) 无法生效
+    # 为了某些版本的springboot  @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class}) 无法生效
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
   datasource:
     dynamic:
       primary: db1 # 配置默认数据库

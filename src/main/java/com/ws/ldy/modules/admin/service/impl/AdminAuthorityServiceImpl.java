@@ -270,7 +270,10 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     @Override
     public List<AdminAuthorityVO> findByRoleIdAuthorityChecked(String roleId) {
         // 获取当前角色拥有的url权限列表
-        List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, roleId).groupBy(AdminRoleAuth::getAuthId));
+        List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>()
+                .select(AdminRoleAuth::getRoleId, AdminRoleAuth::getAuthId,AdminRoleAuth::getId)
+                .eq(AdminRoleAuth::getRoleId, roleId)
+        );
         List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
         // 获取所有管理端的url,请求方式排序( PC_admin)
         List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
@@ -301,7 +304,10 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     @Override
     public List<AdminAuthorityVO> findByRoleIdAuthorityTreeChecked(String roleId) {
         // 获取当前角色拥有的url权限列表
-        List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, roleId));
+        List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>()
+                .select(AdminRoleAuth::getRoleId, AdminRoleAuth::getAuthId,AdminRoleAuth::getId)
+                .eq(AdminRoleAuth::getRoleId, roleId)
+        );
         List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
         // 获取所有管理端的url,请求方式排序( PC_admin)
         List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()

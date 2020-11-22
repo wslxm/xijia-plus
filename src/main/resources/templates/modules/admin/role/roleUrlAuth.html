@@ -82,6 +82,11 @@
         xijiaRenderTable(res);         // 初始化右边 table 数据
         xijiaEventCheckbox();          // 监听复选框选中
         xijiaSelected();
+
+        /**
+         * 默认加载选择行的资源
+         */
+        xijiaEventRoleClick(parent.data)
     });
 
 

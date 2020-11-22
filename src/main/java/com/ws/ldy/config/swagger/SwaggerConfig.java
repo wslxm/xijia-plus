@@ -31,6 +31,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 
+/***
+  * 接口文档配置信息
+  * @author wangsong
+  * @mail  1720696548@qq.com
+  * @date  2020/11/20 0020 9:06 
+  * @version 1.0.0      
+  */
 @Configuration
 @EnableSwagger2
 @Slf4j
@@ -86,7 +93,7 @@ public class SwaggerConfig {
 
 
     @Bean
-    public Docket yaBeiAdminApi() {
+    public Docket caiPuApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("食谱API")
                 .globalOperationParameters(getGlobalParameter(1))
@@ -132,6 +139,7 @@ public class SwaggerConfig {
      */
     private List<Parameter> getGlobalParameter(Integer type) {
         if (type == 1) {
+            // 管理端默认账号
             ParameterBuilder parameterBuilder = new ParameterBuilder();
             parameterBuilder
                     .name(BaseConstant.Sys.TOKEN) // key
@@ -146,10 +154,11 @@ public class SwaggerConfig {
             parameters.add(parameterBuilder.build());
             return parameters;
         } else if (type == 2) {
+            // 用户端默认账号
             ParameterBuilder parameterBuilder = new ParameterBuilder();
             parameterBuilder
                     .name(BaseConstant.Sys.TOKEN) // key
-                    .scalarExample(null)    //用户端账号 -->     value 默认token值
+                    .scalarExample(null)          // 用户端账号 -->     value 默认token值
                     .description("请求头参数")      // 描叙
                     .modelRef(new ModelRef("string"))
                     .parameterType("header")
@@ -194,6 +203,4 @@ public class SwaggerConfig {
         log.info("管理端账号注入swagger 默认token成功，当前账号为:{} 账号姓名为：{} " + user.getUsername(), user.getFullName());
         return jwtToken;
     }
-
-
 }

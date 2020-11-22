@@ -2,6 +2,8 @@ package com.ws.ldy.config.aspect;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.ws.ldy.XijiaServer;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
@@ -33,16 +35,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
+
 /**
- * 用户操作日志
- *
- * @author wbg
- * @date 2019-11-23 9:49
+ * Controller 请求操作/记录/权鉴
+ * @author wangsong
+ * @mail 1720696548@qq.com
+ * @date 2020/11/15 0015 11:16
+ * @version 1.0.0
  */
 @Slf4j
 @Aspect
 @Component
-public class LogAspect {
+public class SysAspect {
     /**
      * 权限
      */
@@ -58,21 +62,40 @@ public class LogAspect {
      */
     @Autowired
     private GlobalExceptionHandler globalExceptionHandler;
+
     /**
      * 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待
+     * 使用给定的初始*参数创建一个新的{@code ThreadPoolExecutor}。 *
+     *  * @param corePoolSize保留在池中的线​​程数，即使它们是空闲的，除非设置了{@code allowCoreThreadTimeOut}
+     *  * @param maximumPoolSize *池中允许的最大线程数
+     *  * @param keepAliveTime 何时线程数大于内核数，这是多余的空闲线程在终止之前等待新任务的最长时间。
+     *  * @param unit {@code keepAliveTime}参数的时间单位
+     *  * @param work 在执行任务之前将队列用于保存任务。此队列将仅保存由{@code execute}方法提交的{@code Runnable} *任务。
+     *  * @param threadFactory 执行程序创建新线程时要使用的工厂
+     *  * @param 处理程序执行被阻塞时要使用的处理程序
+     *  *因为达到了线程界限和队列容量
+     *  * @throws IllegalArgumentException如果以下条件之一成立：< br>
+     *    * {@code corePoolSize <0} <br>
+     *    * {@code keepAliveTime <0} <br>
+     *    * {@code maximumPoolSize <= 0} <br>
+     *    * {@code maximumPoolSize <corePoolSize} * @如果抛出{ @code workQueue} *或{@code threadFactory}或{@code handler}为空
+     *
      */
-    final ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
+    ExecutorService executorService = new ThreadPoolExecutor(3, 10, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>()
+            , new ThreadFactoryBuilder().setNameFormat("thread-call-runner-%d").build());
 
     /**
      * 不需要记录日志的 uri 集, 静态资源, css, js ,路由等等, 只要uri包含以下定义的内容, 将直接跳过改过滤器
      */
     private static List<String> excludeUriList = new ArrayList<String>() {{
         add("/bootAdmin/instances");  // springbootAdmin监控相关
+        add("/bootAdmin");            //
         add("/actuator");             // 系统监控相关
         add("/druid/");               // sql监控相关
         add("/page/");                // 页面跳转(路由)
         add("/error");                // 模板解析错误
         add("/admin/adminLog/");      // 日志相关
+        add("/swagger-resources/");   // swagger访问
     }};
 
 
@@ -121,51 +144,51 @@ public class LogAspect {
      * @version 1.0.0
      */
     private Object run(ProceedingJoinPoint proceed) throws Throwable {
-
         long startTime1 = System.currentTimeMillis();
         // 获取请求参数
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = sra.getRequest();
         HttpServletResponse response = sra.getResponse();
         String uri = sra.getRequest().getRequestURI();
-        // 排除相关
+        // 1、排除不需要处理的请求
         for (String excludeUri : excludeUriList) {
             if (uri.contains(excludeUri)) {
                 // 直接执行返回
                 return proceed.proceed();
             }
         }
-        // 1、记录请求日志, 将异步执行(与业务代码并行处理),不影响程序响应, future 为线程的返回值，用于后面异步执行响应结果
-//        Future<AdminLog> future = fixedThreadPool.submit(new Callable<AdminLog>() {
-//            @Override
-//            public AdminLog call() {
-//                return log(proceed, sra.getRequest(), sra.getResponse());
-//            }
-//        });
-        AdminLog log = log(proceed, sra.getRequest(), sra.getResponse());
-        // 2、登录授权认证
+        // 2、记录请求日志, 将异步执行(与业务代码并行处理),不影响程序响应, future 为线程的返回值，用于后面异步执行响应结果
+        Future<AdminLog> future = executorService.submit(new Callable<AdminLog>() {
+            @Override
+            public AdminLog call() {
+                // 使用json 序列化进行深拷贝,防止proceed引用被修改
+                // ProceedingJoinPoint proceedingJoinPoint = JSON.parseObject(JSON.toJSONString(proceed), ProceedingJoinPoint.class);
+                return log(proceed, request);
+            }
+        });
+
+        // 3、登录授权认证
         R<JwtUser> jwtUserR = loginAuth(request, response);
-        if (!jwtUserR.getCode().equals(RType.SYS_SUCCESS)) {
-            // 登录认证失败
-            Object obj = jwtUserR;
-            long endTime1 = System.currentTimeMillis();
-            long startTime2 = System.currentTimeMillis();
-            this.updLog(log, 1, (endTime1 - startTime1), (endTime1 - startTime2), obj);
+        if (!jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+            this.updLog(future, 0, (System.currentTimeMillis() - startTime1), 0L, uri, jwtUserR);
+            return jwtUserR;
         }
+
+        // 4、调用业务方法并记录执行时间
         long startTime2 = System.currentTimeMillis();
         Object obj = null;
         try {
-            // 3、调用业务方法
             obj = proceed.proceed();
         } catch (Exception e) {
             // 业务代码异常, 这里try后, 全局异常将不生效，在直接主动调用(如果没有try exceptionHandler在异常时会自动进行拦截,在这里拦截主要是记录响应结果信息)
-            R<String> errorDataR = globalExceptionHandler.exceptionHandler(e);
-            obj = errorDataR;
+            obj = globalExceptionHandler.exceptionHandler(e);
         }
+
+        // 5、记录响应结果和记录响应时间(state=1-成功,等待请求线程执行完毕立即执行)
         long endTime1 = System.currentTimeMillis();
-        // 4、记录响应结果(state=1-成功，将异步执行,不影响程序响应)
-        this.updLog(log, 1, (endTime1 - startTime1), (endTime1 - startTime2), obj);
-        // 5、返回结果
+        this.updLog(future, 1, (endTime1 - startTime1), (endTime1 - startTime2), uri, obj);
+
+        // 6、返回结果
         return obj;
     }
 
@@ -180,7 +203,7 @@ public class LogAspect {
      * @date 2020/10/28 0028 15:04
      * @version 1.0.0
      */
-    private synchronized AdminLog log(ProceedingJoinPoint proceed, HttpServletRequest request, HttpServletResponse response) {
+    private AdminLog log(ProceedingJoinPoint proceed, HttpServletRequest request) {
         // 获取域名(服务器路径)
         String serverName = request.getServerName();
         // 请求来源(发起者当前页面路径)
@@ -215,7 +238,6 @@ public class LogAspect {
             classDesc = classAnnotation.tags().length > 0 ? classAnnotation.tags()[0] : classAnnotation.value();
         }
         Object[] args = proceed.getArgs(); // uri ： 接口  包： packageName,  请求类： 接口+类描叙+接口描叙
-        printLog(ip, host, port, className, url, args, classDesc, methodDesc);
         // 记录到数据库
         AdminLog log = new AdminLog();
         // 记录用户信息
@@ -242,6 +264,8 @@ public class LogAspect {
         log.setResponseData(null);     // 返回数据
         log.setState(0);               // 默认失败
         adminLogService.save(log);
+        // 打印请求日志
+        printLog(ip, host, port, className, url, args, classDesc, methodDesc);
         return log;
     }
 
@@ -258,45 +282,43 @@ public class LogAspect {
      * @date 2020/10/28 0028 20:03
      * @version 1.0.0
      */
-    //   private void updLog(Future<AdminLog> future, Integer state, Long executeTime, Long businessTime, String uri, Object obj) {
-    private void updLog(AdminLog log, Integer state, Long executeTime, Long businessTime, Object obj) {
-//        fixedThreadPool.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                long time = System.currentTimeMillis();
-//                while (true) {
-//                    // 如果没有回来，避免死循环
-//                    if ((System.currentTimeMillis() - time) > 15000) {
-//                        System.err.println("注意：程序在15秒内没有正常执行完毕, 日志记录失败, 请求uri = " + uri);
-//                        break;
-//                    }
-//                    // 判断记录请求日志是否记录完成(true=完成)
-//                    if (future.isDone()) {
-        //======================== 请求已记录完成，开始记录响应 ============================
-        // 避免记录到其他请求的数据
-//        AdminLog log = null;
-        String data = "";
-        try {
-            // log = future.get();
-            data = JSON.toJSONString(obj);
-        } catch (Exception e) {
-            data = "无法解析";
+    private void updLog(Future<AdminLog> future, Integer state, Long executeTime, Long businessTime, String uri, Object obj) {
+        long time = System.currentTimeMillis();
+        while (true) {
+            // 如果没有回来，避免死循环
+            if ((System.currentTimeMillis() - time) > 5000) {
+                log.info("注意：程序在5秒内没有正常执行完毕, 日志记录失败, 请求uri = " + uri);
+                break;
+            }
+            // 判断记录请求日志是否记录完成(true=完成)
+            if (future.isDone()) {
+                AdminLog logs = null;
+                String data = "";
+                try {
+                    logs = future.get();
+                    data = JSON.toJSONString(obj);
+                } catch (InterruptedException | ExecutionException e) {
+                    log.info("future.get() 获取数据失败： " + uri);
+                    break;
+                } catch (Exception e) {
+                    data = "无法解析";
+                }
+                // 记录返回数据
+                if (logs != null) {
+                    adminLogService.update(new LambdaUpdateWrapper<AdminLog>()
+                            .set(AdminLog::getExecuteTime, executeTime)
+                            .set(AdminLog::getBusinessTime, businessTime)
+                            .set(AdminLog::getState, state)
+                            .set(AdminLog::getResponseData, data)
+                            .eq(AdminLog::getId, logs.getId())
+                    );
+                } else {
+                    log.info("注意： 日志记录失败,logs=null, 请求uri = " + uri);
+                }
+                // System.out.println(logs.getClassDesc() + logs.getUrl() + "  --> " + data);
+                break;
+            }
         }
-        // log.info("状态：{} ,返回数据：{} ", state, obj);
-        // 记录返回数据
-        adminLogService.update(new LambdaUpdateWrapper<AdminLog>()
-                .set(AdminLog::getExecuteTime, executeTime)
-                .set(AdminLog::getBusinessTime, businessTime)
-                .set(AdminLog::getState, state)
-                .set(AdminLog::getResponseData, data)
-                .eq(AdminLog::getId, log.getId())
-        );
-        //======================== 响应记录完成 ============================
-//                        break;
-//                    }
-//                }
-//            }
-//        });
     }
 
 
@@ -362,6 +384,10 @@ public class LogAspect {
 
     /**
      * 日志中记录用户信息
+     * <p>
+     *  1、 从 JwtUtil 中获取用户信息
+     *  2、 把用户信息放入log并返回，如果没有用户信息则用户名为： ╥﹏╥ ，用户id为：0
+     * <p/>
      * @return
      */
     private AdminLog setJwtUser(HttpServletRequest request, AdminLog log) {
@@ -460,6 +486,5 @@ public class LogAspect {
         }
         return R.success(null);
     }
-
 }
 
