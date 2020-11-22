@@ -235,8 +235,8 @@ public class CreatrQrCode {
             // 生成带logo + text的文件
             FileOutputStream out = new FileOutputStream(outfile);
             ImageIO.write(image, "JPEG", out);
-            JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-            encoder.encode(image);
+            // JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
+            // encoder.encode(image);
             out.close();
             System.out.println("image press success");
         } catch (Exception e) {

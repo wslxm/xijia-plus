@@ -1,9 +1,9 @@
 package com.ws.ldy.others.generatecode.service.impl;
 
-import com.ws.ldy.others.generatecode.mapper.XjDatasourceMapper;
-import com.ws.ldy.others.generatecode.model.entity.XjDatasource;
-import com.ws.ldy.others.generatecode.service.XjDatasourceService;
+import com.ws.ldy.others.generatecode.mapper.AdminDatasourceMapper;
+import com.ws.ldy.others.generatecode.model.entity.AdminDatasource;
 import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
+import com.ws.ldy.others.generatecode.service.AdminDatasourceService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @date  2020-11-04 20:11:08
  */
 @Service
-public class XjDatasourceServiceImpl extends BaseIServiceImpl<XjDatasourceMapper, XjDatasource> implements XjDatasourceService {
+public class AdminDatasourceServiceImpl extends BaseIServiceImpl<AdminDatasourceMapper, AdminDatasource> implements AdminDatasourceService {
 
 
 }

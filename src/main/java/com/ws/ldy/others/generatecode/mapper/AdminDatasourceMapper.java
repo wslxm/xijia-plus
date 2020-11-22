@@ -1,7 +1,7 @@
-package com.ws.ldy.others.generatecode.service;
+package com.ws.ldy.others.generatecode.mapper;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.ws.ldy.others.generatecode.model.entity.XjDatasource;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ws.ldy.others.generatecode.model.entity.AdminDatasource;
 
 /**
  * 代码生成数据源维护表
@@ -12,7 +12,7 @@ import com.ws.ldy.others.generatecode.model.entity.XjDatasource;
  * @email  1720696548@qq.com
  * @date  2020-11-04 20:11:08
  */
-public interface XjDatasourceService extends IService<XjDatasource> {
+public interface AdminDatasourceMapper extends BaseMapper<AdminDatasource> {
 
 }
 

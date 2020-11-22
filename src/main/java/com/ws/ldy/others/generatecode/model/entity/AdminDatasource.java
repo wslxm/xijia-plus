@@ -19,9 +19,9 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
-@TableName("t_xj_datasource")
-@ApiModel(value = "XjDatasource 对象", description = "代码生成数据源维护表")
-public class XjDatasource extends BaseEntity {
+@TableName("t_admin_datasource")
+@ApiModel(value = "AdminDatasource 对象", description = "代码生成数据源维护表")
+public class AdminDatasource extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
     

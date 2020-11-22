@@ -67,13 +67,13 @@
 <script>
 
     // 接口
-    let xjDatasourceFindPage = path + "/xj/xjDatasource/findPage";        //查询-分页
-    let xjDatasourceDel = path + "/xj/xjDatasource/del";                  //删除
-    let xjDatasourceUpdPwd = path + "/xj/xjDatasource/updPwd";               //修改密码
+    let adminDatasourceFindPage = path + "/admin/adminDatasource/findPage";        //查询-分页
+    let adminDatasourceDel = path + "/admin/adminDatasource/del";                  //删除
+    let adminDatasourceUpdPwd = path + "/admin/adminDatasource/updPwd";               //修改密码
 
     // 路由
-    let xjDatasourcePageAdd =  "/page/others_generatecode_xjDatasource_xjDatasourceAdd";   //添加弹出
-    let xjDatasourcePageUpd =  "/page/others_generatecode_xjDatasource_xjDatasourceUpd";   //编辑弹出
+    let adminDatasourcePageAdd =  "/page/others_generatecode_datasource_datasourceAdd";   //添加弹出
+    let adminDatasourcePageUpd =  "/page/others_generatecode_datasource_datasourceUpd";   //编辑弹出
 
     let table;     // 数据表格组件
     let laypage;   // 分页组件
@@ -98,7 +98,7 @@
      *
      */
     function xijiaRenderTable(params) {
-        res = Ajax.get(xjDatasourceFindPage + getPage() + xijiaSearchParam());
+        res = Ajax.get(adminDatasourceFindPage + getPage() + xijiaSearchParam());
         table.render({
             elem: '#auth-table'
             , data: res.data.records
@@ -168,7 +168,7 @@
         table.on('toolbar(auth-table)', function (obj) {
             //添加
             if (obj.event === "add") {
-                Pop.tipsWindown(xjDatasourcePageAdd,  "80%", "80%", "添加");
+                Pop.tipsWindown(adminDatasourcePageAdd,  "80%", "80%", "添加");
             }
         });
     }
@@ -186,12 +186,12 @@
             data = obj.data;  //当前行数据
             //编辑
             if (obj.event === 'edit') {
-                Pop.tipsWindown(xjDatasourcePageUpd, "80%", "80%", "修改");
+                Pop.tipsWindown(adminDatasourcePageUpd, "80%", "80%", "修改");
             }
             //删除
             if (obj.event === 'del') {
                 let params = "?id=" + data.id;
-                Pop.tipsDeleteId(xjDatasourceDel + params, obj);
+                Pop.tipsDeleteId(adminDatasourceDel + params, obj);
             }
             //   重置密码
             if (obj.event === 'resetPassword') {
@@ -204,7 +204,7 @@
                 }, function (value, index, elem) {
                     let params = "?id=" + data.id;
                     params += "&password=" + value;
-                    let result = Ajax.put(xjDatasourceUpdPwd + params);
+                    let result = Ajax.put(adminDatasourceUpdPwd + params);
                     layer.msg(result.msg);
                     layer.close(index);
                 });
