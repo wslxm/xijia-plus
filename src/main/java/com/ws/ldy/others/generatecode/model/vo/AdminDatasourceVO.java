@@ -1,19 +1,14 @@
-package com.ws.ldy.others.generatecode.model.dto;
+package com.ws.ldy.others.generatecode.model.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ws.ldy.others.base.model.BaseDto;
+import com.ws.ldy.others.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
-
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -29,8 +24,8 @@ import java.time.LocalDateTime;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "XjDatasourceDTO 对象", description = "代码生成数据源维护表")
-public class XjDatasourceDTO extends BaseDto {
+@ApiModel(value = "AdminDatasourceVO 对象", description = "代码生成数据源维护表")
+public class AdminDatasourceVO extends BaseVo {
 
     private static final long serialVersionUID = 0L;
     
@@ -38,26 +33,22 @@ public class XjDatasourceDTO extends BaseDto {
     private String dbTitle;
 
     @ApiModelProperty(notes = "数据库名" ,position = 1)
-    @Length(min=1, max=64,message = "数据库名 必须小于64位")
     private String dbName;
 
     @ApiModelProperty(notes = "数据库连接" ,position = 2)
-    @Length(min=1, max=256,message = "数据库连接 必须小于256位")
     private String dbUrl;
 
     @ApiModelProperty(notes = "数据库账号" ,position = 3)
-    @Length(min=1, max=32,message = "数据库账号 必须小于32位")
     private String dbUsername;
 
-    @ApiModelProperty(notes = "数据库密码" ,position = 4)
-    @Length(min=1, max=32,message = "数据库密码 必须小于32位")
-    private String dbPassword;
+//    @ApiModelProperty(notes = "数据库密码" ,position = 4)
+//    private String dbPassword;
 
     @ApiModelProperty(notes = "数据表前缀" ,position = 5)
     private String dbPrefix;
 
     @ApiModelProperty(notes = "数据字段前缀" ,position = 5)
-    private String dbFieldPrefix;
+    private String  dbFieldPrefix;
 
     @ApiModelProperty(notes = "数据库通用字段,逗号分隔" ,position = 6)
     private String dbGeneralField;

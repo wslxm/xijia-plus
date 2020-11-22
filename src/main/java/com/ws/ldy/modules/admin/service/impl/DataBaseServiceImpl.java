@@ -1,13 +1,13 @@
 package com.ws.ldy.modules.admin.service.impl;
 
-import com.ws.ldy.others.generatecode.model.entity.XjDatasource;
-import com.ws.ldy.others.generatecode.service.XjDatasourceService;
 import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.others.generatecode.config.GenerateConfig;
 import com.ws.ldy.others.generatecode.jdbc.JDBCPool;
 import com.ws.ldy.others.generatecode.mapper.DataBaseMapper;
+import com.ws.ldy.others.generatecode.model.entity.AdminDatasource;
 import com.ws.ldy.others.generatecode.model.vo.TableFieldVO;
 import com.ws.ldy.others.generatecode.model.vo.TableVO;
+import com.ws.ldy.others.generatecode.service.AdminDatasourceService;
 import com.ws.ldy.others.generatecode.service.DataBaseService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
     private DataBaseMapper dataBaseMapper;
 
     @Autowired
-    private XjDatasourceService xjDatasourceService;
+    private AdminDatasourceService adminDatasourceService;
 
     @Override
     public List<TableVO> findTable(String dataSourceId) {
@@ -74,7 +74,7 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
      * @version 1.0.0
      */
     private List<TableVO> findJdbcTable(String dataSourceId) {
-        XjDatasource datasource = xjDatasourceService.getById(dataSourceId);
+        AdminDatasource datasource = adminDatasourceService.getById(dataSourceId);
         // 1、判断使用默认数据源还是动态数据源来获取数据库名称
         String dbName = "";
         if (StringUtils.isBlank(dataSourceId)) {
@@ -123,7 +123,7 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
      * @date 2019/11/20 10:41
      */
     private List<TableFieldVO> findJdbcTableField(String table, String dataSourceId) {
-        XjDatasource datasource = xjDatasourceService.getById(dataSourceId);
+        AdminDatasource datasource = adminDatasourceService.getById(dataSourceId);
         // 1、判断使用默认数据源还是动态数据源来获取数据库名称
         String dbName = "";
         if (StringUtils.isBlank(dataSourceId)) {
@@ -176,7 +176,7 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
         //
         if (datasource != null && StringUtils.isNotBlank(datasource.getDbGeneralField())) {
             // 使用数据源配置的通用字段 (当使用了其他数据源和配置了通用字段时使用)
-            List<String> fields = Arrays.asList( datasource.getDbGeneralField().split(","));
+            List<String> fields = Arrays.asList(datasource.getDbGeneralField().split(","));
             for (TableFieldVO tableFieldVO : vos) {
                 // 判断是否为通用字段
                 if (fields.contains(tableFieldVO.getName())) {

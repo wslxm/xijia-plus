@@ -1,7 +1,5 @@
 package com.ws.ldy.others.generatecode.config;
 
-import com.ws.ldy.others.generatecode.model.entity.XjDatasource;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;

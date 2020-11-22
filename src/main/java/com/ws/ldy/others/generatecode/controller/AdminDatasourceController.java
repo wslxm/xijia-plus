@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.others.generatecode.jdbc.JDBCPool;
+import com.ws.ldy.others.generatecode.service.AdminDatasourceService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.ws.ldy.enums.BaseConstant;
@@ -13,10 +14,10 @@ import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
 import com.ws.ldy.config.error.ErrorException;
 
-import com.ws.ldy.others.generatecode.model.entity.XjDatasource;
-import com.ws.ldy.others.generatecode.model.vo.XjDatasourceVO;
-import com.ws.ldy.others.generatecode.model.dto.XjDatasourceDTO;
-import com.ws.ldy.others.generatecode.service.XjDatasourceService;
+import com.ws.ldy.others.generatecode.model.entity.AdminDatasource;
+import com.ws.ldy.others.generatecode.model.vo.AdminDatasourceVO;
+import com.ws.ldy.others.generatecode.model.dto.AdminDatasourceDTO;
+import com.ws.ldy.others.generatecode.service.AdminDatasourceService;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
@@ -37,9 +38,9 @@ import java.util.List;
  * @date 2020-11-04 20:11:08
  */
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/xj/xjDatasource")
-@Api(value = "XjDatasourceController", tags = "代码生成数据源维护表", consumes = BaseConstant.InterfaceType.PC_ADMIN)
-public class XjDatasourceController extends BaseController<XjDatasourceService> {
+@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/admin/adminDatasource")
+@Api(value = "AdminDatasourceController", tags = "代码生成数据源维护表", consumes = BaseConstant.InterfaceType.PC_ADMIN)
+public class AdminDatasourceController extends BaseController<AdminDatasourceService> {
 
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
@@ -51,53 +52,53 @@ public class XjDatasourceController extends BaseController<XjDatasourceService> 
             @ApiImplicitParam(name = "dbName", value = "数据库名", required = false, paramType = "query", example = ""),
 
     })
-    public R<IPage<XjDatasourceVO>> findPage(
+    public R<IPage<AdminDatasourceVO>> findPage(
             @RequestParam(required = false) String dbTitle,
             @RequestParam(required = false) String dbName
     ) {
-        Page<XjDatasource> page = baseService.page(this.getPage(), new LambdaQueryWrapper<XjDatasource>()
-                .orderByDesc(XjDatasource::getCreateTime)
-                .like(StringUtils.isNotBlank(dbTitle), XjDatasource::getDbTitle, dbTitle)
-                .like(StringUtils.isNotBlank(dbName), XjDatasource::getDbName, dbName)
+        Page<AdminDatasource> page = baseService.page(this.getPage(), new LambdaQueryWrapper<AdminDatasource>()
+                .orderByDesc(AdminDatasource::getCreateTime)
+                .like(StringUtils.isNotBlank(dbTitle), AdminDatasource::getDbTitle, dbTitle)
+                .like(StringUtils.isNotBlank(dbName), AdminDatasource::getDbName, dbName)
 
         );
-        return R.successFind(BeanDtoVoUtil.pageVo(page, XjDatasourceVO.class));
+        return R.successFind(BeanDtoVoUtil.pageVo(page, AdminDatasourceVO.class));
     }
 
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     @ApiOperation(value = "列表查询", notes = "")
-    public R<List<XjDatasourceVO>> findList(
+    public R<List<AdminDatasourceVO>> findList(
             @RequestParam(required = false) String dbName
     ) {
-        List<XjDatasource> list = baseService.list(new LambdaQueryWrapper<XjDatasource>()
-                .orderByDesc(XjDatasource::getCreateTime)
-                .eq(StringUtils.isNotBlank(dbName), XjDatasource::getDbName, dbName)
+        List<AdminDatasource> list = baseService.list(new LambdaQueryWrapper<AdminDatasource>()
+                .orderByDesc(AdminDatasource::getCreateTime)
+                .eq(StringUtils.isNotBlank(dbName), AdminDatasource::getDbName, dbName)
         );
-        return R.successFind(BeanDtoVoUtil.listVo(list, XjDatasourceVO.class));
+        return R.successFind(BeanDtoVoUtil.listVo(list, AdminDatasourceVO.class));
     }
 
 
     @RequestMapping(value = "/findId", method = RequestMethod.GET)
     @ApiOperation(value = "ID查询", notes = "")
-    public R<XjDatasourceVO> findId(@RequestParam String id) {
-        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(id), XjDatasourceVO.class));
+    public R<AdminDatasourceVO> findId(@RequestParam String id) {
+        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(id), AdminDatasourceVO.class));
     }
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "添加", notes = "必须不传递ID")
-    public R<Boolean> insert(@RequestBody @Validated XjDatasourceDTO dto) {
+    public R<Boolean> insert(@RequestBody @Validated AdminDatasourceDTO dto) {
         if (StringUtils.isNotBlank(dto.getId())) {
             throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
         }
-        XjDatasource xjDatasource = dto.convert(XjDatasource.class);
+        AdminDatasource xjDatasource = dto.convert(AdminDatasource.class);
         return R.successInsert(baseService.save(xjDatasource));
     }
 
 
     @RequestMapping(value = "/dataSourceTest", method = RequestMethod.POST)
     @ApiOperation("数据源连接测试")
-    public R<Boolean> dataSourceTest(@RequestBody @Validated XjDatasourceDTO dto) {
+    public R<Boolean> dataSourceTest(@RequestBody @Validated AdminDatasourceDTO dto) {
         // 主要没报错, 表示连接成功
         JDBCPool.getConn(dto.getDbUrl(), dto.getDbUsername(), dto.getDbPassword());
         return R.success(true);
@@ -106,20 +107,20 @@ public class XjDatasourceController extends BaseController<XjDatasourceService> 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "ID编辑", notes = "必须传递ID")
-    public R<Boolean> upd(@RequestBody @Validated XjDatasourceDTO dto) {
+    public R<Boolean> upd(@RequestBody @Validated AdminDatasourceDTO dto) {
         if (StringUtils.isBlank(dto.getId())) {
             throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
         }
-        return R.successUpdate(baseService.updateById(dto.convert(XjDatasource.class)));
+        return R.successUpdate(baseService.updateById(dto.convert(AdminDatasource.class)));
     }
 
 
     @RequestMapping(value = "/updPwd", method = RequestMethod.PUT)
     @ApiOperation(value = "修改/重置密码", notes = "")
     public R<Boolean> updDbPwd(@RequestParam String id, @RequestParam String password) {
-        return R.successUpdate(baseService.update(new LambdaUpdateWrapper<XjDatasource>()
-                .set(XjDatasource::getDbPassword, password)
-                .eq(XjDatasource::getId, id))
+        return R.successUpdate(baseService.update(new LambdaUpdateWrapper<AdminDatasource>()
+                .set(AdminDatasource::getDbPassword, password)
+                .eq(AdminDatasource::getId, id))
         );
     }
 
