@@ -37,7 +37,7 @@ wx:
 aliyun:
   oss:
     # oss访问地址  外网-> oss-cn-shenzhen.aliyuncs.com   内网-> oss-cn-shenzhen-internal.aliyuncs.com
-    endpoint: oss-cn-shenzhen-internal.aliyuncs.com
+    endpoint: oss-cn-shenzhen.aliyuncs.com
     # 阿里云下oss 的 accessKeyId和accessKeySecret(访问密钥，您可以在控制台上创建和查看)
     accessKeyId: LTAI4Fyfy2DTf4yUrvKqHwH4
     accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8
@@ -52,7 +52,7 @@ zuul:
       id: aliOss
       path: /oss/**
       stripPrefix: false
-      url: http://xijia-sz.oss-cn-shenzhen.aliyuncs-internal.com
+      url: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
 
 ## logback日志输出
 logging:

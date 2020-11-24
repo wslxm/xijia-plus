@@ -224,8 +224,12 @@ public class AliOssController extends BaseController {
         } else {
             throw new ErrorException(10002, "路径错误");
         }
-        //去除空格和逗号
-        fileName = fileName.replaceAll(" ", "").replace(",", "");
+        //去除+空格+逗号，括号统一转为*, editor 编辑器无法解析括号
+        fileName = fileName
+                .replaceAll(" ", "")
+                .replace(",", "")
+                .replaceAll("\\(", "*")
+                .replaceAll("\\)", "*");
         return fileName;
     }
 }
