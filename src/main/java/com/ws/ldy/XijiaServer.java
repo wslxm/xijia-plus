@@ -1,15 +1,12 @@
 package com.ws.ldy;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
-import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
-import org.springframework.web.reactive.config.ResourceHandlerRegistry;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 /**
@@ -32,5 +29,4 @@ public class XijiaServer {
     public static void main(String[] args) {
         SpringApplication.run(XijiaServer.class, args);
     }
-
 }

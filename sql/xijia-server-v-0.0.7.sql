@@ -292,12 +292,6 @@ CREATE TABLE `t_admin_datasource`  (
 -- ----------------------------
 -- Records of t_admin_datasource
 -- ----------------------------
-INSERT INTO `t_admin_datasource` VALUES ('1323947589577543681', NULL, NULL, '2020-11-04 19:17:56', '2020-11-05 10:23:22', 0, 0, 'office-live本地', 'db_workspace', '127.0.0.1:3306', 'root', '123456', 't_', NULL, '1', '1', '1', '1');
-INSERT INTO `t_admin_datasource` VALUES ('1323976096584159234', NULL, NULL, '2020-11-04 21:11:14', '2020-11-04 21:11:14', 0, 0, '牙贝', 'yabei', 'rm-bp1b88uc0hxk5wgv0co.mysql.rds.aliyuncs.com', 'lpzs_test', 'Lplb_zslp@123@$#%_lp_lb_20200826', '0', NULL, '0', '0', '0', '0');
-INSERT INTO `t_admin_datasource` VALUES ('1324175783157157889', NULL, NULL, '2020-11-05 10:24:43', '2020-11-05 10:25:38', 0, 0, 'office[个人库]', 'office-live', 'xijia.plus', 'root', 'root123456', 'tab_', NULL, '.', '.', '.', '.');
-INSERT INTO `t_admin_datasource` VALUES ('1324261703885643778', NULL, NULL, '2020-11-05 16:06:08', '2020-11-05 22:46:25', 1, 0, '1514365', '2434', '4324', '42', '1234567', '1', NULL, '1', '1', '1', '1');
-INSERT INTO `t_admin_datasource` VALUES ('1324375557852438530', NULL, NULL, '2020-11-05 23:38:33', '2020-11-06 21:49:58', 0, 0, 'xijia测试', 'spring-boot-plus2', 'xijia.plus', 'root', 'root123456', 't_admin_', '', '', '', '', '');
-INSERT INTO `t_admin_datasource` VALUES ('1324692080873701377', NULL, NULL, '2020-11-06 20:36:18', '2020-11-06 21:32:48', 0, 0, 'office-live-160', 'db_workspace', 'rm-bp1b88uc0hxk5wgv0co.mysql.rds.aliyuncs.com', 'lpzs_test', 'Lplb_zslp@123@$#%_lp_lb_20200826', 'tab_', 'COL_', 'COL_ID,COL_CREATE_TIME,COL_MODIFY_TIME,COL_CREATE_UUID,COL_MODIFY_UUID,COL_RECORD_STATUS,COL_VERSION,COL_UUID', '', '', '');
 
 -- ----------------------------
 -- Table structure for t_admin_dictionary
