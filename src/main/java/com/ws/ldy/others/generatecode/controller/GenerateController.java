@@ -83,10 +83,10 @@ public class GenerateController extends BaseController<GenerationSeviceImpl> {
         generationSeviceImpl.buildServiceImpl(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_SERVICE_IMPL);  // 生成serviceImpl
         generationSeviceImpl.buildMapper(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_MAPPER);                   // 生成dao
         generationSeviceImpl.buildMapperXml(dataList, GenerateConfig.BASE_PATH_XML_YL + GenerateConfig.PATH_MAPPER);
-//        // html
-//        generationSeviceImpl.buildMainHtml(dataList, GenerateConfig.BASE_PATH_HTML_YL + DsField.TABLE_NAME_LOWER + "/");
-//        generationSeviceImpl.buildAddHtml(dataList, GenerateConfig.BASE_PATH_HTML_YL + DsField.TABLE_NAME_LOWER + "/");
-//        generationSeviceImpl.buildUpdHtml(dataList, GenerateConfig.BASE_PATH_HTML_YL + DsField.TABLE_NAME_LOWER + "/");
+        // // html
+        // generationSeviceImpl.buildMainHtml(dataList, GenerateConfig.BASE_PATH_HTML_YL + DsField.TABLE_NAME_LOWER + "/");
+        // generationSeviceImpl.buildAddHtml(dataList, GenerateConfig.BASE_PATH_HTML_YL + DsField.TABLE_NAME_LOWER + "/");
+        // generationSeviceImpl.buildUpdHtml(dataList, GenerateConfig.BASE_PATH_HTML_YL + DsField.TABLE_NAME_LOWER + "/");
         generationSeviceImpl.buildMainHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + DsField.TABLE_NAME_LOWER + "/");
         generationSeviceImpl.buildAddHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + DsField.TABLE_NAME_LOWER + "/");
         generationSeviceImpl.buildUpdHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + DsField.TABLE_NAME_LOWER + "/");
@@ -144,10 +144,10 @@ public class GenerateController extends BaseController<GenerationSeviceImpl> {
         generationSeviceImpl.buildUpdHtml(dataList, GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/");
 
         // 额外生成html 的txt文件预览，html会被渲染成页面
-//        GenerateConfig.SUFFIX_HTML = GenerateConfig.SUFFIX_TXT;
-//        generationSeviceImpl.buildMainHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT + DsField.TABLE_NAME_LOWER + "/");
-//        generationSeviceImpl.buildAddHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT + DsField.TABLE_NAME_LOWER + "/");
-//        generationSeviceImpl.buildUpdHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT + DsField.TABLE_NAME_LOWER + "/");
+        // GenerateConfig.SUFFIX_HTML = GenerateConfig.SUFFIX_TXT;
+        // generationSeviceImpl.buildMainHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT + DsField.TABLE_NAME_LOWER + "/");
+        // generationSeviceImpl.buildAddHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT + DsField.TABLE_NAME_LOWER + "/");
+        // generationSeviceImpl.buildUpdHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT + DsField.TABLE_NAME_LOWER + "/");
         System.err.println("代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/" + GenerateConfig.PACK_PATH_ZP + "_" + GenerateConfig.MODULE_NAME + "_" + DsField.TABLE_NAME_LOWER + "_" + DsField.TABLE_NAME_LOWER);
 
         return R.success(GenerationSeviceImpl.pathMap);

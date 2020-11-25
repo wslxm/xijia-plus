@@ -141,7 +141,7 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
                 " column_type typeDetail," +
                 " is_nullable as isNull," +
                 " column_default as defaultVal " +
-                " from  information_schema.columns " +
+                " from information_schema.columns " +
                 " where " +
                 " table_name = '" + table + "'" +
                 " and table_schema= '" + dbName + "'" +
@@ -165,6 +165,7 @@ public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseSer
                 vo.setType(rs.getString("type"));
                 vo.setDesc(rs.getString("desc"));
                 vo.setTypeDetail(rs.getString("typeDetail"));
+                vo.setDefaultVal(rs.getString("defaultVal"));
                 vo.setIsNull(rs.getString("isNull"));
                 vos.add(vo);
             }
