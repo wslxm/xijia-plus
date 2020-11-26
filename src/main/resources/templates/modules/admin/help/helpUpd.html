@@ -46,29 +46,21 @@
 <script src="/components/editor/imgCopyPull2.js"></script>
 
 <script>
-    var form;
+
+    var helpFindId = path + "/admin/adminHelp/findId?id=";
+    var data;
+
     layui.use(['form'], function () {
-        form = layui.form;
-        // 监听提交
-        form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            data.field.id = parent.data.id;
-            data.field.content = myEditor.getMarkdown();
-            let result = Ajax.put(path + "/admin/adminHelp/upd", data.field);
-            let index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-            parent.layer.msg(result.msg);
-            //重载表格
-            parent.xijiaRenderTable();
-        });
+        let form = layui.form;
         //初始化数据
-        init();
+        init(form);
     });
 
 
     //注意1：这里的就是上面的DIV的id属性值
     var myEditor = editormd("L_content", {
-        width: "90%",
-        height: 640,
+        width: "96%",
+        height: "640",
         syncScrolling: "single",
         path: "/components/editor/lib/",// 资源路径
         // 自定义的增强配置！
@@ -103,50 +95,60 @@
         toolbarHandlers: {
             releaseIcon: function (cm, icon, cursor, selection) {
                 //表单提交
-                let data = {
-                    id: parent.data.id,
-                    content: $("#L_content").val(),
+                let reqData = {
+                    id: data.id,
+                    content: myEditor.getMarkdown(),
                     title: $("#title").val(),
                     category: $("#category").val(),
                     helpVersion: $("#helpVersion").val(),
                     sort: $("#sort").val(),
                 };
-                let result = Ajax.put(path + "/admin/adminHelp/upd", data);
-                let index = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(index);
-                parent.layer.msg(result.msg);
-                //重载表格
-                parent.xijiaRenderTable();
+                let result = Ajax.put(path + "/admin/adminHelp/upd", reqData);
+                layer.msg(result.msg);
             },
         }
     });
 
 
-    function init() {
-        $('#L_content textarea').val(parent.data.content);
+    function init(form) {
+        let id = getUrlParam("id");
+        data = Ajax.get(helpFindId + id).data;
+
+        $('#L_content textarea').val(data.content);
         // 使用editor的方法添加数据到鼠标光表位置
         // let cm = myEditor.cm;
         // cm.replaceSelection(value);
 
-        $('#title').val(parent.data.title);
-        $('#sort').val(parent.data.sort);
+        $('#title').val(data.title);
+        $('#sort').val(data.sort);
         // select 字典数据
         $("#category").html(Dict.getDictSelect(Enums.Admin.HelpCategory));        // 是否跳转  不带默认值
         $("#helpVersion").html(Dict.getDictSelect(Enums.Admin.HelpVersion));      // 位置
         // select 回显
         $("#category").find("option").each(function () {
-            if ($(this).val() == parent.data.category) {
+            if ($(this).val() == data.category) {
                 $(this).attr("selected", "selected");
             }
         });
         $("#helpVersion").find("option").each(function () {
-            if ($(this).val() == parent.data.helpVersion) {
+            if ($(this).val() == data.helpVersion) {
                 $(this).attr("selected", "selected");
             }
         });
         // 刷新,否则select可能不生效
         form.render();
     }
+
+
+    //方法一：
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]);
+        return null; //返回参数值
+    }
+
 </script>
 </body>
 </html>

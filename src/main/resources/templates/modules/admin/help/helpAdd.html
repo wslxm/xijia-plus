@@ -46,25 +46,19 @@
 <script src="/components/editor/imgCopyPull2.js"></script>
 
 <script>
-    var form;
+
     layui.use(['form'], function () {
-        form = layui.form;
-        // 监听提交
-        form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            data.field.content = myEditor.getMarkdown();
-            let result = Ajax.post(path + "/admin/adminHelp/insert", data.field);
-            let index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-            parent.layer.msg(result.msg);
-            //重载表格
-            parent.xijiaRenderTable();
-        });
-        init();
+        let form = layui.form;
+        // select 字典数据
+        $("#category").html(Dict.getDictSelect(Enums.Admin.HelpCategory));        // 是否跳转  不带默认值
+        $("#helpVersion").html(Dict.getDictSelect(Enums.Admin.HelpVersion));      // 位置
+        // 刷新,否则select可能不生效
+        form.render();
     });
 
 
     //注意1：这里的就是上面的DIV的id属性值
-    var myEditor = editormd("L_content", {
+    let myEditor = editormd("L_content", {
         width: "90%",
         height: 640,
         syncScrolling: "single",
@@ -102,30 +96,17 @@
             releaseIcon: function (cm, icon, cursor, selection) {
                 //表单提交
                 let data = {
-                    content: $("#L_content").val(),
+                    content: myEditor.getMarkdown(), // $("#L_content").val(),
                     title: $("#title").val(),
                     category: $("#category").val(),
                     helpVersion: $("#helpVersion").val(),
                     sort: $("#sort").val(),
                 };
-                let result = Ajax.put(path + "/admin/adminHelp/insert", data);
-                let index = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(index);
-                parent.layer.msg(result.msg);
-                //重载表格
-                parent.xijiaRenderTable();
+                let result = Ajax.post(path + "/admin/adminHelp/insert", data);
+                layer.msg(result.msg);
             },
         }
     });
-
-    function init() {
-        // select 字典数据
-        $("#category").html(Dict.getDictSelect(Enums.Admin.HelpCategory));        // 是否跳转  不带默认值
-        $("#helpVersion").html(Dict.getDictSelect(Enums.Admin.HelpVersion));      // 位置
-        // 刷新,否则select可能不生效
-        form.render();
-    }
-
 </script>
 </body>
 </html>
