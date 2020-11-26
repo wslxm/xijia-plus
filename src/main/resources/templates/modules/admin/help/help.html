@@ -172,7 +172,9 @@
         table.on('toolbar(auth-table)', function (obj) {
             //添加
             if (obj.event === "add") {
-                Pop.tipsWindown(adminHelpPageAdd, "90%", "90%", "添加");
+                // 使用新窗口
+                window.open(adminHelpPageAdd);
+                //  Pop.tipsWindown(adminHelpPageAdd, "90%", "90%", "添加");
             }
         });
     }
@@ -190,7 +192,9 @@
             data = obj.data;  //当前行数据
             //编辑
             if (obj.event === 'edit') {
-                Pop.tipsWindown(adminHelpPageUpd, "90%", "90%", "修改");
+                // 使用新窗口
+                window.open(adminHelpPageUpd + "?id=" + data.id);
+                // Pop.tipsWindown(adminHelpPageUpd, "90%", "90%", "修改");
             }
             //删除
             if (obj.event === 'del') {

@@ -1,0 +1,86 @@
+/**
+ *  左菜单 一级菜单
+ */
+.oneTitle {
+    cursor: pointer; /* 鼠标放到文字上显示手 */
+    margin-top: 5%;
+    margin-left: 10%;
+    font-weight: bold; /*加粗*/
+    font-size: 15px;
+    border: 2px solid #ffffff; /* 每个标题边框 */
+    width: 75%;
+    /* 禁止复制 */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/**
+ *  左菜单 二级菜单
+ */
+.twoTitle {
+    cursor: pointer; /* 鼠标放到文字上显示手 */
+    margin-left: 15%;
+    font-size: 15px;
+    margin-top: 2%;
+    border: 2px solid #ffffff;
+    width: 65%;
+}
+
+
+/**
+ * 左菜单每个title 下的文章数量 小字
+ */
+.small-numbers {
+    font-size: 12px;
+    color: #ffc3b8;
+}
+
+/* 内容去背景色 */
+/*.markdownToHTML {*/
+/*    background-color: #ff666e !important;*/
+/*}*/
+
+
+/**
+ * 内容+左菜单的滚动条
+ */
+/*滚动条样式 滚动条整体部分，可以设置宽度啥的*/
+.scrollBar::-webkit-scrollbar {
+    width: 1px;
+}
+
+/*滚动条样式 滚动的滑块*/
+.scrollBar::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/*滚动条样式 外层轨道*/
+.scrollBar::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 0;
+    background: rgba(0, 0, 0, 0.1);
+
+}
+
+/**
+ * 内容动态生成的 目录菜单间隔
+ */
+.easyeditor-content ol, .easyeditor-content ul {
+    /* 内容菜单，内容间隔的高,宽  */
+    padding: 2px 20px;
+}
+/**
+ * 内容动态生成的a标签字体颜色
+ */
+a{
+    color: #0a001f;
+    text-decoration : none;
+    font-size: 13px
+
+}
