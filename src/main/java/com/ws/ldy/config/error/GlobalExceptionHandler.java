@@ -126,7 +126,7 @@ public class GlobalExceptionHandler extends BaseController {
             String errorMsg = RType.PARAM_MISSING.getMsg() + "  --> 【 " + parameterName + ":" + parameterType + "】  --->  详细错误信息:" + e.getMessage();
             log.info(logStr + errorMsg);
             //  返回前端提示name参数:类型 类型参数未传递
-            return R.error(RType.PARAM_MISSING.getValue(), parameterName + ":" + parameterType + RType.PARAM_MISSING.getValue(), errorMsg);
+            return R.error(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg()+"-> "+parameterName + " : " + parameterType , errorMsg);
         } else if (e instanceof MethodArgumentTypeMismatchException) {
             /**
              * 方法参数类型不匹配 mvc

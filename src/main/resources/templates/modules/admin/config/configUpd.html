@@ -107,38 +107,6 @@
 
 <script>
 
-    $(function () {
-        <!-- 父页面的值,赋值到当前页 -->
-        $('#code').val(parent.data.code);
-        $('#name').val(parent.data.name);
-        $('#content').val(parent.data.content);
-        $('#sort').val(parent.data.sort);
-        // radio回显, type选中
-        $("input[name=type]").each(function () {
-            if ($(this).val() == parent.data.type) {
-                $(this).attr("checked", true);
-            }
-        });
-        if (parent.data.type === 0) {
-            // 回显内容
-            $("#contentText").show();
-            $("#contentImg").hide();
-        } else if (parent.data.type === 1) {
-            $("#contentText").hide();
-            $("#contentImg").show();
-            // 图片回显
-            let imgsArray = parent.data.content.split(",");
-            let imgHtml = "";
-            for (let i = 0; i < imgsArray.length; i++) {
-                imgHtml += '<li style="position:relative"><img name="imgZmList" src="' + imgsArray[i] +
-                    '"width="150" height="113"><!--<div class="title_cover" name="imgZmName" onclick="divClick(this)"></div>--><div class="img_edit layui-icon" onclick="croppers_pic(this)"></div><div class="img_close" onclick="deleteElement(this)">X</div></li>';
-            }
-            $('#imgZmList').html(imgHtml);
-            //可移动
-            imgMove("imgZmList");
-        }
-    });
-
 
     layui.use(['form', 'upload'], function () {
         var form = layui.form
@@ -222,6 +190,43 @@
             }
         });
     });
+
+
+
+    $(function () {
+        <!-- 父页面的值,赋值到当前页 -->
+        $('#code').val(parent.data.code);
+        $('#name').val(parent.data.name);
+        $('#content').val(parent.data.content);
+        $('#sort').val(parent.data.sort);
+        // radio回显, type选中
+        $("input[name=type]").each(function () {
+            if ($(this).val() == parent.data.type) {
+                $(this).attr("checked", true);
+            }
+        });
+        if (parent.data.type === 0) {
+            // 回显内容
+            $("#contentText").show();
+            $("#contentImg").hide();
+        } else if (parent.data.type === 1) {
+            $("#contentText").hide();
+            $("#contentImg").show();
+            // 图片回显
+            let imgsArray = parent.data.content.split(",");
+            let imgHtml = "";
+            for (let i = 0; i < imgsArray.length; i++) {
+                imgHtml += '<li style="position:relative"><img name="imgZmList" src="' + imgsArray[i] +
+                    '"width="150" height="113"><!--<div class="title_cover" name="imgZmName" onclick="divClick(this)"></div>--><div class="img_edit layui-icon" onclick="croppers_pic(this)"></div><div class="img_close" onclick="deleteElement(this)">X</div></li>';
+            }
+            $('#imgZmList').html(imgHtml);
+            //可移动
+            imgMove("imgZmList");
+        }
+        // 刷新,否则select可能不生效
+        layui.form.render();
+    });
+
 </script>
 </body>
 </html>
