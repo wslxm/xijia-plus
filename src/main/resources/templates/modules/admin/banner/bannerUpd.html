@@ -154,6 +154,8 @@
                 $(this).attr("selected", "selected");
             }
         });
+        // 刷新,否则select可能不生效
+        layui.form.render();
     })
 </script>
 </body>

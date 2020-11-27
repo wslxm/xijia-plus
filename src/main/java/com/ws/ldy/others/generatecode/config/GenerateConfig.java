@@ -26,7 +26,7 @@ public class GenerateConfig {
     public final static String DESCRIBE = " ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 ";
     public final static String PACK_PATH = "com.ws.ldy";    // 包根路径（所有代码,启动类的路径）
     public final static String PACK_PATH_ZP = "modules";    // 包根的下一级路径（所有模块的包路径）
-    public final static String MODULE_NAME = "xj";       // 模块名/路径（当前模块的包路径）
+    public final static String MODULE_NAME = "admin";       // 模块名/路径（当前模块的包路径）
 
     /**
      * 生成路径
@@ -37,7 +37,7 @@ public class GenerateConfig {
 
     /**
      * 前缀配置（非默认数据源允许被篡改）
-     * 表前缀：TABLE_PREFIX
+     * 表前缀：TABLE_PREFIX  （绝对生成的文件名称是否去除前缀信息）
      * 字段前缀：FIELD_PREFIX
      * _DEFAULT = 默认配置
      */

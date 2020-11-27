@@ -31,9 +31,12 @@ public enum RType implements IEnum<Integer> {
     SYS_ERROR_CODE_415(415, "415错误"),
     SYS_ERROR_CODE_500(500, "服务器错误"),
     SYS_ERROR_DOES_NOT_EXIST(500, "没有找到数据/数据不存在"),
+    SYS_BLACK_LIST_IP(9996, "该ip异常,禁止访问"),
+    SYS_WHITE_LIST_NO_IP(9996, "该ip地址没有访问权限"),
+
 
     //
-    TEMPLATE_RESOLVING_ERROR(9997,"Html模板解析错误"),
+    TEMPLATE_RESOLVING_ERROR(9997, "Html模板解析错误"),
     DB_EXECUTE_SQL_ERROR(9998, "执行sql时出错"),
 
 
@@ -101,8 +104,7 @@ public enum RType implements IEnum<Integer> {
     ARTICLE_POSITION_REPEAT(10010, "位置重复"),
 
     // 代码生成
-    GENERATE_CODE_JDBC_ERROR(10020,"数据源连接信息错误")
-    ;
+    GENERATE_CODE_JDBC_ERROR(10020, "数据源连接信息错误");
 
 
     private Integer value;

@@ -1,6 +1,5 @@
 package com.ws.ldy.others.generatecode.service.impl;
 
-import com.google.common.base.CaseFormat;
 import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.others.generatecode.config.GenerateConfig;
 import com.ws.ldy.others.generatecode.util.GenerateDataProcessing;

@@ -134,7 +134,11 @@
                     {field: 'methodDesc', title: '请求方法', width: 220},
                     {field: 'requestData', title: '请求数据'},
                     {field: 'responseData', title: '返回数据'},
-                    {field: 'state', title: '1成功 0失败', width: 100},
+                    {
+                        field: 'state', title: '1成功 0失败', width: 100, templet: function (res) {
+                            return res.state === 1 ? '成功' : '失败';
+                        }
+                    },
                     {field: 'businessTime', title: '业务耗时', width: 80},
                     {field: 'executeTime', title: '总耗时', width: 80},
                     {title: '操作', toolbar: '#barDemo', width: 150}
@@ -191,7 +195,7 @@
             data = obj.data;  //当前行数据
             //编辑
             if (obj.event === 'edit') {
-                Pop.tipsWindown(adminLogPageUpd, "80%", "80%","查看请求：" + data.classDesc + " -> " + data.methodDesc + "  >>> " + data.createTime , []);
+                Pop.tipsWindown(adminLogPageUpd, "80%", "80%", "查看请求：" + data.classDesc + " -> " + data.methodDesc + "  >>> " + data.createTime, []);
             }
             //删除
             if (obj.event === 'del') {

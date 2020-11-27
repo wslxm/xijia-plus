@@ -1,20 +1,26 @@
 package com.ws.ldy.config.aspect;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.ws.ldy.XijiaServer;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.entity.JwtUser;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.error.GlobalExceptionHandler;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.enums.Enums;
+import com.ws.ldy.modules.admin.controller.AdminBlacklistController;
 import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
+import com.ws.ldy.modules.admin.model.entity.AdminBlacklist;
 import com.ws.ldy.modules.admin.model.entity.AdminLog;
+import com.ws.ldy.modules.admin.model.vo.AdminBlacklistVO;
 import com.ws.ldy.modules.admin.service.AdminAuthorityService;
+import com.ws.ldy.modules.admin.service.AdminBlacklistService;
 import com.ws.ldy.modules.admin.service.AdminLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,8 +38,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -48,10 +57,15 @@ import java.util.concurrent.*;
 @Component
 public class SysAspect {
     /**
-     * 权限
+     * 接口权限
      */
     @Autowired
     private AdminAuthorityService adminAuthorityService;
+    /**
+     * 黑名单/白名单
+     */
+    @Autowired
+    private AdminBlacklistService adminBlacklistService;
     /**
      * 日志
      */
@@ -166,6 +180,12 @@ public class SysAspect {
                 return log(proceed, request);
             }
         });
+        // 3、黑/白名单认证
+        R blacklistR = blacklistAuth(getIpAddress(request));
+        if (!blacklistR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+            this.updLog(future, 0, (System.currentTimeMillis() - startTime1), 0L, uri, blacklistR);
+            return blacklistR;
+        }
 
         // 3、登录授权认证
         R<JwtUser> jwtUserR = loginAuth(request, response);
@@ -485,6 +505,84 @@ public class SysAspect {
             return R.success(jwtUser);
         }
         return R.success(null);
+    }
+
+
+    /**
+     * 黑名单/白名单验证
+     * <p>
+     * 认证顺序 ,   黑名单指定ip --> 白名单(*)  --> 黑名单(*)   --> 白名单指定ip
+     * 优先级：
+     * 1、访问ip 在黑名单ip列表，直接禁止访问
+     * 2、设置了白名单（*）, 只要ip不在黑名单列表，直接放行
+     * 3、访问ip没有在黑名单中，也没有设置白名单（*）的情况下，设置了黑名单(*)，那么除了白名单中的指定ip能访问接口外，其他ip都不能访问资源
+     *
+     * 本地 127.0.0.1 + localhost 访问直接放行
+     * <p/>
+     * @author wangsong
+     * @date 2020/11/28 0028 0:01
+     * @return com.ws.ldy.common.result.R
+     * @version 1.0.0
+     */
+    public R blacklistAuth(String ip) {
+        if("127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)){
+            return R.success();
+        }
+        // 如果没有缓存，就去数据库获取
+        if (BaseConstant.Cache.BLACKLIST_CACHE == null) {
+            // 如果数据库没有配置，缓存设置默认对象，让其不为空，防止无限制查询数据库
+            BaseConstant.Cache.BLACKLIST_CACHE = new HashMap<>();
+            List<AdminBlacklist> blacklist = adminBlacklistService.list(new LambdaQueryWrapper<AdminBlacklist>()
+                    .eq(AdminBlacklist::getDisable, Enums.Base.Disable.DISABLE_0)
+            );
+            if (blacklist.size() > 0) {
+                List<AdminBlacklistVO> adminBlacklistVOS = BeanDtoVoUtil.listVo(blacklist, AdminBlacklistVO.class);
+                Map<Integer, List<AdminBlacklistVO>> blacklistGroupByType = adminBlacklistVOS.stream().collect(Collectors.groupingBy(AdminBlacklistVO::getType));
+                List<AdminBlacklistVO> baiMD = blacklistGroupByType.get(Enums.Admin.BlacklistType.BLACKLIST_TYPE_1.getValue());
+                List<AdminBlacklistVO> heiMD = blacklistGroupByType.get(Enums.Admin.BlacklistType.BLACKLIST_TYPE_2.getValue());
+                if (baiMD != null) {
+                    List<String> baiIps = baiMD.stream().map(p -> p.getIp()).collect(Collectors.toList());
+                    BaseConstant.Cache.BLACKLIST_CACHE.put(Enums.Admin.BlacklistType.BLACKLIST_TYPE_1.getValue(), baiIps);
+                }
+                if (heiMD != null) {
+                    List<String> heiIps = heiMD.stream().map(p -> p.getIp()).collect(Collectors.toList());
+                    BaseConstant.Cache.BLACKLIST_CACHE.put(Enums.Admin.BlacklistType.BLACKLIST_TYPE_2.getValue(), heiIps);
+                }
+            }
+        }
+        // 1、没有配置黑/白名单，直接放行
+        if (BaseConstant.Cache.BLACKLIST_CACHE.size() == 0) {
+            return R.success();
+        }
+        // 2、没有配置黑名单，直接放行
+        if (!BaseConstant.Cache.BLACKLIST_CACHE.containsKey(Enums.Admin.BlacklistType.BLACKLIST_TYPE_2.getValue())) {
+            return R.success();
+        }
+        // 3、检查黑名单，如果被列进的黑名单，直接拦截
+        if (BaseConstant.Cache.BLACKLIST_CACHE.containsKey(Enums.Admin.BlacklistType.BLACKLIST_TYPE_2.getValue())) {
+            List<String> heiIps = BaseConstant.Cache.BLACKLIST_CACHE.get(Enums.Admin.BlacklistType.BLACKLIST_TYPE_2.getValue());
+            if (heiIps.contains(ip)) {
+                return R.error(RType.SYS_BLACK_LIST_IP.getValue(), "[" + ip + "] " + RType.SYS_BLACK_LIST_IP);
+            }
+        }
+        // 4、如果配置了白名单( * )直接放行除了黑名单的所有ip
+        if (BaseConstant.Cache.BLACKLIST_CACHE.containsKey(Enums.Admin.BlacklistType.BLACKLIST_TYPE_1.getValue())) {
+            List<String> baiIps = BaseConstant.Cache.BLACKLIST_CACHE.get(Enums.Admin.BlacklistType.BLACKLIST_TYPE_1.getValue());
+            if ( baiIps.contains("*")) {
+                return R.success();
+            }
+        }
+        // 5、如果配置了黑名单( * )拦截除了白名单外的所有ip
+        if (BaseConstant.Cache.BLACKLIST_CACHE.containsKey(Enums.Admin.BlacklistType.BLACKLIST_TYPE_2.getValue())) {
+            List<String> heiIps = BaseConstant.Cache.BLACKLIST_CACHE.get(Enums.Admin.BlacklistType.BLACKLIST_TYPE_2.getValue());
+            if (heiIps.contains("*")) {
+                List<String> baiIps = BaseConstant.Cache.BLACKLIST_CACHE.get(Enums.Admin.BlacklistType.BLACKLIST_TYPE_1.getValue());
+                if (baiIps == null || !baiIps.contains(ip)) {
+                    return R.error(RType.SYS_WHITE_LIST_NO_IP.getValue(), "[" + ip + "] " + RType.SYS_WHITE_LIST_NO_IP.getMsg());
+                }
+            }
+        }
+        return R.success();
     }
 }
 

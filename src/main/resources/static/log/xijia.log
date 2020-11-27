@@ -1,8 +1,0 @@
-
-
-
-yml 对应环境中配置实时输出日志, 请配置：
-
-logging:
-  # 配置日志路径即可实时输出到 spring-boot-admin 日志管理
-  file: logs/xijia/info/xijia.2020-10-18.log

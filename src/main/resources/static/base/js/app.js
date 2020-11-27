@@ -25,26 +25,27 @@ headers = {
 var Enums = {
     // 系统模块
     Admin: {
-        AdminUserPosition: "ADMIN_USER_POSITION",  // 职位
-        AuthorityState: "AUTHORITY_STATE",  // 权限状态
-        AuthorityType: "AUTHORITY_TYPE",  // 权限终端
-        BannerIsSkip: "BANNER_IS_SKIP",  // banner是否跳转
-        BannerPosition: "BANNER_POSITION",  // banner 位置
-        ConfigCode: "CONFIG_CODE",  // 系统配置类型
-        HelpCategory: "HELP_CATEGORY",  // 帮助中心类别
-        HelpVersion: "HELP_VERSION",  // 帮助中心版本
-        MenuRoot: "MENU_ROOT",  // 菜单级别
-        MsgType: "MSG_TYPE",  // 及时消息类型
-        MsgUserType: "MSG_USER_TYPE",  // 及时消息终端
+        AdminUserPosition : "ADMIN_USER_POSITION",  // 职位
+        AuthorityState : "AUTHORITY_STATE",  // 权限状态
+        AuthorityType : "AUTHORITY_TYPE",  // 权限终端
+        BannerIsSkip : "BANNER_IS_SKIP",  // banner是否跳转
+        BannerPosition : "BANNER_POSITION",  // banner 位置
+        BlacklistType : "BLACKLIST_TYPE",  // 黑/白名单类型
+        ConfigCode : "CONFIG_CODE",  // 系统配置类型
+        HelpCategory : "HELP_CATEGORY",  // 帮助中心类别
+        HelpVersion : "HELP_VERSION",  // 帮助中心版本
+        MenuRoot : "MENU_ROOT",  // 菜单级别
+        MsgType : "MSG_TYPE",  // 及时消息类型
+        MsgUserType : "MSG_USER_TYPE",  // 及时消息终端
     },
     // 通用枚举
     Base: {
-        Deleted: "DELETED",  // 逻辑删除
-        Disable: "DISABLE",  // 是否禁用
-        Gender: "GENDER",  // 性别
-        IsMail: "IS_MAIL",  // 是否邮寄
-        IsNeedMail: "IS_NEED_MAIL",  // 是否需要邮寄
-        IsRead: "IS_READ",  // 是否已读
+        Deleted : "DELETED",  // 逻辑删除
+        Disable : "DISABLE",  // 是否禁用
+        Gender : "GENDER",  // 性别
+        IsMail : "IS_MAIL",  // 是否邮寄
+        IsNeedMail : "IS_NEED_MAIL",  // 是否需要邮寄
+        IsRead : "IS_READ",  // 是否已读
     },
 };
 
@@ -166,15 +167,14 @@ Dict = {
      */
     getDictTest: function () {
         // 测试中的 .name 可以获取上方注释中的任意参数
-        console.log("项目code=1:   ==>   " + Dict.convert(Enums.Yb.OrderState, 1));
-        console.log("项目code=1:  ==>   " + Dict.convertDict(Enums.Yb.OrderState, 1));
-        console.log("项目code=1:   ==>   " + Dict.convertDict(Enums.Yb.OrderState, 1).name);
+        console.log("项目code=1:   ==>   " + Dict.convert(Enums.Base.Gender, 1));
+        console.log("项目code=1:  ==>   " + Dict.convertDict(Enums.Base.Gender, 1));
+        console.log("项目code=1:   ==>   " + Dict.convertDict(Enums.Base.Gender, 1).name);
 
         // 打印
-        console.log("所有项目:   ==>   " + Dict.getDict(Enums.Yb.OrderState));
-        console.log("所有项目:   ==>   " + Dict.getDict(Enums.Yb.OrderState).dictMap[1].name);
-        console.log("所有项目:   ==>   " + Dict.getDict(Enums.Yb.OrderState).dictMap[2].name);
-        console.log("所有项目:   ==>   " + Dict.getDict(Enums.Yb.OrderState).dictMap[3].name);
+        console.log("所有项目:   ==>   " + Dict.getDict(Enums.Base.Gender));
+        console.log("所有项目:   ==>   " + Dict.getDict(Enums.Base.Gender).dictMap[0].name);
+        console.log("所有项目:   ==>   " + Dict.getDict(Enums.Base.Gender).dictMap[1].name);
     }
 };
 

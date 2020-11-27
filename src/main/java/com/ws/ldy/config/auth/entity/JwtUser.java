@@ -50,7 +50,7 @@ public class JwtUser {
      */
     private List<String> authList;
     /**
-     * 用户版本号-用于修改权限后直接刷新正在使用中的用户权限
+     * 用户权限版本号-用于修改权限后直接刷新正在正常使用中的用户权限
      */
     private Integer authVersion;
 }
