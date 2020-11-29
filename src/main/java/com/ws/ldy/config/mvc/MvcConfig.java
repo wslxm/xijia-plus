@@ -40,8 +40,10 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/login").setViewName("modules/admin/xj_login");
         // 文本转符号
         registry.addViewController("/fh").setViewName("front/symbol/main");
+        registry.addViewController("/java").setViewName("xj/run/javaRun");
         // 兮家手册
         registry.addViewController("/help").setViewName("modules/admin/help/index");
+
     }
 
 

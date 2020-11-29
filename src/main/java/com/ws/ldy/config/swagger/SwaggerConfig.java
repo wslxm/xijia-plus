@@ -93,6 +93,28 @@ public class SwaggerConfig {
 
 
     @Bean
+    public Docket xiJiaApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("ADMIN--兮家")
+                .globalOperationParameters(getGlobalParameter(1))
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.xijia"))   // 自行修改为自己的包路径
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+                .paths(PathSelectors.any())
+                .build()
+                .useDefaultResponseMessages(false)
+                .apiInfo(new ApiInfoBuilder()
+                        .title("ADMIN--兮家")
+                        .description("ADMIN--系统模块Swagger API 文档")
+                        .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
+                        .version("1.0.0")
+                        .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
+                        .build());
+    }
+
+
+
+    @Bean
     public Docket caiPuApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("食谱API")

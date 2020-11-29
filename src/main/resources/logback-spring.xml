@@ -68,6 +68,7 @@
     <logger name="com.alibaba.nacos.client.config.impl.ClientWorker" level="ERROR"/><!--不打印INFO级别的日志-->
     <logger name="springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator" level="ERROR"/>
     <logger name="de.codecentric.boot.admin.server.web.servlet.InstancesProxyController" level="ERROR"/><!-- 屏蔽系统监控日志，太多,在每秒实现  -->
+    <logger name="java.lang.NoClassDefFoundError" level="ERROR"/><!-- 屏蔽动态添加java类的警告内容  -->
 
     <!-- 解决SpringBootAdmin错误日志问题 -->
     <logger name="org.apache.catalina.connector.CoyoteAdapter" level="OFF"/>
