@@ -5,10 +5,13 @@
     <title>Markdown编辑器</title>
 </head>
 <!-- layui样式 -->
+
 <link rel="stylesheet" href="/components/editor/css/editormd.css">
 <script src="/base/js/app.js"></script>
 <script src='/base/js/jquery-3.4.1.min.js'></script>
 <script type="text/javascript" src="/components/editor/editormd.js"></script>
+<link rel="stylesheet" href="/components/layuiadmin/layui/src/css/layui.css" media="all">
+<script src="/components/layuiadmin/layui/src/layui.js"></script>
 <!-- 图片粘贴复制拖拽，Markdown编辑器元素  textarea id必须为 L_content，并且该引入必须在 textarea的下方，否则无法读取到 L_content 参数 -->
 <!--<script src="/components/editor/imgCopyPull2.js"></script>-->
 <style>
@@ -17,7 +20,7 @@
         margin-top: 1%;
         width: 90%;
         height: 250px;
-        border:1px solid #e5e8ff;
+        border: 1px solid #e5e8ff;
         box-shadow: 0 0 10px #719ECE;
     }
 </style>
@@ -25,14 +28,21 @@
 <div>
     <div id="L_content"></div>
     <div>
-        <div style=" margin-left: 5%;">输出结果：</div>
-        <textarea id="result" class="result" disabled> </textarea>
+       <span style=" margin-left: 5%;" class="layui-btn layui-btn-normal layui-btn-sm" onclick="run()" data-type="reload">运行程序</span>
+       <!-- <span id="state" style=" margin-left: 2%;">输出结果：</span>-->
+        <div id="resultDiv">
+            <textarea id="result" class="result" disabled>等待执行</textarea>
+        </div>
     </div>
 
 </div>
 <script>
     var javaRun = path + "/xj/javaCodeRun/run";
 
+
+    layui.use(['form'], function () {
+
+    });
 
     //注意1：这里的就是上面的DIV的id属性值
     var myEditor = editormd("L_content", {
@@ -68,26 +78,34 @@
                 // "|"
             ]
         },
-        /*自定义功能按钮*/
-        toolbarIconTexts: {
-            releaseIcon: "<span bgcolor=\"gray\">运行</span>",
-        },
-        /*给自定义按钮指定回调函数*/
-        toolbarHandlers: {
-            releaseIcon: function (cm, icon, cursor, selection) {
-                $("#result").val("正在运行中......");
-
-                let javaCodeMd = myEditor.getMarkdown();
-                let javaCode = javaCodeMd.replaceAll("```", "").replace("java", "");
-                let res = Ajax.post(javaRun, {javaCode: javaCode});
-                $("#result").val(res.data);
-                //  alert(res.data);
-                //  alert(javaCode);
-            },
-        }
-
-
+        // /*自定义功能按钮*/
+        // toolbarIconTexts: {
+        //     releaseIcon: "<span bgcolor=\"gray\">运行</span>",
+        // },
+        // /*给自定义按钮指定回调函数*/
+        // toolbarHandlers: {
+        //     releaseIcon: function (cm, icon, cursor, selection) {
+        //         run();
+        //     },
+        // }
     });
+
+
+    function run() {
+        let ii = layui.layer.load();
+        $("#result").val("正在执行中.....");
+        // 为了load正常执行,延时50毫秒执行程序
+        setTimeout(function () {
+            let javaCodeMd = myEditor.getMarkdown();
+            let javaCode = javaCodeMd.replaceAll("```", "").replace("java", "");
+            let res = Ajax.post(javaRun, {javaCode: javaCode});
+            $("#result").val(res.data);
+            layui.layer.close(ii);
+           // layer.msg("执行成功");
+        }, 50);
+    }
+
+
     // 设置默认数据
     let javaCode = "```java\n" +
         "\n" +

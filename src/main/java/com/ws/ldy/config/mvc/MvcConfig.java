@@ -43,6 +43,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/java").setViewName("xj/run/javaRun");
         // 兮家手册
         registry.addViewController("/help").setViewName("modules/admin/help/index");
+
     }
 
 

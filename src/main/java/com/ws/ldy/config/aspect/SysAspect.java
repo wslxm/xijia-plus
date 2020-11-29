@@ -182,7 +182,7 @@ public class SysAspect {
         });
         // 3、黑/白名单认证
         String ipAddress = getIpAddress(request);
-        R blacklistR = blacklistAuth( ipAddress);
+        R blacklistR = blacklistAuth(ipAddress);
         if (!blacklistR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
             this.updLog(future, 0, (System.currentTimeMillis() - startTime1), 0L, uri, blacklistR);
             return blacklistR;
@@ -318,6 +318,9 @@ public class SysAspect {
                 try {
                     logs = future.get();
                     data = JSON.toJSONString(obj);
+                    if (data.length() > 65534) {
+                        data = data.substring(0, 65534);
+                    }
                 } catch (InterruptedException | ExecutionException e) {
                     log.info("future.get() 获取数据失败： " + uri);
                     break;
