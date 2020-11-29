@@ -37,10 +37,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -181,7 +181,8 @@ public class SysAspect {
             }
         });
         // 3、黑/白名单认证
-        R blacklistR = blacklistAuth(getIpAddress(request));
+        String ipAddress = getIpAddress(request);
+        R blacklistR = blacklistAuth( ipAddress);
         if (!blacklistR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
             this.updLog(future, 0, (System.currentTimeMillis() - startTime1), 0L, uri, blacklistR);
             return blacklistR;
@@ -525,7 +526,8 @@ public class SysAspect {
      * @version 1.0.0
      */
     public R blacklistAuth(String ip) {
-        if("127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)){
+        // 本地启用不处理黑名单/白名单
+        if ("127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)) {
             return R.success();
         }
         // 如果没有缓存，就去数据库获取
@@ -568,7 +570,7 @@ public class SysAspect {
         // 4、如果配置了白名单( * )直接放行除了黑名单的所有ip
         if (BaseConstant.Cache.BLACKLIST_CACHE.containsKey(Enums.Admin.BlacklistType.BLACKLIST_TYPE_1.getValue())) {
             List<String> baiIps = BaseConstant.Cache.BLACKLIST_CACHE.get(Enums.Admin.BlacklistType.BLACKLIST_TYPE_1.getValue());
-            if ( baiIps.contains("*")) {
+            if (baiIps.contains("*")) {
                 return R.success();
             }
         }
