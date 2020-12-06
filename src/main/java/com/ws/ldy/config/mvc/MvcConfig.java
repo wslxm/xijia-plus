@@ -33,16 +33,13 @@ public class MvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        // 主页,
-        registry.addViewController("/index").setViewName("modules/admin/xj-index");
-        // 登录页
-        registry.addViewController("/").setViewName("modules/admin/xj_login");
-        registry.addViewController("/login").setViewName("modules/admin/xj_login");
-        // 文本转符号
-        registry.addViewController("/fh").setViewName("front/symbol/main");
-        registry.addViewController("/java").setViewName("xj/run/javaRun");
-        // 兮家手册
-        registry.addViewController("/help").setViewName("modules/admin/help/index");
+        registry.addViewController("/index").setViewName("modules/admin/xj-index");    // 管理端主页
+        registry.addViewController("/").setViewName("modules/admin/xj_login");         // 管理端登录页
+        registry.addViewController("/login").setViewName("modules/admin/xj_login");    // 管理端登录页
+        registry.addViewController("/fh").setViewName("front/symbol/main");            // 文本转符号生成器
+        registry.addViewController("/java").setViewName("xj/javaCodeRun/javaCodeRun"); // java代码运行器
+        registry.addViewController("/lts").setViewName("xj/websocket/lts.html");       // 在线聊天室
+        registry.addViewController("/help").setViewName("modules/admin/help/index");   // 兮家手册
 
     }
 
@@ -52,20 +49,15 @@ public class MvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
         //文件保存路径, 让程序可以访问到改路径, 访问 /File 读取项目跟路径的File目录
         registry.addResourceHandler("/File/**").addResourceLocations("file:File/");
-
         // 解决静态资源无法访问（可选）
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
-
         // 直接在浏览器访问：根目录/swagger-ui.html
         registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-
         // 需要用到的webjars（包含js、css等）
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-
-        //
+        // 文档地址
         registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }

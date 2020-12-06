@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <title>websocket</title>
-    <script src='/base/js/jquery-3.4.1.min.js'></script>
+    <script src='/static/base/js/jquery-3.4.1.min.js'></script>
     <script src="http://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
-    <script src="/base/js/app.js"></script>
+    <script src="/static/base/js/app.js"></script>
 </head>
 <css>
 
@@ -61,7 +61,7 @@
 
 
 <!-- 消息输入框 contenteditable="true"-->
-<textarea id="text" placeholder="请输入内容-发送消息[Ctrl+回车键]" rows="3%" cols="60%"></textarea>
+<div id="text" contenteditable="true" placeholder="请输入内容-发送消息[Ctrl+回车键]" rows="3%" cols="60%"></div>
 <td>消息发送至:</td>
 <select id="to" size="1" style="width: 10%;height:30px">
     <option value="ALL">所有人</option> <!-- ALL 为所有人 -->
