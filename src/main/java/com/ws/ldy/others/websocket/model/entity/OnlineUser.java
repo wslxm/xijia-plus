@@ -26,6 +26,10 @@ public class OnlineUser extends Convert {
      */
     private String username;
     /**
+     * 用户头像
+     */
+    private String headPic;
+    /**
      * 用户会话 (使用该对象进行消息发送)
      */
     private Session session;
@@ -37,11 +41,13 @@ public class OnlineUser extends Convert {
     /**
      * @param userId   用户id
      * @param username 用户名称
+     * @param username 用户头像
      * @param session  用户session 回话信息
      */
-    public OnlineUser(String userId, String username, Session session) {
+    public OnlineUser(String userId, String username,String  headPic, Session session) {
         this.userId = userId;
         this.username = username;
+        this.headPic = headPic;
         this.session = session;
         this.createTime = LocalDateTimeUtil.parse(LocalDateTime.now());
     }

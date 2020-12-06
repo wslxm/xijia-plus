@@ -85,6 +85,8 @@
     let socketPath = JsonData.data.path;   //连接地址
     let formUserId = JsonData.data.userId;     //用户Id
     let formUsername = JsonData.data.username; //用户名
+    //
+    socketPath = socketPath + formUserId + "/" + formUsername;
 
     let zxList = $("#zxList");  // 在线列表
     let quLiao = $("#quLiao");  // 群聊
