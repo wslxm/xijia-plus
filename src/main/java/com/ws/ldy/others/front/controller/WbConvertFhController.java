@@ -27,6 +27,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class WbConvertFhController extends BaseController {
 
 
+    // &nbsp; ：一个字符的半角的不断行的空格，如果需要在网页中插入多个空格，可以将“&nbsp;”代码写多遍；
+    // &ensp; ：一个字符的半角的空格，也可以将“&ensp;”写多遍来插入多个空格；
+    // &emsp;
+    //System.out.println(transform);
+    //String replace = transform.replaceAll("\n", "<br>").replaceAll(" ", "&nbsp;&nbsp;");
+    //
     @ApiOperation("")
     @RequestMapping(value = "/convert", method = RequestMethod.GET)
     @ApiImplicitParams({
@@ -38,12 +44,8 @@ public class WbConvertFhController extends BaseController {
         if (StringUtils.isNotBlank(content)) {
             transform = TransformUtil.transform(content, narrow);
         }
-        //System.out.println(transform);
-        //String replace = transform.replaceAll("\n", "<br>").replaceAll(" ", "&nbsp;&nbsp;");
         return R.success(transform);
     }
 }
-//&nbsp; ：一个字符的半角的不断行的空格，如果需要在网页中插入多个空格，可以将“&nbsp;”代码写多遍；
-//        &ensp; ：一个字符的半角的空格，也可以将“&ensp;”写多遍来插入多个空格；
-//        &emsp;
+
 

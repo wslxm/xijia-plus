@@ -37,7 +37,7 @@ public interface WebsocketService {
      * @param extras  扩暂发送内容
      * @return
      */
-    public List<OnlineUserVO> send(String form, String username, String to, String content, String extras);
+    public List<OnlineUserVO> send(String form, String username,String headPic, String to, String content, String extras);
 }
 
 

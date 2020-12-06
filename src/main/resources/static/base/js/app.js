@@ -206,7 +206,7 @@ Pop = {
                 fixed: false,  // 是否固定窗口
                 moveOut: true, // 是否允许拖拽到窗口外
                 zIndex: 1000,  // 层高(拉出位置位于其他底层)
-                shadeClose: true,
+                shadeClose: true, // 是否允许点击任意地方关闭窗口
                 crossDomain: true,//跨域，https://www.cnblogs.com/autoXingJY/p/11419860.html
                 success: function (layero, index) {
                     // //自适应弹出层

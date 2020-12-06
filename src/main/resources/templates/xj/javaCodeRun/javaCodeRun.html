@@ -37,7 +37,7 @@
 
 </div>
 <script>
-    var javaRun = path + "/xj/javaCodeRun/run";
+    var javaCodeRun = path + "/xj/javaCodeRun/run";
 
 
     layui.use(['form'], function () {
@@ -66,28 +66,9 @@
         toolbarIcons: function () {
             return [
                 "undo", "redo", "|",
-                // "bold","del","italic","quote","ucwords","uppercase","lowercase","|",
-                // // "h1","h2","h3","h4","h5","h6","|",
-                // "list-ul","list-ol","hr","|",
-                // "link","reference-link","image","code","preformatted-text",
-                // "code-block","table","datetime","emoji","html-entities","pagebreak","|",
-                // "goto-line","watch","preview","fullscreen","clear","search","|",
-                // "help","info","|",
-                //"code-block",
                 "releaseIcon",
-                // "|"
             ]
         },
-        // /*自定义功能按钮*/
-        // toolbarIconTexts: {
-        //     releaseIcon: "<span bgcolor=\"gray\">运行</span>",
-        // },
-        // /*给自定义按钮指定回调函数*/
-        // toolbarHandlers: {
-        //     releaseIcon: function (cm, icon, cursor, selection) {
-        //         run();
-        //     },
-        // }
     });
 
 
@@ -98,7 +79,7 @@
         setTimeout(function () {
             let javaCodeMd = myEditor.getMarkdown();
             let javaCode = javaCodeMd.replaceAll("```", "").replace("java", "");
-            let res = Ajax.post(javaRun, {javaCode: javaCode});
+            let res = Ajax.post(javaCodeRun, {javaCode: javaCode});
             $("#result").val(res.data);
             layui.layer.close(ii);
            // layer.msg("执行成功");
