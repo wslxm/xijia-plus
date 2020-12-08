@@ -69,7 +69,7 @@ public class WebsocketController extends BaseController {
         String userId = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
         String username = "游客:" + new SimpleDateFormat("ssSSS").format(new Date());
         // 如果是线上 (域名+socket地址+id+用户名)
-        String path = "ws://" + serverName + interfaceName + "/" + userId + "/" + username;
+        String path = "ws://" + serverName + interfaceName + "/" ;//+ userId + "/" + username
         // 如果是本地 (ip + 端口 + socket地址 + id +用户名)
         if ("127.0.0.1".equals(serverName) || "localhost".equals(serverName)) {
             path = "ws://" + serverName + ":" + port + interfaceName + "/";

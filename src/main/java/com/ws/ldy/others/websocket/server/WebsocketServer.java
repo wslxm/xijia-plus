@@ -55,22 +55,20 @@ public class WebsocketServer {
         // 判断账号是否重复登录
         if (clients.containsKey(userId)) {
             // 被迫下线提示
-            this.send(new SendMsgVO(2, userId, username, headPic,userId, "您的账号在其他地方登录,您也被迫下线", null));
+            this.send(new SendMsgVO(2, userId, username, headPic, userId, "被迫下线提示,您的账号在其他地方登录", null));
             log.info("重复登录,原用户被迫下线！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size());
         } else {
-            log.info("有新连接加入！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size());
+            log.info("有新连接加入！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size() + 1);
         }
         // 保存新用户id,用户名,session会话,登录时间
-        headPic= headPic.replaceAll("_", "/");
-        clients.put(userId, new OnlineUser(userId, username,headPic, session));
+        headPic = headPic.replaceAll("_", "/");
+        clients.put(userId, new OnlineUser(userId, username, headPic, session));
         // 告诉所有人,我上线了
         String content = "系统消息:" + username + " 上线了";
-        this.send(new SendMsgVO(1, userId, username, headPic,"ALL", content, null));
+        this.send(new SendMsgVO(1, userId, username, headPic, "ALL", content, null));
 
         // 给自己发一条消息：告诉自己现在都有谁在线
-        this.send(new SendMsgVO(3, userId, username, headPic,userId, JSON.toJSONString(getOnlineUsers()), null));
-
-
+        this.send(new SendMsgVO(3, userId, username, headPic, userId, JSON.toJSONString(getOnlineUsers()), null));
     }
 
 
@@ -82,13 +80,13 @@ public class WebsocketServer {
      * @param session  当前用户会话
      */
     @OnClose
-    public void onClose(@PathParam("userId") String userId, @PathParam("username") String username,  @PathParam("headPic") String headPic,Session session) {
+    public void onClose(@PathParam("userId") String userId, @PathParam("username") String username, @PathParam("headPic") String headPic, Session session) {
         headPic = clients.get(userId).getHeadPic();
         // 所有在线用户中去除下线用户
         clients.remove(userId);
         // 告诉所有人,我下线了
         String content = "系统消息:" + username + " 下线了";
-        this.send(new SendMsgVO(2, userId, username,headPic, "ALL", content, null));
+        this.send(new SendMsgVO(2, userId, username, headPic, "ALL", content, null));
         // 日志
         log.info(username + ":已离线！ 当前在线人数" + clients.size());
     }
@@ -114,26 +112,31 @@ public class WebsocketServer {
      *
      * @param userId   用户id
      * @param username 用户名
-     * @param message  传递的消息内容, json数据( to=接收人用户Id  (目标ID,逗号分隔) || content=内容)
+     * @param message  传递的消息内容, json数据( to=接收人用户Id  (目标ID,逗号分隔) || content=内容  || content=消息类型)
      * @param session  当前用户会话
      * <p>
      *   // 前端发送内容格式
      *   ....
      *   // 拼接参数
-     *   let message = { "content": content, "to": to };
+     *   let message = { "content": content, "to": to ,"type": 1 };
      *   // 发送数据
      *   webSocket.send(JSON.stringify(message));
      *   ....
      *   </P>
+     *   <P> 注意：后端一分钟没有收到心跳检测就会自动断连接，前端需要在 <60秒 轮训发送心跳检测</P>
      */
     @OnMessage
-    public void onMessage(@PathParam("userId") String userId, @PathParam("username") String username,@PathParam("headPic") String headPic, String message, Session session) {
-        log.info("服务器接收到发送消息请求,发送人id={},用户名={}, 接收发送消息={}", userId, username, message);
-        headPic = clients.get(userId).getHeadPic();
+    public void onMessage(@PathParam("userId") String userId, @PathParam("username") String username, @PathParam("headPic") String headPic, String message, Session session) {
         // 请求参数（接收人+发送内容）
         SendMsgDTO sendMsgDTO = JsonUtil.parseEntity(message, SendMsgDTO.class);
+        if (sendMsgDTO.getType().equals(1)) {
+            log.info("心跳检测 ===>  用户id：{} 用户昵称：{} 当前在线用户数量{}", userId, username, clients.size());
+            return;
+        }
+        log.info("服务器接收到发送消息请求,发送人id={},用户名={}, 接收发送消息={}", userId, username, message);
+        headPic = clients.get(userId).getHeadPic();
         // 发送消息
-        this.send(new SendMsgVO(4, userId, username, headPic,sendMsgDTO.getTo(), sendMsgDTO.getContent(), null));
+        this.send(new SendMsgVO(4, userId, username, headPic, sendMsgDTO.getTo(), sendMsgDTO.getContent(), null));
     }
 
 
