@@ -36,7 +36,7 @@ public class WebSocketConfig implements ServletContextInitializer {
     }
 
     /**
-     * 配置websocket传输大小，50M
+     * 配置websocket内容传输大小，1M (如果太大会导致堆空间不足，每个连接都会占用 1M堆空间)
      * @author wangsong
      * @param servletContext
      * @date 2020/12/6 0006 13:49
@@ -44,9 +44,9 @@ public class WebSocketConfig implements ServletContextInitializer {
      * @version 1.0.0
      */
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
+    public void onStartup(ServletContext servletContext) {
         servletContext.addListener(WebAppRootListener.class);
-        servletContext.setInitParameter("org.apache.tomcat.websocket.textBufferSize", "52428800");
-        servletContext.setInitParameter("org.apache.tomcat.websocket.binaryBufferSize", "52428800");
+        servletContext.setInitParameter("org.apache.tomcat.websocket.textBufferSize", "1024000");
+        servletContext.setInitParameter("org.apache.tomcat.websocket.binaryBufferSize", "1024000");
     }
 }
