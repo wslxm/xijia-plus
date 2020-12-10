@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @ToString(callSuper = true)
-@TableName("t_cp_info")
+@TableName("t_xj_cp_info")
 @ApiModel(value = "CpInfo 对象", description = "菜谱表")
 public class CpInfo extends BaseEntity {
 

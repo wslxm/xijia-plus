@@ -10,7 +10,9 @@
     <script src='/base/js/jquery-3.4.1.min.js'></script>
     <script src="http://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <!-- 气泡 css -->
     <link rel="stylesheet" href="/modules/css/xijia/chatbox.css">
+    <!-- -->
     <script src="/base/js/app.js"></script>
     <script src="/components/layuiadmin/layui/src/layui.js"></script>
     <!-- 表情-->
@@ -41,7 +43,7 @@
         background-color: #ffffff;
         float: left;
         /*overflow: auto;*/
-        overflow-x: auto; /* 竖直方向有滚动条，如果想要横向的，可以把y改为x*/
+        overflow-x: auto; /* 展示div最下内容 竖直方向有滚动条，如果想要横向的，可以把y改为x*/
     }
 
     /**
@@ -53,68 +55,165 @@
         margin-top: 2%;
     }
 
-    /**  消息中的图片占比宽度 */
+
+    /**  输入框中内容的图片占比宽度 */
     .text img {
-        width: 20%;
-        /*   height:10%;*/
-        object-fit: cover; /*  剪切图片，保留原始比例*/
+        width: 200px;
+        object-fit: cover; /* 剪切图片，保留原始比例 */
     }
 
-    /**  内容中的图片占比宽度 */
+    /**  输入框中内容的表情占比宽度 */
+    .text .emoji_icon {
+        width: 25px !important;
+        height: 25px !important;
+        object-fit: cover; /* 剪切图片，保留原始比例 */
+    }
+
+
+    /**  消息列表中内容的图片占比宽度， 是按气泡为父元素指定的  */
     .quLiao img {
-        width: 50%;
-        /* height:10%;*/
-        object-fit: cover; /*  剪切图片，保留原始比例*/
+        width: 200px !important;
+        height: 120px !important;
+        object-fit: cover; /* 剪切图片，保留原始比例 */
     }
 
-    /* 表情  */
-    .emoji_icon {
-        width: 6% !important;
-        height: 30%;
-        object-fit: cover; /*  剪切图片，保留原始比例*/
+
+    /**  消息列表中的图片占比宽度 */
+    .quLiao .headPic {
+        width: 40px !important;
+        height: 40px !important;
+        object-fit: cover; /* 剪切图片，保留原始比例 */
     }
+
+
+    /*  消息列表中表情大小 ，固定大小 */
+    .quLiao .emoji_icon {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+
+    /**
+    * 内容+左菜单的滚动条
+    */
+    /*滚动条样式 滚动条整体部分，可以设置宽度啥的*/
+    .scrollBar::-webkit-scrollbar {
+        width: 1px;
+    }
+
+    /*滚动条样式 滚动的滑块*/
+    .scrollBar::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    /*滚动条样式 外层轨道*/
+    .scrollBar::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        border-radius: 0;
+        background: rgba(0, 0, 0, 0.1);
+
+    }
+
 </style>
 <body style="background-color:antiquewhite">
 <br>
 
 <!-- 在线列表  -->
-<span class="zxList" id="zxList" style="width:20%;height:92%;overflow-y:auto;background-color:#ffffff;display: block; position: fixed; top:1%; left:1%; text-decoration: none;">>
+<span class="zxList" id="zxList" style="
+           width:20%;
+           height:92%;
+           overflow-y:auto;
+           background-color:rgba(218,206,200,0.37);
+           display: block;
+           position: fixed;
+           top:1%;
+           left:1%;
+           text-decoration: none;"
+>
     <div class="zxListLi" style="text-align: center">在线列表</div>
 </span>
+<hr>
 
-<!--通信人 -->
-<span class="txr" id="title" style="width:75%;height:5%;overflow-y:auto;background-color:#d8ffd7;display: block; position: fixed; top:1%; left:22%; text-decoration: none;">
-    <font style="font-size: 24px;margin-left: 1%;">大千世界聊天室(全服)</font>
+<!-- 当前通信人 -->
+<span class="txr" id="title" style="
+           width:78%;
+           height:7%;
+           overflow-y:auto;
+           background-color:#ffffff;
+           display: block;
+           position: fixed;
+           top:1%;
+           left:21%;
+           border: 1px none #dad8d5;border-bottom-style: solid; /*div 指定下边有线 */
+           text-decoration: none;
+       ">
+    <font style="font-size: 20px;margin-left: 2%;line-height: 62px;">大千世界聊天室(全服)</font>
 </span>
+<!-- 聊天内容 --><span class="quLiao scrollBar" id="quLiao" style="
+            width:78%;
+            height:64%;
+            overflow-y:auto;
+            background-color:#f9f9f9;
+            display: block;
+            position: fixed;
+            top:8%;
+            left:21%;
+            border: 1px none #dad8d5;border-bottom-style: solid; /*div 指定下边有线 */
+            text-decoration: none;
+          ">
 
-<!-- 聊天内容 -->
-<span class="quLiao" id="quLiao" style="width:75%;height:65%;overflow-y:auto;background-color:#ffffff;display: block; position: fixed; top:6%; left:22%; text-decoration: none;">
+<!--           <div class="chat-sender">-->
+    <!--              <div><img src="/base/pic/head/1.png"></div>-->
+    <!--              <div>昵称</div>-->
+    <!--               <span onclick='img(this)' > <div class="speech left">-->
+    <!--                    笑什么笑，没看到本宝宝今天变漂亮了吗？笑什么笑，没看到本宝宝今天变漂亮了吗？-->
+    <!--               </div></span>-->
+    <!--           </div>-->
+
+    <!--           <div class="chat-receiver">-->
+    <!--               <div style="margin-right: 10px;!important;"><img src="/base/pic/head/1.png"></div>-->
+    <!--               <div>昵称</div>-->
+    <!--                <span onclick='img(this)'>-->
+    <!--                    <div class="speech right" ng-class="speech left">-->
+    <!--                      嘻嘻嘻嘻。。。。。。-->
+    <!--                    </div>-->
+    <!--                </span>-->
+    <!--            </div>-->
 </span>
 
 
 <!-- 消息输入框 -->
-<span style="width:75%;height:25%;overflow-y:auto;background-color:#ffffff;display: block; position: fixed; top:72%; left:22%; text-decoration: none;">
+<span style="width:78%;
+                 height:21%;
+                 overflow-y:auto;
+                 background-color:#ffffff;
+                 display: block;
+                 position: fixed;
+                 top:72%;
+                 left:21%;
+                 text-decoration: none; <!-- 可输入文本-图片 -->
+                ">
      <!-- 表情 -->
-     <span class="col-md-6" style="width:3.1%;height:5%;overflow-y:auto;background-color:#ffffff;display: block; position: fixed; top:72%; left:19%; text-decoration: none;">
+     <span class="col-md-6" style="
+                z-index: -1;
+                width:100%;
+                height:25%;
+                top:0.5%;
+              ">
            <button id="btn" class="btn btn-sm btn-default">:)</button>
      </span>
 
-    <div class="text" id="text" contenteditable="true"
-         style="width: 100%;
-         height: 75%;
-         padding:8px;
-         border:1px solid #ffc5d1;
-         background:#eff7ff;
-         overflow:auto;
-         outline: none;
-    "></div>
-
-    <!--     <td>消息发送至:</td>-->
-    <!--     <select id="to" size="1" style="width: 10%;height:30px">-->
-    <!--         <option value="ALL">所有人</option> &lt;!&ndash; ALL 为所有人 &ndash;&gt;-->
-    <!--     </select>-->
-
-
+    <!-- 输入内容区 -->
+    <div class="text" id="text" contenteditable="true" style="
+                 width: 100%;
+                 height: 55%;
+                 padding-left:1%; /* 文字左间距 */
+                 background:#ffffff;
+                 overflow:auto;
+                 outline: none;
+    "> </div>
     <div style="text-align: right;margin-right: 0.5%;margin-top:0.5% ">
         <input onclick="send()" type="button" value="发送">
     </div>
@@ -206,8 +305,8 @@
                     // 群聊信息时上线
                     quLiao.html(quLiao.html() + notice_msg.replace("{msg}", content));
                     // 在线列表（id=用户id，用于下线删除）
-                    let zx = " <div class=\'zxListLi\' id=\'" + from + "\' style=\'text-align: left\'>" + username + "&nbsp;&nbsp;&nbsp;&nbsp;" + " </div>'";
-                    zxList.html(zxList.html() + zx);
+                    zxList.html(zxList.html() + " <div class='zxListLi' id='" + from + "' style='text-align: left'>" + username +" </div>");
+
                     // 在线人选择框（optionId为了下线通知移除）
                     // toList.html(toList.html() + "<option id='option" + from + "' value='" + from + "'>" + username + "</option> ")
                 }
@@ -234,12 +333,12 @@
                         let createTime = userList[i].createTime; // 用户登录时间
                         if (userId !== from || userId !== formUserId) {
                             // 在线列表（id=用户id，用于下线删除）
-                            zxList.html(zxList.html() + " <div class='zxListLi' id='" + userId + "' style='text-align: left'>" + username + "&nbsp;&nbsp;&nbsp;&nbsp;" + "</div>");
+                            zxList.html(zxList.html() + " <div class='zxListLi' id='" + userId + "' style='text-align: left'>" + username +" </div>");
                             // 在线人选择框（optionId为了下线通知移除） --》 不展示自己
                             toList.html(toList.html() + "<option id='option" + userId + "' value='" + userId + "'>" + username + "</option> ")
                         } else {
                             // 在线列表（id=用户id，用于下线删除）
-                            zxList.html(zxList.html() + " <div class='zxListLi' id='" + userId + "' style='text-align: left'>" + username + " (自己)&nbsp;&nbsp;&nbsp;&nbsp;" + " </div>");
+                            zxList.html(zxList.html() + " <div class='zxListLi' id='" + userId + "' style='text-align: left'>" + username + "(自己) </div>");
 
                         }
                     }
@@ -252,10 +351,10 @@
                         // 判断是否为自己的消息，（自己 ==> 发送方=接收方 || 发送方是自己）
                         if (to === from || formUserId === from) {
                             //自己右边展示
-                            quLiao.html(quLiao.html() + right_msg.replace("{head}", headPic).replace("{name}", username,).replace("{msg}", content))
+                            quLiao.html(quLiao.html() + right_msg.replace("{head}", headPic).replace("{name}", username,).replace("{msg}", content).replace("{time}", createTime));
                         } else {
                             //左边展示
-                            quLiao.html(quLiao.html() + left_msg.replace("{head}", headPic).replace("{name}", username,).replace("{msg}", content));
+                            quLiao.html(quLiao.html() + left_msg.replace("{head}", headPic).replace("{name}", username,).replace("{msg}", content).replace("{time}", createTime));
                         }
                         // 显示内容一直在最底
                         $('#quLiao')[0].scrollTop = $('#quLiao')[0].scrollHeight;
@@ -311,16 +410,42 @@
         let to = "ALL";                                   // 接收数据人id
         let content = $("#text").html();                  // 发送的数据
         content = content.replace("<div><br></div>", ""); /* 去除回车按键内容 */
+        content = content.replace("<div><br></div>", ""); /* 去除回车按键内容 */
+        content = content.replace("<div><br></div>", ""); /* 去除回车按键内容 */
+        if (content == "") {
+            layer.msg("输入内容为空");
+            return;
+        }
         // 参数拼接
         let message = {
             "content": content,
             "to": to,
             "type": 2  // 1-心跳检测 2-内容
         };
+        message = JSON.stringify(message);
+        let size = bytesLnegth(content);
+        if (size > 1024000) {
+            layer.msg("内容最大支持1MB,当前 " + (size / 1000 / 1000).toFixed(2) + "MB");
+            throw new Error("内容过大，只支持1M以内的数据")
+        }
         //发送数据
-        websocket.send(JSON.stringify(message));
+        websocket.send(message);
         // 置空
         $("#text").html("");
+    }
+
+
+    /**
+     * 计算内容大小
+     */
+    function bytesLnegth(str) {
+        var count = str.length;
+        for (var i = 0; i < str.length; i++) {
+            if (str.charCodeAt(i) > 255) {
+                count++;
+            }
+        }
+        return count;
     }
 
 
@@ -328,18 +453,31 @@
      * 放大内容图片
      */
     function img(ths) {
-        let content = " <div class='align-center' style='width:100%;height:100%;margin:0 auto'>" + ths.innerHTML + "</div> ";
+
+        /*let html = "<img src='" + obj.src + "'  style='height: 400px;clear: both; display: block; margin: auto;' >";*/
+        /*let content = " <div style='height: 400px;clear: both; display: block; margin: auto;'>" + ths.innerHTML + "</div> ";*/
+
+        let innerHTML = ths.innerHTML;
+        let imgStartIndex = innerHTML.indexOf("<img src=");
+        if (imgStartIndex === -1) {
+            return;
+        }
+        innerHTML = innerHTML.replace(" alt=\"\"", "");
+        innerHTML = innerHTML.substring(imgStartIndex + 10);
+        let imgEndIndex = innerHTML.indexOf(">");
+        let src = innerHTML.substring(0, imgEndIndex - 1);
+        //
+        let html = "<img src='" + src + "'  style='height: 95%;clear: both; display: block; margin: auto;'>";
         layui.layer.open({
             type: 1,
-            title: '聊天内容',
+            title: '查看图片',
             area: ["80%", "80%"],
-            content: content,
+            content: html,
             shade: 0.6,
             closeBtn: 1,
             shadeClose: true,
         })
     }
-
 
     /**
      * 获取默认头像
@@ -377,6 +515,8 @@
             heartbeatDetection();
         }, 1000 * 56);
     }
+
+
 </script>
 
 
@@ -390,24 +530,41 @@
      * @version 1.0.0
      */
         // 左边输入 Left | left_msg  {head} {name} {msg}
+        // var left_msg = "<div class=\"chat-sender\">\n" +
+        //     "    <div><img src=\"{head}\"></div>\n" +
+        //     "    <div>{name}</div>\n" +
+        //     "    <div>\n" +
+        //     "    <div class=\"chat-left_triangle\"></div>\n" +
+        //     "    <span onclick='img(this)'>{msg}</span>\n" +
+        //     "    </div>\n" +
+        //     "    </div>";
+        //
     var left_msg = "<div class=\"chat-sender\">\n" +
-        "    <div><img src=\"{head}\"></div>\n" +
-        "    <div>{name}</div>\n" +
-        "    <div>\n" +
-        "    <div class=\"chat-left_triangle\"></div>\n" +
-        "    <span onclick='img(this)'>{msg}</span>\n" +
-        "    </div>\n" +
-        "    </div>";
+        "              <div><img class='headPic'  src=\"{head}\"></div>\n" +
+        "              <div>{name} &emsp; {time}</div>\n" +
+        "               <span onclick='img(this)' > <div class=\"speech left\">\n" +
+        "                   {msg}\n" +
+        "               </div></span>\n" +
+        "           </div>";
 
     // 右边输入 Right | right_msg {head} {name} {msg}
-    var right_msg = " <div class=\"chat-receiver\">\n" +
-        "        <div style=\"margin-right: 10px;!important;\"><img src=\"{head}\"></div>\n" +
-        "        <div>{name}</div>\n" +
-        "        <div>\n" +
-        "        <div class=\"chat-right_triangle\"></div>\n" +
-        "        <span onclick='img(this)'>{msg}</span>\n" +
-        "        </div>\n" +
-        "        </div>";
+    // var right_msg = " <div class=\"chat-receiver\">\n" +
+    //     "        <div style=\"margin-right: 10px;!important;\"><img src=\"/base/pic/head/1.png\"></div>\n" +
+    //     "        <div>{name}</div>\n" +
+    //     "        <div>\n" +
+    //     "        <div class=\"chat-right_triangle\"></div>\n" +
+    //     "        <span onclick='img(this)'>{msg}</span>\n" +
+    //     "        </div>\n" +
+    //     "        </div>";
+    var right_msg = "<div style=\"margin-bottom: 50px!important;\" class=\"chat-receiver\">\n" +
+        "               <div style=\"margin-right: 10px;!important;\"><img class='headPic' src=\"{head}\"></div>\n" +
+        "               <div>{time} &emsp; {name}</div>\n" +
+        "                <span onclick='img(this)'>\n" +
+        "                    <div class=\"speech right\" >\n" +
+        "                      {msg}\n" +
+        "                    </div>\n" +
+        "                </span>\n" +
+        "            </div>";
 
     // 通知Notice/Center | {msg}
     var notice_msg = "<div class=\"chat-notice\">\n" +
@@ -421,7 +578,6 @@
     $("#btnLoad2").click(function () {
         emoji()
     });
-
 
     function emoji() {
         $("#text").emoji({

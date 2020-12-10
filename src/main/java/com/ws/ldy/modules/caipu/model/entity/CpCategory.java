@@ -19,7 +19,7 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
-@TableName("t_cp_category")
+@TableName("t_xj_cp_category")
 @ApiModel(value = "CpCategory 对象", description = "菜谱类别字典表")
 public class CpCategory extends BaseEntity {
 
