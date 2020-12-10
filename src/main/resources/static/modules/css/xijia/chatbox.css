@@ -255,4 +255,88 @@ div .left:after {
 }
 
 
+/* ============================================================ */
+
+/* overflow-y :auto;overflow :auto;  宽高自适应滚动条   */
+/**
+* 群聊
+*/
+.quLiao {
+    width: 80%;
+    height: 600px;
+    background-color: #ffffff;
+    float: left;
+    /*overflow: auto;*/
+    overflow-x: auto; /* 展示div最下内容 竖直方向有滚动条，如果想要横向的，可以把y改为x*/
+}
+
+/**
+ * 在线人-列表样式
+ */
+.zxListLi {
+    cursor: pointer;
+    margin-left: 5%;
+    margin-top: 2%;
+}
+
+
+/**  输入框中内容的图片占比宽度 */
+.text img {
+    width: 200px;
+    object-fit: cover; /* 剪切图片，保留原始比例 */
+}
+
+/**  输入框中内容的表情占比宽度 */
+.text .emoji_icon {
+    width: 25px !important;
+    height: 25px !important;
+    object-fit: cover; /* 剪切图片，保留原始比例 */
+}
+
+
+/**  消息列表中内容的图片占比宽度， 是按气泡为父元素指定的  */
+.quLiao img {
+    width: 200px !important;
+    height: 120px !important;
+    object-fit: cover; /* 剪切图片，保留原始比例 */
+}
+
+
+/**  消息列表中的图片占比宽度 */
+.quLiao .headPic {
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: cover; /* 剪切图片，保留原始比例 */
+}
+
+
+/*  消息列表中表情大小 ，固定大小 */
+.quLiao .emoji_icon {
+    width: 25px !important;
+    height: 25px !important;
+}
+
+
+/**
+* 内容+左菜单的滚动条
+*/
+/*滚动条样式 滚动条整体部分，可以设置宽度啥的*/
+.scrollBar::-webkit-scrollbar {
+    width: 1px;
+}
+
+/*滚动条样式 滚动的滑块*/
+.scrollBar::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/*滚动条样式 外层轨道*/
+.scrollBar::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 0;
+    background: rgba(0, 0, 0, 0.1);
+
+}
 
