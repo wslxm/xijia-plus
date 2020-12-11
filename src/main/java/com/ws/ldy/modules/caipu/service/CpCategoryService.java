@@ -39,24 +39,5 @@ public interface CpCategoryService extends IService<CpCategory> {
      * 查询下级所有Id, 包括禁用数据
      */
     List<String> findByIdFetchIds(String id);
-
-//    /**
-//     * 分组查询-key-value数据： 不包括禁用数据
-//     * @return
-//     */
-//    Map<String, AdminDictionaryVO.FindCodeGroup> findCodeGroup();
-
-
-//    /**
-//     * 拼接java 枚举类
-//     * @param dict
-//     */
-//    String generateEnumJava(CpCategoryVO dict);
-//
-//    /**
-//     * 拼接js 字典数据
-//     * @param dict
-//     */
-//    String generateEnumJs(CpCategoryVO dict);
 }
 

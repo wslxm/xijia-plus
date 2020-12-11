@@ -129,10 +129,6 @@ public class WebsocketServer {
     public void onMessage(@PathParam("userId") String userId, @PathParam("username") String username, @PathParam("headPic") String headPic, String message, Session session) {
         // 请求参数（接收人+发送内容）
         SendMsgDTO sendMsgDTO = JsonUtil.parseEntity(message, SendMsgDTO.class);
-        if (sendMsgDTO.getType().equals(1)) {
-            log.info("心跳检测 ===>  用户id：{} 用户昵称：{} 当前在线用户数量{}", userId, username, clients.size());
-            return;
-        }
         log.info("服务器接收到发送消息请求,发送人id={},用户名={}, 接收发送消息={}", userId, username, message);
         headPic = clients.get(userId).getHeadPic();
         // 发送消息

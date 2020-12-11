@@ -1,5 +1,7 @@
 package com.ws.ldy.config.mvc;
 
+import com.ws.ldy.others.aliyun.oss.filter.OssFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -21,10 +23,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
-
-//    @Autowired
-//    private FilterService filterService;
-
     /**
      * 访问URL路径与 resources\templates 页面(.html）路径映射配置, 这里主要做单独的页面跳转
      * <p>
@@ -36,11 +34,10 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/index").setViewName("modules/admin/xj-index");    // 管理端主页
         registry.addViewController("/").setViewName("modules/admin/xj_login");         // 管理端登录页
         registry.addViewController("/login").setViewName("modules/admin/xj_login");    // 管理端登录页
-        registry.addViewController("/fh").setViewName("front/symbol/main");            // 文本转符号生成器
-        registry.addViewController("/java").setViewName("xj/javaCodeRun/javaCodeRun"); // java代码运行器
+        registry.addViewController("/fh").setViewName("modules/tool/fhConvert.html");  // 文本转符号生成器
+        registry.addViewController("/java").setViewName("modules/tool/javaCodeRun");   // java代码运行器
         registry.addViewController("/lts").setViewName("xj/websocket/lts.html");       // 在线聊天室
         registry.addViewController("/help").setViewName("modules/admin/help/index");   // 兮家手册
-
     }
 
 
@@ -86,10 +83,10 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
 
-//    /**
-//     * 请求参数过滤器（处理请求参数）
-//     * @return
-//     */
+    /**
+     * 请求参数过滤器（处理请求参数）
+     * @return
+     */
 //    @Bean
 //    public FilterRegistrationBean requestFilter() {
 //        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
@@ -128,4 +125,19 @@ public class MvcConfig implements WebMvcConfigurer {
 //        filterRegistrationBean.setOrder(1000);//执行次序
 //        return filterRegistrationBean;
 //    }
+
+
+    /**
+     * Oss 过滤器,让访问oss的资源直接去oss服务器去读取
+     * @return
+     */
+    @Bean
+    public FilterRegistrationBean OssFilter() {
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        filterRegistrationBean.setFilter(new OssFilter());
+        filterRegistrationBean.addUrlPatterns("/*");      // 拦截所有
+        filterRegistrationBean.setName("requestFilter");  // 设置过滤器名称
+        filterRegistrationBean.setOrder(1);//执行次序
+        return filterRegistrationBean;
+    }
 }

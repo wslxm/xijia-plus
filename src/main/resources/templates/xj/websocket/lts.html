@@ -406,27 +406,27 @@
     }
 
 
-    /**
-     * 心跳检测(56秒1次), 服务器一分钟没收到心跳检测就会端连接
-     * @author wangsong
-     * @date 2020/12/7 0007 9:50
-     * @return
-     * @version 1.0.0
-     */
-    function heartbeatDetection() {
-        setTimeout(function () {
-            // 参数拼接
-            let message = {
-                "content": "heartbeat detection",  // 心跳检测随意定义
-                "to": "ALL",                       // 心跳检测随意定义
-                "type": 1                          // 1-心跳检测 2-内容
-            };
-            //发送数据
-            websocket.send(JSON.stringify(message));
-            //递归轮训
-            heartbeatDetection();
-        }, 1000 * 56);
-    }
+    // /**
+    //  * 心跳检测(56秒1次), 服务器一分钟没收到心跳检测就会端连接
+    //  * @author wangsong
+    //  * @date 2020/12/7 0007 9:50
+    //  * @return
+    //  * @version 1.0.0
+    //  */
+    // function heartbeatDetection() {
+    //     setTimeout(function () {
+    //         // 参数拼接
+    //         let message = {
+    //             "content": "heartbeat detection",  // 心跳检测随意定义
+    //             "to": "ALL",                       // 心跳检测随意定义
+    //             "type": 1                          // 1-心跳检测 2-内容
+    //         };
+    //         //发送数据
+    //         websocket.send(JSON.stringify(message));
+    //         //递归轮训
+    //         heartbeatDetection();
+    //     }, 1000 * 56);
+    // }
 
 
 </script>
@@ -488,7 +488,6 @@
             }]
         });
     }
-
     emoji();
 </script>
 </html>

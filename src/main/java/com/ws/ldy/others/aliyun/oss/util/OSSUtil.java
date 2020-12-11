@@ -45,43 +45,67 @@ import com.aliyun.oss.model.OSSObjectSummary;
 import com.aliyun.oss.model.ObjectListing;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectRequest;
+import com.ws.ldy.common.utils.PathUtil;
+import com.ws.ldy.others.aliyun.oss.config.OssConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ *  阿里云 OSS
+ *  endpoint是访问OSS的域名。如果您已经在OSS的控制台上 创建了Bucket，请在控制台上查看域名。
+ *  上传使用外网 endpoint
+ *  下载使用内网 endpoint（只有在同地区下的阿里云服务器才可以访问）
+ *  <p>
+ *  // 上传
+ *  外网流入流量免费 （上传免费）
+ *  内网流入流量免费 （上传免费）
+ *  // 下载
+ *  外网流出流量免费（按量计费, 闲是2.5毛 1GB，忙是 5毛1GB）
+ *  内网流出流量免费（下载访问免费，同地域阿里云服务器可使用内网）
+ *
+ * @author wangsong
+ * @date 2020/12/11 0011 16:05
+ * @return
+ * @version 1.0.0
+ */
+@SuppressWarnings("ALL")
 @Slf4j
 @Service
 public class OSSUtil {
 
-    /**
-     * endpoint是访问OSS的域名。如果您已经在OSS的控制台上 创建了Bucket，请在控制台上查看域名。
-     * 上传使用外网 endpoint
-     * 下载使用内网 endpoint（只有在同地区下的阿里云服务器才可以访问）
-     * <p>
-     * // 上传
-     * 外网流入流量免费 （上传免费）
-     * 内网流入流量免费 （上传免费）
-     * // 下载
-     * 外网流出流量免费（按量计费, 闲是2.5毛 1GB，忙是 5毛1GB）
-     * 内网流出流量免费（下载访问免费，同地域阿里云服务器可使用内网）
-     */
-    // 阿里云下oss 接口访问地址
-    @Value("${aliyun.oss.endpoint}")
-    private String endpoint;
+    //    /**
+//     * 文件一级目录, 文件保存到oss的路径(勿修改 oos/  ), file/ 可修改
+//     */
+    private final static String FILE_PATH = "oss/file/";
 
-    // 阿里云下oss 的 accessKeyId和accessKeySecret(访问密钥，您可以在控制台上创建和查看)
-    @Value("${aliyun.oss.accessKeyId}")
-    private String accessKeyId;
-
-    @Value("${aliyun.oss.accessKeySecret}")
-    private String accessKeySecret;
-
-    //阿里云oss下bucketName
-    @Value("${aliyun.oss.bucketName}")
-    private String bucketName;
+    @Autowired
+    private HttpServletRequest request;
+//    /**
+//     * 阿里云下oss 接口访问地址
+//     */
+//    @Value("${aliyun.oss.endpoint}")
+//    private String endpoint;
+//    /**
+//     * 阿里云下oss 的 accessKeyId和accessKeySecret(访问密钥，您可以在控制台上创建和查看)
+//     */
+//    @Value("${aliyun.oss.accessKeyId}")
+//    private String accessKeyId;
+//    /**
+//     * 阿里云oss下 accessKeySecret
+//     */
+//    @Value("${aliyun.oss.accessKeySecret}")
+//    private String accessKeySecret;
+//    /**
+//     * 阿里云oss下bucketName
+//     */
+//    @Value("${aliyun.oss.bucketName}")
+//    private String bucketName;
 
 
     /**
@@ -90,19 +114,23 @@ public class OSSUtil {
      * 链接地址：https://help.aliyun.com/document_detail/oss/sdk/java-sdk/upload_object.html?spm=5176.docoss/user_guide/upload_object
      * </P>
      *
-     * @param yourObjectName 表示上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg。
+     * @param filePath  文件二级目录
+     * @param fileName  文件名称
      * @param inputStream    文件流
      * @return
      */
-    public String upload(String yourObjectName, InputStream inputStream) {
+    public String upload(String filePath, String fileName, InputStream inputStream) {
+        // 表示上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg。
+        String yourObjectName = FILE_PATH + filePath + fileName;
         // 创建ossClient
-        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+        OSS ossClient = new OSSClientBuilder().build(OssConfig.endpoint, OssConfig.accessKeyId, OssConfig.accessKeySecret);
         // 创建PutObjectRequest对象。
-        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, yourObjectName, inputStream);
+        PutObjectRequest putObjectRequest = new PutObjectRequest(OssConfig.bucketName, yourObjectName, inputStream);
         // 设置 ContentType 类型 ,防止图片等资源无法使用url直接访问，没有对应格式时,不处理，使用文件对应的默认格式
         ObjectMetadata metadata = new ObjectMetadata();
-        String contentType = getContentType(yourObjectName.substring(yourObjectName.lastIndexOf(".")));
-        if(contentType!=null){
+        String suffixName = yourObjectName.substring(yourObjectName.lastIndexOf("."));
+        String contentType = AliFileUtil.getContentType(suffixName);
+        if (contentType != null) {
             metadata.setContentType(contentType);
         }
         putObjectRequest.setMetadata(metadata);
@@ -113,7 +141,9 @@ public class OSSUtil {
         log.info("上传-" + yourObjectName + " 成功");
         // 关闭OSSClient。
         ossClient.shutdown();
-        return yourObjectName;
+        // 访问地址= 当前服务器域名 + oss存储路径
+        String baseUrl = PathUtil.getBaseUrl(request);
+        return baseUrl + "/" + yourObjectName;
     }
 
 
@@ -122,13 +152,13 @@ public class OSSUtil {
      */
     public List<OSSObjectSummary> getObjectListing() {
         // 创建ossClient
-        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-        ObjectListing objectListing = ossClient.listObjects(bucketName);
+        OSS ossClient = new OSSClientBuilder().build(OssConfig.endpoint,OssConfig.accessKeyId, OssConfig.accessKeySecret);
+        ObjectListing objectListing = ossClient.listObjects(OssConfig.bucketName);
         List<OSSObjectSummary> objectSummary = objectListing.getObjectSummaries();
-//        System.out.println("您有以下Object：");
-//        for (OSSObjectSummary object : objectSummary) {
-//            System.out.println("\t" + object.getKey());
-//        }
+        //  System.out.println("您有以下Object：");
+        //  for (OSSObjectSummary object : objectSummary) {
+        //      System.out.println("\t" + object.getKey());
+        //  }
         // 关闭OSSClient。
         ossClient.shutdown();
         return objectSummary;
@@ -140,62 +170,11 @@ public class OSSUtil {
      */
     public boolean deleteObject(String firstKey) {
         // 创建ossClient
-        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-        ossClient.deleteObject(bucketName, firstKey);
+        OSS ossClient = new OSSClientBuilder().build(OssConfig.endpoint, OssConfig.accessKeyId, OssConfig.accessKeySecret);
+        ossClient.deleteObject(OssConfig.bucketName, firstKey);
         System.out.println("删除Object：" + firstKey + "成功。");
         // 关闭OSSClient。
         ossClient.shutdown();
         return true;
-    }
-
-
-    /**
-     * 判断获取文件类型在保存,否则可能出现无法直接访问的问题， 如果后缀不在以下范围内，返回null
-     *
-     * @param FilenameExtension
-     * @return
-     */
-    public static String getContentType(String FilenameExtension) {
-        if (FilenameExtension.equalsIgnoreCase(".bmp")) {
-            return "image/bmp";
-        }
-        if (FilenameExtension.equalsIgnoreCase(".gif")) {
-            return "image/gif";
-        }
-        if (FilenameExtension.equalsIgnoreCase(".jpeg") ||
-                FilenameExtension.equalsIgnoreCase(".jpg") ||
-                FilenameExtension.equalsIgnoreCase(".png")) {
-            return "image/jpg";
-        }
-        if (FilenameExtension.equalsIgnoreCase(".html")) {
-            return "text/html";
-        }
-        if (FilenameExtension.equalsIgnoreCase(".txt")) {
-            return "text/plain";
-        }
-        if (FilenameExtension.equalsIgnoreCase(".vsd")) {
-            return "application/vnd.visio";
-        }
-        if (FilenameExtension.equalsIgnoreCase(".pptx") ||
-                FilenameExtension.equalsIgnoreCase(".ppt")) {
-            return "application/vnd.ms-powerpoint";
-        }
-        if (FilenameExtension.equalsIgnoreCase(".docx") ||
-                FilenameExtension.equalsIgnoreCase(".doc")) {
-            return "application/msword";
-        }
-        if (FilenameExtension.equalsIgnoreCase(".xml")) {
-            return "text/xml";
-        }
-        if (FilenameExtension.equalsIgnoreCase(".mp4")) {
-            return "video/mp4";
-        }
-        if (FilenameExtension.equalsIgnoreCase(".mp3")) {
-            return "audio/mp3";
-        }
-        if (FilenameExtension.equalsIgnoreCase(".pdf")) {
-            return " application/pdf";
-        }
-        return null;
     }
 }

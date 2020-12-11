@@ -59,7 +59,6 @@
         <aliyun-java-sdk-core.version>4.5.1</aliyun-java-sdk-core.version>
         <weixin-java-mp.version>3.9.0</weixin-java-mp.version>
         <!-- 其他 -->
-        <spring-cloud-starter-netflix-zuul.version>2.2.0.RELEASE</spring-cloud-starter-netflix-zuul.version>
         <spring-boot-admin-starter-server.version>2.2.2</spring-boot-admin-starter-server.version>
         <spring-boot-admin-starter-client.version>2.2.2</spring-boot-admin-starter-client.version>
         <cglib.version>3.2.4</cglib.version>
@@ -209,13 +208,6 @@
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-core</artifactId>
             <version>${aliyun-java-sdk-core.version}</version>
-        </dependency>
-        <!-- zuul 实现类似于nginx的转发功能,进行oss内网访问 -->
-        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-zuul -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
-            <version>${spring-cloud-starter-netflix-zuul.version}</version>
         </dependency>
         <!-- excel2003使用的包 -->
         <dependency>
