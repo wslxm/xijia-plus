@@ -69,10 +69,10 @@ public class WebsocketController extends BaseController {
         String userId = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
         String username = "游客:" + new SimpleDateFormat("ssSSS").format(new Date());
         // 如果是线上 (域名+socket地址+id+用户名)
-        String path = "ws://" + serverName + interfaceName + "/" + userId + "/" + username;
+        String path = "ws://" + serverName + interfaceName + "/" ;//+ userId + "/" + username
         // 如果是本地 (ip + 端口 + socket地址 + id +用户名)
         if ("127.0.0.1".equals(serverName) || "localhost".equals(serverName)) {
-            path = "ws://" + serverName + ":" + port + interfaceName + "/" + userId + "/" + username;
+            path = "ws://" + serverName + ":" + port + interfaceName + "/";
         }
         //返回参数
         Map<String, String> map = new HashMap<>();
@@ -92,12 +92,13 @@ public class WebsocketController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "form", value = "发送人Id", required = true),
             @ApiImplicitParam(name = "username", value = "发送人用户名", required = true),
+            @ApiImplicitParam(name = "headPic", value = "发送人头像", required = true),
             @ApiImplicitParam(name = "to", value = "接收人Id, 全部为ALL", required = true),
             @ApiImplicitParam(name = "content", value = "发送内容", required = true),
             @ApiImplicitParam(name = "extras", value = "附加发送内容", required = true)
     })
-    public R<Void> send(String form, String username, String to, String content, String extras) {
-        websocketService.send(form, username, to, content, extras);
+    public R<Void> send(String form, String username,String headPic, String to, String content, String extras) {
+        websocketService.send(form, username,headPic, to, content, extras);
         return R.success();
     }
 

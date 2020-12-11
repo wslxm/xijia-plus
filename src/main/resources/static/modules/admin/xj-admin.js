@@ -19,7 +19,12 @@ function adminLogout() {
 function menuRoot1() {
     let html = "";
     $.each(dataJson, function (index) {
-        html += "<li class=\"layui-nav-item\" onclick=\"menuRoot1Click(" + index + ")\"><a href=\"JavaScript:void(0)\">" + dataJson[index].name + "</a></li>";
+        if(index == 0){
+            html += "<li class=\"layui-nav-item layui-this\" onclick=\"menuRoot1Click(" + index + ")\"><a href=\"JavaScript:void(0)\">" + dataJson[index].name + "</a></li>";
+        }else{
+            html += "<li class=\"layui-nav-item\" onclick=\"menuRoot1Click(" + index + ")\"><a href=\"JavaScript:void(0)\">" + dataJson[index].name + "</a></li>";
+        }
+
     });
     $("#menuRoot1").html(html);
 }

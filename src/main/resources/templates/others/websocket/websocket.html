@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <title>websocket</title>
+    <script src='/base/js/jquery-3.4.1.js'></script>
     <script src='/base/js/jquery-3.4.1.min.js'></script>
     <script src="http://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
@@ -60,7 +61,7 @@
 </span>
 
 
-<!-- 消息输入框 contenteditable="true"-->
+<!-- 消息输入框 -->
 <textarea id="text" placeholder="请输入内容-发送消息[Ctrl+回车键]" rows="3%" cols="60%"></textarea>
 <td>消息发送至:</td>
 <select id="to" size="1" style="width: 10%;height:30px">
@@ -86,16 +87,16 @@
     let formUserId = JsonData.data.userId;     //用户Id
     let formUsername = JsonData.data.username; //用户名
 
-    let zxList = $("#zxList");  // 在线列表
-    let quLiao = $("#quLiao");  // 群聊
-    let siLiao = $("#siLiao");  // 私聊
-    let toList = $("#to");      // 发送人select选择框
+    let zxList = $("#zxList");  //在线列表
+    let quLiao = $("#quLiao");  //群聊
+    let siLiao = $("#siLiao");  //私聊
+    let toList = $("#to");          //发送人select选择框
 
     let webSocket;
     // var commWebSocket;
     http:
         if ("WebSocket" in window) {
-
+            socketPath = socketPath + formUserId + "/" + formUsername + "/1.png";
             // 连接地址：后端获取
             websocket = new WebSocket(socketPath);   // 如: "ws://192.168.0.154:9049/websocket/张三/1"
 
@@ -245,4 +246,5 @@
     }
 </script>
 </html>
+
 

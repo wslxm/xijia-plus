@@ -50,8 +50,6 @@ public class SwaggerConfig {
     private AdminAuthorityService adminAuthorityService;
 
 
-
-
     @Bean
     public Docket baseApi() {  //swagger.ui-config.operations-sorter=method
         return new Docket(DocumentationType.SWAGGER_2)
@@ -135,7 +133,6 @@ public class SwaggerConfig {
                         .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
                         .build());
     }
-
 
 
     /**

@@ -4,7 +4,6 @@
 server:
   port: 9049
 
-
 # DataSource Config spring.datasource.dynamic.datasource.db1.url
 spring:
   autoconfigure:
@@ -32,27 +31,9 @@ wx:
         token: 123456789                             # 接口配置里的Token值
         aesKey: 123456789                            # 接口配置里的EncodingAESKey值
 
+## 阿里云配置OssConfig类 --> true 正式环境 | false 测试环境
+isAliOss : false
 
-## 阿里云oss配置 (此阿里云为个人账号提供, 请自行切换为自己的阿里云oss地址，一旦发现滥用，将关闭此服务地址)
-aliyun:
-  oss:
-    # oss访问地址  外网-> oss-cn-shenzhen.aliyuncs.com   内网-> oss-cn-shenzhen-internal.aliyuncs.com
-    endpoint: oss-cn-shenzhen.aliyuncs.com
-    # 阿里云下oss 的 accessKeyId和accessKeySecret(访问密钥，您可以在控制台上创建和查看)
-    accessKeyId: LTAI4Fyfy2DTf4yUrvKqHwH4
-    accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8
-    # Bucket 名称
-    bucketName: xijia-sz
-
-
-## 路由转发, 目前主要用于阿里云oss 文件访问路由转发：外网: xijia-sz.oss-cn-shenzhen.aliyuncs.com   内网-> xijia-sz.oss-cn-shenzhen-internal.aliyuncs.com
-zuul:
-  routes:
-    ali-oss:
-      id: aliOss
-      path: /oss/**
-      stripPrefix: false
-      url: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
 
 ## logback日志输出
 logging:

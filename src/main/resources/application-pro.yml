@@ -2,8 +2,7 @@
 
 ## HTTP (Tomcat) port
 server:
-  port: 9048
-
+  port: 9049
 
 # DataSource Config spring.datasource.dynamic.datasource.db1.url
 spring:
@@ -21,7 +20,6 @@ spring:
           password:
           type: com.alibaba.druid.pool.DruidDataSource
 
-
 ## 微信公众号 相关配置信息
 wx:
   mp:
@@ -32,29 +30,14 @@ wx:
         aesKey:                    # 接口配置里的EncodingAESKey值(非必填)
 
 
-## 阿里云oss配置, 此阿里云为个人账号提供, 请自行切换为自己的阿里云oss地址，一旦发现滥用，将关闭此服务地址
-aliyun:
-  oss:
-    # oss 访问地址:外网
-    endpoint:
-    # 阿里云下oss 的 accessKeyId和accessKeySecret(访问密钥，您可以在控制台上创建和查看)
-    accessKeyId:
-    accessKeySecret:
-    # Bucket 名称
-    bucketName:
-
-
-## 路由转发, 目前主要用于阿里云oss 文件访问路由转发：外网
-zuul:
-  routes:
-    ali-oss:
-      id: aliOss
-      path: /oss/**
-      stripPrefix: false
-      url: 阿里云外网和内网访问文件路径
+## 阿里云OSS配置 --> true 正式环境 | false 测试环境(默认) -> OssConfig 配置类中读取
+isAliOss : true
 
 
 ## logback日志输出：linux 项目放置路径, 请自行配置log在服务器的输出路径，由 logback-spring.xml 读取此配置信息, 线上请配置linux路径: /usr/local/work/xijia2/logs
 logging:
-  file: linux项目的部署路径
+  # 日志目录, 线上请配置linux 绝对路径 如：/usr/local/work/xijia2/logs
+  filePath: /usr/local/work/xijia2/logs
+  # 配置日志路径即可实时输出到 spring-boot-admin 日志管理
+  file: /usr/local/work/xijia2/log.txt
 

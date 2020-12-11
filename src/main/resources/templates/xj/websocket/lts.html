@@ -7,70 +7,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <title>websocket</title>
-    <script src='/static/base/js/jquery-3.4.1.min.js'></script>
+    <script src='/base/js/jquery-3.4.1.min.js'></script>
     <script src="http://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
-    <script src="/static/base/js/app.js"></script>
+    <!-- 气泡 css -->
+    <link rel="stylesheet" href="/modules/css/xijia/chatbox.css">
+    <!-- -->
+    <script src="/base/js/app.js"></script>
+    <script src="/components/layuiadmin/layui/src/layui.js"></script>
+    <!-- 表情-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/components/jquery-emoji/lib/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/components/jquery-emoji/lib/css/jquery.mCustomScrollbar.min.css"/>
+    <link rel="stylesheet" href="/components/jquery-emoji/dist/css/jquery.emoji.css"/>
+    <link rel="stylesheet" href="/components/jquery-emoji/lib/css/railscasts.css"/>
+    <link rel="stylesheet" href="/components/jquery-emoji/dist/css/index.css"/>
+    <script src="/components/jquery-emoji/dist/js/jquery.emoji.min.js"></script>
+    <script src="/components/jquery-emoji/lib/script/jquery.min.js"></script>
+    <script src="/components/jquery-emoji/lib/script/highlight.pack.js"></script>
+    <script src="/components/jquery-emoji/lib/script/jquery.mousewheel-3.0.6.min.js"></script>
+    <script src="/components/jquery-emoji/lib/script/jquery.mCustomScrollbar.min.js"></script>
+    <script src="/components/jquery-emoji/dist/js/jquery.emoji.min.js"></script>
 </head>
 <css>
 
 </css>
-<style>
-    /* overflow-y :auto;overflow :auto;  宽高自适应滚动条 */
-    /* 群聊*/
-    .quLiao {
-        width: 80%;
-        height: 300px;
-        background-color: papayawhip;
-        float: left;
-        overflow-y: auto;
-        overflow: auto;
-    }
 
-    /* 私聊*/
-    .siLiao {
-        width: 80%;
-        height: 300px;
-        background-color: papayawhip;
-        float: left;
-        overflow-y: auto;
-        overflow: auto;
-    }
-
-    /*在线列表*/
-    .zxList {
-        width: 20%;
-        background-color: #F2F2F2;
-        float: left;
-        overflow-y: auto;
-        overflow: auto;
-    }
-</style>
-<body>
+<body style="background-color:antiquewhite">
 <br>
 
+<!-- 在线列表  -->
+<span class="zxList" id="zxList" style="
+           width:20%;
+           height:92%;
+           overflow-y:auto;
+           background-color:rgba(218,206,200,0.37);
+           display: block;
+           position: fixed;
+           top:1%;
+           left:1%;
+           text-decoration: none;"
+>
+    <div class="zxListLi" style="text-align: center">在线列表</div>
+</span>
+<hr>
 
-<span class="quLiao" id="quLiao">
-    <li style="text-align: center">群聊信息</li> <!--    <li style="text-align: right">靠右</li>  <li style="text-align: left" >靠左</li>-->
+<!-- 当前通信人 -->
+<span class="txr" id="title" style="
+           width:78%;
+           height:7%;
+           overflow-y:auto;
+           background-color:#ffffff;
+           display: block;
+           position: fixed;
+           top:1%;
+           left:21%;
+           border: 1px none #dad8d5;border-bottom-style: solid; /*div 指定下边有线 */
+           text-decoration: none;
+       ">
+    <font style="font-size: 20px;margin-left: 2%;line-height: 62px;">大千世界聊天室(全服)</font>
+</span>
+<!-- 聊天内容 --><span class="quLiao scrollBar" id="quLiao" style="
+            width:78%;
+            height:64%;
+            overflow-y:auto;
+            background-color:#f9f9f9;
+            display: block;
+            position: fixed;
+            top:8%;
+            left:21%;
+            border: 1px none #dad8d5;border-bottom-style: solid; /*div 指定下边有线 */
+            text-decoration: none;
+          ">
+
+<!--           <div class="chat-sender">-->
+    <!--              <div><img src="/base/pic/head/1.png"></div>-->
+    <!--              <div>昵称</div>-->
+    <!--               <span onclick='img(this)' > <div class="speech left">-->
+    <!--                    笑什么笑，没看到本宝宝今天变漂亮了吗？笑什么笑，没看到本宝宝今天变漂亮了吗？-->
+    <!--               </div></span>-->
+    <!--           </div>-->
+
+    <!--           <div class="chat-receiver">-->
+    <!--               <div style="margin-right: 10px;!important;"><img src="/base/pic/head/1.png"></div>-->
+    <!--               <div>昵称</div>-->
+    <!--                <span onclick='img(this)'>-->
+    <!--                    <div class="speech right" ng-class="speech left">-->
+    <!--                      嘻嘻嘻嘻。。。。。。-->
+    <!--                    </div>-->
+    <!--                </span>-->
+    <!--            </div>-->
 </span>
 
 
-<span class="zxList" id="zxList">
-    <li style="text-align: center">在线列表</li>
+<!-- 消息输入框 -->
+<span style="width:78%;
+                 height:21%;
+                 overflow-y:auto;
+                 background-color:#ffffff;
+                 display: block;
+                 position: fixed;
+                 top:72%;
+                 left:21%;
+                 text-decoration: none; <!-- 可输入文本-图片 -->
+                ">
+     <!-- 表情 -->
+     <span class="col-md-6" style="
+                z-index: -1;
+                width:100%;
+                height:25%;
+                top:0.5%;
+              ">
+           <button id="btn" class="btn btn-sm btn-default">:)</button>
+     </span>
+
+    <!-- 输入内容区 -->
+    <div class="text" id="text" contenteditable="true" style="
+                 width: 100%;
+                 height: 55%;
+                 padding-left:1%; /* 文字左间距 */
+                 background:#ffffff;
+                 overflow:auto;
+                 outline: none;
+    "> </div>
+    <div style="text-align: right;margin-right: 0.5%;margin-top:0.5% ">
+        <input onclick="send()" type="button" value="发送">
+    </div>
 </span>
 
 
-<!-- 消息输入框 contenteditable="true"-->
-<div id="text" contenteditable="true" placeholder="请输入内容-发送消息[Ctrl+回车键]" rows="3%" cols="60%"></div>
-<td>消息发送至:</td>
-<select id="to" size="1" style="width: 10%;height:30px">
-    <option value="ALL">所有人</option> <!-- ALL 为所有人 -->
-</select>
-<input onclick="send()" type="button" value="发送">
-
-<div class="siLiao" id="siLiao">
-    <li style="text-align: center">私聊信息</li>  <!--    <li style="text-align: right">靠右</li>  <li style="text-align: left" >靠左</li>-->
+<div id="image_dialog" class="ui  modal">
+    <i class="close icon"></i>
+    <div class="image content">
+        <img class="ui centered image" src=""/>
+    </div>
 </div>
+
+<!--<div class="siLiao" id="siLiao">-->
+<!--    <li style="text-align: center">私聊信息</li>  &lt;!&ndash;    <li style="text-align: right">靠右</li>  <li style="text-align: left" >靠左</li>&ndash;&gt;-->
+<!--</div>-->
 <br>
 <br>
 
@@ -79,17 +154,37 @@
 </body>
 <script type="text/javascript">
 
+    layui.use("layer", function () {
+    });
+
     // 和socket连接地址，连接地址url中自带登录用户的账号信息,前端无需关心
     let JsonData = Ajax.get(path + "/websocket/getPath");
-    //
-    let socketPath = JsonData.data.path;   //连接地址
-    let formUserId = JsonData.data.userId;     //用户Id
-    let formUsername = JsonData.data.username; //用户名
 
-    let zxList = $("#zxList");  // 在线列表
-    let quLiao = $("#quLiao");  // 群聊
-    let siLiao = $("#siLiao");  // 私聊
-    let toList = $("#to");      // 发送人select选择框
+    // 这里可以使用当前登录系统的id和用户名
+    let socketPath = JsonData.data.path;       // 连接地址
+    let formUserId = JsonData.data.userId;     // 用户Id
+    let formUsername = JsonData.data.username; // 用户名
+
+    // 获取输入昵称
+    username = prompt("请输入你的昵称:", "xijia");
+    if (username != null) {
+        formUsername = username;
+    } else {
+        alert("你按了[取消]按钮");
+    }
+    // socket连接地址。id+用户名+头像,  这里replaceALL 部分浏览器不支持，使用10次替换，注意头像中的路由 / 不要超过10
+    let headPic = getHead();
+    for (let i = 0; i < 10; i++) {
+        headPic = headPic.replace("/", "_");
+    }
+    socketPath = socketPath + formUserId + "/" + formUsername + "/" + headPic;
+
+    //
+    let zxList = $("#zxList");     // 当前在线列表
+    let quLiao = $("#quLiao");     // 群聊
+    // let siLiao = $("#siLiao");  // 私聊
+    let toList = $("#to");         // 发送人select选择框
+
 
     let webSocket;
     // var commWebSocket;
@@ -101,7 +196,9 @@
 
             // 连通成功的监听
             websocket.onopen = function () {
-                quLiao.html(quLiao.html() + " <li style='text-align: center'>系统消息:[登陆成功]</li>")
+                quLiao.html(quLiao.html() + " <div style='text-align: center'>系统消息:[登陆成功]</div>")
+                // 连接成功开始进行心跳检测
+                heartbeatDetection();
             };
 
             // 接收后台服务端的消息监听
@@ -111,6 +208,7 @@
                 let mesType = obj.mesType;             // 数据类型（1上线/2下线/3在线名单/4发信息)
                 let from = obj.from;                   // 来源Id，上下线时为上下线的用户id
                 let username = obj.username;           // 来源用户，上下线时为上下线的用户名
+                let headPic = obj.headPic;             // 来源用户头像，上下线时为上下线的头像
                 let to = obj.to;                       // 目标Id（接收人用户Id,逗号分隔，所有人时为-ALL)）
                 let content = obj.content;             // 内容
                 let extras = obj.extras;               // 扩展内容(json)
@@ -121,24 +219,25 @@
                 // 上线通知+在线列表刷新
                 if (mesType === 1) {
                     // 群聊信息时上线
-                    quLiao.html(quLiao.html() + " <li style='text-align: center;color: #00FF00'>" + content + " </li>");
+                    quLiao.html(quLiao.html() + notice_msg.replace("{msg}", content));
                     // 在线列表（id=用户id，用于下线删除）
-                    zxList.html(zxList.html() + " <li id='" + from + "' style='text-align: left'>---" + username + "&nbsp;&nbsp;&nbsp;&nbsp;" + createTime + "</li>");
+                    zxList.html(zxList.html() + " <div class='zxListLi' id='" + from + "' style='text-align: left'>" + username + " </div>");
+
                     // 在线人选择框（optionId为了下线通知移除）
-                    toList.html(toList.html() + "<option id='option" + from + "' value='" + from + "'>" + username + "</option> ")
+                    // toList.html(toList.html() + "<option id='option" + from + "' value='" + from + "'>" + username + "</option> ")
                 }
 
                 // 下线通知+在线列表刷新
                 else if (mesType === 2) {
                     // 群聊信息暂时下线
-                    quLiao.html(quLiao.html() + " <li style='text-align: center;color: red'>" + content + " </li>");
+                    quLiao.html(quLiao.html() + " <div style='text-align: center;color: red'>" + content + " </div>");
                     // 在线列表删除下线人
                     $("#" + from).remove();
                     // 在线人选择框移除下线人
                     $("#option" + from).remove();
                 }
 
-                // 在线列表通知（自己登录时给自己发送）
+                // 在线列表通知（自己登录时会给自己发送）
                 else if (mesType === 3) {
                     zxList.html("");
                     toList.html("<option value='ALL'>所有人</option>");
@@ -148,15 +247,14 @@
                         let userId = userList[i].userId;         // 用户id
                         let username = userList[i].username;     // 用户名
                         let createTime = userList[i].createTime; // 用户登录时间
-                        // alert(userList[i].username)
                         if (userId !== from || userId !== formUserId) {
                             // 在线列表（id=用户id，用于下线删除）
-                            zxList.html(zxList.html() + " <li id='" + userId + "' style='text-align: left'>---" + username + "&nbsp;&nbsp;&nbsp;&nbsp;" + createTime + "</li>");
+                            zxList.html(zxList.html() + " <div class='zxListLi' id='" + userId + "' style='text-align: left'>" + username + " </div>");
                             // 在线人选择框（optionId为了下线通知移除） --》 不展示自己
                             toList.html(toList.html() + "<option id='option" + userId + "' value='" + userId + "'>" + username + "</option> ")
                         } else {
                             // 在线列表（id=用户id，用于下线删除）
-                            zxList.html(zxList.html() + " <li id='" + userId + "' style='text-align: left'>---" + username + " (自己)&nbsp;&nbsp;&nbsp;&nbsp;" + createTime + "</li>");
+                            zxList.html(zxList.html() + " <div class='zxListLi' id='" + userId + "' style='text-align: left'>" + username + "(自己) </div>");
 
                         }
                     }
@@ -169,23 +267,24 @@
                         // 判断是否为自己的消息，（自己 ==> 发送方=接收方 || 发送方是自己）
                         if (to === from || formUserId === from) {
                             //自己右边展示
-                            quLiao.html(quLiao.html() + " <li style='text-align: right;'>" + content + " <--" + username + " </li>");
+                            quLiao.html(quLiao.html() + right_msg.replace("{head}", headPic).replace("{name}", username,).replace("{msg}", content).replace("{time}", createTime));
                         } else {
                             //左边展示
-                            quLiao.html(quLiao.html() + " <li style='text-align: left;'>" + username + "--> " + content + " </li>");
+                            quLiao.html(quLiao.html() + left_msg.replace("{head}", headPic).replace("{name}", username,).replace("{msg}", content).replace("{time}", createTime));
                         }
+                        // 显示内容一直在最底
+                        $('#quLiao')[0].scrollTop = $('#quLiao')[0].scrollHeight;
                     } else {
-                        // 私聊
-                        // 判断是否为自己的消息，（自己 ==> 发送方=接收方 || 发送方是自己）
-                        if (to === from || formUserId === from) {
-                            //自己右边展示
-                            siLiao.html(siLiao.html() + " <li style='text-align: right;'>" + content + " <--" + username + " </li>");
-                        } else {
-                            //左边展示
-                            siLiao.html(siLiao.html() + " <li style='text-align: left;'>" + username + "--> " + content + " </li>");
-                        }
+                        // // 私聊
+                        // // 判断是否为自己的消息，（自己 ==> 发送方=接收方 || 发送方是自己）
+                        // if (to === from || formUserId === from) {
+                        //     //自己右边展示
+                        //     siLiao.html(siLiao.html() + " <li style='text-align: right;'>" + content + " <--" + username + " </li>");
+                        // } else {
+                        //     //左边展示
+                        //     siLiao.html(siLiao.html() + " <li style='text-align: left;'>" + username + "--> " + content + " </li>");
+                        // }
                     }
-
                 }
             };
 
@@ -194,7 +293,6 @@
                 console.log("连接已关闭...");
                 document.getElementById('message').innerHTML += '连接已经关闭....' + '<br/>';
             };
-
         } else {
             // 浏览器不支持 WebSocket
             alert("您的浏览器不支持 WebSocket!");
@@ -211,38 +309,186 @@
 
 
     /**
-     * 按下Ctrl + 回车 发送消息
+     * 按下回车 发送消息
      */
     $(document).keyup(function (event) {
         //浏览器适应
-        if (event.ctrlKey && event.which == 13 || event.which == 10) {
-            send();
-        } else if (event.shiftKey && event.which == 13 || event.which == 10) {
+        if (event.which == 13) {
             send();
         }
     });
 
 
     /**
-     * 点击发送按钮发送消息
+     * 点击发送按钮发送消息给所有人
      */
     function send() {
-        let to = $("#to").val();                  // 接收数据人id
-        let content = $("#text").val();           // 发送的数据
-
-        // 发送给指定人时，给自己也推送一个消息
-        if (to !== "ALL") {
-            to = to + "," + formUserId;
+        let to = "ALL";                                   // 接收数据人id
+        let content = $("#text").html();                  // 发送的数据
+        content = content.replace("<div><br></div>", ""); /* 去除回车按键内容 */
+        content = content.replace("<div><br></div>", ""); /* 去除回车按键内容 */
+        content = content.replace("<div><br></div>", ""); /* 去除回车按键内容 */
+        if (content == "") {
+            layer.msg("输入内容为空");
+            return;
         }
         // 参数拼接
         let message = {
             "content": content,
-            "to": to
+            "to": to,
+            "type": 2  // 1-心跳检测 2-内容
         };
+        message = JSON.stringify(message);
+        let size = bytesLnegth(content);
+        if (size > 1024000) {
+            layer.msg("内容最大支持1MB,当前 " + (size / 1000 / 1000).toFixed(2) + "MB");
+            throw new Error("内容过大，只支持1M以内的数据")
+        }
         //发送数据
-        websocket.send(JSON.stringify(message));
-        $("#text").val("");
+        websocket.send(message);
+        // 置空
+        $("#text").html("");
     }
+
+
+    /**
+     * 计算内容大小
+     */
+    function bytesLnegth(str) {
+        var count = str.length;
+        for (var i = 0; i < str.length; i++) {
+            if (str.charCodeAt(i) > 255) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+    /**
+     * 放大内容图片
+     */
+    function img(ths) {
+        let innerHTML = ths.innerHTML;
+        let imgStartIndex = innerHTML.indexOf("<img src=");
+        if (imgStartIndex === -1) {
+            return;
+        }
+        innerHTML = innerHTML.replace(" alt=\"\"", "");
+        innerHTML = innerHTML.substring(imgStartIndex + 10);
+        let imgEndIndex = innerHTML.indexOf(">");
+        let src = innerHTML.substring(0, imgEndIndex - 1);
+        //
+        let html = "<img src='" + src + "'  style='height: 95%;clear: both; display: block; margin: auto;'>";
+        layui.layer.open({
+            type: 1,
+            title: '查看图片',
+            area: ["80%", "80%"],
+            content: html,
+            shade: 0.6,
+            closeBtn: 1,
+            shadeClose: true,
+        })
+    }
+
+    /**
+     * 获取默认头像
+     * @author wangsong
+     * @date 2020/12/6 0006 19:56
+     * @return
+     * @version 1.0.0
+     */
+    function getHead() {
+        // 滑动的随机图片列表
+        let headPicLen = 5;
+        let index = Math.floor(Math.random() * headPicLen);
+        return "/base/pic/head/" + index + ".png";
+    }
+
+
+    // /**
+    //  * 心跳检测(56秒1次), 服务器一分钟没收到心跳检测就会端连接
+    //  * @author wangsong
+    //  * @date 2020/12/7 0007 9:50
+    //  * @return
+    //  * @version 1.0.0
+    //  */
+    // function heartbeatDetection() {
+    //     setTimeout(function () {
+    //         // 参数拼接
+    //         let message = {
+    //             "content": "heartbeat detection",  // 心跳检测随意定义
+    //             "to": "ALL",                       // 心跳检测随意定义
+    //             "type": 1                          // 1-心跳检测 2-内容
+    //         };
+    //         //发送数据
+    //         websocket.send(JSON.stringify(message));
+    //         //递归轮训
+    //         heartbeatDetection();
+    //     }, 1000 * 56);
+    // }
+
+
+</script>
+
+
+<script>
+    /***
+     * 消息模板
+     * @author wangsong
+     * @param null
+     * @date 2020/12/6 0006 17:19
+     * @return
+     * @version 1.0.0
+     */
+    // 左边输入 Left | left_msg  {head} {name} {msg}
+    var left_msg = "<div class=\"chat-sender\">\n" +
+        "              <div><img class='headPic'  src=\"{head}\"></div>\n" +
+        "              <div>{name} &emsp; {time}</div>\n" +
+        "               <span onclick='img(this)' > <div class=\"speech left\">\n" +
+        "                   {msg}\n" +
+        "               </div></span>\n" +
+        "           </div>";
+
+    // 右边输入 Right | right_msg {head} {name} {msg}
+    var right_msg = "<div style=\"margin-bottom: 50px!important;\" class=\"chat-receiver\">\n" +
+        "               <div style=\"margin-right: 10px;!important;\"><img class='headPic' src=\"{head}\"></div>\n" +
+        "               <div>{time} &emsp; {name}</div>\n" +
+        "                <span onclick='img(this)'>\n" +
+        "                    <div class=\"speech right\" >\n" +
+        "                      {msg}\n" +
+        "                    </div>\n" +
+        "                </span>\n" +
+        "            </div>";
+
+    // 通知Notice/Center | {msg}
+    var notice_msg = "<div class=\"chat-notice\">\n" +
+        "        <span >{msg}</span>\n" +
+        "    </div>";
+</script>
+
+
+<script>
+    // 点击加载表情
+    $("#btnLoad2").click(function () {
+        emoji()
+    });
+
+    function emoji() {
+        $("#text").emoji({
+            button: "#btn",
+            showTab: false,
+            animation: 'slide',
+            icons: [{
+                name: "QQ表情",
+                path: "/components/jquery-emoji/dist/img/qq/",
+                maxNum: 91,
+                excludeNums: [41, 45, 54],
+                file: ".gif"
+            }]
+        });
+    }
+    emoji();
 </script>
 </html>
 
