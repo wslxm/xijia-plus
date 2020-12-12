@@ -19,7 +19,9 @@ function getHelp(ths, id) {
     // 设置当前选中
     ths.style.color = color;
     // 查询数据，value = 数据id
-    help(id)
+    help(id);
+    // addUrlPara("id", id);
+    history.pushState(null, "", "?id="+id);
 }
 
 /**
@@ -62,12 +64,17 @@ function initMenu(resData) {
     $("#helpMenu").html(helpMenuHtml);
     // 默认展开第一个
     expandAndContract(0, res.data.length);
-    // 默认展示第一个列表的第一篇文章
-    help(data[0].ybHelpTreeVOS[0].id);
-    // 设置选中色
-    let ss = $("#" + data[0].ybHelpTreeVOS[0].id).css("color", color);
-}
 
+    let id = getParam("id");
+    if (id !== null && id !== "") {
+        help(id);
+    } else {
+        // 默认展示第一个列表的第一篇文章
+        help(data[0].ybHelpTreeVOS[0].id);
+        // 设置选中色
+        let s = $("#" + data[0].ybHelpTreeVOS[0].id).css("color", color);
+   }
+}
 
 
 /**
@@ -114,6 +121,7 @@ function expandAndContract(index, len) {
  * =====================================================================
  * @type {string}
  */
+
 //生成目录索引列表
 /**
  *  当前html的div id= markdownToHTML
@@ -196,3 +204,22 @@ function generateContentList() {
     // $($('#contentTitle')[0]).prepend(content);
     $('#contentTitle').html(content);
 }
+
+
+// function addUrlPara(name, value) {
+//     var currentUrl = window.location.href.split('#')[0];
+//     if (/\?/g.test(currentUrl)) {
+//         if (/name=[-\w]{4,25}/g.test(currentUrl)) {
+//             currentUrl = currentUrl.replace(/name=[-\w]{4,25}/g, name + "=" + value);
+//         } else {
+//             currentUrl += "&" + name + "=" + value;
+//         }
+//     } else {
+//         currentUrl += "?" + name + "=" + value;
+//     }
+//     if (window.location.href.split('#')[1]) {
+//         window.location.href = currentUrl + '#' + window.location.href.split('#')[1];
+//     } else {
+//         window.location.href = currentUrl;
+//     }
+// }

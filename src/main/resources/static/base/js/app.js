@@ -746,3 +746,21 @@ Base64 = {
 };
 
 
+/**
+ * 获取url 参数
+ * @author wangsong
+ * @param null
+ * @date 2020/12/13 0013 0:59
+ * @return
+ * @version 1.0.0
+ */
+function getParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg); //获取url中"?"符后的字符串并正则匹配
+    var context = "";
+    if (r != null)
+        context = r[2];
+    reg = null;
+    r = null;
+    return context == null || context == "" || context == "undefined" ? "" : context;
+}

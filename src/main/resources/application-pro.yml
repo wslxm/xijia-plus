@@ -12,27 +12,26 @@ spring:
   datasource:
     dynamic:
       primary: db1 # 配置默认数据库
+      # | rewriteBatchedStatements=true mybatis批处理优化 | useTimezone=true&serverTimezone=GMT%2B8  使用北京时间 | useUnicode=true&characterEncoding=utf-8 编码 |
       datasource:
         db1: # 数据源1配置
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql:// ip / 库名?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
-          username:
-          password:
+          url: jdbc:mysql://xijia.plus/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
+          username: root
+          password: root123456
           type: com.alibaba.druid.pool.DruidDataSource
 
-## 微信公众号 相关配置信息
+## 微信公众号 相关配置信息(此为个人测试号)
 wx:
   mp:
     configs:
-      - appId:                     # 第一个公众号的appid (需要微信功能必填)
-        secret:                    # 公众号的appsecret  (需要微信功能必填)
-        token:                     # 接口配置里的Token值 (非必填)
-        aesKey:                    # 接口配置里的EncodingAESKey值(非必填)
-
+      - appId: wxa997b110821cbfd6                    # 第一个公众号的appid
+        secret: a5cee82a40995afc5bc14d17058908c1     # 公众号的appsecret
+        token: 123456789                             # 接口配置里的Token值
+        aesKey: 123456789                            # 接口配置里的EncodingAESKey值
 
 ## 阿里云OSS配置 --> true 正式环境 | false 测试环境(默认) -> OssConfig 配置类中读取
 isAliOss : true
-
 
 ## logback日志输出：linux 项目放置路径, 请自行配置log在服务器的输出路径，由 logback-spring.xml 读取此配置信息, 线上请配置linux路径: /usr/local/work/xijia2/logs
 logging:
