@@ -7,7 +7,6 @@ path = "/api"; // 本地 "http://127.0.0.1:9049" ||  线上ip地址： http://47
  * TODO 系统相关配置
  */
 BaseConfig = {
-    dev_user_role_id: "2",        // 开发人员角色Id
     token: "TOKEN",               // token 命名
 };
 
@@ -763,4 +762,25 @@ function getParam(name) {
     reg = null;
     r = null;
     return context == null || context == "" || context == "undefined" ? "" : context;
+}
+
+
+
+/**
+ * 判断是否为移动设备
+ * @author wangsong
+ * @date 2020/12/14 0014 19:07
+ * @return
+ * @version 1.0.0
+ */
+function isMobile(){
+    if( navigator.userAgent.match(/Android/i)
+        || navigator.userAgent.match(/webOS/i)
+        || navigator.userAgent.match(/iPhone/i)
+        || navigator.userAgent.match(/iPad/i)
+        || navigator.userAgent.match(/iPod/i)
+        || navigator.userAgent.match(/BlackBerry/i)
+        || navigator.userAgent.match(/Windows Phone/i)
+    )return true;
+    return false;
 }

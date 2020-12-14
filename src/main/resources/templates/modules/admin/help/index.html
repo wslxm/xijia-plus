@@ -39,13 +39,18 @@
 </head>
 
 <style>
-
+    body {
+        background-color: #e5e8ff;
+        opacity: 0.8;
+        background: url(/base/pic/bj/loginbj/1.jpg);
+    }
 </style>
-<body style="background-color:#e5e8ff;">
+
+<body>
 
 <!-- 标题和左菜单区  -->
 <div class="layui-container scrollBar" style="
-                                              width:20%;
+                                              width:18%;
                                               height:94%;
                                               overflow-y:auto;
                                               background-color:#ffffff;
@@ -57,10 +62,14 @@
                                               ">
 
     <!-- 标题 -->
-    <div style="font-size: 25px;margin-left: 10%;margin-top: 2%;">兮家手册
-        <span style="font-size: 16px;"> (0.x)</span>
+    <div style="width: 100%; border: 1px none #dad8d5;border-bottom-style: solid;"> <!--div 指定下边有线 -->
+        <span id="" style="font-size: 22px; line-height: 75px;margin-left: 10% ">
+            兮家手册
+            <span style="font-size: 16px;"> (0.x)</span>
+        </span>
     </div>
-    <hr/>
+
+
     <!-- 左菜单区  -->
     <div id="helpMenu">
         <!-- 动态获取 -->
@@ -73,32 +82,37 @@
     </div>
 </div>
 
-<!-- 内容区，- 页面解析markdown为HTML显示  -->
-<div class="scrollBar" style="
-                                 width:57%;
+<!-- 内容区，  内容标题+ 内容(页面解析markdown为HTML显示) -->
+<div id="contentMd" class="scrollBar" style="
+                                 width:56%;
                                  height:94%;
                                  overflow-y:auto;
                                  background-color:#ffffff;
                                  display: block;
                                  position: fixed;
                                  top:2%;
-                                 left:24%;
+                                 left:22%;
                                  text-decoration: none;
                                  ">
+    <!--标题-->
+    <div style="width: 88%; margin-left: 2% ;border: 1px none #dad8d5;border-bottom-style: solid;"> <!--div 指定下边有线 -->
+        <span id="title" style="font-size: 22px; line-height: 75px;"></span>
+    </div>
+    <!--内容-->
     <div id="markdownToHTML" style="width: 88%">
-        <textarea id="content" style="display:none;" placeholder="markdown语言"></textarea>
+        <textarea id="content" style="display:none;" placeholder=""></textarea>
     </div>
 </div>
 
 
 <!-- 内容菜单菜单，动态生成标题菜单 -->
-<div class="scrollBar" style="width:15%;
+<div class="scrollBar" style="width:18%;
                                  height:94%;
                                  overflow-y:auto;
                                  background-color:#ffffff;
                                  display: block;
                                  position: fixed;
-                                 top:2%; left:82%;
+                                 top:2%; left:79%;
                                  text-decoration: none;
                                 ">
     <div id="contentTitle" class="easyeditor-content" style="margin-left: 5%">
@@ -122,7 +136,6 @@
 
 <script>
 
-
     /**
      * 加载文章
      */
@@ -143,21 +156,23 @@
             flowChart: true,  // 默认不解析
             sequenceDiagram: true  // 默认不解析
         });
+        // 标题
+        $("#title").html(res.data.title);
         // 生成内容菜单
         generateContentList();
-
     }
 
 </script>
 
 <script language="javascript" type="text/javascript">
 
-
     // 加载菜单
     let res = Ajax.get(path + "/admin/adminHelp/findTree");
     initMenu(res.data);
 
+
 </script>
+
 </html>
 
 
