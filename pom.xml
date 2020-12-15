@@ -19,7 +19,7 @@
 
     <properties>
         <!-- 当前系统版本号 -->
-        <revision>0.1</revision>
+        <revision>0.0.8</revision>
         <!-- 文件拷贝时的编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

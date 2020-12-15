@@ -219,12 +219,21 @@ function generateContentList() {
     $('#contentTitle').html(content);
 }
 
-
-$(function () {
+/**
+ * 如果为移动设备访问，展示内容，不展示左菜单和右内容菜单
+ * @author wangsong 
+ * @param null
+ * @date 2020/12/14 0014 19:46
+ * @return 
+ * @version 1.0.0
+ */
+function mobileReveal() {
     /* 手机访问单篇文章(不展示左菜单和右内容菜单) */
     if (isMobile()) {
-        $("#contentMd").css("width", "94%");
-        $(".scrollBar").css("left", "3%");
-        $("#contentMd").css("z-index", "100");
+        $("#contentMd").css("width", "100%");
+        $("#contentMd").css("height", "100%");
+        $("#contentMd").css("left", "0%");
+        $("#contentMd").css("top", "0%");
+        $("#contentMd").css("z-index", "1");
     }
-});
+}
