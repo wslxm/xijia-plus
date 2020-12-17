@@ -176,8 +176,12 @@
     let res = Ajax.get(path + "/admin/adminHelp/findTree");
     initMenu(res.data);
 
-    // 加载图片放大插件
-    addExpand();
+
+    //最后加载
+    $(function () {
+        // 加载图片放大插件
+        addExpand();
+    })
 </script>
 
 </html>

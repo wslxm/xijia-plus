@@ -3,7 +3,7 @@ package com.ws.ldy.modules.tool.controller;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.tool.dto.JavaCodeDTO;
-import com.ws.ldy.modules.tool.util.JavaCodeRunUtil;
+import com.ws.ldy.modules.tool.util.JavaCodeRunV2Util;
 import com.ws.ldy.modules.tool.util.TransformUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -52,7 +52,6 @@ public class ToolController {
     @RequestMapping(value = "/javaCodeRun", method = RequestMethod.POST)
     @ApiOperation(value = "java代码运行器", notes = "")
     public R<String> upd(@RequestBody JavaCodeDTO dto) {
-        String result = JavaCodeRunUtil.run(dto.getJavaCode());
-        return R.success(result);
+      return  R.success(JavaCodeRunV2Util.run(dto.getJavaCode()))  ;
     }
 }
