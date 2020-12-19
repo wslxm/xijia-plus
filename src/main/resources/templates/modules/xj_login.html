@@ -197,24 +197,3 @@
 </body>
 </html>
 
-<!-- 验签  -->
-<!--
-// account=1720696548&password=123456&timestamp=1578811547552
-//sign,timestamp
-// String mysign = DigestUtils.md5Hex(getContentBytes(preSignStr + APP_KEY, INPUT_CHARSET));
-
-// var APP_KEY = "mykey123456";
-var account = obj.field.username;
-var password = obj.field.password;
-//  var timestamp = new Date().getTime();
-//  var mysign = "account="+account
-//          + "&password="+password
-//          + "&timestamp="+timestamp
-//          +  APP_KEY;
-// var sign =  hex_md5(byteToString(mysign));
-var resultData = Ajax.post(login, {
-account: account,
-password: password,
-// timestamp: timestamp,
-// sign: sign
-});-->

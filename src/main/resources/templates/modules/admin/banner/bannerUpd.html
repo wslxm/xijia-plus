@@ -26,23 +26,22 @@
     <div class="layui-form-item">
         <label class="layui-form-label">位置</label>
         <div class="layui-input-inline ">
-            <select id="position" name="position"  lay-verify="" lay-filter="required" >
+            <select id="position" name="position" lay-verify="" lay-filter="required">
             </select>
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">标题</label>
-        <div class="layui-input-inline" >
+        <div class="layui-input-inline">
             <input type="text" id="name" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
 
 
-
     <div class="layui-form-item">
         <label class="layui-form-label">描叙</label>
-        <div class="layui-input-inline" >
+        <div class="layui-input-inline">
             <input type="text" id="desc" name="desc" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
@@ -65,7 +64,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">是否跳转</label>
         <div class="layui-input-inline ">
-            <select id="isSkip" name="isSkip"  lay-verify="" lay-filter="required" >
+            <select id="isSkip" name="isSkip" lay-verify="" lay-filter="required">
             </select>
         </div>
     </div>
@@ -73,7 +72,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">跳转地址url</label>
         <div class="layui-input-inline">
-            <input type="text" id="skipUrl" name="skipUrl"  placeholder="请输入" autocomplete="off" class="layui-input">
+            <input type="text" id="skipUrl" name="skipUrl" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
 
@@ -107,7 +106,7 @@
         //文件上传--设定文件大小限制
         layui.upload.render({
             elem: '#test7'
-            , url: '/aliOssFile/upload?filePath=image/banner/' //改成您自己的上传接口
+            , url: path + '/aliOssFile/upload?filePath=image/banner/' //改成您自己的上传接口
             , size: 2048 //限制文件大小，单位 KB
             , headers: headers
             , done: function (res) {
@@ -138,7 +137,7 @@
         $('#skipUrl').val(parent.data.skipUrl);
         // 显示图片
         $("#imgUrlShow").attr("src", parent.data.imgUrl);
-        $("#imgUrlShow").attr("title",parent.data.imgUrl);
+        $("#imgUrlShow").attr("title", parent.data.imgUrl);
         // select 字典数据
         $("#isSkip").html(Dict.getDictSelect(Enums.Admin.BannerIsSkip));      // 是否跳转  不带默认值
         $("#position").html(Dict.getDictSelect(Enums.Admin.BannerPosition));  // 位置

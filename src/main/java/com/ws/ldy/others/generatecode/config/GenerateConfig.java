@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2020/2/11 0011 0:08
  * @return
  */
-@SuppressWarnings({"ALL", "AlibabaAvoidCommentBehindStatement"})
+@SuppressWarnings({"ALL"})
 public class GenerateConfig {
 
     /**
@@ -26,7 +26,7 @@ public class GenerateConfig {
     public final static String DESCRIBE = " ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 ";
     public final static String PACK_PATH = "com.ws.ldy";    // 包根路径（所有代码,启动类的路径）
     public final static String PACK_PATH_ZP = "modules";    // 包根的下一级路径（所有模块的包路径）
-    public final static String MODULE_NAME = "admin";       // 模块名/路径（当前模块的包路径）
+    public final static String MODULE_NAME = "file";        // 模块名/路径（当前模块的包路径）
 
     /**
      * 生成路径

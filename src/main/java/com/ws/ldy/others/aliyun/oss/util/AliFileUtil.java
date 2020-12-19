@@ -80,13 +80,14 @@ public class AliFileUtil {
         } else {
             throw new ErrorException(10002, "路径错误");
         }
-        // 空格+逗号+括号+一些特殊符号 统一转为*,部分地方无法解析，如逗号分隔url, editor 编辑器, URL请求空格问题
+        // 空格+逗号+括号+一些特殊符号 统一转为_,部分地方无法解析，如逗号分隔url, editor 编辑器, URL请求空格问题
         fileName = fileName
-                .replaceAll(" ", "*")
-                .replace(",", "*")
-                .replaceAll("\\(", "*")
-                .replaceAll("\\)", "*")
-                .replaceAll("@", "*");
+                .replaceAll(" ", "_")
+                .replace(",", "_")
+                .replaceAll("\\(", "_")
+                .replaceAll("\\)", "_")
+                .replaceAll("#", "_")
+                .replaceAll("@", "_");
         return fileName;
     }
 

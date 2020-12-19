@@ -46,6 +46,10 @@ var Enums = {
         IsNeedMail : "IS_NEED_MAIL",  // 是否需要邮寄
         IsRead : "IS_READ",  // 是否已读
     },
+    // 兮家
+    Xj: {
+        FileType : "FILE_TYPE",  // 文件类型
+    },
 };
 
 

@@ -31,13 +31,13 @@ public class MvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index").setViewName("modules/admin/xj-index");    // 管理端主页
-        registry.addViewController("/").setViewName("modules/admin/xj_login");         // 管理端登录页
-        registry.addViewController("/login").setViewName("modules/admin/xj_login");    // 管理端登录页
-        registry.addViewController("/fh").setViewName("modules/tool/fhConvert.html");  // 文本转符号生成器
-        registry.addViewController("/java").setViewName("modules/tool/javaCodeRun");   // java代码运行器
-        registry.addViewController("/lts").setViewName("xj/websocket/lts.html");       // 在线聊天室
-        registry.addViewController("/help").setViewName("modules/admin/help/index");   // 兮家手册
+        registry.addViewController("/index").setViewName("modules/xj-index");           // 管理端主页
+        registry.addViewController("/").setViewName("modules/xj_login");                // 管理端登录页
+        registry.addViewController("/login").setViewName("modules/xj_login");           // 管理端登录页
+        registry.addViewController("/fh").setViewName("modules/tool/fhConvert.html");   // 文本转符号生成器
+        registry.addViewController("/java").setViewName("modules/tool/javaCodeRun");    // java代码运行器
+        registry.addViewController("/lts").setViewName("xj/websocket/lts.html");        // 在线聊天室
+        registry.addViewController("/help").setViewName("modules/admin/help/index");    // 兮家手册
     }
 
 
