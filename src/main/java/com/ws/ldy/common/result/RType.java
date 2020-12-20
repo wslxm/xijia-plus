@@ -33,6 +33,7 @@ public enum RType implements IEnum<Integer> {
     SYS_ERROR_DOES_NOT_EXIST(500, "没有找到数据/数据不存在"),
     SYS_BLACK_LIST_IP(9996, "该ip异常,禁止访问"),
     SYS_WHITE_LIST_NO_IP(9996, "该ip地址没有访问权限"),
+    SYS_IS_IDEMPOTENT(9995, "重复请求"),
 
 
     //

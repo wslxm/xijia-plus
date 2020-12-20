@@ -51,7 +51,9 @@ public class ToolController {
      */
     @RequestMapping(value = "/javaCodeRun", method = RequestMethod.POST)
     @ApiOperation(value = "java代码运行器", notes = "")
+    // @XjApiIdempotent
+    // @XjIsApiIdempotent
     public R<String> upd(@RequestBody JavaCodeDTO dto) {
-      return  R.success(JavaCodeRunV2Util.run(dto.getJavaCode()))  ;
+        return R.success(JavaCodeRunV2Util.run(dto.getJavaCode()));
     }
 }

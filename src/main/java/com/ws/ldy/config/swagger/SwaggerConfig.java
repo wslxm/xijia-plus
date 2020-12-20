@@ -1,7 +1,6 @@
 package com.ws.ldy.config.swagger;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import com.google.common.collect.Lists;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.auth.entity.JwtUser;
@@ -10,7 +9,6 @@ import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.admin.model.entity.AdminUser;
-import com.ws.ldy.modules.admin.model.vo.AdminUserVO;
 import com.ws.ldy.modules.admin.service.AdminAuthorityService;
 import com.ws.ldy.modules.admin.service.AdminUserService;
 import io.swagger.annotations.ApiOperation;
@@ -32,12 +30,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.List;
 
 /***
-  * 接口文档配置信息
-  * @author wangsong
-  * @mail  1720696548@qq.com
-  * @date  2020/11/20 0020 9:06 
-  * @version 1.0.0      
-  */
+ * 接口文档配置信息
+ * @author wangsong
+ * @mail 1720696548@qq.com
+ * @date 2020/11/20 0020 9:06
+ * @version 1.0.0
+ */
 @Configuration
 @EnableSwagger2
 @Slf4j
@@ -113,7 +111,6 @@ public class SwaggerConfig {
     }
 
 
-
     @Bean
     public Docket caiPuApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -140,9 +137,19 @@ public class SwaggerConfig {
      * type = 1 管理端  2 医生端
      */
     private List<Parameter> getGlobalParameter(Integer type) {
+        ParameterBuilder parameterBuilder = new ParameterBuilder();
+        // 幂等TOKEN
+        parameterBuilder
+                .name(BaseConstant.Sys.IDEMPOTENT_TOKEN)  // key
+                .scalarExample("")    //用户端账号 -->        value 默认token值
+                .description("幂等参数,post 新增填写参数")   // 描叙
+                .modelRef(new ModelRef("string"))
+                .parameterType("header")
+                .order(-1)
+                .required(false)
+                .build();
         if (type == 1) {
             // 管理端默认账号
-            ParameterBuilder parameterBuilder = new ParameterBuilder();
             parameterBuilder
                     .name(BaseConstant.Sys.TOKEN) // key
                     .scalarExample(getAdminUserToken("10000"))    //用户端账号 -->     value 默认token值
@@ -157,7 +164,6 @@ public class SwaggerConfig {
             return parameters;
         } else if (type == 2) {
             // 用户端默认账号
-            ParameterBuilder parameterBuilder = new ParameterBuilder();
             parameterBuilder
                     .name(BaseConstant.Sys.TOKEN) // key
                     .scalarExample(null)          // 用户端账号 -->     value 默认token值

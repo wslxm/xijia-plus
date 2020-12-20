@@ -3,18 +3,16 @@ package com.ws.ldy.config.aspect;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.ws.ldy.XijiaServer;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.entity.JwtUser;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.error.GlobalExceptionHandler;
+import com.ws.ldy.config.idempotent.aop.XjApiIdempotentAop;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.enums.Enums;
-import com.ws.ldy.modules.admin.controller.AdminBlacklistController;
 import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.admin.model.entity.AdminBlacklist;
 import com.ws.ldy.modules.admin.model.entity.AdminLog;
@@ -31,16 +29,13 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Method;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -56,6 +51,16 @@ import java.util.stream.Collectors;
 @Aspect
 @Component
 public class SysAspect {
+    /**
+     * request
+     */
+    @Autowired
+    private HttpServletRequest request;
+    /**
+     * response
+     */
+    @Autowired
+    private HttpServletResponse response;
     /**
      * 接口权限
      */
@@ -160,10 +165,10 @@ public class SysAspect {
     private Object run(ProceedingJoinPoint proceed) throws Throwable {
         long startTime1 = System.currentTimeMillis();
         // 获取请求参数
-        ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = sra.getRequest();
-        HttpServletResponse response = sra.getResponse();
-        String uri = sra.getRequest().getRequestURI();
+//        ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+//        HttpServletRequest request = sra.getRequest();
+//        HttpServletResponse response = sra.getResponse();
+        String uri = request.getRequestURI();
         // 1、排除不需要处理的请求
         for (String excludeUri : excludeUriList) {
             if (uri.contains(excludeUri)) {
@@ -180,7 +185,14 @@ public class SysAspect {
                 return log(proceed, request);
             }
         });
-        // 3、黑/白名单认证
+
+        // new 3.1、幂等验证
+        R apiIdempotentR = XjApiIdempotentAop.run(proceed,request,response);
+        if (!apiIdempotentR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+            this.updLog(future, 0, (System.currentTimeMillis() - startTime1), 0L, uri, apiIdempotentR);
+            return apiIdempotentR;
+        }
+        // new 3.2、黑/白名单认证
         String ipAddress = getIpAddress(request);
         R blacklistR = blacklistAuth(ipAddress);
         if (!blacklistR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
@@ -258,7 +270,8 @@ public class SysAspect {
         if (classAnnotation != null) {
             classDesc = classAnnotation.tags().length > 0 ? classAnnotation.tags()[0] : classAnnotation.value();
         }
-        Object[] args = proceed.getArgs(); // uri ： 接口  包： packageName,  请求类： 接口+类描叙+接口描叙
+        // uri ： 接口  包： packageName,  请求类： 接口+类描叙+接口描叙
+        Object[] args = proceed.getArgs();
         // 记录到数据库
         AdminLog log = new AdminLog();
         // 记录用户信息
@@ -282,8 +295,10 @@ public class SysAspect {
         } catch (Exception e) {
             log.setRequestData("无法解析");
         }
-        log.setResponseData(null);     // 返回数据
-        log.setState(0);               // 默认失败
+        // 返回数据
+        log.setResponseData(null);
+        // 默认失败,接口访问成功后修改为成功
+        log.setState(0);
         adminLogService.save(log);
         // 打印请求日志
         printLog(ip, host, port, className, url, args, classDesc, methodDesc);
@@ -377,7 +392,7 @@ public class SysAspect {
 
 
     /**
-     *  打印请求信息
+     * 打印请求信息
      * @author wangsong
      * @param ip
      * @param host
