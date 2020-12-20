@@ -132,6 +132,29 @@ public class SwaggerConfig {
     }
 
 
+    @Bean
+    public Docket astoryApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("段子API")
+                .globalOperationParameters(getGlobalParameter(1))
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.astory.controller"))   // 自行修改为自己的包路径
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+                .paths(PathSelectors.any())
+                .build()
+                .useDefaultResponseMessages(false)
+                .apiInfo(new ApiInfoBuilder()
+                        .title("段子API")
+                        .description("段子API Swagger API 文档")
+                        .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
+                        .version("1.0.0")
+                        .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
+                        .build());
+    }
+
+
+
+
     /**
      * swagger全局header参数添加
      * type = 1 管理端  2 医生端
