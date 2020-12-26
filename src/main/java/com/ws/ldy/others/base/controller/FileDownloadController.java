@@ -20,7 +20,7 @@ import java.util.Arrays;
  */
 @RestController
 @Api(value = "FileDownloadController", tags = "v-1.1 -- 文件下载",consumes = BaseConstant.InterfaceType.PC_BASE)
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/download")
+@RequestMapping(BaseConstant.Sys.API + "/download")
 public class FileDownloadController extends BaseController {
 
 
@@ -50,4 +50,22 @@ public class FileDownloadController extends BaseController {
         // 文件打包下载
         FileDownloadUtil.downloadZip(Arrays.asList(filePaths.split(",")), zipName,response);
     }
+
+
+
+    /**
+     * 使用流将图片输出
+     *
+     * @param
+     * @throws IOException
+     */
+//    public void getImage(String filePage) throws IOException {
+//        response.setContentType("image/jpeg;charset=utf-8");
+//        response.setHeader("Content-Disposition", "inline; filename=girls.png");
+//        ServletOutputStream outputStream = response.getOutputStream();
+//        // Paths.get(跟目录).resolve(文件路径)
+//        outputStream.write(Files.readAllBytes(Paths.get("/").resolve(filePage)));
+//        outputStream.flush();
+//        outputStream.close();
+//    }
 }

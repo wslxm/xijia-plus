@@ -2,8 +2,7 @@ package com.ws.ldy.others.base.controller;
 
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
-import com.ws.ldy.common.utils.IdUtil;
-import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.common.utils.FileUtil;
 import com.ws.ldy.enums.BaseConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -15,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,25 +26,38 @@ import java.nio.file.Paths;
  * @author peter 2018/10/20 21:32
  */
 @RestController
-@Api(value = "FileUploadController", tags = "v-1.1 -- 文件管理 --> 本地服务器",consumes = BaseConstant.InterfaceType.PC_BASE)
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/file")
+@Api(value = "FileUploadController", tags = "v-1.1 -- 文件管理 --> 本地服务器", consumes = BaseConstant.InterfaceType.PC_BASE)
+@RequestMapping(BaseConstant.Sys.API + "/file")
 public class FileUploadController extends BaseController {
 
 
-    // 文件保存路径
+    /**
+     * 文件保存到的服务器路径
+     */
     private static final String FILE_PATH = "File/";
-    // 文件路径验证
-    private static final String UPLOAD_PATH_IMAGE = "image";
-    private static final String UPLOAD_PATH_MUSIC = "music";
-    private static final String UPLOAD_PATH_VIDEO = "video";
-    private static final String UPLOAD_PATH_EXCEL = "excel";
 
-    // 图片上传，需要赋值读写权限
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    //consumes = "multipart/*", headers = "content-type=multipart/form-data"
-    @ApiOperation("文件上传")
+
+    /**
+     * 图片上传，需要赋值读写权限
+     * @author wangsong
+     * @param file
+     * @param filePath
+     * @date 2020/12/24 0024 17:42
+     * @return com.ws.ldy.common.result.R
+     * @version 1.0.0
+     */
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)//consumes = "multipart/*", headers = "content-type=multipart/form-data"
+    @ApiOperation("单文件上传")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "filePath", value = "文件路径,必须指定开头目录(image/ -图片, music/ -音乐,video/ -视频,excel/ -表格)", required = true)
+            @ApiImplicitParam(name = "filePath", value = "文件路径,必须指定开头目录,当为任意文件时,后台不验证文件格式(" + "\r\n" +
+                    "图片=image/" + "\r\n" +
+                    "头像=image/head" + "\r\n" +
+                    "音乐=music/" + "\r\n" +
+                    "视频=video/" + "\r\n" +
+                    "表格=excel/" + "\r\n" +
+                    "PDF=pdf/" + "\r\n" +
+                    "任意文件=file/" + "\r\n" +
+                    ")", required = true, example = "image/")
     })
     public R uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("filePath") String filePath) {
         // 接口名
@@ -55,8 +68,8 @@ public class FileUploadController extends BaseController {
         String url = request.getRequestURL().toString();
         // 去调接口后url
         String baseUrl = url.replace(interfaceName, "");
-        // 验证文件格式及路径
-        fileName = getPath(filePath, fileName);
+        // 验证文件格式及路径（注意：这里接组了阿里云模块的 util 工具类）
+        fileName = FileUtil.getPath(filePath, fileName);
         // 上传路径,判断,不存在创建
         Path directory = Paths.get(FILE_PATH + filePath);
         try {
@@ -81,112 +94,6 @@ public class FileUploadController extends BaseController {
     }
 
 
-    /**
-     * 上传路径文件格式判断
-     *
-     * @param filePath 文件上传路径
-     * @param fileName 文件名称
-     * @return fileName
-     */
-    public String getPath(String filePath, String fileName) {
-        if (filePath.lastIndexOf("/") != filePath.length() - 1) {
-            throw new ErrorException(10002, "路径必须已[/]结尾");
-        }
-        // 目录开头
-        String[] path = filePath.split("/");
-        // 后缀名
-        String suffixName = fileName.substring(fileName.indexOf(".") + 1, fileName.length());
-        if (UPLOAD_PATH_IMAGE.equals(path[0])) {
-            // 图片
-            if (!"jpg".equals(suffixName) && !"png".equals(suffixName)) {
-                throw new ErrorException(10002, "图片仅支持-[jpg,png]");
-            }
-            //修改fileName的引用
-            fileName = IdUtil.uuid() + "-" + fileName;
-            // filePath = filePath.replace(suffixName, "") + UUIDUtil.creatUUID() + "-";
-        } else if (UPLOAD_PATH_MUSIC.equals(path[0])) {
-            // 音乐
-            if (!"mp3".equals(suffixName)) {
-                throw new ErrorException(10002, "音乐仅支持-[mp3]");
-            }
-        } else if (UPLOAD_PATH_VIDEO.equals(path[0])) {
-            // 视频
-            if (!"mp4".equals(suffixName)) {
-                throw new ErrorException(10002, "视频仅支持-[mp4]");
-            }
-        } else if (UPLOAD_PATH_EXCEL.equals(path[0])) {
-            //excel
-            if (!"xlsx".equals(suffixName) && !"xls".equals(suffixName)) {
-                throw new ErrorException(10002, "EXCEL仅支持-[xlxs,xlx]");
-            }
-        } else {
-            throw new ErrorException(10002, "路径错误");
-        }
-        return fileName;
-    }
-
-
-    /**
-     * 使用流将图片输出
-     *
-     * @param filePage
-     * @throws IOException
-     */
-//    public void getImage(String filePage) throws IOException {
-//        response.setContentType("image/jpeg;charset=utf-8");
-//        response.setHeader("Content-Disposition", "inline; filename=girls.png");
-//        ServletOutputStream outputStream = response.getOutputStream();
-//        // Paths.get(跟目录).resolve(文件路径)
-//        outputStream.write(Files.readAllBytes(Paths.get("/").resolve(filePage)));
-//        outputStream.flush();
-//        outputStream.close();
-//    }
-
-
-    /**
-     * 文件下载
-     *
-     * @param filePath 文件路径
-     * @throws UnsupportedEncodingException
-     */
-    @ApiOperation("单文件下载")
-    @ApiImplicitParam(name = "filePath", value = "文件路径(相对路径||绝对路径)，如: File/image/1.jpg", required = true)
-    @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public void excelxiazan(String filePath) throws UnsupportedEncodingException {
-        // 下载文件名
-        String fileName = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.length());
-        //信息头: 会告诉浏览器这个文件的名字和类型（必须设置）
-        response.setHeader("content-type", "application/octet-stream");
-        response.setContentType("application/octet-stream");
-        //Content-Disposition : 指定的类型是文件的扩展名(也就是下载文件的名字)
-        //下载名乱码解决  -->  java.net.URLEncoder.encode(fileXsl, "UTF-8")
-        response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode(fileName, "UTF-8"));
-        byte[] buff = new byte[1024];
-        BufferedInputStream bis = null;
-        OutputStream os = null;
-        try {
-            os = response.getOutputStream();
-            bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
-            int i = bis.read(buff);
-            while (i != -1) {
-                os.write(buff, 0, buff.length);
-                os.flush();
-                i = bis.read(buff);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (bis != null) {
-                try {
-                    bis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-
     @ApiOperation("单文件删除")
     @RequestMapping(value = "/deleteFile", method = RequestMethod.DELETE)
     @ApiImplicitParam(name = "filePath", value = "文件路径(相对路径||绝对路径), 如: File/image/1.jpg", required = true)
@@ -204,5 +111,6 @@ public class FileUploadController extends BaseController {
         }
         return R.success();
     }
+
 }
 

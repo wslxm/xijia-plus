@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/kuaidi100/")
+@RequestMapping(BaseConstant.Sys.API + "/kuaidi100/")
 @Api(value = "KuaiDi100Controller", tags = "v-1.3 -- 快递100",consumes = BaseConstant.InterfaceType.PC_BASE)
 public class KuaiDi100Controller {
 

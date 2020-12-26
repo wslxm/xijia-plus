@@ -3,25 +3,25 @@ package com.ws.ldy.modules.astory.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import com.ws.ldy.enums.BaseConstant;
-
-import io.swagger.annotations.*;
-import org.apache.commons.lang3.StringUtils;
-import com.ws.ldy.config.error.ErrorException;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.ws.ldy.modules.astory.model.entity.XjAstory;
-import com.ws.ldy.modules.astory.model.vo.XjAstoryVO;
-import com.ws.ldy.modules.astory.model.dto.XjAstoryDTO;
-import com.ws.ldy.modules.astory.service.XjAstoryService;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.modules.astory.model.dto.XjAstoryDTO;
+import com.ws.ldy.modules.astory.model.entity.XjAstory;
+import com.ws.ldy.modules.astory.model.vo.XjAstoryVO;
+import com.ws.ldy.modules.astory.service.XjAstoryService;
 import com.ws.ldy.others.base.controller.BaseController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
-import java.time.LocalDateTime;
 
 
 /**
@@ -34,8 +34,8 @@ import java.time.LocalDateTime;
  * @date  2020-12-20 22:04:11
  */
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/astory/xjAstory")
-@Api(value ="XjAstoryController" ,tags = "段子表", consumes = BaseConstant.InterfaceType.PC_ADMIN)
+@RequestMapping(BaseConstant.Sys.API + "/astory/xjAstory")
+@Api(value ="XjAstoryController" ,tags = "独立功能--段子", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class XjAstoryController extends BaseController<XjAstoryService>  {
 
 

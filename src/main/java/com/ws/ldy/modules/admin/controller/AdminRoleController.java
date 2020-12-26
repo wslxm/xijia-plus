@@ -33,8 +33,8 @@ import java.util.List;
  * @date 2019/11/13 13:38
  */
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/admin/adminRole")
-@Api(value = "AdminRoleController", tags = "角色管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
+@RequestMapping(BaseConstant.Sys.API + "/admin/adminRole")
+@Api(value = "AdminRoleController", tags = "base--角色管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminRoleController extends BaseController<AdminRoleService> {
 
 

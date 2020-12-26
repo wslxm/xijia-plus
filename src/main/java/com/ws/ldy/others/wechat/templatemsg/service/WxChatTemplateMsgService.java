@@ -16,25 +16,5 @@ public interface WxChatTemplateMsgService {
      */
     void sendTest(String openId, String content);
 
-    /**
-     * 给医生推送消息
-     * @param openId
-     * @param
-     */
-    void sendYbDoctor(String openId,
-                      String patient,
-                      String logState,
-                      String afterState,
-                      String name,
-                      String time,
-                      String remarks);
 
-
-    void caseProgressChangeReminder(String openId,
-                                    String orderNo,
-                                    String patient,
-                                    String afterState,
-                                    String remarkData,
-                                    String position
-    );
 }

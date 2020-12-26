@@ -2,7 +2,6 @@ package com.ws.ldy.modules.admin.controller;
 
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.enums.BaseConstant;
-import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.admin.model.dto.AdminAuthorityDTO;
 import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.admin.model.vo.AdminAuthorityVO;
@@ -12,9 +11,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -25,8 +26,8 @@ import java.util.List;
  * @date Mon Nov 25 08:02:49 CST 2019
  */
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX +  "/admin/adminAuthority")
-@Api(value = "AdminAuthorityController", tags = "URL权限管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
+@RequestMapping(BaseConstant.Sys.API + "/admin/adminAuthority")
+@Api(value = "AdminAuthorityController", tags = "base--URL权限管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminAuthorityController extends BaseController<AdminAuthorityService> {
 
     @RequestMapping(value = "/findList", method = RequestMethod.GET)

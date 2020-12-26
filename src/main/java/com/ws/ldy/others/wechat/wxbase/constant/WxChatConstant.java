@@ -10,29 +10,10 @@ package com.ws.ldy.others.wechat.wxbase.constant;
 public interface WxChatConstant {
 
     /**
-     * 微信公众号相关操作的链接
+     * H5网页授权需要用到的链接
      */
-    interface Url {
+    interface AuthUrl {
 
-
-        //======================================== 微信基础功能接口（模板信息推送） ============================================
-        /**
-         * 1、获取 accessToken 的请求地址
-         * 参数1: APPID
-         * 参数2: APPSECRET
-         */
-        String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
-
-        /**
-         * 2、发送模版信息的url
-         * 参数1: ACCESS_TOKEN
-         */
-        String SEND_URL = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
-
-
-        //======================================================================================================
-        //============================================ H5网页授权 ================================================
-        //======================================================================================================
         /**
          * 1、微信授权地址 1 （获取code地址） -返回的code有效期为5分钟
          *  参数1: APPID：公众号的唯一标识
@@ -84,5 +65,28 @@ public interface WxChatConstant {
                 "?appid=appid" +
                 "&grant_type=refresh_token" +
                 "&refresh_token=refresh_token";
+    }
+
+
+    /**
+     * 发送模板消息需要用到的链接
+     */
+    interface TemplateMsgUrl {
+
+
+        //======================================== 微信基础功能接口（模板信息推送） ============================================
+        /**
+         * 1、获取 accessToken 的请求地址
+         * 参数1: APPID
+         * 参数2: APPSECRET
+         */
+        String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+
+        /**
+         * 2、发送模版信息的url
+         * 参数1: ACCESS_TOKEN
+         */
+        String SEND_URL = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
+
     }
 }

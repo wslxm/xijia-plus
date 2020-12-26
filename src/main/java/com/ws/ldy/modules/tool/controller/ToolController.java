@@ -13,8 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/tool/")
-@Api(value = "AdminBlacklistController", tags = "相关工具集", consumes = BaseConstant.InterfaceType.PC_BASE)
+@RequestMapping(BaseConstant.Sys.API + "/tool/")
+@Api(value = "AdminBlacklistController", tags = "独立功能--相关工具", consumes = BaseConstant.InterfaceType.PC_BASE)
 public class ToolController {
 
     /**

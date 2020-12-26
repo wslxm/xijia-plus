@@ -49,6 +49,6 @@ public class OnlineUser extends Convert {
         this.username = username;
         this.headPic = headPic;
         this.session = session;
-        this.createTime = LocalDateTimeUtil.parse(LocalDateTime.now());
+        this.createTime = LocalDateTimeUtil.convertLDTToStr(LocalDateTime.now());
     }
 }

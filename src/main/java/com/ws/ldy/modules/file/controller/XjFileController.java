@@ -34,8 +34,8 @@ import java.util.Arrays;
  * @date  2020-12-17 16:21:46
  */
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/file/xjFile")
-@Api(value ="XjFileController" ,tags = "常用工具文件管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
+@RequestMapping(BaseConstant.Sys.API + "/file/xjFile")
+@Api(value ="XjFileController" ,tags = "独立功能--常用工具文件管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class XjFileController extends BaseController<XjFileService>  {
 
 

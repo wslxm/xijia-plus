@@ -25,15 +25,15 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *  系统用户
+ * 系统用户
  *
  * @author 王松
  * @WX-QQ 1720696548
  * @date 2019/11/13 13:38
  */
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/admin/adminUser")
-@Api(value = "AdminUserController", tags = "用户管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
+@RequestMapping(BaseConstant.Sys.API + "/admin/adminUser")
+@Api(value = "AdminUserController", tags = "base--用户管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminUserController extends BaseController<AdminUserService> {
 
 

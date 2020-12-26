@@ -2,6 +2,7 @@ package com.ws.ldy.others.baidu.util;
 
 
 import com.ws.ldy.common.utils.BaseImg64;
+import com.ws.ldy.others.baidu.config.BaiDuConfig;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -13,7 +14,7 @@ import java.io.File;
 import java.net.URI;
 
 /**
- * TODO  百度图片识别api接口
+ * 百度图片识别api接口
  * 使用BaseImg64.getImageStrFromPath2(InputStream) 方法，将图片进行 BaseImg64 编码
  * 然后使用 startAnalysis, 传递BaseImg64编码后的图片字符串
  * @author 王松
@@ -22,30 +23,6 @@ import java.net.URI;
  */
 @SuppressWarnings("all")
 public class OpenBaiDuGeneralBasicApi {
-
-    /**
-     * 图像文字识别地址
-     */
-    private final static String POST_URL = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic";
-
-    /**
-     * 本地图片识别，返回图片识别结果
-     */
-    public static String picTextExt() {
-        // long now = System.currentTimeMillis();
-        //获取本地文件
-        String path = "D:\\test.png";
-        File file = new File(path);
-        if (!file.exists()) {
-            throw new NullPointerException("图片不存在");
-        }
-        //BaseImg64转码
-        String image = BaseImg64.getImageStrFromPath(path);
-        // 开始解析
-        String picData = startAnalysis(image);
-        // System.out.println("耗时：" + (System.currentTimeMillis() - now) / 1000 + "s");
-        return picData;
-    }
 
 
     /**
@@ -60,7 +37,7 @@ public class OpenBaiDuGeneralBasicApi {
             // 设置请求头，请求头必须为application/x-www-form-urlencoded，因为是传递一个很长的字符串，不能分段发送
             post.setHeader("Content-Type", "application/x-www-form-urlencoded");
             // 设置URL
-            post.setURI(new URI(POST_URL + "?access_token=" + BaiduPicTextExtractToket.getToken()));
+            post.setURI(new URI(BaiDuConfig.PIC_GENERAL_BASIC_URL + "?access_token=" + BaiduToket.getToken()));
             // 添加请求数据
             StringEntity entity = new StringEntity("image=" + baseImg64Image);
             post.setEntity(entity);
@@ -79,6 +56,7 @@ public class OpenBaiDuGeneralBasicApi {
         return null;
     }
 
+
     /**
      * 测试本地图片
      *
@@ -87,6 +65,19 @@ public class OpenBaiDuGeneralBasicApi {
      * @date 2019年6月29日 上午10:58:17
      */
     public static void main(String[] args) {
-        System.out.println( picTextExt());
+
+        // long now = System.currentTimeMillis();
+        //获取本地文件
+        String path = "D:\\test.png";
+        File file = new File(path);
+        if (!file.exists()) {
+            throw new NullPointerException("图片不存在");
+        }
+        //BaseImg64转码
+        String image = BaseImg64.getImageStrFromPath(path);
+        // 开始解析
+        String picData = startAnalysis(image);
+        // System.out.println("耗时：" + (System.currentTimeMillis() - now) / 1000 + "s");
+        System.out.println(picData);
     }
 }

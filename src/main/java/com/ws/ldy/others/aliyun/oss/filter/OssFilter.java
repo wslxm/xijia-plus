@@ -4,14 +4,10 @@ import com.ws.ldy.others.aliyun.oss.config.OssConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import javax.servlet.*;
 
 
 /***
@@ -30,7 +26,7 @@ import javax.servlet.*;
 public class OssFilter implements Filter {
 
     /**
-     * oss uri路由第一层
+     * oss uri 路由第一层
      * @author wangsong
      * @date 2020/12/11 0011 16:51
      * @return

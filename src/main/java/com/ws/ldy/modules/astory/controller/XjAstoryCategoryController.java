@@ -35,8 +35,8 @@ import java.util.List;
  * @date  2020-12-20 22:04:03
  */
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/astory/xjAstoryCategory")
-@Api(value ="XjAstoryCategoryController" ,tags = "段子分类表", consumes = BaseConstant.InterfaceType.PC_ADMIN)
+@RequestMapping(BaseConstant.Sys.API + "/astory/xjAstoryCategory")
+@Api(value ="XjAstoryCategoryController" ,tags = "独立功能--段子分类", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class XjAstoryCategoryController extends BaseController<XjAstoryCategoryService>  {
 
 

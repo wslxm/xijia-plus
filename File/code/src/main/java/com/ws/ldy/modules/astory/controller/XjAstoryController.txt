@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
  * @date  2020-12-20 21:45:48
  */
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/astory/xjAstory")
+@RequestMapping(BaseConstant.Sys.API + "/astory/xjAstory")
 @Api(value ="XjAstoryController" ,tags = "", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class XjAstoryController extends BaseController<XjAstoryService>  {
 

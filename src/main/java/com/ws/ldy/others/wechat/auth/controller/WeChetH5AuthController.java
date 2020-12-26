@@ -3,7 +3,7 @@ package com.ws.ldy.others.wechat.auth.controller;
 
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.enums.BaseConstant;
-import com.ws.ldy.others.wechat.wxbase.util.WeChetH5AuthUtil;
+import com.ws.ldy.others.wechat.auth.util.WeChetH5AuthUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0.0
  */
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/wechat/auth")
+@RequestMapping(BaseConstant.Sys.API + "/wechat/auth")
 @Api(value = "WeChetH5AuthController", tags = "v-1.2 -- WeChat --> 微信网页授权",consumes = BaseConstant.InterfaceType.PC_BASE)
 public class WeChetH5AuthController {
 
     @Autowired
-    private WeChetH5AuthUtil weChetAuthService;
+    private WeChetH5AuthUtil weChetH5AuthUtil;
 
 
     @RequestMapping(value = "/getAuthCodeUrl", method = RequestMethod.GET)
@@ -39,13 +39,13 @@ public class WeChetH5AuthController {
             "\r\n type=1、以scope=snsapi_base为scope发起的网页授权，是用来获取进入页面的用户的openid的，并且是静默授权并自动跳转到回调页的。用户感知的就是直接进入了回调页（往往是业务页面, 静默授权,用户无感知）)")
     @ApiImplicitParam(name = "type", value = "1=弹窗用户点击授权 2=静默授权", required = true, paramType = "query", example = "1")
     public R<String> getAuthCodeUrl(@RequestParam Integer type, String callback) {
-        return R.success(weChetAuthService.getAuthCodeUrl(type, callback));
+        return R.success(weChetH5AuthUtil.getAuthCodeUrl(type, callback));
     }
 
 
     @RequestMapping(value = "/getOpenId", method = RequestMethod.GET)
     @ApiOperation(value = "2、通过code 获取openId", notes = "")
     public R<String> getOpenId(@RequestParam String code) {
-        return R.success(weChetAuthService.getOpenId(code));
+        return R.success(weChetH5AuthUtil.getOpenId(code));
     }
 }

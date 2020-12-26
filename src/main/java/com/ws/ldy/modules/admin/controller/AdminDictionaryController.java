@@ -33,8 +33,8 @@ import java.util.stream.Collectors;
  * @date Sun Nov 24 11:23:12 CST 2019
  */
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/admin/adminDictionary")
-@Api(value = "AdminDictionaryController", tags = "字典管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
+@RequestMapping(BaseConstant.Sys.API + "/admin/adminDictionary")
+@Api(value = "AdminDictionaryController", tags = "base--字典管理", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class AdminDictionaryController extends BaseController<AdminDictionaryService> {
 
 

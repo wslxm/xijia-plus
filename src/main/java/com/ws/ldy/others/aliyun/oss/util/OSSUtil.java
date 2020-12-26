@@ -49,7 +49,6 @@ import com.ws.ldy.common.utils.PathUtil;
 import com.ws.ldy.others.aliyun.oss.config.OssConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -79,34 +78,13 @@ import java.util.List;
 @Service
 public class OSSUtil {
 
-    //    /**
-//     * 文件一级目录, 文件保存到oss的路径(勿修改 oos/  ), file/ 可修改
-//     */
+    /**
+     * 文件一级目录, 文件保存到oss的路径(勿修改 oos/  ), file/ 可修改
+     */
     private final static String FILE_PATH = "oss/file/";
 
     @Autowired
     private HttpServletRequest request;
-//    /**
-//     * 阿里云下oss 接口访问地址
-//     */
-//    @Value("${aliyun.oss.endpoint}")
-//    private String endpoint;
-//    /**
-//     * 阿里云下oss 的 accessKeyId和accessKeySecret(访问密钥，您可以在控制台上创建和查看)
-//     */
-//    @Value("${aliyun.oss.accessKeyId}")
-//    private String accessKeyId;
-//    /**
-//     * 阿里云oss下 accessKeySecret
-//     */
-//    @Value("${aliyun.oss.accessKeySecret}")
-//    private String accessKeySecret;
-//    /**
-//     * 阿里云oss下bucketName
-//     */
-//    @Value("${aliyun.oss.bucketName}")
-//    private String bucketName;
-
 
     /**
      * 上传文件到oss/file 目录下
@@ -114,9 +92,9 @@ public class OSSUtil {
      * 链接地址：https://help.aliyun.com/document_detail/oss/sdk/java-sdk/upload_object.html?spm=5176.docoss/user_guide/upload_object
      * </P>
      *
-     * @param filePath  文件二级目录
+     * @param filePath  文件保存到的二级目录
      * @param fileName  文件名称
-     * @param inputStream    文件流
+     * @param inputStream  文件流
      * @return
      */
     public String upload(String filePath, String fileName, InputStream inputStream) {
@@ -129,7 +107,7 @@ public class OSSUtil {
         // 设置 ContentType 类型 ,防止图片等资源无法使用url直接访问，没有对应格式时,不处理，使用文件对应的默认格式
         ObjectMetadata metadata = new ObjectMetadata();
         String suffixName = yourObjectName.substring(yourObjectName.lastIndexOf("."));
-        String contentType = AliFileUtil.getContentType(suffixName);
+        String contentType = this.getContentType(suffixName);
         if (contentType != null) {
             metadata.setContentType(contentType);
         }
@@ -152,7 +130,7 @@ public class OSSUtil {
      */
     public List<OSSObjectSummary> getObjectListing() {
         // 创建ossClient
-        OSS ossClient = new OSSClientBuilder().build(OssConfig.endpoint,OssConfig.accessKeyId, OssConfig.accessKeySecret);
+        OSS ossClient = new OSSClientBuilder().build(OssConfig.endpoint, OssConfig.accessKeyId, OssConfig.accessKeySecret);
         ObjectListing objectListing = ossClient.listObjects(OssConfig.bucketName);
         List<OSSObjectSummary> objectSummary = objectListing.getObjectSummaries();
         //  System.out.println("您有以下Object：");
@@ -176,5 +154,61 @@ public class OSSUtil {
         // 关闭OSSClient。
         ossClient.shutdown();
         return true;
+    }
+
+
+
+
+    /**
+     *  1、获取保存后的文件类型
+     *  <P>  阿里云,处理文件格式，不处理可能导致文件无法直接访问 </P>
+     *  --- 1、如果后缀不在以下范围内，返回null,保存上传文件的格式
+     *  --- 2、图片统一服务端统一保存为： image/jpg
+     *
+     * @param filenameExtension
+     * @return
+     */
+    private  String getContentType(String filenameExtension) {
+        if (filenameExtension.equalsIgnoreCase(".bmp")) {
+            return "image/bmp";
+        }
+        if (filenameExtension.equalsIgnoreCase(".gif")) {
+            return "image/gif";
+        }
+        if (filenameExtension.equalsIgnoreCase(".jpeg") ||
+                filenameExtension.equalsIgnoreCase(".jpg") ||
+                filenameExtension.equalsIgnoreCase(".png")) {
+            return "image/jpg";
+        }
+        if (filenameExtension.equalsIgnoreCase(".html")) {
+            return "text/html";
+        }
+        if (filenameExtension.equalsIgnoreCase(".txt")) {
+            return "text/plain";
+        }
+        if (filenameExtension.equalsIgnoreCase(".vsd")) {
+            return "application/vnd.visio";
+        }
+        if (filenameExtension.equalsIgnoreCase(".pptx") ||
+                filenameExtension.equalsIgnoreCase(".ppt")) {
+            return "application/vnd.ms-powerpoint";
+        }
+        if (filenameExtension.equalsIgnoreCase(".docx") ||
+                filenameExtension.equalsIgnoreCase(".doc")) {
+            return "application/msword";
+        }
+        if (filenameExtension.equalsIgnoreCase(".xml")) {
+            return "text/xml";
+        }
+        if (filenameExtension.equalsIgnoreCase(".mp4")) {
+            return "video/mp4";
+        }
+        if (filenameExtension.equalsIgnoreCase(".mp3")) {
+            return "audio/mp3";
+        }
+        if (filenameExtension.equalsIgnoreCase(".pdf")) {
+            return " application/pdf";
+        }
+        return null;
     }
 }

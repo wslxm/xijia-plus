@@ -38,8 +38,8 @@ import java.util.stream.Collectors;
  * @date  2020-10-04 21:44:55
  */
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX +"/caipu/cpCategory")
-@Api(value ="CpCategory" ,tags = "菜谱类别字典表", consumes = BaseConstant.InterfaceType.PC_ADMIN)
+@RequestMapping(BaseConstant.Sys.API +"/caipu/cpCategory")
+@Api(value ="CpCategory" ,tags = "独立功能--菜谱类别字典表", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class CpCategoryController extends BaseController<CpCategoryService>  {
 
     @Autowired

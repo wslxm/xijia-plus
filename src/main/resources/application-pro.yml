@@ -30,8 +30,10 @@ wx:
         token: 123456789                             # 接口配置里的Token值
         aesKey: 123456789                            # 接口配置里的EncodingAESKey值
 
-## 阿里云OSS配置 --> true 正式环境 | false 测试环境(默认) -> OssConfig 配置类中读取
-isAliOss : true
+
+isAliOss : true     # 阿里云OSS配置 --> true 正式环境 | false 测试环境(默认) -> OssConfig 配置类中读取
+isQiNiuOss : true   # 阿里云OSS配置 --> true 正式环境 | false 测试环境(默认) -> OssConfig 配置类中读取
+
 
 ## logback日志输出：linux 项目放置路径, 请自行配置log在服务器的输出路径，由 logback-spring.xml 读取此配置信息, 线上请配置linux路径: /usr/local/work/xijia2/logs
 logging:

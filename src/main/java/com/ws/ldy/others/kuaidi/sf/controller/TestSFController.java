@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/sf/")
+@RequestMapping(BaseConstant.Sys.API + "/sf/")
 @Api(value = "TestSFController", tags = "v-1.3 -- 顺丰快递 --> test-API",consumes = BaseConstant.InterfaceType.PC_BASE)
 public class TestSFController {
 

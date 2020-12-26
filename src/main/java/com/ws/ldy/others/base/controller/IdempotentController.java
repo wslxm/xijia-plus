@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Api(value = "IdempotentController", tags = "v-1.4 -- 幂等",consumes = BaseConstant.InterfaceType.PC_BASE)
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/idempotent")
+@RequestMapping(BaseConstant.Sys.API + "/idempotent")
 public class IdempotentController {
 
 

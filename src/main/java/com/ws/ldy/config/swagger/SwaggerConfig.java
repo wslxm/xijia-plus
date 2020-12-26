@@ -61,7 +61,7 @@ public class SwaggerConfig {
                 .useDefaultResponseMessages(false)
                 .apiInfo(new ApiInfoBuilder()
                         .title("BASE--通用接口")
-                        .description("BASE--通用接口 Swagger API 文档")
+                        .description("restful Swagger API 文档")
                         .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
                         .version("1.0.0")
                         .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
@@ -75,84 +75,19 @@ public class SwaggerConfig {
                 .groupName("ADMIN--系统模块")
                 .globalOperationParameters(getGlobalParameter(1))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.admin"))   // 自行修改为自己的包路径
+                .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules"))   // 自行修改为自己的包路径
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
                 .build()
                 .useDefaultResponseMessages(false)
                 .apiInfo(new ApiInfoBuilder()
                         .title("ADMIN--系统模块")
-                        .description("ADMIN--系统模块Swagger API 文档")
+                        .description("restful Swagger API 文档")
                         .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
                         .version("1.0.0")
                         .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
                         .build());
     }
-
-
-    @Bean
-    public Docket xiJiaApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("ADMIN--兮家")
-                .globalOperationParameters(getGlobalParameter(1))
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.xijia"))   // 自行修改为自己的包路径
-                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-                .paths(PathSelectors.any())
-                .build()
-                .useDefaultResponseMessages(false)
-                .apiInfo(new ApiInfoBuilder()
-                        .title("ADMIN--兮家")
-                        .description("ADMIN--系统模块Swagger API 文档")
-                        .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
-                        .version("1.0.0")
-                        .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
-                        .build());
-    }
-
-
-    @Bean
-    public Docket caiPuApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("食谱API")
-                .globalOperationParameters(getGlobalParameter(1))
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.caipu.controller"))   // 自行修改为自己的包路径
-                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-                .paths(PathSelectors.any())
-                .build()
-                .useDefaultResponseMessages(false)
-                .apiInfo(new ApiInfoBuilder()
-                        .title("食谱API")
-                        .description("食谱API Swagger API 文档")
-                        .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
-                        .version("1.0.0")
-                        .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
-                        .build());
-    }
-
-
-    @Bean
-    public Docket astoryApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("段子API")
-                .globalOperationParameters(getGlobalParameter(1))
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.astory.controller"))   // 自行修改为自己的包路径
-                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-                .paths(PathSelectors.any())
-                .build()
-                .useDefaultResponseMessages(false)
-                .apiInfo(new ApiInfoBuilder()
-                        .title("段子API")
-                        .description("段子API Swagger API 文档")
-                        .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
-                        .version("1.0.0")
-                        .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
-                        .build());
-    }
-
-
 
 
     /**
@@ -175,7 +110,7 @@ public class SwaggerConfig {
             // 管理端默认账号
             parameterBuilder
                     .name(BaseConstant.Sys.TOKEN) // key
-                    .scalarExample(getAdminUserToken("10000"))    //用户端账号 -->     value 默认token值
+                    .scalarExample(getAdminUserToken("10000"))    //用户端账号 --> value 默认token值
                     .description("请求头参数")      // 描叙
                     .modelRef(new ModelRef("string"))
                     .parameterType("header")

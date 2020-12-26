@@ -1,7 +1,6 @@
 package com.ws.ldy.modules.caipu.controller.consumer;
 
 import com.ws.ldy.common.result.R;
-import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.caipu.model.vo.CpCategoryVO;
 import com.ws.ldy.modules.caipu.service.CpCategoryService;
 import com.ws.ldy.others.base.controller.BaseController;
@@ -25,7 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/consumer/caipu/cpCategory")
-@Api(value = "CpCategory", tags = "用户端--菜谱类别字典表")
+@Api(value = "CpCategory", tags = "独立功能--菜谱类别(用户端)")
 public class UCpCategoryController extends BaseController<CpCategoryService> {
 
     @RequestMapping(value = "/findTree", method = RequestMethod.GET)

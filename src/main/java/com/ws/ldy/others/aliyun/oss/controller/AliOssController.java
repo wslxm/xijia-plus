@@ -4,9 +4,8 @@ import com.aliyun.oss.model.OSSObjectSummary;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.FileDownloadUtil;
-import com.ws.ldy.common.utils.PathUtil;
 import com.ws.ldy.enums.BaseConstant;
-import com.ws.ldy.others.aliyun.oss.util.AliFileUtil;
+import com.ws.ldy.common.utils.FileUtil;
 import com.ws.ldy.others.aliyun.oss.util.OSSUtil;
 import com.ws.ldy.others.base.controller.BaseController;
 import io.swagger.annotations.Api;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +30,7 @@ import java.util.List;
  */
 @RestController
 @Api(value = "AliOssController", tags = "v-1.1 -- 文件管理 --> 阿里云OSS", consumes = BaseConstant.InterfaceType.PC_BASE)
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/aliOssFile")
+@RequestMapping(BaseConstant.Sys.API + "/aliOssFile")
 public class AliOssController extends BaseController {
 
     @Autowired
@@ -53,7 +51,7 @@ public class AliOssController extends BaseController {
     })
     public R<String> upload(@RequestParam("file") MultipartFile file, @RequestParam("filePath") String filePath) {
         // 验证文件格式及路径，并获取文件上传路径, file.getOriginalFilename()=原文件名
-        String fileName = AliFileUtil.getPath(filePath, file.getOriginalFilename());
+        String fileName = FileUtil.getPath(filePath, file.getOriginalFilename());
         try {
             // 上传
             String url = ossUtil.upload(filePath, fileName, file.getInputStream());
@@ -90,7 +88,7 @@ public class AliOssController extends BaseController {
             // 获取文件
             file = files[i];
             // 验证文件格式及路径，并获取文件上传路径, file.getOriginalFilename()=原文件名
-            String fileName = AliFileUtil.getPath(filePath, file.getOriginalFilename());
+            String fileName = FileUtil.getPath(filePath, file.getOriginalFilename());
             try {
                 // 上传
                 String url = ossUtil.upload(filePath, fileName, file.getInputStream());
@@ -126,31 +124,5 @@ public class AliOssController extends BaseController {
         return R.success();
     }
 
-    /**
-     * 网络文件下载
-     */
-    @ApiOperation("OSS-文件下载--单文件下载")
-    @ApiImplicitParam(name = "filePath", value = "文件可访问的完整URL", required = true)
-    @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public void downloadNet(@RequestParam String filePath) {
-        // 获取文件名称
-        String fileName = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.length());
-        // 文件下载
-        FileDownloadUtil.download(filePath, fileName, response);
-    }
-
-    /**
-     * 网络文件打包下载
-     */
-    @ApiOperation("OSS-文件下载--多文件下载")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "filePaths", value = "文件可访问的完整URL,多个逗号分隔", required = true),
-            @ApiImplicitParam(name = "zipName", value = "下载后的文件名", required = true)
-    })
-    @RequestMapping(value = "/downloadZip", method = RequestMethod.GET)
-    public void downloadNet(@RequestParam String filePaths, @RequestParam String zipName) {
-        // 文件打包下载
-        FileDownloadUtil.downloadZip(Arrays.asList(filePaths.split(",")), zipName, response);
-    }
 }
 

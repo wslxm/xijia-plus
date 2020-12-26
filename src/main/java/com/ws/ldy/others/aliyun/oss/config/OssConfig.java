@@ -1,5 +1,6 @@
 package com.ws.ldy.others.aliyun.oss.config;
 
+import com.ws.ldy.common.utils.ConsoleColors;
 import lombok.Data;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +29,11 @@ public class OssConfig implements CommandLineRunner {
     @Value("${isAliOss:false}")
     private boolean isAliOss;
     /**
-     * Bucket 域名 （访问域名）
+     * Bucket 域名 （访问文件的域名）
      */
     public static String bucket;
     /**
-     * Endpoint地域节点） （上传域名）
+     * Endpoint地域节点 （上传文件的域名）
      */
     public static String endpoint;
     /**
@@ -55,7 +56,7 @@ public class OssConfig implements CommandLineRunner {
      * @date 2020/12/11 0011 17:32
      */
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args)  {
         if (this.isAliOss) {
             // 正式环境(使用内网)
             bucket = "xijia-sz.oss-cn-shenzhen-internal.aliyuncs.com";
@@ -71,7 +72,7 @@ public class OssConfig implements CommandLineRunner {
             accessKeySecret = "Jf3gn1kSRLdh1j14F5mznnJyIBIhA8";
             bucketName = "xijia-sz";
         }
-        log.info("阿里云OSS配置加载成功 ===> isAliOss:{} ==> bucket:[{}] ==> endpoint:[{}] ==> bucketName:[{}]", this.isAliOss, bucket, endpoint, bucketName);
+        log.info(ConsoleColors.YELLOW_BRIGHT + "\r\n 阿里云OSS配置加载成功\r\n isAliOss: {} \r\n bucket: {} \r\n endpoint: {} \r\n bucketName: {}" + ConsoleColors.RESET, this.isAliOss, bucket, endpoint, bucketName);
     }
 }
 

@@ -58,6 +58,7 @@
         <aliyun-sdk-oss.version>3.8.0</aliyun-sdk-oss.version>
         <aliyun-java-sdk-core.version>4.5.1</aliyun-java-sdk-core.version>
         <weixin-java-mp.version>3.9.0</weixin-java-mp.version>
+        <qiniu-java-sdk.version>7.2.13</qiniu-java-sdk.version>
         <!-- 其他 -->
         <spring-boot-admin-starter-server.version>2.2.2</spring-boot-admin-starter-server.version>
         <spring-boot-admin-starter-client.version>2.2.2</spring-boot-admin-starter-client.version>
@@ -202,6 +203,12 @@
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>${aliyun-sdk-oss.version}</version>
+        </dependency>
+        <!-- 七牛云oss -->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>${qiniu-java-sdk.version}</version>
         </dependency>
         <!-- 阿里云短信 -->
         <dependency>

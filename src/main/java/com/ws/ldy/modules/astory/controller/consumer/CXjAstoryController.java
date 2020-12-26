@@ -31,8 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @date  2020-12-20 22:04:11
  */
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/consumer/astory/xjAstory")
-@Api(value ="CXjAstoryController" ,tags = "用户端  -- 段子表", consumes = BaseConstant.InterfaceType.PC_USER)
+@RequestMapping(BaseConstant.Sys.API + "/consumer/astory/xjAstory")
+@Api(value ="CXjAstoryController" ,tags = "独立功能--段子(用户端)", consumes = BaseConstant.InterfaceType.PC_USER)
 public class CXjAstoryController extends BaseController<XjAstoryService>  {
 
 

@@ -77,6 +77,6 @@ public class SendMsgVO extends Convert {
         this.content = content;
         this.extras = extras;
         this.onlineNum = WebsocketServer.clients.size();
-        this.createTime = LocalDateTimeUtil.parse(LocalDateTime.now());
+        this.createTime = LocalDateTimeUtil.convertLDTToStr(LocalDateTime.now());
     }
 }

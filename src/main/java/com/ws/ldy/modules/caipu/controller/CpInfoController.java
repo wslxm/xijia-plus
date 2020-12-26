@@ -34,8 +34,8 @@ import java.util.Arrays;
  * @date 2020-10-04 18:50:10
  */
 @RestController
-@RequestMapping(BaseConstant.Sys.URI_PREFIX + "/caipu/cpInfo")
-@Api(value = "CpInfo", tags = "菜谱表", consumes = BaseConstant.InterfaceType.PC_ADMIN)
+@RequestMapping(BaseConstant.Sys.API + "/caipu/cpInfo")
+@Api(value = "CpInfo", tags = "独立功能--菜谱表", consumes = BaseConstant.InterfaceType.PC_ADMIN)
 public class CpInfoController extends BaseController<CpInfoService> {
 
 

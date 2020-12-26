@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.caipu.model.entity.CpInfo;
 import com.ws.ldy.modules.caipu.model.vo.CpInfoVO;
 import com.ws.ldy.modules.caipu.service.CpInfoService;
@@ -32,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/consumer/caipu/cpInfo")
-@Api(value = "CpInfo", tags = "用户端--菜谱表")
+@Api(value = "CpInfo", tags = "独立功能--菜谱(用户端)")
 public class UCpInfoController extends BaseController<CpInfoService> {
 
 

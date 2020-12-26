@@ -31,9 +31,8 @@ wx:
         token: 123456789                             # 接口配置里的Token值
         aesKey: 123456789                            # 接口配置里的EncodingAESKey值
 
-## 阿里云配置OssConfig类 --> true 正式环境 | false 测试环境
-isAliOss : false
-
+isAliOss : false     # 阿里云OSS配置 --> true 正式环境 | false 测试环境(默认) -> OssConfig 配置类中读取
+isQiNiuOss : false   # 七牛云OSS配置 --> true 正式环境 | false 测试环境(默认) -> OssConfig 配置类中读取
 
 ## logback日志输出
 logging:
