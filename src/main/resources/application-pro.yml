@@ -21,18 +21,13 @@ spring:
           password: root123456
           type: com.alibaba.druid.pool.DruidDataSource
 
-## 微信公众号 相关配置信息(此为个人测试号)
-wx:
-  mp:
-    configs:
-      - appId: wxa997b110821cbfd6                    # 第一个公众号的appid
-        secret: a5cee82a40995afc5bc14d17058908c1     # 公众号的appsecret
-        token: 123456789                             # 接口配置里的Token值
-        aesKey: 123456789                            # 接口配置里的EncodingAESKey值
 
-
-isAliOss : true     # 阿里云OSS配置 --> true 正式环境 | false 测试环境(默认) -> OssConfig 配置类中读取
-isQiNiuOss : true   # 阿里云OSS配置 --> true 正式环境 | false 测试环境(默认) -> OssConfig 配置类中读取
+## 通用模块环境配置 true 正式环境 | false 测试环境(默认)
+xj:
+  isAliOss: true     # 阿里云OSS配置 --> OssConfig
+  isQiNiuOss: true   # 七牛云OSS配置 --> QiNiuConfig
+  isWxMp: true       # 微信公众号配置 --> WxMpConfig
+  isWxPay: true      # 微信支付配置   --> WxPay2Config
 
 
 ## logback日志输出：linux 项目放置路径, 请自行配置log在服务器的输出路径，由 logback-spring.xml 读取此配置信息, 线上请配置linux路径: /usr/local/work/xijia2/logs

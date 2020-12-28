@@ -1,11 +1,11 @@
 package com.ws.ldy.modules.gc.service.impl;
 
-import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.modules.gc.config.GenerateConfig;
-import com.ws.ldy.modules.gc.util.GenerateDataProcessing;
-import com.ws.ldy.modules.gc.util.LayuiTemplate;
 import com.ws.ldy.modules.gc.model.DsField;
 import com.ws.ldy.modules.gc.service.XjGenerationSevice;
+import com.ws.ldy.modules.gc.util.GenerateDataProcessing;
+import com.ws.ldy.modules.gc.util.LayuiTemplate;
+import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -49,10 +49,10 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             String fieldName = fieldMap.get("name").toString();
             // 字段类型
             String type = fieldMap.get("type").toString();
-            if(GenerateConfig.entitySwagger){
+            if (GenerateConfig.entitySwagger) {
                 // 字段注释信息-->  Swagger2 模式
                 fields.append("\r\n    @ApiModelProperty(notes = \"" + fieldMap.get("desc") + "\" ,position = " + position++ + ")");
-            }else{
+            } else {
                 // 字段注释信息-->  doc 注释
                 fields.append("\r\n    /** \r\n     * " + fieldMap.get("desc") + " \r\n     */");
             }
@@ -100,29 +100,38 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             String isNull = fieldMap.get("isNull").toString();
             //
             String typeDetail = fieldMap.get("typeDetail").toString();
-            //  NO 代表必填,YES 非必填
+            /**
+             *   必填字段添加 jsr303验证 -->   NO 代表必填,YES 非必填
+             */
             if (("NO").equals(isNull)) {
                 //字段
                 if (type.equals("int")
                         || type.equals("bigint")) {
-                    //1
+                    /**
+                     * 整数
+                     */
+                    // 获取数据库注释
                     String desc = "";
                     if (fieldMap.get("desc").toString().indexOf("(") != -1) {
                         desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
                     } else {
                         desc = fieldMap.get("desc").toString();
                     }
-                    // fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空\")");
-                    //2
+                    // 2 int(11)
                     if (typeDetail.indexOf("(") != -1) {
                         int length = Integer.parseInt(typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")")));
                         Double max = (Math.pow(10, length) - 1);
-                        fields.append("\r\n" + "    @Range(min=0, max=" + max.intValue() + "L,message = \"" + desc + " 必须小于" + max.intValue() + "\")");
+                        fields.append("\r\n" + "    @Range(min=0, max=" + new BigDecimal(max.toString()).intValue()
+                                + ",message = \"" + desc + " 必须>=0 和 <=" + new BigDecimal(max.toString()).intValue()
+                                + "\")");
                     }
                 } else if (type.equals("double")
                         || type.equals("float")
                         || type.equals("decimal")
                         || type.equals("float")) {//小数 decimal){
+                    /**
+                     * 小数
+                     */
                     //1
                     String desc = "";
                     if (fieldMap.get("desc").toString().indexOf("(") != -1) {
@@ -131,17 +140,25 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
                         desc = fieldMap.get("desc").toString();
                     }
                     //   fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空 \")");
-                    //2\
+                    //2 decimal(10,2)
                     if (typeDetail.indexOf("(") != -1) {
                         int length = Integer.parseInt(typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(",")));
                         Double max = Math.pow(10, length) - 1;
-                        fields.append("\r\n" + "    @Range(min=0, max=" + new BigDecimal(max.toString()).intValue() + ",message = \"" + desc + " 必须小于" + new BigDecimal(max.toString()).intValue() + "\")");
+                        fields.append("\r\n" + "    @DecimalMin(value = 0"
+                                + ",message = \"" + desc + " 必须>=0"
+                                + "\")");
+                        fields.append("\r\n" + "    @DecimalMax(value = " + new BigDecimal(max.toString()).intValue()
+                                + ",message = \"" + desc + " 必须>=0"
+                                + "\")");
                     }
                 } else if (type.equals("varchar")
                         || type.equals("char")
                         || type.equals("text")
                         || type.equals("longtext")) {
-                    //1
+                    /**
+                     * 字符串
+                     */
+                    //1 varchar(32)
                     String desc = "";
                     if (fieldMap.get("desc").toString().indexOf("(") != -1) {
                         desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
@@ -152,9 +169,14 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
                     //2
                     if (typeDetail.indexOf("(") != -1) {
                         String max = typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")"));
-                        fields.append("\r\n" + "    @Length(min=1, max=" + max + ",message = \"" + desc + " 必须小于" + max + "位\")");
+                        fields.append("\r\n" + "    @Length(min=1, max=" + max
+                                + ",message = \"" + desc + " 必须>=0 和 <=" + new BigDecimal(max.toString()).intValue()
+                                + "位\")");
                     }
                 } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
+                    /**
+                     * 时间
+                     */
                     //1
                     String desc = "";
                     if (fieldMap.get("desc").toString().indexOf("(") != -1) {
@@ -162,6 +184,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
                     } else {
                         desc = fieldMap.get("desc").toString();
                     }
+                    // 暂无
                     //   fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空\")");
                 }
             }
@@ -171,9 +194,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         // 数据保存到替换对象类,使模板中可以读取
         DsField.FIELD_ENTITYS = fields.toString();
         GenerateDataProcessing.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
-        pathMap.put("DTO", brBwPath.get("path").
-
-                toString());
+        pathMap.put("DTO", brBwPath.get("path").toString());
     }
 
     @Override
@@ -225,6 +246,9 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         } else if (type.equals("decimal")) {
             //小数 decimal
             fields.append("\r\n" + "    private BigDecimal " + fieldName + ";");
+        } else if (type.equals("tinyint")) {
+            //小数 decimal
+            fields.append("\r\n" + "    private Boolean " + fieldName + ";");
         }
         //每生成一次换一次行
         fields.append("\r\n");

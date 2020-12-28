@@ -32,7 +32,7 @@ import java.time.LocalDateTime;
 @ApiModel(value = "{tableNameUp}DTO 对象", description = "{tableComment}")
 public class {tableNameUp}DTO extends BaseDto {
 
-    private static final long serialVersionUID = 0L;
+    private static final long serialVersionUID = -{serialVersionUID}L;
     {entitys}
 }
 

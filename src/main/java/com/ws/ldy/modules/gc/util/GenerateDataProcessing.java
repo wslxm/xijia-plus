@@ -2,6 +2,7 @@ package com.ws.ldy.modules.gc.util;
 
 
 import com.google.common.base.CaseFormat;
+import com.ws.ldy.common.utils.IdUtil;
 import com.ws.ldy.common.utils.JsonUtil;
 import com.ws.ldy.common.utils.LocalDateTimeUtil;
 import com.ws.ldy.modules.gc.config.GenerateConfig;
@@ -241,6 +242,8 @@ public class GenerateDataProcessing {
                         // mapper - xml
                         .replace("{resultMap}", DsField.RESULT_MAP)
                         .replace("{columnList}", DsField.COLUMN_LIST)
+                        // entity/vo/dto的 serialVersionUID生成(雪花算法)
+                        .replace("{serialVersionUID}", IdUtil.snowflakeId())
                         // html
                         .replace("{layui-fields}", DsField.LAYUI_FIELDS)
                         .replace("{layui-search-pt-str}", DsField.LAYUI_SEARCH_PT_STR)

@@ -2,7 +2,6 @@ package com.ws.ldy.others.aliyun.oss.config;
 
 import com.ws.ldy.common.utils.ConsoleColors;
 import lombok.Data;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -20,13 +19,12 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @Slf4j
-@ToString
 public class OssConfig implements CommandLineRunner {
 
     /**
      * 环境配置(true= 正式环境  false= 测试环境)
      */
-    @Value("${isAliOss:false}")
+    @Value("${xj.isAliOss:false}")
     private boolean isAliOss;
     /**
      * Bucket 域名 （访问文件的域名）
@@ -72,7 +70,17 @@ public class OssConfig implements CommandLineRunner {
             accessKeySecret = "Jf3gn1kSRLdh1j14F5mznnJyIBIhA8";
             bucketName = "xijia-sz";
         }
-        log.info(ConsoleColors.YELLOW_BRIGHT + "\r\n 阿里云OSS配置加载成功\r\n isAliOss: {} \r\n bucket: {} \r\n endpoint: {} \r\n bucketName: {}" + ConsoleColors.RESET, this.isAliOss, bucket, endpoint, bucketName);
+        log.info(ConsoleColors.YELLOW_BRIGHT +
+                "\r\n" +
+                "|---      阿里云OSS配置加载成功     ---| \r\n" +
+                "|  isAliOss: {} \r\n" +
+                "|  bucket: {} \r\n" +
+                "|  endpoint: {} \r\n" +
+                "|  accessKeyId: {} \r\n" +
+                "|  accessKeySecret: {} \r\n" +
+                "|  bucketName: {} \r\n" +
+                "| ----------------------------------|"
+                + ConsoleColors.RESET, isAliOss, bucket, endpoint, accessKeyId, accessKeySecret,bucketName);
     }
 }
 

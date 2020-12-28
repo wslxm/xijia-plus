@@ -100,6 +100,10 @@ public enum RType implements IEnum<Integer> {
 
     // 微信sdk
     WX_GET_ACCESS_TOKEN_ERROR(10009, "获取微信公众号ACCESS_TOKEN失败"),
+    WX_PAY_NO_OPENID(10009,"没有openId"),
+    WX_PAY_FAILURE(10009,"交易失败"),
+
+
 
     // 文章-帮助中心
     ARTICLE_POSITION_REPEAT(10010, "位置重复"),

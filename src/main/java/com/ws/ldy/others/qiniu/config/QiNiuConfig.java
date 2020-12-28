@@ -30,7 +30,7 @@ public class QiNiuConfig implements CommandLineRunner {
     /**
      * 环境配置(true= 正式环境  false= 测试环境), 在yml中配置 true，false来读取不同的配置
      */
-    @Value("${isQiNiuOss:false}")
+    @Value("${xj.isQiNiuOss:false}")
     private boolean isAliOss;
 
     public static String accessKey;  // 秘钥ak
@@ -84,15 +84,18 @@ public class QiNiuConfig implements CommandLineRunner {
         // 注册上传过滤器 ...其他参数参考类注释
         uploadManager = new UploadManager(cfg);
         // 打印加载信息
-        log.info(ConsoleColors.YELLOW_BRIGHT + "\r\n 七牛云 OSS配置加载成功\r\n " +
-                "isAliOss: {} \r\n " +
-                "accessKey: {} \r\n " +
-                "secretKey: {} \r\n " +
-                "bucket: {} \r\n " +
-                "hosts: {} \r\n " +
-                "priKey: {} \r\n " +
-                "pubBucket: {} \r\n " +
-                "pubHosts: {}"
+        log.info(ConsoleColors.YELLOW_BRIGHT +
+                "\r\n" +
+                "|---     七牛云 OSS配置加载成功     ---| \r\n" +
+                "|  isAliOss: {} \r\n" +
+                "|  accessKey: {} \r\n" +
+                "|  secretKey: {} \r\n" +
+                "|  bucket: {} \r\n" +
+                "|  hosts: {} \r\n" +
+                "|  priKey: {} \r\n" +
+                "|  pubBucket: {} \r\n" +
+                "|  pubHosts: {} \r\n" +
+                "| ----------------------------------|"
                 + ConsoleColors.RESET, this.isAliOss, accessKey, secretKey, bucket, hosts, priKey, pubBucket, pubHosts);
     }
 }

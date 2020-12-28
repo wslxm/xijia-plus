@@ -22,17 +22,13 @@ spring:
           type: com.alibaba.druid.pool.DruidDataSource
 
 
-## 微信公众号 相关配置信息(此为个人测试号)
-wx:
-  mp:
-    configs:
-      - appId: wxa997b110821cbfd6                    # 第一个公众号的appid
-        secret: a5cee82a40995afc5bc14d17058908c1     # 公众号的appsecret
-        token: 123456789                             # 接口配置里的Token值
-        aesKey: 123456789                            # 接口配置里的EncodingAESKey值
+## 通用模块环境配置 true 正式环境 | false 测试环境(默认)
+xj:
+  isAliOss: false     # 阿里云OSS配置 --> OssConfig
+  isQiNiuOss: false   # 七牛云OSS配置 --> QiNiuConfig
+  isWxMp: false       # 微信公众号配置 --> WxMpConfig
+  isWxPay: false      # 微信支付配置   --> WxPay2Config
 
-isAliOss : false     # 阿里云OSS配置 --> true 正式环境 | false 测试环境(默认) -> OssConfig 配置类中读取
-isQiNiuOss : false   # 七牛云OSS配置 --> true 正式环境 | false 测试环境(默认) -> OssConfig 配置类中读取
 
 ## logback日志输出
 logging:
