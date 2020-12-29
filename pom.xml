@@ -58,7 +58,7 @@
         <aliyun-sdk-oss.version>3.8.0</aliyun-sdk-oss.version>
         <aliyun-java-sdk-core.version>4.5.1</aliyun-java-sdk-core.version>
         <weixin-java-mp.version>3.9.0</weixin-java-mp.version>
-        <weixin-java-pay.version>4.0.0</weixin-java-pay.version>
+        <weixin-java-pay.version>3.9.0</weixin-java-pay.version>
         <qiniu-java-sdk.version>7.2.13</qiniu-java-sdk.version>
         <!-- 其他 -->
         <spring-boot-admin-starter-server.version>2.2.2</spring-boot-admin-starter-server.version>

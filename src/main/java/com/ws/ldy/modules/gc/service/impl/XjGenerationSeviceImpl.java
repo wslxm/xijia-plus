@@ -121,9 +121,16 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
                     if (typeDetail.indexOf("(") != -1) {
                         int length = Integer.parseInt(typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")")));
                         Double max = (Math.pow(10, length) - 1);
-                        fields.append("\r\n" + "    @Range(min=0, max=" + new BigDecimal(max.toString()).intValue()
-                                + ",message = \"" + desc + " 必须>=0 和 <=" + new BigDecimal(max.toString()).intValue()
-                                + "\")");
+                        if (type.equals("int")) {
+                            fields.append("\r\n" + "    @Range(min=0, max=" + new BigDecimal(max.toString()).intValue()+"L"
+                                    + ",message = \"" + desc + " 必须>=0 和 <=" + new BigDecimal(max.toString()).intValue()
+                                    + "\")");
+                        } else {
+                            fields.append("\r\n" + "    @Range(min=0, max=" + new BigDecimal(max.toString()).longValue() +"L"
+                                    + ",message = \"" + desc + " 必须>=0 和 <=" + new BigDecimal(max.toString()).longValue()
+                                    + "\")");
+
+                        }
                     }
                 } else if (type.equals("double")
                         || type.equals("float")
@@ -144,11 +151,11 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
                     if (typeDetail.indexOf("(") != -1) {
                         int length = Integer.parseInt(typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(",")));
                         Double max = Math.pow(10, length) - 1;
-                        fields.append("\r\n" + "    @DecimalMin(value = 0"
+                        fields.append("\r\n" + "    @DecimalMin(value = \"0\""
                                 + ",message = \"" + desc + " 必须>=0"
                                 + "\")");
-                        fields.append("\r\n" + "    @DecimalMax(value = " + new BigDecimal(max.toString()).intValue()
-                                + ",message = \"" + desc + " 必须>=0"
+                        fields.append("\r\n" + "    @DecimalMax(value = \"" + new BigDecimal(max.toString()).longValue() + "\""
+                                + ",message = \"" + desc + " 必须<=" + new BigDecimal(max.toString()).longValue()
                                 + "\")");
                     }
                 } else if (type.equals("varchar")
