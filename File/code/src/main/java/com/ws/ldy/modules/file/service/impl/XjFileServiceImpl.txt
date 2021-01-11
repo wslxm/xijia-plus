@@ -1,8 +1,8 @@
-package com.ws.ldy.modules.file.service.impl;
+package com.ws.ldy.modules.modules.sys.file.service.impl;
 
-import com.ws.ldy.modules.file.mapper.XjFileMapper;
-import com.ws.ldy.modules.file.model.entity.XjFile;
-import com.ws.ldy.modules.file.service.XjFileService;
+import com.ws.ldy.modules.modules.sys.file.mapper.XjFileMapper;
+import com.ws.ldy.modules.modules.sys.file.model.entity.XjFile;
+import com.ws.ldy.modules.modules.sys.file.service.XjFileService;
 import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
 import org.springframework.stereotype.Service;
 

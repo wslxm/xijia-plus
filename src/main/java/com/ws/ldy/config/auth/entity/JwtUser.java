@@ -24,23 +24,23 @@ public class JwtUser {
      */
     private Integer type;
     /**
-     * 用户Id
+     * 用户Id | 对应指定类型的用户表id
      */
     private String userId;
     /**
-     * 姓名
+     * 姓名   | 微信登录无
      */
     private String fullName;
     /**
-     * 账号/用户名
+     * 账号/用户名  | 小程序登录-微信昵称
      */
     private String username;
     /**
-     * 手机号/第二账号
+     * 手机号/第二账号 | 小程序登录-无
      */
     private String phone;
     /**
-     * 头像url
+     * 头像url | 小程序登录-微信头像url
      */
     private String head;
 

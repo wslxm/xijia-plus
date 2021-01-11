@@ -2,12 +2,13 @@ package com.ws.ldy.config.auth.util;
 
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
+import com.ws.ldy.common.utils.DeflaterUtils;
 import com.ws.ldy.common.utils.JsonUtil;
 import com.ws.ldy.config.auth.entity.JwtUser;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.enums.Enums;
-import com.ws.ldy.modules.admin.service.AdminAuthorityService;
+import com.ws.ldy.modules.sys.admin.service.AdminAuthorityService;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +20,10 @@ import java.util.List;
 
 /***
  *   jwt 工具类
+ *   <P>
+ *      使用Deflater压缩数据后再放到 jwt存储数据，以保证不出现 header大小问题(不能超过8kb) max-http-header-size
+ *      jwt工具包会把最后的数据进行base64编码返回
+ *   </P>
  * @author 王松
  * @mail 1720696548@qq.com
  * @date 2020/7/5 0005 19:13
@@ -50,18 +55,25 @@ public class JwtUtil {
      * @date 2020/7/6 0006 9:26
      */
     public static String createToken(JwtUser jwtUser) {
-        // 获取权限数据,单独出来,前端可解析出来用于按钮控制
-        List<String> authList = jwtUser.getAuthList();
-        // 清除权限数据
+        // 权限数据（Deflater压缩）
+        String authListZip = null;
+        if (jwtUser.getType().equals(Enums.Admin.AuthorityType.AUTHORITY_TYPE_0.getValue())) {
+            // 管理端登录权限数据进行压缩
+            String authListJsonStr = JsonUtil.toJSONStringNoNull(jwtUser.getAuthList());
+            authListZip = DeflaterUtils.zipString(authListJsonStr);
+            log.info("authList 压缩后大小：{}  --> {}", authListJsonStr.length(), authListZip.length());
+        }
+        // 用户数据json, 先清除用户信息中的权限数据
         jwtUser.setAuthList(null);
+        String jwtUserJsonStr = JsonUtil.toJSONStringNoNull(jwtUser);
         // 生成jwt
         String token = Jwts
                 .builder()
                 // 主题
                 .setSubject(SUBJECT)
-                // 添加jwt自定义值  // TODO 用户信息加密
-                .claim(AUTH_CLAIMS, authList)
-                .claim(AUTH_USER, JsonUtil.toJSONStringNoNull(jwtUser))
+                // 添加jwt自定义值
+                .claim(AUTH_CLAIMS, authListZip)
+                .claim(AUTH_USER, jwtUserJsonStr)
                 .setIssuedAt(new Date())
                 // 过期时间
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRITION))
@@ -104,11 +116,15 @@ public class JwtUtil {
                 // 获取token内信息
                 Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
                 // user 信息
-                JwtUser jwtUser = JsonUtil.parseEntity(claims.get(AUTH_USER).toString(), JwtUser.class);
-                // auth 权限
-                Object obj = claims.get(AUTH_CLAIMS);
-                List list = obj == null ? null : JsonUtil.parseList(JsonUtil.toJSONString(obj));
-                jwtUser.setAuthList(list);
+                String userJson = claims.get(AUTH_USER).toString();
+                JwtUser jwtUser = JsonUtil.parseEntity(userJson, JwtUser.class);
+                // auth 权限, 先使用Deflater还原成json在转为list数据
+                Object objZip = claims.get(AUTH_CLAIMS);
+                if (objZip != null) {
+                    String objJsonStr = DeflaterUtils.unzipString(objZip.toString());
+                    List list = JsonUtil.parseList(objJsonStr);
+                    jwtUser.setAuthList(list);
+                }
                 // 正常就返回,不然就进入异常
                 return R.success(jwtUser);
             }

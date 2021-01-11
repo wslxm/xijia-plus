@@ -1,4 +1,4 @@
-package com.ws.ldy.modules.file.controller;
+package com.ws.ldy.modules.modules.sys.file.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -12,10 +12,10 @@ import org.apache.commons.lang3.StringUtils;
 import com.ws.ldy.config.error.ErrorException;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.ws.ldy.modules.file.model.entity.XjFile;
-import com.ws.ldy.modules.file.model.vo.XjFileVO;
-import com.ws.ldy.modules.file.model.dto.XjFileDTO;
-import com.ws.ldy.modules.file.service.XjFileService;
+import com.ws.ldy.modules.modules.sys.file.model.entity.XjFile;
+import com.ws.ldy.modules.modules.sys.file.model.vo.XjFileVO;
+import com.ws.ldy.modules.modules.sys.file.model.dto.XjFileDTO;
+import com.ws.ldy.modules.modules.sys.file.service.XjFileService;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;

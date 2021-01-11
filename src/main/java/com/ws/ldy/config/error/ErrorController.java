@@ -2,7 +2,7 @@ package com.ws.ldy.config.error;
 
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.EnumUtil;
-import com.ws.ldy.others.base.controller.BaseController;
+import com.ws.ldy.modules.sys.base.controller.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;

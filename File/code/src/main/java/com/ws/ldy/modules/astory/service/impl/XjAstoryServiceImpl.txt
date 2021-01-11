@@ -1,8 +1,8 @@
-package com.ws.ldy.modules.astory.service.impl;
+package com.ws.ldy.modules.modules.sys.astory.service.impl;
 
-import com.ws.ldy.modules.astory.mapper.XjAstoryMapper;
-import com.ws.ldy.modules.astory.model.entity.XjAstory;
-import com.ws.ldy.modules.astory.service.XjAstoryService;
+import com.ws.ldy.modules.modules.sys.astory.mapper.XjAstoryMapper;
+import com.ws.ldy.modules.modules.sys.astory.model.entity.XjAstory;
+import com.ws.ldy.modules.modules.sys.astory.service.XjAstoryService;
 import com.ws.ldy.others.base.service.impl.BaseIServiceImpl;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.ws.ldy.modules.astory.model.dto;
+package com.ws.ldy.modules.modules.sys.astory.model.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

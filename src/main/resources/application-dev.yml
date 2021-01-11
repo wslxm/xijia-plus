@@ -22,12 +22,75 @@ spring:
           type: com.alibaba.druid.pool.DruidDataSource
 
 
-## 通用模块环境配置 true 正式环境 | false 测试环境(默认)
-xj:
-  isAliOss: false     # 阿里云OSS配置 --> OssConfig
-  isQiNiuOss: false   # 七牛云OSS配置 --> QiNiuConfig
-  isWxMp: false       # 微信公众号配置 --> WxMpConfig
-  isWxPay: false      # 微信支付配置   --> WxPay2Config
+
+## 阿里云api
+aliyun:
+  oss:
+    endpoint: oss-cn-shenzhen.aliyuncs.com               # oss 接口访问地址:外网上传地址
+    #endpoint: oss-cn-shenzhen-internal.aliyuncs.com     # oss 接口访问地址:内网上传地址
+    accessKeyId: LTAI4Fyfy2DTf4yUrvKqHwH4                # 阿里云下oss 的 accessKeyId
+    accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8      # 阿里云下oss 的 accessKeySecret
+    bucketName: xijia-sz                                 # Bucket 名称
+    # 访问域名(1-使用内网(配置服务器域名,使用nginx转发)  2-使用外网(直接配置,或nginx转发)  3-使用外网cdn(直接配置,或nginx转发))
+    bucket: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
+  sms:
+    # 当前为乐陪配置
+    accessKeyId: "LTAIDgBQsHDdlU8E"                      # 请在阿里云短信控制台获取
+    accessKeySecret: "xZojnR8llxYzD0VJyNqfwWd5RsFKQk"    # 请在阿里云短信控制台获取
+
+## 微信api
+wx:
+  # 小程序
+  app:
+    appId: "wxc3a142cbc777acc5"
+    secret: "78077930fa44ba58c6b993da2c644505"
+  # 公众号
+  mq:
+    appId: "wxa997b110821cbfd6"
+    secret: "a5cee82a40995afc5bc14d17058908c1"
+    token: "123456789"
+    aesKey: "123456789"
+  # 支付
+  pay:
+    appId: "wxc3a142cbc777acc5"
+    mchId: "1512069221"
+    mchKey: "v6fi8r2wegYnhOqve52tLzJrYk8L6GxS"
+    subAppId: ""
+    subMchId: ""
+    keyPath: "classpath:cert/apiclient_cert.p12"
+    # 回调地址
+    notifyBase: "http://pets.api.520ban.com"
+    orderNotifyUrl: "/api/pay/notify/wx/order"
+    refundNotifyUrl: "/pay/notify/wx/refund"
+
+
+## 七牛云
+qiniu:
+  ## 七牛云 oss 当前为乐陪配置
+  oss:
+    accessKey: "FetmKgfKFaS7ZAE12j5uzNSrXDkf6pp5LyAxtzWy"
+    secretKey: "iY74NEU14YUA3lDUb1vy3Rt18pnEQvTgx37WxH2r"
+    bucket: "xi-jia"
+    hosts: "http://qiniu.file.xijia.plus/"
+    priKey: ""
+    ## 地域(华东 z0 华北 z1 华南 z2 北美 na0 东南亚 as0)
+    area: "z2"
+
+
+## 快递
+kuaidu:
+  # 快递100，授权码,客户码, 请到快递100页面申请企业版接口获取
+  kuaidi100:
+    key: vkvhbTZJ1059
+    customer: 0953C663278B625ED2FB94AF1F3A02D6
+    sign: 0953C663278B625ED2FB94AF1F3A02D6
+  # 顺丰(丰桥) 个人账号沙盒测试地址(17628689969/ ws/19960302)
+  sf:
+    url: https://sfapi-sbox.sf-express.com/std/service    # 请求地址,沙盒, 正式地址=https://sfapi.sf-express.com/std/service
+    customerCode: WSXX                                    # 请求地址
+    customerCheckWord: sKfq2WO8V38rRFsyverQrnuuPfI0DS87   # 客户校检码
+    customerMonthlyCard: 7551234567                       # 客户月结卡号（测试卡号）
+
 
 
 ## logback日志输出

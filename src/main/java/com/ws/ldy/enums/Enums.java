@@ -9,7 +9,7 @@ public interface Enums {
     /**
      * -
      */
-    interface Admin{
+    interface Admin {
 
         // -
         @Getter
@@ -43,7 +43,7 @@ public interface Enums {
         enum AuthorityType implements IEnum<Integer> {
             AUTHORITY_TYPE_0(0, "管理端"),    // 管理端, 类上标有该参数所有接口都会默认被列为-[需登录+需授权]
             AUTHORITY_TYPE_1(1, "用户端"),    // 用户端, 类上标有该参数所有接口都会默认被列为-[需登录]
-            AUTHORITY_TYPE_100(100, "通用接口"),    // 未分类的端, 类上标有该参数所有接口都会默认被列为-[无需登录,无需授权]
+            AUTHORITY_TYPE_100(100, "未分类"),    // 未分类的端, 类上标有该参数所有接口都会默认被列为-[无需登录,无需授权]
             ;
             private Integer value;
             private String desc;
@@ -77,6 +77,17 @@ public interface Enums {
         enum BlacklistType implements IEnum<Integer> {
             BLACKLIST_TYPE_1(1, "白名单"),    // -
             BLACKLIST_TYPE_2(2, "黑名单"),    // -
+            ;
+            private Integer value;
+            private String desc;
+        }
+
+        // -
+        @Getter
+        @AllArgsConstructor
+        enum BusinessType implements IEnum<Integer> {
+            BUSINESS_TYPE_1(1, "月缴费"),    // -
+            BUSINESS_TYPE_2(2, "互助发放"),    // -
             ;
             private Integer value;
             private String desc;
@@ -156,12 +167,39 @@ public interface Enums {
             private Integer value;
             private String desc;
         }
+
+        // 交易状态( 0-已发起 1-回调成功(临时状态) 2-交易失败 3-交易成功 )
+        @Getter
+        @AllArgsConstructor
+        enum PayState implements IEnum<Integer> {
+            PAY_STATE_0(0, "已发起"),    // -
+            PAY_STATE_1(1, "回调成功"),    // -
+            PAY_STATE_2(2, "交易失败"),    // -
+            PAY_STATE_3(3, "交易成功"),    // -
+            PAY_STATE_4(4, "订单异常"),    // -
+            ;
+            private Integer value;
+            private String desc;
+        }
+
+        // -
+        @Getter
+        @AllArgsConstructor
+        enum PayType implements IEnum<Integer> {
+            PAY_TYPE_1(1, "支付"),    // -
+            PAY_TYPE_2(2, "充值"),    // -
+            PAY_TYPE_3(3, "退款"),    // -
+            PAY_TYPE_4(4, "商家打款"),    // -
+            ;
+            private Integer value;
+            private String desc;
+        }
     }
 
     /**
      * -
      */
-    interface Base{
+    interface Base {
 
         // -
         @Getter
@@ -200,9 +238,39 @@ public interface Enums {
         // -
         @Getter
         @AllArgsConstructor
-        enum IsMail implements IEnum<Integer> {
-            IS_MAIL_0(0, "未邮寄"),    // -
-            IS_MAIL_1(1, "已邮寄"),    // -
+        enum PayChannel implements IEnum<Integer> {
+            PAY_CHANNEL_1(1, "支付宝"),    // -
+            PAY_CHANNEL_2(2, "微信"),    // -
+            PAY_CHANNEL_3(3, "银联"),    // -
+            ;
+            private Integer value;
+            private String desc;
+        }
+
+        // 该字段只展示, 程序中直接使用 true/ false 即可
+        @Getter
+        @AllArgsConstructor
+        enum Whether implements IEnum<Integer> {
+            WHETHER_0(0, "否"),    // 对应数据库 tinyint = 0 = false
+            WHETHER_1(1, "是"),    // 对应数据库 tinyint = 1 = true
+            ;
+            private Integer value;
+            private String desc;
+        }
+    }
+
+    /**
+     * -
+     */
+    interface Pet {
+
+        // -
+        @Getter
+        @AllArgsConstructor
+        enum AccountType implements IEnum<Integer> {
+            ACCOUNT_TYPE_1(1, "平台"),    // -
+            ACCOUNT_TYPE_2(2, "消费者"),    // -
+            ACCOUNT_TYPE_3(3, "商家"),    // -
             ;
             private Integer value;
             private String desc;
@@ -211,9 +279,9 @@ public interface Enums {
         // -
         @Getter
         @AllArgsConstructor
-        enum IsNeedMail implements IEnum<Integer> {
-            IS_NEED_MAIL_0(0, "否"),    // -
-            IS_NEED_MAIL_1(1, "是"),    // -
+        enum DeclaceErrorType implements IEnum<Integer> {
+            DECLACE_ERROR_TYPE_1(1, "宠物信息不全或错误"),    // -
+            DECLACE_ERROR_TYPE_2(2, "主人信息不全或错误"),    // -
             ;
             private Integer value;
             private String desc;
@@ -222,9 +290,57 @@ public interface Enums {
         // -
         @Getter
         @AllArgsConstructor
-        enum IsRead implements IEnum<Integer> {
-            IS_READ_0(0, "未读"),    // -
-            IS_READ_1(1, "已读"),    // -
+        enum DeclareState implements IEnum<Integer> {
+            DECLARE_STATE_0(0, "申报中"),    // -
+            DECLARE_STATE_1(1, "已驳回"),    // -
+            DECLARE_STATE_2(2, "申报失败"),    // -
+            DECLARE_STATE_3(3, "申报成功"),    // -
+            ;
+            private Integer value;
+            private String desc;
+        }
+
+        // -
+        @Getter
+        @AllArgsConstructor
+        enum InviteConfigType implements IEnum<Integer> {
+            INVITE_CONFIG_TYPE_1(1, "分享邀请"),    // -
+            ;
+            private Integer value;
+            private String desc;
+        }
+
+        // -
+        @Getter
+        @AllArgsConstructor
+        enum OrderState implements IEnum<Integer> {
+            ORDER_STATE_0(0, "待支付"),    // -
+            ORDER_STATE_1(1, "支付失败"),    // -
+            ORDER_STATE_2(2, "支付成功"),    // -
+            ORDER_STATE_3(3, "已绑定宠物"),    // -
+            ORDER_STATE_4(4, "订单失效"),    // -
+            ;
+            private Integer value;
+            private String desc;
+        }
+
+        // -
+        @Getter
+        @AllArgsConstructor
+        enum PetsSex implements IEnum<Integer> {
+            PETS_SEX_1(1, "弟弟"),    // -
+            PETS_SEX_2(2, "妹妹"),    // -
+            ;
+            private Integer value;
+            private String desc;
+        }
+
+        // -
+        @Getter
+        @AllArgsConstructor
+        enum WalletType implements IEnum<Integer> {
+            WALLET_TYPE_1(1, "收入"),    // -
+            WALLET_TYPE_2(2, "支出"),    // -
             ;
             private Integer value;
             private String desc;
