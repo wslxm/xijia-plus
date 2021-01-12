@@ -54,6 +54,9 @@
         <hutool-all.version>5.4.7</hutool-all.version>
         <google.zxing.javase.version>3.0.0</google.zxing.javase.version> <!--二维码工具-->
         <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
+         <!-- 图片处理 -->
+        <imageio-jpeg.version>3.3</imageio-jpeg.version>
+        <imageio-tiff.version>3.3</imageio-tiff.version>
         <!-- sdk -->
         <aliyun-sdk-oss.version>3.8.0</aliyun-sdk-oss.version>
         <aliyun-java-sdk-core.version>4.5.1</aliyun-java-sdk-core.version>
@@ -287,6 +290,18 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
+        </dependency>
+
+        <!-- cmyk格式图片转换，解决图片压缩出现 Unsupported Image Type的问题 -->
+        <dependency>
+            <groupId>com.twelvemonkeys.imageio</groupId>
+            <artifactId>imageio-jpeg</artifactId>
+            <version>${imageio-jpeg.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.twelvemonkeys.imageio</groupId>
+            <artifactId> imageio-tiff</artifactId>
+            <version>${imageio-tiff.version}</version>
         </dependency>
     </dependencies>
     <build>
