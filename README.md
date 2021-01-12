@@ -20,7 +20,7 @@ QQ群：
  [http://xijia.plus/help](http://xijia.plus/help) 
 
 #### 最新说明
-- 当前主分支为v-0.0.7 的分支最后更新代码,可稳定运行
+- 当前主分支为v-0.0.8 的分支最后更新代码,可稳定运行
 - 更新文档: [https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md) 
 
 #### 更多
