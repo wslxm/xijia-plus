@@ -29,7 +29,7 @@ QQ群：
 - swagger2 文档, 地址：http://localhost/swagger-ui.html
 
 
-### 二、项目结构目录(后端代码)
+### 二、项目结构目录(后端代码, 代码结构未 v-0.0.8更新)
 
 ```base
 
