@@ -52,8 +52,8 @@ pets
    └──enums   常量/枚举
    └──modules
         └──business     业务模块
-               └──pets         宠物核心逻辑
-               └──statistics   宠物统计相关
+               └──xx1         
+               └──xx2   
         └──sys          系统模块
                └──admin        系统核心功能
                └──base         系统核心通用层
