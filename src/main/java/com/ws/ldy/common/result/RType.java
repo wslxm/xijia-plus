@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
  * @return
  */
 
+@SuppressWarnings("all")
 @Getter
 @NoArgsConstructor
 public enum RType implements IEnum<Integer> {
@@ -31,16 +32,16 @@ public enum RType implements IEnum<Integer> {
     SYS_ERROR_CODE_415(415, "415错误"),
     SYS_ERROR_CODE_500(500, "服务器错误"),
     SYS_ERROR_DOES_NOT_EXIST(500, "没有找到数据/数据不存在"),
-    SYS_BLACK_LIST_IP(9996, "该ip异常,禁止访问"),
-    SYS_WHITE_LIST_NO_IP(9996, "该ip地址没有访问权限"),
+    // 系统层相关错误 9900 -- 10000
+    SYS_IS_IDEMPOTENT(9901, "重复请求"),
+    SYS_BLACK_LIST_IP(9902, "该ip异常,禁止访问"),
+    SYS_WHITE_LIST_NO_IP(9903, "该ip地址没有访问权限"),
+    TEMPLATE_RESOLVING_ERROR(9904, "Html模板解析错误"),
+    DB_EXECUTE_SQL_ERROR(9905, "执行sql时出错"),
+    SYS_CONFIG_NO_LESS_THAN_ONE(9906, "配置数据不能少于一条"),
 
 
-    //
-    TEMPLATE_RESOLVING_ERROR(9997, "Html模板解析错误"),
-    DB_EXECUTE_SQL_ERROR(9998, "执行sql时出错"),
-
-
-    // 参数错误
+    // 参数错误 9999
     PARAM_ERROR(9999, "参数错误"),
     PARAM_ERROR_JSR303(9999, "参数错误:不符合JSR 303规范"),//jsr303错误,全局异常单独处理返回msg
     PARAM_MISSING(9999, "缺少参数"),
@@ -77,36 +78,57 @@ public enum RType implements IEnum<Integer> {
     USER_ACCOUNT_IS_NO_PHONE(10003, "账号不能为电话号码"),
     USER_IS_NO_PHONE(10003, "请输入正确的手机号"),
     USER_EXIST_MULTIPLE_ACCOUNTS(10003, "存在多个账号,请选择账号类型"),
-    //
-    DICT_DUPLICATE(10004, "字典Code重复"),
+
+
+    // 字典
+    DICT_DUPLICATE(10010, "字典Code重复"),
 
     // 文件
-    FILE_PATH_ERROR(10005, "路径错误或文件不存在"),
-    FILE_DOWNLOAD_FAILED(10005, "文件下载失败"),
-    FILE_UPLOAD_FAILED(10005, "文件上传失败"),
+    FILE_PATH_ERROR(10020, "路径错误或文件不存在"),
+    FILE_DOWNLOAD_FAILED(10020, "文件下载失败"),
+    FILE_UPLOAD_FAILED(10020, "文件上传失败"),
+
+    // 短信
+    SMS_INVALID(10030, "验证码无效"),
+    SMS_EXPIRED(10030, "验证码已过期"),
 
     // Websocket
-    WEBSOCKET_CONFIG_ERROR(10006, "请检查webSocket配置信息是否配置"),
-
-    //order
-    ORDER_ACCOUNT_TYPE_ERROR(10007, "登录账号不是医生/助理"),
-    ORDER_DUPLICATE_SHIPMENT(10008, "重复寄件"),
-    ORDER_COULD_NOT_FIND_IT(10008, "没有找到该订单的寄件信息"),
-    ORDER_INFORMATION_DOES_NOT_EXIST(10008, "患者信息不存在"),
-    ORDER_STATUS_DOES_NOT_MATCH_OPERATION(10008, "状态与操作不符,请检查订单状态与当前操作是否正确"),
-    ORDER_OLD_ORDER_ID_ERROR(10008, "原订单Id错误"),
-
+    WEBSOCKET_CONFIG_ERROR(10040, "请检查webSocket配置信息是否配置"),
 
     // 微信sdk
-    WX_GET_ACCESS_TOKEN_ERROR(10009, "获取微信公众号ACCESS_TOKEN失败"),
-
-    // 文章-帮助中心
-    ARTICLE_POSITION_REPEAT(10010, "位置重复"),
+    WX_GET_ACCESS_TOKEN_ERROR(10050, "获取微信公众号ACCESS_TOKEN失败"),
+    WX_PAY_NO_OPENID(10050, "没有openId"),
+    WX_PAY_FAILURE(10050, "交易失败"),
 
     // 代码生成
-    GENERATE_CODE_JDBC_ERROR(10020, "数据源连接信息错误");
+    GENERATE_CODE_JDBC_ERROR(10060, "数据源连接信息错误"),
+
+    // 订单
+    ORDER_DOES_NOT_EXIST(10070, "订单不存在"),
+    ORDER_BOUND(10070, "订单已绑定"),
+    ORDER_FAIL(10070, "订单支付未成功"),
+
+    // 宠物相关
+    PETS_NO_DEFAULT_ERROR(10080, "设置默认宠物失败"),
+
+    // 月费相关
+    MONTH_FEE_NOT_FOUND(10090, "找不到支付费用信息"),
+
+    // 宠物
+    PET_TEMPORARY_ERROR(10100,"临时宠物数据条数宠物"),
+    PET_T_BOUND(10100,"临时宠物订单不存或已绑定"),
+
+    // 邀请
+    INVITE_REPEAT(10110, "重复邀请"),
+    INVITE_IS_NO_DEFAULT_PET(10110, "邀请人没有设置默认宠物"),
+    INVITE_IS_NO_CONFIG(10110, "没有配置赠送时长"),
+
+    // 申报
+    DECLARE_AMOUNT_ERROR(10120, "实发金额不能大于申报金额"),
+    DECLARE_STATE_ERROR(10120, "状态错误：订单已完成"),
 
 
+    ;
     private Integer value;
     private String msg;
 

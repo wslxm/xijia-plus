@@ -53,7 +53,7 @@ public class MapUtil {
     }
 
     /**
-     * 地图区域划分（七大地理分区）
+     * 地图区域划分（七大地理分区） - 建议七大区划分
      * @author wangsong
      * @date 2020/11/2 0002 14:02
      * @return void

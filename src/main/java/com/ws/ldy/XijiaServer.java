@@ -18,7 +18,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version 1.0.0
  */
 @SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
-@MapperScan({"com.ws.ldy.*.*.mapper"})
+@MapperScan({"com.ws.ldy.modules.*.*.mapper"})
 @EnableAdminServer     // springbootAdmin
 //@ServletComponentScan
 public class XijiaServer {

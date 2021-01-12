@@ -7,7 +7,6 @@ path = "/api"; // 本地 "http://127.0.0.1:9049" ||  线上ip地址： http://47
  * TODO 系统相关配置
  */
 BaseConfig = {
-    dev_user_role_id: "2",        // 开发人员角色Id
     token: "TOKEN",               // token 命名
 };
 
@@ -46,6 +45,10 @@ var Enums = {
         IsMail : "IS_MAIL",  // 是否邮寄
         IsNeedMail : "IS_NEED_MAIL",  // 是否需要邮寄
         IsRead : "IS_READ",  // 是否已读
+    },
+    // 兮家
+    Xj: {
+        FileType : "FILE_TYPE",  // 文件类型
     },
 };
 
@@ -746,3 +749,42 @@ Base64 = {
 };
 
 
+/**
+ * 获取url 参数
+ * @author wangsong
+ * @param null
+ * @date 2020/12/13 0013 0:59
+ * @return
+ * @version 1.0.0
+ */
+function getParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg); //获取url中"?"符后的字符串并正则匹配
+    var context = "";
+    if (r != null)
+        context = r[2];
+    reg = null;
+    r = null;
+    return context == null || context == "" || context == "undefined" ? "" : context;
+}
+
+
+
+/**
+ * 判断是否为移动设备
+ * @author wangsong
+ * @date 2020/12/14 0014 19:07
+ * @return
+ * @version 1.0.0
+ */
+function isMobile(){
+    if( navigator.userAgent.match(/Android/i)
+        || navigator.userAgent.match(/webOS/i)
+        || navigator.userAgent.match(/iPhone/i)
+        || navigator.userAgent.match(/iPad/i)
+        || navigator.userAgent.match(/iPod/i)
+        || navigator.userAgent.match(/BlackBerry/i)
+        || navigator.userAgent.match(/Windows Phone/i)
+    )return true;
+    return false;
+}

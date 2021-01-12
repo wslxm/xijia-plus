@@ -1,7 +1,5 @@
 package com.ws.ldy.config.mvc;
 
-import com.ws.ldy.others.aliyun.oss.filter.OssFilter;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -31,13 +29,13 @@ public class MvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index").setViewName("modules/admin/xj-index");    // 管理端主页
-        registry.addViewController("/").setViewName("modules/admin/xj_login");         // 管理端登录页
-        registry.addViewController("/login").setViewName("modules/admin/xj_login");    // 管理端登录页
-        registry.addViewController("/fh").setViewName("modules/tool/fhConvert.html");  // 文本转符号生成器
-        registry.addViewController("/java").setViewName("modules/tool/javaCodeRun");   // java代码运行器
-        registry.addViewController("/lts").setViewName("xj/websocket/lts.html");       // 在线聊天室
-        registry.addViewController("/help").setViewName("modules/admin/help/index");   // 兮家手册
+        registry.addViewController("/index").setViewName("modules/xj-index");           // 管理端主页
+        registry.addViewController("/").setViewName("modules/xj_login");                // 管理端登录页
+        registry.addViewController("/login").setViewName("modules/xj_login");           // 管理端登录页
+        registry.addViewController("/fh").setViewName("modules/tool/fhConvert.html");   // 文本转符号生成器
+        registry.addViewController("/java").setViewName("modules/tool/javaCodeRun");    // java代码运行器
+        registry.addViewController("/lts").setViewName("xj/websocket/lts.html");        // 在线聊天室
+        registry.addViewController("/help").setViewName("modules/admin/help/index");    // 兮家手册
     }
 
 
@@ -127,17 +125,23 @@ public class MvcConfig implements WebMvcConfigurer {
 //    }
 
 
-    /**
-     * Oss 过滤器,让访问oss的资源直接去oss服务器去读取
-     * @return
-     */
-    @Bean
-    public FilterRegistrationBean OssFilter() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(new OssFilter());
-        filterRegistrationBean.addUrlPatterns("/*");      // 拦截所有
-        filterRegistrationBean.setName("requestFilter");  // 设置过滤器名称
-        filterRegistrationBean.setOrder(1);//执行次序
-        return filterRegistrationBean;
-    }
+//    /**
+//     * Oss 过滤器,让访问oss的资源直接去oss服务器去读取
+//     * @return
+//     */
+//    @Bean
+//    public FilterRegistrationBean OssFilter() {
+//        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+//        filterRegistrationBean.setFilter(ossFilter());
+//        filterRegistrationBean.addUrlPatterns("/*");      // 拦截所有
+//        filterRegistrationBean.setName("requestFilter");  // 设置过滤器名称
+//        filterRegistrationBean.setOrder(1);//执行次序
+//        return filterRegistrationBean;
+//    }
+//
+//    // 让OssFilter里可以读取bean信息
+//    @Bean
+//    public OssFilter ossFilter() {
+//        return new OssFilter();
+//    }
 }

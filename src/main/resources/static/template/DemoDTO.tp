@@ -14,6 +14,8 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -32,7 +34,7 @@ import java.time.LocalDateTime;
 @ApiModel(value = "{tableNameUp}DTO 对象", description = "{tableComment}")
 public class {tableNameUp}DTO extends BaseDto {
 
-    private static final long serialVersionUID = 0L;
+    private static final long serialVersionUID = -{serialVersionUID}L;
     {entitys}
 }
 

@@ -11,6 +11,8 @@ import java.util.Random;
  */
 public class RandomUtil {
 
+    private static Random x = new Random();
+
     /**
      * 获取指定位数的随机验证码
      * @author wangsong
@@ -22,7 +24,7 @@ public class RandomUtil {
      */
     public static String code(Integer len) {
         String code = "";
-        Random x = new Random();
+
         for (int i = 0; i < len; i++) {
             code += x.nextInt(10);
         }

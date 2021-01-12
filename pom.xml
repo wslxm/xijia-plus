@@ -19,7 +19,7 @@
 
     <properties>
         <!-- 当前系统版本号 -->
-        <revision>0.1</revision>
+        <revision>0.0.8</revision>
         <!-- 文件拷贝时的编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -54,10 +54,15 @@
         <hutool-all.version>5.4.7</hutool-all.version>
         <google.zxing.javase.version>3.0.0</google.zxing.javase.version> <!--二维码工具-->
         <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
+         <!-- 图片处理 -->
+        <imageio-jpeg.version>3.3</imageio-jpeg.version>
+        <imageio-tiff.version>3.3</imageio-tiff.version>
         <!-- sdk -->
         <aliyun-sdk-oss.version>3.8.0</aliyun-sdk-oss.version>
         <aliyun-java-sdk-core.version>4.5.1</aliyun-java-sdk-core.version>
         <weixin-java-mp.version>3.9.0</weixin-java-mp.version>
+        <weixin-java-pay.version>3.9.0</weixin-java-pay.version>
+        <qiniu-java-sdk.version>7.2.13</qiniu-java-sdk.version>
         <!-- 其他 -->
         <spring-boot-admin-starter-server.version>2.2.2</spring-boot-admin-starter-server.version>
         <spring-boot-admin-starter-client.version>2.2.2</spring-boot-admin-starter-client.version>
@@ -66,11 +71,11 @@
 
     <dependencies>
         <!-- 热部署，开发使用-打包前请注释 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-devtools</artifactId>-->
+<!--            <optional>false</optional>-->
+<!--        </dependency>-->
         <!-- spring-boot-starter-test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -203,6 +208,12 @@
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>${aliyun-sdk-oss.version}</version>
         </dependency>
+        <!-- 七牛云oss -->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>${qiniu-java-sdk.version}</version>
+        </dependency>
         <!-- 阿里云短信 -->
         <dependency>
             <groupId>com.aliyun</groupId>
@@ -238,6 +249,13 @@
             <artifactId>weixin-java-mp</artifactId>
             <version>${weixin-java-mp.version}</version>
         </dependency>
+
+       <!-- 微信支付 -->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-pay</artifactId>
+            <version>${weixin-java-pay.version}</version>
+        </dependency>
         <!-- spring-boot-admin,必须先引入 actuator 监控 -->
         <dependency>
             <groupId>de.codecentric</groupId>
@@ -272,6 +290,18 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
+        </dependency>
+
+        <!-- cmyk格式图片转换，解决图片压缩出现 Unsupported Image Type的问题 -->
+        <dependency>
+            <groupId>com.twelvemonkeys.imageio</groupId>
+            <artifactId>imageio-jpeg</artifactId>
+            <version>${imageio-jpeg.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.twelvemonkeys.imageio</groupId>
+            <artifactId> imageio-tiff</artifactId>
+            <version>${imageio-tiff.version}</version>
         </dependency>
     </dependencies>
     <build>

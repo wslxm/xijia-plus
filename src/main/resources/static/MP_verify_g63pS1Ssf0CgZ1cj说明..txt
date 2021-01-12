@@ -4,7 +4,7 @@
 用户在网页授权页同意授权给公众号后，微信会将授权数据传给一个回调页面，回调页面需在此域名下，以确保安全可靠。
 
 下载文件
-将以下文件上传至填写域名或路径指向的web服务器（或虚拟主机）的目录（若填写域名，将文件放置在域名根目录下，例如wx.qq.com/MP_verify_g63pS1Ssf0CgZ1cj.txt；若填写路径，将文件放置在路径目录下，例如wx.qq.com/mp/MP_verify_g63pS1Ssf0CgZ1cj.txt），并确保可以访问。
+将以下文件上传至填写域名或路径指向的web服务器（或虚拟主机) 的目录（若填写域名，将文件放置在域名根目录下，例如wx.qq.com/MP_verify_g63pS1Ssf0CgZ1cj.txt；若填写路径，将文件放置在路径目录下，例如wx.qq.com/mp/MP_verify_g63pS1Ssf0CgZ1cj.txt），并确保可以访问。
 
 MP_verify_g63pS1Ssf0CgZ1cj.txt
 域名1

@@ -104,3 +104,6 @@ management:
     health:
       show-details: ALWAYS
 
+# 调整请求头参数大小
+#server:
+#  max-http-header-size: 1024000

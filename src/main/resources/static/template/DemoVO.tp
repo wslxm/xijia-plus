@@ -12,6 +12,9 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+
 
 /**
  * {tableComment}
@@ -27,7 +30,7 @@ import java.time.LocalDateTime;
 @ApiModel(value = "{tableNameUp}VO 对象", description = "{tableComment}")
 public class {tableNameUp}VO extends BaseVo {
 
-    private static final long serialVersionUID = 0L;
+    private static final long serialVersionUID = -{serialVersionUID}L;
     {entitys}
 }
 

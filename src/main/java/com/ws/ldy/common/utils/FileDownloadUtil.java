@@ -76,16 +76,11 @@ public class FileDownloadUtil {
 
 
     /**
-     * 需要 filePaths 下载路径集
-     *      zipNamex  压缩包名 + .zip
-     *      res       HttpServletResponse
-     **/
-    /**
      * Zip 压缩包（url可访问的文件打包下载）
      * @author wangsong
-     * @param res
-     * @param filePaths
-     * @param zipName
+     * @param res         HttpServletResponse
+     * @param filePaths  下载路径集, 可访问的url
+     * @param zipName     压缩包名 + .zip
      * @date 2020/8/26 0026 17:01
      * @return void
      * @version 1.0.0

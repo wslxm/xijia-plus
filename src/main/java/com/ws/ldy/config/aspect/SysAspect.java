@@ -3,25 +3,23 @@ package com.ws.ldy.config.aspect;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.ws.ldy.XijiaServer;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.entity.JwtUser;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.error.GlobalExceptionHandler;
+import com.ws.ldy.config.idempotent.aop.XjApiIdempotentAop;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.enums.Enums;
-import com.ws.ldy.modules.admin.controller.AdminBlacklistController;
-import com.ws.ldy.modules.admin.model.entity.AdminAuthority;
-import com.ws.ldy.modules.admin.model.entity.AdminBlacklist;
-import com.ws.ldy.modules.admin.model.entity.AdminLog;
-import com.ws.ldy.modules.admin.model.vo.AdminBlacklistVO;
-import com.ws.ldy.modules.admin.service.AdminAuthorityService;
-import com.ws.ldy.modules.admin.service.AdminBlacklistService;
-import com.ws.ldy.modules.admin.service.AdminLogService;
+import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
+import com.ws.ldy.modules.sys.admin.service.AdminAuthorityService;
+import com.ws.ldy.modules.sys.xj.model.entity.XjAdminBlacklist;
+import com.ws.ldy.modules.sys.xj.model.entity.XjAdminLog;
+import com.ws.ldy.modules.sys.xj.model.vo.XjAdminBlacklistVO;
+import com.ws.ldy.modules.sys.xj.service.XjAdminBlacklistService;
+import com.ws.ldy.modules.sys.xj.service.XjAdminLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -36,11 +34,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Method;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -56,6 +53,16 @@ import java.util.stream.Collectors;
 @Aspect
 @Component
 public class SysAspect {
+//    /**
+//     * request
+//     */
+//    @Autowired
+//    private HttpServletRequest request;
+//    /**
+//     * response
+//     */
+//    @Autowired
+//    private HttpServletResponse response;
     /**
      * 接口权限
      */
@@ -65,12 +72,12 @@ public class SysAspect {
      * 黑名单/白名单
      */
     @Autowired
-    private AdminBlacklistService adminBlacklistService;
+    private XjAdminBlacklistService adminBlacklistService;
     /**
      * 日志
      */
     @Autowired
-    private AdminLogService adminLogService;
+    private XjAdminLogService adminLogService;
     /**
      * 全局异常
      */
@@ -163,7 +170,7 @@ public class SysAspect {
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = sra.getRequest();
         HttpServletResponse response = sra.getResponse();
-        String uri = sra.getRequest().getRequestURI();
+        String uri = request.getRequestURI();
         // 1、排除不需要处理的请求
         for (String excludeUri : excludeUriList) {
             if (uri.contains(excludeUri)) {
@@ -172,15 +179,22 @@ public class SysAspect {
             }
         }
         // 2、记录请求日志, 将异步执行(与业务代码并行处理),不影响程序响应, future 为线程的返回值，用于后面异步执行响应结果
-        Future<AdminLog> future = executorService.submit(new Callable<AdminLog>() {
+        Future<XjAdminLog> future = executorService.submit(new Callable<XjAdminLog>() {
             @Override
-            public AdminLog call() {
+            public XjAdminLog call() {
                 // 使用json 序列化进行深拷贝,防止proceed引用被修改
                 // ProceedingJoinPoint proceedingJoinPoint = JSON.parseObject(JSON.toJSONString(proceed), ProceedingJoinPoint.class);
                 return log(proceed, request);
             }
         });
-        // 3、黑/白名单认证
+
+        // new 3.1、幂等验证
+        R apiIdempotentR = XjApiIdempotentAop.run(proceed,request,response);
+        if (!apiIdempotentR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+            this.updLog(future, 0, (System.currentTimeMillis() - startTime1), 0L, uri, apiIdempotentR);
+            return apiIdempotentR;
+        }
+        // new 3.2、黑/白名单认证
         String ipAddress = getIpAddress(request);
         R blacklistR = blacklistAuth(ipAddress);
         if (!blacklistR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
@@ -224,7 +238,7 @@ public class SysAspect {
      * @date 2020/10/28 0028 15:04
      * @version 1.0.0
      */
-    private AdminLog log(ProceedingJoinPoint proceed, HttpServletRequest request) {
+    private XjAdminLog log(ProceedingJoinPoint proceed, HttpServletRequest request) {
         // 获取域名(服务器路径)
         String serverName = request.getServerName();
         // 请求来源(发起者当前页面路径)
@@ -258,9 +272,10 @@ public class SysAspect {
         if (classAnnotation != null) {
             classDesc = classAnnotation.tags().length > 0 ? classAnnotation.tags()[0] : classAnnotation.value();
         }
-        Object[] args = proceed.getArgs(); // uri ： 接口  包： packageName,  请求类： 接口+类描叙+接口描叙
+        // uri ： 接口  包： packageName,  请求类： 接口+类描叙+接口描叙
+        Object[] args = proceed.getArgs();
         // 记录到数据库
-        AdminLog log = new AdminLog();
+        XjAdminLog log = new XjAdminLog();
         // 记录用户信息
         log = setJwtUser(request, log);
         log.setReferer(referer);
@@ -282,8 +297,10 @@ public class SysAspect {
         } catch (Exception e) {
             log.setRequestData("无法解析");
         }
-        log.setResponseData(null);     // 返回数据
-        log.setState(0);               // 默认失败
+        // 返回数据
+        log.setResponseData(null);
+        // 默认失败,接口访问成功后修改为成功
+        log.setState(0);
         adminLogService.save(log);
         // 打印请求日志
         printLog(ip, host, port, className, url, args, classDesc, methodDesc);
@@ -303,7 +320,7 @@ public class SysAspect {
      * @date 2020/10/28 0028 20:03
      * @version 1.0.0
      */
-    private void updLog(Future<AdminLog> future, Integer state, Long executeTime, Long businessTime, String uri, Object obj) {
+    private void updLog(Future<XjAdminLog> future, Integer state, Long executeTime, Long businessTime, String uri, Object obj) {
         long time = System.currentTimeMillis();
         while (true) {
             // 如果没有回来，避免死循环
@@ -313,7 +330,7 @@ public class SysAspect {
             }
             // 判断记录请求日志是否记录完成(true=完成)
             if (future.isDone()) {
-                AdminLog logs = null;
+                XjAdminLog logs = null;
                 String data = "";
                 try {
                     logs = future.get();
@@ -329,12 +346,12 @@ public class SysAspect {
                 }
                 // 记录返回数据
                 if (logs != null) {
-                    adminLogService.update(new LambdaUpdateWrapper<AdminLog>()
-                            .set(AdminLog::getExecuteTime, executeTime)
-                            .set(AdminLog::getBusinessTime, businessTime)
-                            .set(AdminLog::getState, state)
-                            .set(AdminLog::getResponseData, data)
-                            .eq(AdminLog::getId, logs.getId())
+                    adminLogService.update(new LambdaUpdateWrapper<XjAdminLog>()
+                            .set(XjAdminLog::getExecuteTime, executeTime)
+                            .set(XjAdminLog::getBusinessTime, businessTime)
+                            .set(XjAdminLog::getState, state)
+                            .set(XjAdminLog::getResponseData, data)
+                            .eq(XjAdminLog::getId, logs.getId())
                     );
                 } else {
                     log.info("注意： 日志记录失败,logs=null, 请求uri = " + uri);
@@ -377,7 +394,7 @@ public class SysAspect {
 
 
     /**
-     *  打印请求信息
+     * 打印请求信息
      * @author wangsong
      * @param ip
      * @param host
@@ -414,7 +431,7 @@ public class SysAspect {
      * <p/>
      * @return
      */
-    private AdminLog setJwtUser(HttpServletRequest request, AdminLog log) {
+    private XjAdminLog setJwtUser(HttpServletRequest request, XjAdminLog log) {
         String uri = request.getRequestURI();
         // 获取登录用户信息
         R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request);
@@ -537,14 +554,14 @@ public class SysAspect {
         if (BaseConstant.Cache.BLACKLIST_CACHE == null) {
             // 如果数据库没有配置，缓存设置默认对象，让其不为空，防止无限制查询数据库
             BaseConstant.Cache.BLACKLIST_CACHE = new HashMap<>();
-            List<AdminBlacklist> blacklist = adminBlacklistService.list(new LambdaQueryWrapper<AdminBlacklist>()
-                    .eq(AdminBlacklist::getDisable, Enums.Base.Disable.DISABLE_0)
+            List<XjAdminBlacklist> blacklist = adminBlacklistService.list(new LambdaQueryWrapper<XjAdminBlacklist>()
+                    .eq(XjAdminBlacklist::getDisable, Enums.Base.Disable.DISABLE_0)
             );
             if (blacklist.size() > 0) {
-                List<AdminBlacklistVO> adminBlacklistVOS = BeanDtoVoUtil.listVo(blacklist, AdminBlacklistVO.class);
-                Map<Integer, List<AdminBlacklistVO>> blacklistGroupByType = adminBlacklistVOS.stream().collect(Collectors.groupingBy(AdminBlacklistVO::getType));
-                List<AdminBlacklistVO> baiMD = blacklistGroupByType.get(Enums.Admin.BlacklistType.BLACKLIST_TYPE_1.getValue());
-                List<AdminBlacklistVO> heiMD = blacklistGroupByType.get(Enums.Admin.BlacklistType.BLACKLIST_TYPE_2.getValue());
+                List<XjAdminBlacklistVO> adminBlacklistVOS = BeanDtoVoUtil.listVo(blacklist, XjAdminBlacklistVO.class);
+                Map<Integer, List<XjAdminBlacklistVO>> blacklistGroupByType = adminBlacklistVOS.stream().collect(Collectors.groupingBy(XjAdminBlacklistVO::getType));
+                List<XjAdminBlacklistVO> baiMD = blacklistGroupByType.get(Enums.Admin.BlacklistType.BLACKLIST_TYPE_1.getValue());
+                List<XjAdminBlacklistVO> heiMD = blacklistGroupByType.get(Enums.Admin.BlacklistType.BLACKLIST_TYPE_2.getValue());
                 if (baiMD != null) {
                     List<String> baiIps = baiMD.stream().map(p -> p.getIp()).collect(Collectors.toList());
                     BaseConstant.Cache.BLACKLIST_CACHE.put(Enums.Admin.BlacklistType.BLACKLIST_TYPE_1.getValue(), baiIps);

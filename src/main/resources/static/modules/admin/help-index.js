@@ -19,7 +19,9 @@ function getHelp(ths, id) {
     // 设置当前选中
     ths.style.color = color;
     // 查询数据，value = 数据id
-    help(id)
+    help(id);
+    // addUrlPara("id", id);
+    history.pushState(null, "", "?id="+id);
 }
 
 /**
@@ -62,10 +64,29 @@ function initMenu(resData) {
     $("#helpMenu").html(helpMenuHtml);
     // 默认展开第一个
     expandAndContract(0, res.data.length);
-    // 默认展示第一个列表的第一篇文章
-    help(data[0].ybHelpTreeVOS[0].id);
-    // 设置选中色
-    let ss = $("#" + data[0].ybHelpTreeVOS[0].id).css("color", color);
+
+    let id = getParam("id");
+    if (id !== null && id !== "") {
+        help(id);
+    } else {
+        // 默认展示第一个列表的第一篇文章
+        help(data[0].ybHelpTreeVOS[0].id);
+        // 设置选中色
+        let s = $("#" + data[0].ybHelpTreeVOS[0].id).css("color", color);
+   }
+}
+
+
+/**
+ * 动态内容菜单点击选中色
+ * @param ths
+ */
+function aClick(ths) {
+    let alist = document.getElementsByTagName('a');
+    for(let i=0;i<alist.length;i++){
+        alist[i].style.color="#1f1e2c";
+    }
+    ths.style.color="#ff78e7";
 }
 
 
@@ -114,6 +135,7 @@ function expandAndContract(index, len) {
  * =====================================================================
  * @type {string}
  */
+
 //生成目录索引列表
 /**
  *  当前html的div id= markdownToHTML
@@ -132,11 +154,11 @@ function generateContentList() {
     // 一级目录 start
     content += '<ul class="first_class_ul">';
     for (var i = 0; i < jquery_h1_list.length; i++) {
-        var go_to_top = '<div style="text-align: right"><a name="_label' + i + '"></a></div>';
+        var go_to_top = '<div style="text-align: right"><a onclick="aClick(this)" name="_label' + i + '"></a></div>';
         $(jquery_h1_list[i]).before(go_to_top);
 
         // 一级目录的一条
-        var li_content = '<li><a href="#_label' + i + '" rel="external nofollow" rel="external nofollow" rel="external nofollow" rel="external nofollow" >' + $(jquery_h1_list[i]).text() + '</a></li>';
+        var li_content = '<li><a onclick="aClick(this)" href="#_label' + i + '" rel="external nofollow" rel="external nofollow" rel="external nofollow" rel="external nofollow" >' + $(jquery_h1_list[i]).text() + '</a></li>';
 
         var nextH1Index = i + 1;
         if (nextH1Index == jquery_h1_list.length) {
@@ -149,10 +171,10 @@ function generateContentList() {
             li_content += '<ul class="second_class_ul">';
         }
         for (var j = 0; j < jquery_h2_list.length; j++) {
-            var go_to_top2 = '<div style="text-align: right"><a name="_lab2_' + i + '_' + j + '"></a></div>';
+            var go_to_top2 = '<div style="text-align: right"><a onclick="aClick(this)" name="_lab2_' + i + '_' + j + '"></a></div>';
             $(jquery_h2_list[j]).before(go_to_top2);
             // 二级目录的一条
-            li_content += '<li ><a href="#_lab2_' + i + '_' + j + '" rel="external nofollow" >' + $(jquery_h2_list[j]).text() + '</a></li>';
+            li_content += '<li ><a onclick="aClick(this)" href="#_lab2_' + i + '_' + j + '" rel="external nofollow" >' + $(jquery_h2_list[j]).text() + '</a></li>';
 
             var nextH2Index = j + 1;
             var next;
@@ -171,10 +193,10 @@ function generateContentList() {
                 li_content += '<ul class="third_class_ul">';
             }
             for (var k = 0; k < jquery_h3_list.length; k++) {
-                var go_to_third_Content = '<div style="text-align: right"><a name="_label3_' + i + '_' + j + '_' + k + '"></a></div>';
+                var go_to_third_Content = '<div style="text-align: right"><a onclick="aClick(this)" name="_label3_' + i + '_' + j + '_' + k + '"></a></div>';
                 $(jquery_h3_list[k]).before(go_to_third_Content);
                 // 三级目录的一条
-                li_content += '<li><a href="#_label3_' + i + '_' + j + '_' + k + '" rel="external nofollow" >' + $(jquery_h3_list[k]).text() + '</a></li>';
+                li_content += '<li><a onclick="aClick(this)" href="#_label3_' + i + '_' + j + '_' + k + '" rel="external nofollow" >' + $(jquery_h3_list[k]).text() + '</a></li>';
             }
             if (jquery_h3_list.length > 0) {
                 li_content += '</ul>';
@@ -195,4 +217,23 @@ function generateContentList() {
     // $($('#content')[0]).prepend(content);
     // $($('#contentTitle')[0]).prepend(content);
     $('#contentTitle').html(content);
+}
+
+/**
+ * 如果为移动设备访问，展示内容，不展示左菜单和右内容菜单
+ * @author wangsong 
+ * @param null
+ * @date 2020/12/14 0014 19:46
+ * @return 
+ * @version 1.0.0
+ */
+function mobileReveal() {
+    /* 手机访问单篇文章(不展示左菜单和右内容菜单) */
+    if (isMobile()) {
+        $("#contentMd").css("width", "100%");
+        $("#contentMd").css("height", "100%");
+        $("#contentMd").css("left", "0%");
+        $("#contentMd").css("top", "0%");
+        $("#contentMd").css("z-index", "1");
+    }
 }

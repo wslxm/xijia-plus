@@ -12,32 +12,42 @@
 <script type="text/javascript" src="/components/editor/editormd.js"></script>
 <link rel="stylesheet" href="/components/layuiadmin/layui/src/css/layui.css" media="all">
 <script src="/components/layuiadmin/layui/src/layui.js"></script>
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
 <!-- 图片粘贴复制拖拽，Markdown编辑器元素  textarea id必须为 L_content，并且该引入必须在 textarea的下方，否则无法读取到 L_content 参数 -->
 <!--<script src="/components/editor/imgCopyPull2.js"></script>-->
 <style>
+
     .result {
         margin-left: 5%;
         margin-top: 1%;
-        width: 90%;
+        width: 89%;
         height: 250px;
         border: 1px solid #e5e8ff;
-        box-shadow: 0 0 10px #719ECE;
+        box-shadow: 0 0 10px #ffffff;
+        padding-left: 1%;
+        padding-top: 10px;
     }
 </style>
 <body>
-<div>
+<div id="app">
     <div id="L_content"></div>
     <div>
-       <span style=" margin-left: 5%;" class="layui-btn layui-btn-normal layui-btn-sm" onclick="run()" data-type="reload">运行程序</span>
-       <!-- <span id="state" style=" margin-left: 2%;">输出结果：</span>-->
-        <div id="resultDiv">
-            <textarea id="result" class="result" disabled>等待执行</textarea>
+        <!-- 运行按钮 -->
+        <span style=" margin-left: 5%;" class="layui-btn layui-btn-normal layui-btn-sm" onclick="run()" data-type="reload">运行程序</span>
+        <!-- <span id="state" style=" margin-left: 2%;">输出结果：</span>-->
+        <!-- 输出 -->
+        <div id="result" class="result">
         </div>
     </div>
-
 </div>
 <script>
+
+
+</script>
+<script>
+
     var javaCodeRun = path + "/tool/javaCodeRun";
+
 
     layui.use(['form'], function () {
 
@@ -73,30 +83,38 @@
 
     function run() {
         let ii = layui.layer.load();
-        $("#result").val("正在执行中.....");
+        $("#result").html("正在执行中.....");
         // 为了load正常执行,延时50毫秒执行程序
         setTimeout(function () {
             let javaCodeMd = myEditor.getMarkdown();
             let javaCode = javaCodeMd.replaceAll("```", "").replace("java", "");
             let res = Ajax.post(javaCodeRun, {javaCode: javaCode});
-            $("#result").val(res.data);
+            $("#result").html(res.data);
             layui.layer.close(ii);
-           // layer.msg("执行成功");
+            // layer.msg("执行成功");
         }, 50);
     }
 
 
+    /**
+     * 默认值
+     * @type {{javaCode: string, content: string}}
+     */
+    var defaultData = {
+        content: "等待运行",
+        javaCode: "```java\n" +
+            "\n" +
+            "public class HelloWorld {\n" +
+            "    public static void main(String []args) {\n" +
+            "       System.out.println(\"Hello World!\");\n" +
+            "    }\n" +
+            "}\n" +
+            "\n" +
+            "```",
+    };
     // 设置默认数据
-    let javaCode = "```java\n" +
-        "\n" +
-        "public class HelloWorld {\n" +
-        "    public static void main(String []args) {\n" +
-        "       System.out.println(\"Hello World!\");\n" +
-        "    }\n" +
-        "}\n" +
-        "\n" +
-        "```";
-    $('#L_content textarea').val(javaCode);
+    $('#L_content textarea').val(defaultData.javaCode);
+    $('#result').html(content);
 </script>
 </body>
 </html>
