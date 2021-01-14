@@ -70,7 +70,7 @@ public class GenerateConfig {
     public final static String BASE_PATH_XML = "src/main/resources/mapper/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
 
     /**
-     * 生成的各代码具体的生成路径
+     * 生成的各代码具体的生成的子路径
      */
     public final static String PATH_ENTITY = "model/entity/";
     public final static String PATH_VO = "model/vo/";

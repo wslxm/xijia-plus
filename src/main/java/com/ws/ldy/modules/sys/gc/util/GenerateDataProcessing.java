@@ -54,24 +54,24 @@ public class GenerateDataProcessing {
      */
     public static String getFieldName(String field) {
         // 如果需要，去除字段前缀
-       if(StringUtils.isNotBlank(GenerateConfig.FIELD_PREFIX) ){
-           // 获取前缀
-           String prefix = field.substring(0, GenerateConfig.FIELD_PREFIX.length() );
-           String newField = field;
-           if (GenerateConfig.FIELD_PREFIX.equals(prefix)) {
-               newField = field.substring(GenerateConfig.FIELD_PREFIX.length());
-           }
-           // 转小写处理为驼峰
-           String lowerNewField = newField.toLowerCase();
-           String fieldName =  CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, lowerNewField);
-           return fieldName;
-       }else{
-           // 先转为全小写，兼容数据库是全大写策略
-           String lowerField = field.toLowerCase();
-           // 变更为驼峰模式
-           String fieldName =  CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, lowerField);
-           return fieldName;
-       }
+        if (StringUtils.isNotBlank(GenerateConfig.FIELD_PREFIX)) {
+            // 获取前缀
+            String prefix = field.substring(0, GenerateConfig.FIELD_PREFIX.length());
+            String newField = field;
+            if (GenerateConfig.FIELD_PREFIX.equals(prefix)) {
+                newField = field.substring(GenerateConfig.FIELD_PREFIX.length());
+            }
+            // 转小写处理为驼峰
+            String lowerNewField = newField.toLowerCase();
+            String fieldName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, lowerNewField);
+            return fieldName;
+        } else {
+            // 先转为全小写，兼容数据库是全大写策略
+            String lowerField = field.toLowerCase();
+            // 变更为驼峰模式
+            String fieldName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, lowerField);
+            return fieldName;
+        }
     }
 
 
@@ -125,14 +125,20 @@ public class GenerateDataProcessing {
         // 生成路径=[路径 + 类名 + name + 后缀]
         String upPath = null;
         if (name.indexOf("Html") != -1) {
-            // html 文件
+            /**
+             * 生成 html
+             */
             upPath = path + DsField.TABLE_NAME_LOWER + name.replace("Html", "") + GenerateConfig.SUFFIX_HTML_PT;
         } else if (name.indexOf("Xml") != -1) {
-            // xml文件 去除文件名上的 Xml
+            /**
+             * 生成xml,  xml文件 去除文件名上的 Xml
+             */
             String newName = name.substring(0, name.length() - 3);
             upPath = path + DsField.TABLE_NAME_UP + newName + GenerateConfig.SUFFIX_XML_PT;
         } else {
-            // java 文件
+            /**
+             * 生成 java 文件
+             */
             upPath = path + DsField.TABLE_NAME_UP + name + GenerateConfig.SUFFIX_JAVA_PT;
         }
         // 检查目录,不存在添加
@@ -144,7 +150,7 @@ public class GenerateDataProcessing {
             brBw.put("br", br);
             brBw.put("bw", bw);
             brBw.put("path", upPath);
-            //打印参数区分
+            // 打印参数区分
             brBw.put("name", name);
         } catch (Exception e) {
             e.printStackTrace();
@@ -163,7 +169,7 @@ public class GenerateDataProcessing {
      * @mail 1720696548@qq.com
      * @date 2020/2/9 0009 21:01
      */
-    //获取链接地址的字符数据，wichSep是否换行标记
+    // 获取链接地址的字符数据，wichSep是否换行标记
     public static BufferedReader getUrlDetail(String urlStr) throws Exception {
         URL url = new URL(urlStr);
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();

@@ -81,8 +81,8 @@ public class XjGenerateController extends BaseController<XjGenerationSeviceImpl>
         generationSeviceImpl.buildController(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_CONTROLLER);     // 生成Controller
         generationSeviceImpl.buildService(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_SERVICE);           // 生成service
         generationSeviceImpl.buildServiceImpl(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_SERVICE_IMPL);  // 生成serviceImpl
-        generationSeviceImpl.buildMapper(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_MAPPER);                   // 生成dao
-        generationSeviceImpl.buildMapperXml(dataList, GenerateConfig.BASE_PATH_XML_YL + GenerateConfig.PATH_MAPPER);
+        generationSeviceImpl.buildMapper(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_MAPPER);             // 生成dao
+        generationSeviceImpl.buildMapperXml(dataList, GenerateConfig.BASE_PATH_XML_YL);                                             // 生成xml
         // // html
         // generationSeviceImpl.buildMainHtml(dataList, GenerateConfig.BASE_PATH_HTML_YL + DsField.TABLE_NAME_LOWER + "/");
         // generationSeviceImpl.buildAddHtml(dataList, GenerateConfig.BASE_PATH_HTML_YL + DsField.TABLE_NAME_LOWER + "/");
@@ -136,8 +136,8 @@ public class XjGenerateController extends BaseController<XjGenerationSeviceImpl>
         generationSeviceImpl.buildController(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_CONTROLLER);     // 生成Controller
         generationSeviceImpl.buildService(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE);           // 生成service
         generationSeviceImpl.buildServiceImpl(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE_IMPL);  // 生成serviceImpl
-        generationSeviceImpl.buildMapper(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_MAPPER);              // 生成dao
-        generationSeviceImpl.buildMapperXml(dataList, GenerateConfig.BASE_PATH_XML + GenerateConfig.PATH_MAPPER);            // 生成dao
+        generationSeviceImpl.buildMapper(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_MAPPER);             // 生成dao
+        generationSeviceImpl.buildMapperXml(dataList, GenerateConfig.BASE_PATH_XML );                                            // 生成xml
         // html
         generationSeviceImpl.buildMainHtml(dataList, GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/");
         generationSeviceImpl.buildAddHtml(dataList, GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/");
@@ -175,7 +175,7 @@ public class XjGenerateController extends BaseController<XjGenerationSeviceImpl>
         mapPath.put("service", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE + DsField.TABLE_NAME_UP + "Service.java");
         mapPath.put("serviceImpl", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE_IMPL + DsField.TABLE_NAME_UP + "ServiceImpl.java");
         mapPath.put("mapper", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_MAPPER + DsField.TABLE_NAME_UP + "Mapper.java");
-        mapPath.put("mapperXml", GenerateConfig.BASE_PATH_XML + GenerateConfig.PATH_MAPPER + "/" + DsField.TABLE_NAME_UP + "Mapper.xml");
+        mapPath.put("mapperXml", GenerateConfig.BASE_PATH_XML  + DsField.TABLE_NAME_UP + "Mapper.xml");
         mapPath.put("htmlMain", GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/" + DsField.TABLE_NAME_LOWER + "Main.html");
         mapPath.put("htmlAdd", GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/" + DsField.TABLE_NAME_LOWER + "Add.html");
         mapPath.put("htmlUpd", GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/" + DsField.TABLE_NAME_LOWER + "Upd.html");
