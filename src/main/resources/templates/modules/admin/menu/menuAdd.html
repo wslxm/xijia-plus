@@ -12,6 +12,12 @@
         <script src='/base/js/jquery-3.4.1.min.js'></script>
         <script src="/base/js/app.js"></script>
     </head>
+    <style>
+        .layui-form-item .layui-input-inline {
+            width: 360px;
+        !important;
+        }
+    </style>
     <body>
         <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list"
              style="padding: 20px 30px 0 0;">
@@ -26,6 +32,12 @@
                 <label class="layui-form-label">路由</label>
                 <div class="layui-input-inline">
                     <input type="text" id="url" name="url" placeholder="请输入路由" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div id="urlShow2"  class="layui-form-item">
+                <label class="layui-form-label">第二路由</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="twoUrl" name="twoUrl"  placeholder="非必填" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -55,9 +67,11 @@
                 if (parent.data.lv === 1) {
                     // 添加系统--屏蔽路由
                     $("#urlShow").attr("style", "display:none");
+                    $("#urlShow2").attr("style", "display:none");
                 } else if (parent.data.lv === 2) {
                     // 添加菜单--屏蔽路由
                     $("#urlShow").attr("style", "display:none");
+                    $("#urlShow2").attr("style", "display:none");
                 } else if (parent.data.lv === 3) {
                     // 添加页面--路由必填
                     $("#url").attr("lay-verify", "required");
