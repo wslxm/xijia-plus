@@ -6,7 +6,7 @@
 //import org.springframework.context.annotation.Configuration;
 //
 ///**
-// * 数据源监控  ip+端口/druid/xj_login.html， 账号：admin/密码：123456
+// * 数据源监控  ip+端口/druid/sys_login.html， 账号：admin/密码：123456
 // *
 // * @author 王松
 // * @WX-QQ 1720696548

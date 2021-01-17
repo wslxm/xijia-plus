@@ -67,7 +67,7 @@ public class XjGenerateController extends BaseController<XjGenerationSeviceImpl>
         // 添加代码生成相关通用数据,
         // 1、包路径
         // 2、数据库的表名称
-        // 3、代码模板位置,resources/static,
+        // 3、代码模板位置,resources,
         new DsField(generateDto.getTableName(), generateDto.getTableComment(), GenerateConfig.PACK_PATH, baseUrl + GenerateConfig.PATH_TEMPLATE);
 
         // 生成html 的txt文件预览，html会被渲染成页面
@@ -122,7 +122,7 @@ public class XjGenerateController extends BaseController<XjGenerationSeviceImpl>
         // 添加代码生成相关通用数据,
         // 1、包路径
         // 2、数据库的表名称
-        // 3、代码模板位置,resources/static,
+        // 3、代码模板位置,resources,
         new DsField(generateDto.getTableName(), generateDto.getTableComment(), GenerateConfig.PACK_PATH, baseUrl + GenerateConfig.PATH_TEMPLATE);
 
         // 生成html 的txt文件预览，html会被渲染成页面
@@ -165,7 +165,7 @@ public class XjGenerateController extends BaseController<XjGenerationSeviceImpl>
         // 添加代码生成相关通用数据,
         // 1、包路径
         // 2、数据库的表名称
-        // 3、代码模板位置,resources/static,
+        // 3、代码模板位置,resources,
         new DsField(tableName, null, GenerateConfig.PACK_PATH, baseUrl + GenerateConfig.PATH_TEMPLATE);
         Map<String, String> mapPath = new HashMap<>();
         mapPath.put("entity", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_ENTITY + DsField.TABLE_NAME_UP + ".java");

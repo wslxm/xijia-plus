@@ -1,20 +1,20 @@
 package com.ws.ldy.client.sys.admin.controller;
 
 import com.ws.ldy.common.result.R;
-import com.ws.ldy.common.result.RType;
-import com.ws.ldy.common.utils.StringUtil;
-import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryVO;
 import com.ws.ldy.modules.sys.admin.service.AdminDictionaryService;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -51,14 +51,22 @@ public class UDictionaryController extends BaseController<AdminDictionaryService
 //    }
 
 
+
     @RequestMapping(value = "/findByCode", method = RequestMethod.GET)
-    @ApiOperation(value = "Code查询(Tree)", notes = "无限层次, 树结构，只能传递字符串Code, 不能传递字符串的数字Code，不包括禁用数据 ")
-    public R<AdminDictionaryVO> findByCode(@RequestParam String code) {
-        // 不能传递字符串数字来查询
-        if (StringUtil.isInteger(code)) {
-            throw new ErrorException(RType.PARAM_ERROR);
-        }
-        AdminDictionaryVO dict = baseService.findByCodeFetchDictVO(code, true);
-        return R.success(dict);
+    @ApiOperation(value = "Code查询(Tree)", notes = "不能传递字符串数字Code ")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "code", value = "父级code, 不传查询code，传递了只查询指定code下数据", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "isDisable", value = "是否查询禁用数据 true 查询  false 不查询", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "isBottomLayer", value = "是否需要最后一级数据 true 需要   false 不需要", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "isTree", value = "isTree 是否返回树结构数据  tree 是  false 否(返回过滤后的 list列表)", required = false, paramType = "query"),
+    })
+    public R<List<AdminDictionaryVO>> findByCode(@RequestParam(required = false) String code,
+                                                 @RequestParam(required = false) Boolean isDisable,
+                                                 @RequestParam(required = false) Boolean isBottomLayer,
+                                                 @RequestParam(required = false) Boolean isTree
+    ) {
+        List<AdminDictionaryVO> dictVO = baseService.findByCodeFetchDictVO(code, isDisable, isBottomLayer, isTree);
+        return R.success(dictVO);
     }
+
 }

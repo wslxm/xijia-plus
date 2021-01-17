@@ -84,7 +84,7 @@ public class GenerateConfig {
     /**
      * 此处内容一般都是不会修改的，特殊情况除外
      */
-    public final static String PATH_TEMPLATE = "/template";   // 代码模版读取位置（目录 resources/static/template下）
+    public final static String PATH_TEMPLATE = "/template";   // 代码模版读取位置（目录 resources/template下）
     public static String SUFFIX_JAVA = ".java";             // 实际 java 后缀名
     public static String SUFFIX_XML = ".xml";               // 实际 xml 后缀名
     public static String SUFFIX_HTML = ".html";             // 实际 html 后缀名

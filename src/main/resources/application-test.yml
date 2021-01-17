@@ -57,6 +57,6 @@ logging:
   # 日志目录, 线上请配置linux 绝对路径 如：/usr/local/work/xijia2/logs
   filePath: logs
   # 配置日志路径即可实时输出到 spring-boot-admin 日志管理
-  file: src/main/resources/static/log/xijia.log
+  file: src/main/resources/log/xijia.log
 
 

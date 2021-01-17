@@ -386,7 +386,7 @@
     ,btns: ['clear', 'now', 'confirm'] //右下角显示的按钮，会按照数组顺序排列
     ,lang: 'cn' //语言，只支持cn/en，即中文和英文
     ,theme: 'default' //主题
-    ,position: null //控件定位方式定位, 默认absolute，支持：fixed/absolute/static
+    ,position: null //控件定位方式定位, 默认absolute，支持：fixed/absolute
     ,calendar: false //是否开启公历重要节日，仅支持中文版
     ,mark: {} //日期备注，如重要事件或活动标记
     ,zIndex: null //控件层叠顺序

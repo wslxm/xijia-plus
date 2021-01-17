@@ -1,9 +1,12 @@
 package com.ws.ldy.modules.sys.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.StringUtil;
+import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.sys.admin.mapper.AdminDictionaryMapper;
@@ -14,11 +17,17 @@ import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
 public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionaryMapper, AdminDictionary> implements AdminDictionaryService {
 
+
+    /**
+     * 父级pid
+     */
+    private static final String pid = "0";
 
     @Override
     public List<AdminDictionaryVO> findTree() {
@@ -30,7 +39,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(dictList, AdminDictionaryVO.class);
         // 递归添加下级数据,  new ArrayList<>() 是没有用的, findByCodeIds收集Ids 所有
         dictVoList.forEach(item -> {
-            if ("0".equals(item.getPid())) {
+            if (pid.equals(item.getPid())) {
                 nextLowerNode(dictVoList, item, new ArrayList<>());
                 respDictList.add(item);
             }
@@ -40,30 +49,92 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
 
     /**
-     * 根据code 查询下级所有 ，不包括禁用数据
+     * 根据code 查询下级所有
      * @author wangsong
-     * @param code
+     * @param code 父级code, 不传查询code，传递了只查询指定code下数据
+     * @param isDisable     是否查询禁用数据      =true 查询*默认   =false 不查询
+     * @param isBottomLayer 是否需要最后一级数据  =true 需要*默认   =false 不需要
+     * @param isTree        是否返回树结构数据    =tree 是*默认  = false 否(返回过滤后的 list列表)
      * @date 2020/8/8 0008 1:15
      * @return com.ws.ldy.modules.admin.model.vo.AdminDictionaryVO
      * @version 1.0.0
      */
     @Override
-    public AdminDictionaryVO findByCodeFetchDictVO(String code, boolean isDisable) {
-        // 查询当前
-        AdminDictionary dict = baseMapper.selectOne(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, code));
-        // 查询所有
-        List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
+    public List<AdminDictionaryVO> findByCodeFetchDictVO(String code, Boolean isDisable, Boolean isBottomLayer, Boolean isTree) {
+        // 默认参数
+        if (isDisable == null) {
+            isDisable = true;
+        }
+        if (isBottomLayer == null) {
+            isBottomLayer = true;
+        }
+        if (isTree == null) {
+            isTree = true;
+        }
+        // 1、判断 code , 不能传递字符串数字来查询
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(code)) {
+            if (StringUtil.isInteger(code)) {
+                throw new ErrorException(RType.PARAM_ERROR);
+            }
+        }
+
+        // 2、查询所有字典数据
+        List<AdminDictionary> dictList = this.list(new LambdaQueryWrapper<AdminDictionary>()
                 .orderByAsc(AdminDictionary::getSort)
                 .orderByAsc(AdminDictionary::getCode)
-                .eq(isDisable, AdminDictionary::getDisable, Enums.Base.Disable.DISABLE_0.getValue())
-        ), AdminDictionaryVO.class);
-        if (dict == null || dictVoList == null || dictVoList.size() == 0) {
+                .eq(!isDisable, AdminDictionary::getDisable, Enums.Base.Disable.DISABLE_0.getValue())
+        );
+        if (dictList.size() == 0) {
             return null;
         }
-        AdminDictionaryVO dictVO = dict.convert(AdminDictionaryVO.class);
-        // 递归添加下级数据,  new ArrayList<>() 是没有用的, findByCodeIds收集Ids 所有
-        nextLowerNode(dictVoList, dictVO, new ArrayList<>());
-        return dictVO;
+        List<AdminDictionaryVO> dictListVO = BeanDtoVoUtil.listVo(dictList, AdminDictionaryVO.class);
+
+        // 3、是否根据code查询, 找到父级code数据
+        List<AdminDictionaryVO> pDictListVO = new ArrayList<>();
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(code)) {
+            // 查询指定code, 只有一条
+            for (AdminDictionaryVO p : dictListVO) {
+                if (p.getCode().equals(code)) {
+                    pDictListVO.add(p);
+                    break;
+                }
+            }
+        } else {
+            // 设置顶级code数据, 查询所有可能为多条
+            for (AdminDictionaryVO p : dictListVO) {
+                if (pid.equals(p.getPid())) {
+                    pDictListVO.add(p);
+                }
+            }
+        }
+        if (pDictListVO.size() == 0) {
+            // 没有顶级code数据
+            return null;
+        }
+
+        // 4、数据过滤，是否需要最后一级数据（false不需要）
+        if (!isBottomLayer) {
+            dictListVO = dictListVO.stream().filter(i -> !StringUtil.isInteger(i.getCode())).collect(Collectors.toList());
+        }
+
+        // 5、递归添加下级数据, pDictListVO 为tree数据, diceIds 为指定code层级下所有字典id收集
+        List<String> diceIds = new ArrayList<>();
+        // 使用新拷贝数据
+        List<AdminDictionaryVO> dictListTwoVO = BeanDtoVoUtil.listVo(dictList, AdminDictionaryVO.class);
+        // 开始递归
+        for (AdminDictionaryVO pDictVO : pDictListVO) {
+            diceIds.add(pDictVO.getId());
+            this.nextLowerNode(dictListTwoVO, pDictVO, diceIds);
+        }
+
+        // 6、判断返回 tree 还是  list(前端自行解析list展示)
+        List<AdminDictionaryVO> vos = null;
+        if (isTree) {
+            vos = pDictListVO;
+        } else {
+            vos = dictListVO.stream().filter(i -> diceIds.contains(i.getId())).collect(Collectors.toList());
+        }
+        return vos;
     }
 
 
@@ -94,7 +165,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
 
     /**
-     * 所有数据， 不包括禁用数据
+     * 所有数据，不包括禁用数据
      * <p>
      *     key - value 形式，因为所有添加下层数据是引用。每一个key下的value 数据依然有所有的层级关系数据
      * </p>
@@ -144,31 +215,44 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     }
 
 
+    @Override
+    public List<AdminDictionary> findDictCategory(String code) {
+        String newPid = pid;
+        if (StringUtils.isNotBlank(code)) {
+            AdminDictionary dict = this.getOne(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, code));
+            if (dict != null) {
+                newPid = dict.getId();
+            }
+        }
+        List<AdminDictionary> list = this.list(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getPid, newPid));
+        return list;
+    }
+
+
     /**
      * 递归添加下级数据
      * @param dictVoList 所有节点
-     * @param fatherDict 上级节点
-     * @param ids 收集所有数据id
+     * @param pDict 上级节点
+     * @param ids 收集指定code下所有字典数据 id
      */
-    public void nextLowerNode(List<AdminDictionaryVO> dictVoList, AdminDictionaryVO fatherDict, List<String> ids) {
-        for (AdminDictionaryVO dict : dictVoList) {
+    private void nextLowerNode(List<AdminDictionaryVO> dictVoList, AdminDictionaryVO pDict, List<String> ids) {
+        for (AdminDictionaryVO zDict : dictVoList) {
             // 当前层级类还没有子层级对象就创建/有就追加
-            if (dict.getPid().equals(fatherDict.getId())) {
-                if (fatherDict.getDictList() == null) {
-                    fatherDict.setDictList(new ArrayList<AdminDictionaryVO>() {{
-                        add(dict);
+            if (zDict.getPid().equals(pDict.getId())) {
+                if (pDict.getDictList() == null) {
+                    pDict.setDictList(new ArrayList<AdminDictionaryVO>() {{
+                        add(zDict);
                     }});
                 } else {
-                    fatherDict.getDictList().add(dict);
+                    pDict.getDictList().add(zDict);
                 }
                 // 获取ids
-                ids.add(dict.getId());
+                ids.add(zDict.getId());
                 // 继续添加下级,无限级
-                nextLowerNode(dictVoList, dict, ids);
+                nextLowerNode(dictVoList, zDict, ids);
             }
         }
     }
-
 
 
     /**

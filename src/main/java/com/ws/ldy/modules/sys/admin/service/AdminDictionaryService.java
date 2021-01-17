@@ -27,14 +27,16 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
 
 
     /**
-     *  根据code查询数据+ 下级所有层级数据（无限递归），不包括禁用数据,数据Sort排序，在根据 Code排序
+     *  根据code查询数据+ 下级所有层级数据（无限递归），先根据 Sort排序，在根据 Code排序
      *
-     * @param code
-     * @param isDisable 是否查询禁用数据
+     * @param code 父级code, 不传查询code，传递了只查询指定code下数据
+     * @param isDisable 是否查询禁用数据 =true 查询   =false 不查询
+     * @param isBottomLayer 是否需要最后一级数据  =true 需要   =false 不需要
+     * @param isTree 是否返回树结构数据  =tree 是  = false 否(返回过滤后的 list列表)
      * @return java.util.List<com.ws.ldy.admin.model.vo.AdminDictionaryVO>
      * @date 2020/7/12 0012 19:22
      */
-    AdminDictionaryVO findByCodeFetchDictVO(String code, boolean isDisable);
+    List<AdminDictionaryVO> findByCodeFetchDictVO(String code, Boolean isDisable, Boolean isBottomLayer, Boolean isTree);
 
     /**
      * 查询下级所有Id, 包括禁用数据
@@ -46,6 +48,14 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
      * @return
      */
     Map<String, AdminDictionaryVO.FindCodeGroup> findCodeGroup();
+
+
+    /**
+     * 查询字典类别
+     * @param code 父级code, 不传默认为顶层
+     * @return
+     */
+    List<AdminDictionary> findDictCategory(String code);
 
 
     /**

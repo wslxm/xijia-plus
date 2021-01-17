@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
  * <p>
  *  ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 
  * </p>
- * @author  wangsong
- * @email  1720696548@qq.com
- * @date  2020-10-20 16:42:28
+ * @author wangsong
+ * @email 1720696548@qq.com
+ * @date 2020-10-20 16:42:28
  */
 @Service
 public class XjAdminHelpServiceImpl extends BaseIServiceImpl<XjAdminHelpMapper, XjAdminHelp> implements XjAdminHelpService {
@@ -38,7 +38,8 @@ public class XjAdminHelpServiceImpl extends BaseIServiceImpl<XjAdminHelpMapper, 
      */
     @Override
     public List<HelpTreeVO> findTree() {
-        AdminDictionaryVO byCodeFetchDictVO = adminDictionaryService.findByCodeFetchDictVO(BaseConstant.ADMIN.HELP_CATEGORY, true);
+        List<AdminDictionaryVO> byCodeFetchDictVOS = adminDictionaryService.findByCodeFetchDictVO(BaseConstant.ADMIN.HELP_CATEGORY, false, true, true);
+        AdminDictionaryVO byCodeFetchDictVO = byCodeFetchDictVOS.get(0);
         if (byCodeFetchDictVO == null || byCodeFetchDictVO.getDictList() == null) {
             return null;
         }
@@ -62,7 +63,7 @@ public class XjAdminHelpServiceImpl extends BaseIServiceImpl<XjAdminHelpMapper, 
             // 拼二级菜单
             List<HelpTreeVO> nextHelpTreeVOS = new ArrayList<>();
             List<XjAdminHelp> ybHelps = ybHelpGroup.get(Integer.parseInt(i.getCode()));
-            if(ybHelps != null && ybHelps.size() >0){
+            if (ybHelps != null && ybHelps.size() > 0) {
                 for (XjAdminHelp help : ybHelps) {
                     HelpTreeVO nextHelpTreeVO = new HelpTreeVO();
                     nextHelpTreeVO.setId(help.getId());

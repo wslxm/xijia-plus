@@ -8,8 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 七牛云 oss 配置类
- * <P> 阿里云oss控制台： https://oss.console.aliyun.com/overview <P/>
- * <P> 继承  CommandLineRunner  是让该配置类在项目启动成功后再执行，确保 ${isAliOss} 参数的正常读取 </P>
+
  * @author wangsong
  * @date 2020/12/11 0011 17:10
  * @return

@@ -15,6 +15,7 @@ import com.ws.ldy.modules.sys.admin.service.AdminDictionaryService;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 /**
@@ -38,34 +38,37 @@ import java.util.stream.Collectors;
 public class AdminDictionaryController extends BaseController<AdminDictionaryService> {
 
 
-    @RequestMapping(value = "/findList", method = RequestMethod.GET)
-    @ApiOperation(value = "查询所有", notes = "")
-    @ApiImplicitParam(name = "isBottomLayer", value = "true 需要最后一级 false 不需要最后一级(默认true)", required = true, paramType = "query", example = "true")
-    public R<List<AdminDictionaryVO>> findList(Boolean isBottomLayer) {
-        List<AdminDictionary> list = baseService.list(new LambdaQueryWrapper<AdminDictionary>()
-                .orderByAsc(AdminDictionary::getSort)
-                .orderByAsc(AdminDictionary::getCode));
-        if (isBottomLayer==null || isBottomLayer) {
-            return R.successFind(BeanDtoVoUtil.listVo(list, AdminDictionaryVO.class));
-        } else {
-            List<AdminDictionary> newList = list.stream().filter(i -> !StringUtil.isInteger(i.getCode())).collect(Collectors.toList());
-            return R.successFind(BeanDtoVoUtil.listVo(newList, AdminDictionaryVO.class));
-        }
+//    @RequestMapping(value = "/findList", method = RequestMethod.GET)
+//    @ApiOperation(value = "查询所有", notes = "")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "code", value = "字典code, 如不传递查询所有", required = false, paramType = "query"),
+//            @ApiImplicitParam(name = "isBottomLayer", value = "true 需要最后一级 false 不需要最后一级(默认true)", required = false, paramType = "query"),
+//    })
+//    public R<List<AdminDictionaryVO>> findList(Boolean isBottomLayer, String code) {
+//        List<AdminDictionary> list = baseService.list(new LambdaQueryWrapper<AdminDictionary>()
+//                .orderByAsc(AdminDictionary::getSort)
+//                .orderByAsc(AdminDictionary::getCode)
+//        );
+//        if (isBottomLayer == null || isBottomLayer) {
+//            return R.successFind(BeanDtoVoUtil.listVo(list, AdminDictionaryVO.class));
+//        } else {
+//            List<AdminDictionary> newList = list.stream().filter(i -> !StringUtil.isInteger(i.getCode())).collect(Collectors.toList());
+//            return R.successFind(BeanDtoVoUtil.listVo(newList, AdminDictionaryVO.class));
+//        }
+//    }
 
-    }
-
-    @RequestMapping(value = "/findTree", method = RequestMethod.GET)
-    @ApiOperation(value = "查询所有 Tree", notes = "")
-    public R<List<AdminDictionaryVO>> findTree() {
-        return R.successFind(baseService.findTree());
-    }
+//    @RequestMapping(value = "/findTree", method = RequestMethod.GET)
+//    @ApiOperation(value = "查询所有 Tree", notes = "")
+//    public R<List<AdminDictionaryVO>> findTree() {
+//        return R.successFind(baseService.findTree());
+//    }
 
 
-    @RequestMapping(value = "/findUpdPidTree", method = RequestMethod.GET)
-    @ApiOperation(value = "变更父级查询所有 Tree", notes = "不查询code为数字的")
-    public R<List<AdminDictionaryVO>> findUpdPidTree() {
-        return R.successFind(baseService.findTree());
-    }
+//    @RequestMapping(value = "/findUpdPidTree", method = RequestMethod.GET)
+//    @ApiOperation(value = "变更父级查询所有 Tree", notes = "不查询code为数字的")
+//    public R<List<AdminDictionaryVO>> findUpdPidTree() {
+//        return R.successFind(baseService.findTree());
+//    }
 
 
     @RequestMapping(value = "/findCodeGroup", method = RequestMethod.GET)
@@ -89,14 +92,28 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
 
 
     @RequestMapping(value = "/findByCode", method = RequestMethod.GET)
-    @ApiOperation(value = "Code查询(Tree)", notes = "无限层次, 树结构，只能传递字符串Code, 不能传递字符串数字Code，不包括禁用数据 ")
-    public R<AdminDictionaryVO> findByCode(@RequestParam String code) {
-        // 不能传递字符串数字来查询
-        if (StringUtil.isInteger(code)) {
-            throw new ErrorException(RType.PARAM_ERROR);
-        }
-        AdminDictionaryVO dict = baseService.findByCodeFetchDictVO(code, true);
-        return R.success(dict);
+    @ApiOperation(value = "Code查询(默认返回Tree数据, 可指定)", notes = "不能传递字符串数字Code查询 ")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "code", value = "父级code, 不传查询code，传递了只查询指定code下数据", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "isDisable", value = "是否查询禁用数据 true 查询*默认  false 不查询", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "isBottomLayer", value = "是否需要最后一级数据 true 需要*默认   false 不需要", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "isTree", value = "isTree 是否返回树结构数据  tree 是*默认  false 否(返回过滤后的 list列表)", required = false, paramType = "query"),
+    })
+    public R<List<AdminDictionaryVO>> findByCode(@RequestParam(required = false) String code,
+                                                 @RequestParam(required = false) Boolean isDisable,
+                                                 @RequestParam(required = false) Boolean isBottomLayer,
+                                                 @RequestParam(required = false) Boolean isTree
+    ) {
+        List<AdminDictionaryVO> dictVO = baseService.findByCodeFetchDictVO(code, isDisable, isBottomLayer, isTree);
+        return R.success(dictVO);
+    }
+
+
+    @RequestMapping(value = "/findDictCategory", method = RequestMethod.GET)
+    @ApiOperation(value = "查询字典类别", notes = "pid不传查顶级类别,传了pid查对应pid下的类别")
+    public R<List<AdminDictionaryVO>> findDictCategory(@RequestParam(required = false) String code) {
+        List<AdminDictionary> dictCategorys = baseService.findDictCategory(code);
+        return R.success(BeanDtoVoUtil.listVo(dictCategorys, AdminDictionaryVO.class));
     }
 
 
@@ -173,9 +190,9 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
     @RequestMapping(value = "/generateEnum", method = RequestMethod.GET)
     @ApiOperation(value = "生成枚举", notes = "排序数字越小,越靠前, \n 返回参数Map<String, String> ==> \n map.java = 完整的java枚举字段 \n map.js = 代码枚举字典key，前端直接通过key获取对应值")
     public R<Map<String, String>> generateEnum() {
-        AdminDictionaryVO dict = baseService.findByCodeFetchDictVO("ENUMS", false);
-        String enumsJava = baseService.generateEnumJava(dict);
-        String enumsJs = baseService.generateEnumJs(dict);
+        List<AdminDictionaryVO> dict = baseService.findByCodeFetchDictVO("ENUMS", true, false, true);
+        String enumsJava = baseService.generateEnumJava(dict.get(0));
+        String enumsJs = baseService.generateEnumJs(dict.get(0));
         Map<String, String> map = new HashMap<>();
         map.put("java", enumsJava); // 完整的枚举字典
         map.put("js", enumsJs);     // 枚举字典key，直接通过key获取

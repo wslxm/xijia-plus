@@ -46,13 +46,15 @@ public class XjAdminLogController extends BaseController<XjAdminLogService> {
             @ApiImplicitParam(name = "fullName", value = "请求人", required = false, paramType = "query", example = ""),
             @ApiImplicitParam(name = "uri", value = "请求uri", required = false, paramType = "query", example = ""),
             @ApiImplicitParam(name = "methodDesc", value = "请求方法--swagger注释", required = false, paramType = "query", example = ""),
+            @ApiImplicitParam(name = "state", value = "状态： 1-请求成功 0-请求失败", required = false, paramType = "query", example = ""),
 
     })
     public R<IPage<XjAdminLogVO>> findPage(
             @RequestParam(required = false) String fullName,
             @RequestParam(required = false) String uri,
             @RequestParam(required = false) String classDesc,
-            @RequestParam(required = false) String methodDesc
+            @RequestParam(required = false) String methodDesc,
+            @RequestParam(required = false) Integer state
     ) {
         Page<XjAdminLog> page = baseService.page(this.getPage(), new LambdaQueryWrapper<XjAdminLog>()
                 .orderByDesc(XjAdminLog::getCreateTime)
@@ -60,6 +62,7 @@ public class XjAdminLogController extends BaseController<XjAdminLogService> {
                 .like(StringUtils.isNotBlank(uri), XjAdminLog::getUri, uri)
                 .like(StringUtils.isNotBlank(classDesc), XjAdminLog::getClassDesc, classDesc)
                 .like(StringUtils.isNotBlank(methodDesc), XjAdminLog::getMethodDesc, methodDesc)
+                .eq(state != null, XjAdminLog::getState, state)
 
         );
         return R.successFind(BeanDtoVoUtil.pageVo(page, XjAdminLogVO.class));

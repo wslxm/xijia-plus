@@ -24,18 +24,19 @@ public class MvcConfig implements WebMvcConfigurer {
     /**
      * 访问URL路径与 resources\templates 页面(.html）路径映射配置, 这里主要做单独的页面跳转
      * <p>
-     * 如: 访问/login  为访问 xj_login.html 页面，自动指定了/ 后缀（.html） resources同webapp（也就是web根目录） templates同WEB-INF
+     * 如: 访问/login  为访问 sys_login.html 页面，自动指定了/ 后缀（.html） resources同webapp（也就是web根目录） templates同WEB-INF
      * </P>
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index").setViewName("modules/xj-index");           // 管理端主页
-        registry.addViewController("/").setViewName("modules/xj_login");                // 管理端登录页
-        registry.addViewController("/login").setViewName("modules/xj_login");           // 管理端登录页
-        registry.addViewController("/fh").setViewName("modules/tool/fhConvert.html");   // 文本转符号生成器
-        registry.addViewController("/java").setViewName("modules/tool/javaCodeRun");    // java代码运行器
-        registry.addViewController("/lts").setViewName("xj/websocket/lts.html");        // 在线聊天室
-        registry.addViewController("/help").setViewName("modules/admin/help/index");    // 兮家手册
+        registry.addViewController("/index").setViewName("modules/sys_index");           // 管理端主页
+        registry.addViewController("/").setViewName("modules/sys_login");                // 管理端登录页
+        registry.addViewController("/login").setViewName("modules/sys_login");           // 管理端登录页
+        //
+        registry.addViewController("/fh").setViewName("client/tool/fhConvert.html");     // 文本转符号生成器
+        registry.addViewController("/java").setViewName("client/tool/javaCodeRun");      // java代码运行器
+        registry.addViewController("/lts").setViewName("client/websocket/lts.html");     // 在线聊天室
+        registry.addViewController("/help").setViewName("client/help/index");      // 兮家手册
     }
 
 

@@ -35,7 +35,7 @@
 当前域名：blog.xxx.com/post.php
 
 ```html
-&lt;form method="post" target="upload-iframe" enctype="multipart/form-data" action="http://static.xxx.com/uploader.php?callback=http://blog.xxx.com/upload-callback.html"&gt;
+&lt;form method="post" target="upload-iframe" enctype="multipart/form-data" action="http:/.xxx.com/uploader.php?callback=http://blog.xxx.com/upload-callback.html"&gt;
     &lt;input type="file" name="file" accept="image/*" /&gt;
     &lt;input type="submit" id="submit" value="开始上传" /&gt;
 &lt;/form&gt;
@@ -52,7 +52,7 @@ $file = 'uploads/' . $_FILES['file']['name'];
 // 详细过程略
 move_uploaded_file($_FILES['file']['tmp_name'], $file);
 
-$location = $_GET['callback'].'?success=1&message=xxxxxxx&url=http://static.xxx.com/2015/02/15'.$file.'&temp='.date('ymdhis');
+$location = $_GET['callback'].'?success=1&message=xxxxxxx&url=http:/.xxx.com/2015/02/15'.$file.'&temp='.date('ymdhis');
 
 header('location:' . $location);
 exit;
