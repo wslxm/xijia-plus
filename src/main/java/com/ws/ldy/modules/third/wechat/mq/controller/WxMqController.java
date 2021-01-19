@@ -4,8 +4,10 @@ package com.ws.ldy.modules.third.wechat.mq.controller;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.third.wechat.mq.util.WeChetH5AuthUtil;
+import com.ws.ldy.modules.third.wechat.mq.util.WxMqTemplateMsgUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,16 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0.0
  */
 @RestController
-@RequestMapping(BaseConstant.Sys.API + "/wechat/auth")
-@Api(value = "WeChetH5AuthController", tags = "WX  -->  微信网页授权",consumes = BaseConstant.InterfaceType.PC_BASE)
-public class WeChetH5AuthController {
+@RequestMapping(BaseConstant.Sys.API + "/wechat")
+@Api(value = "WxMqController", tags = "WX  -->  微信网页授权",consumes = BaseConstant.InterfaceType.PC_BASE)
+public class WxMqController {
 
     @Autowired
     private WeChetH5AuthUtil weChetH5AuthUtil;
 
 
-    @RequestMapping(value = "/getAuthCodeUrl", method = RequestMethod.GET)
-    @ApiOperation(value = "1、获取授权URL, 并重定向到指定页", notes = "" +
+    @Autowired
+    private  WxMqTemplateMsgUtil wxMqTemplateMsgUtil;
+
+
+    @RequestMapping(value = "/auth/getAuthCodeUrl", method = RequestMethod.GET)
+    @ApiOperation(value = "网页授权 --> 1、获取授权URL, 并重定向到指定页", notes = "" +
             "callback = 回调页 如: http://yabei.520ban.com/platform/#/public, 访问该接口返回的URL会自动跳转到回调也,并携带code 参数在url上" +
             "\r\n 注意： 返回的url需在微信开发者工具访问或手机微信中打开" +
             "\r\n 注意： code 有效期5分钟" +
@@ -43,9 +49,22 @@ public class WeChetH5AuthController {
     }
 
 
-    @RequestMapping(value = "/getOpenId", method = RequestMethod.GET)
-    @ApiOperation(value = "2、通过code 获取openId", notes = "")
+    @RequestMapping(value = "/auth/getOpenId", method = RequestMethod.GET)
+    @ApiOperation(value = "网页授权 --> 2、通过code 获取openId", notes = "")
     public R<String> getOpenId(@RequestParam String code) {
         return R.success(weChetH5AuthUtil.getOpenId(code));
+    }
+
+
+
+    @RequestMapping(value = "/template/sendTest", method = RequestMethod.GET)
+    @ApiOperation("模板消息 --> 推送测试信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "openId", value = "微信openId", required = true, paramType = "query", example = "o8nrg503tfKwepDE4zKeP2g9PujU"),
+            @ApiImplicitParam(name = "content", value = "发送内容", required = true, paramType = "query", example = "")
+    })
+    public R<Boolean> sendTest(String openId, String content) {
+        wxMqTemplateMsgUtil.sendTest(openId, content);
+        return R.success(true);
     }
 }

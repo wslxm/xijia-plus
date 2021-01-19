@@ -24,31 +24,31 @@ headers = {
 var Enums = {
     // 系统模块
     Admin: {
-        AdminUserPosition : "ADMIN_USER_POSITION",  // 职位
-        AuthorityState : "AUTHORITY_STATE",  // 权限状态
-        AuthorityType : "AUTHORITY_TYPE",  // 权限终端
-        BannerIsSkip : "BANNER_IS_SKIP",  // banner是否跳转
-        BannerPosition : "BANNER_POSITION",  // banner 位置
-        BlacklistType : "BLACKLIST_TYPE",  // 黑/白名单类型
-        ConfigCode : "CONFIG_CODE",  // 系统配置类型
-        HelpCategory : "HELP_CATEGORY",  // 帮助中心类别
-        HelpVersion : "HELP_VERSION",  // 帮助中心版本
-        MenuRoot : "MENU_ROOT",  // 菜单级别
-        MsgType : "MSG_TYPE",  // 及时消息类型
-        MsgUserType : "MSG_USER_TYPE",  // 及时消息终端
+        AdminUserPosition: "ADMIN_USER_POSITION",  // 职位
+        AuthorityState: "AUTHORITY_STATE",  // 权限状态
+        AuthorityType: "AUTHORITY_TYPE",  // 权限终端
+        BannerIsSkip: "BANNER_IS_SKIP",  // banner是否跳转
+        BannerPosition: "BANNER_POSITION",  // banner 位置
+        BlacklistType: "BLACKLIST_TYPE",  // 黑/白名单类型
+        ConfigCode: "CONFIG_CODE",  // 系统配置类型
+        HelpCategory: "HELP_CATEGORY",  // 帮助中心类别
+        HelpVersion: "HELP_VERSION",  // 帮助中心版本
+        MenuRoot: "MENU_ROOT",  // 菜单级别
+        MsgType: "MSG_TYPE",  // 及时消息类型
+        MsgUserType: "MSG_USER_TYPE",  // 及时消息终端
     },
     // 通用枚举
     Base: {
-        Deleted : "DELETED",  // 逻辑删除
-        Disable : "DISABLE",  // 是否禁用
-        Gender : "GENDER",  // 性别
-        IsMail : "IS_MAIL",  // 是否邮寄
-        IsNeedMail : "IS_NEED_MAIL",  // 是否需要邮寄
-        IsRead : "IS_READ",  // 是否已读
+        Deleted: "DELETED",  // 逻辑删除
+        Disable: "DISABLE",  // 是否禁用
+        Gender: "GENDER",  // 性别
+        IsMail: "IS_MAIL",  // 是否邮寄
+        IsNeedMail: "IS_NEED_MAIL",  // 是否需要邮寄
+        IsRead: "IS_READ",  // 是否已读
     },
     // 兮家
     Xj: {
-        FileType : "FILE_TYPE",  // 文件类型
+        FileType: "FILE_TYPE",  // 文件类型
     },
 };
 
@@ -138,7 +138,12 @@ Dict = {
         let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
         //
         for (let i = 0; i < dictMap.length; i++) {
-            html += "<option value='" + dictMap[i].code + "'>" + dictMap[i].name + "</option>"
+            if (i === 0) {
+                html += "<option value='" + dictMap[i].code + "' selected>" + dictMap[i].name + "</option>";
+            } else {
+                html += "<option value='" + dictMap[i].code + "'>" + dictMap[i].name + "</option>"
+            }
+
         }
         return html;
     },
@@ -769,7 +774,6 @@ function getParam(name) {
 }
 
 
-
 /**
  * 判断是否为移动设备
  * @author wangsong
@@ -777,14 +781,14 @@ function getParam(name) {
  * @return
  * @version 1.0.0
  */
-function isMobile(){
-    if( navigator.userAgent.match(/Android/i)
+function isMobile() {
+    if (navigator.userAgent.match(/Android/i)
         || navigator.userAgent.match(/webOS/i)
         || navigator.userAgent.match(/iPhone/i)
         || navigator.userAgent.match(/iPad/i)
         || navigator.userAgent.match(/iPod/i)
         || navigator.userAgent.match(/BlackBerry/i)
         || navigator.userAgent.match(/Windows Phone/i)
-    )return true;
+    ) return true;
     return false;
 }

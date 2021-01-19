@@ -57,4 +57,5 @@ public class WxAppUtil {
         }
         return jsonObject.get("openid").toString();
     }
+
 }

@@ -18,7 +18,7 @@ import java.util.Map;
  * @version 1.0.0
  */
 @Component
-public class TemplateMsgUtil {
+public class WxMqTemplateMsgUtil {
 
     @Autowired
     private WeChetAccessTokenUtil weChetAccessTokenUtil;
@@ -33,7 +33,7 @@ public class TemplateMsgUtil {
      * data       模板参数
      * @param data
      */
-    public String send(String openId, String templateId, Map<String, WeChatTemplateMsg> data) {
+    public String sendMsg(String openId, String templateId, Map<String, WeChatTemplateMsg> data) {
         String accessToken = weChetAccessTokenUtil.getToken();
         String url = WxMqUrl.TemplateUrl.SEND_URL.replace("ACCESS_TOKEN", accessToken);
         //拼接base参数
@@ -46,5 +46,24 @@ public class TemplateMsgUtil {
         ResponseEntity<String> forEntity = restTemplate.postForEntity(url, sendBody, String.class);
         System.out.println(forEntity.getBody());
         return forEntity.getBody();
+    }
+
+
+
+
+    /**
+     * 发送模板消息通知（测试模板）
+     * @param openId 微信用户的openId
+     * @param content 发送的内容
+     */
+    public void sendTest(String openId, String content) {
+        // 模板Id
+        String templateId = "P6llNez3CAcxEYzhQ_MDdFJGUifXfey15ZIX7MKiB3k";
+        // 模板参数
+        Map<String, WeChatTemplateMsg> sendMag = new HashMap<String, WeChatTemplateMsg>();
+        sendMag.put("MSG", new WeChatTemplateMsg(content));
+        //sendMag.put("MSG", new WeChatTemplateMsg(content,"#173177"));
+        // 发送
+        this.sendMsg(openId, templateId, sendMag);
     }
 }

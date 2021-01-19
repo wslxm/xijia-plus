@@ -5,6 +5,7 @@ import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.FileDownloadUtil;
 import com.ws.ldy.common.utils.FileUploadUtil;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import com.ws.ldy.modules.third.aliyun.oss.util.OSSUtil;
 import io.swagger.annotations.Api;
@@ -31,7 +32,7 @@ import java.util.List;
  */
 @RestController
 @Api(value = "AliOssController", tags = "AliYun --> OSS文件管理")
-@RequestMapping("/aliOssFile")
+@RequestMapping(BaseConstant.Sys.API + "/aliOssFile")
 @Slf4j
 public class AliOssController extends BaseController {
 

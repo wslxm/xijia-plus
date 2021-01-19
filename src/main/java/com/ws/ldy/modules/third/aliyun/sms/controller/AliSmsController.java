@@ -1,6 +1,7 @@
 package com.ws.ldy.modules.third.aliyun.sms.controller;
 
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import com.ws.ldy.modules.third.aliyun.sms.util.AliSmsUtil;
 import io.swagger.annotations.Api;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(value = "AliSmsController", tags = "AliYun  --> SMS短信服务")
-@RequestMapping("/aliSms")
+@RequestMapping(BaseConstant.Sys.API + "/aliSms")
 @Slf4j
 public class AliSmsController extends BaseController {
 
