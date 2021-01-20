@@ -1,10 +1,10 @@
-package {packPath}.{packPathZp}.{moduleName}.model.dto;
+package {packPath}.{rootModule}.{packPathZp}.{moduleName}.model.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import {packPath}.others.base.model.BaseDto;
+import {packPath}.{rootModule}.sys.base.model.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

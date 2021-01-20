@@ -1,8 +1,9 @@
 package com.ws.ldy.modules.third.baidu.controller;
 
 import com.ws.ldy.common.result.R;
-import com.ws.ldy.modules.third.baidu.service.PicParsingService;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
+import com.ws.ldy.modules.third.baidu.service.PicParsingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/baidu")
+@RequestMapping(BaseConstant.Sys.API + "/baidu")
 @Api(value = "PicParsingController", tags = "BaiDu  -->  百度API")
 public class BaiDuController extends BaseController {
 

@@ -1,10 +1,10 @@
-package {packPath}.{packPathZp}.{moduleName}.model.vo;
+package {packPath}.{rootModule}.{packPathZp}.{moduleName}.model.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import {packPath}.others.base.model.BaseVo;
+import {packPath}.{rootModule}.sys.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

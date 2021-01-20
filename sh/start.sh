@@ -1,7 +1,7 @@
 #!/bin/bash
 # Linux下的项目启动脚本
 # 这里可替换为你自己的执行程序，其他代码无需更改
-APP_NAME=xijia-server.jar
+APP_NAME=xijia-server-pro.jar
 #使用说明，用来提示输入参数
 usage() {
 echo "Usage: sh 脚本名.sh [start|stop|restart|status]"

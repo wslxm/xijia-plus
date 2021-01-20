@@ -229,16 +229,17 @@ public class GenerateDataProcessing {
                         .replace("{author}", "@author  " + GenerateConfig.AUTHOR)
                         .replace("{email}", "@email  " + GenerateConfig.EMAIL)
                         .replace("{describe}", GenerateConfig.DESCRIBE)
-                        .replace("{moduleName}", GenerateConfig.MODULE_NAME)//模块名
-                        .replace("{packPathZp}", GenerateConfig.PACK_PATH_ZP)//模块名子名
+                        .replace("{rootModule}", GenerateConfig.ROOT_MODULE)   // 模块根目录
+                        .replace("{moduleName}", GenerateConfig.MODULE_NAME)   // 模块一级目录
+                        .replace("{packPathZp}", GenerateConfig.PACK_PATH_ZP)  // 模块子目录
                         .replace("{date}", "@date  " + LocalDateTimeUtil.convertLDTToStr(LocalDateTimeUtil.now()))
                         //原始数据
-                        .replace("{tableName}", DsField.TABLE_NAME) //表名
-                        .replace("{tableNameUp}", DsField.TABLE_NAME_UP)//表名大写开头驼峰
-                        .replace("{tableNameLower}", DsField.TABLE_NAME_LOWER)//表名小写开头驼峰
-                        // .replace("{htmlNameLower}", DsField.TABLE_NAME_LOWER) //表名小写开头驼峰
-                        .replace("{packPath}", DsField.PACK_PATH) //包路径
-                        .replace("{tableComment}", DsField.TABLE_COMMENT)
+                        .replace("{tableName}", DsField.TABLE_NAME)            // 表名
+                        .replace("{tableNameUp}", DsField.TABLE_NAME_UP)       // 表名大写开头驼峰
+                        .replace("{tableNameLower}", DsField.TABLE_NAME_LOWER) // 表名小写开头驼峰
+                        // .replace("{htmlNameLower}", DsField.TABLE_NAME_LOWER)     // 表名小写开头驼峰
+                        .replace("{packPath}", DsField.PACK_PATH)              // 包路径
+                        .replace("{tableComment}", DsField.TABLE_COMMENT)      // 数据表的注释
                         //.replace("{entryName}", DsField.entryName)
                         //代码生成方法内获得的处理数据
                         .replace("{entitys}", DsField.FIELD_ENTITYS)
@@ -259,8 +260,6 @@ public class GenerateDataProcessing {
                         .replace("{upd-htmls}", DsField.UPD_HTMLS)
                         .replace("{upd-backfill}", DsField.UPD_BACKFILL)
                         .replace("{upd-id}", DsField.UPD_ID);
-
-
                 bw.write(newLine);
                 bw.newLine();
                 bw.flush();
