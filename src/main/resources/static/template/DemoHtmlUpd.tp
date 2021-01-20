@@ -24,16 +24,10 @@
 </div>
 
 <script>
-
-    $(function () {
-           <!-- 父页面的值,赋值到当前页 -->
-          {upd-backfill}
-     });
-
-
     layui.use(['form'], function () {
-        //监听提交
-        layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+        let form = layui.form;
+        // 监听提交
+        form.on('submit(layuiadmin-app-form-submit)', function (data) {
             {upd-id}
             //data.field.id = parent.data.id;
             let result = Ajax.put(path + "/{moduleName}/{tableNameLower}/upd", data.field);
@@ -41,9 +35,22 @@
             parent.layer.close(index);
             parent.layer.msg(result.msg);
             //重载表格
-            parent.xijiaRenderTable();
+            parent.{tableNameLower}RenderTable();
         });
+
+        // 初始化
+        {tableNameLower}updInit(form);
     });
+
+
+    function {tableNameLower}updInit(form){
+          <!-- 父页面的值,赋值到当前页 -->
+          {upd-backfill}
+
+          // 刷新,否则select可能不生效
+          form.render();
+    }
+
 </script>
 </body>
 </html>

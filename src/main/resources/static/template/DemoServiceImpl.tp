@@ -1,9 +1,9 @@
-package {packPath}.{packPathZp}.{moduleName}.service.impl;
+package {packPath}.{rootModule}.{packPathZp}.{moduleName}.service.impl;
 
-import {packPath}.{packPathZp}.{moduleName}.mapper.{tableNameUp}Mapper;
-import {packPath}.{packPathZp}.{moduleName}.model.entity.{tableNameUp};
-import {packPath}.{packPathZp}.{moduleName}.service.{tableNameUp}Service;
-import {packPath}.others.base.service.impl.BaseIServiceImpl;
+import {packPath}.{rootModule}.{packPathZp}.{moduleName}.mapper.{tableNameUp}Mapper;
+import {packPath}.{rootModule}.{packPathZp}.{moduleName}.model.entity.{tableNameUp};
+import {packPath}.{rootModule}.{packPathZp}.{moduleName}.service.{tableNameUp}Service;
+import {packPath}.{rootModule}.sys.base.service.impl.BaseIServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

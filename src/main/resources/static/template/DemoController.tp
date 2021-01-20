@@ -1,4 +1,4 @@
-package {packPath}.{packPathZp}.{moduleName}.controller;
+package {packPath}.{rootModule}.{packPathZp}.{moduleName}.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -12,14 +12,14 @@ import org.apache.commons.lang3.StringUtils;
 import com.ws.ldy.config.error.ErrorException;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import {packPath}.{packPathZp}.{moduleName}.model.entity.{tableNameUp};
-import {packPath}.{packPathZp}.{moduleName}.model.vo.{tableNameUp}VO;
-import {packPath}.{packPathZp}.{moduleName}.model.dto.{tableNameUp}DTO;
-import {packPath}.{packPathZp}.{moduleName}.service.{tableNameUp}Service;
+import {packPath}.{rootModule}.{packPathZp}.{moduleName}.model.entity.{tableNameUp};
+import {packPath}.{rootModule}.{packPathZp}.{moduleName}.model.vo.{tableNameUp}VO;
+import {packPath}.{rootModule}.{packPathZp}.{moduleName}.model.dto.{tableNameUp}DTO;
+import {packPath}.{rootModule}.{packPathZp}.{moduleName}.service.{tableNameUp}Service;
 import {packPath}.common.result.R;
-import com.ws.ldy.common.result.RType;
+import {packPath}.common.result.RType;
 import {packPath}.common.utils.BeanDtoVoUtil;
-import {packPath}.others.base.controller.BaseController;
+import {packPath}.{rootModule}.sys.base.controller.BaseController;
 import java.util.Arrays;
 import java.time.LocalDateTime;
 

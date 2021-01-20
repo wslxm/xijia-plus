@@ -12,4 +12,3 @@ tail -1000f /usr/local/work/xijia2/log.txt
 /usr/local/work/xijia2/start.sh restart & tail -1000f /usr/local/work/xijia2/log.txt
 
 
-禁用 disable  disabled

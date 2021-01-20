@@ -41,6 +41,7 @@ public class XjGenerateController extends BaseController<XjGenerationSeviceImpl>
 
     @Autowired
     private XjAdminDatasourceService adminDatasourceService;
+
     /**
      *  预览代码生成 (查询预览代码，预览代码存放于File/code/src.... 目录下，前端可直接访问)
      *
@@ -52,11 +53,11 @@ public class XjGenerateController extends BaseController<XjGenerationSeviceImpl>
     @RequestMapping(value = "/preview", method = RequestMethod.POST)
     public R<Map<String, String>> preview(@RequestBody XjGenerateDto generateDto) {
         // 表前缀和字段前缀配置
-        if(StringUtils.isNotBlank(generateDto.getDataSourceId())){
+        if (StringUtils.isNotBlank(generateDto.getDataSourceId())) {
             XjAdminDatasource datasource = adminDatasourceService.getById(generateDto.getDataSourceId());
             GenerateConfig.TABLE_PREFIX = datasource.getDbPrefix();
             GenerateConfig.FIELD_PREFIX = datasource.getDbFieldPrefix();
-        }else{
+        } else {
             GenerateConfig.TABLE_PREFIX = GenerateConfig.TABLE_PREFIX_DEFAULT;
             GenerateConfig.FIELD_PREFIX = GenerateConfig.FIELD_PREFIX_DEFAULT;
         }
@@ -90,7 +91,12 @@ public class XjGenerateController extends BaseController<XjGenerationSeviceImpl>
         generationSeviceImpl.buildMainHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + DsField.TABLE_NAME_LOWER + "/");
         generationSeviceImpl.buildAddHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + DsField.TABLE_NAME_LOWER + "/");
         generationSeviceImpl.buildUpdHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + DsField.TABLE_NAME_LOWER + "/");
-        System.err.println("代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/" + GenerateConfig.PACK_PATH_ZP + "_" + GenerateConfig.MODULE_NAME + "_" + DsField.TABLE_NAME_LOWER + "_" + DsField.TABLE_NAME_LOWER);
+        System.err.println("代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/"
+                + GenerateConfig.ROOT_MODULE + "_"
+                + GenerateConfig.PACK_PATH_ZP + "_"
+                + GenerateConfig.MODULE_NAME + "_"
+                + DsField.TABLE_NAME_LOWER + "_"
+                + DsField.TABLE_NAME_LOWER);
 
         return R.success(XjGenerationSeviceImpl.pathMap);
     }
@@ -107,11 +113,11 @@ public class XjGenerateController extends BaseController<XjGenerationSeviceImpl>
     @RequestMapping(value = "/generateCode", method = RequestMethod.POST)
     public R<Map<String, String>> generateCode(@RequestBody XjGenerateDto generateDto) {
         // 表前缀和字段前缀配置
-        if(StringUtils.isNotBlank(generateDto.getDataSourceId())){
+        if (StringUtils.isNotBlank(generateDto.getDataSourceId())) {
             XjAdminDatasource datasource = adminDatasourceService.getById(generateDto.getDataSourceId());
             GenerateConfig.TABLE_PREFIX = datasource.getDbPrefix();
             GenerateConfig.FIELD_PREFIX = datasource.getDbFieldPrefix();
-        }else{
+        } else {
             GenerateConfig.TABLE_PREFIX = GenerateConfig.TABLE_PREFIX_DEFAULT;
             GenerateConfig.FIELD_PREFIX = GenerateConfig.FIELD_PREFIX_DEFAULT;
         }
@@ -137,7 +143,7 @@ public class XjGenerateController extends BaseController<XjGenerationSeviceImpl>
         generationSeviceImpl.buildService(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE);           // 生成service
         generationSeviceImpl.buildServiceImpl(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE_IMPL);  // 生成serviceImpl
         generationSeviceImpl.buildMapper(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_MAPPER);             // 生成dao
-        generationSeviceImpl.buildMapperXml(dataList, GenerateConfig.BASE_PATH_XML );                                            // 生成xml
+        generationSeviceImpl.buildMapperXml(dataList, GenerateConfig.BASE_PATH_XML);                                            // 生成xml
         // html
         generationSeviceImpl.buildMainHtml(dataList, GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/");
         generationSeviceImpl.buildAddHtml(dataList, GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/");
@@ -148,7 +154,12 @@ public class XjGenerateController extends BaseController<XjGenerationSeviceImpl>
         // generationSeviceImpl.buildMainHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT + DsField.TABLE_NAME_LOWER + "/");
         // generationSeviceImpl.buildAddHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT + DsField.TABLE_NAME_LOWER + "/");
         // generationSeviceImpl.buildUpdHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT + DsField.TABLE_NAME_LOWER + "/");
-        System.err.println("代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/" + GenerateConfig.PACK_PATH_ZP + "_" + GenerateConfig.MODULE_NAME + "_" + DsField.TABLE_NAME_LOWER + "_" + DsField.TABLE_NAME_LOWER);
+        System.err.println("代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/"
+                + GenerateConfig.ROOT_MODULE + "_"
+                + GenerateConfig.PACK_PATH_ZP + "_"
+                + GenerateConfig.MODULE_NAME + "_"
+                + DsField.TABLE_NAME_LOWER + "_"
+                + DsField.TABLE_NAME_LOWER);
 
         return R.success(XjGenerationSeviceImpl.pathMap);
     }
@@ -175,11 +186,16 @@ public class XjGenerateController extends BaseController<XjGenerationSeviceImpl>
         mapPath.put("service", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE + DsField.TABLE_NAME_UP + "Service.java");
         mapPath.put("serviceImpl", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE_IMPL + DsField.TABLE_NAME_UP + "ServiceImpl.java");
         mapPath.put("mapper", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_MAPPER + DsField.TABLE_NAME_UP + "Mapper.java");
-        mapPath.put("mapperXml", GenerateConfig.BASE_PATH_XML  + DsField.TABLE_NAME_UP + "Mapper.xml");
+        mapPath.put("mapperXml", GenerateConfig.BASE_PATH_XML + DsField.TABLE_NAME_UP + "Mapper.xml");
         mapPath.put("htmlMain", GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/" + DsField.TABLE_NAME_LOWER + "Main.html");
         mapPath.put("htmlAdd", GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/" + DsField.TABLE_NAME_LOWER + "Add.html");
         mapPath.put("htmlUpd", GenerateConfig.BASE_PATH_HTML + DsField.TABLE_NAME_LOWER + "/" + DsField.TABLE_NAME_LOWER + "Upd.html");
-        mapPath.put("index", "/page/" + GenerateConfig.PACK_PATH_ZP + "_" + GenerateConfig.MODULE_NAME + "_" + DsField.TABLE_NAME_LOWER + "_" + DsField.TABLE_NAME_LOWER);
+        mapPath.put("index", "/page/"
+                + GenerateConfig.ROOT_MODULE + "_"
+                + GenerateConfig.PACK_PATH_ZP + "_"
+                + GenerateConfig.MODULE_NAME + "_"
+                + DsField.TABLE_NAME_LOWER + "_"
+                + DsField.TABLE_NAME_LOWER);
         return R.success(mapPath);
     }
 }
