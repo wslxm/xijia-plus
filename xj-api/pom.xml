@@ -5,8 +5,8 @@
     <parent>
         <artifactId>spring-boot-plus2</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.0.1-RELEASE</version>
-        <relativePath/>
+        <version>0.0.1</version>
+    <!--    <relativePath>../pom.xml</relativePath>-->
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -50,80 +50,80 @@
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-core</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>0.0.1</version>
         </dependency>
         <!-- 统一返回 -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-result</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>0.0.1</version>
         </dependency>
         <!-- 核心组件 -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-jwt</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>0.0.1</version>
         </dependency>
         <!-- fastjson -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-util-fastjson</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>0.0.1</version>
         </dependency>
         <!-- 阿里云oss -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-api-aliyun-oss</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>0.0.1</version>
         </dependency>
         <!-- 阿里云sms -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-api-aliyun-sms</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>0.0.1</version>
         </dependency>
         <!-- 微信支付  -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-api-wx-pay</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>0.0.1</version>
         </dependency>
         <!-- swagger2  -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-doc-swagger2</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>0.0.1</version>
         </dependency>
         <!-- swagger2-ui -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-doc-swagger2-ui</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>0.0.1</version>
         </dependency>
         <!-- knife4j-ui -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-doc-knife4j</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>0.0.1</version>
         </dependency>
         <!-- poi组件  -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-util-poi</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>0.0.1</version>
         </dependency>
         <!-- springBootAdmin 监控中心 -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-fw-boot-admin</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>0.0.1</version>
         </dependency>
 
         <!-- 幂等 -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-idempotent</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>0.0.1</version>
         </dependency>
 
 
