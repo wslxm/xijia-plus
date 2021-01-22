@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>xj-doc-swagger2-ui</artifactId>
+    <artifactId>xj-doc-swagger2-ui</artifactId>1
 
     <properties>
         <springfox-swagger2-ui.version>2.9.2</springfox-swagger2-ui.version>
