@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xj-third</artifactId>
+        <groupId>com.ws.ldy</groupId>
+        <version>0.0.1-RELEASE</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>xj-util-qrcode</artifactId>
+
+    <properties>
+        <google.zxing.javase.version>3.0.0</google.zxing.javase.version> <!--二维码工具-->
+    </properties>
+
+    <dependencies>
+        <!-- 二维码生成需要的包  -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>${google.zxing.javase.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

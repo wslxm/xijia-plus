@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xj-third</artifactId>
+        <groupId>com.ws.ldy</groupId>
+        <version>0.0.1-RELEASE</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>xj-api-wx-pay</artifactId>
+
+    <properties>
+        <weixin-java-pay.version>3.9.0</weixin-java-pay.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-base-result</artifactId>
+            <version>0.0.1-RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-util-fastjson</artifactId>
+            <version>0.0.1-RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-doc-swagger2</artifactId>
+            <version>0.0.1-RELEASE</version>
+        </dependency>
+
+        <!-- 微信支付 -->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-pay</artifactId>
+            <version>${weixin-java-pay.version}</version>
+        </dependency>
+    </dependencies>
+</project>

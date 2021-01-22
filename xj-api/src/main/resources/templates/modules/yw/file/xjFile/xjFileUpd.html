@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <meta charset="utf-8">
+    <title>用户--添加</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/components/layuiadmin/layui/src/css/layui.css">
+    <script src="/components/layuiadmin/layui/src/layui.js"></script>
+    <script src='/base/js/jquery-3.4.1.min.js'></script>
+    <script src="/base/js/app.js"></script>
+</head>
+<body>
+
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-inline ">
+            <select id="type" name="type" lay-verify="" lay-filter="required">
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">文件</label>
+        <span class="layui-input-inline">
+            <button type="button" class="layui-btn layui-btn-danger" id="test7" style="width: 180px"><i class="layui-icon"></i>上传文件</button>
+            <!-- 预览图,上传图片后展示 --><!--圆  style='border-radius: 30px;width: 35px;height: 35px;'-->
+            <!-- <img src="" title="" id="imgUrlShow" style="height: 180px; margin-top: 5%">-->
+            <!-- 隐藏input,最后添加数据 -->
+            <input type="text" id="url" name="url" hidden>
+        </span>
+        <!-- 提示 -->
+        <font class="layui-word-aux">
+            文件请尽量压缩后在上传
+        </font>
+    </div>
+    <!-- 进度条 -->
+    <div style="margin-left: 8%;margin-top: 5%" class="layui-progress" lay-showpercent="true" lay-filter="progressBar">
+        <div id="progressBar" class="layui-progress-bar" lay-percent="0%"></div>
+    </div>
+    <div style="margin-top: 5%" class="layui-form-item">
+        <label class="layui-form-label">文件名称</label>
+        <div class="layui-input-inline" >
+            <input type="text" id="name" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">文件大小</label>
+        <div class="layui-input-inline" >
+            <input type="text" id="size" name="size" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">文件类型</label>
+        <div class="layui-input-inline" >
+            <input type="text" id="suffix" name="suffix" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">文件描叙</label>
+        <div class="layui-input-inline" style="width: 60%;">
+            <textarea style="height: 100px" type="text" id="desc" name="desc" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认添加">
+        <input type="button" lay-submit lay-filter="layuiadmin-app-form-edit" id="layuiadmin-app-form-edit" value="确认编辑">
+    </div>
+</div>
+
+<script>
+
+    var form;
+    var upload;
+    layui.use(['form', 'upload', 'element'], function () {
+        form = layui.form;
+        upload = layui.upload;
+        //监听提交
+        layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            data.field.id = parent.data.id;
+            let result = Ajax.put(path + "/file/xjFile/upd", data.field);
+            let index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+            parent.layer.msg(result.msg);
+            //重载表格
+            parent.xijiaRenderTable();
+            // 重载后-刷新分页数据
+            parent.xijiaLayPage();
+        });
+        // 文件上传
+        fileUpload();
+        // 初始化数据
+        init();
+
+    });
+
+    // 初始值
+    function init() {
+
+        $('#name').val(parent.data.name);
+        $('#desc').val(parent.data.desc);
+        $('#size').val(parent.data.size);
+        $('#suffix').val(parent.data.suffix);
+        $('#url').val(parent.data.url);
+        // select 字典数据
+        $("#type").html(Dict.getDictSelect(Enums.Xj.FileType));
+
+        // select 回显
+        $("#type").find("option").each(function () {
+            if ($(this).val() == parent.data.type) {
+                $(this).attr("selected", "selected");
+            }
+        });
+        form.render();
+    }
+
+
+    function fileUpload() {
+        //文件上传
+        var files = null;
+        upload.render({
+            elem: '#test7'
+            , url: path + '/aliOssFile/upload?filePath=file/xj/' + $('#type option:selected').val() + "/"  //改成您自己的上传接口
+            , size: 1024 * 1000 //限制文件大小，单位 KB
+            , accept: 'file' //普通文件
+            , headers: headers
+            , choose: function (obj) {
+                files = obj.pushFile();
+                console.log(files)
+            }
+            , before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                files = obj.pushFile();
+                // console.log(obj);
+                // layer.load(); //上传loading
+            }
+            , progress: function (n, elem) {
+                if (n === 100) {
+                    n = 99;
+                }
+                // 获取上传进度百分比
+                let percent = n + '%';
+                // $("#progressBar").attr("lay-percent",percent);
+                // layui.form.render();
+                //lay-filter =progressBar
+                layui.element.progress('progressBar', percent);
+            }
+            , done: function (res, index) {
+                //如果上传失败
+                if (res.code !== 200) {
+                    return layer.msg('上传失败-' + res.msg);
+                }
+                layui.element.progress('progressBar', "100%");
+                //获取文件
+                let file = null;
+                //遍历map
+                for (let prop in files) {
+                    if (files.hasOwnProperty(prop)) {
+                        // 获取
+                        file = files[prop];
+                        //删除数组文件中上传成功的图片，防止重复上传（重点）
+                        delete files[prop];
+                    }
+                }
+                // 赋值input
+                let fileName = file.name;
+                let index2 = fileName.lastIndexOf(".");
+                let suffix = fileName.substring(index2 + 1);
+                $("#url").val(res.data);
+                $("#name").val(fileName);
+                $("#size").val((file.size / 1024 / 1024).toFixed(2));
+                $("#suffix").val(suffix);
+                console.log(res);
+                layer.msg('上传成功');
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

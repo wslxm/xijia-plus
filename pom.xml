@@ -2,16 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.0.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <!--<relativePath/>--> <!-- lookup parent from repository -->
     </parent>
 
+
     <groupId>com.ws.ldy</groupId>
-    <artifactId>xijia-server</artifactId>
+    <artifactId>spring-boot-plus2</artifactId>
     <version>0.0.1-RELEASE</version>
     <name>spring-boot-plus2</name>
     <packaging>pom</packaging>
@@ -19,48 +19,35 @@
 
     <modules>
         <module>xj-third</module>
-        <module>xj-code</module>
+        <module>xj-api</module>
+        <module>xj-base</module>
     </modules>
 
+    <properties>
 
-         <!--
-              xj-base
-                  xj-common
-                  xj-config
-         -->
+    </properties>
 
-         <!--  xj-third      第三方接口-api对接/sdk-api对接/ 基础服务框架引入使用
-                  xj-api-aliyun-oss    阿里云oss
-                  xj-api-aliyun-sms    阿里云短信
-                  xj-api-qiniu-oss     七牛云oss
-                  xj-api-wx-mq         微信公众号
-                  xj-api-wx-app        微信小程序
-                  xj-api-wx-pay        微信支付
-                  xj-api-baidu         百度api
-                  xj-api-kuaidi100     快递100
-                  xj-api-sf            顺丰(丰桥)
-                  xj-fw-websocket      Websocket服务
-                  xj-fw-redis          Redis服务
-                  xj-fw-boot-admin     监控服务
-                  xj-doc-swagger2      接口文档-swagger-2
-                  xj-doc-knife4j       接口文档-knife4j
-          -->
+    <dependencies>
+        <!-- spring-mvc -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
 
+        <!-- spring-boot-starter-test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-         <!--  xj-sys          系统代码
-                  xj-core        核心代码(jwt/统一返回/)
-                  xj-admin       基础功能-权限系统/字典系统
-                  xj-plus        增强功能(帮助/banner/IP黑名单 /请求日志/消息通知 )
-                  xj-pay         支付系统
-                  xj-generate    代码生成器
-         -->
-
-
-
-       <!--  xj-yw         业务代码
-
-
-       -->
+    </dependencies>
 
 
 </project>

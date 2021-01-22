@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/xj-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-base/xj-base-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-base/xj-base-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-base/xj-base-idempotent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-base/xj-base-idempotent/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-base/xj-base-jwt/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-base/xj-base-result/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-base/xj-base-result/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-api-aliyun-oss/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-api-aliyun-sms/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-api-baidu/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-api-kuaidi-kuaidi100/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-api-kuaidi-sf/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-api-kuaidi-sf/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-api-qiniu-oss/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-api-wx-app/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-api-wx-app/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-api-wx-mq/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-api-wx-pay/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-doc-knife4j/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-doc-swagger2-ui/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-doc-swagger2/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-fw-boot-admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-fw-boot-admin/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-fw-redis/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-fw-redis/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-fw-websocket/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-util-fastjson/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-util-poi/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-util-poi/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xj-third/xj-util-qrcode/src/main/java" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

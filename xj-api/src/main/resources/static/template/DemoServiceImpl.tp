@@ -1,0 +1,22 @@
+package {packPath}.{rootModule}.{packPathZp}.{moduleName}.service.impl;
+
+import {packPath}.{rootModule}.{packPathZp}.{moduleName}.mapper.{tableNameUp}Mapper;
+import {packPath}.{rootModule}.{packPathZp}.{moduleName}.model.entity.{tableNameUp};
+import {packPath}.{rootModule}.{packPathZp}.{moduleName}.service.{tableNameUp}Service;
+import {packPath}.{rootModule}.sys.base.service.impl.BaseIServiceImpl;
+import org.springframework.stereotype.Service;
+
+/**
+ * {tableComment}
+ * <p>
+ * {describe}
+ * </p>
+ * {author}
+ * {email}
+ * {date}
+ */
+@Service
+public class {tableNameUp}ServiceImpl extends BaseIServiceImpl<{tableNameUp}Mapper, {tableNameUp}> implements {tableNameUp}Service {
+
+
+}
