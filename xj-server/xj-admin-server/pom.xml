@@ -13,7 +13,7 @@
     <artifactId>xj-admin-server</artifactId>
     <version>${xj-admin-server.version}</version>
     <name>xj-server-admin-${xj-admin-server.version}</name>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <!-- 工具 -->
@@ -27,6 +27,12 @@
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-core</artifactId>
             <version>${xj-base-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-admin-ui</artifactId>
+            <version>${xj-admin-ui.version}</version>
         </dependency>
         <!-- 统一返回 -->
         <dependency>
