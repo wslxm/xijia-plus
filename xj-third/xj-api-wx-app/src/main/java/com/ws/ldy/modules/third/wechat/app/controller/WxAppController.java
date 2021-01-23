@@ -22,7 +22,7 @@ import java.math.BigDecimal;
  * @version 1.0.0
  */
 @RestController
-@RequestMapping("/api/wx/app")
+@RequestMapping("/api/open/wx/app")
 @Api(value = "WxAppController", tags = "WX  -->  APP小程序登录")
 public class WxAppController {
 

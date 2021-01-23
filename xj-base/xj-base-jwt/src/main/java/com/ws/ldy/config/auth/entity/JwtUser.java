@@ -20,7 +20,7 @@ import java.util.List;
 public class JwtUser {
     //================== 通用字段列==================
     /**
-     * 登录类型 -> 对应： Enums.Admin.AuthorityType.
+     * 登录类型 ->   管理端：JwtUtil.userType[0]   用户端： JwtUtil.userType[0]  | 更多端自行指定和编辑JwtUtil代码
      */
     private Integer type;
     /**
@@ -28,19 +28,19 @@ public class JwtUser {
      */
     private String userId;
     /**
-     * 姓名   | 微信登录无
+     * 真实姓名/昵称
      */
     private String fullName;
     /**
-     * 账号/用户名  | 小程序登录-微信昵称
+     * 第一账号 --> 账号/用户名
      */
     private String username;
     /**
-     * 手机号/第二账号 | 小程序登录-无
+     * 第二账号 --> 手机号
      */
     private String phone;
     /**
-     * 头像url | 小程序登录-微信头像url
+     * 头像url
      */
     private String head;
 

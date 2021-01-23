@@ -5,12 +5,12 @@
     <parent>
         <artifactId>xj-base</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.0.1</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-base-jwt</artifactId>
-
+    <version>${xj-base-jwt.version}</version>
     <properties>
         <jjwt.version>0.9.1</jjwt.version>
     </properties>
@@ -19,12 +19,12 @@
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-result</artifactId>
-            <version>0.0.1</version>
+            <version>${xj-base-result.version}</version>
         </dependency>
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-util-fastjson</artifactId>
-            <version>0.0.1</version>
+            <version>${xj-util-fastjson.version}</version>
         </dependency>
         <!-- jwt -->
         <dependency>

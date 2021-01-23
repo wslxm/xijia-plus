@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/baidu")
+@RequestMapping("/api/open/baidu")
 @Api(value = "PicParsingController", tags = "BaiDu  -->  百度API")
 public class BaiDuController {
 

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ import java.util.List;
  */
 @RestController
 @Api(value = "AliOssController", tags = "AliYun --> OSS文件管理")
-@RequestMapping("/api/aliOssFile")
+@RequestMapping("/api/open/aliOssFile")
 @Slf4j
 public class AliOssController {
 

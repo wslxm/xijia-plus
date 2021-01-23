@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @SuppressWarnings("all")
 @Getter
 @NoArgsConstructor
-public enum RType  {
+public enum RType {
 
     //--------------------------系统相关错误- SYS_ --------------------------
     SYS_SUCCESS(200, "成功"),
@@ -30,8 +30,10 @@ public enum RType  {
     SYS_ERROR_CODE_404(404, "404-找不到该请求"),
     SYS_ERROR_CODE_415(415, "415错误"),
     SYS_ERROR_CODE_500(500, "服务器错误"),
-    SYS_ERROR_DOES_NOT_EXIST(500, "没有找到数据/数据不存在"),
+
+
     // 系统层相关错误 9900 -- 10000
+    SYS_ERROR_DOES_NOT_EXIST(9900, "没有找到数据/数据不存在"),
     SYS_IS_IDEMPOTENT(9901, "重复请求"),
     SYS_BLACK_LIST_IP(9902, "该ip异常,禁止访问"),
     SYS_WHITE_LIST_NO_IP(9903, "该ip地址没有访问权限"),
@@ -114,8 +116,8 @@ public enum RType  {
     MONTH_FEE_NOT_FOUND(10090, "找不到支付费用信息"),
 
     // 宠物
-    PET_TEMPORARY_ERROR(10100,"临时宠物数据条数宠物"),
-    PET_T_BOUND(10100,"临时宠物订单不存或已绑定"),
+    PET_TEMPORARY_ERROR(10100, "临时宠物数据条数宠物"),
+    PET_T_BOUND(10100, "临时宠物订单不存或已绑定"),
 
     // 邀请
     INVITE_REPEAT(10110, "重复邀请"),
@@ -126,8 +128,9 @@ public enum RType  {
     DECLARE_AMOUNT_ERROR(10120, "实发金额不能大于申报金额"),
     DECLARE_STATE_ERROR(10120, "状态错误：订单已完成"),
 
-
     ;
+
+
     private Integer value;
     private String msg;
 

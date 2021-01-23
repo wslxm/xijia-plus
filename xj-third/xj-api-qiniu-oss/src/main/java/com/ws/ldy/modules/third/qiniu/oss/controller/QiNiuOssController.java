@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @Api(value = "QiNiuController", tags = "QiNiu  -->  OSS文件管理(七牛云)")
-@RequestMapping("/api/qiNiuOss")
+@RequestMapping("/api/open/qiNiuOss")
 public class QiNiuOssController {
 
 

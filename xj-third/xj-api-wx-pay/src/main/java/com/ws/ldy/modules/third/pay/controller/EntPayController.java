@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @Api(value = "WebsocketController", tags = "WX  -->  微信企业付款")
-@RequestMapping( "/api/entPay")
+@RequestMapping( "/api/open/entPay")
 public class EntPayController {
 
   // 直用方法

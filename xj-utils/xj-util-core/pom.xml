@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xj-utils</artifactId>
+        <groupId>com.ws.ldy</groupId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>xj-util-core</artifactId>
+    <version>${xj-util-core.version}</version>
+
+    <properties>
+        <cglib.version>3.2.4</cglib.version>
+        <mybatis-plus-boot-starter.version>3.1.0</mybatis-plus-boot-starter.version>
+        <druid-spring-boot-starter.version>1.1.22</druid-spring-boot-starter.version>
+    </properties>
+
+    <dependencies>
+        <!-- cglib dto转po/vo使用 -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+
+            <version>${cglib.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plus-boot-starter.version}</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.google.guava</groupId>-->
+<!--            <artifactId>guava</artifactId>-->
+<!--            <version>29.0-jre</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+        <!-- druid 阿里巴巴数据源 -->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba</groupId>-->
+<!--            <artifactId>druid-spring-boot-starter</artifactId>-->
+<!--            <version>${druid-spring-boot-starter.version}</version>-->
+<!--        </dependency>-->
+    </dependencies>
+
+</project>

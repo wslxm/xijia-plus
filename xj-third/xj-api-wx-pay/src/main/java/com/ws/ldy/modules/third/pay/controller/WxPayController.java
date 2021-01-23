@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @Api(value = "WebsocketController", tags = "WX  -->  微信支付")
-@RequestMapping("/api/pay")
+@RequestMapping("/api/open/pay")
 public class WxPayController {
 
     // 直用方法

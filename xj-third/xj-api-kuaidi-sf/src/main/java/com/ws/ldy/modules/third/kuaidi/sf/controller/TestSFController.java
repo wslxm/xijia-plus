@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/sf/")
+@RequestMapping("/api/open/sf/")
 @Api(value = "TestSFController", tags = "KuaiDi  -->  顺丰快递test")
 public class TestSFController {
 

@@ -6,35 +6,11 @@
     <parent>
         <artifactId>spring-boot-plus2</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.0.1</version>
+        <version>${revision}</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>xj-third</artifactId>
-    <version>0.0.1</version>
-    <name>xj-third</name>
+    <name>xj-third-${revision}</name>
     <packaging>pom</packaging>
-
-    <modules>
-        <module>xj-api-aliyun-oss</module>
-        <module>xj-api-aliyun-sms</module>
-        <module>xj-api-qiniu-oss</module>
-        <module>xj-api-wx-mq</module>
-        <module>xj-api-wx-app</module>
-        <module>xj-api-wx-pay</module>
-        <module>xj-api-baidu</module>
-        <module>xj-api-kuaidi-kuaidi100</module>
-        <module>xj-api-kuaidi-sf</module>
-        <module>xj-doc-swagger2</module>
-        <module>xj-doc-swagger2-ui</module>
-        <module>xj-doc-knife4j</module>
-        <module>xj-fw-websocket</module>
-        <module>xj-fw-redis</module>
-        <module>xj-fw-boot-admin</module>
-        <module>xj-util-poi</module>
-        <module>xj-util-qrcode</module>
-        <module>xj-util-fastjson</module>
-    </modules>
-
 </project>

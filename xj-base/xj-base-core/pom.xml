@@ -5,11 +5,12 @@
     <parent>
         <artifactId>xj-base</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.0.1</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-base-core</artifactId>
+    <version>${xj-base-core.version}</version>
 
     <properties>
         <mybatis-plus-boot-starter.version>3.1.0</mybatis-plus-boot-starter.version>
@@ -17,14 +18,19 @@
         <dynamic-datasource-spring-boot-starter.version>2.5.4</dynamic-datasource-spring-boot-starter.version>
         <mysql-connector-java.version>8.0.16</mysql-connector-java.version>
         <druid-spring-boot-starter.version>1.1.22</druid-spring-boot-starter.version>
-        <cglib.version>3.2.4</cglib.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-util-core</artifactId>
+            <version>${xj-util-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
             <artifactId>xj-doc-swagger2</artifactId>
-            <version>0.0.1</version>
+            <version>${xj-doc-swagger2.version}</version>
         </dependency>
         <!-- mybatyis-plus  -->
         <dependency>
@@ -57,11 +63,6 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid-spring-boot-starter.version}</version>
         </dependency>
-        <!-- cglib -->
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>${cglib.version}</version>
-        </dependency>
+
     </dependencies>
 </project>

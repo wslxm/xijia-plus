@@ -31,11 +31,9 @@ public interface BaseIService<M extends BaseMapper<T>, T> { //, Dao extends Base
 
     boolean saveBatch(Collection<T> entityList, int batchSize);
 
-
     boolean saveOrUpdateBatch(Collection<T> entityList);
 
     boolean saveOrUpdateBatch(Collection<T> entityList, int batchSize);
-
 
     boolean removeById(Serializable id);
 

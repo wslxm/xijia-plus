@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0.0
  */
 @RestController
-@RequestMapping("/api/wx/mq")
+@RequestMapping("/api/open/wx/mq")
 @Api(value = "WeChetH5AuthController", tags = "WX  -->  微信网页授权")
 public class WeChetH5AuthController {
 

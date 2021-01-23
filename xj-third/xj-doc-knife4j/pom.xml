@@ -5,12 +5,12 @@
     <parent>
         <artifactId>xj-third</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.0.1</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-doc-knife4j</artifactId>
-
+    <version>${xj-doc-knife4j.version}</version>
 
     <properties>
         <knife4j-spring-boot-starter.version>2.0.6</knife4j-spring-boot-starter.version>

@@ -5,18 +5,18 @@
     <parent>
         <artifactId>xj-base</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.0.1</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-base-result</artifactId>
-
+    <version>${xj-base-result.version}</version>
 
     <dependencies>
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-doc-swagger2</artifactId>
-            <version>0.0.1</version>
+            <version>${xj-doc-swagger2.version}</version>
         </dependency>
         <!-- 获取数据库异常类 -->
         <dependency>

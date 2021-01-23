@@ -23,14 +23,15 @@ import java.util.List;
  * @mail 1720696548@qq.com
  * @date 2020/7/5 0005 19:13
  */
-@SuppressWarnings("ALL")
+@SuppressWarnings("all")
 @Slf4j
 public class JwtUtil {
 
-    private static final String SUBJECT = "xijia";         // 主题
-    private static final String APPSECRET_KEY = "xijia";   // 加密key（黑客没有该值无法篡改token内容）
-    private static final String AUTH_CLAIMS = "auth";      // 用户权限key
-    private static final String AUTH_USER = "user";        // 用户信息key
+    private static final String SUBJECT = "xijia";              // 主题
+    private static final String APPSECRET_KEY = "xijia-!@#$";   // 加密key（黑客没有该值无法篡改token内容）
+    private static final String AUTH_CLAIMS = "auth";           // 用户权限key
+    private static final String AUTH_USER = "user";             // 用户信息key
+
 
     /**
      * jwt的token有效期
@@ -46,8 +47,6 @@ public class JwtUtil {
     public static final Integer[] userType = {0, 1};
     // 过期时间 管理端 | 用户端
     private static final Long[] expirition = {1000L * 60 * 30, 1000L * 60 * 60 * 24 * 15};
-
-
 
 
     /**
@@ -92,7 +91,7 @@ public class JwtUtil {
     /**
      * 获取用户信息（自动区分登录类型--生成jwt时指定, jwtUser的type ）
      *  <P>
-     *       此方法用于在项目中的任意地方获取用户信息，如果在登录授权验证中未过期， 但在项目使用时过期, 会在这里抛出自定义异常，程序中无需判断
+     *     此方法用于在项目中的任意地方获取用户信息，如果在登录授权验证中未过期， 但在项目使用时过期, 会在这里抛出自定义异常，程序中无需判断
      *  </P>
      * @param token
      * @return

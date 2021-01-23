@@ -5,12 +5,12 @@
     <parent>
         <artifactId>xj-third</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.0.1</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-api-qiniu-oss</artifactId>
-
+    <version>${xj-api-qiniu-oss.version}</version>
     <properties>
         <qiniu-java-sdk.version>7.2.13</qiniu-java-sdk.version>
     </properties>
@@ -19,17 +19,17 @@
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-result</artifactId>
-            <version>0.0.1</version>
+            <version>${xj-base-result.version}</version>
         </dependency>
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-util-fastjson</artifactId>
-            <version>0.0.1</version>
+            <version>${xj-base-result.version}</version>
         </dependency>
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-doc-swagger2</artifactId>
-            <version>0.0.1</version>
+            <version>${xj-base-result.version}</version>
         </dependency>
 
         <!-- 七牛云oss -->

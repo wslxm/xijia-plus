@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(value = "AliSmsController", tags = "AliYun  --> SMS短信服务")
-@RequestMapping("/api/aliSms")
+@RequestMapping("/api/open/aliSms")
 @Slf4j
 public class AliSmsController {
 

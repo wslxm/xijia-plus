@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ws.ldy.modules.third.kuaidi.kuaidi100.service.KuaiDi100Service;
 
 @RestController
-@RequestMapping( "/api/kuaidi100/")
+@RequestMapping( "/api/open/kuaidi100/")
 @Api(value = "KuaiDi100Controller", tags = "KuaiDi  -->  快递100")
 public class KuaiDi100Controller {
 

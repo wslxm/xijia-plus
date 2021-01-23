@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xj-server</artifactId>
+        <groupId>com.ws.ldy</groupId>
+        <version>${revision}</version>
+    <!--    <relativePath>../pom.xml</relativePath>-->
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>xj-admin-server</artifactId>
+    <version>${xj-admin-server.version}</version>
+    <name>xj-server-admin-${xj-admin-server.version}</name>
+    <packaging>pom</packaging>
+
+    <properties>
+        <!-- 工具 -->
+        <commons-lang3.version>3.9</commons-lang3.version>
+        <hutool-all.version>5.4.7</hutool-all.version>
+    </properties>
+    <dependencies>
+        <!--  ================ 自定义模块 start  ==================  -->
+        <!-- 核心组件 -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-base-core</artifactId>
+            <version>${xj-base-core.version}</version>
+        </dependency>
+        <!-- 统一返回 -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-base-result</artifactId>
+            <version>${xj-base-result.version}</version>
+        </dependency>
+        <!-- 核心组件 -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-base-jwt</artifactId>
+            <version>${xj-base-jwt.version}</version>
+        </dependency>
+        <!-- fastjson -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-util-fastjson</artifactId>
+            <version>${xj-util-fastjson.version}</version>
+        </dependency>
+        <!-- 阿里云oss -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-api-aliyun-oss</artifactId>
+            <version>${xj-api-aliyun-oss.version}</version>
+        </dependency>
+        <!-- 阿里云sms -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-api-aliyun-sms</artifactId>
+            <version>${xj-api-aliyun-sms.version}</version>
+        </dependency>
+        <!-- 微信支付  -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-api-wx-pay</artifactId>
+            <version>${xj-api-wx-pay.version}</version>
+        </dependency>
+        <!-- swagger2  -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-doc-swagger2</artifactId>
+            <version>${xj-doc-swagger2.version}</version>
+        </dependency>
+        <!-- swagger2-ui -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-doc-swagger2-ui</artifactId>
+            <version>${xj-doc-swagger2-ui.version}</version>
+        </dependency>
+        <!-- knife4j-ui -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-doc-knife4j</artifactId>
+            <version>${xj-doc-knife4j.version}</version>
+        </dependency>
+        <!-- poi组件  -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-util-poi</artifactId>
+            <version>${xj-util-poi.version}</version>
+        </dependency>
+        <!-- springBootAdmin 监控中心 -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-fw-boot-admin</artifactId>
+            <version>${xj-fw-boot-admin.version}</version>
+        </dependency>
+
+        <!-- websocket -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-fw-websocket</artifactId>
+            <version>${xj-fw-websocket.version}</version>
+        </dependency>
+
+
+        <!--  ================ 自定义模块 end  ==================  -->
+        <!-- aop -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!--解析html包-thymeleaf -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <!-- ======================================================= -->
+        <!-- =============== 以下版本为手动引入 ======================= -->
+        <!-- ======================================================= -->
+
+        <!-- Hutool是一个小而全的Java工具类库  -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool-all.version}</version>
+        </dependency>
+        <!--  commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+
+        <!-- jsonObject 支持  -->
+<!--        <dependency>-->
+<!--            <groupId>net.sf.json-lib</groupId>-->
+<!--            <artifactId>json-lib</artifactId>-->
+<!--            <version>${json-lib.version}</version>-->
+<!--            <classifier>jdk15</classifier>-->
+<!--        </dependency>-->
+    </dependencies>
+    <build>
+        <!-- 打包后的 jar名称 -->
+        <finalName>xijia-server</finalName>
+        <plugins>
+            <!-- 打包 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <!-- 多环境配置 -->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <!-- 环境标识，需要与配置文件的名称相对应 -->
+            <properties>
+                <profiles.active>dev</profiles.active>
+            </properties>
+            <!-- 默认环境 -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>pro</id>
+            <properties>
+                <profiles.active>pro</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+</project>

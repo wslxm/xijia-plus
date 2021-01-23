@@ -6,29 +6,113 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.0.RELEASE</version>
-        <relativePath />
-        <!--<relativePath/>--> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
-
 
     <groupId>com.ws.ldy</groupId>
     <artifactId>spring-boot-plus2</artifactId>
-    <version>0.0.1</version>
-    <name>spring-boot-plus2</name>
+    <version>${revision}</version>
+    <name>spring-boot-plus2-${revision}</name>
     <packaging>pom</packaging>
     <description>Demo project for Spring Boot</description>
 
     <modules>
+        <!-- 代码 -->
+        <module>xj-server</module>
+        <module>xj-server/xj-admin-server</module>
+        <module>xj-server/xj-admin-ui</module>
+        <!-- 功能集成 -->
         <module>xj-third</module>
-        <module>xj-api</module>
+        <module>xj-third/xj-api-aliyun-oss</module>
+        <module>xj-third/xj-api-aliyun-sms</module>
+        <module>xj-third/xj-api-qiniu-oss</module>
+        <module>xj-third/xj-api-wx-mq</module>
+        <module>xj-third/xj-api-wx-app</module>
+        <module>xj-third/xj-api-wx-pay</module>
+        <module>xj-third/xj-api-baidu</module>
+        <module>xj-third/xj-api-kuaidi-kuaidi100</module>
+        <module>xj-third/xj-api-kuaidi-sf</module>
+        <module>xj-third/xj-doc-swagger2</module>
+        <module>xj-third/xj-doc-swagger2-ui</module>
+        <module>xj-third/xj-doc-knife4j</module>
+        <module>xj-third/xj-fw-websocket</module>
+        <module>xj-third/xj-fw-redis</module>
+        <module>xj-third/xj-fw-boot-admin</module>
+        <!--核心模块-->
         <module>xj-base</module>
+        <module>xj-base/xj-base-result</module>
+        <module>xj-base/xj-base-core</module>
+        <module>xj-base/xj-base-jwt</module>
+        <!--工具集 -->
+        <module>xj-utils</module>
+        <module>xj-utils/xj-util-core</module>
+        <module>xj-utils/xj-util-poi</module>
+        <module>xj-utils/xj-util-qrcode</module>
+        <module>xj-utils/xj-util-fastjson</module>
     </modules>
 
-    <properties>
 
+    <properties>
+        <!-- ================== 内部jar版本START ===================== -->
+        <!-- 架构版本 RELEASE=正式版 SNAPSHOT=开发版(实时刷新jar依赖) -->
+        <revision>0.0.9-SNAPSHOT</revision>
+
+        <!-- 项目代码版本 -->
+        <xj-server.version>${revision}</xj-server.version>
+        <xj-admin-server.version>0.0.9</xj-admin-server.version>
+        <xj-admin-ui.version>0.0.9</xj-admin-ui.version>
+
+        <!-- 系统核心包 -->
+        <xj-base-core.version>0.0.1</xj-base-core.version>
+        <xj-base-jwt.version>0.0.1</xj-base-jwt.version>
+        <xj-base-result.version>0.0.1</xj-base-result.version>
+        <!-- 系统第三方集成 -->
+        <xj-api-aliyun-oss.version>0.0.1</xj-api-aliyun-oss.version>
+        <xj-api-aliyun-sms.version>0.0.1</xj-api-aliyun-sms.version>
+        <xj-api-baidu.version>0.0.1</xj-api-baidu.version>
+        <xj-api-kuaidi-kuaidi100.version>0.0.1</xj-api-kuaidi-kuaidi100.version>
+        <xj-api-kuaidi-sf.version>0.0.1</xj-api-kuaidi-sf.version>
+        <xj-api-qiniu-oss.version>0.0.1</xj-api-qiniu-oss.version>
+        <xj-api-wx-app.version>0.0.1</xj-api-wx-app.version>
+        <xj-api-wx-mq.version>0.0.1</xj-api-wx-mq.version>
+        <xj-api-wx-pay.version>0.0.1</xj-api-wx-pay.version>
+        <xj-doc-knife4j.version>0.0.1</xj-doc-knife4j.version>
+        <xj-doc-swagger2.version>0.0.1</xj-doc-swagger2.version>
+        <xj-doc-swagger2-ui.version>0.0.1</xj-doc-swagger2-ui.version>
+        <xj-fw-boot-admin.version>0.0.1</xj-fw-boot-admin.version>
+        <xj-fw-redis.version>0.0.1</xj-fw-redis.version>
+        <xj-fw-websocket.version>0.0.1</xj-fw-websocket.version>
+        <!-- 系统工具包 -->
+        <xj-util-core.version>0.0.1</xj-util-core.version>
+        <xj-util-fastjson.version>0.0.1</xj-util-fastjson.version>
+        <xj-util-poi.version>0.0.1</xj-util-poi.version>
+        <xj-util-qrcode.version>0.0.1</xj-util-qrcode.version>
+        <!-- ================== 内部jar版本END ======================= -->
+
+
+        <!-- ================== 编码环境 START ======================= -->
+        <!-- 文件拷贝时的编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- 编译时的编码 -->
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <!-- jdk 版本-->
+        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+        <!-- ================== 编码环境 END ======================= -->
     </properties>
 
+
+    <!-- 核心jar -->
     <dependencies>
+        <!-- 热部署，开发使用-打包前请注释 -->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-devtools</artifactId>-->
+        <!--            <optional>false</optional>-->
+        <!--        </dependency>  -->
         <!-- spring-mvc -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -40,15 +124,11 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-
         <!-- spring-boot-starter-test -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
+        <!--  <dependency> -->
+        <!--      <groupId>org.springframework.boot </groupId>-->
+        <!--      <artifactId>spring-boot-starter-test </artifactId>-->
+        <!--      <scope>test</scope>-->
+        <!--  </dependency> -->
     </dependencies>
-
-
 </project>

@@ -5,17 +5,12 @@
     <parent>
         <artifactId>spring-boot-plus2</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.0.1</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-base</artifactId>
+    <name>xj-base-${revision}</name>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>xj-base-result</module>
-        <module>xj-base-core</module>
-        <module>xj-base-idempotent</module>
-        <module>xj-base-jwt</module>
-    </modules>
 </project>
