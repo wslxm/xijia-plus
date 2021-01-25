@@ -5,13 +5,13 @@
     <parent>
         <artifactId>xj-server</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>${revision}</version>
+        <version>0.0.9-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-admin-server</artifactId>
     <version>${xj-admin-server.version}</version>
-    <name>xj-server-admin-${xj-admin-server.version}</name>
+    <!--  <name>xj-admin-server-${xj-admin-server.version}</name>-->
     <packaging>jar</packaging>
 
     <properties>

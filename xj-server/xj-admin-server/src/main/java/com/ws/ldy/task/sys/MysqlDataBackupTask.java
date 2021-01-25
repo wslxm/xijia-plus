@@ -9,6 +9,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributeView;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 
 /**
@@ -34,9 +43,14 @@ public class MysqlDataBackupTask {
     String filePath = "File/sql/";
 
     /**
+     * 备份sql保留天(自动删除历史备份文件,防止服务器资源占用)
+     */
+    int retentionDays = 1;
+
+    /**
      * 数据库版本是否为 8.0 + （false=否  true=是）， mysql8+ 需要参数  --column-statistics=0  ， mysql8- 不需要
      */
-    Boolean isDbVersion8 = false;
+    boolean isDbVersion8 = true;
 
     /**
      * 备份命令
@@ -50,8 +64,8 @@ public class MysqlDataBackupTask {
      * cmd ：            不压缩 (本地或服务器需安装 mysqldump 命令(安装mysql自带患独立安装)
      * --column-statistics=0     mysql8 添加该参数, 非mysql8 不添加, 否则将出错
      */
-    String cmdMysql8 = "mysqldump --column-statistics=0  -u{USERNAME} -p{PASSWORD} -h{SERVERPATH} -P3306 --databases {DBNAME}"; //  > {FILEPATH}.sql
-    String cmd = "mysqldump  -u{USERNAME} -p{PASSWORD} -h{SERVERPATH} -P3306 --databases {DBNAME}";      //  > {FILEPATH}.sql
+    String cmdMysql8 = "mysqldump --column-statistics=0  -u{USERNAME} -p{PASSWORD} -h{SERVERPATH} -P3306 --databases {DBNAME}";
+    String cmd = "mysqldump  -u{USERNAME} -p{PASSWORD} -h{SERVERPATH} -P3306 --databases {DBNAME}";
 
 
     @Value("${spring.datasource.dynamic.datasource.db1.url}")
@@ -71,18 +85,17 @@ public class MysqlDataBackupTask {
     @Scheduled(cron = "0 0 4 1/1 * ?")
     private void configureTasks() {
         log.info("【备份数据库】--START");
-        String dbUrl2 = dbUrl.replace("jdbc:mysql://", "");
+        // 1、删除历史备份
+        this.delBackupFile();
 
-        // 获取数据库名称
+        // 2、获取数据连接信息 -> 数据库名称+地址+账号+密码
+        String dbUrl2 = dbUrl.replace("jdbc:mysql://", "");
         String dbName = dbUrl2.substring(dbUrl2.lastIndexOf("/") + 1, dbUrl2.indexOf("?"));
-        // 获取数据库地址
         String serverPath = dbUrl2.substring(0, dbUrl2.lastIndexOf("/"));
-        // 数据库账号
         String username = dbUserName;
-        // 数据库密码
         String password = dbPassWord;
 
-        // 备份文件目录+名称  备份文件存放目录+名称(名称 = 数据库名+时间字符串.sql)
+        // 3、拼接备份文件目录+名称(备份文件存放目录+名称(名称 = 数据库名+时间字符串.sql)
         String timeStr = LocalDateTimeUtil.parse(LocalDateTimeUtil.now())
                 .replaceAll("-", "_")
                 .replaceAll(" ", "_")
@@ -95,13 +108,14 @@ public class MysqlDataBackupTask {
         } else {
             newCmd = cmd;
         }
-        // 执行命令
-        newCmd =  newCmd.replace("{USERNAME}", username)
+        // 4、获取执行命令
+        newCmd = newCmd.replace("{USERNAME}", username)
                 .replace("{PASSWORD}", password)
                 .replace("{SERVERPATH}", serverPath)
                 .replace("{DBNAME}", dbName)
                 .replace("{FILEPATH}", pathFileName);
-        System.out.println(newCmd);
+        log.info("当前执行命令: {}", newCmd);
+        // 5、开始备份
         PrintWriter printWriter = null;
         BufferedReader bufferedReader = null;
         try {
@@ -110,12 +124,12 @@ public class MysqlDataBackupTask {
             printWriter = new PrintWriter(new OutputStreamWriter(new FileOutputStream(pathFileName), "utf8"));
             Process process = null;
             String property = System.getProperty("os.name");
-            System.out.println(property);
+            log.info("当前系统: {}", property);
             if (property.indexOf("Linux") != -1) {
                 // linux
                 process = Runtime.getRuntime().exec(new String[]{"bash", "-c", newCmd});
             } else {
-                // 本地win
+                // win
                 process = Runtime.getRuntime().exec(newCmd);
             }
             InputStreamReader inputStreamReader = new InputStreamReader(process.getInputStream(), "utf8");
@@ -124,12 +138,11 @@ public class MysqlDataBackupTask {
             while ((line = bufferedReader.readLine()) != null) {
                 printWriter.println(line);
             }
-            // 此次会执行过长时间,直到备份完成
+            // 此除会执行过长时间,直到备份完成
             printWriter.flush();
             printWriter.close();
-            //0 表示线程正常终止。
+            //0 表示线程正常终止
             if (process.waitFor() == 0) {
-                // 线程正常执行
                 log.info("【备份数据库】SUCCESS，SQL文件：{}", pathFileName);
             }
         } catch (Exception e) {
@@ -164,6 +177,65 @@ public class MysqlDataBackupTask {
                 file.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+
+    /**
+     * 删除n天前的备份数据
+     */
+    private void delBackupFile() {
+        LocalDateTime startTime = LocalDateTimeUtil.parse("2021-01-01 00:00:00");
+        LocalDateTime endTime = LocalDateTimeUtil.subtract(LocalDateTime.now(), retentionDays, ChronoUnit.DAYS);
+        this.delete(filePath, LocalDateTimeUtil.parseDate(startTime), LocalDateTimeUtil.parseDate(endTime));
+    }
+
+
+    /**
+     * 删除指定的创建时间范围内的所有文件
+     * @author wangsong
+     * @param dirs   文件夹目录
+     * @param date1  开始时间
+     * @param date2  结束时间
+     * @date 2021/1/25 0025 17:22
+     * @return void
+     * @version 1.0.0
+     */
+    private void delete(String dirs, Date date1, Date date2) {
+        File dir = new File(dirs);
+        File[] list = dir.listFiles();
+        if (list == null || list.length == 0) {
+            return;
+        }
+        for (File file : list) {
+            if (file.isDirectory()) {
+                if (file.list().length > 0) {
+                    delete(file.getAbsolutePath(), date1, date2);
+                }
+            } else {
+                Path p = Paths.get(file.getPath());
+                //通过文件的属性来获取文件的创建时间
+                BasicFileAttributeView basicview = Files.getFileAttributeView(p, BasicFileAttributeView.class, LinkOption.NOFOLLOW_LINKS);
+                BasicFileAttributes attr;
+                try {
+                    attr = basicview.readAttributes();
+                    Date CreateTimeDate = new Date(attr.creationTime().toMillis());
+                    // DateFormat usdf = new SimpleDateFormat("EEE MMM dd
+                    // HH:mm:ss zzz yyyy", Locale.US);
+                    // Date date = usdf.parse(CreateTimeDate.toString());
+                    // String fileTime = df.format(date);
+                    // Date fileTimes = df.parse(fileTime);
+                    // if (date1.getTime() <= file.lastModified() &&
+                    // file.lastModified() <= date2.getTime()) {
+                    // }//这部分为文件的最后修改时间
+                    if (date1.getTime() <= CreateTimeDate.getTime() && CreateTimeDate.getTime() <= date2.getTime()) {
+                        log.info("删除备份sql文件: {}", file.getName());
+                        file.delete();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

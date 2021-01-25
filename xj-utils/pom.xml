@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.ws.ldy</groupId>
         <artifactId>spring-boot-plus2</artifactId>
-        <version>${revision}</version>
+        <version>0.0.9-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-utils</artifactId>
-    <name>xj-utils-${revision}</name>
+    <name>xj-utils</name>
     <packaging>pom</packaging>
 </project>
