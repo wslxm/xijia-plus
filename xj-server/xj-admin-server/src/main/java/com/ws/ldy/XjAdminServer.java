@@ -1,7 +1,6 @@
 package com.ws.ldy;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
-import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +18,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
 @MapperScan({"com.ws.ldy.modules.*.*.mapper"})
-@EnableAdminServer     // springbootAdmin
+//@EnableAdminServer     // springbootAdmin
 //@ServletComponentScan
 public class XjAdminServer {
 

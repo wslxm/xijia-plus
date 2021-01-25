@@ -4,8 +4,12 @@ package com.ws.ldy.modules.third.wechat.mq.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.modules.third.wechat.mq.config.WxMqProperties;
 import com.ws.ldy.modules.third.wechat.mq.config.WxMqUrl;
+import com.ws.ldy.modules.third.wechat.mq.entity.WxAccessTokenVO;
+import com.ws.ldy.modules.third.wechat.mq.entity.WxUserInfoVO;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +21,9 @@ import java.net.URLEncoder;
 
 /**
  * 微信 H5网页授权
+ * <P>
+ *    获取微信用户信息(必须用户手动确认)
+ * </P>
  * @author wangsong
  * @date 2020/9/22 0022 11:49
  * @return
@@ -24,7 +31,7 @@ import java.net.URLEncoder;
  */
 @Service
 @Slf4j
-public class WeChetH5AuthUtil {
+public class WxMqH5AuthUtil {
 
 
     //rpc
@@ -33,7 +40,6 @@ public class WeChetH5AuthUtil {
 
     @Autowired
     private WxMqProperties wxMqProperties;
-
 
     /**
      * 获取 url连接,前端获取后再微信中调用 可立即调起授权, 并触发  /weChatAuthCallback 接口,
@@ -75,7 +81,7 @@ public class WeChetH5AuthUtil {
 
 
     /**
-     * 通过code 获取用户openId
+     *  通过code获取 accessToken, 此接口会获取用户openId + accessToken
      *  <P>
      *     成功回调
      *    {
@@ -93,46 +99,74 @@ public class WeChetH5AuthUtil {
      * @return java.lang.String
      * @version 1.0.0
      */
-    public R<String> getOpenId(String code) {
-        // 根据code获取access_token和openId
+    public R<WxAccessTokenVO> getAccessToken(String code) {
+        // 拼接url
         String url = WxMqUrl.AuthUrl.AUTH_ACCESS_TOKEN_URL
                 .replace("APPID", wxMqProperties.getAppId())
                 .replace("SECRET", wxMqProperties.getSecret())
                 .replace("CODE", code);
+
+        // 发起请求
         ResponseEntity<String> forEntity = restTemplate.getForEntity(url, String.class);
+
+        // 处理结果并返回
         JSONObject jsonObject = JSON.parseObject(forEntity.getBody());
-        // 判断是否请求成功
         Object errcode = jsonObject.get("errcode");
         if (errcode != null) {
             log.info(forEntity.getBody());
             return R.error(Integer.valueOf(errcode.toString()), jsonObject.get("errmsg").toString());
         }
-        // TODO 处理refresh_token: 错误时, access_token 有效期为2小时, 暂不获取用户信息, 无需处理
+        //
+        WxAccessTokenVO wxAccessTokenVO = JSON.parseObject(jsonObject.toJSONString(), WxAccessTokenVO.class);
         // 返回 openId
-        return R.success(jsonObject.get("openid").toString());
+        return R.success(wxAccessTokenVO);
+    }
+
+
+    /**
+     * 获取用户信息
+     * @author wangsong
+     * @param code  传递code
+     * @date 2020/9/22 0022 11:40
+     * @return com.alibaba.fastjson.JSONObject
+     * @version 1.0.0
+     */
+    @SneakyThrows
+    public R<WxUserInfoVO> getUserInfo(String code) {
+        // 1、获取openId 和 accessToken
+        R<WxAccessTokenVO> wxAccessTokenVOData = this.getAccessToken(code);
+        if (!wxAccessTokenVOData.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+            return R.error(wxAccessTokenVOData.getCode(), wxAccessTokenVOData.getMsg());
+        }
+        String accessToken = wxAccessTokenVOData.getData().getAccess_token();
+        String openId = wxAccessTokenVOData.getData().getOpenid();
+
+        // 2、拼接url
+        String url = WxMqUrl.AuthUrl.AUTH_USER_INFO_URL
+                .replace("ACCESS_TOKEN", accessToken)
+                .replace("OPENID", openId);
+
+        // 3、发起请求(并处理返回数据乱码问题))
+        ResponseEntity<String> forEntity = restTemplate.getForEntity(url, String.class);
+        String resJson = new String(forEntity.getBody().getBytes("ISO-8859-1"), "UTF-8");
+        JSONObject jsonObject = JSON.parseObject(resJson);
+
+        // 4、处理结果并返回 | 成功返回 { "errcode":0,"errmsg":"ok"}
+        Object errcode = jsonObject.get("errcode");
+        if (errcode != null) {
+            log.info(forEntity.getBody());
+            return R.error(Integer.valueOf(errcode.toString()), jsonObject.get("errmsg").toString());
+        }
+        WxUserInfoVO wxUserInfoVO = JSON.parseObject(jsonObject.toJSONString(), WxUserInfoVO.class);
+        return R.success(wxUserInfoVO);
     }
 
 
 //    /**
-//     * 获取用户信息
-//     * @author wangsong
-//     * @param accessToken
-//     * @param openId
-//     * @date 2020/9/22 0022 11:40
-//     * @return com.alibaba.fastjson.JSONObject
-//     * @version 1.0.0
-//     */
-//    public JSONObject getUserInfo(String accessToken, String openId) {
-//        //TODO 暂不需要
-//        String url = WxChatConstant.Url.AUTH_USER_INFO_URL.replace("ACCESS_TOKEN", accessToken).replace("OPENID", openId);
-//        return null;
-//    }
-//
-//    /**
 //     * 刷新token-有效期30天
 //     */
 //    public String refreshToken(String refresh_token) {
-//        //TODO 暂不需要
+//        //暂不需要
 //        return null;
 //    }
 }

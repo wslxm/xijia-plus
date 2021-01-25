@@ -4,12 +4,16 @@ package com.ws.ldy.modules.third.wechat.mq.entity;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 /**
  * 推送的微信公众信息的每一个 {{}} 值的内容和颜色封装
+ * @author ws
  */
 @Data
 @ToString
-public class WeChatTemplateMsg {
+public class WeChatTemplateMsg implements Serializable {
+    private static final long serialVersionUID = 6635393516043102339L;
     /**
      * 消息
      */

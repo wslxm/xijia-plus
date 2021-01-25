@@ -11,6 +11,7 @@
 
     <artifactId>xj-doc-swagger2-ui</artifactId>
     <version>${xj-doc-swagger2-ui.version}</version>
+
     <properties>
         <springfox-swagger2-ui.version>2.9.2</springfox-swagger2-ui.version>
     </properties>

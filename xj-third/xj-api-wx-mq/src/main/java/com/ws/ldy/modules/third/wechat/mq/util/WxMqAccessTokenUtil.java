@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @Component
 @Slf4j
-public class WeChetAccessTokenUtil {
+public class WxMqAccessTokenUtil {
 
 
     //rpc

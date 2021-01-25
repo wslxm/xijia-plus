@@ -24,7 +24,7 @@ import java.util.Map;
 public class WxMqTemplateMsgUtil {
 
     @Autowired
-    private WeChetAccessTokenUtil weChetAccessTokenUtil;
+    private WxMqAccessTokenUtil wxMqAccessTokenUtil;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -37,7 +37,7 @@ public class WxMqTemplateMsgUtil {
      * @param data
      */
     public R<String> sendMsg(String openId, String templateId, Map<String, WeChatTemplateMsg> data) {
-        R<String> accessTokenData = weChetAccessTokenUtil.getToken();
+        R<String> accessTokenData = wxMqAccessTokenUtil.getToken();
         if(!accessTokenData.getCode().equals(RType.SYS_SUCCESS.getValue())){
             return R.error(accessTokenData.getCode(),accessTokenData.getMsg());
         }

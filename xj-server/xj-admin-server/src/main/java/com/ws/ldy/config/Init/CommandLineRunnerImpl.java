@@ -45,13 +45,12 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        // ========== 启动信息配置参数打印 ========
+        getSuccessYellowBright();       // 启动成功图
         // 更新权限表数据
         adminAuthorityService.refreshAuthDB();
         // 更新权限缓存数据
         adminAuthorityService.refreshAuthCache();
-
-        // ========== 启动信息配置参数打印 ========
-        getSuccessYellowBright();       // 启动成功图
 //        aliYunOssProperties.println();       // 阿里云oss
 //        aliSmsUtil.println();                // 阿里云sms
 //        wxPayProperties.println();           // 微信支付

@@ -12,4 +12,11 @@
     <artifactId>xj-admin-ui</artifactId>
     <version>${xj-admin-ui.version}</version>
 
+    <dependencies>
+        <!-- 解析html包-thymeleaf -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+    </dependencies>
 </project>

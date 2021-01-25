@@ -11,7 +11,7 @@
  */
 
 ;(function(factory) {
-    "use strict";
+    use strict;
     
 	// CommonJS/Node.js
 	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")

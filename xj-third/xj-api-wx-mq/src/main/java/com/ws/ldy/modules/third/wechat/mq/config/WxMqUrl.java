@@ -74,7 +74,7 @@ public interface WxMqUrl {
 
 
         /**
-         * 4、刷新 access_token  有效期30天
+         * 4、刷新 access_token 有效期30天
          * 参数1：APPID  公众号的唯一标识
          * 参数2：SECRET 公众号的 appsecret
          * 参数3：CODE   填写第一步获取的code参数

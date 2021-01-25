@@ -4,7 +4,7 @@
 /**
  * Tag-closer extension for CodeMirror.
  *
- * This extension adds an "autoCloseTags" option that can be set to
+ * This extension adds an autoCloseTags option that can be set to
  * either true to get the default behavior, or an object to further
  * configure its behavior.
  *
@@ -26,42 +26,42 @@
  */
 
 (function(mod) {
-  if (typeof exports == "object" && typeof module == "object") // CommonJS
-    mod(require("../.."), require("../fold/xml-fold"));
-  else if (typeof define == "function" && define.amd) // AMD
-    define(["../..", "../fold/xml-fold"], mod);
+  if (typeof exports == object && typeof module == object) // CommonJS
+    mod(require(../..), require(../fold/xml-fold));
+  else if (typeof define == function && define.amd) // AMD
+    define([../.., ../fold/xml-fold], mod);
   else // Plain browser env
     mod(CodeMirror);
 })(function(CodeMirror) {
-  CodeMirror.defineOption("autoCloseTags", false, function(cm, val, old) {
+  CodeMirror.defineOption(autoCloseTags, false, function(cm, val, old) {
     if (old != CodeMirror.Init && old)
-      cm.removeKeyMap("autoCloseTags");
+      cm.removeKeyMap(autoCloseTags);
     if (!val) return;
-    var map = {name: "autoCloseTags"};
-    if (typeof val != "object" || val.whenClosing)
-      map["'/'"] = function(cm) { return autoCloseSlash(cm); };
-    if (typeof val != "object" || val.whenOpening)
-      map["'>'"] = function(cm) { return autoCloseGT(cm); };
+    var map = {name: autoCloseTags};
+    if (typeof val != object || val.whenClosing)
+      map['/'] = function(cm) { return autoCloseSlash(cm); };
+    if (typeof val != object || val.whenOpening)
+      map['>'] = function(cm) { return autoCloseGT(cm); };
     cm.addKeyMap(map);
   });
 
-  var htmlDontClose = ["area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param",
-                       "source", "track", "wbr"];
-  var htmlIndent = ["applet", "blockquote", "body", "button", "div", "dl", "fieldset", "form", "frameset", "h1", "h2", "h3", "h4",
-                    "h5", "h6", "head", "html", "iframe", "layer", "legend", "object", "ol", "p", "select", "table", "ul"];
+  var htmlDontClose = [area, base, br, col, command, embed, hr, img, input, keygen, link, meta, param,
+                       source, track, wbr];
+  var htmlIndent = [applet, blockquote, body, button, div, dl, fieldset, form, frameset, h1, h2, h3, h4,
+                    h5, h6, head, html, iframe, layer, legend, object, ol, p, select, table, ul];
 
   function autoCloseGT(cm) {
-    if (cm.getOption("disableInput")) return CodeMirror.Pass;
+    if (cm.getOption(disableInput)) return CodeMirror.Pass;
     var ranges = cm.listSelections(), replacements = [];
     for (var i = 0; i < ranges.length; i++) {
       if (!ranges[i].empty()) return CodeMirror.Pass;
       var pos = ranges[i].head, tok = cm.getTokenAt(pos);
       var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
-      if (inner.mode.name != "xml" || !state.tagName) return CodeMirror.Pass;
+      if (inner.mode.name != xml || !state.tagName) return CodeMirror.Pass;
 
-      var opt = cm.getOption("autoCloseTags"), html = inner.mode.configuration == "html";
-      var dontCloseTags = (typeof opt == "object" && opt.dontCloseTags) || (html && htmlDontClose);
-      var indentTags = (typeof opt == "object" && opt.indentTags) || (html && htmlIndent);
+      var opt = cm.getOption(autoCloseTags), html = inner.mode.configuration == html;
+      var dontCloseTags = (typeof opt == object && opt.dontCloseTags) || (html && htmlDontClose);
+      var indentTags = (typeof opt == object && opt.indentTags) || (html && htmlIndent);
 
       var tagName = state.tagName;
       if (tok.end > pos.ch) tagName = tagName.slice(0, tagName.length - tok.end + pos.ch);

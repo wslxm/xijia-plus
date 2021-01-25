@@ -44,9 +44,7 @@ public class CustomSwaggerParameterBuilder implements ExpandedParameterBuilderPl
     private final EnumTypeDeterminer enumTypeDeterminer;
 
     @Autowired
-    public CustomSwaggerParameterBuilder(
-            DescriptionResolver descriptions,
-            EnumTypeDeterminer enumTypeDeterminer) {
+    public CustomSwaggerParameterBuilder(DescriptionResolver descriptions, EnumTypeDeterminer enumTypeDeterminer) {
         this.descriptions = descriptions;
         this.enumTypeDeterminer = enumTypeDeterminer;
     }
