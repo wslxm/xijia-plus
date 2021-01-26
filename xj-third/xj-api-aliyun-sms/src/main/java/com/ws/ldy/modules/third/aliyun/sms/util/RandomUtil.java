@@ -24,7 +24,6 @@ public class RandomUtil {
      */
     public static String code(Integer len) {
         String code = "";
-
         for (int i = 0; i < len; i++) {
             code += x.nextInt(10);
         }

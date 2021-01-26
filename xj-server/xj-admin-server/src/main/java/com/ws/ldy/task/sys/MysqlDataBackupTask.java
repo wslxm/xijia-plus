@@ -49,8 +49,9 @@ public class MysqlDataBackupTask {
 
     /**
      * 数据库版本是否为 8.0 + （false=否  true=是）， mysql8+ 需要参数  --column-statistics=0  ， mysql8- 不需要
+     * 查询当前mysql版本sql语句：select version();
      */
-    boolean isDbVersion8 = true;
+    boolean isDbVersion8 = false;
 
     /**
      * 备份命令
@@ -59,9 +60,7 @@ public class MysqlDataBackupTask {
      * SERVERPATH 服务器IP/域名
      * DBNAME     数据库名称
      * FILEPATH   备份文件存放地址+名称
-     * 说明
-     * cmdCompression ： 需压缩 （本地或服务器需安装 mysqldump 命令(安装mysql自带患独立安装) +  gzip 命令(独立安装)）
-     * cmd ：            不压缩 (本地或服务器需安装 mysqldump 命令(安装mysql自带患独立安装)
+     * 说明:
      * --column-statistics=0     mysql8 添加该参数, 非mysql8 不添加, 否则将出错
      */
     String cmdMysql8 = "mysqldump --column-statistics=0  -u{USERNAME} -p{PASSWORD} -h{SERVERPATH} -P3306 --databases {DBNAME}";

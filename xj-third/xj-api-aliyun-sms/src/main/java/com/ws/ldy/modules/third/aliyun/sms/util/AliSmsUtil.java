@@ -11,10 +11,16 @@ import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.ws.ldy.common.result.R;
-import com.ws.ldy.modules.third.aliyun.sms.smsConstant.SmsCache;
+import com.ws.ldy.common.result.RType;
+import com.ws.ldy.modules.third.aliyun.sms.smsConstant.SmsCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 阿里云短信工具类
@@ -26,41 +32,16 @@ import org.springframework.stereotype.Component;
 @SuppressWarnings("all")
 @Slf4j
 @Component
+//@Data
 public class AliSmsUtil {
 
-    public static final String product = "Dysmsapi";
-    public static final String domain = "dysmsapi.aliyuncs.com";
-
-    // 默认配置,如果yml配置了，将覆盖默认配置
-    public static String accessKeyId ;
-    public static String accessKeySecret ;
-
+    public final String product = "Dysmsapi";
+    public final String domain = "dysmsapi.aliyuncs.com";
 
     @Value("${aliyun.sms.accessKeyId}")
-    public void setAccessKeyId(String accessKeyId) {
-        AliSmsUtil.accessKeyId = accessKeyId;
-    }
-
+    public String accessKeyId;
     @Value("${aliyun.sms.accessKeySecret}")
-    public void setAccessKeySecret(String accessKeySecret) {
-        AliSmsUtil.accessKeySecret = accessKeySecret;
-    }
-
-
-//    /**
-//     * 打印配置信息
-//     */
-//    public void println() {
-//        System.out.println();
-//        log.info(ConsoleColors.YELLOW_BRIGHT +
-//                "\r\n" +
-//                "|---      阿里云SMS配置    ---| \r\n" +
-//                "|  accessKeyId: {} \r\n" +
-//                "|  accessKeySecret: {} \r\n" +
-//                "| ----------------------------------|"
-//                + ConsoleColors.RESET, accessKeyId, accessKeySecret);
-//    }
-
+    public String accessKeySecret;
 
     /**
      * 发送短信
@@ -73,7 +54,7 @@ public class AliSmsUtil {
      * @return boolean
      * @version 1.0.0
      */
-    public static boolean sendMsg(String phones, String SignName, String templateCode, String templateParam) {
+    public boolean sendMsg(String phones, String SignName, String templateCode, String templateParam) {
         DefaultProfile profile = DefaultProfile.getProfile(product, accessKeyId, accessKeySecret);
         IAcsClient client = new DefaultAcsClient(profile);
         CommonRequest request = new CommonRequest();
@@ -101,43 +82,85 @@ public class AliSmsUtil {
         return true;
     }
 
+
+    //===================================================================================
+    //============================== 短信验证码start =====================================
+    //===================================================================================
+
     /**
-     * 验证短信的验证码是否有效和过期（该方法为业务层调用方法）
+     * 手机验证码缓存, key=手机号
+     */
+    public Map<String, SmsCode> smsCache = new ConcurrentHashMap<>();
+    /**
+     * 短信验证码有效期(5分钟)
+     */
+    public final Long SMS_VALID_PERIOD = 1000 * 60 * 5L;
+
+    public Map<String, SmsCode> getSmsCache() {
+        return smsCache;
+    }
+
+
+    /**
+     * 短信模板一.1：发送短信验证码 (发送6位数的验证码)
+     * @param phone
+     * @param type 1=正式短信 2=测试短信
+     * @return
+     * <P>
+     *  正确code 返回200, data = 验证码
+     *  错误code 不等于200, msg返回对应的错误信息
+     * </P>
+     */
+    public R<String> sendTest(String phone, Integer type) {
+        // 拼接参数
+        String code = RandomUtil.code(6);
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.put("code", code);
+        // 发送短信
+        boolean result = false;
+        if (type.equals(1)) {
+            result = this.sendMsg(phone, "阿里云短信测试专用", "SMS_141915022", JSON.toJSONString(mapParam));
+        } else if (type.equals(2)) {
+            result = this.sendMsg(phone, "阿里云短信测试专用", "SMS_141915022", JSON.toJSONString(mapParam));
+        }
+        // 缓存验证码
+        long time = System.currentTimeMillis() + SMS_VALID_PERIOD;
+        smsCache.put(phone, new SmsCode(code, time));
+        log.info("发送短信验证码成功: phone:{}  code:{}  result:{} ,过期时间:{} ", phone, code, result, new Date(time));
+        // 返回
+        return R.success(code);
+    }
+
+    /**
+     * 短信模板一.2：发送短信验证码 (验证是否有效和过期)
      * @param phone
      * <P>
      *     正确code 返回200
      *     错误code 不等于200, msg返回对应的错误信息
      * </P>
      */
-    public static R verifySMS(String phone, String code) {
-        R<String> rSms = SmsCache.verifySMS(phone, code);
-        return rSms;
+    public R<String> verifySMS(String phone, String code) {
+        boolean result = smsCache.containsKey(phone);
+        if (!result) {
+            R.error(RType.SMS_INVALID.getValue(), "验证码无效:该电话号没有未使用的验证码");
+        } else {
+            SmsCode smsCode = smsCache.get(phone);
+            if (!code.equals(smsCode.getCode())) {
+                //验证码无效
+                R.error(RType.SMS_INVALID.getValue(), "验证码错误或已使用");
+            }
+            Long expirationTime = smsCode.getTime();
+            if (System.currentTimeMillis() > expirationTime) {
+                // 验证码过期
+                R.error(RType.SMS_INVALID.getValue(), "验证码过期");
+            }
+        }
+        // 清除使用过的验证码
+        smsCache.remove(phone);
+        return R.success("ok");
     }
+    //===================================================================================
+    //============================== 短信验证码start ======================================
+    //===================================================================================
 
-
-
-
-    /**
-     * 发送6位数的验证码
-     * @param phone
-     * @return 返回 code 验证码
-     */
-    public static String sendTest(String phone) {
-        return  AilSmsTemplateUtil.sendTest(phone);
-    }
-
-
-
-    /**
-     * 测试--发送6位数的验证码
-     * @author wangsong
-     * @param args
-     * @date 2020/9/22 0022 18:44
-     * @return void
-     * @version 1.0.0
-     */
-    public static void main(String[] args) {
-        String code = AilSmsTemplateUtil.sendTest("17628689969");
-        System.out.println(code);
-    }
 }

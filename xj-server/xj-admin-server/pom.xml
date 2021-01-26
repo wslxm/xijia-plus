@@ -75,11 +75,11 @@
 <!--            <version>${xj-api-aliyun-oss.version}</version>-->
 <!--        </dependency>-->
         <!-- 第三方服务- 阿里云sms -->
-<!--        <dependency>-->
-<!--            <groupId>com.ws.ldy</groupId>-->
-<!--            <artifactId>xj-api-aliyun-sms</artifactId>-->
-<!--            <version>${xj-api-aliyun-sms.version}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-api-aliyun-sms</artifactId>
+            <version>${xj-api-aliyun-sms.version}</version>
+        </dependency>
         <!-- 第三方服务- 百度api -->
 <!--        <dependency>-->
 <!--            <groupId>com.ws.ldy</groupId>-->

@@ -35,8 +35,8 @@ aliyun:
     bucket: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
   sms:
     # 当前为乐陪配置
-    accessKeyId: "LTAIDgBQsHDdlU8E"                      # 请在阿里云短信控制台获取
-    accessKeySecret: "xZojnR8llxYzD0VJyNqfwWd5RsFKQk"    # 请在阿里云短信控制台获取
+    accessKeyId: ""                      # 请在阿里云短信控制台获取
+    accessKeySecret: ""    # 请在阿里云短信控制台获取
 
 ## 微信api
 wx:
