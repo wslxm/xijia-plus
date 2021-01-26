@@ -17,40 +17,11 @@
     <description>Demo project for Spring Boot</description>
 
     <modules>
-        <!-- 代码 -->
-        <module>xj-server</module>
-        <module>xj-server/xj-admin-server</module>
-        <module>xj-server/xj-admin-ui</module>
-        <!-- 功能集成 -->
-        <module>xj-third</module>
-        <module>xj-third/xj-api-aliyun-oss</module>
-        <module>xj-third/xj-api-aliyun-sms</module>
-        <module>xj-third/xj-api-qiniu-oss</module>
-        <module>xj-third/xj-api-wx-mq</module>
-        <module>xj-third/xj-api-wx-app</module>
-        <module>xj-third/xj-api-wx-pay</module>
-        <module>xj-third/xj-api-baidu</module>
-        <module>xj-third/xj-api-kuaidi-kuaidi100</module>
-        <module>xj-third/xj-api-kuaidi-sf</module>
-        <module>xj-third/xj-doc-swagger2</module>
-        <module>xj-third/xj-doc-swagger2-ui</module>
-        <module>xj-third/xj-doc-knife4j</module>
-        <module>xj-third/xj-fw-websocket</module>
-        <module>xj-third/xj-fw-redis</module>
-        <module>xj-third/xj-fw-boot-admin</module>
-        <!--核心模块-->
-        <module>xj-base</module>
-        <module>xj-base/xj-base-result</module>
-        <module>xj-base/xj-base-core</module>
-        <module>xj-base/xj-base-jwt</module>
-        <!--工具集 -->
-        <module>xj-utils</module>
-        <module>xj-utils/xj-util-core</module>
-        <module>xj-utils/xj-util-poi</module>
-        <module>xj-utils/xj-util-qrcode</module>
-        <module>xj-utils/xj-util-fastjson</module>
+        <module>xj-server</module>      <!-- 代码    -->
+        <module>xj-third</module>       <!-- 功能集成 -->
+        <module>xj-base</module>        <!-- 核心模块 -->
+        <module>xj-utils</module>       <!-- 工具集   -->
     </modules>
-
 
     <properties>
         <!-- ================== 内部jar版本START ===================== -->

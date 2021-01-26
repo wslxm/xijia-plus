@@ -13,4 +13,8 @@
     <name>xj-server</name>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>xj-admin-server</module>
+        <module>xj-admin-ui</module>
+    </modules>
 </project>

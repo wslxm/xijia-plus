@@ -42,6 +42,7 @@ spring-boot-plus2
         └──xj-server     
                └──xj-admin-server        系统基础代码+增强功能+代码生成(后端接口)
                └──xj-admin-ui            系统基础代码+增强功能+代码生成(前端页面)
+               └──xj-test-server         业务代码(个人功能开发/架构测试)
                └──xxx                    开发具体项目业务代码模块
         └──xj-third
                └──xj-api-aliyun-oss        阿里云oss集成(文件存储)

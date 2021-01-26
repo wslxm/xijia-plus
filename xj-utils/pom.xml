@@ -12,4 +12,11 @@
     <artifactId>xj-utils</artifactId>
     <name>xj-utils</name>
     <packaging>pom</packaging>
+
+    <modules>
+        <module>xj-util-core</module>
+        <module>xj-util-poi</module>
+        <module>xj-util-qrcode</module>
+        <module>xj-util-fastjson</module>
+    </modules>
 </project>

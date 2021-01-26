@@ -13,4 +13,10 @@
     <name>xj-base</name>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>xj-base-result</module>
+        <module>xj-base-core</module>
+        <module>xj-base-jwt</module>
+    </modules>
+
 </project>
