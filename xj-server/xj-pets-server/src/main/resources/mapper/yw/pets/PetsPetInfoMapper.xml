@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ws.ldy.modules.yw.pets.mapper.PetsPetInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ws.ldy.modules.yw.pets.model.entity.PetsPetInfo">
+
+        <result column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="version" property="version"/>
+        <result column="user_id" property="userId"/>
+        <result column="nickname" property="nickname"/>
+        <result column="sex" property="sex"/>
+        <result column="type" property="type"/>
+        <result column="breed" property="breed"/>
+        <result column="head_pic" property="headPic"/>
+        <result column="photo_pic" property="photoPic"/>
+        <result column="join_time" property="joinTime"/>
+        <result column="expiration_time" property="expirationTime"/>
+        <result column="apply_time" property="applyTime"/>
+        <result column="cumulative_time" property="cumulativeTime"/>
+        <result column="is_default" property="isDefault"/>
+        <result column="is_auto_renew" property="isAutoRenew"/>
+    </resultMap>
+
+    <!-- 通用查询结果列: <include refid="Base_Column_List"></include>  -->
+    <sql id="Base_Column_List">
+
+               id,
+               create_user,
+               update_user,
+               create_time,
+               update_time,
+               deleted,
+               version,
+               user_id,
+               nickname,
+               sex,
+               type,
+               breed,
+               head_pic,
+               photo_pic,
+               join_time,
+               expiration_time,
+               apply_time,
+               cumulative_time,
+               is_default,
+               is_auto_renew
+        </sql>
+
+
+    <insert id="addOneInHelpNum">
+        update t_pets_pet_info  set in_help_num = in_help_num+1 where id = #{petId}
+    </insert>
+
+    <insert id="addOneHelpNum">
+        <![CDATA[
+
+
+                            update  t_pets_pet_info  set help_num = help_num + 1 where id != #{petId} and expiration_time > now();
+
+
+        ]]>
+    </insert>
+
+
+    <!--*
+    统计报销次数 declareNum
+    报销总金额  declareMoney
+    -->
+    <select id="findPage" resultType="com.ws.ldy.modules.yw.pets.model.vo.PetsPetInfoVO">
+        select
+        p.*
+        , u.wx_name as wxName
+        , u.full_name as fullName
+        ,(SELECT IFNULL(count(t1.id),0) FROM t_pets_declare t1 WHERE t1.pet_id = p.id and t1.state = 3 ) as declareNum
+        ,(SELECT IFNULL(sum(t1.paid_in_amount),0) FROM t_pets_declare t1 WHERE t1.pet_id = p.id and t1.state = 3 ) as declareMoney
+        from t_pets_pet_info p
+        left join t_pets_user u on u.id = p.user_id
+        where nickname != ''
+        <if test="userId !=null and userId != ''">
+            and p.user_id = #{userId}
+        </if>
+        <if test="nickname !=null and nickname != ''">
+            and p.nickname like concat('%',#{nickname},'%')
+        </if>
+        <if test="type != null and type != ''">
+            and p.type = #{type}
+        </if>
+        <if test="startJoinTime != null and endJoinTime != null">
+            <![CDATA[
+            and p.join_time >= #{startJoinTime}  and p.join_time <= #{endJoinTime}
+             ]]>
+        </if>
+    </select>
+
+
+    <select id="findPetsCity" resultType="com.ws.ldy.modules.yw.pets.model.vo.PetsPetInfoFindCityVO">
+         select
+            p.type,
+            u.province,
+            u.city
+         from t_pets_pet_info p
+         left join t_pets_user u on u.id = p.user_id
+         where
+             p.deleted = 0
+    </select>
+</mapper>
+

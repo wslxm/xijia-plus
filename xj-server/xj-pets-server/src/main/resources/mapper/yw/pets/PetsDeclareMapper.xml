@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ws.ldy.modules.yw.pets.mapper.PetsDeclareMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ws.ldy.modules.yw.pets.model.entity.PetsDeclare">
+
+        <result column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="version" property="version"/>
+        <result column="user_id" property="userId"/>
+        <result column="paid_in_amount" property="paidInAmount"/>
+        <result column="declare_money" property="declareMoney"/>
+        <result column="pay_channel" property="payChannel"/>
+        <result column="state" property="state"/>
+        <result column="declare_num" property="declareNum"/>
+        <result column="pay_money" property="payMoney"/>
+        <result column="apply_time" property="applyTime"/>
+        <result column="expiration_day_num" property="expirationDayNum"/>
+        <result column="help_num" property="helpNum"/>
+        <result column="join_day_num" property="joinDayNum"/>
+        <result column="hospital_id" property="hospitalId"/>
+        <result column="sick_record_pic" property="sickRecordPic"/>
+        <result column="expense_details_pic" property="expenseDetailsPic"/>
+        <result column="expense_invoice_pic" property="expenseInvoicePic"/>
+        <result column="pathogeny" property="pathogeny"/>
+        <result column="remarks" property="remarks"/>
+    </resultMap>
+
+    <!-- 通用查询结果列: <include refid="Base_Column_List"></include>  -->
+    <sql id="Base_Column_List">
+
+               id,
+               create_user,
+               update_user,
+               create_time,
+               update_time,
+               deleted,
+               version,
+               user_id,
+               full_name,
+               phone,
+               paid_in_amount,
+               declare_money,
+               pet_name,
+               pet_type,
+               pet_breed,
+               pay_channel,
+               state,
+               pet_sex,
+               declare_num,
+               pay_money,
+               apply_time,
+               expiration_day_num,
+               help_num,
+               join_day_num,
+               hospital_id,
+               hospital_name,
+               hospital_phone,
+               hospital_address,
+               sick_record_pic,
+               expense_details_pic,
+               expense_invoice_pic,
+               pathogeny,
+               remarks
+        </sql>
+    <select id="findPage" resultType="com.ws.ldy.modules.yw.pets.model.vo.PetsDeclarePageVO">
+        select
+        d.id
+        ,d.declare_money
+        ,d.paid_in_amount
+        ,d.create_time
+        ,d.state
+        ,d.pay_channel
+        ,d.pass_time
+        ,d.pay_time
+        ,d.order_no
+        ,d.remarks
+        ,u.full_name
+        ,u.phone
+        ,p.nickname
+        ,p.type
+        ,p.breed
+        ,p.head_pic
+        ,p.age
+        ,p.sex
+        from t_pets_declare d
+        left join t_pets_user u on u.id = d.user_id
+        left join t_pets_pet_info p on p.id = d.pet_id
+        where 1=1
+        <if test="fullName != null and fullName != ''">
+            and u.full_name like concat('%',#{fullName},'%')
+        </if>
+        <if test="id != null and id != ''">
+            and d.id = #{id}
+        </if>
+        <if test="userId != null and userId != ''">
+            and d.user_id = #{userId}
+        </if>
+        <if test="state != null">
+            and d.state = #{state}
+        </if>
+        <if test="startPassTime != null and endPassTime != null">
+            <![CDATA[
+                and d.pass_time >= #{startPassTime}  and d.pass_time <= #{endPassTime}
+              ]]>
+        </if>
+        order by d.create_time desc
+    </select>
+
+
+    <select id="findListWindControl" resultType="com.ws.ldy.modules.yw.pets.model.vo.PetsDeclaretWindControlVO">
+        select
+         d.id
+        ,d.declare_money
+        ,d.paid_in_amount
+        ,d.create_time
+        ,d.pass_time
+        ,d.pay_time
+        ,d.order_no
+        ,d.state
+        ,d.remarks
+        ,d.join_day_num
+        ,d.expiration_day_num
+        ,d.pay_money
+        ,p.nickname
+        ,p.type
+        ,p.breed
+        from t_pets_declare d
+        left join t_pets_pet_info p on p.id = d.pet_id
+        where d.user_id = #{userId}
+    </select>
+    <select id="findHomePage" resultType="com.ws.ldy.modules.yw.pets.model.vo.PetsDeclareFindHomePageVO">
+        select
+        d.id
+        ,d.create_time
+        ,u.full_name
+        from t_pets_declare d
+        left join t_pets_user u on u.id = d.user_id
+        where 1=1
+        order by  d.create_time desc
+    </select>
+
+
+    <select id="findDeclareSuccessCity" resultType="com.ws.ldy.modules.yw.pets.model.vo.PetsDeclareFindDeclareSuccessCityVO">
+        select
+         u.city,
+         d.paid_in_amount
+        from t_pets_declare d
+        left join t_pets_user u on u.id = d.user_id
+        where
+        d.state = #{state}
+    </select>
+
+
+    <select id="findNewDayList" resultType="com.ws.ldy.modules.yw.pets.model.vo.PetsDeclareFindNewDayListVO">
+        select
+        u.wx_name,
+        u.full_name,
+        u.phone,
+        u.id_card,
+        d.id,
+        d.user_id,
+        d.declare_money
+        from t_pets_declare d
+        left join t_pets_user u on u.id = d.user_id
+        where
+         <![CDATA[
+              d.create_time >= #{startTime}  and d.create_time <= #{endTime}
+         ]]>
+         order by d.create_time desc
+    </select>
+</mapper>

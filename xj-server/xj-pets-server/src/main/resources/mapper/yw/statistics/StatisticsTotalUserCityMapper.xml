@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ws.ldy.modules.yw.statistics.mapper.StatisticsTotalUserCityMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="com.ws.ldy.modules.yw.statistics.model.entity.StatisticsTotalUserCity">
+
+               <result column="id" property="id" />
+               <result column="create_user" property="createUser" />
+               <result column="update_user" property="updateUser" />
+               <result column="create_time" property="createTime" />
+               <result column="update_time" property="updateTime" />
+               <result column="deleted" property="deleted" />
+               <result column="version" property="version" />
+               <result column="city" property="city" />
+               <result column="city_user_total" property="cityUserTotal" />
+               <result column="city_boy_user_total" property="cityBoyUserTotal" />
+               <result column="city_girl_user_total" property="cityGirlUserTotal" />
+               <result column="time" property="time" />
+        </resultMap>
+
+        <!-- 通用查询结果列: <include refid="Base_Column_List"></include>  -->
+        <sql id="Base_Column_List">
+
+               id,
+               create_user,
+               update_user,
+               create_time,
+               update_time,
+               deleted,
+               version,
+               city,
+               city_user_total,
+               city_boy_user_total,
+               city_girl_user_total,
+               time
+        </sql>
+
+</mapper>
+

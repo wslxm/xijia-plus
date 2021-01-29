@@ -1,0 +1,77 @@
+## 生产环境
+
+## HTTP (Tomcat) port
+server:
+  port: 9050
+
+# DataSource Config spring.datasource.dynamic.datasource.db1.url
+spring:
+  autoconfigure:
+    # 为了某些版本的springboot  @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class}) 无法生效
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    dynamic:
+      primary: db1 # 配置默认数据库
+      # | rewriteBatchedStatements=true mybatis批处理优化 | useTimezone=true&serverTimezone=GMT%2B8  使用北京时间 | useUnicode=true&characterEncoding=utf-8 编码 |
+      datasource:
+        db1: # 数据源1配置
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://rm-bp1b88uc0hxk5wgv0co.mysql.rds.aliyuncs.com/pets-dev?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
+          username: lpzs_test
+          password: Lplb_zslp@123@$#%_lp_lb_20200826
+          type: com.alibaba.druid.pool.DruidDataSource
+
+## 阿里云
+aliyun:
+  sms:
+    # 当前为乐陪配置
+    accessKeyId: "LTAIDgBQsHDdlU8E"                      # 请在阿里云短信控制台获取
+    accessKeySecret: "xZojnR8llxYzD0VJyNqfwWd5RsFKQk"    # 请在阿里云短信控制台获取
+    signName: "阿里云短信测试专用"                          # 签名
+    templateCode: "SMS_141915022"                        # 短信验证码模版(每个账号不一致,单独配置)
+
+## 微信api
+wx:
+  # 小程序
+  app:
+    appId: "wxc3a142cbc777acc5"
+    secret: "78077930fa44ba58c6b993da2c644505"
+  # 公众号
+  mq:
+    appId: "wx497ebbd2f211e249"
+    secret: "9fa0b9c2a98ac1d6d00f5f9fbf59efef"
+    token: ""
+    aesKey: ""
+  # 支付
+  pay:
+    appId: "wx497ebbd2f211e249"
+    mchId: "1512069221"
+    mchKey: "v6fi8r2wegYnhOqve52tLzJrYk8L6GxS"
+    subAppId: ""
+    subMchId: ""
+    keyPath: "classpath:cert/apiclient_cert.p12"
+    # 额外参数配置
+    notifyBase: "http://api.test.savingmypets.com"                # 额外参数：回调域名(测试地址)
+    orderNotifyUrl: "/api/client/pets/petsOrder/wx/order/notify"  # 额外参数：月费支付回调接口
+    # refundNotifyUrl: "/pay/notify/wx/refund"         # 额外参数：退款回调接口
+
+## 七牛云
+qiniu:
+  ## 七牛云 oss 当前为乐陪配置
+  oss:
+    accessKey: "TdAnY62PtrBRCaoBvq8Zl2qXlJz5CZvjbsWwpoNZ"
+    secretKey: "tGBHE4RE8Y0drlRXbfWxctlpWRVCTaGNRV8yDzqY"
+    bucket: "lplb-file"
+    hosts: "http://file.520ban.com/"
+    priKey: "d7982faa03b99f8b2198e28838ba70b9c89877b8"
+    ## 地域(华东 z0 华北 z1 华南 z2 北美 na0 东南亚 as0)
+    area: "z0"
+
+## logback日志输出
+logging:
+  # 日志目录, 线上请配置linux 绝对路径 如：/usr/local/work/xijia2/logs
+  filePath: /usr/local/work/pets/logs
+  # 配置日志路径即可实时输出到 spring-boot-admin 日志管理
+  file: /usr/local/work/pets/log.txt
+  # 需要记录到数据库的请求 (正式环境不建议记录GET 请求,太占资源)  支持：【GET,POST,PUT,DELETE】
+  methods: POST,PUT,DELETE
