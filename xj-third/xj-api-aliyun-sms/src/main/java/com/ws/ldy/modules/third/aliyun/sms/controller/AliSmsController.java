@@ -29,7 +29,7 @@ public class AliSmsController {
     @ApiOperation("SMS--发送测试短信")
     @RequestMapping(value = "/sendSms", method = RequestMethod.POST)
     public R<String> downloadNet(@RequestParam String phone) {
-        return aliSmsUtil.sendTest(phone, 2);
+        return aliSmsUtil.sendCode(phone);
     }
 }
 

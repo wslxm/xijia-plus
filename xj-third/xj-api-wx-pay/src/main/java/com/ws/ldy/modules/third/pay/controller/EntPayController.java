@@ -30,34 +30,5 @@ public class EntPayController {
   @Autowired
   private XjEntPayService xjEntPayService;
 
-//
-//  @ApiOperation(value = "企业付款到零钱")
-//  @PostMapping("/entPay")
-//  public EntPayResult entPay(@RequestBody EntPayRequest request) throws WxPayException {
-//    return this.entPayApi.entPay(request);
-//  }
-//
-//
-//  @ApiOperation(value = "查询企业付款到零钱的结果",notes = "文档地址：https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_3")
-//  @ApiImplicitParam(name = "partnerTradeNo", value = "商户订单号", required = true, example = "")
-//  @GetMapping("/queryEntPay")
-//  public EntPayQueryResult queryEntPay(@RequestParam String partnerTradeNo) throws WxPayException {
-//    return this.entPayApi.queryEntPay(partnerTradeNo);
-//  }
-//
-//
-//
-//  @ApiOperation(value = "企业付款到银行卡",notes = "文档详见：https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=24_2")
-//  @PostMapping("/payBank")
-//  public EntPayBankResult payBank(EntPayBankRequest request) throws WxPayException {
-//    return this.entPayApi.payBank(request);
-//  }
-//
-//
-//  @ApiOperation(value = "查询企业付款到银行卡的结果",notes = "文档详见：https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=24_3")
-//  @GetMapping("/queryPayBank")
-//  public EntPayBankQueryResult queryPayBank(@RequestParam String partnerTradeNo) throws WxPayException {
-//    return this.entPayApi.queryPayBank(partnerTradeNo);
-//  }
 
 }

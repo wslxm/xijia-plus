@@ -140,20 +140,21 @@ public class WebsocketServer {
      *
      * @param sendMsg：消息内容
      */
-    public void send(SendMsgVO sendMsg) {
+    public Boolean send(SendMsgVO sendMsg) {
         if ("ALL".equals(sendMsg.getTo()) || "all".equals(sendMsg.getTo())) {
             // 发送消息给所有人
             Set<String> userIds = clients.keySet();
             for (String userId : userIds) {
-                this.sendMsg(userId, sendMsg);
+                return this.sendMsg(userId, sendMsg);
             }
         } else {
             //发送消息给指定人
             String[] userIds = sendMsg.getTo().split(",");
             for (String userId : userIds) {
-                this.sendMsg(userId, sendMsg);
+                return this.sendMsg(userId, sendMsg);
             }
         }
+        return false;
     }
 
 
@@ -166,16 +167,19 @@ public class WebsocketServer {
      * @param userId  消息接收人ID , onlineUsers 的 key
      * @param sendMsg 消息内容
      */
-    private void sendMsg(String userId, SendMsgVO sendMsg) {
+    private Boolean sendMsg(String userId, SendMsgVO sendMsg) {
         // 判断用户是否在线, 在线发送消息推送
         if (clients.containsKey(userId)) {
             try {
                 clients.get(userId).getSession().getBasicRemote().sendText(JSON.toJSONString(sendMsg));
+                return true;
             } catch (IOException e) {
                 e.printStackTrace();
                 log.info(userId, sendMsg.getUsername() + "上线的时候通知所有人发生了错误");
+                return false;
             }
         }
+        return false;
     }
 
 

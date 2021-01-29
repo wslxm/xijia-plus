@@ -18,7 +18,7 @@
         <module>xj-api-aliyun-oss</module>
         <module>xj-api-aliyun-sms</module>
         <module>xj-api-qiniu-oss</module>
-        <module>xj-api-wx-mq</module>
+        <module>xj-api-wx-mp</module>
         <module>xj-api-wx-app</module>
         <module>xj-api-wx-pay</module>
         <module>xj-api-baidu</module>

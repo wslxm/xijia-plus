@@ -100,6 +100,7 @@ public enum RType {
     WX_GET_ACCESS_TOKEN_ERROR(10050, "获取微信公众号ACCESS_TOKEN失败"),
     WX_PAY_NO_OPENID(10050, "没有openId"),
     WX_PAY_FAILURE(10050, "交易失败"),
+    WX_PAY_REPEAT(10051, "重复回调"),
 
     // 代码生成
     GENERATE_CODE_JDBC_ERROR(10060, "数据源连接信息错误"),

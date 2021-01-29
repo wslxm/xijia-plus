@@ -56,9 +56,8 @@ public class WebsocketServiceImpl implements WebsocketService {
      * @return
      */
     @Override
-    public List<OnlineUserVO> send(String form, String username, String headPic, String to, String content, String extras) {
+    public Boolean send(String form, String username, String headPic, String to, String content, String extras) {
         // 发送消息
-        websocketServer.send(new SendMsgVO(4, form, username,headPic,to, content, extras));
-        return websocketServer.getOnlineUsers();
+       return websocketServer.send(new SendMsgVO(4, form, username,headPic,to, content, extras));
     }
 }

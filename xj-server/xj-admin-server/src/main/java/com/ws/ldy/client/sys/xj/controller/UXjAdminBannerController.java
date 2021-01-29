@@ -3,6 +3,7 @@ package com.ws.ldy.client.sys.xj.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import com.ws.ldy.modules.sys.xj.model.entity.XjAdminBanner;
 import com.ws.ldy.modules.sys.xj.model.vo.XjAdminBannerVO;
@@ -28,7 +29,7 @@ import java.util.List;
  * @date 2020-08-23 23:14:01
  */
 @RestController
-@RequestMapping("/api/client/xj/adminBanner")
+@RequestMapping(BaseConstant.Uri.apiClient +"/xj/adminBanner")
 @Api(value = "UXjAdminBannerController", tags = "yh--base-plus--banner")
 public class UXjAdminBannerController extends BaseController<XjAdminBannerService> {
 

@@ -7,7 +7,7 @@ import com.ws.ldy.common.utils.JsonUtil;
 import com.ws.ldy.common.utils.LocalDateTimeUtil;
 import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
 import com.ws.ldy.modules.sys.gc.model.DsField;
-import org.apache.commons.lang3.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;

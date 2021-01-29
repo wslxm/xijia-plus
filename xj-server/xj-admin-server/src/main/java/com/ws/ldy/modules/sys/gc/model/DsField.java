@@ -3,7 +3,7 @@ package com.ws.ldy.modules.sys.gc.model;
 import com.google.common.base.CaseFormat;
 import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 
 /**
  *  代码生成需要的字段 (公共字段，公共字段处理类，通过赋值和计算获得)

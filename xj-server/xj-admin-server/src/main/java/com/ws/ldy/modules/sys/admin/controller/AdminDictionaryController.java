@@ -1,11 +1,13 @@
 package com.ws.ldy.modules.sys.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ws.ldy.common.cache.BaseCache;
 import com.ws.ldy.common.function.LambdaUtils;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.common.utils.StringUtil;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.sys.admin.model.dto.AdminDictionaryDTO;
@@ -17,13 +19,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 
 /**
@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  * @date Sun Nov 24 11:23:12 CST 2019
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin +"/adminDictionary")
+@RequestMapping(BaseConstant.Uri.apiAdmin + "/adminDictionary")
 @Api(value = "AdminDictionaryController", tags = "base--字典管理")
 public class AdminDictionaryController extends BaseController<AdminDictionaryService> {
 
@@ -128,7 +128,7 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
             throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + LambdaUtils.convert(AdminDictionaryDTO::getCode));
         }
         dto.setCode(dto.getCode().trim());
-        if (!isInteger(dto.getCode()) && baseService.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
+        if (!StringUtil.isInteger(dto.getCode()) && baseService.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
             // 字符串code 为string时不能重复, 为Integer时可以重复
             throw new ErrorException(RType.DICT_DUPLICATE);
         }
@@ -152,7 +152,7 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
             AdminDictionary dict = baseService.getById(dto.getId());
             //  原数据code != new Code, 判断数据库是否存在修改后的code值 ， code为Integer时不处理
             if (!dict.getCode().equals(dto.getCode().trim())) {
-                if (!isInteger(dto.getCode()) && baseService.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
+                if (!StringUtil.isInteger(dto.getCode()) && baseService.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
                     throw new ErrorException(RType.DICT_DUPLICATE);
                 }
             }
@@ -200,20 +200,5 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
         System.out.println(enumsJava);
         System.out.println(enumsJs);
         return R.success(map);
-    }
-
-
-    /**
-     * 是否为数字验证
-     */
-    Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
-
-    /**
-     * 判断字符串是否是一个isInteger 数字类型
-     * @param str
-     * @return
-     */
-    private boolean isInteger(String str) {
-        return pattern.matcher(str).matches();
     }
 }

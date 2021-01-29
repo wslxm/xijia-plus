@@ -14,8 +14,7 @@ function imgMove(obj) {
             topbz += 1;
             var fdiv = (topbz + 1) * 140;
             oUl.style.height = fdiv + 'px';
-        }
-        else {
+        } else {
             leftbz += 1;
         }
         //var l = aLi[i].offsetLeft;
@@ -26,7 +25,7 @@ function imgMove(obj) {
 
         aLi[i].style.top = t + "px";
         aLi[i].style.left = l + "px";
-        aPos[i] = { left: l, top: t };
+        aPos[i] = {left: l, top: t};
         aLi[i].index = i;
 
 
@@ -36,6 +35,7 @@ function imgMove(obj) {
         aLi[i].style.margin = 0;
         setDrag(aLi[i]);
     }
+
     //拖拽
     function setDrag(obj) {
         obj.onmouseover = function () {
@@ -93,6 +93,7 @@ function imgMove(obj) {
             return false;//低版本出现禁止符号
         }
     }
+
     //碰撞检测
     function colTest(obj1, obj2) {
         var t1 = obj1.offsetTop;
@@ -111,12 +112,14 @@ function imgMove(obj) {
             return true;
         }
     }
+
     //勾股定理求距离
     function getDis(obj1, obj2) {
         var a = obj1.offsetLeft - obj2.offsetLeft;
         var b = obj1.offsetTop - obj2.offsetTop;
         return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
     }
+
     //找到距离最近的
     function findMin(obj) {
         var minDis = 999999999;
@@ -138,6 +141,7 @@ function imgMove(obj) {
         }
     }
 }
+
 // //图片删除
 // function deleteElement(Obj) {
 //     Obj.parentNode.parentNode.removeChild(Obj.parentNode);
@@ -153,15 +157,14 @@ function deleteElement(obj) {
     let src = obj.parentNode.childNodes["0"].src;
     // 删除服务器文件
     // let result = Ajax.delete(path + "/aliOssFile/del?filePath=" + src);
-   // console.log("删除文件：" + src + "  结果:" + result.msg);
-    console.log("删除文件：" + src );
+    // console.log("删除文件：" + src + "  结果:" + result.msg);
+    console.log("删除文件：" + src);
 }
-
 
 
 //描述
 function divClick(obj) {
-    layer.prompt({ title: '请填新的描述，并确认', formType: 2 }, function (text, index) {
+    layer.prompt({title: '请填新的描述，并确认', formType: 2}, function (text, index) {
         obj.innerHTML = text;
         layer.close(index);
     });
@@ -200,7 +203,7 @@ function croppers_pic(obj) {
         croppers.render({
             area: ['950px', '600px']   //弹窗宽度
             , imgUrl: src
-            , url: path + '/aliOssFile/upload?filePath=image/config/'  //图片上传接口返回和（layui 的upload 模块）返回的JOSN一样
+            , url: uploadPath + '?filePath=image/config/'  //图片上传接口返回和（layui 的upload 模块）返回的JOSN一样
             , done: function (result) { //上传完毕回调
                 console.log("修改文件：" + result.data + "  结果:" + result.msg);
                 // 更改图片src
@@ -213,9 +216,6 @@ function croppers_pic(obj) {
         });
     });
 }
-
-
-
 
 
 /**

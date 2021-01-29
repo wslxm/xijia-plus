@@ -9,7 +9,7 @@ import com.ws.ldy.modules.sys.gc.mapper.XjDataBaseMapper;
 import com.ws.ldy.modules.sys.gc.model.entity.XjAdminDatasource;
 import com.ws.ldy.modules.sys.gc.service.XjAdminDatasourceService;
 import com.ws.ldy.modules.sys.gc.service.XjDataBaseService;
-import org.apache.commons.lang3.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

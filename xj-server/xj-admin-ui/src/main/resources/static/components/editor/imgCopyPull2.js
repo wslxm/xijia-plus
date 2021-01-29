@@ -110,7 +110,7 @@ function upload(fileList) {
         let fd = new FormData();
         fd.append('file', fileList[i]);
         $.ajax({
-            url: path + "/aliOssFile/upload?filePath=image/markdown/",
+            url: uploadPath + '?isReduce=false&filePath=image/markdown/',
             type: 'POST',
             dataType: 'json',
             data: fd,

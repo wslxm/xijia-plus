@@ -29,21 +29,22 @@ QQ群：1037211892
 - swagger2 文档, 地址：http://localhost/swagger-ui.html
 
 
-### 二、项目结构目录(代码结构未 v-0.0.8 - v-0.0.9 )
+### 二、项目结构目录(代码结构未 v-0.0.8 - v-0.0.9)
 
 v-0.0.9+ 版本后端代码目录结构(模块化后结构)
 ```base
 1、模块
 spring-boot-plus2
         └──xj-base
-               └──xj-base-core           核心包: 通用base类层
-               └──xj-base-jwt            核心包: 登录认证
-               └──xj-base-result         核心包: 统一返回 + 全局异常
+               └──xj-base-core             核心包: 通用base类层+枚举字典
+               └──xj-base-jwt              核心包: 登录认证
+               └──xj-base-result           核心包: 统一返回 + 全局异常
         └──xj-server     
-               └──xj-admin-server        系统基础代码+增强功能+代码生成(后端接口)
-               └──xj-admin-ui            系统基础代码+增强功能+代码生成(前端页面)
-               └──xj-test-server         业务代码(个人功能开发/架构测试)
-               └──xxx                    开发具体项目业务代码模块
+               └──xj-admin-server          系统基础代码+增强功能+代码生成(后端接口)
+               └──xj-admin-ui              系统基础代码+增强功能+代码生成(前端页面)
+               └──xj-pay-server            聚合支付(微信/支付宝等)
+               └──xj-test-server           业务代码(个人功能开发/架构测试)
+               └──xxx                      开发具体项目业务代码模块
         └──xj-third
                └──xj-api-aliyun-oss        阿里云oss集成(文件存储)
                └──xj-api-aliyun-sms        阿里云sms集成(短信)
@@ -52,7 +53,7 @@ spring-boot-plus2
                └──xj-api-kuaidi-sf         顺丰-丰桥(顺丰寄件)
                └──xj-api-qiniu-oss         七牛云oss集成(文件存储)
                └──xj-api-wx-app            微信小程序集成(小程序登录/小程序订阅消息)
-               └──xj-api-wx-mq             微信公众号集成(公众号网页授权/公众号模块消息)
+               └──xj-api-wx-mp             微信公众号集成(公众号网页授权/公众号模块消息)
                └──xj-api-wx-pay            微信支付集成(支付/退款/打款)
                └──xj-doc-knife4j           接口文档ui集成(依赖swagger2：访问地址: ip/doc.html)
                └──xj-doc-swagger2          接口文档集成

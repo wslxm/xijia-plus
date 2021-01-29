@@ -12,7 +12,7 @@ import com.ws.ldy.modules.sys.gc.service.impl.XjGenerationSeviceImpl;
 import com.ws.ldy.modules.sys.gc.util.GenerateDataProcessing;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -22,7 +22,6 @@ spring:
           type: com.alibaba.druid.pool.DruidDataSource
 
 
-
 ## 阿里云api
 aliyun:
   oss:
@@ -37,6 +36,8 @@ aliyun:
     # 当前为乐陪配置
     accessKeyId: ""                      # 请在阿里云短信控制台获取
     accessKeySecret: ""    # 请在阿里云短信控制台获取
+    signName: "阿里云短信测试专用"                          # 签名
+    templateCode: "SMS_141915022"                        # 短信验证码模版(每个账号不一致,单独配置)
 
 ## 微信api
 wx:
@@ -66,7 +67,6 @@ wx:
 
 ## 七牛云
 qiniu:
-  ## 七牛云 oss 当前为乐陪配置
   oss:
     accessKey: "FetmKgfKFaS7ZAE12j5uzNSrXDkf6pp5LyAxtzWy"
     secretKey: "iY74NEU14YUA3lDUb1vy3Rt18pnEQvTgx37WxH2r"

@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 127.${.version}
+ Source Server         : 127.0.0.1
  Source Server Type    : MySQL
  Source Server Version : 80018
  Source Host           : localhost:3306

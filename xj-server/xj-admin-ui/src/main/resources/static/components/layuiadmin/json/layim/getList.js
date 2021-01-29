@@ -36,7 +36,7 @@
             , "list": [{
                 "username": "贤心"
                 , "id": "100001"
-                , "avatar": "//tva1.sinaimg.cn/crop.${.version}18.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
+                , "avatar": "//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
                 , "sign": "这些都是测试数据，实际使用请严格按照该格式返回"
                 , "status": "online"
             }, {
@@ -52,7 +52,7 @@
             }, {
                 "username": "马小云"
                 , "id": "168168"
-                , "avatar": "//tva1.sinaimg.cn/crop.${.version}80.180.180/7fde8b93jw1e8qgp5bmzyj2050050aa8.jpg"
+                , "avatar": "//tva1.sinaimg.cn/crop.0.0.180.180.180/7fde8b93jw1e8qgp5bmzyj2050050aa8.jpg"
                 , "sign": "让天下没有难写的代码"
             }, {
                 "username": "徐小峥"
@@ -113,7 +113,7 @@
         }, {
             "groupname": "Fly社区官方群"
             , "id": "102"
-            , "avatar": "//tva2.sinaimg.cn/crop.${.version}99.199.180/005Zseqhjw1eplix1brxxj305k05kjrf.jpg"
+            , "avatar": "//tva2.sinaimg.cn/crop.0.0.199.199.180/005Zseqhjw1eplix1brxxj305k05kjrf.jpg"
         }]
     }
 }

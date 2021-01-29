@@ -19,7 +19,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +55,7 @@ public class XjAdminHelpController extends BaseController<XjAdminHelpService> {
                 .orderByAsc(XjAdminHelp::getCategory)     // 在类别排序
                 .orderByAsc(XjAdminHelp::getSort)         // 在sort排序
                 .orderByDesc(XjAdminHelp::getCreateTime)  // 在时间排序
-                .eq(StringUtils.isNotBlank(title), XjAdminHelp::getTitle, title)
+                .like(StringUtils.isNotBlank(title), XjAdminHelp::getTitle, title)
 
         );
         return R.successFind(BeanDtoVoUtil.pageVo(page, XjAdminHelpVO.class));

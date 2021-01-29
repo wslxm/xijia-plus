@@ -168,7 +168,7 @@
          */
         upload.render({
             elem: '#addZmImg'
-            , url: path + '/aliOssFile/upload?filePath=image/config/'
+            , url: uploadPath + '?filePath=image/config/'
             , multiple: true
             , headers: headers
             , before: function (obj) {
@@ -190,7 +190,6 @@
             }
         });
     });
-
 
 
     $(function () {

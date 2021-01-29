@@ -1,1 +1,0 @@
-微信支付文件： apiclient_cert.p12 + apiclient_cert.pem + apiclient_key.pem 

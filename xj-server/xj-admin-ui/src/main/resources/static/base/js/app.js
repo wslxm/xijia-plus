@@ -1,10 +1,14 @@
 /**
- * TODO 后台接口访问地址
+ * 后台接口访问地址
+ * 后台文件上传接口
+ * 本地 "http://127.0.0.1:9049" ||  线上ip地址： http://47.107.128.84:9049 ||  线上域名地址： http://xijia.plus
  */
-path = "/api"; // 本地 "http://127.${.version}:9049" ||  线上ip地址： http://47.107.128.84:9049 ||  线上域名地址： http://xijia.plus
+path = "/api"; 
+uploadPath = "/api/open/aliOssFile/upload";
+
 
 /**
- * TODO 系统相关配置
+ * 系统相关配置
  */
 BaseConfig = {
     token: "TOKEN",               // token 命名
@@ -19,7 +23,7 @@ headers = {
 };
 
 /**
- * TODO 枚举字典 key
+ * 枚举字典 key
  */
 var Enums = {
     // 系统模块
@@ -54,7 +58,7 @@ var Enums = {
 
 
 /**
- * TODO 枚举字典通用方法
+ * 枚举字典通用方法
  * @type {{getDict: (function(): any), convertDict: (function(*, *): *), getDictTest: Dict.getDictTest, refreshDict: Dict.refreshDict}}
  */
 Dict = {
@@ -187,7 +191,7 @@ Dict = {
 };
 
 
-//TODO Layui 通用弹出层封装
+//Layui 通用弹出层封装
 Pop = {
     /**
      *  Layer 添加/修改通用弹出层 添加修改删除通用弹出层
@@ -282,7 +286,7 @@ Pop = {
 
 
 /**
- *  TODO Layui 通用分页配置
+ *  Layui 通用分页配置
  *  Layui 通用分页配置, 数据表格直接使用 page: pageJson,  layPage插件读取每一个参数值
  * @param url 请求地址
  * @param data 要删除的id
@@ -301,7 +305,7 @@ pageJson = {
 
 
 /**
- *  TODO 获取 Layui 当前分页参数 ===>  如：curr=1&limits=10
+ *  获取 Layui 当前分页参数 ===>  如：curr=1&limits=10
  */
 function getPage() {
     // 分页页数key
@@ -323,7 +327,7 @@ function getPage() {
 }
 
 
-// TODO AJAX 请求工具封装
+// AJAX 请求工具封装
 // noinspection JSDuplicatedDeclaration
 Ajax = {
     /**
@@ -434,7 +438,7 @@ Ajax = {
 
 
 /**
- * TODO 时间计算工具
+ * 时间计算工具
  * @type {{getDistanceSpecifiedTime: (function((String|Number|Date)): number), getDateAfter_n: TimeUtil.getDateAfter_n, judgeTime: (function(*): number)}}
  */
 TimeUtil = {
@@ -529,7 +533,7 @@ TimeUtil = {
 
 
 /**
- * TODO 刷新页面滚动条还原工具  记录/还原滚动条位置
+ * 刷新页面滚动条还原工具  记录/还原滚动条位置
  * @type {{onbeforeunload: WindowPos.onbeforeunload, onload: WindowPos.onload}}
  */
 WindowPos = {
@@ -572,7 +576,7 @@ WindowPos = {
 };
 
 /**
- * TODO 字符串处理工具
+ * 字符串处理工具
  * @type {{byteToString: StringUtils.byteToString, stringToByte: (function(*): any[])}}
  */
 StringUtils = {
@@ -657,7 +661,7 @@ StringUtils = {
 
 
 /**
- * TODO base64 加密/解密工具
+ * base64 加密/解密工具
  * @author 王松
  * @mail  1720696548@qq.com
  * @date  2020/7/11 0011 21:16

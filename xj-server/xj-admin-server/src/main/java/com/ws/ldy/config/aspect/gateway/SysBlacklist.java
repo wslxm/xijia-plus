@@ -52,7 +52,7 @@ public class SysBlacklist {
      * 2、设置了白名单（*）, 只要ip不在黑名单列表，直接放行
      * 3、访问ip没有在黑名单中，也没有设置白名单（*）的情况下，设置了黑名单(*)，那么除了白名单中的指定ip能访问接口外，其他ip都不能访问资源
      *
-     * 本地 127.${.version} + localhost 访问直接放行
+     * 本地 127.0.0.1+ localhost 访问直接放行
      * <p/>
      * @author wangsong
      * @date 2020/11/28 0028 0:01
@@ -62,7 +62,7 @@ public class SysBlacklist {
     public R blacklistAuth() {
         String ip = getIpAddress(request);
         // 本地启用不处理黑名单/白名单
-        if ("127.${.version}".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)) {
+        if ("127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)) {
             return R.success();
         }
         // 如果没有缓存，就去数据库获取

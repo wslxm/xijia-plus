@@ -34,10 +34,10 @@ public interface WebsocketService {
      * @param username 发送人用户名
      * @param to       接收人id（多个逗号分隔）
      * @param content  发送内容
-     * @param extras  扩暂发送内容
+     * @param extras   扩暂发送内容
      * @return
      */
-    public List<OnlineUserVO> send(String form, String username,String headPic, String to, String content, String extras);
+    public Boolean send(String form, String username,String headPic, String to, String content, String extras);
 }
 
 

@@ -50,20 +50,19 @@ public class UDictionaryController extends BaseController<AdminDictionaryService
 //    }
 
 
-
     @RequestMapping(value = "/findByCode", method = RequestMethod.GET)
     @ApiOperation(value = "Code查询(Tree)", notes = "不能传递字符串数字Code ")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "父级code, 不传查询code，传递了只查询指定code下数据", required = false, paramType = "query"),
-            @ApiImplicitParam(name = "isDisable", value = "是否查询禁用数据 true 查询  false 不查询", required = false, paramType = "query"),
-            @ApiImplicitParam(name = "isBottomLayer", value = "是否需要最后一级数据 true 需要   false 不需要", required = false, paramType = "query"),
-            @ApiImplicitParam(name = "isTree", value = "isTree 是否返回树结构数据  tree 是  false 否(返回过滤后的 list列表)", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "isTree", value = "isTree 是否返回树结构数据 tree 是 false 否(返回过滤后的 list列表)", required = false, paramType = "query"),
     })
     public R<List<AdminDictionaryVO>> findByCode(@RequestParam(required = false) String code,
-                                                 @RequestParam(required = false) Boolean isDisable,
-                                                 @RequestParam(required = false) Boolean isBottomLayer,
                                                  @RequestParam(required = false) Boolean isTree
     ) {
+        // 是否查询禁用数据 true 查询  false 不查询
+        // 是否需要最后一级数据 true 需要 false 不需要
+        boolean isDisable = false;
+        boolean isBottomLayer = false;
         List<AdminDictionaryVO> dictVO = baseService.findByCodeFetchDictVO(code, isDisable, isBottomLayer, isTree);
         return R.success(dictVO);
     }

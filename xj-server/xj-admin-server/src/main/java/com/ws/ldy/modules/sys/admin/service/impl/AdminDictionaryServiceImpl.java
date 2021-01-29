@@ -6,6 +6,7 @@ import com.google.common.base.CaseFormat;
 import com.ws.ldy.common.cache.BaseCache;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.common.utils.StringUtil;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.sys.admin.mapper.AdminDictionaryMapper;
@@ -16,7 +17,6 @@ import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
@@ -72,8 +72,8 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
             isTree = true;
         }
         // 1、判断 code , 不能传递字符串数字来查询
-        if (org.apache.commons.lang3.StringUtils.isNotBlank(code)) {
-            if (this.isInteger(code)) {
+        if (StringUtils.isNotBlank(code)) {
+            if (StringUtil.isInteger(code)) {
                 throw new ErrorException(RType.PARAM_ERROR);
             }
         }
@@ -91,7 +91,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
         // 3、是否根据code查询, 找到父级code数据
         List<AdminDictionaryVO> pDictListVO = new ArrayList<>();
-        if (org.apache.commons.lang3.StringUtils.isNotBlank(code)) {
+        if (StringUtils.isNotBlank(code)) {
             // 查询指定code, 只有一条
             for (AdminDictionaryVO p : dictListVO) {
                 if (p.getCode().equals(code)) {
@@ -114,7 +114,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
         // 4、数据过滤，是否需要最后一级数据（false不需要）
         if (!isBottomLayer) {
-            dictListVO = dictListVO.stream().filter(i -> ! this.isInteger(i.getCode())).collect(Collectors.toList());
+            dictListVO = dictListVO.stream().filter(i -> ! StringUtil.isInteger(i.getCode())).collect(Collectors.toList());
         }
 
         // 5、递归添加下级数据, pDictListVO 为tree数据, diceIds 为指定code层级下所有字典id收集
@@ -191,7 +191,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
             //
             for (AdminDictionaryVO.FindCodeGroup fatherDictVo : dictVoList) {
                 // 不添加Integer参数类型，设置当前数据为父级，不论当前层次的，递归获取所有当前层次的下级数据
-                if (this.isInteger(fatherDictVo.getCode())) {
+                if (StringUtil.isInteger(fatherDictVo.getCode())) {
                     continue;
                 }
                 respDictVOMap.put(fatherDictVo.getCode(), fatherDictVo);
@@ -333,20 +333,6 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         return sb.toString();
     }
 
-
-    /**
-     * 是否为数字验证
-     */
-    Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
-
-    /**
-     * 判断字符串是否是一个isInteger 数字类型
-     * @param str
-     * @return
-     */
-    private boolean isInteger(String str) {
-        return pattern.matcher(str).matches();
-    }
 
 
 //    /**

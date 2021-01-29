@@ -42,6 +42,18 @@ public class AliSmsUtil {
     public String accessKeyId;
     @Value("${aliyun.sms.accessKeySecret}")
     public String accessKeySecret;
+    @Value("${aliyun.sms.signName}")
+    public String signName;
+    @Value("${aliyun.sms.templateCode}")
+    public String templateCode;
+
+    /**
+     * 获取签名
+     * @return
+     */
+    public String getSignName() {
+        return signName;
+    }
 
     /**
      * 发送短信
@@ -83,6 +95,10 @@ public class AliSmsUtil {
     }
 
 
+
+
+
+
     //===================================================================================
     //============================== 短信验证码start =====================================
     //===================================================================================
@@ -111,18 +127,13 @@ public class AliSmsUtil {
      *  错误code 不等于200, msg返回对应的错误信息
      * </P>
      */
-    public R<String> sendTest(String phone, Integer type) {
+    public R<String> sendCode(String phone) {
         // 拼接参数
         String code = RandomUtil.code(6);
         Map<String, String> mapParam = new HashMap<>();
         mapParam.put("code", code);
         // 发送短信
-        boolean result = false;
-        if (type.equals(1)) {
-            result = this.sendMsg(phone, "阿里云短信测试专用", "SMS_141915022", JSON.toJSONString(mapParam));
-        } else if (type.equals(2)) {
-            result = this.sendMsg(phone, "阿里云短信测试专用", "SMS_141915022", JSON.toJSONString(mapParam));
-        }
+        boolean result = this.sendMsg(phone, signName, templateCode, JSON.toJSONString(mapParam));
         // 缓存验证码
         long time = System.currentTimeMillis() + SMS_VALID_PERIOD;
         smsCache.put(phone, new SmsCode(code, time));

@@ -110,7 +110,7 @@
         //文件上传--设定文件大小限制
         layui.upload.render({
             elem: '#test7'
-            , url: path + '/aliOssFile/upload?filePath=image/head/' //改成您自己的上传接口
+            , url: uploadPath + '?filePath=image/head/' //改成您自己的上传接口
             , size: 500 //限制文件大小，单位 KB
             , headers: headers
             , done: function (res) {

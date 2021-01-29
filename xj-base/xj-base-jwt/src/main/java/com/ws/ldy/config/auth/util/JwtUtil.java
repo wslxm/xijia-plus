@@ -46,7 +46,7 @@ public class JwtUtil {
     // 登录类型 管理端 | 用户端
     public static final Integer[] userType = {0, 1};
     // 过期时间 管理端 | 用户端
-    private static final Long[] expirition = {1000L * 60 * 30, 1000L * 60 * 60 * 24 * 15};
+    private static final Long[] expirition = {1000L * 60 * 60, 1000L * 60 * 60 * 24 * 15};
 
 
     /**

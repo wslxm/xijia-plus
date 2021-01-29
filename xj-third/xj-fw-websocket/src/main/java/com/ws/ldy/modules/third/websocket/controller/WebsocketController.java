@@ -67,7 +67,7 @@ public class WebsocketController {
     @RequestMapping(value = "/getPath", method = RequestMethod.GET)
     @ApiOperation("游客登录获取websocket连接地址")
     public R<Map<String, String>> getPath() {
-        // 获取地址 127.${.version} | localhost | 线上域名
+        // 获取地址 127.0.0.1 | localhost | 线上域名
         String serverName = request.getServerName();
         // 随机用户id + 用户名
         String userId = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
@@ -75,7 +75,7 @@ public class WebsocketController {
         // 如果是线上 (域名+socket地址+id+用户名)
         String path = "ws://" + serverName + interfaceName + "/" ;//+ userId + "/" + username
         // 如果是本地 (ip + 端口 + socket地址 + id +用户名)
-        if ("127.${.version}".equals(serverName) || "localhost".equals(serverName)) {
+        if ("127.0.0.1".equals(serverName) || "localhost".equals(serverName)) {
             path = "ws://" + serverName + ":" + port + interfaceName + "/";
         }
         //返回参数

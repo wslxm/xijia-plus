@@ -55,10 +55,6 @@ public class XjWxPayServiceImpl implements XjWxPayService {
         if (StringUtils.isBlank(dto.getTradeType())) {
             dto.setTradeType("JSAPI");
         }
-        // 默认请求ip
-        if (StringUtils.isBlank(dto.getSpbillCreateIp())) {
-            dto.setSpbillCreateIp(request.getRemoteHost());
-        }
         // 默认商品描叙
         if (StringUtils.isBlank(dto.getBody())) {
             dto.setBody("暂无商品描叙");
@@ -71,8 +67,8 @@ public class XjWxPayServiceImpl implements XjWxPayService {
         orderRequest.setOpenid(dto.getOpenid());
         orderRequest.setOutTradeNo(dto.getOutTradeNo());
         orderRequest.setTotalFee(dto.getTotalFee());
-        orderRequest.setSpbillCreateIp(dto.getSpbillCreateIp());
         orderRequest.setTradeType(dto.getTradeType());
+        orderRequest.setSpbillCreateIp(request.getRemoteHost());
         try {
             WxPayMpOrderResult result = wxPayApi.createOrder(orderRequest);
             WxPayOrderResultVO vo = new WxPayOrderResultVO();

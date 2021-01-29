@@ -46,7 +46,7 @@
 //    private void configureTasks() {
 //        // 指定n天前
 //        LocalDateTime time = LocalDateTimeUtil.subtract(LocalDateTime.now(), dayNum, ChronoUnit.DAYS);
-//        String updTime = LocalDateTimeUtil.convertLDTToStr(time);
+//        String updTime = LocalDateTimeUtil.parse(time);
 //        xjDataBaseMapper.deleteByDayFront(table, updTime);
 //        log.info("物理{} 表 删除{} 天前的数据 ", table, dayNum);
 //    }

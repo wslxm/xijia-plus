@@ -65,7 +65,7 @@
 //    private void configureTasks() {
 //        // 指定n天前
 //        LocalDateTime time = LocalDateTimeUtil.subtract(LocalDateTime.now(), dayNum, ChronoUnit.DAYS);
-//        String updTime = LocalDateTimeUtil.convertLDTToStr(time);
+//        String updTime = LocalDateTimeUtil.parse(time);
 //        tables.forEach(table -> {
 //            xjDataBaseMapper.deleteByTable(table, updTime);
 //            log.info("物理删除逻辑删除数据成功, tables： {} ", table);
