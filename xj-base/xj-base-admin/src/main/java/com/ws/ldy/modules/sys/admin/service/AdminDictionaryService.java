@@ -2,6 +2,7 @@ package com.ws.ldy.modules.sys.admin.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ws.ldy.modules.sys.admin.model.dto.AdminDictionaryDTO;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminDictionary;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryVO;
 
@@ -19,11 +20,18 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
 
 
     /**
-     *
+     * 添加
      * @param
      * @return
      */
-    List<AdminDictionaryVO> findTree();
+    Boolean insert(AdminDictionaryDTO dto);
+
+    /**
+     * 编辑
+     * @param
+     * @return
+     */
+    Boolean upd(AdminDictionaryDTO dto);
 
 
     /**
@@ -59,14 +67,9 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
 
 
     /**
-     * 拼接java 枚举类
-     * @param dict
+     * 生成枚举
+     * @param enumName 父级枚举key，只生成指定key下的数据
      */
-    String generateEnumJava(AdminDictionaryVO dict);
+    Map<String, String> generateEnum(String enumName);
 
-    /**
-     * 拼接js 字典数据
-     * @param dict
-     */
-    String generateEnumJs(AdminDictionaryVO dict);
 }

@@ -36,13 +36,13 @@ v-0.0.9+ 版本后端代码目录结构(模块化后结构)
 1、模块
 spring-boot-plus2
         └──xj-base
+               └──xj-base-admin            核心包: 管理系统saever
+               └──xj-base-admin-ui         核心包: 管理系统ui
+               └──xj-base-pay              整合包: 聚合支付
                └──xj-base-core             核心包: 通用base类层+枚举字典
                └──xj-base-jwt              核心包: 登录认证
                └──xj-base-result           核心包: 统一返回 + 全局异常
         └──xj-server     
-               └──xj-base-admin          系统基础代码+增强功能+代码生成(后端接口)
-               └──xj-base-admin-ui              系统基础代码+增强功能+代码生成(前端页面)
-               └──xj-base-pay            聚合支付(微信/支付宝等)
                └──xj-test-server           业务代码(个人功能开发/架构测试)
                └──xxx                      开发具体项目业务代码模块
         └──xj-third

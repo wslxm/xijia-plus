@@ -1,14 +1,8 @@
 package com.ws.ldy.modules.sys.admin.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ws.ldy.common.cache.BaseCache;
-import com.ws.ldy.common.function.LambdaUtils;
 import com.ws.ldy.common.result.R;
-import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.common.utils.StringUtil;
-import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.BaseConstant;
 import com.ws.ldy.modules.sys.admin.model.dto.AdminDictionaryDTO;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminDictionary;
@@ -21,7 +15,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,39 +32,6 @@ import java.util.Map;
 public class AdminDictionaryController extends BaseController<AdminDictionaryService> {
 
 
-//    @RequestMapping(value = "/findList", method = RequestMethod.GET)
-//    @ApiOperation(value = "查询所有", notes = "")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "code", value = "字典code, 如不传递查询所有", required = false, paramType = "query"),
-//            @ApiImplicitParam(name = "isBottomLayer", value = "true 需要最后一级 false 不需要最后一级(默认true)", required = false, paramType = "query"),
-//    })
-//    public R<List<AdminDictionaryVO>> findList(Boolean isBottomLayer, String code) {
-//        List<AdminDictionary> list = baseService.list(new LambdaQueryWrapper<AdminDictionary>()
-//                .orderByAsc(AdminDictionary::getSort)
-//                .orderByAsc(AdminDictionary::getCode)
-//        );
-//        if (isBottomLayer == null || isBottomLayer) {
-//            return R.successFind(BeanDtoVoUtil.listVo(list, AdminDictionaryVO.class));
-//        } else {
-//            List<AdminDictionary> newList = list.stream().filter(i -> !StringUtil.isInteger(i.getCode())).collect(Collectors.toList());
-//            return R.successFind(BeanDtoVoUtil.listVo(newList, AdminDictionaryVO.class));
-//        }
-//    }
-
-//    @RequestMapping(value = "/findTree", method = RequestMethod.GET)
-//    @ApiOperation(value = "查询所有 Tree", notes = "")
-//    public R<List<AdminDictionaryVO>> findTree() {
-//        return R.successFind(baseService.findTree());
-//    }
-
-
-//    @RequestMapping(value = "/findUpdPidTree", method = RequestMethod.GET)
-//    @ApiOperation(value = "变更父级查询所有 Tree", notes = "不查询code为数字的")
-//    public R<List<AdminDictionaryVO>> findUpdPidTree() {
-//        return R.successFind(baseService.findTree());
-//    }
-
-
     @RequestMapping(value = "/findCodeGroup", method = RequestMethod.GET)
     @ApiOperation(value = "查询所有-code分组", notes = "1、根据Code字段分组排列数据,分组下的数据仍然有层级关系" +
             "\r\n 2、版本号(key=version)未发送变化后端不返回任何数据,前端请定义全局变量来缓存此字段" +
@@ -85,15 +45,8 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
     }
 
 
-//    @RequestMapping(value = "/findVersion", method = RequestMethod.GET)
-//    @ApiOperation(value = "获取字典版本", notes = "获取数据字典版本信息, 如果判断到本地版本和线上版本不一致,调用 findCodeGroup 接口刷新字典数据")
-//    public R<Integer> findVersion() {
-//        return R.success(BaseConstant.Cache.DICT_VERSION);
-//    }
-
-
     @RequestMapping(value = "/findByCode", method = RequestMethod.GET)
-    @ApiOperation(value = "Code查询(默认返回Tree数据, 可指定)", notes = "不能传递字符串数字Code查询 ")
+    @ApiOperation(value = "Code查询(默认返回Tree数据, 可指定Tree或List)", notes = "不能传递字符串数字Code查询 ")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "父级code, 不传查询code，传递了只查询指定code下数据", required = false, paramType = "query"),
             @ApiImplicitParam(name = "isDisable", value = "是否查询禁用数据 true 查询*默认  false 不查询", required = false, paramType = "query"),
@@ -111,7 +64,7 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
 
 
     @RequestMapping(value = "/findDictCategory", method = RequestMethod.GET)
-    @ApiOperation(value = "查询字典类别", notes = "pid不传查顶级类别,传了pid查对应pid下的类别")
+    @ApiOperation(value = "查询字典类别", notes = "pid不传查顶级数据, 传了pid查指定 pid下的一级数据")
     public R<List<AdminDictionaryVO>> findDictCategory(@RequestParam(required = false) String code) {
         List<AdminDictionary> dictCategorys = baseService.findDictCategory(code);
         return R.success(BeanDtoVoUtil.listVo(dictCategorys, AdminDictionaryVO.class));
@@ -120,58 +73,26 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "添加", notes = "字符串Code不能重复,  数字类型的Code可以重复")
-    public R<Void> insert(@RequestBody AdminDictionaryDTO dto) {
-        if (StringUtils.isNotBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
-        }
-        if (StringUtils.isBlank(dto.getCode().trim())) {
-            throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + LambdaUtils.convert(AdminDictionaryDTO::getCode));
-        }
-        dto.setCode(dto.getCode().trim());
-        if (!StringUtil.isInteger(dto.getCode()) && baseService.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
-            // 字符串code 为string时不能重复, 为Integer时可以重复
-            throw new ErrorException(RType.DICT_DUPLICATE);
-        }
-        baseService.save(dto.convert(AdminDictionary.class));
-        //清除缓存
-        BaseCache.DICT_MAP_GROUP = null;
-        return R.successInsert();
+    public R<Boolean> insert(@RequestBody AdminDictionaryDTO dto) {
+        return R.successInsert(baseService.insert(dto));
     }
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "编辑", notes = "编辑后当前字典的字符串Code不能与其他字典的字符串Code重复， 不编辑Code时 + 编辑数字类型的Code时 不受影响")
-    public R<Void> upd(@RequestBody AdminDictionaryDTO dto) {
-        if (StringUtils.isBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
-        }
-        // 因为Code不能重复, 编辑了Code 需单独处理数据
-        if (dto.getCode() != null) {
-            dto.setCode(dto.getCode().trim());
-            // 原数据
-            AdminDictionary dict = baseService.getById(dto.getId());
-            //  原数据code != new Code, 判断数据库是否存在修改后的code值 ， code为Integer时不处理
-            if (!dict.getCode().equals(dto.getCode().trim())) {
-                if (!StringUtil.isInteger(dto.getCode()) && baseService.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
-                    throw new ErrorException(RType.DICT_DUPLICATE);
-                }
-            }
-        }
-        baseService.updateById(dto.convert(AdminDictionary.class));
-        //清除缓存
-        BaseCache.DICT_MAP_GROUP = null;
-        return R.successUpdate();
+    public R<Boolean> upd(@RequestBody AdminDictionaryDTO dto) {
+        return R.successUpdate(baseService.upd(dto));
     }
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation(value = "ID删除", notes = "删除当前ID数据以及该ID下的所有子层级数据")
-    public R<Void> del(@RequestParam String id) {
+    public R<Boolean> del(@RequestParam String id) {
         List<String> ids = baseService.findByIdFetchIds(id);
-        baseService.removeByIds(ids);
+        boolean res = baseService.removeByIds(ids);
         //清除缓存
         BaseCache.DICT_MAP_GROUP = null;
-        return R.successDelete();
+        return R.successDelete(res);
     }
 
 
@@ -191,14 +112,6 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
     @RequestMapping(value = "/generateEnum", method = RequestMethod.GET)
     @ApiOperation(value = "生成枚举", notes = "排序数字越小,越靠前, \n 返回参数Map<String, String> ==> \n map.java = 完整的java枚举字段 \n map.js = 代码枚举字典key，前端直接通过key获取对应值")
     public R<Map<String, String>> generateEnum() {
-        List<AdminDictionaryVO> dict = baseService.findByCodeFetchDictVO("ENUMS", true, false, true);
-        String enumsJava = baseService.generateEnumJava(dict.get(0));
-        String enumsJs = baseService.generateEnumJs(dict.get(0));
-        Map<String, String> map = new HashMap<>();
-        map.put("java", enumsJava); // 完整的枚举字典
-        map.put("js", enumsJs);     // 枚举字典key，直接通过key获取
-        System.out.println(enumsJava);
-        System.out.println(enumsJs);
-        return R.success(map);
+        return R.success( baseService.generateEnum("ENUMS"));
     }
 }

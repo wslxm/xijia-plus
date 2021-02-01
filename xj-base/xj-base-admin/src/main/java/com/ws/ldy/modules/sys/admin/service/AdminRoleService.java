@@ -44,7 +44,14 @@ public interface AdminRoleService extends IService<AdminRole> {
      */
     List<AdminRoleVO> findByUserIdRoleChecked(String userId);
 
-    boolean updUserRole(String roleId, List<String> roleIds);
+
+    /**
+     * 修改用户角色
+     * @param userId
+     * @param roleIds
+     * @return
+     */
+    boolean updUserRole(String userId, List<String> roleIds);
 
     /**
      * 分配用户角色
@@ -54,7 +61,6 @@ public interface AdminRoleService extends IService<AdminRole> {
      * @mail 1720696548@qq.com
      * @date 2020/4/10 0010 2:25
      */
-    // boolean updUserRole(String userId, String[] roleIds);
     boolean updUserRole(UserRoleDTO dto);
 
     /**
@@ -63,7 +69,6 @@ public interface AdminRoleService extends IService<AdminRole> {
      * @return void
      * @date 2019/11/17 0017 2:08
      */
-    // boolean roleMenuAuth(String roleId, String[] menuIds);
     boolean roleMenuAuth(RoleMenuDTO dto);
 
 
@@ -72,7 +77,6 @@ public interface AdminRoleService extends IService<AdminRole> {
      * @date 2019/11/18 15:45
      * @return void
      */
-    // boolean roleUrlAuth(String roleId, String[] authIds);
     boolean roleAuthAll();
 
     /***
@@ -80,12 +84,11 @@ public interface AdminRoleService extends IService<AdminRole> {
      * @date 2019/11/18 15:45
      * @return void
      */
-    // boolean roleUrlAuth(String roleId, String[] authIds);
     boolean roleUrlAuth(RoleAuthDTO dto);
 
 
     /**
      * 获取超管角色
      */
-    public AdminRole findSysRole();
+    AdminRole findSysRole();
 }

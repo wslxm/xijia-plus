@@ -3,6 +3,7 @@ package com.ws.ldy.config.auth.entity;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -17,7 +18,10 @@ import java.util.List;
  */
 @Data
 @ToString
-public class JwtUser {
+public class JwtUser implements Serializable {
+
+    private static final long serialVersionUID = -5989040987347929030L;
+
     //================== 通用字段列==================
     /**
      * 登录类型 ->   管理端：JwtUtil.userType[0]   用户端： JwtUtil.userType[0]  | 更多端自行指定和编辑JwtUtil代码

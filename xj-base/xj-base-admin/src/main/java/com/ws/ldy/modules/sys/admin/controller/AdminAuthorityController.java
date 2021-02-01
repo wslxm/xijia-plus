@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- *   接口管理
+ * 接口管理
  *
  * @author wangsong
  * @WX-QQ 1720696548

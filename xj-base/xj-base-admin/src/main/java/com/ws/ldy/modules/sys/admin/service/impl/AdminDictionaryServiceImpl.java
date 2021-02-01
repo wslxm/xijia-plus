@@ -4,12 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
 import com.ws.ldy.common.cache.BaseCache;
+import com.ws.ldy.common.function.LambdaUtils;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.StringUtil;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.Enums;
 import com.ws.ldy.modules.sys.admin.mapper.AdminDictionaryMapper;
+import com.ws.ldy.modules.sys.admin.model.dto.AdminDictionaryDTO;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminDictionary;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryVO;
 import com.ws.ldy.modules.sys.admin.service.AdminDictionaryService;
@@ -29,22 +31,47 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      */
     private static final String pid = "0";
 
+
     @Override
-    public List<AdminDictionaryVO> findTree() {
-        List<AdminDictionaryVO> respDictList = new ArrayList<>();
-        List<AdminDictionary> dictList = this.list(new LambdaQueryWrapper<AdminDictionary>()
-                .orderByAsc(AdminDictionary::getSort)
-                .orderByAsc(AdminDictionary::getCode)
-        );
-        List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(dictList, AdminDictionaryVO.class);
-        // 递归添加下级数据,  new ArrayList<>() 是没有用的, findByCodeIds收集Ids 所有
-        dictVoList.forEach(item -> {
-            if (pid.equals(item.getPid())) {
-                nextLowerNode(dictVoList, item, new ArrayList<>());
-                respDictList.add(item);
+    public Boolean insert(AdminDictionaryDTO dto) {
+        if (StringUtils.isNotBlank(dto.getId())) {
+            throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
+        }
+        if (StringUtils.isBlank(dto.getCode().trim())) {
+            throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + LambdaUtils.convert(AdminDictionaryDTO::getCode));
+        }
+        dto.setCode(dto.getCode().trim());
+        if (!StringUtil.isInteger(dto.getCode()) && this.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
+            // 字符串code 为string时不能重复, 为Integer时可以重复
+            throw new ErrorException(RType.DICT_DUPLICATE);
+        }
+        boolean res = this.save(dto.convert(AdminDictionary.class));
+        //清除缓存
+        BaseCache.DICT_MAP_GROUP = null;
+        return res;
+    }
+
+    @Override
+    public Boolean upd(AdminDictionaryDTO dto) {
+        if (StringUtils.isBlank(dto.getId())) {
+            throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
+        }
+        // 因为Code不能重复, 编辑了Code 需单独处理数据
+        if (dto.getCode() != null) {
+            dto.setCode(dto.getCode().trim());
+            // 原数据
+            AdminDictionary dict = this.getById(dto.getId());
+            //  原数据code != new Code, 判断数据库是否存在修改后的code值 ， code为Integer时不处理
+            if (!dict.getCode().equals(dto.getCode().trim())) {
+                if (!StringUtil.isInteger(dto.getCode()) && this.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
+                    throw new ErrorException(RType.DICT_DUPLICATE);
+                }
             }
-        });
-        return respDictList;
+        }
+        boolean res = this.updateById(dto.convert(AdminDictionary.class));
+        //清除缓存
+        BaseCache.DICT_MAP_GROUP = null;
+        return res;
     }
 
 
@@ -114,7 +141,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
         // 4、数据过滤，是否需要最后一级数据（false不需要）
         if (!isBottomLayer) {
-            dictListVO = dictListVO.stream().filter(i -> ! StringUtil.isInteger(i.getCode())).collect(Collectors.toList());
+            dictListVO = dictListVO.stream().filter(i -> !StringUtil.isInteger(i.getCode())).collect(Collectors.toList());
         }
 
         // 5、递归添加下级数据, pDictListVO 为tree数据, diceIds 为指定code层级下所有字典id收集
@@ -228,6 +255,21 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         return list;
     }
 
+    @Override
+    public Map<String, String> generateEnum(String enumName) {
+        List<AdminDictionaryVO> dict = this.findByCodeFetchDictVO(enumName, true, false, true);
+        String enumsJava = this.generateEnumJava(dict.get(0));
+        String enumsJs = this.generateEnumJs(dict.get(0));
+        Map<String, String> map = new HashMap<>();
+        // 完整的枚举字典
+        map.put("java", enumsJava);
+        // 枚举字典key，直接通过key获取
+        map.put("js", enumsJs);
+        System.out.println(enumsJava);
+        System.out.println(enumsJs);
+        return map;
+    }
+
 
     /**
      * 递归添加下级数据
@@ -262,8 +304,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * @date 2020/8/16 0016 0:10
      * @version 1.0.0
      */
-    @Override
-    public String generateEnumJava(AdminDictionaryVO dict) {
+    private String generateEnumJava(AdminDictionaryVO dict) {
 
         StringBuffer sb = new StringBuffer();
         sb.append("package com.ws.ldy.enums;\n");
@@ -313,8 +354,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * @date 2020/8/16 0016 0:29
      * @version 1.0.0
      */
-    @Override
-    public String generateEnumJs(AdminDictionaryVO dict) {
+    private String generateEnumJs(AdminDictionaryVO dict) {
         StringBuffer sb = new StringBuffer();
         //
         sb.append("var Enums = {");
@@ -332,7 +372,6 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         sb.append("\n};");
         return sb.toString();
     }
-
 
 
 //    /**
