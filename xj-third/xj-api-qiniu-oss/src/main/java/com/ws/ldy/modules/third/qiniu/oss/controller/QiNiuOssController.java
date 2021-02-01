@@ -27,7 +27,7 @@ public class QiNiuOssController {
     private QiNiuUtils qiNiuUtils;
 
     @RequestMapping(value = "/findTokenAndUrl", method = RequestMethod.GET) //consumes = "multipart/*", headers = "content-type=multipart/form-data"
-    @ApiOperation("前端直传--获取七牛云上传Token和上传Url")
+    @ApiOperation("前端直传--获取七牛云上传Token和访问Url")
     public R<TokenAndUrlVO> findToken() {
         TokenAndUrlVO token = qiNiuUtils.getUpToken();
         return R.success(token);

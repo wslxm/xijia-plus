@@ -15,14 +15,14 @@
     <dependencies>
         <dependency>
             <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-admin-server</artifactId>
-            <version>${xj-admin-server.version}</version>
+            <artifactId>xj-base-admin</artifactId>
+            <version>${xj-base-admin.version}</version>
         </dependency>
         <!-- 界面- 后台管理系统ui -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-admin-ui</artifactId>
-            <version>${xj-admin-ui.version}</version>
+            <artifactId>xj-base-admin-ui</artifactId>
+            <version>${xj-base-admin-ui.version}</version>
         </dependency>
         <!-- 接口文档- knife4j-ui 注意加载顺序,必须在swagger2之下引入 -->
         <!--        <dependency>-->
@@ -63,8 +63,8 @@
         <!-- 聚合支付(微信(已集成)/支付宝) -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-pay-server</artifactId>
-            <version>${xj-pay-server.version}</version>
+            <artifactId>xj-base-pay</artifactId>
+            <version>${xj-base-pay.version}</version>
         </dependency>
     </dependencies>
 

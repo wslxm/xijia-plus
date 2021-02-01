@@ -32,7 +32,7 @@ public class TestSFController {
         ContactInfoList contactInfo1 = new ContactInfoList();
         contactInfo1.setContactType(1);  //1，寄件方信息 2，到件方信息
         contactInfo1.setContact("王松");
-        contactInfo1.setCountry("CN");
+        contactInfo1.setCountry("CN"); //国家或地区
         contactInfo1.setTel("17628689969");
         contactInfo1.setAddress("四川省成都市双流区xx小区xx单元");
         contactInfoList.add(contactInfo1);

@@ -15,7 +15,7 @@
 11、模块化已大致完成
 12、微信mq(公众号)优化, 网页授权并增加code 获得微信用户信息接口
 13、阿里云sms代码优化,化繁为简, 修改static 为spring bend容器存放数据
-14、增加 xj-pay-server 支付模块,继承第三方支付和保存交易记录
+14、增加 xj-base-pay 支付模块,继承第三方支付和保存交易记录
 15、优化xj-api-wx-mp 模块,使用wxjava-sdk方法发送模版消息及网页授权
 16、优化xj-api-aliyun-sms 模块,短信我怎么签名yml配置默认
 

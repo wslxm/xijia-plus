@@ -3,22 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>spring-boot-plus2</artifactId>
+        <artifactId>xj-server</artifactId>
         <groupId>com.ws.ldy</groupId>
         <version>0.0.9-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>xj-base</artifactId>
-    <name>xj-base</name>
-    <packaging>pom</packaging>
+    <artifactId>xj-base-admin-ui</artifactId>
+    <version>${xj-base-admin-ui.version}</version>
 
-    <modules>
-        <module>xj-base-result</module>
-        <module>xj-base-core</module>
-        <module>xj-base-jwt</module>
-        <module>xj-base-admin</module>
-        <module>xj-base-admin-ui</module>
-        <module>xj-base-pay</module>
-    </modules>
+    <dependencies>
+        <!-- 解析html包-thymeleaf -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+    </dependencies>
 </project>

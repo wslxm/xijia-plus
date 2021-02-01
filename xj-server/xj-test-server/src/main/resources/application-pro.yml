@@ -84,7 +84,7 @@ kuaidu:
   kuaidi100:
     key: vkvhbTZJ1059
     customer: 0953C663278B625ED2FB94AF1F3A02D6
-    sign: 0953C663278B625ED2FB94AF1F3A02D6
+
   # 顺丰(丰桥) 个人账号沙盒测试地址(17628689969/ ws/19960302)
   sf:
     url: https://sfapi-sbox.sf-express.com/std/service    # 请求地址,沙盒, 正式地址=https://sfapi.sf-express.com/std/service

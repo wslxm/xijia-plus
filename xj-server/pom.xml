@@ -14,10 +14,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>xj-admin-server</module>
-        <module>xj-admin-ui</module>
         <module>xj-pets-server</module>
         <module>xj-test-server</module>
-        <module>xj-pay-server</module>
     </modules>
 </project>

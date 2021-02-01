@@ -28,15 +28,15 @@
         <!-- 架构版本 RELEASE=正式版 SNAPSHOT=开发版(实时刷新jar依赖), 改版本号修改时请使用全局替换,${revision}读取会导致子模块无法单独打包 -->
         <revision>0.0.9-SNAPSHOT</revision>
         <!-- 项目代码版本 -->
-        <xj-admin-server.version>0.0.9.1</xj-admin-server.version>  <!-- 基础服务-api  -->
-        <xj-admin-ui.version>0.0.9</xj-admin-ui.version>            <!-- 基础服务-页面 -->
         <xj-pets-server.version>0.3</xj-pets-server.version>        <!-- 业务模块-宠物 -->
-        <xj-pay-server.version>0.0.1</xj-pay-server.version>        <!-- 聚合支付服务  -->
         <xj-test-server.version>0.0.9</xj-test-server.version>      <!-- 业务模块-个人业务+测试 -->
         <!-- 系统核心包 -->
-        <xj-base-core.version>0.0.1</xj-base-core.version>
-        <xj-base-jwt.version>0.0.1</xj-base-jwt.version>
-        <xj-base-result.version>0.0.1</xj-base-result.version>
+        <xj-base-core.version>0.0.1</xj-base-core.version>          <!-- 通用base层,枚举字段层 -->
+        <xj-base-jwt.version>0.0.1</xj-base-jwt.version>            <!-- 登录认证 -->
+        <xj-base-result.version>0.0.1</xj-base-result.version>      <!-- 统一返回 -->
+        <xj-base-pay.version>0.0.1</xj-base-pay.version>            <!-- 聚合支付服务  -->
+        <xj-base-admin.version>0.0.9.1</xj-base-admin.version>      <!-- 基础服务-api  -->
+        <xj-base-admin-ui.version>0.0.9</xj-base-admin-ui.version>  <!-- 基础服务-页面 -->
         <!-- 系统第三方集成 -->
         <xj-api-aliyun-oss.version>0.0.1</xj-api-aliyun-oss.version>
         <xj-api-aliyun-sms.version>0.0.1</xj-api-aliyun-sms.version>

@@ -54,7 +54,11 @@ public class KuaiDi100ServiceImpl implements KuaiDi100Service {
     }
 
 
-
+    /**
+     * 智能识别快递单号
+     * @param orderId
+     * @return
+     */
     private List<KuaiDiCode> findKuaiDiCode(String orderId) {
         List<KuaiDiCode> kuaiDiCode = kuaiDi100Util.findKuaiDiCode(orderId);
         return kuaiDiCode;

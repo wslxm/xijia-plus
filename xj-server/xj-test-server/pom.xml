@@ -15,21 +15,21 @@
     <dependencies>
         <dependency>
             <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-admin-server</artifactId>
-            <version>${xj-admin-server.version}</version>
+            <artifactId>xj-base-admin</artifactId>
+            <version>${xj-base-admin.version}</version>
         </dependency>
         <!-- 界面- 后台管理系统ui -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-admin-ui</artifactId>
-            <version>${xj-admin-ui.version}</version>
+            <artifactId>xj-base-admin-ui</artifactId>
+            <version>${xj-base-admin-ui.version}</version>
         </dependency>
         <!-- 接口文档- knife4j-ui 注意加载顺序,必须在swagger2之下引入 -->
-        <!--        <dependency>-->
-        <!--            <groupId>com.ws.ldy</groupId>-->
-        <!--            <artifactId>xj-doc-knife4j</artifactId>-->
-        <!--            <version>${xj-doc-knife4j.version}</version>-->
-        <!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.ws.ldy</groupId>-->
+<!--            <artifactId>xj-doc-knife4j</artifactId>-->
+<!--            <version>${xj-doc-knife4j.version}</version>-->
+<!--        </dependency>-->
         <!-- 接口文档- swagger2-ui -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
@@ -66,11 +66,29 @@
             <artifactId>xj-api-wx-app</artifactId>
             <version>${xj-api-wx-app.version}</version>
         </dependency>
+        <!--  第三方服务- 快递100-->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-api-kuaidi-kuaidi100</artifactId>
+            <version>${xj-api-kuaidi-kuaidi100.version}</version>
+        </dependency>
+        <!-- 第三方服务- 顺丰 -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-api-kuaidi-sf</artifactId>
+            <version>${xj-api-kuaidi-sf.version}</version>
+        </dependency>
+        <!-- 服务集成- 监控中心SpringBootAdmin  -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-fw-boot-admin</artifactId>
+            <version>${xj-fw-boot-admin.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
         <!-- 打包后的 jar名称 -->
-        <finalName>xj-server</finalName>
+        <finalName>xijia-server</finalName>
         <plugins>
             <!-- 打包 -->
             <plugin>

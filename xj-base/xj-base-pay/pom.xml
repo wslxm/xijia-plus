@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xj-base</artifactId>
+        <groupId>com.ws.ldy</groupId>
+        <version>0.0.9-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>xj-base-pay</artifactId>
+    <version>${xj-base-pay.version}</version>
+
+    <!-- 聚合支付模块 -->
+    <dependencies>
+        <!-- 第三方服务-  微信支付相关 -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-api-wx-pay</artifactId>
+            <version>${xj-api-wx-pay.version}</version>
+        </dependency>
+        <!-- 工具- util 核心-常用工具类 -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-util-core</artifactId>
+            <version>${xj-util-core.version}</version>
+        </dependency>
+        <!-- 核心组件- 通用base层+字典枚举  -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-base-core</artifactId>
+            <version>${xj-base-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-base-jwt</artifactId>
+            <version>${xj-base-jwt.version}</version>
+        </dependency>
+    </dependencies>
+</project>
