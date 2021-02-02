@@ -12,6 +12,12 @@
     <artifactId>xj-api-baidu</artifactId>
     <version>${xj-api-baidu.version}</version>
 
+    <!-- sdk地址：https://ai.baidu.com/sdk#vis -->
+    <!-- sdk地址：https://ai.baidu.com/sdk#vis -->
+    <properties>
+           <com.baidu.aip.version>4.15.1</com.baidu.aip.version> <!-- 文字识别sdk -->
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.ws.ldy</groupId>
@@ -32,6 +38,37 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
-    </dependencies>
 
+        <!-- 文字识别sdk -->
+        <dependency>
+            <groupId>com.baidu.aip</groupId>
+            <artifactId>java-sdk</artifactId>
+            <version>${com.baidu.aip.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160810</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.28</version>
+             <!-- <scope>test</scope>-->
+        </dependency>
+    </dependencies>
 </project>
