@@ -2,6 +2,7 @@ package com.ws.ldy.modules.third.websocket.model.vo;
 
 import com.ws.ldy.modules.third.websocket.server.WebsocketServer;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -16,10 +17,11 @@ import java.time.format.DateTimeFormatter;
  * @date 2020/6/30 0030 18:24
  */
 @Data
-public class SendMsgVO  implements Serializable {
+@NoArgsConstructor
+public class SendMsgVO implements Serializable {
     private static final long serialVersionUID = -9051438901021877148L;
     /**
-     * 消息类型(1-上线通知 2-下线通知 3-在线名单通知  4-代表普通消息通知 )
+     * 消息类型(0-心跳检测 1-上线通知 2-下线通知 3-在线名单通知  4-代表普通消息通知 )
      */
     private Integer mesType;
     /**
@@ -69,7 +71,7 @@ public class SendMsgVO  implements Serializable {
      * @param content  发送消息内容
      * @param extras   发送消息扩展字段
      */
-    public SendMsgVO(Integer mesType, String from, String username, String  headPic,String to, String content, String extras) {
+    public SendMsgVO(Integer mesType, String from, String username, String headPic, String to, String content, String extras) {
         this.mesType = mesType;
         this.from = from;
         this.username = username;
@@ -78,7 +80,6 @@ public class SendMsgVO  implements Serializable {
         this.content = content;
         this.extras = extras;
         this.onlineNum = WebsocketServer.clients.size();
-        //
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         this.createTime = df.format(LocalDateTime.now());
     }

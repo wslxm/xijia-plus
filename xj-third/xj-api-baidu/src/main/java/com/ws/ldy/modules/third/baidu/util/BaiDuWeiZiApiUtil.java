@@ -3,6 +3,7 @@ package com.ws.ldy.modules.third.baidu.util;
 import com.alibaba.fastjson.JSON;
 import com.baidu.aip.ocr.AipOcr;
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.modules.third.baidu.config.BaiDuProperties;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
@@ -20,19 +21,14 @@ import java.util.HashMap;
 @Component
 public class BaiDuWeiZiApiUtil {
 
-    //设置APPID/AK/SK
-    public static final String APP_ID = "23624003";
-    public static final String API_KEY = "Y8yMV28vTw4FHuYGNbb4oyS9";
-    public static final String SECRET_KEY = "xTKv7EHNPrQ1LOnfOIGKjnXlOCIqIMoX";
 
-    static AipOcr client = null;
+    AipOcr client = null;
 
     /**
      * 初始化 client
      */
-    static {
-        client = new AipOcr(APP_ID, API_KEY, SECRET_KEY);
-
+    public BaiDuWeiZiApiUtil(BaiDuProperties baiDuProperties) {
+        client = new AipOcr(baiDuProperties.getAppId(), baiDuProperties.apiKey, baiDuProperties.getSecretKey());
         // 可选：设置网络连接参数
         //client.setConnectionTimeoutInMillis(2000);
         // client.setSocketTimeoutInMillis(60000);
@@ -161,7 +157,7 @@ public class BaiDuWeiZiApiUtil {
         options.put("detect_risk", "true");
         String idCardSide = "back";
         byte[] fileByte = readImageFile(in);
-        JSONObject res = client.idcard(fileByte,idCardSide, options);
+        JSONObject res = client.idcard(fileByte, idCardSide, options);
         return R.success(JSON.toJSONString(res));
     }
 

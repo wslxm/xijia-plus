@@ -66,6 +66,7 @@ spring-boot-plus2
                └──xj-util-fastjson         fastjson工具
                └──xj-util-poi              excel 工具
                └──xj-util-qrcode           二维码 工具
+               └──xi-util-geodesy          通过经纬度距离计算 工具(DistanceUtil)
 ```
 
 

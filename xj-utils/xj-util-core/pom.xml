@@ -23,26 +23,13 @@
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
-
             <version>${cglib.version}</version>
         </dependency>
+        <!-- mybatis-plus page dto/po/vo 转换使用 -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus-boot-starter.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.google.guava</groupId>-->
-<!--            <artifactId>guava</artifactId>-->
-<!--            <version>29.0-jre</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
-        <!-- druid 阿里巴巴数据源 -->
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba</groupId>-->
-<!--            <artifactId>druid-spring-boot-starter</artifactId>-->
-<!--            <version>${druid-spring-boot-starter.version}</version>-->
-<!--        </dependency>-->
     </dependencies>
-
 </project>

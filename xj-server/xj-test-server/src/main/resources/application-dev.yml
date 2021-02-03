@@ -77,6 +77,13 @@ qiniu:
     area: "z2"
 
 
+baidu:
+  # 百度文字识别
+  text:
+    appId: "23624003"
+    apiKey: "Y8yMV28vTw4FHuYGNbb4oyS9"
+    secretKey: "xTKv7EHNPrQ1LOnfOIGKjnXlOCIqIMoX"
+
 ## 快递
 kuaidu:
   # 快递100，授权码,客户码, 请到快递100页面申请企业版接口获取
@@ -98,4 +105,4 @@ logging:
   # 配置日志路径即可实时输出到 spring-boot-admin 日志管理
   file: /usr/local/work/xijia2/log.txt
   # 需要记录到数据库的请求 (正式环境不建议记录GET 请求,太占资源)
-  methods: GET,POST,PUT,DELETE
+  methods: POST,PUT,DELETE

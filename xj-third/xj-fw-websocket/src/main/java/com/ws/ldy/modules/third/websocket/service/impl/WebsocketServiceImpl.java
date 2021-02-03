@@ -49,7 +49,7 @@ public class WebsocketServiceImpl implements WebsocketService {
      *
      * @param form     发送人id
      * @param username 发送人用户名
-     * @param to       接收人id（多个逗号分隔）
+     * @param to       接收人id（多个逗号分隔）,所有人使用-ALL)
      * @param content  发送内容
      * @param content  发送内容
      * @param content  扩暂发送内容

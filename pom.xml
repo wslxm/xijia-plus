@@ -40,7 +40,7 @@
         <!-- 系统第三方集成 -->
         <xj-api-aliyun-oss.version>0.0.1</xj-api-aliyun-oss.version>
         <xj-api-aliyun-sms.version>0.0.1</xj-api-aliyun-sms.version>
-        <xj-api-baidu.version>0.0.1</xj-api-baidu.version>
+        <xj-api-baidu.version>0.0.2</xj-api-baidu.version>
         <xj-api-kuaidi-kuaidi100.version>0.0.1</xj-api-kuaidi-kuaidi100.version>
         <xj-api-kuaidi-sf.version>0.0.1</xj-api-kuaidi-sf.version>
         <xj-api-qiniu-oss.version>0.0.1</xj-api-qiniu-oss.version>
@@ -52,12 +52,13 @@
         <xj-doc-swagger2-ui.version>0.0.1</xj-doc-swagger2-ui.version>
         <xj-fw-boot-admin.version>0.0.1</xj-fw-boot-admin.version>
         <xj-fw-redis.version>0.0.1</xj-fw-redis.version>
-        <xj-fw-websocket.version>0.0.1</xj-fw-websocket.version>
+        <xj-fw-websocket.version>0.0.2</xj-fw-websocket.version>
         <!-- 系统工具包 -->
         <xj-util-core.version>0.0.1</xj-util-core.version>
         <xj-util-fastjson.version>0.0.1</xj-util-fastjson.version>
         <xj-util-poi.version>0.0.1</xj-util-poi.version>
         <xj-util-qrcode.version>0.0.1</xj-util-qrcode.version>
+        <xi-util-geodesy.version>0.0.1</xi-util-geodesy.version>
         <!-- ================== 内部jar版本END ======================= -->
         <!-- ================== 编码环境 START ======================= -->
         <!-- 文件拷贝时的编码 -->

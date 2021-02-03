@@ -15,12 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/open/baidu")
-@Api(value = "WeiZiApiController", tags = "BaiDu  -->  百度API")
-public class BaiDuWeiZiApiController {
+@Api(value = "BaiDuApiController", tags = "BaiDu  -->  百度API")
+public class BaiDuApiController {
 
 
     @Autowired
     private BaiDuWeiZiApiUtil baiDuWeiZiApiUtil;
+
 
     @SneakyThrows
     @RequestMapping(value = "/textRecognition", method = RequestMethod.POST)

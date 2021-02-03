@@ -133,5 +133,6 @@ public class GenerateConfig {
             "comment",
             "disable",
             "force",
+            "describe",
     };
 }

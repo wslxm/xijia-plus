@@ -78,6 +78,15 @@ qiniu:
     area: "z2"
 
 
+baidu:
+  # 百度文字识别
+  text:
+    appId: "23624003"
+    apiKey: "Y8yMV28vTw4FHuYGNbb4oyS9"
+    secretKey: "xTKv7EHNPrQ1LOnfOIGKjnXlOCIqIMoX"
+
+
+
 ## 快递
 kuaidu:
   # 快递100，授权码,客户码, 请到快递100页面申请企业版接口获取

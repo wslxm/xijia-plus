@@ -121,8 +121,6 @@ public class WebsocketServer {
      *   // 发送数据
      *   webSocket.send(JSON.stringify(message));
      *   ....
-     *   </P>
-     *   <P> 注意：后端一分钟没有收到心跳检测就会自动断连接，前端需要在 <60秒 轮训发送心跳检测</P>
      */
     @OnMessage
     public void onMessage(@PathParam("userId") String userId, @PathParam("username") String username, @PathParam("headPic") String headPic, String message, Session session) {
@@ -145,16 +143,17 @@ public class WebsocketServer {
             // 发送消息给所有人
             Set<String> userIds = clients.keySet();
             for (String userId : userIds) {
-                return this.sendMsg(userId, sendMsg);
+                this.sendMsg(userId, sendMsg);
             }
+            return true;
         } else {
             //发送消息给指定人
             String[] userIds = sendMsg.getTo().split(",");
             for (String userId : userIds) {
-                return this.sendMsg(userId, sendMsg);
+                this.sendMsg(userId, sendMsg);
             }
+            return true;
         }
-        return false;
     }
 
 

@@ -30,6 +30,11 @@
     <!-- 当前页js css-->
     <script src="/modules/admin/help-index.js"></script>
     <link rel="stylesheet" href="/modules/css/admin/help-index.css">
+
+    <!-- 图片放大 -->
+    <link rel="stylesheet" href="/components/picEnlarge/picEnlarge.css">
+    <script src="/components/picEnlarge/picEnlarge.js"></script>
+
     <!-- jq 插件，鼠标效果 -->
     <!-- <script src="/components/fairy/js/batsCursor.js" type="text/javascript"></script>-->
     <!--  <script src=”js/fairyDustCursor.js” type=”text/javascript”></script>-->
@@ -37,11 +42,6 @@
     <!--  <script src=”js/bubbleCursor.js” type=”text/javascript”></script>-->
     <!--  <script src=”js/batsCursor.js” type=”text/javascript”></script>-->
     <!--  <script src=”js/snowflakeCursor.js” type=”text/javascript”></script>-->
-
-    <!-- 图片放大 -->
-    <link rel="stylesheet" href="/components/picEnlarge/picEnlarge.css">
-    <script src="/components/picEnlarge/picEnlarge.js"></script>
-
 </head>
 
 <style>
@@ -167,6 +167,8 @@
         $("#title").html(res.data.title);
         // 生成内容菜单
         generateContentList();
+        // 加载所有ing可以图片放大
+        addExpand();
     }
 </script>
 
@@ -175,13 +177,8 @@
     // 加载左菜单
     let res = Ajax.get(path + "/admin/adminHelp/findTree");
     initMenu(res.data);
-
-
-    //最后加载
-    $(function () {
-        // 加载图片放大插件
-        addExpand();
-    })
+    // 加载图片放大插件
+    addExpand();
 </script>
 
 </html>

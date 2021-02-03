@@ -18,5 +18,6 @@
         <module>xj-util-poi</module>
         <module>xj-util-qrcode</module>
         <module>xj-util-fastjson</module>
+        <module>xi-util-geodesy</module>
     </modules>
 </project>
