@@ -111,7 +111,7 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
 
     @RequestMapping(value = "/generateEnum", method = RequestMethod.GET)
     @ApiOperation(value = "生成枚举", notes = "排序数字越小,越靠前, \n 返回参数Map<String, String> ==> \n map.java = 完整的java枚举字段 \n map.js = 代码枚举字典key，前端直接通过key获取对应值")
-    public R<Map<String, String>> generateEnum() {
-        return R.success( baseService.generateEnum("ENUMS"));
+    public R<Map<String, String>> generateEnum(String enumsKey) {
+        return R.success(baseService.generateEnum(enumsKey));
     }
 }

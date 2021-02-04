@@ -258,7 +258,12 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     @Override
     public Map<String, String> generateEnum(String enumName) {
         List<AdminDictionaryVO> dict = this.findByCodeFetchDictVO(enumName, true, false, true);
-        String enumsJava = this.generateEnumJava(dict.get(0));
+        String enumsJava = null;
+       if(enumName.equals("ENUMS")){
+           enumsJava =  this.generateEnumJava(dict.get(0));
+       }else{
+           enumsJava = this.generateEnumJava2(dict.get(0));
+       }
         String enumsJs = this.generateEnumJs(dict.get(0));
         Map<String, String> map = new HashMap<>();
         // 完整的枚举字典
@@ -298,7 +303,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
 
     /**
-     * 生成java 代码枚举对象， 请将生成好的代码直接替换到 enums/Enums 类
+     * 生成java 代码枚举对象， 请将生成好的代码直接替换到 enums/Enums 类( 指定为2级，所有子模块枚举共用一个枚举类)
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/8/16 0016 0:10
@@ -345,6 +350,46 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         sb.append("}\n");
         return sb.toString();
     }
+
+
+    /**
+     * 生成java 代码枚举对象， 请将生成好的代码直接替换到 enums/Enums 小的二级类( 指定为2级，每个子模块枚举一个类)
+     * @author wangsong
+     * @mail 1720696548@qq.com
+     * @date 2020/8/16 0016 0:10
+     * @version 1.0.0
+     */
+    private String generateEnumJava2(AdminDictionaryVO dict) {
+        String code = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dict.getCode());
+        StringBuffer sb = new StringBuffer();
+        sb.append("package com.ws.ldy.enums;\n");
+        sb.append("\nimport lombok.AllArgsConstructor;");
+        sb.append("\nimport lombok.Getter;\n");
+        sb.append("\npublic interface " + code + "{\n");
+        // 字段名
+        for (AdminDictionaryVO dictField : dict.getDictList()) {
+            String moduleName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictField.getCode());
+            sb.append("\n        // " + dictField.getDesc() + "\n");
+            sb.append("        @Getter\n");
+            sb.append("        @AllArgsConstructor\n");
+            sb.append("        enum " + moduleName + " implements IEnum<Integer> {\n");
+            //枚举字典的-枚举属性
+            if (dictField.getDictList() == null) {
+                continue;
+            }
+            for (AdminDictionaryVO dictValue : dictField.getDictList()) {
+                sb.append("            " + dictField.getCode() + "_" + dictValue.getCode() + "(" + dictValue.getCode() + ", \"" + dictValue.getName() + "\"),    // " + dictValue.getDesc() + "\n");
+            }
+            //
+            sb.append("            ;\n");
+            sb.append("            private Integer value;\n");
+            sb.append("            private String desc;\n");
+            sb.append("        }\n");
+        }
+        sb.append("    }\n");
+        return sb.toString();
+    }
+
 
 
     /**

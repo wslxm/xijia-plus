@@ -348,7 +348,27 @@
      * @param data
      */
     function generateEnum() {
-        let res = Ajax.get(generate_enum);
+        let codeThree = $("#codeThree").val();
+        let codeTwo = $("#codeTwo").val();
+        let codeOne = $("#codeOne").val();
+        let code = "";
+        if (codeOne != null && codeOne !== '') {
+            code = codeOne;
+            pid  = onePid;
+        }
+        if (codeTwo != null && codeTwo !== '') {
+            code = codeTwo;
+            pid  = twoPid;
+        }
+        if (codeThree != null && codeThree !== '') {
+            code = codeThree;
+            pid  = threePid;
+        }
+        if (code === "") {
+            code = "ENUMS";
+            pid = "0";
+        }
+        let res = Ajax.get(generate_enum+"?enumsKey="+code );
         //let jsonData = JSON.parse(data);
         //tab层
         //let html = "<div style='width: 95%;height: 95%;'><iframe src='/{file}' style='width: 100%;height: 730px;margin-top: 1%'></iframe></div>";
