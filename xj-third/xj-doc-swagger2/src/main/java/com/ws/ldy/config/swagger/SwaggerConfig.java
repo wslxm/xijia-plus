@@ -6,6 +6,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.RequestHandler;
@@ -29,24 +30,39 @@ import java.util.List;
  * @date 2020/11/20 0020 9:06
  * @version 1.0.0
  */
+@SuppressWarnings("all")
 @Configuration
 @EnableSwagger2
 @Slf4j
 public class SwaggerConfig {
 
 
+    @Value("${swagger.sysAdminPackage}")
+    private String sysAdminPackage;
+    @Value("${swagger.sysBasePackage}")
+    private String sysBasePackage;
+    @Value("${swagger.ywAdminPackage}")
+    private String ywAdminPackage;
+    @Value("${swagger.ywClientPackage}")
+    private String ywClientPackage;
+    @Value("${swagger.author}")
+    private String author;
+    @Value("${swagger.email}")
+    private String email;
+    @Value("${swagger.url}")
+    private String url;
+    @Value("${swagger.version}")
+    private String version;
+    @Value("${swagger.defaultKey}")
+    private String defaultKey;
+    @Value("${swagger.defaultValue}")
+    private String defaultValue;
+    // 是否展示接口文档
+    @Value("${swagger.isShow:true}")
+    private Boolean isShow;
+
     // 定义分隔符
     private static final String splitor = ",";
-
-
-    @Bean
-    public Docket sysBaseApi() {
-        // 名称
-        String groupName = "BASE--通用模块";
-        // 扫包路径
-        String basePackage = "com.ws.ldy.modules.third";
-        return this.createDocket(groupName, basePackage);
-    }
 
 
     @Bean
@@ -54,11 +70,15 @@ public class SwaggerConfig {
         // 名称
         String groupName = "ADMIN--系统模块";
         // 扫包路径
-        String basePackage = "com.ws.ldy.modules.sys.admin"
-                + splitor + "com.ws.ldy.modules.sys.gc"
-                + splitor + "com.ws.ldy.modules.sys.pay"
-                + splitor + "com.ws.ldy.modules.sys.xj";
-        return this.createDocket(groupName, basePackage);
+        return this.createDocket(groupName, sysAdminPackage);
+    }
+
+    @Bean
+    public Docket sysBaseApi() {
+        // 名称
+        String groupName = "BASE--通用模块";
+        // 扫包路径
+        return this.createDocket(groupName, sysBasePackage);
     }
 
 
@@ -67,8 +87,7 @@ public class SwaggerConfig {
         // 名称
         String groupName = "业务管理端";
         // 扫包路径
-        String basePackage = "com.ws.ldy.modules.yw";
-        return this.createDocket(groupName, basePackage);
+        return this.createDocket(groupName, ywAdminPackage);
     }
 
 
@@ -77,8 +96,7 @@ public class SwaggerConfig {
         // 名称
         String groupName = "业务用户端";
         // 扫包路径
-        String basePackage = "com.ws.ldy.client";
-        return this.createDocket(groupName, basePackage);
+        return this.createDocket(groupName, ywClientPackage);
     }
 
 
@@ -87,10 +105,13 @@ public class SwaggerConfig {
      * @return
      */
     public Docket createDocket(String groupName, String basePackage) {
+        if(!isShow){
+            return null;
+        }
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName(groupName)
                 // 全局参数 -> 默认token参数
-                .globalOperationParameters(getGlobalParameter("token"))
+                .globalOperationParameters(getGlobalParameter())
                 .select()
                 //.apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.pets"
                 .apis(basePackage(basePackage))   // 自行修改为自己的包路径
@@ -101,9 +122,9 @@ public class SwaggerConfig {
                 .apiInfo(new ApiInfoBuilder()
                         .title(groupName)
                         .description("restful Swagger API 文档")
-                        .termsOfServiceUrl("https://gitee.com/wslxm/spring-boot-plus2")
-                        .version("1.0.0")
-                        .contact(new Contact("王松", "https://gitee.com/wslxm/spring-boot-plus2", "1270696548@qq.com"))
+                        .termsOfServiceUrl(url)
+                        .version(version)
+                        .contact(new Contact(author, url, email))
                         .build());
     }
 
@@ -115,54 +136,22 @@ public class SwaggerConfig {
      * @return java.util.List<springfox.documentation.service.Parameter>
      * @version 1.0.0
      */
-    private List<Parameter> getGlobalParameter(String tokenVal) {
+    private List<Parameter> getGlobalParameter() {
         ParameterBuilder parameterBuilder = new ParameterBuilder();
         // 管理端默认账号
         parameterBuilder
-                .name("TOKEN")                              // key
-                .scalarExample(tokenVal)                    // value-默认token值 getAdminUserToken(username)
+                .name(defaultKey)                           // key
+                .scalarExample(defaultValue)               // value-默认token值 getAdminUserToken(username)
                 .description("请求头参数")                   // 描叙
                 .modelRef(new ModelRef("string"))     // 字符串参数
                 .parameterType("header")                   // 请求头参数
-                .order(-1)                                 // 靠前
+                .order(-100)                               // 靠前
                 .required(false)                           // 非必传
                 .build();
         List<Parameter> parameters = Lists.newArrayList();
         parameters.add(parameterBuilder.build());
         return parameters;
     }
-
-
-//    /**
-//     * 获取全局参数token值，默认swagger token
-//     * @param username
-//     * @return
-//     */
-//    public String getAdminUserToken(String username) {
-//        // 1、判断账号
-//        AdminUser user = adminUserService.getOne(new LambdaQueryWrapper<AdminUser>().eq(AdminUser::getUsername, username));
-//        if (user == null) {
-//            log.info("管理端账号注入swagger 失败，没有获取到账号信息");
-//            throw new ErrorException(RType.LOGIN_IS_NO_ACCOUNT);
-//        }
-//        // 登录成功
-//        // 4、获取权限列表,保存权限-未禁用,管理端(登录+认证的)
-//        List<String> authList = adminAuthorityService.findByUserIdaAndDisableFetchAuthority(user.getId());
-//        // 5、生成jwt
-//        JwtUser jwtUser = new JwtUser();
-//        jwtUser.setUserId(user.getId());
-//        jwtUser.setUsername(user.getUsername());
-//        jwtUser.setFullName(user.getFullName());
-//        jwtUser.setType(Enums.Admin.AuthorityType.AUTHORITY_TYPE_0.getValue());
-//        jwtUser.setHead(user.getHead());
-//        jwtUser.setPhone(user.getPhone());
-//        // 添加权限 和 权限数据版本号,当权限发生改变时，直接刷新token信息
-//        jwtUser.setAuthList(authList);
-//        jwtUser.setAuthVersion(BaseConstant.Cache.AUTH_VERSION);
-//        String jwtToken = JwtUtil.createToken(jwtUser);
-//        log.info("管理端账号注入swagger 默认token成功，当前账号为:{} 账号姓名为：{} " + user.getUsername(), user.getFullName());
-//        return jwtToken;
-//    }
 
 
     //=============================================================================================

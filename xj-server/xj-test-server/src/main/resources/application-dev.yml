@@ -1,34 +1,30 @@
 ## 生产环境
 
-## HTTP (Tomcat) port
 server:
   port: 9049
 
-# DataSource Config spring.datasource.dynamic.datasource.db1.url
 spring:
   autoconfigure:
-    # 为了某些版本的springboot  @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class}) 无法生效
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
   datasource:
     dynamic:
-      primary: db1 # 配置默认数据库
-      # | rewriteBatchedStatements=true mybatis批处理优化 | useTimezone=true&serverTimezone=GMT%2B8  使用北京时间 | useUnicode=true&characterEncoding=utf-8 编码 |
+      primary: db1
       datasource:
-        db1: # 数据源1配置
+        db1:
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://xijia.plus/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
-          username:
-          password:
+          username: root
+          password: root123456
           type: com.alibaba.druid.pool.DruidDataSource
 
-## 阿里云api
 aliyun:
+  ## 个人账号
   oss:
-    endpoint:
-    accessKeyId:
-    accessKeySecret:
-    bucketName:
-    bucket:
+    endpoint: oss-cn-shenzhen.aliyuncs.com
+    accessKeyId: LTAI4Fyfy2DTf4yUrvKqHwH4
+    accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8
+    bucketName: xijia-sz
+    bucket: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
 
 # 日志配置, filePath线上日志存放地址（logback-spring.xml 读取） , methods 记录那些请求数据到数据库
 logging:

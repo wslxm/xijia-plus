@@ -1,14 +1,14 @@
 spring:
-  # maven面板动态切换dev/pro环境
+  ## maven面板动态切换dev/pro环境
   profiles:
     active: "@profiles.active@"
-  # 项目名
+  ## 项目名
   application:
     name: xijia
-  # 当遇到同样beng名字的时候，是否允许覆盖注册
+  ## 当遇到同样beng名字的时候，是否允许覆盖注册
   main:
     allow-bean-definition-overriding: true
-  # 关闭thymeleaf缓存 开发时使用,否则没有实时画面
+  ## 关闭thymeleaf缓存 开发时使用,否则没有实时画面
   thymeleaf:
     cache: false
     check-template-location: true
@@ -16,7 +16,7 @@ spring:
     mode: LEGACYHTML5
     prefix: classpath:/templates/
     suffix: .html
-  #时间格式处理
+  ## 时间格式处理
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -25,20 +25,6 @@ spring:
     multipart:
       max-file-size: 1024MB      # 单个文件的最大上限
       max-request-size: 1024MB   # 单个请求的文件总大小上限
-  ## spring-boot-admin 配置
-  boot:
-    admin:
-      ## admin 服务端访问地址
-      context-path: /bootAdmin/
-      ## admin 客户端连接服务端
-      client:
-        # 为了显示客户端的ip否则是以主机名显示的，这样需要添加hosts影射。
-        instance:
-          prefer-ip: true
-        url: http://localhost:${server.port}/${spring.boot.admin.context-path}/
-        #username: admin
-        #password: admin@12345
-
   ## 数据源的连接的基础配置, 当前为mybatis-plus配置方法
   datasource:
     dynamic:
@@ -62,15 +48,15 @@ spring:
         useGlobalDataSourceStat: true
         # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
         connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-    ## 监控平台配置
+    ## druid监控平台配置
     druid:
       # 配置StatFilter
       web-stat-filter:
-        #默认为false，设置为true启动
+        # 默认为false，设置为true启动
         enabled: true
         url-pattern: "/*"
         exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
-      #配置StatViewServlet
+      # 配置StatViewServlet
       stat-view-servlet:
         # 访问地址
         url-pattern: "/druid/*"   # 访问地址 ip+端口/druid
@@ -94,16 +80,20 @@ mybatis-plus:
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-# actuator 监控, 配置spring-boot-admin使用
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: ALWAYS
 
-# 调整请求头参数大小
-#server:
-#  max-http-header-size: 1024000
+# swagger配置
+swagger:
+  sysAdminPackage: com.ws.ldy.modules.sys          # 系统代码接口目录
+  sysBasePackage: com.ws.ldy.modules.third         # 通用及第三方对接接口目录
+  ywAdminPackage:  com.ws.ldy.modules.yw           # 业务管理端接口目录
+  ywClientPackage: com.ws.ldy.client               # 业务用户端接口目录
+  author: wangsong                                 # 作者/负责人姓名
+  email: 1270696548@qq.com                         # 作者/负责人邮箱
+  url: https://gitee.com/wslxm/spring-boot-plus2   # 访问地址
+  version: 1.0.0                                   # 版本号
+  defaultKey: TOKEN                                # 默认请求头key
+  defaultValue: token-value                        # 默认请求头value
+  isShield: false                                  # 是否展示文档 true展示 false隐藏
+
+
+

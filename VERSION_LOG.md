@@ -21,6 +21,7 @@
 17、优化xj-api-baidu 模块,增加通用百度api文字识别接口(银行卡/身份证/营业执照等识别)
 18、优化xj-fw-websocket 模块,增加服务端主动向客户端发送心跳,保证连接不自动断开
 19、增加xi-util-geodesy 模块, 提供 DistanceUtil 经纬度计算距离工具类
+20、优化xj-doc-swagger2 模块, 提供 yml配置测试
 
 更多：其他细节优化
 

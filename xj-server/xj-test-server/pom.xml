@@ -43,17 +43,17 @@
             <version>${xj-api-aliyun-oss.version}</version>
         </dependency>
         <!-- 第三方服务- 阿里云sms -->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-api-aliyun-sms</artifactId>
-            <version>${xj-api-aliyun-sms.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ws.ldy</groupId>-->
+<!--            <artifactId>xj-api-aliyun-sms</artifactId>-->
+<!--            <version>${xj-api-aliyun-sms.version}</version>-->
+<!--        </dependency>-->
         <!-- 第三方服务- 微信公众号 -->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-api-wx-mp</artifactId>
-            <version>${xj-api-wx-mp.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ws.ldy</groupId>-->
+<!--            <artifactId>xj-api-wx-mp</artifactId>-->
+<!--            <version>${xj-api-wx-mp.version}</version>-->
+<!--        </dependency>-->
         <!-- 服务集成- websocket -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
@@ -61,35 +61,35 @@
             <version>${xj-fw-websocket.version}</version>
         </dependency>
         <!--第三方服务- 微信小程序相关-->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-api-wx-app</artifactId>
-            <version>${xj-api-wx-app.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ws.ldy</groupId>-->
+<!--            <artifactId>xj-api-wx-app</artifactId>-->
+<!--            <version>${xj-api-wx-app.version}</version>-->
+<!--        </dependency>-->
         <!--  第三方服务- 快递100-->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-api-kuaidi-kuaidi100</artifactId>
-            <version>${xj-api-kuaidi-kuaidi100.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ws.ldy</groupId>-->
+<!--            <artifactId>xj-api-kuaidi-kuaidi100</artifactId>-->
+<!--            <version>${xj-api-kuaidi-kuaidi100.version}</version>-->
+<!--        </dependency>-->
         <!-- 第三方服务- 顺丰 -->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-api-kuaidi-sf</artifactId>
-            <version>${xj-api-kuaidi-sf.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ws.ldy</groupId>-->
+<!--            <artifactId>xj-api-kuaidi-sf</artifactId>-->
+<!--            <version>${xj-api-kuaidi-sf.version}</version>-->
+<!--        </dependency>-->
         <!-- 服务集成- 监控中心SpringBootAdmin  -->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-fw-boot-admin</artifactId>
-            <version>${xj-fw-boot-admin.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ws.ldy</groupId>-->
+<!--            <artifactId>xj-fw-boot-admin</artifactId>-->
+<!--            <version>${xj-fw-boot-admin.version}</version>-->
+<!--        </dependency>-->
         <!-- 百度api -->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-api-baidu</artifactId>
-            <version>${xj-api-baidu.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ws.ldy</groupId>-->
+<!--            <artifactId>xj-api-baidu</artifactId>-->
+<!--            <version>${xj-api-baidu.version}</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
