@@ -1,14 +1,13 @@
 package com.ws.ldy.modules.sys.xj.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ws.ldy.enums.BaseConstant;
-import com.ws.ldy.modules.sys.xj.mapper.XjAdminHelpMapper;
-import com.ws.ldy.modules.sys.xj.model.entity.XjAdminHelp;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryVO;
 import com.ws.ldy.modules.sys.admin.model.vo.HelpTreeVO;
 import com.ws.ldy.modules.sys.admin.service.AdminDictionaryService;
-import com.ws.ldy.modules.sys.xj.service.XjAdminHelpService;
 import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
+import com.ws.ldy.modules.sys.xj.mapper.XjAdminHelpMapper;
+import com.ws.ldy.modules.sys.xj.model.entity.XjAdminHelp;
+import com.ws.ldy.modules.sys.xj.service.XjAdminHelpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +28,13 @@ import java.util.stream.Collectors;
 @Service
 public class XjAdminHelpServiceImpl extends BaseIServiceImpl<XjAdminHelpMapper, XjAdminHelp> implements XjAdminHelpService {
 
+
+    /**
+     * 帮助中心的父级 字典code, 用于获取动态菜单使用
+     */
+    final String HELP_CATEGORY = "HELP_CATEGORY";
+
+
     @Autowired
     private AdminDictionaryService adminDictionaryService;
 
@@ -38,7 +44,7 @@ public class XjAdminHelpServiceImpl extends BaseIServiceImpl<XjAdminHelpMapper, 
      */
     @Override
     public List<HelpTreeVO> findTree() {
-        List<AdminDictionaryVO> byCodeFetchDictVOS = adminDictionaryService.findByCodeFetchDictVO(BaseConstant.ADMIN.HELP_CATEGORY, false, true, true);
+        List<AdminDictionaryVO> byCodeFetchDictVOS = adminDictionaryService.findByCodeFetchDictVO(HELP_CATEGORY, false, true, true);
         AdminDictionaryVO byCodeFetchDictVO = byCodeFetchDictVOS.get(0);
         if (byCodeFetchDictVO == null || byCodeFetchDictVO.getDictList() == null) {
             return null;

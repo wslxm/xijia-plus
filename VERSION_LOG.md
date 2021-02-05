@@ -22,6 +22,9 @@
 18、优化xj-fw-websocket 模块,增加服务端主动向客户端发送心跳,保证连接不自动断开
 19、增加xi-util-geodesy 模块, 提供 DistanceUtil 经纬度计算距离工具类
 20、优化xj-doc-swagger2 模块, 提供 yml配置测试
+21、优化字典管理逻辑代码
+22、 xj-base-core模块，枚举类 Enums 拆分成小枚举类，Admin-系统， Xj-系统增强， Base-通用， Pay-支付 四个枚举类,业务请新创建,同时字典提供搜索后生成
+23、 xj-base-admin-ui 增加消息通知查看(后台管理系统铃铛)
 
 更多：其他细节优化
 

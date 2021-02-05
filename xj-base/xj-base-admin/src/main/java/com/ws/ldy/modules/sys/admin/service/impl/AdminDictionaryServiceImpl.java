@@ -3,13 +3,12 @@ package com.ws.ldy.modules.sys.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
-import com.ws.ldy.common.cache.BaseCache;
 import com.ws.ldy.common.function.LambdaUtils;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.StringUtil;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.enums.Enums;
+import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.admin.mapper.AdminDictionaryMapper;
 import com.ws.ldy.modules.sys.admin.model.dto.AdminDictionaryDTO;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminDictionary;
@@ -25,11 +24,17 @@ import java.util.stream.Collectors;
 @Service
 public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionaryMapper, AdminDictionary> implements AdminDictionaryService {
 
-
     /**
      * 父级pid
      */
-    private static final String pid = "0";
+    private final String pid = "0";
+
+
+    /**
+     * 数据字典(code分组), 不包括禁用数据，等同于 Enums.java 文件的数据
+     * 版本号：version，当版本号一致时, 不返回前台 dictVOGroupMap 数据
+     */
+    public Map<String, AdminDictionaryVO.FindCodeGroup> dictMapGroup = null;
 
 
     @Override
@@ -47,7 +52,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         }
         boolean res = this.save(dto.convert(AdminDictionary.class));
         //清除缓存
-        BaseCache.DICT_MAP_GROUP = null;
+        dictMapGroup = null;
         return res;
     }
 
@@ -70,7 +75,27 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         }
         boolean res = this.updateById(dto.convert(AdminDictionary.class));
         //清除缓存
-        BaseCache.DICT_MAP_GROUP = null;
+        dictMapGroup = null;
+        return res;
+    }
+
+    @Override
+    public Boolean updBySort(String id, Integer sort) {
+        AdminDictionary dict = new AdminDictionary();
+        dict.setId(id);
+        dict.setSort(sort);
+        boolean b = this.updateById(dict);
+        //清除缓存
+        dictMapGroup = null;
+        return b;
+    }
+
+    @Override
+    public Boolean del(String id) {
+        List<String> ids = this.findByIdFetchIds(id);
+        boolean res = this.removeByIds(ids);
+        //清除缓存
+        dictMapGroup = null;
         return res;
     }
 
@@ -109,7 +134,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         List<AdminDictionary> dictList = this.list(new LambdaQueryWrapper<AdminDictionary>()
                 .orderByAsc(AdminDictionary::getSort)
                 .orderByAsc(AdminDictionary::getCode)
-                .eq(!isDisable, AdminDictionary::getDisable, Enums.Base.Disable.DISABLE_0.getValue())
+                .eq(!isDisable, AdminDictionary::getDisable, Base.Disable.V0.getValue())
         );
         if (dictList.size() == 0) {
             return null;
@@ -192,7 +217,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
 
     /**
-     * 所有数据，不包括禁用数据
+     * 查询所有数据并根据code分组，不包括禁用数据 (前端缓存该数据)
      * <p>
      *     key - value 形式，因为所有添加下层数据是引用。每一个key下的value 数据依然有所有的层级关系数据
      * </p>
@@ -203,9 +228,9 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      */
     @Override
     public Map<String, AdminDictionaryVO.FindCodeGroup> findCodeGroup() {
-        if (BaseCache.DICT_MAP_GROUP != null) {
+        if (dictMapGroup != null) {
             // 缓存获取数据
-            return BaseCache.DICT_MAP_GROUP;
+            return dictMapGroup;
         } else {
             // return -按添加顺序排序
             Map<String, AdminDictionaryVO.FindCodeGroup> respDictVOMap = new HashMap<>();
@@ -236,8 +261,8 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
                 }
             }
             // 缓存到jvm
-            BaseCache.DICT_MAP_GROUP = respDictVOMap;
-            return BaseCache.DICT_MAP_GROUP;
+            dictMapGroup = respDictVOMap;
+            return dictMapGroup;
         }
     }
 
@@ -259,11 +284,11 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     public Map<String, String> generateEnum(String enumName) {
         List<AdminDictionaryVO> dict = this.findByCodeFetchDictVO(enumName, true, false, true);
         String enumsJava = null;
-       if(enumName.equals("ENUMS")){
-           enumsJava =  this.generateEnumJava(dict.get(0));
-       }else{
-           enumsJava = this.generateEnumJava2(dict.get(0));
-       }
+        if (enumName.equals("ENUMS")) {
+            enumsJava = this.generateEnumJava(dict.get(0));
+        } else {
+            enumsJava = this.generateEnumJava2(dict.get(0));
+        }
         String enumsJs = this.generateEnumJs(dict.get(0));
         Map<String, String> map = new HashMap<>();
         // 完整的枚举字典
@@ -303,7 +328,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
 
     /**
-     * 生成java 代码枚举对象， 请将生成好的代码直接替换到 enums/Enums 类( 指定为2级，所有子模块枚举共用一个枚举类)
+     * 生成java 代码枚举对象， 请将生成好的代码直接替换到 enums/Enums 类( 指定为3级，所有子模块枚举共用一个枚举类)
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/8/16 0016 0:10
@@ -365,7 +390,8 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         sb.append("package com.ws.ldy.enums;\n");
         sb.append("\nimport lombok.AllArgsConstructor;");
         sb.append("\nimport lombok.Getter;\n");
-        sb.append("\npublic interface " + code + "{\n");
+        sb.append("\n@SuppressWarnings(\"all\")" +
+                "\npublic interface " + code + "{\n");
         // 字段名
         for (AdminDictionaryVO dictField : dict.getDictList()) {
             String moduleName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictField.getCode());
@@ -378,9 +404,9 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
                 continue;
             }
             for (AdminDictionaryVO dictValue : dictField.getDictList()) {
-                sb.append("            " + dictField.getCode() + "_" + dictValue.getCode() + "(" + dictValue.getCode() + ", \"" + dictValue.getName() + "\"),    // " + dictValue.getDesc() + "\n");
+                sb.append("            " + /* dictField.getCode() + */"V" + dictValue.getCode()
+                        + "(" + dictValue.getCode() + ", \"" + dictValue.getName() + "\"),    // " + dictValue.getDesc() + "\n");
             }
-            //
             sb.append("            ;\n");
             sb.append("            private Integer value;\n");
             sb.append("            private String desc;\n");
@@ -389,7 +415,6 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         sb.append("    }\n");
         return sb.toString();
     }
-
 
 
     /**

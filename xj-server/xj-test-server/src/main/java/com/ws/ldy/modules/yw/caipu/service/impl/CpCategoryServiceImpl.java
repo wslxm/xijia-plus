@@ -2,7 +2,7 @@ package com.ws.ldy.modules.yw.caipu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.enums.Enums;
+import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.modules.yw.caipu.mapper.CpCategoryMapper;
 import com.ws.ldy.modules.yw.caipu.model.entity.CpCategory;
@@ -31,7 +31,7 @@ public class CpCategoryServiceImpl extends BaseIServiceImpl<CpCategoryMapper, Cp
         List<CpCategory> dictList = this.list(new LambdaQueryWrapper<CpCategory>()
                 .orderByAsc(CpCategory::getSort)
                 .orderByAsc(CpCategory::getCode)
-                .eq( CpCategory::getDisable, Enums.Base.Disable.DISABLE_0.getValue())
+                .eq( CpCategory::getDisable, Base.Disable.V0.getValue())
         );
         List<CpCategoryVO> dictVoList = BeanDtoVoUtil.listVo(dictList, CpCategoryVO.class);
         // 递归添加下级数据,  new ArrayList<>() 是没有用的, findByCodeIds收集Ids 所有
@@ -61,7 +61,7 @@ public class CpCategoryServiceImpl extends BaseIServiceImpl<CpCategoryMapper, Cp
         List<CpCategoryVO> dictVoList = BeanDtoVoUtil.listVo(baseMapper.selectList(new LambdaQueryWrapper<CpCategory>()
                 .orderByAsc(CpCategory::getSort)
                 .orderByAsc(CpCategory::getCode)
-                .eq(isDisable, CpCategory::getDisable, Enums.Base.Disable.DISABLE_0.getValue())
+                .eq(isDisable, CpCategory::getDisable, Base.Disable.V0.getValue())
         ), CpCategoryVO.class);
 
         if (dict == null || dictVoList == null || dictVoList.size() == 0) {

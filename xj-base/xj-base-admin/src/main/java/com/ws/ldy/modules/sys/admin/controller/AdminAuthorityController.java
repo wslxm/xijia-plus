@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.sys.admin.controller;
 
 import com.ws.ldy.common.result.R;
-import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.admin.model.dto.AdminAuthorityDTO;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminAuthorityVO;
@@ -26,7 +26,7 @@ import java.util.List;
  * @date Mon Nov 25 08:02:49 CST 2019
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin +"/adminAuthority")
+@RequestMapping(BaseConstant.Uri.apiAdmin + "/adminAuthority")
 @Api(value = "AdminAuthorityController", tags = "base--URL权限管理")
 public class AdminAuthorityController extends BaseController<AdminAuthorityService> {
 
@@ -39,11 +39,11 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "ID编辑", notes = "必须传递ID")
-    public R<Void> upd(@RequestBody @Validated AdminAuthorityDTO dto) {
-        baseService.updateById(dto.convert(AdminAuthority.class));
+    public R<Boolean> upd(@RequestBody @Validated AdminAuthorityDTO dto) {
+        boolean b = baseService.updateById(dto.convert(AdminAuthority.class));
         // 刷新缓存
         baseService.refreshAuthCache();
-        return R.successUpdate();
+        return R.successUpdate(b);
     }
 
 
@@ -76,8 +76,7 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
     @ApiOperation(value = "扫描权限", notes = "扫描权限列表数据, 1、存在变更接口描叙, 2、url变动会重新生成权限数据,角色原有的该接口权限会丢失,需重新分配 3、自动删除的多余接口")
     @RequestMapping(value = "/refreshAuthority", method = RequestMethod.PUT)
     @Deprecated
-    public R<Void> refreshAuthority() {
-        baseService.refreshAuthDB();
-        return R.success();
+    public R<Boolean> refreshAuthority() {
+        return R.success(baseService.refreshAuthDB());
     }
 }

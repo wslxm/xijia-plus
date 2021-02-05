@@ -5,7 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.enums.Enums;
+import com.ws.ldy.enums.Base;
+import com.ws.ldy.enums.Xj;
 import com.ws.ldy.modules.sys.xj.model.entity.XjAdminBlacklist;
 import com.ws.ldy.modules.sys.xj.model.vo.XjAdminBlacklistVO;
 import com.ws.ldy.modules.sys.xj.service.XjAdminBlacklistService;
@@ -70,20 +71,20 @@ public class SysBlacklist {
             // 如果数据库没有配置，缓存设置默认对象，让其不为空，防止无限制查询数据库
             blacklistCache = new HashMap<>();
             List<XjAdminBlacklist> blacklist = xjAdminBlacklistService.list(new LambdaQueryWrapper<XjAdminBlacklist>()
-                    .eq(XjAdminBlacklist::getDisable, Enums.Base.Disable.DISABLE_0)
+                    .eq(XjAdminBlacklist::getDisable, Base.Disable.V0)
             );
             if (blacklist.size() > 0) {
                 List<XjAdminBlacklistVO> adminBlacklistVOS = BeanDtoVoUtil.listVo(blacklist, XjAdminBlacklistVO.class);
                 Map<Integer, List<XjAdminBlacklistVO>> blacklistGroupByType = adminBlacklistVOS.stream().collect(Collectors.groupingBy(XjAdminBlacklistVO::getType));
-                List<XjAdminBlacklistVO> baiMD = blacklistGroupByType.get(Enums.Xj.BlacklistType.BLACKLIST_TYPE_1.getValue());
-                List<XjAdminBlacklistVO> heiMD = blacklistGroupByType.get(Enums.Xj.BlacklistType.BLACKLIST_TYPE_2.getValue());
+                List<XjAdminBlacklistVO> baiMD = blacklistGroupByType.get(Xj.BlacklistType.V1.getValue());
+                List<XjAdminBlacklistVO> heiMD = blacklistGroupByType.get(Xj.BlacklistType.V2.getValue());
                 if (baiMD != null) {
                     List<String> baiIps = baiMD.stream().map(p -> p.getIp()).collect(Collectors.toList());
-                    blacklistCache.put(Enums.Xj.BlacklistType.BLACKLIST_TYPE_1.getValue(), baiIps);
+                    blacklistCache.put(Xj.BlacklistType.V1.getValue(), baiIps);
                 }
                 if (heiMD != null) {
                     List<String> heiIps = heiMD.stream().map(p -> p.getIp()).collect(Collectors.toList());
-                    blacklistCache.put(Enums.Xj.BlacklistType.BLACKLIST_TYPE_2.getValue(), heiIps);
+                    blacklistCache.put(Xj.BlacklistType.V2.getValue(), heiIps);
                 }
             }
         }
@@ -92,28 +93,28 @@ public class SysBlacklist {
             return R.success();
         }
         // 2、没有配置黑名单，直接放行
-        if (!blacklistCache.containsKey(Enums.Xj.BlacklistType.BLACKLIST_TYPE_2.getValue())) {
+        if (!blacklistCache.containsKey(Xj.BlacklistType.V2.getValue())) {
             return R.success();
         }
         // 3、检查黑名单，如果被列进的黑名单，直接拦截
-        if (blacklistCache.containsKey(Enums.Xj.BlacklistType.BLACKLIST_TYPE_2.getValue())) {
-            List<String> heiIps = blacklistCache.get(Enums.Xj.BlacklistType.BLACKLIST_TYPE_2.getValue());
+        if (blacklistCache.containsKey(Xj.BlacklistType.V2.getValue())) {
+            List<String> heiIps = blacklistCache.get(Xj.BlacklistType.V2.getValue());
             if (heiIps.contains(ip)) {
                 return R.error(RType.SYS_BLACK_LIST_IP.getValue(), "[" + ip + "] " + RType.SYS_BLACK_LIST_IP);
             }
         }
         // 4、如果配置了白名单( * )直接放行除了黑名单的所有ip
-        if (blacklistCache.containsKey(Enums.Xj.BlacklistType.BLACKLIST_TYPE_1.getValue())) {
-            List<String> baiIps = blacklistCache.get(Enums.Xj.BlacklistType.BLACKLIST_TYPE_1.getValue());
+        if (blacklistCache.containsKey(Xj.BlacklistType.V1.getValue())) {
+            List<String> baiIps = blacklistCache.get(Xj.BlacklistType.V1.getValue());
             if (baiIps.contains("*")) {
                 return R.success();
             }
         }
         // 5、如果配置了黑名单( * )拦截除了白名单外的所有ip
-        if (blacklistCache.containsKey(Enums.Xj.BlacklistType.BLACKLIST_TYPE_2.getValue())) {
-            List<String> heiIps = blacklistCache.get(Enums.Xj.BlacklistType.BLACKLIST_TYPE_2.getValue());
+        if (blacklistCache.containsKey(Xj.BlacklistType.V2.getValue())) {
+            List<String> heiIps = blacklistCache.get(Xj.BlacklistType.V2.getValue());
             if (heiIps.contains("*")) {
-                List<String> baiIps = blacklistCache.get(Enums.Xj.BlacklistType.BLACKLIST_TYPE_1.getValue());
+                List<String> baiIps = blacklistCache.get(Xj.BlacklistType.V1.getValue());
                 if (baiIps == null || !baiIps.contains(ip)) {
                     return R.error(RType.SYS_WHITE_LIST_NO_IP.getValue(), "[" + ip + "] " + RType.SYS_WHITE_LIST_NO_IP.getMsg());
                 }

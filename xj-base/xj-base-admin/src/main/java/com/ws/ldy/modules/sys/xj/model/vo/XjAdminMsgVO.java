@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 /**
  * 订单-->及时消息通知表
  * <p>
@@ -36,6 +38,9 @@ public class XjAdminMsgVO extends BaseVo {
 
     @ApiModelProperty(notes = "是否已读(0-未读 1-已读)" ,position = 4)
     private Integer isRead;
+
+    @ApiModelProperty(notes = "时间" ,position = 4)
+    private LocalDateTime createTime;
 
 }
 

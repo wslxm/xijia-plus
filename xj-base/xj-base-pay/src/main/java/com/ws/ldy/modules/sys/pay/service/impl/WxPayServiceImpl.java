@@ -7,7 +7,7 @@ import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.BigDecimalUtil;
 import com.ws.ldy.common.utils.IdUtil;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.enums.Enums;
+import com.ws.ldy.enums.Pay;
 import com.ws.ldy.modules.sys.pay.model.dto.EntPayDTO;
 import com.ws.ldy.modules.sys.pay.model.dto.PayOrderDTO;
 import com.ws.ldy.modules.sys.pay.model.dto.PayRecordDTO;
@@ -98,11 +98,11 @@ public class WxPayServiceImpl implements PayService {
         recordDTO.setTradeNo(tradeNo);
         recordDTO.setRequestData(JSON.toJSONString(wxOrderDto));
         recordDTO.setResponseData(JSON.toJSONString(wxPayOrderResult));
-        recordDTO.setPayState(Enums.Pay.PayState.PAY_STATE_0.getValue());
-        recordDTO.setPayType(Enums.Pay.PayType.PAY_TYPE_1.getValue());
-        recordDTO.setPayChannel(Enums.Pay.PayChannel.PAY_CHANNEL_2.getValue());
-        recordDTO.setBusinessType(Enums.Pay.PayBusiness.PAY_BUSINESS_1.getValue());
-        recordDTO.setBusinessDesc(Enums.Pay.PayBusiness.PAY_BUSINESS_1.getDesc());
+        recordDTO.setPayState(Pay.PayState.V0.getValue());
+        recordDTO.setPayType(Pay.PayType.V1.getValue());
+        recordDTO.setPayChannel(Pay.PayChannel.V2.getValue());
+        recordDTO.setBusinessType(Pay.PayBusiness.V1.getValue());
+        recordDTO.setBusinessDesc(Pay.PayBusiness.V1.getDesc());
         recordDTO.setCallbackData(null);
         Boolean res = payRecordService.insert(recordDTO);
         return vo;
@@ -123,8 +123,8 @@ public class WxPayServiceImpl implements PayService {
             return R.error(RType.WX_PAY_FAILURE, null, "微信支付回调：交易订单不存在,交易号=" + wxPayOrderNotifyResultVO.getOutTradeNo());
         }
         // 回调判重
-        if (!payRecord.getPayState().equals(Enums.Pay.PayState.PAY_STATE_0.getValue())
-                && !payRecord.getPayState().equals(Enums.Pay.PayState.PAY_STATE_1.getValue())
+        if (!payRecord.getPayState().equals(Pay.PayState.V0.getValue())
+                && !payRecord.getPayState().equals(Pay.PayState.V1.getValue())
         ) {
             log.info("微信支付回调：回调重复执行,交易号={}", wxPayOrderNotifyResultVO.getOutTradeNo());
             return R.error(RType.WX_PAY_REPEAT, null, "微信支付回调：重复执行回调,交易号=" + wxPayOrderNotifyResultVO.getOutTradeNo());
@@ -132,7 +132,7 @@ public class WxPayServiceImpl implements PayService {
         // 记录回调数据(不管支付成功还是失败先记录支付回调信息,避免业务异常无迹可寻)
         String outTradeNo = wxPayOrderNotifyResultVO.getOutTradeNo();
         String callbackData = JSON.toJSONString(wxPayOrderNotifyResultVO);
-        payRecordService.updStateAndCallbackData(outTradeNo, Enums.Pay.PayState.PAY_STATE_1.getValue(), callbackData, null);
+        payRecordService.updStateAndCallbackData(outTradeNo, Pay.PayState.V1.getValue(), callbackData, null);
 
         // 判断是否正常接收回调
         Integer moneyTotal = BigDecimalUtil.multiply100(payRecord.getMoneyTotal()).intValue();
@@ -150,11 +150,11 @@ public class WxPayServiceImpl implements PayService {
             }
             // 支付失败
             log.info("{},交易号={}", errorRemarks, wxPayOrderNotifyResultVO.getOutTradeNo());
-            Boolean result = payRecordService.updStateAndCallbackData(outTradeNo, Enums.Pay.PayState.PAY_STATE_2.getValue(), callbackData, errorRemarks);
+            Boolean result = payRecordService.updStateAndCallbackData(outTradeNo, Pay.PayState.V2.getValue(), callbackData, errorRemarks);
             return R.success(BeanDtoVoUtil.convert(payRecord, PayRecordVO.class));
         } else {
             // 支付成功
-            Boolean result = payRecordService.updStateAndCallbackData(outTradeNo, Enums.Pay.PayState.PAY_STATE_3.getValue(), callbackData, null);
+            Boolean result = payRecordService.updStateAndCallbackData(outTradeNo, Pay.PayState.V3.getValue(), callbackData, null);
             return R.success(BeanDtoVoUtil.convert(payRecord, PayRecordVO.class));
         }
     }
@@ -199,11 +199,11 @@ public class WxPayServiceImpl implements PayService {
         recordDTO.setTradeNo(tradeNo);
         recordDTO.setRequestData(JSON.toJSONString(wxEntPayDTO));
         recordDTO.setResponseData(JSON.toJSONString(wxEntPayResultVO));
-        recordDTO.setPayState(Enums.Pay.PayState.PAY_STATE_3.getValue());
-        recordDTO.setPayType(Enums.Pay.PayType.PAY_TYPE_4.getValue());
-        recordDTO.setPayChannel(Enums.Pay.PayChannel.PAY_CHANNEL_2.getValue());
-        recordDTO.setBusinessType(Enums.Pay.PayBusiness.PAY_BUSINESS_1.getValue());
-        recordDTO.setBusinessDesc(Enums.Pay.PayBusiness.PAY_BUSINESS_1.getDesc());
+        recordDTO.setPayState(Pay.PayState.V3.getValue());
+        recordDTO.setPayType(Pay.PayType.V4.getValue());
+        recordDTO.setPayChannel(Pay.PayChannel.V2.getValue());
+        recordDTO.setBusinessType(Pay.PayBusiness.V1.getValue());
+        recordDTO.setBusinessDesc(Pay.PayBusiness.V1.getDesc());
         recordDTO.setCallbackData(null);
         Boolean res = payRecordService.insert(recordDTO);
         return R.success(vo);

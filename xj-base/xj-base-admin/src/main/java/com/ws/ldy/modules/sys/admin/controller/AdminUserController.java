@@ -10,7 +10,7 @@ import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.auth.util.MD5Util;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.admin.model.dto.UserAdminDTO;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminUser;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminUserVO;

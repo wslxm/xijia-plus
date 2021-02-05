@@ -1,7 +1,6 @@
 package com.ws.ldy.common.cache;
 
 import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
-import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryVO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +16,4 @@ public class BaseCache {
      */
     public static Map<String, AdminAuthority> AUTH_MAP = new HashMap<>();
     public static Integer AUTH_VERSION = 0;
-
-    /**
-     * 数据字典(code分组), 不包括禁用数据，等同于 Enums.java 文件的数据
-     * 版本号：version，当版本号一致时, 不返回前台 dictVOGroupMap 数据
-     */
-    public static Map<String, AdminDictionaryVO.FindCodeGroup> DICT_MAP_GROUP = null;
-
 }

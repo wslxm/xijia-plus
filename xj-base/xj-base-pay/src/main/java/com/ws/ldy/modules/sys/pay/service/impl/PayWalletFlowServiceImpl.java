@@ -1,6 +1,6 @@
 package com.ws.ldy.modules.sys.pay.service.impl;
 
-import com.ws.ldy.enums.Enums;
+import com.ws.ldy.enums.Pay;
 import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.modules.sys.pay.mapper.PayWalletFlowMapper;
 import com.ws.ldy.modules.sys.pay.model.dto.PayWalletFlowDTO;
@@ -41,8 +41,8 @@ public class PayWalletFlowServiceImpl extends BaseIServiceImpl<PayWalletFlowMapp
     public Boolean addPlatformWalletFlow(String orderNo,
                                          BigDecimal money,
                                          BigDecimal moneyAfter,
-                                         Enums.Pet.WalletType walletType,
-                                         Enums.Pay.PayBusiness payBusiness) {
+                                         Pay.WalletType walletType,
+                                         Pay.PayBusiness payBusiness) {
         PayWalletFlowDTO dto = new PayWalletFlowDTO();
         dto.setUserId("0");
         dto.setOrderNo(orderNo);
@@ -69,8 +69,8 @@ public class PayWalletFlowServiceImpl extends BaseIServiceImpl<PayWalletFlowMapp
                                      String orderNo,
                                      BigDecimal money,
                                      BigDecimal moneyAfter,
-                                     Enums.Pet.WalletType walletType,
-                                     Enums.Pay.PayBusiness payBusiness) {
+                                     Pay.WalletType walletType,
+                                     Pay.PayBusiness payBusiness) {
         PayWalletFlowDTO dto = new PayWalletFlowDTO();
         dto.setUserId(userId);
         dto.setOrderNo(orderNo);

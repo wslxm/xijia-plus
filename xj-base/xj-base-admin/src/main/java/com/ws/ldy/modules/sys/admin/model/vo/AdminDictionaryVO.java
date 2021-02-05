@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,8 +63,9 @@ public class AdminDictionaryVO extends BaseVo {
     @ToString(callSuper = true)
     @ApiModel(value = "findCodeGroup", description = "字典findCodeGroup方法VO数据")
     @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)//不返回空数据
-    static public class FindCodeGroup {
+    static public class FindCodeGroup implements Serializable {
 
+        private static final long serialVersionUID = -3021322187688178780L;
         @ApiModelProperty(value = "字典Id") //全为空，判断下级使用
         private String id;
 

@@ -1,4 +1,4 @@
-package com.ws.ldy.modules.sys.gc.jdbc;
+package com.ws.ldy.modules.sys.gc.util;
 
 
 import com.ws.ldy.common.result.RType;
@@ -33,7 +33,7 @@ public class JDBCPool {
         try {
             String driverClass = "com.mysql.cj.jdbc.Driver";
             String newUrl = "jdbc:mysql://"+url + "?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8";
-            newUrl += "&autoReconnect=false"; // 当数据库连接异常中断时，是否自动重新连接，不重连
+            newUrl += "&autoReconnect=false"; // 当数据库连接异常中断时，是否自动重新连接，不重连,直接进入异常(提示失败)
             String newUsername = username;
             String newPassword = password;
             // 注册驱动

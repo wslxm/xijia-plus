@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.sys.pay.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ws.ldy.enums.Enums;
+import com.ws.ldy.enums.Pay;
 import com.ws.ldy.modules.sys.pay.model.dto.PayWalletFlowDTO;
 import com.ws.ldy.modules.sys.pay.model.entity.PayWalletFlow;
 
@@ -36,8 +36,8 @@ public interface PayWalletFlowService extends IService<PayWalletFlow> {
     Boolean addPlatformWalletFlow(String orderNo,
                                   BigDecimal money,
                                   BigDecimal moneyAfter,
-                                  Enums.Pet.WalletType walletType,
-                                  Enums.Pay.PayBusiness payBusiness);
+                                  Pay.WalletType walletType,
+                                  Pay.PayBusiness payBusiness);
 
     /**
      * 添加用户/商家流水
@@ -52,8 +52,8 @@ public interface PayWalletFlowService extends IService<PayWalletFlow> {
                               String orderNo,
                               BigDecimal money,
                               BigDecimal moneyAfter,
-                              Enums.Pet.WalletType walletType,
-                              Enums.Pay.PayBusiness payBusiness);
+                              Pay.WalletType walletType,
+                              Pay.PayBusiness payBusiness);
 
     /**
      * 查询指定用户支出总额

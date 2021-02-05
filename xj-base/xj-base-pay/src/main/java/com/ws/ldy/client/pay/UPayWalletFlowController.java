@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
-import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import com.ws.ldy.modules.sys.pay.model.entity.PayWalletFlow;
 import com.ws.ldy.modules.sys.pay.model.vo.PayWalletFlowVO;
@@ -48,5 +48,4 @@ public class UPayWalletFlowController extends BaseController<PayWalletFlowServic
         );
         return R.successFind(BeanDtoVoUtil.pageVo(page, PayWalletFlowVO.class));
     }
-
 }

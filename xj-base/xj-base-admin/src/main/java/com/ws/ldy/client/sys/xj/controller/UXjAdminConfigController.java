@@ -3,7 +3,7 @@ package com.ws.ldy.client.sys.xj.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import com.ws.ldy.modules.sys.xj.model.entity.XjAdminConfig;
 import com.ws.ldy.modules.sys.xj.model.vo.XjAdminConfigVO;

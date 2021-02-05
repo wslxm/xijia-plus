@@ -62,20 +62,29 @@
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 
                 <!-- 新消息 -->
-                <!--   <li class="layui-nav-item" lay-unselect>-->
-                <!--       <a lay-href="xj-toolIndex.html" layadmin-event="message" lay-text="消息中心">-->
-                <!--           <i class="layui-icon layui-icon-notice"></i>-->
-                <!--           &lt;!&ndash; 如果有新消息，则显示小圆点 &ndash;&gt;-->
-                <!--           <span class="layui-badge-dot"></span>-->
-                <!--       </a>-->
-                <!--   </li>-->
-
-                <!--  便签 -->
+                <!--    <li class="layui-nav-item" lay-unselect>-->
+                <!--        <a lay-href="xj-toolIndex.html" layadmin-event="message" lay-text="消息中心">-->
+                <!--            <i class="layui-icon layui-icon-notice"></i>-->
+                <!--            &lt;!&ndash; 如果有新消息，则显示小圆点 &ndash;&gt;-->
+                <!--            <span class="layui-badge-dot"></span>-->
+                <!--        </a>-->
+                <!--        -->
+                <!--    </li>-->
+                <!-- 使用侧边消息-->
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="note">
-                        <i class="layui-icon layui-icon-note"></i>
+                    <a href="javascript:;" layadmin-event="msg">
+                        <i class="layui-icon layui-icon-notice"></i>
+                        <!-- 如果有新消息，则显示小圆点 -->
+                        <span class="layui-badge-dot"></span>
                     </a>
                 </li>
+
+                <!--  便签 -->
+<!--                <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+<!--                    <a href="javascript:;" layadmin-event="note">-->
+<!--                        <i class="layui-icon layui-icon-note"></i>-->
+<!--                    </a>-->
+<!--                </li>-->
                 <!-- 全屏 -->
                 <!-- <li class="layui-nav-item layui-hide-xs" lay-unselect>
                         <a href="javascript:;" layadmin-event="fullscreen">
@@ -216,7 +225,7 @@
         // 用户名
         $("#username").html(user.fullName);
         // 头像
-        $("#head").attr("src",user.head);
+        $("#head").attr("src", user.head);
         //获取字典数据
         Dict.refreshDict();
         //字典数据测试

@@ -8,7 +8,8 @@ import com.ws.ldy.config.auth.entity.JwtUser;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.auth.util.MD5Util;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.enums.Enums;
+import com.ws.ldy.enums.Admin;
+import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.admin.mapper.AdminUserMapper;
 import com.ws.ldy.modules.sys.admin.model.dto.UserAdminDTO;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminRoleUser;
@@ -66,14 +67,14 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // 判重账号
         if (this.count(new LambdaUpdateWrapper<AdminUser>()
                 .eq(AdminUser::getUsername, userAdminDto.getUsername())
-                .eq(AdminUser::getDeleted, Enums.Base.Deleted.DELETED_0.getValue())
+                .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
         ) > 0) {
             throw new ErrorException(RType.USER_ACCOUNT_IS_DUPLICATE);
         }
         // 判重电话
         if (this.count(new LambdaUpdateWrapper<AdminUser>()
                 .eq(AdminUser::getPhone, userAdminDto.getPhone())
-                .eq(AdminUser::getDeleted, Enums.Base.Deleted.DELETED_0.getValue())
+                .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
         ) > 0) {
             throw new ErrorException(RType.USER_PHONE_IS_DUPLICATE);
         }
@@ -98,7 +99,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         if (!adminUser.getUsername().equals(userAdminDto.getUsername())) {
             if (this.count(new LambdaUpdateWrapper<AdminUser>()
                     .eq(AdminUser::getUsername, userAdminDto.getUsername())
-                    .eq(AdminUser::getDeleted, Enums.Base.Deleted.DELETED_0.getValue())
+                    .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
             ) > 0) {
                 throw new ErrorException(RType.USER_ACCOUNT_IS_DUPLICATE);
             }
@@ -107,7 +108,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         if (!adminUser.getPhone().equals(userAdminDto.getPhone())) {
             if (this.count(new LambdaUpdateWrapper<AdminUser>()
                     .eq(AdminUser::getPhone, userAdminDto.getPhone())
-                    .eq(AdminUser::getDeleted, Enums.Base.Deleted.DELETED_0.getValue())
+                    .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
             ) > 0) {
                 throw new ErrorException(RType.USER_PHONE_IS_DUPLICATE);
             }
@@ -137,7 +138,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
             throw new ErrorException(RType.LOGIN_ERROR_USER_PASSWORD);
         }
         // 3、判断禁用
-        if (!user.getDisable().equals(Enums.Base.Disable.DISABLE_0.getValue())) {
+        if (!user.getDisable().equals(Base.Disable.V0.getValue())) {
             throw new ErrorException(RType.LOGIN_IS_NO_DISABLE);
         }
         // 登录成功
@@ -148,7 +149,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         jwtUser.setUserId(user.getId());
         jwtUser.setUsername(user.getUsername());
         jwtUser.setFullName(user.getFullName());
-        jwtUser.setType(Enums.Admin.AuthorityType.AUTHORITY_TYPE_0.getValue());
+        jwtUser.setType(Admin.AuthorityType.V0.getValue());
         jwtUser.setHead(user.getHead());
         jwtUser.setPhone(user.getPhone());
         // 添加权限 和 权限数据版本号,当权限发生改变时，直接刷新token信息

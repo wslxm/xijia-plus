@@ -41,17 +41,17 @@
         <!--  ====================== 自定义模块 start  ===========================  -->
         <!--  =========== 注释范围的依赖,在需要启动服务的项目按需加载 ==================  -->
         <!--  =========== 已加载的都是系统必须加载的 ================================  -->
-        <!-- 核心组件- 通用base层+字典枚举    -->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-base-core</artifactId>
-            <version>${xj-base-core.version}</version>
-        </dependency>
         <!-- 核心组件- jwt 登录认证 -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-jwt</artifactId>
             <version>${xj-base-jwt.version}</version>
+        </dependency>
+        <!-- 核心组件- 通用base层+字典枚举    -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-base-core</artifactId>
+            <version>${xj-base-core.version}</version>
         </dependency>
         <!-- 核心组件- 统一返回 -->
         <dependency>
@@ -65,14 +65,12 @@
             <artifactId>xj-util-core</artifactId>
             <version>${xj-util-core.version}</version>
         </dependency>
-
         <!-- 工具- fastjson -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-util-fastjson</artifactId>
             <version>${xj-util-fastjson.version}</version>
         </dependency>
-
         <!-- 接口文档- swagger2  -->
         <dependency>
             <groupId>com.ws.ldy</groupId>

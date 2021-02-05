@@ -35,6 +35,22 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
 
 
     /**
+     * 修改排序
+     * @param id
+     * @param sort
+     * @return
+     */
+    Boolean updBySort(String id, Integer sort);
+
+    /**
+     * id删除，并删除下级数据
+     * @param id
+     * @return
+     */
+    Boolean del(String id);
+
+
+    /**
      *  根据code查询数据+ 下级所有层级数据（无限递归），先根据 Sort排序，在根据 Code排序
      *
      * @param code 父级code, 不传查询code，传递了只查询指定code下数据
@@ -59,7 +75,7 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
 
 
     /**
-     * 查询字典类别
+     * 查询字典类别(级联数据)
      * @param code 父级code, 不传默认为顶层
      * @return
      */

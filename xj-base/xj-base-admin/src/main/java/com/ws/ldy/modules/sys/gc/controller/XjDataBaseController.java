@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.sys.gc.controller;
 
 import com.ws.ldy.common.result.R;
-import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import com.ws.ldy.modules.sys.gc.model.vo.XjTableFieldVO;
 import com.ws.ldy.modules.sys.gc.model.vo.XjTableVO;

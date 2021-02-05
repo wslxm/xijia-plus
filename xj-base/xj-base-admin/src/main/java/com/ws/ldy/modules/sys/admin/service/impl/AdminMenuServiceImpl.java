@@ -5,7 +5,7 @@ import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.enums.Enums;
+import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.admin.mapper.AdminMenuMapper;
 import com.ws.ldy.modules.sys.admin.mapper.AdminRoleMenuMapper;
 import com.ws.ldy.modules.sys.admin.model.dto.AdminMenuDTO;
@@ -66,7 +66,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
      */
     @Override
     public List<AdminMenuVO> getMenuTree() {
-        List<AdminRoleMenu> userRoleMenus = adminRoleMenuMapper.findByUserIdAndDisableFetchMenu(JwtUtil.getJwtUser(request).getUserId(), Enums.Base.Disable.DISABLE_0.getValue());
+        List<AdminRoleMenu> userRoleMenus = adminRoleMenuMapper.findByUserIdAndDisableFetchMenu(JwtUtil.getJwtUser(request).getUserId(), Base.Disable.V0.getValue());
         if (userRoleMenus == null || userRoleMenus.size() == 0) {
             throw new ErrorException(RType.USER_NO_MENU);
         }

@@ -2,12 +2,13 @@ package com.ws.ldy.modules.sys.admin.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.enums.BaseConstant;
-import com.ws.ldy.enums.Enums;
+import com.ws.ldy.constant.BaseConstant;
+import com.ws.ldy.enums.Admin;
 import com.ws.ldy.modules.sys.admin.model.dto.AdminMenuDTO;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminMenu;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminMenuVO;
@@ -17,7 +18,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,7 +56,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
         if (isBottomLayer==null || isBottomLayer) {
             return R.successFind(BeanDtoVoUtil.listVo(menus, AdminMenuVO.class));
         } else {
-            List<AdminMenu> newMenus = menus.stream().filter(i -> !i.getRoot().equals(Enums.Admin.MenuRoot.MENU_ROOT_3.getValue())).collect(Collectors.toList());
+            List<AdminMenu> newMenus = menus.stream().filter(i -> !i.getRoot().equals(Admin.MenuRoot.V3.getValue())).collect(Collectors.toList());
             return R.successFind(BeanDtoVoUtil.listVo(newMenus, AdminMenuVO.class));
         }
     }

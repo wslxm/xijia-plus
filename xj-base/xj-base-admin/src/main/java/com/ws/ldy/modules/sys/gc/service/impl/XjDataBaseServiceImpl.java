@@ -4,7 +4,7 @@ import com.ws.ldy.modules.sys.gc.model.vo.XjTableFieldVO;
 import com.ws.ldy.modules.sys.gc.model.vo.XjTableVO;
 import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
-import com.ws.ldy.modules.sys.gc.jdbc.JDBCPool;
+import com.ws.ldy.modules.sys.gc.util.JDBCPool;
 import com.ws.ldy.modules.sys.gc.mapper.XjDataBaseMapper;
 import com.ws.ldy.modules.sys.gc.model.entity.XjAdminDatasource;
 import com.ws.ldy.modules.sys.gc.service.XjAdminDatasourceService;

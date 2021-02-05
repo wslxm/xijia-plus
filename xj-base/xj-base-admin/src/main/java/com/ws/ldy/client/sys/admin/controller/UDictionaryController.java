@@ -43,13 +43,6 @@ public class UDictionaryController extends BaseController<AdminDictionaryService
     }
 
 
-//    @RequestMapping(value = "/findVersion", method = RequestMethod.GET)
-//    @ApiOperation(value = "获取字典版本", notes = "获取数据字典版本信息, 如果判断到本地版本和线上版本不一致,调用 findCodeGroup 接口刷新字典数据")
-//    public R<Integer> findVersion() {
-//        return R.success(BaseConstant.Cache.DICT_VERSION);
-//    }
-
-
     @RequestMapping(value = "/findByCode", method = RequestMethod.GET)
     @ApiOperation(value = "Code查询(Tree)", notes = "不能传递字符串数字Code ")
     @ApiImplicitParams({

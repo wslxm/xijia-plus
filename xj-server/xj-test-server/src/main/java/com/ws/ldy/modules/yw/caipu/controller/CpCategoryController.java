@@ -8,7 +8,7 @@ import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.IdUtil;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import com.ws.ldy.modules.yw.caipu.model.entity.CpCategory;
 import com.ws.ldy.modules.yw.caipu.model.entity.CpInfo;

@@ -463,6 +463,15 @@ layui.define('view', function (exports) {
             });
         }
 
+        //弹出消息面板
+        , msg: function () {
+            admin.popupRight({
+                id: 'LAY_adminPopupAbout'
+                , success: function () {
+                    view(this.id).render('system/msg');
+                }
+            });
+        }
 
         //弹出关于面板
         , about: function () {

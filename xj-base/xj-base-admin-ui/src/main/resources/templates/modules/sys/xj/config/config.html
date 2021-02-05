@@ -113,8 +113,8 @@
                 [
                     // {type: 'checkbox', fixed: 'left'}   //fixed: 'right', , fixed: 'left'
 
-                    {field: 'code', title: 'Code'},
-                    {field: 'name', title: '配置名称'},
+                    {field: 'code', title: 'Code',width: 250},
+                    {field: 'name', title: '配置名称',width: 250},
                    // {field: 'content', title: '配置内容'},
                     {
                         field: 'content', title: '配置内容', templet: function (res) {
@@ -129,7 +129,7 @@
                                 return html;}
                         }
                     },
-                    {field: 'sort', title: '排序'}
+                    {field: 'sort', title: '排序',width: 250}
                     , {title: '操作', toolbar: '#barDemo', width: 250}
                 ]
             ]

@@ -25,13 +25,13 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
 
 
     /**
-     *   刷新所有权限列表数据
+     * 刷新所有权限列表数据
      *
      * @return void
      * @date 2019/11/25 0025 11:55
      */
 
-    void refreshAuthDB();
+    Boolean refreshAuthDB();
 
 
     /**
@@ -73,4 +73,5 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      * @date 2019/11/25 0025 11:55
      */
     public AdminAuthority findFatherAuth(String uri);
+
 }

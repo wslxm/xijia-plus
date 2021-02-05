@@ -2,8 +2,7 @@ package com.ws.ldy.modules.sys.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ws.ldy.enums.BaseConstant;
-import com.ws.ldy.enums.Enums;
+import com.ws.ldy.enums.Admin;
 import com.ws.ldy.modules.sys.admin.mapper.AdminRoleMapper;
 import com.ws.ldy.modules.sys.admin.model.dto.AdminRoleDTO;
 import com.ws.ldy.modules.sys.admin.model.dto.role.RoleAuthDTO;
@@ -22,6 +21,11 @@ import java.util.*;
 
 @Service
 public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, AdminRole> implements AdminRoleService {
+
+    /**
+     * 超级管理员角色 code（勿修改）
+     */
+    private final  String ROLE_SYS = "SYS";
 
     @Autowired
     private AdminRoleUserService roleUserAdminService;
@@ -165,7 +169,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
         List<AdminRole> roleList = adminRoleService.list();
         List<AdminAuthority> authList = adminAuthorityService.list(new LambdaQueryWrapper<AdminAuthority>()
                 .select(AdminAuthority::getId)
-                .eq(AdminAuthority::getType, Enums.Admin.AuthorityType.AUTHORITY_TYPE_0.getValue())
+                .eq(AdminAuthority::getType, Admin.AuthorityType.V0.getValue())
         );
         //
         List<AdminRoleAuth> addRoleAuthList = new ArrayList<>();
@@ -190,7 +194,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      * @date 2020/4/6 0006 17:47
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean roleUrlAuth(RoleAuthDTO dto) {
         //删除原数据
         boolean result = adminRoleAuthService.remove(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, dto.getRoleId()));
@@ -208,7 +212,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
     @Override
     public AdminRole findSysRole() {
         AdminRole role = this.getOne(new LambdaQueryWrapper<AdminRole>()
-                .eq(AdminRole::getCode, BaseConstant.ADMIN.ROLE_SYS));
+                .eq(AdminRole::getCode,ROLE_SYS));
         return role;
     }
 }

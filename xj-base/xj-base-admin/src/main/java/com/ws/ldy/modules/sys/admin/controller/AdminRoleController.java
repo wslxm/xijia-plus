@@ -8,7 +8,7 @@ import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.admin.model.dto.AdminRoleDTO;
 import com.ws.ldy.modules.sys.admin.model.dto.role.RoleAuthDTO;
 import com.ws.ldy.modules.sys.admin.model.dto.role.RoleMenuDTO;
@@ -61,6 +61,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
         List<AdminRole> roles = baseService.list();
         return R.successFind(BeanDtoVoUtil.listVo(roles, AdminRoleVO.class));
     }
+
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "添加", notes = "")

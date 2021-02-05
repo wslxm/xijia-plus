@@ -1,9 +1,8 @@
 package com.ws.ldy.modules.sys.admin.controller;
 
-import com.ws.ldy.common.cache.BaseCache;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.admin.model.dto.AdminDictionaryDTO;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminDictionary;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryVO;
@@ -88,24 +87,14 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation(value = "ID删除", notes = "删除当前ID数据以及该ID下的所有子层级数据")
     public R<Boolean> del(@RequestParam String id) {
-        List<String> ids = baseService.findByIdFetchIds(id);
-        boolean res = baseService.removeByIds(ids);
-        //清除缓存
-        BaseCache.DICT_MAP_GROUP = null;
-        return R.successDelete(res);
+        return R.successDelete(baseService.del(id));
     }
 
 
     @RequestMapping(value = "/updBySort", method = RequestMethod.PUT)
     @ApiOperation(value = "修改排序", notes = "排序数字越小,越靠前")
-    public R<Void> updBySort(@RequestParam String id, @RequestParam Integer sort) {
-        AdminDictionary dict = new AdminDictionary();
-        dict.setId(id);
-        dict.setSort(sort);
-        baseService.updateById(dict);
-        //清除缓存
-        BaseCache.DICT_MAP_GROUP = null;
-        return R.successUpdate();
+    public R<Boolean> updBySort(@RequestParam String id, @RequestParam Integer sort) {
+        return R.successUpdate(baseService.updBySort(id, sort));
     }
 
 

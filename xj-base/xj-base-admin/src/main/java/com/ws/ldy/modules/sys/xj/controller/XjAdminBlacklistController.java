@@ -9,7 +9,7 @@ import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.aspect.gateway.SysBlacklist;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import com.ws.ldy.modules.sys.xj.model.dto.XjAdminBlacklistDTO;
 import com.ws.ldy.modules.sys.xj.model.entity.XjAdminBlacklist;

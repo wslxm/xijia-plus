@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ws.ldy.modules.sys.gc.jdbc.JDBCPool;
+import com.ws.ldy.modules.sys.gc.util.JDBCPool;
 import com.ws.ldy.modules.sys.gc.model.entity.XjAdminDatasource;
 import com.ws.ldy.modules.sys.gc.model.vo.XjAdminDatasourceVO;
 import com.ws.ldy.modules.sys.gc.service.XjAdminDatasourceService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import com.ws.ldy.enums.BaseConstant;
+import com.ws.ldy.constant.BaseConstant;
 
 import io.swagger.annotations.*;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
