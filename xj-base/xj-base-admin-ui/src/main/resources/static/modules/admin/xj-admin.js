@@ -19,9 +19,9 @@ function adminLogout() {
 function menuRoot1() {
     let html = "";
     $.each(dataJson, function (index) {
-        if(index == 0){
+        if (index == 0) {
             html += "<li class=\"layui-nav-item layui-this\" onclick=\"menuRoot1Click(" + index + ")\"><a href=\"JavaScript:void(0)\">" + dataJson[index].name + "</a></li>";
-        }else{
+        } else {
             html += "<li class=\"layui-nav-item\" onclick=\"menuRoot1Click(" + index + ")\"><a href=\"JavaScript:void(0)\">" + dataJson[index].name + "</a></li>";
         }
 
@@ -47,12 +47,12 @@ function treeMenu(i) {
         // if (dataJson[index].open == 1) {
         //     htmlRoot2 += "<li  data-name='home' class='layui-nav-item layui-nav-itemed'>";
         // } else {
-        html += "<li  data-name='home' class='layui-nav-item'>";                                 // 一级目录头
-        html += "<a href='javascript:;' lay-tips='" + data[index].name + "' lay-direction='2'>"; // 名称
-        html += "<i class='layui-icon " + data[index].icon + "'></i>";                           // 图标
-        html += "<cite class='xijia-menu-title'>" + data[index].name + "</cite>";                // 菜单名称
+        html += "<li  data-name='home' class='layui-nav-item'>";                                  // 一级目录头
+        html += "<a href='javascript:;' lay-tips='" + data[index].name + "' lay-direction='2'>";  // 名称
+        html += "<i class='layui-icon " + data[index].icon + "'></i>";                             // 图标
+        html += "<cite class='xijia-menu-title'>" + data[index].name + "</cite>";                 // 菜单名称
+        //html += "<spen class='xijia-menu-title layui-nav-more'><spen>";                         // 图标
         html += " </a>";
-        // html += "<spen class='layui-nav-more'><spen>";
         //判断是否存在下级目录
         if (data[index].menus != null && data[index].menus.length > 0) {
             html += "<dl class='layui-nav-child' >";            // 二级目录头  --> class="layui-nav-child"
@@ -74,7 +74,7 @@ function nextMenuRoot3(data) {
         if (data[index].menus != null && data[index].menus.length > 0) {
             html += "<dd  style='margin-left: 10%'>";
             html += "<a href='javascript:;'><i class='layui-icon " + data[index].icon + "'></i>";
-            html += "<cite class='xijia-menu-title'>" + data[index].name + "</cite>";  // 菜单名称
+            html += "<cite class='xijia-menu-title '>" + data[index].name + "</cite>";  // 菜单名称
             html += " </a>";
             html += "<dl class='layui-nav-child'>";    //layui-nav-child
             html += nextMenuRoot4(data[index].menus);  //三级菜单
@@ -96,7 +96,12 @@ function nextMenuRoot3(data) {
 function nextMenuRoot4(data) {
     let html = "";
     $.each(data, function (index) {
-        html += "<dd style='margin-left: 3%'><a lay-href='" + data[index].url + "'>" + data[index].name + "</a></dd>";
+        //
+        html += "<dd  style='margin-left: 3%'>" +
+            "<a  lay-href='" + data[index].url + "'>" +
+            "<div class='xijia-menu-title'>" + data[index].name + "</div>" +
+            "</a>" +
+            "</dd>";
     });
     return html;
 }

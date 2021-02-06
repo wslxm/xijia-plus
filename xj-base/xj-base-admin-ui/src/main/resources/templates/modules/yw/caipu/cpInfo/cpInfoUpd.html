@@ -253,7 +253,7 @@
             //
             data.field.id = parent.data.id;
             //data.field.id = parent.data.id;
-            let result = Ajax.put(path + "/caipu/cpInfo/upd", data.field);
+            let result = Ajax.put(path + "/admin/caipu/cpInfo/upd", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

@@ -207,7 +207,7 @@
             data.field.steppic = steppic;
 
             //
-            let result = Ajax.post(path + "/caipu/cpInfo/insert", data.field);
+            let result = Ajax.post(path + "/admin/caipu/cpInfo/insert", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

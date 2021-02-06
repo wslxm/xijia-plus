@@ -21,7 +21,7 @@ spring:
 aliyun:
   ## 个人账号
   oss:
-    endpoint: oss-cn-shenzhen.aliyuncs.com
+    endpoint: oss-cn-shenzhen-internal.aliyuncs.com
     accessKeyId: LTAI4Fyfy2DTf4yUrvKqHwH4
     accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8
     bucketName: xijia-sz

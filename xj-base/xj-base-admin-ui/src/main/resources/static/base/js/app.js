@@ -3,7 +3,7 @@
  * 后台文件上传接口
  * 本地 "http://127.0.0.1:9049" ||  线上ip地址： http://47.107.128.84:9049 ||  线上域名地址： http://xijia.plus
  */
-path = "/api"; 
+path = "/api";
 uploadPath = "/api/open/aliOssFile/upload";
 
 
@@ -306,24 +306,37 @@ pageJson = {
 
 /**
  *  获取 Layui 当前分页参数 ===>  如：curr=1&limits=10
+ *
+ *  page 手动指定页数，不传默认使用 pageJson.limits[0]
+ *  size 手动指定条数，不传默认使用 pageJson.limits[0]
  */
-function getPage() {
+function getPage(page,size) {
     // 分页页数key
     let pageKey = "current";
     // 分页记录数key
     let sizeKey = "size";
+
     //获取当前页
     let pageVal = $(".layui-laypage-skip .layui-input").val();
-    if (pageVal == null) {
-        pageVal = pageJson.curr;
+    if(page == null){
+        if (pageVal == null) {
+            pageVal = pageJson.curr;
+        }
+    }else{
+        pageVal = page;
     }
+
     //获取当前页条数
     let sizeVal = $(".layui-laypage-limits").find("option:selected").val();
-    if (sizeVal == null) {
-        sizeVal = pageJson.limits[0];
+    if (size == null) {
+        if (sizeVal == null) {
+            sizeVal = pageJson.limits[0];
+        }
+    } else {
+        sizeVal = size;
     }
-    let page = "?" + pageKey + "=" + pageVal + "&" + sizeKey + "=" + sizeVal;
-    return page;
+    let pageVo = "?" + pageKey + "=" + pageVal + "&" + sizeKey + "=" + sizeVal;
+    return pageVo;
 }
 
 

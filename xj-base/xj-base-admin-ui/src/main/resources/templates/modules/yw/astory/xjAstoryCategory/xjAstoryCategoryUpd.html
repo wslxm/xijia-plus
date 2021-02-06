@@ -13,7 +13,8 @@
 </head>
 <body>
 
-<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+
+<div class="layui-form"  lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
 
     
     <div class="layui-form-item">
@@ -30,7 +31,7 @@
     </div>
 
     <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认添加">
+        <input  type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认添加">
         <input type="button" lay-submit lay-filter="layuiadmin-app-form-edit" id="layuiadmin-app-form-edit" value="确认编辑">
     </div>
 </div>
@@ -50,7 +51,7 @@
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.id = parent.data.id;
             //data.field.id = parent.data.id;
-            let result = Ajax.put(path + "/astory/xjAstoryCategory/upd", data.field);
+            let result = Ajax.put(path + "/admin/astory/xjAstoryCategory/upd", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

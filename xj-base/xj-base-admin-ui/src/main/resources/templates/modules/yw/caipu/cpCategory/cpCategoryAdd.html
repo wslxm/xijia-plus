@@ -63,7 +63,7 @@
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.pid = pid;
-            let result = Ajax.post(path + "/caipu/cpCategory/insert", data.field);
+            let result = Ajax.post(path + "/admin/caipu/cpCategory/insert", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

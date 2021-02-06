@@ -203,9 +203,14 @@ layui.define('view', function (exports) {
                     , '.layui-nav-child{background-color:{{d.color.main}} !important;}'  //主题色-左边导航菜单颜色
 
 
-                    // logo--标题+左边导航字体颜色
+                    // logo--标题+左边导航字体颜色 + 展示图标 + 菜单图标
                     , '.xijia-logo-title{color:{{d.color.logoTitle}} }'
                     , '.xijia-menu-title{color:{{d.color.menuTitle}} }'
+
+                    //  , '.layui-side-menu .layui-nav  .layui-nav-more{border-top-color: {{d.color.menuIcon}} !important;}' //菜单展开图标默认色
+                    // , '.layui-side-menu .layui-nav .layui-nav-itemed > a .layui-nav-more{border-color: transparent; border-bottom-color: {{d.color.menuIcon}} !important;}' //菜单展开图标选择色
+
+                    , '.layui-icon{color:{{d.color.menuIcon}} !important;}'   // 图标颜色
 
                     //主题色-左边导航菜单点击展开后颜色
                     , '.layui-side-menu .layui-nav .layui-nav-itemed > .layui-nav-child{padding: 5px 0;background-color: {{d.color.bgs}} !important}'

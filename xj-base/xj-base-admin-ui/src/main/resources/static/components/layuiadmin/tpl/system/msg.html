@@ -26,24 +26,23 @@
 <script>
     var adminMsgFindPage = "/api/admin/adminMsg/findPage";   // 查询数据接口  isRead", value = "是否已读(0-未读 1-已读)
 
+    // 当前选中tab
+    var isRead = "";
+
     layui.use(['table', 'form', 'laypage', 'element'], function () {
         let laypage = layui.laypage;
         let element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
 
-        // 查询数据
-        let res = findPage("");
+        // 查询数据（第1页）
+        let res = findPage(1);
         // 加载分页插件
         xijiaLayPage(laypage, res);
-
-        // 赋值
-        showText(res.data.records, "");
 
         //触发事件
         element.on('tab(docDemoTabBrief)', function (elem) {
             // 重新获取数据并加载
-            let isRead = $(this).attr('lay-id');
-            let res = findPage(isRead);
-            showText(res.data.records, isRead);
+            isRead = $(this).attr('lay-id');
+            let res = findPage(1);
             // 重新加载分页插件
             xijiaLayPage(laypage, res);
         });
@@ -52,8 +51,11 @@
     /**
      * 获取数据
      */
-    function findPage(isRead) {
-        return Ajax.get(adminMsgFindPage + getPage() + "&isRead=" + isRead);
+    function findPage(page) {
+        let res = Ajax.get(adminMsgFindPage + getPage(page, 8) + "&isRead=" + isRead);
+        // 加载数据
+        showText(res.data.records);
+        return res;
     }
 
 
@@ -72,18 +74,19 @@
             , count: res.data.total    // 数据总数，从服务端得到
             , limit: res.data.size     // 每页数量
             // 基础信息配置
-            , layout: ['count', 'prev', 'next']
+            , layout: ['count', 'prev', 'page', 'next']
             , curr: pageJson.curr
-            , limits: 2
-            // , groups: pageJson.groups
-            , prev: pageJson.prev
-            , next: pageJson.next
+            , groups: 1
+            , prev: "<-"
+            , next: "->"
             // 监听 obj包含了当前分页的所有参数， 比如： obj.curr =当前页, obj.limit = 每页显示条数
             , jump: function (obj, first) {
                 //首次不执行, 第一次加载时 first=true
                 if (first) {
                     return;
                 }
+                // 加载新数据
+                findPage(obj.curr);
             }
         });
     }
@@ -92,20 +95,19 @@
     /**
      * 展示
      */
-    function showText(dataJson, layId) {
+    function showText(dataJson) {
         /**
          * 拼最后展示的数据
          */
         let text = "";
         $.each(dataJson, function (index, item) {
             console.log(dataJson[index]);
-            text += "" +
-                "<div >" + dataJson[index].content + "</div>" +
-                "<div style='color: #dad8d5'>" + dataJson[index].createTime + "</div>" +
-                "<hr> ";
-
+            text += dataJson[index].isRead === 0 ? "<span style='margin-right: 3%;' class='layui-badge-dot'></span>" : "";
+            text += "<span>" + dataJson[index].content + "</span>";
+            text += "<div style='color: #dad8d5'>" + dataJson[index].createTime + "</div>";
+            text += "<hr> ";
         });
-        $("#tab" + layId).html(text);
+        $("#tab" + isRead).html(text);
     }
 
 

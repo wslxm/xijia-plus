@@ -63,6 +63,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                     , header: '#000000'       // 顶部栏背景色
                     , logoTitle: '#ffffff'    // 字体色-标题处字体色
                     , menuTitle: '#000000'    // 字体色-左菜单字体色
+                    , menuIcon: '#fed9ff'     // 图标色-整个导航
                     , alias: 'classic-white'  // 自定义
                 }, {
                     main: '#20222A'          //主题色
