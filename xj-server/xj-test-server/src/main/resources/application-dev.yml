@@ -18,7 +18,7 @@ spring:
           type: com.alibaba.druid.pool.DruidDataSource
 
 aliyun:
-  ## 个人账号
+  ## 个人账号,拉取此代码调试后请修改为自己的,如发现滥用,将关停
   oss:
     endpoint: oss-cn-shenzhen.aliyuncs.com
     accessKeyId: LTAI4Fyfy2DTf4yUrvKqHwH4
