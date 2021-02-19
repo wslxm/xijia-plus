@@ -25,11 +25,11 @@ public class GenerateConfig {
     public final static String EMAIL = "1720696548@qq.com";
     public final static String DESCRIBE = " ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 ";
     //private final static String PACK_PATH = (PetsServer.class.getPackage().getName() + "");  // 包根路径（所有代码,启动类的路径）
-    public final static String projectName = "xj-code";                  // 子项目名称
-    public final static String ROOT_MODULE = "modules";                  // 根模块目录(不建议变动)
-    public final static String PACK_PATH = "com.ws.ldy";                 // 包根路径目录
-    public final static String PACK_PATH_ZP = "yw";                      // 父模块目录 (yw=业务代码  sys=系统代码) 包根的下一级路径 所有模块的包路径
-    public final static String MODULE_NAME = "test";                     // 子模块目录 (根据业务划分具体模块, 如果是系统代码,根据系统核心代码类别划分)
+    public final static String projectName = "xj-server/yabei-shop-server";  // 子项目模块 (项目目录下)
+    public final static String PACK_PATH = "com.ws.ldy";                     // 模块内代码存放包根路径
+    public final static String ROOT_MODULE = "modules";                      // 模块内代码存放包子路径(不建议变动)
+    public final static String PACK_PATH_ZP = "yw";                          // 模块内的子模块 (yw=业务代码  sys=系统代码)
+    public final static String MODULE_NAME = "yb";                           // 模块内的子模块下的子模块 (更具体的业务划分)
 
 
     /**
@@ -38,7 +38,7 @@ public class GenerateConfig {
      * 字段前缀：FIELD_PREFIX
      * _DEFAULT = 默认配置
      */
-    public static String TABLE_PREFIX_DEFAULT = "t_xj_";
+    public static String TABLE_PREFIX_DEFAULT = "t_yb_";
     public static String FIELD_PREFIX_DEFAULT = "";
     public static String TABLE_PREFIX = GenerateConfig.TABLE_PREFIX_DEFAULT;
     public static String FIELD_PREFIX = GenerateConfig.FIELD_PREFIX_DEFAULT;
