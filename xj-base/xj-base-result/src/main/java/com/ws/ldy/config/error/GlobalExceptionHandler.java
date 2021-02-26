@@ -51,6 +51,7 @@ public class GlobalExceptionHandler {
         mapException.put("ArithmeticException", "算术错误，典型的就是0作为除数的时候 : ");
         mapException.put("IllegalArgumentException", "非法参数，在把字符串转换成数字的时候经常出现的一个异常 : ");
         mapException.put("UnsupportedEncodingException", "编码编译出错 : ");
+        mapException.put("HttpRequestMethodNotSupportedException", "请求方式错误(请检查：GET/POST/POT/DELETE) : ");
     }
 
 
@@ -94,7 +95,7 @@ public class GlobalExceptionHandler {
             return R.error(error.getCode(), error.getMsg(), e.getMessage());
         } else if (e instanceof HttpMessageNotReadableException) {
             /**
-             * 传递参数错误 - 枚举参数 |json参数错误, 请检查json是否完整，序列化失败（只打印核心错误内容）
+             * 传递参数错误 - 枚举参数|json参数错误, 请检查json是否完整，序列化失败（只打印核心错误内容）
              */
             HttpMessageNotReadableException error = (HttpMessageNotReadableException) e;
             String errorMsg = "  --> 【可能出现的情况如下：1、传递的JSON参数格式或参数错误 2、时间参数格式错误  \r\n 3、枚举参数错误】  --->  \r\n 详细错误信息：" + e.getMessage();

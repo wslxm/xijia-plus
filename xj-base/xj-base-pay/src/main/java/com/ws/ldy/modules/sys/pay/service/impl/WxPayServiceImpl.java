@@ -85,6 +85,7 @@ public class WxPayServiceImpl implements PayService {
 
         // 2、处理支付返回前端数据,让前端调起微信
         PayOrderResultVO vo = BeanDtoVoUtil.convert(wxPayOrderResult, PayOrderResultVO.class);
+        vo.setOrderNo(orderNo);
 
         // 3、记录与第三方的成功发起支付的信息
         // 计算剩余金额 -->   总金额 - 渠道手续费和-平台手续费

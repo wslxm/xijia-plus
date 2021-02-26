@@ -73,6 +73,7 @@ public class FileUploadUtil {
         // 特殊符号处理
         try {
             fileName = URLEncoder.encode(fileName, "utf-8");
+            fileName =   fileName.replaceAll("\\+", "%20").replaceAll("%", "");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
