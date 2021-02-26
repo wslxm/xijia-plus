@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<html>
 <head>
     <meta charset="utf-8">
-    <title>登入 - 兮家</title>
+    <title>登入</title>
     <link rel="icon" href="/base/pic/icon/xijia.png" type="image/x-icon">  <!--在网页标题左侧显示图标-->
     <link rel="shortcut icon" href="/base/pic/icon/xijia.png" type="image/x-icon"> <!-- 在收藏夹显示图标-->
 
@@ -26,7 +26,6 @@
 
     /* 背景图 */
     .xijiaLoginDiv {
-        background: url(/base/pic/bj/loginbj/1.jpg); /* 图片及与浏览器的间距  no-repeat 4px 5px*/
         background-size: 100% 100%; /* 图片大小 */
         /* filter: alpha(Opacity=95); */
         /* -moz-opacity: 0.95; */
@@ -52,7 +51,7 @@
         <div class=" layadmin-user-login-main">
             <!-- 登录页标题处  -->
             <div class="layadmin-user-login-box layadmin-user-login-header">
-                <h2>兮家 * 次元空间</h2>
+                <h2 id="entry_name"></h2>
                 <!--  <p>layui 官方出品的单页面后台管理模板系统 </p>-->
             </div>
 
@@ -102,21 +101,21 @@
 
         <!-- 底部字体添加处 -->
         <div class="layui-trans layadmin-user-login-footer">
-            <p> ©2020-2-1 该后台系统为个人开发运营，作者联系方式 QQ:1720696548 </p>
-            <a href="https://beian.miit.gov.cn">备案号：蜀ICP备19022468号-1</a>
-                <!--        <p>-->
-                <!--    <p>© 2018 <a href="http://www.layui.com/" target="_blank">layui.com</a></p>-->
-                <!--            <span><a href="http://www.layui.com/admin/#get" target="_blank">获取授权</a></span>-->
-                <!--            <span><a href="http://www.layui.com/admin/pro/" target="_blank">在线演示</a></span>-->
-                <!--            <span><a href="http://www.layui.com/admin/" target="_blank">前往官网</a></span>-->
-                <!--        </p>-->
+            <p id="project_desc"></p>
+            <a id="beian" href="https://beian.miit.gov.cn"></a>
+            <!--        <p>-->
+            <!--    <p>© 2018 <a href="http://www.layui.com/" target="_blank">layui.com</a></p>-->
+            <!--            <span><a href="http://www.layui.com/admin/#get" target="_blank">获取授权</a></span>-->
+            <!--            <span><a href="http://www.layui.com/admin/pro/" target="_blank">在线演示</a></span>-->
+            <!--            <span><a href="http://www.layui.com/admin/" target="_blank">前往官网</a></span>-->
+            <!--        </p>-->
         </div>
     </div>
 </div>
 
 <script>
     //登录接口
-    let admin_login = path + "/admin/adminUser/login";       // 登录接口
+    let admin_login = path + "/admin/adminUser/login";         // 登录接口
     var verifCode = false;
 
     /** session过期，登录页在内窗口，跳为最顶层窗口 */
@@ -160,12 +159,37 @@
             // localStorage.setItem('username', res.data.username);
             location.href = "/index";
         });
+
+        // 项目名
+        let res = Ajax.get(path + "/admin/adminConfig/findByCode?code=entry_name");
+        $("#entry_name").html(res.data.content);
+
+        // 背景图
+        res = Ajax.get(path + "/admin/adminConfig/findByCode?code=login_bg_img");
+        $(".xijiaLoginDiv").css("background","url("+res.data.content+")");
+
+        // 备案号：蜀ICP备19022468号-1
+        res = Ajax.get(path + "/admin/adminConfig/findByCode?code=beian");
+        $("#beian").html(res.data.content);
+
+        // 项目描叙
+        res = Ajax.get(path + "/admin/adminConfig/findByCode?code=project_desc");
+        $("#project_desc").html(res.data.content);
+
+
+
     });
 </script>
 
+
 <!-- 滑动验证码 -->
 <script>
-    // 滑动的随机图片列表
+
+    // // 项目描叙
+    // let res = Ajax.get(path + "/admin/adminConfig/findByCode?code=login_code_img");
+    // let verifCodeImg = res.data.content.split(",");
+
+    // 滑动的随机图片列表(只能用本地图片)
     let verifCodeImg = [
         "components/verifCode/image/tp1.jpg",
         "components/verifCode/image/tp2.jpg",

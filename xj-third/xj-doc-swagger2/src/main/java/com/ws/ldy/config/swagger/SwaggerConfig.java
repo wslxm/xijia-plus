@@ -1,4 +1,4 @@
-package com.lplb.config.swagger;
+package com.ws.ldy.config.swagger;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
@@ -30,7 +30,6 @@ import java.util.List;
  * @date 2020/11/20 0020 9:06
  * @version 1.0.0
  */
-@SuppressWarnings("all")
 @Configuration
 @EnableSwagger2
 @Slf4j

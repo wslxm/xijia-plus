@@ -2,6 +2,7 @@ package com.ws.ldy.modules.sys.xj.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
@@ -17,11 +18,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
 
 
 /**
@@ -68,6 +66,16 @@ public class XjAdminConfigController extends BaseController<XjAdminConfigService
     }
 
 
+    @RequestMapping(value = "/findByCode", method = RequestMethod.GET)
+    @ApiOperation(value = "CODE查询", notes = "")
+    @ApiImplicitParam(name = "code", value = "配置code|搜索值(不能重复)", required = false, paramType = "query", example = "")
+    public R<XjAdminConfigVO> findByCode(@RequestParam String code) {
+        XjAdminConfig xjAdminConfig = baseService.getOne(new LambdaQueryWrapper<XjAdminConfig>().eq(XjAdminConfig::getCode, code));
+        return R.successFind(BeanDtoVoUtil.convert(xjAdminConfig, XjAdminConfigVO.class));
+    }
+
+
+
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "添加", notes = "必须不传递ID")
     public R<Boolean> insert(@RequestBody @Validated XjAdminConfigDTO dto) {
@@ -99,6 +107,8 @@ public class XjAdminConfigController extends BaseController<XjAdminConfigService
     }
 
 
+
+
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation(value = "ID删除", notes = "")
     public R<Boolean> del(@RequestParam String id) {
@@ -106,9 +116,4 @@ public class XjAdminConfigController extends BaseController<XjAdminConfigService
     }
 
 
-    @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
-    @ApiOperation(value = "批量ID删除", notes = "")
-    public R<Boolean> delByIds(@RequestParam String[] ids) {
-        return R.successDelete(baseService.removeByIds(Arrays.asList(ids)));
-    }
 }

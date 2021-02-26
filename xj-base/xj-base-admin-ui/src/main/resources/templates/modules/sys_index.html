@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.springframework.org/schema/jdbc">
 <head>
     <meta charset="utf-8">
-    <title>兮家后台管理系统</title>
+    <title>后台管理系统</title>
     <link rel="icon" href="/base/pic/icon/xijia.png" type="image/x-icon">  <!--在网页标题左侧显示图标-->
     <link rel="shortcut icon" href="/base/pic/icon/xijia.png" type="image/x-icon"> <!-- 在收藏夹显示图标-->
     <meta name="renderer" content="webkit">
@@ -144,7 +144,7 @@
         <div class="layui-side layui-side-menu">
             <div class="layui-side-scroll">
                 <div class="layui-logo" lay-href="home/console.html">
-                    <span class="xijia-logo-title">spring-boot-plus2</span>
+                    <span class="xijia-logo-title" id="entry_name"></span>
                 </div>
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu">
@@ -201,6 +201,7 @@
     // 路径跳转
     let homePage = "/page/modules_sys_admin_user_user";               // 进入系统首页展示url, /page/console_user_user  / /page/front_show_show
     let updPwd = "/page/modules_sys_admin_user_userUpdPwd";           // 修改密码页面
+    let entry_name = path + "/admin/adminConfig/findByCode?code=entry_name";// 获取项目名称接口
 
     $(function () {
         dataJson = Ajax.get(menuTree).data;
@@ -229,7 +230,11 @@
         //获取字典数据
         Dict.refreshDict();
         //字典数据测试
-        Dict.getDictTest()
+        Dict.getDictTest();
+
+        // 项目名
+        let res = Ajax.get(entry_name);
+        $("#entry_name").html(res.data.content);
     });
 
 
