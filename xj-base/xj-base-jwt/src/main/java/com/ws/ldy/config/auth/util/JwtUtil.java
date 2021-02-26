@@ -43,9 +43,9 @@ public class JwtUtil {
      */
     // TOKEN KEY值
     public static String TOKEN = "TOKEN";
-    // 登录类型 管理端 | 用户端
+    // 登录类型 0-管理端 | 1-用户端
     public static final Integer[] userType = {0, 1};
-    // 过期时间 管理端 | 用户端
+    // 过期时间 0-管理端 | 1-用户端
     private static final Long[] expirition = {1000L * 60 * 60, 1000L * 60 * 60 * 24 * 15};
 
 

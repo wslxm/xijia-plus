@@ -1,4 +1,4 @@
-package com.ws.ldy.config.swagger;
+package com.lplb.config.swagger;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
@@ -35,7 +35,6 @@ import java.util.List;
 @EnableSwagger2
 @Slf4j
 public class SwaggerConfig {
-
 
     @Value("${swagger.sysAdminPackage}")
     private String sysAdminPackage;
@@ -113,7 +112,7 @@ public class SwaggerConfig {
                 // 全局参数 -> 默认token参数
                 .globalOperationParameters(getGlobalParameter())
                 .select()
-                //.apis(RequestHandlerSelectors.basePackage("com.ws.ldy.modules.pets"
+                //.apis(RequestHandlerSelectors.basePackage("com.lplb.modules.pets"
                 .apis(basePackage(basePackage))   // 自行修改为自己的包路径
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())

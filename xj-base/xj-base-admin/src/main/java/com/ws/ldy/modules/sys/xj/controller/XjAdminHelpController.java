@@ -70,22 +70,24 @@ public class XjAdminHelpController extends BaseController<XjAdminHelpService> {
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "添加", notes = "必须不传递ID")
-    public R<Boolean> insert(@RequestBody @Validated XjAdminHelpDTO dto) {
+    public R<String> insert(@RequestBody @Validated XjAdminHelpDTO dto) {
         if (StringUtils.isNotBlank(dto.getId())) {
             throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
         }
         XjAdminHelp adminHelp = dto.convert(XjAdminHelp.class);
-        return R.successInsert(baseService.save(adminHelp));
+        boolean b = baseService.save(adminHelp);
+        return R.successInsert(adminHelp.getId());
     }
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "ID编辑", notes = "必须传递ID")
-    public R<Boolean> upd(@RequestBody @Validated XjAdminHelpDTO dto) {
+    public R<String> upd(@RequestBody @Validated XjAdminHelpDTO dto) {
         if (StringUtils.isBlank(dto.getId())) {
             throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
         }
-        return R.successUpdate(baseService.updateById(dto.convert(XjAdminHelp.class)));
+        boolean b = baseService.updateById(dto.convert(XjAdminHelp.class));
+        return R.successUpdate(dto.getId());
     }
 
 
