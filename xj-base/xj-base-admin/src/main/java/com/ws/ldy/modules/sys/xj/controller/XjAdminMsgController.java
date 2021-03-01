@@ -61,7 +61,7 @@ public class XjAdminMsgController extends BaseController<XjAdminMsgService> {
                 .set(XjAdminMsg::getIsRead, Base.IsRead.V1.getValue())
                 .eq(XjAdminMsg::getId, id)
         );
-        return R.successFind(res);
+        return R.success(res);
     }
 
     @RequestMapping(value = "/findUnreadNum", method = RequestMethod.GET)
