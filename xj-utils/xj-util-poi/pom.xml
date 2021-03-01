@@ -36,6 +36,19 @@
             <artifactId>poi-ooxml-schemas</artifactId>
             <version>${poi-ooxml-schemas.version}</version>
         </dependency>
+
+        <!-- 工具- fastjson -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-util-fastjson</artifactId>
+            <version>${xj-util-fastjson.version}</version>
+        </dependency>
+        <!-- 接口文档- swagger2  -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-doc-swagger2</artifactId>
+            <version>${xj-doc-swagger2.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

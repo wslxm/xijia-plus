@@ -1,4 +1,4 @@
-package com.ws.ldy.modules.sys.xj.controller;
+package com.ws.ldy.client.sys.xj.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -9,6 +9,7 @@ import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.enums.Base;
+import com.ws.ldy.enums.Xj;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import com.ws.ldy.modules.sys.xj.model.entity.XjAdminMsg;
 import com.ws.ldy.modules.sys.xj.model.vo.XjAdminMsgVO;
@@ -32,9 +33,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2020-09-23 10:40:23
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/adminMsg")
-@Api(value = "XjAdminMsgController", tags = "base-plus--消息通知")
-public class XjAdminMsgController extends BaseController<XjAdminMsgService> {
+@RequestMapping(BaseConstant.Uri.apiClient + "/msg")
+@Api(value = "UXjAdminMsgController", tags = "yh--base-plus--消息通知")
+public class UXjAdminMsgController extends BaseController<XjAdminMsgService> {
 
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
@@ -42,12 +43,13 @@ public class XjAdminMsgController extends BaseController<XjAdminMsgService> {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
             @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),
-            @ApiImplicitParam(name = "isRead", value = "是否已读(0-未读 1-已读)", required = false, paramType = "query", example = "20"),
+            @ApiImplicitParam(name = "isRead", value = "是否已读(0-未读 1-已读) 不传查所有", required = false, paramType = "query", example = "20"),
     })
     public R<IPage<XjAdminMsgVO>> findPage(Integer isRead) {
         Page<XjAdminMsg> page = baseService.page(this.getPage(), new LambdaQueryWrapper<XjAdminMsg>()
                 .orderByDesc(XjAdminMsg::getCreateTime)
                 .eq(isRead != null, XjAdminMsg::getIsRead, isRead)
+                .eq( XjAdminMsg::getUserType, Xj.MsgUserType.V1.getValue())
                 .eq( XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())
         );
         return R.successFind(BeanDtoVoUtil.pageVo(page, XjAdminMsgVO.class));
@@ -63,6 +65,7 @@ public class XjAdminMsgController extends BaseController<XjAdminMsgService> {
         );
         return R.successFind(res);
     }
+
 
     @RequestMapping(value = "/findUnreadNum", method = RequestMethod.GET)
     @ApiOperation(value = "查询未读数量", notes = "")
