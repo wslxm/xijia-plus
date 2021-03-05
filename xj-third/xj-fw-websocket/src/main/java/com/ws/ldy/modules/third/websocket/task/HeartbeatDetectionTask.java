@@ -37,7 +37,7 @@ public class HeartbeatDetectionTask {
     @Scheduled(cron = "0/30 * * * * ?")
     private void configureTasks() {
         SendMsgVO vo = new SendMsgVO();
-        vo.setMesType(0);
+        vo.setMsgType(0);
         vo.setFrom("0");
         vo.setUsername("系统");
         vo.setHeadPic(null);

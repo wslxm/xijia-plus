@@ -31,6 +31,7 @@
 27、优化swagger,通过默认请求头token参数配置,val=token 接口直接放行，需要获取用户信息接口处返回无法解析token 
 28、优化登录页,全局配置修改背景图,备案号,项目名称，项目描叙信息，及首页项目名
 29、优化poi, 优化msg相关操作
+30、修改websocket 的 mesType 字段为 msgType, 让 t_xj_admin_msg 的 类型字段和 msgType 相同
 
 更多：其他细节优化
 

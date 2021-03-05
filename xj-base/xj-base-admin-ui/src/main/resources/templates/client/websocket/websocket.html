@@ -109,7 +109,7 @@
             websocket.onmessage = function (evt) {
                 let received_msg = evt.data;           // 接收到的数据
                 let obj = JSON.parse(received_msg);    // json数据
-                let mesType = obj.mesType;             // 数据类型（1上线/2下线/3在线名单/4发信息)
+                let msgType = obj.msgType;             // 数据类型（1上线/2下线/3在线名单/4发信息)
                 let from = obj.from;                   // 来源Id，上下线时为上下线的用户id
                 let username = obj.username;           // 来源用户，上下线时为上下线的用户名
                 let to = obj.to;                       // 目标Id（接收人用户Id,逗号分隔，所有人时为-ALL)）
@@ -120,7 +120,7 @@
                 //alert(JSON.stringify(received_msg));
 
                 // 上线通知+在线列表刷新
-                if (mesType === 1) {
+                if (msgType === 1) {
                     // 群聊信息时上线
                     quLiao.html(quLiao.html() + " <li style='text-align: center;color: #00FF00'>" + content + " </li>");
                     // 在线列表（id=用户id，用于下线删除）
@@ -130,7 +130,7 @@
                 }
 
                 // 下线通知+在线列表刷新
-                else if (mesType === 2) {
+                else if (msgType === 2) {
                     // 群聊信息暂时下线
                     quLiao.html(quLiao.html() + " <li style='text-align: center;color: red'>" + content + " </li>");
                     // 在线列表删除下线人
@@ -140,7 +140,7 @@
                 }
 
                 // 在线列表通知（自己登录时给自己发送）
-                else if (mesType === 3) {
+                else if (msgType === 3) {
                     zxList.html("");
                     toList.html("<option value='ALL'>所有人</option>");
                     //
@@ -164,7 +164,7 @@
                 }
 
                 // 信息接收通知
-                else if (mesType === 4) {
+                else if (msgType === 4) {
                     if (to === "ALL") {
                         // 群聊
                         // 判断是否为自己的消息，（自己 ==> 发送方=接收方 || 发送方是自己）

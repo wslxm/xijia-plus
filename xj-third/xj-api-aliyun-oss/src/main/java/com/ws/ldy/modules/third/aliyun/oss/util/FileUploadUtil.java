@@ -9,7 +9,10 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 /**
  * 上文件上传格式验证器，及文件后缀名 统一处理工具类
@@ -84,7 +87,7 @@ public class FileUploadUtil {
         if (PATH_IMAGE.equals(path)) {
             // 图片(重命名)
             R<String> stringR = formatVerification(imageSuffix, null, suffixName, fileName);
-            R.success(getTimeStr20() + "-" + fileName);
+            return R.success(getTimeStr20() + "-" + fileName);
         } else if (PATH_MUSIC.equals(path)) {
             // 音频
             return formatVerification(musicSuffix, null, suffixName, fileName);
@@ -101,7 +104,6 @@ public class FileUploadUtil {
             // 日志错误
             return R.error(errorCode, "Path error");
         }
-        return R.success(fileName);
     }
 
 
