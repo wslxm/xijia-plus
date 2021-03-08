@@ -183,7 +183,7 @@
             data = obj.data;  //当前行数据
             // 编辑
             if (obj.event === 'edit') {
-                Pop.tipsWindown(page_upd, "900px", "100%", "修改");
+                Pop.tipsWindown(page_upd, "900px", "90%", "修改");
             }
             // 删除
             if (obj.event === 'del') {
@@ -191,9 +191,9 @@
                 Pop.tipsDeleteId(deletes + params, obj);
             }
             // 菜单分配
-            if (obj.event === 'roleMenu') {
-                Pop.tipsWindown(page_role_menu,"90%","90%","菜单分配",[])
-            }
+            // if (obj.event === 'roleMenu') {
+            //     Pop.tipsWindown(page_role_menu,"90%","90%","菜单分配",[])
+            // }
             // 资源分配
             if (obj.event === 'roleAuth') {
                 Pop.tipsWindown(page_role_auth,"90%","90%","资源分配",[])
