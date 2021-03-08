@@ -139,8 +139,8 @@
         $("#imgUrlShow").attr("src", parent.data.imgUrl);
         $("#imgUrlShow").attr("title", parent.data.imgUrl);
         // select 字典数据
-        $("#isSkip").html(Dict.getDictSelect(Enums.Admin.BannerIsSkip));      // 是否跳转  不带默认值
-        $("#position").html(Dict.getDictSelect(Enums.Admin.BannerPosition));  // 位置
+        $("#isSkip").html(Dict.getDictSelect(Enums.Xj.BannerIsSkip));      // 是否跳转  不带默认值
+        $("#position").html(Dict.getDictSelect(Enums.Xj.BannerPosition));  // 位置
         // select 回显
         $("#isSkip").find("option").each(function () {
             if ($(this).val() == parent.data.isSkip) {

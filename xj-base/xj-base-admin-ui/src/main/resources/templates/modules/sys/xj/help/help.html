@@ -105,14 +105,14 @@
                     {field: 'title', title: '标题'},
                     {
                         field: 'category', title: '分类', templet: function (res) {
-                            return Dict.convert(Enums.Admin.HelpCategory, res.category);
+                            return Dict.convert(Enums.Xj.HelpCategory, res.category);
                         }
                     },
                     // {type: 'checkbox', fixed: 'left'}   //fixed: 'right', , fixed: 'left'
                     //{field: 'icon', title: '图标 | 封面图'},
                     {
                         field: 'helpVersion', title: '版本', templet: function (res) {
-                            return Dict.convert(Enums.Admin.HelpVersion, res.helpVersion);
+                            return Dict.convert(Enums.Xj.HelpVersion, res.helpVersion);
                         }
                     },
                     {field: 'content', title: '内容 '},

@@ -219,7 +219,7 @@ public class MysqlDataBackupTask {
                 BasicFileAttributes attr;
                 try {
                     attr = basicview.readAttributes();
-                    Date CreateTimeDate = new Date(attr.creationTime().toMillis());
+                    Date createTimeDate = new Date(attr.creationTime().toMillis());
                     // DateFormat usdf = new SimpleDateFormat("EEE MMM dd
                     // HH:mm:ss zzz yyyy", Locale.US);
                     // Date date = usdf.parse(CreateTimeDate.toString());
@@ -228,7 +228,7 @@ public class MysqlDataBackupTask {
                     // if (date1.getTime() <= file.lastModified() &&
                     // file.lastModified() <= date2.getTime()) {
                     // }//这部分为文件的最后修改时间
-                    if (date1.getTime() <= CreateTimeDate.getTime() && CreateTimeDate.getTime() <= date2.getTime()) {
+                    if (date1.getTime() <= createTimeDate.getTime() && createTimeDate.getTime() <= date2.getTime()) {
                         log.info("删除备份sql文件: {}", file.getName());
                         file.delete();
                     }

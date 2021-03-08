@@ -52,4 +52,12 @@ public interface AdminMenuService extends IService<AdminMenu> {
      */
     List<AdminMenuVO> findPIdOrRoleIdList(String pId, String roleId);
 
+
+    /**
+     * 删除菜单并删除菜单的所有下级 以及 菜单和角色的绑定关系数据
+     * @param menuId
+     * @return 数据的菜单数据id
+     */
+    List<String> del(String menuId);
+
 }

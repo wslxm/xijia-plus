@@ -2,6 +2,8 @@ package com.ws.ldy.modules.sys.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.ws.ldy.common.cache.BaseCache;
 import com.ws.ldy.enums.Admin;
 import com.ws.ldy.modules.sys.admin.mapper.AdminRoleMapper;
 import com.ws.ldy.modules.sys.admin.model.dto.AdminRoleDTO;
@@ -25,22 +27,18 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
     /**
      * 超级管理员角色 code（勿修改）
      */
-    private final  String ROLE_SYS = "SYS";
-
-    @Autowired
-    private AdminRoleUserService roleUserAdminService;
+    private final String ROLE_SYS = "SYS";
 
     @Autowired
     private AdminAuthorityService adminAuthorityService;
-
-    @Autowired
-    private AdminRoleMenuService adminRoleMenuService;
-
-    @Autowired
-    private AdminRoleAuthService adminRoleAuthService;
-
     @Autowired
     private AdminRoleService adminRoleService;
+    @Autowired
+    private AdminRoleUserService roleUserAdminService;
+    @Autowired
+    private AdminRoleMenuService adminRoleMenuService;
+    @Autowired
+    private AdminRoleAuthService adminRoleAuthService;
 
     /**
      * 添加角色-默认有所有URL 权限
@@ -54,7 +52,10 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
     @Transactional(rollbackFor = Exception.class)
     public Boolean insert(AdminRoleDTO dto) {
         AdminRole role = dto.convert(AdminRole.class);
-        boolean result = this.save(role);
+        this.save(role);
+        // 给角色分配菜单权限
+        adminRoleMenuService.insert(role.getId(), dto.getMenuIds());
+
         // 默认有所有url权限
         List<AdminAuthority> authorityList = adminAuthorityService.list(new LambdaQueryWrapper<AdminAuthority>().select(AdminAuthority::getId));
         List<AdminRoleAuth> roleAuthList = new ArrayList<>();
@@ -62,6 +63,19 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
             roleAuthList.add(new AdminRoleAuth(authority.getId(), role.getId()));
         }
         return adminRoleAuthService.saveBatch(roleAuthList);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean upd(AdminRoleDTO dto) {
+        AdminRole role = dto.convert(AdminRole.class);
+        this.updateById(role);
+        // 给角色分配菜单权限(先删除后添加)
+        adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, role.getId()));
+        boolean b = adminRoleMenuService.insert(role.getId(), dto.getMenuIds());
+        // 刷新登录中的用户角色 -> 角色权限
+        BaseCache.AUTH_VERSION++;
+        return b;
     }
 
     /**
@@ -94,8 +108,8 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
     }
 
 
-    //集合方式
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean updUserRole(String userId, List<String> roleIds) {
         //删除原角色所有权限数据
         boolean result = roleUserAdminService.remove(new QueryWrapper<AdminRoleUser>().eq("user_id", userId));
@@ -118,9 +132,9 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      * @version 1.0.0
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean updUserRole(UserRoleDTO dto) {
-        //删除原角色所有权限数据
+        // 先删除原角色所有权限数据
         boolean result = roleUserAdminService.remove(new QueryWrapper<AdminRoleUser>().eq("user_id", dto.getUserId()));
         if (dto.getRoleIds() == null || dto.getRoleIds().size() <= 0) {
             return true;
@@ -142,7 +156,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      * @date 2020/4/6 0006 17:47
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean roleMenuAuth(RoleMenuDTO dto) {
         // 删除当前角色所有菜单权限
         boolean result = adminRoleMenuService.remove(new LambdaQueryWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, dto.getRoleId()));
@@ -165,6 +179,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      * @version 1.0.0
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean roleAuthAll() {
         List<AdminRole> roleList = adminRoleService.list();
         List<AdminAuthority> authList = adminAuthorityService.list(new LambdaQueryWrapper<AdminAuthority>()
@@ -212,7 +227,17 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
     @Override
     public AdminRole findSysRole() {
         AdminRole role = this.getOne(new LambdaQueryWrapper<AdminRole>()
-                .eq(AdminRole::getCode,ROLE_SYS));
+                .eq(AdminRole::getCode, ROLE_SYS));
         return role;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean del(String roleId) {
+        // 删除角色和角色相关的关系表
+        roleUserAdminService.remove(new LambdaUpdateWrapper<AdminRoleUser>().eq(AdminRoleUser::getRoleId, roleId));
+        adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, roleId));
+        adminRoleAuthService.remove(new LambdaUpdateWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, roleId));
+        return this.removeById(roleId);
     }
 }

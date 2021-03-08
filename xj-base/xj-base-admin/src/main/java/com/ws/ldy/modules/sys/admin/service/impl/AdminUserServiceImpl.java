@@ -188,4 +188,11 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         //绑定
         return this.update(new LambdaUpdateWrapper<AdminUser>().eq(AdminUser::getWxOpenId, openId));
     }
+
+
+    @Override
+    public Boolean del(String userId) {
+        adminRoleUserService.remove(new LambdaUpdateWrapper<AdminRoleUser>().eq(AdminRoleUser::getUserId,userId));
+        return this.removeById(userId);
+    }
 }

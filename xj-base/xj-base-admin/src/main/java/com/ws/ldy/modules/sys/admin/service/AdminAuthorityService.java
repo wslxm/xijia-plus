@@ -30,12 +30,11 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-
     Boolean refreshAuthDB();
 
 
     /**
-     * 获取用户的url权限列表，给指定角色的有的权限数据赋予选中状态
+     * 获取用户的url权限列表，给指定角色的有的权限数据赋予选中状态(list数据)
      *
      * @param roleId 角色id
      * @return void
@@ -43,6 +42,13 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      */
     List<AdminAuthorityVO> findByRoleIdAuthorityChecked(String roleId);
 
+    /**
+     * 获取用户的url权限列表，给指定角色的有的权限数据赋予选中状态(tree数据)
+     *
+     * @param roleId 角色id
+     * @return void
+     * @date 2019/11/25 0025 11:55
+     */
     List<AdminAuthorityVO> findByRoleIdAuthorityTreeChecked(String roleId);
 
 

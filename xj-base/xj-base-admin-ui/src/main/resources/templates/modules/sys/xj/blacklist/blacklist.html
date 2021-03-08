@@ -108,7 +108,7 @@
 
                     {
                         field: 'type', title: '类型', templet: function (res) {
-                            var blacklistName = Dict.convert(Enums.Admin.BlacklistType, res.type);
+                            var blacklistName = Dict.convert(Enums.Xj.BlacklistType, res.type);
                             if(res.type==1){
                                 return "<font color='green'>"+blacklistName+" </font>"
                             }else{
@@ -275,7 +275,7 @@
 
     $(function () {
         // select 字典数据
-        $("#type").html(Dict.getDictSelect(Enums.Admin.BlacklistType, "", "所有"));    // 类型
+        $("#type").html(Dict.getDictSelect(Enums.Xj.BlacklistType, "", "所有"));    // 类型
         // 刷新,否则select可能不生效
         layui.form.render();
     })

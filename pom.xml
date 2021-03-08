@@ -11,7 +11,7 @@
 
     <groupId>com.ws.ldy</groupId>
     <artifactId>spring-boot-plus2</artifactId>
-    <version>0.0.9-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <name>spring-boot-plus2</name>
     <packaging>pom</packaging>
     <description>Demo project for Spring Boot</description>
@@ -26,10 +26,10 @@
     <properties>
         <!-- ================== 内部jar版本START ===================== -->
         <!-- 架构版本 RELEASE=正式版 SNAPSHOT=开发版(实时刷新jar依赖), 改版本号修改时请使用全局替换,${revision}读取会导致子模块无法单独打包 -->
-        <revision>0.0.9-SNAPSHOT</revision>
+        <revision>0.1.0-SNAPSHOT</revision>
         <!-- 项目代码版本 -->
         <xj-pets-server.version>0.3</xj-pets-server.version>        <!-- 业务模块-宠物 -->
-        <xj-test-server.version>0.0.9</xj-test-server.version>      <!-- 业务模块-个人业务+测试 -->
+        <xj-test-server.version>0.1.0</xj-test-server.version>      <!-- 业务模块-个人业务+测试 -->
         <!-- 系统核心包 -->
         <xj-base-core.version>0.0.1</xj-base-core.version>          <!-- 通用base层,枚举字段层 -->
         <xj-base-jwt.version>0.0.1</xj-base-jwt.version>            <!-- 登录认证 -->

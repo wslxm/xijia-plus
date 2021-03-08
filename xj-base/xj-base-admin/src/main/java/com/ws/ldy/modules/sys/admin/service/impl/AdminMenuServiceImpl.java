@@ -1,6 +1,7 @@
 package com.ws.ldy.modules.sys.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
@@ -42,7 +43,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
     public Boolean insert(AdminMenuDTO dto) {
         AdminMenu adminMenu = dto.convert(AdminMenu.class);
         this.save(adminMenu);
-        // 给超管默认分配该菜单
+        // 添加菜单给超管默认分配该菜单
         AdminRole sysRole = adminRoleService.findSysRole();
         adminRoleMenuService.insert(sysRole.getId(), new ArrayList<String>() {{
             add(adminMenu.getId());
@@ -189,7 +190,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
     //=========================================================================
 
     /**
-     * 根据父id 查询所有子节点数据（包括自己） , 根据角色权限赋值isChecked = true||false
+     * 根据父id 查询所有子节点数据（包括自己） , 根据角色 权限赋值isChecked = true||false
      *
      * @param pId 父id-非必传,没有获取所有
      * @param roleId 角色id-非必传, 没有所有 isChecked = false
@@ -223,6 +224,16 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
             });
         }
         return menuVoList;
+    }
+
+    @Override
+    public List<String> del(String menuId) {
+        List<String> menuIds = this.findPIdOrRoleIdList(menuId, null).stream().map(i -> i.getId()).collect(Collectors.toList());
+        if (menuIds.size() > 0) {
+            this.removeByIds(menuIds);
+            adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().in(AdminRoleMenu::getMenuId, menuIds));
+        }
+        return menuIds;
     }
 
 

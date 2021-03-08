@@ -22,37 +22,39 @@ headers = {
     "TOKEN": sessionStorage.getItem(BaseConfig.token) == null ? "" : sessionStorage.getItem(BaseConfig.token)
 };
 
-/**
- * 枚举字典 key
- */
 var Enums = {
-    // 系统模块
+    // 系统模块枚举
     Admin: {
-        AdminUserPosition: "ADMIN_USER_POSITION",  // 职位
         AuthorityState: "AUTHORITY_STATE",  // 权限状态
-        AuthorityType: "AUTHORITY_TYPE",  // 权限终端
-        BannerIsSkip: "BANNER_IS_SKIP",  // banner是否跳转
-        BannerPosition: "BANNER_POSITION",  // banner 位置
-        BlacklistType: "BLACKLIST_TYPE",  // 黑/白名单类型
-        ConfigCode: "CONFIG_CODE",  // 系统配置类型
-        HelpCategory: "HELP_CATEGORY",  // 帮助中心类别
-        HelpVersion: "HELP_VERSION",  // 帮助中心版本
+        AuthorityType: "AUTHORITY_TYPE",  // 权限类型
         MenuRoot: "MENU_ROOT",  // 菜单级别
-        MsgType: "MSG_TYPE",  // 及时消息类型
-        MsgUserType: "MSG_USER_TYPE",  // 及时消息终端
+        Position: "POSITION",  // 职位
     },
     // 通用枚举
     Base: {
         Deleted: "DELETED",  // 逻辑删除
         Disable: "DISABLE",  // 是否禁用
         Gender: "GENDER",  // 性别
-        IsMail: "IS_MAIL",  // 是否邮寄
-        IsNeedMail: "IS_NEED_MAIL",  // 是否需要邮寄
         IsRead: "IS_READ",  // 是否已读
     },
-    // 兮家
+    // 支付枚举
+    Pay: {
+        PayBusiness: "PAY_BUSINESS",  // 支付业务
+        PayChannel: "PAY_CHANNEL",  // 支付渠道
+        PayState: "PAY_STATE",  // 支付状态
+        PayType: "PAY_TYPE",  // 支付类型
+        WalletType: "WALLET_TYPE",  // 流水类型
+    },
+    // 系统增强功能枚举
     Xj: {
+        BannerIsSkip: "BANNER_IS_SKIP",  // banner是否跳转
+        BannerPosition: "BANNER_POSITION",  // banner 位置
+        BlacklistType: "BLACKLIST_TYPE",  // 黑/白名单类型
         FileType: "FILE_TYPE",  // 文件类型
+        HelpCategory: "HELP_CATEGORY",  // 帮助中心类别
+        HelpVersion: "HELP_VERSION",  // 帮助中心版本
+        MsgType: "MSG_TYPE",  // 及时消息类型
+        MsgUserType: "MSG_USER_TYPE",  // 及时消息终端
     },
 };
 
@@ -103,7 +105,7 @@ Dict = {
 
 
     /**
-     * 获取指定枚举下的select列表
+     * 获取指定枚举下的select,单选，多选列表数据
      */
     getDict: function (enumKay) {
         let dictCache = localStorage.getItem('dictCache');
@@ -117,10 +119,13 @@ Dict = {
 
     /**
      *  下拉框 ：  拼接 select 的 option 列表
-     *  dict = 字典列表的父级
-     *  如果丰必填，需要默认
-     *  ----code = 默认key
-     *  ----name = 默认value
+     *  使用示例： $("#gender").html(Dict.getDictSelect(Enums.Base.Gender, null, null, parent.data.gender));          //性别
+     *  参数说明：
+     *    enumKay      枚举key,对应枚举标题code
+     *    code         设置默认参数key
+     *    name         设置默认参数value (与key同时存在才生效)
+     *    defaultVal   默认选中值,对应字典code,  如果传递null, 默认选中第一条数据 (默认选中,和数据回显使用)
+     *
      *  参考示例：
      *     <div class="layui-form-item">
      *          <label class="layui-form-label">是否跳转</label>
@@ -132,7 +137,7 @@ Dict = {
      *          </div>
      *     </div>
      */
-    getDictSelect: function (enumKay, code, name) {
+    getDictSelect: function (enumKay, code, name,defaultVal) {
         //不填默认值
         let html = "";
         if (code != null && name != null) {
@@ -142,15 +147,108 @@ Dict = {
         let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
         //
         for (let i = 0; i < dictMap.length; i++) {
-            if (i === 0) {
-                html += "<option value='" + dictMap[i].code + "' selected>" + dictMap[i].name + "</option>";
-            } else {
-                html += "<option value='" + dictMap[i].code + "'>" + dictMap[i].name + "</option>";
-            }
-
+           if(defaultVal == null){
+               if (i === 0) {
+                   html += "<option value='" + dictMap[i].code + "' selected>" + dictMap[i].name + "</option>";
+               } else {
+                   html += "<option value='" + dictMap[i].code + "'>" + dictMap[i].name + "</option>";
+               }
+           }else{
+               if (dictMap[i].code == defaultVal) {
+                   html += "<option value='" + dictMap[i].code + "' selected>" + dictMap[i].name + "</option>";
+               } else {
+                   html += "<option value='" + dictMap[i].code + "'>" + dictMap[i].name + "</option>";
+               }
+           }
         }
         return html;
     },
+
+
+    /**
+     * 单选
+     * 使用示例：  $("#position").html(Dict.getDictRadio(Enums.Admin.Position, "position", parent.data.position));
+     * 参数说明：
+     *        参数1： enumKay 枚举key,对应枚举标题code
+     *        参数2： Radio 的 name值，表单提交时的参数名
+     *        参数3： defaultVal ,默认选中值,对应字典code,  如果传递null, 默认选中第一条数据 (默认选中,和数据回显使用)
+     * 示例DIV：
+     * <div class="layui-form-item">
+     *    <label class="layui-form-label">职位</label>
+     *    <div id="position" class="layui-input-block">
+     *         <input type="radio" name="position" value="男" title="男" checked=""><div class="layui-unselect layui-form-radio "><i class="layui-anim layui-icon"></i><div>男</div></div>
+     *    </div>
+     * </div>
+     * @returns {string }  input 动态数据
+     */
+    getDictRadio: function (enumKay, name, defaultVal) {
+        // 获取排序后的字典List列表(数组)
+        let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
+        // 动态参数值模板
+        let templates = "<input type='radio' name='{name}' value='{value}' title='{title}' {checked}>" +
+            "<div class='layui-unselect layui-form-radio'><i class='layui-anim layui-icon'></i><div>{title}</div></div>";
+
+        let html = "";
+        for (let i = 0; i < dictMap.length; i++) {
+            html += templates
+                .replace("{name}", name)
+                .replace("{value}", dictMap[i].code)
+                .replace("{title}", dictMap[i].name);
+            // 设置默认选中值
+            if (defaultVal == null) {
+                if (i == 0) {
+                    html = html.replace("{checked}", "checked");
+                } else {
+                    html = html.replace("{checked}", "")
+                }
+            } else {
+                if (defaultVal == dictMap[i].code) {
+                    html = html.replace("{checked}", "checked")
+                } else {
+                    html = html.replace("{checked}", "")
+                }
+            }
+        }
+        return html;
+    },
+
+
+
+    /**
+     *    <div class="layui-form-item" pane="">
+     *          <label class="layui-form-label">原始复选框</label>
+     *          <div class="layui-input-block">
+     *            <input type="checkbox" name="like1[write]" lay-skin="primary" title="写作" checked="">
+     *                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary">
+     *                    <span>写作</span><i class="layui-icon layui-icon-ok"></i>
+     *                </div>
+     *
+     *
+     *            <input type="checkbox" name="like1[read]" lay-skin="primary" title="阅读"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><span>阅读</span><i class="layui-icon layui-icon-ok"></i></div>
+     *            <input type="checkbox" name="like1[game]" lay-skin="primary" title="游戏" disabled=""><div class="layui-unselect layui-form-checkbox layui-checkbox-disbaled layui-disabled" lay-skin="primary"><span>游戏</span><i class="layui-icon layui-icon-ok"></i></div>
+     *          </div>
+     *    </div>
+     * @param dictMap
+     */
+    // getDictCheckbox: function (enumKay) {
+    //     // 获取排序后的字典List列表(数组)
+    //
+    //     let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
+    //     //
+    //     let checkboxTemplates = "<input type=\"checkbox\" name=\"{name}\" lay-skin=\"primary\" title=\"{title}\" checked=\"\">" +
+    //         "<div class=\"layui-unselect layui-form-checkbox layui-form-checked\" lay-skin=\"primary\">";
+    //     "<span>{title}</span><i class=\"layui-icon layui-icon-ok\"></i>";
+    //     "</div>";
+    //
+    //     let html = "";
+    //     for (let i = 0; i < dictMap.length; i++) {
+    //         html += checkboxTemplates
+    //             .replace("{name}", dictMap[i].code)
+    //             .replace("{title}", dictMap[i].name)
+    //     }
+    //     return html;
+    // },
+
 
     /**
      * 根据sort字段排序
@@ -165,7 +263,8 @@ Dict = {
             return a.sort - b.sort
         });
         return array;
-    },
+    }
+    ,
 
 
     /**
@@ -188,7 +287,8 @@ Dict = {
         console.log("所有项目:   ==>   " + Dict.getDict(Enums.Base.Gender).dictMap[0].name);
         console.log("所有项目:   ==>   " + Dict.getDict(Enums.Base.Gender).dictMap[1].name);
     }
-};
+}
+;
 
 
 //Layui 通用弹出层封装
@@ -310,7 +410,7 @@ pageJson = {
  *  page 手动指定页数，不传默认使用 pageJson.limits[0]
  *  size 手动指定条数，不传默认使用 pageJson.limits[0]
  */
-function getPage(page,size) {
+function getPage(page, size) {
     // 分页页数key
     let pageKey = "current";
     // 分页记录数key
@@ -318,11 +418,11 @@ function getPage(page,size) {
 
     //获取当前页
     let pageVal = $(".layui-laypage-skip .layui-input").val();
-    if(page == null){
+    if (page == null) {
         if (pageVal == null) {
             pageVal = pageJson.curr;
         }
-    }else{
+    } else {
         pageVal = page;
     }
 

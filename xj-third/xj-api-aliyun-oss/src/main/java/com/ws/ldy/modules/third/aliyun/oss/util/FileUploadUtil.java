@@ -116,7 +116,7 @@ public class FileUploadUtil {
     public static R<String> formatVerification(List<String> suffixs, List<String> excludeFileSuffix, String suffixName, String fileName) {
         // 验证格式是否在范围内
         if (!suffixs.contains(suffixName)) {
-            return R.error(errorCode, "格式错误,仅支持:" + suffixs.toString());
+            return R.error(errorCode, "格式错误,仅支持:" + suffixs.toString()+ ", 当前格式为：" + suffixName);
         }
         // 验证格式是否禁止上传
         if (excludeFileSuffix.contains(suffixName)) {

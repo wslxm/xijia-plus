@@ -38,7 +38,7 @@
 <!-- 每一行的数据修改或删除  -->
 <script type="text/html" id="barDemo">
     <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="roleMenu">菜单分配</a>
+     <!--    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="roleMenu">菜单分配</a>-->
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="roleAuth">资源分配</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -65,7 +65,7 @@
         table = layui.table;
         form = layui.form;
         laypage = layui.laypage;
-        xijiaRenderTable();    //  数据表格 - 获取表格
+        xijiaRenderTable();        //  数据表格 - 获取表格
         xijiaLayPage();            //  分页插件
         xijiaEventToolbar();       //  工具栏事件（多删除/添加）
         xijiaEventTool();          //  监听数据表格内按钮操作（编辑,删除等）
@@ -165,7 +165,7 @@
         table.on('toolbar(auth-table)', function (obj) {
             //添加
             if (obj.event === "add") {
-                Pop.tipsWindown(page_add, "400px", "320px", "添加");
+                Pop.tipsWindown(page_add, "900px", "90%", "添加");
             }
         });
     }
@@ -183,7 +183,7 @@
             data = obj.data;  //当前行数据
             // 编辑
             if (obj.event === 'edit') {
-                Pop.tipsWindown(page_upd, "400px", "320px", "修改");
+                Pop.tipsWindown(page_upd, "900px", "100%", "修改");
             }
             // 删除
             if (obj.event === 'del') {

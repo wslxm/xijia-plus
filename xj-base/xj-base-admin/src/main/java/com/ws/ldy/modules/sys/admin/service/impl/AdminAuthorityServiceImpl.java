@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.Method;
@@ -100,6 +101,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      */
     @SuppressWarnings("all")
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean refreshAuthDB() {
         log.info("  @.@...正在更新接口资源,所有被权限管理的接口将被打印出来…… ^.^ ");
         // 扫描包，获得包下的所有类
@@ -190,17 +192,23 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             this.updateBatchById(updAuth, 1024);
         }
         if (addAuth.size() > 0) {
-            // 给管理员角色添加所有新接口的权限
-            AdminRole role = adminRoleService.findSysRole();
-            List<AdminRoleAuth> addRoleAuth = new LinkedList<>();
-            for (AdminAuthority adminAuthority : addAuth) {
-                addRoleAuth.add(new AdminRoleAuth(adminAuthority.getId(), role.getId()));
-            }
-            adminRoleAuthService.saveBatch(addRoleAuth, 1024);
-            log.info("  本次给角色:[{}] 分配了接口权限 {} 个", role.getName(), addAuth.size());
-
+            // 判断新增的接口中是否有重复的url，如果Url有重复直接将直接抛出异常
+            Map<String, AdminAuthority> addUrls = addAuth.stream().collect(Collectors.toMap(AdminAuthority::getUrl, item -> item));
             // 添加权限
             this.saveBatch(addAuth, 1024);
+            // 给所有角色分配新接口的权限
+            List<AdminRole> roles = adminRoleService.list();
+            if (roles.size() > 0) {
+                List<AdminRoleAuth> addRoleAuth = new LinkedList<>();
+                for (AdminRole role : roles) {
+                    for (AdminAuthority adminAuthority : addAuth) {
+                        addRoleAuth.add(new AdminRoleAuth(adminAuthority.getId(), role.getId()));
+                    }
+                }
+                // 更新
+                adminRoleAuthService.saveBatch(addRoleAuth, 1024);
+                log.info("  本次使用角色分配了接口权限 {} 个", addAuth.size());
+            }
         }
         if (authorityMap.size() > 0) {
             // 删除多余数据

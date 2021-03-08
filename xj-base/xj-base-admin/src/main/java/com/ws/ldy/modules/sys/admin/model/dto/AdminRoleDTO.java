@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.List;
+
 /**
  *   角色
  *
@@ -32,5 +34,9 @@ public class AdminRoleDTO extends BaseDto {
 
     @ApiModelProperty(value = "禁用（0-否，1-是）")
     private Integer disable;
+
+    @ApiModelProperty(value = "角色的菜单列表ids")
+    private  List<String> menuIds;
+
 }
 

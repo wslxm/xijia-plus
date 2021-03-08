@@ -50,8 +50,8 @@
     layui.use(['form'], function () {
         let form = layui.form;
         // select 字典数据
-        $("#category").html(Dict.getDictSelect(Enums.Admin.HelpCategory));        // 是否跳转  不带默认值
-        $("#helpVersion").html(Dict.getDictSelect(Enums.Admin.HelpVersion));      // 位置
+        $("#category").html(Dict.getDictSelect(Enums.Xj.HelpCategory));        // 是否跳转  不带默认值
+        $("#helpVersion").html(Dict.getDictSelect(Enums.Xj.HelpVersion));      // 位置
         // 刷新,否则select可能不生效
         form.render();
     });
