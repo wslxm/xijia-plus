@@ -16,7 +16,7 @@ import java.util.List;
 public interface AdminAuthorityService extends IService<AdminAuthority> {
 
     /**
-     *  查询所有权限数据，根据不同的端的枚举code 拼接最顶级的目录, 顶级目录ID = -1
+     * 查询所有权限数据，根据不同的端的枚举code 拼接最顶级的目录, 顶级目录ID = -1 （list数据）
      *
      * @return void
      * @date 2019/11/25 0025 11:55
@@ -25,7 +25,7 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
 
 
     /**
-     * 刷新所有权限列表数据
+     * 接口自动扫描（1、项目启动时自动执行   2、设置了权限授权状态更新）
      *
      * @return void
      * @date 2019/11/25 0025 11:55

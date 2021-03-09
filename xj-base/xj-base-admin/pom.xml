@@ -77,6 +77,12 @@
             <artifactId>xj-doc-swagger2</artifactId>
             <version>${xj-doc-swagger2.version}</version>
         </dependency>
+        <!-- 核心服务集成- redis  -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-base-redis</artifactId>
+            <version>${xj-base-redis.version}</version>
+        </dependency>
     </dependencies>
 
     <!-- 该服务被作为依赖，不打服务包-->

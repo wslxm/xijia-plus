@@ -37,6 +37,7 @@
         <xj-base-pay.version>0.0.1</xj-base-pay.version>            <!-- 聚合支付服务  -->
         <xj-base-admin.version>0.0.9.1</xj-base-admin.version>      <!-- 基础服务-api  -->
         <xj-base-admin-ui.version>0.0.9</xj-base-admin-ui.version>  <!-- 基础服务-页面 -->
+        <xj-base-redis.version>0.0.1</xj-base-redis.version>        <!-- 核心服务-redis -->
         <!-- 系统第三方集成 -->
         <xj-api-aliyun-oss.version>0.0.1</xj-api-aliyun-oss.version>
         <xj-api-aliyun-sms.version>0.0.1</xj-api-aliyun-sms.version>
@@ -51,7 +52,6 @@
         <xj-doc-swagger2.version>0.0.1</xj-doc-swagger2.version>
         <xj-doc-swagger2-ui.version>0.0.1</xj-doc-swagger2-ui.version>
         <xj-fw-boot-admin.version>0.0.1</xj-fw-boot-admin.version>
-        <xj-fw-redis.version>0.0.1</xj-fw-redis.version>
         <xj-fw-websocket.version>0.0.2</xj-fw-websocket.version>
         <!-- 系统工具包 -->
         <xj-util-core.version>0.0.1</xj-util-core.version>

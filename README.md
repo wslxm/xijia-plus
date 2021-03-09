@@ -59,7 +59,7 @@ spring-boot-plus2
                └──xj-doc-swagger2          接口文档集成
                └──xj-doc-swagger2-ui       接口文档ui集成(依赖swagger2：访问地址: ip/swagger-ui.html)
                └──xj-fw-boot-admin         监控中心集成    
-               └──xj-fw-redis              redis集成    
+               └──xj-base-redis              redis集成    
                └──xj-fw-websocket          websocket集成    
         └──xj-utils
                └──xj-util-core             核心工具(注意：使用了核心工具类需启动服务需禁数据源)

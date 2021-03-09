@@ -28,7 +28,6 @@
         <module>xj-doc-swagger2-ui</module>
         <module>xj-doc-knife4j</module>
         <module>xj-fw-websocket</module>
-        <module>xj-fw-redis</module>
         <module>xj-fw-boot-admin</module>
     </modules>
 </project>

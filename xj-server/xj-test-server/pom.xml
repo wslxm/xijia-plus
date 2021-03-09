@@ -60,6 +60,7 @@
             <artifactId>xj-fw-websocket</artifactId>
             <version>${xj-fw-websocket.version}</version>
         </dependency>
+
         <!--第三方服务- 微信小程序相关-->
 <!--        <dependency>-->
 <!--            <groupId>com.ws.ldy</groupId>-->

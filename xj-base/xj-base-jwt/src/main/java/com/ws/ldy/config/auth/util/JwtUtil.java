@@ -33,32 +33,22 @@ public class JwtUtil {
     private static final String AUTH_USER = "user";             // 用户信息key
 
 
-    /**
-     * jwt的token有效期
-     *
-     * 1分钟  [ 1000L * 60 * 1 ]
-     * 5分钟  [ 1000L * 60 * 5 ]
-     * 1小时  [ 1000L * 60 * 60 ]
-     * 24小时 [ 1000L * 60 * 60 * 24]
-     */
     // TOKEN KEY值
     public static String TOKEN = "TOKEN";
-    // 登录类型 0-管理端 | 1-用户端
-    public static final Integer[] userType = {0, 1};
-    // 过期时间 0-管理端 | 1-用户端
-    private static final Long[] expirition = {1000L * 60 * 60, 1000L * 60 * 60 * 24 * 15};
+    public static String REFRESH_TIME = "REFRESH_TIME";
 
 
     /**
      * 生成管理端的 token
-     *
      * @param jwtUser 用户信息
+     * @param refreshTime  刷新时间(分),相当于 token的有效期
+     * @param response
      * @return java.lang.String
      * @date 2020/7/6 0006 9:26
      */
     public static String createToken(JwtUser jwtUser, HttpServletResponse response) {
         String authListZip = null;
-        if (jwtUser.getType().equals(userType[0])) {
+        if (jwtUser.getAuthList() != null && jwtUser.getAuthList().size() > 0) {
             // 权限数据压缩(管理端 Deflater 压缩)
             String authListJsonStr = JsonUtil.toJSONStringNoNull(jwtUser.getAuthList());
             authListZip = DeflaterUtils.zipString(authListJsonStr);
@@ -67,8 +57,6 @@ public class JwtUtil {
             jwtUser.setAuthList(null);
         }
         String jwtUserJsonStr = JsonUtil.toJSONStringNoNull(jwtUser);
-        // token 有效期
-        Long newExpirition = jwtUser.getType().equals(userType[0]) ? expirition[0] : expirition[1];
         // 生成jwt
         String jwtToken = Jwts
                 .builder()
@@ -78,8 +66,10 @@ public class JwtUtil {
                 .claim(AUTH_CLAIMS, authListZip)
                 .claim(AUTH_USER, jwtUserJsonStr)
                 .setIssuedAt(new Date())
-                // 过期时间（区分管理端和用户端）
-                .setExpiration(new Date(System.currentTimeMillis() + newExpirition))
+                // 刷新时间,多久内token有效
+                .claim(REFRESH_TIME, System.currentTimeMillis() + (1000L * 60 * jwtUser.getRefreshTime()))
+                // 过期时间, 每隔多久重置一次token
+                .setExpiration(new Date(System.currentTimeMillis() + (1000L * 60 * jwtUser.getExpiration())))
                 // 加密方式,加密key
                 .signWith(SignatureAlgorithm.HS256, APPSECRET_KEY).compact();
         // 放入Header
@@ -97,7 +87,7 @@ public class JwtUtil {
      * @return
      */
     public static JwtUser getJwtUser(HttpServletRequest request) {
-        R<JwtUser> jwtUser2 = getJwtUserR(request);
+        R<JwtUser> jwtUser2 = getJwtUserR(request, null);
         if (!jwtUser2.getCode().equals(RType.SYS_SUCCESS.getValue())) {
             throw new ErrorException(jwtUser2.getCode(), jwtUser2.getMsg());
         }
@@ -114,36 +104,64 @@ public class JwtUtil {
      * @param response
      * @return
      */
-    public static R<JwtUser> getJwtUserR(HttpServletRequest request) {
+    public static R<JwtUser> getJwtUserR(HttpServletRequest request, HttpServletResponse response) {
         String token = request.getHeader(TOKEN);
         try {
-            if (token != null && token != null) {
-                // 获取token内信息
-                Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
-                // user 信息
-                String userJson = claims.get(AUTH_USER).toString();
-                JwtUser jwtUser = JsonUtil.parseEntity(userJson, JwtUser.class);
-                // auth 权限, 先使用Deflater还原成json在转为list数据
-                Object objZip = claims.get(AUTH_CLAIMS);
-                if (objZip != null) {
-                    String objJsonStr = DeflaterUtils.unzipString(objZip.toString());
-                    List list = JsonUtil.parseList(objJsonStr);
-                    jwtUser.setAuthList(list);
-                }
-                // 正常就返回,不然就进入异常
-                return R.success(jwtUser);
+            if (token == null || token == "") {
+                // 没有token
+                return R.error(RType.AUTHORITY_NO_TOKEN);
             }
-            // 没有token
-            return R.error(RType.AUTHORITY_NO_TOKEN);
+            Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
+            return R.success(getClaimsJwtUser(claims));
         } catch (SignatureException ex) {
             // JWT签名与本地计算签名不匹配
             return R.error(RType.AUTHORITY_JWT_SIGN_ERROR);
         } catch (ExpiredJwtException ex) {
-            // 登录过期
-            return R.error(RType.AUTHORITY_LOGIN_EXPIRED);
+            /**
+             * expiration 过期刷新token的方法
+             */
+            Claims claims = ex.getClaims();
+            JwtUser jwtUser = getClaimsJwtUser(claims);
+
+            if (response == null) {
+                // 只获取用户信息，直接返回
+                return R.success(jwtUser);
+            }
+            // 如果不是只获取用户信息, 判断是否已超过刷新时间, 没有超过刷新token, 超过了返回token过期提示
+            long refreshTime = Long.parseLong(claims.get(REFRESH_TIME).toString());
+            if (System.currentTimeMillis() > refreshTime) {
+                return R.error(RType.AUTHORITY_LOGIN_EXPIRED);
+            } else {
+                //刷新token, 创建token会删除jwtUser的权限数据,需重新赋值一下
+                List<String> authList = jwtUser.getAuthList();
+                createToken(jwtUser, response);
+                jwtUser.setAuthList(authList);
+                log.info("token 已刷新");
+                return R.success(jwtUser);
+            }
         } catch (Exception e) {
             // JWT解析错误
             return R.error(RType.AUTHORITY_JWT_PARSING_ERROR);
         }
+    }
+
+
+    /**
+     * 获取用户信息的具体方法
+     * @param claims
+     * @return
+     */
+    private static JwtUser getClaimsJwtUser(Claims claims) {
+        // user 信息
+        String userJson = claims.get(AUTH_USER).toString();
+        JwtUser jwtUser = JsonUtil.parseEntity(userJson, JwtUser.class);
+        // auth 权限, 先使用Deflater还原成json在转为list数据
+        Object objZip = claims.get(AUTH_CLAIMS);
+        if (objZip != null) {
+            String objJsonStr = DeflaterUtils.unzipString(objZip.toString());
+            List list = JsonUtil.parseList(objJsonStr);
+            jwtUser.setAuthList(list);
+        }
+        return jwtUser;
     }
 }

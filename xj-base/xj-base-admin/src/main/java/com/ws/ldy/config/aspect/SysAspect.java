@@ -38,7 +38,6 @@ import java.util.concurrent.*;
 @Component
 public class SysAspect {
 
-
     /**
      * 日志记录
      */
@@ -138,7 +137,7 @@ public class SysAspect {
 
 
     /**
-     * 日志记录
+     * 数据请求入口
      * <P>
      *  // startTime1 = 程序开始执行时间, 由RequestFilter 过滤器中添加
      *  // startTime2 = 业务代码开始执行时间

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ws.ldy.common.cache.BaseCache;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
@@ -108,8 +107,6 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     @Deprecated
     public R<Boolean> updUserRole(@RequestBody UserRoleDTO dto) {
         if (baseService.updUserRole(dto)) {
-            // 刷新登录中的用户角色 -> 角色权限
-            BaseCache.AUTH_VERSION++;
             return R.successUpdate(true);
         } else {
             return R.successUpdate(false);
@@ -120,8 +117,6 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     @ApiOperation(value = "角色的URL权限分配", notes = "")
     public R<Boolean> updRoleAuth(@RequestBody RoleAuthDTO dto) {
         if (baseService.roleUrlAuth(dto)) {
-            // 刷新登录中的用户权限
-            BaseCache.AUTH_VERSION++;
             return R.successUpdate(true);
         } else {
             return R.successUpdate(false);

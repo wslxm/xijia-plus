@@ -35,8 +35,7 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
     @ApiOperation(value = "查询所有-code分组", notes = "1、根据Code字段分组排列数据,分组下的数据仍然有层级关系" +
             "\r\n 2、版本号(key=version)未发送变化后端不返回任何数据,前端请定义全局变量来缓存此字段" +
             "\r\n 3、所有select选择框,状态字段都使用此接口的数据获取中文值" +
-            "\r\n 4、添加/更新/删除/修改排序后端都会更新版本号,重新拉取直接获取最新数据" +
-            "\r\n 5、不包括禁用数据" +
+            "\r\n 4、不包括禁用数据" +
             "\r\n 建议: 打开首页时调用此方法,刷新缓存数据, 刷新首页时在此刷新缓存"
     )
     public R<Map<String, AdminDictionaryVO.FindCodeGroup>> findCodeGroup() {
@@ -61,14 +60,12 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
         return R.success(dictVO);
     }
 
-
     @RequestMapping(value = "/findDictCategory", method = RequestMethod.GET)
     @ApiOperation(value = "查询字典类别", notes = "pid不传查顶级数据, 传了pid查指定 pid下的一级数据")
     public R<List<AdminDictionaryVO>> findDictCategory(@RequestParam(required = false) String code) {
         List<AdminDictionary> dictCategorys = baseService.findDictCategory(code);
         return R.success(BeanDtoVoUtil.listVo(dictCategorys, AdminDictionaryVO.class));
     }
-
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "添加", notes = "字符串Code不能重复,  数字类型的Code可以重复")

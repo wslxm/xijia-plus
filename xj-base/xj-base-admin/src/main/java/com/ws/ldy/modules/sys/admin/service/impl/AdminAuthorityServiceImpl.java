@@ -3,7 +3,6 @@ package com.ws.ldy.modules.sys.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ws.ldy.XjAdminServer;
-import com.ws.ldy.common.cache.BaseCache;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.ClassUtil;
 import com.ws.ldy.common.utils.EnumUtil;
@@ -41,6 +40,11 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      * url 权限注解扫包范围( 直接获取启动类的包路径)
      */
     private final String PACKAGE_NAME = XjAdminServer.class.getPackage().getName();
+
+    /**
+     * 当前系统的所有权限接口数据（key = uri ),用于登录验证用户接口权限避免去数据库查询接口数据
+     */
+    public static Map<String, AdminAuthority> AUTH_MAP = new HashMap<>();
 
 
     @Autowired
@@ -88,7 +92,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     /**
-     *   接口自动扫描
+     *   接口自动扫描（1、项目启动时自动执行   2、设置了权限授权状态更新）
      *   <p>
      *       扫描添加接口信息，扫描启动类下的所有包
      *       存在修改（不修改原数据的禁用启动和权限状态,防止重启项目时修改被还原）
@@ -187,10 +191,11 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         //
         log.info("  本次刷新接口+类 总数量为:{} ,如接口 [备注信息] 或 [请求方式] 或 [终端] 发送改变,则已被刷新", updAuth.size());
         log.info("  本次添加接口+类 总量为:  {}", addAuth.size());
-        // 更新数据库
+        // 修改
         if (updAuth.size() > 0) {
             this.updateBatchById(updAuth, 1024);
         }
+        // 新增
         if (addAuth.size() > 0) {
             // 判断新增的接口中是否有重复的url，如果Url有重复直接将直接抛出异常
             Map<String, AdminAuthority> addUrls = addAuth.stream().collect(Collectors.toMap(AdminAuthority::getUrl, item -> item));
@@ -210,8 +215,8 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 log.info("  本次使用角色分配了接口权限 {} 个", addAuth.size());
             }
         }
+        // 删除
         if (authorityMap.size() > 0) {
-            // 删除多余数据
             authorityMap.forEach((k, v) -> delIds.add(v.getId()));
             this.removeByIds(delIds);
         }
@@ -224,7 +229,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     /**
-     *     添加指定类的所有接口权限到 athorityList
+     * 添加指定类的所有接口权限到 athorityList
      *
      * @param classInfo    当前类
      * @param authorityMap 当前数据库存在权限
@@ -276,7 +281,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     /**
-     * 获取用户的url 权限列表，给指定角色的有的权限数据赋予选中状态
+     * 获取接口列表，给指定角色的拥有的权限数据赋予选中状态
      *
      * @param roleId
      * @return void
@@ -313,7 +318,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     /**
-     * 查询接口列表，树结构
+     * 获取权限列表，给指定角色的拥有的权限数据赋予选中状态(树结构)
      * @param roleId
      * @return
      */
@@ -330,9 +335,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 .orderByAsc(AdminAuthority::getMethod)
                 .eq(AdminAuthority::getType, Admin.AuthorityType.V0.getValue())
         );
-
         List<AdminAuthorityVO> respAuthorityVOList = new ArrayList<>();
-
         // 返回数据处理
         if (authorityList == null || authorityList.size() <= 0) {
             return null;
@@ -397,7 +400,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         // 查询权限表中所有接口
         List<AdminAuthority> authorityList = this.list(null);
         // 缓存所有接口数据到 jvm
-        BaseCache.AUTH_MAP = authorityList.stream().collect(Collectors.toMap(AdminAuthority::getUrl, auth -> auth));
+        AUTH_MAP = authorityList.stream().collect(Collectors.toMap(AdminAuthority::getUrl, auth -> auth));
         // 数据统计
         int authorityCount = 0;
         int authorityCountState2 = 0;
@@ -430,8 +433,8 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
     @Override
     public AdminAuthority findFatherAuth(String uri) {
-        Map<String, AdminAuthority> authMap = BaseCache.AUTH_MAP;
-        AdminAuthority adminAuthority = BaseCache.AUTH_MAP.get(uri);
+        Map<String, AdminAuthority> authMap = AUTH_MAP;
+        AdminAuthority adminAuthority = AUTH_MAP.get(uri);
         if (adminAuthority == null) {
             return null;
         }

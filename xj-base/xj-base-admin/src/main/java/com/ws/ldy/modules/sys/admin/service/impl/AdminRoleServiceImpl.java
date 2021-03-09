@@ -3,7 +3,6 @@ package com.ws.ldy.modules.sys.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.ws.ldy.common.cache.BaseCache;
 import com.ws.ldy.enums.Admin;
 import com.ws.ldy.modules.sys.admin.mapper.AdminRoleMapper;
 import com.ws.ldy.modules.sys.admin.model.dto.AdminRoleDTO;
@@ -73,8 +72,6 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
         // 给角色分配菜单权限(先删除后添加)
         adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, role.getId()));
         boolean b = adminRoleMenuService.insert(role.getId(), dto.getMenuIds());
-        // 刷新登录中的用户角色 -> 角色权限
-        BaseCache.AUTH_VERSION++;
         return b;
     }
 

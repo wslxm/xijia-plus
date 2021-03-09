@@ -3,24 +3,17 @@
  * 后台文件上传接口
  * 本地 "http://127.0.0.1:9049" ||  线上ip地址： http://47.107.128.84:9049 ||  线上域名地址： http://xijia.plus
  */
-path = "/api";
-uploadPath = "/api/open/aliOssFile/upload";
+var path = "/api";
+var uploadPath = "/api/open/aliOssFile/upload";
 
 
 /**
  * 系统相关配置
  */
-BaseConfig = {
+var BaseConfig = {
     token: "TOKEN",               // token 命名
 };
 
-
-/**
- * 全局的headers 配置
- */
-headers = {
-    "TOKEN": sessionStorage.getItem(BaseConfig.token) == null ? "" : sessionStorage.getItem(BaseConfig.token)
-};
 
 var Enums = {
     // 系统模块枚举
@@ -137,7 +130,7 @@ Dict = {
      *          </div>
      *     </div>
      */
-    getDictSelect: function (enumKay, code, name,defaultVal) {
+    getDictSelect: function (enumKay, code, name, defaultVal) {
         //不填默认值
         let html = "";
         if (code != null && name != null) {
@@ -147,19 +140,19 @@ Dict = {
         let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
         //
         for (let i = 0; i < dictMap.length; i++) {
-           if(defaultVal == null){
-               if (i === 0) {
-                   html += "<option value='" + dictMap[i].code + "' selected>" + dictMap[i].name + "</option>";
-               } else {
-                   html += "<option value='" + dictMap[i].code + "'>" + dictMap[i].name + "</option>";
-               }
-           }else{
-               if (dictMap[i].code == defaultVal) {
-                   html += "<option value='" + dictMap[i].code + "' selected>" + dictMap[i].name + "</option>";
-               } else {
-                   html += "<option value='" + dictMap[i].code + "'>" + dictMap[i].name + "</option>";
-               }
-           }
+            if (defaultVal == null) {
+                if (i === 0) {
+                    html += "<option value='" + dictMap[i].code + "' selected>" + dictMap[i].name + "</option>";
+                } else {
+                    html += "<option value='" + dictMap[i].code + "'>" + dictMap[i].name + "</option>";
+                }
+            } else {
+                if (dictMap[i].code == defaultVal) {
+                    html += "<option value='" + dictMap[i].code + "' selected>" + dictMap[i].name + "</option>";
+                } else {
+                    html += "<option value='" + dictMap[i].code + "'>" + dictMap[i].name + "</option>";
+                }
+            }
         }
         return html;
     },
@@ -211,7 +204,6 @@ Dict = {
         }
         return html;
     },
-
 
 
     /**
@@ -486,7 +478,6 @@ Ajax = {
         return Ajax.request(url, data, "delete", "json");
     },
 
-
     // ajax-请求(同步请求) --> 1-url  2-数据 3、请求方式 4、返回数据 || -<5、同步false/异步true
     request: function (url, data, type, dataType) {
         let result = null;
@@ -496,7 +487,9 @@ Ajax = {
             url: url,
             data: JSON.stringify(data),
             contentType: "application/json;charset=utf-8",  //"application/x-www-form-urlencoded;charset=utf-8",
-            headers: headers,
+            headers: {
+                "TOKEN": sessionStorage.getItem(BaseConfig.token) == null ? "" : sessionStorage.getItem(BaseConfig.token)
+            },
             async: false,        // true=异步，false=同步
             //traditional: true, // 允许传递数组
             //请求成功

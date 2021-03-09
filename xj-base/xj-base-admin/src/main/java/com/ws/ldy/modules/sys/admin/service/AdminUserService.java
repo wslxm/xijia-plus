@@ -44,6 +44,12 @@ public interface AdminUserService extends IService<AdminUser> {
     public Boolean upd(@RequestBody UserAdminDTO userAdminDto);
 
 
+    /**
+     * 登录，支持手机号+密码 和 账号+密码 登录
+     * @param username
+     * @param password
+     * @return
+     */
     public Boolean login(@RequestParam String username, @RequestParam String password);
 
 

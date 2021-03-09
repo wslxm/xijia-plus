@@ -30,8 +30,9 @@ import java.util.List;
 @Api(value = "AdminAuthorityController", tags = "base--URL权限管理")
 public class AdminAuthorityController extends BaseController<AdminAuthorityService> {
 
-    @RequestMapping(value = "/findList", method = RequestMethod.GET)
+
     @ApiOperation(value = "查询所有", notes = "查询所有权限数据，根据不同的端的枚举code 拼接最顶级的目录, 顶级目录ID = -1")
+    @RequestMapping(value = "/findList", method = RequestMethod.GET)
     public R<List<AdminAuthorityVO>> findList() {
         return R.successFind(baseService.findList());
     }
@@ -55,7 +56,7 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
     )
     @RequestMapping(value = "/findByRoleIdList", method = RequestMethod.GET)
     @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
-    public R<List<AdminAuthorityVO>> findList(String roleId) {
+    public R<List<AdminAuthorityVO>> findByRoleIdList(String roleId) {
         List<AdminAuthorityVO> roleAuthorityChecked = baseService.findByRoleIdAuthorityChecked(roleId);
         return R.success(roleAuthorityChecked);
     }
