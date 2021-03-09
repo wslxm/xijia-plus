@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 /**
  * 帮助中心表
  * <p>
@@ -42,6 +44,8 @@ public class XjAdminHelpVO extends BaseVo {
 
     @ApiModelProperty(notes = "浏览量(每次Id查询+1)" ,position = 6)
     private Integer browseNum;
+
+    private LocalDateTime createTime;
 
 }
 

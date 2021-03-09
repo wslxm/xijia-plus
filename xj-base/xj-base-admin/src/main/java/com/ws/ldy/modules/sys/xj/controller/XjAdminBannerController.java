@@ -2,6 +2,7 @@ package com.ws.ldy.modules.sys.xj.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
@@ -17,7 +18,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +34,7 @@ import java.util.Arrays;
  * @date 2020-08-23 23:14:01
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin +"/adminBanner")
+@RequestMapping(BaseConstant.Uri.apiAdmin + "/adminBanner")
 @Api(value = "XjAdminBannerController", tags = "base-plus--banner")
 public class XjAdminBannerController extends BaseController<XjAdminBannerService> {
 
@@ -45,7 +45,6 @@ public class XjAdminBannerController extends BaseController<XjAdminBannerService
             @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
             @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),
             @ApiImplicitParam(name = "name", value = "banner标题", required = false, paramType = "query", example = ""),
-
     })
     public R<IPage<XjAdminBannerVO>> findPage(@RequestParam(required = false) String name
     ) {
@@ -80,9 +79,9 @@ public class XjAdminBannerController extends BaseController<XjAdminBannerService
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "ID编辑", notes = "必须传递ID")
     public R<Boolean> upd(@RequestBody @Validated XjAdminBannerDTO dto) {
-          if (StringUtils.isBlank(dto.getId())) {
-              throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
-          }
+        if (StringUtils.isBlank(dto.getId())) {
+            throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
+        }
         return R.successUpdate(baseService.updateById(dto.convert(XjAdminBanner.class)));
     }
 

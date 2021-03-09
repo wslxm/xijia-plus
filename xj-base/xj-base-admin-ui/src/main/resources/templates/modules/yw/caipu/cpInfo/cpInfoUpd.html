@@ -294,7 +294,7 @@
             elem: '#test7'
             , url: '/aliOssFile/upload?filePath=image/head/' //改成您自己的上传接口
             , size: 200 //限制文件大小，单位 KB
-            , headers: {"TOKEN": sessionStorage.getItem('token')}
+          , headers: getGlobalHeaders()
             , done: function (res) {
                 //如果上传失败
                 if (res.code !== 200) {

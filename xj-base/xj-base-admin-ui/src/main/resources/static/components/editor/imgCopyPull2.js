@@ -117,7 +117,7 @@ function upload(fileList) {
             processData: false,
             contentType: false,
             xhrFields: {withCredentials: true},
-            headers: headers,
+            headers: getGlobalHeaders(),
             success: function (res) {
                 if (res.code === 200) {
                     let imgUrl = res.data;

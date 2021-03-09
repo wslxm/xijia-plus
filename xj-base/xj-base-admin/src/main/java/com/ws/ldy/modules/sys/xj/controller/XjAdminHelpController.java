@@ -51,6 +51,7 @@ public class XjAdminHelpController extends BaseController<XjAdminHelpService> {
     })
     public R<IPage<XjAdminHelpVO>> findPage(@RequestParam(required = false) String title) {
         Page<XjAdminHelp> page = baseService.page(this.getPage(), new LambdaQueryWrapper<XjAdminHelp>()
+                .select(XjAdminHelp.class, info -> !info.getColumn().equals("content")) //不查询内容
                 .orderByAsc(XjAdminHelp::getHelpVersion)  // 先版本排序
                 .orderByAsc(XjAdminHelp::getCategory)     // 在类别排序
                 .orderByAsc(XjAdminHelp::getSort)         // 在sort排序

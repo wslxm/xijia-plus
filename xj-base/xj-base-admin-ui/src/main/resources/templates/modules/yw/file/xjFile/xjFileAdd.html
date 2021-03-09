@@ -114,7 +114,7 @@
             , url: path + '/aliOssFile/upload?filePath=file/xj/tool/'  // 改成您自己的上传接口
             , size: 1024 * 1000 //限制文件大小，单位 KB
             , accept: 'file' //普通文件
-            , headers: headers
+            ,  headers: getGlobalHeaders()
             , choose: function (obj) {
                 files = obj.pushFile();
                 console.log(files)

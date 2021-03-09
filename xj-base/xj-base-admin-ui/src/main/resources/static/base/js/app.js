@@ -301,7 +301,8 @@ Pop = {
                 type: 2,
                 title: [name],
                 area: [width, height],  // area: ["600px", "200px"],
-                content: [url],         //page/menu_addRoot1
+                offset: 'auto',        // 弹出位置,参考文档：https://www.layui.com/doc/modules/layer.html#offset
+                content: [url],         // page/menu_addRoot1
                 btn: btn,
                 closeBtn: 1,
                 anim: 0,       // 打开动画  ,参考：https://www.layui.com/doc/modules/layer.html#anim
@@ -487,9 +488,7 @@ Ajax = {
             url: url,
             data: JSON.stringify(data),
             contentType: "application/json;charset=utf-8",  //"application/x-www-form-urlencoded;charset=utf-8",
-            headers: {
-                "TOKEN": sessionStorage.getItem(BaseConfig.token) == null ? "" : sessionStorage.getItem(BaseConfig.token)
-            },
+            headers: getGlobalHeaders(),
             async: false,        // true=异步，false=同步
             //traditional: true, // 允许传递数组
             //请求成功
@@ -541,6 +540,14 @@ Ajax = {
         return result;
     }
 };
+
+/**
+ * 全局请求头
+ * @returns {{TOKEN: string}}
+ */
+function getGlobalHeaders() {
+    return {"TOKEN": sessionStorage.getItem(BaseConfig.token) == null ? "" : sessionStorage.getItem(BaseConfig.token)}
+}
 
 
 /**
