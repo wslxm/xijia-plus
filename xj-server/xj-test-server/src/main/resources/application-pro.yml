@@ -17,19 +17,6 @@ spring:
           username: root
           password: root123456
           type: com.alibaba.druid.pool.DruidDataSource
-  # redis 配置
-  redis:
-    host: 47.108.201.177
-    port: 6379
-    password: 123456
-    database: 15
-    timeout: 1000s  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
-    jedis:
-      pool:
-        max-idle: 500
-        min-idle: 50
-        max-wait: -1
-        max-active: -1
 
 ## 阿里云api
 aliyun:

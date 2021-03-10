@@ -8,9 +8,9 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Method;
 
 @Aspect
@@ -20,7 +20,7 @@ public class TaskLockAspect {
 
     private static final String LOCK_VALUE = "taskLock-";
 
-    @Autowired
+    @Resource
     private RedisLock redisLock;
 
 
