@@ -25,32 +25,31 @@
 
 <script>
     layui.use(['form'], function () {
-        let form = layui.form;
-        // 监听提交
-        form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            {upd-id}
-            //data.field.id = parent.data.id;
-            let result = Ajax.put(path + "/{moduleName}/{tableNameLower}/upd", data.field);
-            let index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-            parent.layer.msg(result.msg);
-            //重载表格
-            parent.{tableNameLower}RenderTable();
-        });
-
-        // 初始化
         {tableNameLower}updInit(form);
+        {tableNameLower}updFormSubmit()
     });
 
-
-    function {tableNameLower}updInit(form){
-          <!-- 父页面的值,赋值到当前页 -->
+    function {tableNameLower}updInit(){
+          <!-- 初始化相关数据, 和父页面的值赋值到当前页 -->
           {upd-backfill}
 
-          // 刷新,否则select可能不生效
-          form.render();
+          // 刷新,否则部分from 表单样式不生效
+          layui.form.render();
     }
 
+    function {tableNameLower}updFormSubmit(){
+          // 监听提交
+          layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                {upd-id}
+                //data.field.id = parent.data.id;
+                let result = Ajax.put(path + "/admin/{moduleName}/{tableNameLower}/upd", data.field);
+                let index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+                parent.layer.msg(result.msg);
+                //重载表格
+                parent.{tableNameLower}RenderTable();
+          });
+    }
 </script>
 </body>
 </html>

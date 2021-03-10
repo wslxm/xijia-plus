@@ -91,42 +91,28 @@
 
 <script>
     layui.use(['form', 'upload'], function () {
+        formSubmit();
+        init();
+        upload();
+    });
+
+
+    function formSubmit() {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.id = parent.data.id;
             //data.field.id = parent.data.id;
-            let result = Ajax.put(path + "/admin/adminBanner/upd", data.field);
+            let result = Ajax.put(path + "/admin/xj/adminBanner/upd", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);
             //重载表格
             parent.xijiaRenderTable();
         });
+    }
 
-        //文件上传--设定文件大小限制
-        layui.upload.render({
-            elem: '#test7'
-            , url: uploadPath +'?filePath=image/banner/' //改成您自己的上传接口
-            , size: 2048 //限制文件大小，单位 KB
-            , headers: getGlobalHeaders()
-            , done: function (res) {
-                //如果上传失败
-                if (res.code !== 200) {
-                    return layer.msg('上传失败-' + res.msg);
-                }
-                // 显示图片
-                $("#imgUrlShow").attr("src", res.data);
-                $("#imgUrlShow").attr("title", res.date);
-                $("#imgUrlShow").show();
-                // 赋值input
-                $("#imgUrl").val(res.data);
-                console.log(res);
-                layer.msg('上传成功');
-            }
-        });
-    });
 
-    $(function () {
+    function init() {
         <!-- 父页面的值,赋值到当前页 -->
         $('#name').val(parent.data.name);
         $('#desc').val(parent.data.desc);
@@ -155,7 +141,32 @@
         });
         // 刷新,否则select可能不生效
         layui.form.render();
-    })
+    }
+
+
+    function upload() {
+        //文件上传--设定文件大小限制
+        layui.upload.render({
+            elem: '#test7'
+            , url: uploadPath + '?filePath=image/banner/' //改成您自己的上传接口
+            , size: 2048 //限制文件大小，单位 KB
+            , headers: getGlobalHeaders()
+            , done: function (res) {
+                //如果上传失败
+                if (res.code !== 200) {
+                    return layer.msg('上传失败-' + res.msg);
+                }
+                // 显示图片
+                $("#imgUrlShow").attr("src", res.data);
+                $("#imgUrlShow").attr("title", res.date);
+                $("#imgUrlShow").show();
+                // 赋值input
+                $("#imgUrl").val(res.data);
+                console.log(res);
+                layer.msg('上传成功');
+            }
+        });
+    }
 </script>
 </body>
 </html>

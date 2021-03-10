@@ -48,77 +48,82 @@
 <script>
 
     layui.use(['form'], function () {
-        let form = layui.form;
-        // select 字典数据
+        init();
+        myEditor();
+    });
+
+
+    function init() {
         $("#category").html(Dict.getDictSelect(Enums.Xj.HelpCategory));        // 是否跳转  不带默认值
         $("#helpVersion").html(Dict.getDictSelect(Enums.Xj.HelpVersion));      // 位置
-        // 刷新,否则select可能不生效
-        form.render();
-    });
+        layui.form.render();     // 刷新,否则select可能不生效
+    }
+
 
     // 主键id
     var id;
-
-    //注意1：这里的就是上面的DIV的id属性值
-    let myEditor = editormd("L_content", {
-        width: "96%",
-        height: 860,
-        syncScrolling: "single",
-        path: "/components/editor/lib/",// 资源路径
-        // 自定义的增强配置！
-        saveHTMLToTextarea: true,        // 保存 HTML 到 Textarea
-        emoji: true, // 开启表情的功能！ 图片的本地配置！
-        // theme: "light",               // 工具栏主题
-        // previewTheme: "dark",         // 预览主题
-        // editorTheme: "pastel-on-dark",// 编辑主题
-        // markdown的配置！
-        tex: true,                   // 开启科学公式TeX语言支持，默认关闭
-        flowChart: true,             // 开启流程图支持，默认关闭
-        sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
-        imageUpload: false,          // 图片本地上传,禁用，使用imgCopyPull2.js 的上传方式
-        /*指定需要显示的功能按钮*/
-        toolbarIcons: function () {
-            return ["undo", "redo", "|",
-                "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
-                // "h1","h2","h3","h4","h5","h6","|",
-                "list-ul", "list-ol", "hr", "|",
-                "link", "reference-link", "image", "code", "preformatted-text",
-                "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
-                "goto-line", "watch", "preview", "fullscreen", "clear", "search", "|",
-                "help", "info", "|",
-                "releaseIcon", "index"]
-        },
-        /*自定义功能按钮，下面我自定义了2个，一个是发布，一个是返回首页*/
-        toolbarIconTexts: {
-            releaseIcon: "<span bgcolor=\"gray\">发布文章</span>",
-            // index : "<span bgcolor=\"red\">返回首页</span>",
-        },
-        /*给自定义按钮指定回调函数*/
-        toolbarHandlers: {
-            releaseIcon: function (cm, icon, cursor, selection) {
-                //表单提交
-                let data = {
-                    content: myEditor.getMarkdown(), // $("#L_content").val(),
-                    title: $("#title").val(),
-                    category: $("#category").val(),
-                    helpVersion: $("#helpVersion").val(),
-                    sort: $("#sort").val(),
-                    id: id,
-                };
-                if(id != null){
-                    // 编辑
-                    let result = Ajax.put(path + "/admin/adminHelp/upd", data);
-                    id = result.data;
-                    layer.msg(result.msg);
-                }else{
-                    // 新增
-                    let result = Ajax.post(path + "/admin/adminHelp/insert", data);
-                    id = result.data;
-                    layer.msg(result.msg);
-                }
+    function myEditor() {
+        //注意1：这里的就是上面的DIV的id属性值
+        let myEditor = editormd("L_content", {
+            width: "96%",
+            height: 860,
+            syncScrolling: "single",
+            path: "/components/editor/lib/",// 资源路径
+            // 自定义的增强配置！
+            saveHTMLToTextarea: true,        // 保存 HTML 到 Textarea
+            emoji: true, // 开启表情的功能！ 图片的本地配置！
+            // theme: "light",               // 工具栏主题
+            // previewTheme: "dark",         // 预览主题
+            // editorTheme: "pastel-on-dark",// 编辑主题
+            // markdown的配置！
+            tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+            flowChart: true,             // 开启流程图支持，默认关闭
+            sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+            imageUpload: false,          // 图片本地上传,禁用，使用imgCopyPull2.js 的上传方式
+            /*指定需要显示的功能按钮*/
+            toolbarIcons: function () {
+                return ["undo", "redo", "|",
+                    "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+                    // "h1","h2","h3","h4","h5","h6","|",
+                    "list-ul", "list-ol", "hr", "|",
+                    "link", "reference-link", "image", "code", "preformatted-text",
+                    "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
+                    "goto-line", "watch", "preview", "fullscreen", "clear", "search", "|",
+                    "help", "info", "|",
+                    "releaseIcon", "index"]
             },
-        }
-    });
+            /*自定义功能按钮，下面我自定义了2个，一个是发布，一个是返回首页*/
+            toolbarIconTexts: {
+                releaseIcon: "<span bgcolor=\"gray\">发布文章</span>",
+                // index : "<span bgcolor=\"red\">返回首页</span>",
+            },
+            /*给自定义按钮指定回调函数*/
+            toolbarHandlers: {
+                releaseIcon: function (cm, icon, cursor, selection) {
+                    //表单提交
+                    let data = {
+                        content: myEditor.getMarkdown(), // $("#L_content").val(),
+                        title: $("#title").val(),
+                        category: $("#category").val(),
+                        helpVersion: $("#helpVersion").val(),
+                        sort: $("#sort").val(),
+                        id: id,
+                    };
+                    if (id != null) {
+                        // 编辑
+                        let result = Ajax.put(path + "/admin/xj/adminHelp/upd", data);
+                        id = result.data;
+                        layer.msg(result.msg);
+                    } else {
+                        // 新增
+                        let result = Ajax.post(path + "/admin/xj/adminHelp/insert", data);
+                        id = result.data;
+                        layer.msg(result.msg);
+                    }
+                },
+            }
+        });
+    }
 </script>
 </body>
 </html>

@@ -34,7 +34,7 @@ import java.util.Arrays;
  * @date 2020-10-28 20:44:32
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin +"/adminLog")
+@RequestMapping(BaseConstant.Uri.apiAdmin +"/xj/adminLog")
 @Api(value = "XjAdminLogController", tags = "base-plus--操作记录")
 public class XjAdminLogController extends BaseController<XjAdminLogService> {
 

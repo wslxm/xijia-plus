@@ -34,7 +34,7 @@ import java.util.Arrays;
  * @date 2020-08-23 23:14:01
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/adminBanner")
+@RequestMapping(BaseConstant.Uri.apiAdmin + "/xj/adminBanner")
 @Api(value = "XjAdminBannerController", tags = "base-plus--banner")
 public class XjAdminBannerController extends BaseController<XjAdminBannerService> {
 

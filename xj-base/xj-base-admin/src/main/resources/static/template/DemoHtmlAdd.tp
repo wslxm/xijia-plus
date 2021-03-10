@@ -25,29 +25,29 @@
 
 <script>
     layui.use(['form'], function () {
-        let form = layui.form;
-         //监听提交
-        form.on('submit(layuiadmin-app-form-submit)', function (data) {
-                   let result = Ajax.post(path + "/{moduleName}/{tableNameLower}/insert", data.field);
-                   let index = parent.layer.getFrameIndex(window.name);
-                   parent.layer.close(index);
-                   parent.layer.msg(result.msg);
-                   //重载表格
-                   parent.{tableNameLower}RenderTable();
-                   // 重载后-刷新分页数据
-                   parent.{tableNameLower}LayPage();
-        });
-
-        // 初始化
-        {tableNameLower}addInit(form);
+        {tableNameLower}addFormSubmit();
+        {tableNameLower}addInit();
     });
 
+    function {tableNameLower}addInit(){
+         // 初始化相关数据
 
-    function {tableNameLower}addInit(form){
-        // 初始化相关信息
+         // 刷新,否则部分from 表单样式不生效
+         layui.form.render();
+    }
 
-        // 刷新,否则select可能不生效
-        form.render();
+    function {tableNameLower}addFormSubmit(){
+         //监听提交
+         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+               let result = Ajax.post(path + "/admin/{moduleName}/{tableNameLower}/insert", data.field);
+               let index = parent.layer.getFrameIndex(window.name);
+               parent.layer.close(index);
+               parent.layer.msg(result.msg);
+               //重载表格
+               parent.{tableNameLower}RenderTable();
+               // 重载后-刷新分页数据
+               parent.{tableNameLower}LayPage();
+         });
     }
 </script>
 </body>

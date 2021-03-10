@@ -61,7 +61,7 @@
 
     <div class="layui-form-item">
         <label class="layui-form-label">性别</label>
-        <div id="gender"  class="layui-input-block">
+        <div id="gender" class="layui-input-block">
         </div>
     </div>
     <div class="layui-form-item">
@@ -103,69 +103,16 @@
 
     let user_role_admin_list = path + "/admin/adminRole/findUserRole";      // 角色分配查询所有--用户当前角色赋予Checked=true
 
-    /**
-     * 输入姓名->生成账号
-     */
-    function updUsername() {
-        let fullName = $("#fullName").val();
-        //获取全写拼音（调用js中方法）
-        let username = pinyin.getFullChars(fullName);
-        $("#username").val(username.toLowerCase());
-        //获取全写拼音（调用js中方法）
-        // let username = pinyin.getFullChars(fullName);
-        //获取简写拼音（调用js中方法）
-        // var easyName = pinyin.getCamelChars(chinaName);
-        // //给两个文本框赋值
-        // $('#fullName').val(fullName);
-        // $('#easyName').val(easyName);
-    }
 
     layui.use(['form', 'upload'], function () {
-        //监听提交
-        let form = layui.form;
-        layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            data.field.id = parent.data.id;
-            data.field.time = parent.data.time;
-            // 放入角色数据
-            let roles_box = [];
-            $('input[type=checkbox]:checked').each(function () {
-                roles_box.push($(this).val());
-            });
-            data.field.roles = roles_box;
-            let result = Ajax.put(path + "/admin/adminUser/upd", data.field);
-            let index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-            parent.layer.msg(result.msg);
-            //重载表格
-            parent.xijiaRenderTable();
-        });
-
-        //文件上传--设定文件大小限制
-        layui.upload.render({
-            elem: '#test7'
-            , url: uploadPath + '?filePath=image/head/' //改成您自己的上传接口
-            , size: 200 //限制文件大小，单位 KB
-            , headers: getGlobalHeaders()
-            , done: function (res) {
-                //如果上传失败
-                if (res.code !== 200) {
-                    return layer.msg('上传失败-' + res.msg);
-                }
-                $("#headImg").attr("src", res.data);
-                $("#headImg").attr("title", res.date);
-                //赋值input
-                $("#head").val(res.data);
-                console.log(res);
-                layer.msg('上传成功');
-            }
-        });
-        //
-        init(form);
-
+        init();
+        upload();
+        formSubmit();
+        verify();
     });
 
 
-    function init(form) {
+    function init() {
         //父页面的值,赋值到当前页
         $("#head").val(parent.data.head);
         $("#headImg").attr("src", parent.data.head);
@@ -174,18 +121,8 @@
         $("#fullName").val(parent.data.fullName);
         $("#age").val(parent.data.age);
         $("#address").val(parent.data.address);
-
-        //
-        $("#gender").html(Dict.getDictRadio(Enums.Base.Gender,"gender",parent.data.gender));               // 性别
+        $("#gender").html(Dict.getDictRadio(Enums.Base.Gender, "gender", parent.data.gender));               // 性别
         $("#position").html(Dict.getDictRadio(Enums.Admin.Position, "position", parent.data.position));    // 职位
-
-        // $("#position").html(Dict.getDictSelect(Enums.Admin.Position));   // 职位
-        // $("#position").find("option").each(function () {
-        //     if ($(this).val() == parent.data.position) {
-        //         $(this).attr("selected", "selected");
-        //     }
-        // });
-
         // 获取角色列表
         let roleList = Ajax.get(user_role_admin_list + "?userId=" + parent.data.id).data;
         let roleHtml = "";
@@ -208,9 +145,68 @@
             }
         });
         $("#roles").html(roleHtml);
-
         // 刷新,否则select可能不生效
-        form.render();
+        layui.form.render();
+    }
+
+
+    function formSubmit() {
+        layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            data.field.id = parent.data.id;
+            data.field.time = parent.data.time;
+            // 放入角色数据
+            let roles_box = [];
+            $('input[type=checkbox]:checked').each(function () {
+                roles_box.push($(this).val());
+            });
+            data.field.roles = roles_box;
+            let result = Ajax.put(path + "/admin/adminUser/upd", data.field);
+            let index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+            parent.layer.msg(result.msg);
+            //重载表格
+            parent.xijiaRenderTable();
+        });
+    }
+
+
+    function upload() {
+        //文件上传--设定文件大小限制
+        layui.upload.render({
+            elem: '#test7'
+            , url: uploadPath + '?filePath=image/head/' //改成您自己的上传接口
+            , size: 200 //限制文件大小，单位 KB
+            , headers: getGlobalHeaders()
+            , done: function (res) {
+                //如果上传失败
+                if (res.code !== 200) {
+                    return layer.msg('上传失败-' + res.msg);
+                }
+                $("#headImg").attr("src", res.data);
+                $("#headImg").attr("title", res.date);
+                //赋值input
+                $("#head").val(res.data);
+                console.log(res);
+                layer.msg('上传成功');
+            }
+        });
+    }
+
+    /**
+     * 输入姓名->生成账号
+     */
+    function updUsername() {
+        let fullName = $("#fullName").val();
+        //获取全写拼音（调用js中方法）
+        let username = pinyin.getFullChars(fullName);
+        $("#username").val(username.toLowerCase());
+        //获取全写拼音（调用js中方法）
+        // let username = pinyin.getFullChars(fullName);
+        //获取简写拼音（调用js中方法）
+        // var easyName = pinyin.getCamelChars(chinaName);
+        // //给两个文本框赋值
+        // $('#fullName').val(fullName);
+        // $('#easyName').val(easyName);
     }
 </script>
 </body>

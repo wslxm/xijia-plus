@@ -38,7 +38,6 @@
         <button class="layui-btn layui-btn-primary" id="btn-expand">全部展开</button>
         <button class="layui-btn layui-btn-primary" id="btn-fold">全部折叠</button>
     </div>
-    &nbsp;
     <!-- 搜索 -->
     <label class="layui-form-label">类别</label>
     <div class="layui-input-inline">
@@ -75,7 +74,6 @@
 
 <!-- 每一行的数据修改或删除  -->
 <script type="text/html" id="barDemo">
-
     {{#  if(!StringUtils.checkNumber(d.code)){ }}
     <a class="layui-btn layui-btn-xs" lay-event="add">+ 子类别</a>
     {{# }if(StringUtils.checkNumber(d.code)) { }}
@@ -85,7 +83,6 @@
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="updPid">变更父级</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-
 
 </script>
 
@@ -110,28 +107,19 @@
     var onePid;
 
 
-    // layui 组件
-    let form;
-    let table;
-    let treeTable;
-    let $1;
 
     layui.config({
         base: '../components/treetable-lay/module/' //静态资源所在路径
     }).extend({
         treetable: 'treetable-lay/treetable'
     }).use(['table', 'treetable'], function () {
-        form = layui.form;
-        table = layui.table;
-        treeTable = layui.treetable;
-        $1 = layui.$;
         xijiaRenderTable();       // 数据表格 - 获取表格
         xijiaEventToolbar();      // 工具栏事件（多删除/添加）
         xijiaEventTool();         // 监听数据表格内按钮操作（编辑,删除等）
         xijiaEventSearch();       // 监听条件搜索
         xijiaEventSelect();       // 监听Select搜索
         xijiaEventSwitch();       // 监听单选-是否禁用
-        initSearch();        //渲染select搜索
+        initSearch();                 //渲染select搜索
     });
 
 
@@ -149,7 +137,7 @@
         // 渲染表格
         layer.load(2);
         //加载数据
-        treeTable.render({
+        layui.treetable.render({
             treeColIndex: 0,            // 菜单列索引 ,加载展开图标
             treeSpid: pid,                // 顶级父id的pid值
             treeIdName: 'id',           // id 字段名
@@ -219,7 +207,7 @@
      */
     function xijiaEventTool() {
         //  表格内的按钮监听
-        table.on('tool(auth-table)', function (obj) {
+        layui.table.on('tool(auth-table)', function (obj) {
             //当前行数据
             data = obj.data;
             //   添加子类别
@@ -261,7 +249,7 @@
         });
 
         //  表格内直接编辑内容的监听
-        table.on('edit(auth-table)', function (obj) {
+        layui.table.on('edit(auth-table)', function (obj) {
             let data = obj.data;   // 得到所在行整行数据
             let val = obj.value;   // 得到修改后的值
             let field = obj.field; // 得到修改的字段
@@ -285,26 +273,26 @@
      * @return
      */
     function xijiaEventSearch() {
-        $1('#btn-expand').click(function () {
+        layui.$('#btn-expand').click(function () {
             treeTable.expandAll('#auth-table');
         });
 
-        $1('#btn-fold').click(function () {
+        layui.$('#btn-fold').click(function () {
             treeTable.foldAll('#auth-table');
         });
 
-        $1('#btn-search').click(function () {
+        layui.$('#btn-search').click(function () {
             let keyword = $('#edt-search').val();
             let searchCount = 0;
-            $1('#auth-table').next('.treeTable').find('.layui-table-body tbody tr td').each(function () {
-                $1(this).css('background-color', 'transparent');
+            layui.$('#auth-table').next('.treeTable').find('.layui-table-body tbody tr td').each(function () {
+                layui.$(this).css('background-color', 'transparent');
                 let text = $(this).text();
                 if (keyword !== '' && text.indexOf(keyword) >= 0) {
-                    $1(this).css('background-color', 'rgba(250,230,160,0.5)');
+                    layui.$(this).css('background-color', 'rgba(250,230,160,0.5)');
                     if (searchCount === 0) {
-                        treeTable.expandAll('#auth-table');
-                        $1('html,body').stop(true);
-                        $1('html,body').animate({scrollTop: $(this).offset().top - 150}, 500);
+                        layui.treetable.expandAll('#auth-table');
+                        layui.$('html,body').stop(true);
+                        layui.$('html,body').animate({scrollTop: $(this).offset().top - 150}, 500);
                     }
                     searchCount++;
                 }
@@ -323,7 +311,7 @@
      * switch(state) 对应 lay-filter='state'
      */
     function xijiaEventSwitch() {
-        form.on('switch(disable)', function (data) {
+        layui.form.on('switch(disable)', function (data) {
             let disable = 0;
             if (data.elem.checked) {
                 disable = 0;
@@ -403,7 +391,7 @@
         $("#codeOne").html(html);
 
         // 刷新,否则select可能不生效
-        form.render();
+        layui.form.render();
     }
 
 
@@ -411,7 +399,7 @@
      *
      */
     function xijiaEventSelect() {
-        form.on('select(codeOne)', function (data) {
+        layui.form.on('select(codeOne)', function (data) {
             // 加载二级数据
             let dices = Ajax.get(find_dict_category + "?code=" + data.value).data;
             let html = "<option value=''>所有</option>";
@@ -421,14 +409,14 @@
             $("#codeTwo").html(html);
             // 清除下二级
             $("#codeThree").html("");
-            form.render();
+            layui.form.render();
             // 搜索
             onePid = $("#codeOne").find("option:selected").attr("pid");
             xijiaRenderTable();
         });
 
 
-        form.on('select(codeTwo)', function (data) {
+        layui.form.on('select(codeTwo)', function (data) {
             // 加载三级数据
             let dices = Ajax.get(find_dict_category + "?code=" + data.value).data;
             let html = "<option value=''>所有</option>";
@@ -436,14 +424,14 @@
                 html += "<option value='" + dices[index].code + "' pid='" + dices[index].pid + "'>" + dices[index].name + "</option>"
             });
             $("#codeThree").html(html);
-            form.render();
+            layui.form.render();
             // 搜索
             twoPid = $("#codeTwo").find("option:selected").attr("pid");
             xijiaRenderTable();
         });
 
 
-        form.on('select(codeThree)', function (data) {
+        layui.form.on('select(codeThree)', function (data) {
             // 搜索
             threePid = $("#codeThree").find("option:selected").attr("pid");
             xijiaRenderTable();

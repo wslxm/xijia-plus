@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
     <head>
         <meta charset="utf-8">
         <title>菜单--变更父级</title>
@@ -47,13 +47,9 @@
             }).extend({
                 treetable: 'treetable-lay/treetable'
             }).use(['form', 'table', 'treetable', 'element', 'tree'], function () {
-                tree = layui.tree;
-                table = layui.table;
-                treetable = layui.treetable;
                 // 复选框默认是否选中字段名
-                table = $.extend(table, {config: {checkName: 'isChecked'}});
-                // 获得菜单数据
-                res = Ajax.get(menu_find_id_list);
+                layui.table = $.extend(layui.table, {config: {checkName: 'isChecked'}});
+
                 // 初始化右边 table 数据
                 xijiaRenderTable();
                 // 监听复选框选中
@@ -73,9 +69,13 @@
              * @param params
              */
             function xijiaRenderTable() {
+                // 获得菜单数据
+                if(res==null){
+                    res = Ajax.get(menu_find_id_list);
+                }
                 // 渲染表格
                 layer.load(2);
-                treetable.render({
+                layui.treetable.render({
                     toolbar: '#toolbar',
                     id: "te",                   // 定义Id--用于复选框获取数据
                     treeColIndex: 1,            // 菜单列索引 ,加载展开图标
@@ -113,7 +113,7 @@
             function xijiaEventCheckbox() {
 
                 // obj = 选中行数据
-                table.on('checkbox(auth-table)', function (obj) {
+                layui.table.on('checkbox(auth-table)', function (obj) {
                     //console.log(JSON.stringify(obj))
                     if (!obj.checked) {
                         return;
@@ -200,7 +200,6 @@
                     WindowPos.onbeforeunload();  // 记录滚动条位置
                     parent.xijiaRenderTable();
                     WindowPos.onload();          // 还原滚动条位置
-
                 });
             }
         </script>

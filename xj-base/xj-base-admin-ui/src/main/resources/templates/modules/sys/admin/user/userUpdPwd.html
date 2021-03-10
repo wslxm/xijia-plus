@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
 <head>
     <meta charset="utf-8">
     <title>设置我的密码</title>
@@ -56,6 +56,11 @@
 
 <script>
     layui.use(['form'], function () {
+        formSubmit();
+    });
+
+
+    function formSubmit() {
         //提交监听
         layui.form.on('submit(LAY-user-login-submit)', function (obj) {
             if (obj.field.password === obj.field.oldPassword) {
@@ -68,11 +73,11 @@
                 let param = "";
                 param += "?oldPassword=" + obj.field.oldPassword;
                 param += "&password=" + obj.field.password;
-                let result = Ajax.put(path + "/admin/adminUser/updPassword" + param);
+                let result = Ajax.put(path + "/admin/adminUser/updByPassword" + param);
                 layer.msg("修改密码成功,请牢记新密码");
             }
         });
-    });
+    }
 </script>
 </body>
 </html>

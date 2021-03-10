@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
 <head>
     <meta charset="utf-8">
     <title>用户--添加</title>
@@ -53,15 +53,20 @@
 </div>
 
 <script>
-    $(function () {
+    layui.use(['form'], function () {
+        init();
+        formSubmit();
+    });
+
+    function init() {
         //父页面的值,赋值到当前页
         $('#code').val(parent.data.code);
         $('#name').val(parent.data.name);
         $('#desc').val(parent.data.desc);
         $('#sort').val(parent.data.sort);
-    });
+    }
 
-    layui.use(['form'], function () {
+    function formSubmit() {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.id = parent.data.id;
@@ -76,7 +81,7 @@
             layer.msg(result.msg);
             //parent.layer.msg(result.msg+" 请手动刷新");
         });
-    });
+    }
 </script>
 </body>
 </html>

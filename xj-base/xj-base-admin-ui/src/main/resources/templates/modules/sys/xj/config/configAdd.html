@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
 <head>
     <meta charset="utf-8">
     <title>用户--添加</title>
@@ -73,8 +73,6 @@
         <div id="cropperdiv"></div>
         <!-- 文件上传插件 -->
     </div>
-
-
     <!-- --------------------- 根据单选选填 end  -------------------------  -->
 
     <div class="layui-form-item">
@@ -92,16 +90,25 @@
 
 <script>
 
-    let imgs = "";
 
     layui.use(['form', 'upload'], function () {
-        var form = layui.form
-            , $ = layui.jquery
-            , upload = layui.upload;
+        init();
+        formUpload();
+        formRadio();
+        formSubmit();
+    });
 
 
+    function init() {
+        $("#contentText").show();
+        $("#contentImg").hide();
+
+    }
+
+
+    function formSubmit() {
         //监听提交
-        form.on('submit(layuiadmin-app-form-submit)', function (data) {
+        layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             if (data.field.type === "0") {
                 //文本
             } else {
@@ -109,7 +116,7 @@
                 let urls = getPicSort();
                 data.field.content = urls;
             }
-            let result = Ajax.post(path + "/admin/adminConfig/insert", data.field);
+            let result = Ajax.post(path + "/admin/xj/adminConfig/insert", data.field);
             let index = parent.layer.getFrameIndex(window.name);
 
             parent.layer.close(index);
@@ -119,14 +126,31 @@
             // 重载后-刷新分页数据
             parent.xijiaLayPage();
         });
+    }
 
+    /**
+     * 编辑选中展示图片还是文本
+     */
+    function formRadio() {
+        layui.form.on('radio(type)', function (data) {
+            if ($('#isType input[name="type"]:checked ').val() === "0") {
+                $("#contentText").show();
+                $("#contentImg").hide();
+            } else {
+                $("#contentText").hide();
+                $("#contentImg").show();
+            }
+            layui.form.render();
+        });
+    }
 
-        /**
-         *多图片上传( addZmImg 支持图片删除,剪辑重传)
-         */
-        upload.render({
+    /**
+     *多图片上传( addZmImg 支持图片删除,剪辑重传)
+     */
+    function formUpload() {
+        layui.upload.render({
             elem: '#addZmImg'
-            , url: uploadPath +'?filePath=image/config/'
+            , url: uploadPath + '?filePath=image/config/'
             , multiple: true
             , headers: getGlobalHeaders()
             , before: function (obj) {
@@ -144,32 +168,12 @@
 
                 $('#imgZmList').append('<li style="position:relative"><img name="imgZmList" src="' + result.data +
                     '"width="150" height="113"><!--<div class="title_cover" name="imgZmName" onclick="divClick(this)"></div>--><div class="img_edit layui-icon" onclick="croppers_pic(this)"></div><div class="img_close" onclick="deleteElement(this)">X</div></li>');
-                form.render();
+                layui.form.render();
                 imgMove("imgZmList");
             }
         });
+    }
 
-        /**
-         * 编辑选中展示图片还是文本
-         */
-        form.on('radio(type)', function (data) {
-            if ($('#isType input[name="type"]:checked ').val() === "0") {
-                $("#contentText").show();
-                $("#contentImg").hide();
-            } else {
-                $("#contentText").hide();
-                $("#contentImg").show();
-            }
-            layui.form.render();
-        });
-    });
-
-
-    //
-    $(function () {
-        $("#contentText").show();
-        $("#contentImg").hide();
-    })
 </script>
 </body>
 </html>

@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2020-09-23 10:40:23
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiClient + "/msg")
+@RequestMapping(BaseConstant.Uri.apiClient + "/xj/adminMsg")
 @Api(value = "UXjAdminMsgController", tags = "yh--base-plus--消息通知")
 public class UXjAdminMsgController extends BaseController<XjAdminMsgService> {
 

@@ -1,6 +1,7 @@
 package com.ws.ldy.client.sys.admin.controller;
 
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryVO;
 import com.ws.ldy.modules.sys.admin.service.AdminDictionaryService;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
@@ -25,7 +26,7 @@ import java.util.Map;
  * @date Sun Nov 24 11:23:12 CST 2019
  */
 @RestController
-@RequestMapping("/api/client/admin/dictionary")
+@RequestMapping(BaseConstant.Uri.apiClient + "/dictionary")
 @Api(value = "UDictionaryController", tags = "yh--base--字典管理")
 public class UDictionaryController extends BaseController<AdminDictionaryService> {
 

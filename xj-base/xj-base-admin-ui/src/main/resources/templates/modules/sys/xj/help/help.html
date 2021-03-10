@@ -63,20 +63,17 @@
 <script>
 
     // 接口
-    let adminHelpFindPage = path + "/admin/adminHelp/findPage";        //查询-分页
-    let adminHelpDel = path + "/admin/adminHelp/del";                  //删除
+    let adminHelpFindPage = path + "/admin/xj/adminHelp/findPage";        //查询-分页
+    let adminHelpDel = path + "/admin/xj/adminHelp/del";                  //删除
 
     // 路由
     let adminHelpPageAdd = "/page/modules_sys_xj_help_helpAdd";        // 添加弹出
     let adminHelpPageUpd = "/page/modules_sys_xj_help_helpUpd";         // 编辑弹出
 
-    let table;     // 数据表格组件
-    let laypage;   // 分页组件
+
     let res;       // 完整的后台数据
     var data;      // 当前行数据（弹出层时可直接parent.data获取）
     layui.use(['jquery', 'table', 'laypage'], function () {
-        table = layui.table;
-        laypage = layui.laypage;
         xijiaRenderTable();        //  数据表格 - 获取表格
         xijiaLayPage();            //  分页插件
         xijiaEventToolbar();       //  工具栏事件（多删除/添加）
@@ -94,7 +91,7 @@
      */
     function xijiaRenderTable(params) {
         res = Ajax.get(adminHelpFindPage + getPage() + xijiaSearchParam());
-        table.render({
+        layui.table.render({
             elem: '#auth-table'
             , data: res.data.records
             , toolbar: '#toolbarDemo'
@@ -133,7 +130,7 @@
      * @return
      */
     function xijiaLayPage() {
-        laypage.render({
+        layui.laypage.render({
             // 注意，这里的 page-table 是 ID，不用加 # 号
             elem: 'page-table'
             , count: res.data.total    // 数据总数，从服务端得到
@@ -169,7 +166,7 @@
      * @return
      */
     function xijiaEventToolbar() {
-        table.on('toolbar(auth-table)', function (obj) {
+        layui.table.on('toolbar(auth-table)', function (obj) {
             //添加
             if (obj.event === "add") {
                 // 使用新窗口
@@ -188,7 +185,7 @@
      * @return
      */
     function xijiaEventTool() {
-        table.on('tool(auth-table)', function (obj) {
+        layui.table.on('tool(auth-table)', function (obj) {
             data = obj.data;  //当前行数据
             //编辑
             if (obj.event === 'edit') {

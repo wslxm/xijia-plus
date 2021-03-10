@@ -336,7 +336,7 @@ Pop = {
      * @return
      * @version 1.0.0
      */
-    tipsWindownRight: function (url, width, height, name, btn) {
+    tipsWindownRight: function (content, width, height, name, btn) {
         if (btn == null) {
             btn = ['确定', '取消']
         }
@@ -348,7 +348,7 @@ Pop = {
         }
         layui.use('layer', function () {
             layer.open({
-                type: 2
+                type: 1
                 // , id: 'LAY_adminPopupR'
                 , anim: -1
                 , offset: 'r'
@@ -356,7 +356,7 @@ Pop = {
                 , btn: btn
                 , closeBtn: 1
                 , skin: 'layui-anim layui-anim-rl layui-layer-adminRight'
-                , content: [url]
+                , content: content
                 , area: [width, height]
                 , title: [name]
                 , zIndex: 1000,    // 层高(拉出位置位于其他底层)

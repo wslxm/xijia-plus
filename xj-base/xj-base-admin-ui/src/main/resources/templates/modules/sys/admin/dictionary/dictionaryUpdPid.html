@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
 <head>
     <meta charset="utf-8">
     <title>字典--变更父级</title>
@@ -32,13 +32,12 @@
 </div>
 
 <script>
-    $(function () {
 
-    });
 
     // 菜单查询--数据列表
     let menu_find_id_list = path + "/admin/adminDictionary/findByCode";
     let update = path + "/admin/adminDictionary/upd";
+
     // 后台返回完整菜单数据
     let res;
 
@@ -47,35 +46,31 @@
     }).extend({
         treetable: 'treetable-lay/treetable'
     }).use(['form', 'table', 'treetable', 'element', 'tree'], function () {
-        tree = layui.tree;
-        table = layui.table;
-        treetable = layui.treetable;
-        // 复选框默认是否选中字段名
-        table = $.extend(table, {config: {checkName: 'isChecked'}});
-        // 获得菜单数据
-        res = Ajax.get(menu_find_id_list + xijiaSearchParam());
-        // 初始化右边 table 数据
-        xijiaRenderTable();
-        // 监听复选框选中
-        xijiaEventCheckbox();
-        // 回显
-        isCheckedPid(parent.data);
-        // 监听确认更新父Id
-        xijiaEventUpdPid();
+        // 设置复选默认选中字段
+        layui.table = $.extend(layui.table, {config: {checkName: 'isChecked'}});
+
+        xijiaRenderTable();          // 初始化右边 table 数据
+        xijiaEventCheckbox();        // 监听复选框选中
+        isCheckedPid(parent.data);   // 回显
+        xijiaEventUpdPid();          // 监听确认更新父Id
     });
 
 
     /**
-     *     table数据--（抽离出来方便重载）
+     * table数据--（抽离出来方便重载）
      *
      * @date  2019/11/16 0016 16:56
      * @return
      * @param params
      */
     function xijiaRenderTable() {
+        if(res== null){
+            // 首次加载获得菜单数据
+            res = Ajax.get(menu_find_id_list + xijiaSearchParam());
+        }
         // 渲染表格
         layer.load(2);
-        treetable.render({
+        layui.treetable.render({
             toolbar: '#toolbar',
             id: "te",                   // 定义Id--用于复选框获取数据
             treeColIndex: 1,            // 菜单列索引 ,加载展开图标
@@ -106,14 +101,13 @@
 
 
     /**
-     *     监听复选框选中
+     * 监听复选框选中
      * @date  2019/11/16 0016 19:43
      * @return
      */
     function xijiaEventCheckbox() {
-
         // obj = 选中行数据
-        table.on('checkbox(auth-table)', function (obj) {
+        layui.table.on('checkbox(auth-table)', function (obj) {
             //console.log(JSON.stringify(obj))
             if (!obj.checked) {
                 return;
@@ -135,7 +129,7 @@
 
 
     /**
-     *   选中节点，删除其他选中节点
+     * 选中节点，删除其他选中节点
      */
     function isChecked(node) {
         for (let i = 0; i < res.data.length; i++) {
@@ -147,13 +141,13 @@
             }
         }
         WindowPos.onbeforeunload();  // 记录滚动条位置
-        xijiaRenderTable();             // 重载数据
+        xijiaRenderTable();          // 重载数据
         WindowPos.onload();          // 还原滚动条位置
     }
 
 
     /**
-     *   重置父节点，回显父节点
+     * 重置父节点，回显父节点
      */
     function isCheckedPid(node) {
         for (let i = 0; i < res.data.length; i++) {
@@ -165,7 +159,7 @@
             }
         }
         WindowPos.onbeforeunload();  // 记录滚动条位置
-        xijiaRenderTable();             // 重载数据
+        xijiaRenderTable();          // 重载数据
         WindowPos.onload();          // 还原滚动条位置
     }
 
@@ -200,7 +194,6 @@
             WindowPos.onbeforeunload();  // 记录滚动条位置
             parent.xijiaRenderTable();
             WindowPos.onload();          // 还原滚动条位置
-
         });
     }
 

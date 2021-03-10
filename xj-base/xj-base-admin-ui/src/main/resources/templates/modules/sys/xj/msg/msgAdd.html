@@ -15,32 +15,32 @@
 
 <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
 
-    
- <div class="layui-form-item">
+
+    <div class="layui-form-item">
         <label class="layui-form-label">消息接收人</label>
         <div class="layui-input-inline">
             <input type="text" id="userId" name="userId" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
- <div class="layui-form-item">
+    <div class="layui-form-item">
         <label class="layui-form-label">内容</label>
         <div class="layui-input-inline">
             <input type="text" id="content" name="content" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
- <div class="layui-form-item">
+    <div class="layui-form-item">
         <label class="layui-form-label">通知终端: 1-用户端信息 2-管理端消息</label>
         <div class="layui-input-inline">
             <input type="text" id="userType" name="userType" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
- <div class="layui-form-item">
+    <div class="layui-form-item">
         <label class="layui-form-label">消息类型:  1-系统通知  2-订单业务通知 </label>
         <div class="layui-input-inline">
             <input type="text" id="msgType" name="msgType" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
- <div class="layui-form-item">
+    <div class="layui-form-item">
         <label class="layui-form-label">是否已读</label>
         <div class="layui-input-inline">
             <input type="text" id="isRead" name="isRead" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
@@ -55,19 +55,30 @@
 
 <script>
     layui.use(['form'], function () {
+        adminMsgaddFormSubmit();
+        adminMsgaddInit();
+    });
+
+    function adminMsgaddInit(){
+        // 初始化相关数据
+
+        // 刷新,否则部分from 表单样式不生效
+        layui.form.render();
+    }
+
+    function adminMsgaddFormSubmit(){
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-                   let result = Ajax.post(path + "/admin/adminMsg/insert", data.field);
-                   let index = parent.layer.getFrameIndex(window.name);
-                   parent.layer.close(index);
-                   parent.layer.msg(result.msg);
-                   //重载表格
-                   parent.xijiaRenderTable();
-                   // 重载后-刷新分页数据
-                   parent.xijiaLayPage();
+            let result = Ajax.post(path + "/admin/xj/adminMsg/insert", data.field);
+            let index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+            parent.layer.msg(result.msg);
+            //重载表格
+            parent.adminMsgRenderTable();
+            // 重载后-刷新分页数据
+            parent.adminMsgLayPage();
         });
-
-    });
+    }
 </script>
 </body>
 </html>

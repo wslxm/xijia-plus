@@ -28,8 +28,8 @@ public class GenerateConfig {
     public final static String projectName = "xj-server/yabei-shop-server";  // 子项目模块 (项目目录下)
     public final static String PACK_PATH = "com.ws.ldy";                     // 模块内代码存放包根路径
     public final static String ROOT_MODULE = "modules";                      // 模块内代码存放包子路径(不建议变动)
-    public final static String PACK_PATH_ZP = "yw";                          // 模块内的子模块 (yw=业务代码  sys=系统代码)
-    public final static String MODULE_NAME = "yb";                           // 模块内的子模块下的子模块 (更具体的业务划分)
+    public final static String PACK_PATH_ZP = "sys";                         // 模块内的子模块 (yw=业务代码  sys=系统代码)
+    public final static String MODULE_NAME = "xj";                        // 模块内的子模块下的子模块 (更具体的业务划分)
 
 
     /**
@@ -38,7 +38,7 @@ public class GenerateConfig {
      * 字段前缀：FIELD_PREFIX
      * _DEFAULT = 默认配置
      */
-    public static String TABLE_PREFIX_DEFAULT = "t_yb_";
+    public static String TABLE_PREFIX_DEFAULT = "t_";
     public static String FIELD_PREFIX_DEFAULT = "";
     public static String TABLE_PREFIX = GenerateConfig.TABLE_PREFIX_DEFAULT;
     public static String FIELD_PREFIX = GenerateConfig.FIELD_PREFIX_DEFAULT;
