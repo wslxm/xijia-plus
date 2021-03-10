@@ -92,6 +92,7 @@ public enum RType {
     // 短信
     SMS_INVALID(10030, "验证码无效"),
     SMS_EXPIRED(10030, "验证码已过期"),
+    SMS_FAIL(10030, "发送失败"),
 
     // Websocket
     WEBSOCKET_CONFIG_ERROR(10040, "请检查webSocket配置信息是否配置"),

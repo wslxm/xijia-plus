@@ -20,6 +20,5 @@
         <module>xj-base-admin</module>
         <module>xj-base-admin-ui</module>
         <module>xj-base-pay</module>
-        <module>xj-base-redis</module>
     </modules>
 </project>

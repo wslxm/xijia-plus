@@ -1,4 +1,4 @@
-package com.ws.ldy.modules.third.aliyun.sms.smsConstant;
+package com.ws.ldy.modules.third.aliyun.sms.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -212,7 +212,6 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 }
                 // 更新
                 adminRoleAuthService.saveBatch(addRoleAuth, 1024);
-                log.info("  本次使用角色分配了接口权限 {} 个", addAuth.size());
             }
         }
         // 删除

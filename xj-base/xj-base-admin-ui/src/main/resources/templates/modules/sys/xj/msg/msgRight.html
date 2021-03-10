@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户--添加</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/components/layuiadmin/layui/src/css/layui.css">
+    <script src="/components/layuiadmin/layui/src/layui.js"></script>
+    <script src='/base/js/jquery-3.4.1.min.js'></script>
+    <script src="/base/js/app.js"></script>
+</head>
+<body>
+
+<style>
+    .layui-tab-title li {
+        min-width: 43px;
+    }
+</style>
+
+<div class="layui-card-header">消息列表</div>
+<div class="layui-card-body layui-text layadmin-about layui-form">
+    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title">
+            <li lay-id="" class="layui-this">所有</li>
+            <li lay-id="1">已读</li>
+            <li lay-id="0">未读</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div id="tab" class="layui-tab-item layui-show"></div>
+            <div id="tab1" class="layui-tab-item"></div>
+            <div id="tab0" class="layui-tab-item"></div>
+        </div>
+    </div>
+</div>
+<!-- 分页插件 -->
+<div class="page-table" id="page-table" style="margin-left: 5%!important;"></div>
+
+<script>
+    var adminMsgFindPage = "/api/admin/adminMsg/findPage";   // 查询数据接口  isRead", value = "是否已读(0-未读 1-已读)
+
+    // 当前选中tab
+    var isRead = "";
+
+    // 延时加载数据, 保证页面的丝滑
+    setTimeout(function () {
+        layui.use(['laypage', 'element'], function () {
+            let laypage = layui.laypage;
+            let element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+            // 查询数据（第1页）
+            let res = findPage(1);
+            // 加载分页插件
+            xijiaLayPage(laypage, res);
+
+            //触发事件
+            element.on('tab(docDemoTabBrief)', function (elem) {
+                // 重新获取数据并加载
+                isRead = $(this).attr('lay-id');
+                let res = findPage(1);
+                // 重新加载分页插件
+                xijiaLayPage(laypage, res);
+            });
+        });
+    }, 200);
+
+
+    /**
+     * 获取数据
+     */
+    function findPage(page) {
+        let res = Ajax.get(adminMsgFindPage + getPage(page, 8) + "&isRead=" + isRead);
+        // 加载数据
+        showText(res.data.records);
+        return res;
+    }
+
+
+    /**
+     //  * 分页配置, 数据总数会在下一次点击事更新上一次数据库的总数量
+     //  * @author ws
+     //  * @mail  1720696548@qq.com
+     //  * @param result 后台返回数据, 用于第一此加载总数据
+     //  * @date  2020/4/22 0022 1:18
+     //  * @return
+     //  */
+    function xijiaLayPage(laypage, res) {
+        laypage.render({
+            // 注意，这里的 page-table 是 ID，不用加 # 号
+            elem: 'page-table'
+            , count: res.data.total    // 数据总数，从服务端得到
+            , limit: res.data.size     // 每页数量
+            // 基础信息配置
+            , layout: ['count', 'prev', 'page', 'next']
+            , curr: pageJson.curr
+            , groups: 1
+            , prev: "<-"
+            , next: "->"
+            // 监听 obj包含了当前分页的所有参数， 比如： obj.curr =当前页, obj.limit = 每页显示条数
+            , jump: function (obj, first) {
+                //首次不执行, 第一次加载时 first=true
+                if (first) {
+                    return;
+                }
+                // 加载新数据
+                findPage(obj.curr);
+            }
+        });
+    }
+
+
+    /**
+     * 展示
+     */
+    function showText(dataJson) {
+        /**
+         * 拼最后展示的数据
+         */
+        let text = "";
+        $.each(dataJson, function (index, item) {
+            console.log(dataJson[index]);
+            text += dataJson[index].isRead === 0 ? "<span style='margin-right: 3%;' class='layui-badge-dot'></span>" : "";
+            text += "<span>" + dataJson[index].content + "</span>";
+            text += "<div style='color: #dad8d5'>" + dataJson[index].createTime + "</div>";
+            text += "<hr> ";
+        });
+        $("#tab" + isRead).html(text);
+    }
+
+</script>

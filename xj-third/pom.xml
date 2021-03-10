@@ -15,6 +15,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>xj-api-sms1086</module>
         <module>xj-api-aliyun-oss</module>
         <module>xj-api-aliyun-sms</module>
         <module>xj-api-qiniu-oss</module>
@@ -28,6 +29,7 @@
         <module>xj-doc-swagger2-ui</module>
         <module>xj-doc-knife4j</module>
         <module>xj-fw-websocket</module>
+        <module>xj-fw-redis</module>
         <module>xj-fw-boot-admin</module>
     </modules>
 </project>

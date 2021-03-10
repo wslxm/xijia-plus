@@ -80,11 +80,11 @@
                 </li>
 
                 <!--  便签 -->
-<!--                <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
-<!--                    <a href="javascript:;" layadmin-event="note">-->
-<!--                        <i class="layui-icon layui-icon-note"></i>-->
-<!--                    </a>-->
-<!--                </li>-->
+                <!--                <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+                <!--                    <a href="javascript:;" layadmin-event="note">-->
+                <!--                        <i class="layui-icon layui-icon-note"></i>-->
+                <!--                    </a>-->
+                <!--                </li>-->
                 <!-- 全屏 -->
                 <!-- <li class="layui-nav-item layui-hide-xs" lay-unselect>
                         <a href="javascript:;" layadmin-event="fullscreen">
@@ -247,6 +247,13 @@
     }).use('index', function () {
 
     });
+
+    /**
+     * 消息列表
+     */
+    function  showMsg() {
+        Pop.tipsWindownRight("/page/modules_sys_xj_msg_msgRight",'320px',null,'消息列表',[]);
+    }
 </script>
 </body>
 </html>

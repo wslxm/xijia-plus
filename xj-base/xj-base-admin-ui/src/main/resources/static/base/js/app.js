@@ -283,10 +283,10 @@ Dict = {
 ;
 
 
-//Layui 通用弹出层封装
 Pop = {
     /**
-     *  Layer 添加/修改通用弹出层 添加修改删除通用弹出层
+     *
+     * 居中弹出 ===>  Layer 添加/修改通用弹出层 添加修改删除通用弹出层
      * @param url    请求地址
      * @param width  弹出层宽
      * @param height 弹出层高
@@ -326,6 +326,55 @@ Pop = {
         });
     },
 
+    /**
+     * 右侧弹出 ===>  Layer 添加/修改通用弹出层 添加修改删除通用弹出层
+     * <P>
+     *     Pop.tipsWindownRight("",null,null,'名称',[])
+     * </P>
+     * @author wangsong
+     * @date 2021/3/9 0009 17:45
+     * @return
+     * @version 1.0.0
+     */
+    tipsWindownRight: function (url, width, height, name, btn) {
+        if (btn == null) {
+            btn = ['确定', '取消']
+        }
+        if (height == null) {
+            height = '100%'
+        }
+        if (width == null) {
+            width = '300px'
+        }
+        layui.use('layer', function () {
+            layer.open({
+                type: 2
+                // , id: 'LAY_adminPopupR'
+                , anim: -1
+                , offset: 'r'
+                , shade: 0.1
+                , btn: btn
+                , closeBtn: 1
+                , skin: 'layui-anim layui-anim-rl layui-layer-adminRight'
+                , content: [url]
+                , area: [width, height]
+                , title: [name]
+                , zIndex: 1000,    // 层高(拉出位置位于其他底层)
+                shadeClose: true,  // 是否允许点击任意地方关闭窗口
+                crossDomain: true, // 跨域，https://www.cnblogs.com/autoXingJY/p/11419860.html
+                success: function (layero, index) {
+                    // //自适应弹出层
+                    // layer.iframeAuto(index);
+                }
+                , yes: function (index, layero) {
+                    //点击确认触发 iframe 内容中的按钮提交
+                    let submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
+                    submit.click();
+                }
+            })
+        })
+    },
+
 
     /**
      * 通用删除弹出层，单Id删除，参数接url后
@@ -349,7 +398,8 @@ Pop = {
                 }
             });
         });
-    },
+    }
+    ,
 
 
     /**
@@ -375,7 +425,8 @@ Pop = {
             });
         });
     }
-};
+}
+;
 
 
 /**
