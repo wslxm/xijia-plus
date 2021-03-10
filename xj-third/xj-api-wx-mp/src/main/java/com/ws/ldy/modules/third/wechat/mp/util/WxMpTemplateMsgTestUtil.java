@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @SuppressWarnings("all")
 @Component
 @Slf4j
-public class WxMpTemplateMsgUtil {
+public class WxMpTemplateMsgTestUtil {
 
     @Autowired
     private WxMpService wxMpService;
@@ -34,6 +34,7 @@ public class WxMpTemplateMsgUtil {
                 .templateId("P6llNez3CAcxEYzhQ_MDdFJGUifXfey15ZIX7MKiB3k")
                 .url("")
                 .build();
+        // 每一个参数
         templateMessage.addData(new WxMpTemplateData("MSG", content, "#173177"));
         try {
             // 发送
