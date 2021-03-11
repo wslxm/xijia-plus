@@ -2,6 +2,7 @@ package com.ws.ldy.modules.third.wechat.app.controller;
 
 
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.modules.third.wechat.app.util.WxAppQrcodeUtil;
 import com.ws.ldy.modules.third.wechat.app.util.WxAppUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +27,9 @@ public class WxAppController {
     @Autowired
     private WxAppUtil wxAppUtil;
 
+    @Autowired
+    private WxAppQrcodeUtil wxAppQrcodeUtil;
+
 //    @Autowired
 //    private WxAppSubscribeSendUtil WxAppSubscribeSendUtil;
 
@@ -34,6 +38,19 @@ public class WxAppController {
     public R<String> getOpenId(@RequestParam String code) {
         return wxAppUtil.getOpenId(code);
     }
+
+
+    @RequestMapping(value = "qrcode/create", method = RequestMethod.GET)
+    @ApiOperation(value = "获取图形太阳二维码(返回base64图片)",  httpMethod = "GET",
+            notes ="参数参考文档：https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.getUnlimited.html")
+    public R<String> createQrCode(@RequestParam String scene,
+                                  @RequestParam String page,
+                                  @RequestParam int width,
+                                  @RequestParam boolean autoColor,
+                                  @RequestParam boolean isHyaline) {
+        return wxAppQrcodeUtil.createQrCode(scene, page, width, autoColor, isHyaline);
+    }
+
 
 
 //    @RequestMapping(value = "/subscribe/sendMsgTest", method = RequestMethod.POST)
