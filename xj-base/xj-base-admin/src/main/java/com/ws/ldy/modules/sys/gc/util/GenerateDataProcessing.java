@@ -6,7 +6,7 @@ import com.ws.ldy.common.utils.IdUtil;
 import com.ws.ldy.common.utils.JsonUtil;
 import com.ws.ldy.common.utils.LocalDateTimeUtil;
 import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
-import com.ws.ldy.modules.sys.gc.model.DsField;
+import com.ws.ldy.modules.sys.gc.config.DsField;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 
 import java.io.*;

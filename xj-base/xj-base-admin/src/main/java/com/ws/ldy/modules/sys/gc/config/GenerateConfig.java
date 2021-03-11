@@ -16,20 +16,25 @@ import java.util.List;
 public class GenerateConfig {
 
     /**
-     * author：    代码生成的注释信息：作者
-     * email：     代码生成的邮箱联系方式
-     * moduleName: 模块名称
-     * packName:   包名/包路径（生成属性/接口名称,引入依赖使用）
+     * author：       代码生成的注释信息：作者
+     * email：        代码生成的邮箱联系方式
+     * moduleName:    模块名称
+     * packName:      包名/包路径（生成属性/接口名称,引入依赖使用）
+     * projectName:   子项目模块路径 (项目目录下)
+     * PACK_PATH:      模块内代码存放包根路径
+     * ROOT_MODULE:    模块内代码存放包子路径(不建议变动)
+     * PACK_PATH_ZP:   模块内的子模块 (yw=业务代码  sys=系统代码)
+     * MODULE_NAME:    模块内的子模块下的子模块 (更具体的业务划分)
      */
     public final static String AUTHOR = "wangsong";
     public final static String EMAIL = "1720696548@qq.com";
     public final static String DESCRIBE = " ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 ";
-    //private final static String PACK_PATH = (PetsServer.class.getPackage().getName() + "");  // 包根路径（所有代码,启动类的路径）
-    public final static String projectName = "xj-server/yabei-shop-server";  // 子项目模块 (项目目录下)
-    public final static String PACK_PATH = "com.ws.ldy";                     // 模块内代码存放包根路径
-    public final static String ROOT_MODULE = "modules";                      // 模块内代码存放包子路径(不建议变动)
-    public final static String PACK_PATH_ZP = "sys";                         // 模块内的子模块 (yw=业务代码  sys=系统代码)
-    public final static String MODULE_NAME = "xj";                        // 模块内的子模块下的子模块 (更具体的业务划分)
+    // private final static String PACK_PATH = (PetsServer.class.getPackage().getName() + "");  // 包根路径（所有代码,使用启动类的路径）
+    public final static String PROJECT_NAME = "xj-server/yabei-shop-server";
+    public final static String PACK_PATH = "com.ws.ldy";
+    public final static String ROOT_MODULE = "modules";
+    public final static String PACK_PATH_ZP = "sys";
+    public final static String MODULE_NAME = "xj";
 
 
     /**
@@ -62,14 +67,14 @@ public class GenerateConfig {
      * 生成代码位置基本不用改变，除目录结构发生变化
      */
     // 预览的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
-    public final static String BASE_PATH_HTML_TXT_YL = "File/" + projectName + "/code/src/main/resources/templates/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/txt/";
-    public final static String BASE_PATH_JAVA_YL = "File/" + projectName + "/code/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
-    public final static String BASE_PATH_XML_YL = "File/" + projectName + "/code/src/main/resources/mapper/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
+    public final static String BASE_PATH_HTML_TXT_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/templates/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/txt/";
+    public final static String BASE_PATH_JAVA_YL = "File/" + PROJECT_NAME + "/code/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
+    public final static String BASE_PATH_XML_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/mapper/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
 
     // 生成的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
-    public final static String BASE_PATH_HTML = projectName + "/src/main/resources/templates/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
-    public final static String BASE_PATH_JAVA = projectName + "/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + PACK_PATH_ZP + "/" + MODULE_NAME.replace(".", "/") + "/";
-    public final static String BASE_PATH_XML = projectName + "/src/main/resources/mapper/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
+    public final static String BASE_PATH_HTML = PROJECT_NAME + "/src/main/resources/templates/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
+    public final static String BASE_PATH_JAVA = PROJECT_NAME + "/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + PACK_PATH_ZP + "/" + MODULE_NAME.replace(".", "/") + "/";
+    public final static String BASE_PATH_XML = PROJECT_NAME + "/src/main/resources/mapper/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
     ;
 
     /**

@@ -192,12 +192,11 @@
 
     let menuTree = path + "/admin/adminMenu/findTree";            // 树菜单数据
     let findUser = path + "/admin/adminUser/findUser";            // 获取用户信息
-    let adminMsgFindPage = "/api/admin/adminMsg/findPage";        // 查询通知消息  isRead=0-未读 1-已读
+    let adminMsgFindPage = path + "/admin/xj/adminMsg/findPage";     // 查询通知消息  isRead=0-未读 1-已读
+    let entry_name = path + "/admin/xj/adminConfig/findByCode?code=entry_name";  // 获取项目名称
     // 路径跳转
-    let homePage = "/page/modules_sys_admin_user_user";                       // 进入系统首页展示url, /page/console_user_user  / /page/front_show_show
+    let homePage = "/page/modules_sys_admin_user_user";                       // 进入系统首页展示路由, /page/console_user_user  / /page/front_show_show
     let updPwd = "/page/modules_sys_admin_user_userUpdPwd";                   // 修改密码页面
-    let entry_name = path + "/admin/xj/adminConfig/findByCode?code=entry_name";  // 获取项目名称接口
-
 
 
     //初始化静态资源

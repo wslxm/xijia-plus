@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.sys.gc.service.impl;
 
 import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
-import com.ws.ldy.modules.sys.gc.model.DsField;
+import com.ws.ldy.modules.sys.gc.config.DsField;
 import com.ws.ldy.modules.sys.gc.service.XjGenerationSevice;
 import com.ws.ldy.modules.sys.gc.util.GenerateDataProcessing;
 import com.ws.ldy.modules.sys.gc.util.LayuiTemplate;

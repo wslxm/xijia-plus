@@ -102,6 +102,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
         if (StringUtils.isBlank(dto.getId())) {
             throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
         }
+        dto.setPassword(null);
         return R.successUpdate(baseService.upd(dto));
     }
 

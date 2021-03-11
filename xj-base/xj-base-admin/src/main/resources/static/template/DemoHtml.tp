@@ -51,8 +51,8 @@
 <script>
 
     // 接口
-    let {tableNameLower}FindPage = path + "/admin/{moduleName}/{tableNameLower}/findPage";        //查询-分页
-    let {tableNameLower}Del = path + "/admin/{moduleName}/{tableNameLower}/del";                  //删除
+    let {tableNameLower}FindPage = path + "/admin/{moduleName}/{tableNameLower}/findPage";        // 查询-分页
+    let {tableNameLower}Del = path + "/admin/{moduleName}/{tableNameLower}/del";                  // 删除
 
     // 路由
     let {tableNameLower}PageAdd =  "/page/{rootModule}_{packPathZp}_{moduleName}_{tableNameLower}_{tableNameLower}Add";   //添加弹出

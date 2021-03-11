@@ -80,7 +80,7 @@
         upload = layui.upload;
         //监听提交
         form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            let result = Ajax.post(path + "/file/xjFile/insert", data.field);
+            let result = Ajax.post(path + "/admin/xj/file/insert", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);
@@ -111,7 +111,7 @@
         upload.render({
             elem: '#test7'
             // TODO  $('#type option:selected').val() 无法动态获取
-            , url: path + '/aliOssFile/upload?filePath=file/xj/tool/'  // 改成您自己的上传接口
+            , url: path + '/open/aliOssFile/upload?filePath=file/xj/tool/'  // 改成您自己的上传接口
             , size: 1024 * 1000 //限制文件大小，单位 KB
             , accept: 'file' //普通文件
             ,  headers: getGlobalHeaders()

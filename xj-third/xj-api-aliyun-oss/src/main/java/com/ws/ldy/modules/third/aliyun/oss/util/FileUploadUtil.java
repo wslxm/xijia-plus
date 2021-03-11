@@ -76,7 +76,7 @@ public class FileUploadUtil {
         // 特殊符号处理
         try {
             fileName = URLEncoder.encode(fileName, "utf-8");
-            fileName =   fileName.replaceAll("\\+", "%20").replaceAll("%", "");
+            fileName = fileName.replaceAll("\\+", "%20").replaceAll("%", "");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -115,11 +115,11 @@ public class FileUploadUtil {
      */
     public static R<String> formatVerification(List<String> suffixs, List<String> excludeFileSuffix, String suffixName, String fileName) {
         // 验证格式是否在范围内
-        if (!suffixs.contains(suffixName)) {
-            return R.error(errorCode, "格式错误,仅支持:" + suffixs.toString()+ ", 当前格式为：" + suffixName);
+        if (suffixs != null && !suffixs.contains(suffixName)) {
+            return R.error(errorCode, "格式错误,仅支持:" + suffixs.toString() + ", 当前格式为：" + suffixName);
         }
         // 验证格式是否禁止上传
-        if (excludeFileSuffix.contains(suffixName)) {
+        if (excludeFileSuffix != null && excludeFileSuffix.contains(suffixName)) {
             return R.error(errorCode, "禁止上传文件格式:" + excludeFileSuffix.toString());
         }
         return R.success(fileName);
