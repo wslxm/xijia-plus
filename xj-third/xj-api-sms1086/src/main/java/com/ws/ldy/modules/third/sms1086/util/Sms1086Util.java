@@ -97,9 +97,9 @@ public class Sms1086Util {
      */
     public Map<String, SmsCode> smsCache = new ConcurrentHashMap<>();
     /**
-     * 短信验证码有效期(5分钟- 1000 * 60 * 5L )
+     * 短信验证码有效期(5分钟- 1000L  * 60 * 5)
      */
-    public final Long SMS_VALID_PERIOD = 3000L;
+    public final Long SMS_VALID_PERIOD = 1000L * 60 * 5;
 
     public Map<String, SmsCode> getSmsCache() {
         return smsCache;
@@ -124,8 +124,8 @@ public class Sms1086Util {
                     + "&mobiles=" + URLEncoder.encode(mobiles, "GB2312")
                     + "&content=" + URLEncoder.encode("【" + signName + "】验证码:" + code, "GB2312");
             url = new URL(strUrl);
-            URLConnection UConn = url.openConnection();
-            BufferedReader breader = new BufferedReader(new InputStreamReader(UConn.getInputStream()));
+            URLConnection uConn = url.openConnection();
+            BufferedReader breader = new BufferedReader(new InputStreamReader(uConn.getInputStream()));
             String str = breader.readLine();
             while (str != null) {
                 str = URLDecoder.decode(str, "GB2312");

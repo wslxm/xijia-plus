@@ -37,7 +37,7 @@ public class ClearSmsCodeTask {
      *     一小时一次  【 0 0 0/1 * * ?】
      * </P>
      */
-    @Scheduled(cron = "0/30 * * * * ?")
+    @Scheduled(cron = "0 0 0/1 * * ?")
     private void clearIdempotent() {
         //iterator 遍历清理
         Map<String, SmsCode> cacheMap = sms1086Util.getSmsCache();

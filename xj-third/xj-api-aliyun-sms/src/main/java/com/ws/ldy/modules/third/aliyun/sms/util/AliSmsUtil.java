@@ -95,10 +95,6 @@ public class AliSmsUtil {
     }
 
 
-
-
-
-
     //===================================================================================
     //============================== 短信验证码start =====================================
     //===================================================================================
@@ -153,17 +149,17 @@ public class AliSmsUtil {
     public R<String> verifySMS(String phone, String code) {
         boolean result = smsCache.containsKey(phone);
         if (!result) {
-            R.error(RType.SMS_INVALID.getValue(), "验证码无效:该电话号没有未使用的验证码");
+            return R.error(RType.SMS_INVALID.getValue(), "验证码无效");
         } else {
             SmsCode smsCode = smsCache.get(phone);
             if (!code.equals(smsCode.getCode())) {
                 //验证码无效
-                R.error(RType.SMS_INVALID.getValue(), "验证码错误或已使用");
+                return R.error(RType.SMS_INVALID.getValue(), "验证码错误或已使用");
             }
             Long expirationTime = smsCode.getTime();
             if (System.currentTimeMillis() > expirationTime) {
                 // 验证码过期
-                R.error(RType.SMS_INVALID.getValue(), "验证码过期");
+                return R.error(RType.SMS_INVALID.getValue(), "验证码过期");
             }
         }
         // 清除使用过的验证码
