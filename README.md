@@ -37,14 +37,14 @@ v-0.0.9+ 版本后端代码目录结构(模块化后结构)
 spring-boot-plus2
         └──xj-base
                └──xj-base-admin            核心包: 管理系统saever
-               └──xj-base-admin-ui         核心包: 管理系统ui
+               └──xj-base-admin-ui         核心包: 管理系统ui, 访问：ip:端口
                └──xj-base-pay              整合包: 聚合支付
                └──xj-base-core             核心包: 通用base类层+枚举字典
                └──xj-base-jwt              核心包: 登录认证
                └──xj-base-result           核心包: 统一返回 + 全局异常
         └──xj-server     
                └──xj-test-server           业务代码(个人功能开发/架构测试)
-               └──xxx                      开发具体项目业务代码模块
+               └──xxx                      业务代码(开发具体项目业务代码模块)
         └──xj-third
                └──xj-api-aliyun-oss        阿里云oss集成(文件存储)
                └──xj-api-aliyun-sms        阿里云sms集成(短信)
@@ -55,6 +55,7 @@ spring-boot-plus2
                └──xj-api-wx-app            微信小程序集成(小程序登录/小程序订阅消息)
                └──xj-api-wx-mp             微信公众号集成(公众号网页授权/公众号模块消息)
                └──xj-api-wx-pay            微信支付集成(支付/退款/打款)
+               └──xj-api-sms1086           sms1086 短信服务集成   
                └──xj-doc-knife4j           接口文档ui集成(依赖swagger2：访问地址: ip/doc.html)
                └──xj-doc-swagger2          接口文档集成
                └──xj-doc-swagger2-ui       接口文档ui集成(依赖swagger2：访问地址: ip/swagger-ui.html)
@@ -62,7 +63,7 @@ spring-boot-plus2
                └──xj-fw-redis              redis集成    
                └──xj-fw-websocket          websocket集成    
         └──xj-utils
-               └──xj-util-core             核心工具(注意：使用了核心工具类需启动服务需禁数据源)
+               └──xj-util-core             核心工具(注意：使用了核心工具类非服务模块启动服务需禁数据源默认启用)
                └──xj-util-fastjson         fastjson工具
                └──xj-util-poi              excel 工具
                └──xj-util-qrcode           二维码 工具
