@@ -31,7 +31,8 @@ public class WxAppController {
 
 
     @RequestMapping(value = "/auth/getOpenId", method = RequestMethod.GET)
-    @ApiOperation(value = "通过code 获取openId", notes = "")
+    @ApiOperation(value = "通过code 获取openId", notes = "" +
+            "详见文档下的调用 auth.code2Session 接口说明：https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/login.html")
     public R<String> getOpenId(@RequestParam String code) {
         return wxAppService.getOpenId(code);
     }
