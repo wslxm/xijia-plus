@@ -15,6 +15,7 @@
 - 11、app.js 增加 Pop.tipsWindownRight() 右撤弹出层通用方法, 如铃铛打开通知信息
 - 12、xj-api-wx-app 获取小程序太阳码
 - 13、更新 xj-api-wx-mp 代码,所有代码修改为直接使用wx-java sdk的方法 
+- 14、增加系统/jvm信息首页
 
 ## 版本：v-0.0.9
 

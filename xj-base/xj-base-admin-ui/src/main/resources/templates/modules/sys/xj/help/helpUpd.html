@@ -51,7 +51,7 @@
     var helpFindId = path + "/admin/xj/adminHelp/findId?id=";
     var data;
     layui.use(['form'], function () {
-        myEditor();  // 先加载编辑器
+        myEditor2();  // 先加载编辑器
         init();      // 在加载初始数据
     });
 
@@ -89,7 +89,7 @@
     /**
      * md 编辑器
      */
-    function myEditor() {
+    function myEditor2() {
         //注意1：这里的就是上面的DIV的id属性值
         var myEditor = editormd("L_content", {
             width: "96%",

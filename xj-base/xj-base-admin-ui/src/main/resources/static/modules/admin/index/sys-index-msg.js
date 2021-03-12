@@ -8,7 +8,7 @@ let isRead = "";
  */
 function msg() {
     // 点击铃铛弹出消息
-    Pop.tipsWindownRight($("#msgTemplate").html(), '320px', null, '消息列表', []);
+    Pop.tipsWindownRight($("#msgTemplate").html(), '300px', null, '消息列表', []);
     // 查询数据（第1页）
     let res = findPage(1);
     // 监听tab切换

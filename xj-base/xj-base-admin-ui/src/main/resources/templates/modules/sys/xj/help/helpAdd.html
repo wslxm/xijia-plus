@@ -49,7 +49,7 @@
 
     layui.use(['form'], function () {
         init();
-        myEditor();
+        myEditor2();
     });
 
 
@@ -62,9 +62,9 @@
 
     // 主键id
     var id;
-    function myEditor() {
+    function myEditor2() {
         //注意1：这里的就是上面的DIV的id属性值
-        let myEditor = editormd("L_content", {
+        var myEditor = editormd("L_content", {
             width: "96%",
             height: 860,
             syncScrolling: "single",
