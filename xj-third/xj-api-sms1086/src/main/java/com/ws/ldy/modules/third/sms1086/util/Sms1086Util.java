@@ -131,7 +131,7 @@ public class Sms1086Util {
                 str = URLDecoder.decode(str, "GB2312");
                 String[] strs = str.split("&");
                 if (strs[0].replace("result=", "").trim().equals("0")) {
-                    // 缓存验证码
+                    // 成功缓存验证码到jvm
                     long time = System.currentTimeMillis() + SMS_VALID_PERIOD;
                     smsCache.put(mobiles, new SmsCode(code, time));
                     log.info("发送短信验证码成功: phone:{}  code:{}  result:{} ,过期时间:{} ", mobiles, code, str, new Date(time));

@@ -13,7 +13,7 @@
     <version>${xj-api-wx-app.version}</version>
 
     <properties>
-        <weixin-java-miniapp.version>3.1.0</weixin-java-miniapp.version>
+        <weixin-java-miniapp.version>4.0.0</weixin-java-miniapp.version>
     </properties>
 
     <dependencies>
