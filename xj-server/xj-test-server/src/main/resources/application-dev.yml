@@ -26,11 +26,6 @@ aliyun:
     bucketName: xijia-sz
     bucket: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
 
-sms1086:
-  signName: 致上联品
-  username: zhishanglianpin
-  password: z123456
-
 
 # 日志配置, filePath线上日志存放地址（logback-spring.xml 读取） , methods 记录那些请求数据到数据库
 logging:

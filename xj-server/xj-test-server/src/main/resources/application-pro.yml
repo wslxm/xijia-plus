@@ -18,21 +18,6 @@ spring:
           password: root123456
           type: com.alibaba.druid.pool.DruidDataSource
 
-wx:
-  # 微信小程序
-  #  app:
-  #    appId: wx9ab4c0d4bdc9203c
-  #    secret: 7d2c9f1801603cc2d4d11b5171cbc363
-  app:
-    appId: "wxc3a142cbc777acc5"
-    secret: "78077930fa44ba58c6b993da2c644505"
-
-# yml 短信配置
-sms1086:
-  signName: 致上联品            # 签名，注册的公司名或 简写,必须和账号绑定的一致
-  username: zhishanglianpin   # 账号
-  password: z123456           # 密码
-
 ## 阿里云api
 aliyun:
   ## 个人账号,拉取此代码调试后请修改为自己的,如发现滥用,将关停
