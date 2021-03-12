@@ -53,6 +53,11 @@
             <artifactId>xj-api-wx-app</artifactId>
             <version>${xj-api-wx-app.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-api-sms1086</artifactId>
+            <version>${xj-api-sms1086.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

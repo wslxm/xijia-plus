@@ -29,14 +29,19 @@ public class Sms1086Controller {
     @ApiOperation("SMS--发送验证码")
     @RequestMapping(value = "/sendCode", method = RequestMethod.POST)
     public R<String> sendCode(@RequestParam String phone) {
-        return sms1086Util.sendCode(phone);
+        // 下方验证码
+        R<String> rCode = sms1086Util.sendCode(phone);
+        // 判断是否有效
+        R<String> verifyCode = sms1086Util.verifySMS(phone, rCode.getData());
+        System.out.println("验证验证码：" + verifyCode.toString());
+        return rCode;
     }
 
 
     @ApiOperation("SMS--发送内容")
     @RequestMapping(value = "/sendMsg", method = RequestMethod.POST)
-    public R<String> sendMsg(@RequestParam String phone,String msg) {
-        return sms1086Util.sendMsg(phone,msg);
+    public R<String> sendMsg(@RequestParam String phone, String msg) {
+        return sms1086Util.sendMsg(phone, msg);
     }
 }
 

@@ -53,7 +53,7 @@ public class Sms1086Util {
 
     /**
      * 发送短信
-     * mobiles：手机号,最多支持600个
+     * mobiles：手机号,最多支持600个,逗号分隔
      * content  任意内容
      * 参数文档： http://www.1086sms.com/jszc/MassApi.html
      */
@@ -97,9 +97,9 @@ public class Sms1086Util {
      */
     public Map<String, SmsCode> smsCache = new ConcurrentHashMap<>();
     /**
-     * 短信验证码有效期(5分钟)
+     * 短信验证码有效期(5分钟- 1000 * 60 * 5L )
      */
-    public final Long SMS_VALID_PERIOD = 1000 * 60 * 5L;
+    public final Long SMS_VALID_PERIOD = 3000L;
 
     public Map<String, SmsCode> getSmsCache() {
         return smsCache;
@@ -141,10 +141,18 @@ public class Sms1086Util {
                 }
                 str = breader.readLine();
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return R.error(RType.SMS_FAIL);
+
+        // 模拟发送
+//        String code = "123456";
+//        long time = System.currentTimeMillis() + SMS_VALID_PERIOD;
+//        smsCache.put(mobiles, new SmsCode(code, time));
+//        log.info("发送短信验证码成功: phone:{}  code:{}  result:{} ,过期时间:{} ", mobiles, code, "模拟发送成功", new Date(time));
+//        return R.success(code);
     }
 
 
@@ -159,17 +167,17 @@ public class Sms1086Util {
     public R<String> verifySMS(String phone, String code) {
         boolean result = smsCache.containsKey(phone);
         if (!result) {
-            R.error(RType.SMS_INVALID.getValue(), "验证码无效:该电话号没有未使用的验证码");
+            return R.error(RType.SMS_INVALID.getValue(), "验证码无效");
         } else {
             SmsCode smsCode = smsCache.get(phone);
             if (!code.equals(smsCode.getCode())) {
                 //验证码无效
-                R.error(RType.SMS_INVALID.getValue(), "验证码错误或已使用");
+                return R.error(RType.SMS_INVALID.getValue(), "验证码错误或已使用");
             }
             Long expirationTime = smsCode.getTime();
             if (System.currentTimeMillis() > expirationTime) {
                 // 验证码过期
-                R.error(RType.SMS_INVALID.getValue(), "验证码过期");
+                return R.error(RType.SMS_EXPIRED.getValue(), "验证码过期");
             }
         }
         // 清除使用过的验证码
