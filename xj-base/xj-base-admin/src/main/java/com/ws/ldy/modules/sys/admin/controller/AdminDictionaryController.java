@@ -1,10 +1,9 @@
 package com.ws.ldy.modules.sys.admin.controller;
 
 import com.ws.ldy.common.result.R;
-import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.admin.model.dto.AdminDictionaryDTO;
-import com.ws.ldy.modules.sys.admin.model.entity.AdminDictionary;
+import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryCodeGroup;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryVO;
 import com.ws.ldy.modules.sys.admin.service.AdminDictionaryService;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
@@ -38,13 +37,13 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
             "\r\n 4、不包括禁用数据" +
             "\r\n 建议: 打开首页时调用此方法,刷新缓存数据, 刷新首页时在此刷新缓存"
     )
-    public R<Map<String, AdminDictionaryVO.FindCodeGroup>> findCodeGroup() {
+    public R<Map<String, AdminDictionaryCodeGroup>> findCodeGroup() {
         return R.successFind(baseService.findCodeGroup());
     }
 
 
     @RequestMapping(value = "/findByCode", method = RequestMethod.GET)
-    @ApiOperation(value = "Code查询(默认返回Tree数据, 可指定Tree或List)", notes = "不能传递字符串数字Code查询 ")
+    @ApiOperation(value = "Code查询(默认返回Tree数据, 可指定Tree或List)", notes = "不能传递字符串数字Code查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "父级code, 不传查询code，传递了只查询指定code下数据", required = false, paramType = "query"),
             @ApiImplicitParam(name = "isDisable", value = "是否查询禁用数据 true 查询*默认  false 不查询", required = false, paramType = "query"),
@@ -61,10 +60,9 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
     }
 
     @RequestMapping(value = "/findDictCategory", method = RequestMethod.GET)
-    @ApiOperation(value = "查询字典类别", notes = "pid不传查顶级数据, 传了pid查指定 pid下的一级数据")
+    @ApiOperation(value = "查询字典类别级联数据", notes = "pid不传查顶级数据, 传了pid查指定 pid下的一级数据")
     public R<List<AdminDictionaryVO>> findDictCategory(@RequestParam(required = false) String code) {
-        List<AdminDictionary> dictCategorys = baseService.findDictCategory(code);
-        return R.success(BeanDtoVoUtil.listVo(dictCategorys, AdminDictionaryVO.class));
+        return R.success(baseService.findDictCategory(code));
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)

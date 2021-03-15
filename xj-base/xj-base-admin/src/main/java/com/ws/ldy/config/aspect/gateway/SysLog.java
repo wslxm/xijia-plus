@@ -3,12 +3,12 @@ package com.ws.ldy.config.aspect.gateway;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.ws.ldy.common.cache.JvmCache;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.auth.entity.JwtUser;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
-import com.ws.ldy.modules.sys.admin.service.impl.AdminAuthorityServiceImpl;
 import com.ws.ldy.modules.sys.xj.model.entity.XjAdminLog;
 import com.ws.ldy.modules.sys.xj.service.XjAdminLogService;
 import io.swagger.annotations.Api;
@@ -209,7 +209,7 @@ public class SysLog {
             // 未登录
             log.setFullName("╥﹏╥");
             log.setUserId("0");
-            AdminAuthority adminAuthority = AdminAuthorityServiceImpl.AUTH_MAP.get(uri);
+            AdminAuthority adminAuthority = JvmCache.getAuthMap().get(uri);
             if (adminAuthority != null) {
                 log.setType(adminAuthority.getType());
             } else {

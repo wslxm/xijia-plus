@@ -2,6 +2,7 @@ package com.ws.ldy.client.sys.admin.controller;
 
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.constant.BaseConstant;
+import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryCodeGroup;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryVO;
 import com.ws.ldy.modules.sys.admin.service.AdminDictionaryService;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
@@ -39,7 +40,7 @@ public class UDictionaryController extends BaseController<AdminDictionaryService
             "\r\n 5、不包括禁用数据" +
             "\r\n 建议: 打开首页时调用此方法,刷新缓存数据, 刷新首页时在此刷新缓存"
     )
-    public R<Map<String, AdminDictionaryVO.FindCodeGroup>> findCodeGroup() {
+    public R<Map<String, AdminDictionaryCodeGroup>> findCodeGroup() {
         return R.successFind(baseService.findCodeGroup());
     }
 

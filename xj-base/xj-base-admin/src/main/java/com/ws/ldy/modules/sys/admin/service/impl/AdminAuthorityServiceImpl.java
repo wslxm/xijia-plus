@@ -3,6 +3,7 @@ package com.ws.ldy.modules.sys.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ws.ldy.XjAdminServer;
+import com.ws.ldy.common.cache.JvmCache;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.ClassUtil;
 import com.ws.ldy.common.utils.EnumUtil;
@@ -11,6 +12,7 @@ import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.enums.Admin;
 import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.admin.mapper.AdminAuthorityMapper;
+import com.ws.ldy.modules.sys.admin.model.dto.AdminAuthorityDTO;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminRole;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminRoleAuth;
@@ -41,11 +43,6 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      */
     private final String PACKAGE_NAME = XjAdminServer.class.getPackage().getName();
 
-    /**
-     * 当前系统的所有权限接口数据（key = uri ),用于登录验证用户接口权限避免去数据库查询接口数据
-     */
-    public static Map<String, AdminAuthority> AUTH_MAP = new HashMap<>();
-
 
     @Autowired
     private AdminRoleAuthService adminRoleAuthService;
@@ -54,7 +51,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     /**
-     *  查询所有权限数据，根据不同的端的枚举code 拼接最顶级的目录，顶级目录ID = -1
+     *  查询所有权限数据, 根据不同的端的枚举code 拼接最顶级的目录，顶级目录ID = -1
      *
      * @return void
      * @date 2019/11/25 0025 11:55
@@ -90,9 +87,19 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         return adminAuthorityVOList;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean upd(AdminAuthorityDTO dto) {
+        // 更新
+        boolean b = this.updateById(dto.convert(AdminAuthority.class));
+        // 刷新缓存
+        this.refreshAuthCache();
+        return b;
+    }
+
 
     /**
-     *   接口自动扫描（1、项目启动时自动执行   2、设置了权限授权状态更新）
+     *   接口自动扫描（1、项目启动时自动执行   2、设置了权限授权状态更新
      *   <p>
      *       扫描添加接口信息，扫描启动类下的所有包
      *       存在修改（不修改原数据的禁用启动和权限状态,防止重启项目时修改被还原）
@@ -399,7 +406,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         // 查询权限表中所有接口
         List<AdminAuthority> authorityList = this.list(null);
         // 缓存所有接口数据到 jvm
-        AUTH_MAP = authorityList.stream().collect(Collectors.toMap(AdminAuthority::getUrl, auth -> auth));
+        JvmCache.setAuthMap(authorityList.stream().collect(Collectors.toMap(AdminAuthority::getUrl, auth -> auth)));
         // 数据统计
         int authorityCount = 0;
         int authorityCountState2 = 0;
@@ -429,11 +436,17 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         log.info("权限数据加载成功, 当前 [所有接口] 的接口数量为:    {}", authorityCount);
     }
 
-
+    /**
+     * 子级找父级
+     *
+     * @param
+     * @return void
+     * @date 2019/11/25 0025 11:55
+     */
     @Override
     public AdminAuthority findFatherAuth(String uri) {
-        Map<String, AdminAuthority> authMap = AUTH_MAP;
-        AdminAuthority adminAuthority = AUTH_MAP.get(uri);
+        Map<String, AdminAuthority> authMap = JvmCache.getAuthMap();
+        AdminAuthority adminAuthority = authMap.get(uri);
         if (adminAuthority == null) {
             return null;
         }

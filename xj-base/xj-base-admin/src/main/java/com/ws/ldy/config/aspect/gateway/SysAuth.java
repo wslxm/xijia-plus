@@ -1,6 +1,7 @@
 package com.ws.ldy.config.aspect.gateway;
 
 
+import com.ws.ldy.common.cache.JvmCache;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.auth.entity.JwtUser;
@@ -8,7 +9,6 @@ import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.enums.Admin;
 import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
-import com.ws.ldy.modules.sys.admin.service.impl.AdminAuthorityServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -59,15 +59,20 @@ public class SysAuth {
             return R.success(null);
         }
         // 2、是否被权限管理, 没有直接放行，log.info("请求方式:{} 请求URL:{} ", request.getMethod(), request.getServletPath());
-        if (!AdminAuthorityServiceImpl.AUTH_MAP.containsKey(uri)) {
+        if (!JvmCache.getAuthMap().containsKey(uri)) {
             return R.success(null);
         }
         // 3、接口是否禁用，是直接返回禁用信息
-        AdminAuthority adminAuthority = AdminAuthorityServiceImpl.AUTH_MAP.get(uri);
+        AdminAuthority adminAuthority = JvmCache.getAuthMap().get(uri);
         if (adminAuthority.getDisable().equals(Base.Disable.V1.getValue())) {
             //禁用
             return R.error(RType.AUTHORITY_DISABLE);
         }
+        // 请求同TOKEN值当为token 时直接放行
+        if ("token".equals(request.getHeader(JwtUtil.TOKEN))) {
+            return R.success(null);
+        }
+
         // 4、登录/授权验证
         if (adminAuthority.getState().equals(Admin.AuthorityState.V0.getValue())) {
             /**

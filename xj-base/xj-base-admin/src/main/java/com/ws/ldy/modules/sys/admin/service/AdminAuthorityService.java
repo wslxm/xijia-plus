@@ -1,6 +1,7 @@
 package com.ws.ldy.modules.sys.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ws.ldy.modules.sys.admin.model.dto.AdminAuthorityDTO;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminAuthorityVO;
 
@@ -23,6 +24,13 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      */
     List<AdminAuthorityVO> findList();
 
+
+    /**
+     * 编辑
+     * @author wangsong
+     * @param dto
+     */
+    Boolean upd(AdminAuthorityDTO dto);
 
     /**
      * 接口自动扫描（1、项目启动时自动执行   2、设置了权限授权状态更新）

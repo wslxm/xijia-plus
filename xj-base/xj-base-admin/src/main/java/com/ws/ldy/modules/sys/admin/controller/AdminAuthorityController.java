@@ -3,7 +3,6 @@ package com.ws.ldy.modules.sys.admin.controller;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.admin.model.dto.AdminAuthorityDTO;
-import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminAuthorityVO;
 import com.ws.ldy.modules.sys.admin.service.AdminAuthorityService;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
@@ -41,10 +40,7 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "ID编辑", notes = "必须传递ID")
     public R<Boolean> upd(@RequestBody @Validated AdminAuthorityDTO dto) {
-        boolean b = baseService.updateById(dto.convert(AdminAuthority.class));
-        // 刷新缓存
-        baseService.refreshAuthCache();
-        return R.successUpdate(b);
+        return R.successUpdate(baseService.upd(dto));
     }
 
 
