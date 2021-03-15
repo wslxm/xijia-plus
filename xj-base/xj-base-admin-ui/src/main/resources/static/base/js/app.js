@@ -611,7 +611,6 @@ TimeUtil = {
      *  判断时间过去了多少天，（只计算到日期yyyy-MM-dd，未计算小时/分/秒HH:mm:ss）
      *  传入标准时间字符串 yyyy-MM-dd HH:mm:ss || yyyy/MM/dd HH:mm:ss|| yyyy-MM-dd  || yyyy/MM/dd
      */
-
     judgeTime: function (data) {
         let date = data.toString();
         //根据索引取到年月日
@@ -692,6 +691,41 @@ TimeUtil = {
             result = yearStr + flag + monthStr + flag + dayStr;
         }
         return result;
+    },
+    //时间戳转换方法    date:时间戳数字
+    formatDate: function (date) {
+        var date = new Date(date);
+        var YY = date.getFullYear() + '-';
+        var MM = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        var DD = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate());
+        var hh = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+        var mm = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+        var ss = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
+        return YY + MM + DD + " " + hh + mm + ss;
+    },
+    /**
+     * 获取两个时间的时间戳
+     * @param faultDate
+     * @param completeTime
+     * @returns {number}
+     * @constructor
+     */
+    DateDifference(faultDate, completeTime) {
+        // let d1 = new Date(faultDate);
+        // let d2 = new Date(completeTime);
+        var stime = new Date(faultDate).getTime();
+        var etime = new Date(completeTime).getTime();
+        var usedTime = etime - stime;  //两个时间戳相差的毫秒数
+        var days = Math.floor(usedTime / (24 * 3600 * 1000));
+        //计算出小时数
+        var leave1 = usedTime % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+        var hours = Math.floor(leave1 / (3600 * 1000));
+        //计算相差分钟数
+        var leave2 = leave1 % (3600 * 1000);        //计算小时数后剩余的毫秒数
+        var minutes = Math.floor(leave2 / (60 * 1000));
+        var time = days + "天" + hours + "时" + minutes + "分";
+        // var time = days;
+        return time;
     }
 };
 

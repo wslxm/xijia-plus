@@ -1,17 +1,22 @@
 package com.ws.ldy.modules.sys.xj.controller;
 
-import cn.hutool.system.*;
+import cn.hutool.system.RuntimeInfo;
+import cn.hutool.system.SystemUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.xj.model.dto.XjJavaCodeDTO;
+import com.ws.ldy.modules.sys.xj.model.vo.XjToolJvmInfoVO;
 import com.ws.ldy.modules.sys.xj.util.JavaCodeRunV2Util;
 import com.ws.ldy.modules.sys.xj.util.TransformUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
 
 @RestController
 @RequestMapping(BaseConstant.Uri.apiAdmin + "/xj/tool/")
@@ -41,27 +46,46 @@ public class XjToolController {
     }
 
 
+    @SneakyThrows
     @RequestMapping(value = "/jvmInfo", method = RequestMethod.GET)
     @ApiOperation(value = "3、系统的jvm信息", notes = "")
-    public void jvmInfo() {
-        //  Java Virtual Machine Specification信息
-        JvmSpecInfo jvmSpecInfo = SystemUtil.getJvmSpecInfo();
-        //  Java Virtual Machine Implementation信息
-        JvmInfo jvmInfo = SystemUtil.getJvmInfo();
-        //  Java Specification信息
-        JavaSpecInfo javaSpecInfo = SystemUtil.getJavaSpecInfo();
-        //  Java Implementation信息
-        JavaInfo javaInfo = SystemUtil.getJavaInfo();
-        //  Java运行时信息,jdk信息
-        JavaRuntimeInfo javaRuntimeInfo = SystemUtil.getJavaRuntimeInfo();
-        // 系统信息
-        OsInfo osInfo = SystemUtil.getOsInfo();
-        // 计算机信息,项目位置
-        UserInfo userInfo = SystemUtil.getUserInfo();
-        // 主机ip信息
-        HostInfo hostInfo = SystemUtil.getHostInfo();
-        // 运行时信息，包括内存总大小、已用大小、可用大小等
+    public R<XjToolJvmInfoVO> jvmInfo() {
+        XjToolJvmInfoVO vo = new XjToolJvmInfoVO();
+        vo.setJvmSpecInfo(SystemUtil.getJvmSpecInfo());
+        vo.setJvmInfo(SystemUtil.getJvmInfo());
+        vo.setJavaSpecInfo(SystemUtil.getJavaSpecInfo());
+        vo.setJavaInfo(SystemUtil.getJavaInfo());
+        //vo.setJavaRuntimeInfo(SystemUtil.getJavaRuntimeInfo());
+        vo.setOsInfo(SystemUtil.getOsInfo());
+        vo.setUserInfo(SystemUtil.getUserInfo());
+        vo.setHostInfo(SystemUtil.getHostInfo());
+        vo.setOperatingSystemMXBean(SystemUtil.getOperatingSystemMXBean());
+        vo.setRuntimeMXBean(SystemUtil.getRuntimeMXBean());
+        // jvm 运行时信息
         RuntimeInfo runtimeInfo = SystemUtil.getRuntimeInfo();
-        System.out.println("");
+        XjToolJvmInfoVO.RuntimeInfoVO runtimeInfoVO = new XjToolJvmInfoVO.RuntimeInfoVO();
+        //runtimeInfoVO.setRuntime(runtimeInfo.getRuntime());
+        runtimeInfoVO.setMaxMemory(runtimeInfo.getMaxMemory());
+        runtimeInfoVO.setTotalMemory(runtimeInfo.getTotalMemory());
+        runtimeInfoVO.setFreeMemory(runtimeInfo.getFreeMemory());
+        runtimeInfoVO.setUsableMemory(runtimeInfo.getUsableMemory());
+        runtimeInfoVO.setAvailableProcessors(Runtime.getRuntime().availableProcessors());
+        vo.setRuntimeInfo(runtimeInfoVO);
+        // 磁盘信息
+        File[] files = File.listRoots();
+        Long totalFile = 0L;
+        Long freeFile = 0L;
+        Long unFile = 0L;
+        for (File file : files) {
+            totalFile += file.getTotalSpace();
+            freeFile += file.getFreeSpace();
+            unFile += file.getUsableSpace();
+        }
+        XjToolJvmInfoVO.FileInfoVO fileInfoVO = new XjToolJvmInfoVO.FileInfoVO();
+        fileInfoVO.setTotal(totalFile);
+        fileInfoVO.setFree(freeFile);
+        fileInfoVO.setUsable(unFile);
+        vo.setFileInfoVO(fileInfoVO);
+        return R.success(vo);
     }
 }
