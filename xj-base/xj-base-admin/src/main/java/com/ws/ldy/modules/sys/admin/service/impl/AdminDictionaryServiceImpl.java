@@ -90,12 +90,13 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
             List<AdminDictionaryVO> dictList = BeanDtoVoUtil.listVo(adminDictionaries, AdminDictionaryVO.class);
             JvmCache.setDictList(dictList);
         }
+        // 为了让数据不改变缓存数据,不使用引用,使用深拷贝
+        List<AdminDictionaryVO> adminDictionaryVOS = BeanDtoVoUtil.listVo(JvmCache.getDictList(), AdminDictionaryVO.class);
         if (isDisable) {
-            //为了让数据不改变缓存数据,不使用引用,使用深拷贝
-            return BeanDtoVoUtil.listVo(JvmCache.getDictList(), AdminDictionaryVO.class);
+            return adminDictionaryVOS;
         } else {
-            //排除禁用数据
-            return JvmCache.getDictList().stream().filter(i -> i.getDisable().equals(Base.Disable.V0.getValue())).collect(Collectors.toList());
+            //排除禁用数据(.stream() 后的数据依旧是引用数据)
+            return adminDictionaryVOS.stream().filter(i -> i.getDisable().equals(Base.Disable.V0.getValue())).collect(Collectors.toList());
         }
     }
 
