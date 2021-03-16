@@ -84,14 +84,15 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         if (JvmCache.getDictList() == null) {
             // 查询所有字典数据
             List<AdminDictionary> adminDictionaries = baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
-                            .orderByAsc(AdminDictionary::getSort)
-                            .orderByAsc(AdminDictionary::getCode)
+                    .orderByAsc(AdminDictionary::getSort)
+                    .orderByAsc(AdminDictionary::getCode)
             );
             List<AdminDictionaryVO> dictList = BeanDtoVoUtil.listVo(adminDictionaries, AdminDictionaryVO.class);
             JvmCache.setDictList(dictList);
         }
         if (isDisable) {
-            return JvmCache.getDictList();
+            //为了让数据不改变缓存数据,不使用引用,使用深拷贝
+            return BeanDtoVoUtil.listVo(JvmCache.getDictList(), AdminDictionaryVO.class);
         } else {
             //排除禁用数据
             return JvmCache.getDictList().stream().filter(i -> i.getDisable().equals(Base.Disable.V0.getValue())).collect(Collectors.toList());
@@ -152,6 +153,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
         //2、获取所有字典数据
         List<AdminDictionaryVO> dictListVO = findList(isDisable);
+
         if (dictListVO.size() == 0) {
             return null;
         }
@@ -184,22 +186,18 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
         // 5、递归添加下级数据, pDictListVO 为tree数据, diceIds 为指定code层级下所有字典id收集
         List<String> diceIds = new ArrayList<>();
-        // 使用新拷贝数据,使返回list结构时不受影响
-        List<AdminDictionaryVO> dictListTwoVO = BeanDtoVoUtil.listVo(dictListVO, AdminDictionaryVO.class);
         // 开始递归
         for (AdminDictionaryVO pDictVO : pDictListVO) {
             diceIds.add(pDictVO.getId());
-            this.nextLowerNode(dictListTwoVO, pDictVO, diceIds);
+            this.nextLowerNode(dictListVO, pDictVO, diceIds);
         }
 
-        // 6、判断返回 tree 还是  list(list前端自行解析list展示)
-        List<AdminDictionaryVO> vos = null;
+        // 6、判断返回 tree 还是 / list(list前端自行解析list展示)
         if (isTree) {
-            vos = pDictListVO;
+            return pDictListVO;
         } else {
-            vos = dictListVO.stream().filter(i -> diceIds.contains(i.getId())).collect(Collectors.toList());
+            return dictListVO.stream().filter(i -> diceIds.contains(i.getId())).collect(Collectors.toList());
         }
-        return vos;
     }
 
 
@@ -285,7 +283,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     @Override
     public Map<String, String> generateEnum(String enumName) {
-        List<AdminDictionaryVO> dict = this.findByCodeFetchDictVO(enumName, true, false, true);
+        List<AdminDictionaryVO> dict = this.findByCodeFetchDictVO(enumName, true, true, true);
         String enumsJava = null;
         if (enumName.equals("ENUMS")) {
             enumsJava = this.generateEnumJava(dict.get(0));

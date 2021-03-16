@@ -16,7 +16,7 @@
 - 12、xj-api-wx-app 获取小程序太阳码
 - 13、更新 xj-api-wx-mp 代码,所有代码修改为直接使用wx-java sdk的方法 
 - 14、增加系统/jvm/cpu/硬盘等信息首页
-- 15、jvm 缓存统一放入JvmCache中,方便通过统一情空jvm缓存方法
+- 15、jvm 缓存统一放入JvmCache中,方便通过统一清空jvm缓存方法
 - 16、字典管理数据全托管jvm缓存,主要寄托与 findList 方法
 
 ## 版本：v-0.0.9
