@@ -62,9 +62,11 @@
 
     // 主键id
     var id;
+    var myEditor;
+
     function myEditor2() {
         //注意1：这里的就是上面的DIV的id属性值
-        var myEditor = editormd("L_content", {
+        myEditor = editormd("L_content", {
             width: "96%",
             height: 860,
             syncScrolling: "single",

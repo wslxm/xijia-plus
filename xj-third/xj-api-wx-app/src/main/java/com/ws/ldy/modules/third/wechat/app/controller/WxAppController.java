@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/open/wx/app")
-@Api(value = "WxAppController", tags = "WX  -->  APP小程序登录")
+@Api(value = "WxAppController", tags = "WX  -->  APP小程序")
 public class WxAppController {
 
     @Autowired
