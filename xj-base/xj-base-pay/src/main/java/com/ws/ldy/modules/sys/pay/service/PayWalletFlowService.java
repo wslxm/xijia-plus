@@ -43,7 +43,7 @@ public interface PayWalletFlowService extends IService<PayWalletFlow> {
      * 添加用户/商家流水
      * @param userId       用户/商家id
      * @param walletType  支付/收入
-     * @param money       金额(元)
+     * @param money       收入支出金额(元)
      * @param moneyAfter  剩余总金额(元) 当前账号
      * @param payBusiness 业务类型
      * @param orderNo     订单号

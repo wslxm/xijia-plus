@@ -136,8 +136,11 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
      */
     @Override
     public List<AdminMenuVO> findPIdOrRoleIdTree(String pId, String roleId) {
+        // 查询角色菜单
         List<AdminRoleMenu> userRoleMenus = roleId != null ? adminRoleMenuMapper.findRoleId(roleId) : null;
+        // 获取角色菜单的ids
         List<String> roleMenuIdList = userRoleMenus != null && userRoleMenus.size() > 0 ? userRoleMenus.stream().map(i -> i.getMenuId()).collect(Collectors.toList()) : new ArrayList<>();
+        // 获取所有菜单
         List<AdminMenuVO> adminMenuVOList = BeanDtoVoUtil.listVoStream(this.list(new LambdaQueryWrapper<AdminMenu>().orderByAsc(AdminMenu::getSort)), AdminMenuVO.class);
         List<AdminMenuVO> menuList = new LinkedList<>();
         if (pId == null) {

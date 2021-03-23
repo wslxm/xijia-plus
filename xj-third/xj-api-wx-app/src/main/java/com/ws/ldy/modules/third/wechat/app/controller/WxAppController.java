@@ -2,6 +2,8 @@ package com.ws.ldy.modules.third.wechat.app.controller;
 
 
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.modules.third.wechat.app.model.WxMaJscode2SessionResultVO;
+import com.ws.ldy.modules.third.wechat.app.model.WxMaPhoneNumberInfoVO;
 import com.ws.ldy.modules.third.wechat.app.server.WxAppService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,17 +32,30 @@ public class WxAppController {
     private WxAppService wxAppService;
 
 
-    @RequestMapping(value = "/auth/getOpenId", method = RequestMethod.GET)
-    @ApiOperation(value = "通过code 获取openId", notes = "" +
-            "详见文档下的调用 auth.code2Session 接口说明：https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/login.html")
-    public R<String> getOpenId(@RequestParam String code) {
-        return wxAppService.getOpenId(code);
+    @RequestMapping(value = "/auth/login", method = RequestMethod.GET)
+    @ApiOperation(value = "小程序登录, 通过code 获取openId以及sessionKey",
+            notes = "详见微信文档下的 auth.code2Session 接口说明：https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/login.html")
+    public R<WxMaJscode2SessionResultVO> login(@RequestParam String code) {
+        return wxAppService.login(code);
     }
 
 
-    @RequestMapping(value = "qrcode/create", method = RequestMethod.GET)
-    @ApiOperation(value = "获取图形太阳二维码(返回base64图片)", httpMethod = "GET",
-            notes = "参数参考微信文档：https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.getUnlimited.html")
+    @RequestMapping(value = "/auth/phone", method = RequestMethod.GET)
+    @ApiOperation(value = "获取微信绑定的手机号",
+            notes = "1、先登录获取sessionKey 存放到本地\r\n" +
+                    "2、小程序端使用 button 组件 open-type 的值设置为 getPhoneNumber，让用户点击并同意获取参数\r\n" +
+                    "3、将获取到的参数 encryptedData + iv 以及sessionKey传递到本接口,返回微信绑定的手机号" +
+                    "详见微信文档：https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html")
+    public R<WxMaPhoneNumberInfoVO> phone(@RequestParam String sessionKey,
+                                          @RequestParam String encryptedData,
+                                          @RequestParam String iv) {
+        return wxAppService.phone(sessionKey, encryptedData, iv);
+    }
+
+
+    @RequestMapping(value = "/qrcode/create", method = RequestMethod.GET)
+    @ApiOperation(value = "获取图形太阳二维码(返回base64图片)",
+            notes = "详见微信文档：https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.getUnlimited.html")
     public R<String> createQrCode(@RequestParam String scene,
                                   @RequestParam String page,
                                   @RequestParam Integer width,

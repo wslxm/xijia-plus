@@ -1,13 +1,14 @@
 package com.ws.ldy.modules.third.wechat.app.server;
 
 import com.ws.ldy.common.result.R;
+import com.ws.ldy.modules.third.wechat.app.model.WxMaJscode2SessionResultVO;
+import com.ws.ldy.modules.third.wechat.app.model.WxMaPhoneNumberInfoVO;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
 
 public interface WxAppService {
-
 
 
     /**
@@ -44,5 +45,17 @@ public interface WxAppService {
      * @return java.lang.String
      * @version 1.0.0
      */
-    public R<String> getOpenId(String code);
+    public R<WxMaJscode2SessionResultVO> login(String code);
+
+
+    /**
+     * 获取用户手机号
+     * @author wangsong
+     * @date 2020/9/22 0022 14:22
+     * @return java.lang.String
+     * @version 1.0.0
+     */
+    public R<WxMaPhoneNumberInfoVO> phone(String sessionKey, String encryptedData, String iv);
+
+
 }

@@ -23,7 +23,10 @@ import java.util.Date;
 /**
  * MYSQL 数据自动备份
  * <P>
- *    请参考文章： https://blog.csdn.net/qq_41463655/article/details/112628365
+ *  请参考文章： https://blog.csdn.net/qq_41463655/article/details/112628365
+ *  注意：
+ *    win 的cmd 执行需当前 pc需安装 mysql
+ *    服务器需安装mysql 或 单独安装 mysqldump, 单独安装命令(8-版本)： yum -y install holland-mysqldump.noarch
  * </P>
  * @author wangsong
  * @date 2021/1/14 0014 19:12
@@ -45,10 +48,10 @@ public class MysqlDataBackupTask {
     /**
      * 备份sql保留天(自动删除历史备份文件,防止服务器资源占用)
      */
-    int retentionDays = 1;
+    int retentionDays = 3;
 
     /**
-     * 数据库版本是否为 8.0 + （false=否  true=是）， mysql8+ 需要参数  --column-statistics=0  ， mysql8- 不需要
+     * mysqldump 安装版本是否为 8.0 + （false=否  true=是）， 8.0+ 需要参数  --column-statistics=0  ， mysql8- 不需要
      * 查询当前mysql版本sql语句：select version();
      */
     boolean isDbVersion8 = false;
@@ -124,7 +127,7 @@ public class MysqlDataBackupTask {
             Process process = null;
             String property = System.getProperty("os.name");
             log.info("当前系统: {}", property);
-            if (property.indexOf("Linux") != -1) {
+            if ("Linux".equals(property)) {
                 // linux
                 process = Runtime.getRuntime().exec(new String[]{"bash", "-c", newCmd});
             } else {
@@ -219,7 +222,7 @@ public class MysqlDataBackupTask {
                 BasicFileAttributes attr;
                 try {
                     attr = basicview.readAttributes();
-                    Date createTimeDate = new Date(attr.creationTime().toMillis());
+                    Date CreateTimeDate = new Date(attr.creationTime().toMillis());
                     // DateFormat usdf = new SimpleDateFormat("EEE MMM dd
                     // HH:mm:ss zzz yyyy", Locale.US);
                     // Date date = usdf.parse(CreateTimeDate.toString());
@@ -228,7 +231,7 @@ public class MysqlDataBackupTask {
                     // if (date1.getTime() <= file.lastModified() &&
                     // file.lastModified() <= date2.getTime()) {
                     // }//这部分为文件的最后修改时间
-                    if (date1.getTime() <= createTimeDate.getTime() && createTimeDate.getTime() <= date2.getTime()) {
+                    if (date1.getTime() <= CreateTimeDate.getTime() && CreateTimeDate.getTime() <= date2.getTime()) {
                         log.info("删除备份sql文件: {}", file.getName());
                         file.delete();
                     }

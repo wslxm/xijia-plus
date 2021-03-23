@@ -4,10 +4,13 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaMsgServiceImpl;
 import cn.binarywang.wx.miniapp.bean.WxMaCodeLineColor;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaSubscribeMessage;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.modules.third.wechat.app.model.WxMaJscode2SessionResultVO;
+import com.ws.ldy.modules.third.wechat.app.model.WxMaPhoneNumberInfoVO;
 import com.ws.ldy.modules.third.wechat.app.server.WxAppService;
 import com.ws.ldy.modules.third.wechat.app.util.Base64ImgUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +27,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class WxAppServiceImpl  implements WxAppService {
+public class WxAppServiceImpl implements WxAppService {
 
 
     @Autowired
@@ -104,13 +107,29 @@ public class WxAppServiceImpl  implements WxAppService {
      * @version 1.0.0
      */
     @Override
-    public R<String> getOpenId(String code) {
+    public R<WxMaJscode2SessionResultVO> login(String code) {
         try {
             WxMaJscode2SessionResult session = wxMaService.getUserService().getSessionInfo(code);
-            return R.success(session.getOpenid());
+            WxMaJscode2SessionResultVO vo = new WxMaJscode2SessionResultVO();
+            vo.setSessionKey(session.getSessionKey());
+            vo.setOpenid(session.getOpenid());
+            vo.setUnionid(session.getUnionid());
+            return R.success(vo);
         } catch (WxErrorException e) {
             e.printStackTrace();
             throw new ErrorException(RType.WX_APP_ERROR.getValue(), e.getError().getErrorCode() + ":" + e.getError().getErrorMsg());
         }
+    }
+
+
+    @Override
+    public R<WxMaPhoneNumberInfoVO> phone(String sessionKey, String encryptedData, String iv) {
+        // 解密
+        WxMaPhoneNumberInfo phoneNoInfo = wxMaService.getUserService().getPhoneNoInfo(sessionKey, encryptedData, iv);
+        WxMaPhoneNumberInfoVO vo = new WxMaPhoneNumberInfoVO();
+        vo.setPhoneNumber(phoneNoInfo.getPhoneNumber());
+        vo.setPurePhoneNumber(phoneNoInfo.getPurePhoneNumber());
+        vo.setCountryCode(phoneNoInfo.getCountryCode());
+        return R.success(vo);
     }
 }
