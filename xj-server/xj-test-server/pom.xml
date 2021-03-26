@@ -47,6 +47,13 @@
             <artifactId>xj-fw-websocket</artifactId>
             <version>${xj-fw-websocket.version}</version>
         </dependency>
+<!--        &lt;!&ndash; 聚合支付(微信/支付宝) &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.ws.ldy</groupId>-->
+<!--            <artifactId>xj-base-pay</artifactId>-->
+<!--            <version>${xj-base-pay.version}</version>-->
+<!--        </dependency>-->
+
     </dependencies>
 
     <build>

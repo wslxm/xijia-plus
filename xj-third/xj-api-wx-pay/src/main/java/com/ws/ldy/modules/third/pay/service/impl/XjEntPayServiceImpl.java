@@ -46,7 +46,7 @@ public class XjEntPayServiceImpl implements XjEntPayService {
         }
         // 默认描叙
         if (StringUtils.isBlank(wxEntPayDTO.getDescription())) {
-            wxEntPayDTO.setDescription("理赔");
+            wxEntPayDTO.setDescription("企业打款");
         }
         EntPayRequest payRequest = new EntPayRequest();
         payRequest.setOpenid(wxEntPayDTO.getOpenid());
@@ -63,7 +63,10 @@ public class XjEntPayServiceImpl implements XjEntPayService {
             // return vo;
         } catch (WxPayException e) {
             return R.error(RType.WX_PAY_FAILURE.getValue(),
-                    RType.WX_PAY_FAILURE.getMsg() + ":" + e.getReturnMsg() + ":" + e.getCustomErrorMsg() + ":" + e.getErrCodeDes());
+                    RType.WX_PAY_FAILURE.getMsg()
+                            + ":" + e.getReturnMsg()
+                            + ":" + e.getCustomErrorMsg()
+                            + ":" + e.getErrCodeDes());
         }
         // 交易结果验证
         if (!"SUCCESS".equals(vo.getReturnCode()) || !"SUCCESS".equals(vo.getResultCode())) {
@@ -73,7 +76,9 @@ public class XjEntPayServiceImpl implements XjEntPayService {
                 log.info("业务结果错误,交易号={}", vo.getPartnerTradeNo());
             }
             return R.error(RType.WX_PAY_FAILURE.getValue(),
-                    RType.WX_PAY_FAILURE.getMsg() + ":" + vo.getReturnMsg() + ":" + vo.getErrCodeDes());
+                    RType.WX_PAY_FAILURE.getMsg()
+                            + ":" + vo.getReturnMsg()
+                            + ":" + vo.getErrCodeDes());
         }
         return R.success(vo);
     }

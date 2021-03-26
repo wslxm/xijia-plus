@@ -1,8 +1,10 @@
 package com.ws.ldy.modules.sys.pay.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ws.ldy.modules.sys.pay.model.dto.PayRecordDTO;
+import com.ws.ldy.enums.Pay;
 import com.ws.ldy.modules.sys.pay.model.entity.PayRecord;
+
+import java.math.BigDecimal;
 
 /**
  * 第三方支付记录表
@@ -18,14 +20,57 @@ public interface PayRecordService extends IService<PayRecord> {
 
     /**
      * 添加支付记录
+     * @param money    交易金额-元
+     * @param orderNo  订单号
+     * @param tradeNo  本次交易的交易号（退款,支付）
+     * @param requestData  第三方请求的请求数据
+     * @param responseData 第三方请求的响应数据
+     * @param payState     交易状态(成功/失败)
+     * @param payType      交易类型(支付，退款)
+     * @param payBusiness  业务类型(订单支付，月费支付,退款等等,业务系统自定义)
+     * @return boolean
+     */
+    boolean addPayRecord(BigDecimal money,
+                         String orderNo,
+                         String tradeNo,
+                         String requestData,
+                         String responseData,
+                         Pay.PayState payState,
+                         Pay.PayType payType,
+                         Pay.PayBusiness payBusiness
+    );
+
+
+    /**
+     * 添加支付记录
      * @author wangsong
-     * @param dto
-     * @date 2021/1/5 0005 10:49
-     * @return java.lang.Boolean
+     * @param money    交易金额-元
+     * @param orderNo  订单号
+     * @param tradeNo  本次交易的交易号（退款,支付）
+     * @param requestData  第三方请求的请求数据
+     * @param responseData 第三方请求的响应数据
+     * @param payState     交易状态(成功/失败)
+     * @param payType      交易类型(支付，退款)
+     * @param payBusiness  业务类型(订单支付，月费支付,退款等等,业务系统自定义)
+     * @param platformFee  平台手续费
+     * @param channelFee   渠道手续费
+     * @param moneySurplus 剩余金额(如存在子商户, 则为子商户实际收入)
+     * @date 2021/3/26 0026 10:59
+     * @return boolean
      * @version 1.0.0
      */
-    Boolean insert(PayRecordDTO dto);
-
+    boolean addPayRecord(BigDecimal money,
+                         String orderNo,
+                         String tradeNo,
+                         String requestData,
+                         String responseData,
+                         Pay.PayState payState,
+                         Pay.PayType payType,
+                         Pay.PayBusiness payBusiness,
+                         BigDecimal platformFee,
+                         BigDecimal channelFee,
+                         BigDecimal moneySurplus
+    );
 
     /**
      * 交易号查询

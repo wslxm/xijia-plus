@@ -76,7 +76,7 @@ public class XjWxPayServiceImpl implements XjWxPayService {
             return R.success(vo);
         } catch (WxPayException e) {
             e.printStackTrace();
-            return R.error(RType.WX_PAY_FAILURE.getValue(), RType.WX_PAY_FAILURE.getMsg() + ":" + e.getReturnMsg());
+            return R.error(RType.WX_PAY_FAILURE.getValue(), RType.WX_PAY_FAILURE.getMsg() + ":" + e.getReturnMsg() + ":" + e.getErrCodeDes());
         }
     }
 
@@ -101,10 +101,15 @@ public class XjWxPayServiceImpl implements XjWxPayService {
         try {
             WxPayRefundResult refund = wxPayApi.refund(refundRequest);
             BeanUtils.copyProperties(refund, vo);
+            return R.success(vo);
         } catch (WxPayException e) {
-            BeanUtils.copyProperties(e, vo);
+            e.printStackTrace();
+            return R.error(RType.WX_PAY_FAILURE.getValue(),
+                    RType.WX_PAY_FAILURE.getMsg()
+                            + ":" + e.getReturnMsg()
+                            + ":" + e.getCustomErrorMsg()
+                            + ":" + e.getErrCodeDes());
         }
-        return R.success(vo);
     }
 
 
