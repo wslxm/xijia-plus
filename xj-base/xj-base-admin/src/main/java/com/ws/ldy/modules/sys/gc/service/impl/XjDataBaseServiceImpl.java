@@ -1,15 +1,16 @@
 package com.ws.ldy.modules.sys.gc.service.impl;
 
-import com.ws.ldy.modules.sys.gc.model.vo.XjTableFieldVO;
-import com.ws.ldy.modules.sys.gc.model.vo.XjTableVO;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
-import com.ws.ldy.modules.sys.gc.util.JDBCPool;
 import com.ws.ldy.modules.sys.gc.mapper.XjDataBaseMapper;
 import com.ws.ldy.modules.sys.gc.model.entity.XjAdminDatasource;
+import com.ws.ldy.modules.sys.gc.model.vo.XjTableFieldVO;
+import com.ws.ldy.modules.sys.gc.model.vo.XjTableVO;
 import com.ws.ldy.modules.sys.gc.service.XjAdminDatasourceService;
 import com.ws.ldy.modules.sys.gc.service.XjDataBaseService;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.ws.ldy.modules.sys.gc.util.JDBCPool;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ import java.util.List;
  * @date 2019/11/20 11:01
  */
 @Service
+@Slf4j
 public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBaseService {
 
     @Value("${spring.datasource.dynamic.datasource.db1.url}")
@@ -107,7 +109,7 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
                 vos.add(vo);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         } finally {
             JDBCPool.closeQueryRes(rs);
         }
@@ -169,7 +171,7 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
                 vos.add(vo);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         } finally {
             JDBCPool.closeQueryRes(rs);
         }

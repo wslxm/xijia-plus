@@ -53,7 +53,7 @@ public class WxAppServiceImpl implements WxAppService {
             // 返回base64
             return R.success(Base64ImgUtils.file2Base64(file));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         return null;
     }
@@ -65,6 +65,7 @@ public class WxAppServiceImpl implements WxAppService {
      * @param openId 接收人openId
      * @param openId 模板Id
      * @param content 发送内容（key,value 公司）
+     * msgContent 格式如： { "key1": { "value": any }, "key2": { "value": any } }
      * @date 2020/9/22 0022 14:22
      * @return java.lang.String
      * @version 1.0.0
@@ -75,12 +76,12 @@ public class WxAppServiceImpl implements WxAppService {
         WxMaSubscribeMessage subscribeMessage = new WxMaSubscribeMessage();
         subscribeMessage.setTemplateId(templateId);
         subscribeMessage.setToUser(openId);
-        // 组装消息内容, 最后的格式如: { "key1": { "value": any }, "key2": { "value": any } }
+        // 组装消息内容
         List<WxMaSubscribeMessage.Data> msgContent = new ArrayList<>();
-        for (String key : content.keySet()) {
+        for (Map.Entry<String, String> entry : content.entrySet()) {
             WxMaSubscribeMessage.Data msgElement = new WxMaSubscribeMessage.Data();
-            msgElement.setName(key);
-            msgElement.setValue(content.get(key));
+            msgElement.setName(entry.getKey());
+            msgElement.setValue(entry.getValue());
             msgContent.add(msgElement);
         }
         subscribeMessage.setData(msgContent);
@@ -91,7 +92,7 @@ public class WxAppServiceImpl implements WxAppService {
             msg.sendSubscribeMsg(subscribeMessage);
             return R.success("ok");
         } catch (WxErrorException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
             return R.success("error");
         }
 
@@ -116,7 +117,7 @@ public class WxAppServiceImpl implements WxAppService {
             vo.setUnionid(session.getUnionid());
             return R.success(vo);
         } catch (WxErrorException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
             throw new ErrorException(RType.WX_APP_ERROR.getValue(), e.getError().getErrorCode() + ":" + e.getError().getErrorMsg());
         }
     }

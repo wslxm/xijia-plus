@@ -2,7 +2,7 @@ package com.ws.ldy.modules.third.aliyun.oss.util;
 
 
 import com.ws.ldy.common.result.R;
-import com.ws.ldy.common.utils.ImgUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +22,7 @@ import java.util.Random;
  * @version 1.0.0
  */
 @SuppressWarnings("all")
+@Slf4j
 public class FileUploadUtil {
 
     /**
@@ -78,7 +79,7 @@ public class FileUploadUtil {
             fileName = URLEncoder.encode(fileName, "utf-8");
             fileName = fileName.replaceAll("\\+", "%20").replaceAll("%", "");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         // 获取上传的跟目录(如：image)
         String path = filePath.split("/")[0];
@@ -146,7 +147,7 @@ public class FileUploadUtil {
                         count = inputStream.available();
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.debug(e.toString());
                 }
                 // 小于n 值不压缩
                 if (count < imgMinReduce) {
@@ -170,7 +171,7 @@ public class FileUploadUtil {
         try {
             Thread.sleep(1);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
         Random random = new Random();

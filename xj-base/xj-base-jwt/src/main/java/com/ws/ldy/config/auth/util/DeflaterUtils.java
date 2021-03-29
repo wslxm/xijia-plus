@@ -1,6 +1,8 @@
 package com.ws.ldy.config.auth.util;
 
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
 import java.util.zip.DataFormatException;
@@ -16,6 +18,7 @@ import java.util.zip.Inflater;
  * @return
  * @version 1.0.0
  */
+@Slf4j
 public class DeflaterUtils {
 
 
@@ -80,7 +83,7 @@ public class DeflaterUtils {
                 outputStream.write(bytes, 0, length);
             }
         } catch (DataFormatException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
             return null;
         } finally {
             //关闭解压缩器并丢弃任何未处理的输入。

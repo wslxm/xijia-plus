@@ -3,6 +3,7 @@ package com.ws.ldy.common.cache;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryVO;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,12 +20,12 @@ public class JvmCache {
     /**
      * 数据字典(code分组), 不包括禁用数据，等同于 Enums.java 文件的数据
      */
-    private static List<AdminDictionaryVO> DICT_LIST = null;
+    private static List<AdminDictionaryVO> dictList = new ArrayList<>();
 
     /**
      * 当前系统的所有权限接口数据（key = uri ),用于登录验证用户接口权限避免去数据库查询接口数据
      */
-    public static Map<String, AdminAuthority> AUTH_MAP = new HashMap<>();
+    private static Map<String, AdminAuthority> authMap = new HashMap<>();
 
 
     //============================================================================
@@ -32,28 +33,28 @@ public class JvmCache {
     //============================================================================
 
     public static List<AdminDictionaryVO> getDictList() {
-        return DICT_LIST;
+        return dictList;
     }
 
-    public static void setDictList(List<AdminDictionaryVO> dictList) {
-        DICT_LIST = dictList;
+    public static void setDictList(List<AdminDictionaryVO> list) {
+        dictList = list;
     }
 
     public static void delDictList() {
-        DICT_LIST = null;
+        dictList = new ArrayList<>();
     }
 
     //
     public static Map<String, AdminAuthority> getAuthMap() {
-        return AUTH_MAP;
+        return authMap;
     }
 
-    public static void setAuthMap(Map<String, AdminAuthority> authMap) {
-        AUTH_MAP = authMap;
+    public static void setAuthMap(Map<String, AdminAuthority> map) {
+        authMap = map;
     }
 
     public static void delAuthMap() {
-        AUTH_MAP = null;
+        authMap = new HashMap<>();
     }
 
     /**

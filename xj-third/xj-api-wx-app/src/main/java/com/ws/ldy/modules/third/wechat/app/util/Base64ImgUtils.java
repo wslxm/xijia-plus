@@ -1,11 +1,13 @@
 package com.ws.ldy.modules.third.wechat.app.util;
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import lombok.extern.slf4j.Slf4j;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 import java.io.*;
 
+@Slf4j
 public class Base64ImgUtils {
 
 
@@ -16,19 +18,21 @@ public class Base64ImgUtils {
      * @return
      */
     public static String imageToBase64Str(String imgFile) {
-        InputStream inputStream = null;
-        byte[] data = null;
-        try {
-            inputStream = new FileInputStream(imgFile);
-            data = new byte[inputStream.available()];
-            inputStream.read(data);
-            inputStream.close();
+        byte[] buffer = null;
+        try (InputStream is = new FileInputStream(imgFile);) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int len = 0;
+            byte[] b = new byte[1024];
+            while ((len = is.read(b, 0, b.length)) != -1) {
+                baos.write(b, 0, len);
+            }
+            buffer = baos.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         // 加密
         BASE64Encoder encoder = new BASE64Encoder();
-        return encoder.encode(data);
+        return encoder.encode(buffer);
     }
 
 
@@ -40,31 +44,35 @@ public class Base64ImgUtils {
      * @return
      */
     public static boolean base64StrToImage(String imgStr, String path) {
-        if (imgStr == null)
+        if (imgStr == null) {
             return false;
+        }
         BASE64Decoder decoder = new BASE64Decoder();
+        byte[] b = null;
         try {
             // 解密
-            byte[] b = decoder.decodeBuffer(imgStr);
-            // 处理数据
-            for (int i = 0; i < b.length; ++i) {
-                if (b[i] < 0) {
-                    b[i] += 256;
-                }
-            }
-            //文件夹不存在则自动创建
-            File tempFile = new File(path);
-            if (!tempFile.getParentFile().exists()) {
-                tempFile.getParentFile().mkdirs();
-            }
-            OutputStream out = new FileOutputStream(tempFile);
-            out.write(b);
-            out.flush();
-            out.close();
-            return true;
+            b = decoder.decodeBuffer(imgStr);
         } catch (Exception e) {
             return false;
         }
+        // 处理数据
+        for (int i = 0; i < b.length; ++i) {
+            if (b[i] < 0) {
+                b[i] += 256;
+            }
+        }
+        //文件夹不存在则自动创建
+        File tempFile = new File(path);
+        if (!tempFile.getParentFile().exists()) {
+            tempFile.getParentFile().mkdirs();
+        }
+        try (OutputStream out = new FileOutputStream(tempFile)) {
+            out.write(b);
+            out.flush();
+        } catch (IOException e) {
+            log.debug(e.toString());
+        }
+        return true;
     }
 
 
@@ -81,24 +89,17 @@ public class Base64ImgUtils {
             return null;
         }
         String base64 = null;
-        FileInputStream fin = null;
-        try {
-            fin = new FileInputStream(file);
-            byte[] buff = new byte[fin.available()];
-            fin.read(buff);
-            base64 = Base64.encode(buff);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fin != null) {
-                try {
-                    fin.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        try (FileInputStream is = new FileInputStream(file)) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int len = 0;
+            byte[] b = new byte[1024];
+            while ((len = is.read(b, 0, b.length)) != -1) {
+                baos.write(b, 0, len);
             }
+            byte[] buffer = baos.toByteArray();
+            base64 = Base64.encode(buffer);
+        } catch (IOException e) {
+            log.debug(e.toString());
         }
         return base64;
     }
@@ -118,21 +119,15 @@ public class Base64ImgUtils {
         }
         byte[] buff = Base64.decode(base64);
         File file = null;
-        FileOutputStream fout = null;
         try {
             file = File.createTempFile("tmp", null);
-            fout = new FileOutputStream(file);
+        } catch (IOException e) {
+            log.debug(e.toString());
+        }
+        try (FileOutputStream fout = new FileOutputStream(file)) {
             fout.write(buff);
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fout != null) {
-                try {
-                    fout.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            log.debug(e.toString());
         }
         return file;
     }

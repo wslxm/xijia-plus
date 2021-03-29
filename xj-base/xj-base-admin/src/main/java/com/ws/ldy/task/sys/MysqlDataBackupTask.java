@@ -92,8 +92,8 @@ public class MysqlDataBackupTask {
 
         // 2、获取数据连接信息 -> 数据库名称+地址+账号+密码
         String dbUrl2 = dbUrl.replace("jdbc:mysql://", "");
-        String dbName = dbUrl2.substring(dbUrl2.lastIndexOf("/") + 1, dbUrl2.indexOf("?"));
-        String serverPath = dbUrl2.substring(0, dbUrl2.lastIndexOf("/"));
+        String dbName = dbUrl2.substring(dbUrl2.lastIndexOf('/') + 1, dbUrl2.indexOf('?'));
+        String serverPath = dbUrl2.substring(0, dbUrl2.lastIndexOf('/'));
         String username = dbUserName;
         String password = dbPassWord;
 
@@ -118,12 +118,10 @@ public class MysqlDataBackupTask {
                 .replace("{FILEPATH}", pathFileName);
         log.info("当前执行命令: {}", newCmd);
         // 5、开始备份
-        PrintWriter printWriter = null;
         BufferedReader bufferedReader = null;
-        try {
-            // 创建存放sql的文件
-            existsFile(new File(pathFileName));
-            printWriter = new PrintWriter(new OutputStreamWriter(new FileOutputStream(pathFileName), "utf8"));
+        // 创建存放sql的文件
+        existsFile(new File(pathFileName));
+        try (PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(new FileOutputStream(pathFileName), "utf8"));) {
             Process process = null;
             String property = System.getProperty("os.name");
             log.info("当前系统: {}", property);
@@ -148,18 +146,15 @@ public class MysqlDataBackupTask {
                 log.info("【备份数据库】SUCCESS，SQL文件：{}", pathFileName);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.debug(e.toString());
             log.info("【备份数据库】FAILURE");
         } finally {
             try {
                 if (bufferedReader != null) {
                     bufferedReader.close();
                 }
-                if (printWriter != null) {
-                    printWriter.close();
-                }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.debug(e.toString());
             }
         }
         log.info("【备份数据库】--END");
@@ -169,18 +164,24 @@ public class MysqlDataBackupTask {
     /**
      * 判断文件是否存在，不存在创建
      */
-    private static void existsFile(File file) {
+    private static boolean existsFile(File file) {
         // 判断文件路径是否存在,不存在新建
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
         if (!file.exists()) {
             try {
-                file.createNewFile();
+                if (file.createNewFile()) {
+                    log.info("创建文件: {} 成功", file.getName());
+                    return true;
+                } else {
+                    log.info("创建文件: {} 失败", file.getName());
+                }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.debug(e.toString());
             }
         }
+        return false;
     }
 
 
@@ -222,21 +223,17 @@ public class MysqlDataBackupTask {
                 BasicFileAttributes attr;
                 try {
                     attr = basicview.readAttributes();
-                    Date CreateTimeDate = new Date(attr.creationTime().toMillis());
-                    // DateFormat usdf = new SimpleDateFormat("EEE MMM dd
-                    // HH:mm:ss zzz yyyy", Locale.US);
-                    // Date date = usdf.parse(CreateTimeDate.toString());
-                    // String fileTime = df.format(date);
-                    // Date fileTimes = df.parse(fileTime);
-                    // if (date1.getTime() <= file.lastModified() &&
-                    // file.lastModified() <= date2.getTime()) {
-                    // }//这部分为文件的最后修改时间
-                    if (date1.getTime() <= CreateTimeDate.getTime() && CreateTimeDate.getTime() <= date2.getTime()) {
-                        log.info("删除备份sql文件: {}", file.getName());
-                        file.delete();
+                    Date createTimeDate = new Date(attr.creationTime().toMillis());
+                    //这部分为文件的最后修改时间
+                    if (date1.getTime() <= createTimeDate.getTime() && createTimeDate.getTime() <= date2.getTime()) {
+                        if (file.delete()) {
+                            log.info("删除备份sql文件: {} 成功", file.getName());
+                        } else {
+                            log.info("删除备份sql文件: {} 失败", file.getName());
+                        }
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.debug(e.toString());
                 }
             }
         }

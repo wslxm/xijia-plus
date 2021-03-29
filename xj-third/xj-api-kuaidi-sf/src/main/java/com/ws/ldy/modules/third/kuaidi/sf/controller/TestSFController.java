@@ -47,9 +47,8 @@ public class TestSFController {
         // 货物明细
         CargoDetails cargoDetails = new CargoDetails();
         cargoDetails.setName("测试商品");
-        ArrayList<CargoDetails> cargoDetails1 = new ArrayList<CargoDetails>() {{
-            add(cargoDetails);
-        }};
+        ArrayList<CargoDetails> cargoDetails1 = new ArrayList<>();
+        cargoDetails1.add(cargoDetails);
         //
         SFOrder en = new SFOrder();
         en.setContactInfoList(contactInfoList);

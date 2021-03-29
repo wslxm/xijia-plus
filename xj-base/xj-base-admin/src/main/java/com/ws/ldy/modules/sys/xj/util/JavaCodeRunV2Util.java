@@ -1,5 +1,7 @@
 package com.ws.ldy.modules.sys.xj.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.tools.*;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -20,6 +22,7 @@ import java.util.regex.Pattern;
  * @version 1.0.0
  */
 @SuppressWarnings("ALL")
+@Slf4j
 public class JavaCodeRunV2Util {
     //类全名
     private String fullClassName;
@@ -256,17 +259,17 @@ public class JavaCodeRunV2Util {
         JavaCodeRunV2Util compiler = new JavaCodeRunV2Util(code);
         boolean res = compiler.compiler();
         if (res) {
-            System.out.println("编译成功");
+            log.debug("编译成功");
             try {
                 // 执行
                 compiler.runMainMethod();
             } catch (Exception e) {
                 return error(e);
-                // e.printStackTrace();
+                // log.debug(e.toString());
             }
             return compiler.getRunResult();
         } else {
-            System.out.println("编译失败");
+            log.debug("编译失败");
             return compiler.getCompilerMessage();
         }
     }
@@ -276,26 +279,26 @@ public class JavaCodeRunV2Util {
         String code = "public class HelloWorld {\n" +
                 "    public static void main(String []args) {\n" +
                 "\t\tfor(int i=0; i < 1; i++){\n" +
-                "\t\t\t       System.out.println(\"Hello World!\");\n" +
+                "\t\t\t       log.debug(\"Hello World!\");\n" +
                 "\t\t}\n" +
                 "    }\n" +
                 "}";
         JavaCodeRunV2Util compiler = new JavaCodeRunV2Util(code);
         boolean res = compiler.compiler();
         if (res) {
-            System.out.println("编译成功");
-            System.out.println("compilerTakeTime：" + compiler.getCompilerTakeTime());
+            log.debug("编译成功");
+            log.debug("compilerTakeTime：" + compiler.getCompilerTakeTime());
             try {
                 compiler.runMainMethod();
-                System.out.println("runTakeTime：" + compiler.getRunTakeTime());
+                log.debug("runTakeTime：" + compiler.getRunTakeTime());
             } catch (Exception e) {
-                e.printStackTrace();
+                log.debug(e.toString());
             }
-            System.out.println(compiler.getRunResult());
-            System.out.println("诊断信息：" + compiler.getCompilerMessage());
+            log.debug(compiler.getRunResult());
+            log.debug("诊断信息：" + compiler.getCompilerMessage());
         } else {
-            System.out.println("编译失败");
-            System.out.println(compiler.getCompilerMessage());
+            log.debug("编译失败");
+            log.debug(compiler.getCompilerMessage());
         }
     }
 }

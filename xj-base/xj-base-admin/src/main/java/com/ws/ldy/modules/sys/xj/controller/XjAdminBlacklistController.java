@@ -3,6 +3,7 @@ package com.ws.ldy.modules.sys.xj.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
@@ -19,7 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,10 +35,12 @@ import org.springframework.web.bind.annotation.*;
  * @date 2020-11-27 22:44:49
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin +"/xj/adminBlacklist")
+@RequestMapping(BaseConstant.Uri.apiAdmin + "/xj/adminBlacklist")
 @Api(value = "XjAdminBlacklistController", tags = "base-plus--黑名单")
 public class XjAdminBlacklistController extends BaseController<XjAdminBlacklistService> {
 
+    @Autowired
+    private SysBlacklist sysBlacklist;
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
     @ApiOperation(value = "分页查询", notes = "")
@@ -73,7 +76,7 @@ public class XjAdminBlacklistController extends BaseController<XjAdminBlacklistS
         XjAdminBlacklist adminBlacklist = dto.convert(XjAdminBlacklist.class);
         boolean result = baseService.save(adminBlacklist);
         // 置空缓存
-        SysBlacklist.blacklistCache = null;
+        sysBlacklist.delBlacklistCache();
         return R.successInsert(result);
     }
 
@@ -86,7 +89,7 @@ public class XjAdminBlacklistController extends BaseController<XjAdminBlacklistS
         }
         boolean result = baseService.updateById(dto.convert(XjAdminBlacklist.class));
         // 置空缓存
-        SysBlacklist.blacklistCache = null;
+        sysBlacklist.delBlacklistCache();
         return R.successUpdate(result);
     }
 
@@ -97,7 +100,7 @@ public class XjAdminBlacklistController extends BaseController<XjAdminBlacklistS
                 .set(XjAdminBlacklist::getDisable, disable)
                 .eq(XjAdminBlacklist::getId, id));
         // 置空缓存
-        SysBlacklist.blacklistCache = null;
+        sysBlacklist.delBlacklistCache();
         return R.successUpdate(result);
     }
 
@@ -107,7 +110,7 @@ public class XjAdminBlacklistController extends BaseController<XjAdminBlacklistS
     public R<Boolean> del(@RequestParam String id) {
         boolean result = baseService.removeById(id);
         // 置空缓存
-        SysBlacklist.blacklistCache = null;
+        sysBlacklist.delBlacklistCache();
         return R.successDelete(result);
     }
 }

@@ -33,7 +33,7 @@ public class Sms1086Controller {
         R<String> rCode = sms1086Util.sendCode(phone);
         // 判断是否有效
         R<String> verifyCode = sms1086Util.verifySMS(phone, rCode.getData());
-        System.out.println("验证验证码：" + verifyCode.toString());
+        log.debug("验证验证码：" + verifyCode.toString());
         return rCode;
     }
 

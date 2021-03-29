@@ -23,19 +23,19 @@
 //    @Scheduled(cron = TaskTest.cron)
 //    @TaskLock(lockKed = "task1", expireTime = 1)
 //    public void executeTask1() {
-//        System.out.println( LocalDateTime.now()+ "hello world!" + "--B" );
+//        log.debug( LocalDateTime.now()+ "hello world!" + "--B" );
 //    }
 //
 //
 //    @Scheduled(cron = TaskTest.cron)
 //    @TaskLock(lockKed = "task1", expireTime = 1)
 //    public void executeTask2() {
-//        System.out.println( LocalDateTime.now()+ "hello world!" + "--A" );
+//        log.debug( LocalDateTime.now()+ "hello world!" + "--A" );
 //    }
 //
 //    @Scheduled(cron = TaskTest.cron)
 //    @TaskLock(lockKed = "task1", expireTime = 1)
 //    public void executeTask3() {
-//        System.out.println( LocalDateTime.now()+ "hello world!" + "--C" );
+//        log.debug( LocalDateTime.now()+ "hello world!" + "--C" );
 //    }
 //}

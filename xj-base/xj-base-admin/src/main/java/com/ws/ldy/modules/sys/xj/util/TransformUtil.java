@@ -1,5 +1,7 @@
 package com.ws.ldy.modules.sys.xj.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -10,6 +12,7 @@ import java.awt.image.BufferedImage;
  * @return
  * @version 1.0.0
  */
+@Slf4j
 public class TransformUtil {
 
     // public static final String FILL = "#";
@@ -25,7 +28,7 @@ public class TransformUtil {
 
     public static void main(String[] args) {
         String result = transform("兮家小二", 5, "#");
-        System.out.println(result);
+        log.debug(result);
     }
 
     /**

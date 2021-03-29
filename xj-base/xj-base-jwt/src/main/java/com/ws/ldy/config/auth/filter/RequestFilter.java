@@ -93,7 +93,7 @@
 //            if (classArray[i].getClassName().indexOf(fatherPackagePath) != -1 && !classArray[i].getClassName().equals(thisCalssName)) {
 //                String classname = classArray[i].getClassName();
 //                String methodname = classArray[i].getMethodName();
-//                System.out.println("调用数据源的类名：【" + classname + "】，方法名：【" + methodname + "】");
+//                log.debug("调用数据源的类名：【" + classname + "】，方法名：【" + methodname + "】");
 //            }
 //        }
 //        if (method == null) {

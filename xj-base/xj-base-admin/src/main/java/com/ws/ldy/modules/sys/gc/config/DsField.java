@@ -3,6 +3,7 @@ package com.ws.ldy.modules.sys.gc.config;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 代码生成需要的字段 (公共字段，公共字段处理类，通过赋值和计算获得)
@@ -16,6 +17,7 @@ import lombok.Data;
  */
 @SuppressWarnings("all")
 @Data
+@Slf4j
 public class DsField {
 
     /**
@@ -92,12 +94,12 @@ public class DsField {
 
     // TEST
     public static void main(String[] args) {
-        System.out.println(CaseFormat.LOWER_HYPHEN.to(CaseFormat.LOWER_CAMEL, "t_test-data"));            // testData
-        System.out.println(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, "t_test_data"));        // testData
-        System.out.println(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, "t_test_data_test"));   // TestData
-        System.out.println(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, "t_test_data"));        // TestData
-        System.out.println(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "testdata"));           // testdata
-        System.out.println(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "TestData"));           // test_data
-        System.out.println(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, "testData"));               // test-data
+        log.debug(CaseFormat.LOWER_HYPHEN.to(CaseFormat.LOWER_CAMEL, "t_test-data"));            // testData
+        log.debug(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, "t_test_data"));        // testData
+        log.debug(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, "t_test_data_test"));   // TestData
+        log.debug(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, "t_test_data"));        // TestData
+        log.debug(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "testdata"));           // testdata
+        log.debug(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "TestData"));           // test_data
+        log.debug(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, "testData"));               // test-data
     }
 }

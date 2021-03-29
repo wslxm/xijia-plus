@@ -41,7 +41,7 @@ public class WxMpTemplateMsgTestUtil {
             wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
         } catch (WxErrorException e) {
             log.info("模板信息发送失败：" +e.getMessage());
-            e.printStackTrace();
+            log.debug(e.toString());
         }
     }
 }

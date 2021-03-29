@@ -82,7 +82,7 @@ public class Sms1086Util {
                 str = breader.readLine();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         return R.error(RType.SMS_FAIL);
     }
@@ -95,11 +95,11 @@ public class Sms1086Util {
     /**
      * 手机验证码缓存, key=手机号
      */
-    public Map<String, SmsCode> smsCache = new ConcurrentHashMap<>();
+    private Map<String, SmsCode> smsCache = new ConcurrentHashMap<>();
     /**
      * 短信验证码有效期(5分钟- 1000L  * 60 * 5)
      */
-    public final Long SMS_VALID_PERIOD = 1000L * 60 * 5;
+    private final Long smsValidPeriod = 1000L * 60 * 5;
 
     public Map<String, SmsCode> getSmsCache() {
         return smsCache;
@@ -132,7 +132,7 @@ public class Sms1086Util {
                 String[] strs = str.split("&");
                 if (strs[0].replace("result=", "").trim().equals("0")) {
                     // 成功缓存验证码到jvm
-                    long time = System.currentTimeMillis() + SMS_VALID_PERIOD;
+                    long time = System.currentTimeMillis() + smsValidPeriod;
                     smsCache.put(mobiles, new SmsCode(code, time));
                     log.info("发送短信验证码成功: phone:{}  code:{}  result:{} ,过期时间:{} ", mobiles, code, str, new Date(time));
                     return R.success(code);
@@ -143,7 +143,7 @@ public class Sms1086Util {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         return R.error(RType.SMS_FAIL);
 

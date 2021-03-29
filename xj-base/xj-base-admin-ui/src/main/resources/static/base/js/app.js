@@ -134,20 +134,24 @@ Dict = {
         //不填默认值
         let html = "";
         if (code != null && name != null) {
-            html = "<option value='" + code + "'>" + name + "</option>"
+            if (defaultVal == null) {
+                html = "<option value='" + code + "' selected>" + name + "</option>"
+            } else {
+                html = "<option value='" + code + "'>" + name + "</option>"
+            }
         }
         // 获取排序后的字典List列表(数组)
         let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
         //
         for (let i = 0; i < dictMap.length; i++) {
             if (defaultVal == null) {
-                if (i === 0) {
+                if (i === 0 && (code == null && name == null)) {
                     html += "<option value='" + dictMap[i].code + "' selected>" + dictMap[i].name + "</option>";
                 } else {
                     html += "<option value='" + dictMap[i].code + "'>" + dictMap[i].name + "</option>";
                 }
             } else {
-                if (dictMap[i].code == defaultVal) {
+                if (dictMap[i].code === defaultVal) {
                     html += "<option value='" + dictMap[i].code + "' selected>" + dictMap[i].name + "</option>";
                 } else {
                     html += "<option value='" + dictMap[i].code + "'>" + dictMap[i].name + "</option>";

@@ -1,6 +1,6 @@
 package com.ws.ldy.common.utils;
 
-import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,17 +22,27 @@ import java.util.Random;
  * @date 2020/4/24 0024 9:54
  * @return
  */
+@Slf4j
 public class LocalDateTimeUtil {
 
-    //获取当前时间的LocalDateTime对象
-    //LocalDateTime.now();
-
-    //根据年月日构建LocalDateTime
-    //LocalDateTime.of();
-
-    //比较日期先后
-    //LocalDateTime.now().isBefore(),
-    //LocalDateTime.now().isAfter(),
+    /**
+     * 时间格式
+     */
+    private static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+    private static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
+    private static final String YYYY_MM_DD_HH = "yyyy-MM-dd HH";
+    private static final String YYYY_MM_DD = "yyyy-MM-dd";
+    private static final String YYYY_MM = "yyyy-MM";
+    private static final String YYYY = "yyyy";
+    /**
+     * 时间转换方法
+     */
+    private static final DateTimeFormatter DF_YYYY_MM_DD_HH_MM_SS = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH_MM_SS);
+    private static final DateTimeFormatter DF_YYYY_MM_DD_HH_MM = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH_MM);
+    private static final DateTimeFormatter DF_YYYY_MM_DD_HH = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH);
+    private static final DateTimeFormatter DF_YYYY_MM_DD = DateTimeFormatter.ofPattern(YYYY_MM_DD);
+    private static final DateTimeFormatter DF_YYYY_MM = DateTimeFormatter.ofPattern(YYYY_MM);
+    private static final DateTimeFormatter DF_YYYY = DateTimeFormatter.ofPattern(YYYY);
 
 
     /**
@@ -164,9 +174,8 @@ public class LocalDateTimeUtil {
      */
     public static LocalDateTime weekFirst(int num) {
         int week = week(LocalDateTime.now());
-        LocalDateTime newTime = subtract(LocalDateTime.now(), week - 1, ChronoUnit.DAYS);
-        newTime = plus(newTime, num * 7, ChronoUnit.DAYS);
-        //formatTime(, "yyyy-MM-dd HH:mm:ss:SSS");
+        LocalDateTime newTime = subtract(LocalDateTime.now(), week - 1L, ChronoUnit.DAYS);
+        newTime = plus(newTime, num * 7L, ChronoUnit.DAYS);
         return getDayStart(newTime);
     }
 
@@ -176,8 +185,8 @@ public class LocalDateTimeUtil {
      */
     public static LocalDateTime weekLast(int num) {
         int week = week(LocalDateTime.now());
-        LocalDateTime newTime = plus(LocalDateTime.now(), 7 - week, ChronoUnit.DAYS);
-        newTime = plus(newTime, num * 7, ChronoUnit.DAYS);
+        LocalDateTime newTime = plus(LocalDateTime.now(), 7L - week, ChronoUnit.DAYS);
+        newTime = plus(newTime, num * 7L, ChronoUnit.DAYS);
         return getDayEnd(newTime);
     }
 
@@ -275,7 +284,7 @@ public class LocalDateTimeUtil {
             return period.getYears();
         }
         if (field == ChronoUnit.MONTHS) {
-            return period.getYears() * 12 + period.getMonths();
+            return period.getYears() * 12L + period.getMonths();
         }
         return field.between(startTime, endTime);
     }
@@ -339,9 +348,7 @@ public class LocalDateTimeUtil {
      * @author wangsong
      * @return
      */
-    @SneakyThrows
     public static synchronized String getTimeStr20() {
-        Thread.sleep(1);
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
         Random random = new Random();
         timeStamp += (random.nextInt(10) + "") + (random.nextInt(10) + "") + (random.nextInt(10) + "");
@@ -395,7 +402,7 @@ public class LocalDateTimeUtil {
      * LocalDateTime 转为 天 的字符串，如1号返回 01
      * @author wangsong
      */
-    public static Integer parseDayInt(LocalDateTime time) {
+    public static Integer parseDayInt() {
         return Integer.parseInt(parse(LocalDateTime.now(), "dd"));
     }
 
@@ -442,8 +449,7 @@ public class LocalDateTimeUtil {
      * @version 1.0.0
      */
     public static LocalDateTime parse(String timeStr) {
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return LocalDateTime.parse(timeStr, df);
+        return LocalDateTime.parse(timeStr, DF_YYYY_MM_DD_HH_MM_SS);
     }
 
 
@@ -456,6 +462,7 @@ public class LocalDateTimeUtil {
         return time.format(DateTimeFormatter.ofPattern(pattern));
     }
 
+
     /**
      * LocalDateTime转成String类型的时间
      * @author wangsong
@@ -465,8 +472,7 @@ public class LocalDateTimeUtil {
      * @version 1.0.0
      */
     public static String parse(LocalDateTime time) {
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return df.format(time);
+        return DF_YYYY_MM_DD_HH_MM_SS.format(time);
     }
 
 
@@ -478,7 +484,7 @@ public class LocalDateTimeUtil {
         if (time == null) {
             return null;
         }
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(YYYY_MM_DD);
         return df.format(time);
     }
 
@@ -490,7 +496,7 @@ public class LocalDateTimeUtil {
         if (time == null) {
             return null;
         }
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH);
         return df.format(time);
     }
 
@@ -503,7 +509,7 @@ public class LocalDateTimeUtil {
         if (time == null) {
             return null;
         }
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(YYYY_MM);
         return df.format(time);
     }
 
@@ -517,7 +523,7 @@ public class LocalDateTimeUtil {
         if (time == null) {
             return null;
         }
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD);
         return format.format(time);
     }
 
@@ -527,13 +533,13 @@ public class LocalDateTimeUtil {
      * @author wangsong
      */
     public static LocalDateTime parse_yyyyMMdd(String timeStr) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat(YYYY_MM_DD);
         try {
             Date parse = df.parse(timeStr);
             LocalDateTime localDateTime = parse.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             return localDateTime;
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.debug("error:{}", e);
         }
         return null;
     }
@@ -586,10 +592,17 @@ public class LocalDateTimeUtil {
      */
     public static List<String> getMonths(LocalDateTime startTime, LocalDateTime endTime) {
         List<String> times = new ArrayList<>();
-        endTime = getMonthOfFirst(endTime);
-        while (isBefore(startTime, endTime)) {
-            startTime = plus(startTime, 1, ChronoUnit.MONTHS);
-            times.add(parse_yyyyMM(startTime));
+        if (startTime != null && endTime != null) {
+            endTime = getMonthOfFirst(endTime);
+            while (isBefore(startTime, endTime)) {
+                LocalDateTime time = plus(startTime, 1, ChronoUnit.MONTHS);
+                if (time != null) {
+                    startTime = time;
+                    times.add(parse_yyyyMM(startTime));
+                } else {
+                    break;
+                }
+            }
         }
         return times;
     }
@@ -613,8 +626,7 @@ public class LocalDateTimeUtil {
         // 2-包含结束-不包含开始时间   // 开始时间+1天
         // 3-包含开始-不包含结束时间   // 结束时间-1天
         // 4-不包含开始和结束时间 // 开始时间+1天  or 结束时间-1天
-        if (type == 1) {
-        } else if (type == 2) {
+        if (type == 2) {
             oldStartTime = plus(oldStartTime, 1, ChronoUnit.DAYS);
         } else if (type == 3) {
             oldEndTime = subtract(endTime, 1, ChronoUnit.DAYS);
@@ -684,51 +696,52 @@ public class LocalDateTimeUtil {
      * @date 2020/4/24 0024 15:54
      */
     public static void main(String[] args) {
-        System.out.println("当前时间 ==> " + LocalDateTime.now());
-        System.out.println("当前时间秒数 ==> " + parseSecond(LocalDateTime.now()));
-        System.out.println("当前时间毫秒数 ==> " + parseMillisecond(LocalDateTime.now()));
-        System.out.println("今天是几号：" + parseDayInt(LocalDateTime.now()));
-        System.out.println("===========================================================");
+        log.debug("当前时间 ==> " + LocalDateTime.now());
+        log.debug("当前时间秒数 ==> " + parseSecond(LocalDateTime.now()));
+        log.debug("当前时间毫秒数 ==> " + parseMillisecond(LocalDateTime.now()));
+        log.debug("今天是几号：" + parseDayInt());
+        log.debug("===========================================================");
 
-        System.out.println("今天开始时间 ==> " + getDayStart(LocalDateTime.now()));
-        System.out.println("今天结束时间 ==> " + getDayEnd(LocalDateTime.now()));
-        System.out.println("构建自定义时间 ==> " + of(2020, 1, 1, 12, 00, 00, 999999999));
-        System.out.println("指定格式 ==>  " + parse(LocalDateTime.now(), "yyyy-MM-dd HH:mm:ss:SSS"));
 
-        System.out.println("=========================" + LocalDateTime.now() + " 之前 ==================================");
-        System.out.println("10秒前 ==> " + subtract(LocalDateTime.now(), 10, ChronoUnit.SECONDS));
-        System.out.println("10分前 ==> " + subtract(LocalDateTime.now(), 10, ChronoUnit.MINUTES));
-        System.out.println("一小时前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.HOURS));
-        System.out.println("半天前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.HALF_DAYS));
-        System.out.println("一天前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.DAYS));
-        System.out.println("一月前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.MONTHS));
-        System.out.println("一年前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.YEARS));
-        System.out.println("==========================" + LocalDateTime.now() + " 之后 ===================================");
-        System.out.println("10秒后 ==> " + plus(LocalDateTime.now(), 10, ChronoUnit.SECONDS));
-        System.out.println("10分后 ==> " + plus(LocalDateTime.now(), 10, ChronoUnit.MINUTES));
-        System.out.println("一小时后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.HOURS));
-        System.out.println("半天后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.HALF_DAYS));
-        System.out.println("一天后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.DAYS));
-        System.out.println("一月后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.MONTHS));
-        System.out.println("一年后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.YEARS));
-        System.out.println("================================= 时间差 =====================================");
+        log.debug("今天开始时间 ==> " + getDayStart(LocalDateTime.now()));
+        log.debug("今天结束时间 ==> " + getDayEnd(LocalDateTime.now()));
+        log.debug("构建自定义时间 ==> " + of(2020, 1, 1, 12, 00, 00, 999999999));
+        log.debug("指定格式 ==>  " + parse(LocalDateTime.now(), "yyyy-MM-dd HH:mm:ss:SSS"));
+
+        log.debug("=========================" + LocalDateTime.now() + " 之前 ==================================");
+        log.debug("10秒前 ==> " + subtract(LocalDateTime.now(), 10, ChronoUnit.SECONDS));
+        log.debug("10分前 ==> " + subtract(LocalDateTime.now(), 10, ChronoUnit.MINUTES));
+        log.debug("一小时前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.HOURS));
+        log.debug("半天前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.HALF_DAYS));
+        log.debug("一天前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.DAYS));
+        log.debug("一月前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.MONTHS));
+        log.debug("一年前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.YEARS));
+        log.debug("==========================" + LocalDateTime.now() + " 之后 ===================================");
+        log.debug("10秒后 ==> " + plus(LocalDateTime.now(), 10, ChronoUnit.SECONDS));
+        log.debug("10分后 ==> " + plus(LocalDateTime.now(), 10, ChronoUnit.MINUTES));
+        log.debug("一小时后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.HOURS));
+        log.debug("半天后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.HALF_DAYS));
+        log.debug("一天后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.DAYS));
+        log.debug("一月后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.MONTHS));
+        log.debug("一年后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.YEARS));
+        log.debug("================================= 时间差 =====================================");
         //  输出 ====>
         LocalDateTime start = LocalDateTime.of(2019, 10, 13, 11, 11);
         LocalDateTime end = LocalDateTime.of(2020, 11, 13, 13, 13);
-        System.out.println("输出:" + parse(start, "yyyy-MM-dd HH:mm:ss") + " -到- " + parse(end, "yyyy-MM-dd HH:mm:ss") + "的时间差");                                     //====> 年:1
-        System.out.println("年:" + betweenTwoTime(start, end, ChronoUnit.YEARS));      // ====> 年:1
-        System.out.println("月:" + betweenTwoTime(start, end, ChronoUnit.MONTHS));     // ====> 月:13
-        System.out.println("日:" + betweenTwoTime(start, end, ChronoUnit.DAYS));       // ====> 日:396
-        System.out.println("半日:" + betweenTwoTime(start, end, ChronoUnit.HALF_DAYS));// ====> 半日:792
-        System.out.println("小时:" + betweenTwoTime(start, end, ChronoUnit.HOURS));    // ====> 小时:9506
-        System.out.println("分钟:" + betweenTwoTime(start, end, ChronoUnit.MINUTES));  // ====> 分钟:570362
-        System.out.println("秒:" + betweenTwoTime(start, end, ChronoUnit.SECONDS));    // ====> 秒:34221720
-        System.out.println("毫秒:" + betweenTwoTime(start, end, ChronoUnit.MILLIS));   // ====> 毫秒:34221720000
-        System.out.println("================================== 时间大小 ===================================");
-        System.out.println("2019-10-13 11:11:00 < 2020-11-13 13:13:00 = " + isBefore(start, end)); //t1 < t2 = true
-        System.out.println("2019-10-13 11:11:00 > 2020-11-13 13:13:00 = " + isAfter(start, end));  //t1 > t2 = true
+        log.debug("输出:" + parse(start, "yyyy-MM-dd HH:mm:ss") + " -到- " + parse(end, "yyyy-MM-dd HH:mm:ss") + "的时间差");                                     //====> 年:1
+        log.debug("年:" + betweenTwoTime(start, end, ChronoUnit.YEARS));      // ====> 年:1
+        log.debug("月:" + betweenTwoTime(start, end, ChronoUnit.MONTHS));     // ====> 月:13
+        log.debug("日:" + betweenTwoTime(start, end, ChronoUnit.DAYS));       // ====> 日:396
+        log.debug("半日:" + betweenTwoTime(start, end, ChronoUnit.HALF_DAYS));// ====> 半日:792
+        log.debug("小时:" + betweenTwoTime(start, end, ChronoUnit.HOURS));    // ====> 小时:9506
+        log.debug("分钟:" + betweenTwoTime(start, end, ChronoUnit.MINUTES));  // ====> 分钟:570362
+        log.debug("秒:" + betweenTwoTime(start, end, ChronoUnit.SECONDS));    // ====> 秒:34221720
+        log.debug("毫秒:" + betweenTwoTime(start, end, ChronoUnit.MILLIS));   // ====> 毫秒:34221720000
+        log.debug("================================== 时间大小 ===================================");
+        log.debug("2019-10-13 11:11:00 < 2020-11-13 13:13:00 = " + isBefore(start, end)); //t1 < t2 = true
+        log.debug("2019-10-13 11:11:00 > 2020-11-13 13:13:00 = " + isAfter(start, end));  //t1 > t2 = true
 
-        System.out.println("================================== 周几 ===================================");
+        log.debug("================================== 周几 ===================================");
         LocalDateTime of1 = LocalDateTime.of(2020, 4, 20, 0, 0);
         LocalDateTime of2 = LocalDateTime.of(2020, 4, 21, 0, 0);
         LocalDateTime of3 = LocalDateTime.of(2020, 4, 22, 0, 0);
@@ -736,66 +749,66 @@ public class LocalDateTimeUtil {
         LocalDateTime of5 = LocalDateTime.of(2020, 4, 24, 0, 0);
         LocalDateTime of6 = LocalDateTime.of(2020, 4, 25, 0, 0);
         LocalDateTime of7 = LocalDateTime.of(2020, 4, 26, 0, 0);
-        System.out.println(parse(of1, "yyyy-MM-dd") + " 是周 " + week(of1));
-        System.out.println(parse(of2, "yyyy-MM-dd") + " 是周 " + week(of2));
-        System.out.println(parse(of3, "yyyy-MM-dd") + " 是周 " + week(of3));
-        System.out.println(parse(of4, "yyyy-MM-dd") + " 是周 " + week(of4));
-        System.out.println(parse(of5, "yyyy-MM-dd") + " 是周 " + week(of5));
-        System.out.println(parse(of6, "yyyy-MM-dd") + " 是周 " + week(of6));
-        System.out.println(parse(of7, "yyyy-MM-dd") + " 是周 " + week(of7));
-        System.out.println("=========================== 周开头和结束 ===============================");
-        System.out.println(" 上周的周一是 " + weekFirst(-1));
-        System.out.println(" 上周的周末是 " + weekLast(-1));
-        System.out.println(" 本周的周一是 " + weekFirst(0));
-        System.out.println(" 本周的周末是 " + weekLast(0));
-        System.out.println(" 下周的周一是 " + weekFirst(1));
-        System.out.println(" 下周的周末是 " + weekLast(1));
-        System.out.println("=========================== 月开头和结束 ===============================");
-        System.out.println(" 上月的月初是 " + monthFirst(-1));
-        System.out.println(" 上月的月位是 " + monthLast(-1));
-        System.out.println(" 本月的月初是 " + monthFirst(0));
-        System.out.println(" 本月的月位是 " + monthLast(0));
-        System.out.println(" 下月的月初是 " + monthFirst(1));
-        System.out.println(" 下月的月位是 " + monthLast(1));
-        System.out.println("==================== 当前月1好到下N月底的每天数据 =========================");
-        System.out.println(" 前N月|后N月 -- 前N月|后N月所有时间 " + LocalDateTimeUtil.getDateDaysUpList(0, 2).toString());
-        System.out.println(" 前N月|后N月 -- 前N月|后N月所有时间 " + LocalDateTimeUtil.getDateDaysUpList(2, 2).toString());
+        log.debug(parse(of1, "yyyy-MM-dd") + " 是周 " + week(of1));
+        log.debug(parse(of2, "yyyy-MM-dd") + " 是周 " + week(of2));
+        log.debug(parse(of3, "yyyy-MM-dd") + " 是周 " + week(of3));
+        log.debug(parse(of4, "yyyy-MM-dd") + " 是周 " + week(of4));
+        log.debug(parse(of5, "yyyy-MM-dd") + " 是周 " + week(of5));
+        log.debug(parse(of6, "yyyy-MM-dd") + " 是周 " + week(of6));
+        log.debug(parse(of7, "yyyy-MM-dd") + " 是周 " + week(of7));
+        log.debug("=========================== 周开头和结束 ===============================");
+        log.debug(" 上周的周一是 " + weekFirst(-1));
+        log.debug(" 上周的周末是 " + weekLast(-1));
+        log.debug(" 本周的周一是 " + weekFirst(0));
+        log.debug(" 本周的周末是 " + weekLast(0));
+        log.debug(" 下周的周一是 " + weekFirst(1));
+        log.debug(" 下周的周末是 " + weekLast(1));
+        log.debug("=========================== 月开头和结束 ===============================");
+        log.debug(" 上月的月初是 " + monthFirst(-1));
+        log.debug(" 上月的月位是 " + monthLast(-1));
+        log.debug(" 本月的月初是 " + monthFirst(0));
+        log.debug(" 本月的月位是 " + monthLast(0));
+        log.debug(" 下月的月初是 " + monthFirst(1));
+        log.debug(" 下月的月位是 " + monthLast(1));
+        log.debug("==================== 当前月1好到下N月底的每天数据 =========================");
+        log.debug(" 前N月|后N月 -- 前N月|后N月所有时间 " + LocalDateTimeUtil.getDateDaysUpList(0, 2).toString());
+        log.debug(" 前N月|后N月 -- 前N月|后N月所有时间 " + LocalDateTimeUtil.getDateDaysUpList(2, 2).toString());
 
 
-        System.out.println("==================获取指定开始时间和结束时间内的所有时间 ====================");
+        log.debug("==================获取指定开始时间和结束时间内的所有时间 ====================");
         LocalDateTime startTime = LocalDateTime.of(2020, 4, 20, 0, 0);
         LocalDateTime endTime = LocalDateTime.of(2020, 4, 25, 0, 0);
-        System.out.println("1-包含开始和结束时间" + getBetweenList(startTime, endTime, 1));
-        System.out.println("2-包含结束-不包含开始时间" + getBetweenList(startTime, endTime, 2));
-        System.out.println("3-包含开始-不包含结束时间" + getBetweenList(startTime, endTime, 3));
-        System.out.println("4-不包含开始和结束时间" + getBetweenList(startTime, endTime, 4));
+        log.debug("1-包含开始和结束时间" + getBetweenList(startTime, endTime, 1));
+        log.debug("2-包含结束-不包含开始时间" + getBetweenList(startTime, endTime, 2));
+        log.debug("3-包含开始-不包含结束时间" + getBetweenList(startTime, endTime, 3));
+        log.debug("4-不包含开始和结束时间" + getBetweenList(startTime, endTime, 4));
 
 
-        System.out.println("================== LocalDateTime与String日期互相转换 ====================");
-        System.out.println(parse("2020-01-20 17:07:05"));
-        System.out.println(parse(LocalDateTime.now()));
+        log.debug("================== LocalDateTime与String日期互相转换 ====================");
+        log.debug(parse("2020-01-20 17:07:05").toString());
+        log.debug(parse(LocalDateTime.now()));
 
 
-        System.out.println("================== 时间特殊格式方法转换 ==================");
-        System.out.println(parse_yyyyMMddHH(LocalDateTime.now()));
+        log.debug("================== 时间特殊格式方法转换 ==================");
+        log.debug(parse_yyyyMMddHH(LocalDateTime.now()));
+        log.debug(parse_yyyyMMdd(LocalDateTime.now()));
+        log.debug(parse_yyyyMMdd(new Date()));
+        LocalDateTime dateTime = parse_yyyyMMdd("2020-06-06");
+        log.debug(dateTime != null ? dateTime.toString() : "");
         //
-        System.out.println(parse_yyyyMMdd(LocalDateTime.now()));
-        System.out.println(parse_yyyyMMdd(new Date()));
-        System.out.println(parse_yyyyMMdd("2020-06-06"));
-        //
-        System.out.println(parse_yyyyMM(LocalDateTime.now()));
+        log.debug(parse_yyyyMM(LocalDateTime.now()));
 
 
-        System.out.println("==================获取整时时间,舍弃分秒为0 ==================");
-        System.out.println(parse(getTheHour(LocalDateTime.now())));
+        log.debug("==================获取整时时间,舍弃分秒为0 ==================");
+        log.debug(parse(getTheHour(LocalDateTime.now())));
 
 
-        System.out.println("==================获取整分时间,舍弃秒为0");
-        System.out.println(parse(getTheMinute(LocalDateTime.now())));
-        System.out.println(parse(getTheMinute(LocalDateTime.of(2020, 1, 1, 12, 50))));
+        log.debug("==================获取整分时间,舍弃秒为0");
+        log.debug(parse(getTheMinute(LocalDateTime.now())));
+        log.debug(parse(getTheMinute(LocalDateTime.of(2020, 1, 1, 12, 50))));
 
 
-        System.out.println("==================获取指定时间内的每月");
-        System.out.println(getMonths(subtract(LocalDateTime.now(), 1, ChronoUnit.YEARS), LocalDateTime.now()).toString());
+        log.debug("==================获取指定时间内的每月");
+        log.debug(getMonths(subtract(LocalDateTime.now(), 1, ChronoUnit.YEARS), LocalDateTime.now()).toString());
     }
 }

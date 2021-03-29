@@ -41,7 +41,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     /**
      * url 权限注解扫包范围( 直接获取启动类的包路径)
      */
-    private final String PACKAGE_NAME = XjAdminServer.class.getPackage().getName();
+    private static final String PACKAGE_NAME = XjAdminServer.class.getPackage().getName();
 
 
     @Autowired
@@ -249,8 +249,6 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
             ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
             if (requestMapping == null || apiOperation == null) {
-                // log.info("  接口资源：[{}]  -->  [{}]  -->  [{}] ", String.format("%-6s", requestMethod), String.format("%-40s", url), "NO");
-                // log.info(method.getDeclaringClass().getName() + "." + method.getName() + "方法没有@ApiOperation 或 @RequestMapping注解");
                 continue;
             }
             // url | 请求方式 | 方法swagger注释
@@ -307,8 +305,8 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 .eq(AdminAuthority::getType, Admin.AuthorityType.V0.getValue())
         );
         // 返回数据处理
-        if (authorityList == null || authorityList.size() <= 0) {
-            return null;
+        if (authorityList == null || authorityList.isEmpty()) {
+            return new ArrayList<>();
         } else {
             List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authorityList, AdminAuthorityVO.class);
             adminAuthorityVOList.forEach(authVO -> {
@@ -343,8 +341,8 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         );
         List<AdminAuthorityVO> respAuthorityVOList = new ArrayList<>();
         // 返回数据处理
-        if (authorityList == null || authorityList.size() <= 0) {
-            return null;
+        if (authorityList == null || authorityList.isEmpty()) {
+            return respAuthorityVOList;
         } else {
             List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authorityList, AdminAuthorityVO.class);
             adminAuthorityVOList.forEach(authVO -> {
@@ -354,13 +352,13 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                     authVO.setIsChecked(false);
                 }
                 // 拼接下级tree数据
-                if (authVO.getPid().equals("") || authVO.getPid().equals(0)) {
+                if ("".equals(authVO.getPid()) || "0".equals(authVO.getPid())) {
                     adminAuthorityVOList.forEach(authTwoVO -> {
                         if (authTwoVO.getPid().equals(authVO.getId())) {
                             if (authVO.getAuthoritys() == null) {
-                                authVO.setAuthoritys(new ArrayList<AdminAuthorityVO>() {{
-                                    add(authTwoVO);
-                                }});
+                                ArrayList<AdminAuthorityVO> authorityVOS = new ArrayList<>();
+                                authorityVOS.add(authTwoVO);
+                                authVO.setAuthoritys(authorityVOS);
                             } else {
                                 authVO.getAuthoritys().add(authTwoVO);
                             }
@@ -387,7 +385,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 userId, Base.Disable.V0.getValue(), Admin.AuthorityState.V2.getValue()
         );
         if (auth == null) {
-            return null;
+            return new ArrayList<>();
         } else {
             return auth.stream().map(AdminAuthority::getUrl).collect(Collectors.toList());
         }

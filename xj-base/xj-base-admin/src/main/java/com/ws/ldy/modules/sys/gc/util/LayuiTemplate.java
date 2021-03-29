@@ -11,7 +11,7 @@ public class LayuiTemplate {
      * {id}   字段名
      * {name} 字段名
      */
-    public static String INPUT_PT = "    <div class=\"layui-inline\">\n" +
+    public static final  String INPUT_PT = "    <div class=\"layui-inline\">\n" +
             "        <label class=\"layui-form-label\">{desc}:</label>\n" +
             "        <div class=\"layui-input-block\">\n" +
             "            <input type=\"text\" id=\"{id}\" name=\"{name}\" placeholder=\"请输入{desc}...\" autocomplete=\"off\" class=\"layui-input\">\n" +
@@ -24,7 +24,7 @@ public class LayuiTemplate {
      * {id}   字段名
      * {name} 字段名
      */
-    public static String selectPt = "< div class=\"layui-inline\">\n" +
+    public static final String  selectPt = "< div class=\"layui-inline\">\n" +
             "            <label class=\"layui-form-label\">{desc}</label>\n" +
             "            <div class=\"layui-input-block\">\n" +
             "                <select id=\"{id}\"name=\"{name}\">\n" +

@@ -1,13 +1,14 @@
 package com.ws.ldy.modules.sys.gc.util;
 
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
 import com.ws.ldy.common.utils.IdUtil;
 import com.ws.ldy.common.utils.JsonUtil;
 import com.ws.ldy.common.utils.LocalDateTimeUtil;
-import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
 import com.ws.ldy.modules.sys.gc.config.DsField;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -25,6 +26,7 @@ import java.util.Map;
  * @date 2020/2/9 0009 20:33
  */
 @SuppressWarnings("all")
+@Slf4j
 public class GenerateDataProcessing {
 
 
@@ -41,7 +43,7 @@ public class GenerateDataProcessing {
         List<Map<String, Object>> tableList = new ArrayList<>();
         List<Object> dataObjs = JsonUtil.parseList(data, null);
         dataObjs.forEach(item -> tableList.add(JsonUtil.parseMap(item.toString())));
-        //System.out.println(tableList.toString());
+        //log.debug(tableList.toString());
         return tableList;
     }
 
@@ -153,7 +155,7 @@ public class GenerateDataProcessing {
             // 打印参数区分
             brBw.put("name", name);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         return brBw;
     }
@@ -265,8 +267,8 @@ public class GenerateDataProcessing {
                 bw.flush();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
-        System.out.println(brBwPath.get("name") + " --> " + brBwPath.get("path").toString());
+        log.debug(brBwPath.get("name") + " --> " + brBwPath.get("path").toString());
     }
 }

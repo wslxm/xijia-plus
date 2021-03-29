@@ -33,3 +33,8 @@ logging:
   filePath: /usr/local/work/xijia2/logs
   methods: POST,PUT,DELETE
 
+wx:
+  # 微信小程序（牙贝商城）
+  app:
+    appId: wx07bc697f7c2da54c
+    secret: f0b871ce3e42dba34b249ed41343bcd5

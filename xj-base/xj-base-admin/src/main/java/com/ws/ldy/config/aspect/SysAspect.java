@@ -1,11 +1,11 @@
 package com.ws.ldy.config.aspect;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.ws.ldy.config.aspect.gateway.SysIdempotent;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.aspect.gateway.SysAuth;
 import com.ws.ldy.config.aspect.gateway.SysBlacklist;
+import com.ws.ldy.config.aspect.gateway.SysIdempotent;
 import com.ws.ldy.config.aspect.gateway.SysLog;
 import com.ws.ldy.config.auth.entity.JwtUser;
 import com.ws.ldy.config.error.GlobalExceptionHandler;
@@ -20,7 +20,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -92,17 +91,18 @@ public class SysAspect {
     /**
      * 不需要记录日志的 uri 集, 静态资源, css, js ,路由等等, 只要uri包含以下定义的内容, 将直接跳过改过滤器
      */
-    private static List<String> excludeUriList = new ArrayList<String>() {{
-        add("/bootAdmin/instances");  // springbootAdmin监控相关
-        add("/bootAdmin");            // 系统监控相关
-        add("/actuator");             // 系统监控相关
-        add("/druid/");               // sql监控相关
-        add("/page/");                // 页面跳转(路由)
-        add("/error");                // 模板解析错误
-        add("/api/admin/adminLog/");  // 日志相关
-        add("/swagger-resources/");   // swagger访问
-    }};
+    private final List<String> excludeUriList = new ArrayList<>();
 
+    public SysAspect() {
+        excludeUriList.add("/bootAdmin/instances");  // springbootAdmin监控相关
+        excludeUriList.add("/bootAdmin");            // 系统监控相关
+        excludeUriList.add("/actuator");             // 系统监控相关
+        excludeUriList.add("/druid/");               // sql监控相关
+        excludeUriList.add("/page/");                // 页面跳转(路由)
+        excludeUriList.add("/error");                // 模板解析错误
+        excludeUriList.add("/api/admin/adminLog/");  // 日志相关
+        excludeUriList.add("/swagger-resources/");   // swagger访问
+    }
 
     /**
      * 拦截范围
@@ -154,7 +154,6 @@ public class SysAspect {
         // 获取请求参数
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = sra.getRequest();
-        HttpServletResponse response = sra.getResponse();
         String uri = request.getRequestURI();
         String method = request.getMethod();
 
@@ -167,12 +166,7 @@ public class SysAspect {
         }
 
         // 2、记录请求日志, 将异步执行(与业务代码并行处理),不影响程序响应, future 为线程的返回值，用于后面异步执行响应结果
-        Future<XjAdminLog> future = executorService.submit(new Callable<XjAdminLog>() {
-            @Override
-            public XjAdminLog call() {
-                return sysLog.log(proceed,request);
-            }
-        });
+        Future<XjAdminLog> future = executorService.submit(() -> sysLog.log(proceed, request));
 
         // 3、幂等验证
         R apiIdempotentR = sysIdempotent.run(proceed);
@@ -210,7 +204,7 @@ public class SysAspect {
 
         // 7、记录响应结果和记录响应时间(state=1-成功,等待请求线程执行完毕立即执行)
         long endTime1 = System.currentTimeMillis();
-        sysLog.updLog(future, 1, (endTime1 - startTime1), (endTime1 - startTime2), method,uri, obj);
+        sysLog.updLog(future, 1, (endTime1 - startTime1), (endTime1 - startTime2), method, uri, obj);
 
         // 8、返回结果
         return obj;

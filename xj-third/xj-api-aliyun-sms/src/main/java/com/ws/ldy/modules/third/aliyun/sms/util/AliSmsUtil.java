@@ -87,9 +87,9 @@ public class AliSmsUtil {
             //Object message = respData.get("Code"); OK 表示发送成功
             log.info("发送短信返回数据: {}", respData);
         } catch (ServerException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         } catch (ClientException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         return true;
     }

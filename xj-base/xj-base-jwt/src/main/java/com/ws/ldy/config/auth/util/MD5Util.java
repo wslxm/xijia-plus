@@ -1,5 +1,7 @@
 package com.ws.ldy.config.auth.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.security.MessageDigest;
 
 /***
@@ -8,6 +10,7 @@ import java.security.MessageDigest;
  * @mail 1720696548@qq.com
  * @date 2020/7/5 0005 22:06 
  */
+@Slf4j
 public class MD5Util {
 
     /**
@@ -42,6 +45,6 @@ public class MD5Util {
     }
 
     public static void main(String[] args) {
-        System.out.println(MD5Util.encode("123456"));
+        log.debug(MD5Util.encode("123456"));
     }
 }

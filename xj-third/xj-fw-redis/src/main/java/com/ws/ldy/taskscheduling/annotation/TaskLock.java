@@ -1,4 +1,4 @@
-package com.ws.ldy.taskScheduling.annotation;
+package com.ws.ldy.taskscheduling.annotation;
 
 
 import java.lang.annotation.*;

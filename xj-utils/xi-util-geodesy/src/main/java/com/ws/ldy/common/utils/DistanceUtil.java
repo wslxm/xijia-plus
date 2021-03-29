@@ -1,5 +1,6 @@
 package com.ws.ldy.common.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GeodeticCalculator;
 import org.gavaghan.geodesy.GlobalCoordinates;
@@ -11,10 +12,11 @@ import org.gavaghan.geodesy.GlobalCoordinates;
  * @date 2021/2/3 0003 10:36
  * @version 1.0.0
  */
+@Slf4j
 public class DistanceUtil {
 
     public static void main(String[] args) {
-        System.out.println("经纬度距离计算结果：" + getDistance(104.087421, 30.542043, 104.147618, 30.635065) + "米");
+        log.debug("经纬度距离计算结果：{} 米", getDistance(104.087421, 30.542043, 104.147618, 30.635065));
     }
 
 
@@ -29,7 +31,6 @@ public class DistanceUtil {
     public static double getDistance(double longitudeTo, double latitudeTo, double longitudeFrom, double latitudeFrom) {
         GlobalCoordinates source = new GlobalCoordinates(latitudeFrom, longitudeFrom);
         GlobalCoordinates target = new GlobalCoordinates(latitudeTo, longitudeTo);
-        double distance = new GeodeticCalculator().calculateGeodeticCurve(Ellipsoid.Sphere, source, target).getEllipsoidalDistance();
-        return distance;
+        return new GeodeticCalculator().calculateGeodeticCurve(Ellipsoid.Sphere, source, target).getEllipsoidalDistance();
     }
 }

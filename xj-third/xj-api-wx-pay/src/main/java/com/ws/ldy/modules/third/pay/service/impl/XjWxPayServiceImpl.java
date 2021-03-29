@@ -15,6 +15,7 @@ import com.ws.ldy.modules.third.pay.model.vo.WxPayOrderResultVO;
 import com.ws.ldy.modules.third.pay.model.vo.WxPayRefundResultVO;
 import com.ws.ldy.modules.third.pay.service.XjWxPayService;
 import com.ws.ldy.modules.third.pay.wxApi.WxPayApi;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
  * </pre>
  */
 @Service
+@Slf4j
 public class XjWxPayServiceImpl implements XjWxPayService {
 
     @Autowired
@@ -75,7 +77,7 @@ public class XjWxPayServiceImpl implements XjWxPayService {
             BeanUtils.copyProperties(result, vo);
             return R.success(vo);
         } catch (WxPayException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
             return R.error(RType.WX_PAY_FAILURE.getValue(), RType.WX_PAY_FAILURE.getMsg() + ":" + e.getReturnMsg() + ":" + e.getErrCodeDes());
         }
     }
@@ -103,7 +105,7 @@ public class XjWxPayServiceImpl implements XjWxPayService {
             BeanUtils.copyProperties(refund, vo);
             return R.success(vo);
         } catch (WxPayException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
             return R.error(RType.WX_PAY_FAILURE.getValue(),
                     RType.WX_PAY_FAILURE.getMsg()
                             + ":" + e.getReturnMsg()

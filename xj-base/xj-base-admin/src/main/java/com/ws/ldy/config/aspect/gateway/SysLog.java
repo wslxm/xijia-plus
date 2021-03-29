@@ -179,7 +179,7 @@ public class SysLog {
                 } else {
                     log.info("note logging failed logs null request uri " + uri);
                 }
-                // System.out.println(logs.getClassDesc() + logs.getUrl() + "  --> " + data);
+                // log.debug(logs.getClassDesc() + logs.getUrl() + "  --> " + data);
                 break;
             }
         }

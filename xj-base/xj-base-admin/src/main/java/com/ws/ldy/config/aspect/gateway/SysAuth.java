@@ -33,10 +33,13 @@ public class SysAuth {
     /**
      * 绝对放行接口，不受限于- 动态权限管理(勿随意配置)
      */
-    List<String> URIS = new ArrayList<String>() {{
-        add("/api/admin/adminUser/login");          // 管理端登录接口
-        add("/api/admin/adminRole/updRoleAuthAll"); // 给所有角色分配所有权限
-    }};
+    private final List<String> URIS = new ArrayList<>();
+
+
+    public SysAuth() {
+        URIS.add("/api/admin/adminUser/login");          // 管理端登录接口
+        URIS.add("/api/admin/adminRole/updRoleAuthAll"); // 给所有角色分配所有权限
+    }
 
 
     /**
@@ -58,7 +61,7 @@ public class SysAuth {
         if (URIS.contains(uri)) {
             return R.success(null);
         }
-        // 2、是否被权限管理, 没有直接放行，log.info("请求方式:{} 请求URL:{} ", request.getMethod(), request.getServletPath());
+        // 2、是否被权限管理, 没有直接放行
         if (!JvmCache.getAuthMap().containsKey(uri)) {
             return R.success(null);
         }
@@ -83,7 +86,7 @@ public class SysAuth {
             /**
              *  1- 需登录 (能获取用户信息jwtUser 即成功)
              */
-            R<JwtUser> result = JwtUtil.getJwtUserR(request,response);
+            R<JwtUser> result = JwtUtil.getJwtUserR(request, response);
             if (!result.getCode().equals(RType.SYS_SUCCESS.getValue())) {
                 // error
                 return result;
@@ -93,7 +96,7 @@ public class SysAuth {
             /**
              *  2- 需登录+授权 (100% 管理端才会进入, 验证用户信息的权限列表中是否存在当前接口，存在放行，不存在拦截返回无权限访问)
              */
-            R<JwtUser> result = JwtUtil.getJwtUserR(request,response);
+            R<JwtUser> result = JwtUtil.getJwtUserR(request, response);
             if (!result.getCode().equals(RType.SYS_SUCCESS.getValue())) {
                 // error
                 return result;

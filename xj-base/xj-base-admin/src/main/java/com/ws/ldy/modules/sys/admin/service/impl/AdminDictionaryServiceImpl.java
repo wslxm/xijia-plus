@@ -17,6 +17,7 @@ import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryCodeGroup;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryVO;
 import com.ws.ldy.modules.sys.admin.service.AdminDictionaryService;
 import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -24,12 +25,13 @@ import java.util.stream.Collectors;
 
 
 @Service
+@Slf4j
 public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionaryMapper, AdminDictionary> implements AdminDictionaryService {
 
     /**
      * 父级pid
      */
-    private final String pid = "0";
+    private static final String PID = "0";
 
 
     @Override
@@ -81,7 +83,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      */
     @Override
     public List<AdminDictionaryVO> findList(Boolean isDisable) {
-        if (JvmCache.getDictList() == null) {
+        if (JvmCache.getDictList().isEmpty()) {
             // 查询所有字典数据
             List<AdminDictionary> adminDictionaries = baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
                     .orderByAsc(AdminDictionary::getSort)
@@ -155,8 +157,8 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         //2、获取所有字典数据
         List<AdminDictionaryVO> dictListVO = findList(isDisable);
 
-        if (dictListVO.size() == 0) {
-            return null;
+        if (dictListVO.isEmpty()) {
+            return dictListVO;
         }
 
         // 3、是否根据code查询, 找到父级code数据（只有一条）, 如果没有, 设置为父级字典数据为顶级code=0的数据(可能多条)
@@ -170,14 +172,14 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
             }
         } else {
             for (AdminDictionaryVO p : dictListVO) {
-                if (pid.equals(p.getPid())) {
+                if (PID.equals(p.getPid())) {
                     pDictListVO.add(p);
                 }
             }
         }
-        if (pDictListVO.size() == 0) {
+        if (pDictListVO.isEmpty()) {
             // 没有顶级code数据
-            return null;
+            return pDictListVO;
         }
 
         // 4、数据过滤，是否需要最后一级数据（false不需要）
@@ -253,9 +255,9 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
             for (AdminDictionaryCodeGroup dictVo : dictionaryCodeGroupList) {
                 if (dictVo.getPid().equals(fatherDictVo.getId())) {
                     if (fatherDictVo.getDictMap() == null) {
-                        fatherDictVo.setDictMap(new LinkedHashMap<String, AdminDictionaryCodeGroup>() {{
-                            put(dictVo.getCode(), dictVo);
-                        }});
+                        LinkedHashMap<String, AdminDictionaryCodeGroup> map = new LinkedHashMap<>();
+                        map.put(dictVo.getCode(), dictVo);
+                        fatherDictVo.setDictMap(map);
                     } else {
                         fatherDictVo.getDictMap().put(dictVo.getCode(), dictVo);
                     }
@@ -268,7 +270,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     @Override
     public List<AdminDictionaryVO> findDictCategory(String code) {
-        String newPid = pid;
+        String newPid = PID;
         List<AdminDictionaryVO> dictList = this.findList(true);
         if (StringUtils.isNotBlank(code)) {
             for (AdminDictionaryVO adminDictionaryVO : dictList) {
@@ -297,8 +299,8 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         map.put("java", enumsJava);
         // 枚举字典key，直接通过key获取
         map.put("js", enumsJs);
-        System.out.println(enumsJava);
-        System.out.println(enumsJs);
+        log.debug(enumsJava);
+        log.debug(enumsJs);
         return map;
     }
 
@@ -314,9 +316,9 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
             // 当前层级类还没有子层级对象就创建/有就追加
             if (zDict.getPid().equals(pDict.getId())) {
                 if (pDict.getDictList() == null) {
-                    pDict.setDictList(new ArrayList<AdminDictionaryVO>() {{
-                        add(zDict);
-                    }});
+                    ArrayList<AdminDictionaryVO> adminDictionaryVOS = new ArrayList<>();
+                    adminDictionaryVOS.add(zDict);
+                    pDict.setDictList(adminDictionaryVOS);
                 } else {
                     pDict.getDictList().add(zDict);
                 }
@@ -338,7 +340,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      */
     private String generateEnumJava(AdminDictionaryVO dict) {
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("package com.ws.ldy.enums;\n");
         sb.append("\nimport lombok.AllArgsConstructor;");
         sb.append("\nimport lombok.Getter;\n");
@@ -388,7 +390,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      */
     private String generateEnumJava2(AdminDictionaryVO dict) {
         String code = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dict.getCode());
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("package com.ws.ldy.enums;\n");
         sb.append("\nimport lombok.AllArgsConstructor;");
         sb.append("\nimport lombok.Getter;\n");
@@ -427,7 +429,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * @version 1.0.0
      */
     private String generateEnumJs(AdminDictionaryVO dict) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         //
         sb.append("var Enums = {");
         //模块名
@@ -446,43 +448,5 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     }
 
 
-//    /**
-//     * 拼接js 对应的枚举字典数据
-//     * @author wangsong
-//     * @mail 1720696548@qq.com
-//     * @date 2020/8/16 0016 0:29
-//     * @version 1.0.0
-//     */
-//    @Override
-//    public String generateEnumJs(AdminDictionaryVO dict) {
-//        StringBuffer sb = new StringBuffer();
-//        //
-//        sb.append("var enums = {\n");
-//        //模块名
-//        for (AdminDictionaryVO dictModule : dict.getDictList()) {
-//            sb.append("\n     /** ");
-//            sb.append("\n      * " + dictModule.getDesc() + "");
-//            sb.append("\n      */ ");
-//            sb.append("\n      " + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictModule.getCode() + ": {\n"));
-//            //枚举字典的-枚举名--驼峰模式
-//            for (AdminDictionaryVO dictField : dictModule.getDictList()) {
-//                String moduleName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictField.getCode());
-//                sb.append("         // " + dictField.getDesc() + "\n");
-//                sb.append("         " + moduleName + " : {\n");
-//                sb.append("           key: \"" + dictField.getCode()  + "\",\n");
-//                sb.append("           value: [\n");
-//                //枚举字典的-枚举属性
-//                for (AdminDictionaryVO dictValue : dictField.getDictList()) {
-//                    sb.append("          {\""+ dictValue.getCode()+"\":\""+dictValue.getName()+"\"},   // " + dictValue.getDesc() + "\n");
-//                }
-//                //
-//                sb.append("            ],\n");
-//                sb.append("        },\n");
-//            }
-//            sb.append("    },\n");
-//        }
-//        sb.append("};\n");
-//        return sb.toString();
-//    }
 }
 
