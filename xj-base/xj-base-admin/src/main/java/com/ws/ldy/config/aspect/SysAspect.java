@@ -3,10 +3,7 @@ package com.ws.ldy.config.aspect;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
-import com.ws.ldy.config.aspect.gateway.SysAuth;
-import com.ws.ldy.config.aspect.gateway.SysBlacklist;
-import com.ws.ldy.config.aspect.gateway.SysIdempotent;
-import com.ws.ldy.config.aspect.gateway.SysLog;
+import com.ws.ldy.config.aspect.gateway.*;
 import com.ws.ldy.config.auth.entity.JwtUser;
 import com.ws.ldy.config.error.GlobalExceptionHandler;
 import com.ws.ldy.modules.sys.xj.model.entity.XjAdminLog;
@@ -59,6 +56,12 @@ public class SysAspect {
      */
     @Autowired
     private SysIdempotent sysIdempotent;
+
+//    /**
+//     * 验签
+//     */
+//    @Autowired
+//    private SysSing sysSing;
 
     /**
      * 全局异常
@@ -164,6 +167,11 @@ public class SysAspect {
                 return proceed.proceed();
             }
         }
+        // 1、验签
+//        R<Boolean> singR = sysSing.isSing(proceed);
+//        if (!singR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+//            return singR;
+//        }
 
         // 2、记录请求日志, 将异步执行(与业务代码并行处理),不影响程序响应, future 为线程的返回值，用于后面异步执行响应结果
         Future<XjAdminLog> future = executorService.submit(() -> sysLog.log(proceed, request));

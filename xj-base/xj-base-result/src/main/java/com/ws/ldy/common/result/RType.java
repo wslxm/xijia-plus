@@ -44,7 +44,11 @@ public enum RType {
 
     // 参数错误 9999
     PARAM_ERROR(9999, "参数错误"),
-    PARAM_ERROR_JSR303(9999, "参数错误:不符合JSR 303规范"),//jsr303错误,全局异常单独处理返回msg
+    PARAM_SIGN_ERROR(9999, "验签: 参数验证失败"),
+    PARAM_IS_NO_SIGN(9999, "验签: 没有 sign 或 timestamp 参数"),
+    PARAM_NO_BODY_QUERY(9999, "验签: 不能同时存在query和body参数"),
+    PARAM_TIME_OUT(9999, "验签: 请求超时"),                         // 请求超时,可能请求被拦截篡改参数后再请求
+    PARAM_ERROR_JSR303(9999, "参数错误:不符合JSR 303规范"),     // jsr303错误,全局异常单独处理返回msg
     PARAM_MISSING(9999, "缺少参数"),
     PARAM_TYPE_DOES_NOT_MATCH(9999, " 参数类型不匹配"),
     PARAM_ID_REQUIRED_FALSE(9999, "添加不能传递ID"),

@@ -51,6 +51,7 @@
     function formSubmit() {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            data.field.type = parseInt(data.field.type);
             data.field.id = parent.data.id;
             //data.field.id = parent.data.id;
             let result = Ajax.put(path + "/admin/xj/adminBlacklist/upd", data.field);

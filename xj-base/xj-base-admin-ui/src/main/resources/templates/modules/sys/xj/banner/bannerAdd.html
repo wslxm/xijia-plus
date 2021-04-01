@@ -127,7 +127,7 @@
             elem: '#test7'
             , url: uploadPath + '?filePath=image/banner/' //改成您自己的上传接口
             , size: 2048 //限制文件大小，单位 KB
-            , headers: getGlobalHeaders()
+            , headers: {"TOKEN": getGlobalHeaders()}
             , done: function (res) {
                 //如果上传失败
                 if (res.code !== 200) {

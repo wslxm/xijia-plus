@@ -166,7 +166,7 @@
 
         // 背景图
         res = Ajax.get(path + "/admin/xj/adminConfig/findByCode?code=login_bg_img");
-        $(".xijiaLoginDiv").css("background","url("+res.data.content+")");
+        $(".xijiaLoginDiv").css("background", "url(" + res.data.content + ")");
 
         // 备案号：蜀ICP备19022468号-1
         res = Ajax.get(path + "/admin/xj/adminConfig/findByCode?code=beian");
@@ -177,8 +177,107 @@
         $("#project_desc").html(res.data.content);
 
 
-
+        // 初始化操作
+        init();
     });
+
+    function init() {
+
+        // let data = [{
+        //     a: 1,
+        //     c: 1,
+        //     d: 1,
+        //     b: 1,
+        //     e: 1,
+        //     a1: "2020-05-05 00:01:02",
+        //     // 下级数据
+        //     signDto: {
+        //         a: 2,
+        //         b: 2,
+        //         c: 2,
+        //         d: 2,
+        //         e: 2,
+        //         // 下下级数据
+        //         signDto: {
+        //             a: 3,
+        //             b: 3,
+        //             c: 3,
+        //             d: 3,
+        //             e: 3,
+        //             // 下级数据
+        //             signDto: {
+        //                 a: 2,
+        //                 b: 2,
+        //                 c: 2,
+        //                 d: 2,
+        //                 e: 2,
+        //                 // 下下级数据
+        //                 signDto: {
+        //                     a: 3,
+        //                     b: 3,
+        //                     c: 3,
+        //                     d: 3,
+        //                     e: 3,
+        //                     a1: "2020-05-05 00:01:02",
+        //                 }
+        //             },
+        //         }
+        //     },
+        //     // 下级多层数据
+        //     dtos: [{
+        //         a: 1,
+        //         b: 1,
+        //         c: 1,
+        //         d: 1,
+        //         e: 1,
+        //     }, {
+        //         a: 2,
+        //         c: 2,
+        //         b: 2,
+        //         d: 2,
+        //         e: 2,
+        //     }, {
+        //         a: 3,
+        //         c: 3,
+        //         b: 3,
+        //         d: 3,
+        //         e: 3,
+        //     }
+        //     ]
+        // }, {
+        //     a: 1,
+        //     c: 1,
+        //     d: 1,
+        //     b: 1,
+        //     e: 1,
+        //     a1: "2020-05-05 00:01:02",
+        //     // 下级多层数据
+        //     dtos: [{
+        //         a: 1,
+        //         b: 1,
+        //         c: 1,
+        //         d: 1,
+        //         e: 1,
+        //     }, {
+        //         a: 2,
+        //         c: 2,
+        //         b: 2,
+        //         d: 2,
+        //         e: 2,
+        //     }, {
+        //         a: 3,
+        //         c: 3,
+        //         b: 3,
+        //         d: 3,
+        //         e: 3,
+        //     }
+        //     ]
+        // }
+        // ];
+        let data = [];
+        Ajax.post("/api/open/xj/sign/test1", data)
+    }
+
 </script>
 
 

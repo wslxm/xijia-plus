@@ -197,7 +197,7 @@
             elem: '#addZmImg'
             , url: uploadPath + '?filePath=image/config/'
             , multiple: true
-            , headers: getGlobalHeaders()
+            , headers: {"TOKEN": getGlobalHeaders()}
             , before: function (obj) {
                 //预读本地文件示例，不支持ie8
                 // obj.preview(function (index, file, result) {

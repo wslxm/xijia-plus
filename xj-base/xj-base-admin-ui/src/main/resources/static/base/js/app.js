@@ -1,3 +1,5 @@
+document.write("<script language=javascript src='/base/js/SignMD5.js'></script>");
+
 /**
  * 后台接口访问地址
  * 后台文件上传接口
@@ -533,17 +535,25 @@ Ajax = {
     delete: function (url, data) {
         return Ajax.request(url, data, "delete", "json");
     },
-
     // ajax-请求(同步请求) --> 1-url  2-数据 3、请求方式 4、返回数据 || -<5、同步false/异步true
     request: function (url, data, type, dataType) {
         let result = null;
+        // 参数加签
+        let timestamp = new Date().getTime();
+        let sign = Sign.query(url, timestamp);
+        sign = sign != null ? sign : Sign.body(data, timestamp);
+        // 发起请求
         $.ajax({
             type: type,
             dataType: dataType,
             url: url,
             data: JSON.stringify(data),
             contentType: "application/json;charset=utf-8",  //"application/x-www-form-urlencoded;charset=utf-8",
-            headers: getGlobalHeaders(),
+            headers: {
+                "TOKEN": getGlobalHeaders(),
+                "timestamp": timestamp,
+                "sign": sign,
+            },
             async: false,        // true=异步，false=同步
             //traditional: true, // 允许传递数组
             //请求成功
@@ -566,15 +576,6 @@ Ajax = {
                 } catch (e) {
                     alert('AJAX请求失败!');
                 }
-                /*错误信息处理*/
-                // alert("进入error---");
-                // alert("状态码：" + xhr.status);
-                // alert("状态:" + xhr.readyState);//当前状态,0-未初始化，1-正在载入，2-已经载入，3-数据进行交互，4-完成。
-                // alert("错误信息:" + xhr.statusText);
-                // alert("返回响应信息：" + xhr.responseText);//这里是详细的信息
-                // alert("请求状态：" + textStatus);
-                // alert(errorThrown);
-                // alert("请求失败");
             }
         });
         //错误打印
@@ -597,11 +598,151 @@ Ajax = {
 };
 
 /**
+ * 加签
+ * <P>
+ *   验签
+ *  <P>
+ * account=1720696548&password=123456&timestamp=1578811547552
+ * sign,timestamp
+ * String mysign = DigestUtils.md5Hex(getContentBytes(preSignStr + APP_KEY, INPUT_CHARSET));
+ * @author wangsong
+ * @mail  1720696548@qq.com
+ * @date  2021/3/29 0029 22:10
+ * @version 1.0.0
+ */
+Sign = {
+    param: {
+        /**
+         * 验签加密 key
+         */
+        appKey: "xijia123456",
+        sign: "sign",
+        timestamp: "timestamp",
+    },
+    /**
+     *  query 参数加签,
+     *  加签规则
+     *  1、参数中追加 timestamp 参数(当前时间戳)
+     *  2、参数对象根据字母排序, adcdefg....（包括timestamp）
+     *  3、排序后的数据 + appKey 换成 byte 数据
+     *  4、使用 hex_md5() 对第三步获取的byte数据进行加密操作
+     *  5、返回 sign 参数, 放入 headers
+     *  其他： 空val的对象不加入验签范围
+     * @param oldUrl
+     * @param timestamp
+     * @returns {string|null}
+     */
+    query: function (oldUrl, timestamp) {
+        if (oldUrl.indexOf("?") !== -1) {
+            // url增加时间戳参数
+            let newUrl = oldUrl + "&" + Sign.param.timestamp + "=" + timestamp;
+            // 通过split()分割为数组
+            let arr = newUrl.split('?')[1].split('&');
+            // 获取query的所有参数
+            let theRequest = new Object();
+            for (let i = 0; i < arr.length; i++) {
+                let kye = arr[i].split("=")[0];
+                let value = arr[i].split("=")[1];
+                if (value != null && value !== "") {
+                    // value不为null给对象赋值
+                    theRequest[kye] = value
+                }
+            }
+            // 排序并重新封装获得排序后的参数
+            let dataParams = "";
+            let result = Object.keys(theRequest).sort();
+            for (let key of result) {
+                dataParams += "&" + key + "=" + theRequest[key];
+            }
+            dataParams = dataParams.substring(1);
+            // 加签
+            return md5(dataParams + Sign.param.appKey);
+        }
+        return null;
+    },
+    // body 参数加签
+    body: function (data) {
+        let timestamp = new Date().getTime();
+        // body参数加签
+        if (data != null) {
+            // 请求数据转为json字符串进行加签
+            //  let bodyJson
+            data = Sign.bodyDataSort(data);
+            let bodyJson = JSON.stringify(data);
+            // 加签参数排序
+            let theRequest = new Object();
+            theRequest["body"] = bodyJson;
+            theRequest["timestamp"] = timestamp;
+            // 排序并重新封装获得排序后的参数
+            let dataParams = "";
+            let result = Object.keys(theRequest).sort();
+            for (let key of result) {
+                dataParams += "&" + key + "=" + theRequest[key];
+            }
+            dataParams = dataParams.substring(1);
+            console.log("body加签参数:" + dataParams);
+            return md5(dataParams + Sign.param.appKey);
+        }
+        return null;
+    },
+
+    // body 参数排序
+    bodyDataSort: function (data) {
+        //数组长度小于2 或 没有指定排序字段 或 不是json格式数据
+        // if (fastJson.length < 2 || !fastJson || typeof fastJson[0] !== "object") return fastJson;
+        // 判断是数组还是对象
+        if (data instanceof Array) {
+            //  数组
+            if (data[0] instanceof Object || data[0] instanceof Array) {
+                let arrays = data;
+                let newArrays = [];
+                for (let i = 0; i < arrays.length; i++) {
+                    let dataTwo = arrays[i];
+                    // 根据 key 类型排序
+                    let keysTwo = Object.keys(dataTwo).sort();
+                    let newDataTwo = {};
+                    for (let keyTwo of keysTwo) { //遍历json对象的每个key/value对,p为key
+                        // 递归给下级排序
+                        if (dataTwo[keyTwo] instanceof Object) {
+                            newDataTwo[keyTwo] = Sign.bodyDataSort(dataTwo[keyTwo]);
+                        } else {
+                            newDataTwo[keyTwo] = dataTwo[keyTwo];
+                        }
+                    }
+                    newArrays.push(newDataTwo);
+                }
+                return newArrays;
+            } else {
+                // 不处理: [0,1,2,3] 数组数据
+                return data;
+            }
+        } else if (data instanceof Object) {
+            // 对象
+            // 根据 key 类型排序
+            let keys = Object.keys(data).sort();
+            let newData = {};
+            for (let key of keys) { //遍历json对象的每个key/value对,p为key
+                // 递归给下级排序
+                if (data[key] instanceof Object) {
+                    newData[key] = Sign.bodyDataSort(data[key]);
+                } else {
+                    newData[key] = data[key];
+                }
+            }
+            return newData;
+        } else {
+            return data;
+        }
+    }
+};
+
+
+/**
  * 全局请求头
  * @returns {{TOKEN: string}}
  */
 function getGlobalHeaders() {
-    return {"TOKEN": sessionStorage.getItem(BaseConfig.token) == null ? "" : sessionStorage.getItem(BaseConfig.token)}
+    return sessionStorage.getItem(BaseConfig.token) == null ? "" : sessionStorage.getItem(BaseConfig.token);
 }
 
 
@@ -783,7 +924,7 @@ WindowPos = {
  */
 StringUtils = {
     /**
-     * byte转字符串
+     *字符串 转 byte
      * @author ws
      * @mail  1720696548@qq.com
      * @date  2020/3/29 0029 23:54
@@ -817,7 +958,7 @@ StringUtils = {
 
 
     /**
-     * 字符串转byte
+     * byte转字符串
      * @author ws
      * @mail  1720696548@qq.com
      * @date  2020/3/29 0029 23:54
@@ -998,3 +1139,5 @@ function isMobile() {
     ) return true;
     return false;
 }
+
+
