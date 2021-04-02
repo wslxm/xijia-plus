@@ -9,12 +9,12 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class MyRequestWrapper extends HttpServletRequestWrapper {
+public class RequestWrapper extends HttpServletRequestWrapper {
 
     private final String body;
 
 
-    public MyRequestWrapper(HttpServletRequest request) throws IOException {
+    public RequestWrapper(HttpServletRequest request) throws IOException {
         super(request);
         this.body = RequestReadUtils.read(request);
     }

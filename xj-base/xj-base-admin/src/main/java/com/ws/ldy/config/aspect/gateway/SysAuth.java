@@ -11,6 +11,7 @@ import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,12 @@ public class SysAuth {
 
     @Autowired
     private HttpServletResponse response;
+
+    /**
+     * 默认放行token, 让swagger可以访问接口
+     */
+    @Value("${swagger.defaultValue:xijia@123}")
+    private String tokenDefaultValue;
 
 
     /**
@@ -72,7 +79,7 @@ public class SysAuth {
             return R.error(RType.AUTHORITY_DISABLE);
         }
         // 请求同TOKEN值当为token 时直接放行
-        if ("token".equals(request.getHeader(JwtUtil.TOKEN))) {
+        if (tokenDefaultValue.equals(request.getHeader(JwtUtil.TOKEN))) {
             return R.success(null);
         }
 

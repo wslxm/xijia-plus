@@ -542,6 +542,7 @@ Ajax = {
         let timestamp = new Date().getTime();
         let sign = Sign.query(url, timestamp);
         sign = sign != null ? sign : Sign.body(data, timestamp);
+        console.log("加签参数：" + sign);
         // 发起请求
         $.ajax({
             type: type,
@@ -580,7 +581,7 @@ Ajax = {
         });
         //错误打印
         if (result.code !== 200) {
-            //10003 = 没有token
+            // 10003 = 没有token
             if (result.code === 10000) {
                 //用户未登陆/或登录过期跳登录页
                 location.href = "../login";
@@ -611,85 +612,109 @@ Ajax = {
  * @version 1.0.0
  */
 Sign = {
+    /**
+     * 加签秘钥
+     */
     param: {
-        /**
-         * 验签加密 key
-         */
-        appKey: "xijia123456",
-        sign: "sign",
-        timestamp: "timestamp",
+        appKey: "xijia",
+        secretKey: "xijia@qwer",
     },
     /**
-     *  query 参数加签,
-     *  加签规则
-     *  1、参数中追加 timestamp 参数(当前时间戳)
-     *  2、参数对象根据字母排序, adcdefg....（包括timestamp）
-     *  3、排序后的数据 + appKey 换成 byte 数据
-     *  4、使用 hex_md5() 对第三步获取的byte数据进行加密操作
-     *  5、返回 sign 参数, 放入 headers
-     *  其他： 空val的对象不加入验签范围
-     * @param oldUrl
-     * @param timestamp
+     * 1、query 参数加签
+     * <p>
+     *     1、获取请求参数, 直接获取url ? 后面的参数
+     *
+     *     // --- addSing 方法
+     *     2、追加 timestamp
+     *     3、参数对象根据 key 排序(包括 timestamp)
+     *     4、md5(appKey + 排序后的参数 + secretKey)
+     *
+     *     // --- 请求
+     *     5、sign + timestamp 放入 headers 进行请求
+     *     其他：空val的对象不加入验签范围
+     * </p>
+     * @param url 请求的 url
+     * @param timestamp 时间戳
      * @returns {string|null}
      */
-    query: function (oldUrl, timestamp) {
-        if (oldUrl.indexOf("?") !== -1) {
-            // url增加时间戳参数
-            let newUrl = oldUrl + "&" + Sign.param.timestamp + "=" + timestamp;
-            // 通过split()分割为数组
-            let arr = newUrl.split('?')[1].split('&');
-            // 获取query的所有参数
-            let theRequest = new Object();
-            for (let i = 0; i < arr.length; i++) {
-                let kye = arr[i].split("=")[0];
-                let value = arr[i].split("=")[1];
-                if (value != null && value !== "") {
-                    // value不为null给对象赋值
-                    theRequest[kye] = value
-                }
-            }
-            // 排序并重新封装获得排序后的参数
-            let dataParams = "";
-            let result = Object.keys(theRequest).sort();
-            for (let key of result) {
-                dataParams += "&" + key + "=" + theRequest[key];
-            }
-            dataParams = dataParams.substring(1);
-            // 加签
-            return md5(dataParams + Sign.param.appKey);
+    query: function (url, timestamp) {
+        if (url.indexOf("?") === -1) {
+            return null;
         }
-        return null;
-    },
-    // body 参数加签
-    body: function (data) {
-        let timestamp = new Date().getTime();
-        // body参数加签
-        if (data != null) {
-            // 请求数据转为json字符串进行加签
-            //  let bodyJson
-            data = Sign.bodyDataSort(data);
-            let bodyJson = JSON.stringify(data);
-            // 加签参数排序
-            let theRequest = new Object();
-            theRequest["body"] = bodyJson;
-            theRequest["timestamp"] = timestamp;
-            // 排序并重新封装获得排序后的参数
-            let dataParams = "";
-            let result = Object.keys(theRequest).sort();
-            for (let key of result) {
-                dataParams += "&" + key + "=" + theRequest[key];
+        // 通过split()分割为数组
+        let arr = url.split('?')[1].split('&');
+        // 加签参数, query的所有参数
+        let theRequest = {};
+        for (let i = 0; i < arr.length; i++) {
+            let kye = arr[i].split("=")[0];
+            let value = arr[i].split("=")[1];
+            if (value != null && value !== "") {
+                // value不为null给对象赋值，decodeURIComponent目的是为了参数出现 # 等的字符,在请求前进行了encodeURIComponent编码
+                theRequest[kye] = decodeURIComponent(value);
             }
-            dataParams = dataParams.substring(1);
-            console.log("body加签参数:" + dataParams);
-            return md5(dataParams + Sign.param.appKey);
         }
-        return null;
+        return Sign.addSing(theRequest, timestamp);
+
     },
 
-    // body 参数排序
+    /**
+     * 2、body 参数加签
+     * <p>
+     *     1、获取请求参数, 对 body 的参数内的参数进行key排序 (包括所有下级数据排序), 然后转化为json字符串
+     *       - 并以 query格式拼接参数，示例: body= JSON(key排序后data)
+     *
+     *     // --- addSing 方法
+     *     2、追加query格式的参数 timestamp
+     *     3、参数对象根据 key 排序, 只有 body + timestamp 两个参数
+     *     4、md5(appKey + 排序后的参数 + secretKey)
+     *
+     *     // ---- 请求
+     *     5、sign + timestamp 放入 headers 进行请求
+     *     其他：空val的对象不加入验签范围
+     * </p>
+     * @param data body数据
+     * @param timestamp 当前数据戳
+     * @returns {null}
+     */
+    body: function (data, timestamp) {
+        if (data == null) {
+            return null;
+        }
+        // body参数排序
+        data = Sign.bodyDataSort(data);
+        // 转为json
+        let bodyJson = JSON.stringify(data);
+        // 加签参数
+        let theRequest = {};
+        theRequest["body"] = bodyJson;
+        return Sign.addSing(theRequest, timestamp);
+    },
+
+    /**
+     * 3、加签实现
+     *    3、参数对象根据 key 排序, 只有 body + timestamp 两个参数
+     *    4、md5(appKey + 排序后的参数 + secretKey)
+     * @returns {*}
+     */
+    addSing: function (theRequest, timestamp) {
+        theRequest["timestamp"] = timestamp;
+        // 排序并重新封装获得排序后的参数
+        let dataParams = "";
+        let result = Object.keys(theRequest).sort();
+        for (let key of result) {
+            dataParams += "&" + key + "=" + theRequest[key];
+        }
+        dataParams = dataParams.substring(1);
+        // 加签
+        return md5(Sign.param.appKey + dataParams + Sign.param.secretKey);
+    },
+
+    /**
+     * 4、body 参数排序
+     * @returns {*}
+     */
     bodyDataSort: function (data) {
-        //数组长度小于2 或 没有指定排序字段 或 不是json格式数据
-        // if (fastJson.length < 2 || !fastJson || typeof fastJson[0] !== "object") return fastJson;
+        // 数组长度小于2 或 没有指定排序字段 或 不是json格式数据
         // 判断是数组还是对象
         if (data instanceof Array) {
             //  数组

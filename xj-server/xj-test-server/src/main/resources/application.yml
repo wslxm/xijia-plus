@@ -92,7 +92,7 @@ swagger:
   url: https://gitee.com/wslxm/spring-boot-plus2   # 访问地址
   version: 1.0.0                                   # 版本号
   defaultKey: TOKEN                                # 默认请求头key
-  defaultValue: token-value                        # 默认请求头value
+  defaultValue: token                              # 默认请求头value
   isShield: false                                  # 是否展示文档 true展示 false隐藏
 
 

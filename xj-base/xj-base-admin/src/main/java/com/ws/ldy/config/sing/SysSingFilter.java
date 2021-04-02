@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,29 +34,66 @@ import java.util.Map;
 @Slf4j
 public class SysSingFilter implements Filter {
 
+    /**
+     * 不需要记录日志的 uri 集, 静态资源, css, js ,路由等等, 只要uri包含以下定义的内容, 将直接跳过改过滤器
+     */
+    private final List<String> excludeUriList = new ArrayList<>();
+
+    /**
+     * 自定义js,css
+     * layui 的 js,css 放行
+     * layui 的 路由放行
+     * swagger-ui  的 js,css 放行
+     */
+    public SysSingFilter() {
+        // layui
+        excludeUriList.add("/base/");
+        excludeUriList.add("/components/");
+        excludeUriList.add("/page/");
+        // swagger
+        excludeUriList.add("/webjars/");
+        excludeUriList.add("/v2/api-docs");
+        excludeUriList.add("/swagger");
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        // 1、如果是生成的文件直接放行
+        long startTime = System.currentTimeMillis();
+        // 1、排除不需要处理的请求,如js.css文件
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        for (String excludeUri : excludeUriList) {
+            if (request.getRequestURI().contains(excludeUri)) {
+                filterChain.doFilter(servletRequest, servletResponse);
+                return;
+            }
+        }
+
+        // 2、如果是文件直接放行
         String contentType = servletRequest.getContentType();
         if (contentType != null && contentType.contains("multipart/form-data")) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
-        // 2、处理body只能获取一次参数的问题
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        MyRequestWrapper requestWrapper = new MyRequestWrapper(request);
-        // 3、获取参数
-        String body = requestWrapper.getBody();
+
+        // 3、验签, 判断是query参数还是body参数, 不同参数进行不同的验证方式，
+        // -- body参数验签处理 Wrapper 为处理body只能获取一次参数的问题
+        R<Boolean> sing = null;
+        RequestWrapper requestWrapper = null;
         Map<String, String[]> parameterMap = request.getParameterMap();
-        // 4、验签
-        R<Boolean> sing = isSing(body, parameterMap, request);
-        if (sing.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-            // 5、成功放行
-            filterChain.doFilter(requestWrapper, servletResponse);
+        if (!parameterMap.isEmpty()) {
+            sing = isSing(null, parameterMap, request);
         } else {
-            // 5、失败返回错误
-            servletResponse.setContentType("text/html;charset=utf-8");
+            // body
+            requestWrapper = new RequestWrapper(request);
+            String body = requestWrapper.getBody();
+            sing = isSing(body, null, request);
+        }
+        log.info("接口：{} 验签结果：{} , 耗时: {}", request.getRequestURI(), sing.getMsg(), System.currentTimeMillis() - startTime);
+        // 4、result
+        if (sing.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+            filterChain.doFilter(requestWrapper == null ? servletRequest : requestWrapper, servletResponse);
+        } else {
+            servletResponse.setContentType("application/json;charset=utf-8");
             servletResponse.getWriter().write(JSON.toJSONString(sing));
         }
     }
@@ -71,15 +110,14 @@ public class SysSingFilter implements Filter {
      */
     public R<Boolean> isSing(String body, Map<String, String[]> parameterMap, HttpServletRequest request) {
         // 判断是否传递参数
-        if (StringUtils.isBlank(body) && parameterMap.isEmpty()) {
+        if (StringUtils.isBlank(body) && (parameterMap == null || parameterMap.isEmpty())) {
             return R.success(true);
         }
-        //Object[] args = proceed.getArgs();
         // 1、获取签名和时间戳
         Object sign = request.getHeader(SignUtil.SIGN);
         Object timestamp = request.getHeader(SignUtil.TIMESTAMP);
         if (sign == null || timestamp == null) {
-            return R.error(RType.PARAM_SIGN_ERROR);
+            return R.error(RType.PARAM_IS_NO_SIGN);
         }
         // 2、判断请求是否超时
         if (!SignUtil.isTimeVerify(Long.parseLong(timestamp.toString()))) {
@@ -90,11 +128,11 @@ public class SysSingFilter implements Filter {
         /**
          * 处理query 参数
          */
-        if (!parameterMap.isEmpty()) {
+        if (parameterMap != null && !parameterMap.isEmpty()) {
             // 3、获取加签参数
             verifyMap = SignUtil.toVerifyMap(parameterMap, false);
-            verifyMap.put("sign", sign.toString());
-            verifyMap.put("timestamp", timestamp.toString());
+            verifyMap.put(SignUtil.SIGN, sign.toString());
+            verifyMap.put(SignUtil.TIMESTAMP, timestamp.toString());
             // 4、验证前端的加签和后端的是否一致
             isSing = SignUtil.verify(verifyMap);
         }
@@ -104,25 +142,21 @@ public class SysSingFilter implements Filter {
          */
         if (StringUtils.isNotBlank(body)) {
             // 3、获取请求的body 参数,注意前后端时间格式要统一，排序,处理时间格式
-            Object obj = JSON.parseObject(body,Object.class);
+            Object obj = JSON.parseObject(body, Object.class);
             body = JSONObject.toJSONString(obj, SerializerFeature.MapSortField);
             //String newBody = JSON.toJSONStringWithDateFormat(jsonObject, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
             // 4、获取加签参数
             verifyMap = new HashMap<>();
-            verifyMap.put("body", body);
-            verifyMap.put("sign", sign.toString());
-            verifyMap.put("timestamp", timestamp.toString());
+            verifyMap.put(SignUtil.BODY, body);
+            verifyMap.put(SignUtil.SIGN, sign.toString());
+            verifyMap.put(SignUtil.TIMESTAMP, timestamp.toString());
             // 5、验证参数
             isSing = SignUtil.verify(verifyMap);
         }
         if (isSing) {
             return R.success(true);
         } else {
-            // 过滤空值、sign
-            Map<String, String> sParaNew = SignUtil.paraFilter(verifyMap);
-            // 获取待签名字符串
-            String preSignStr = SignUtil.createLinkString(sParaNew);
-            return R.error(RType.PARAM_SIGN_ERROR, null, "请检查参数或参数数据类型是否正确,接收参数: " + preSignStr);
+            return R.error(RType.PARAM_SIGN_ERROR);
         }
     }
 }
