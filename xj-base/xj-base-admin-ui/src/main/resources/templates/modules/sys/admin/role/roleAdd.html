@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
 <head>
     <meta charset="utf-8">
     <title>用户--添加</title>
@@ -35,17 +35,58 @@
             <input type="text" id="desc" name="desc" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单分配</label>
+        <div class="layui-input-inline">
+            <div id="test12" class="demo-tree demo-tree-box"></div>
+        </div>
+    </div>
+
 
     <div class="layui-form-item layui-hide">
         <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认添加">
         <input type="button" lay-submit lay-filter="layuiadmin-app-form-edit" id="layuiadmin-app-form-edit" value="确认编辑">
     </div>
+
 </div>
 
 <script>
-    layui.use(['form'], function () {
+    let findByPidOrRoleIdTree = "/api/admin/adminMenu/findByPidOrRoleIdTree";
+
+    layui.use(['form', 'tree'], function () {
+        init();
+        formSubmit();
+    });
+
+
+    function init() {
+        // 获取菜单tree 数据并处理为树结构型状结构需要的数据
+        let menusTree = Ajax.get(findByPidOrRoleIdTree).data;
+        // 递归处理
+        menusTree = initMenuTreeNext(menusTree);
+        // 加载菜单数据
+        layui.tree.render({
+            elem: '#test12'
+            , data: menusTree
+            , showCheckbox: true  //是否显示复选框
+            , id: 'menus'
+            , isJump: true //是否允许点击节点时弹出新窗口跳转
+            , click: function (obj) {
+                let data = obj.data;  //获取当前点击的节点数据
+                layer.msg('状态：' + obj.state + '<br>节点数据：' + JSON.stringify(data));
+            }
+        });
+    }
+
+    function formSubmit() {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            // 获取选择菜单
+            let checkedData = layui.tree.getChecked("menus");
+            let menuIds = [];
+            nextTreeIds(menuIds, checkedData);
+            data.field.menuIds = menuIds;
+            //
             let result = Ajax.post(path + "/admin/adminRole/insert", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
@@ -54,7 +95,39 @@
             parent.xijiaRenderTable();
             parent.xijiaLayPage();
         });
-    });
+    }
+
+
+    /**
+     * 处理菜单数据（递归）
+     */
+    function initMenuTreeNext(menusTree) {
+        //设置数据
+        $.each(menusTree, function (index) {
+            menusTree[index].title = menusTree[index].name;
+            menusTree[index].id = menusTree[index].id;
+            //menusTree[index].field = '';
+            menusTree[index].checked = true;
+            menusTree[index].spread = true;
+            if (menusTree[index].menus != null) {
+                menusTree[index].children = initMenuTreeNext(menusTree[index].menus)
+            }
+        });
+        return menusTree;
+    }
+
+    /**
+     * 获取节点所有的选中数据 id  ,
+     * tree.getChecked('demoId1');
+     */
+    function nextTreeIds(ids, checkedData) {
+        $.each(checkedData, function (index) {
+            ids.push(checkedData[index].id);
+            if (checkedData[index].children != null) {
+                nextTreeIds(ids, checkedData[index].children)
+            }
+        });
+    }
 </script>
 </body>
 </html>

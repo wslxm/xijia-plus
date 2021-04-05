@@ -10,6 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
+/**
+ * h5 使用 jssdk 必备参数获取
+ * @author wangsong
+ * @date 2021/3/10 0010 11:50
+ * @return
+ * @version 1.0.0
+ */
 @Component
 @Slf4j
 public class WxMpJsApUtil {

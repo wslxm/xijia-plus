@@ -120,8 +120,6 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation(value = "ID删除", notes = "同时删除当前菜单和当前菜单下的所有子菜单")
     public R<List<String>> del(@RequestParam String id) {
-        List<String> menuIds = baseService.findPIdOrRoleIdList(id, null).stream().map(i -> i.getId()).collect(Collectors.toList());
-        baseService.removeByIds(menuIds);
-        return R.successDelete(menuIds);
+        return R.successDelete(  baseService.del(id));
     }
 }

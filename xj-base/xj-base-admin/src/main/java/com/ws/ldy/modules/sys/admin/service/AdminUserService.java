@@ -26,6 +26,7 @@ public interface AdminUserService extends IService<AdminUser> {
      * @return
      */
     public AdminUserVO findId(String id);
+
     /**
      * 根据角色Id查询指定用户
      * @author wangsong
@@ -43,8 +44,22 @@ public interface AdminUserService extends IService<AdminUser> {
     public Boolean upd(@RequestBody UserAdminDTO userAdminDto);
 
 
+    /**
+     * 登录，支持手机号+密码 和 账号+密码 登录
+     * @param username
+     * @param password
+     * @return
+     */
     public Boolean login(@RequestParam String username, @RequestParam String password);
 
 
     public Boolean bindWeChatMq(String username, String password, String openId);
+
+
+    /**
+     * 删除用户及用户关联的角色的关系数据
+     * @param userId
+     * @return
+     */
+    Boolean del(String userId);
 }

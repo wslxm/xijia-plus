@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.baidu.aip.ocr.AipOcr;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.modules.third.baidu.config.BaiDuProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import java.util.HashMap;
  * @version 1.0.0
  */
 @Component
+@Slf4j
 public class BaiDuWeiZiApiUtil {
 
 
@@ -292,12 +294,12 @@ public class BaiDuWeiZiApiUtil {
 //        // 参数为本地图片路径
 //        String image = "test.jpg";
 //        JSONObject res = client.tableRecognitionAsync(image, options);
-//        System.out.println(res.toString(2));
+//        log.debug(res.toString(2));
 //
 //        // 参数为本地图片二进制数组
 //        byte[] file = readImageFile(image);
 //        res = client.tableRecognitionAsync(file, options);
-//        System.out.println(res.toString(2));
+//        log.debug(res.toString(2));
 //        return R.success(JSON.toJSONString(res));
 //    }
 
@@ -316,7 +318,7 @@ public class BaiDuWeiZiApiUtil {
 //
 //        // 表格识别结果
 //        JSONObject res = client.tableResultGet(requestId, options);
-//        System.out.println(res.toString(2));
+//        log.debug(res.toString(2));
 //        return R.success(JSON.toJSONString(res));
 //    }
 
@@ -330,10 +332,10 @@ public class BaiDuWeiZiApiUtil {
 //
 //        //使用封装的同步轮询接口
 //        JSONObject jsonres = client.tableRecognizeToJson(file, 20000);
-//        System.out.println(jsonres.toString(2));
+//        log.debug(jsonres.toString(2));
 //
 //        JSONObject excelres = client.tableRecognizeToExcelUrl(file, 20000);
-//        System.out.println(excelres.toString(2));
+//        log.debug(excelres.toString(2));
 //        return R.success(JSON.toJSONString(res));
 //    }
 
@@ -386,7 +388,7 @@ public class BaiDuWeiZiApiUtil {
      *        // 参数为本地图片二进制数组
      *         byte[] fileByte = readImageFile(in);
      *         JSONObject res = client.idcard(fileByte, idCardSide, options);
-     *         System.out.println(res.toString(2));
+     *         log.debug(res.toString(2));
      * </P>
      * @author wangsong
      * @param in
@@ -403,7 +405,7 @@ public class BaiDuWeiZiApiUtil {
                 out.write(buffer, 0, n);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         return out.toByteArray();
     }

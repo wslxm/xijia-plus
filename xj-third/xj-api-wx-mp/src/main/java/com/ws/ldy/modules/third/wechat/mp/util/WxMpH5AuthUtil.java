@@ -40,7 +40,6 @@ public class WxMpH5AuthUtil {
      */
     @SneakyThrows
     public R<String> getAuthCodeUrl(Integer type, String callback) {
-      //  callback = URLEncoder.encode(callback, "utf-8");
         String scope = null;
         if (type == 1) {
             scope = WxConsts.OAuth2Scope.SNSAPI_USERINFO;
@@ -82,7 +81,7 @@ public class WxMpH5AuthUtil {
             wxAccessTokenVO.setScope(accessToken.getScope());
             return R.success(wxAccessTokenVO);
         } catch (WxErrorException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
             return R.error(e.getError().getErrorCode(), e.getError().getErrorMsg());
         }
     }
@@ -102,25 +101,27 @@ public class WxMpH5AuthUtil {
         try {
             accessToken = wxMpService.getOAuth2Service().getAccessToken(code);
         } catch (WxErrorException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
             return R.error(e.getError().getErrorCode(), e.getError().getErrorMsg());
         }
         WxOAuth2UserInfo userInfo = null;
         try {
             userInfo = wxMpService.getOAuth2Service().getUserInfo(accessToken, null);
         } catch (WxErrorException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         WxMpUserInfoVO userInfoVO = new WxMpUserInfoVO();
         userInfoVO.setOpenid(accessToken.getOpenId());
-        userInfoVO.setNickname(userInfo.getNickname());
-        userInfoVO.setSex(userInfo.getSex() + "");
-        userInfoVO.setProvince(userInfo.getProvince());
-        userInfoVO.setCity(userInfo.getCity());
-        userInfoVO.setCountry(userInfo.getCountry());
-        userInfoVO.setHeadimgurl(userInfo.getHeadImgUrl());
-        userInfoVO.setPrivilege(userInfo.getProvince());
-        userInfoVO.setUnionid(userInfo.getUnionId());
+        if (userInfo != null) {
+            userInfoVO.setNickname(userInfo.getNickname());
+            userInfoVO.setSex(userInfo.getSex() + "");
+            userInfoVO.setProvince(userInfo.getProvince());
+            userInfoVO.setCity(userInfo.getCity());
+            userInfoVO.setCountry(userInfo.getCountry());
+            userInfoVO.setHeadimgurl(userInfo.getHeadImgUrl());
+            userInfoVO.setPrivilege(userInfo.getProvince());
+            userInfoVO.setUnionid(userInfo.getUnionId());
+        }
         return R.success(userInfoVO);
     }
 }

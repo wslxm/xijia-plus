@@ -46,7 +46,7 @@
 </script>
 <script>
 
-    var javaCodeRun = path + "/tool/javaCodeRun";
+    var javaCodeRun = path + "/admin/xj/tool/javaCodeRun";
 
 
     layui.use(['form'], function () {
@@ -106,7 +106,7 @@
             "\n" +
             "public class HelloWorld {\n" +
             "    public static void main(String []args) {\n" +
-            "       System.out.println(\"Hello World!\");\n" +
+            "       log.debug(\"Hello World!\");\n" +
             "    }\n" +
             "}\n" +
             "\n" +

@@ -59,23 +59,13 @@
     let roleId = -1;   // 角色Id
     let roleName;      // 角色名称
 
-    // 组件
-    let tree;
-    let form;
-    let table;
-    let treetable;
-
     layui.config({
         base: '../components/treetable-lay/module/' //静态资源所在路径
     }).extend({
         treetable: 'treetable-lay/treetable'
     }).use(['table', 'treetable', 'element', 'tree', 'form'], function () {
-        form = layui.form;
-        tree = layui.tree;
-        table = layui.table;
-        treetable = layui.treetable;
         // 复选框默认是否选中字段名
-        table = $.extend(table, {config: {checkName: 'isChecked'}});
+        layui.table = $.extend(layui.table, {config: {checkName: 'isChecked'}});
         // 获得菜单数据
         res = Ajax.get(auth_find_list);
         showTree();                    // 初始化左边边角色数据,treetable用于右边 table 数据重载
@@ -100,7 +90,7 @@
         // 获得角色列表
         let roleRes = Ajax.get(role_find_list);
         // 左边角色菜单数据
-        tree({
+        layui.tree({
             elem: '#auth-tree'
             , click: function (item) {
                 // 点击回调
@@ -155,7 +145,7 @@
     function xijiaRenderTable(res) {
         // 渲染表格
         layer.load(2);
-        treetable.render({
+        layui.treetable.render({
             toolbar: '#toolbar',
             id: "te",                   // 定义Id--用于复选框获取数据
             treeColIndex: 1,            // 菜单列索引 ,加载展开图标
@@ -189,7 +179,7 @@
      */
     function xijiaEventCheckbox() {
         // obj = 选中行数据
-        table.on('checkbox(auth-table)', function (obj) {
+        layui.table.on('checkbox(auth-table)', function (obj) {
             //console.log(JSON.stringify(obj))
             if (obj.type === "all") {
                 // 更新所有选中数据te = 数据表格Id
@@ -201,7 +191,7 @@
                 xijiaRenderTable(res);          // 重载数据
                 WindowPos.onload();          // 还原滚动条位置
                 // 更新所有选中数据te = 数据表格Id
-                checkData = table.checkStatus('te');
+                checkData = layui.table.checkStatus('te');
             }
             // 展示选中
             $("#roleName").html(roleName);
@@ -324,7 +314,7 @@
     var DELETE = false;
 
     function xijiaSelected() {
-        form.on('checkbox(method)', function (data) {
+        layui.form.on('checkbox(method)', function (data) {
             GET = false;
             PUT = false;
             POST = false;

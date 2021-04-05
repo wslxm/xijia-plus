@@ -44,7 +44,7 @@ public class HeartbeatDetectionTask {
         vo.setTo("ALL");
         vo.setContent("心跳检测");
         vo.setExtras(null);
-        vo.setOnlineNum(WebsocketServer.clients.size());
+        vo.setOnlineNum(null);
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         vo.setCreateTime(df.format(LocalDateTime.now()));
         websocketServer.send(vo);

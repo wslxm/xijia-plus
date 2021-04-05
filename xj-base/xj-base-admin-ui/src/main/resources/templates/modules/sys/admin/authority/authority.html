@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>tree-table</title>
@@ -85,21 +85,11 @@
     // 当前行数据
     var data = null;
 
-    // layui 组件
-    let form;
-    let table;
-    let treeTable;
-    let $1;
-
     layui.config({
         base: '../components/treetable-lay/module/' //静态资源所在路径
     }).extend({
         treetable: 'treetable-lay/treetable'
     }).use(['table', 'treetable'], function () {
-        form = layui.form;
-        table = layui.table;
-        treeTable = layui.treetable;
-        $1 = layui.$;
         xijiaRenderTable();       // 数据表格 - 获取表格
         xijiaEventSearch();       // 监听条件搜索
         xijiaEventSwitch();       // 监听Switch开关
@@ -119,7 +109,7 @@
         // 渲染表格
         layer.load(2);
         //加载数据
-        treeTable.render({
+        layui.treetable.render({
             treeColIndex: 0,             // 菜单列索引 ,加载展开图标
             treeSpid: -1,                // 顶级父id
             treeIdName: 'id',            // id 名称
@@ -148,9 +138,9 @@
                     },
                     {
                         field: 'state', title: '授权状态', width: 180, templet: function (res) {
-                            if(res.method === ''){
+                            if (res.method === '') {
                                 return '';
-                            }else{
+                            } else {
                                 return Dict.convert(Enums.Admin.AuthorityState, res.state);
                             }
                         }
@@ -171,26 +161,26 @@
      * @return
      */
     function xijiaEventSearch() {
-        $1('#btn-expand').click(function () {
-            treeTable.expandAll('#auth-table');
+        layui.$('#btn-expand').click(function () {
+            layui.treetable.expandAll('#auth-table');
         });
 
-        $1('#btn-fold').click(function () {
-            treeTable.foldAll('#auth-table');
+        layui.$('#btn-fold').click(function () {
+            layui.treetable.foldAll('#auth-table');
         });
 
-        $1('#btn-search').click(function () {
+        layui.$('#btn-search').click(function () {
             let keyword = $('#edt-search').val();
             let searchCount = 0;
-            $1('#auth-table').next('.treeTable').find('.layui-table-body tbody tr td').each(function () {
-                $1(this).css('background-color', 'transparent');
+            layui.$('#auth-table').next('.treeTable').find('.layui-table-body tbody tr td').each(function () {
+                layui.$(this).css('background-color', 'transparent');
                 let text = $(this).text();
                 if (keyword !== '' && text.indexOf(keyword) >= 0) {
-                    $1(this).css('background-color', 'rgba(250,230,160,0.5)');
+                    layui.$(this).css('background-color', 'rgba(250,230,160,0.5)');
                     if (searchCount === 0) {
-                        treeTable.expandAll('#auth-table');
-                        $1('html,body').stop(true);
-                        $1('html,body').animate({scrollTop: $(this).offset().top - 150}, 500);
+                        layui.treetable.expandAll('#auth-table');
+                        layui.$('html,body').stop(true);
+                        layui.$('html,body').animate({scrollTop: $(this).offset().top - 150}, 500);
                     }
                     searchCount++;
                 }
@@ -212,7 +202,7 @@
     function xijiaEventSwitch() {
 
         // 禁用
-        form.on('switch(disable)', function (data) {
+        layui.form.on('switch(disable)', function (data) {
             let disable = 0;
             if (data.elem.checked) {
                 disable = 0;
@@ -224,11 +214,11 @@
                 disable: disable
             };
             let result = Ajax.put(update, reqData);
-            layer.msg(result.msg)
+            layui.layer.msg(result.msg)
         });
 
         // 是否需要登录
-        form.on('switch(stateLogin)', function (data) {
+        layui.form.on('switch(stateLogin)', function (data) {
             let state = null;
             let id = data.elem.attributes['authId'].nodeValue;
             if (data.elem.checked) {
@@ -252,12 +242,12 @@
                 xijiaRenderTable();
                 WindowPos.onload();
             }
-            layer.msg(result.msg)
+            layui.layer.msg(result.msg)
         });
 
 
         // 是否需要授权
-        form.on('switch(stateAuth)', function (data) {
+        layui.form.on('switch(stateAuth)', function (data) {
             let state = null;
             let id = data.elem.attributes['authId'].nodeValue;
             if (data.elem.checked) {
@@ -281,7 +271,7 @@
                 xijiaRenderTable();
                 WindowPos.onload();
             }
-            layer.msg(result.msg)
+            layui.layer.msg(result.msg)
         });
     }
 </script>

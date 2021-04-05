@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
 <head>
     <meta charset="utf-8">
     <title>用户--添加</title>
@@ -78,7 +78,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">结果:</label>
         <div class="layui-input-inline" style="margin-top: 8px;margin-left: 8px">
-            <span id="state" ></span>
+            <span id="state"></span>
         </div>
 
         <label class="layui-form-label">服务器地址</label>
@@ -135,17 +135,15 @@
             <textarea type="text" style="height: 400px" id="responseData" name="responseData" lay-verify="required" autocomplete="off" class="layui-input"></textarea>
         </div>
     </div>
-
-
-    <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认添加">
-        <input type="button" lay-submit lay-filter="layuiadmin-app-form-edit" id="layuiadmin-app-form-edit" value="确认编辑">
-    </div>
 </div>
 
 <script>
 
-    $(function () {
+    layui.use(['form'], function () {
+        init();
+    });
+
+    function init() {
         <!-- 父页面的值,赋值到当前页 -->
         $('#fullName').val(parent.data.fullName);
         $('#userId').val(parent.data.userId);
@@ -169,22 +167,8 @@
         $('#state').html(parent.data.state === 1 ?
             '<font color="green">成功</font>' + time :
             '<font color="red">失败</font>' + time);
-    });
+    }
 
-
-    layui.use(['form'], function () {
-        //监听提交
-        layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            data.field.id = parent.data.id;
-            //data.field.id = parent.data.id;
-            let result = Ajax.put(path + "/admin/adminLog/upd", data.field);
-            let index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-            parent.layer.msg(result.msg);
-            //重载表格
-            parent.xijiaRenderTable();
-        });
-    });
 </script>
 </body>
 </html>

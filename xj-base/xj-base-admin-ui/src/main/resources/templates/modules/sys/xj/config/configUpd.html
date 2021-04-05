@@ -107,92 +107,15 @@
 
 <script>
 
-
     layui.use(['form', 'upload'], function () {
-        var form = layui.form
-            , $ = layui.jquery
-            , upload = layui.upload;
-
-        //监听提交
-        layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            if (data.field.type === "0") {
-            } else {
-                //图片 -> 获取图片
-                let urls = getPicSort();
-                data.field.content = urls;
-            }
-            data.field.id = parent.data.id;
-            //data.field.id = parent.data.id;
-            let result = Ajax.put(path + "/admin/adminConfig/upd", data.field);
-            let index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-            parent.layer.msg(result.msg);
-            //重载表格
-            parent.xijiaRenderTable();
-        });
-
-
-        layui.form.on('radio(type)', function (data) {
-            if ($('#isType input[name="type"]:checked ').val() === "0") {
-                $("#contentText").show();
-                $("#contentImg").hide();
-            } else {
-                $("#contentText").hide();
-                $("#contentImg").show();
-            }
-            layui.form.render();
-        });
-
-
-        // //多图片上传
-        // layui.upload.render({
-        //     elem: '#test2'
-        //     , url: '/aliOssFile/upload?filePath=image/config/'   //改成您自己的上传接口
-        //     , multiple: true
-        //     , before: function (obj) {
-        //         //预读本地文件示例，不支持ie8
-        //         obj.preview(function (index, file, result) {
-        //             $('#demo2').append('<img src="' + result + '" alt="' + file.name + '"height="200" width="200" class="layui-upload-img">')
-        //         });
-        //     }
-        //     , done: function (res) {
-        //         //上传完毕
-        //         console.log(res);
-        //         imgs += res.data + ",";
-        //         layer.msg(res.msg);
-        //     }
-        // });
-
-        /**
-         *多图片上传( addZmImg 支持图片删除,剪辑重传)
-         */
-        upload.render({
-            elem: '#addZmImg'
-            , url: uploadPath + '?filePath=image/config/'
-            , multiple: true
-            , headers: headers
-            , before: function (obj) {
-                //预读本地文件示例，不支持ie8
-                // obj.preview(function (index, file, result) {
-                //     $('#imgZmList').append('<li style="position:relative"><img name="imgZmList" src="' + result + '"width="150" height="113"><!--<div class="title_cover" name="imgZmName" onclick="divClick(this)"></div>--><div class="img_edit layui-icon" onclick="croppers_pic(this)"></div><div class="img_close" onclick="deleteElement(this)">X</div></li>');
-                //     form.render();
-                //     imgMove("imgZmList");
-                // });
-            }
-            , done: function (result) {
-                //上传完毕
-                //layer.msg(res.msg);
-                console.log("上传文件：" + result.data + "  结果:" + result.msg);
-
-                $('#imgZmList').append('<li style="position:relative"><img name="imgZmList" src="' + result.data + '"width="150" height="113"><!--<div class="title_cover" name="imgZmName" onclick="divClick(this)"></div>--><div class="img_edit layui-icon" onclick="croppers_pic(this)"></div><div class="img_close" onclick="deleteElement(this)">X</div></li>');
-                form.render();
-                imgMove("imgZmList");
-            }
-        });
+        init();
+        formUpload();
+        formRadio();
+        formSubmit();
     });
 
 
-    $(function () {
+    function init() {
         <!-- 父页面的值,赋值到当前页 -->
         $('#code').val(parent.data.code);
         $('#name').val(parent.data.name);
@@ -224,8 +147,76 @@
         }
         // 刷新,否则select可能不生效
         layui.form.render();
-    });
+    }
 
+
+    function formSubmit() {
+        //监听提交
+        layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            if (data.field.type === "0") {
+            } else {
+                //图片 -> 获取图片
+                let urls = getPicSort();
+                data.field.content = urls;
+            }
+            data.field.id = parent.data.id;
+            //data.field.id = parent.data.id;
+            let result = Ajax.put(path + "/admin/xj/adminConfig/upd", data.field);
+            let index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+            parent.layer.msg(result.msg);
+            //重载表格
+            parent.xijiaRenderTable();
+        });
+    }
+
+
+
+    /**
+     * 编辑选中展示图片还是文本
+     */
+    function formRadio() {
+
+        layui.form.on('radio(type)', function (data) {
+            if ($('#isType input[name="type"]:checked ').val() === "0") {
+                $("#contentText").show();
+                $("#contentImg").hide();
+            } else {
+                $("#contentText").hide();
+                $("#contentImg").show();
+            }
+            layui.form.render();
+        });
+    }
+
+    /**
+     *多图片上传( addZmImg 支持图片删除,剪辑重传)
+     */
+    function formUpload() {
+        layui.upload.render({
+            elem: '#addZmImg'
+            , url: uploadPath + '?filePath=image/config/'
+            , multiple: true
+            , headers: {"TOKEN": getGlobalHeaders()}
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                // obj.preview(function (index, file, result) {
+                //     $('#imgZmList').append('<li style="position:relative"><img name="imgZmList" src="' + result + '"width="150" height="113"><!--<div class="title_cover" name="imgZmName" onclick="divClick(this)"></div>--><div class="img_edit layui-icon" onclick="croppers_pic(this)"></div><div class="img_close" onclick="deleteElement(this)">X</div></li>');
+                //     form.render();
+                //     imgMove("imgZmList");
+                // });
+            }
+            , done: function (result) {
+                //上传完毕
+                //layer.msg(res.msg);
+                console.log("上传文件：" + result.data + "  结果:" + result.msg);
+
+                $('#imgZmList').append('<li style="position:relative"><img name="imgZmList" src="' + result.data + '"width="150" height="113"><!--<div class="title_cover" name="imgZmName" onclick="divClick(this)"></div>--><div class="img_edit layui-icon" onclick="croppers_pic(this)"></div><div class="img_close" onclick="deleteElement(this)">X</div></li>');
+                layui.form.render();
+                imgMove("imgZmList");
+            }
+        });
+    }
 </script>
 </body>
 </html>

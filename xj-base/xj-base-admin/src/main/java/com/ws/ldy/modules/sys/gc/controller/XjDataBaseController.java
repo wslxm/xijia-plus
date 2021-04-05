@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- *   数据库操作类/代码生成等处理
+ * 数据库操作类/代码生成等处理
  *
  * @author 王松
  * @WX-QQ 1720696548
@@ -27,7 +27,7 @@ import java.util.List;
 @SuppressWarnings({"all"})
 @RestController
 @RequestMapping(BaseConstant.Uri.apiAdmin +"/dataBase")
-@Api(value = "XjDataBaseController", tags = "base-plus--查询数据库表数据")
+@Api(value = "XjDataBaseController", tags = "base-gc--代码生成--查询表数据")
 public class XjDataBaseController extends BaseController<XjDataBaseService> {
 
 

@@ -1,7 +1,7 @@
 package com.ws.ldy.config.aspect.gateway;
 
 
-import com.ws.ldy.common.cache.BaseCache;
+import com.ws.ldy.common.cache.JvmCache;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.auth.entity.JwtUser;
@@ -9,9 +9,9 @@ import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.enums.Admin;
 import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
-import com.ws.ldy.modules.sys.admin.service.AdminAuthorityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,11 +23,6 @@ import java.util.List;
 @Slf4j
 public class SysAuth {
 
-    /**
-     * 接口权限
-     */
-    @Autowired
-    private AdminAuthorityService adminAuthorityService;
 
     @Autowired
     private HttpServletRequest request;
@@ -35,14 +30,23 @@ public class SysAuth {
     @Autowired
     private HttpServletResponse response;
 
+    /**
+     * 默认放行token, 让swagger可以访问接口
+     */
+    @Value("${swagger.defaultValue:xijia@123}")
+    private String tokenDefaultValue;
+
 
     /**
      * 绝对放行接口，不受限于- 动态权限管理(勿随意配置)
      */
-    List<String> URIS = new ArrayList<String>() {{
-        add("/api/admin/adminUser/login");          // 管理端登录接口
-        add("/api/admin/adminRole/updRoleAuthAll"); // 给所有角色分配所有权限
-    }};
+    private final List<String> URIS = new ArrayList<>();
+
+
+    public SysAuth() {
+        URIS.add("/api/admin/adminUser/login");          // 管理端登录接口
+        URIS.add("/api/admin/adminRole/updRoleAuthAll"); // 给所有角色分配所有权限
+    }
 
 
     /**
@@ -64,16 +68,21 @@ public class SysAuth {
         if (URIS.contains(uri)) {
             return R.success(null);
         }
-        // 2、是否被权限管理, 没有直接放行，log.info("请求方式:{} 请求URL:{} ", request.getMethod(), request.getServletPath());
-        if (!BaseCache.AUTH_MAP.containsKey(uri)) {
+        // 2、是否被权限管理, 没有直接放行
+        if (!JvmCache.getAuthMap().containsKey(uri)) {
             return R.success(null);
         }
         // 3、接口是否禁用，是直接返回禁用信息
-        AdminAuthority adminAuthority = BaseCache.AUTH_MAP.get(uri);
+        AdminAuthority adminAuthority = JvmCache.getAuthMap().get(uri);
         if (adminAuthority.getDisable().equals(Base.Disable.V1.getValue())) {
             //禁用
             return R.error(RType.AUTHORITY_DISABLE);
         }
+        // 请求同TOKEN值当为token 时直接放行
+        if (tokenDefaultValue.equals(request.getHeader(JwtUtil.TOKEN))) {
+            return R.success(null);
+        }
+
         // 4、登录/授权验证
         if (adminAuthority.getState().equals(Admin.AuthorityState.V0.getValue())) {
             /**
@@ -84,20 +93,17 @@ public class SysAuth {
             /**
              *  1- 需登录 (能获取用户信息jwtUser 即成功)
              */
-            R<JwtUser> result = JwtUtil.getJwtUserR(request);
+            R<JwtUser> result = JwtUtil.getJwtUserR(request, response);
             if (!result.getCode().equals(RType.SYS_SUCCESS.getValue())) {
                 // error
                 return result;
             }
-            // 刷新token有效期
-            JwtUser jwtUser = result.getData();
-            this.refreshToken(jwtUser);
-            return R.success(jwtUser);
+            return R.success(result.getData());
         } else if (adminAuthority.getState().equals(Admin.AuthorityState.V2.getValue())) {
             /**
              *  2- 需登录+授权 (100% 管理端才会进入, 验证用户信息的权限列表中是否存在当前接口，存在放行，不存在拦截返回无权限访问)
              */
-            R<JwtUser> result = JwtUtil.getJwtUserR(request);
+            R<JwtUser> result = JwtUtil.getJwtUserR(request, response);
             if (!result.getCode().equals(RType.SYS_SUCCESS.getValue())) {
                 // error
                 return result;
@@ -107,37 +113,8 @@ public class SysAuth {
             if (jwtUser.getAuthList() == null || !jwtUser.getAuthList().contains(request.getRequestURI())) {
                 return R.error(RType.AUTHORITY_NO_PERMISSION);
             }
-            // 刷新token有效期
-            this.refreshToken(jwtUser);
             return R.success(jwtUser);
         }
         return R.success(null);
-    }
-
-
-    /**
-     * 刷新 token, 每次的有效请求接口都将刷新 Token(同时刷新有效期 和 用户当前权限)
-     * <p>
-     *    用于每次请求后刷新token有效期, 用户登录授权时刷新返回token
-     * <p/>
-     * @param jwtUser
-     * @return
-     */
-    public void refreshToken(JwtUser jwtUser) {
-        // 如果是管理端登录,当用户权限数据发生改变,刷新权限
-        if (jwtUser.getType().equals(JwtUtil.userType[0])
-                && !BaseCache.AUTH_VERSION.equals(jwtUser.getAuthVersion())) {
-            List<String> authorityList = adminAuthorityService.findByUserIdaAndDisableFetchAuthority(jwtUser.getUserId());
-            //添加权限 和 权限数据版本号,当权限发生改变时，直接刷新token信息
-            // 刷新权限数据
-            jwtUser.setAuthList(authorityList);
-            // 刷新版本号
-            jwtUser.setAuthVersion(BaseCache.AUTH_VERSION);
-            log.info("用户ID:[{}] 用户名:[{}] 的权限数据已刷新", jwtUser.getUserId(), jwtUser.getFullName());
-        }
-        // 5、生成jwt
-        String jwtToken = JwtUtil.createToken(jwtUser, response);
-        // 放入Header
-        response.setHeader(JwtUtil.TOKEN, jwtToken);
     }
 }

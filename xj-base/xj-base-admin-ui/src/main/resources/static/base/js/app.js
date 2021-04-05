@@ -1,58 +1,55 @@
+document.write("<script language=javascript src='/base/js/SignMD5.js'></script>");
+
 /**
  * 后台接口访问地址
  * 后台文件上传接口
  * 本地 "http://127.0.0.1:9049" ||  线上ip地址： http://47.107.128.84:9049 ||  线上域名地址： http://xijia.plus
  */
-path = "/api";
-uploadPath = "/api/open/aliOssFile/upload";
+var path = "/api";
+var uploadPath = "/api/open/aliOssFile/upload";
 
 
 /**
  * 系统相关配置
  */
-BaseConfig = {
+var BaseConfig = {
     token: "TOKEN",               // token 命名
 };
 
 
-/**
- * 全局的headers 配置
- */
-headers = {
-    "TOKEN": sessionStorage.getItem(BaseConfig.token) == null ? "" : sessionStorage.getItem(BaseConfig.token)
-};
-
-/**
- * 枚举字典 key
- */
 var Enums = {
-    // 系统模块
+    // 系统模块枚举
     Admin: {
-        AdminUserPosition: "ADMIN_USER_POSITION",  // 职位
         AuthorityState: "AUTHORITY_STATE",  // 权限状态
-        AuthorityType: "AUTHORITY_TYPE",  // 权限终端
-        BannerIsSkip: "BANNER_IS_SKIP",  // banner是否跳转
-        BannerPosition: "BANNER_POSITION",  // banner 位置
-        BlacklistType: "BLACKLIST_TYPE",  // 黑/白名单类型
-        ConfigCode: "CONFIG_CODE",  // 系统配置类型
-        HelpCategory: "HELP_CATEGORY",  // 帮助中心类别
-        HelpVersion: "HELP_VERSION",  // 帮助中心版本
+        AuthorityType: "AUTHORITY_TYPE",  // 权限类型
         MenuRoot: "MENU_ROOT",  // 菜单级别
-        MsgType: "MSG_TYPE",  // 及时消息类型
-        MsgUserType: "MSG_USER_TYPE",  // 及时消息终端
+        Position: "POSITION",  // 职位
     },
     // 通用枚举
     Base: {
         Deleted: "DELETED",  // 逻辑删除
         Disable: "DISABLE",  // 是否禁用
         Gender: "GENDER",  // 性别
-        IsMail: "IS_MAIL",  // 是否邮寄
-        IsNeedMail: "IS_NEED_MAIL",  // 是否需要邮寄
         IsRead: "IS_READ",  // 是否已读
     },
-    // 兮家
+    // 支付枚举
+    Pay: {
+        PayBusiness: "PAY_BUSINESS",  // 支付业务
+        PayChannel: "PAY_CHANNEL",  // 支付渠道
+        PayState: "PAY_STATE",  // 支付状态
+        PayType: "PAY_TYPE",  // 支付类型
+        WalletType: "WALLET_TYPE",  // 流水类型
+    },
+    // 系统增强功能枚举
     Xj: {
+        BannerIsSkip: "BANNER_IS_SKIP",  // banner是否跳转
+        BannerPosition: "BANNER_POSITION",  // banner 位置
+        BlacklistType: "BLACKLIST_TYPE",  // 黑/白名单类型
         FileType: "FILE_TYPE",  // 文件类型
+        HelpCategory: "HELP_CATEGORY",  // 帮助中心类别
+        HelpVersion: "HELP_VERSION",  // 帮助中心版本
+        MsgType: "MSG_TYPE",  // 及时消息类型
+        MsgUserType: "MSG_USER_TYPE",  // 及时消息终端
     },
 };
 
@@ -103,7 +100,7 @@ Dict = {
 
 
     /**
-     * 获取指定枚举下的select列表
+     * 获取指定枚举下的select,单选，多选列表数据
      */
     getDict: function (enumKay) {
         let dictCache = localStorage.getItem('dictCache');
@@ -117,10 +114,13 @@ Dict = {
 
     /**
      *  下拉框 ：  拼接 select 的 option 列表
-     *  dict = 字典列表的父级
-     *  如果丰必填，需要默认
-     *  ----code = 默认key
-     *  ----name = 默认value
+     *  使用示例： $("#gender").html(Dict.getDictSelect(Enums.Base.Gender, null, null, parent.data.gender));          //性别
+     *  参数说明：
+     *    enumKay      枚举key,对应枚举标题code
+     *    code         设置默认参数key
+     *    name         设置默认参数value (与key同时存在才生效)
+     *    defaultVal   默认选中值,对应字典code,  如果传递null, 默认选中第一条数据 (默认选中,和数据回显使用)
+     *
      *  参考示例：
      *     <div class="layui-form-item">
      *          <label class="layui-form-label">是否跳转</label>
@@ -132,25 +132,121 @@ Dict = {
      *          </div>
      *     </div>
      */
-    getDictSelect: function (enumKay, code, name) {
+    getDictSelect: function (enumKay, code, name, defaultVal) {
         //不填默认值
         let html = "";
         if (code != null && name != null) {
-            html = "<option value='" + code + "'>" + name + "</option>"
+            if (defaultVal == null) {
+                html = "<option value='" + code + "' selected>" + name + "</option>"
+            } else {
+                html = "<option value='" + code + "'>" + name + "</option>"
+            }
         }
         // 获取排序后的字典List列表(数组)
         let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
         //
         for (let i = 0; i < dictMap.length; i++) {
-            if (i === 0) {
-                html += "<option value='" + dictMap[i].code + "' selected>" + dictMap[i].name + "</option>";
+            if (defaultVal == null) {
+                if (i === 0 && (code == null && name == null)) {
+                    html += "<option value='" + dictMap[i].code + "' selected>" + dictMap[i].name + "</option>";
+                } else {
+                    html += "<option value='" + dictMap[i].code + "'>" + dictMap[i].name + "</option>";
+                }
             } else {
-                html += "<option value='" + dictMap[i].code + "'>" + dictMap[i].name + "</option>";
+                if (dictMap[i].code === defaultVal) {
+                    html += "<option value='" + dictMap[i].code + "' selected>" + dictMap[i].name + "</option>";
+                } else {
+                    html += "<option value='" + dictMap[i].code + "'>" + dictMap[i].name + "</option>";
+                }
             }
-
         }
         return html;
     },
+
+
+    /**
+     * 单选
+     * 使用示例：  $("#position").html(Dict.getDictRadio(Enums.Admin.Position, "position", parent.data.position));
+     * 参数说明：
+     *        参数1： enumKay 枚举key,对应枚举标题code
+     *        参数2： Radio 的 name值，表单提交时的参数名
+     *        参数3： defaultVal ,默认选中值,对应字典code,  如果传递null, 默认选中第一条数据 (默认选中,和数据回显使用)
+     * 示例DIV：
+     * <div class="layui-form-item">
+     *    <label class="layui-form-label">职位</label>
+     *    <div id="position" class="layui-input-block">
+     *         <input type="radio" name="position" value="男" title="男" checked=""><div class="layui-unselect layui-form-radio "><i class="layui-anim layui-icon"></i><div>男</div></div>
+     *    </div>
+     * </div>
+     * @returns {string }  input 动态数据
+     */
+    getDictRadio: function (enumKay, name, defaultVal) {
+        // 获取排序后的字典List列表(数组)
+        let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
+        // 动态参数值模板
+        let templates = "<input type='radio' name='{name}' value='{value}' title='{title}' {checked}>" +
+            "<div class='layui-unselect layui-form-radio'><i class='layui-anim layui-icon'></i><div>{title}</div></div>";
+
+        let html = "";
+        for (let i = 0; i < dictMap.length; i++) {
+            html += templates
+                .replace("{name}", name)
+                .replace("{value}", dictMap[i].code)
+                .replace("{title}", dictMap[i].name);
+            // 设置默认选中值
+            if (defaultVal == null) {
+                if (i == 0) {
+                    html = html.replace("{checked}", "checked");
+                } else {
+                    html = html.replace("{checked}", "")
+                }
+            } else {
+                if (defaultVal == dictMap[i].code) {
+                    html = html.replace("{checked}", "checked")
+                } else {
+                    html = html.replace("{checked}", "")
+                }
+            }
+        }
+        return html;
+    },
+
+
+    /**
+     *    <div class="layui-form-item" pane="">
+     *          <label class="layui-form-label">原始复选框</label>
+     *          <div class="layui-input-block">
+     *            <input type="checkbox" name="like1[write]" lay-skin="primary" title="写作" checked="">
+     *                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary">
+     *                    <span>写作</span><i class="layui-icon layui-icon-ok"></i>
+     *                </div>
+     *
+     *
+     *            <input type="checkbox" name="like1[read]" lay-skin="primary" title="阅读"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><span>阅读</span><i class="layui-icon layui-icon-ok"></i></div>
+     *            <input type="checkbox" name="like1[game]" lay-skin="primary" title="游戏" disabled=""><div class="layui-unselect layui-form-checkbox layui-checkbox-disbaled layui-disabled" lay-skin="primary"><span>游戏</span><i class="layui-icon layui-icon-ok"></i></div>
+     *          </div>
+     *    </div>
+     * @param dictMap
+     */
+    // getDictCheckbox: function (enumKay) {
+    //     // 获取排序后的字典List列表(数组)
+    //
+    //     let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
+    //     //
+    //     let checkboxTemplates = "<input type=\"checkbox\" name=\"{name}\" lay-skin=\"primary\" title=\"{title}\" checked=\"\">" +
+    //         "<div class=\"layui-unselect layui-form-checkbox layui-form-checked\" lay-skin=\"primary\">";
+    //     "<span>{title}</span><i class=\"layui-icon layui-icon-ok\"></i>";
+    //     "</div>";
+    //
+    //     let html = "";
+    //     for (let i = 0; i < dictMap.length; i++) {
+    //         html += checkboxTemplates
+    //             .replace("{name}", dictMap[i].code)
+    //             .replace("{title}", dictMap[i].name)
+    //     }
+    //     return html;
+    // },
+
 
     /**
      * 根据sort字段排序
@@ -165,7 +261,8 @@ Dict = {
             return a.sort - b.sort
         });
         return array;
-    },
+    }
+    ,
 
 
     /**
@@ -188,13 +285,14 @@ Dict = {
         console.log("所有项目:   ==>   " + Dict.getDict(Enums.Base.Gender).dictMap[0].name);
         console.log("所有项目:   ==>   " + Dict.getDict(Enums.Base.Gender).dictMap[1].name);
     }
-};
+}
+;
 
 
-//Layui 通用弹出层封装
 Pop = {
     /**
-     *  Layer 添加/修改通用弹出层 添加修改删除通用弹出层
+     *
+     * 居中弹出 ===>  Layer 添加/修改通用弹出层 添加修改删除通用弹出层
      * @param url    请求地址
      * @param width  弹出层宽
      * @param height 弹出层高
@@ -209,7 +307,8 @@ Pop = {
                 type: 2,
                 title: [name],
                 area: [width, height],  // area: ["600px", "200px"],
-                content: [url],         //page/menu_addRoot1
+                offset: 'auto',        // 弹出位置,参考文档：https://www.layui.com/doc/modules/layer.html#offset
+                content: [url],         // page/menu_addRoot1
                 btn: btn,
                 closeBtn: 1,
                 anim: 0,       // 打开动画  ,参考：https://www.layui.com/doc/modules/layer.html#anim
@@ -231,6 +330,55 @@ Pop = {
                 }
             })
         });
+    },
+
+    /**
+     * 右侧弹出 ===>  Layer 添加/修改通用弹出层 添加修改删除通用弹出层
+     * <P>
+     *     Pop.tipsWindownRight("",null,null,'名称',[])
+     * </P>
+     * @author wangsong
+     * @date 2021/3/9 0009 17:45
+     * @return
+     * @version 1.0.0
+     */
+    tipsWindownRight: function (content, width, height, name, btn) {
+        if (btn == null) {
+            btn = ['确定', '取消']
+        }
+        if (height == null) {
+            height = '100%'
+        }
+        if (width == null) {
+            width = '300px'
+        }
+        layui.use('layer', function () {
+            layer.open({
+                type: 1
+                // , id: 'LAY_adminPopupR'
+                , anim: -1
+                , offset: 'r'
+                , shade: 0.1
+                , btn: btn
+                , closeBtn: 1
+                , skin: 'layui-anim layui-anim-rl layui-layer-adminRight'
+                , content: content
+                , area: [width, height]
+                , title: [name]
+                , zIndex: 1000,    // 层高(拉出位置位于其他底层)
+                shadeClose: true,  // 是否允许点击任意地方关闭窗口
+                crossDomain: true, // 跨域，https://www.cnblogs.com/autoXingJY/p/11419860.html
+                success: function (layero, index) {
+                    // //自适应弹出层
+                    // layer.iframeAuto(index);
+                }
+                , yes: function (index, layero) {
+                    //点击确认触发 iframe 内容中的按钮提交
+                    let submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
+                    submit.click();
+                }
+            })
+        })
     },
 
 
@@ -256,7 +404,8 @@ Pop = {
                 }
             });
         });
-    },
+    }
+    ,
 
 
     /**
@@ -282,7 +431,8 @@ Pop = {
             });
         });
     }
-};
+}
+;
 
 
 /**
@@ -310,7 +460,7 @@ pageJson = {
  *  page 手动指定页数，不传默认使用 pageJson.limits[0]
  *  size 手动指定条数，不传默认使用 pageJson.limits[0]
  */
-function getPage(page,size) {
+function getPage(page, size) {
     // 分页页数key
     let pageKey = "current";
     // 分页记录数key
@@ -318,11 +468,11 @@ function getPage(page,size) {
 
     //获取当前页
     let pageVal = $(".layui-laypage-skip .layui-input").val();
-    if(page == null){
+    if (page == null) {
         if (pageVal == null) {
             pageVal = pageJson.curr;
         }
-    }else{
+    } else {
         pageVal = page;
     }
 
@@ -385,18 +535,26 @@ Ajax = {
     delete: function (url, data) {
         return Ajax.request(url, data, "delete", "json");
     },
-
-
     // ajax-请求(同步请求) --> 1-url  2-数据 3、请求方式 4、返回数据 || -<5、同步false/异步true
     request: function (url, data, type, dataType) {
         let result = null;
+        // 参数加签
+        let timestamp = new Date().getTime();
+        let sign = Sign.query(url, timestamp);
+        sign = sign != null ? sign : Sign.body(data, timestamp);
+        console.log("加签参数：" + sign);
+        // 发起请求
         $.ajax({
             type: type,
             dataType: dataType,
             url: url,
             data: JSON.stringify(data),
             contentType: "application/json;charset=utf-8",  //"application/x-www-form-urlencoded;charset=utf-8",
-            headers: headers,
+            headers: {
+                "TOKEN": getGlobalHeaders(),
+                "timestamp": timestamp,
+                "sign": sign,
+            },
             async: false,        // true=异步，false=同步
             //traditional: true, // 允许传递数组
             //请求成功
@@ -419,20 +577,11 @@ Ajax = {
                 } catch (e) {
                     alert('AJAX请求失败!');
                 }
-                /*错误信息处理*/
-                // alert("进入error---");
-                // alert("状态码：" + xhr.status);
-                // alert("状态:" + xhr.readyState);//当前状态,0-未初始化，1-正在载入，2-已经载入，3-数据进行交互，4-完成。
-                // alert("错误信息:" + xhr.statusText);
-                // alert("返回响应信息：" + xhr.responseText);//这里是详细的信息
-                // alert("请求状态：" + textStatus);
-                // alert(errorThrown);
-                // alert("请求失败");
             }
         });
         //错误打印
         if (result.code !== 200) {
-            //10003 = 没有token
+            // 10003 = 没有token
             if (result.code === 10000) {
                 //用户未登陆/或登录过期跳登录页
                 location.href = "../login";
@@ -449,6 +598,178 @@ Ajax = {
     }
 };
 
+/**
+ * 加签
+ * <P>
+ *   验签
+ *  <P>
+ * account=1720696548&password=123456&timestamp=1578811547552
+ * sign,timestamp
+ * String mysign = DigestUtils.md5Hex(getContentBytes(preSignStr + APP_KEY, INPUT_CHARSET));
+ * @author wangsong
+ * @mail  1720696548@qq.com
+ * @date  2021/3/29 0029 22:10
+ * @version 1.0.0
+ */
+Sign = {
+    /**
+     * 加签秘钥
+     */
+    param: {
+        appKey: "xijia",
+        secretKey: "xijia@qwer",
+    },
+    /**
+     * 1、query 参数加签
+     * <p>
+     *     1、获取请求参数, 直接获取url ? 后面的参数
+     *
+     *     // --- addSing 方法
+     *     2、追加 timestamp
+     *     3、参数对象根据 key 排序(包括 timestamp)
+     *     4、md5(appKey + 排序后的参数 + secretKey)
+     *
+     *     // --- 请求
+     *     5、sign + timestamp 放入 headers 进行请求
+     *     其他：空val的对象不加入验签范围
+     * </p>
+     * @param url 请求的 url
+     * @param timestamp 时间戳
+     * @returns {string|null}
+     */
+    query: function (url, timestamp) {
+        if (url.indexOf("?") === -1) {
+            return null;
+        }
+        // 通过split()分割为数组
+        let arr = url.split('?')[1].split('&');
+        // 加签参数, query的所有参数
+        let theRequest = {};
+        for (let i = 0; i < arr.length; i++) {
+            let kye = arr[i].split("=")[0];
+            let value = arr[i].split("=")[1];
+            if (value != null && value !== "") {
+                // value不为null给对象赋值，decodeURIComponent目的是为了参数出现 # 等的字符,在请求前进行了encodeURIComponent编码
+                theRequest[kye] = decodeURIComponent(value);
+            }
+        }
+        return Sign.addSing(theRequest, timestamp);
+
+    },
+
+    /**
+     * 2、body 参数加签
+     * <p>
+     *     1、获取请求参数, 对 body 的参数内的参数进行key排序 (包括所有下级数据排序), 然后转化为json字符串
+     *       - 并以 query格式拼接参数，示例: body= JSON(key排序后data)
+     *
+     *     // --- addSing 方法
+     *     2、追加query格式的参数 timestamp
+     *     3、参数对象根据 key 排序, 只有 body + timestamp 两个参数
+     *     4、md5(appKey + 排序后的参数 + secretKey)
+     *
+     *     // ---- 请求
+     *     5、sign + timestamp 放入 headers 进行请求
+     *     其他：空val的对象不加入验签范围
+     * </p>
+     * @param data body数据
+     * @param timestamp 当前数据戳
+     * @returns {null}
+     */
+    body: function (data, timestamp) {
+        if (data == null) {
+            return null;
+        }
+        // body参数排序
+        data = Sign.bodyDataSort(data);
+        // 转为json
+        let bodyJson = JSON.stringify(data);
+        // 加签参数
+        let theRequest = {};
+        theRequest["body"] = bodyJson;
+        return Sign.addSing(theRequest, timestamp);
+    },
+
+    /**
+     * 3、加签实现
+     *    3、参数对象根据 key 排序, 只有 body + timestamp 两个参数
+     *    4、md5(appKey + 排序后的参数 + secretKey)
+     * @returns {*}
+     */
+    addSing: function (theRequest, timestamp) {
+        theRequest["timestamp"] = timestamp;
+        // 排序并重新封装获得排序后的参数
+        let dataParams = "";
+        let result = Object.keys(theRequest).sort();
+        for (let key of result) {
+            dataParams += "&" + key + "=" + theRequest[key];
+        }
+        dataParams = dataParams.substring(1);
+        // 加签
+        return md5(Sign.param.appKey + dataParams + Sign.param.secretKey);
+    },
+
+    /**
+     * 4、body 参数排序
+     * @returns {*}
+     */
+    bodyDataSort: function (data) {
+        // 数组长度小于2 或 没有指定排序字段 或 不是json格式数据
+        // 判断是数组还是对象
+        if (data instanceof Array) {
+            //  数组
+            if (data[0] instanceof Object || data[0] instanceof Array) {
+                let arrays = data;
+                let newArrays = [];
+                for (let i = 0; i < arrays.length; i++) {
+                    let dataTwo = arrays[i];
+                    // 根据 key 类型排序
+                    let keysTwo = Object.keys(dataTwo).sort();
+                    let newDataTwo = {};
+                    for (let keyTwo of keysTwo) { //遍历json对象的每个key/value对,p为key
+                        // 递归给下级排序
+                        if (dataTwo[keyTwo] instanceof Object) {
+                            newDataTwo[keyTwo] = Sign.bodyDataSort(dataTwo[keyTwo]);
+                        } else {
+                            newDataTwo[keyTwo] = dataTwo[keyTwo];
+                        }
+                    }
+                    newArrays.push(newDataTwo);
+                }
+                return newArrays;
+            } else {
+                // 不处理: [0,1,2,3] 数组数据
+                return data;
+            }
+        } else if (data instanceof Object) {
+            // 对象
+            // 根据 key 类型排序
+            let keys = Object.keys(data).sort();
+            let newData = {};
+            for (let key of keys) { //遍历json对象的每个key/value对,p为key
+                // 递归给下级排序
+                if (data[key] instanceof Object) {
+                    newData[key] = Sign.bodyDataSort(data[key]);
+                } else {
+                    newData[key] = data[key];
+                }
+            }
+            return newData;
+        } else {
+            return data;
+        }
+    }
+};
+
+
+/**
+ * 全局请求头
+ * @returns {{TOKEN: string}}
+ */
+function getGlobalHeaders() {
+    return sessionStorage.getItem(BaseConfig.token) == null ? "" : sessionStorage.getItem(BaseConfig.token);
+}
+
 
 /**
  * 时间计算工具
@@ -460,7 +781,6 @@ TimeUtil = {
      *  判断时间过去了多少天，（只计算到日期yyyy-MM-dd，未计算小时/分/秒HH:mm:ss）
      *  传入标准时间字符串 yyyy-MM-dd HH:mm:ss || yyyy/MM/dd HH:mm:ss|| yyyy-MM-dd  || yyyy/MM/dd
      */
-
     judgeTime: function (data) {
         let date = data.toString();
         //根据索引取到年月日
@@ -541,6 +861,41 @@ TimeUtil = {
             result = yearStr + flag + monthStr + flag + dayStr;
         }
         return result;
+    },
+    //时间戳转换方法    date:时间戳数字
+    formatDate: function (date) {
+        var date = new Date(date);
+        var YY = date.getFullYear() + '-';
+        var MM = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        var DD = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate());
+        var hh = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+        var mm = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+        var ss = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
+        return YY + MM + DD + " " + hh + mm + ss;
+    },
+    /**
+     * 获取两个时间的时间戳
+     * @param faultDate
+     * @param completeTime
+     * @returns {number}
+     * @constructor
+     */
+    DateDifference(faultDate, completeTime) {
+        // let d1 = new Date(faultDate);
+        // let d2 = new Date(completeTime);
+        var stime = new Date(faultDate).getTime();
+        var etime = new Date(completeTime).getTime();
+        var usedTime = etime - stime;  //两个时间戳相差的毫秒数
+        var days = Math.floor(usedTime / (24 * 3600 * 1000));
+        //计算出小时数
+        var leave1 = usedTime % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+        var hours = Math.floor(leave1 / (3600 * 1000));
+        //计算相差分钟数
+        var leave2 = leave1 % (3600 * 1000);        //计算小时数后剩余的毫秒数
+        var minutes = Math.floor(leave2 / (60 * 1000));
+        var time = days + "天" + hours + "时" + minutes + "分";
+        // var time = days;
+        return time;
     }
 };
 
@@ -594,7 +949,7 @@ WindowPos = {
  */
 StringUtils = {
     /**
-     * byte转字符串
+     *字符串 转 byte
      * @author ws
      * @mail  1720696548@qq.com
      * @date  2020/3/29 0029 23:54
@@ -628,7 +983,7 @@ StringUtils = {
 
 
     /**
-     * 字符串转byte
+     * byte转字符串
      * @author ws
      * @mail  1720696548@qq.com
      * @date  2020/3/29 0029 23:54
@@ -809,3 +1164,5 @@ function isMobile() {
     ) return true;
     return false;
 }
+
+

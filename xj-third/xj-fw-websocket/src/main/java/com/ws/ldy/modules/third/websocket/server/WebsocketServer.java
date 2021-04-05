@@ -37,8 +37,15 @@ public class WebsocketServer {
     /**
      * 所有用户信息(session + userId + username + createTime  --> 以用户的id为key, 通过用户key来获取用户session进行消息发送)
      */
-    public static Map<String, OnlineUser> clients = new ConcurrentHashMap<>();
+    private final Map<String, OnlineUser> clients = new ConcurrentHashMap<>();
 
+    /**
+     * 获取在线人数
+     * @return
+     */
+    public Integer getClientsSize() {
+        return clients.size();
+    }
 
     /**
      * 监听连接（有用户连接，立马到来执行这个方法），session 发生变化
@@ -54,7 +61,7 @@ public class WebsocketServer {
         // 判断账号是否重复登录
         if (clients.containsKey(userId)) {
             // 被迫下线提示
-            this.send(new SendMsgVO(2, userId, username, headPic, userId, "被迫下线提示,您的账号在其他地方登录", null));
+            this.send(new SendMsgVO(2, userId, username, headPic, userId, "被迫下线提示,您的账号在其他地方登录", null, clients.size()));
             log.info("重复登录,原用户被迫下线！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size());
         } else {
             log.info("有新连接加入！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size() + 1);
@@ -64,10 +71,10 @@ public class WebsocketServer {
         clients.put(userId, new OnlineUser(userId, username, headPic, session));
         // 告诉所有人,我上线了
         String content = "系统消息:" + username + " 上线了";
-        this.send(new SendMsgVO(1, userId, username, headPic, "ALL", content, null));
+        this.send(new SendMsgVO(1, userId, username, headPic, "ALL", content, null, clients.size()));
 
         // 给自己发一条消息：告诉自己现在都有谁在线
-        this.send(new SendMsgVO(3, userId, username, headPic, userId, JSON.toJSONString(getOnlineUsers()), null));
+        this.send(new SendMsgVO(3, userId, username, headPic, userId, JSON.toJSONString(getOnlineUsers()), null, clients.size()));
     }
 
 
@@ -80,12 +87,11 @@ public class WebsocketServer {
      */
     @OnClose
     public void onClose(@PathParam("userId") String userId, @PathParam("username") String username, @PathParam("headPic") String headPic, Session session) {
-        headPic = clients.get(userId).getHeadPic();
         // 所有在线用户中去除下线用户
         clients.remove(userId);
         // 告诉所有人,我下线了
         String content = "系统消息:" + username + " 下线了";
-        this.send(new SendMsgVO(2, userId, username, headPic, "ALL", content, null));
+        this.send(new SendMsgVO(2, userId, username, headPic, "ALL", content, null, clients.size()));
         // 日志
         log.info(username + ":已离线！ 当前在线人数" + clients.size());
     }
@@ -97,12 +103,11 @@ public class WebsocketServer {
      * @param userId   用户id
      * @param username 用户名
      * @param session  当前用户会话
-     * @param error    异常信息
+     * @param e        异常信息
      */
     @OnError
-    public void onError(@PathParam("userId") String userId, @PathParam("username") String username, @PathParam("headPic") String headPic, Session session, Throwable error) {
-        error.printStackTrace();
-        log.info("服务端发生了错误" + error.getMessage());
+    public void onError(@PathParam("userId") String userId, @PathParam("username") String username, @PathParam("headPic") String headPic, Session session, Throwable e) {
+        log.info("服务端发生了错误" + e);
     }
 
 
@@ -127,9 +132,8 @@ public class WebsocketServer {
         // 请求参数（接收人+发送内容）
         SendMsgDTO sendMsgDTO = JsonUtil.parseEntity(message, SendMsgDTO.class);
         log.info("服务器接收到发送消息请求,发送人id={},用户名={}, 接收发送消息={}", userId, username, message);
-        headPic = clients.get(userId).getHeadPic();
         // 发送消息
-        this.send(new SendMsgVO(4, userId, username, headPic, sendMsgDTO.getTo(), sendMsgDTO.getContent(), null));
+        this.send(new SendMsgVO(4, userId, username, headPic, sendMsgDTO.getTo(), sendMsgDTO.getContent(), null, clients.size()));
     }
 
 
@@ -173,7 +177,7 @@ public class WebsocketServer {
                 clients.get(userId).getSession().getBasicRemote().sendText(JSON.toJSONString(sendMsg));
                 return true;
             } catch (IOException e) {
-                e.printStackTrace();
+                log.debug(e.toString());
                 log.info(userId, sendMsg.getUsername() + "上线的时候通知所有人发生了错误");
                 return false;
             }

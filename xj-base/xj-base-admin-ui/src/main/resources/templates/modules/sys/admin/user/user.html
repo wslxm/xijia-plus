@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<html>
 <head>
     <meta charset="utf-8">
     <title>系统用户</title>
@@ -36,7 +36,7 @@
 <!-- 多删除添加  -->
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</button>
+        <!--<button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</button>-->
         <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
     </div>
 
@@ -44,7 +44,7 @@
 </script>
 <!-- 每一行的数据修改或删除  -->
 <script type="text/html" id="barDemo">
-    <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="roleEdit">角色管理</a>
+    <!--  <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="roleEdit">角色管理</a> -->
     <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn  layui-btn-warm layui-btn-xs" lay-event="resetPassword">重置密码</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -63,16 +63,10 @@
     let user_admin_page_upd_role = "/page/modules_sys_admin_user_updRole";     // 用户角色分配弹出
 
 
-    let table;     // 数据表格
-    let laypage;   // 分页插件
-    let form;      //
     let res;       // 完整的后台数据
     var data;      // 当前行数据（弹出层时可直接parent.data获取）
 
     layui.use(['form', 'table', 'laypage'], function () {
-        form = layui.form;
-        table = layui.table;
-        laypage = layui.laypage;
         xijiaRenderTable();   // 数据表格 - 获取表格
         xijiaLayPage();           // 分页插件
         xijiaEventToolbar();      // 工具栏事件（多删除/添加）
@@ -89,7 +83,7 @@
      */
     function xijiaRenderTable() {
         res = Ajax.get(user_admin_find_page + getPage() + xijiaSearchParam());
-        table.render({
+        layui.table.render({
             elem: '#auth-table'
             //, url: findAll
             , data: res.data.records
@@ -102,7 +96,7 @@
                     {type: 'checkbox', fixed: 'left'}
                     //, {field: 'id', title: 'ID', width: 80, fixed: 'left'}
                     , {
-                    field: 'head', title: '头像',  width: 70,templet: function (res) {
+                    field: 'head', title: '头像', width: 70, templet: function (res) {
                         return "<img src='" + res.head + "'  style='border-radius: 30px;width: 30px;height: 30px;'>";
                     }
                 }
@@ -144,7 +138,7 @@
      * @return
      */
     function xijiaLayPage() {
-        laypage.render({
+        layui.laypage.render({
             // 注意，这里的 page-table 是 ID，不用加 # 号
             elem: 'page-table'
             , count: res.data.total    // 数据总数，从服务端得到
@@ -177,7 +171,7 @@
      * @return
      */
     function xijiaEventToolbar() {
-        table.on('toolbar(auth-table)', function (obj) {
+        layui.table.on('toolbar(auth-table)', function (obj) {
             //   添加
             if (obj.event === "add") {
                 Pop.tipsWindown(user_admin_page_add, "800px", "560px", "用户添加");
@@ -212,7 +206,7 @@
      * @return
      */
     function xijiaEventTool() {
-        table.on('tool(auth-table)', function (obj) {
+        layui.table.on('tool(auth-table)', function (obj) {
             data = obj.data;  //当前行数据
             //   角色分配
             if (obj.event === 'roleEdit') {
@@ -295,7 +289,7 @@
      * switch(state) 对应 lay-filter='state'
      */
     function xijiaEventSwitch() {
-        form.on('switch(disable)', function (data) {
+        layui.form.on('switch(disable)', function (data) {
             let disable = 0;
             if (data.elem.checked) {
                 disable = 0;

@@ -12,7 +12,7 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
-import com.ws.ldy.modules.third.aliyun.sms.smsConstant.SmsCode;
+import com.ws.ldy.modules.third.aliyun.sms.model.SmsCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -87,16 +87,12 @@ public class AliSmsUtil {
             //Object message = respData.get("Code"); OK 表示发送成功
             log.info("发送短信返回数据: {}", respData);
         } catch (ServerException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         } catch (ClientException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         return true;
     }
-
-
-
-
 
 
     //===================================================================================
@@ -153,17 +149,17 @@ public class AliSmsUtil {
     public R<String> verifySMS(String phone, String code) {
         boolean result = smsCache.containsKey(phone);
         if (!result) {
-            R.error(RType.SMS_INVALID.getValue(), "验证码无效:该电话号没有未使用的验证码");
+            return R.error(RType.SMS_INVALID.getValue(), "验证码无效");
         } else {
             SmsCode smsCode = smsCache.get(phone);
             if (!code.equals(smsCode.getCode())) {
                 //验证码无效
-                R.error(RType.SMS_INVALID.getValue(), "验证码错误或已使用");
+                return R.error(RType.SMS_INVALID.getValue(), "验证码错误或已使用");
             }
             Long expirationTime = smsCode.getTime();
             if (System.currentTimeMillis() > expirationTime) {
                 // 验证码过期
-                R.error(RType.SMS_INVALID.getValue(), "验证码过期");
+                return R.error(RType.SMS_INVALID.getValue(), "验证码过期");
             }
         }
         // 清除使用过的验证码

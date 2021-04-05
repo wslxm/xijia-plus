@@ -31,8 +31,7 @@
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
 
-    let xjFileFindPage = path + "/admin/file/xjFile/findPage";        //查询-分页
-
+    let xjFileFindPage = path + "/admin/xj/file/findPage";        //查询-分页
 
     layui.use(['element', 'layer'], function () {
         var element = layui.element;
@@ -43,7 +42,6 @@
             layer.msg('展开状态：' + data.show);
         });
     });
-
 
     $(function () {
         var res = Ajax.get(xjFileFindPage);
@@ -58,8 +56,6 @@
             $("#fileZ").html($("#fileZ").html()+htmlTemplate);
         }
     })
-
-
 </script>
 
 <!-- 内容模板 -->
@@ -80,6 +76,5 @@
         </div>
     </div>
 </script>
-
 </body>
 </html>

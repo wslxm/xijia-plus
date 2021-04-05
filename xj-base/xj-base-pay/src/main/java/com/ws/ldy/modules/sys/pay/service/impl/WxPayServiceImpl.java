@@ -10,9 +10,8 @@ import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.Pay;
 import com.ws.ldy.modules.sys.pay.model.dto.EntPayDTO;
 import com.ws.ldy.modules.sys.pay.model.dto.PayOrderDTO;
-import com.ws.ldy.modules.sys.pay.model.dto.PayRecordDTO;
+import com.ws.ldy.modules.sys.pay.model.dto.PayRefundDTO;
 import com.ws.ldy.modules.sys.pay.model.entity.PayRecord;
-import com.ws.ldy.modules.sys.pay.model.vo.EntPayResultVO;
 import com.ws.ldy.modules.sys.pay.model.vo.PayOrderResultVO;
 import com.ws.ldy.modules.sys.pay.model.vo.PayRecordVO;
 import com.ws.ldy.modules.sys.pay.service.PayRecordService;
@@ -20,9 +19,11 @@ import com.ws.ldy.modules.sys.pay.service.PayService;
 import com.ws.ldy.modules.third.pay.config.WxPayProperties;
 import com.ws.ldy.modules.third.pay.model.dto.WxEntPayDTO;
 import com.ws.ldy.modules.third.pay.model.dto.WxPayOrderDTO;
+import com.ws.ldy.modules.third.pay.model.dto.WxPayRefundDTO;
 import com.ws.ldy.modules.third.pay.model.vo.WxEntPayResultVO;
 import com.ws.ldy.modules.third.pay.model.vo.WxPayOrderNotifyResultVO;
 import com.ws.ldy.modules.third.pay.model.vo.WxPayOrderResultVO;
+import com.ws.ldy.modules.third.pay.model.vo.WxPayRefundResultVO;
 import com.ws.ldy.modules.third.pay.service.XjEntPayService;
 import com.ws.ldy.modules.third.pay.service.XjWxPayService;
 import lombok.extern.slf4j.Slf4j;
@@ -57,9 +58,15 @@ public class WxPayServiceImpl implements PayService {
     private PayRecordService payRecordService;
 
 
+    /**
+     * 支付
+     * @author wangsong
+     * @param dto
+     * @version 1.0.0
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public PayOrderResultVO createOrder(PayOrderDTO dto) {
+    public R<PayOrderResultVO> createOrder(PayOrderDTO dto) {
         // 交易号/订单号
         String tradeNo = IdUtil.timestampRandom();
         String orderNo = dto.getOrderNo();
@@ -87,29 +94,32 @@ public class WxPayServiceImpl implements PayService {
         PayOrderResultVO vo = BeanDtoVoUtil.convert(wxPayOrderResult, PayOrderResultVO.class);
         vo.setOrderNo(orderNo);
 
-        // 3、记录与第三方的成功发起支付的信息
         // 计算剩余金额 -->   总金额 - 渠道手续费和-平台手续费
         BigDecimal moneySurplus = BigDecimalUtil.subtract(BigDecimalUtil.subtract(dto.getMoneyTotal(), dto.getChannelFee()), dto.getPlatformFee());
-        PayRecordDTO recordDTO = new PayRecordDTO();
-        recordDTO.setMoneyTotal(dto.getMoneyTotal());
-        recordDTO.setPlatformFee(dto.getPlatformFee());
-        recordDTO.setChannelFee(dto.getChannelFee());
-        recordDTO.setMoneySurplus(moneySurplus);
-        recordDTO.setOrderNo(orderNo);
-        recordDTO.setTradeNo(tradeNo);
-        recordDTO.setRequestData(JSON.toJSONString(wxOrderDto));
-        recordDTO.setResponseData(JSON.toJSONString(wxPayOrderResult));
-        recordDTO.setPayState(Pay.PayState.V0.getValue());
-        recordDTO.setPayType(Pay.PayType.V1.getValue());
-        recordDTO.setPayChannel(Pay.PayChannel.V2.getValue());
-        recordDTO.setBusinessType(Pay.PayBusiness.V1.getValue());
-        recordDTO.setBusinessDesc(Pay.PayBusiness.V1.getDesc());
-        recordDTO.setCallbackData(null);
-        Boolean res = payRecordService.insert(recordDTO);
-        return vo;
+        // 3、记录与第三方的成功发起支付的信息
+        boolean b = payRecordService.addPayRecord(
+                dto.getMoneyTotal(),
+                orderNo,
+                tradeNo,
+                JSON.toJSONString(wxOrderDto),
+                JSON.toJSONString(wxPayOrderResult),
+                Pay.PayState.V0,
+                Pay.PayType.V1,
+                dto.getPayBusiness(),
+                dto.getPlatformFee(),
+                dto.getChannelFee(),
+                moneySurplus
+        );
+        return R.success(vo);
     }
 
 
+    /**
+     * 支付回调
+     * @author wangsong
+     * @param xmlData
+     * @version 1.0.0
+     */
     @Override
     public R<PayRecordVO> orderCallback(String xmlData) {
         R<WxPayOrderNotifyResultVO> wxPayOrderNotifyResultVOData = xjWxPayService.parseOrderNotifyResult(xmlData);
@@ -161,13 +171,16 @@ public class WxPayServiceImpl implements PayService {
     }
 
 
+
     /**
      * 企业打款
-     * @return 如果成功返回vo ，如果交易失败直接抛出自定义异常
+     * @author wangsong
+     * @param entPayDTO
+     * @version 1.0.0
      */
     @Override
-    @Transactional(rollbackFor = ErrorException.class)
-    public R<EntPayResultVO> entPay(EntPayDTO entPayDTO) {
+    @Transactional(rollbackFor = Exception.class)
+    public R<Boolean> entPay(EntPayDTO entPayDTO) {
         // 是否传递订单号（未传递生成）
         String orderNo = entPayDTO.getOrderNo();
         String tradeNo = IdUtil.timestampRandom();
@@ -181,32 +194,78 @@ public class WxPayServiceImpl implements PayService {
         wxEntPayDTO.setCheckName(entPayDTO.getCheckName());
         wxEntPayDTO.setReUserName(entPayDTO.getReUserName());
         R<WxEntPayResultVO> wxEntPayResultVOData = xjEntPayService.entPay(wxEntPayDTO);
-        if (!wxEntPayResultVOData.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-            throw new ErrorException(wxEntPayResultVOData.getCode(), wxEntPayResultVOData.getMsg());
-        }
         WxEntPayResultVO wxEntPayResultVO = wxEntPayResultVOData.getData();
+        // 判断成功失败
+        if (!wxEntPayResultVOData.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+            // 企业打款失败
+            boolean b = payRecordService.addPayRecord(
+                    entPayDTO.getAmount(),
+                    orderNo,
+                    tradeNo,
+                    JSON.toJSONString(wxEntPayDTO),
+                    JSON.toJSONString(wxEntPayResultVOData.getMsg()),
+                    Pay.PayState.V2,
+                    Pay.PayType.V4,
+                    entPayDTO.getPayBusiness());
+            return R.error(wxEntPayResultVOData.getCode(), wxEntPayResultVOData.getMsg(), false, "企业打款失败");
+        } else {
+            // 企业打款成功
+            boolean b = payRecordService.addPayRecord(
+                    entPayDTO.getAmount(),
+                    orderNo,
+                    tradeNo,
+                    JSON.toJSONString(wxEntPayDTO),
+                    JSON.toJSONString(wxEntPayResultVO),
+                    Pay.PayState.V3,
+                    Pay.PayType.V4,
+                    entPayDTO.getPayBusiness());
+            return R.success(true);
+        }
+    }
 
-        // 2、返回数据
-        EntPayResultVO vo = BeanDtoVoUtil.convert(wxEntPayResultVO, EntPayResultVO.class);
 
-        // 3、记录与第三方的成功发起交易的信息（能到这肯定为支付成功,否则抛出自定义异常，交易中断将不会记录）
-        // 计算剩余金额 -->  总金额 - (渠道手续费和+平台手续费)
-        PayRecordDTO recordDTO = new PayRecordDTO();
-        recordDTO.setMoneyTotal(entPayDTO.getAmount());
-        recordDTO.setPlatformFee(new BigDecimal("0"));
-        recordDTO.setChannelFee(new BigDecimal("0"));
-        recordDTO.setMoneySurplus(new BigDecimal("0"));
-        recordDTO.setOrderNo(orderNo);
-        recordDTO.setTradeNo(tradeNo);
-        recordDTO.setRequestData(JSON.toJSONString(wxEntPayDTO));
-        recordDTO.setResponseData(JSON.toJSONString(wxEntPayResultVO));
-        recordDTO.setPayState(Pay.PayState.V3.getValue());
-        recordDTO.setPayType(Pay.PayType.V4.getValue());
-        recordDTO.setPayChannel(Pay.PayChannel.V2.getValue());
-        recordDTO.setBusinessType(Pay.PayBusiness.V1.getValue());
-        recordDTO.setBusinessDesc(Pay.PayBusiness.V1.getDesc());
-        recordDTO.setCallbackData(null);
-        Boolean res = payRecordService.insert(recordDTO);
-        return R.success(vo);
+    /**
+     * 微信退款 (支付订单退款原路返回)
+     * @author wangsong
+     * @param refundDTO
+     * @version 1.0.0
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public R<Boolean> refund(PayRefundDTO refundDTO) {
+        // 1、处理退款所需参数,发起退款
+        WxPayRefundDTO wxPayRefundDTO = new WxPayRefundDTO();
+        wxPayRefundDTO.setOutTradeNo(refundDTO.getOutTradeNo());
+        wxPayRefundDTO.setOutRefundNo(refundDTO.getOutRefundNo());
+        wxPayRefundDTO.setTotalFee(BigDecimalUtil.multiply100(refundDTO.getTotalFee()).intValue());
+        wxPayRefundDTO.setRefundFee(BigDecimalUtil.multiply100(refundDTO.getRefundFee()).intValue());
+        wxPayRefundDTO.setRefundDesc(refundDTO.getRefundDesc());
+        R<WxPayRefundResultVO> wxPayRefundResultVOR = xjWxPayService.refund(wxPayRefundDTO);
+        WxPayRefundResultVO wxPayRefundResultVO = wxPayRefundResultVOR.getData();
+        if (!wxPayRefundResultVOR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+            // 退款失败
+            boolean b = payRecordService.addPayRecord(
+                    refundDTO.getRefundFee(),
+                    refundDTO.getOrderNo(),
+                    refundDTO.getOutRefundNo(),
+                    JSON.toJSONString(refundDTO),
+                    JSON.toJSONString(wxPayRefundResultVOR.getMsg()),
+                    Pay.PayState.V2,
+                    Pay.PayType.V3,
+                    refundDTO.getPayBusiness());
+            return R.error(wxPayRefundResultVOR.getCode(), wxPayRefundResultVOR.getMsg(), false, "退款失败");
+        } else {
+            // 退款成功
+            boolean b = payRecordService.addPayRecord(
+                    refundDTO.getRefundFee(),
+                    refundDTO.getOrderNo(),
+                    refundDTO.getOutRefundNo(),
+                    JSON.toJSONString(refundDTO),
+                    JSON.toJSONString(wxPayRefundResultVO),
+                    Pay.PayState.V3,
+                    Pay.PayType.V3,
+                    refundDTO.getPayBusiness());
+            return R.success(true);
+        }
     }
 }

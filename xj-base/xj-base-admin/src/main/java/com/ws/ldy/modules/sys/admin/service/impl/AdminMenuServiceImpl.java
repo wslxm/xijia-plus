@@ -1,6 +1,7 @@
 package com.ws.ldy.modules.sys.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.config.auth.util.JwtUtil;
@@ -42,12 +43,11 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
     public Boolean insert(AdminMenuDTO dto) {
         AdminMenu adminMenu = dto.convert(AdminMenu.class);
         this.save(adminMenu);
-        // 给超管默认分配该菜单
+        // 添加菜单给超管默认分配该菜单
         AdminRole sysRole = adminRoleService.findSysRole();
-        adminRoleMenuService.insert(sysRole.getId(), new ArrayList<String>() {{
-            add(adminMenu.getId());
-        }});
-        return true;
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add(adminMenu.getId());
+        return adminRoleMenuService.insert(sysRole.getId(), strings);
     }
 
     /**
@@ -67,24 +67,24 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
     @Override
     public List<AdminMenuVO> getMenuTree() {
         List<AdminRoleMenu> userRoleMenus = adminRoleMenuMapper.findByUserIdAndDisableFetchMenu(JwtUtil.getJwtUser(request).getUserId(), Base.Disable.V0.getValue());
-        if (userRoleMenus == null || userRoleMenus.size() == 0) {
+        if (userRoleMenus == null || userRoleMenus.isEmpty()) {
             throw new ErrorException(RType.USER_NO_MENU);
         }
-        List<String> roleMenuIdList = userRoleMenus.stream().map(roleMenu -> roleMenu.getMenuId()).collect(Collectors.toList());
+        List<String> roleMenuIdList = userRoleMenus.stream().map(AdminRoleMenu::getMenuId).collect(Collectors.toList());
         List<AdminMenu> adminMenuList = this.list(new LambdaQueryWrapper<AdminMenu>()
                 .orderByAsc(AdminMenu::getSort)
                 .eq(AdminMenu::getDisable, 0)
                 .in(AdminMenu::getId, roleMenuIdList)
         );
-        if (adminMenuList == null || adminMenuList.size() == 0) {
+        if (adminMenuList == null || adminMenuList.isEmpty()) {
             throw new ErrorException(RType.USER_NO_MENU);
         }
-        List<AdminMenuVO> adminMenuVOS = BeanDtoVoUtil.listVoStream(adminMenuList, AdminMenuVO.class);
+        List<AdminMenuVO> menuVOS = BeanDtoVoUtil.listVoStream(adminMenuList, AdminMenuVO.class);
         //return
         List<AdminMenuVO> menuList = new LinkedList<>();
-        adminMenuVOS.forEach(fatherMenuVo -> {
+        menuVOS.forEach(fatherMenuVo -> {
             if (fatherMenuVo.getRoot() == 1) {
-                this.nextLowerNode(adminMenuVOS, fatherMenuVo, roleMenuIdList);
+                this.nextLowerNode(menuVOS, fatherMenuVo, roleMenuIdList);
                 menuList.add(fatherMenuVo);
             }
         });
@@ -105,7 +105,9 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
         menuVos.forEach(menuVo -> {
             if (menuVo.getPid().equals(fatherMenuVo.getId()) && roleMenuList.contains(menuVo.getId())) {
                 if (fatherMenuVo.getMenus() == null) {
-                    fatherMenuVo.setMenus(new ArrayList<AdminMenuVO>(){{add(menuVo);}});
+                    ArrayList<AdminMenuVO> menuVOS = new ArrayList<>();
+                    menuVOS.add(menuVo);
+                    fatherMenuVo.setMenus(menuVOS);
                 } else {
                     fatherMenuVo.getMenus().add(menuVo);
                 }
@@ -135,8 +137,11 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
      */
     @Override
     public List<AdminMenuVO> findPIdOrRoleIdTree(String pId, String roleId) {
-        List<AdminRoleMenu> userRoleMenus = roleId != null ? adminRoleMenuMapper.findRoleId(roleId) : null;
-        List<String> roleMenuIdList = userRoleMenus != null && userRoleMenus.size() > 0 ? userRoleMenus.stream().map(i -> i.getMenuId()).collect(Collectors.toList()) : new ArrayList<>();
+        // 查询角色菜单
+        List<AdminRoleMenu> userRoleMenus = roleId != null ? adminRoleMenuMapper.findRoleId(roleId) : new ArrayList<>();
+        // 获取角色菜单的ids
+        List<String> roleMenuIdList = !userRoleMenus.isEmpty() ? userRoleMenus.stream().map(AdminRoleMenu::getMenuId).collect(Collectors.toList()) : new ArrayList<>();
+        // 获取所有菜单
         List<AdminMenuVO> adminMenuVOList = BeanDtoVoUtil.listVoStream(this.list(new LambdaQueryWrapper<AdminMenu>().orderByAsc(AdminMenu::getSort)), AdminMenuVO.class);
         List<AdminMenuVO> menuList = new LinkedList<>();
         if (pId == null) {
@@ -174,7 +179,9 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
         menuVos.forEach(menuVo -> {
             if (menuVo.getPid().equals(fatherMenuVo.getId())) {
                 if (fatherMenuVo.getMenus() == null) {
-                    fatherMenuVo.setMenus(new ArrayList<AdminMenuVO>(){{add(menuVo);}});
+                    ArrayList<AdminMenuVO> adminMenuVOS = new ArrayList<>();
+                    adminMenuVOS.add(menuVo);
+                    fatherMenuVo.setMenus(adminMenuVOS);
                 } else {
                     fatherMenuVo.getMenus().add(menuVo);
                 }
@@ -189,7 +196,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
     //=========================================================================
 
     /**
-     * 根据父id 查询所有子节点数据（包括自己） , 根据角色权限赋值isChecked = true||false
+     * 根据父id 查询所有子节点数据（包括自己） , 根据角色 权限赋值isChecked = true||false
      *
      * @param pId 父id-非必传,没有获取所有
      * @param roleId 角色id-非必传, 没有所有 isChecked = false
@@ -200,8 +207,8 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
      */
     @Override
     public List<AdminMenuVO> findPIdOrRoleIdList(String pId, String roleId) {
-        List<AdminRoleMenu> userRoleMenus = roleId != null ? adminRoleMenuMapper.findRoleId(roleId) : null;
-        List<String> roleMenuIdList = userRoleMenus != null && userRoleMenus.size() > 0 ? userRoleMenus.stream().map(i -> i.getMenuId()).collect(Collectors.toList()) : new ArrayList<>();
+        List<AdminRoleMenu> userRoleMenus = roleId != null ? adminRoleMenuMapper.findRoleId(roleId) : new ArrayList<>();
+        List<String> roleMenuIdList = !userRoleMenus.isEmpty() ? userRoleMenus.stream().map(i -> i.getMenuId()).collect(Collectors.toList()) : new ArrayList<>();
         List<AdminMenuVO> adminMenuVOList = BeanDtoVoUtil.listVoStream(this.list(new LambdaQueryWrapper<AdminMenu>().orderByAsc(AdminMenu::getSort)), AdminMenuVO.class);
         // result
         List<AdminMenuVO> menuVoList = new LinkedList<>();
@@ -223,6 +230,16 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
             });
         }
         return menuVoList;
+    }
+
+    @Override
+    public List<String> del(String menuId) {
+        List<String> menuIds = this.findPIdOrRoleIdList(menuId, null).stream().map(i -> i.getId()).collect(Collectors.toList());
+        if (!menuIds.isEmpty()) {
+            this.removeByIds(menuIds);
+            adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().in(AdminRoleMenu::getMenuId, menuIds));
+        }
+        return menuIds;
     }
 
 

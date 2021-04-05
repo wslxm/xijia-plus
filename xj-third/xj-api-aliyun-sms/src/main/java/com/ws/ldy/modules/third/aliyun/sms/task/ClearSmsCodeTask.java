@@ -1,6 +1,6 @@
 package com.ws.ldy.modules.third.aliyun.sms.task;
 
-import com.ws.ldy.modules.third.aliyun.sms.smsConstant.SmsCode;
+import com.ws.ldy.modules.third.aliyun.sms.model.SmsCode;
 import com.ws.ldy.modules.third.aliyun.sms.util.AliSmsUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

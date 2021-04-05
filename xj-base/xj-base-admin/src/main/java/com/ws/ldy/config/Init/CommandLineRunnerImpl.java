@@ -66,7 +66,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
      *  启动成功图
      */
     public static void getSuccessYellowBright() {
-        System.out.println("" +
+        log.debug("" +
                 "         ####                #             #  ##               ##  \n" +
                 "     #########        ##### ##             #               #   ##  \n" +
                 "      ##   ##        ####   #####          ####        ######  # ##\n" +

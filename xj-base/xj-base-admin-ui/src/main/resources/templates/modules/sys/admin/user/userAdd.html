@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
 <head>
     <meta charset="utf-8">
     <title>用户--添加</title>
@@ -64,9 +64,7 @@
 
     <div class="layui-form-item">
         <label class="layui-form-label">性别</label>
-        <div class="layui-input-inline">
-            <select id="gender" name="gender" lay-verify="" lay-filter="gender">
-            </select>
+        <div id="gender" class="layui-input-block">
         </div>
     </div>
     <div class="layui-form-item">
@@ -83,6 +81,25 @@
                    class="layui-input">
         </div>
     </div>
+    <!--    <div class="layui-form-item">-->
+    <!--        <label class="layui-form-label">职位</label>-->
+    <!--        <div class="layui-input-inline">-->
+    <!--            <select id="position" name="position" lay-verify="" lay-filter="gender">-->
+    <!--            </select>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">职位</label>
+        <div id="position" class="layui-input-block">
+        </div>
+    </div>
+
+    <div class="layui-form-item" pane="">
+        <label class="layui-form-label">角色</label> <!-- 默认选中： checked="   禁用： disabled=""  -->
+        <div id="roles" class="layui-input-block">
+        </div>
+    </div>
 
     <div class="layui-form-item layui-hide">
         <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit"
@@ -93,26 +110,48 @@
 </div>
 
 <script>
+
+    let user_role_admin_list = path + "/admin/adminRole/findUserRole";      // 角色分配查询所有--用户当前角色赋予Checked=true
+
     layui.use(['form', 'upload'], function () {
-        //监听提交
-        layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            let result = Ajax.post(path + "/admin/adminUser/insert", data.field);
-            let index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-            parent.layer.msg(result.msg);
-            //重载表格
-            parent.xijiaRenderTable();
-            //刷新页数信息
-            parent.xijiaLayPage();
+        init();
+        upload();
+        formSubmit();
+        verify();
+    });
+
+
+    function init() {
+        //默认隐藏头像
+        $("#headImg").hide();
+        $("#gender").html(Dict.getDictRadio(Enums.Base.Gender, "gender", null));       // 性别
+        $("#position").html(Dict.getDictRadio(Enums.Admin.Position, "position", null)); // 职位
+        // 获取角色列表
+        let roleList = Ajax.get(user_role_admin_list + "?userId=").data;
+        let roleHtml = "";
+        let roleHtmlTemplates = "<input type='checkbox' name='{name}' value='{value}' lay-skin='primary' title='{title}' {checked}>" +
+            "<div class='layui-unselect layui-form-checkbox' lay-skin='primary'>" +
+            "<span>{title}</span><i class='layui-icon layui-icon-ok'></i></div>";
+        $.each(roleList, function (index) {
+            roleHtml += roleHtmlTemplates
+                .replace("{name}", "roleId")
+                .replace("{title}", roleList[index].name)
+                .replace("{value}", roleList[index].id)
+                .replace("{checked}", "")
         });
+        $("#roles").html(roleHtml);   // 角色
+        // 刷新,否则select可能不生效
+        layui.form.render();
+    }
 
 
+    function upload() {
         //文件上传--设定文件大小限制
         layui.upload.render({
             elem: '#test7'
             , url: uploadPath + '?filePath=image/head/' //改成您自己的上传接口
             , size: 500 //限制文件大小，单位 KB
-            , headers: headers
+            , headers: {"TOKEN": getGlobalHeaders()}
             , done: function (res) {
                 //如果上传失败
                 if (res.code !== 200) {
@@ -127,18 +166,40 @@
                 layer.msg('上传成功');
             }
         });
+    }
 
-        /**
-         * 头像是否上传验证
-         */
+    //监听提交
+    function formSubmit() {
+        layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            // 放入角色数据
+            let roles_box = [];
+            $('input[type=checkbox]:checked').each(function () {
+                roles_box.push($(this).val());
+            });
+            data.field.roles = roles_box;
+            //
+            let result = Ajax.post(path + "/admin/adminUser/insert", data.field);
+            let index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+            parent.layer.msg(result.msg);
+            //重载表格
+            parent.xijiaRenderTable();
+            //刷新页数信息
+            parent.xijiaLayPage();
+
+        });
+    }
+
+    // 参数验证
+    function verify() {
         layui.form.verify({
             imgHead: function (value, item) { //value：表单的值、item：表单的DOM对象
                 if (value == null || value === "") {
                     return '请上传头像';
                 }
             }
-        })
-    });
+        });
+    }
 
     /**
      * 输入姓名->生成账号
@@ -155,15 +216,7 @@
         // //给两个文本框赋值
         // $('#fullName').val(fullName);
         // $('#easyName').val(easyName);
-
-
     }
-
-    $(function () {
-        //默认隐藏
-        $("#headImg").hide();
-        $("#gender").html(Dict.getDictSelect(Enums.Base.Gender));   // 性别
-    })
 </script>
 </body>
 </html>

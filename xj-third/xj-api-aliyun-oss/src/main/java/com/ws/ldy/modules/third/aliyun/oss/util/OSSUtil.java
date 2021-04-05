@@ -80,7 +80,7 @@ public class OSSUtil {
     /**
      * 文件一级目录, 文件保存到oss的路径(勿修改 oos/  ), file/ 可修改
      */
-    private final static String FILE_PATH = "oss/file/";
+    private static final  String FILE_PATH = "oss/file/";
 
     @Autowired
     private HttpServletRequest request;
@@ -117,13 +117,10 @@ public class OSSUtil {
         putObjectRequest.setMetadata(metadata);
         // 开始上传
         ossClient.putObject(putObjectRequest);
-        // 上传成功关闭OSSClient
-        //  ossClient.shutdown();
         log.info("上传-" + yourObjectName + " 成功");
         // 关闭OSSClient。
         ossClient.shutdown();
         // 访问地址= 当前服务器域名 + oss存储路径
-        //  String baseUrl = this.getBaseUrl(request);
         return aliYunOssProperties.getBucket() + "/" + yourObjectName;
     }
 
@@ -136,10 +133,6 @@ public class OSSUtil {
         OSS ossClient = new OSSClientBuilder().build(aliYunOssProperties.getEndpoint(), aliYunOssProperties.getAccessKeyId(), aliYunOssProperties.getAccessKeySecret());
         ObjectListing objectListing = ossClient.listObjects(aliYunOssProperties.getBucketName());
         List<OSSObjectSummary> objectSummary = objectListing.getObjectSummaries();
-        //  System.out.println("您有以下Object：");
-        //  for (OSSObjectSummary object : objectSummary) {
-        //      System.out.println("\t" + object.getKey());
-        //  }
         // 关闭OSSClient。
         ossClient.shutdown();
         return objectSummary;
@@ -154,7 +147,7 @@ public class OSSUtil {
         OSS ossClient = new OSSClientBuilder().build(aliYunOssProperties.getEndpoint(), aliYunOssProperties.getAccessKeyId(), aliYunOssProperties.getAccessKeySecret());
         // 创建PutObjectRequest对象。
         ossClient.deleteObject(aliYunOssProperties.getBucketName(), firstKey);
-        System.out.println("删除Object：" + firstKey + "成功。");
+        log.info("删除Object：" + firstKey + "成功。");
         // 关闭OSSClient。
         ossClient.shutdown();
         return true;
@@ -213,20 +206,4 @@ public class OSSUtil {
         }
         return null;
     }
-
-
-    /**
-     * 获取项目的Ip 地址+端口 或者域名
-     * @return
-     */
-//    private String getBaseUrl(HttpServletRequest request) {
-//        // 接口名
-//        String interfaceName = request.getServletPath();
-//        // 完整url
-//        String url = request.getRequestURL().toString();
-//        // 去调接口后url
-//        String baseUrl = url.replace(interfaceName, "");
-//        return baseUrl;
-//    }
-
 }

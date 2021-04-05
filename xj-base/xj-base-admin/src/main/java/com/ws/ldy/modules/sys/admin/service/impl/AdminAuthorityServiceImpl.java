@@ -3,7 +3,7 @@ package com.ws.ldy.modules.sys.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ws.ldy.XjAdminServer;
-import com.ws.ldy.common.cache.BaseCache;
+import com.ws.ldy.common.cache.JvmCache;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.ClassUtil;
 import com.ws.ldy.common.utils.EnumUtil;
@@ -12,6 +12,7 @@ import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.enums.Admin;
 import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.admin.mapper.AdminAuthorityMapper;
+import com.ws.ldy.modules.sys.admin.model.dto.AdminAuthorityDTO;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminRole;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminRoleAuth;
@@ -25,6 +26,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.Method;
@@ -39,7 +41,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     /**
      * url 权限注解扫包范围( 直接获取启动类的包路径)
      */
-    private final String PACKAGE_NAME = XjAdminServer.class.getPackage().getName();
+    private static final String PACKAGE_NAME = XjAdminServer.class.getPackage().getName();
 
 
     @Autowired
@@ -49,7 +51,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     /**
-     *  查询所有权限数据，根据不同的端的枚举code 拼接最顶级的目录，顶级目录ID = -1
+     *  查询所有权限数据, 根据不同的端的枚举code 拼接最顶级的目录，顶级目录ID = -1
      *
      * @return void
      * @date 2019/11/25 0025 11:55
@@ -85,9 +87,19 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         return adminAuthorityVOList;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean upd(AdminAuthorityDTO dto) {
+        // 更新
+        boolean b = this.updateById(dto.convert(AdminAuthority.class));
+        // 刷新缓存
+        this.refreshAuthCache();
+        return b;
+    }
+
 
     /**
-     *   接口自动扫描
+     *   接口自动扫描（1、项目启动时自动执行   2、设置了权限授权状态更新
      *   <p>
      *       扫描添加接口信息，扫描启动类下的所有包
      *       存在修改（不修改原数据的禁用启动和权限状态,防止重启项目时修改被还原）
@@ -100,6 +112,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      */
     @SuppressWarnings("all")
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean refreshAuthDB() {
         log.info("  @.@...正在更新接口资源,所有被权限管理的接口将被打印出来…… ^.^ ");
         // 扫描包，获得包下的所有类
@@ -185,25 +198,31 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         //
         log.info("  本次刷新接口+类 总数量为:{} ,如接口 [备注信息] 或 [请求方式] 或 [终端] 发送改变,则已被刷新", updAuth.size());
         log.info("  本次添加接口+类 总量为:  {}", addAuth.size());
-        // 更新数据库
+        // 修改
         if (updAuth.size() > 0) {
             this.updateBatchById(updAuth, 1024);
         }
+        // 新增
         if (addAuth.size() > 0) {
-            // 给管理员角色添加所有新接口的权限
-            AdminRole role = adminRoleService.findSysRole();
-            List<AdminRoleAuth> addRoleAuth = new LinkedList<>();
-            for (AdminAuthority adminAuthority : addAuth) {
-                addRoleAuth.add(new AdminRoleAuth(adminAuthority.getId(), role.getId()));
-            }
-            adminRoleAuthService.saveBatch(addRoleAuth, 1024);
-            log.info("  本次给角色:[{}] 分配了接口权限 {} 个", role.getName(), addAuth.size());
-
+            // 判断新增的接口中是否有重复的url，如果Url有重复直接将直接抛出异常
+            Map<String, AdminAuthority> addUrls = addAuth.stream().collect(Collectors.toMap(AdminAuthority::getUrl, item -> item));
             // 添加权限
             this.saveBatch(addAuth, 1024);
+            // 给所有角色分配新接口的权限
+            List<AdminRole> roles = adminRoleService.list();
+            if (roles.size() > 0) {
+                List<AdminRoleAuth> addRoleAuth = new LinkedList<>();
+                for (AdminRole role : roles) {
+                    for (AdminAuthority adminAuthority : addAuth) {
+                        addRoleAuth.add(new AdminRoleAuth(adminAuthority.getId(), role.getId()));
+                    }
+                }
+                // 更新
+                adminRoleAuthService.saveBatch(addRoleAuth, 1024);
+            }
         }
+        // 删除
         if (authorityMap.size() > 0) {
-            // 删除多余数据
             authorityMap.forEach((k, v) -> delIds.add(v.getId()));
             this.removeByIds(delIds);
         }
@@ -216,7 +235,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     /**
-     *     添加指定类的所有接口权限到 athorityList
+     * 添加指定类的所有接口权限到 athorityList
      *
      * @param classInfo    当前类
      * @param authorityMap 当前数据库存在权限
@@ -230,8 +249,6 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
             ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
             if (requestMapping == null || apiOperation == null) {
-                // log.info("  接口资源：[{}]  -->  [{}]  -->  [{}] ", String.format("%-6s", requestMethod), String.format("%-40s", url), "NO");
-                // log.info(method.getDeclaringClass().getName() + "." + method.getName() + "方法没有@ApiOperation 或 @RequestMapping注解");
                 continue;
             }
             // url | 请求方式 | 方法swagger注释
@@ -268,7 +285,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     /**
-     * 获取用户的url 权限列表，给指定角色的有的权限数据赋予选中状态
+     * 获取接口列表，给指定角色的拥有的权限数据赋予选中状态
      *
      * @param roleId
      * @return void
@@ -288,8 +305,8 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 .eq(AdminAuthority::getType, Admin.AuthorityType.V0.getValue())
         );
         // 返回数据处理
-        if (authorityList == null || authorityList.size() <= 0) {
-            return null;
+        if (authorityList == null || authorityList.isEmpty()) {
+            return new ArrayList<>();
         } else {
             List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authorityList, AdminAuthorityVO.class);
             adminAuthorityVOList.forEach(authVO -> {
@@ -305,7 +322,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     /**
-     * 查询接口列表，树结构
+     * 获取权限列表，给指定角色的拥有的权限数据赋予选中状态(树结构)
      * @param roleId
      * @return
      */
@@ -322,12 +339,10 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 .orderByAsc(AdminAuthority::getMethod)
                 .eq(AdminAuthority::getType, Admin.AuthorityType.V0.getValue())
         );
-
         List<AdminAuthorityVO> respAuthorityVOList = new ArrayList<>();
-
         // 返回数据处理
-        if (authorityList == null || authorityList.size() <= 0) {
-            return null;
+        if (authorityList == null || authorityList.isEmpty()) {
+            return respAuthorityVOList;
         } else {
             List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authorityList, AdminAuthorityVO.class);
             adminAuthorityVOList.forEach(authVO -> {
@@ -337,13 +352,13 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                     authVO.setIsChecked(false);
                 }
                 // 拼接下级tree数据
-                if (authVO.getPid().equals("") || authVO.getPid().equals(0)) {
+                if ("".equals(authVO.getPid()) || "0".equals(authVO.getPid())) {
                     adminAuthorityVOList.forEach(authTwoVO -> {
                         if (authTwoVO.getPid().equals(authVO.getId())) {
                             if (authVO.getAuthoritys() == null) {
-                                authVO.setAuthoritys(new ArrayList<AdminAuthorityVO>() {{
-                                    add(authTwoVO);
-                                }});
+                                ArrayList<AdminAuthorityVO> authorityVOS = new ArrayList<>();
+                                authorityVOS.add(authTwoVO);
+                                authVO.setAuthoritys(authorityVOS);
                             } else {
                                 authVO.getAuthoritys().add(authTwoVO);
                             }
@@ -370,7 +385,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 userId, Base.Disable.V0.getValue(), Admin.AuthorityState.V2.getValue()
         );
         if (auth == null) {
-            return null;
+            return new ArrayList<>();
         } else {
             return auth.stream().map(AdminAuthority::getUrl).collect(Collectors.toList());
         }
@@ -389,7 +404,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         // 查询权限表中所有接口
         List<AdminAuthority> authorityList = this.list(null);
         // 缓存所有接口数据到 jvm
-        BaseCache.AUTH_MAP = authorityList.stream().collect(Collectors.toMap(AdminAuthority::getUrl, auth -> auth));
+        JvmCache.setAuthMap(authorityList.stream().collect(Collectors.toMap(AdminAuthority::getUrl, auth -> auth)));
         // 数据统计
         int authorityCount = 0;
         int authorityCountState2 = 0;
@@ -419,11 +434,17 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         log.info("权限数据加载成功, 当前 [所有接口] 的接口数量为:    {}", authorityCount);
     }
 
-
+    /**
+     * 子级找父级
+     *
+     * @param
+     * @return void
+     * @date 2019/11/25 0025 11:55
+     */
     @Override
     public AdminAuthority findFatherAuth(String uri) {
-        Map<String, AdminAuthority> authMap = BaseCache.AUTH_MAP;
-        AdminAuthority adminAuthority = BaseCache.AUTH_MAP.get(uri);
+        Map<String, AdminAuthority> authMap = JvmCache.getAuthMap();
+        AdminAuthority adminAuthority = authMap.get(uri);
         if (adminAuthority == null) {
             return null;
         }

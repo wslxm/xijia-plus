@@ -31,7 +31,7 @@ public class WebsocketServiceImpl implements WebsocketService {
      */
     @Override
     public Integer getOnlineCount() {
-        return WebsocketServer.clients.size();
+        return websocketServer.getClientsSize();
     }
 
     /**
@@ -58,6 +58,6 @@ public class WebsocketServiceImpl implements WebsocketService {
     @Override
     public Boolean send(String form, String username, String headPic, String to, String content, String extras) {
         // 发送消息
-       return websocketServer.send(new SendMsgVO(4, form, username,headPic,to, content, extras));
+       return websocketServer.send(new SendMsgVO(4, form, username,headPic,to, content, extras,websocketServer.getClientsSize()));
     }
 }

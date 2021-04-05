@@ -28,9 +28,9 @@ public class WxPayProperties {
     private String subMchId;          // 服务商模式下的子商户号，普通模式请不要配置，最好是请在配置文件中将对应项删除
     private String keyPath;           // apiclient_cert.p12文件的绝对路径，或者如果放在项目中，请以classpath:开头指定
     // 业务参数
-    public  String notifyBase;        // 回调地址 base
-    public  String orderNotifyUrl;    // 支付回调接口
-    public  String refundNotifyUrl;   // 退款回调接口
+    private String notifyBase;        // 回调地址 base
+    private String orderNotifyUrl;    // 支付回调接口
+    private String refundNotifyUrl;   // 退款回调接口
 
     /**
      * 加载配置，此处被 sdk 调用

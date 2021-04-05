@@ -1,4 +1,6 @@
-package com.ws.ldy.common.utils;
+package com.ws.ldy.modules.third.aliyun.oss.util;
+
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -20,6 +22,7 @@ import java.io.InputStream;
  * @create 2020/10/18 22:43
  * @since 1.0.0
  */
+@Slf4j
 public class ImgUtils {
 
     /**
@@ -37,11 +40,10 @@ public class ImgUtils {
             bytes = compressPic(bufferedImage);
             return bytes;
         } catch (IOException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
-        return null;
+        return new byte[]{};
     }
-
 
 
     public static byte[] compressPic(BufferedImage targetImage) throws IOException {
@@ -121,7 +123,7 @@ public class ImgUtils {
             byteArrayOutputStream.flush();
             bytes = byteArrayOutputStream.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         return bytes;
     }
@@ -130,27 +132,5 @@ public class ImgUtils {
         return new ByteArrayInputStream(bytes);
     }
 
-
-//    public static void main(String[] args) {
-//        byte[] bytes = new byte[1024];
-//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//        String old_img_path = "C:\\Users\\yc\\Pictures\\Camera Roll\\11111111.jpg";
-//        String new_img_path = "C:\\Users\\yc\\Pictures\\a.jpg";
-//        try {
-//            BufferedInputStream buffer = new BufferedInputStream(new FileInputStream(new File(old_img_path)));
-//            int len = 0;
-//            while ((len = buffer.read(bytes))!=-1){
-//                byteArrayOutputStream.write(bytes,0,len);
-//            }
-//            byteArrayOutputStream.flush();
-//            bytes = byteArrayOutputStream.toByteArray();
-//            byte[] picByte = compressPic(bytes);
-//
-//            FileOutputStream fileOutputStream = new FileOutputStream(new_img_path);
-//            fileOutputStream.write(picByte);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
 

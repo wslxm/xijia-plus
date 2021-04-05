@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.sys.gc.service.impl;
 
 import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
-import com.ws.ldy.modules.sys.gc.model.DsField;
+import com.ws.ldy.modules.sys.gc.config.DsField;
 import com.ws.ldy.modules.sys.gc.service.XjGenerationSevice;
 import com.ws.ldy.modules.sys.gc.util.GenerateDataProcessing;
 import com.ws.ldy.modules.sys.gc.util.LayuiTemplate;
@@ -334,8 +334,8 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             }
             findPageMybatisPlus.append("\r\n");
         }
-        // System.out.println(findPageParam.substring(0, findPageParam.length() - 1));
-        // System.out.println(findPageMybatisPlus.toString()); //
+        // log.debug(findPageParam.substring(0, findPageParam.length() - 1));
+        // log.debug(findPageMybatisPlus.toString()); //
         DsField.FIND_PAGE_PARAM = findPageParam.substring(0, findPageParam.length() - 1);
         DsField.FIND_PAGE_MYBATIS_PLUS = findPageMybatisPlus.toString();
         DsField.SWAGGER_REMARK = swaggerRemark.toString();

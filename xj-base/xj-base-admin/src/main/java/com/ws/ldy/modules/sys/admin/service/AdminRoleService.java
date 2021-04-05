@@ -8,7 +8,6 @@ import com.ws.ldy.modules.sys.admin.model.dto.role.RoleMenuDTO;
 import com.ws.ldy.modules.sys.admin.model.dto.role.UserRoleDTO;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminRole;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminRoleVO;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -30,7 +29,15 @@ public interface AdminRoleService extends IService<AdminRole> {
      * @return java.lang.Boolean
      * @version 1.0.0
      */
-    Boolean insert(@RequestBody AdminRoleDTO dto);
+    Boolean insert(AdminRoleDTO dto);
+
+
+    /**
+     * 编辑角色信息
+     * @param dto
+     * @return
+     */
+    Boolean upd(AdminRoleDTO dto);
 
 
     /**
@@ -91,4 +98,11 @@ public interface AdminRoleService extends IService<AdminRole> {
      * 获取超管角色
      */
     AdminRole findSysRole();
+
+
+    /**
+     * 删除角色并删除角色关联的  权限+菜单+用户 的关系数据
+     * @return
+     */
+    boolean del(String roleId);
 }

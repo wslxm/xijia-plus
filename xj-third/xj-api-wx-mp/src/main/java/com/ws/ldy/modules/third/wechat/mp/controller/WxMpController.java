@@ -8,7 +8,7 @@ import com.ws.ldy.modules.third.wechat.mp.entity.WxMpJsapiSignatureVO;
 import com.ws.ldy.modules.third.wechat.mp.entity.WxMpUserInfoVO;
 import com.ws.ldy.modules.third.wechat.mp.util.WxMpH5AuthUtil;
 import com.ws.ldy.modules.third.wechat.mp.util.WxMpJsApUtil;
-import com.ws.ldy.modules.third.wechat.mp.util.WxMpTemplateMsgUtil;
+import com.ws.ldy.modules.third.wechat.mp.util.WxMpTemplateMsgTestUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -36,7 +36,7 @@ public class WxMpController {
     private WxMpH5AuthUtil wxMpH5AuthUtil;
 
     @Autowired
-    private WxMpTemplateMsgUtil wxMpTemplateMsgUtil;
+    private WxMpTemplateMsgTestUtil wxMpTemplateMsgTestUtil;
 
     @Autowired
     private WxMpJsApUtil wxMpJsApUtil;
@@ -100,7 +100,7 @@ public class WxMpController {
             @ApiImplicitParam(name = "content", value = "发送内容", required = true, paramType = "query", example = "")
     })
     public R<Boolean> sendTest(String openId, String content) {
-        wxMpTemplateMsgUtil.sendTest(openId, content);
+        wxMpTemplateMsgTestUtil.sendTest(openId, content);
         return R.success(true);
     }
 }

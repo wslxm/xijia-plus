@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<html>
 <head>
     <meta charset="utf-8">
     <title>黑名单</title>
@@ -61,30 +61,37 @@
 <script>
 
     // 接口
-    let adminBlacklistFindPage = path + "/admin/adminBlacklist/findPage";        //查询-分页
-    let adminBlacklistDel = path + "/admin/adminBlacklist/del";                  //删除
-    let adminBlacklistUpdDisable = path + "/admin/adminBlacklist/updDisable";    //启用禁用
+    let adminBlacklistFindPage = path + "/admin/xj/adminBlacklist/findPage";        //查询-分页
+    let adminBlacklistDel = path + "/admin/xj/adminBlacklist/del";                  //删除
+    let adminBlacklistUpdDisable = path + "/admin/xj/adminBlacklist/updDisable";    //启用禁用
 
     // 路由
     let adminBlacklistPageAdd = "/page/modules_sys_xj_blacklist_blacklistAdd";   //添加弹出
     let adminBlacklistPageUpd = "/page/modules_sys_xj_blacklist_blacklistUpd";   //编辑弹出
 
-    let form;
-    let table;     // 数据表格组件
-    let laypage;   // 分页组件
     let res;       // 完整的后台数据
     var data;      // 当前行数据（弹出层时可直接parent.data获取）
     layui.use(['form', 'table', 'laypage'], function () {
-        form = layui.form;
-        table = layui.table;
-        laypage = layui.laypage;
+        init();
         xijiaRenderTable();        //  数据表格 - 获取表格
         xijiaLayPage();            //  分页插件
         xijiaEventToolbar();       //  工具栏事件（多删除/添加）
         xijiaEventTool();          //  监听数据表格内按钮操作（编辑,删除等）
         xijiaEventSearch();        //  监听条件搜索
-        xijiaEventSwitch();        // 禁用/启用
+        xijiaEventSwitch();        //  禁用/启用
+
     });
+
+
+    /**
+     * 加载初始数据
+     */
+    function init() {
+        // select 字典数据
+        $("#type").html(Dict.getDictSelect(Enums.Xj.BlacklistType, "", "所有"));    // 类型
+        // 刷新,否则select可能不生效
+        layui.form.render();
+    }
 
 
     /**
@@ -96,7 +103,7 @@
      */
     function xijiaRenderTable(params) {
         res = Ajax.get(adminBlacklistFindPage + getPage() + xijiaSearchParam());
-        table.render({
+        layui.table.render({
             elem: '#auth-table'
             , data: res.data.records
             , toolbar: '#toolbarDemo'
@@ -108,11 +115,11 @@
 
                     {
                         field: 'type', title: '类型', templet: function (res) {
-                            var blacklistName = Dict.convert(Enums.Admin.BlacklistType, res.type);
-                            if(res.type==1){
-                                return "<font color='green'>"+blacklistName+" </font>"
-                            }else{
-                                return "<font color='red'>"+blacklistName+" </font>"
+                            var blacklistName = Dict.convert(Enums.Xj.BlacklistType, res.type);
+                            if (res.type == 1) {
+                                return "<font color='green'>" + blacklistName + " </font>"
+                            } else {
+                                return "<font color='red'>" + blacklistName + " </font>"
                             }
 
                         }
@@ -120,7 +127,7 @@
                     {
                         field: 'ip', title: 'ip ( * 表示所有)'
                     },
-                    {field: 'desc', title: '备注',width: 400},
+                    {field: 'desc', title: '备注', width: 400},
                     {
                         field: 'disable', title: '禁用', templet: function (res) {
                             let id = res.id;
@@ -147,7 +154,7 @@
      * @return
      */
     function xijiaLayPage() {
-        laypage.render({
+        layui.laypage.render({
             // 注意，这里的 page-table 是 ID，不用加 # 号
             elem: 'page-table'
             , count: res.data.total    // 数据总数，从服务端得到
@@ -181,7 +188,7 @@
      * @return
      */
     function xijiaEventToolbar() {
-        table.on('toolbar(auth-table)', function (obj) {
+        layui.table.on('toolbar(auth-table)', function (obj) {
             //添加
             if (obj.event === "add") {
                 Pop.tipsWindown(adminBlacklistPageAdd, "600px", "400px", "添加");
@@ -198,7 +205,7 @@
      * @return
      */
     function xijiaEventTool() {
-        table.on('tool(auth-table)', function (obj) {
+        layui.table.on('tool(auth-table)', function (obj) {
             data = obj.data;  //当前行数据
             //编辑
             if (obj.event === 'edit') {
@@ -259,7 +266,7 @@
      * switch(state) 对应 lay-filter='state'
      */
     function xijiaEventSwitch() {
-        form.on('switch(disable)', function (data) {
+        layui.form.on('switch(disable)', function (data) {
             let disable = 0;
             if (data.elem.checked) {
                 disable = 0;
@@ -273,12 +280,7 @@
         });
     }
 
-    $(function () {
-        // select 字典数据
-        $("#type").html(Dict.getDictSelect(Enums.Admin.BlacklistType, "", "所有"));    // 类型
-        // 刷新,否则select可能不生效
-        layui.form.render();
-    })
+
 </script>
 </body>
 </html>

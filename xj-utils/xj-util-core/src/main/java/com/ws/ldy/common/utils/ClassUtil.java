@@ -1,5 +1,7 @@
 package com.ws.ldy.common.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -19,6 +21,7 @@ import java.util.jar.JarFile;
  * @date 2019/10/26
  */
 @SuppressWarnings("all")
+@Slf4j
 public class ClassUtil {
 
     /**
@@ -84,19 +87,19 @@ public class ClassUtil {
                                             // 添加到classes
                                             classes.add(Class.forName(packageName + '.' + className));
                                         } catch (ClassNotFoundException e) {
-                                            e.printStackTrace();
+                                            log.debug(e.toString());
                                         }
                                     }
                                 }
                             }
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        log.debug(e.toString());
                     }
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         return classes;
     }
@@ -138,7 +141,7 @@ public class ClassUtil {
                     // 添加到集合中去
                     classes.add(Class.forName(packageName + '.' + className));
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                    log.debug(e.toString());
                 }
             }
         }

@@ -149,7 +149,7 @@
     var myEditor;
 
     function help(id) {
-        let res = Ajax.get(path + "/admin/adminHelp/findById?id=" + id);
+        let res = Ajax.get(path + "/admin/xj/adminHelp/findById?id=" + id);
         // 先清空，再添加 textarea 用于存放回显的 md 源码, 解决在弹出框中进行预览时，第二次预览无法刷新的问题
         $('#markdownToHTML').empty();
         $('#markdownToHTML').append('<textarea id="content" style="display:none;" placeholder="markdown语言"></textarea>');
@@ -175,7 +175,7 @@
 
 <script language="javascript" type="text/javascript">
     // 加载左菜单
-    let res = Ajax.get(path + "/admin/adminHelp/findTree");
+    let res = Ajax.get(path + "/admin/xj/adminHelp/findTree");
     initMenu(res.data);
     // 加载图片放大插件
     addExpand();

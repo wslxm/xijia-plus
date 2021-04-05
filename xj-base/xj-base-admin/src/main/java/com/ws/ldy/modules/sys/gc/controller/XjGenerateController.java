@@ -4,7 +4,7 @@ import com.ws.ldy.common.result.R;
 import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
-import com.ws.ldy.modules.sys.gc.model.DsField;
+import com.ws.ldy.modules.sys.gc.config.DsField;
 import com.ws.ldy.modules.sys.gc.model.dto.XjGenerateDto;
 import com.ws.ldy.modules.sys.gc.model.entity.XjAdminDatasource;
 import com.ws.ldy.modules.sys.gc.service.XjAdminDatasourceService;
@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.apiAdmin +"/generate")
-@Api(value = "XjGenerateController", tags = "base-plus--代码生成")
+@Api(value = "XjGenerateController", tags = "base-gc--代码生成")
 public class XjGenerateController extends BaseController<XjGenerationSeviceImpl> {
 
 

@@ -44,7 +44,10 @@ public enum RType {
 
     // 参数错误 9999
     PARAM_ERROR(9999, "参数错误"),
-    PARAM_ERROR_JSR303(9999, "参数错误:不符合JSR 303规范"),//jsr303错误,全局异常单独处理返回msg
+    PARAM_SIGN_ERROR(9999, "验签: 参数验证失败"),
+    PARAM_IS_NO_SIGN(9999, "验签: 没有 sign 或 timestamp 参数"),
+    PARAM_TIME_OUT(9999, "验签: 请求超时"),                    // 请求超时,可能请求被拦截篡改参数后再请求
+    PARAM_ERROR_JSR303(9999, "参数错误:不符合JSR 303规范"),     // jsr303错误,全局异常单独处理返回msg
     PARAM_MISSING(9999, "缺少参数"),
     PARAM_TYPE_DOES_NOT_MATCH(9999, " 参数类型不匹配"),
     PARAM_ID_REQUIRED_FALSE(9999, "添加不能传递ID"),
@@ -92,6 +95,7 @@ public enum RType {
     // 短信
     SMS_INVALID(10030, "验证码无效"),
     SMS_EXPIRED(10030, "验证码已过期"),
+    SMS_FAIL(10030, "发送失败"),
 
     // Websocket
     WEBSOCKET_CONFIG_ERROR(10040, "请检查webSocket配置信息是否配置"),
@@ -101,6 +105,7 @@ public enum RType {
     WX_PAY_NO_OPENID(10050, "没有openId"),
     WX_PAY_FAILURE(10050, "交易失败"),
     WX_PAY_REPEAT(10051, "重复回调"),
+    WX_APP_ERROR(10051, "调用sdk错误"),
 
     // 代码生成
     GENERATE_CODE_JDBC_ERROR(10060, "数据源连接信息错误"),

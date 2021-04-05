@@ -6,6 +6,7 @@ server:
 spring:
   autoconfigure:
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  # 数据源配置
   datasource:
     dynamic:
       primary: db1
@@ -21,7 +22,7 @@ spring:
 aliyun:
   ## 个人账号,拉取此代码调试后请修改为自己的,如发现滥用,将关停
   oss:
-    endpoint: oss-cn-shenzhen-internal.aliyuncs.com
+    endpoint: oss-cn-shenzhen.aliyuncs.com   # oss-cn-shenzhen-internal.aliyuncs.com
     accessKeyId: LTAI4Fyfy2DTf4yUrvKqHwH4
     accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8
     bucketName: xijia-sz
@@ -31,3 +32,4 @@ aliyun:
 logging:
   filePath: /usr/local/work/xijia2/logs
   methods: POST,PUT,DELETE
+

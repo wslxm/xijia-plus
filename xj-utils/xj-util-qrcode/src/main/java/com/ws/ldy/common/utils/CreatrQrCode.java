@@ -7,6 +7,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -24,6 +25,7 @@ import java.util.Map;
  * @version 1.0.0
  */
 @SuppressWarnings("ALL")
+@Slf4j
 public class CreatrQrCode {
 
     // 生成后的二维码高宽
@@ -39,10 +41,9 @@ public class CreatrQrCode {
     public static final Color DEFAULT_BORDERCOLOR = Color.WHITE; // logo 默认边框颜色
     public static final int DEFAULT_BORDER = 2;                  // logo 默认边框宽度
     public static final int DEFAULT_LOGOPART = 4;                // logo 大小默认为照片的1/4
-    private static final int border = DEFAULT_BORDER;
-    private static final Color borderColor = DEFAULT_BORDERCOLOR;
-    private static final int logoPart = DEFAULT_LOGOPART;
-
+    private static final int BORDER = DEFAULT_BORDER;
+    private static final Color BORDER_COLOR = DEFAULT_BORDERCOLOR;
+    private static final int LOGOPART = DEFAULT_LOGOPART;
 
 
     // 外部方法1： 生成 普通的二维码
@@ -74,7 +75,7 @@ public class CreatrQrCode {
      * @return void
      * @version 1.0.0
      */
-    public synchronized static File generateQRCode(String content, BufferedImage logoImg, String text, int type) {
+    public static synchronized File generateQRCode(String content, BufferedImage logoImg, String text, int type) {
         // 生成 普通的二维码
         File qrPic = qrCode(content);
         if (type == 1) {
@@ -122,9 +123,9 @@ public class CreatrQrCode {
             // 开始画二维码
             MatrixToImageWriter.writeToFile(bitMatrix, FILE_TYPE, qrcFile);
         } catch (WriterException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         return qrcFile;
     }
@@ -142,14 +143,12 @@ public class CreatrQrCode {
     public static File qrCodeLogo(File qrPic, BufferedImage logo) {
         File file = new File(IMG_LOGO);
         try {
-            CreatrQrCode creatrQrCode = new CreatrQrCode();
             // 读取二维码图片，并构建绘图对象
             BufferedImage image = ImageIO.read(qrPic);
             Graphics2D g = image.createGraphics();
             // 计算宽高
-            int widthLogo = image.getWidth() / logoPart;
-            // int  heightLogo = image.getHeight()/logoConfig.getLogoPart();
-            int heightLogo = image.getWidth() / logoPart; //保持二维码是正方形的
+            int widthLogo = image.getWidth() / LOGOPART;
+            int heightLogo = image.getWidth() / LOGOPART; //保持二维码是正方形的
             // logo放置位置
             int x = (image.getWidth() - widthLogo) / 2;
             int y = (image.getHeight() - heightLogo) / 2;
@@ -157,12 +156,12 @@ public class CreatrQrCode {
             //开始绘制图片
             g.drawImage(logo, x, y, widthLogo, heightLogo, null);
             g.drawRoundRect(x, y, widthLogo, heightLogo, 10, 10);
-            g.setStroke(new BasicStroke(border));
-            g.setColor(borderColor);
+            g.setStroke(new BasicStroke(BORDER));
+            g.setColor(BORDER_COLOR);
             g.drawRect(x, y, widthLogo, heightLogo);
             ImageIO.write(image, FILE_TYPE, file);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
         return file;
     }
@@ -184,10 +183,8 @@ public class CreatrQrCode {
         // 字体样式
         int fontStyle = 4;
         // x开始的位置：（图片宽度-字体大小*字的个数）/2
-        //int startX = (WIDTH - (fontSize * pressText.length())) / 300;
-        // y开始的位置：图片高度-（图片高度-图片宽度）/2
-        // int startY = HEIGHT - (HEIGHT - WIDTH) / 10;
         int startX = 12;
+        // y开始的位置：图片高度-（图片高度-图片宽度）/2
         int startY = HEIGHT - 12;
         // 获取带二维码的文件
         File file = new File(IMG_LOGO);
@@ -207,13 +204,12 @@ public class CreatrQrCode {
             // 生成带logo + text的文件
             FileOutputStream out = new FileOutputStream(outfile);
             ImageIO.write(image, "JPEG", out);
-            // JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-            // encoder.encode(image);
             out.close();
-            System.out.println("image press success");
+            log.debug("image press success");
         } catch (Exception e) {
-            System.out.println(e);
+            log.debug("error:{}. e:{}", "image press fail", e);
         }
+
         return outfile;
     }
 
@@ -228,9 +224,13 @@ public class CreatrQrCode {
         }
         if (!file.exists()) {
             try {
-                file.createNewFile();
+                if(file.createNewFile()){
+                    log.debug("upd success");
+                }else{
+                    log.debug("upd fail");
+                }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.debug(e.toString());
             }
         }
     }
@@ -242,20 +242,16 @@ public class CreatrQrCode {
      * @param filePath
      */
     private static void addFile(File file, String filePath) {
-        try {
-            existsFile(file);
-            InputStream is = new FileInputStream(file);
-            FileOutputStream os = new FileOutputStream(new File(filePath));
+        existsFile(file);
+        try (InputStream is = new FileInputStream(file);
+             FileOutputStream os = new FileOutputStream(new File(filePath));) {
             byte[] car = new byte[10000];
             int len = 0;
             while (-1 != (len = is.read(car))) {
                 os.write(car, 0, len);
             }
-            is.close();
-            os.flush();
-            os.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.debug(e.toString());
         }
     }
 
@@ -269,17 +265,18 @@ public class CreatrQrCode {
      * @version 1.0.0
      */
     public static void main(String args[]) throws IOException {
+
+        String content = "http://www.baidu.com";
         // 1、生成普通的二维码
-        File file1 = generateQRCode("http://www.baidu.com");
+        File file1 = generateQRCode(content);
 
         // 2、生成代logo的二维码
-        File file2 = generateQRCode("http://www.baidu.com", ImageIO.read(new File("D:/ceshi/3.jpg")));
+        File file2 = generateQRCode(content, ImageIO.read(new File("D:/ceshi/3.jpg")));
 
         // 3、生成代logo+文字的二维码-> 二维码中的文字(左下)
-        File file3 = generateQRCode("http://www.baidu.com", ImageIO.read(new File("D:/ceshi/3.jpg")), "id:156465514");
+        File file3 = generateQRCode(content, ImageIO.read(new File("D:/ceshi/3.jpg")), "id:156465514");
 
-        System.out.println("生成成功");
-
+        log.debug("生成成功");
         // 保存到本地文件夹查看
         addFile(file1, "E:/test/file1.jpg");
         addFile(file2, "E:/test/file2.jpg");

@@ -4,6 +4,7 @@ package com.ws.ldy.modules.sys.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.modules.sys.admin.model.dto.AdminDictionaryDTO;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminDictionary;
+import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryCodeGroup;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryVO;
 
 import java.util.List;
@@ -33,6 +34,13 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
      */
     Boolean upd(AdminDictionaryDTO dto);
 
+
+    /**
+     * 查询所有（缓存到jvm）
+     * @param isDisable  是否查询禁用数据 =true 查询*默认   =false 不查询
+     * @return
+     */
+    List<AdminDictionaryVO> findList(Boolean isDisable);
 
     /**
      * 修改排序
@@ -71,7 +79,7 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
      * 分组查询-key-value数据： 不包括禁用数据
      * @return
      */
-    Map<String, AdminDictionaryVO.FindCodeGroup> findCodeGroup();
+    Map<String, AdminDictionaryCodeGroup> findCodeGroup();
 
 
     /**
@@ -79,7 +87,7 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
      * @param code 父级code, 不传默认为顶层
      * @return
      */
-    List<AdminDictionary> findDictCategory(String code);
+    List<AdminDictionaryVO> findDictCategory(String code);
 
 
     /**

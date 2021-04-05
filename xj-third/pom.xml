@@ -6,7 +6,7 @@
     <parent>
         <artifactId>spring-boot-plus2</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.0.9-SNAPSHOT</version>
+        <version>0.1.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -15,6 +15,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>xj-api-sms1086</module>
         <module>xj-api-aliyun-oss</module>
         <module>xj-api-aliyun-sms</module>
         <module>xj-api-qiniu-oss</module>

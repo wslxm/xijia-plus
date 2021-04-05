@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
     <head>
         <meta charset="utf-8">
         <title>菜单添加</title>
@@ -34,10 +34,10 @@
                     <input type="text" id="url" name="url" placeholder="请输入路由" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div id="urlShow2"  class="layui-form-item">
+            <div id="urlShow2" class="layui-form-item">
                 <label class="layui-form-label">第二路由</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="twoUrl" name="twoUrl"  placeholder="非必填" autocomplete="off" class="layui-input">
+                    <input type="text" id="twoUrl" name="twoUrl" placeholder="非必填" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -57,47 +57,54 @@
                 <input type="button" lay-submit lay-filter="layuiadmin-app-form-edit" id="layuiadmin-app-form-edit" value="确认编辑">
             </div>
         </div>
-
-        <script>
-            $(function () {
-                //默认值
-                $("#sort").val(0);
-                $("#icon").val("layui-icon-file-b");
-                //判断
-                if (parent.data.lv === 1) {
-                    // 添加系统--屏蔽路由
-                    $("#urlShow").attr("style", "display:none");
-                    $("#urlShow2").attr("style", "display:none");
-                } else if (parent.data.lv === 2) {
-                    // 添加菜单--屏蔽路由
-                    $("#urlShow").attr("style", "display:none");
-                    $("#urlShow2").attr("style", "display:none");
-                } else if (parent.data.lv === 3) {
-                    // 添加页面--路由必填
-                    $("#url").attr("lay-verify", "required");
-                }
-            });
-            layui.use(['form'], function () {
-                // 监听提交
-                layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-                    WindowPos.onbeforeunload();
-                     //顶级菜单父Id=0, 其他为当前选中行
-                     if(parent.data.lv === 1){
-                         data.field.pid = 0;
-                     }else{
-                         data.field.pid = parent.data.id;
-                     }
-                    data.field.root = parent.data.lv;  // 目录级别
-                    let result = Ajax.post(path + "/admin/adminMenu/insert", data.field);
-                    let index = parent.layer.getFrameIndex(window.name);
-                    parent.layer.close(index);
-                    parent.layer.msg(result.msg);
-                    // 重载页面 // parent.window.location.reload();
-                    WindowPos.onbeforeunload();  // 记录滚动条位置
-                    parent.xijiaRenderTable();
-                    WindowPos.onload();          // 还原滚动条位置
-                });
-            });
-        </script>
     </body>
+
+    <script>
+
+        layui.use(['form'], function () {
+            init();
+            formSubmit();
+        });
+
+        function init() {
+            //默认值
+            $("#sort").val(0);
+            $("#icon").val("layui-icon-file-b");
+            //判断
+            if (parent.data.lv === 1) {
+                // 添加系统--屏蔽路由
+                $("#urlShow").attr("style", "display:none");
+                $("#urlShow2").attr("style", "display:none");
+            } else if (parent.data.lv === 2) {
+                // 添加菜单--屏蔽路由
+                $("#urlShow").attr("style", "display:none");
+                $("#urlShow2").attr("style", "display:none");
+            } else if (parent.data.lv === 3) {
+                // 添加页面--路由必填
+                $("#url").attr("lay-verify", "required");
+            }
+        }
+
+        function formSubmit() {
+            // 监听提交
+            layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                WindowPos.onbeforeunload();
+                //顶级菜单父Id=0, 其他为当前选中行
+                if (parent.data.lv === 1) {
+                    data.field.pid = 0;
+                } else {
+                    data.field.pid = parent.data.id;
+                }
+                data.field.root = parent.data.lv;  // 目录级别
+                let result = Ajax.post(path + "/admin/adminMenu/insert", data.field);
+                let index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+                parent.layer.msg(result.msg);
+                // 重载页面 // parent.window.location.reload();
+                WindowPos.onbeforeunload();  // 记录滚动条位置
+                parent.xijiaRenderTable();
+                WindowPos.onload();          // 还原滚动条位置
+            });
+        }
+    </script>
 </html>

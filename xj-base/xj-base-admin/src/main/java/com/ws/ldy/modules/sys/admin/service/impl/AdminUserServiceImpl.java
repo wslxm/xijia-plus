@@ -2,7 +2,6 @@ package com.ws.ldy.modules.sys.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.ws.ldy.common.cache.BaseCache;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.auth.entity.JwtUser;
 import com.ws.ldy.config.auth.util.JwtUtil;
@@ -152,10 +151,12 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         jwtUser.setType(Admin.AuthorityType.V0.getValue());
         jwtUser.setHead(user.getHead());
         jwtUser.setPhone(user.getPhone());
+        // 设置token有效期(分)
+        jwtUser.setRefreshTime(60);
+        jwtUser.setExpiration(5);
         // 添加权限 和 权限数据版本号,当权限发生改变时，直接刷新token信息
         jwtUser.setAuthList(authList);
-        jwtUser.setAuthVersion(BaseCache.AUTH_VERSION);
-        String jwtToken = JwtUtil.createToken(jwtUser, response);
+        JwtUtil.createToken(jwtUser, response);
         // 6、刷新登录时间
         AdminUser updAdminUser = new AdminUser();
         updAdminUser.setId(user.getId());
@@ -187,5 +188,12 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         }
         //绑定
         return this.update(new LambdaUpdateWrapper<AdminUser>().eq(AdminUser::getWxOpenId, openId));
+    }
+
+
+    @Override
+    public Boolean del(String userId) {
+        adminRoleUserService.remove(new LambdaUpdateWrapper<AdminRoleUser>().eq(AdminRoleUser::getUserId,userId));
+        return this.removeById(userId);
     }
 }

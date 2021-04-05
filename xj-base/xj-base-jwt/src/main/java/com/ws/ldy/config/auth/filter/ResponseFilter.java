@@ -67,7 +67,7 @@
 //                cipherText = str;
 //                //......根据需要处理返回值
 //            } catch (Exception e) {
-//                e.printStackTrace();
+//                log.debug(e.toString());
 //            }
 //            //把返回值输出到客户端
 //            ServletOutputStream out = response.getOutputStream();

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
     <head>
         <meta charset="utf-8">
         <title>菜单--修改名称</title>
@@ -31,7 +31,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">路由</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="url" name="url"  placeholder="请输入路由" autocomplete="off" class="layui-input">
+                    <input type="text" id="url" name="url" placeholder="请输入路由" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -59,41 +59,45 @@
                        value="确认编辑">
             </div>
         </div>
-
-        <script>
-            $(function () {
-                // 回显父页面的值
-                $("#name").val(parent.data.name);
-                $("#icon").val(parent.data.icon);
-                $("#url").val(parent.data.url);
-                $("#twoUrl").val(parent.data.twoUrl);
-                $("#sort").val(parent.data.sort);
-            });
-
-            layui.use(['form'], function () {
-                //监听提交
-                layui.form.on('submit(layuiadmin-app-form-submit)', function (res) {
-
-                    let data = {
-                        id: parent.data.id,
-                        name: $("#name").val(),
-                        icon: $("#icon").val(),
-                        url: $("#url").val(),
-                        twoUrl: $("#twoUrl").val(),
-                        sort: $("#sort").val()
-                    };
-                    // 修改
-                    let result = Ajax.put(path + "/admin/adminMenu/upd", data);
-                    // 关闭弹层
-                    let index = parent.layer.getFrameIndex(window.name);
-                    parent.layer.close(index);
-                    parent.layer.msg(result.msg);
-                    // 重载页面 // parent.window.location.reload();
-                    WindowPos.onbeforeunload();  // 记录滚动条位置
-                    parent.xijiaRenderTable();
-                    WindowPos.onload();          // 还原滚动条位置
-                });
-            });
-        </script>
     </body>
+    <script>
+        layui.use(['form'], function () {
+            init();
+            formSubmit();
+        });
+
+        function init() {
+            // 回显父页面的值
+            $("#name").val(parent.data.name);
+            $("#icon").val(parent.data.icon);
+            $("#url").val(parent.data.url);
+            $("#twoUrl").val(parent.data.twoUrl);
+            $("#sort").val(parent.data.sort);
+        }
+
+        function formSubmit() {
+            //监听提交
+            layui.form.on('submit(layuiadmin-app-form-submit)', function (res) {
+                let data = {
+                    id: parent.data.id,
+                    name: $("#name").val(),
+                    icon: $("#icon").val(),
+                    url: $("#url").val(),
+                    twoUrl: $("#twoUrl").val(),
+                    sort: $("#sort").val()
+                };
+                // 修改
+                let result = Ajax.put(path + "/admin/adminMenu/upd", data);
+                // 关闭弹层
+                let index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+                parent.layer.msg(result.msg);
+                // 重载页面 // parent.window.location.reload();
+                WindowPos.onbeforeunload();  // 记录滚动条位置
+                parent.xijiaRenderTable();
+                WindowPos.onload();          // 还原滚动条位置
+            });
+        }
+    </script>
+
 </html>

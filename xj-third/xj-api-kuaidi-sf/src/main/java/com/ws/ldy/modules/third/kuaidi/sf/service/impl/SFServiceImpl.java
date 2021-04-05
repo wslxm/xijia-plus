@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -59,7 +58,7 @@ public class SFServiceImpl implements SFService {
         // 请求下单
         R<String> rMsgData = sfUtil.http("EXP_RECE_CREATE_ORDER", JSON.toJSONString(en));
         if (!rMsgData.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-            return R.error(rMsgData.getCode(),rMsgData.getMsg()) ;
+            return R.error(rMsgData.getCode(), rMsgData.getMsg());
         }
         String msgDataJson = rMsgData.getData();
         // 成功下单
@@ -80,14 +79,12 @@ public class SFServiceImpl implements SFService {
      */
     @Override
     public R<String> cancelOrder(String orderId) {
-        Map<String, Object> param = new HashMap<String, Object>() {{
-            put("orderId", orderId);   // 客户订单号
-            put("dealType", 2);        //  1:确认订单 2:取消订单
-        }};
-        //
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("orderId", orderId);   // 客户订单号
+        param.put("dealType", 2);        //  1:确认订单 2:取消订单
         R<String> rMsgData = sfUtil.http("EXP_RECE_UPDATE_ORDER", JSON.toJSONString(param));
         if (!rMsgData.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-            return R.error(rMsgData.getCode(),rMsgData.getMsg()) ;
+            return R.error(rMsgData.getCode(), rMsgData.getMsg());
         }
         //
         String msgDataJson = rMsgData.getData();

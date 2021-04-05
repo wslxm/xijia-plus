@@ -37,7 +37,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.apiAdmin +"/adminDatasource")
-@Api(value = "XjAdminDatasourceController", tags = "base-plus--代码生成数据源维护表")
+@Api(value = "XjAdminDatasourceController", tags = "base-gc--代码生成--数据源维护")
 public class XjAdminDatasourceController extends BaseController<XjAdminDatasourceService> {
 
 

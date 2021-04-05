@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
 <head>
     <meta charset="utf-8">
     <title>用户--添加</title>
@@ -14,7 +14,7 @@
 <style>
     .layui-form-item .layui-input-inline {
         width: 300px;
-        !important;
+    !important;
     }
 </style>
 <body>
@@ -24,23 +24,22 @@
     <div class="layui-form-item">
         <label class="layui-form-label">位置</label>
         <div class="layui-input-inline ">
-            <select id="position" name="position"  lay-verify="" lay-filter="required" >
+            <select id="position" name="position" lay-verify="" lay-filter="required">
             </select>
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">标题</label>
-        <div class="layui-input-inline" >
+        <div class="layui-input-inline">
             <input type="text" id="name" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
 
 
-
     <div class="layui-form-item">
         <label class="layui-form-label">描叙</label>
-        <div class="layui-input-inline" >
+        <div class="layui-input-inline">
             <input type="text" id="desc" name="desc" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
@@ -63,7 +62,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">是否跳转</label>
         <div class="layui-input-inline ">
-            <select id="isSkip" name="isSkip"  lay-verify="" lay-filter="required" >
+            <select id="isSkip" name="isSkip" lay-verify="" lay-filter="required">
             </select>
         </div>
     </div>
@@ -71,7 +70,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">跳转地址url</label>
         <div class="layui-input-inline">
-            <input type="text" id="skipUrl" name="skipUrl"  placeholder="请输入" autocomplete="off" class="layui-input">
+            <input type="text" id="skipUrl" name="skipUrl" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
 
@@ -90,9 +89,15 @@
 
 <script>
     layui.use(['form', 'upload'], function () {
+        init();
+        formSubmit();
+        upload();
+    });
+
+    function formSubmit() {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            let result = Ajax.post(path + "/admin/adminBanner/insert", data.field);
+            let result = Ajax.post(path + "/admin/xj/adminBanner/insert", data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);
@@ -101,14 +106,28 @@
             // 重载后-刷新分页数据
             parent.xijiaLayPage();
         });
+    }
 
 
+    function init() {
+        // 默认隐藏图片
+        $("#imgUrlShow").hide();
+        // select 字典数据
+        $("#isSkip").html(Dict.getDictSelect(Enums.Xj.BannerIsSkip));    // 是否跳转  不带默认值
+        $("#position").html(Dict.getDictSelect(Enums.Xj.BannerPosition));  // 位置
+        // $("#isSkip").html(Dict.getDictSelect(Enums.Admin.BannerIsSkip,-1,"默认值"));  //带默认值
+        // 刷新,否则select可能不生效
+        layui.form.render();
+    }
+
+
+    function upload() {
         //文件上传--设定文件大小限制
         layui.upload.render({
             elem: '#test7'
-            , url: uploadPath +'?filePath=image/banner/' //改成您自己的上传接口
+            , url: uploadPath + '?filePath=image/banner/' //改成您自己的上传接口
             , size: 2048 //限制文件大小，单位 KB
-            , headers: headers
+            , headers: {"TOKEN": getGlobalHeaders()}
             , done: function (res) {
                 //如果上传失败
                 if (res.code !== 200) {
@@ -124,18 +143,7 @@
                 layer.msg('上传成功');
             }
         });
-    });
-
-    $(function () {
-        // 默认隐藏图片
-        $("#imgUrlShow").hide();
-        // select 字典数据
-        $("#isSkip").html(Dict.getDictSelect(Enums.Admin.BannerIsSkip));    // 是否跳转  不带默认值
-        $("#position").html(Dict.getDictSelect(Enums.Admin.BannerPosition));  // 位置
-        // $("#isSkip").html(Dict.getDictSelect(Enums.Admin.BannerIsSkip,-1,"默认值"));  //带默认值
-        // 刷新,否则select可能不生效
-        layui.form.render();
-    })
+    }
 </script>
 </body>
 </html>

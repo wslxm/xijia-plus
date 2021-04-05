@@ -48,13 +48,22 @@ public class JwtUser implements Serializable {
      */
     private String head;
 
+
     //================== 管理端专属字段 ==================
     /**
-     * 用户权限
+     * 用户权限(用户可以访问那些url,如果在使用中权限数据被修改，需要重新登录)
      */
     private List<String> authList;
+
     /**
-     * 用户权限版本号-用于修改权限后直接刷新正在正常使用中的用户权限
+     * token 刷新时间(单位分) -> 相当于设置生成的token 总有效期
+     * 如果expiration 过期了, 该值将会刷新到最新的时间 + refreshTime (分)
+     * 如果在 refreshTime 分没登录过, 将返回登录过期给用户
      */
-    private Integer authVersion;
+    private Integer refreshTime;
+
+    /**
+     * 单次token有效期 -> 相当多久刷新一次 token
+     */
+    private Integer expiration;
 }

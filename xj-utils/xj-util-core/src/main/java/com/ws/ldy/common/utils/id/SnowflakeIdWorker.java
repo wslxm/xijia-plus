@@ -1,5 +1,7 @@
 package com.ws.ldy.common.utils.id;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 雪花算法工具类
  * Twitter_Snowflake<br>
@@ -16,6 +18,9 @@ package com.ws.ldy.common.utils.id;
  * SnowFlake的优点是，整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞(由数据中心ID和机器ID作区分)，并且效率较高，经测试，
  * SnowFlake每秒能够产生26万ID左右。
  */
+
+@SuppressWarnings("all")
+@Slf4j
 public class SnowflakeIdWorker {
 
     // ==============================Fields===========================================
@@ -144,9 +149,9 @@ public class SnowflakeIdWorker {
         lastTimestamp = timestamp;
 
         // 移位并通过或运算拼到一起组成64位的ID
-        return ((timestamp - twepoch) << timestampLeftShift) //
-                | (dataCenterId << dataCenterIdShift) //
-                | (workerId << workerIdShift) //
+        return ((timestamp - twepoch) << timestampLeftShift)
+                | (dataCenterId << dataCenterIdShift)
+                | (workerId << workerIdShift)
                 | sequence;
     }
 
@@ -180,14 +185,14 @@ public class SnowflakeIdWorker {
      * 测试
      */
     public static void main(String[] args) {
-        System.out.println(System.currentTimeMillis());
+        log.debug(System.currentTimeMillis() + "");
         SnowflakeIdWorker idWorker = new SnowflakeIdWorker(31, 31);
         long startTime = System.nanoTime();
         for (int i = 0; i < 50000; i++) {
             long id = idWorker.nextId();
-            System.out.println(id);
+            log.debug(id + "");
         }
-        System.out.println((System.nanoTime() - startTime) / 1000000 + "ms");
+        log.debug((System.nanoTime() - startTime) / 1000000 + "ms");
     }
 }
 

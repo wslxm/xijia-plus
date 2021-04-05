@@ -3,6 +3,7 @@ package com.ws.ldy.modules.sys.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
@@ -17,10 +18,8 @@ import com.ws.ldy.modules.sys.admin.model.vo.AdminUserVO;
 import com.ws.ldy.modules.sys.admin.service.AdminUserService;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import io.swagger.annotations.*;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -103,20 +102,14 @@ public class AdminUserController extends BaseController<AdminUserService> {
         if (StringUtils.isBlank(dto.getId())) {
             throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
         }
+        dto.setPassword(null);
         return R.successUpdate(baseService.upd(dto));
     }
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation(value = "ID删除", notes = "")
     public R<Boolean> del(@RequestParam String id) {
-        return R.successDelete(baseService.removeById(id));
-    }
-
-
-    @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
-    @ApiOperation(value = "批量ID删除", notes = "")
-    public R<Boolean> delByIds(@RequestParam String[] ids) {
-        return R.successDelete(baseService.removeByIds(Arrays.asList(ids)));
+        return R.successDelete(baseService.del(id));
     }
 
 
@@ -140,7 +133,6 @@ public class AdminUserController extends BaseController<AdminUserService> {
             return R.error(RType.USER_PASSWORD_ERROR);
         }
     }
-
 
     /**
      * 登录

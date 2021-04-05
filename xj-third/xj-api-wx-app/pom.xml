@@ -5,12 +5,16 @@
     <parent>
         <artifactId>xj-third</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.0.9-SNAPSHOT</version>
+        <version>0.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-api-wx-app</artifactId>
     <version>${xj-api-wx-app.version}</version>
+
+    <properties>
+        <weixin-java-miniapp.version>4.0.0</weixin-java-miniapp.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -27,6 +31,11 @@
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-doc-swagger2</artifactId>
             <version>${xj-doc-swagger2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+            <version>${weixin-java-miniapp.version}</version>
         </dependency>
     </dependencies>
 

@@ -3,14 +3,16 @@ package com.ws.ldy.modules.sys.pay.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.ws.ldy.enums.Pay;
 import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.modules.sys.pay.mapper.PayRecordMapper;
-import com.ws.ldy.modules.sys.pay.model.dto.PayRecordDTO;
 import com.ws.ldy.modules.sys.pay.model.entity.PayRecord;
 import com.ws.ldy.modules.sys.pay.service.PayRecordService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
 
 /**
  * 第三方支付记录表
@@ -25,12 +27,55 @@ import org.springframework.transaction.annotation.Transactional;
 public class PayRecordServiceImpl extends BaseIServiceImpl<PayRecordMapper, PayRecord> implements PayRecordService {
 
 
+
+    /**
+     * 添加支付记录
+     */
     @Override
-    public Boolean insert(PayRecordDTO dto) {
-        PayRecord payRecord = dto.convert(PayRecord.class);
-        return this.save(payRecord);
+    public boolean addPayRecord(BigDecimal money,
+                                String orderNo,
+                                String tradeNo,
+                                String requestData,
+                                String responseData,
+                                Pay.PayState payState,
+                                Pay.PayType payType,
+                                Pay.PayBusiness payBusiness
+    ) {
+        return this.addPayRecord(money, orderNo, tradeNo, requestData, responseData, payState, payType, payBusiness,
+                new BigDecimal("0"), new BigDecimal("0"), new BigDecimal("0"));
     }
 
+
+    @Override
+    public boolean addPayRecord(BigDecimal money,
+                                String orderNo,
+                                String tradeNo,
+                                String requestData,
+                                String responseData,
+                                Pay.PayState payState,
+                                Pay.PayType payType,
+                                Pay.PayBusiness payBusiness,
+                                BigDecimal platformFee,
+                                BigDecimal channelFee,
+                                BigDecimal moneySurplus
+    ) {
+        PayRecord record = new PayRecord();
+        record.setMoneyTotal(money);
+        record.setPlatformFee(platformFee);
+        record.setChannelFee(channelFee);
+        record.setMoneySurplus(moneySurplus);
+        record.setOrderNo(orderNo);
+        record.setTradeNo(tradeNo);
+        record.setRequestData(requestData);
+        record.setResponseData(responseData);
+        record.setPayState(payState.getValue());
+        record.setPayType(payType.getValue());
+        record.setPayChannel(Pay.PayChannel.V2.getValue());
+        record.setBusinessType(payBusiness.getValue());
+        record.setBusinessDesc(payBusiness.getDesc());
+        record.setCallbackData(null);
+        return this.save(record);
+    }
 
 
     @Override

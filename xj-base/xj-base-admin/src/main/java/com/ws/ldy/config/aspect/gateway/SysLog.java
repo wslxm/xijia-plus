@@ -3,7 +3,7 @@ package com.ws.ldy.config.aspect.gateway;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.ws.ldy.common.cache.BaseCache;
+import com.ws.ldy.common.cache.JvmCache;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.auth.entity.JwtUser;
@@ -179,7 +179,7 @@ public class SysLog {
                 } else {
                     log.info("note logging failed logs null request uri " + uri);
                 }
-                // System.out.println(logs.getClassDesc() + logs.getUrl() + "  --> " + data);
+                // log.debug(logs.getClassDesc() + logs.getUrl() + "  --> " + data);
                 break;
             }
         }
@@ -197,7 +197,7 @@ public class SysLog {
     private XjAdminLog setJwtUser(XjAdminLog log, HttpServletRequest request) {
         String uri = request.getRequestURI();
         // 获取登录用户信息
-        R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request);
+        R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request,null);
         // 记录日志时不管token是否过期等，是否有效等, 能获取到用户信息表示已登录,否则表示未登录
         if (jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
             // 已登录
@@ -209,7 +209,7 @@ public class SysLog {
             // 未登录
             log.setFullName("╥﹏╥");
             log.setUserId("0");
-            AdminAuthority adminAuthority = BaseCache.AUTH_MAP.get(uri);
+            AdminAuthority adminAuthority = JvmCache.getAuthMap().get(uri);
             if (adminAuthority != null) {
                 log.setType(adminAuthority.getType());
             } else {

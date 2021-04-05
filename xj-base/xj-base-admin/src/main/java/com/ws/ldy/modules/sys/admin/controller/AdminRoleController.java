@@ -2,8 +2,8 @@ package com.ws.ldy.modules.sys.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ws.ldy.common.cache.BaseCache;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
@@ -21,20 +21,18 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
  *
- *
  * @author 王松
  * @WX-QQ 1720696548
  * @date 2019/11/13 13:38
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin +"/adminRole")
+@RequestMapping(BaseConstant.Uri.apiAdmin + "/adminRole")
 @Api(value = "AdminRoleController", tags = "base--角色管理")
 public class AdminRoleController extends BaseController<AdminRoleService> {
 
@@ -79,20 +77,14 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
         if (StringUtils.isBlank(dto.getId())) {
             throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
         }
-        if (baseService.updateById(dto.convert(AdminRole.class))) {
-            // 刷新登录中的用户角色 -> 角色权限
-            BaseCache.AUTH_VERSION++;
-            return R.successUpdate(true);
-        } else {
-            return R.successUpdate(false);
-        }
+        return R.successUpdate(baseService.upd(dto));
     }
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     @ApiOperation(value = "ID删除", notes = "")
     public R<Boolean> del(@RequestParam String id) {
-        return R.successDelete(baseService.removeById(id));
+        return R.successDelete(baseService.del(id));
     }
 
 
@@ -102,7 +94,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     //=========================================================================
 
     @RequestMapping(value = "/findUserRole", method = RequestMethod.GET)//Checked
-    @ApiOperation(value = "获取用户的当前角色", notes = "用户角色分配查询到所有角色, 并使用户拥有的角色赋予 isChecked=true")
+    @ApiOperation(value = "获取指定用户的角色列表", notes = "用户角色分配查询到所有角色, 并使用户拥有的角色赋予 isChecked=true")
     public R<List<AdminRoleVO>> findRoleChecked(@RequestParam String userId) {
         List<AdminRoleVO> roles = baseService.findByUserIdRoleChecked(userId);
         return R.successFind(roles);
@@ -111,10 +103,9 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
 
     @RequestMapping(value = "/updUserRole", method = RequestMethod.PUT)
     @ApiOperation(value = "用户的角色分配", notes = "")
+    @Deprecated
     public R<Boolean> updUserRole(@RequestBody UserRoleDTO dto) {
         if (baseService.updUserRole(dto)) {
-            // 刷新登录中的用户角色 -> 角色权限
-            BaseCache.AUTH_VERSION++;
             return R.successUpdate(true);
         } else {
             return R.successUpdate(false);
@@ -125,8 +116,6 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     @ApiOperation(value = "角色的URL权限分配", notes = "")
     public R<Boolean> updRoleAuth(@RequestBody RoleAuthDTO dto) {
         if (baseService.roleUrlAuth(dto)) {
-            // 刷新登录中的用户权限
-            BaseCache.AUTH_VERSION++;
             return R.successUpdate(true);
         } else {
             return R.successUpdate(false);
