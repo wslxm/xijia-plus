@@ -9,10 +9,12 @@
  */
 function addExpand() {
     var imgs = document.getElementsByTagName("img");
-    imgs[0].focus();
-    for (var i = 0; i < imgs.length; i++) {
-        imgs[i].onclick = expandPhoto;
-        imgs[i].onkeydown = expandPhoto;
+    if(imgs.length > 0){
+        imgs[0].focus();
+        for (var i = 0; i < imgs.length; i++) {
+            imgs[i].onclick = expandPhoto;
+            imgs[i].onkeydown = expandPhoto;
+        }
     }
 }
 
