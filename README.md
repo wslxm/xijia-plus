@@ -20,9 +20,10 @@ QQ群：1037211892
  [http://xijia.plus/help](http://xijia.plus/help) 
 
 #### 最新说明
-- 当前主分支为v-0.0.8 的分支最后更新代码,可稳定运行
-- 更新文档: [https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md) 
+- 当前主分支为v-0.1.0 的分支最后更新代码,可稳定运行
+- 更新日志文档: [https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md) 
 - 项目于0.0.9+模块化，模块化目的:减轻项目大小,按需加载
+
 #### 更多
 
 - 支持跨域,支持前后端代码抽离并独立开发(springboot（后端)/layui（前端）, 如有前端人员，也可使用其他开发语言来进行对接，如：vue.js
