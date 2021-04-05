@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
+import com.ws.ldy.constant.BaseConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -13,9 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,35 +33,16 @@ import java.util.Map;
 @Slf4j
 public class SysSingFilter implements Filter {
 
-    /**
-     * 不需要记录日志的 uri 集, 静态资源, css, js ,路由等等, 只要uri包含以下定义的内容, 将直接跳过改过滤器
-     */
-    private final List<String> excludeUriList = new ArrayList<>();
-
-    /**
-     * 自定义js,css
-     * layui 的 js,css 放行
-     * layui 的 路由放行
-     * swagger-ui  的 js,css 放行
-     */
-    public SysSingFilter() {
-        // layui
-        excludeUriList.add("/base/");
-        excludeUriList.add("/components/");
-        excludeUriList.add("/page/");
-        // swagger
-        excludeUriList.add("/webjars/");
-        excludeUriList.add("/v2/api-docs");
-        excludeUriList.add("/swagger");
-    }
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         long startTime = System.currentTimeMillis();
-        // 1、排除不需要处理的请求,如js.css文件
+
+        // 1、判断是否为api 接口, 如果不是api接口, 直接放行
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        for (String excludeUri : excludeUriList) {
-            if (request.getRequestURI().contains(excludeUri)) {
+        String uri = request.getRequestURI();
+        if (uri.length() >= BaseConstant.Uri.api.length()) {
+            String apiUri = uri.substring(0, BaseConstant.Uri.api.length());
+            if (!BaseConstant.Uri.api.equals(apiUri)) {
                 filterChain.doFilter(servletRequest, servletResponse);
                 return;
             }
@@ -88,7 +68,7 @@ public class SysSingFilter implements Filter {
             String body = requestWrapper.getBody();
             sing = isSing(body, null, request);
         }
-        log.info("接口：{} 验签结果：{} , 耗时: {}", request.getRequestURI(), sing.getMsg(), System.currentTimeMillis() - startTime);
+        log.info("接口：{} 验签结果：{} , 耗时: {}", uri, sing.getMsg(), System.currentTimeMillis() - startTime);
         // 4、result
         if (sing.getCode().equals(RType.SYS_SUCCESS.getValue())) {
             filterChain.doFilter(requestWrapper == null ? servletRequest : requestWrapper, servletResponse);
