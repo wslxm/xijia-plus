@@ -1,9 +1,11 @@
 package com.ws.ldy.modules.sys.xj.service.impl;
 
+import com.ws.ldy.enums.Base;
+import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.modules.sys.xj.mapper.XjAdminMsgMapper;
+import com.ws.ldy.modules.sys.xj.model.dto.XjAdminMsgDTO;
 import com.ws.ldy.modules.sys.xj.model.entity.XjAdminMsg;
 import com.ws.ldy.modules.sys.xj.service.XjAdminMsgService;
-import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,4 +21,15 @@ import org.springframework.stereotype.Service;
 public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, XjAdminMsg> implements XjAdminMsgService {
 
 
+    @Override
+    public boolean insertMsg(XjAdminMsgDTO dto) {
+        XjAdminMsg entity = new XjAdminMsg();
+        entity.setId(dto.getId());
+        entity.setUserId(dto.getUserId());
+        entity.setContent(dto.getContent());
+        entity.setUserType(dto.getUserType());
+        entity.setMsgType(dto.getMsgType());
+        entity.setIsRead(Base.IsRead.V0.getValue());
+        return this.save(entity);
+    }
 }

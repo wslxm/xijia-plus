@@ -1,6 +1,7 @@
 package com.ws.ldy.modules.sys.xj.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ws.ldy.modules.sys.xj.model.dto.XjAdminMsgDTO;
 import com.ws.ldy.modules.sys.xj.model.entity.XjAdminMsg;
 
 /**
@@ -14,5 +15,10 @@ import com.ws.ldy.modules.sys.xj.model.entity.XjAdminMsg;
  */
 public interface XjAdminMsgService extends IService<XjAdminMsg> {
 
+
+    /**
+     * 发送消息
+     */
+    public boolean insertMsg(XjAdminMsgDTO dto);
 }
 
