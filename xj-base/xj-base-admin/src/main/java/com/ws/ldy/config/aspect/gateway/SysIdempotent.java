@@ -1,7 +1,7 @@
 package com.ws.ldy.config.aspect.gateway;
 
-import com.ws.ldy.common.idempotent.annotation.ApiIdempotent;
-import com.ws.ldy.common.idempotent.annotation.ApiIdempotentAuth;
+import com.ws.ldy.common.annotation.ApiIdempotent;
+import com.ws.ldy.common.annotation.ApiIdempotentAuth;
 import com.ws.ldy.common.idempotent.util.XJIdempotentUtils;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;

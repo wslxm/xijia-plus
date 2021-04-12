@@ -554,6 +554,29 @@ public class LocalDateTimeUtil {
 
 
     /**
+     * 获取指定天的24小时  |  yyyy-MM-dd HH 格式
+     *
+     * @param t 开始月
+     * @return
+     */
+    public static List<String> getDay24Hour(LocalDateTime t) {
+        if (t == null) {
+            return new ArrayList<>();
+        }
+        List<String> times = new ArrayList<>();
+        String time = parse_yyyyMMdd(t);
+        for (int i = 0; i < 24; i++) {
+            if (i < 10) {
+                times.add(time + " 0" + i);
+            } else {
+                times.add(time + " " + i);
+            }
+        }
+        return times;
+    }
+
+
+    /**
      * 获取 n月前的第一天 到 n月后的最后一天的所有时间
      * <P>  一天一条数据 List<DateDays>  </P>
      * @param startNum 前n月，当前月开始为0
@@ -810,5 +833,9 @@ public class LocalDateTimeUtil {
 
         log.debug("==================获取指定时间内的每月");
         log.debug(getMonths(subtract(LocalDateTime.now(), 1, ChronoUnit.YEARS), LocalDateTime.now()).toString());
+
+        log.debug("==================获取指定天的24小时");
+        List<String> day24Hour = getDay24Hour(LocalDateTime.now());
+        log.debug(day24Hour.toString());
     }
 }

@@ -597,7 +597,6 @@ Ajax = {
         return result;
     }
 };
-
 /**
  * 加签
  * <P>
@@ -648,7 +647,7 @@ Sign = {
         for (let i = 0; i < arr.length; i++) {
             let kye = arr[i].split("=")[0];
             let value = arr[i].split("=")[1];
-            if (value != null && value !== "") {
+            if (value===0 || (value != null && value !== "")) {
                 // value不为null给对象赋值，decodeURIComponent目的是为了参数出现 # 等的字符,在请求前进行了encodeURIComponent编码
                 theRequest[kye] = decodeURIComponent(value);
             }
@@ -710,57 +709,64 @@ Sign = {
     },
 
     /**
-     * 4、body 参数排序
-     * @returns {*}
+     * 4、body 参数排序
+     * @returns {*}
      */
     bodyDataSort: function (data) {
-        // 数组长度小于2 或 没有指定排序字段 或 不是json格式数据
-        // 判断是数组还是对象
+        // 数组长度小于2 或 没有指定排序字段 或 不是json格式数据
+        // 判断是数组还是对象
         if (data instanceof Array) {
-            //  数组
+            //  数组
             if (data[0] instanceof Object || data[0] instanceof Array) {
                 let arrays = data;
                 let newArrays = [];
                 for (let i = 0; i < arrays.length; i++) {
                     let dataTwo = arrays[i];
-                    // 根据 key 类型排序
+                    // 根据 key 类型排序
                     let keysTwo = Object.keys(dataTwo).sort();
                     let newDataTwo = {};
-                    for (let keyTwo of keysTwo) { //遍历json对象的每个key/value对,p为key
-                        // 递归给下级排序
+                    for (let keyTwo of keysTwo) {
+                        //遍历json对象的每个key/value对,p为key
+                        // 递归给下级排序
                         if (dataTwo[keyTwo] instanceof Object) {
-                            newDataTwo[keyTwo] = Sign.bodyDataSort(dataTwo[keyTwo]);
+                            newDataTwo[keyTwo] = this.bodyDataSort(dataTwo[keyTwo]);
                         } else {
-                            newDataTwo[keyTwo] = dataTwo[keyTwo];
+                            // 排除null 和'' , 因为0=='' 会被判定为true, 所有这里针对0单独做了处理
+                            if (dataTwo[keyTwo] === 0 || (dataTwo[keyTwo] != null && dataTwo[keyTwo] !== '')) {
+                                newDataTwo[keyTwo] = dataTwo[keyTwo];
+                            }
                         }
                     }
                     newArrays.push(newDataTwo);
                 }
                 return newArrays;
             } else {
-                // 不处理: [0,1,2,3] 数组数据
+                // 不处理: [0,1,2,3] 数组数据
                 return data;
             }
         } else if (data instanceof Object) {
-            // 对象
-            // 根据 key 类型排序
+            // 对象
+            // 根据 key 类型排序
             let keys = Object.keys(data).sort();
             let newData = {};
-            for (let key of keys) { //遍历json对象的每个key/value对,p为key
-                // 递归给下级排序
+            for (let key of keys) {
+                //遍历json对象的每个key/value对,p为key
+                // 递归给下级排序
                 if (data[key] instanceof Object) {
-                    newData[key] = Sign.bodyDataSort(data[key]);
+                    newData[key] = this.bodyDataSort(data[key]);
                 } else {
-                    newData[key] = data[key];
+                    // 排除null 和'' , 因为0=='' 会被判定为true, 所有这里针对0单独做了处理
+                    if (data[key] === 0 || (data[key] != null && data[key] !== '')) {
+                        newData[key] = data[key];
+                    }
                 }
             }
             return newData;
         } else {
             return data;
         }
-    }
+    },
 };
-
 
 /**
  * 全局请求头

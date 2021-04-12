@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +20,7 @@ public class SignDto implements Serializable {
     private Integer b;
     private Integer d;
     private Integer c;
+    @NotBlank
     private Integer e;
     private LocalDateTime a1;
     // 测试下级
