@@ -7,8 +7,11 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.constant.BaseConstant;
+import com.ws.ldy.modules.sys.xj.model.entity.XjAdminConfig;
+import com.ws.ldy.modules.sys.xj.service.XjAdminConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -33,10 +36,21 @@ import java.util.Map;
 @Slf4j
 public class SysSingFilter implements Filter {
 
+
+    @Autowired
+    private XjAdminConfigService xjAdminConfigService;
+
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        // 是否需要验签
+        XjAdminConfig xjAdminConfig = xjAdminConfigService.findByCode("is_sign");
+        if (xjAdminConfig != null && "false".equals(xjAdminConfig.getContent())) {
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+        //
         long startTime = System.currentTimeMillis();
-
         // 1、判断是否为api 接口, 如果不是api接口, 直接放行
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String uri = request.getRequestURI();
@@ -109,7 +123,7 @@ public class SysSingFilter implements Filter {
          * 处理query 参数
          */
         if (parameterMap != null && !parameterMap.isEmpty()) {
-            // 3、获取加签参数
+            // 3、获取加签参数， 需要注意
             verifyMap = SignUtil.toVerifyMap(parameterMap, false);
             verifyMap.put(SignUtil.SIGN, sign.toString());
             verifyMap.put(SignUtil.TIMESTAMP, timestamp.toString());

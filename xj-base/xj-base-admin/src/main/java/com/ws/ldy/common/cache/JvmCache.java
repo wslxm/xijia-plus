@@ -2,6 +2,7 @@ package com.ws.ldy.common.cache;
 
 import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.sys.admin.model.vo.AdminDictionaryVO;
+import com.ws.ldy.modules.sys.xj.model.entity.XjAdminConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +28,10 @@ public class JvmCache {
      */
     private static Map<String, AdminAuthority> authMap = new HashMap<>();
 
+    /**
+     * 当前系统的所有全局配置数据（key = uri ),用于页面快速资源和拦截器中快速获取对应配置
+     */
+    private static Map<String, XjAdminConfig> configMap = new HashMap<>();
 
     //============================================================================
     //=========================== get/set/del=====================================
@@ -57,11 +62,25 @@ public class JvmCache {
         authMap = new HashMap<>();
     }
 
+    //
+    public static Map<String, XjAdminConfig> getConfigMap() {
+        return configMap;
+    }
+
+    public static void setConfigMap(Map<String, XjAdminConfig> map) {
+        configMap = map;
+    }
+
+    public static void delConfigMap() {
+        configMap = new HashMap<>();
+    }
+
     /**
      * 清空使用jvm缓存
      */
     public static void delAll() {
         delDictList();
         delAuthMap();
+        delConfigMap();
     }
 }

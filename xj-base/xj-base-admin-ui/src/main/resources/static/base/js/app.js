@@ -9,6 +9,10 @@ var path = "/api";
 var uploadPath = "/api/open/aliOssFile/upload";
 
 
+// 访问秘钥(如果后台开启)
+var loginPwd = "xijia";
+
+
 /**
  * 系统相关配置
  */
@@ -501,48 +505,49 @@ Ajax = {
         return Ajax.request(url, null, "get", "json");
     },
 
-//  ajax-get 请求带json参数
+    //  ajax-get 请求带json参数
     get: function (url, data) {
         return Ajax.request(url, data, "get", "json");
     },
 
-//  ajax-post 请求
+    //  ajax-post 请求
     post: function (url) {
         return Ajax.request(url, null, "post", "json");
     },
 
-// ajax-post 请求带json参数
+    // ajax-post 请求带json参数
     post: function (url, data) {
         return Ajax.request(url, data, "post", "json");
     },
 
-// ajax-put 请求
+    // ajax-put 请求
     put: function (url) {
         return Ajax.request(url, null, "put", "json");
     },
 
-//  ajax-put 请求带json参数
+    //  ajax-put 请求带json参数
     put: function (url, data) {
         return Ajax.request(url, data, "put", "json");
     },
 
-//  ajax-delete请求
+    //  ajax-delete请求
     delete: function (url) {
         return Ajax.request(url, null, "delete", "json");
     },
 
-//  ajax-delete 请求带json参数
+    //  ajax-delete 请求带json参数
     delete: function (url, data) {
         return Ajax.request(url, data, "delete", "json");
     },
     // ajax-请求(同步请求) --> 1-url  2-数据 3、请求方式 4、返回数据 || -<5、同步false/异步true
     request: function (url, data, type, dataType) {
         let result = null;
+        // url 空格处理
+        url = encodeURI(url);
         // 参数加签
         let timestamp = new Date().getTime();
         let sign = Sign.query(url, timestamp);
         sign = sign != null ? sign : Sign.body(data, timestamp);
-        console.log("加签参数：" + sign);
         // 发起请求
         $.ajax({
             type: type,
@@ -647,7 +652,7 @@ Sign = {
         for (let i = 0; i < arr.length; i++) {
             let kye = arr[i].split("=")[0];
             let value = arr[i].split("=")[1];
-            if (value===0 || (value != null && value !== "")) {
+            if (value != null) {
                 // value不为null给对象赋值，decodeURIComponent目的是为了参数出现 # 等的字符,在请求前进行了encodeURIComponent编码
                 theRequest[kye] = decodeURIComponent(value);
             }
@@ -704,6 +709,8 @@ Sign = {
             dataParams += "&" + key + "=" + theRequest[key];
         }
         dataParams = dataParams.substring(1);
+        //TODO 加签参数(部署时请注释)
+        console.log("加签参数：" + dataParams);
         // 加签
         return md5(Sign.param.appKey + dataParams + Sign.param.secretKey);
     },
@@ -716,23 +723,26 @@ Sign = {
         // 数组长度小于2 或 没有指定排序字段 或 不是json格式数据
         // 判断是数组还是对象
         if (data instanceof Array) {
-            //  数组
+            /**
+             * 数组
+             */
             if (data[0] instanceof Object || data[0] instanceof Array) {
+                // 数组的下级是对象或者是数组
                 let arrays = data;
                 let newArrays = [];
                 for (let i = 0; i < arrays.length; i++) {
+                    // 获取每一个下级->  a:{a,b,c}
                     let dataTwo = arrays[i];
                     // 根据 key 类型排序
                     let keysTwo = Object.keys(dataTwo).sort();
                     let newDataTwo = {};
+                    // 遍历 key/value
                     for (let keyTwo of keysTwo) {
-                        //遍历json对象的每个key/value对,p为key
-                        // 递归给下级排序
+                        // 下级是对象, 继续递归排序
                         if (dataTwo[keyTwo] instanceof Object) {
                             newDataTwo[keyTwo] = this.bodyDataSort(dataTwo[keyTwo]);
                         } else {
-                            // 排除null 和'' , 因为0=='' 会被判定为true, 所有这里针对0单独做了处理
-                            if (dataTwo[keyTwo] === 0 || (dataTwo[keyTwo] != null && dataTwo[keyTwo] !== '')) {
+                            if ((dataTwo[keyTwo] != null)) {
                                 newDataTwo[keyTwo] = dataTwo[keyTwo];
                             }
                         }
@@ -745,18 +755,19 @@ Sign = {
                 return data;
             }
         } else if (data instanceof Object) {
-            // 对象
+            /**
+             *  对象
+             */
             // 根据 key 类型排序
             let keys = Object.keys(data).sort();
             let newData = {};
+            // 遍历 key/value
             for (let key of keys) {
-                //遍历json对象的每个key/value对,p为key
-                // 递归给下级排序
                 if (data[key] instanceof Object) {
+                    // 下级是对象, 继续递归排序
                     newData[key] = this.bodyDataSort(data[key]);
                 } else {
-                    // 排除null 和'' , 因为0=='' 会被判定为true, 所有这里针对0单独做了处理
-                    if (data[key] === 0 || (data[key] != null && data[key] !== '')) {
+                    if (data[key] != null) {
                         newData[key] = data[key];
                     }
                 }

@@ -1,7 +1,6 @@
 package com.ws.ldy.config.sing;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -10,14 +9,19 @@ import java.util.*;
 /**
  * 参数验证签名
  */
+@Slf4j
 public class SignUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(SignUtil.class);
 
     /** 加密密钥 */
     private final static String APP_KEY = "xijia";
     /** 加密Secret */
-    public final static String SECRET_KEY = "xijia@qwer";
+    private final static String SECRET_KEY = "xijia@qwer";
+    /** 超时时间(毫秒) */
+    private final static Long TIME_OUT = 3000L;
+
+    // ====================固定参数=====================
+    // ================================================
     /** 字符编码 */
     private final static String INPUT_CHARSET = "UTF-8";
     /** 验签 key */
@@ -26,9 +30,6 @@ public class SignUtil {
     public final static String TIMESTAMP = "timestamp";
     /** body参数的参数key */
     public final static String BODY = "body";
-    /** 超时时间(毫秒) */
-    private final static Long TIME_OUT = 3000L;
-
 
     /**
      * 请求参数Map转换验证Map
@@ -53,7 +54,6 @@ public class SignUtil {
             if (charset) {
                 valueStr = getContentString(valueStr, INPUT_CHARSET);
             }
-
             params.put(name, valueStr);
         }
         return params;
@@ -72,7 +72,7 @@ public class SignUtil {
         }
         for (String key : sArray.keySet()) {
             String value = sArray.get(key);
-            if (value == null || "".equals(value) || key.equalsIgnoreCase(SIGN)) {
+            if (value == null || key.equalsIgnoreCase(SIGN)) { //|| "".equals(value)
                 continue;
             }
             result.put(key, value);
@@ -165,7 +165,7 @@ public class SignUtil {
     //==========================================================================
 
     /**
-     * 根据反馈回来的信息，生成签名结果
+     * 根据反馈回来的信息，生成签名结果 current=1&fullName= &id=&size=10&timestamp=1618538349587&username=
      * @param params  通知返回来的参数数组
      * @return 验证结果
      */
@@ -178,8 +178,8 @@ public class SignUtil {
             // 过滤空值、sign
             Map<String, String> sParaNew = paraFilter(params);
             // 获取待签名字符串
-            String preSignStr = createLinkString(sParaNew,false);
-            logger.info(preSignStr);
+            String preSignStr = createLinkString(sParaNew, false);
+            log.info("加签参数:{}", preSignStr);
             // 获得签名验证结果
             String mysign = MD5SignUtil.MD5(APP_KEY + preSignStr + SECRET_KEY);
             if (mysign.equals(sign)) {
