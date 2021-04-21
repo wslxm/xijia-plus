@@ -24,7 +24,7 @@ public class JwtUser implements Serializable {
 
     //================== 通用字段列==================
     /**
-     * 登录类型 ->   管理端：JwtUtil.userType[0]   用户端： JwtUtil.userType[0]  | 更多端自行指定和编辑JwtUtil代码
+     * 登录类型 ->   管理端：JwtUtil.userType[0]   用户端： JwtUtil.userType[1]  | 更多端自行指定和编辑JwtUtil代码
      */
     private Integer type;
     /**

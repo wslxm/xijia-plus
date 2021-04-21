@@ -36,7 +36,8 @@ public class JwtUtil {
     // TOKEN KEY值
     public static String TOKEN = "TOKEN";
     public static String REFRESH_TIME = "REFRESH_TIME";
-
+    // 登录类型 0=管理端 | 1=用户端
+    public static final Integer[] userType = {0, 1};
 
     /**
      * 生成管理端的 token
