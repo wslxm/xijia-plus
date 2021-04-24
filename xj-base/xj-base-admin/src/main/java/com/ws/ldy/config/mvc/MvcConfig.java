@@ -1,7 +1,5 @@
 package com.ws.ldy.config.mvc;
 
-import com.ws.ldy.config.sing.SysSingFilter;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -84,23 +82,23 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
 
-    /**
-     * Oss 过滤器,让访问oss的资源直接去oss服务器去读取
-     * @return
-     */
-    @Bean
-    public FilterRegistrationBean sysSingFilterBean() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(sysSingFilter());
-        filterRegistrationBean.addUrlPatterns("/*");      // 拦截所有
-        filterRegistrationBean.setName("sysSingFilterBean");  // 设置过滤器名称
-        filterRegistrationBean.setOrder(1);//执行次序
-        return filterRegistrationBean;
-    }
-
-    // 让sysSingFilter里可以读取bean信息
-    @Bean
-    public SysSingFilter sysSingFilter() {
-        return new SysSingFilter();
-    }
+//    /**
+//     * Oss 过滤器,让访问oss的资源直接去oss服务器去读取
+//     * @return
+//     */
+//    @Bean
+//    public FilterRegistrationBean sysSingFilterBean() {
+//        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+//        filterRegistrationBean.setFilter(sysSingFilter());
+//        filterRegistrationBean.addUrlPatterns("/*");      // 拦截所有
+//        filterRegistrationBean.setName("sysSingFilterBean");  // 设置过滤器名称
+//        filterRegistrationBean.setOrder(1);//执行次序
+//        return filterRegistrationBean;
+//    }
+//
+//    // 让sysSingFilter里可以读取bean信息
+//    @Bean
+//    public SysSingFilter sysSingFilter() {
+//        return new SysSingFilter();
+//    }
 }
