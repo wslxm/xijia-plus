@@ -68,7 +68,7 @@ public class WxPayServiceImpl implements PayService {
     @Transactional(rollbackFor = Exception.class)
     public R<PayOrderResultVO> createOrder(PayOrderDTO dto) {
         // 交易号/订单号
-        String tradeNo = IdUtil.timestampRandom();
+        String tradeNo = IdUtil.getNo();
         String orderNo = dto.getOrderNo();
         // 是否传递平台手续费
         if (dto.getMoneyTotal() == null) {
@@ -183,7 +183,7 @@ public class WxPayServiceImpl implements PayService {
     public R<Boolean> entPay(EntPayDTO entPayDTO) {
         // 是否传递订单号（未传递生成）
         String orderNo = entPayDTO.getOrderNo();
-        String tradeNo = IdUtil.timestampRandom();
+        String tradeNo = IdUtil.getNo();
         // 1、发起打款（如失败直接抛出异常信息,成功才返回）
         Integer amount = BigDecimalUtil.multiply100(entPayDTO.getAmount()).intValue();
         WxEntPayDTO wxEntPayDTO = new WxEntPayDTO();

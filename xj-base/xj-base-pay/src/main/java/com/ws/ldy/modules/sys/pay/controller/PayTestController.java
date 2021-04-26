@@ -40,7 +40,7 @@ public class PayTestController {
         dto.setMoneyTotal(new BigDecimal("1"));
         dto.setPlatformFee(null);
         dto.setChannelFee(null);
-        dto.setOrderNo(IdUtil.timestampRandom());
+        dto.setOrderNo(IdUtil.getNo());
         dto.setPayBusiness(Pay.PayBusiness.V1);
         dto.setBody("下单测试");
         dto.setWxTradeType("JSAPI");
@@ -54,7 +54,7 @@ public class PayTestController {
         EntPayDTO entPayDTO = new EntPayDTO();
         entPayDTO.setOpenid(openId);
         entPayDTO.setAmount(new BigDecimal("0.01"));
-        entPayDTO.setOrderNo(IdUtil.timestampRandom());
+        entPayDTO.setOrderNo(IdUtil.getNo());
         entPayDTO.setPayBusiness(Pay.PayBusiness.V2);
         entPayDTO.setDescription("企业打款");
         // entPayDTO.setCheckName();
@@ -67,9 +67,9 @@ public class PayTestController {
     @ApiOperation(value = "退款测试", notes = "")
     public R<Boolean> refund() {
         PayRefundDTO refundDTO = new PayRefundDTO();
-        refundDTO.setOrderNo(IdUtil.timestampRandom());  //订单号(支付订单生成)
-        refundDTO.setOutTradeNo(IdUtil.timestampRandom()); //原交易号(支付订单生成)
-        refundDTO.setOutRefundNo(IdUtil.timestampRandom());  //退款号
+        refundDTO.setOrderNo(IdUtil.getNo());  //订单号(支付订单生成)
+        refundDTO.setOutTradeNo(IdUtil.getNo()); //原交易号(支付订单生成)
+        refundDTO.setOutRefundNo(IdUtil.getNo());  //退款号
         refundDTO.setTotalFee(new BigDecimal("1"));
         refundDTO.setRefundFee(new BigDecimal("0.01"));
         refundDTO.setPayBusiness(Pay.PayBusiness.V2);

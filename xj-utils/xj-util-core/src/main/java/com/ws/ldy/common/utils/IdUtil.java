@@ -4,10 +4,7 @@ import com.ws.ldy.common.utils.id.SnowflakeIdUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -19,18 +16,6 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Slf4j
 public class IdUtil {
-
-    /**
-     * 随机数对象
-     */
-    private static final Random RANDOM = new Random();
-
-    /**
-     * 自增长对象
-     */
-    private static AtomicLong autoIncrement = new AtomicLong(1);
-
-
     /**
      * 1、雪花算法 Id （可作用于id生成, 不会重复）
      */
@@ -40,52 +25,32 @@ public class IdUtil {
 
 
     /**
-     * 2、uuId
+     * 2、获取 14位时间戳 +  6位自增长值-如果位数不到,使用0代替（000001）
+     * <p>
+     *    可作用于订单号, 退款号生成等
+     *    synchronized, 单服务运行下时间戳+自增值 永不重复， 如果为集群建议使用redis 自增api [redisTemplate.opsForValue().increment(newKey, delta)]
+     *    increment >= 999999, 一但自增值大于999999, 重置为0, 表示每秒支持生成999999 个号，一但记录到 999999 或服务器重置时, 重置为0重新开始递增
+     * </p>
+     *
      */
-    public static String uuid() {
-        return UUID.randomUUID().toString().replace("-", "");
-    }
+    private static AtomicLong noIncrement = new AtomicLong(1);
 
-
-    /**
-     * 3、获取 指定前缀+时间戳+自增涨Id (可作用于用户编号生成, 自增加只能同一个示列使用, 多个示列使用无法保存有序值，请定义多个 new AtomicLong(1))
-     */
-    public static String timestampSelfIncreasingId(String prefix) {
-        String id = Long.toString(Calendar.getInstance().getTime().getTime() + autoIncrement.getAndIncrement()).substring(1);
-        return prefix + id;
-    }
-
-    /**
-     * 4、获取 时间戳+自增涨Id (可作用于用户编号生成, 自增加只能同一个示列使用, 多个示列使用无法保存有序值，请定义多个 new AtomicLong(1))
-     */
-    public static String timestampSelfIncreasingId() {
-        return Long.toString(Calendar.getInstance().getTime().getTime())
-                + autoIncrement.getAndIncrement();
-    }
-
-
-    /**
-     * 5、获取 14位时间戳 + 6位随机数（可作用于订单号）
-     * synchronized, 单服务运行下时间戳永不重复
-     */
-    public synchronized static String timestampRandom() {
+    public synchronized static String getNo() {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-        StringBuilder randomStr = new StringBuilder("");
-        int len = 6;
-        for (int i = 0; i < len; i++) {
-            randomStr.append(RANDOM.nextInt(10));
+        long increment = noIncrement.getAndIncrement();
+        if(increment >= 999999){
+            noIncrement.set(1);
         }
-        return format.format(new Date()) + randomStr;
+        return format.format(new Date()) + String.format("%06d",increment);
     }
+
 
 
     public static void main(String[] args) {
         // 自增id
-        for (int i = 0; i < 100; i++) {
-            log.debug(timestampSelfIncreasingId());
+        for (int i = 0; i < 90000; i++) {
+            // log.debug(timestampSelfIncreasingId());
+            log.debug(getNo());
         }
-        // 14位时间戳 + 6位随机数
-        log.debug(timestampRandom());
-
     }
 }
