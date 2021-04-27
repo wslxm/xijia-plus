@@ -494,6 +494,24 @@ function getPage(page, size) {
 }
 
 
+
+/**
+ * 全局请求头,token 的参数获取
+ * @returns
+ */
+function getGlobalHeaders() {
+    return sessionStorage.getItem(BaseConfig.token) == null ? "" : sessionStorage.getItem(BaseConfig.token);
+}
+
+/**
+ * 文件上传专用 token
+ * @returns {{TOKEN: {TOKEN: string}}}
+ */
+function getFileGlobalHeaders() {
+    return {"TOKEN": getGlobalHeaders()};
+}
+
+
 // AJAX 请求工具封装
 // noinspection JSDuplicatedDeclaration
 Ajax = {
@@ -602,6 +620,9 @@ Ajax = {
         return result;
     }
 };
+
+
+
 /**
  * 加签
  * <P>
@@ -758,7 +779,7 @@ Sign = {
             /**
              *  对象
              */
-            // 根据 key 类型排序
+                // 根据 key 类型排序
             let keys = Object.keys(data).sort();
             let newData = {};
             // 遍历 key/value
@@ -779,13 +800,6 @@ Sign = {
     },
 };
 
-/**
- * 全局请求头
- * @returns {{TOKEN: string}}
- */
-function getGlobalHeaders() {
-    return sessionStorage.getItem(BaseConfig.token) == null ? "" : sessionStorage.getItem(BaseConfig.token);
-}
 
 
 /**
