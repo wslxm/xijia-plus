@@ -26,9 +26,9 @@ public class PayRefundDTO implements Serializable {
     private String orderNo;              // * 支付订单商户订单号
     private String outTradeNo;           // * 支付订单商户交易号, // transactionNo
     private String outRefundNo;          // * 商户退款单号
-    private BigDecimal totalFee;         // * 支付订单交易金额(单位分)
-    private BigDecimal refundFee;        // * 退款金额(单位分)
-    private Pay.PayBusiness payBusiness; // * 业务类型(当前系统)
+    private BigDecimal totalFee;         // * 支付订单交易金额(单位元)
+    private BigDecimal refundFee;        // * 退款金额(单位元)
+    private Pay.PayBusiness payBusiness; // * 业务类型(当前系统字典code)
     private String refundDesc;           // 退款原因
 }
 
