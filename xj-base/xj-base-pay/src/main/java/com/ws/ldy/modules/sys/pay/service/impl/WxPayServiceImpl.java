@@ -68,7 +68,7 @@ public class WxPayServiceImpl implements PayService {
     @Transactional(rollbackFor = Exception.class)
     public R<PayOrderResultVO> createOrder(PayOrderDTO dto) {
         // 交易号/订单号
-        String tradeNo = IdUtil.getNo();
+        String tradeNo = dto.getTransactionNo();
         String orderNo = dto.getOrderNo();
         // 是否传递平台手续费
         if (dto.getMoneyTotal() == null) {
