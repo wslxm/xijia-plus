@@ -220,7 +220,7 @@ public class LocalDateTimeUtil {
                 23,        // 时
                 59,      // 分
                 59,      // 秒
-                999999999);   // 毫秒（这里精确到9位数）
+                999999);   // 毫秒（这里精确到6位数）
     }
 
 
@@ -317,7 +317,7 @@ public class LocalDateTimeUtil {
                 .withHour(23)            // 时
                 .withMinute(59)          // 分
                 .withSecond(59)          // 秒
-                .withNano(999999999);    // 毫秒（这里精确到9位数）
+                .withNano(999999);    // 毫秒（这里精确到6位数）
     }
 
 
