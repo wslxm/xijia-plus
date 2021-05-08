@@ -38,7 +38,8 @@ public class AdminAuthorityVO extends BaseVo {
     private Integer type;
     @ApiModelProperty(notes = "授权状态(字典code  0-无需登录 1-需登录 2-需登录+授权)" ,position = 6)
     private Integer state;
-
+    @ApiModelProperty(notes = " 是否需要验签" ,position = 6)
+    private  Boolean isSign;
     @ApiModelProperty(notes = "下级数据" ,position = 8)
     private List<AdminAuthorityVO> authoritys;
 }

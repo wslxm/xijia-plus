@@ -53,4 +53,7 @@ public class AdminAuthorityDTO extends BaseDto {
     @Range(min = 0, max = 9L, message = "授权状态 必须小于9")
     private Integer state;
 
+    @ApiModelProperty(notes = "是否需要验签" ,position = 7)
+    private  Boolean isSign;
+
 }
