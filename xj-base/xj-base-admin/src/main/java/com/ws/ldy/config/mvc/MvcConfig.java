@@ -36,7 +36,8 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/fh").setViewName("client/tool/fhConvert.html");     // 文本转符号生成器
         registry.addViewController("/java").setViewName("client/tool/javaCodeRun");      // java代码运行器
         registry.addViewController("/lts").setViewName("client/websocket/lts.html");     // 在线聊天室
-        registry.addViewController("/help").setViewName("client/help/index");      // 兮家手册
+        registry.addViewController("/help").setViewName("client/help/index");            // 兮家手册
+        registry.addViewController("/user").setViewName("client/index");                 // 用户端首页
     }
 
 

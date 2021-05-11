@@ -17,6 +17,7 @@ import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequestMapping(BaseConstant.Uri.apiAdmin + "/xj/tool/")
@@ -30,10 +31,10 @@ public class XjToolController {
             @ApiImplicitParam(name = "content", value = "内容", required = false, paramType = "query"),
             @ApiImplicitParam(name = "narrow", value = "缩小倍数（建议3或4）", required = false, paramType = "query")
     })
-    public R<String> fhConvert(@RequestParam String content, @RequestParam Integer narrow, @RequestParam String fill) {
+    public R<String> fhConvert(@RequestParam String content, @RequestParam Integer narrow, @RequestParam String fill) throws UnsupportedEncodingException {
         String transform = null;
         if (StringUtils.isNotBlank(content)) {
-            transform = TransformUtil.transform(content, narrow, fill);
+            transform = TransformUtil.transform(content, narrow, java.net.URLDecoder.decode(fill, "UTF-8"));
         }
         return R.success(transform);
     }
