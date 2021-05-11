@@ -57,6 +57,12 @@ public class SysAspect {
     @Autowired
     private SysIdempotent sysIdempotent;
 
+    /**
+     * 参数加密解密
+     */
+    @Autowired
+    private SysEncrypt sysEncrypt;
+
 //    /**
 //     * 验签
 //     */
@@ -167,14 +173,20 @@ public class SysAspect {
                 return proceed.proceed();
             }
         }
-        // 1、验签
-//        R<Boolean> singR = sysSing.isSing(proceed);
-//        if (!singR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-//            return singR;
-//        }
+        // 1、验签 验签由SysSingFilter进行, 验证失败不会进入到aop
+        //   R<Boolean> singR = sysSing.isSing(proceed);
+        //   if (!singR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+        //       return singR;
+        //   }
+
+
+        //  1、参数解密
+        //sysEncrypt.decrypt(proceed);
+
 
         // 2、记录请求日志, 将异步执行(与业务代码并行处理),不影响程序响应, future 为线程的返回值，用于后面异步执行响应结果
         Future<XjAdminLog> future = executorService.submit(() -> sysLog.log(proceed, request));
+
 
         // 3、幂等验证
         R apiIdempotentR = sysIdempotent.run(proceed);

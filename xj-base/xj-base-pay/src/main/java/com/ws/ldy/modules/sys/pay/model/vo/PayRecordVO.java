@@ -69,5 +69,6 @@ public class PayRecordVO extends BaseVo {
 
     @ApiModelProperty(notes = "支付失败的异常信息", position = 12)
     private String errorRemarks;
+
 }
 

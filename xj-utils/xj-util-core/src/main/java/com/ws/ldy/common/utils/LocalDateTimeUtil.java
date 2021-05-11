@@ -220,7 +220,7 @@ public class LocalDateTimeUtil {
                 23,        // 时
                 59,      // 分
                 59,      // 秒
-                999999999);   // 毫秒（这里精确到9位数）
+                999999);   // 毫秒（这里精确到6位数）
     }
 
 
@@ -317,7 +317,7 @@ public class LocalDateTimeUtil {
                 .withHour(23)            // 时
                 .withMinute(59)          // 分
                 .withSecond(59)          // 秒
-                .withNano(999999999);    // 毫秒（这里精确到9位数）
+                .withNano(999999);    // 毫秒（这里精确到6位数）
     }
 
 
@@ -551,6 +551,29 @@ public class LocalDateTimeUtil {
     //====================================== 获取时间段的每一天 =================================================
     //========================================================================================================
     //========================================================================================================
+
+
+    /**
+     * 获取指定天的24小时  |  yyyy-MM-dd HH 格式
+     *
+     * @param t 开始月
+     * @return
+     */
+    public static List<String> getDay24Hour(LocalDateTime t) {
+        if (t == null) {
+            return new ArrayList<>();
+        }
+        List<String> times = new ArrayList<>();
+        String time = parse_yyyyMMdd(t);
+        for (int i = 0; i < 24; i++) {
+            if (i < 10) {
+                times.add(time + " 0" + i);
+            } else {
+                times.add(time + " " + i);
+            }
+        }
+        return times;
+    }
 
 
     /**
@@ -810,5 +833,9 @@ public class LocalDateTimeUtil {
 
         log.debug("==================获取指定时间内的每月");
         log.debug(getMonths(subtract(LocalDateTime.now(), 1, ChronoUnit.YEARS), LocalDateTime.now()).toString());
+
+        log.debug("==================获取指定天的24小时");
+        List<String> day24Hour = getDay24Hour(LocalDateTime.now());
+        log.debug(day24Hour.toString());
     }
 }

@@ -1,4 +1,4 @@
-package com.ws.ldy.common.idempotent.annotation;
+package com.ws.ldy.common.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -16,3 +16,4 @@ public @interface ApiIdempotent {
 
 
 }
+

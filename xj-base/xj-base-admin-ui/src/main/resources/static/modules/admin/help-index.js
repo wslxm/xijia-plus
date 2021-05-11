@@ -21,7 +21,7 @@ function getHelp(ths, id) {
     // 查询数据，value = 数据id
     help(id);
     // addUrlPara("id", id);
-    history.pushState(null, "", "?id="+id);
+    history.pushState(null, "", "?id=" + id);
 }
 
 /**
@@ -73,7 +73,7 @@ function initMenu(resData) {
         help(data[0].ybHelpTreeVOS[0].id);
         // 设置选中色
         let s = $("#" + data[0].ybHelpTreeVOS[0].id).css("color", color);
-   }
+    }
 }
 
 
@@ -83,12 +83,11 @@ function initMenu(resData) {
  */
 function aClick(ths) {
     let alist = document.getElementsByTagName('a');
-    for(let i=0;i<alist.length;i++){
-        alist[i].style.color="#1f1e2c";
+    for (let i = 0; i < alist.length; i++) {
+        alist[i].style.color = "#1f1e2c";
     }
-    ths.style.color="#ff78e7";
+    ths.style.color = "#ff78e7";
 }
-
 
 
 /**
@@ -221,19 +220,39 @@ function generateContentList() {
 
 /**
  * 如果为移动设备访问，展示内容，不展示左菜单和右内容菜单
- * @author wangsong 
+ * @author wangsong
  * @param null
  * @date 2020/12/14 0014 19:46
- * @return 
+ * @return
  * @version 1.0.0
  */
 function mobileReveal() {
     /* 手机访问单篇文章(不展示左菜单和右内容菜单) */
     if (isMobile()) {
+        /* 内容 */
         $("#contentMd").css("width", "100%");
         $("#contentMd").css("height", "100%");
         $("#contentMd").css("left", "0%");
         $("#contentMd").css("top", "0%");
         $("#contentMd").css("z-index", "1");
+       // $("#contentMd").css("display", "none"); //隐藏
+        /* 菜单宽度设置 */
+        $("#helpMenuDiv").css("width", "80%");
+        /* 内容菜单 */
+        $("#contentTitleDiv").css("width", "0%");
+        /* 菜单按钮-展示 */
+        $("#isMenuShop").css("display", "block");
+    }
+}
+
+/**
+ * 手机访问点击菜单按钮
+ */
+function menuShop(){
+    let contentMdCss =   $("#contentMd").css("display");
+    if(contentMdCss == "block"){
+        $("#contentMd").css("display", "none");
+    }else{
+        $("#contentMd").css("display", "block");
     }
 }

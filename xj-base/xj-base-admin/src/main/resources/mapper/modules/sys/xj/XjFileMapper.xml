@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ws.ldy.client.yw.caipu.mapper.CpCategoryMapper">
+<mapper namespace="com.ws.ldy.client.yw.file.mapper.XjFileMapper">
 
         <!-- 通用查询映射结果 -->
-        <resultMap id="BaseResultMap" type="com.ws.ldy.client.yw.caipu.model.entity.CpCategory">
+        <resultMap id="BaseResultMap" type="com.ws.ldy.modules.sys.xj.model.entity.XjFile">
 
                <result column="id" property="id" />
                <result column="create_user" property="createUser" />
@@ -12,12 +12,12 @@
                <result column="update_time" property="updateTime" />
                <result column="deleted" property="deleted" />
                <result column="version" property="version" />
-               <result column="code" property="code" />
                <result column="name" property="name" />
-               <result column="pid" property="pid" />
                <result column="desc" property="desc" />
-               <result column="sort" property="sort" />
-               <result column="disable" property="disable" />
+               <result column="size" property="size" />
+               <result column="suffix" property="suffix" />
+               <result column="url" property="url" />
+               <result column="type" property="type" />
         </resultMap>
 
         <!-- 通用查询结果列: <include refid="Base_Column_List"></include>  -->
@@ -30,12 +30,12 @@
                update_time,
                deleted,
                version,
-               code,
                name,
-               pid,
                desc,
-               sort,
-               disable
+               size,
+               suffix,
+               url,
+               type
         </sql>
 
 </mapper>

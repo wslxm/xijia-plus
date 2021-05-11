@@ -58,6 +58,18 @@
         {{#  } }}
     </script>
 
+    <script type="text/html" id="isSign">
+        {{#  if(d.url != '/admin/adminAuthority/upd' && d.url != '/admin/adminAuthority/findList' && d.method != '' ){  }}
+
+        {{#  if(d.isSign == true){ }}
+        <input type='checkbox' authId={{d.id}} lay-filter='isSign' lay-skin='switch' lay-text='需验签|不验签' checked>
+        {{# }if(d.isSign == false){ }}
+        <input type='checkbox' authId={{d.id}} lay-filter='isSign' lay-skin='switch' lay-text='需验签|不验签'>
+        {{#  } }}
+
+        {{#  } }}
+    </script>
+
     <!-- 每一行的数据修改或删除  -->
     <script type="text/html" id="barState">
         {{#  if( d.method != '' ){  }}
@@ -128,25 +140,27 @@
             cols: [
                 [
                     //{field: 'pid', title: '权限类Id(方法与类/层级关系展示)'},
-                    {field: 'desc', title: '权限备注信息', width: "18%"},
+                    {field: 'desc', title: '权限备注信息', width: "22%"},
                     {field: 'method', title: '请求方式', width: 180},
-                    {field: 'url', title: '权限url', width: "18%"},
+                    {field: 'url', title: '权限url', width: "22%"},
                     {
                         field: 'type', title: '终端', width: 180, templet: function (res) {
                             return Dict.convert(Enums.Admin.AuthorityType, res.type);
                         }
                     },
-                    {
-                        field: 'state', title: '授权状态', width: 180, templet: function (res) {
-                            if (res.method === '') {
-                                return '';
-                            } else {
-                                return Dict.convert(Enums.Admin.AuthorityState, res.state);
-                            }
-                        }
-                    },
+                    // {
+                    //     field: 'state', title: '授权状态', width: 180, templet: function (res) {
+                    //         if (res.method === '') {
+                    //             return '';
+                    //         } else {
+                    //             return Dict.convert(Enums.Admin.AuthorityState, res.state);
+                    //         }
+                    //     }
+                    // },
                     {title: '是否禁用', toolbar: '#barDisable', width: 144},
-                    {title: '是否需要登录 | 是否需要授权', toolbar: '#barState', width: 320}
+                    {title: '是否验签', toolbar: '#isSign', width: 144},
+                    {title: '是否需要登录 | 是否需要授权', toolbar: '#barState', width: 240}
+
                 ]
             ]
         });
@@ -212,6 +226,22 @@
             let reqData = {
                 id: data.elem.attributes['authId'].nodeValue,
                 disable: disable
+            };
+            let result = Ajax.put(update, reqData);
+            layui.layer.msg(result.msg)
+        });
+
+        // 禁用
+        layui.form.on('switch(isSign)', function (data) {
+            let isSign = false;
+            if (data.elem.checked) {
+                isSign = true;
+            } else {
+                isSign = false;
+            }
+            let reqData = {
+                id: data.elem.attributes['authId'].nodeValue,
+                isSign: isSign
             };
             let result = Ajax.put(update, reqData);
             layui.layer.msg(result.msg)

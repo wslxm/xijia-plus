@@ -1,4 +1,4 @@
-package com.ws.ldy.common.utils;
+package com.ws.ldy.config.aspect;
 
 import cn.hutool.core.codec.Base64;
 import lombok.extern.slf4j.Slf4j;
@@ -15,21 +15,21 @@ import java.util.Random;
 @Slf4j
 public class Base64Util {
 
-    private static final Integer PWD_NUM = 3;                   // 加密次数
+    private static final Integer PWD_NUM = 4;                   // 加密次数
     private static final Integer START_INDEX = 1;               // 插入随机数默认开始位置索引
     private static final Integer RANDOM_NUM = 1;                // 随机数默认数量
-    private static final Integer START_INDEX_INCREMENT = 1;     // 插入随机数索引开始位置 根据加密次数递增数
-    private static final Integer RANDOM_INCREMENT = 1;          // 插入随机随机数数量 根据加密次数递增数
+    private static final Integer START_INDEX_INCREMENT = 3;     // 插入随机数索引开始位置 根据加密次数递增数
+    private static final Integer RANDOM_INCREMENT = 4;          // 插入随机随机数数量 根据加密次数递增数
 
     /**
      * 加密
      * <P>
      *    当前配置：
-     *      - 加密次数=3
+     *      - 加密次数=4
      *      - 插入随机数默认开始位置索引=1
      *      - 随机数默认数量=1
-     *      - 插入随机数索引开始位置 根据加密次数递增数=1
-     *      - 插入随机随机数数量 根据加密次数递增数=1
+     *      - 插入随机数索引开始位置 根据加密次数递增数=3
+     *      - 插入随机随机数数量 根据加密次数递增数=4
      *      ------------------------------------
      *    1： 配置默认随机数数量 和 随机数插入索引位置
      *    2： 对入参 根据第一步的配置加入随机数, 并对 随机数数量和插入索引位置进行递增
@@ -39,6 +39,9 @@ public class Base64Util {
      * </P>
      */
     public static String encode(String s1) {
+        if (s1 == null || s1 == "") {
+            return s1;
+        }
         // 随机字符串数量
         int n = RANDOM_NUM;
         // 从索引几开始插入
@@ -61,6 +64,9 @@ public class Base64Util {
      * 解密
      */
     public static String decrypt(String s1) {
+        if (s1 == null || s1 == "") {
+            return s1;
+        }
         // 随机字符串数量
         int n = RANDOM_NUM + (RANDOM_INCREMENT * (PWD_NUM - 1));
         // 从索引几开始插入
@@ -95,12 +101,21 @@ public class Base64Util {
     }
 
     public static void main(String[] args) {
-        String s = randomStr(6);
-        log.info("随机字符:" + s);
+//        String s = randomStr(6);
+//        log.info("随机字符:" + s);
+        //VkZab1VtVldTbGdpYkFOZHh5SW9DQ2haNmFrVjNZbTFHUlVwaVNFWjFWRmh3VWsxVk5XNVFWREE5
+        //VkZaV1NtVlhlRmZuUkVvVnhtWlJ0Y1lGdVpIWjZaRXhqUm5GU1NHaEZWRmh3VWsxVk5XNVFWREE5
+        long startTime = System.currentTimeMillis();
 
-        String pwd = encode("10000");
-        String decrypt = decrypt(pwd);
-        log.info("key:" + pwd);
-        log.info("val:" + decrypt);
+        for (int i = 0; i < 10; i++) {
+            String pwd = encode("!@#$%^&*()");
+            String decrypt = decrypt(pwd);
+            log.info("key:" + pwd);
+            log.info("val:" + decrypt);
+        }
+        log.info("time:" + (System.currentTimeMillis() - startTime));
+//        log.info("val1:" + decrypt("VkZab1VtVldTbGdpYkFOZHh5SW9DQ2haNmFrVjNZbTFHUlVwaVNFWjFWRmh3VWsxVk5XNVFWREE5"));
+//        log.info("val2:" + decrypt("VkZaV1NtVlhlRmZuUkVvVnhtWlJ0Y1lGdVpIWjZaRXhqUm5GU1NHaEZWRmh3VWsxVk5XNVFWREE5"));
+//        log.info("val3:" + decrypt("VkZaV1JtVlZSVUEsQixDLEQsRSxGLEcsSCxJLEosSyxMLE1Fc1FpeERMRVFzUlN4R0xFY3NTQ3hKYzFGcGVFUk1SVkZ6VWxVeE5sVlVSazlhZWpBNQ"));
     }
 }

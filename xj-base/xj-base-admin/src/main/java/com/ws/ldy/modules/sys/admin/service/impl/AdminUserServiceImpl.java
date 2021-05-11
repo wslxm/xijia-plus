@@ -7,7 +7,6 @@ import com.ws.ldy.config.auth.entity.JwtUser;
 import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.config.auth.util.MD5Util;
 import com.ws.ldy.config.error.ErrorException;
-import com.ws.ldy.enums.Admin;
 import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.admin.mapper.AdminUserMapper;
 import com.ws.ldy.modules.sys.admin.model.dto.UserAdminDTO;
@@ -148,7 +147,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         jwtUser.setUserId(user.getId());
         jwtUser.setUsername(user.getUsername());
         jwtUser.setFullName(user.getFullName());
-        jwtUser.setType(Admin.AuthorityType.V0.getValue());
+        jwtUser.setType(JwtUtil.userType[0]);
         jwtUser.setHead(user.getHead());
         jwtUser.setPhone(user.getPhone());
         // 设置token有效期(分)

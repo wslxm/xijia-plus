@@ -32,6 +32,12 @@ function expandPhoto() {
     overlay.setAttribute("class", "overlay");
     document.body.appendChild(overlay);
 
+
+    // var p = document.createElement("p");
+    // p.setAttribute("id", "p1");
+    // p.setAttribute("align", "center");
+    // document.getElementById("overlay").appendChild(p);
+
     var img = document.createElement("img");
     img.setAttribute("id", "expand");
     img.setAttribute("class", "overlayimg");

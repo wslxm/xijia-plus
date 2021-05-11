@@ -49,7 +49,7 @@ public class AdminAuthority extends BaseEntity {
     private Integer disable;
 
     /**
-     * 终端(字典code, 如 0-管理端 1-用户端)
+     * 终端(字典code, 如 0-管理端 1-用户端等)
      */
     private Integer type;
 
@@ -57,5 +57,12 @@ public class AdminAuthority extends BaseEntity {
      * 授权状态(字典code  0-无需登录 1-需登录 2-需登录+授权)
      */
     private Integer state;
+
+    /**
+     * 是否需要验签
+     */
+    private  Boolean isSign;
+
+
 }
 

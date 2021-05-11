@@ -54,4 +54,7 @@ public class PayRecordController extends BaseController<PayRecordService> {
         );
         return R.successFind(BeanDtoVoUtil.pageVo(page, PayRecordVO.class));
     }
+
+
+
 }

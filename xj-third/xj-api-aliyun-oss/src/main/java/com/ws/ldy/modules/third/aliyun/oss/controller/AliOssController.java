@@ -62,7 +62,7 @@ public class AliOssController {
         // 验证文件格式及路径，并获取文件上传路径, file.getOriginalFilename()=原文件名
         R<String> rFileName = FileUploadUtil.getPath(filePath, file.getOriginalFilename());
         if (!rFileName.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-            return R.error(RType.FILE_UPLOAD_FAILED.getValue(), rFileName.getErrorMsg());
+            return R.error(RType.FILE_UPLOAD_FAILED.getValue(), rFileName.getMsg());
         }
         String fileName = rFileName.getData();
         try {

@@ -1,6 +1,5 @@
 package com.ws.ldy.client.sys.xj.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.constant.BaseConstant;
@@ -36,8 +35,7 @@ public class UXjAdminConfigController extends BaseController<XjAdminConfigServic
     @ApiOperation(value = "CODE查询", notes = "")
     @ApiImplicitParam(name = "code", value = "配置code|搜索值(不能重复)", required = false, paramType = "query", example = "")
     public R<XjAdminConfigVO> findByCode(@RequestParam String code) {
-        XjAdminConfig xjAdminConfig = baseService.getOne(new LambdaQueryWrapper<XjAdminConfig>().eq(XjAdminConfig::getCode, code));
+        XjAdminConfig xjAdminConfig = baseService.findByCode(code);
         return R.successFind(BeanDtoVoUtil.convert(xjAdminConfig, XjAdminConfigVO.class));
     }
-
 }

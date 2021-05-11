@@ -4,11 +4,14 @@ package com.ws.ldy.config.sing;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.ws.ldy.common.cache.JvmCache;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
-import com.ws.ldy.constant.BaseConstant;
+import com.ws.ldy.modules.sys.xj.model.entity.XjAdminConfig;
+import com.ws.ldy.modules.sys.xj.service.XjAdminConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -26,26 +29,42 @@ import java.util.Map;
  * </P>
  * @author wangsong
  * @mail 1720696548@qq.com
- * @date 2021/3/29 0029 19:49 
+ * @date 2021/3/29 0029 19:49
  * @version 1.0.0
  */
 @Component
 @Slf4j
 public class SysSingFilter implements Filter {
 
+
+    @Autowired
+    private XjAdminConfigService xjAdminConfigService;
+
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        // 是否需要验签(总开关)
+        XjAdminConfig xjAdminConfig = xjAdminConfigService.findByCode("is_sign");
+        if (xjAdminConfig != null && "false".equals(xjAdminConfig.getContent())) {
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+        //
         long startTime = System.currentTimeMillis();
-
-        // 1、判断是否为api 接口, 如果不是api接口, 直接放行
         HttpServletRequest request = (HttpServletRequest) servletRequest;
+
+        // 1.1、判断接口是否被管理,没有被管理直接放行
         String uri = request.getRequestURI();
-        if (uri.length() >= BaseConstant.Uri.api.length()) {
-            String apiUri = uri.substring(0, BaseConstant.Uri.api.length());
-            if (!BaseConstant.Uri.api.equals(apiUri)) {
-                filterChain.doFilter(servletRequest, servletResponse);
-                return;
-            }
+        if (!JvmCache.getAuthMap().containsKey(uri)) {
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+
+        // 1.2、判断接口是否需要验签
+        Boolean isSign = JvmCache.getAuthMap().get(uri).getIsSign();
+        if(!isSign){
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
         }
 
         // 2、如果是文件直接放行
@@ -109,7 +128,7 @@ public class SysSingFilter implements Filter {
          * 处理query 参数
          */
         if (parameterMap != null && !parameterMap.isEmpty()) {
-            // 3、获取加签参数
+            // 3、获取加签参数， 需要注意
             verifyMap = SignUtil.toVerifyMap(parameterMap, false);
             verifyMap.put(SignUtil.SIGN, sign.toString());
             verifyMap.put(SignUtil.TIMESTAMP, timestamp.toString());

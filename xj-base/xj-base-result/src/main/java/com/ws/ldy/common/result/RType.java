@@ -64,11 +64,12 @@ public enum RType {
 
     // 接口/授权
     AUTHORITY_LOGIN_EXPIRED(10000, "登录过期"),
+    // 注意，没有TOKEN可定义为10000，但登录页的接口要全部放行,不然可能会出现无尽至的重定向到登录页
+    AUTHORITY_NO_TOKEN(10002, "没有TOKEN"),
     AUTHORITY_DISABLE(10002, "该接口已被禁止访问"),
     AUTHORITY_JWT_SIGN_ERROR(10002, "JWT签名与本地计算签名不匹配"),
     AUTHORITY_JWT_PARSING_ERROR(10002, "JWT解析错误"),
     AUTHORITY_NO_PERMISSION(10002, "没有权限"),
-    AUTHORITY_NO_TOKEN(10002, "没有TOKEN"),
 
     // 用户
     USER_PASSWORD_ERROR(10003, "原密码错误"),

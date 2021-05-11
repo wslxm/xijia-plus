@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.R;
-import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import com.ws.ldy.modules.sys.xj.model.dto.XjAdminConfigDTO;
@@ -32,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2020-08-31 18:31:44
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin +"/xj/adminConfig")
+@RequestMapping(BaseConstant.Uri.apiAdmin + "/xj/adminConfig")
 @Api(value = "XjAdminConfigController", tags = "base-plus--全局配置")
 public class XjAdminConfigController extends BaseController<XjAdminConfigService> {
 
@@ -54,7 +52,6 @@ public class XjAdminConfigController extends BaseController<XjAdminConfigService
                 .orderByDesc(XjAdminConfig::getCreateTime)
                 .eq(StringUtils.isNotBlank(code), XjAdminConfig::getCode, code)
                 .like(StringUtils.isNotBlank(name), XjAdminConfig::getName, name)
-
         );
         return R.successFind(BeanDtoVoUtil.pageVo(page, XjAdminConfigVO.class));
     }
@@ -70,43 +67,23 @@ public class XjAdminConfigController extends BaseController<XjAdminConfigService
     @ApiOperation(value = "CODE查询", notes = "")
     @ApiImplicitParam(name = "code", value = "配置code|搜索值(不能重复)", required = false, paramType = "query", example = "")
     public R<XjAdminConfigVO> findByCode(@RequestParam String code) {
-        XjAdminConfig xjAdminConfig = baseService.getOne(new LambdaQueryWrapper<XjAdminConfig>().eq(XjAdminConfig::getCode, code));
+        XjAdminConfig xjAdminConfig = baseService.findByCode(code);
         return R.successFind(BeanDtoVoUtil.convert(xjAdminConfig, XjAdminConfigVO.class));
     }
-
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "添加", notes = "必须不传递ID")
     public R<Boolean> insert(@RequestBody @Validated XjAdminConfigDTO dto) {
-        if (StringUtils.isNotBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
-        }
-        // 判code重复
-        if (baseService.count(new LambdaQueryWrapper<XjAdminConfig>().eq(XjAdminConfig::getCode, dto.getCode())) > 0) {
-            throw new ErrorException(RType.DICT_DUPLICATE);
-        }
-        return R.successInsert(baseService.save(dto.convert(XjAdminConfig.class)));
+        return R.successInsert(baseService.insert(dto));
     }
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
     @ApiOperation(value = "ID编辑", notes = "必须传递ID")
     public R<Boolean> upd(@RequestBody @Validated XjAdminConfigDTO dto) {
-        if (StringUtils.isBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
-        }
-        //
-        XjAdminConfig config = baseService.getById(dto.getId());
-        if (!config.getCode().equals(dto.getCode())) {
-            if (baseService.count(new LambdaQueryWrapper<XjAdminConfig>().eq(XjAdminConfig::getCode, dto.getCode())) > 0) {
-                throw new ErrorException(RType.DICT_DUPLICATE);
-            }
-        }
-        return R.successUpdate(baseService.updateById(dto.convert(XjAdminConfig.class)));
+        return R.successUpdate(baseService.upd(dto));
     }
-
-
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
@@ -114,6 +91,4 @@ public class XjAdminConfigController extends BaseController<XjAdminConfigService
     public R<Boolean> del(@RequestParam String id) {
         return R.successDelete(baseService.removeById(id));
     }
-
-
 }

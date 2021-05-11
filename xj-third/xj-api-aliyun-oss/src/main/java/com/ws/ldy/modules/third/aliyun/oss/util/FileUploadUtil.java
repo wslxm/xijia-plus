@@ -55,11 +55,11 @@ public class FileUploadUtil {
     private static List<String> excludeFileSuffix;     // 任意文件禁止上传的文件格式
 
     static {
-        imageSuffix = Arrays.asList("bmp,jpg,png,jpeg,gif");
-        musicSuffix = Arrays.asList("mp3");
-        videoSuffix = Arrays.asList("mp4");
-        docSuffix = Arrays.asList("xlsx,xls,pdf");
-        excludeFileSuffix = Arrays.asList("jsp,js,java");
+        imageSuffix = Arrays.asList(("bmp,jpg,png,jpeg,gif").split(","));
+        musicSuffix = Arrays.asList(("mp3").split(","));
+        videoSuffix = Arrays.asList(("mp4").split(","));
+        docSuffix = Arrays.asList(("xlsx,xls,pdf").split(","));
+        excludeFileSuffix = Arrays.asList(("jsp,js,java").split(","));
     }
 
 
@@ -88,7 +88,7 @@ public class FileUploadUtil {
         if (PATH_IMAGE.equals(path)) {
             // 图片(重命名)
             R<String> stringR = formatVerification(imageSuffix, null, suffixName, fileName);
-            return R.success(getTimeStr20() + "-" + fileName);
+            return stringR.getCode().equals(errorCode) ? stringR : R.success(getTimeStr20() + "-" + fileName);
         } else if (PATH_MUSIC.equals(path)) {
             // 音频
             return formatVerification(musicSuffix, null, suffixName, fileName);

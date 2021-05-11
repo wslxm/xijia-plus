@@ -23,11 +23,13 @@ public class PayOrderDTO implements Serializable {
     private BigDecimal platformFee;
     @ApiModelProperty(value = "支付渠道手续费(单位元)-没有可传0, 传0可能会影响计算商家的实际收入")
     private BigDecimal channelFee;
-    @ApiModelProperty(value = "商户订单号(如不传将自动生成并在响应信息中会返回)")
+    @ApiModelProperty(value = "商户订单号")
     private String orderNo;
+    @ApiModelProperty(value = "商户交易号//tradeNo")
+    private String transactionNo;
     @ApiModelProperty(value = "商品描述(建议传递, 不传默认=暂无商品描叙")
     private String body;
-    @ApiModelProperty(value = "业务类型")
+    @ApiModelProperty(value = "业务类型（当前系统字典code）")
     private Pay.PayBusiness payBusiness;
     /*** 请求必传 */
 

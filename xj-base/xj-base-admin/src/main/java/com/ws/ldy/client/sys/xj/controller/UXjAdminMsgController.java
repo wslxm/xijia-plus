@@ -43,7 +43,7 @@ public class UXjAdminMsgController extends BaseController<XjAdminMsgService> {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
             @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),
-            @ApiImplicitParam(name = "isRead", value = "是否已读(0-未读 1-已读) 不传查所有", required = false, paramType = "query", example = "20"),
+            @ApiImplicitParam(name = "isRead", value = "是否已读(0-未读 1-已读) 不传查所有", required = false, paramType = "query", example = ""),
     })
     public R<IPage<XjAdminMsgVO>> findPage(Integer isRead) {
         Page<XjAdminMsg> page = baseService.page(this.getPage(), new LambdaQueryWrapper<XjAdminMsg>()

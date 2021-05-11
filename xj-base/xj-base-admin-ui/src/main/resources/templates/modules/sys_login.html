@@ -22,6 +22,24 @@
 </head>
 <body>
 
+<script>
+    //登录页加密
+    let config = Ajax.get(path + "/admin/xj/adminConfig/findByCode?code=is_login_token");
+    if (config.data != null) {
+        if (config.data.content !== "false") {
+            let code = prompt("请输入访问令牌：");
+            if (code === null || code !== loginPwd) {
+                if (code === null) {
+                    alert("不可取消");
+                } else {
+                    alert("令牌错误,拒绝访问");
+                }
+                location.href = window.location.href;
+            }
+        }
+    }
+</script>
+
 <style>
 
     /* 背景图 */
@@ -114,6 +132,7 @@
 </div>
 
 <script>
+
     //登录接口
     let admin_login = path + "/admin/adminUser/login";         // 登录接口
     var verifCode = false;
@@ -274,8 +293,10 @@
             ]
         }
         ];
-       // let data = [];
-        Ajax.post("/api/open/xj/sign/test1", data)
+        // let data = [];
+        Ajax.post("/api/open/xj/sign/test1", data);
+        console.log("sss" + (0 == null));
+        console.log("sss2" + (0 === null));
     }
 
 </script>
