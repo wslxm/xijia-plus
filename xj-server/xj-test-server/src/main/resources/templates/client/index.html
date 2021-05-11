@@ -1,0 +1,84 @@
+<!--<!DOCTYPE html>-->
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+    <title>兮家</title>
+    <link rel="icon" href="/base/pic/icon/xijia.png" type="image/x-icon">          <!-- 在网页标题左侧显示图标 -->
+    <link rel="shortcut icon" href="/base/pic/icon/xijia.png" type="image/x-icon"> <!-- 在收藏夹显示图标 -->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/components/layuiadmin/layui/src/css/layui.css" media="all">
+    <script src="/components/layuiadmin/layui/src/layui.js"></script>
+    <script src='/base/js/jquery-3.4.1.min.js'></script>
+    <script src="/client/js/app.js"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body style="height: 100%">
+<div>
+
+    <!-- 菜单信息 -->
+    <ul class="layui-nav layui-bg-cyan">
+        <li class="layui-nav-item"><a href="javascript:void(0)" onclick="hrefUrl('/page/client_toolIndex')">首页</a></li>
+        <li class="layui-nav-item"><a href="javascript:void(0)" onclick="hrefUrl('/page/client_file_index')">开发工具</a></li>
+        <li class="layui-nav-item"><a href="javascript:void(0)" onclick="hrefUrl('/page/client_tool_fhConvert')">文字转注释</a></li>
+        <li class="layui-nav-item"><a href="javascript:void(0)" onclick="hrefUrl('/page/client_tool_javaCodeRun')">java代码运行器</a></li>
+        <li class="layui-nav-item"><a href="javascript:void(0)">md编辑器</a>
+             <dl class="layui-nav-child">
+                 <dd><a href="javascript:void(0)" onclick="hrefUrl('/page/client_markdown2_index')">编辑</a></dd>
+                 <dd><a href="javascript:void(0)" onclick="hrefUrl('/page/client_markdown2_detail')">展示示例</a></dd>
+             </dl>
+        </li>
+        <li class="layui-nav-item"><a href="javascript:void(0)">聊天室</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:void(0)" onclick="hrefUrl('/page/client_websocket_websocket')">聊天室(旧)</a></dd>
+                <dd><a href="javascript:void(0)" onclick="hrefUrl('/page/client_websocket_lts')">聊天室(新)</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="javascript:void(0)">通用管理后台</a>
+            <dl class="layui-nav-child">
+                <dd><a href="http://xijia.plus/" target="view_window">在线试用</a></dd>
+                <dd><a href="javascript:void(0)" onclick="hrefUrl('https://gitee.com/wslxm/spring-boot-plus2')">源码地址</a></dd>
+                <dd><a href="javascript:void(0)" onclick="hrefUrl('/page/client_help_index')">使用文档</a></dd>
+            </dl>
+        </li>
+    </ul>
+    <!-- 用户信息  -->
+    <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+            <a href="">消息<span class="layui-badge">9</span></a>
+        </li>
+        <!--   <li class="layui-nav-item">-->
+        <!--       <a href="">消息<span class="layui-badge-dot"></span></a>-->
+        <!--   </li>-->
+        <li class="layui-nav-item" lay-unselect="">
+            <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img"></a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:;">个人信息</a></dd>
+                <dd><a href="javascript:;">收藏功能</a></dd>
+                <dd><a href="javascript:;">关于</a></dd>
+                <hr>
+                <dd style="text-align: center;"><a href="">退出</a></dd>
+            </dl>
+        </li>
+    </ul>
+</div>
+<iframe id="iframeMain" src="/page/client_toolIndex" width="96%" height="90%" style="margin-left: 2%"></iframe>
+<script>
+    function hrefUrl(src) {
+        $("#iframeMain").attr("src", src);
+    }
+
+    layui.use('element', function () {
+        let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+        //监听导航点击
+        element.on('nav(demo)', function (elem) {
+            //console.log(elem)
+            layer.msg(elem.text());
+        });
+    });
+</script>
+</body>
+</html>
