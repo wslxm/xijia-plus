@@ -4,6 +4,7 @@
  - 1、新增用户端访问首页（http://localhost:9049/user 访问主页,所有单页应用全部移至该访问页中）
  - 2、优化静态文件,xj-base-admin-ui 中存放所有静态资源，分为 base(通用) client(用户端)  modules(管理端) components(第三方组件)
  - 3、用户端和管理端使用独立 app.js ，分别存在于 client/modules 目录下
+ - 4、优化jvm /系统cup/内存信息页和逻辑
 
 ------------------------------  2021-5-11 
 

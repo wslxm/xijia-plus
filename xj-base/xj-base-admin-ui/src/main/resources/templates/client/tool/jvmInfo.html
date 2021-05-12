@@ -9,9 +9,8 @@
 <link rel="stylesheet" href="/components/editor/css/editormd.css">
 <script src="/base/js/app.js"></script>
 <script src='/base/js/jquery-3.4.1.min.js'></script>
-<script type="text/javascript" src="/components/editor/editormd.js"></script>
 <link rel="stylesheet" href="/components/layuiadmin/layui/src/css/layui.css" media="all">
-<script src="/components/layuiadmin/layui/src/layui.js"></script>
+<!--<script src="/components/layuiadmin/layui/src/layui.js"></script>-->
 <script src='/base/js/jquery-3.4.1.min.js'></script>
 <script src="/base/js/app.js"></script>
 <body>
@@ -175,8 +174,8 @@
             <thead>
             <tr>
                 <th style="background-color: rgb(255, 255, 255); width: 13.3447%; border-left-style: hidden; border-right-style: hidden;border-top-style: hidden;">盘符路径</th>
-<!--                <th style="background-color: rgb(255, 255, 255); width: 13.3447%; border-left-style: hidden; border-right-style: hidden;border-top-style: hidden;">文件系统</th>-->
-<!--                <th style="background-color: rgb(255, 255, 255); width: 13.3447%; border-left-style: hidden; border-right-style: hidden;border-top-style: hidden;">盘符类型</th>-->
+                <!--                <th style="background-color: rgb(255, 255, 255); width: 13.3447%; border-left-style: hidden; border-right-style: hidden;border-top-style: hidden;">文件系统</th>-->
+                <!--                <th style="background-color: rgb(255, 255, 255); width: 13.3447%; border-left-style: hidden; border-right-style: hidden;border-top-style: hidden;">盘符类型</th>-->
                 <th style="background-color: rgb(255, 255, 255); width: 13.3447%; border-left-style: hidden; border-right-style: hidden;border-top-style: hidden;">总大小</th>
                 <th style="background-color: rgb(255, 255, 255); width: 13.3447%; border-left-style: hidden; border-right-style: hidden;border-top-style: hidden;">可用大小</th>
                 <th style="background-color: rgb(255, 255, 255); width: 13.3447%; border-left-style: hidden; border-right-style: hidden;border-top-style: hidden;">已用大小</th>
@@ -186,8 +185,8 @@
             <tbody>
             <tr>
                 <td style="border-left-style: hidden; border-right-style: hidden;">/</td>
-<!--                <td style="border-left-style: hidden; border-right-style: hidden;"></td>-->
-<!--                <td style="border-left-style: hidden; border-right-style: hidden;"></td>-->
+                <!--                <td style="border-left-style: hidden; border-right-style: hidden;"></td>-->
+                <!--                <td style="border-left-style: hidden; border-right-style: hidden;"></td>-->
                 <td style="border-left-style: hidden; border-right-style: hidden;" id="fileTotal">GB</td>
                 <td style="border-left-style: hidden; border-right-style: hidden;" id="fileFree"> GB</td>
                 <td style="border-left-style: hidden; border-right-style: hidden;" id="fileUse"> GB</td>
@@ -202,52 +201,45 @@
 <script>
     let jvmInfoUrl = "/api/admin/xj/tool/jvmInfo";
     let jvmInfo = Ajax.get(jvmInfoUrl).data;
-    let mkb = 1024 * 1024;
-    let gkb = 1024 * 1024 * 1024;
-
-    // jvm内存
-    let totalMemory = (jvmInfo.runtimeInfo.totalMemory / mkb).toFixed(2);
-    let freeMemory = (jvmInfo.runtimeInfo.freeMemory / mkb).toFixed(2);
-    $("#totalMemory").html(totalMemory + "MB");                                      // JVM最大获取内存
-    $("#freeMemory").html(freeMemory + " MB");                                       // JVM剩余内存
-    $("#usableMemory").html((totalMemory - freeMemory).toFixed(2) + " MB");          // JVM已使用内存
-    $("#jvmUsageRate").html((((totalMemory - freeMemory) / totalMemory) * 100).toFixed(2) + " %");   // JVM使用率
-
-    // 系统内存
-    let totalPhysicalMemorySize = (jvmInfo.operatingSystemMXBean.totalPhysicalMemorySize / gkb).toFixed(2);
-    let freePhysicalMemorySize = (jvmInfo.operatingSystemMXBean.freePhysicalMemorySize / gkb).toFixed(2);
-    $("#totalPhysicalMemorySize").html(totalPhysicalMemorySize + "G");                                         // cpu最大获取内存
-    $("#freePhysicalMemorySize").html(freePhysicalMemorySize + " G");                                          // cpu剩余内存
-    $("#cpuUsableMemory").html((totalPhysicalMemorySize - freePhysicalMemorySize).toFixed(2) + " G");          // cpu已使用内存
-    $("#cpuUsageRate").html((((totalPhysicalMemorySize - freePhysicalMemorySize) / totalPhysicalMemorySize) * 100).toFixed(2) + " %");     // cpu使用率
 
     // cpu
-    let processCpuLoad = jvmInfo.operatingSystemMXBean.processCpuLoad;
-    let systemCpuLoad = jvmInfo.operatingSystemMXBean.systemCpuLoad;
-    $("#processCpuLoad").html((processCpuLoad * 100).toFixed(2) + " %");                       // 用户占用率
-    $("#systemCpuLoad").html((systemCpuLoad * 100).toFixed(2) + " %");                         // 系统占用率
-    $("#unwantedCpuLoad").html(((1 - processCpuLoad - systemCpuLoad) * 100).toFixed(2) + "%"); // 空闲率
-    $("#availableProcessors").html(jvmInfo.operatingSystemMXBean.availableProcessors);         // cpu核心数
+    $("#processCpuLoad").html(jvmInfo.cpu.userUtilization + " %");     // cpu用户占用率
+    $("#systemCpuLoad").html(jvmInfo.cpu.systemUtilization +" %");     // cpu系统占用率
+    $("#unwantedCpuLoad").html(jvmInfo.cpu.usedRatio + " %");            // cpu空闲率
+    $("#availableProcessors").html(jvmInfo.cpu.numberOfCores);         // cpu核心数
+
+    // jvm内存
+    $("#totalMemory").html(jvmInfo.jvmRam.totalMemory + " MB");           // JVM最大获取内存
+    $("#freeMemory").html(jvmInfo.jvmRam.remainingMemory + " MB");       // JVM剩余内存
+    $("#usableMemory").html(jvmInfo.jvmRam.usedMemory + " MB");          // JVM已使用内存
+    $("#jvmUsageRate").html(jvmInfo.jvmRam.usageRate + " %");            // JVM使用率
+
+    // 系统内存
+    $("#totalPhysicalMemorySize").html(jvmInfo.ram.totalMemory + " GB");       // 内存最大获取内存
+    $("#freePhysicalMemorySize").html(jvmInfo.ram.remainingMemory  + " GB");  // 内存剩余内存
+    $("#cpuUsableMemory").html(jvmInfo.ram.usedMemory + " GB");               // 内存已使用内存
+    $("#cpuUsageRate").html(jvmInfo.ram.usedMemory  + " %");                  // 内存使用率
+
 
     // 主机和系统信息(hostInfo|osInfo )
-    $("#name").html(jvmInfo.hostInfo.name);        // 主机名
-    $("#address").html(jvmInfo.hostInfo.address);  // 主机ip
-    $("#osName").html(jvmInfo.osInfo.name);        // 系统版本
-    $("#osArch").html(jvmInfo.osInfo.arch);        // 系统架构
+    $("#name").html(jvmInfo.serverInformation.name);              // 主机名
+    $("#address").html(jvmInfo.serverInformation.ip);             // 主机ip
+    $("#osName").html(jvmInfo.serverInformation.operatingSystem); // 系统
+    $("#osArch").html(jvmInfo.serverInformation.systemStructure); // 系统架构
 
-   // jdk信息
-    $("#jdkName").html(jvmInfo.runtimeMXBean.systemProperties['java.vm.name']);      // java版本名称
-    $("#jdkVersion").html(jvmInfo.runtimeMXBean.systemProperties['java.version']);   // java版本
-    $("#jdkHomeDir").html(jvmInfo.runtimeMXBean.systemProperties['java.home']);      // java路径
-    $("#PID").html(jvmInfo.runtimeMXBean.systemProperties['PID']);                   // java路径
-    $("#projectDir").html(jvmInfo.userInfo.currentDir);                              // 项目路径
-    $("#jvmStartTime").html(TimeUtil.formatDate(jvmInfo.runtimeMXBean.startTime));   // jvm启动时间
-    $("#jvmRunTime").html(TimeUtil.DateDifference(jvmInfo.runtimeMXBean.startTime, new Date().getTime())); // jvm运行时长
+    // jdk信息
+    $("#jdkName").html(jvmInfo.jvmInformation.javaName);          // java版本名称
+    $("#jdkVersion").html(jvmInfo.jvmInformation.javaVersion);    // java版本
+    $("#jdkHomeDir").html(jvmInfo.jvmInformation.jdkPath);        // java路径
+    $("#PID").html(jvmInfo.jvmInformation.pid);                   // java路径
+    $("#projectDir").html(jvmInfo.jvmInformation.projectPath);    // 项目路径
+    $("#jvmStartTime").html(jvmInfo.jvmInformation.startTime);    // jvm启动时间
+    $("#jvmRunTime").html(TimeUtil.DateDifference(jvmInfo.jvmInformation.startTime, new Date().getTime())); // jvm运行时长
 
     // 硬盘信息(总大小/剩余/已用/已用百分比)
-    $("#fileTotal").html((jvmInfo.fileInfoVO.total / gkb).toFixed(2) + " GB");
-    $("#fileFree").html((jvmInfo.fileInfoVO.free / gkb).toFixed(2)+ " GB");
-    $("#fileUse").html(((jvmInfo.fileInfoVO.total  - jvmInfo.fileInfoVO.free) / gkb).toFixed(2) +" GB");
-    $("#fileUseUsageRate").html((((jvmInfo.fileInfoVO.total  - jvmInfo.fileInfoVO.free) / jvmInfo.fileInfoVO.total)*100).toFixed(2) +"%");
+    $("#fileTotal").html(jvmInfo.fileInfo.total  + " GB");
+    $("#fileFree").html(jvmInfo.fileInfo.free + " GB");
+    $("#fileUse").html(jvmInfo.fileInfo.usable + " GB");
+    $("#fileUseUsageRate").html(jvmInfo.fileInfo.usedRatio  + "%");
 </script>
 </body>
