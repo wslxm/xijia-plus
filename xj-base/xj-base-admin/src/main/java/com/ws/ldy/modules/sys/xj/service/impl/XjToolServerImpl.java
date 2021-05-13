@@ -45,7 +45,7 @@ public class XjToolServerImpl implements XjToolServer {
         double systemUtilization = os.getSystemCpuLoad();
         // 用户cpu占用(当前程序)
         double userUtilization = os.getProcessCpuLoad();
-        // cpu空闲率
+        // cpu总使用率
         double usageRat = systemUtilization + userUtilization;
         // vo
         XjToolJvmInfoVO.CpuVO cpuVO = new XjToolJvmInfoVO.CpuVO();
