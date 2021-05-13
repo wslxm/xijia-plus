@@ -7,12 +7,17 @@ import com.ws.ldy.modules.sys.xj.model.vo.XjToolJvmInfoVO;
 import com.ws.ldy.modules.sys.xj.service.XjToolServer;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.management.ManagementFactory;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
 
 // 参考： http://blog.csdn.net/zhongweijian/article/details/7619383
 // 参考2： https://blog.csdn.net/coolchaobing/article/details/86736190
@@ -64,14 +69,63 @@ public class XjToolServerImpl implements XjToolServer {
     @SuppressWarnings("all")
     private XjToolJvmInfoVO.RamVO getRam() {
         double kb = 1024 * 1024 * 1024;
-        // 当前服务
-        double maxMemory = Runtime.getRuntime().maxMemory() / kb;
-        //
-        OperatingSystemMXBean os = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-        double totalMemory = (double) os.getTotalPhysicalMemorySize() / kb;     // 总内存
-        double remainingMemory = (double) os.getFreePhysicalMemorySize() / kb;  // 剩于内存（需减去当前服务）
-        double usedMemory = totalMemory - remainingMemory;                      // 已用内存(总内存-剩余内存)
-        double usageRate = usedMemory / totalMemory;                            // 已使用比率 (已用内存/最大内存)
+        // linux 获取服务器内存信息目录
+        double totalMemory = 0;
+        double remainingMemory = 0;
+        double usedMemory = 0;
+        double usageRate = 0;
+        String property = System.getProperty("os.name");
+        if ("Linux".equals(property)) {
+            // linux 使用命令获取，如果此次部分linux 系统无法获取，请使用其他方法
+            String newCmd = "free -h";
+            String arr = null;
+            try {
+                Process process = Runtime.getRuntime().exec(new String[]{"bash", "-c", newCmd});
+                arr = loadStream(process.getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // TODO 位数长度不同，下方索引获取数据将出错
+            String[] rams = arr.split("\n");
+            String[] ramsValue = rams[1].split(" ");
+            Map<String, String> ramMap = new HashMap<>();
+            ramMap.put("total", ramsValue[11]);
+            ramMap.put("used", ramsValue[19]);
+            ramMap.put("free", ramsValue[27]);
+            ramMap.put("shared", ramsValue[36]);
+            ramMap.put("buff/cache", ramsValue[44]);
+            ramMap.put("available", ramsValue[52]);
+            String total = ramMap.get("total");
+            String available = ramMap.get("available");
+
+            double totalDouble = 0;
+            double availableDouble = 0;
+            // 总大小
+            if (total.indexOf("G") != -1) {
+                totalDouble = Double.parseDouble(total.replace("G",""));
+            } else {
+                totalDouble = Double.parseDouble(total.replace("M","")) / 1024;
+            }
+            // 剩余内存
+            if (available.indexOf("G") != -1) {
+                availableDouble = Double.parseDouble(available.replace("G",""));
+            } else {
+                availableDouble = Double.parseDouble(available.replace("M","")) / 1024;
+            }
+            totalMemory = totalDouble;     // 总内存
+            remainingMemory = availableDouble;  // 剩于内存
+            usedMemory = totalMemory - remainingMemory;    // 已用内存(总内存-剩余内存)
+            usageRate = usedMemory / totalMemory;          // 已使用比率 (已用内存/最大内存)
+        } else {
+            // 非linux 使用api获取
+            double maxMemory = Runtime.getRuntime().maxMemory() / kb;
+            OperatingSystemMXBean os = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+            //  available
+            totalMemory = (double) os.getTotalPhysicalMemorySize() / kb;     // 总内存
+            remainingMemory = (double) os.getFreePhysicalMemorySize() / kb;  // 剩于内存（需减去当前服务）
+            usedMemory = totalMemory - remainingMemory;                      // 已用内存(总内存-剩余内存)
+            usageRate = usedMemory / totalMemory;                            // 已使用比率 (已用内存/最大内存)
+        }
         // vo
         XjToolJvmInfoVO.RamVO ramVO = new XjToolJvmInfoVO.RamVO();
         ramVO.setTotalMemory(new BigDecimal(totalMemory).setScale(2, RoundingMode.HALF_UP).doubleValue());
@@ -79,6 +133,18 @@ public class XjToolServerImpl implements XjToolServer {
         ramVO.setRemainingMemory(new BigDecimal(remainingMemory).setScale(2, RoundingMode.HALF_UP).doubleValue());
         ramVO.setUsageRate(new BigDecimal(usageRate * 100).setScale(2, RoundingMode.HALF_UP).doubleValue());
         return ramVO;
+
+    }
+
+    //
+    static String loadStream(InputStream in) throws IOException {
+        int ptr = 0;
+        in = new BufferedInputStream(in);
+        StringBuffer buffer = new StringBuffer();
+        while ((ptr = in.read()) != -1) {
+            buffer.append((char) ptr);
+        }
+        return buffer.toString();
     }
 
 

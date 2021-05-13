@@ -916,18 +916,27 @@ TimeUtil = {
         // let d2 = new Date(completeTime);
         var stime = new Date(faultDate).getTime();
         var etime = new Date(completeTime).getTime();
-        var usedTime = etime - stime;  //两个时间戳相差的毫秒数
-        var days = Math.floor(usedTime / (24 * 3600 * 1000));
-        //计算出小时数
-        var leave1 = usedTime % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
-        var hours = Math.floor(leave1 / (3600 * 1000));
-        //计算相差分钟数
-        var leave2 = leave1 % (3600 * 1000);        //计算小时数后剩余的毫秒数
-        var minutes = Math.floor(leave2 / (60 * 1000));
-        var time = days + "天" + hours + "时" + minutes + "分";
+        var t = etime - stime;  //两个时间戳相差的毫秒数
+        // var days = Math.floor(usedTime / (24 * 3600 * 1000));
+        // // 计算出小时数
+        // var leave1 = usedTime % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+        // var hours = Math.floor(leave1 / (3600 * 1000));
+        // // 计算相差分钟数
+        // var leave2 = leave1 % (3600 * 1000);        //计算小时数后剩余的毫秒数
+        // var minutes = Math.floor(leave2 / (60 * 1000));
+        // // 计算相差分秒数 //计算分后剩余的秒数
+        // var second = (leave2 - (minutes * 60 * 1000)) /1000 ;
+        // var time = days + "天" + hours + "时" + minutes + "分" + second + "秒";
+        let d = Math.floor(t / 1000 / 60 / 60 / 24);
+        let h = Math.floor(t / 1000 / 60 / 60 % 24);
+        let m = Math.floor(t / 1000 / 60 % 60);
+        let s = Math.floor(t / 1000 % 60);
+        let html = d + "天 " + h + "时 " + m + "分 " + s + "秒";
+
         // var time = days;
-        return time;
+        return html;
     }
+
 };
 
 
