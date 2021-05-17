@@ -112,7 +112,12 @@
             //menusTree[index].field = '';
             // 注意这里，layui.tree 有个bug ，如果上级菜单为选中状态,下级的菜单会默认全选中，所以把页面已上的级菜单全部设置为false 解决
             if (menusTree[index].root == 1 || menusTree[index].root == 2) {
-                menusTree[index].checked = false;
+                if (menusTree[index].menus == null) {
+                    // 没有下级菜单时选中状态
+                    menusTree[index].checked = menusTree[index].isChecked;
+                } else {
+                    menusTree[index].checked = false;
+                }
             } else {
                 menusTree[index].checked = menusTree[index].isChecked;
             }

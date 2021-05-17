@@ -16,8 +16,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 // 参考： http://blog.csdn.net/zhongweijian/article/details/7619383
 // 参考2： https://blog.csdn.net/coolchaobing/article/details/86736190
@@ -76,6 +76,7 @@ public class XjToolServerImpl implements XjToolServer {
         double usageRate = 0;
         String property = System.getProperty("os.name");
         if ("Linux".equals(property)) {
+            System.out.println("进来了：");
             // linux 使用命令获取，如果此次部分linux 系统无法获取，请使用其他方法
             String newCmd = "free -h";
             String arr = null;
@@ -85,37 +86,39 @@ public class XjToolServerImpl implements XjToolServer {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            // TODO 位数长度不同，下方索引获取数据将出错
             String[] rams = arr.split("\n");
-            String[] ramsValue = rams[1].split(" ");
-            Map<String, String> ramMap = new HashMap<>();
-            ramMap.put("total", ramsValue[11]);
-            ramMap.put("used", ramsValue[19]);
-            ramMap.put("free", ramsValue[27]);
-            ramMap.put("shared", ramsValue[36]);
-            ramMap.put("buff/cache", ramsValue[44]);
-            ramMap.put("available", ramsValue[52]);
-            String total = ramMap.get("total");
-            String available = ramMap.get("available");
+            String ramsValue = rams[1];
+            ramsValue = ramsValue.replace("Mem:", "");
+            // 对应索引(单位，GB) 0=total  1=used   2=free  3=shared  4=buff/cache   5=available
+            List<Double> ramVals = new ArrayList<>();
+            for (int i = 0; i < ramsValue.length(); i++) {
+                if (ramsValue.charAt(i) != ' ') {
+                    String val = "";
+                    for (int j = i; j < ramsValue.length(); j++) {
+                        if (ramsValue.charAt(i) == ' ') {
+                            break;
+                        } else {
+                            val += ramsValue.charAt(i);
+                            i++;
+                        }
+                    }
+                    //System.out.println("val=" + val);
+                    double valDouble = 0;
+                    if (val.indexOf("G") != -1) {
+                        valDouble = Double.parseDouble(val.replace("G", ""));
+                    } else {
+                        valDouble = Double.parseDouble(val.replace("M", "")) / 1024;
+                    }
+                    //System.out.println("valDouble=" + valDouble);
+                    ramVals.add(valDouble);
+                }
+            }
+            //System.out.println("参数：" + JSON.toJSONString(ramVals));
+            totalMemory = ramVals.get(0);                // 总内存
+            remainingMemory = ramVals.get(5);            // 剩于内存
+            usedMemory = totalMemory - remainingMemory;  // 已用内存(总内存-剩余内存)
+            usageRate = usedMemory / totalMemory;        // 已使用比率 (已用内存/最大内存)
 
-            double totalDouble = 0;
-            double availableDouble = 0;
-            // 总大小
-            if (total.indexOf("G") != -1) {
-                totalDouble = Double.parseDouble(total.replace("G",""));
-            } else {
-                totalDouble = Double.parseDouble(total.replace("M","")) / 1024;
-            }
-            // 剩余内存
-            if (available.indexOf("G") != -1) {
-                availableDouble = Double.parseDouble(available.replace("G",""));
-            } else {
-                availableDouble = Double.parseDouble(available.replace("M","")) / 1024;
-            }
-            totalMemory = totalDouble;     // 总内存
-            remainingMemory = availableDouble;  // 剩于内存
-            usedMemory = totalMemory - remainingMemory;    // 已用内存(总内存-剩余内存)
-            usageRate = usedMemory / totalMemory;          // 已使用比率 (已用内存/最大内存)
         } else {
             // 非linux 使用api获取
             double maxMemory = Runtime.getRuntime().maxMemory() / kb;
@@ -133,7 +136,6 @@ public class XjToolServerImpl implements XjToolServer {
         ramVO.setRemainingMemory(new BigDecimal(remainingMemory).setScale(2, RoundingMode.HALF_UP).doubleValue());
         ramVO.setUsageRate(new BigDecimal(usageRate * 100).setScale(2, RoundingMode.HALF_UP).doubleValue());
         return ramVO;
-
     }
 
     //
