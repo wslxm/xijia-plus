@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
@@ -13,10 +13,10 @@
     <!-- 气泡 css -->
     <link rel="stylesheet" href="/modules/css/xijia/chatbox.css">
     <!-- -->
-    <script src="/base/js/app.js"></script>
+    <script src="/client/js/app.js"></script>
     <script src="/components/layuiadmin/layui/src/layui.js"></script>
     <!-- 表情 -->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>-->
     <link rel="stylesheet" href="/components/jquery-emoji/lib/css/bootstrap.css"/>
     <link rel="stylesheet" href="/components/jquery-emoji/lib/css/jquery.mCustomScrollbar.min.css"/>
     <link rel="stylesheet" href="/components/jquery-emoji/dist/css/jquery.emoji.css"/>
@@ -186,115 +186,120 @@
     let toList = $("#to");         // 发送人select选择框
 
 
-    let webSocket;
-    // var commWebSocket;
-    http:
-        if ("WebSocket" in window) {
+    var webSocket;
+    initWebSocket();
 
-            // 连接地址：后端获取
-            websocket = new WebSocket(socketPath);   // 如: "ws://192.168.0.154:9049/websocket/张三/1"
+    function initWebSocket() {
 
-            // 连通成功的监听
-            websocket.onopen = function () {
-                quLiao.html(quLiao.html() + " <div style='text-align: center'>系统消息:[登陆成功]</div>")
-            };
+        http:
+            if ("WebSocket" in window) {
 
-            // 接收后台服务端的消息监听
-            websocket.onmessage = function (evt) {
-                let received_msg = evt.data;           // 接收到的数据
-                let obj = JSON.parse(received_msg);    // json数据
-                let msgType = obj.msgType;             // 数据类型（1上线/2下线/3在线名单/4发信息)
-                let from = obj.from;                   // 来源Id，上下线时为上下线的用户id
-                let username = obj.username;           // 来源用户，上下线时为上下线的用户名
-                let headPic = obj.headPic;             // 来源用户头像，上下线时为上下线的头像
-                let to = obj.to;                       // 目标Id（接收人用户Id,逗号分隔，所有人时为-ALL)）
-                let content = obj.content;             // 内容
-                let extras = obj.extras;               // 扩展内容(json)
-                let onlineNum = obj.onlineNum;         // 在线人数
-                let createTime = obj.createTime;       // 消息时间
-                //alert(JSON.stringify(received_msg));
+                // 连接地址：后端获取
+                websocket = new WebSocket(socketPath);   // 如: "ws://192.168.0.154:9049/websocket/张三/1"
 
-                // 上线通知+在线列表刷新
-                if (msgType === 1) {
-                    // 群聊信息时上线
-                    quLiao.html(quLiao.html() + notice_msg.replace("{msg}", content));
-                    // 在线列表（id=用户id，用于下线删除）
-                    zxList.html(zxList.html() + " <div class='zxListLi' id='" + from + "' style='text-align: left'>" + username + " </div>");
+                // 连通成功的监听
+                websocket.onopen = function () {
+                    quLiao.html(quLiao.html() + " <div style='text-align: center'>系统消息:[登陆成功]</div>")
+                };
 
-                    // 在线人选择框（optionId为了下线通知移除）
-                    // toList.html(toList.html() + "<option id='option" + from + "' value='" + from + "'>" + username + "</option> ")
-                }
+                // 接收后台服务端的消息监听
+                websocket.onmessage = function (evt) {
+                    let received_msg = evt.data;           // 接收到的数据
+                    let obj = JSON.parse(received_msg);    // json数据
+                    let msgType = obj.msgType;             // 数据类型（1上线/2下线/3在线名单/4发信息)
+                    let from = obj.from;                   // 来源Id，上下线时为上下线的用户id
+                    let username = obj.username;           // 来源用户，上下线时为上下线的用户名
+                    let headPic = obj.headPic;             // 来源用户头像，上下线时为上下线的头像
+                    let to = obj.to;                       // 目标Id（接收人用户Id,逗号分隔，所有人时为-ALL)）
+                    let content = obj.content;             // 内容
+                    let extras = obj.extras;               // 扩展内容(json)
+                    let onlineNum = obj.onlineNum;         // 在线人数
+                    let createTime = obj.createTime;       // 消息时间
+                    headPic = headPic.replace("_", "/").replace("_", "/").replace("_", "/").replace("_", "/");
+                    //alert(JSON.stringify(received_msg));
 
-                // 下线通知+在线列表刷新
-                else if (msgType === 2) {
-                    // 群聊信息暂时下线
-                    quLiao.html(quLiao.html() + " <div style='text-align: center;color: red'>" + content + " </div>");
-                    // 在线列表删除下线人
-                    $("#" + from).remove();
-                    // 在线人选择框移除下线人
-                    $("#option" + from).remove();
-                }
+                    // 上线通知+在线列表刷新
+                    if (msgType === 1) {
+                        // 群聊信息时上线
+                        quLiao.html(quLiao.html() + notice_msg.replace("{msg}", content));
+                        // 在线列表（id=用户id，用于下线删除）
+                        zxList.html(zxList.html() + " <div class='zxListLi' id='" + from + "' style='text-align: left'>" + username + " </div>");
 
-                // 在线列表通知（自己登录时会给自己发送）
-                else if (msgType === 3) {
-                    zxList.html("");
-                    toList.html("<option value='ALL'>所有人</option>");
-                    //
-                    let userList = JSON.parse(content);
-                    for (let i = 0; i < userList.length; i++) {
-                        let userId = userList[i].userId;         // 用户id
-                        let username = userList[i].username;     // 用户名
-                        let createTime = userList[i].createTime; // 用户登录时间
-                        if (userId !== from || userId !== formUserId) {
-                            // 在线列表（id=用户id，用于下线删除）
-                            zxList.html(zxList.html() + " <div class='zxListLi' id='" + userId + "' style='text-align: left'>" + username + " </div>");
-                            // 在线人选择框（optionId为了下线通知移除） --》 不展示自己
-                            toList.html(toList.html() + "<option id='option" + userId + "' value='" + userId + "'>" + username + "</option> ")
-                        } else {
-                            // 在线列表（id=用户id，用于下线删除）
-                            zxList.html(zxList.html() + " <div class='zxListLi' id='" + userId + "' style='text-align: left'>" + username + "(自己) </div>");
+                        // 在线人选择框（optionId为了下线通知移除）
+                        // toList.html(toList.html() + "<option id='option" + from + "' value='" + from + "'>" + username + "</option> ")
+                    }
 
+                    // 下线通知+在线列表刷新
+                    else if (msgType === 2) {
+                        // 群聊信息暂时下线
+                        quLiao.html(quLiao.html() + " <div style='text-align: center;color: red'>" + content + " </div>");
+                        // 在线列表删除下线人
+                        $("#" + from).remove();
+                        // 在线人选择框移除下线人
+                        $("#option" + from).remove();
+                    }
+
+                    // 在线列表通知（自己登录时会给自己发送）
+                    else if (msgType === 3) {
+                        zxList.html("");
+                        toList.html("<option value='ALL'>所有人</option>");
+                        //
+                        let userList = JSON.parse(content);
+                        for (let i = 0; i < userList.length; i++) {
+                            let userId = userList[i].userId;         // 用户id
+                            let username = userList[i].username;     // 用户名
+                            let createTime = userList[i].createTime; // 用户登录时间
+                            if (userId !== from || userId !== formUserId) {
+                                // 在线列表（id=用户id，用于下线删除）
+                                zxList.html(zxList.html() + " <div class='zxListLi' id='" + userId + "' style='text-align: left'>" + username + " </div>");
+                                // 在线人选择框（optionId为了下线通知移除） --》 不展示自己
+                                toList.html(toList.html() + "<option id='option" + userId + "' value='" + userId + "'>" + username + "</option> ")
+                            } else {
+                                // 在线列表（id=用户id，用于下线删除）
+                                zxList.html(zxList.html() + " <div class='zxListLi' id='" + userId + "' style='text-align: left'>" + username + "(自己) </div>");
+
+                            }
                         }
                     }
-                }
 
-                // 信息接收通知
-                else if (msgType === 4) {
-                    if (to === "ALL") {
-                        // 群聊
-                        // 判断是否为自己的消息，（自己 ==> 发送方=接收方 || 发送方是自己）
-                        if (to === from || formUserId === from) {
-                            //自己右边展示
-                            quLiao.html(quLiao.html() + right_msg.replace("{head}", headPic).replace("{name}", username,).replace("{msg}", content).replace("{time}", createTime));
+                    // 信息接收通知
+                    else if (msgType === 4) {
+                        if (to === "ALL") {
+                            // 群聊
+                            // 判断是否为自己的消息，（自己 ==> 发送方=接收方 || 发送方是自己）
+                            if (to === from || formUserId === from) {
+                                //自己右边展示
+                                quLiao.html(quLiao.html() + right_msg.replace("{head}", headPic).replace("{name}", username,).replace("{msg}", content).replace("{time}", createTime));
+                            } else {
+                                //左边展示
+                                quLiao.html(quLiao.html() + left_msg.replace("{head}", headPic).replace("{name}", username,).replace("{msg}", content).replace("{time}", createTime));
+                            }
+                            // 显示内容一直在最底
+                            $('#quLiao')[0].scrollTop = $('#quLiao')[0].scrollHeight;
                         } else {
-                            //左边展示
-                            quLiao.html(quLiao.html() + left_msg.replace("{head}", headPic).replace("{name}", username,).replace("{msg}", content).replace("{time}", createTime));
+                            // // 私聊
+                            // // 判断是否为自己的消息，（自己 ==> 发送方=接收方 || 发送方是自己）
+                            // if (to === from || formUserId === from) {
+                            //     //自己右边展示
+                            //     siLiao.html(siLiao.html() + " <li style='text-align: right;'>" + content + " <--" + username + " </li>");
+                            // } else {
+                            //     //左边展示
+                            //     siLiao.html(siLiao.html() + " <li style='text-align: left;'>" + username + "--> " + content + " </li>");
+                            // }
                         }
-                        // 显示内容一直在最底
-                        $('#quLiao')[0].scrollTop = $('#quLiao')[0].scrollHeight;
-                    } else {
-                        // // 私聊
-                        // // 判断是否为自己的消息，（自己 ==> 发送方=接收方 || 发送方是自己）
-                        // if (to === from || formUserId === from) {
-                        //     //自己右边展示
-                        //     siLiao.html(siLiao.html() + " <li style='text-align: right;'>" + content + " <--" + username + " </li>");
-                        // } else {
-                        //     //左边展示
-                        //     siLiao.html(siLiao.html() + " <li style='text-align: left;'>" + username + "--> " + content + " </li>");
-                        // }
                     }
-                }
-            };
+                };
 
-            // 连接关闭的回调事件
-            websocket.onclose = function () {
-                console.log("连接已关闭...");
-                document.getElementById('message').innerHTML += '连接已经关闭....' + '<br/>';
-            };
-        } else {
-            // 浏览器不支持 WebSocket
-            alert("您的浏览器不支持 WebSocket!");
-        }
+                // 连接关闭的回调事件
+                websocket.onclose = function () {
+                    console.log("连接已关闭...");
+                    document.getElementById('message').innerHTML += '连接已经关闭....' + '<br/>';
+                };
+            } else {
+                // 浏览器不支持 WebSocket
+                alert("您的浏览器不支持 WebSocket!");
+            }
+    }
 
 
     /**
@@ -414,7 +419,7 @@
      * @return
      * @version 1.0.0
      */
-    // 左边输入 Left | left_msg  {head} {name} {msg}
+        // 左边输入 Left | left_msg  {head} {name} {msg}
     var left_msg = "<div class=\"chat-sender\">\n" +
         "              <div><img class='headPic'  src=\"{head}\"></div>\n" +
         "              <div>{name} &emsp; {time}</div>\n" +
@@ -461,6 +466,7 @@
             }]
         });
     }
+
     emoji();
 </script>
 </html>
