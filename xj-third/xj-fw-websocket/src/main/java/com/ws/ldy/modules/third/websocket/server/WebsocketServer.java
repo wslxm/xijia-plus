@@ -37,7 +37,7 @@ public class WebsocketServer {
     /**
      * 所有用户信息(session + userId + username + createTime  --> 以用户的id为key, 通过用户key来获取用户session进行消息发送)
      */
-    private final Map<String, OnlineUser> clients = new ConcurrentHashMap<>();
+    private static Map<String, OnlineUser> clients = new ConcurrentHashMap<>();
 
     /**
      * 获取在线人数
