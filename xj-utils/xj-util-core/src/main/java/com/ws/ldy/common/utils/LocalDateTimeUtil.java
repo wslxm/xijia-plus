@@ -529,6 +529,29 @@ public class LocalDateTimeUtil {
 
 
     /**
+     * 将时间戳转为当前时间
+     * @author wangsong
+     * @param timestamp
+     * @date 2021/5/12 0012 17:13
+     * @return java.lang.String
+     * @version 1.0.0
+     */
+    public static LocalDateTime parseTimestamp(Long timestamp) {
+        return LocalDateTime.ofEpochSecond(timestamp / 1000, 0, ZoneOffset.ofHours(8));
+    }
+
+    /**
+     * 将时间转为时间戳
+     * @author wangsong
+     * @date 2021/5/12 0012 17:13
+     * @return java.lang.String
+     * @version 1.0.0
+     */
+    public static Long parseTimestamp(LocalDateTime time) {
+        return time.toEpochSecond(ZoneOffset.ofHours(8));
+    }
+
+    /**
      * yyyy-MM-dd 时间字符串转 LocalDateTime
      * @author wangsong
      */

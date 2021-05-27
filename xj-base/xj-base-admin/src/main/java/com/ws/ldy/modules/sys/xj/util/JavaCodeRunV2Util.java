@@ -299,6 +299,7 @@ public class JavaCodeRunV2Util {
         } else {
             log.debug("编译失败");
             log.debug(compiler.getCompilerMessage());
+            System.out.println("Hello World!");
         }
     }
 }

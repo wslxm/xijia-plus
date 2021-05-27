@@ -1,4 +1,6 @@
 
+
+
 ## 当前个人部署服务器路径的启动停止命令
 /usr/local/work/xijia2/start.sh stop     停止
 /usr/local/work/xijia2/start.sh start    启动
@@ -10,5 +12,11 @@ tail -1000f /usr/local/work/xijia2/log.txt
 
 ### 重启并打印输出
 /usr/local/work/xijia2/start.sh restart & tail -1000f /usr/local/work/xijia2/log.txt
+
+### 格式错误错误
+如果查询错误：-bash: ./a.sh: /bin/bash^M: bad interpreter: No such file or directory，直接执行下面命令来转化， 然后就可以执行./start.sh运行脚本了。
+```
+sed -i "s/\r//" start.sh
+```
 
 

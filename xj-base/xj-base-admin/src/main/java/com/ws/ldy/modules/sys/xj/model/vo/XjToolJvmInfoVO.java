@@ -1,15 +1,12 @@
 package com.ws.ldy.modules.sys.xj.model.vo;
 
 
-import cn.hutool.system.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.lang.management.OperatingSystemMXBean;
-import java.lang.management.RuntimeMXBean;
 
 /**
  * jvm 信息类
@@ -23,56 +20,125 @@ import java.lang.management.RuntimeMXBean;
 @ApiModel(value = "XjToolJvmInfoVO 对象", description = "常用工具文件管理")
 public class XjToolJvmInfoVO implements Serializable {
 
-    private static final long serialVersionUID = 6514988039216936158L;
-    @ApiModelProperty(notes = "Java Virtual Machine Specification信息", position = 0)
-    private JvmSpecInfo jvmSpecInfo;
-    @ApiModelProperty(notes = "Java Virtual Machine Implementation信息", position = 1)
-    private JvmInfo jvmInfo;
-    @ApiModelProperty(notes = "Java Specification信息", position = 2)
-    private JavaSpecInfo javaSpecInfo;
-    @ApiModelProperty(notes = "Java Implementation信息", position = 3)
-    private JavaInfo javaInfo;
-    //    @ApiModelProperty(notes = "Java运行时信息,jdk信息", position = 4)
-//    private JavaRuntimeInfo javaRuntimeInfo;
-    @ApiModelProperty(notes = "系统信息", position = 5)
-    private OsInfo osInfo;
-    @ApiModelProperty(notes = "计算机信息,项目位置", position = 6)
-    private UserInfo userInfo;
-    @ApiModelProperty(notes = "主机ip信息", position = 7)
-    private HostInfo hostInfo;
-    @ApiModelProperty(notes = "运行时JVM信息，包括内存总大小、已用大小、可用大小等", position = 8)
-    private RuntimeInfoVO runtimeInfo;
-    @ApiModelProperty(notes = "运行时内存信息，包括内存总大小、已用大小、可用大小等", position = 9)
-    private OperatingSystemMXBean operatingSystemMXBean;
-    @ApiModelProperty(notes = "jvm启动时间信息", position = 9)
-    private RuntimeMXBean runtimeMXBean;
-    @ApiModelProperty(notes = "磁盘信息", position = 9)
-    private FileInfoVO fileInfoVO;
+    private static final long serialVersionUID = 4827571724805823332L;
+
+    @ApiModelProperty(notes = "cpu使用信息", position = 1)
+    private CpuVO cpu;
+    @ApiModelProperty(notes = "系统内存所有情况", position = 2)
+    private RamVO ram;
+    @ApiModelProperty(notes = "jvm内存使用情况", position = 3)
+    private JvmRamVO jvmRam;
+    @ApiModelProperty(notes = "服务器信息", position = 7)
+    private ServerInformationVO serverInformation;
+    @ApiModelProperty(notes = "JVM 程序信息", position = 8)
+    private JvmInformationVO jvmInformation;
+    @ApiModelProperty(notes = "文件信息", position = 9)
+    private FileInfoVO fileInfo;
+
 
     @Data
     @ToString(callSuper = true)
-    public static class RuntimeInfoVO implements Serializable {
-
-        private static final long serialVersionUID = 4776903229464827233L;
-        //private String runtime;
-        private Long maxMemory;
-        private Long totalMemory;
-        private Long freeMemory;
-        private Long usableMemory;
-        private Integer availableProcessors;
-
+    @ApiModel(value = "CpuVO 对象", description = "1、系统--cpu使用信息")
+    public static class CpuVO implements Serializable {
+        private static final long serialVersionUID = -6539830698200732287L;
+        @ApiModelProperty(notes = "核心数", position = 1)
+        private Integer numberOfCores;
+        @ApiModelProperty(notes = "用户使用率", position = 2)
+        private Double userUtilization;
+        @ApiModelProperty(notes = "系统使用率", position = 3)
+        private Double systemUtilization;
+        @ApiModelProperty(notes = "cpu使用率", position = 4)
+        private Double  usageRate;
     }
 
     @Data
     @ToString(callSuper = true)
+    @ApiModel(value = "RamVO 对象", description = "2、系统--内存使用情况(GB)")
+    public static class RamVO implements Serializable {
+        private static final long serialVersionUID = 2229572121900780687L;
+        @ApiModelProperty(notes = "总内存", position = 1)
+        private Double totalMemory;
+        @ApiModelProperty(notes = "已用内存", position = 2)
+        private Double usedMemory;
+        @ApiModelProperty(notes = "剩余内存", position = 3)
+        private Double remainingMemory;
+        @ApiModelProperty(notes = "使用率", position = 4)
+        private Double usageRate;
+    }
+
+
+    @Data
+    @ToString(callSuper = true)
+    @ApiModel(value = "JvmRamVO 对象", description = "3、Jvm--内存使用情况(MB)")
+    public static class JvmRamVO implements Serializable {
+        private static final long serialVersionUID = 2229572121900780687L;
+        @ApiModelProperty(notes = "最大内存", position = 1)
+        private Double maxMemory;
+        @ApiModelProperty(notes = "总内存", position = 1)
+        private Double totalMemory;
+        @ApiModelProperty(notes = "已用内存", position = 2)
+        private Double usedMemory;
+        @ApiModelProperty(notes = "剩余内存", position = 3)
+        private Double remainingMemory;
+        @ApiModelProperty(notes = "使用率", position = 4)
+        private Double usageRate;
+    }
+
+
+    @Data
+    @ToString(callSuper = true)
+    @ApiModel(value = "ServerInformationVO", description = "4、系统--服务器信息")
+    public static class ServerInformationVO implements Serializable {
+        private static final long serialVersionUID = 2229572121900780687L;
+        @ApiModelProperty(notes = "名称", position = 1)
+        private String name;
+        @ApiModelProperty(notes = "ip", position = 2)
+        private String ip;
+        @ApiModelProperty(notes = "操作系统", position = 3)
+        private String operatingSystem;
+        @ApiModelProperty(notes = "系统架构", position = 4)
+        private String systemStructure;
+    }
+
+
+    @Data
+    @ToString(callSuper = true)
+    @ApiModel(value = "JvmInformationVO 对象", description = "5、Jvm--程序信息")
+    public static class JvmInformationVO implements Serializable {
+        private static final long serialVersionUID = -2710971801815452828L;
+        @ApiModelProperty(notes = "java名称", position = 1)
+        private String javaName;
+        @ApiModelProperty(notes = "java版本", position = 2)
+        private String javaVersion;
+        @ApiModelProperty(notes = "jdk路径", position = 3)
+        private String jdkPath;
+        @ApiModelProperty(notes = "项目路径", position = 4)
+        private String projectPath;
+        @ApiModelProperty(notes = "程序pid", position = 4)
+        private String pid;
+        @ApiModelProperty(notes = "启用时间", position = 4)
+        private String startTime;
+        @ApiModelProperty(notes = "运行时长(已运行秒数)", position = 4)
+        private Long runningTime;
+    }
+
+
+    @Data
+    @ToString(callSuper = true)
+    @ApiModel(value = "FileInfoVO", description = "6、系统--文件信息(GB)")
     public static class FileInfoVO implements Serializable {
-
         private static final long serialVersionUID = 4776903229464827233L;
-        private String fileSysType;  // 文件系统类型
-        private String fileType;     // 文件类型
-        private Long total;  //总
-        private Long free;   //剩余
-        private Long usable; //已使用
-
+        @ApiModelProperty(notes = "文件系统类型", position = 1)
+        private String fileSysType;
+//        @ApiModelProperty(notes = "文件类型", position = 2)
+//        private String fileType;
+        @ApiModelProperty(notes = "总大小", position = 3)
+        private Double total;
+        @ApiModelProperty(notes = "剩余空间", position = 4)
+        private Double free;
+        @ApiModelProperty(notes = "已使用空间", position = 5)
+        private Double usable;
+        @ApiModelProperty(notes = "usedRatio", position = 5)
+        private Double usedRatio;
     }
 }

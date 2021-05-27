@@ -1,6 +1,7 @@
 package com.ws.ldy.config.datetime;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -24,6 +25,9 @@ public class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
     @Override
     public LocalDateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         String dateStr = parser.getText();
+        if(StringUtils.isBlank(dateStr)){
+            return null;
+        }
         DateTime dateTime;
         try {
             dateTime = DateUtil.parse(dateStr);
