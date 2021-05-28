@@ -56,6 +56,9 @@ public class DsField {
     public static String LAYUI_SEARCH_PARAMS_STR = "";   // 生成html主页，搜索条件url参数
     //
     public static String ADD_HTMLS = "";                 // 生成html 添加页，表单所有添加字段数据
+    public static String ADD_UPD_DATE_JS = "";            // 生成html 添加/编辑页，时间字段js
+    public static String ADD_UPD_PIC_JS = "";             // 生成html 添加/编辑页，图片字段js
+    public static String ADD_UPD_PIC_SHOP_JS = "";        // 生成html 添加/编辑页，图片字段回显
     public static String UPD_HTMLS = "";                 // 生成html 修改加页，表单所有添加字段数据
     public static String UPD_ID = "";                    // 生成html 修改加页，修改赋值id字段（根据Id修改）
     public static String UPD_BACKFILL = "";              // 生成html 修改加页，打开提交也回填数据赋值

@@ -30,7 +30,7 @@ public class GenerateConfig {
     public final static String EMAIL = "1720696548@qq.com";
     public final static String DESCRIBE = " ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 ";
     // private final static String PACK_PATH = (PetsServer.class.getPackage().getName() + "");  // 包根路径（所有代码,使用启动类的路径）
-    public final static String PROJECT_NAME = "xj-server/xj-server-api-web";
+    public final static String PROJECT_NAME = "xj-server/xj-test-server";
     public final static String PACK_PATH = "com.ws.ldy";
     public final static String ROOT_MODULE = "modules";
     public final static String PACK_PATH_ZP = "test";

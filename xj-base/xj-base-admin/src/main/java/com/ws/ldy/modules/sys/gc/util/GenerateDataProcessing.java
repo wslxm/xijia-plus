@@ -261,7 +261,13 @@ public class GenerateDataProcessing {
                         .replace("{add-htmls}", DsField.ADD_HTMLS)
                         .replace("{upd-htmls}", DsField.UPD_HTMLS)
                         .replace("{upd-backfill}", DsField.UPD_BACKFILL)
-                        .replace("{upd-id}", DsField.UPD_ID);
+                        .replace("{upd-id}", DsField.UPD_ID)
+                         //js
+                        .replace("{add-upd-pic-shop-js}", DsField.ADD_UPD_PIC_SHOP_JS)
+                        .replace("{add-upd-date-js}", DsField.ADD_UPD_DATE_JS)
+                        .replace("{add-upd-pic-js}", DsField.ADD_UPD_PIC_JS)
+
+                ;
                 bw.write(newLine);
                 bw.newLine();
                 bw.flush();
