@@ -10,6 +10,18 @@ public interface Base{
     // -
     @Getter
     @AllArgsConstructor
+    enum Default implements IEnum<Integer> {
+        V1(1, "默认值 1"),    // -
+        V2(2, "默认值 2"),    // -
+        V3(3, "默认值 3"),    // -
+        ;
+        private Integer value;
+        private String desc;
+    }
+
+    // -
+    @Getter
+    @AllArgsConstructor
     enum Deleted implements IEnum<Integer> {
         V0(0, "正常"),    // -
         V1(1, "已删除"),    // -

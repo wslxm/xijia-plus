@@ -35,6 +35,8 @@
     function {tableNameLower}updInit(){
           <!-- 初始化相关数据, 和父页面的值赋值到当前页 -->
           {upd-backfill}
+          {add-upd-radio-js}
+          {add-upd-checkbox-js}
           {add-upd-pic-shop-js}
           {add-upd-date-js}
           {add-upd-pic-js}
@@ -46,6 +48,7 @@
           // 监听提交
           layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
                 {upd-id}
+                {add-upd-checkbox-submit-for-js}
                 //data.field.id = parent.data.id;
                 let result = Ajax.put(path + "/admin/{moduleName}/{tableNameLower}/upd", data.field);
                 let index = parent.layer.getFrameIndex(window.name);

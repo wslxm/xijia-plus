@@ -266,6 +266,9 @@ public class GenerateDataProcessing {
                         .replace("{add-upd-pic-shop-js}", DsField.ADD_UPD_PIC_SHOP_JS)
                         .replace("{add-upd-date-js}", DsField.ADD_UPD_DATE_JS)
                         .replace("{add-upd-pic-js}", DsField.ADD_UPD_PIC_JS)
+                        .replace("{add-upd-radio-js}", DsField.ADD_UPD_RADIO_JS)
+                        .replace("{add-upd-checkbox-js}", DsField.ADD_UPD_CHECKBOX_JS)
+                        .replace("{add-upd-checkbox-submit-for-js}", DsField.ADD_UPD_CHECKBOX_SUBMIT_FOR_JS)
 
                 ;
                 bw.write(newLine);

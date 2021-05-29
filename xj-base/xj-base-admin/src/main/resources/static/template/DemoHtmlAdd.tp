@@ -35,6 +35,8 @@
     function {tableNameLower}addInit(){
          // 初始化相关数据
          {add-upd-date-js}
+         {add-upd-radio-js}
+         {add-upd-checkbox-js}
          {add-upd-pic-js}
          // 刷新,否则部分from 表单样式不生效
          layui.form.render();
@@ -43,6 +45,7 @@
     function {tableNameLower}addFormSubmit(){
          //监听提交
          layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+               {add-upd-checkbox-submit-for-js}
                let result = Ajax.post(path + "/admin/{moduleName}/{tableNameLower}/insert", data.field);
                let index = parent.layer.getFrameIndex(window.name);
                parent.layer.close(index);

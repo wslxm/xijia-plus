@@ -1,74 +1,13 @@
-package com.ws.ldy.modules.sys.gc.util;
+package com.ws.ldy.modules.sys.gc.template;
 
 /**
  * 搜索Html 模板配置
  */
-public class LayuiTemplate {
+public class LayuiPicTemplate {
 
 
     /**
-     * html 添加页的每一个字段  min="1" max="10"
-     */
-    public static final String INPUT_HTML_PT = "    <div class=\"layui-form-item\">\n" +
-            "        <label class=\"layui-form-label\">{fieldTitle}</label>\n" +
-            "        <div class=\"layui-input-inline\">\n" +
-            "            <input type=\"{inputType}\" id=\"{fieldId}\" name=\"{fieldName}\" lay-verify=\"required\" placeholder=\"请输入\" autocomplete=\"off\" class=\"layui-input\" {integerVerification}>\n" +
-            "        </div>\n" +
-            "    </div>";
-
-    /**
-     * 整数验证--让输入框number 只能输入整数
-     */
-    public static final String INTEGER_VERIFICATION = "onkeyup=\"if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\\D/g,'')}\"\n" +
-            " onafterpaste=\"if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\\D/g,'')}\"";
-
-
-    /**
-     * 搜索
-     * {desc} 字段描叙
-     * {id}   字段名
-     * {name} 字段名
-     */
-    public static final String INPUT_SEARCH_PT = "    <div class=\"layui-inline\">\n" +
-            "        <label class=\"layui-form-label\">{desc}:</label>\n" +
-            "        <div class=\"layui-input-block\">\n" +
-            "            <input type=\"text\" id=\"{id}\" name=\"{name}\" placeholder=\"请输入{desc}...\" autocomplete=\"off\" class=\"layui-input\">\n" +
-            "        </div>\n" +
-            "    </div>";
-
-
-    /**
-     * 时间日期选择器Html 部分
-     * {fieldTitle} 字段描叙
-     * {fieldId}   字段名
-     * {fieldName} 字段名
-     */
-    public static final String DATE_HTML_PT = "    <div class=\"layui-form-item\">\n" +
-            "        <label class=\"layui-form-label\">{fieldTitle}</label>\n" +
-            "        <div class=\"layui-inline\">\n" +
-            "            <div class=\"layui-input-inline\">\n" +
-            "                <input type=\"text\" class=\"layui-input\" id=\"{fieldId}\" name=\"{fieldName}\" placeholder=\"yyyy-MM-dd HH:mm:ss\">\n" +
-            "            </div>\n" +
-            "        </div>\n" +
-            "    </div>";
-
-
-    /**
-     * 时间日期选择器js 部分
-     * {fieldTitle} 字段描叙
-     * {fieldId} 字段名
-     */
-    public static final String DATE_JS_PT = "         //{fieldTitle}\n" +
-            "         layui.laydate.render({\n" +
-            "              elem: '#{fieldId}'\n" +
-            "              ,type: 'datetime'\n" +
-            "              ,trigger: 'click'\n" +
-            "              ,position : 'fixed'\n" +
-            "         });";
-
-
-    /**
-     * 图片上传 HTML 部分
+     * 图片上传 HTML 部分（add+upd 页面）
      * {fieldTitle}
      * {fieldId}
      * {fieldName}
@@ -90,7 +29,7 @@ public class LayuiTemplate {
 
 
     /**
-     * 图片上传 js 部分
+     * 图片上传 js 部分（add+upd 页面）
      * {fieldTitle}
      * {fieldId}
      */
@@ -119,13 +58,12 @@ public class LayuiTemplate {
             "        });";
 
 
+
     /**
-     * 图片回显
+     * 图片回显（在upd 页面）
      * {fieldId}
      */
     public static final String ADD_UPD_PIC_SHOP_JS = "        $(\"#{fieldId}Show\").attr(\"src\", parent.data.{fieldId});\n" +
             "        $(\"#{fieldId}Show\").attr(\"title\", parent.data.{fieldId});" ;
-
-
 
 }

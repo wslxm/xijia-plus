@@ -59,6 +59,9 @@ public class DsField {
     public static String ADD_UPD_DATE_JS = "";            // 生成html 添加/编辑页，时间字段js
     public static String ADD_UPD_PIC_JS = "";             // 生成html 添加/编辑页，图片字段js
     public static String ADD_UPD_PIC_SHOP_JS = "";        // 生成html 添加/编辑页，图片字段回显
+    public static String ADD_UPD_RADIO_JS = "";          // 生成html 添加/编辑页，单选js获取/回显默认值
+    public static String ADD_UPD_CHECKBOX_JS = "";       // 生成html 添加/编辑页，多选js获取/回显默认值
+    public static String ADD_UPD_CHECKBOX_SUBMIT_FOR_JS = "";   // 生成html 添加/编辑页，多选js提交获取参数
     public static String UPD_HTMLS = "";                 // 生成html 修改加页，表单所有添加字段数据
     public static String UPD_ID = "";                    // 生成html 修改加页，修改赋值id字段（根据Id修改）
     public static String UPD_BACKFILL = "";              // 生成html 修改加页，打开提交也回填数据赋值

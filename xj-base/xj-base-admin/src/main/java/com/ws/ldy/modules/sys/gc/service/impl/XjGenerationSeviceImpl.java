@@ -4,8 +4,8 @@ import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.modules.sys.gc.config.DsField;
 import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
 import com.ws.ldy.modules.sys.gc.service.XjGenerationSevice;
+import com.ws.ldy.modules.sys.gc.template.*;
 import com.ws.ldy.modules.sys.gc.util.GenerateDataProcessing;
-import com.ws.ldy.modules.sys.gc.util.LayuiTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -454,7 +454,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         // 数据表格字段
         StringBuffer fieldStr = new StringBuffer(" ");
         // 搜索条件html
-        StringBuffer SearchPtStr = new StringBuffer();
+        StringBuffer searchPtStr = new StringBuffer();
         // 搜索条件请求值url拼接
         StringBuffer SearchParamsStr = new StringBuffer();
         for (Map<String, Object> fieldMap : dataList) {
@@ -479,16 +479,16 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             }
             // 搜索内容输入框
             // 1/ input  * {desc} 字段描叙  * {id}   字段名 * {name} 字段名
-            SearchPtStr.append(LayuiTemplate.INPUT_SEARCH_PT.replace("{id}", name).replace("{name}", name).replace("{desc}", desc));
+            searchPtStr.append(LayuiSearchTemplate.INPUT_SEARCH_PT.replace("{id}", name).replace("{name}", name).replace("{desc}", desc));
             // 搜索内容条件拼接
             SearchParamsStr.append("            params += \"&" + name + "=\" + $(\"#" + name + "\").val();");
             // 换行
-            SearchPtStr.append("\r\n");
+            searchPtStr.append("\r\n");
             SearchParamsStr.append("\r\n");
         }
         // 数据保存
         DsField.LAYUI_FIELDS = fieldStr.toString().substring(0, fieldStr.length() - 1);
-        DsField.LAYUI_SEARCH_PT_STR = SearchPtStr.toString();
+        DsField.LAYUI_SEARCH_PT_STR = searchPtStr.toString();
         DsField.LAYUI_SEARCH_PARAMS_STR = SearchParamsStr.toString();
 
         // 开始生成文件并进行数据替换
@@ -519,6 +519,9 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         StringBuffer fieldStr = new StringBuffer();
         StringBuffer fieldDateJsStr = new StringBuffer();
         StringBuffer fieldPicJsStr = new StringBuffer();
+        StringBuffer fieldRadioJsStr = new StringBuffer();
+        StringBuffer fieldCheckboxJsStr = new StringBuffer();
+        StringBuffer fieldCheckboxSubmitForStr = new StringBuffer();
         for (Map<String, Object> fieldMap : dataList) {
             // 判断是否选中
             if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
@@ -535,24 +538,51 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             } else {
                 desc = fieldMap.get("desc").toString();
             }
-            //   String primarykeyId = GenerateDataProcessing.getValue(fieldMap, "primarykeyId", ""); //是否id
-            //   String selfGrowth = GenerateDataProcessing.getValue(fieldMap, "selfGrowth", "");//是否自增
+            //  String primarykeyId = GenerateDataProcessing.getValue(fieldMap, "primarykeyId", ""); //是否id
+            //  String selfGrowth = GenerateDataProcessing.getValue(fieldMap, "selfGrowth", "");//是否自增
             //  if (!primarykeyId.equals("true")) {     // }
             String type = fieldMap.get("type").toString();
-            if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
+            if (name.indexOf("Pic") != -1) {
+                // 判断是否为图片
+                fieldStr.append("\r\n" + LayuiPicTemplate.ADD_UPD_PIC_HTML
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldId}", name)
+                        .replace("{fieldName}", name));
+                fieldPicJsStr.append("\r\n" + LayuiPicTemplate.ADD_UPD_PIC_JS
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldId}", name));
+            } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
                 // 时间字段
-                fieldStr.append("\r\n" + LayuiTemplate.DATE_HTML_PT
+                fieldStr.append("\r\n" + LayuiDateTemplate.DATE_HTML_PT
                         .replace("{fieldTitle}", desc)
                         .replace("{fieldId}", name)
                         .replace("{fieldName}", name)
                 );
                 // 时间渲染js
-                fieldDateJsStr.append("\r\n" + LayuiTemplate.DATE_JS_PT
+                fieldDateJsStr.append("\r\n" + LayuiDateTemplate.DATE_JS_PT
                         .replace("{fieldTitle}", desc)
                         .replace("{fieldId}", name));
+
+            } else if (name.indexOf("Codes") != -1) {
+                // 判断是否为多选
+                fieldStr.append("\r\n" + LayuiCheckboxTemplate.INPUT_CHECKBOX_PT
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldId}", name));
+                fieldCheckboxJsStr.append("\r\n" + LayuiCheckboxTemplate.CHECKBOX_CODE_ADD_JS
+                        .replaceAll("\\{fieldId}", name));
+                fieldCheckboxSubmitForStr.append("\r\n" + LayuiCheckboxTemplate.CHECKBOX_SUBMIT_FOR
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldId}", name));
+            } else if (name.indexOf("Code") != -1) {
+                // 判断是否为单选
+                fieldStr.append("\r\n" + LayuiRadioTemplate.INPUT_RADIO_PT
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldId}", name));
+                fieldRadioJsStr.append("\r\n" + LayuiRadioTemplate.RADIO_CODE_ADD_JS
+                        .replaceAll("\\{fieldId}", name));
             } else if (type.equals("double") || type.equals("float") || type.equals("decimal")) {
                 // 小数
-                fieldStr.append("\r\n" + LayuiTemplate.INPUT_HTML_PT
+                fieldStr.append("\r\n" + LayuiInputTemplate.INPUT_HTML_PT
                         .replace("{integerVerification}", "")
                         .replace("{inputType}", "number")
                         .replace("{fieldTitle}", desc)
@@ -560,24 +590,15 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
                         .replace("{fieldName}", name));
             } else if (type.equals("int") || type.equals("bigint")) {
                 // 整数
-                fieldStr.append("\r\n" + LayuiTemplate.INPUT_HTML_PT
-                        .replace("{integerVerification}", LayuiTemplate.INTEGER_VERIFICATION)
+                fieldStr.append("\r\n" + LayuiInputTemplate.INPUT_HTML_PT
+                        .replace("{integerVerification}", LayuiInputTemplate.INTEGER_VERIFICATION)
                         .replace("{inputType}", "number")
                         .replace("{fieldTitle}", desc)
                         .replace("{fieldId}", name)
                         .replace("{fieldName}", name));
-            } else if (name.indexOf("Pic") != -1) {
-                // 判断是否为图片
-                fieldStr.append("\r\n" + LayuiTemplate.ADD_UPD_PIC_HTML
-                        .replace("{fieldTitle}", desc)
-                        .replace("{fieldId}", name)
-                        .replace("{fieldName}", name));
-                fieldPicJsStr.append("\r\n" + LayuiTemplate.ADD_UPD_PIC_JS
-                        .replace("{fieldTitle}", desc)
-                        .replace("{fieldId}", name));
             } else {
                 //  其他按字符串处理
-                fieldStr.append("\r\n" + LayuiTemplate.INPUT_HTML_PT
+                fieldStr.append("\r\n" + LayuiInputTemplate.INPUT_HTML_PT
                         .replace("{integerVerification}", "")
                         .replace("{inputType}", "text")
                         .replace("{fieldTitle}", desc)
@@ -589,10 +610,15 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         DsField.ADD_HTMLS = fieldStr.toString();
         DsField.ADD_UPD_DATE_JS = fieldDateJsStr.toString();
         DsField.ADD_UPD_PIC_JS = fieldPicJsStr.toString();
+        DsField.ADD_UPD_RADIO_JS = fieldRadioJsStr.toString();
+        DsField.ADD_UPD_CHECKBOX_JS = fieldCheckboxJsStr.toString();
+        DsField.ADD_UPD_CHECKBOX_SUBMIT_FOR_JS = fieldCheckboxSubmitForStr.toString();
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // url保存
-        pathMap.put("mainAdd", brBwPath.get("path").toString());
+        pathMap.put("mainAdd", brBwPath.get("path").
+
+                toString());
     }
 
 
@@ -615,6 +641,9 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         StringBuffer fieldDateJsStr = new StringBuffer();
         StringBuffer fieldPicJsStr = new StringBuffer();
         StringBuffer fieldPicShopJsStr = new StringBuffer();
+        StringBuffer fieldRadioJsStr = new StringBuffer();
+        StringBuffer fieldCheckboxJsStr = new StringBuffer();
+        StringBuffer fieldCheckboxSubmitForStr = new StringBuffer();
         StringBuffer echoDisplay = new StringBuffer();
         String fieldId = "";
         for (Map<String, Object> fieldMap : dataList) {
@@ -635,20 +664,50 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
                     desc = fieldMap.get("desc").toString();
                 }
                 String type = fieldMap.get("type").toString();
-                if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
+                if (name.indexOf("Pic") != -1) {
+                    // 判断是否为图片
+                    fieldStr.append("\r\n" + LayuiPicTemplate.ADD_UPD_PIC_HTML
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name)
+                            .replace("{fieldName}", name));
+                    fieldPicJsStr.append("\r\n" + LayuiPicTemplate.ADD_UPD_PIC_JS
+                            .replace("$(\"#{fieldId}Show\").hide();\n", "")//编辑页不隐藏默认图片展示
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name));
+                    fieldPicJsStr.append("\r\n" + LayuiPicTemplate.ADD_UPD_PIC_SHOP_JS
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name));
+                } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
                     // 时间字段
-                    fieldStr.append("\r\n" + LayuiTemplate.DATE_HTML_PT
+                    fieldStr.append("\r\n" + LayuiDateTemplate.DATE_HTML_PT
                             .replace("{fieldTitle}", desc)
                             .replace("{fieldId}", name)
                             .replace("{fieldName}", name));
                     // 时间渲染js
-                    fieldDateJsStr.append("\r\n" + LayuiTemplate.DATE_JS_PT
+                    fieldDateJsStr.append("\r\n" + LayuiDateTemplate.DATE_JS_PT
                             .replace("{fieldTitle}", desc)
                             .replace("{fieldId}", name));
 
+                } else if (name.indexOf("Codes") != -1) {
+                    // 判断是否为多选
+                    fieldStr.append("\r\n" + LayuiCheckboxTemplate.INPUT_CHECKBOX_PT
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name));
+                    fieldCheckboxJsStr.append("\r\n" + LayuiCheckboxTemplate.CHECKBOX_CODE_UPD_JS
+                            .replaceAll("\\{fieldId}", name));
+                    fieldCheckboxSubmitForStr.append("\r\n" + LayuiCheckboxTemplate.CHECKBOX_SUBMIT_FOR
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name));
+                } else if (name.indexOf("Code") != -1) {
+                    // 判断是否为单选
+                    fieldStr.append("\r\n" + LayuiRadioTemplate.INPUT_RADIO_PT
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name));
+                    fieldRadioJsStr.append("\r\n" + LayuiRadioTemplate.RADIO_CODE_UPD_JS
+                            .replaceAll("\\{fieldId}", name));
                 } else if (type.equals("double") || type.equals("float") || type.equals("decimal")) {
                     // 小数
-                    fieldStr.append("\r\n" + LayuiTemplate.INPUT_HTML_PT
+                    fieldStr.append("\r\n" + LayuiInputTemplate.INPUT_HTML_PT
                             .replace("{integerVerification}", "")
                             .replace("{inputType}", "number")
                             .replace("{fieldTitle}", desc)
@@ -656,28 +715,15 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
                             .replace("{fieldName}", name));
                 } else if (type.equals("int") || type.equals("bigint")) {
                     // 整数
-                    fieldStr.append("\r\n" + LayuiTemplate.INPUT_HTML_PT
-                            .replace("{integerVerification}", LayuiTemplate.INTEGER_VERIFICATION)
+                    fieldStr.append("\r\n" + LayuiInputTemplate.INPUT_HTML_PT
+                            .replace("{integerVerification}", LayuiInputTemplate.INTEGER_VERIFICATION)
                             .replace("{inputType}", "number")
                             .replace("{fieldTitle}", desc)
                             .replace("{fieldId}", name)
                             .replace("{fieldName}", name));
-                } else if (name.indexOf("Pic") != -1) {
-                    // 判断是否为图片
-                    fieldStr.append("\r\n" + LayuiTemplate.ADD_UPD_PIC_HTML
-                            .replace("{fieldTitle}", desc)
-                            .replace("{fieldId}", name)
-                            .replace("{fieldName}", name));
-                    fieldPicJsStr.append("\r\n" + LayuiTemplate.ADD_UPD_PIC_JS
-                            .replace("$(\"#{fieldId}Show\").hide();\n", "")//编辑页不隐藏默认图片展示
-                            .replace("{fieldTitle}", desc)
-                            .replace("{fieldId}", name));
-                    fieldPicJsStr.append("\r\n" + LayuiTemplate.ADD_UPD_PIC_SHOP_JS
-                            .replace("{fieldTitle}", desc)
-                            .replace("{fieldId}", name));
                 } else {
                     //  其他按字符串处理
-                    fieldStr.append("\r\n" + LayuiTemplate.INPUT_HTML_PT
+                    fieldStr.append("\r\n" + LayuiInputTemplate.INPUT_HTML_PT
                             .replace("{integerVerification}", "")
                             .replace("{inputType}", "text")
                             .replace("{fieldTitle}", desc)
@@ -695,6 +741,9 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         DsField.ADD_UPD_DATE_JS = fieldDateJsStr.toString();
         DsField.ADD_UPD_PIC_JS = fieldPicJsStr.toString();
         DsField.ADD_UPD_PIC_SHOP_JS = fieldPicShopJsStr.toString();
+        DsField.ADD_UPD_RADIO_JS = fieldRadioJsStr.toString();
+        DsField.ADD_UPD_CHECKBOX_JS = fieldCheckboxJsStr.toString();
+        DsField.ADD_UPD_CHECKBOX_SUBMIT_FOR_JS = fieldCheckboxSubmitForStr.toString();
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
         pathMap.put("mainUpd", brBwPath.get("path").toString());

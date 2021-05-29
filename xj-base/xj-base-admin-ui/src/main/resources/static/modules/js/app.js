@@ -20,17 +20,17 @@ var BaseConfig = {
     token: "TOKEN",               // token 命名
 };
 
-
 var Enums = {
     // 系统模块枚举
     Admin: {
         AuthorityState: "AUTHORITY_STATE",  // 权限状态
         AuthorityType: "AUTHORITY_TYPE",  // 权限类型
         MenuRoot: "MENU_ROOT",  // 菜单级别
-        Position: "POSITION",  // 职位
+        Position: "POSITION",  // 部门职位
     },
     // 通用枚举
     Base: {
+        Default: "DEFAULT",  // 代码生成默认枚举
         Deleted: "DELETED",  // 逻辑删除
         Disable: "DISABLE",  // 是否禁用
         Gender: "GENDER",  // 性别
@@ -56,7 +56,6 @@ var Enums = {
         MsgUserType: "MSG_USER_TYPE",  // 及时消息终端
     },
 };
-
 
 /**
  * 枚举字典通用方法
@@ -217,7 +216,14 @@ Dict = {
 
 
     /**
-     *    <div class="layui-form-item" pane="">
+     *  复选框
+     *  使用示例： $("#genderCodess").html(Dict.getDictCheckbox(Enums.Base.Default, "genderCodes", parent.data.genderCodes));
+     *  参数说明：
+     *  enumKay 枚举key
+     *  name       字段名
+     *  defaultVal 默认选中
+     *
+     *  <div class="layui-form-item" pane="">
      *          <label class="layui-form-label">原始复选框</label>
      *          <div class="layui-input-block">
      *            <input type="checkbox" name="like1[write]" lay-skin="primary" title="写作" checked="">
@@ -232,24 +238,39 @@ Dict = {
      *    </div>
      * @param dictMap
      */
-    // getDictCheckbox: function (enumKay) {
-    //     // 获取排序后的字典List列表(数组)
-    //
-    //     let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
-    //     //
-    //     let checkboxTemplates = "<input type=\"checkbox\" name=\"{name}\" lay-skin=\"primary\" title=\"{title}\" checked=\"\">" +
-    //         "<div class=\"layui-unselect layui-form-checkbox layui-form-checked\" lay-skin=\"primary\">";
-    //     "<span>{title}</span><i class=\"layui-icon layui-icon-ok\"></i>";
-    //     "</div>";
-    //
-    //     let html = "";
-    //     for (let i = 0; i < dictMap.length; i++) {
-    //         html += checkboxTemplates
-    //             .replace("{name}", dictMap[i].code)
-    //             .replace("{title}", dictMap[i].name)
-    //     }
-    //     return html;
-    // },
+    getDictCheckbox: function (enumKay, name, defaultVal) {
+        // 获取排序后的字典List列表(数组)
+        let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
+        //
+        let checkboxTemplates = "\r\n" + "<input type='checkbox' name='{name}' value='{value}' lay-skin='primary' title='{title}' {checked}>" +
+            "<div class='layui-unselect layui-form-checkbox' lay-skin='primary'>" +
+            "<span>{title}</span><i class='layui-icon layui-icon-ok'></i></div>";
+        "</div>";
+        //默认值/回显值
+        let defaults = [];
+        if (defaultVal != null) {
+            defaults = defaultVal.split(",");
+        }
+        let html = "";
+        for (let i = 0; i < dictMap.length; i++) {
+            if (defaults.includes(dictMap[i].code)) {
+                html += checkboxTemplates
+                    .replace("{name}", name)
+                    .replace("{title}", dictMap[i].name)
+                    .replace("{title}", dictMap[i].name)
+                    .replace("{value}", dictMap[i].code)
+                    .replace("{checked}", "checked")
+            } else {
+                html += checkboxTemplates
+                    .replace("{name}", name)
+                    .replace("{title}", dictMap[i].name)
+                    .replace("{title}", dictMap[i].name)
+                    .replace("{value}", dictMap[i].code)
+                    .replace("{checked}", "")
+            }
+        }
+        return html;
+    },
 
 
     /**
@@ -494,7 +515,6 @@ function getPage(page, size) {
 }
 
 
-
 /**
  * 全局请求头,token 的参数获取
  * @returns
@@ -620,7 +640,6 @@ Ajax = {
         return result;
     }
 };
-
 
 
 /**
@@ -799,7 +818,6 @@ Sign = {
         }
     },
 };
-
 
 
 /**

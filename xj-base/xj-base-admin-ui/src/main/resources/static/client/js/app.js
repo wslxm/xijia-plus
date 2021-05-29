@@ -24,39 +24,39 @@ var BaseConfig = {
 var Enums = {
     // 系统模块枚举
     Admin: {
-        AuthorityState: "AUTHORITY_STATE",  // 权限状态
-        AuthorityType: "AUTHORITY_TYPE",  // 权限类型
-        MenuRoot: "MENU_ROOT",  // 菜单级别
-        Position: "POSITION",  // 职位
+        AuthorityState : "AUTHORITY_STATE",  // 权限状态
+        AuthorityType : "AUTHORITY_TYPE",  // 权限类型
+        MenuRoot : "MENU_ROOT",  // 菜单级别
+        Position : "POSITION",  // 部门职位
     },
     // 通用枚举
     Base: {
-        Deleted: "DELETED",  // 逻辑删除
-        Disable: "DISABLE",  // 是否禁用
-        Gender: "GENDER",  // 性别
-        IsRead: "IS_READ",  // 是否已读
+        Default : "DEFAULT",  // 代码生成默认枚举
+        Deleted : "DELETED",  // 逻辑删除
+        Disable : "DISABLE",  // 是否禁用
+        Gender : "GENDER",  // 性别
+        IsRead : "IS_READ",  // 是否已读
     },
     // 支付枚举
     Pay: {
-        PayBusiness: "PAY_BUSINESS",  // 支付业务
-        PayChannel: "PAY_CHANNEL",  // 支付渠道
-        PayState: "PAY_STATE",  // 支付状态
-        PayType: "PAY_TYPE",  // 支付类型
-        WalletType: "WALLET_TYPE",  // 流水类型
+        PayBusiness : "PAY_BUSINESS",  // 支付业务
+        PayChannel : "PAY_CHANNEL",  // 支付渠道
+        PayState : "PAY_STATE",  // 支付状态
+        PayType : "PAY_TYPE",  // 支付类型
+        WalletType : "WALLET_TYPE",  // 流水类型
     },
     // 系统增强功能枚举
     Xj: {
-        BannerIsSkip: "BANNER_IS_SKIP",  // banner是否跳转
-        BannerPosition: "BANNER_POSITION",  // banner 位置
-        BlacklistType: "BLACKLIST_TYPE",  // 黑/白名单类型
-        FileType: "FILE_TYPE",  // 文件类型
-        HelpCategory: "HELP_CATEGORY",  // 帮助中心类别
-        HelpVersion: "HELP_VERSION",  // 帮助中心版本
-        MsgType: "MSG_TYPE",  // 及时消息类型
-        MsgUserType: "MSG_USER_TYPE",  // 及时消息终端
+        BannerIsSkip : "BANNER_IS_SKIP",  // banner是否跳转
+        BannerPosition : "BANNER_POSITION",  // banner 位置
+        BlacklistType : "BLACKLIST_TYPE",  // 黑/白名单类型
+        FileType : "FILE_TYPE",  // 文件类型
+        HelpCategory : "HELP_CATEGORY",  // 帮助中心类别
+        HelpVersion : "HELP_VERSION",  // 帮助中心版本
+        MsgType : "MSG_TYPE",  // 及时消息类型
+        MsgUserType : "MSG_USER_TYPE",  // 及时消息终端
     },
 };
-
 
 /**
  * 枚举字典通用方法
@@ -117,7 +117,7 @@ Dict = {
     },
 
     /**
-     *  下拉框 ：  拼接 select 的 option 列表
+     *  下拉select选择框 ： 拼接 select 的 option 列表
      *  使用示例： $("#gender").html(Dict.getDictSelect(Enums.Base.Gender, null, null, parent.data.gender));          //性别
      *  参数说明：
      *    enumKay      枚举key,对应枚举标题code
@@ -216,8 +216,16 @@ Dict = {
     },
 
 
+
     /**
-     *    <div class="layui-form-item" pane="">
+     *  复选框
+     *  使用示例： $("#genderCodess").html(Dict.getDictCheckbox(Enums.Base.Default, "genderCodes", parent.data.genderCodes));
+     *  参数说明：
+     *  enumKay 枚举key
+     *  name       字段名
+     *  defaultVal 默认选中
+     *
+     *  <div class="layui-form-item" pane="">
      *          <label class="layui-form-label">原始复选框</label>
      *          <div class="layui-input-block">
      *            <input type="checkbox" name="like1[write]" lay-skin="primary" title="写作" checked="">
@@ -232,24 +240,40 @@ Dict = {
      *    </div>
      * @param dictMap
      */
-    // getDictCheckbox: function (enumKay) {
-    //     // 获取排序后的字典List列表(数组)
-    //
-    //     let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
-    //     //
-    //     let checkboxTemplates = "<input type=\"checkbox\" name=\"{name}\" lay-skin=\"primary\" title=\"{title}\" checked=\"\">" +
-    //         "<div class=\"layui-unselect layui-form-checkbox layui-form-checked\" lay-skin=\"primary\">";
-    //     "<span>{title}</span><i class=\"layui-icon layui-icon-ok\"></i>";
-    //     "</div>";
-    //
-    //     let html = "";
-    //     for (let i = 0; i < dictMap.length; i++) {
-    //         html += checkboxTemplates
-    //             .replace("{name}", dictMap[i].code)
-    //             .replace("{title}", dictMap[i].name)
-    //     }
-    //     return html;
-    // },
+    getDictCheckbox: function (enumKay, name, defaultVal) {
+        // 获取排序后的字典List列表(数组)
+        let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
+        //
+        let checkboxTemplates = "\r\n" + "<input type='checkbox' name='{name}' value='{value}' lay-skin='primary' title='{title}' {checked}>" +
+            "<div class='layui-unselect layui-form-checkbox' lay-skin='primary'>" +
+            "<span>{title}</span><i class='layui-icon layui-icon-ok'></i></div>";
+        "</div>";
+        //默认值/回显值
+        let defaults = [];
+        if (defaultVal != null) {
+            defaults = defaultVal.split(",");
+        }
+        let html = "";
+        for (let i = 0; i < dictMap.length; i++) {
+            if (defaults.includes(dictMap[i].code)) {
+                html += checkboxTemplates
+                    .replace("{name}", name)
+                    .replace("{title}", dictMap[i].name)
+                    .replace("{title}", dictMap[i].name)
+                    .replace("{value}", dictMap[i].code)
+                    .replace("{checked}", "checked")
+            } else {
+                html += checkboxTemplates
+                    .replace("{name}", name)
+                    .replace("{title}", dictMap[i].name)
+                    .replace("{title}", dictMap[i].name)
+                    .replace("{value}", dictMap[i].code)
+                    .replace("{checked}", "")
+            }
+        }
+        return html;
+    },
+
 
 
     /**

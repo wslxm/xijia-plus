@@ -147,7 +147,7 @@
     function {tableNameLower}EventToolbar() {
         layui.table.on('toolbar(auth-table)', function (obj) {
             if (obj.event === "add") {
-                Pop.tipsWindown({tableNameLower}PageAdd, "800px", "600px", "添加");
+                Pop.tipsWindown({tableNameLower}PageAdd, "1024px", "768px", "添加");
             }
         });
     }
@@ -165,7 +165,7 @@
             // 当前行数据
             data = obj.data;
             if (obj.event === 'edit') {
-                Pop.tipsWindown({tableNameLower}PageUpd, "800px", "600px", "修改");
+                Pop.tipsWindown({tableNameLower}PageUpd, "1024px", "768px", "修改");
             }
             if (obj.event === 'del') {
                 let params = "?id=" + data.id;
