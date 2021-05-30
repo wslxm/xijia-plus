@@ -10,16 +10,20 @@
     <script src="/components/layuiadmin/layui/src/layui.js"></script>
     <script src='/base/js/jquery-3.4.1.min.js'></script>
     <script src="/modules/js/app.js"></script>
+    {add-upd-introduce}
 </head>
 <body>
 <style>
     .layui-form-item .layui-input-inline {
         width: 300px!important;
     }
+    .layui-textarea{
+           width: 300px!important;
+     }
 </style>
 <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
 
-    {add-htmls}
+    {add-upd-htmls}
 
     <div class="layui-form-item layui-hide">
         <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认提交">
@@ -34,10 +38,7 @@
 
     function {tableNameLower}addInit(){
          // 初始化相关数据
-         {add-upd-date-js}
-         {add-upd-radio-js}
-         {add-upd-checkbox-js}
-         {add-upd-pic-js}
+         {add-upd-js}
          // 刷新,否则部分from 表单样式不生效
          layui.form.render();
     }
@@ -45,7 +46,7 @@
     function {tableNameLower}addFormSubmit(){
          //监听提交
          layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-               {add-upd-checkbox-submit-for-js}
+               {add-upd-submit-js}
                let result = Ajax.post(path + "/admin/{moduleName}/{tableNameLower}/insert", data.field);
                let index = parent.layer.getFrameIndex(window.name);
                parent.layer.close(index);

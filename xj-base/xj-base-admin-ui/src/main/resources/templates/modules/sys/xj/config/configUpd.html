@@ -156,7 +156,7 @@
             if (data.field.type === "0") {
             } else {
                 //图片 -> 获取图片
-                let urls = getPicSort();
+                let urls = getPicSort("imgZmList");
                 data.field.content = urls;
             }
             data.field.id = parent.data.id;

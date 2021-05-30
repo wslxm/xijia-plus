@@ -203,7 +203,7 @@ function croppers_pic(obj) {
         croppers.render({
             area: ['950px', '600px']   //弹窗宽度
             , imgUrl: src
-            , url: uploadPath + '?filePath=image/config/'  //图片上传接口返回和（layui 的upload 模块）返回的JOSN一样
+            , url: uploadPath + '?filePath=image/cropper-pic/'  //图片上传接口返回和（layui 的upload 模块）返回的JOSN一样
             , done: function (result) { //上传完毕回调
                 console.log("修改文件：" + result.data + "  结果:" + result.msg);
                 // 更改图片src
@@ -222,10 +222,10 @@ function croppers_pic(obj) {
  * 获取排序后的URL，逗号分隔
  * @param obj
  */
-function getPicSort() {
+function getPicSort(picId) {
     let map = new Map();
     let keys = new Array();
-    $("#imgZmList li").each(function () {
+    $("#" + picId + " li").each(function () {
         let style = $(this).attr("style");
         let leftObj = style.split(";")[2];
         let leftVal = leftObj.split(":")[1];

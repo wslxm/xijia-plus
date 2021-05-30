@@ -55,17 +55,10 @@ public class DsField {
     public static String LAYUI_SEARCH_PT_STR = "";       // 生成html主页，搜索条件拼接
     public static String LAYUI_SEARCH_PARAMS_STR = "";   // 生成html主页，搜索条件url参数
     //
-    public static String ADD_HTMLS = "";                 // 生成html 添加页，表单所有添加字段数据
-    public static String ADD_UPD_DATE_JS = "";            // 生成html 添加/编辑页，时间字段js
-    public static String ADD_UPD_PIC_JS = "";             // 生成html 添加/编辑页，图片字段js
-    public static String ADD_UPD_PIC_SHOP_JS = "";        // 生成html 添加/编辑页，图片字段回显
-    public static String ADD_UPD_RADIO_JS = "";          // 生成html 添加/编辑页，单选js获取/回显默认值
-    public static String ADD_UPD_CHECKBOX_JS = "";       // 生成html 添加/编辑页，多选js获取/回显默认值
-    public static String ADD_UPD_CHECKBOX_SUBMIT_FOR_JS = "";   // 生成html 添加/编辑页，多选js提交获取参数
-    public static String UPD_HTMLS = "";                 // 生成html 修改加页，表单所有添加字段数据
-    public static String UPD_ID = "";                    // 生成html 修改加页，修改赋值id字段（根据Id修改）
-    public static String UPD_BACKFILL = "";              // 生成html 修改加页，打开提交也回填数据赋值
-
+    public static String ADD_UPD_INTRODUCE = "";          // 生成html 添加页/编辑页，css/js引入
+    public static String ADD_UPD_HTMLS = "";              // 生成html 添加页/编辑页，表单所有字段代码生成
+    public static String ADD_UPD_JS = "";                // 生成html 添加/编辑页，js 代码生成
+    public static String ADD_UPD_SUBMIT_JS = "";          // 生成html 添加/编辑页，多选js 提交参数处理代码生成
 
     /**
      * 1、tableName;         // 数据库表的实际名称
@@ -79,9 +72,9 @@ public class DsField {
         TABLE_COMMENT = tableComment;
         PACK_PATH = packPath;
         // 如果需要，去除表前缀
-        if(StringUtils.isNotBlank(GenerateConfig.TABLE_PREFIX)){
+        if (StringUtils.isNotBlank(GenerateConfig.TABLE_PREFIX)) {
             // 获取前缀
-            String prefix = tableName.substring(0, GenerateConfig.TABLE_PREFIX.length() );
+            String prefix = tableName.substring(0, GenerateConfig.TABLE_PREFIX.length());
             String newTableName = tableName;
             // 去除表前缀(如果为?_  去除 ?_)
             if (GenerateConfig.TABLE_PREFIX.equals(prefix)) {
@@ -90,7 +83,7 @@ public class DsField {
             }
             TABLE_NAME_UP = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, newTableName);    // test_data --> TestData
             TABLE_NAME_LOWER = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, newTableName); // test_data --> testData
-        }else{
+        } else {
             TABLE_NAME_UP = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName);    // test_data --> TestData
             TABLE_NAME_LOWER = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, tableName); // test_data --> testData
         }

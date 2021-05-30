@@ -257,18 +257,13 @@ public class GenerateDataProcessing {
                         .replace("{layui-fields}", DsField.LAYUI_FIELDS)
                         .replace("{layui-search-pt-str}", DsField.LAYUI_SEARCH_PT_STR)
                         .replace("{layui-search-params-str}", DsField.LAYUI_SEARCH_PARAMS_STR)
-                        // html
-                        .replace("{add-htmls}", DsField.ADD_HTMLS)
-                        .replace("{upd-htmls}", DsField.UPD_HTMLS)
-                        .replace("{upd-backfill}", DsField.UPD_BACKFILL)
-                        .replace("{upd-id}", DsField.UPD_ID)
-                         //js
-                        .replace("{add-upd-pic-shop-js}", DsField.ADD_UPD_PIC_SHOP_JS)
-                        .replace("{add-upd-date-js}", DsField.ADD_UPD_DATE_JS)
-                        .replace("{add-upd-pic-js}", DsField.ADD_UPD_PIC_JS)
-                        .replace("{add-upd-radio-js}", DsField.ADD_UPD_RADIO_JS)
-                        .replace("{add-upd-checkbox-js}", DsField.ADD_UPD_CHECKBOX_JS)
-                        .replace("{add-upd-checkbox-submit-for-js}", DsField.ADD_UPD_CHECKBOX_SUBMIT_FOR_JS)
+                        // html add/upd code
+                        .replace("{add-upd-introduce}", DsField.ADD_UPD_INTRODUCE)
+                        .replace("{add-upd-htmls}", DsField.ADD_UPD_HTMLS)
+                        .replace("{add-upd-js}", DsField.ADD_UPD_JS)
+                        .replace("{add-upd-submit-js}", DsField.ADD_UPD_SUBMIT_JS)
+
+
 
                 ;
                 bw.write(newLine);

@@ -8,7 +8,7 @@ public class LayuiCheckboxTemplate {
 
     /**
      * 复选Html
-     * {fieldName} 字段描叙
+     * {fieldTitle} 字段描叙
      * {fieldId} 字段名
      */
     public static final String INPUT_CHECKBOX_PT = "    <div class=\"layui-form-item\" pane=\"\">\n" +
@@ -29,10 +29,10 @@ public class LayuiCheckboxTemplate {
 
     /**
      * 提交是获取复选框选中参数
-     * {fieldName} 字段描叙
+     * {fieldTitle} 字段描叙
      * {fieldId} 字段名
      */
-    public static final String CHECKBOX_SUBMIT_FOR = "                // {fieldName} checked\n" +
+    public static final String CHECKBOX_SUBMIT_FOR = "                // {fieldTitle} checked\n" +
             "                let {fieldId}Box = \"\";\n" +
             "                $('#{fieldId}Checkbox input[type=checkbox]:checked').each(function () {\n" +
             "                    {fieldId}Box += $(this).val() + \",\";\n" +
