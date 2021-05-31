@@ -19,7 +19,26 @@ public class LayuiSearchTemplate {
             "        </div>\n" +
             "    </div>";
 
+    /**
+     * 搜索
+     * {desc} 字段描叙
+     * {id}   字段名
+     */
+    public static final String TABLE_SEARCH_ENUM_PT = " <div class=\"layui-inline\">\n" +
+            "        <label class=\"layui-form-label\">{desc}:</label>\n" +
+            "        <div class=\"layui-input-block\">\n" +
+            "            <div class=\"layui-input-inline\">\n" +
+            "                <select id=\"{id}\" lay-filter=\"{id}\">\n" +
+            "                </select>\n" +
+            "            </div>\n" +
+            "        </div>\n" +
+            "    </div>";
 
 
+    /**
+     * 搜索值为字典时
+     * {id}   字段名
+     */
+    public static final String RADIO_SEARCH_CODE_JS = "        $(\"#{id}\").html(Dict.getDictSelect(Enums.Base.Default, \"\", \"全部\", null)); ";
 
 }

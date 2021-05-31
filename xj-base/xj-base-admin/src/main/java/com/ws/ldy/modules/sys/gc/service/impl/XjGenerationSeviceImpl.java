@@ -455,6 +455,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         StringBuffer fieldStr = new StringBuffer(" ");
         // 搜索条件html
         StringBuffer searchPtStr = new StringBuffer();
+        StringBuffer searchJsStr = new StringBuffer();
         // 搜索条件请求值url拼接
         StringBuffer SearchParamsStr = new StringBuffer();
         for (Map<String, Object> fieldMap : dataList) {
@@ -471,15 +472,43 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
                 desc = fieldMap.get("desc").toString();
             }
             // 数据表格内容
-            fieldStr.append("\r\n                    {field: '" + name + "', title: '" + desc + "'},");
+            if (name.indexOf("Pic") != -1) {
+                fieldStr.append(LayuiMainTemplate.TABLE_FIELD_PIC_PT
+                        .replace("{fieldId}", name)
+                        .replace("{fieldTitle}", desc)
+                );
+            } else if (name.indexOf("Code") != -1) {
+                fieldStr.append(LayuiMainTemplate.TABLE_FIELD_ENUM_PT
+                        .replaceAll("\\{fieldId}", name)
+                        .replace("{fieldTitle}", desc)
+                );
+            } else {
+                fieldStr.append(LayuiMainTemplate.TABLE_FIELD_PT
+                        .replace("{fieldId}", name)
+                        .replace("{fieldTitle}", desc)
+                );
+            }
+            //
             Object search = fieldMap.get("search");
             //是否为搜索值
             if (search == null || !Boolean.parseBoolean(search.toString())) {
                 continue;
             }
-            // 搜索内容输入框
-            // 1/ input  * {desc} 字段描叙  * {id}   字段名 * {name} 字段名
-            searchPtStr.append(LayuiSearchTemplate.INPUT_SEARCH_PT.replace("{id}", name).replace("{name}", name).replace("{desc}", desc));
+            if (name.indexOf("Code") != -1) {
+                searchPtStr.append(LayuiSearchTemplate.TABLE_SEARCH_ENUM_PT
+                        .replace("{id}", name)
+                        .replace("{desc}", desc));
+                searchJsStr.append(LayuiSearchTemplate.RADIO_SEARCH_CODE_JS
+                        .replace("{id}", name));
+            } else {
+                // 搜索内容输入框
+                // 1/ input  * {desc} 字段描叙  * {id}   字段名 * {name} 字段名
+                searchPtStr.append(LayuiSearchTemplate.INPUT_SEARCH_PT
+                        .replace("{id}", name)
+                        .replace("{name}", name)
+                        .replace("{desc}", desc));
+
+            }
             // 搜索内容条件拼接
             SearchParamsStr.append("            params += \"&" + name + "=\" + $(\"#" + name + "\").val();");
             // 换行
@@ -490,6 +519,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         DsField.LAYUI_FIELDS = fieldStr.toString().substring(0, fieldStr.length() - 1);
         DsField.LAYUI_SEARCH_PT_STR = searchPtStr.toString();
         DsField.LAYUI_SEARCH_PARAMS_STR = SearchParamsStr.toString();
+        DsField.LAYUI_SEARCH_JS_STR = searchJsStr.toString();
 
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);

@@ -257,6 +257,7 @@ public class GenerateDataProcessing {
                         .replace("{layui-fields}", DsField.LAYUI_FIELDS)
                         .replace("{layui-search-pt-str}", DsField.LAYUI_SEARCH_PT_STR)
                         .replace("{layui-search-params-str}", DsField.LAYUI_SEARCH_PARAMS_STR)
+                        .replace("{layui-search-js-str}", DsField.LAYUI_SEARCH_JS_STR)
                         // html add/upd code
                         .replace("{add-upd-introduce}", DsField.ADD_UPD_INTRODUCE)
                         .replace("{add-upd-htmls}", DsField.ADD_UPD_HTMLS)

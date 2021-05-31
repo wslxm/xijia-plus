@@ -54,6 +54,7 @@ public class DsField {
     public static String LAYUI_FIELDS = "";              // 生成html主页，layui数据表格所有字段数据
     public static String LAYUI_SEARCH_PT_STR = "";       // 生成html主页，搜索条件拼接
     public static String LAYUI_SEARCH_PARAMS_STR = "";   // 生成html主页，搜索条件url参数
+    public static String LAYUI_SEARCH_JS_STR = "";        // 生成html主页，搜索条件js
     //
     public static String ADD_UPD_INTRODUCE = "";          // 生成html 添加页/编辑页，css/js引入
     public static String ADD_UPD_HTMLS = "";              // 生成html 添加页/编辑页，表单所有字段代码生成
