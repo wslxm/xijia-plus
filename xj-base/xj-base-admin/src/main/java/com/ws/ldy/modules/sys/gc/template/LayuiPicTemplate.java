@@ -155,7 +155,7 @@ public class LayuiPicTemplate {
      *  {fieldId}
      */
     public static final String UPD_PICS_ECHO_JS ="       if (parent.data.{fieldId} != null && parent.data.{fieldId} !== '') {\n" +
-            "        let {fieldId}Array = parent.data.{fieldId}.split(\",\");\n" +
+            "              let {fieldId}Array = parent.data.{fieldId}.split(\",\");\n" +
             "              let {fieldId}ImgHtml = \"\";\n" +
             "              for (let i = 0; i < {fieldId}Array.length; i++) {\n" +
             "                  {fieldId}ImgHtml += '<li style=\"position:relative\"><img name=\"{fieldId}ImgZmList\" src=\"' + {fieldId}Array[i] +\n" +
