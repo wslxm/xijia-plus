@@ -23,6 +23,7 @@
  - 18、代码生成器优化html列表页，自动处理字典数据(解析数据库字段为_codes 和 _code的)，在生成搜索字段是自动调用select选择组件，默认使用 Enums.Base.Default字典值
  - 19、用户页面目录结构优化，静态资源分为base|components|modules 请在对应业务模块下重新创建  static/client/js/app.js 为用户端使用，并独立创建 components 外部组件进行维护
  - 20、移除 help 帮助中心相关代码，移除 文件管理相关代码
+ - 21、处理消息查看
   --------2021-6-1 end
  
  

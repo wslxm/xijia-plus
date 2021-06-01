@@ -1,5 +1,3 @@
-
-
 // 当前选中的tab
 let isRead = "";
 
@@ -14,7 +12,7 @@ function msg() {
     // 监听tab切换
     msgTab();
     // 加载分页插件
-    xijiaLayPage( res);
+    xijiaLayPage(res);
 }
 
 
@@ -28,7 +26,7 @@ function msgTab() {
         isRead = $(this).attr('lay-id');
         let res = findPage(1);
         // 重新加载分页插件
-        xijiaLayPage(laypage, res);
+        xijiaLayPage(res);
     });
 }
 
@@ -52,7 +50,7 @@ function findPage(page) {
  * @date  2020/4/22 0022 1:18
  * @return
  */
-function xijiaLayPage(laypage, res) {
+function xijiaLayPage(res) {
     layui.laypage.render({
         // 注意，这里的 page-table 是 ID，不用加 # 号
         elem: 'page-table'
@@ -78,20 +76,53 @@ function xijiaLayPage(laypage, res) {
 
 
 /**
+ * 修改消息为已读
+ * @type {string}
+ */
+function read(id) {
+    Ajax.put(msgRead + id);
+    // let curr = $(".layui-laypage-skip .layui-input").val()
+    findPage(null);
+    //
+    isReadAll()
+}
+
+
+/**
  *  消息内容，拼接加载
  */
 function showText(dataJson) {
     /**
      * 拼最后展示的数据
      */
-    let text = "";
+    let htmlMsg = "<div onclick='read({id})'> {read} " +
+        "<span style='user-select:none;'>{content}</span>" +
+        "<div style='user-select:none;color: #dad8d5'>{createTime}</div>" +
+        "</div>" +
+        "<hr> ";
+    //
+    let html = "";
     $.each(dataJson, function (index, item) {
-        console.log(dataJson[index]);
-        text += dataJson[index].isRead === 0 ? "<span style='margin-right: 3%;' class='layui-badge-dot'></span>" : "";
-        text += "<span>" + dataJson[index].content + "</span>";
-        text += "<div style='color: #dad8d5'>" + dataJson[index].createTime + "</div>";
-        text += "<hr> ";
+        // 消息
+        html += htmlMsg
+            .replace("{read}", dataJson[index].isRead === 0 ? "<span style='margin-right: 3%;' class='layui-badge-dot'></span>" : "")
+            .replace("{content}", dataJson[index].content)
+            .replace("{createTime}", dataJson[index].createTime)
+            .replace("{id}", dataJson[index].id)
+
     });
-    $("#tab" + isRead).html(text);
+    $("#tab" + isRead).html(html);
 }
+
+
+function isReadAll() {
+    let unreadNum = Ajax.get(msgUnreadNumAll).data;
+    if (unreadNum != null && unreadNum > 0) {
+        $("#isReadAll").show();
+    }else{
+        $("#isReadAll").hide();
+    }
+}
+
+
 
