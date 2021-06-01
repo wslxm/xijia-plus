@@ -110,15 +110,19 @@
 
 
     function init() {
-
+        // 默认隐藏图片
+        $("#imgUrlShow").hide();
         // select 字典数据
         $("#isSkip").html(Dict.getDictSelect(Enums.Xj.BannerIsSkip));    // 是否跳转  不带默认值
         $("#position").html(Dict.getDictSelect(Enums.Xj.BannerPosition));  // 位置
-        // $("#isSkip").html(Dict.getDictSelect(Enums.Admin.BannerIsSkip,-1,"默认值"));  // 带默认值
+        // $("#isSkip").html(Dict.getDictSelect(Enums.Admin.BannerIsSkip,-1,"默认值"));  //带默认值
+        // 刷新,否则select可能不生效
+        layui.form.render();
+    }
 
-        // 默认隐藏图片
-        $("#imgUrlShow").hide();
-        // 文件上传--设定文件大小限制
+
+    function upload() {
+        //文件上传--设定文件大小限制
         layui.upload.render({
             elem: '#test7'
             , url: uploadPath + '?filePath=image/banner/' //改成您自己的上传接口
@@ -139,8 +143,6 @@
                 layer.msg('上传成功');
             }
         });
-        // 刷新,否则select可能不生效
-        layui.form.render();
     }
 </script>
 </body>

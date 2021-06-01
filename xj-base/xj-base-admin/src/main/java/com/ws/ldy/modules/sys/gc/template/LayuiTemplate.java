@@ -1,4 +1,4 @@
-//package com.ws.ldy.modules.sys.gc.template;
+package com.ws.ldy.modules.sys.gc.template;//package com.ws.ldy.modules.sys.gc.template;
 //
 ///**
 // * 搜索Html 模板配置

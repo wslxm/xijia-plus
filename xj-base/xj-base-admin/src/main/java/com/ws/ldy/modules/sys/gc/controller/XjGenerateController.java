@@ -1,10 +1,11 @@
 package com.ws.ldy.modules.sys.gc.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
-import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
 import com.ws.ldy.modules.sys.gc.config.DsField;
+import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
 import com.ws.ldy.modules.sys.gc.model.dto.XjGenerateDto;
 import com.ws.ldy.modules.sys.gc.model.entity.XjAdminDatasource;
 import com.ws.ldy.modules.sys.gc.service.XjAdminDatasourceService;
@@ -12,7 +13,6 @@ import com.ws.ldy.modules.sys.gc.service.impl.XjGenerationSeviceImpl;
 import com.ws.ldy.modules.sys.gc.util.GenerateDataProcessing;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -5,12 +5,7 @@ import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.error.ErrorException;
 import lombok.extern.slf4j.Slf4j;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Jdbc数据源连接工具类

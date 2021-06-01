@@ -37,45 +37,42 @@
     color: #1e9fff;
 }
 
-#addImg /*, #addZmImg*/, #addImgdz, #addImgpz, #addImgyy {
+#addImg/*, #addZmImg*/, #addImgdz, #addImgpz, #addImgyy {
     margin-left: 0 !important;
     font-size: 144px;
     line-height: 104px;
     color: darkgrey
 }
 
-
-#imgList /*, #imgZmList*/, #imgListdz, #imgListpz, #imgListyy {
+#imgList, #imgZmList, #imgListdz, #imgListpz, #imgListyy {
     width: 860px;
     position: relative;
     margin: 10px auto;
     min-height: 140px;
 }
 
-#imgList li/*, #imgZmList li*/, #imgListdz li #imgListpz li #imgListyy li {
-    width: 150px;
-    height: 113px;
-    float: left;
-    list-style: none;
-    list-style-type: none;
-    display: inline-block;
-    position: absolute;
-}
+    #imgList li, #imgZmList li, #imgListdz li #imgListpz li #imgListyy li {
+        width: 150px;
+        height: 113px;
+        float: left;
+        list-style: none;
+        list-style-type: none;
+        display: inline-block;
+        position:absolute;
+    }
 
+        #imgList li:hover, #imgZmList li:hover, #imgListdz li:hover, #imgListpz li:hover, #imgListyy li:hover {
+            border-color: #9a9fa4;
+            box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.85);
+        }
 
-#imgList li:hover, /*#imgZmList*/ li:hover, #imgListdz li:hover, #imgListpz li:hover, #imgListyy li:hover {
-    border-color: #9a9fa4;
-    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.85);
-}
-
-#imgList .active,/* #imgZmList*/ .active, #imgListdz .active, #imgListpz .active, #imgListyy .active {
-    border: 1px dashed red;
-}
-
+    #imgList .active, #imgZmList .active, #imgListdz .active, #imgListpz .active, #imgListyy .active {
+        border: 1px dashed red;
+    }
 
 .title_cover {
     height: 30px;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0,0,0,.5);
     position: absolute;
     bottom: 0;
     width: 140px;
@@ -88,13 +85,13 @@
     text-overflow: ellipsis; /*超出部分文字以...显示*/
 }
 
-.title_cover:hover {
-    cursor: pointer;
-}
+    .title_cover:hover {
+        cursor: pointer;
+    }
 
 .img_close {
     height: 20px;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0,0,0,.5);
     position: absolute;
     top: 0;
     right: 0px;
@@ -105,13 +102,13 @@
     text-align: center;
 }
 
-.img_close:hover {
-    cursor: pointer;
-}
+    .img_close:hover {
+        cursor: pointer;
+    }
 
 .img_edit {
     height: 20px;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0,0,0,.5);
     position: absolute;
     top: 0;
     left: 0px;
@@ -122,6 +119,6 @@
     text-align: center;
 }
 
-.img_edit:hover {
-    cursor: pointer;
-}
+    .img_edit:hover {
+        cursor: pointer;
+    }

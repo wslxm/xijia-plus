@@ -1,8 +1,8 @@
 package com.ws.ldy.modules.sys.gc.service.impl;
 
+import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.modules.sys.gc.mapper.XjAdminDatasourceMapper;
 import com.ws.ldy.modules.sys.gc.model.entity.XjAdminDatasource;
-import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.modules.sys.gc.service.XjAdminDatasourceService;
 import org.springframework.stereotype.Service;
 

@@ -23,37 +23,42 @@ var BaseConfig = {
 var Enums = {
     // 系统模块枚举
     Admin: {
-        AuthorityState: "AUTHORITY_STATE",  // 权限状态
-        AuthorityType: "AUTHORITY_TYPE",  // 权限类型
-        MenuRoot: "MENU_ROOT",  // 菜单级别
-        Position: "POSITION",  // 部门职位
+        AuthorityState : "AUTHORITY_STATE",  // 权限状态
+        AuthorityType : "AUTHORITY_TYPE",  // 权限类型
+        MenuRoot : "MENU_ROOT",  // 菜单级别
+        Position : "POSITION",  // 部门职位
     },
     // 通用枚举
     Base: {
-        Default: "DEFAULT",  // 代码生成默认枚举
-        Deleted: "DELETED",  // 逻辑删除
-        Disable: "DISABLE",  // 是否禁用
-        Gender: "GENDER",  // 性别
-        IsRead: "IS_READ",  // 是否已读
+        Deleted : "DELETED",  // 逻辑删除
+        Disable : "DISABLE",  // 是否禁用
+        Gender : "GENDER",  // 性别
+        IsRead : "IS_READ",  // 是否已读
     },
     // 支付枚举
     Pay: {
-        PayBusiness: "PAY_BUSINESS",  // 支付业务
-        PayChannel: "PAY_CHANNEL",  // 支付渠道
-        PayState: "PAY_STATE",  // 支付状态
-        PayType: "PAY_TYPE",  // 支付类型
-        WalletType: "WALLET_TYPE",  // 流水类型
+        PayBusiness : "PAY_BUSINESS",  // 支付业务
+        PayChannel : "PAY_CHANNEL",  // 支付渠道
+        PayState : "PAY_STATE",  // 支付状态
+        PayType : "PAY_TYPE",  // 支付类型
+        WalletType : "WALLET_TYPE",  // 流水类型
+    },
+    // 兮家用户服务
+    Ser: {
+        FunState : "FUN_STATE",  // 功能状态
+        IsVip : "IS_VIP",  // 是否需要vip
+        SkipType : "SKIP_TYPE",  // 跳转类型
     },
     // 系统增强功能枚举
     Xj: {
-        BannerIsSkip: "BANNER_IS_SKIP",  // banner是否跳转
-        BannerPosition: "BANNER_POSITION",  // banner 位置
-        BlacklistType: "BLACKLIST_TYPE",  // 黑/白名单类型
-        FileType: "FILE_TYPE",  // 文件类型
-        HelpCategory: "HELP_CATEGORY",  // 帮助中心类别
-        HelpVersion: "HELP_VERSION",  // 帮助中心版本
-        MsgType: "MSG_TYPE",  // 及时消息类型
-        MsgUserType: "MSG_USER_TYPE",  // 及时消息终端
+        BannerIsSkip : "BANNER_IS_SKIP",  // banner是否跳转
+        BannerPosition : "BANNER_POSITION",  // banner 位置
+        BlacklistType : "BLACKLIST_TYPE",  // 黑/白名单类型
+        FileType : "FILE_TYPE",  // 文件类型
+        HelpCategory : "HELP_CATEGORY",  // 帮助中心类别
+        HelpVersion : "HELP_VERSION",  // 帮助中心版本
+        MsgType : "MSG_TYPE",  // 及时消息类型
+        MsgUserType : "MSG_USER_TYPE",  // 及时消息终端
     },
 };
 
@@ -216,14 +221,7 @@ Dict = {
 
 
     /**
-     *  复选框
-     *  使用示例： $("#genderCodess").html(Dict.getDictCheckbox(Enums.Base.Default, "genderCodes", parent.data.genderCodes));
-     *  参数说明：
-     *  enumKay 枚举key
-     *  name       字段名
-     *  defaultVal 默认选中
-     *
-     *  <div class="layui-form-item" pane="">
+     *    <div class="layui-form-item" pane="">
      *          <label class="layui-form-label">原始复选框</label>
      *          <div class="layui-input-block">
      *            <input type="checkbox" name="like1[write]" lay-skin="primary" title="写作" checked="">
@@ -238,39 +236,24 @@ Dict = {
      *    </div>
      * @param dictMap
      */
-    getDictCheckbox: function (enumKay, name, defaultVal) {
-        // 获取排序后的字典List列表(数组)
-        let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
-        //
-        let checkboxTemplates = "\r\n" + "<input type='checkbox' name='{name}' value='{value}' lay-skin='primary' title='{title}' {checked}>" +
-            "<div class='layui-unselect layui-form-checkbox' lay-skin='primary'>" +
-            "<span>{title}</span><i class='layui-icon layui-icon-ok'></i></div>";
-        "</div>";
-        //默认值/回显值
-        let defaults = [];
-        if (defaultVal != null) {
-            defaults = defaultVal.split(",");
-        }
-        let html = "";
-        for (let i = 0; i < dictMap.length; i++) {
-            if (defaults.includes(dictMap[i].code)) {
-                html += checkboxTemplates
-                    .replace("{name}", name)
-                    .replace("{title}", dictMap[i].name)
-                    .replace("{title}", dictMap[i].name)
-                    .replace("{value}", dictMap[i].code)
-                    .replace("{checked}", "checked")
-            } else {
-                html += checkboxTemplates
-                    .replace("{name}", name)
-                    .replace("{title}", dictMap[i].name)
-                    .replace("{title}", dictMap[i].name)
-                    .replace("{value}", dictMap[i].code)
-                    .replace("{checked}", "")
-            }
-        }
-        return html;
-    },
+    // getDictCheckbox: function (enumKay) {
+    //     // 获取排序后的字典List列表(数组)
+    //
+    //     let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
+    //     //
+    //     let checkboxTemplates = "<input type=\"checkbox\" name=\"{name}\" lay-skin=\"primary\" title=\"{title}\" checked=\"\">" +
+    //         "<div class=\"layui-unselect layui-form-checkbox layui-form-checked\" lay-skin=\"primary\">";
+    //     "<span>{title}</span><i class=\"layui-icon layui-icon-ok\"></i>";
+    //     "</div>";
+    //
+    //     let html = "";
+    //     for (let i = 0; i < dictMap.length; i++) {
+    //         html += checkboxTemplates
+    //             .replace("{name}", dictMap[i].code)
+    //             .replace("{title}", dictMap[i].name)
+    //     }
+    //     return html;
+    // },
 
 
     /**
@@ -515,6 +498,7 @@ function getPage(page, size) {
 }
 
 
+
 /**
  * 全局请求头,token 的参数获取
  * @returns
@@ -640,6 +624,7 @@ Ajax = {
         return result;
     }
 };
+
 
 
 /**
@@ -820,6 +805,7 @@ Sign = {
 };
 
 
+
 /**
  * 时间计算工具
  * @type {{getDistanceSpecifiedTime: (function((String|Number|Date)): number), getDateAfter_n: TimeUtil.getDateAfter_n, judgeTime: (function(*): number)}}
@@ -934,27 +920,18 @@ TimeUtil = {
         // let d2 = new Date(completeTime);
         var stime = new Date(faultDate).getTime();
         var etime = new Date(completeTime).getTime();
-        var t = etime - stime;  //两个时间戳相差的毫秒数
-        // var days = Math.floor(usedTime / (24 * 3600 * 1000));
-        // // 计算出小时数
-        // var leave1 = usedTime % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
-        // var hours = Math.floor(leave1 / (3600 * 1000));
-        // // 计算相差分钟数
-        // var leave2 = leave1 % (3600 * 1000);        //计算小时数后剩余的毫秒数
-        // var minutes = Math.floor(leave2 / (60 * 1000));
-        // // 计算相差分秒数 //计算分后剩余的秒数
-        // var second = (leave2 - (minutes * 60 * 1000)) /1000 ;
-        // var time = days + "天" + hours + "时" + minutes + "分" + second + "秒";
-        let d = Math.floor(t / 1000 / 60 / 60 / 24);
-        let h = Math.floor(t / 1000 / 60 / 60 % 24);
-        let m = Math.floor(t / 1000 / 60 % 60);
-        let s = Math.floor(t / 1000 % 60);
-        let html = d + "天 " + h + "时 " + m + "分 " + s + "秒";
-
+        var usedTime = etime - stime;  //两个时间戳相差的毫秒数
+        var days = Math.floor(usedTime / (24 * 3600 * 1000));
+        //计算出小时数
+        var leave1 = usedTime % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+        var hours = Math.floor(leave1 / (3600 * 1000));
+        //计算相差分钟数
+        var leave2 = leave1 % (3600 * 1000);        //计算小时数后剩余的毫秒数
+        var minutes = Math.floor(leave2 / (60 * 1000));
+        var time = days + "天" + hours + "时" + minutes + "分";
         // var time = days;
-        return html;
+        return time;
     }
-
 };
 
 
