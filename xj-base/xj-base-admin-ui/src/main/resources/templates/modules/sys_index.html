@@ -59,37 +59,30 @@
                 <!--    </li>-->
             </ul>
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+                <!-- 全屏 -->
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="javascript:;" layadmin-event="fullscreen">
+                        <i class="layui-icon layui-icon-screen-full"></i>
+                    </a>
+                </li>
 
-                <!-- 新消息 -->
-                <!--    <li class="layui-nav-item" lay-unselect>-->
-                <!--        <a lay-href="xj-toolIndex.html" layadmin-event="message" lay-text="消息中心">-->
-                <!--            <i class="layui-icon layui-icon-notice"></i>-->
-                <!--            &lt;!&ndash; 如果有新消息，则显示小圆点 &ndash;&gt;-->
-                <!--            <span class="layui-badge-dot"></span>-->
-                <!--        </a>-->
-                <!--        -->
-                <!--    </li>-->
-                <!-- 使用侧边消息-->
+                <!-- 新消息，使用侧边消息 -->
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
                     <a onclick="msg()" href="javascript:;"> <!-- layadmin-event="msg" -->
                         <i class="layui-icon layui-icon-notice"></i>
                         <!-- 如果有新消息，则显示小圆点 -->
-                        <span class="layui-badge-dot"></span>
+                          <span id="isReadAll" class="layui-badge-dot"></span>
+                          <!--  <span id="isReadAll" class="layui-badge">10</span>-->
                     </a>
                 </li>
 
                 <!--  便签 -->
-                <!--                <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
-                <!--                    <a href="javascript:;" layadmin-event="note">-->
-                <!--                        <i class="layui-icon layui-icon-note"></i>-->
-                <!--                    </a>-->
-                <!--                </li>-->
-                <!-- 全屏 -->
-                <!-- <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                        <a href="javascript:;" layadmin-event="fullscreen">
-                            <i class="layui-icon layui-icon-screen-full"></i>
-                        </a>
-                  </li>-->
+<!--                <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+<!--                    <a href="javascript:;" layadmin-event="note">-->
+<!--                        <i class="layui-icon layui-icon-note"></i>-->
+<!--                    </a>-->
+<!--                </li>-->
+
 
                 <!-- 配色方案 -->
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
@@ -189,14 +182,24 @@
 
 
 <script>
-
+    // eg1
+    // var index = layui.layer.load();
+    // //eg2
+    // var index = layer.load(1); //换了种风格
+    // //eg3
+    // var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒
+    //关闭
+    // layer.close(index);
     let menuTree = path + "/admin/adminMenu/findTree";            // 树菜单数据
     let findUser = path + "/admin/adminUser/findUser";            // 获取用户信息
     let adminMsgFindPage = path + "/admin/xj/adminMsg/findPage";     // 查询通知消息  isRead=0-未读 1-已读
     let entry_name = path + "/admin/xj/adminConfig/findByCode?code=entry_name";  // 获取项目名称
+    let msgRead = path + "/admin/xj/adminMsg/read?id=";               // 修改消息为已读
+    let msgUnreadNumAll = path + "/admin/xj/adminMsg/findUnreadNum";   // 获取未读信息数量
+
     // 路径跳转
-    let homePage = "/page/client_tool_jvmInfo";                       // 进入系统首页展示路由, /page/console_user_user  / /page/front_show_show
-    let updPwd = "/page/modules_sys_admin_user_userUpdPwd";                   // 修改密码页面
+    let homePage = "/page/modules_jvmInfo";                       // 进入系统首页展示路由jvm信息, /page/console_user_user  / /page/front_show_show
+    let updPwd = "/page/modules_sys_admin_user_userUpdPwd";       // 修改密码页面
 
 
     //初始化静态资源
@@ -206,9 +209,14 @@
         index: 'lib/index',//主入口模块
         treetable: '/components/treetable-lay/module/treetable-lay/treetable'  //引入treetable组件
     }).use(['index', 'laypage', 'element'], function () {
+
         // 初始化相关数据
         initIndex();
+        // 是否用未读消息
+        isReadAll();
+
     });
+
 </script>
 
 
@@ -221,7 +229,7 @@
         }
     </style>
 
-    <div class="layui-card-header">消息列表</div>
+    <!-- <div class="layui-card-header">消息列表</div> -->
     <div class="layui-card-body layui-text layadmin-about layui-form">
         <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
             <ul class="layui-tab-title">

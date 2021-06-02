@@ -113,7 +113,7 @@
                 //文本
             } else {
                 //图片 -> 获取图片
-                let urls = getPicSort();
+                let urls = getPicSort("imgZmList");
                 data.field.content = urls;
             }
             let result = Ajax.post(path + "/admin/xj/adminConfig/insert", data.field);

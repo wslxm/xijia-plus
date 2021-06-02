@@ -163,19 +163,6 @@
             // };
             // 请求成功，会在ajax请求响应后自动写入用户信息-token 字符串数据到本地 // 读取方法 sessionStorage.getItem('token')
             let res = Ajax.post(admin_login + param);
-
-
-            // let res = Ajax.get(admin_login + "?account=" + obj.field.username + "&password=" + obj.field.password);
-            // 请求成功后，Layui 写入token，表格数据统一传递 -》获取token 方法: layui.data(layui.setter.tableName)['token'];, 使用: headers: {"token":layui.data(layui.setter.tableName)['token']}
-            // layui.data(layui.setter.tableName, {
-            //     key: "token",
-            //     value: res.data.token
-            // });
-            // // 请求成功后，写入用户信息-token 字符串数据到本地 // 读取方法 sessionStorage.getItem('token')
-            // sessionStorage.setItem('token', res.data.token);
-            // sessionStorage.setItem('username', res.data.username);
-            // sessionStorage.setItem('head', res.data.head);
-            // localStorage.setItem('username', res.data.username);
             location.href = "/index";
         });
 
@@ -195,108 +182,14 @@
         res = Ajax.get(path + "/admin/xj/adminConfig/findByCode?code=project_desc");
         $("#project_desc").html(res.data.content);
 
-
         // 初始化操作
         init();
     });
 
     function init() {
-
-        let data = [{
-            a: 1,
-            c: 1,
-            d: 1,
-            b: 1,
-            e: 1,
-            a1: "2020-05-05 00:01:02",
-            // 下级数据
-            signDto: {
-                a: 2,
-                b: 2,
-                c: 2,
-                d: 2,
-                e: 2,
-                // 下下级数据
-                signDto: {
-                    a: 3,
-                    b: 3,
-                    c: 3,
-                    d: 3,
-                    e: 3,
-                    // 下级数据
-                    signDto: {
-                        a: 2,
-                        b: 2,
-                        c: 2,
-                        d: 2,
-                        e: 2,
-                        // 下下级数据
-                        signDto: {
-                            a: 3,
-                            b: 3,
-                            c: 3,
-                            d: 3,
-                            e: 3,
-                            a1: "2020-05-05 00:01:02",
-                        }
-                    },
-                }
-            },
-            // 下级多层数据
-            dtos: [{
-                a: 1,
-                b: 1,
-                c: 1,
-                d: 1,
-                e: 1,
-            }, {
-                a: 2,
-                c: 2,
-                b: 2,
-                d: 2,
-                e: 2,
-            }, {
-                a: 3,
-                c: 3,
-                b: 3,
-                d: 3,
-                e: 3,
-            }
-            ]
-        }, {
-            a: 1,
-            c: 1,
-            d: 1,
-            b: 1,
-            e: 1,
-            a1: "2020-05-05 00:01:02",
-            // 下级多层数据
-            dtos: [{
-                a: 1,
-                b: 1,
-                c: 1,
-                d: 1,
-                e: 1,
-            }, {
-                a: 2,
-                c: 2,
-                b: 2,
-                d: 2,
-                e: 2,
-            }, {
-                a: 3,
-                c: 3,
-                b: 3,
-                d: 3,
-                e: 3,
-            }
-            ]
-        }
-        ];
-        // let data = [];
-        Ajax.post("/api/open/xj/sign/test1", data);
-        console.log("sss" + (0 == null));
-        console.log("sss2" + (0 === null));
+         // 加签测试
+         // let data = [];
+         // Ajax.post("/api/open/xj/sign/test1", data);
     }
 
 </script>
@@ -304,11 +197,6 @@
 
 <!-- 滑动验证码 -->
 <script>
-
-    // // 项目描叙
-    // let res = Ajax.get(path + "/admin/adminConfig/findByCode?code=login_code_img");
-    // let verifCodeImg = res.data.content.split(",");
-
     // 滑动的随机图片列表(只能用本地图片)
     let verifCodeImg = [
         "components/verifCode/image/tp1.jpg",

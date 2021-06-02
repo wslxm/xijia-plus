@@ -1,11 +1,11 @@
 package com.ws.ldy.modules.sys.gc.service.impl;
 
-import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
-import com.ws.ldy.modules.sys.gc.config.DsField;
-import com.ws.ldy.modules.sys.gc.service.XjGenerationSevice;
-import com.ws.ldy.modules.sys.gc.util.GenerateDataProcessing;
-import com.ws.ldy.modules.sys.gc.util.LayuiTemplate;
 import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
+import com.ws.ldy.modules.sys.gc.config.DsField;
+import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
+import com.ws.ldy.modules.sys.gc.service.XjGenerationSevice;
+import com.ws.ldy.modules.sys.gc.template.*;
+import com.ws.ldy.modules.sys.gc.util.GenerateDataProcessing;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -122,11 +122,11 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
                         int length = Integer.parseInt(typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")")));
                         Double max = (Math.pow(10, length) - 1);
                         if (type.equals("int")) {
-                            fields.append("\r\n" + "    @Range(min=0, max=" + new BigDecimal(max.toString()).intValue()+"L"
+                            fields.append("\r\n" + "    @Range(min=0, max=" + new BigDecimal(max.toString()).intValue() + "L"
                                     + ",message = \"" + desc + " 必须>=0 和 <=" + new BigDecimal(max.toString()).intValue()
                                     + "\")");
                         } else {
-                            fields.append("\r\n" + "    @Range(min=0, max=" + new BigDecimal(max.toString()).longValue() +"L"
+                            fields.append("\r\n" + "    @Range(min=0, max=" + new BigDecimal(max.toString()).longValue() + "L"
                                     + ",message = \"" + desc + " 必须>=0 和 <=" + new BigDecimal(max.toString()).longValue()
                                     + "\")");
 
@@ -454,7 +454,8 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         // 数据表格字段
         StringBuffer fieldStr = new StringBuffer(" ");
         // 搜索条件html
-        StringBuffer SearchPtStr = new StringBuffer();
+        StringBuffer searchPtStr = new StringBuffer();
+        StringBuffer searchJsStr = new StringBuffer();
         // 搜索条件请求值url拼接
         StringBuffer SearchParamsStr = new StringBuffer();
         for (Map<String, Object> fieldMap : dataList) {
@@ -471,25 +472,54 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
                 desc = fieldMap.get("desc").toString();
             }
             // 数据表格内容
-            fieldStr.append("\r\n                    {field: '" + name + "', title: '" + desc + "'},");
+            if (name.indexOf("Pic") != -1) {
+                fieldStr.append(LayuiMainTemplate.TABLE_FIELD_PIC_PT
+                        .replace("{fieldId}", name)
+                        .replace("{fieldTitle}", desc)
+                );
+            } else if (name.indexOf("Code") != -1) {
+                fieldStr.append(LayuiMainTemplate.TABLE_FIELD_ENUM_PT
+                        .replaceAll("\\{fieldId}", name)
+                        .replace("{fieldTitle}", desc)
+                );
+            } else {
+                fieldStr.append(LayuiMainTemplate.TABLE_FIELD_PT
+                        .replace("{fieldId}", name)
+                        .replace("{fieldTitle}", desc)
+                );
+            }
+            //
             Object search = fieldMap.get("search");
             //是否为搜索值
             if (search == null || !Boolean.parseBoolean(search.toString())) {
                 continue;
             }
-            // 搜索内容输入框
-            // 1/ input  * {desc} 字段描叙  * {id}   字段名 * {name} 字段名
-            SearchPtStr.append(LayuiTemplate.INPUT_PT.replace("{id}", name).replace("{name}", name).replace("{desc}", desc));
+            if (name.indexOf("Code") != -1) {
+                searchPtStr.append(LayuiSearchTemplate.TABLE_SEARCH_ENUM_PT
+                        .replace("{id}", name)
+                        .replace("{desc}", desc));
+                searchJsStr.append(LayuiSearchTemplate.RADIO_SEARCH_CODE_JS
+                        .replace("{id}", name));
+            } else {
+                // 搜索内容输入框
+                // 1/ input  * {desc} 字段描叙  * {id}   字段名 * {name} 字段名
+                searchPtStr.append(LayuiSearchTemplate.INPUT_SEARCH_PT
+                        .replace("{id}", name)
+                        .replace("{name}", name)
+                        .replace("{desc}", desc));
+
+            }
             // 搜索内容条件拼接
             SearchParamsStr.append("            params += \"&" + name + "=\" + $(\"#" + name + "\").val();");
             // 换行
-            SearchPtStr.append("\r\n");
+            searchPtStr.append("\r\n");
             SearchParamsStr.append("\r\n");
         }
         // 数据保存
         DsField.LAYUI_FIELDS = fieldStr.toString().substring(0, fieldStr.length() - 1);
-        DsField.LAYUI_SEARCH_PT_STR = SearchPtStr.toString();
+        DsField.LAYUI_SEARCH_PT_STR = searchPtStr.toString();
         DsField.LAYUI_SEARCH_PARAMS_STR = SearchParamsStr.toString();
+        DsField.LAYUI_SEARCH_JS_STR = searchJsStr.toString();
 
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
@@ -515,15 +545,12 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "HtmlAdd");
         BufferedReader br = (BufferedReader) brBwPath.get("br");
         BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
+        //
+        StringBuffer introduce = new StringBuffer();
+        StringBuffer htmls = new StringBuffer();
+        StringBuffer js = new StringBuffer();
+        StringBuffer submitjs = new StringBuffer();
 
-
-        String htmlAdd = "    <div class=\"layui-form-item\">\n" +
-                "        <label class=\"layui-form-label\">fieldTitle</label>\n" +
-                "        <div class=\"layui-input-inline\">\n" +
-                "            <input type=\"text\" id=\"fieldId\" name=\"fieldName\" lay-verify=\"required\" placeholder=\"请输入\" autocomplete=\"off\" class=\"layui-input\">\n" +
-                "        </div>\n" +
-                "    </div>";
-        StringBuffer fieldStr = new StringBuffer();
         for (Map<String, Object> fieldMap : dataList) {
             // 判断是否选中
             if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
@@ -540,17 +567,95 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             } else {
                 desc = fieldMap.get("desc").toString();
             }
-//            String primarykeyId = GenerateDataProcessing.getValue(fieldMap, "primarykeyId", ""); //是否id
-//            String selfGrowth = GenerateDataProcessing.getValue(fieldMap, "selfGrowth", "");//是否自增
-            //  if (!primarykeyId.equals("true")) {
-            fieldStr.append("\r\n" + htmlAdd
-                    .replace("fieldTitle", desc)
-                    .replace("fieldId", name)
-                    .replace("fieldName", name));
-            // }
+            //  String primarykeyId = GenerateDataProcessing.getValue(fieldMap, "primarykeyId", ""); //是否id
+            //  String selfGrowth = GenerateDataProcessing.getValue(fieldMap, "selfGrowth", "");//是否自增
+            //  if (!primarykeyId.equals("true")) {     // }
+            String type = fieldMap.get("type").toString();
+            if (name.indexOf("Pics") != -1) {
+                // 判断是否为图片
+                introduce.append("\r\n" + LayuiPicTemplate.ADD_UPD_PICS_INTRODUCE);
+                htmls.append("\r\n" + LayuiPicTemplate.ADD_UPD_PICS_HTML
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldId}", name)
+                        .replace("{fieldName}", name));
+                js.append("\r\n" + LayuiPicTemplate.ADD_UPD_PICS_JS
+                        .replace("{fieldId}", name));
+                submitjs.append("\r\n" + LayuiPicTemplate.ADD_UPD_PICS_SUBMIT_JS
+                        .replaceAll("\\{fieldId}", name));
+            } else if (name.indexOf("Pic") != -1) {
+                // 判断是否为图片
+                htmls.append("\r\n" + LayuiPicTemplate.ADD_UPD_PIC_HTML
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldName}", name)
+                        .replace("{fieldId}", name));
+                js.append("\r\n" + LayuiPicTemplate.ADD_UPD_PIC_JS
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldId}", name));
+            } else if (name.indexOf("Codes") != -1) {
+                // 判断是否为多选
+                htmls.append("\r\n" + LayuiCheckboxTemplate.INPUT_CHECKBOX_PT
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldId}", name));
+                js.append("\r\n" + LayuiCheckboxTemplate.CHECKBOX_CODE_ADD_JS
+                        .replaceAll("\\{fieldId}", name));
+                submitjs.append("\r\n" + LayuiCheckboxTemplate.CHECKBOX_SUBMIT_FOR
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldId}", name));
+            } else if (name.indexOf("Code") != -1) {
+                // 判断是否为单选
+                htmls.append("\r\n" + LayuiRadioTemplate.INPUT_RADIO_PT
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldId}", name));
+                js.append("\r\n" + LayuiRadioTemplate.RADIO_CODE_ADD_JS
+                        .replaceAll("\\{fieldId}", name));
+            } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
+                // 时间字段
+                htmls.append("\r\n" + LayuiDateTemplate.DATE_HTML_PT
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldId}", name)
+                        .replace("{fieldName}", name)
+                );
+                // 时间渲染js
+                js.append("\r\n" + LayuiDateTemplate.DATE_JS_PT
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldId}", name));
+            } else if (type.equals("double") || type.equals("float") || type.equals("decimal")) {
+                // 小数
+                htmls.append("\r\n" + LayuiInputTemplate.INPUT_HTML_PT
+                        .replace("{integerVerification}", "")
+                        .replace("{inputType}", "number")
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldId}", name)
+                        .replace("{fieldName}", name));
+            } else if (type.equals("int") || type.equals("bigint")) {
+                // 整数
+                htmls.append("\r\n" + LayuiInputTemplate.INPUT_HTML_PT
+                        .replace("{integerVerification}", LayuiInputTemplate.INTEGER_VERIFICATION)
+                        .replace("{inputType}", "number")
+                        .replace("{fieldTitle}", desc)
+                        .replace("{fieldId}", name)
+                        .replace("{fieldName}", name));
+            } else if (type.equals("text") || type.equals("longtext")) {
+                // 大字段使用textarea 输入框
+                htmls.append("\r\n" + LayuiInputTemplate.INPUT_TEXT_HTML_PT
+                        .replaceAll("\\{fieldTitle}", desc)
+                        .replace("{fieldId}", name)
+                        .replace("{fieldName}", name));
+            } else {
+                //  其他按普通字符串处理(input输入))
+                htmls.append("\r\n" + LayuiInputTemplate.INPUT_HTML_PT
+                        .replace("{integerVerification}", "")
+                        .replace("{inputType}", "text")
+                        .replaceAll("\\{fieldTitle}", desc)
+                        .replace("{fieldId}", name)
+                        .replace("{fieldName}", name));
+            }
         }
         // 数据保存
-        DsField.ADD_HTMLS = fieldStr.toString();
+        DsField.ADD_UPD_INTRODUCE = introduce.toString();
+        DsField.ADD_UPD_HTMLS = htmls.toString();
+        DsField.ADD_UPD_JS = js.toString();
+        DsField.ADD_UPD_SUBMIT_JS = submitjs.toString();
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // url保存
@@ -573,14 +678,10 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "HtmlUpd");
         BufferedReader br = (BufferedReader) brBwPath.get("br");
         BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
-        String htmlAdd = "    <div class=\"layui-form-item\">\n" +
-                "        <label class=\"layui-form-label\">fieldTitle</label>\n" +
-                "        <div class=\"layui-input-inline\">\n" +
-                "            <input type=\"text\" id=\"fieldId\" name=\"fieldName\" lay-verify=\"required\" placeholder=\"请输入\" autocomplete=\"off\" class=\"layui-input\">\n" +
-                "        </div>\n" +
-                "    </div>";
-        StringBuffer fieldStr = new StringBuffer();
-        StringBuffer echoDisplay = new StringBuffer();
+        StringBuffer introduce = new StringBuffer();
+        StringBuffer htmls = new StringBuffer();
+        StringBuffer js = new StringBuffer();
+        StringBuffer submitjs = new StringBuffer();
         String fieldId = "";
         for (Map<String, Object> fieldMap : dataList) {
 
@@ -599,21 +700,102 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
                 } else {
                     desc = fieldMap.get("desc").toString();
                 }
-                //  String primarykeyId = GenerateDataProcessing.getValue(fieldMap, "primarykeyId", ""); //是否id
-                //  String selfGrowth = GenerateDataProcessing.getValue(fieldMap, "selfGrowth", "");//是否自增
-                //  if (!primarykeyId.equals("true")) {
-                echoDisplay.append("\r\n         $('#" + name + "').val(parent.data." + name + ");");
-                fieldStr.append("\r\n" + htmlAdd
-                        .replace("fieldTitle", desc)
-                        .replace("fieldId", name)
-                        .replace("fieldName", name));
-                // } else {
+                String type = fieldMap.get("type").toString();
+                if (name.indexOf("Pics") != -1) {
+
+                    // 判断是否为图片
+                    introduce.append("\r\n" + LayuiPicTemplate.ADD_UPD_PICS_INTRODUCE);
+                    htmls.append("\r\n" + LayuiPicTemplate.ADD_UPD_PICS_HTML
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name)
+                            .replace("{fieldName}", name));
+                    js.append("\r\n" + LayuiPicTemplate.ADD_UPD_PICS_JS
+                            .replace("{fieldId}", name));
+                    js.append("\r\n" + LayuiPicTemplate.UPD_PICS_ECHO_JS
+                            .replaceAll("\\{fieldId}", name));
+                    submitjs.append("\r\n" + LayuiPicTemplate.ADD_UPD_PICS_SUBMIT_JS
+                            .replaceAll("\\{fieldId}", name));
+                } else if (name.indexOf("Pic") != -1) {
+                    // 判断是否为图片
+                    htmls.append("\r\n" + LayuiPicTemplate.ADD_UPD_PIC_HTML
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name)
+                            .replace("{fieldName}", name));
+                    js.append("\r\n" + LayuiPicTemplate.ADD_UPD_PIC_JS
+                            .replace("$(\"#{fieldId}Show\").hide();\n", "")//编辑页不隐藏默认图片展示
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name));
+                    js.append("\r\n" + LayuiPicTemplate.ADD_UPD_PIC_SHOP_JS
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name));
+                } else if (name.indexOf("Codes") != -1) {
+                    // 判断是否为多选
+                    htmls.append("\r\n" + LayuiCheckboxTemplate.INPUT_CHECKBOX_PT
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name));
+                    js.append("\r\n" + LayuiCheckboxTemplate.CHECKBOX_CODE_UPD_JS
+                            .replaceAll("\\{fieldId}", name));
+                    submitjs.append("\r\n" + LayuiCheckboxTemplate.CHECKBOX_SUBMIT_FOR
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name));
+                } else if (name.indexOf("Code") != -1) {
+                    // 判断是否为单选
+                    htmls.append("\r\n" + LayuiRadioTemplate.INPUT_RADIO_PT
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name));
+                    js.append("\r\n" + LayuiRadioTemplate.RADIO_CODE_UPD_JS
+                            .replaceAll("\\{fieldId}", name));
+                } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
+                    // 时间字段
+                    htmls.append("\r\n" + LayuiDateTemplate.DATE_HTML_PT
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name)
+                            .replace("{fieldName}", name));
+                    // 时间渲染js
+                    js.append("\r\n" + LayuiDateTemplate.DATE_JS_PT
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name));
+                } else if (type.equals("double") || type.equals("float") || type.equals("decimal")) {
+                    // 小数
+                    htmls.append("\r\n" + LayuiInputTemplate.INPUT_HTML_PT
+                            .replace("{integerVerification}", "")
+                            .replace("{inputType}", "number")
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name)
+                            .replace("{fieldName}", name));
+                } else if (type.equals("int") || type.equals("bigint")) {
+                    // 整数
+                    htmls.append("\r\n" + LayuiInputTemplate.INPUT_HTML_PT
+                            .replace("{integerVerification}", LayuiInputTemplate.INTEGER_VERIFICATION)
+                            .replace("{inputType}", "number")
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name)
+                            .replace("{fieldName}", name));
+                } else if (type.equals("text") || type.equals("longtext")) {
+                    // 大字段使用textarea 输入框
+                    htmls.append("\r\n" + LayuiInputTemplate.INPUT_TEXT_HTML_PT
+                            .replaceAll("\\{fieldTitle}", desc)
+                            .replace("{fieldId}", name)
+                            .replace("{fieldName}", name));
+                } else {
+                    //  其他按字符串处理
+                    htmls.append("\r\n" + LayuiInputTemplate.INPUT_HTML_PT
+                            .replace("{integerVerification}", "")
+                            .replace("{inputType}", "text")
+                            .replace("{fieldTitle}", desc)
+                            .replace("{fieldId}", name)
+                            .replace("{fieldName}", name));
+                }
+                // 数据回显
+                js.append("\r\n         $('#" + name + "').val(parent.data." + name + ");");
+                //submitjs.append("\r\n         data.field.id = parent.data.id;");
             }
         }
         // 数据保存
-        DsField.UPD_HTMLS = fieldStr.toString();
-        DsField.UPD_BACKFILL = echoDisplay.toString();
-        DsField.UPD_ID = fieldId;
+        DsField.ADD_UPD_INTRODUCE = introduce.toString();
+        DsField.ADD_UPD_HTMLS = htmls.toString();
+        DsField.ADD_UPD_JS = js.toString();
+        DsField.ADD_UPD_SUBMIT_JS = submitjs.toString();
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
         pathMap.put("mainUpd", brBwPath.get("path").toString());

@@ -222,10 +222,10 @@ function croppers_pic(obj) {
  * 获取排序后的URL，逗号分隔
  * @param obj
  */
-function getPicSort() {
+function getPicSort(imgZmListId) {
     let map = new Map();
     let keys = new Array();
-    $("#imgZmList li").each(function () {
+    $("#" + imgZmListId + " li").each(function () {
         let style = $(this).attr("style");
         let leftObj = style.split(";")[2];
         let leftVal = leftObj.split(":")[1];

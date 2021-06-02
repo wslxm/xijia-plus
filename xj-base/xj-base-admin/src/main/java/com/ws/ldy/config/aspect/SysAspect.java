@@ -111,6 +111,7 @@ public class SysAspect {
         excludeUriList.add("/error");                // 模板解析错误
         excludeUriList.add("/api/admin/adminLog/");  // 日志相关
         excludeUriList.add("/swagger-resources/");   // swagger访问
+        excludeUriList.add("/api/admin/xj/jvm/jvmInfo");   // 获取jvm信息
     }
 
     /**

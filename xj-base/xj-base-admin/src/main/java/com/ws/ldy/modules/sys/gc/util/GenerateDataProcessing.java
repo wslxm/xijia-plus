@@ -257,11 +257,16 @@ public class GenerateDataProcessing {
                         .replace("{layui-fields}", DsField.LAYUI_FIELDS)
                         .replace("{layui-search-pt-str}", DsField.LAYUI_SEARCH_PT_STR)
                         .replace("{layui-search-params-str}", DsField.LAYUI_SEARCH_PARAMS_STR)
-                        // html
-                        .replace("{add-htmls}", DsField.ADD_HTMLS)
-                        .replace("{upd-htmls}", DsField.UPD_HTMLS)
-                        .replace("{upd-backfill}", DsField.UPD_BACKFILL)
-                        .replace("{upd-id}", DsField.UPD_ID);
+                        .replace("{layui-search-js-str}", DsField.LAYUI_SEARCH_JS_STR)
+                        // html add/upd code
+                        .replace("{add-upd-introduce}", DsField.ADD_UPD_INTRODUCE)
+                        .replace("{add-upd-htmls}", DsField.ADD_UPD_HTMLS)
+                        .replace("{add-upd-js}", DsField.ADD_UPD_JS)
+                        .replace("{add-upd-submit-js}", DsField.ADD_UPD_SUBMIT_JS)
+
+
+
+                ;
                 bw.write(newLine);
                 bw.newLine();
                 bw.flush();

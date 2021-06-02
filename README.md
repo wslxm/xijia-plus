@@ -32,6 +32,7 @@ QQ群：1037211892
 
 ### 二、项目结构目录(代码结构未 v-0.0.8 - v-0.0.9)
 
+#### 1、项目模块划分
 v-0.0.9+ 版本后端代码目录结构(模块化后结构)
 ```base
 1、模块
@@ -72,55 +73,89 @@ spring-boot-plus2
 ```
 
 
-v-0.0.8 - v-0.0.9 版本，后端代码目录结构 
+#### 2、后端-核心代码目录结构
+默认包：com.ws.ldy
+下方默认所在模块(除指定模块)： xj-base-admin  
 ```base
-
 spring-boot-plus2
-            └──client  用户端接口 (目录结构同 modules)
-            └──common  工具
+            └──client  一、用户端 (目录结构同modules)
+                 └──sys          系统功能用户端接口
+                    └──xj        系统增强功能用户端接口
+
+                 └──xxx xxx项目模块
+                    └──user      示例：用户模块用户端接口
+                    └──order     示例：订单模块用户端接口
+
+            └──common  二、工具
                  └──function     Lambda8 获取字段名工具
-                 └──result       统一返回
-                 └──utils        util工具类
-            └──config  系统配置
+                 └──cache        系统jvm缓存(字典/全局配置/接口信息缓存)
+                 └──utils        util工具类(xj-utils 的子模块中，其中 xj-util-core 模块为核心工具类)
+                 └──result       统一返回 (xj-base-result 模块中)
+
+            └──config  三、系统配置
                  └──aspect       aop 接口入口(登录认证/权限/日志/黑名单/幂等拦截处理等)
-                 └──auth         jwt登录（获取用户信息工具类 / 登录处理核心逻辑，aop调用） 
                  └──datasource   数据源配置(mybatis-plus/druid)
                  └──datetime     统一时间处理 (yyyy-MM-dd HH:mm:ss)
-                 └──error        全局异常
-                 └──idempotent   幂等
+                 └──datetime     请求响应时间格式处理
                  └──init         系统启动存放,初始化相关数据
                  └──mvc          mvc 配置
+                 └──sing         接口验签核心代码
                  └──swagger      接口文档配置
-            └──enums   常量/枚举
-            └──modules
-                 └──business     业务模块
-                        └──xx1         
-                        └──xx2   
-                 └──sys          系统模块
-                        └──admin        系统核心功能
-                        └──base         系统核心通用层
-                        └──gc           代码生成器
-                        └──pay          支付封装
-                        └──xj           系统增强功能
-                 └──third        第三方服务
-                        └──aliyun       阿里云API
-                                └──oss           阿里云对象存储(文件)
-                                └──sms           阿里云短信
-                        └──baidu        百度api
-                     
-                        └──kuaidi       快递
-                                └──kuaidi100     快递100查询物流
-                                └──sf            顺丰寄件
-                        └──qiniu        七牛云oss
-                        └──websocket    及时通知/聊天(注意与xjAdminMsg及时通知表有关联)
-                        └──wechat       微信API
-                                └──app           小程序登录 
-                                └──mq            公众号(网页授权/模板信息推送)
-                                └──pay           微信支付
-   └──task     定时任务
+                 └──auth         登录token生成，获取用户信息获取工具类JwtUser，aop调用 (xj-base-core 模块中)
+                 └──error        全局异常,各种异常直接拦截进行解析返回 (xj-base-result 模块中)
 
+            └──enums    四、常量/枚举(xj-base-core 模块中)
+            └──modules  五、管理端 
+                 └──sys          系统功能管理端接口
+                    └──base      通用baseController/service/dto/vo等 (xj-base-core 模块中)
+                    └──admin     基础核心功能(用户/角色/菜单/权限/字典)
+                    └──xj        系统增强功能(banner/全局配置/黑名单/日志跟踪/消息)
+                    └──gc        自值代码生成器(一键完成前后端的接口及页面，正常直接生成字典，单选，多选，图片上传),模板位置：resources/static/template
+                    └──third     第三方工具集成 (xj-third 模块的子模块中)
+                        
+                        └──aliyun              当前系统默认使用 xj-api-aliyun-oss[阿里云oss]存储文件  
+                        └──xj-doc-swagger2     当前系统默认使用swagger 为接口文档生成 
+                        └──xj-doc-swagger2-ui  当前系统默认使用swagger-ui 为接口文档页面展示 
+                        └──...                 更多
+                 
+                 └──xxx 业务模块大类(下方为子模块示例值参考)
+                    └──user      
+                    └──order   
+            └──task     六、定时任务(下方为子模块示例值参考)
+                 └──user    
+                 └──order   
 ```
 
+#### 3、前端-核心代码目录结构
+代码所在模块： xj-base-admin-ui
+```
+  └──  java
+       └── ....... -> PageController  页面路由统一跳转配置
+  └── resources       
+       └──static         一、静态资源 （在业务中需要定义额外资源时，在自己的业务模块定义对应目录并存放，不要放在 xj-base-admin-ui 模块，防止xj-base-admin-ui后续无法升级）   
+            └──base          通用js/css/等静态资源
+            └──client        用户相关端 js/css 
+            └──modules       管理端相关 js/css
+            └──components    组件
+
+       └──templates      二、页面代码        
+            └──base          1、通用页面
+                └──error        统一错误页
+
+            └──modules       2、管理端
+                └──sys          管理系统功能代码存放模块
+                    └──admin       基础核心功能(用户/角色/菜单/权限/字典)
+                    └──xj          系统增强功能(banner/全局配置/黑名单/日志跟踪/消息)
+                    └──gc          代码生成器功能
+                └──xxx          xxx业务模块 
+                    └──user        示例参考：用户模块(业务模块小类)
+                    └──order       示例参考：订单模块
+
+            └──client        3、用户端（请在业务模块创建该下方的代码，不要定义在xj-base-admin-ui，防止xj-base-admin-ui后续无法升级）
+                └──xxx          xxx业务模块 
+                    └──user        示例参考：用户模块(业务模块小类)
+                    └──order       示例参考：订单模块
+```
 
 ### 三、当前功能列表
 #### 基础功能

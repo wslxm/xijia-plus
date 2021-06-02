@@ -3,24 +3,25 @@ package com.ws.ldy.modules.sys.gc.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ws.ldy.modules.sys.gc.util.JDBCPool;
-import com.ws.ldy.modules.sys.gc.model.entity.XjAdminDatasource;
-import com.ws.ldy.modules.sys.gc.model.vo.XjAdminDatasourceVO;
-import com.ws.ldy.modules.sys.gc.service.XjAdminDatasourceService;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import com.ws.ldy.constant.BaseConstant;
-
-import io.swagger.annotations.*;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.ws.ldy.config.error.ErrorException;
-
-import com.ws.ldy.modules.sys.gc.model.dto.XjAdminDatasourceDTO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
+import com.ws.ldy.modules.sys.gc.model.dto.XjAdminDatasourceDTO;
+import com.ws.ldy.modules.sys.gc.model.entity.XjAdminDatasource;
+import com.ws.ldy.modules.sys.gc.model.vo.XjAdminDatasourceVO;
+import com.ws.ldy.modules.sys.gc.service.XjAdminDatasourceService;
+import com.ws.ldy.modules.sys.gc.util.JDBCPool;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
