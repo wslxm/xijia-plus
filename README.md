@@ -20,7 +20,7 @@ QQ群：1037211892
  [http://xijia.plus/help](http://xijia.plus/help) 
 
 #### 最新说明
-- 当前主分支为v-0.1.0 的分支最后更新代码,可稳定运行
+- 当前主分支为v-0.1.1 的分支最后更新代码,可稳定运行
 - 更新日志文档: [https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md) 
 - 项目于0.0.9+模块化，模块化目的:减轻项目大小,按需加载
 
