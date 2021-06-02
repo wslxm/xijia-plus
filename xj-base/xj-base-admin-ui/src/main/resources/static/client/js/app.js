@@ -33,9 +33,8 @@ var uploadPath = "/api/open/aliOssFile/upload";
  * loginPage: 登录页地址(ReqAjax.js, token无效或过期用于跳转到登录页)
  * cacheToken: 接口请求权限命名(token)
  */
-var loginPwd = "xijia";
 var loginPage = "../login";
-var cacheToken = "ADMIN-TOKEN";
+var cacheToken = "CLIENT-TOKEN";
 
 
 // 全局请求头,token 的参数获取 (xj-req-ajax.js 中调用)

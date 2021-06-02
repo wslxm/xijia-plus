@@ -24,6 +24,8 @@
  - 19、用户页面目录结构优化，静态资源分为base|components|modules 请在对应业务模块下重新创建  static/client/js/app.js 为用户端使用，并独立创建 components 外部组件进行维护
  - 20、移除 help 帮助中心相关代码，移除 文件管理相关代码
  - 21、处理消息查看
+ - 22、优化 app.js, 拆分n个js文件在由  app.js引用，xj-base-admin-ui静态资源分层优化,详见README.md 中的目录结构
+ 
   --------2021-6-1 end
  
  
