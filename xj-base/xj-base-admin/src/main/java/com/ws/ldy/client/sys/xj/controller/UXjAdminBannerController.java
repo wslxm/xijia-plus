@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.constant.BaseConstant;
+import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import com.ws.ldy.modules.sys.xj.model.entity.XjAdminBanner;
 import com.ws.ldy.modules.sys.xj.model.vo.XjAdminBannerVO;
@@ -41,6 +42,7 @@ public class UXjAdminBannerController extends BaseController<XjAdminBannerServic
         List<XjAdminBanner> list = baseService.list(new LambdaQueryWrapper<XjAdminBanner>()
                 .orderByAsc(XjAdminBanner::getSort)
                 .orderByDesc(XjAdminBanner::getCreateTime)
+                .eq(XjAdminBanner::getDisable, Base.Disable.V0.getValue())
                 .eq(XjAdminBanner::getPosition, position)
         );
         return R.successFind(BeanDtoVoUtil.listVo(list, XjAdminBannerVO.class));
