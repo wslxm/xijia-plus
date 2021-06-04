@@ -170,7 +170,7 @@
                     add: function () {
                         data = [];    // 初始化data
                         data.lv = 1;  // 给初始化后的data添加值
-                        Pop.tipsWindown(page_add, "600px", "400px", "添加系统");
+                        Pop.tipsWindown(page_add, "1000px", "800px", "添加系统");
                     }
                 };
                 //必须在下面/监听class = demoTable内按钮
@@ -196,12 +196,12 @@
                     //   菜单添加
                     if (obj.event === 'add') {
                         data.lv = 2; //表示添加菜单
-                        Pop.tipsWindown(page_add, "600px", "400px", "添加菜单--" + data.name)
+                        Pop.tipsWindown(page_add, "1000px", "800px", "添加菜单--" + data.name)
                     }
                     //   页面添加
                     if (obj.event === 'addPage') {
                         data.lv = 3;  //表示添加页面
-                        Pop.tipsWindown(page_add, "600px", "400px", "添加页面--" + data.name)
+                        Pop.tipsWindown(page_add, "1000px", "800px", "添加页面--" + data.name)
                     }
                     //   删除行(加子菜单)
                     if (obj.event === 'del') {
@@ -223,11 +223,11 @@
                     }
                     //  修改菜单名称
                     if (obj.event === 'upd') {
-                        Pop.tipsWindown(page_upd, "600px", "400px", "编辑")
+                        Pop.tipsWindown(page_upd, "1000px", "800px", "编辑")
                     }
                     //  变更父级
                     if (obj.event === 'updPid') {
-                        Pop.tipsWindown(page_updPid, "800px", "600px", "变更父级-" + data.name);
+                        Pop.tipsWindown(page_updPid, "1000px", "800px", "变更父级-" + data.name);
                         // WindowPos.onbeforeunload();  // 记录滚动条位置
                         // xijiaRenderTable();             // 重载数据
                         // WindowPos.onload();          // 还原滚动条位置

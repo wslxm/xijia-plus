@@ -8,10 +8,18 @@
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
         <link rel="stylesheet" href="/components/layuiadmin/layui/src/css/layui.css">
+        <link href="/components/iconFonts/font-awesome/css/font-awesome.css?v=4.7.0" rel="stylesheet">
         <script src="/components/layuiadmin/layui/src/layui.js"></script>
         <script src='/base/js/jquery-3.4.1.min.js'></script>
         <script src="/modules/js/app.js"></script>
     </head>
+    <script>
+        layui.config({
+            base: '/components/iconFonts/module/'
+        }).extend({
+            iconHhysFa: 'iconHhys/iconHhysFa'
+        });
+    </script>
     <style>
         .layui-form-item .layui-input-inline {
             width: 360px;
@@ -49,7 +57,13 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">图标</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="icon" name="icon" lay-verify="required" placeholder="请选择图标" autocomplete="off" class="layui-input">
+                    <input type="text" id="icon" name="icon" value="layui-icon-file-b" lay-verify="required" placeholder="请选择图标" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="" class="layui-form-label">选择图标：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="iconHhysFa2" value="layui-icon-file-b" lay-filter="iconHhysFa2" class="hide">
                 </div>
             </div>
             <div class="layui-form-item layui-hide">
@@ -61,7 +75,7 @@
         </div>
     </body>
     <script>
-        layui.use(['form'], function () {
+        layui.use(['iconHhysFa','form'], function () {
             init();
             formSubmit();
         });
@@ -70,9 +84,33 @@
             // 回显父页面的值
             $("#name").val(parent.data.name);
             $("#icon").val(parent.data.icon);
+            $("#iconHhysFa2").val(parent.data.icon);
             $("#url").val(parent.data.url);
             $("#twoUrl").val(parent.data.twoUrl);
             $("#sort").val(parent.data.sort);
+
+            layui.iconHhysFa.render({
+                // 选择器，推荐使用input
+                elem: '#iconHhysFa2',
+                // 数据类型：fontClass/awesome，推荐使用fontClass
+                type: 'fontClass',
+                // 是否开启搜索：true/false
+                search: false,
+                //url: '',
+                url: './font-awesome/less/variables.less',
+                // 是否开启分页
+                page: false,
+                // 每页显示数量，默认12
+                limit: 12,
+                // 点击回调
+                click: function (data) {
+                    $("#icon").val(data.icon);
+                },
+                // 渲染成功后的回调
+                success: function (d) {
+                    //console.log(d);
+                }
+            });
         }
 
         function formSubmit() {
