@@ -1,5 +1,6 @@
 // jquery
 document.write("<script language=javascript src='/base/js/jquery-3.4.1.js'></script>");
+document.write("<script language=javascript src='/components/layuiadmin/layui/src/layui.js'></script>");
 //
 document.write("<script language=javascript src='/base/js/xj-enums.js'></script>");        /* 字典数据，与后端对应，修改了请注意更新字典key */
 document.write("<script language=javascript src='/base/js/xj-layui-page.js'></script>");   /* layui分页插件参数统一配置 */

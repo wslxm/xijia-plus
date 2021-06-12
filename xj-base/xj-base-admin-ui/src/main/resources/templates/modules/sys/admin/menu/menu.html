@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>tree-table</title>
         <link rel="stylesheet" href="/components/treetable-lay/assets/layui/css/layui.css">
         <link rel="stylesheet" href="/components/treetable-lay/assets/common.css"/>
         <script src='/components/treetable-lay/assets/layui/layui.js'></script>
-        <script src='/base/js/jquery-3.4.1.min.js'></script>
+
         <script src="/modules/js/app.js"></script>
         <style>
             input {
@@ -28,15 +28,20 @@
 
     <body>
         <!-- 设置数据表格宽 -->
-        <div class="layui-container" style="width: 96%;margin-left: 40px">
+        <div class="layui-container layui-form" style="width: 96%;margin-left: 40px">
             <br>
             <br>
+            <div class="layui-input-inline">
+                <select id="fatherMeuns" lay-filter="refreshTableMeuns">
+                    <!--  <option value='" + dices[index].code + "' pid='" + dices[index].pid + "'>" + dices[index].name + "</option>-->
+                </select>
+            </div>
             <!-- 展开/折叠 -->
             <div class="layui-btn-group">
                 <button class="layui-btn layui-btn-primary" id="btn-expand">全部展开</button>
                 <button class="layui-btn layui-btn-primary" id="btn-fold">全部折叠</button>
             </div>
-            &nbsp;&nbsp;
+
             <!-- 搜索按钮 -->
             <input id="edt-search" type="text" placeholder="输入关键字"/>&nbsp;&nbsp;
             <button class="layui-btn  layui-btn-normal layui-btn-sm" id="btn-search">&nbsp;搜索&nbsp;&nbsp;</button>
@@ -56,11 +61,14 @@
             // 路由
             let page_add = "/page/modules_sys_admin_menu_menuAdd";        // 添加菜单/页面弹层
             let page_upd = "/page/modules_sys_admin_menu_menuUpd";        // 菜单编辑弹层
-            let page_updPid =  "/page/modules_sys_admin_menu_menuUpdPid";  // 变更父级
+            let page_updPid = "/page/modules_sys_admin_menu_menuUpdPid";  // 变更父级
 
             // 当前行数据
             var data = null;
-
+            var menus;              // 所有菜单数据
+            var pids;          // 父菜单ids
+            var currentPid;    // 当前父id
+            var tableMenus;         // 表格加载的菜单数据
 
             layui.config({
                 base: '../components/treetable-lay/module/' //静态资源所在路径
@@ -72,7 +80,59 @@
                 xijiaEventTool();         // 监听数据表格内按钮操作（编辑,删除等）
                 xijiaEventSearch();       // 监听条件搜索
                 xijiaEventSwitch();       // 监听Switch开关
+
             });
+
+
+            /**
+             * 处理 table 数据
+             */
+            function xijiaRenderTable() {
+                pids = [];
+                //currentPid = null;
+                //菜单数据
+                menus = Ajax.get(find_list).data;
+                // 拼接搜索值
+                // let html = "<option value=''>所有</option>";
+                let html = "";
+                $.each(menus, function (index, item) {
+                    if (menus[index].pid == 0) {
+                        pids.push(menus[index].id);
+                        if (currentPid == menus[index].id) {
+                            html += "<option value='" + menus[index].id + "' selected>" + menus[index].name + "</option>"
+                        } else {
+                            html += "<option value='" + menus[index].id + "'>" + menus[index].name + "</option>"
+                        }
+                    }
+                });
+                $("#fatherMeuns").html(html);
+                // 刷新,否则select可能不生效
+                layui.form.render();
+                // 默认第一个菜单
+                refreshTable(null);
+                // 监听选择
+                layui.form.on('select(refreshTableMeuns)', function (data) {
+                    refreshTable(data.value)
+                });
+            }
+
+
+            /**
+             * 切换table中的数据 和默认tanle数据处理
+             */
+            function refreshTable(pid) {
+                if (pid != null) {
+                    currentPid = pid;
+                } else if (currentPid == null) {
+                    currentPid = pids[0];
+                } else {
+                    currentPid = pids.indexOf(currentPid) === -1 ? pids[0] : currentPid;
+                }
+                let newPids = pids.filter(v => v !== currentPid);
+                let newMenus = menus.filter(item => newPids.indexOf(item.id) === -1);
+                tableMenus = newMenus;
+                xijiaRenderTableTwo();
+            }
 
 
             /**
@@ -82,9 +142,9 @@
              * @date  2020/4/19 0019 21:43
              * @return
              */
-            function xijiaRenderTable() {
+            function xijiaRenderTableTwo() {
                 //菜单数据
-                let dataJson = Ajax.get(find_list);
+                // let menus = Ajax.get(find_list);
                 // 渲染表格
                 layer.load(2);
                 //加载数据
@@ -98,7 +158,7 @@
                     elem: '#auth-table',        //table 的 div
                     //url:'/menu/findAll',                         //后台接口获取数据
                     //url: '../treetable-lay/json/menus.json',     //json文件获取数据
-                    data: dataJson.data,                           //直接加载数据
+                    data: tableMenus,                             //直接加载数据
                     page: false,
                     done: function () {
                         //  $("table").css("width", "96%");
@@ -170,7 +230,7 @@
                     add: function () {
                         data = [];    // 初始化data
                         data.lv = 1;  // 给初始化后的data添加值
-                        Pop.tipsWindown(page_add, "1000px", "800px", "添加系统");
+                        Pop.tipsWindown(page_add, "800px", "600px", "添加系统");
                     }
                 };
                 //必须在下面/监听class = demoTable内按钮
@@ -196,12 +256,12 @@
                     //   菜单添加
                     if (obj.event === 'add') {
                         data.lv = 2; //表示添加菜单
-                        Pop.tipsWindown(page_add, "1000px", "800px", "添加菜单--" + data.name)
+                        Pop.tipsWindown(page_add, "800px", "600px", "添加菜单--" + data.name)
                     }
                     //   页面添加
                     if (obj.event === 'addPage') {
                         data.lv = 3;  //表示添加页面
-                        Pop.tipsWindown(page_add, "1000px", "800px", "添加页面--" + data.name)
+                        Pop.tipsWindown(page_add, "800px", "600px", "添加页面--" + data.name)
                     }
                     //   删除行(加子菜单)
                     if (obj.event === 'del') {
@@ -223,11 +283,11 @@
                     }
                     //  修改菜单名称
                     if (obj.event === 'upd') {
-                        Pop.tipsWindown(page_upd, "1000px", "800px", "编辑")
+                        Pop.tipsWindown(page_upd, "800px", "600px", "编辑")
                     }
                     //  变更父级
                     if (obj.event === 'updPid') {
-                        Pop.tipsWindown(page_updPid, "1000px", "800px", "变更父级-" + data.name);
+                        Pop.tipsWindown(page_updPid, "800px", "600px", "变更父级-" + data.name);
                         // WindowPos.onbeforeunload();  // 记录滚动条位置
                         // xijiaRenderTable();             // 重载数据
                         // WindowPos.onload();          // 还原滚动条位置
