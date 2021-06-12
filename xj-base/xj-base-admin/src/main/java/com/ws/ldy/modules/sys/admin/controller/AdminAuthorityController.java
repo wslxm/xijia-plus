@@ -8,6 +8,7 @@ import com.ws.ldy.modules.sys.admin.service.AdminAuthorityService;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,8 +33,12 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
 
     @ApiOperation(value = "查询所有", notes = "查询所有权限数据，根据不同的端的枚举code 拼接最顶级的目录, 顶级目录ID = -1")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
-    public R<List<AdminAuthorityVO>> findList() {
-        return R.successFind(baseService.findList());
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "指定端：字典code", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "pid", value = "父级id(只查指定父级下的数据)", required = false, paramType = "query"),
+    })
+    public R<List<AdminAuthorityVO>> findList(Integer type, String pid) {
+        return R.successFind(baseService.findList(type, pid));
     }
 
 

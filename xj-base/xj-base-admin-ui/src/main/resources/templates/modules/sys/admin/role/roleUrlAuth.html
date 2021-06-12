@@ -5,8 +5,6 @@
     <title>角色分配-菜单权限</title>
     <link rel="stylesheet" href="/components/treetable-lay/assets/layui/css/layui.css">
     <link rel="stylesheet" href="/components/treetable-lay/assets/common.css"/>
-    <script src='/components/treetable-lay/assets/layui/layui.js'></script>
-
     <script src="/modules/js/app.js"></script>
 </head>
 <body>
@@ -17,9 +15,9 @@
 </style>
 
 <!-- 左边树 -->
-<div style="display: inline-block;float:left; width: 18%; height: 500px; padding: 10px; border: 1px solid #ddd; overflow: auto;margin-top: 4%">
-    <ul id="auth-tree"></ul>
-</div>
+<!--<div style="display: inline-block;float:left; width: 18%; height: 500px; padding: 10px; border: 1px solid #ddd; overflow: auto;margin-top: 4%">-->
+<!--    <ul id="auth-tree"></ul>-->
+<!--</div>-->
 
 <div class="searchTable layui-form">
     <div class="layui-inline" style="padding-top:  2%;margin-left: 50%">
@@ -30,7 +28,7 @@
     </div>
 </div>
 <!-- 菜单树，数据表格-->
-<div style="float:left; margin-left: 3%;width: 68%;margin-top: 0%;">
+<div style="float:left; margin-left: 3%;width: 95%;margin-top: 0%;">
     <table id="auth-table" class="layui-table" lay-filter="auth-table"></table>
 </div>
 
@@ -39,16 +37,16 @@
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-warm layui-btn-sm" onclick="xijiaEventUpdClick()">确认分配</button>
         <!--  <button class="layui-btn layui-btn-warm layui-btn-sm" onclick="xijiaEventPutAuthority()">扫描权限</button>-->
-        <!--        <button id="GET" class="layui-btn layui-btn-primary layui-btn-sm" onclick="xijiaSelected(1)">GET</button>-->
-        <!--        <button id="PUT" class="layui-btn layui-btn-primary layui-btn-sm" onclick="xijiaSelected(2)">PUT</button>-->
-        <!--        <button id="POST" class="layui-btn layui-btn-primary layui-btn-sm" onclick="xijiaSelected(3)">POST</button>-->
-        <!--        <button id="DELETE" class="layui-btn layui-btn-primary layui-btn-sm" onclick="xijiaSelected(4)">DELETE</button>-->
+        <!--  <button id="GET" class="layui-btn layui-btn-primary layui-btn-sm" onclick="xijiaSelected(1)">GET</button>-->
+        <!--  <button id="PUT" class="layui-btn layui-btn-primary layui-btn-sm" onclick="xijiaSelected(2)">PUT</button>-->
+        <!--  <button id="POST" class="layui-btn layui-btn-primary layui-btn-sm" onclick="xijiaSelected(3)">POST</button>-->
+        <!--  <button id="DELETE" class="layui-btn layui-btn-primary layui-btn-sm" onclick="xijiaSelected(4)">DELETE</button>-->
         <font size="2">当前角色: </font> <font size="2" color="red" id="roleName">未选择</font>
     </div>
 </script>
 
 <script>
-    let role_find_list = path + "/admin/adminRole/findList";                  // 角色查询-所有
+    // let role_find_list = path + "/admin/adminRole/findList";              // 角色查询-所有
     let auth_find_list = path + "/admin/adminAuthority/findByRoleIdList";     // 取消查询--查询所有(角色check)
     let auth_upd_authority = path + "/admin/adminAuthority/refreshAuthority"; // 权限刷新扫描列表
     let updRoleUrlAuth = path + "/admin/adminRole/updRoleAuth";               // 角色URL权限修改
@@ -68,71 +66,36 @@
         layui.table = $.extend(layui.table, {config: {checkName: 'isChecked'}});
         // 获得菜单数据
         res = Ajax.get(auth_find_list);
-        showTree();                    // 初始化左边边角色数据,treetable用于右边 table 数据重载
         xijiaRenderTable(res);         // 初始化右边 table 数据
         xijiaEventCheckbox();          // 监听复选框选中
         xijiaSelected();
 
-        /**
-         * 默认加载选择行的资源
-         */
-        xijiaEventRoleClick(parent.data)
+        // 默认加载当前角色数据
+        xijiaInit(parent.data)
     });
 
 
+
+
     /**
-     *     生成左角色列表
-     *
-     * @date  2019/11/16 0016 16:56
+     * 回显当前选中
+     * @param item 当前选中的角色行数据
+     * @date  2019/11/16 0016 19:43
      * @return
      */
-    function showTree() {
-        // 获得角色列表
-        let roleRes = Ajax.get(role_find_list);
-        // 左边角色菜单数据
-        layui.tree({
-            elem: '#auth-tree'
-            , click: function (item) {
-                // 点击回调
-                xijiaEventRoleClick(item);
-            }
-            , nodes: [ //节点
-                {
-                    name: '角色列表'
-                    , id: 0
-                    , skin: 'shihuang'
-                    , spread: true
-                    , children: roleRes.data  //角色数据
-                }
-            ]
-
-        });
-        //生成一个模拟树
-        let createTree = function (node, start) {
-            node = node || function () {
-                let arr = [];
-                for (let i = 1; i < 10; i++) {
-                    arr.push({
-                        name: i.toString().replace(/(\d)/, '$1$1$1$1$1$1$1$1$1')
-                    });
-                }
-                return arr;
-            }();
-            start = start || 1;
-            layui.each(node, function (index, item) {
-                if (start < 10 && index < 9) {
-                    let child = [
-                        {
-                            name: (1 + index + start).toString().replace(/(\d)/, '$1$1$1$1$1$1$1$1$1')
-                        }
-                    ];
-                    node[index].children = child;
-                    createTree(child, index + start + 1);
-                }
-            });
-            return node;
-        };
+    function xijiaInit(item) {
+        // 获得菜单数据
+        res = Ajax.get(auth_find_list + "?roleId=" + item.id);
+        // 加载
+        xijiaRenderTable();
+        // 当前角色id
+        roleId = item.id;
+        roleName = item.name;
+        // 展示当前角色名
+        $("#roleName").html(roleName);
     }
+
+
 
 
     /**
@@ -142,7 +105,7 @@
      * @return
      * @param params
      */
-    function xijiaRenderTable(res) {
+    function xijiaRenderTable() {
         // 渲染表格
         layer.load(2);
         layui.treetable.render({
@@ -162,9 +125,9 @@
             cols: [
                 [
                     {type: 'checkbox'},
-                    {field: 'desc', title: '接口描叙'},
-                    {field: 'method', title: '请求方式'},
-                    {field: 'url', title: '接口地址'},
+                    {field: 'desc', width: "40%" ,title: '接口描叙'},
+                    {field: 'method',width: "20%" , title: '请求方式'},
+                    {field: 'url',width: "40%",title: '接口地址'},
 
                 ]
             ]
@@ -225,85 +188,6 @@
         }
     }
 
-    /**
-     *    角色选中回调
-     * @param item 当前选中的角色行数据
-     * @date  2019/11/16 0016 19:43
-     * @return
-     */
-    function xijiaEventRoleClick(item) {
-        //不能点击角色列表
-        if (item.id === 0) {
-            return;
-        }
-        let params = "";
-        params += "?roleId=" + item.id;
-        // 获得菜单数据
-        res = Ajax.get(auth_find_list + params);
-        // 重载
-        xijiaRenderTable(res);
-        // 当前角色id
-        roleId = item.id;
-        roleName = item.name;
-        // 展示选中
-        $("#roleName").html(roleName);
-    }
-
-
-    /**
-     *   角色选中状态添加 CSS样式
-     * @date  2019/11/16 0016 17:22
-     */
-    $("body").on("mousedown", ".layui-tree a", function () {
-        if (!$(this).siblings('ul').length) {
-            $(".layui-tree a cite").css('color', '#333');
-            $(this).find('cite').css('color', '#009688');
-        }
-    });
-
-
-    /**
-     *   菜单权限分配( JS点击事件)
-     * @author ws
-     * @mail  1720696548@qq.com
-     * @date  2020/4/10 0010 0:05
-     * @return
-     */
-    function xijiaEventUpdClick() {
-        if (roleId === -1) {
-            layer.msg("没有选选择角色");
-            return;
-        }
-        if (checkData === null || checkData === undefined || checkData.data === null) {
-            layer.msg("没有可更新的内容");
-            return;
-        }
-        // 获取数据
-        let authIds = [];
-        for (let i in checkData.data) {
-            authIds[i] = checkData.data[i].id
-        }
-        // 拼接数据并修改
-        let data = {
-            roleId: roleId,
-            authIds: authIds
-        };
-        let result = Ajax.put(updRoleUrlAuth, data);
-        layer.msg(result.msg + " 当前角色拥有菜单：" + checkData.data.length + "个 ")
-    }
-
-
-    /**
-     *   权限扫描
-     * @author ws
-     * @mail  1720696548@qq.com
-     * @date  2020/4/28 0028 1:04
-     * @return
-     */
-    function xijiaEventPutAuthority() {
-        let result = Ajax.put(auth_upd_authority);
-        layer.msg(result.msg + ",请刷新页面");
-    }
 
     /**
      * 选中指定请求的所有
@@ -361,14 +245,14 @@
                 }
             }
             WindowPos.onbeforeunload();  // 记录滚动条位置
-            xijiaRenderTable(res);          // 重载数据
+            xijiaRenderTable(res);       // 重载数据
             WindowPos.onload();          // 还原滚动条位置
             // 更新所有选中数据te = 数据表格Id
-            checkData = table.checkStatus('te');
+            checkData = layui.table.checkStatus('te');
 
             // 重载数据后显示角色
             $("#roleName").html(roleName);
-            //还原复选选中状态
+            // 还原复选选中状态
             $("#method").find("input").each(function () {
                 if ($(this).val() === "1" && GET) {
                     $(this).attr("checked", "");
@@ -385,6 +269,38 @@
             });
         });
     }
+
+
+    /**
+     * 菜单权限分配( JS点击事件)
+     * @author ws
+     * @mail  1720696548@qq.com
+     * @date  2020/4/10 0010 0:05
+     * @return
+     */
+    function xijiaEventUpdClick() {
+        if (roleId === -1) {
+            layer.msg("没有选选择角色");
+            return;
+        }
+        if (checkData === null || checkData === undefined || checkData.data === null) {
+            layer.msg("没有可更新的内容");
+            return;
+        }
+        // 获取数据
+        let authIds = [];
+        for (let i in checkData.data) {
+            authIds[i] = checkData.data[i].id
+        }
+        // 拼接数据并修改
+        let data = {
+            roleId: roleId,
+            authIds: authIds
+        };
+        let result = Ajax.put(updRoleUrlAuth, data);
+        layer.msg(result.msg + " 当前角色拥有菜单：" + checkData.data.length + "个 ")
+    }
+
 </script>
 </body>
 </html>

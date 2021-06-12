@@ -11,7 +11,6 @@ var Enums = {
         AuthorityType: "AUTHORITY_TYPE",  // 权限类型
         MenuRoot: "MENU_ROOT",  // 菜单级别
         Position: "POSITION",  // 职位
-        Position: "POSITION",  // 部门职位
     },
     // 通用枚举
     Base: {

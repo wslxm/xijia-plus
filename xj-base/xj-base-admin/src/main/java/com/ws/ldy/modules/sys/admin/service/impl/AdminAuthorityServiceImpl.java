@@ -51,38 +51,72 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     /**
-     *  查询所有权限数据, 根据不同的端的枚举code 拼接最顶级的目录，顶级目录ID = -1
+     * 查询所有权限数据, 根据不同的端的枚举code 拼接最顶级的目录，顶级目录ID = -1
      *
      * @return void
      * @date 2019/11/25 0025 11:55
      */
     @Override
-    public List<AdminAuthorityVO> findList() {
+    public List<AdminAuthorityVO> findList(Integer type, String pid) {
+        // refreshAuthCache
+
+        Map<String, AdminAuthority> authMap = JvmCache.getAuthMap();
+        List<AdminAuthority> list = new ArrayList<>();
+        for (AdminAuthority item : authMap.values()) {
+            // 判断类型
+            if (type != null && !item.getType().equals(type)) {
+                continue;
+            }
+            // 判断pid
+            if (StringUtils.isNotBlank(pid)) {
+                if (pid.equals(item.getId()) || pid.equals(item.getPid())) {
+                    list.add(item);
+                }
+            }
+            if (StringUtils.isBlank(pid)) {
+                list.add(item);
+            }
+        }
         // 查询所有
-        List<AdminAuthority> list = this.list(new LambdaQueryWrapper<AdminAuthority>()
-                .orderByDesc(AdminAuthority::getType)
-                .orderByDesc(AdminAuthority::getMethod)
-        );
+//        List<AdminAuthority> list = this.list(new LambdaQueryWrapper<AdminAuthority>()
+//                .orderByDesc(AdminAuthority::getType)
+//                .orderByDesc(AdminAuthority::getMethod)
+//        );
         List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(list, AdminAuthorityVO.class);
         // pid='' 的数据设置 pid 为枚举字典的code 值
         adminAuthorityVOList.forEach(i -> {
             if (StringUtils.isBlank(i.getPid())) {
-                Admin.AuthorityType byCode = EnumUtil.getByCode(i.getType(), Admin.AuthorityType.class);
-                i.setPid(byCode.getValue().toString());
+                i.setPid(EnumUtil.getByCode(i.getType(), Admin.AuthorityType.class).getValue().toString());
             }
         });
         // 生成Admin.AuthorityType 的权限数据放入列表, 有多少条枚举字段就添加几条数据进去, id=枚举的code, pid=''的也设置为了枚举code, 同等于设置了父子级关系
         for (Admin.AuthorityType authorityType : Admin.AuthorityType.values()) {
-            AdminAuthorityVO adminAuthorityVO = new AdminAuthorityVO();
-            adminAuthorityVO.setId(authorityType.getValue().toString());
-            adminAuthorityVO.setDesc(authorityType.getDesc());
-            // 设置顶级 pid
-            adminAuthorityVO.setPid("-1");
-            adminAuthorityVO.setMethod("");
-            adminAuthorityVO.setType(null);
-            adminAuthorityVO.setState(null);
-            adminAuthorityVO.setDisable(null);
-            adminAuthorityVOList.add(adminAuthorityVO);
+            // 只拼接指定id的数据
+            if (authorityType.getValue().equals(type)) {
+                AdminAuthorityVO adminAuthorityVO = new AdminAuthorityVO();
+                adminAuthorityVO.setId(authorityType.getValue().toString());
+                adminAuthorityVO.setDesc(authorityType.getDesc());
+                // 设置顶级 pid
+                adminAuthorityVO.setPid("-1");
+                adminAuthorityVO.setMethod("");
+                adminAuthorityVO.setType(null);
+                adminAuthorityVO.setState(null);
+                adminAuthorityVO.setDisable(null);
+                adminAuthorityVOList.add(adminAuthorityVO);
+            }
+            // 所有数据
+            if (type == null) {
+                AdminAuthorityVO adminAuthorityVO = new AdminAuthorityVO();
+                adminAuthorityVO.setId(authorityType.getValue().toString());
+                adminAuthorityVO.setDesc(authorityType.getDesc());
+                // 设置顶级 pid
+                adminAuthorityVO.setPid("-1");
+                adminAuthorityVO.setMethod("");
+                adminAuthorityVO.setType(null);
+                adminAuthorityVO.setState(null);
+                adminAuthorityVO.setDisable(null);
+                adminAuthorityVOList.add(adminAuthorityVO);
+            }
         }
         return adminAuthorityVOList;
     }
@@ -402,7 +436,10 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     @Override
     public void refreshAuthCache() {
         // 查询权限表中所有接口
-        List<AdminAuthority> authorityList = this.list(null);
+        List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
+                .orderByDesc(AdminAuthority::getType)
+                .orderByDesc(AdminAuthority::getMethod)
+        );
         // 缓存所有接口数据到 jvm
         JvmCache.setAuthMap(authorityList.stream().collect(Collectors.toMap(AdminAuthority::getUrl, auth -> auth)));
         // 数据统计

@@ -22,7 +22,7 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    List<AdminAuthorityVO> findList();
+    List<AdminAuthorityVO> findList(Integer type, String pid);
 
 
     /**

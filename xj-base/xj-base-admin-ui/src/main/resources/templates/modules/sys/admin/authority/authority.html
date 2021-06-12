@@ -5,9 +5,8 @@
     <title>tree-table</title>
     <link rel="stylesheet" href="/components/treetable-lay/assets/layui/css/layui.css">
     <link rel="stylesheet" href="/components/treetable-lay/assets/common.css"/>
-    <script src='/components/treetable-lay/assets/layui/layui.js'></script>
-
     <script src="/modules/js/app.js"></script>
+    <script src='/components/treetable-lay/assets/layui/layui.js'></script>
     <style>
         input {
             height: 33px;
@@ -28,9 +27,19 @@
 
 <body>
 <!-- 设置数据表格宽 -->
-<div class="layui-container" style="width: 96%;margin-left: 40px">
+<div class="layui-container layui-form" style="width: 96%;margin-left: 40px">
     <br>
     <br>
+    <div class="layui-input-inline">
+        <select id="authorityType" lay-filter="authorityType">
+            <!--  <option value='" + dices[index].code + "' pid='" + dices[index].pid + "'>" + dices[index].name + "</option>-->
+        </select>
+    </div>
+    <div class="layui-input-inline">
+        <select id="fatherPid" lay-filter="fatherPid">
+              <option value=''></option>
+        </select>
+    </div>
     <!-- 展开/折叠 -->
     <div class="layui-btn-group">
         <button class="layui-btn layui-btn-primary" id="btn-expand">全部展开</button>
@@ -96,16 +105,54 @@
 
     // 当前行数据
     var data = null;
+    let res;
 
     layui.config({
         base: '../components/treetable-lay/module/' //静态资源所在路径
     }).extend({
         treetable: 'treetable-lay/treetable'
     }).use(['table', 'treetable'], function () {
-        xijiaRenderTable();       // 数据表格 - 获取表格
+        init();
+        // xijiaRenderTable();       // 数据表格 - 获取表格
         xijiaEventSearch();       // 监听条件搜索
         xijiaEventSwitch();       // 监听Switch开关
     });
+
+
+    function init() {
+        $("#authorityType").html(Dict.getDictSelect(Enums.Admin.AuthorityType,1));
+        xijiaRenderTable();
+        pidSelects();
+        layui.form.render();
+
+        // 监听选择
+        layui.form.on('select(authorityType)', function (data) {
+            xijiaRenderTable();
+            pidSelects();
+            layui.form.render();
+        });
+
+        // 监听选择
+        layui.form.on('select(fatherPid)', function (data) {
+            xijiaRenderTable();
+        });
+    }
+
+
+    function pidSelects() {
+        // 给二级选择 拼数据
+        let html = "<option value=''>" + "全部" + "</option>";
+        let auths = res.data;
+        let type = $("#authorityType").val();
+        $.each(auths, function (index, item) {
+            if (item.pid == type) {
+                html += "<option value='" +item.id + "'>" + item.desc + "</option>"
+            }
+        });
+        $("#fatherPid").html(html);
+    }
+
+
 
 
     /**
@@ -117,7 +164,7 @@
      */
     function xijiaRenderTable() {
         //菜单数据
-        let dataJson = Ajax.get(find_list);
+        res = Ajax.get(find_list + "?" + xijiaSearchParam());
         // 渲染表格
         layer.load(2);
         //加载数据
@@ -131,7 +178,7 @@
             elem: '#auth-table',         //table 的 div
             //url:'/menu/findAll',                         //后台接口获取数据
             //url: '../treetable-lay/json/menus.json',     //json文件获取数据
-            data: dataJson.data,                           //直接加载数据
+            data: res.data,                           //直接加载数据
             page: false,
             done: function () {
                 //  $("table").css("width", "96%");
@@ -303,6 +350,21 @@
             }
             layui.layer.msg(result.msg)
         });
+    }
+
+
+    /**
+     * 搜索参数
+     * @author wangsong
+     * @date 2020/8/23 0023 22:53
+     * @return
+     * @version 1.0.0
+     */
+    function xijiaSearchParam() {
+        let params = "";
+        params += "type=" + $("#authorityType").val();
+        params += "&pid=" + $("#fatherPid").val();
+        return params;
     }
 </script>
 </body>
