@@ -5,6 +5,7 @@ let isRead = "";
  * 点击铃铛执行
  */
 function msg() {
+    isRead = "";
     // 点击铃铛弹出消息
     Pop.tipsWindownRight($("#msgTemplate").html(), '300px', null, '消息列表', []);
     // 查询数据（第1页）
@@ -95,9 +96,12 @@ function showText(dataJson) {
     /**
      * 拼最后展示的数据
      */
-    let htmlMsg = "<div onclick='read({id})'> {read} " +
-        "<span style='user-select:none;'>{content}</span>" +
-        "<div style='user-select:none;color: #dad8d5'>{createTime}</div>" +
+    let htmlMsg = "" +
+        "<div style='' onclick='read({id})'>  " +
+        "{read} " +
+        "<font style='font-weight:bold'>{title}</font>" +
+        "<span style='user-select:none;color: #dad8d5;float:right;'>{createTime}</span>" +
+        "<div style='user-select:none;font-weight:lighter ;font-style:italic;margin-top: 5px'>{content}</div>" +
         "</div>" +
         "<hr> ";
     //
@@ -106,6 +110,7 @@ function showText(dataJson) {
         // 消息
         html += htmlMsg
             .replace("{read}", dataJson[index].isRead === 0 ? "<span style='margin-right: 3%;' class='layui-badge-dot'></span>" : "")
+            .replace("{title}", Dict.convert(Enums.Xj.MsgType, dataJson[index].msgType))
             .replace("{content}", dataJson[index].content)
             .replace("{createTime}", dataJson[index].createTime)
             .replace("{id}", dataJson[index].id)
@@ -119,7 +124,7 @@ function isReadAll() {
     let unreadNum = Ajax.get(msgUnreadNumAll).data;
     if (unreadNum != null && unreadNum > 0) {
         $("#isReadAll").show();
-    }else{
+    } else {
         $("#isReadAll").hide();
     }
 }

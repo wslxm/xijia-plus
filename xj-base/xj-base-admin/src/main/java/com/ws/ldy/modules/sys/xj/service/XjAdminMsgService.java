@@ -19,6 +19,8 @@ public interface XjAdminMsgService extends IService<XjAdminMsg> {
     /**
      * 发送消息
      */
-    public boolean insertMsg(XjAdminMsgDTO dto);
+     boolean insertMsg(XjAdminMsgDTO dto);
+
+
 }
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
 <head>
     <meta charset="utf-8">
     <title>用户--添加</title>
@@ -15,38 +15,33 @@
 
 <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
 
-
+    <div class="layui-form-item">
+        <label class="layui-form-label">通知终端</label>
+        <div class="layui-input-inline">
+            <select id="userType" name="userType"  lay-filter="userType">
+            </select>
+        </div>
+    </div>
     <div class="layui-form-item">
         <label class="layui-form-label">消息接收人</label>
         <div class="layui-input-inline">
-            <input type="text" id="userId" name="userId" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            <select id="userId" name="userId"  lay-filter="userId">
+            </select>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">内容</label>
+        <label class="layui-form-label">消息类型</label>
         <div class="layui-input-inline">
-            <input type="text" id="content" name="content" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            <select id="msgType" name="msgType"  lay-filter="msgType">
+            </select>
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">通知终端: 1-用户端信息 2-管理端消息</label>
-        <div class="layui-input-inline">
-            <input type="text" id="userType" name="userType" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    <div id="contentText" class="layui-form-item">
+        <label class="layui-form-label">发送内容</label>
+        <div class="layui-input-block">
+            <textarea id="content" name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">消息类型:  1-系统通知  2-订单业务通知 </label>
-        <div class="layui-input-inline">
-            <input type="text" id="msgType" name="msgType" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">是否已读</label>
-        <div class="layui-input-inline">
-            <input type="text" id="isRead" name="isRead" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-
     <div class="layui-form-item layui-hide">
         <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认添加">
         <input type="button" lay-submit lay-filter="layuiadmin-app-form-edit" id="layuiadmin-app-form-edit" value="确认编辑">
@@ -54,19 +49,56 @@
 </div>
 
 <script>
+    var userFindList = path + "/admin/adminUser/findList";
+
+
     layui.use(['form'], function () {
         adminMsgaddFormSubmit();
         adminMsgaddInit();
     });
 
-    function adminMsgaddInit(){
+    function adminMsgaddInit() {
         // 初始化相关数据
-
+        $("#userType").html(Dict.getDictSelect(Enums.Xj.MsgUserType, null, null, null));
+        $("#msgType").html(Dict.getDictSelect(Enums.Xj.MsgType, null, null, null));
         // 刷新,否则部分from 表单样式不生效
+        initUsersSelect(1);
         layui.form.render();
+
+        // 监听选择
+        layui.form.on('select(userType)', function (data) {
+            initUsersSelect(data.value);
+        });
     }
 
-    function adminMsgaddFormSubmit(){
+
+    /**
+     * 加载选择的用户
+     */
+    function  initUsersSelect(userType) {
+        let usersHtml = "";
+        if(userType == 2){
+            // 管理端=2
+            let users = Ajax.get(userFindList).data;
+            let usersHtml = "";
+            for (let i = 0; i < users.length; i++) {
+                if (i === 0) {
+                    usersHtml += "<option value='" + users[i].id + "' selected>" + users[i].fullName + "</option>";
+                } else {
+                    usersHtml += "<option value='" + users[i].id + "'>" + users[i].fullName + "</option>";
+                }
+            }
+            $("#userId").html(usersHtml);
+            layui.form.render();
+        }else{
+            // 用户端=1
+            $("#userId").html(usersHtml);
+            layui.form.render();
+        }
+    }
+
+
+    function adminMsgaddFormSubmit() {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             let result = Ajax.post(path + "/admin/xj/adminMsg/insert", data.field);

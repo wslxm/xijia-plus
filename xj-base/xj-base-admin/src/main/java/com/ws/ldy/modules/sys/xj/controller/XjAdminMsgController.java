@@ -10,6 +10,7 @@ import com.ws.ldy.config.auth.util.JwtUtil;
 import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.base.controller.BaseController;
+import com.ws.ldy.modules.sys.xj.model.dto.XjAdminMsgDTO;
 import com.ws.ldy.modules.sys.xj.model.entity.XjAdminMsg;
 import com.ws.ldy.modules.sys.xj.model.vo.XjAdminMsgVO;
 import com.ws.ldy.modules.sys.xj.service.XjAdminMsgService;
@@ -17,6 +18,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +54,13 @@ public class XjAdminMsgController extends BaseController<XjAdminMsgService> {
                 .eq( XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())
         );
         return R.successFind(BeanDtoVoUtil.pageVo(page, XjAdminMsgVO.class));
+    }
+
+
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @ApiOperation(value = "发送消息/添加", notes = "")
+    public R<Boolean> insert(@RequestBody @Validated XjAdminMsgDTO dto) {
+        return R.success( baseService.insertMsg( dto));
     }
 
 

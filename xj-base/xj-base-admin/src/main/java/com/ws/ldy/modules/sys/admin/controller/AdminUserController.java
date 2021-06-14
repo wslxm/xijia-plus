@@ -66,6 +66,25 @@ public class AdminUserController extends BaseController<AdminUserService> {
     }
 
 
+    @RequestMapping(value = "/findList", method = RequestMethod.GET)
+    @ApiOperation(value = "查询所有(只返回姓名/昵称/电话/id)", notes = "")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "searchName", value = "姓名or用户名", required = true, paramType = "query", example = ""),
+    })
+    public R<List<AdminUserVO>> findList(
+            @ApiParam(value = "账号/手机号/姓名/用户名", required = false) @RequestParam(required = false) String searchName) {
+        List<AdminUser> list = baseService.list(new LambdaQueryWrapper<AdminUser>()
+                .select(AdminUser::getUsername, AdminUser::getFullName, AdminUser::getPhone, AdminUser::getId)
+                .orderByDesc(AdminUser::getCreateTime)
+                .and(StringUtils.isNotBlank(searchName),
+                        i -> i.like(AdminUser::getFullName, searchName)
+                                .or().like(AdminUser::getUsername, searchName)
+                )
+        );
+        return R.success(BeanDtoVoUtil.listVo(list, AdminUserVO.class));
+    }
+
+
     @RequestMapping(value = "/findId", method = RequestMethod.GET)
     @ApiOperation(value = "ID查询", notes = "")
     @ApiImplicitParams({
