@@ -47,7 +47,7 @@ spring:
         maxPoolPreparedStatementPerConnectionSize: 20
         useGlobalDataSourceStat: true
         # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
-        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+        connectionProperties: druid.stat.mergeSql=true:druid.stat.slowSqlMillis=500
     ## druid监控平台配置
     druid:
       # 配置StatFilter
@@ -95,5 +95,22 @@ swagger:
   defaultValue: token                              # 默认请求头value
   isShield: false                                  # 是否展示文档 true展示 false隐藏
 
+
+# 代码生成配置
+gc:
+  describe: ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655    # 代码生成后每个类上的描叙信息
+  author: ws                              # 作者
+  email: 1720696548@qq.com                # 邮箱
+  projectName: xj-server/xj-test-server   # 项目名/路径，如：xj-server/xj-test-server
+  packPath: com.ws.ldy                    # 包路径
+  rootModule: modules                     # 根模块(固定为：modules(管理端), 用户端为：client)
+  packPathZp: sys                         # 业务分类模块(sys 系统代码  yw 业务代码)
+  moduleName: test                        # 子模块(业务分类,如用户管理,订单管理模块拆分，也可以统一一个名称放在一起)
+  tablePrefixDefault: t_                  # 表前缀 (生成的类名会过滤掉前缀)
+  fieldPrefixDefault:                     # 字段前缀 (生成的字段名会过滤掉前缀)
+  entitySwagger: false                     # 实体类是否使用swagger注释 (false情况下所有doc注释)
+  fatherPath:                             # 生成路径(不填默认当前项目跟目录,可指定绝对路径)
+  basefields: id,create_user,update_user,create_time,update_time,deleted,version    # 数据库通用字段配置
+  keywordArray: time,desc,name,key,value,mysql,info,form,sort,icon,unlock,unLock,comment,disable,force,describe  # 数据库关键字,标注后会在实体类 @TableField 注解上自动加引号
 
 

@@ -1,6 +1,11 @@
 package com.ws.ldy.modules.sys.gc.config;
 
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.google.common.base.CaseFormat;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,72 +18,79 @@ import java.util.List;
  * @return
  */
 @SuppressWarnings({"all"})
+@Component
+@Slf4j
 public class GenerateConfig {
 
-    /**
-     * author：       代码生成的注释信息：作者
-     * email：        代码生成的邮箱联系方式
-     * moduleName:    模块名称
-     * packName:      包名/包路径（生成属性/接口名称,引入依赖使用）
-     * projectName:   子项目模块路径 (项目目录下)
-     * PACK_PATH:      模块内代码存放包根路径
-     * ROOT_MODULE:    模块内代码存放包子路径(不建议变动)
-     * PACK_PATH_ZP:   模块内的子模块 (yw=业务代码  sys=系统代码)
-     * MODULE_NAME:    模块内的子模块下的子模块 (更具体的业务划分)
-     */
-    public final static String AUTHOR = "wangsong";
-    public final static String EMAIL = "1720696548@qq.com";
-    public final static String DESCRIBE = " ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 ";
-    // private final static String PACK_PATH = (PetsServer.class.getPackage().getName() + "");  // 包根路径（所有代码,使用启动类的路径）
-    public final static String PROJECT_NAME = "xj-server/xj-test-server";
-    public final static String PACK_PATH = "com.ws.ldy";
-    public final static String ROOT_MODULE = "modules";
-    public final static String PACK_PATH_ZP = "test";
-    public final static String MODULE_NAME = "xj";
 
+    //=======================================================================================================
+    //=======================================================================================================
+    //======================================= 初始化配置参数  =================================================
+    //=======================================================================================================
+    //=======================================================================================================
 
-    /**
-     * 前缀配置（非默认数据源允许被篡改）
-     * 表前缀：TABLE_PREFIX  （绝对生成的文件名称是否去除前缀信息）
-     * 字段前缀：FIELD_PREFIX
-     * _DEFAULT = 默认配置
-     */
-    public static String TABLE_PREFIX_DEFAULT = "t_";
-    public static String FIELD_PREFIX_DEFAULT = "";
-    public static String TABLE_PREFIX = GenerateConfig.TABLE_PREFIX_DEFAULT;
-    public static String FIELD_PREFIX = GenerateConfig.FIELD_PREFIX_DEFAULT;
-
-
-    /**
-     * 生成路径
-     * 相对路径： value=""  当前项目目录下(建议-默认为相对路径)
-     * 绝对路径:  value="F:/workspace/code/git2020-1/spring-boot-plus2/"
-     */
-    public final static String FATHER_PATH = "";
-
-
-    /**
-     * entity / vo / dto 是否使用swagger 注释
-     * entitySwagger : 实体类是否使用swagger注释, true=是  false=否
-     */
-    public static boolean entitySwagger = false;
-
-    /**
-     * 生成代码位置基本不用改变，除目录结构发生变化
-     */
+    public static String AUTHOR;                          // 作者
+    public static String EMAIL;                           // 邮箱
+    public static String DESCRIBE;                        // 描叙信息
+    public static String PROJECT_NAME;                    // 项目名/路径，如：xj-server/xj-test-server
+    public static String PACK_PATH;                       // 包路径
+    public static String ROOT_MODULE;                     // 根模块(固定为：modules(管理端), 用户端为：client)
+    public static String PACK_PATH_ZP;                    // 业务分类模块(sys 系统代码  yw 业务代码)
+    public static String MODULE_NAME;                     // 子模块(业务分类,如用户管理,订单管理模块拆分，也可以统一一个名称放在一起)
+    public static boolean entitySwagger = false;          // 实体类是否使用swagger注释, true=是  false=否 entity / vo / dto 是否使用swagger 注释
+    public static List<String> BASE_FIELDS = null;        // mysql 数据表通用字段
+    public static List<String> KEYWORD_ARRAY = null;      // mysql 关键字配置
+    public static String TABLE_PREFIX_DEFAULT = null;     // 表前缀：TABLE_PREFIX(生成的文件名称自动去除前缀信息）
+    public static String FIELD_PREFIX_DEFAULT = null;     // 字段前缀：FIELD_PREFIX
+    public static String TABLE_PREFIX = null;             // 表前缀：TABLE_PREFIX (实际)
+    public static String FIELD_PREFIX = null;             // 字段前缀：FIELD_PREFIX(实际)
+    public static String FATHER_PATH = "";                // 生成路径,相对路径：value=""当前项目目录下, 绝对路径: 指定磁盘绝对目录
+    //
     // 预览的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
-    public final static String BASE_PATH_HTML_TXT_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/templates/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/txt/";
-    public final static String BASE_PATH_JAVA_YL = "File/" + PROJECT_NAME + "/code/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
-    public final static String BASE_PATH_XML_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/mapper/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
-
+    public static String BASE_PATH_HTML_TXT_YL = null;
+    public static String BASE_PATH_JAVA_YL = null;
+    public static String BASE_PATH_XML_YL = null;
     // 生成的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
-    public final static String BASE_PATH_HTML = PROJECT_NAME + "/src/main/resources/templates/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
-    public final static String BASE_PATH_JAVA = PROJECT_NAME + "/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + PACK_PATH_ZP + "/" + MODULE_NAME.replace(".", "/") + "/";
-    public final static String BASE_PATH_XML = PROJECT_NAME + "/src/main/resources/mapper/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
-    ;
+    public static String BASE_PATH_HTML = null;
+    public static String BASE_PATH_JAVA = null;
+    public static String BASE_PATH_XML = null;
 
+
+    public GenerateConfig(GenerateProperties generateProperties) {
+        AUTHOR = generateProperties.getAuthor();
+        EMAIL = generateProperties.getEmail();
+        DESCRIBE = generateProperties.getDescribe();
+        PROJECT_NAME = generateProperties.getProjectName();
+        PACK_PATH = generateProperties.getPackPath();
+        ROOT_MODULE = generateProperties.getRootModule();
+        PACK_PATH_ZP = generateProperties.getPackPathZp();
+        MODULE_NAME = generateProperties.getModuleName();
+        entitySwagger = generateProperties.getEntitySwagger();
+        BASE_FIELDS = Arrays.asList(generateProperties.getBasefields().split(","));
+        KEYWORD_ARRAY = Arrays.asList(generateProperties.getKeywordArray().split(","));
+        TABLE_PREFIX_DEFAULT = generateProperties.getTablePrefixDefault();
+        FIELD_PREFIX_DEFAULT = generateProperties.getFieldPrefixDefault();
+        TABLE_PREFIX = TABLE_PREFIX_DEFAULT;
+        FIELD_PREFIX = TABLE_PREFIX;
+        FATHER_PATH = generateProperties.fatherPath;
+        // 代码生成位置
+        BASE_PATH_HTML_TXT_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/templates/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/txt/";
+        BASE_PATH_JAVA_YL = "File/" + PROJECT_NAME + "/code/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
+        BASE_PATH_XML_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/mapper/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
+        BASE_PATH_HTML = PROJECT_NAME + "/src/main/resources/templates/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
+        BASE_PATH_JAVA = PROJECT_NAME + "/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + PACK_PATH_ZP + "/" + MODULE_NAME.replace(".", "/") + "/";
+        BASE_PATH_XML = PROJECT_NAME + "/src/main/resources/mapper/" + ROOT_MODULE + "/" + PACK_PATH_ZP + "/" + MODULE_NAME + "/";
+        log.info("===============代码生成配置已加载=================");
+    }
+
+
+    //=======================================================================================================
+    //=======================================================================================================
+    //======================================= 下方为固定参数  =================================================
+    //=======================================================================================================
+    //=======================================================================================================
     /**
-     * 生成的各代码具体的生成的子路径
+     * 代码生成位置 --> 子路径
      */
     public final static String PATH_ENTITY = "model/entity/";
     public final static String PATH_VO = "model/vo/";
@@ -87,57 +99,101 @@ public class GenerateConfig {
     public final static String PATH_SERVICE = "service/";
     public final static String PATH_SERVICE_IMPL = "service/impl/";
     public final static String PATH_MAPPER = "mapper/";
-    // 这里 xml 会过滤 Xml
+    // 这里 xml 会过滤 Xml,主要用于区分
     public final static String PATH_MAPPER_XML = "mapperXml/";
-
     /**
      * 此处内容一般都是不会修改的，特殊情况除外
      */
     public final static String PATH_TEMPLATE = "/template";   // 代码模版读取位置（目录 resources/template下）
-    public static String SUFFIX_JAVA = ".java";             // 实际 java 后缀名
-    public static String SUFFIX_XML = ".xml";               // 实际 xml 后缀名
-    public static String SUFFIX_HTML = ".html";             // 实际 html 后缀名
+    public static String SUFFIX_JAVA = ".java";               // 实际 java 后缀名
+    public static String SUFFIX_XML = ".xml";                 // 实际 xml 后缀名
+    public static String SUFFIX_HTML = ".html";               // 实际 html 后缀名
     //
-    public static String SUFFIX_TXT = ".txt";               // 预览文件后缀名
+    public static String SUFFIX_TXT = ".txt";                 // 预览文件后缀名
     //
-    public static String SUFFIX_JAVA_PT = ".txt";           // 最后生成html 后缀名
-    public static String SUFFIX_HTML_PT = ".txt";           // 最后生成的html 后缀名
-    public static String SUFFIX_XML_PT = ".txt";            // 最后生成的html 后缀名
+    public static String SUFFIX_JAVA_PT = ".txt";             // 最后生成html 后缀名
+    public static String SUFFIX_HTML_PT = ".txt";             // 最后生成的html 后缀名
+    public static String SUFFIX_XML_PT = ".txt";              // 最后生成的html 后缀名
+
+
+
+    //=======================================================================================================
+    //=======================================================================================================
+    //================================ 下方为代码生成过程中动态生成的参数  ========================================
+    //=======================================================================================================
+    //=======================================================================================================
+    // 基础参数 (代码生成过程中第一步调用DsField方法时 获得)
+    public static String PATH_TP;             // 代码模板路径(从项目名开始,除该字段，其余所有字段为模块页面替换值)
+    public static String TABLE_NAME;          //  数据库表的实际名称
+    public static String TABLE_COMMENT;       //  数据表的注释
+    // public static String PACK_PATH_GC;     //  生成代码的包名/路径（从java 目录开始，如当前: com.ws.ldy.modules）
+    public static String TABLE_NAME_UP;       //  表名驼峰大写开头 --> java 文件名+类名
+    public static String TABLE_NAME_LOWER;    //  表名驼峰小写开头 --> ( html 文件名 ||  java 对象属性名-User user = new User() 的user)
+
+    // java参数 (代码生成过程中获得)
+    public static String FIELD_ENTITYS = "";             // entity 实体类所有字段数据
+    public static String FIND_PAGE_PARAM = "";           // controller， findPage方法参数列表
+    public static String FIND_PAGE_MYBATIS_PLUS = "";    // controller， findPage方法查询参数,拼接到mybatisPlus方法中参数列表
+    public static String SWAGGER_REMARK = "";            // controller， findPage方法查询参数，的swagger注释
+
+    // xml 参数(代码生成过程中获得)
+    public static String RESULT_MAP = "";                // mapper xml 字段映射
+    public static String COLUMN_LIST = "";               // mapper xml 通用字段返回
+
+    // html参数(代码生成过程中获得)
+    // public static String PRIMARY_KEY_TYPE = "";        // id主键数据类型
+    public static String LAYUI_FIELDS = "";               // 生成html主页，layui数据表格所有字段数据
+    public static String LAYUI_SEARCH_PT_STR = "";        // 生成html主页，搜索条件拼接
+    public static String LAYUI_SEARCH_PARAMS_STR = "";    // 生成html主页，搜索条件url参数
+    public static String LAYUI_SEARCH_JS_STR = "";        // 生成html主页，搜索条件js
+    public static String ADD_UPD_INTRODUCE = "";          // 生成html 添加页/编辑页，css/js引入
+    public static String ADD_UPD_HTMLS = "";              // 生成html 添加页/编辑页，表单所有字段代码生成
+    public static String ADD_UPD_JS = "";                 // 生成html 添加/编辑页，js代码生成
+    public static String ADD_UPD_SUBMIT_JS = "";          // 生成html 添加/编辑页，多选js 提交参数处理代码生成
 
 
     /**
-     * mysql 数据表通用字段
+     * 1、tableName;         // 数据库表的实际名称
+     * 2、tableComment;      // 数据库表的注释
+     * 3、packName;          // 生成代码的包名/路径 （从java 目录开始，如当前: com.ws.ldy.baseadmin）
+     * 4、pathTp;            // 代码模板路径
      */
-    public static final List<String> BASE_FIELDS = Arrays.asList(
-            ("id" +
-                    ",create_user" +
-                    ",update_user" +
-                    ",create_time" +
-                    ",update_time" +
-                    ",deleted" +
-                    ",version")
-                    .split(","));
+    public static void dsField(String tableName, String tableComment, String packPath, String pathTp) {
+        PATH_TP = pathTp;
+        TABLE_NAME = tableName;
+        TABLE_COMMENT = tableComment;
+       // PACK_PATH = packPath;
+        // 如果需要，去除表前缀
+        if (StringUtils.isNotBlank(GenerateConfig.TABLE_PREFIX)) {
+            // 获取前缀
+            String prefix = tableName.substring(0, GenerateConfig.TABLE_PREFIX.length());
+            String newTableName = tableName;
+            // 去除表前缀(如果为?_  去除 ?_)
+            if (GenerateConfig.TABLE_PREFIX.equals(prefix)) {
+                //去掉数据库表的前缀，如 t_
+                newTableName = tableName.substring(GenerateConfig.TABLE_PREFIX.length());
+            }
+            // test_data --> TestData
+            TABLE_NAME_UP = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, newTableName);
+            // test_data --> testData
+            TABLE_NAME_LOWER = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, newTableName);
+        } else {
+            // test_data --> TestData
+            TABLE_NAME_UP = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName);
+            // test_data --> testData
+            TABLE_NAME_LOWER = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, tableName);
+        }
+    }
 
 
-    /**
-     * mysql 关键字配置,如存在下方定义的关键字字段,实体类会进行自动处理
-     */
-    public static final String[] KEYWORD_ARRAY = {
-            "time",
-            "desc",
-            "name",
-            "key",
-            "value",
-            "mysql",
-            "info",
-            "form",
-            "sort",
-            "icon",
-            "unlock",
-            "unLock",
-            "comment",
-            "disable",
-            "force",
-            "describe",
-    };
+    // TEST
+    public static void main(String[] args) {
+        log.debug(CaseFormat.LOWER_HYPHEN.to(CaseFormat.LOWER_CAMEL, "t_test-data"));            // testData
+        log.debug(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, "t_test_data"));        // testData
+        log.debug(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, "t_test_data_test"));   // TestData
+        log.debug(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, "t_test_data"));        // TestData
+        log.debug(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "testdata"));           // testdata
+        log.debug(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "TestData"));           // test_data
+        log.debug(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, "testData"));               // test-data
+    }
 }

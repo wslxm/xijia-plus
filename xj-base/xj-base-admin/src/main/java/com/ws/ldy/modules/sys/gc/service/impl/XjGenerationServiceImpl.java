@@ -1,7 +1,6 @@
 package com.ws.ldy.modules.sys.gc.service.impl;
 
 import com.ws.ldy.modules.sys.base.service.impl.BaseIServiceImpl;
-import com.ws.ldy.modules.sys.gc.config.DsField;
 import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
 import com.ws.ldy.modules.sys.gc.service.XjGenerationSevice;
 import com.ws.ldy.modules.sys.gc.template.*;
@@ -11,14 +10,13 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("all")
 @Component
-public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenerationSevice {
+public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGenerationSevice {
 
     /**
      * 保存预览文件返回的文件地址url
@@ -68,7 +66,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
                 }
             }
             // 字段对应数据库字段 ==> 处理 添加mysql 关键字映射，mysql关键字配置: GenerateConfig.KEYWORD_ARRAY
-            if (Arrays.asList(GenerateConfig.KEYWORD_ARRAY).contains(fieldName)) {
+            if (GenerateConfig.KEYWORD_ARRAY.contains(fieldName)) {
                 fields.append("\r\n    @TableField(value = \"`" + fieldName + "`\")");
             } else {
                 fields.append("\r\n    @TableField(value = \"" + fieldName + "\")");
@@ -79,7 +77,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             JXModel(fields, fieldName, type);
         }
         // 数据保存到替换对象类,使模板中可以读取
-        DsField.FIELD_ENTITYS = fields.toString();
+        GenerateConfig.FIELD_ENTITYS = fields.toString();
         GenerateDataProcessing.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
         pathMap.put("entity", brBwPath.get("path").toString());
     }
@@ -199,7 +197,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             JXModel(fields, fieldName, type);
         }
         // 数据保存到替换对象类,使模板中可以读取
-        DsField.FIELD_ENTITYS = fields.toString();
+        GenerateConfig.FIELD_ENTITYS = fields.toString();
         GenerateDataProcessing.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
         pathMap.put("DTO", brBwPath.get("path").toString());
     }
@@ -220,7 +218,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             this.JXModel(fields, fieldName, type);
         }
         // 数据保存到替换对象类,使模板中可以读取
-        DsField.FIELD_ENTITYS = fields.toString();
+        GenerateConfig.FIELD_ENTITYS = fields.toString();
         GenerateDataProcessing.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
         pathMap.put("VO", brBwPath.get("path").toString());
     }
@@ -302,43 +300,43 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
                 //方法参数
                 findPageParam.append("Integer " + fieldName + ",");
                 //mybatis-plus 参数
-                findPageMybatisPlus.append("                .eq(" + fieldName + " != null," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
+                findPageMybatisPlus.append("                .eq(" + fieldName + " != null," + GenerateConfig.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
             } else if (type.equals("bigint")) {
                 //整数Long
                 findPageParam.append("Long " + fieldName + ",");
-                findPageMybatisPlus.append("                .eq(" + fieldName + " != null," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
+                findPageMybatisPlus.append("                .eq(" + fieldName + " != null," + GenerateConfig.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
             } else if (type.equals("varchar") || type.equals("char")) {
                 //字符串
                 findPageParam.append("String " + fieldName + ",");
-                findPageMybatisPlus.append("                .eq(StringUtils.isNotBlank(" + fieldName + ")," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
+                findPageMybatisPlus.append("                .eq(StringUtils.isNotBlank(" + fieldName + ")," + GenerateConfig.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
             } else if (type.equals("text") || type.equals("longtext")) {
                 //大文本、超大文本
                 findPageParam.append("String " + fieldName + ",");
-                findPageMybatisPlus.append("                .eq(StringUtils.isNotBlank(" + fieldName + ")," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
+                findPageMybatisPlus.append("                .eq(StringUtils.isNotBlank(" + fieldName + ")," + GenerateConfig.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
             } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
                 //时间
                 findPageParam.append("@DateTimeFormat(pattern = \"yyyy-MM-dd HH:mm:ss\") LocalDateTime " + fieldName + ",");
-                findPageMybatisPlus.append("                .eq(" + fieldName + " != null," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
+                findPageMybatisPlus.append("                .eq(" + fieldName + " != null," + GenerateConfig.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
             } else if (type.equals("double")) {
                 //双精度小数 Double
                 findPageParam.append("Double " + fieldName + ",");
-                findPageMybatisPlus.append("                .eq(" + fieldName + " != null," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
+                findPageMybatisPlus.append("                .eq(" + fieldName + " != null," + GenerateConfig.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
             } else if (type.equals("float")) {
                 //单精度小数 Float
                 findPageParam.append("Float " + fieldName + ",");
-                findPageMybatisPlus.append("                .eq(" + fieldName + " != null," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
+                findPageMybatisPlus.append("                .eq(" + fieldName + " != null," + GenerateConfig.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
             } else if (type.equals("decimal")) {
                 //小数 decimal
                 findPageParam.append("BigDecimal " + fieldName + ",");
-                findPageMybatisPlus.append("                .eq(" + fieldName + " != null," + DsField.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
+                findPageMybatisPlus.append("                .eq(" + fieldName + " != null," + GenerateConfig.TABLE_NAME_UP + "::get" + fieldNameUp + "," + fieldName + ")");
             }
             findPageMybatisPlus.append("\r\n");
         }
         // log.debug(findPageParam.substring(0, findPageParam.length() - 1));
         // log.debug(findPageMybatisPlus.toString()); //
-        DsField.FIND_PAGE_PARAM = findPageParam.substring(0, findPageParam.length() - 1);
-        DsField.FIND_PAGE_MYBATIS_PLUS = findPageMybatisPlus.toString();
-        DsField.SWAGGER_REMARK = swaggerRemark.toString();
+        GenerateConfig.FIND_PAGE_PARAM = findPageParam.substring(0, findPageParam.length() - 1);
+        GenerateConfig.FIND_PAGE_MYBATIS_PLUS = findPageMybatisPlus.toString();
+        GenerateConfig.SWAGGER_REMARK = swaggerRemark.toString();
 
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
@@ -372,7 +370,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
      * 生成ServiceImpl
      *
      * @param data    数据
-     * @param DsField 数据
+     * @param GenerateConfig 数据
      * @param path    生成代码路径
      * @return void
      * @date 2019/11/20 19:18
@@ -391,7 +389,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
      * 生成Dao
      *
      * @param data    数据
-     * @param DsField 数据
+     * @param GenerateConfig 数据
      * @param path    生成代码路径
      * @return void
      * @date 2019/11/20 19:18
@@ -410,7 +408,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
      * 生成Dao 对应的xml
      *
      * @param data    数据
-     * @param DsField 数据
+     * @param GenerateConfig 数据
      * @param path    生成代码路径
      * @return void
      * @date 2019/11/20 19:18
@@ -428,8 +426,8 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             resultMap.append("\r\n               <result column=\"" + fieldName + "\" property=\"" + fieldNameHump + "\" />");
             columnList.append("\r\n               " + fieldName + ",");
         }
-        DsField.RESULT_MAP = resultMap.toString();
-        DsField.COLUMN_LIST = columnList.toString().substring(0, columnList.toString().length() - 1);
+        GenerateConfig.RESULT_MAP = resultMap.toString();
+        GenerateConfig.COLUMN_LIST = columnList.toString().substring(0, columnList.toString().length() - 1);
         // <result column="id" property="id" />
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
@@ -441,7 +439,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
      * 生成Html-main 主页
      *
      * @param data    数据
-     * @param DsField 数据
+     * @param GenerateConfig 数据
      * @param path    生成代码路径
      * @return void
      * @date 2019/11/20 19:18
@@ -516,10 +514,10 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             SearchParamsStr.append("\r\n");
         }
         // 数据保存
-        DsField.LAYUI_FIELDS = fieldStr.toString().substring(0, fieldStr.length() - 1);
-        DsField.LAYUI_SEARCH_PT_STR = searchPtStr.toString();
-        DsField.LAYUI_SEARCH_PARAMS_STR = SearchParamsStr.toString();
-        DsField.LAYUI_SEARCH_JS_STR = searchJsStr.toString();
+        GenerateConfig.LAYUI_FIELDS = fieldStr.toString().substring(0, fieldStr.length() - 1);
+        GenerateConfig.LAYUI_SEARCH_PT_STR = searchPtStr.toString();
+        GenerateConfig.LAYUI_SEARCH_PARAMS_STR = SearchParamsStr.toString();
+        GenerateConfig.LAYUI_SEARCH_JS_STR = searchJsStr.toString();
 
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
@@ -534,7 +532,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
      * 生成Html-Add 添加页
      *
      * @param data    数据
-     * @param DsField 数据
+     * @param GenerateConfig 数据
      * @param path    生成代码路径
      * @return void
      * @date 2019/11/20 19:18
@@ -652,10 +650,10 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             }
         }
         // 数据保存
-        DsField.ADD_UPD_INTRODUCE = introduce.toString();
-        DsField.ADD_UPD_HTMLS = htmls.toString();
-        DsField.ADD_UPD_JS = js.toString();
-        DsField.ADD_UPD_SUBMIT_JS = submitjs.toString();
+        GenerateConfig.ADD_UPD_INTRODUCE = introduce.toString();
+        GenerateConfig.ADD_UPD_HTMLS = htmls.toString();
+        GenerateConfig.ADD_UPD_JS = js.toString();
+        GenerateConfig.ADD_UPD_SUBMIT_JS = submitjs.toString();
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // url保存
@@ -667,7 +665,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
      * 生成Html-Upd 修改页
      *
      * @param data    数据
-     * @param DsField 数据
+     * @param GenerateConfig 数据
      * @param path    生成代码路径
      * @return void
      * @date 2019/11/20 19:18
@@ -792,10 +790,10 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             }
         }
         // 数据保存
-        DsField.ADD_UPD_INTRODUCE = introduce.toString();
-        DsField.ADD_UPD_HTMLS = htmls.toString();
-        DsField.ADD_UPD_JS = js.toString();
-        DsField.ADD_UPD_SUBMIT_JS = submitjs.toString();
+        GenerateConfig.ADD_UPD_INTRODUCE = introduce.toString();
+        GenerateConfig.ADD_UPD_HTMLS = htmls.toString();
+        GenerateConfig.ADD_UPD_JS = js.toString();
+        GenerateConfig.ADD_UPD_SUBMIT_JS = submitjs.toString();
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
         pathMap.put("mainUpd", brBwPath.get("path").toString());

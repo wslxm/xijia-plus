@@ -6,7 +6,6 @@ import com.google.common.base.CaseFormat;
 import com.ws.ldy.common.utils.IdUtil;
 import com.ws.ldy.common.utils.JsonUtil;
 import com.ws.ldy.common.utils.LocalDateTimeUtil;
-import com.ws.ldy.modules.sys.gc.config.DsField;
 import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
 import lombok.extern.slf4j.Slf4j;
 
@@ -130,24 +129,24 @@ public class GenerateDataProcessing {
             /**
              * 生成 html
              */
-            upPath = path + DsField.TABLE_NAME_LOWER + name.replace("Html", "") + GenerateConfig.SUFFIX_HTML_PT;
+            upPath = path + GenerateConfig.TABLE_NAME_LOWER + name.replace("Html", "") + GenerateConfig.SUFFIX_HTML_PT;
         } else if (name.indexOf("Xml") != -1) {
             /**
              * 生成xml,  xml文件 去除文件名上的 Xml
              */
             String newName = name.substring(0, name.length() - 3);
-            upPath = path + DsField.TABLE_NAME_UP + newName + GenerateConfig.SUFFIX_XML_PT;
+            upPath = path + GenerateConfig.TABLE_NAME_UP + newName + GenerateConfig.SUFFIX_XML_PT;
         } else {
             /**
              * 生成 java 文件
              */
-            upPath = path + DsField.TABLE_NAME_UP + name + GenerateConfig.SUFFIX_JAVA_PT;
+            upPath = path + GenerateConfig.TABLE_NAME_UP + name + GenerateConfig.SUFFIX_JAVA_PT;
         }
         // 检查目录,不存在添加
         mkdirFile(path);
         try {
             // 服务器模板路径（url+ 文件路径）+ 模板名称
-            BufferedReader br = getUrlDetail(DsField.PATH_TP + "/Demo" + name + ".tp");
+            BufferedReader br = getUrlDetail(GenerateConfig.PATH_TP + "/Demo" + name + ".tp");
             BufferedWriter bw = new BufferedWriter(new FileWriter(upPath));
             brBw.put("br", br);
             brBw.put("bw", bw);
@@ -236,36 +235,33 @@ public class GenerateDataProcessing {
                         .replace("{packPathZp}", GenerateConfig.PACK_PATH_ZP)  // 模块子目录
                         .replace("{date}", "@date  " + LocalDateTimeUtil.parse(LocalDateTimeUtil.now()))
                         //原始数据
-                        .replace("{tableName}", DsField.TABLE_NAME)            // 表名
-                        .replace("{tableNameUp}", DsField.TABLE_NAME_UP)       // 表名大写开头驼峰
-                        .replace("{tableNameLower}", DsField.TABLE_NAME_LOWER) // 表名小写开头驼峰
-                        // .replace("{htmlNameLower}", DsField.TABLE_NAME_LOWER)     // 表名小写开头驼峰
-                        .replace("{packPath}", DsField.PACK_PATH)              // 包路径
-                        .replace("{tableComment}", DsField.TABLE_COMMENT)      // 数据表的注释
+                        .replace("{tableName}", GenerateConfig.TABLE_NAME)            // 表名
+                        .replace("{tableNameUp}", GenerateConfig.TABLE_NAME_UP)       // 表名大写开头驼峰
+                        .replace("{tableNameLower}", GenerateConfig.TABLE_NAME_LOWER) // 表名小写开头驼峰
+                        // .replace("{htmlNameLower}", DsField.TABLE_NAME_LOWER)      // 表名小写开头驼峰
+                        .replace("{packPath}", GenerateConfig.PACK_PATH)              // 包路径
+                        .replace("{tableComment}", GenerateConfig.TABLE_COMMENT)      // 数据表的注释
                         //.replace("{entryName}", DsField.entryName)
                         //代码生成方法内获得的处理数据
-                        .replace("{entitys}", DsField.FIELD_ENTITYS)
-                        .replace("{findPageParam}", DsField.FIND_PAGE_PARAM)
-                        .replace("{findPageMybatisPlus}", DsField.FIND_PAGE_MYBATIS_PLUS)
-                        .replace("{swaggerRemark}", DsField.SWAGGER_REMARK)
+                        .replace("{entitys}", GenerateConfig.FIELD_ENTITYS)
+                        .replace("{findPageParam}", GenerateConfig.FIND_PAGE_PARAM)
+                        .replace("{findPageMybatisPlus}", GenerateConfig.FIND_PAGE_MYBATIS_PLUS)
+                        .replace("{swaggerRemark}", GenerateConfig.SWAGGER_REMARK)
                         // mapper - xml
-                        .replace("{resultMap}", DsField.RESULT_MAP)
-                        .replace("{columnList}", DsField.COLUMN_LIST)
+                        .replace("{resultMap}", GenerateConfig.RESULT_MAP)
+                        .replace("{columnList}", GenerateConfig.COLUMN_LIST)
                         // entity/vo/dto的 serialVersionUID生成(雪花算法)
                         .replace("{serialVersionUID}", IdUtil.snowflakeId())
                         // html
-                        .replace("{layui-fields}", DsField.LAYUI_FIELDS)
-                        .replace("{layui-search-pt-str}", DsField.LAYUI_SEARCH_PT_STR)
-                        .replace("{layui-search-params-str}", DsField.LAYUI_SEARCH_PARAMS_STR)
-                        .replace("{layui-search-js-str}", DsField.LAYUI_SEARCH_JS_STR)
+                        .replace("{layui-fields}", GenerateConfig.LAYUI_FIELDS)
+                        .replace("{layui-search-pt-str}", GenerateConfig.LAYUI_SEARCH_PT_STR)
+                        .replace("{layui-search-params-str}", GenerateConfig.LAYUI_SEARCH_PARAMS_STR)
+                        .replace("{layui-search-js-str}", GenerateConfig.LAYUI_SEARCH_JS_STR)
                         // html add/upd code
-                        .replace("{add-upd-introduce}", DsField.ADD_UPD_INTRODUCE)
-                        .replace("{add-upd-htmls}", DsField.ADD_UPD_HTMLS)
-                        .replace("{add-upd-js}", DsField.ADD_UPD_JS)
-                        .replace("{add-upd-submit-js}", DsField.ADD_UPD_SUBMIT_JS)
-
-
-
+                        .replace("{add-upd-introduce}", GenerateConfig.ADD_UPD_INTRODUCE)
+                        .replace("{add-upd-htmls}", GenerateConfig.ADD_UPD_HTMLS)
+                        .replace("{add-upd-js}", GenerateConfig.ADD_UPD_JS)
+                        .replace("{add-upd-submit-js}", GenerateConfig.ADD_UPD_SUBMIT_JS)
                 ;
                 bw.write(newLine);
                 bw.newLine();

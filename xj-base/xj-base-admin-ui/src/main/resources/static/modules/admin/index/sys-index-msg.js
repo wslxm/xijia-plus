@@ -99,9 +99,9 @@ function showText(dataJson) {
     let htmlMsg = "" +
         "<div style='' onclick='read({id})'>  " +
         "{read} " +
-        "<font style='font-weight:bold'>{title}</font>" +
+        "<font style='font-weight:bold;font-style:italic;'>{title}</font>" +
         "<span style='user-select:none;color: #dad8d5;float:right;'>{createTime}</span>" +
-        "<div style='user-select:none;font-weight:lighter ;font-style:italic;margin-top: 5px'>{content}</div>" +
+        "<div style='user-select:none;font-weight:lighter ;margin-top: 5px'>{content}</div>" +
         "</div>" +
         "<hr> ";
     //
