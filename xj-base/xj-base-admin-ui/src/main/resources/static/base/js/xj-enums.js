@@ -59,7 +59,7 @@ Dict = {
         // let dictCache = localStorage.getItem('dictCache');
         // if (dictCache == null || version !== JSON.parse(dictCache).VERSION.version) {
         //从后台获取字典数据并缓存到localStorage
-        let dictData = Ajax.get(path + "/admin/adminDictionary/findCodeGroup");
+        let dictData = Ajax.get(path + "/client/dictionary/findCodeGroup");
         localStorage.setItem('dictCache', JSON.stringify(dictData.data));  //
         // }
     },
