@@ -43,7 +43,7 @@ public class WxMpController {
 
 
     @RequestMapping(value = "/auth/getAuthCodeUrl", method = RequestMethod.GET)
-    @ApiOperation(value = "网页授权登录 -->  1、获取授权URL, 并重定向到指定页", notes = "" +
+    @ApiOperation(value = "网页授权登录 -->  1、获取授权URL,并重定向到指定页", notes = "" +
             "\r\n 注意： 返回的url需在微信开发者工具访问或手机微信中打开" +
             "\r\n 注意： code 有效期5分钟" +
             "\r\n 注意： 需配置：网页授权获取用户基本信息域名" +

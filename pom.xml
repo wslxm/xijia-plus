@@ -55,6 +55,7 @@
         <xj-fw-websocket.version>0.0.2</xj-fw-websocket.version>
         <xj-fw-redis.version>0.0.1</xj-fw-redis.version>
         <xj-api-qq-open.version>0.0.1</xj-api-qq-open.version>
+        <xj-api-wx-open.version>0.0.1</xj-api-wx-open.version>
         <!-- 系统工具包 -->
         <xj-util-core.version>0.0.1</xj-util-core.version>
         <xj-util-fastjson.version>0.0.1</xj-util-fastjson.version>
