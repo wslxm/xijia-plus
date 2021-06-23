@@ -174,16 +174,11 @@ public class SysAspect {
                 return proceed.proceed();
             }
         }
-        // 1、验签 验签由SysSingFilter进行, 验证失败不会进入到aop
+        // 1、验签 验签由 SysSingFilter 过滤器进行, 验证失败不会进入到aop
         //   R<Boolean> singR = sysSing.isSing(proceed);
         //   if (!singR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
         //       return singR;
         //   }
-
-
-        //  1、参数解密
-        //sysEncrypt.decrypt(proceed);
-
 
         // 2、记录请求日志, 将异步执行(与业务代码并行处理),不影响程序响应, future 为线程的返回值，用于后面异步执行响应结果
         Future<XjAdminLog> future = executorService.submit(() -> sysLog.log(proceed, request));
@@ -217,12 +212,17 @@ public class SysAspect {
         long startTime2 = System.currentTimeMillis();
         Object obj = null;
         try {
-            obj = proceed.proceed();
+            // 6.1、请求核心参数解密
+            R<Object[]> rArgs = sysEncrypt.decrypt(proceed);
+            // 6.2、请求接口
+            obj = proceed.proceed(rArgs.getData());
+            //obj = proceed.proceed();
+            // 6.3、响应核心参数加密
+            obj = sysEncrypt.encrypt(obj);
         } catch (Exception e) {
             // 记录 业务代码异常, 这里try后, 全局异常将不生效，在直接主动调用(如果没有try exceptionHandler在异常时会自动进行拦截,在这里拦截主要是响应结果信息)
             obj = globalExceptionHandler.exceptionHandler(e);
         }
-
         // 7、记录响应结果和记录响应时间(state=1-成功,等待请求线程执行完毕立即执行)
         long endTime1 = System.currentTimeMillis();
         sysLog.updLog(future, 1, (endTime1 - startTime1), (endTime1 - startTime2), method, uri, obj);

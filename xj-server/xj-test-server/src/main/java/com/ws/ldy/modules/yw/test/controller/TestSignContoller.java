@@ -1,15 +1,17 @@
-package com.ws.ldy.modules.yw.controller;
+package com.ws.ldy.modules.yw.test.controller;
 
-import com.ws.ldy.common.annotation.Encrypt;
+import com.ws.ldy.common.annotation.XjSecret;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.constant.BaseConstant;
-import com.ws.ldy.modules.yw.dto.EncryptDTO;
-import com.ws.ldy.modules.yw.dto.SignDto;
+import com.ws.ldy.modules.yw.test.model.dto.EncryptDTO;
+import com.ws.ldy.modules.yw.test.model.dto.SignDto;
+import com.ws.ldy.modules.yw.test.model.vo.EncryptVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -40,9 +42,24 @@ public class TestSignContoller {
      */
     @RequestMapping(value = "/test2", method = RequestMethod.POST)
     @ApiOperation(value = "参数加密")
-    public R<Boolean> test2(@RequestBody(required = false) @Valid EncryptDTO dto) {
-        System.out.println("成功执行");
-        return R.success(true);
+    public R<EncryptVO> test2(@RequestBody @Valid EncryptDTO dto) {
+        System.out.println("获取参数" + dto.toString());
+        //二级对象
+        EncryptVO nextEncryptVO = new EncryptVO();
+        nextEncryptVO.setA("123");
+        nextEncryptVO.setB("456");
+        //二级集合
+        List<EncryptVO> nextEncryptListVO = new ArrayList<>();
+        nextEncryptListVO.add(nextEncryptVO);
+        nextEncryptListVO.add(nextEncryptVO);
+        //一级数据
+        EncryptVO encryptVO = new EncryptVO();
+        encryptVO.setA("a");
+        encryptVO.setB("b");
+        //加入二级数据
+        encryptVO.setEncrypt(nextEncryptVO);
+        encryptVO.setEncrypts(nextEncryptListVO);
+        return R.success(encryptVO);
     }
 
     /**
@@ -51,9 +68,9 @@ public class TestSignContoller {
      * @param
      * @return
      */
-    @RequestMapping(value = "/test3", method = RequestMethod.POST)
+    @RequestMapping(value = "/test3/{a}", method = RequestMethod.POST)
     @ApiOperation(value = "参数加密")
-    public R<Boolean> test3(@RequestParam @Encrypt String a,@RequestParam String b) {
+    public R<Boolean> test3(@PathVariable @XjSecret String a, @RequestHeader @XjSecret String b) {
         System.out.println("成功执行");
         return R.success(true);
     }

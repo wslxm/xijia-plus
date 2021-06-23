@@ -1,4 +1,4 @@
-package com.ws.ldy.modules.yw.dto;
+package com.ws.ldy.modules.yw.test.model.dto;
 
 
 import io.swagger.annotations.ApiModel;

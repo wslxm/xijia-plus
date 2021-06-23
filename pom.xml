@@ -81,18 +81,18 @@
     <!-- 核心jar -->
     <dependencies>
         <!-- 热部署，开发使用-打包前请注释 -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.boot</groupId>-->
-        <!--            <artifactId>spring-boot-devtools</artifactId>-->
-        <!--            <optional>false</optional>-->
-        <!--        </dependency>-->
+        <!--  <dependency>-->
+        <!--      <groupId>org.springframework.boot</groupId>-->
+        <!--      <artifactId>spring-boot-devtools</artifactId>-->
+        <!--      <optional>false</optional>-->
+        <!--  </dependency>-->
 
         <!-- spring-boot-starter-test -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.boot</groupId>-->
-        <!--            <artifactId>spring-boot-starter-test</artifactId>-->
-        <!--            <scope>test</scope>-->
-        <!--        </dependency>-->
+        <!--  <dependency>-->
+        <!--      <groupId>org.springframework.boot</groupId>-->
+        <!--      <artifactId>spring-boot-starter-test</artifactId>-->
+        <!--      <scope>test</scope>-->
+        <!--  </dependency>-->
 
         <!-- spring-mvc 虽然获得很多子服务不启动,但需要用到web注解-->
         <dependency>

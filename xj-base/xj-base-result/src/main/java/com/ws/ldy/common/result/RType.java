@@ -49,6 +49,7 @@ public enum RType {
     PARAM_TIME_OUT(9999, "验签: 请求超时"),                    // 请求超时,可能请求被拦截篡改参数后再请求
     PARAM_ERROR_JSR303(9999, "参数错误:不符合JSR 303规范"),     // jsr303错误,全局异常单独处理返回msg
     PARAM_MISSING(9999, "缺少参数"),
+    PARAM_DECRYPTION_ERROR(9999, "参数解密错误"),
     PARAM_TYPE_DOES_NOT_MATCH(9999, " 参数类型不匹配"),
     PARAM_ID_REQUIRED_FALSE(9999, "添加不能传递ID"),
     PARAM_ID_REQUIRED_TRUE(9999, "没有主键ID"),

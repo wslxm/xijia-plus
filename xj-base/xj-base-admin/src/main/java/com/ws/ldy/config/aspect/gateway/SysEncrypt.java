@@ -1,31 +1,38 @@
 package com.ws.ldy.config.aspect.gateway;
 
 
-import com.ws.ldy.common.annotation.Encrypt;
+import com.ws.ldy.common.annotation.XjSecret;
+import com.ws.ldy.common.result.R;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.aspect.Base64Util;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.List;
 
 
 /**
- * 请求参数自动解密 和 响应参数自动加密
+ * 请求 参数自动解密 和 响应参数自动加密工具类
  * @author wangsong
  * @mail 1720696548@qq.com
- * @date 2021/4/9 0009 17:16 
+ * @date 2021/4/9 0009 17:16
  * @version 1.0.0
  */
 @Aspect
 @Component
+@Slf4j
 public class SysEncrypt {
 
+    // 是否开启加密(true=开启)
+    boolean isEncrypt = true;
 
     /**
      * 请求参数解密
@@ -33,84 +40,147 @@ public class SysEncrypt {
      * @return args
      * @throws Throwable
      */
-    public Object[] decrypt(ProceedingJoinPoint pjp) throws IllegalAccessException {
+    public R<Object[]> decrypt(ProceedingJoinPoint pjp) {
+        // 是否开启解密
+        if (!isEncrypt) {
+            return R.success(pjp.getArgs());
+        }
         // 获取请求参数
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Object[] args = pjp.getArgs();
         if (args == null || args.length == 0 || args[0] == null) {
-            return args;
+            return R.success(args);
         }
-        // 获取所有参数注解返回的是一个二维数组Annotation[][],每个参数上可能有多个注解,是一个一维数组,
-        // 多个参数又是一维数组,就组成了二维数组,所有我们在遍历的时候,第一次遍历拿到的数组下标就是方法参数的下标,
+        // 获取方法上所有参数注解：返回的是一个二维数组Annotation[][],
+        // 每个参数上可能有多个注解,是一个一维数组,多个参数又是一维数组,就组成了二维数组,所有我们在遍历的时候,第一次遍历拿到的数组下标就是方法参数的下标
         Annotation[][] parameterAnnotations = signature.getMethod().getParameterAnnotations();
-        // 再根据Object[] args= joinPoint.getArgs(); 拿到所有的参数,根据指定的下标即可拿到对象的值
         for (Annotation[] parameterAnnotation : parameterAnnotations) {
-            // 判断字段类型，是否需要解密
-            boolean isBody = false;
-            boolean isQuery = false;
-            boolean isEncrypt = false;
             for (Annotation annotation : parameterAnnotation) {
-                if (annotation instanceof RequestBody) {
-                    isBody = true;
-                } else if (annotation instanceof RequestParam) {
-                    // 判断参数是body还是query
-                    isQuery = true;
-                } else if (annotation instanceof Encrypt) {
-                    isEncrypt = true;
+                if (annotation instanceof RequestBody
+                        || annotation instanceof ModelAttribute) {
+                    // RequestBody 或 ModelAttribute 方式接收参数
+                    args[0] = this.decryptOrEncryptEntity(args[0], 2).getData();
+                } else if (annotation instanceof RequestParam
+                        || annotation instanceof PathVariable
+                        || annotation instanceof RequestHeader
+                ) {
+                    // RequestParam 方式接收参数
+                    args = this.decryptParam(args, parameterAnnotations, parameterAnnotation);
                 }
             }
-            if(isQuery && isEncrypt){
-                int paramIndex = ArrayUtils.indexOf(parameterAnnotations, parameterAnnotation);
-                Object paramValue = args[paramIndex];
-                args[paramIndex] = Base64Util.decrypt((String) paramValue);
+        }
+        return R.success(args);
+    }
+
+
+    /**
+     * query 参数解密
+     * @param args 参数
+     * @return
+     */
+    public Object[] decryptParam(Object[] args, Annotation[][] parameterAnnotations, Annotation[] parameterAnnotation) {
+        // 方法上的 query 参数是否存在 XjSecret 注解,是则否需要解密
+        boolean isXjSecret = false;
+        for (Annotation annotation : parameterAnnotation) {
+            if (annotation instanceof XjSecret) {
+                isXjSecret = true;
+                break;
             }
-            if(isBody){
-                args = decryptBody(args);
-            }
+        }
+        if (isXjSecret) {
+            // query指定参数解密
+            int paramIndex = ArrayUtils.indexOf(parameterAnnotations, parameterAnnotation);
+            Object paramValue = args[paramIndex];
+            args[paramIndex] = Base64Util.decrypt((String) paramValue);
         }
         return args;
     }
 
 
     /**
-     * body参数解密
-     * @param args 参数
+     * body参数解密or加密（使用反射）
+     * 流程：
+     *  1、获取到 aop 代码后接收参数的实体类参数 obj
+     *  2、获取请求entity 类的所有参数
+     *  3、判断为子对象或子集合，是进行递归重复1-5操作，只是参数就进行加密or解密操作
+     *  4、获取到需要解密or加密的的参数 (默认参数为obj类型)
+     *  5、对需要解密or加密的参数 进行 base64解密or加密 (默认参数为obj类型)
+     * @param obj 参数 args参数
+     * @param type 1=加密 2=解密
      * @return
      */
-    public Object[] decryptBody(Object[] args) throws IllegalAccessException {
-        //获取请求的实体类
-        Class<?> aClass = args[0].getClass();
+    public R<Object> decryptOrEncryptEntity(Object obj, Integer type) {
+        if (obj == null) {
+            return R.success(obj);
+        }
+        Class<?> aClass = obj.getClass();
         Field[] declaredFields = aClass.getDeclaredFields();
+        String logMsg = (type == 1 ? "加密" : "解密");
         for (Field field : declaredFields) {
-            // 判断是否存在加密注解
-            Encrypt xjIsApiIdempotent = field.getAnnotation(Encrypt.class);
-            if (xjIsApiIdempotent != null) {
-                String name = field.getName();
-                //设置对象的访问权限，保证对private的属性的访问
-                field.setAccessible(true);
-                String val = (String) field.get(args[0]);
-                try {
-                    field.set(args[0], Base64Util.decrypt(val));
-                }catch (Exception e){
-
+            String name = field.getName();
+            field.setAccessible(true);
+            XjSecret xjEncrypt = field.getAnnotation(XjSecret.class);
+            // 判断是否为子对象或子list集合，是的话进行递归解密
+            if (xjEncrypt != null) {
+                if (xjEncrypt.isNext()) {
+                    try {
+                        Object fieldVal = field.get(obj);
+                        if (fieldVal == null) {
+                            continue;
+                        }
+                        if (fieldVal instanceof Collection<?>) {
+                            // 集合[对象参数]
+                            List<Object> list = (List<Object>) fieldVal;
+                            for (Object zObj : list) {
+                                this.decryptOrEncryptEntity(zObj, type);
+                            }
+                        } else {
+                            // 对象参数
+                            this.decryptOrEncryptEntity(fieldVal, type);
+                        }
+                    } catch (Exception e) {
+                        log.error(name + ": 参数" + logMsg + "失败");
+                        return R.error(RType.PARAM_DECRYPTION_ERROR.getValue(), RType.PARAM_DECRYPTION_ERROR.getMsg(), obj, name + logMsg + ": 失败");
+                        // e.printStackTrace();
+                    }
+                } else {
+                    // isNext=false 对参数进行解密or加密
+                    try {
+                        String fieldVal = (String) field.get(obj);
+                        if (type == 1) {
+                            field.set(obj, Base64Util.encode(fieldVal));
+                        } else if (type == 2) {
+                            field.set(obj, Base64Util.decrypt(fieldVal));
+                        }
+                    } catch (Exception e) {
+                        log.error(name + ": 参数" + logMsg + "失败");
+                        return R.error(RType.PARAM_DECRYPTION_ERROR.getValue(), RType.PARAM_DECRYPTION_ERROR.getMsg(), obj, name + logMsg + ": 失败");
+                        // e.printStackTrace();
+                    }
                 }
-                System.out.println(name + ": 需要解密");
             }
         }
-        return args;
+        return R.success(obj);
     }
 
 
     /**
      * 返回参数加密
      * @author wangsong
-     * @param pjp
      * @date 2021/4/9 0009 17:17
      * @return args
      * @version 1.0.0
      */
-    public Object[] encrypt(ProceedingJoinPoint pjp) throws Throwable {
-        Object[] args = pjp.getArgs();
-        return args;
+    public Object encrypt(Object obj) {
+        if (!isEncrypt) {
+            return obj;
+        }
+        R r = null;
+        try {
+            r = (R) obj;
+        } catch (Exception e) {
+            return obj;
+        }
+        return decryptOrEncryptEntity(r.getData(), 1);
     }
 }
