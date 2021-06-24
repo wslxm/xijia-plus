@@ -5,19 +5,18 @@
     <parent>
         <artifactId>xj-third</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.1.1-SNAPSHOT</version>
+        <version>0.1.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-fw-websocket</artifactId>
     <version>${xj-fw-websocket.version}</version>
 
-
     <dependencies>
         <dependency>
             <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-util-fastjson</artifactId>
-            <version>${xj-util-fastjson.version}</version>
+            <artifactId>xj-base-util</artifactId>
+            <version>${xj-base-util.version}</version>
         </dependency>
         <dependency>
             <groupId>com.ws.ldy</groupId>

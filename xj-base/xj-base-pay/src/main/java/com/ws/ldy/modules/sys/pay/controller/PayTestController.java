@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.sys.pay.controller;
 
 import com.ws.ldy.common.result.R;
-import com.ws.ldy.common.utils.IdUtil;
+import com.ws.ldy.common.utils.id.IdUtil;
 import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.enums.Pay;
 import com.ws.ldy.modules.sys.pay.model.dto.EntPayDTO;

@@ -5,7 +5,7 @@ import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.BigDecimalUtil;
-import com.ws.ldy.common.utils.IdUtil;
+import com.ws.ldy.common.utils.id.IdUtil;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.Pay;
 import com.ws.ldy.modules.sys.pay.model.dto.EntPayDTO;

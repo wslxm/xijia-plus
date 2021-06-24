@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.third.websocket.server;
 
 import com.alibaba.fastjson.JSON;
-import com.ws.ldy.common.utils.JsonUtil;
+import com.ws.ldy.common.utils.json.JsonUtil;
 import com.ws.ldy.modules.third.websocket.model.dto.SendMsgDTO;
 import com.ws.ldy.modules.third.websocket.model.entity.OnlineUser;
 import com.ws.ldy.modules.third.websocket.model.vo.OnlineUserVO;

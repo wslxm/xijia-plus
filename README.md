@@ -21,8 +21,8 @@ QQ群：1037211892
 
 #### 最新说明
 - 当前主分支为v-0.1.1 的分支最后更新代码,可稳定运行(2021-6-2更新)
-- 更新日志文档(2021-6-2更新): [https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md) 
-- 项目目录结构(2021-6-2更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构.md) 
+- 更新日志文档(2021-6-24更新): [https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md) 
+- 项目目录结构(2021-6-24更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构.md) 
 - 项目于0.0.9+模块化，模块化目的:减轻项目大小,按需加载
 
 #### 更多
@@ -83,5 +83,7 @@ QQ群：1037211892
 - 2、创建数据库[spring-boot-plus2]
 - 3、导入跟目录下的 sql 目录下对应的最新版本 sql, 注意主分支对应的版本，历史sql版本在old下，非sql/old下的sql,如 sql/file 如当前版本有使用到也一起导入到数据库
 - 4、启动项目
+
+程序找不到包处理方法：https://blog.csdn.net/weixin_43173021/article/details/108280524
 
 注：最新分支的代码与当前项目测试库的是外网连接，拉取最新分支的最新代码在本地可直接使用当前项目的测试服数据库来启动，切勿修改测试库数据，否则到时测试地址无法使用，谢谢

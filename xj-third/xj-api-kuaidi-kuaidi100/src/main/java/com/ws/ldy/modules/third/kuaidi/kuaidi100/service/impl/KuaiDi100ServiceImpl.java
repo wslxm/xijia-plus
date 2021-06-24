@@ -3,12 +3,12 @@ package com.ws.ldy.modules.third.kuaidi.kuaidi100.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ws.ldy.common.result.R;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.ws.ldy.modules.third.kuaidi.kuaidi100.entity.KuaiDiCode;
 import com.ws.ldy.modules.third.kuaidi.kuaidi100.service.KuaiDi100Service;
 import com.ws.ldy.modules.third.kuaidi.kuaidi100.util.KuaiDi100Util;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**

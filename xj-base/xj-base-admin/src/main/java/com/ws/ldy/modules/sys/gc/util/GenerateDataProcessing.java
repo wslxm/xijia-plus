@@ -3,8 +3,8 @@ package com.ws.ldy.modules.sys.gc.util;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
-import com.ws.ldy.common.utils.IdUtil;
-import com.ws.ldy.common.utils.JsonUtil;
+import com.ws.ldy.common.utils.id.IdUtil;
+import com.ws.ldy.common.utils.json.JsonUtil;
 import com.ws.ldy.common.utils.LocalDateTimeUtil;
 import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
 import lombok.extern.slf4j.Slf4j;

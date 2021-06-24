@@ -4,7 +4,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.aspect.gateway.*;
-import com.ws.ldy.config.auth.entity.JwtUser;
+import com.ws.ldy.auth.entity.JwtUser;
 import com.ws.ldy.config.error.GlobalExceptionHandler;
 import com.ws.ldy.modules.sys.xj.model.entity.XjAdminLog;
 import lombok.extern.slf4j.Slf4j;

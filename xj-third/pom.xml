@@ -6,7 +6,7 @@
     <parent>
         <artifactId>spring-boot-plus2</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.1.1-SNAPSHOT</version>
+        <version>0.1.2-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -28,11 +28,9 @@
         <module>xj-api-qq-open</module>
         <module>xj-api-wx-open</module>
         <module>xj-doc-swagger2</module>
-        <module>xj-doc-swagger2-ui</module>
         <module>xj-doc-knife4j</module>
         <module>xj-fw-websocket</module>
         <module>xj-fw-redis</module>
         <module>xj-fw-boot-admin</module>
     </modules>
-
 </project>

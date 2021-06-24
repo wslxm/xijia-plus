@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-boot-plus2</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.1.1-SNAPSHOT</version>
+        <version>0.1.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,9 +16,9 @@
     <modules>
         <module>xj-base-result</module>
         <module>xj-base-core</module>
-        <module>xj-base-jwt</module>
         <module>xj-base-admin</module>
         <module>xj-base-admin-ui</module>
         <module>xj-base-pay</module>
+        <module>xj-base-util</module>
     </modules>
 </project>

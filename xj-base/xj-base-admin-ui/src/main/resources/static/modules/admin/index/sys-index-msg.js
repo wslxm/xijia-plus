@@ -97,7 +97,7 @@ function showText(dataJson) {
      * 拼最后展示的数据
      */
     let htmlMsg = "" +
-        "<div style='' onclick='read({id})'>  " +
+        "<div style='' onclick='read(\"{id}\")'>  " +
         "{read} " +
         "<font style='font-weight:bold;font-style:italic;'>{title}</font>" +
         "<span style='user-select:none;color: #dad8d5;float:right;'>{createTime}</span>" +

@@ -1,3 +1,7 @@
+## 版本：v-0.1.2
+
+- 1、更新项目模块结构，jwt模块合并至 xj-base-core, xj-doc-swagger2-ui 合并至xj-doc-swagger2，删除及util下的所有模块，增加 xj-base-util
+
 
 ## 版本：v-0.1.1
 -------- 2021-5-12

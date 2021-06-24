@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.config.auth.util.JwtUtil;
+import com.ws.ldy.auth.util.JwtUtil;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.admin.mapper.AdminMenuMapper;

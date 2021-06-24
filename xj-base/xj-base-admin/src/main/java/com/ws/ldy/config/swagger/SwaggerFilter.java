@@ -15,11 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * 验签过滤器
+ * swagger 文档控制 过滤器
  * <P>
- *     1、文件不验签
- *     2、query参数根据 key排序拼接成字符串进行md5 生成sign 进行加密验证
- *     3、body‘参数根据 key排序(包括使用子级) 后转成json字符串使用md5生成sign 进行加密验证
+ *     判断是否可访问swagger文档，不可访问时 直接返回无权限json格式提示
  * </P>
  * @author wangsong
  * @mail 1720696548@qq.com

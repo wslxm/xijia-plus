@@ -5,7 +5,7 @@
     <parent>
         <artifactId>xj-base</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.1.1-SNAPSHOT</version>
+        <version>0.1.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -18,19 +18,19 @@
         <dynamic-datasource-spring-boot-starter.version>2.5.4</dynamic-datasource-spring-boot-starter.version>
         <mysql-connector-java.version>8.0.16</mysql-connector-java.version>
         <druid-spring-boot-starter.version>1.1.22</druid-spring-boot-starter.version>
+        <jjwt.version>0.9.1</jjwt.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-util-core</artifactId>
-            <version>${xj-util-core.version}</version>
+            <artifactId>xj-base-util</artifactId>
+            <version>${xj-base-util.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-doc-swagger2</artifactId>
-            <version>${xj-doc-swagger2.version}</version>
+            <artifactId>xj-base-result</artifactId>
+            <version>${xj-base-result.version}</version>
         </dependency>
         <!-- mybatyis-plus  -->
         <dependency>
@@ -62,6 +62,12 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid-spring-boot-starter.version}</version>
+        </dependency>
+        <!-- jwt -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
         </dependency>
 
     </dependencies>
