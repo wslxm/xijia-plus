@@ -48,8 +48,9 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //文件保存路径, 让程序可以访问到改路径, 访问 /File 读取项目跟路径的File目录
         registry.addResourceHandler("/File/**").addResourceLocations("file:File/");
-        // 解决静态资源无法访问（可选）
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+        // 解决静态资源无法访问（可选）， 优先读取  resources/resources  ->  resources/static  ->  resources/public
+        registry.addResourceHandler("/**").addResourceLocations(
+                "classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/");
         // 直接在浏览器访问：根目录/swagger-ui.html
         registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
         // 需要用到的webjars（包含js、css等）

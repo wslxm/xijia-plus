@@ -76,7 +76,7 @@ public class XjToolServerImpl implements XjToolServer {
         double usageRate = 0;
         String property = System.getProperty("os.name");
         if ("Linux".equals(property)) {
-            System.out.println("进来了：");
+            // System.out.println("进来了：");
             // linux 使用命令获取，如果此次部分linux 系统无法获取，请使用其他方法
             String newCmd = "free -h";
             String arr = null;

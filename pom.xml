@@ -27,13 +27,13 @@
         <!-- 架构版本 RELEASE=正式版 SNAPSHOT=开发版(实时刷新jar依赖), 改版本号修改时请使用全局替换,${revision}读取会导致子模块无法单独打包 -->
         <revision>0.1.2-SNAPSHOT</revision>
         <!-- 项目代码版本 -->
-        <xj-test-server.version>  0.1.2</xj-test-server.version>      <!-- 业务模块-个人业务+测试 -->
+        <xj-test-server.version>  0.1.2</xj-test-server.version>       <!-- 业务模块-个人业务+测试 -->
         <!-- 系统核心包 -->
         <xj-base-core.version>    0.1.2</xj-base-core.version>          <!-- 通用base层,枚举字段层 -->
-        <xj-base-result.version>  0.1.2</xj-base-result.version>      <!-- 统一返回+全局异常处理返回 -->
-        <xj-base-pay.version>     0.1.2</xj-base-pay.version>            <!-- 聚合支付服务  -->
-        <xj-base-admin.version>   0.1.2</xj-base-admin.version>      <!-- 基础服务-api  -->
-        <xj-base-admin-ui.version>0.1.2</xj-base-admin-ui.version>  <!-- 基础服务-页面 -->
+        <xj-base-result.version>  0.1.2</xj-base-result.version>        <!-- 统一返回+全局异常处理返回 -->
+        <xj-base-pay.version>     0.1.2</xj-base-pay.version>           <!-- 聚合支付服务  -->
+        <xj-base-admin.version>   0.1.2</xj-base-admin.version>         <!-- 基础服务-api  -->
+        <xj-base-admin-ui.version>0.1.2</xj-base-admin-ui.version>      <!-- 基础服务-页面 -->
         <xj-base-util.version>    0.1.2</xj-base-util.version>          <!-- 工具包 -->
 
         <!-- 系统第三方集成 -->
