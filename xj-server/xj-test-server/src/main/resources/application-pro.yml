@@ -32,4 +32,3 @@ aliyun:
 logging:
   filePath: /usr/local/work/xijia2/logs
   methods: POST,PUT,DELETE
-

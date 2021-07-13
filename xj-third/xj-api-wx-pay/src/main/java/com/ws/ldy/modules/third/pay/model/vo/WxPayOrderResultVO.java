@@ -15,25 +15,28 @@ import java.io.Serializable;
  * @version 1.0.0
  */
 @Data
-@ApiModel(value = "WxPayMpOrderResultVO 对象", description = "jsapi 前端调起支付需要的参数")
+@ApiModel(value = "WxPayMpOrderResultVO 对象", description = "前端调起支付需要的参数")
 public class WxPayOrderResultVO implements Serializable {
 
     private static final long serialVersionUID = 3818840068228137472L;
-    @ApiModelProperty(value = "应用id")
+    @ApiModelProperty(value = "jsapi -- 应用id")
     private String appId;
 
-    @ApiModelProperty(value = "时间戳")
+    @ApiModelProperty(value = "jsapi -- 时间戳")
     private String timeStamp;
 
-    @ApiModelProperty(value = "随机字符串")
+    @ApiModelProperty(value = "jsapi -- 随机字符串")
     private String nonceStr;
 
-    @ApiModelProperty(value = "订单详情扩展字符串")
+    @ApiModelProperty(value = "jsapi -- 订单详情扩展字符串")
     private String packageValue;
 
-    @ApiModelProperty(value = "签名方式")
+    @ApiModelProperty(value = "jsapi -- 签名方式")
     private String signType;
 
-    @ApiModelProperty(value = "签名")
+    @ApiModelProperty(value = "jsapi -- 签名")
     private String paySign;
+
+    @ApiModelProperty(value = "Native -- 支付二维码")
+    private String codeUrl;
 }

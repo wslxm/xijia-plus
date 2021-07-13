@@ -137,8 +137,10 @@ public class GenerateConfig {
     public static String SWAGGER_REMARK = "";            // controller， findPage方法查询参数，的swagger注释
 
     // xml 参数(代码生成过程中获得)
-    public static String RESULT_MAP = "";                // mapper xml 字段映射
+    public static String RESULT_MAP = "";                // mapper xml 字段与实体类映射
     public static String COLUMN_LIST = "";               // mapper xml 通用字段返回
+    public static String XML_INSERT = "";                // mapper xml 增加sql
+    public static String XML_UPD = "";                   // mapper xml 编辑sql
 
     // html参数(代码生成过程中获得)
     // public static String PRIMARY_KEY_TYPE = "";        // id主键数据类型

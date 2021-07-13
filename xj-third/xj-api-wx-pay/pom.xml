@@ -24,6 +24,12 @@
 
         <dependency>
             <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-base-util</artifactId>
+            <version>${xj-base-util.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
             <artifactId>xj-doc-swagger2</artifactId>
             <version>${xj-doc-swagger2.version}</version>
         </dependency>

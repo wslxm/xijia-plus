@@ -250,6 +250,8 @@ public class GenerateDataProcessing {
                         // mapper - xml
                         .replace("{resultMap}", GenerateConfig.RESULT_MAP)
                         .replace("{columnList}", GenerateConfig.COLUMN_LIST)
+                        .replace("{xmlInsert}", GenerateConfig.XML_INSERT)
+                        .replace("{xmlUpd}", GenerateConfig.XML_UPD)
                         // entity/vo/dto的 serialVersionUID生成(雪花算法)
                         .replace("{serialVersionUID}", IdUtil.snowflakeId())
                         // html

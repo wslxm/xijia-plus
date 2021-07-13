@@ -8,7 +8,7 @@ import com.ws.ldy.modules.sys.gc.config.GenerateConfig;
 import com.ws.ldy.modules.sys.gc.model.dto.XjGenerateDto;
 import com.ws.ldy.modules.sys.gc.model.entity.XjAdminDatasource;
 import com.ws.ldy.modules.sys.gc.service.XjAdminDatasourceService;
-import com.ws.ldy.modules.sys.gc.service.impl.XjGenerationServiceImpl;
+import com.ws.ldy.modules.sys.gc.service.gcimpl.*;
 import com.ws.ldy.modules.sys.gc.util.GenerateDataProcessing;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,17 +32,41 @@ import java.util.Map;
 @RestController
 @RequestMapping(BaseConstant.Uri.apiAdmin + "/generate")
 @Api(value = "XjGenerateController", tags = "base-gc--代码生成")
-public class XjGenerateController extends BaseController<XjGenerationServiceImpl> {
+public class XjGenerateController extends BaseController<XjGenerationService> {
 
-
-    @Autowired
-    private XjGenerationServiceImpl generationServiceImpl;
+    /**
+     * 保存预览文件返回的文件地址url
+     */
+    public static Map<String, String> pathMap = new HashMap<>();
 
     @Autowired
     private XjAdminDatasourceService adminDatasourceService;
+    @Autowired
+    private XjGenerationEntity xjGenerationEntity;
+    @Autowired
+    private XjGenerationDTO xjGenerationDTO;
+    @Autowired
+    private XjGenerationVO xjGenerationVO;
+    @Autowired
+    private XjGenerationMapper xjGenerationMapper;
+    @Autowired
+    private XjGenerationMapperXml xjGenerationMapperXml;
+    @Autowired
+    private XjGenerationService xjGenerationService;
+    @Autowired
+    private XjGenerationServiceImpl xjGenerationServiceImpl;
+    @Autowired
+    private XjGenerationController xjGenerationController;
+    @Autowired
+    private XjGenerationHtmlMain xjGenerationHtmlMain;
+    @Autowired
+    private XjGenerationHtmlAdd xjGenerationHtmlAdd;
+    @Autowired
+    private XjGenerationHtmlUpd xjGenerationHtmlUpd;
+
 
     /**
-     *  预览代码生成 (查询预览代码，预览代码存放于File/code/src.... 目录下，前端可直接访问)
+     * 预览代码生成 (查询预览代码，预览代码存放于File/code/src.... 目录下，前端可直接访问)
      *
      * @param generateDto 传递收据
      * @return 预览文件URL地址
@@ -62,47 +86,40 @@ public class XjGenerateController extends BaseController<XjGenerationServiceImpl
         }
         // 解析数据库字段数据
         List<Map<String, Object>> dataList = GenerateDataProcessing.getDataAnalysis(generateDto.getData());
-        // 请求地址，去除接口名
+        // 获取地址,用于读取模板位置 (请求地址，去除接口名）
         String baseUrl = request.getRequestURL().toString().replace(request.getServletPath(), "");
-        // 添加代码生成相关通用数据,
-        // 1、包路径
-        // 2、数据库的表名称
-        // 3、代码模板位置,resources,
+        // 初始化代码生成相关通用数据,如： 1、包路径 2、数据库的表名称 3、代码模板位置,resources,
         GenerateConfig.dsField(generateDto.getTableName(), generateDto.getTableComment(), GenerateConfig.PACK_PATH, baseUrl + GenerateConfig.PATH_TEMPLATE);
 
-        // 生成html 的txt文件预览，html会被渲染成页面
+        // 预览生成的文件为txt格式,方便预览
         GenerateConfig.SUFFIX_JAVA_PT = GenerateConfig.SUFFIX_TXT;
         GenerateConfig.SUFFIX_HTML_PT = GenerateConfig.SUFFIX_TXT;
         GenerateConfig.SUFFIX_XML_PT = GenerateConfig.SUFFIX_TXT;
         // 预览文件生成(服务器可访问文件)，同时生成把生成的文件url路径保存到generationServiceImplImp.lpathMap 参数
-        generationServiceImpl.buildEntity(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_ENTITY);           // 生成Entity
-        generationServiceImpl.buildVO(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_VO);  //VO             // 生成Entity
-        generationServiceImpl.buildDTO(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_DTO);  //DTO          // 生成Entity
-        generationServiceImpl.buildController(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_CONTROLLER);     // 生成Controller
-        generationServiceImpl.buildService(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_SERVICE);           // 生成service
-        generationServiceImpl.buildServiceImpl(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_SERVICE_IMPL);  // 生成serviceImpl
-        generationServiceImpl.buildMapper(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_MAPPER);             // 生成dao
-        generationServiceImpl.buildMapperXml(dataList, GenerateConfig.BASE_PATH_XML_YL);                                             // 生成xml
-        // // html
-        // generationServiceImpl.buildMainHtml(dataList, GenerateConfig.BASE_PATH_HTML_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
-        // generationServiceImpl.buildAddHtml(dataList, GenerateConfig.BASE_PATH_HTML_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
-        // generationServiceImpl.buildUpdHtml(dataList, GenerateConfig.BASE_PATH_HTML_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
-        generationServiceImpl.buildMainHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
-        generationServiceImpl.buildAddHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
-        generationServiceImpl.buildUpdHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+        xjGenerationEntity.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_ENTITY);             // 生成Entity
+        xjGenerationVO.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_VO);                     // 生成VO
+        xjGenerationDTO.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_DTO);                   // 生成DTO
+        xjGenerationController.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_CONTROLLER);     // 生成Controller
+        xjGenerationService.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_SERVICE);           // 生成service
+        xjGenerationServiceImpl.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_SERVICE_IMPL);  // 生成serviceImpl
+        xjGenerationMapper.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_MAPPER);             // 生成dao
+        xjGenerationMapperXml.run(dataList, GenerateConfig.BASE_PATH_XML_YL);                                             // 生成xml
+        // html, 生成的预览 html为txt 文件，html文件会被渲染成页面
+        xjGenerationHtmlMain.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+        xjGenerationHtmlAdd.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+        xjGenerationHtmlUpd.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
         System.err.println("代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/"
                 + GenerateConfig.ROOT_MODULE + "_"
                 + GenerateConfig.PACK_PATH_ZP + "_"
                 + GenerateConfig.MODULE_NAME + "_"
                 + GenerateConfig.TABLE_NAME_LOWER + "_"
                 + GenerateConfig.TABLE_NAME_LOWER);
-
-        return R.success(XjGenerationServiceImpl.pathMap);
+        return R.success(pathMap);
     }
 
 
     /**
-     * 代码生成对应路径
+     * 实际代码生成对应路径
      *
      * @param generateDto 传递收据
      * @return 预览文件URL地址
@@ -122,37 +139,28 @@ public class XjGenerateController extends BaseController<XjGenerationServiceImpl
         }
         // 解析数据库字段数据
         List<Map<String, Object>> dataList = GenerateDataProcessing.getDataAnalysis(generateDto.getData());
-        // 请求地址，去除接口名
+        // 获取地址,用于读取模板位置 (请求地址，去除接口名）
         String baseUrl = request.getRequestURL().toString().replace(request.getServletPath(), "");
-        // 添加代码生成相关通用数据,
-        // 1、包路径
-        // 2、数据库的表名称
-        // 3、代码模板位置,resources,
+        // 初始化代码生成相关通用数据,如： 1、包路径 2、数据库的表名称 3、代码模板位置,resources,
         GenerateConfig.dsField(generateDto.getTableName(), generateDto.getTableComment(), GenerateConfig.PACK_PATH, baseUrl + GenerateConfig.PATH_TEMPLATE);
 
-        // 生成html 的txt文件预览，html会被渲染成页面
+        // 生成的文件为对应代码格式,直接生成到目录
         GenerateConfig.SUFFIX_JAVA_PT = GenerateConfig.SUFFIX_JAVA;
         GenerateConfig.SUFFIX_HTML_PT = GenerateConfig.SUFFIX_HTML;
         GenerateConfig.SUFFIX_XML_PT = GenerateConfig.SUFFIX_XML;
         // 文件生成，同时生成把生成的文件url路径保存到generationServiceImplImp.lpathMap 参数
-        generationServiceImpl.buildEntity(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_ENTITY);           // 生成Entity
-        generationServiceImpl.buildVO(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_VO);  //VO             // 生成Entity
-        generationServiceImpl.buildDTO(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_DTO);  //DTO          // 生成Entity
-        generationServiceImpl.buildController(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_CONTROLLER);     // 生成Controller
-        generationServiceImpl.buildService(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE);           // 生成service
-        generationServiceImpl.buildServiceImpl(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE_IMPL);  // 生成serviceImpl
-        generationServiceImpl.buildMapper(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_MAPPER);             // 生成dao
-        generationServiceImpl.buildMapperXml(dataList, GenerateConfig.BASE_PATH_XML);                                            // 生成xml
+        xjGenerationEntity.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_ENTITY);             // 生成Entity
+        xjGenerationVO.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_VO);                     // 生成VO
+        xjGenerationDTO.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_DTO);                   // 生成DTO
+        xjGenerationController.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_CONTROLLER);     // 生成Controller
+        xjGenerationService.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE);           // 生成service
+        xjGenerationServiceImpl.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE_IMPL);  // 生成serviceImpl
+        xjGenerationMapper.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_MAPPER);             // 生成dao
+        xjGenerationMapperXml.run(dataList, GenerateConfig.BASE_PATH_XML);                                             // 生成xml
         // html
-        generationServiceImpl.buildMainHtml(dataList, GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/");
-        generationServiceImpl.buildAddHtml(dataList, GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/");
-        generationServiceImpl.buildUpdHtml(dataList, GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/");
-
-        // 额外生成html 的txt文件预览，html会被渲染成页面
-        // GenerateConfig.SUFFIX_HTML = GenerateConfig.SUFFIX_TXT;
-        // generationServiceImpl.buildMainHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT + GenerateConfig.TABLE_NAME_LOWER + "/");
-        // generationServiceImpl.buildAddHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT + GenerateConfig.TABLE_NAME_LOWER + "/");
-        // generationServiceImpl.buildUpdHtml(dataList, GenerateConfig.BASE_PATH_HTML_TXT + GenerateConfig.TABLE_NAME_LOWER + "/");
+        xjGenerationHtmlMain.run(dataList, GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/");
+        xjGenerationHtmlAdd.run(dataList, GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/");
+        xjGenerationHtmlUpd.run(dataList, GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/");
         System.err.println("代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/"
                 + GenerateConfig.ROOT_MODULE + "_"
                 + GenerateConfig.PACK_PATH_ZP + "_"
@@ -160,7 +168,7 @@ public class XjGenerateController extends BaseController<XjGenerationServiceImpl
                 + GenerateConfig.TABLE_NAME_LOWER + "_"
                 + GenerateConfig.TABLE_NAME_LOWER);
 
-        return R.success(XjGenerationServiceImpl.pathMap);
+        return R.success(pathMap);
     }
 
 
@@ -189,12 +197,13 @@ public class XjGenerateController extends BaseController<XjGenerationServiceImpl
         mapPath.put("htmlMain", GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/" + GenerateConfig.TABLE_NAME_LOWER + "Main.html");
         mapPath.put("htmlAdd", GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/" + GenerateConfig.TABLE_NAME_LOWER + "Add.html");
         mapPath.put("htmlUpd", GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/" + GenerateConfig.TABLE_NAME_LOWER + "Upd.html");
-        mapPath.put("index", "/page/"
-                + GenerateConfig.ROOT_MODULE + "_"
-                + GenerateConfig.PACK_PATH_ZP + "_"
-                + GenerateConfig.MODULE_NAME + "_"
-                + GenerateConfig.TABLE_NAME_LOWER + "_"
-                + GenerateConfig.TABLE_NAME_LOWER);
+        mapPath.put("index",
+                "/page/"
+                        + GenerateConfig.ROOT_MODULE + "_"
+                        + GenerateConfig.PACK_PATH_ZP + "_"
+                        + GenerateConfig.MODULE_NAME + "_"
+                        + GenerateConfig.TABLE_NAME_LOWER + "_"
+                        + GenerateConfig.TABLE_NAME_LOWER);
         return R.success(mapPath);
     }
 }

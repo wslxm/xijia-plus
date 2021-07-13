@@ -14,8 +14,6 @@
         <result column="version" property="version"/>
         <result column="user_id" property="userId"/>
         <result column="order_no" property="orderNo"/>
-        <result column="account_type" property="accountType"/>
-        <result column="money_front" property="moneyFront"/>
         <result column="money_after" property="moneyAfter"/>
         <result column="money" property="money"/>
         <result column="wallet_type" property="walletType"/>

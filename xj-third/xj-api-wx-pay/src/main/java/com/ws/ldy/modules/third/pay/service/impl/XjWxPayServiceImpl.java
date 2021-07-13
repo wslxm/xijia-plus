@@ -2,12 +2,15 @@ package com.ws.ldy.modules.third.pay.service.impl;
 
 import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
+import com.github.binarywang.wxpay.bean.order.WxPayNativeOrderResult;
 import com.github.binarywang.wxpay.bean.request.WxPayRefundRequest;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.bean.result.WxPayRefundResult;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
+import com.ws.ldy.common.utils.BeanDtoVoUtil;
+import com.ws.ldy.common.utils.id.IdUtil;
 import com.ws.ldy.modules.third.pay.model.dto.WxPayOrderDTO;
 import com.ws.ldy.modules.third.pay.model.dto.WxPayRefundDTO;
 import com.ws.ldy.modules.third.pay.model.vo.WxPayOrderNotifyResultVO;
@@ -57,6 +60,10 @@ public class XjWxPayServiceImpl implements XjWxPayService {
         if (StringUtils.isBlank(dto.getTradeType())) {
             dto.setTradeType("JSAPI");
         }
+        // 默认商品id(NATIVE支付必传)
+        if (StringUtils.isBlank(dto.getProductId())) {
+            dto.setProductId(IdUtil.getNo());
+        }
         // 默认商品描叙
         if (StringUtils.isBlank(dto.getBody())) {
             dto.setBody("暂无商品描叙");
@@ -70,15 +77,25 @@ public class XjWxPayServiceImpl implements XjWxPayService {
         orderRequest.setOutTradeNo(dto.getOutTradeNo());
         orderRequest.setTotalFee(dto.getTotalFee());
         orderRequest.setTradeType(dto.getTradeType());
+        orderRequest.setProductId(dto.getProductId());
         orderRequest.setSpbillCreateIp(request.getRemoteHost());
         try {
-            WxPayMpOrderResult result = wxPayApi.createOrder(orderRequest);
-            WxPayOrderResultVO vo = new WxPayOrderResultVO();
-            BeanUtils.copyProperties(result, vo);
+            WxPayOrderResultVO vo = null;
+            if (orderRequest.getTradeType().equals("JSAPI")) {
+                WxPayMpOrderResult result = wxPayApi.createOrder(orderRequest);
+                vo = BeanDtoVoUtil.convert(result, WxPayOrderResultVO.class);
+            } else if (orderRequest.getTradeType().equals("NATIVE")) {
+                WxPayNativeOrderResult result = wxPayApi.createOrder(orderRequest);
+                vo = BeanDtoVoUtil.convert(result, WxPayOrderResultVO.class);
+            }
             return R.success(vo);
         } catch (WxPayException e) {
             log.debug(e.toString());
-            return R.error(RType.WX_PAY_FAILURE.getValue(), RType.WX_PAY_FAILURE.getMsg() + ":" + e.getReturnMsg() + ":" + e.getErrCodeDes());
+            return R.error(RType.WX_PAY_FAILURE.getValue(), RType.WX_PAY_FAILURE.getMsg()
+                    + ":" + e.getReturnMsg()
+                    + ":" + e.getErrCodeDes()
+                    + ":" + e.getCustomErrorMsg()
+            );
         }
     }
 

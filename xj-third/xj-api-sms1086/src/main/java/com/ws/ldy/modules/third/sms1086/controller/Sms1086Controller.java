@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 阿里云OSS 文件上传下载
+ *
  *
  * @author peter 2018/10/20 21:32
  */

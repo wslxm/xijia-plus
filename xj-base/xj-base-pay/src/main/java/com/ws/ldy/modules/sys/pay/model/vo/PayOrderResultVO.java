@@ -22,21 +22,24 @@ public class PayOrderResultVO extends Convert {
     @ApiModelProperty(value = "支付订单号")
     private String orderNo;
 
-    @ApiModelProperty(value = "微信支付返回 -- 应用id")
+    @ApiModelProperty(value = "jsapi -- 应用id")
     private String appId;
 
-    @ApiModelProperty(value = "微信支付返回 -- 时间戳")
+    @ApiModelProperty(value = "jsapi -- 时间戳")
     private String timeStamp;
 
-    @ApiModelProperty(value = "微信支付返回 -- 随机字符串")
+    @ApiModelProperty(value = "jsapi -- 随机字符串")
     private String nonceStr;
 
-    @ApiModelProperty(value = "微信支付返回 -- 订单详情扩展字符串")
+    @ApiModelProperty(value = "jsapi -- 订单详情扩展字符串")
     private String packageValue;
 
-    @ApiModelProperty(value = "微信支付返回 -- 签名方式")
+    @ApiModelProperty(value = "jsapi -- 签名方式")
     private String signType;
 
-    @ApiModelProperty(value = "微信支付返回 -- 签名")
+    @ApiModelProperty(value = "jsapi -- 签名")
     private String paySign;
+
+    @ApiModelProperty(value = "Native -- 支付二维码")
+    private String codeUrl;
 }

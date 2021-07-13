@@ -12,5 +12,39 @@
 {columnList}
         </sql>
 
+        <!-- id 查询 -->
+        <select id="xjFindId" resultType="{packPath}.{rootModule}.{packPathZp}.{moduleName}.mapper.{tableNameUp}">
+               SELECT
+               *
+               FROM {tableName} a
+               WHERE a.id = #{id}
+         </select>
+
+        <!-- 全部查询 -->
+        <select id="xjFindList" resultType="{packPath}.{rootModule}.{packPathZp}.{moduleName}.mapper.{tableNameUp}">
+            SELECT
+            *
+            FROM {tableName} a
+            WHERE a.deleted=0
+            ORDER BY a.create_time DESC
+        </select>
+
+
+        <!-- 动态添加 -->
+        <insert id="xjInsert">
+{xmlInsert}
+        </insert>
+
+
+        <!-- id动态编辑 -->
+        <update id="xjUpdate">
+{xmlUpd}
+         </update>
+
+
+         <!-- id删除 -->
+         <update id="xjDelete">
+              delete from {tableName} where id = #{id}
+         </update>
 </mapper>
 

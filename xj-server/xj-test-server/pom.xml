@@ -25,11 +25,11 @@
             <version>${xj-base-admin-ui.version}</version>
         </dependency>
         <!-- 接口文档- knife4j-ui 注意加载顺序,必须在swagger2之下引入 -->
-        <!--        <dependency>-->
-        <!--            <groupId>com.ws.ldy</groupId>-->
-        <!--            <artifactId>xj-doc-knife4j</artifactId>-->
-        <!--            <version>${xj-doc-knife4j.version}</version>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-doc-knife4j</artifactId>
+            <version>${xj-doc-knife4j.version}</version>
+        </dependency>
 
         <!-- 第三方服务- 阿里云oss -->
         <dependency>
