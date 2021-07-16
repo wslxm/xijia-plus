@@ -53,12 +53,13 @@ public class XjWxPayServiceImpl implements XjWxPayService {
      */
     @Override
     public R<WxPayOrderResultVO> createOrder(WxPayOrderDTO dto) {
-        if (StringUtils.isBlank(dto.getOpenid())) {
-            return R.error(RType.WX_PAY_NO_OPENID);
-        }
         // 默认支付方式
         if (StringUtils.isBlank(dto.getTradeType())) {
             dto.setTradeType("JSAPI");
+        }
+        // JSAPI 支付时必须传递openId
+        if (dto.getTradeType().equals("JSAPI") && StringUtils.isBlank(dto.getOpenid())) {
+            return R.error(RType.WX_PAY_NO_OPENID);
         }
         // 默认商品id(NATIVE支付必传)
         if (StringUtils.isBlank(dto.getProductId())) {

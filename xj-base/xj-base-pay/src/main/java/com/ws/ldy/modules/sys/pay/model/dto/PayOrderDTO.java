@@ -33,7 +33,7 @@ public class PayOrderDTO implements Serializable {
     private Pay.PayBusiness payBusiness;
     /*** 请求必传 */
 
-    /*** 微信支付额外必传 */
+    /*** 微信jsapi 支付额外必传 */
     @ApiModelProperty(value = "用户openid")
     private String wxOpenid;
     @ApiModelProperty(value = "默认JSAPI -- 交易类型( 默认= JSAPI=公众号/公众号h5/小程序支付 | NATIVE --Native支付 | APP --app支付 |  MWEB --H5支付")
