@@ -4,7 +4,11 @@
 - 2、优化静态资源读取优先级, /META-INF/resources/ -> /resources/ -> /static/ -> /public/
 - 3、xj-base-pay 支付模块增加支持微信扫码支付, 依赖xj-api-wx-pay模块，具体看 com.ws.ldy.modules.sys.pay.controller.PayTestController 中的扫码支付测试接口
 - 4、代码生成优化,生成的各种类分离，mapperXml 增加自动生成的sql方法xjFindId(id查询)xjFindList(全部查询)xjInsert(动态增加)xjUpdate(动态编辑)xjDelete(删除)
+- 5、修复查询jvm信息在linux获取内存信息 单位为 k时的异常 
+- 6、修复AdminUserController 分页查询id 参数提供错误
 
+
+ 
 ## 版本：v-0.1.1
 -------- 2021-5-12
  - 1、新增用户端访问首页（http://localhost:9049/user 访问主页,所有单页应用全部移至该访问页中）

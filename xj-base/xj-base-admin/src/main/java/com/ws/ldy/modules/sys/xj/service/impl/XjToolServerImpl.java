@@ -106,8 +106,10 @@ public class XjToolServerImpl implements XjToolServer {
                     double valDouble = 0;
                     if (val.indexOf("G") != -1) {
                         valDouble = Double.parseDouble(val.replace("G", ""));
-                    } else {
+                    } else if (val.indexOf("M") != -1) {
                         valDouble = Double.parseDouble(val.replace("M", "")) / 1024;
+                    } else if (val.indexOf("K") != -1) {
+                        valDouble = Double.parseDouble(val.replace("K", "")) / 1024 / 1024;
                     }
                     //System.out.println("valDouble=" + valDouble);
                     ramVals.add(valDouble);

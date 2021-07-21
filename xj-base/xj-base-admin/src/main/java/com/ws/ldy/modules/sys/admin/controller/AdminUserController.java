@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.auth.util.JwtUtil;
+import com.ws.ldy.auth.util.MD5Util;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.auth.util.JwtUtil;
-import com.ws.ldy.auth.util.MD5Util;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.modules.sys.admin.model.dto.UserAdminDTO;
@@ -49,14 +49,14 @@ public class AdminUserController extends BaseController<AdminUserService> {
             @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),
     })
     public R<IPage<AdminUserVO>> findPage(
-            @ApiParam(value = "数据Id", required = false) @RequestParam(required = false) Integer id,
+            @ApiParam(value = "数据Id", required = false) @RequestParam(required = false) String id,
             @ApiParam(value = "账号/手机号", required = false) @RequestParam(required = false) String username,
             @ApiParam(value = "姓名/用户名", required = false) @RequestParam(required = false) String fullName,
             @ApiParam(value = "职位:字典code 0=系统用户 1=销售", required = false) @RequestParam(required = false) Integer position,
             @ApiParam(value = "禁用(字典code )", required = false) @RequestParam(required = false) Integer disable) {
         Page<AdminUser> page = baseService.page(this.getPage(), new LambdaQueryWrapper<AdminUser>()
                 .orderByDesc(AdminUser::getCreateTime)
-                .eq(id != null, AdminUser::getId, id)
+                .eq(StringUtils.isNotBlank(id), AdminUser::getId, id)
                 .eq(position != null, AdminUser::getPosition, position)
                 .eq(disable != null, AdminUser::getDisable, disable)
                 .like(StringUtils.isNotBlank(fullName), AdminUser::getFullName, fullName)
