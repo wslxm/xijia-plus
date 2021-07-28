@@ -6,6 +6,11 @@
 - 4、代码生成优化,生成的各种类分离，mapperXml 增加自动生成的sql方法xjFindId(id查询)xjFindList(全部查询)xjInsert(动态增加)xjUpdate(动态编辑)xjDelete(删除)
 - 5、修复查询jvm信息在linux获取内存信息 单位为 k时的异常 
 - 6、修复AdminUserController 分页查询id 参数提供错误
+- 7、移除 xj-base-util 和 xj-base-result 板块, 相关代码已移动到 xj-base-core 模块中
+- 8、移除 xj-doc-knife4j 板块, 在 xj-doc-swagger2 模块中默认加载 knife4j, 不需要需手动注释 或 引入时进行排除
+- 9、xj-api-wx-open 增加 微信扫码登录功能
+- 10、xj-doc-swagger2 进行深度改造, 修改为默认加载 10个模块分区, 可在yml配置中动态配置每个分区名 和 扫码路径(不配置默认加载所有接口到A分区)
+- 11、xj-fw-redis 服务中增加方法块分布式锁， 所有 @SynchronizedLock 注解即可
 
 
  

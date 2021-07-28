@@ -28,18 +28,24 @@ public class RedisLock {
      * @return
      */
     @SuppressWarnings("all")
-    public boolean lock(String lockKey, long lockExpireMils) {
+    public  boolean lock(String lockKey, long lockExpireMils) {
         return (Boolean) redisTemplate.execute((RedisCallback) connection -> {
             long nowTime = System.currentTimeMillis();
+            // 设置一个永久对象,value值为锁的过期时间
             Boolean acquire = connection.setNX(lockKey.getBytes(), String.valueOf(nowTime + lockExpireMils + 1).getBytes());
             if (acquire) {
+                // 线程没有被锁,创建锁成功
                 return Boolean.TRUE;
             } else {
+                // 线程已被锁住,获取原来的锁
                 byte[] value = connection.get(lockKey.getBytes());
                 if (Objects.nonNull(value) && value.length > 0) {
+                    // 获取原锁时间判断 判断 原锁是否已过期
                     long oldTime = Long.parseLong(new String(value));
                     if (oldTime < nowTime) {
+                        // 新线程获得锁并设置过期时间并再次返回原锁的过期时间
                         byte[] oldValue = connection.getSet(lockKey.getBytes(), String.valueOf(nowTime + lockExpireMils + 1).getBytes());
+                        // 判断key 的原锁是否存在 或在执行中 原锁是否已过期 (可能同时有多个线程进入,需要再次判断)
                         return oldValue == null ? false : Long.parseLong(new String(oldValue)) < nowTime;
                     }
                 }
@@ -47,6 +53,7 @@ public class RedisLock {
             return Boolean.FALSE;
         });
     }
+
 
     /**
      * 释放锁 其实就是将该key删除

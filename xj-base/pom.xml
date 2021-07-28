@@ -14,11 +14,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>xj-base-result</module>
         <module>xj-base-core</module>
         <module>xj-base-admin</module>
         <module>xj-base-admin-ui</module>
         <module>xj-base-pay</module>
-        <module>xj-base-util</module>
     </modules>
 </project>

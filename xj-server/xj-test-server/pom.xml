@@ -12,7 +12,18 @@
     <artifactId>xj-test-server</artifactId>
     <version>${xj-test-server.version}</version>
 
+    <properties>
+        <dynamic-datasource-spring-boot-starter.version>2.5.4</dynamic-datasource-spring-boot-starter.version>
+    </properties>
+
     <dependencies>
+        <!-- mybatis-plus dynamic 多数据源 -->
+        <!--  <dependency>-->
+        <!--      <groupId>com.baomidou</groupId>-->
+        <!--      <artifactId>dynamic-datasource-spring-boot-starter</artifactId>-->
+        <!--      <version>${dynamic-datasource-spring-boot-starter.version}</version>-->
+        <!--  </dependency>-->
+
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-admin</artifactId>
@@ -24,13 +35,6 @@
             <artifactId>xj-base-admin-ui</artifactId>
             <version>${xj-base-admin-ui.version}</version>
         </dependency>
-        <!-- 接口文档- knife4j-ui 注意加载顺序,必须在swagger2之下引入 -->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-doc-knife4j</artifactId>
-            <version>${xj-doc-knife4j.version}</version>
-        </dependency>
-
         <!-- 第三方服务- 阿里云oss -->
         <dependency>
             <groupId>com.ws.ldy</groupId>

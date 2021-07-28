@@ -16,18 +16,8 @@
 
         <dependency>
             <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-base-result</artifactId>
-            <version>${xj-base-result.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-base-util</artifactId>
-            <version>${xj-base-util.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-doc-swagger2</artifactId>
-            <version>${xj-base-result.version}</version>
+            <artifactId>xj-base-core</artifactId>
+            <version>${xj-base-core.version}</version>
         </dependency>
 
         <!-- qq wx 联合登陆需要的依赖 commons-io， commons-lang3，httpclient，fastjson-->

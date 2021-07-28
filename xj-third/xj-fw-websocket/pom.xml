@@ -15,18 +15,8 @@
     <dependencies>
         <dependency>
             <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-base-util</artifactId>
-            <version>${xj-base-util.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-base-result</artifactId>
-            <version>${xj-base-result.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-doc-swagger2</artifactId>
-            <version>${xj-doc-swagger2.version}</version>
+            <artifactId>xj-base-core</artifactId>
+            <version>${xj-base-core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

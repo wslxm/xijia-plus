@@ -1,7 +1,6 @@
-//package com.ws.ldy.taskScheduling.task;
+//package com.ws.ldy.taskscheduling.task;
 //
-//
-//import com.ws.ldy.taskScheduling.annotation.TaskLock;
+//import com.ws.ldy.taskscheduling.annotation.TaskLock;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.scheduling.annotation.EnableScheduling;
@@ -23,19 +22,19 @@
 //    @Scheduled(cron = TaskTest.cron)
 //    @TaskLock(lockKed = "task1", expireTime = 1)
 //    public void executeTask1() {
-//        log.debug( LocalDateTime.now()+ "hello world!" + "--B" );
+//        log.info( LocalDateTime.now()+ "hello world!" + "--B" );
 //    }
 //
 //
 //    @Scheduled(cron = TaskTest.cron)
 //    @TaskLock(lockKed = "task1", expireTime = 1)
 //    public void executeTask2() {
-//        log.debug( LocalDateTime.now()+ "hello world!" + "--A" );
+//        log.info( LocalDateTime.now()+ "hello world!" + "--A" );
 //    }
 //
 //    @Scheduled(cron = TaskTest.cron)
 //    @TaskLock(lockKed = "task1", expireTime = 1)
 //    public void executeTask3() {
-//        log.debug( LocalDateTime.now()+ "hello world!" + "--C" );
+//        log.info( LocalDateTime.now()+ "hello world!" + "--C" );
 //    }
 //}

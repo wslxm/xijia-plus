@@ -18,8 +18,8 @@
     <dependencies>
         <dependency>
             <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-base-result</artifactId>
-            <version>${xj-base-result.version}</version>
+            <artifactId>xj-base-core</artifactId>
+            <version>${xj-base-core.version}</version>
         </dependency>
 
         <dependency>

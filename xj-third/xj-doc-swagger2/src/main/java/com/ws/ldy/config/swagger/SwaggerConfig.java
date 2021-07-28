@@ -5,8 +5,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.RequestHandler;
@@ -15,6 +14,7 @@ import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
+import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
@@ -32,98 +32,137 @@ import java.util.List;
  */
 @Configuration
 @EnableSwagger2
-@Slf4j
 public class SwaggerConfig {
 
-    @Value("${swagger.sysAdminPackage}")
-    private String sysAdminPackage;
-    @Value("${swagger.sysBasePackage}")
-    private String sysBasePackage;
-    @Value("${swagger.ywAdminPackage}")
-    private String ywAdminPackage;
-    @Value("${swagger.ywClientPackage}")
-    private String ywClientPackage;
-    @Value("${swagger.author}")
-    private String author;
-    @Value("${swagger.email}")
-    private String email;
-    @Value("${swagger.url}")
-    private String url;
-    @Value("${swagger.version}")
-    private String version;
-    @Value("${swagger.defaultKey}")
-    private String defaultKey;
-    @Value("${swagger.defaultValue}")
-    private String defaultValue;
-    // 是否展示接口文档
-    @Value("${swagger.isShow:true}")
-    private Boolean isShow;
 
-    // 定义分隔符
-    private static final String splitor = ",";
-
+    @Autowired
+    private SwaggerProperties swaggerProperties;
 
     @Bean
-    public Docket sysAdminApi() {
-        // 名称
-        String groupName = "ADMIN--系统模块";
-        // 扫包路径
-        return this.createDocket(groupName, sysAdminPackage);
+    public Docket swaggerDocketA() {
+        if (swaggerProperties.getPackages().size() == 0) {
+            return this.createDocket("A|com");
+        } else {
+            return this.createDocket(swaggerProperties.getPackages().get("0") == null ? "A|xxx.xxx" : swaggerProperties.getPackages().get("0") + "|A");
+        }
     }
 
     @Bean
-    public Docket sysBaseApi() {
-        // 名称
-        String groupName = "BASE--通用模块";
-        // 扫包路径
-        return this.createDocket(groupName, sysBasePackage);
+    public Docket swaggerDocketB() {
+        return this.createDocket(swaggerProperties.getPackages().get("1") == null ? "B|xxx.xxx" : swaggerProperties.getPackages().get("1") + "|B");
     }
 
-
     @Bean
-    public Docket ywAdminApi() {
-        // 名称
-        String groupName = "业务管理端";
-        // 扫包路径
-        return this.createDocket(groupName, ywAdminPackage);
+    public Docket SwaggerDocketC() {
+        return this.createDocket(swaggerProperties.getPackages().get("2") == null ? "C|xxx.xxx" : swaggerProperties.getPackages().get("2") + "|C");
     }
 
+    @Bean
+    public Docket SwaggerDocketD() {
+        return this.createDocket(swaggerProperties.getPackages().get("3") == null ? "D|xxx.xxx" : swaggerProperties.getPackages().get("3") + "|D");
+    }
 
     @Bean
-    public Docket ywClientApi() {
-        // 名称
-        String groupName = "业务用户端";
-        // 扫包路径
-        return this.createDocket(groupName, ywClientPackage);
+    public Docket SwaggerDocketE() {
+        return this.createDocket(swaggerProperties.getPackages().get("4") == null ? "E|xxx.xxx" : swaggerProperties.getPackages().get("4") + "|E");
+    }
+
+    @Bean
+    public Docket SwaggerDocketF() {
+        return this.createDocket(swaggerProperties.getPackages().get("5") == null ? "F|xxx.xxx" : swaggerProperties.getPackages().get("5") + "|F");
+    }
+
+    @Bean
+    public Docket SwaggerDocketG() {
+        return this.createDocket(swaggerProperties.getPackages().get("6") == null ? "G|xxx.xxx" : swaggerProperties.getPackages().get("6") + "|G");
+    }
+
+    @Bean
+    public Docket SwaggerDocketH() {
+        return this.createDocket(swaggerProperties.getPackages().get("7") == null ? "H|xxx.xxx" : swaggerProperties.getPackages().get("7") + "|H");
+    }
+
+    @Bean
+    public Docket SwaggerDocketI() {
+        return this.createDocket(swaggerProperties.getPackages().get("8") == null ? "I|xxx.xxx" : swaggerProperties.getPackages().get("8") + "|I");
+    }
+
+    @Bean
+    public Docket SwaggerDocketJ() {
+        return this.createDocket(swaggerProperties.getPackages().get("9") == null ? "J|xxx.xxx" : swaggerProperties.getPackages().get("9") + "|J");
     }
 
 
     /**
      * 创建swagger 目录
-     * @return
+     * @author wangsong
+     * @param groupNameOrPackage
+     * @date 2021/7/28 0028 14:29
+     * @return springfox.documentation.spring.web.plugins.Docket
+     * @version 1.0.0
      */
-    public Docket createDocket(String groupName, String basePackage) {
-        if(!isShow){
-            return null;
-        }
+    public Docket createDocket(Object groupNameOrPackage) {
+        String groupName = getGroupName(groupNameOrPackage.toString());
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName(groupName)
-                // 全局参数 -> 默认token参数
-                .globalOperationParameters(getGlobalParameter())
                 .select()
-                //.apis(RequestHandlerSelectors.basePackage("com.lplb.modules.pets"
-                .apis(basePackage(basePackage))   // 自行修改为自己的包路径
+                //.apis(RequestHandlerSelectors.basePackage("com.lplb.modules.pets")
+                .apis(basePackage(getPackage(groupNameOrPackage.toString())))
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
                 .build()
                 .useDefaultResponseMessages(false)
-                .apiInfo(new ApiInfoBuilder()
-                        .title(groupName)
-                        .description("restful Swagger API 文档")
-                        .termsOfServiceUrl(url)
-                        .version(version)
-                        .contact(new Contact(author, url, email))
-                        .build());
+                // 全局参数 -> 默认token参数
+                .globalOperationParameters(getGlobalParameter())
+                // 文档信息
+                .apiInfo(getApiInfo(groupName));
+    }
+
+
+    /**
+     * 获取模块名称, 自动填充分区号,
+     * @param groupNameOrPackage
+     * @return
+     */
+    private String getGroupName(String groupNameOrPackage) {
+        String[] split = groupNameOrPackage.split("\\|");
+        // 获取名称,如果是yml配置获取,手动拼接上分区标签 A/B/C/D 等
+        String groupName = split[0];
+        if (split.length > 2) {
+            groupName = split[2] + "--" + groupName;
+        }
+        return groupName.trim();
+    }
+
+
+    /**
+     * 获取扫包路径，如果关闭了swagger或yml 没有配置当前分区,设置为一个不存在的包 xxx.xxx
+     * @param groupNameOrPackage
+     */
+    private String getPackage(String groupNameOrPackage) {
+        String[] split = groupNameOrPackage.split("\\|");
+        // 获取包路径, 如果关闭了swagger, 让其扫码一个不存在的包
+        String basePackage = split[1];
+        if (!swaggerProperties.getIsShow()) {
+            basePackage = "xxx.xxx";
+        }
+        return basePackage.trim();
+    }
+
+
+    /**
+     * 添加社交信息
+     * @param groupName
+     * @return
+     */
+    private ApiInfo getApiInfo(String groupName) {
+        return new ApiInfoBuilder()
+                .title(groupName)
+                .description("restful Swagger API 文档")
+                .termsOfServiceUrl(swaggerProperties.getTermsOfServiceUrl())
+                .version(swaggerProperties.getVersion())
+                .contact(new Contact(swaggerProperties.getAuthor(), swaggerProperties.getUrl(), swaggerProperties.getEmail()))
+                .build();
     }
 
 
@@ -137,14 +176,13 @@ public class SwaggerConfig {
     private List<Parameter> getGlobalParameter() {
         ParameterBuilder parameterBuilder = new ParameterBuilder();
         // 管理端默认账号
-        parameterBuilder
-                .name(defaultKey)                           // key
-                .scalarExample(defaultValue)               // value-默认token值 getAdminUserToken(username)
-                .description("请求头参数")                   // 描叙
-                .modelRef(new ModelRef("string"))     // 字符串参数
-                .parameterType("header")                   // 请求头参数
-                .order(-100)                               // 靠前
-                .required(false)                           // 非必传
+        parameterBuilder.name(swaggerProperties.getDefaultKey())
+                .scalarExample(swaggerProperties.getDefaultValue())
+                .description("请求头参数")
+                .modelRef(new ModelRef("string"))
+                .parameterType("header")
+                .order(-999)
+                .required(false)
                 .build();
         List<Parameter> parameters = Lists.newArrayList();
         parameters.add(parameterBuilder.build());
@@ -157,6 +195,10 @@ public class SwaggerConfig {
     //========================== 让swagger支持配置多个 包路径 ========================================
     //=============================================================================================
     //=============================================================================================
+
+    // 定义分隔符
+    private static final String splitor = ",";
+
 
     /**
      * 让swagger支持配置多个 包路径

@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *    DataBase数据库操作，这里继承 BaseAdminServiceImpl 只是为了使用 mapper.dataBaseDao
+ * DataBase数据库操作，这里继承 BaseAdminServiceImpl 只是为了使用 mapper.dataBaseDao
  *
  * @author 王松
  * @WX-QQ 1720696548
@@ -33,13 +33,13 @@ import java.util.List;
 @Slf4j
 public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBaseService {
 
-    @Value("${spring.datasource.dynamic.datasource.db1.url}")
+    @Value("${spring.datasource.url}")
     private String dbUrl;
 
-    @Value("${spring.datasource.dynamic.datasource.db1.username}")
+    @Value("${spring.datasource.username}")
     private String dbUserName;
 
-    @Value("${spring.datasource.dynamic.datasource.db1.password}")
+    @Value("${spring.datasource.password}")
     private String dbPassWord;
 
     @Autowired
