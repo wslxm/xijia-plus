@@ -27,14 +27,14 @@ import javax.servlet.http.HttpServletResponse;
 public class SysIdempotent {
 
 
-//    @Around("@annotation(org.springframework.web.bind.annotation.PostMapping)")
-//    public Object aroundSave(ProceedingJoinPoint proceed) throws Throwable {
-//        // 获取请求参数
-//        ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-//        HttpServletRequest request = sra.getRequest();
-//        HttpServletResponse response = sra.getResponse();
-//        return run(proceed, request, response);
-//    }
+    // @Around("@annotation(org.springframework.web.bind.annotation.PostMapping)")
+    // public Object aroundSave(ProceedingJoinPoint proceed) throws Throwable {
+    //     // 获取请求参数
+    //     ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    //     HttpServletRequest request = sra.getRequest();
+    //     HttpServletResponse response = sra.getResponse();
+    //     return run(proceed, request, response);
+    // }
 
     @Autowired
     private HttpServletRequest request;

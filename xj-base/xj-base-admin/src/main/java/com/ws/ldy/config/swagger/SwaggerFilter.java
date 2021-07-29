@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * swagger 文档控制 过滤器
+ * swagger 文档控制 过滤器 (数据库动态控制)
  * <P>
- *     判断是否可访问swagger文档，不可访问时 直接返回无权限json格式提示
+ *    判断是否可访问swagger文档, 不可访问时 直接返回无权限json格式提示
  * </P>
  * @author wangsong
  * @mail 1720696548@qq.com

@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface XjSecret {
 
-    // 是否为下级数据（下级数据递归加密or解密）
+    // 是否为下级数据（下级数据将进行递归加密or解密）
     boolean isNext() default false;
 
 }

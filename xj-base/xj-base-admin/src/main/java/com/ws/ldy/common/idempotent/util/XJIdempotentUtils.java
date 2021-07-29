@@ -12,7 +12,7 @@ import java.util.Map;
 public class XJIdempotentUtils {
 
     /**
-     *幂等id有效期（毫秒） 30分钟
+     * 幂等id有效期（毫秒） 30分钟
      */
     private final static Integer TOKEN_TIME = 60 * 30 * 1000;
 
@@ -38,7 +38,7 @@ public class XJIdempotentUtils {
     }
 
     /**
-     *  判断token是否有效 / 是否为重复调用
+     * 判断token是否有效 / 是否为重复调用
      * @param tokenKey
      * @return Ext
      */

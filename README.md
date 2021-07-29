@@ -21,17 +21,22 @@ QQ群：1037211892
 
 #### 最新说明
 - 当前主分支为v-0.1.1 的分支最后更新代码,可稳定运行(2021-6-2更新)
-- 更新日志文档(2021-6-24更新): [https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md) 
-- 项目目录结构(2021-6-24更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构.md) 
 - 项目于0.0.9+模块化，模块化目的:减轻项目大小,按需加载
+- 更新日志文档(2021-6-24更新): [https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md) 
+
+#### 各版本目录结构
+
+- 0.0.8版本(2021-1-14更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.0.8 版本及之前目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/0.0.8 版本及之前目录结构.md) 
+- 0.0.9-0.1.0 版本(2021-3-05更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.0.9- 0.1.0  版本目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.0.9- 0.1.0  版本目录结构.md) 
+- 0.1.1 版本(2021-6-24更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.1版本目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.1版本目录结构.md) 
+- 0.1.1 版本(2021-7-29更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.2版本目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.2版本目录结构.md) 
+
 
 #### 更多
 
 - 支持跨域,支持前后端代码抽离并独立开发(springboot（后端)/layui（前端）, 如有前端人员，也可使用其他开发语言来进行对接，如：vue.js
-- swagger2 文档, 地址：http://localhost/swagger-ui.html
+- swagger2 文档, 地址：http://ip:port/swagger-ui.html ,也可访问 knife4j-ui, 地址：http://ip:port/doc.html
 
-
-### 
 
 ### 三、当前功能列表
 #### 基础功能

@@ -1,4 +1,4 @@
-//package com.ws.ldy.config.datasource;
+package com.ws.ldy.config.datasource;//package com.ws.ldy.config.datasource;
 //
 //import com.alibaba.druid.support.http.StatViewServlet;
 //import org.springframework.boot.web.servlet.ServletRegistrationBean;

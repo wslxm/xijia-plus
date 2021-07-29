@@ -19,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @SuppressWarnings("all")
 @Configuration
-public class MvcConfig implements WebMvcConfigurer {
+public class XjMvcConfig implements WebMvcConfigurer {
 
     /**
      * 访问URL路径与 resources\templates 页面(.html）路径映射配置, 这里主要做单独的页面跳转
@@ -29,15 +29,14 @@ public class MvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index").setViewName("modules/sys_index");           // 管理端主页
-        registry.addViewController("/").setViewName("modules/sys_login");                // 管理端登录页
-        registry.addViewController("/login").setViewName("modules/sys_login");           // 管理端登录页
+        registry.addViewController("/index").setViewName("modules/sys_index");        // 管理端主页
+        registry.addViewController("/login").setViewName("modules/sys_login");        // 管理端登录页
         //
-        registry.addViewController("/fh").setViewName("client/tool/fhConvert.html");     // 文本转符号生成器
-        registry.addViewController("/java").setViewName("client/tool/javaCodeRun");      // java代码运行器
-        registry.addViewController("/lts").setViewName("client/websocket/lts.html");     // 在线聊天室
-        registry.addViewController("/help").setViewName("client/help/index");            // 兮家手册
-        registry.addViewController("/user").setViewName("client/index");                 // 用户端首页
+        // registry.addViewController("/fh").setViewName("client/tool/fhConvert.html");     // 文本转符号生成器
+        // registry.addViewController("/java").setViewName("client/tool/javaCodeRun");      // java代码运行器
+        // registry.addViewController("/lts").setViewName("client/websocket/lts.html");     // 在线聊天室
+        // registry.addViewController("/help").setViewName("client/help/index");            // 兮家手册
+        // registry.addViewController("/user").setViewName("client/index");                 // 用户端首页
     }
 
 
@@ -82,25 +81,4 @@ public class MvcConfig implements WebMvcConfigurer {
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(urlBasedCorsConfigurationSource);
     }
-
-
-//    /**
-//     * Oss 过滤器,让访问oss的资源直接去oss服务器去读取
-//     * @return
-//     */
-//    @Bean
-//    public FilterRegistrationBean sysSingFilterBean() {
-//        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-//        filterRegistrationBean.setFilter(sysSingFilter());
-//        filterRegistrationBean.addUrlPatterns("/*");      // 拦截所有
-//        filterRegistrationBean.setName("sysSingFilterBean");  // 设置过滤器名称
-//        filterRegistrationBean.setOrder(1);//执行次序
-//        return filterRegistrationBean;
-//    }
-//
-//    // 让sysSingFilter里可以读取bean信息
-//    @Bean
-//    public SysSingFilter sysSingFilter() {
-//        return new SysSingFilter();
-//    }
 }

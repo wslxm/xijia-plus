@@ -1,4 +1,4 @@
-package com.ws.ldy.config.Init;
+package com.ws.ldy.config.init;
 
 import com.ws.ldy.modules.sys.admin.service.AdminAuthorityService;
 import lombok.extern.slf4j.Slf4j;
