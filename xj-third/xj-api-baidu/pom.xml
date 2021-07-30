@@ -5,12 +5,12 @@
     <parent>
         <artifactId>xj-third</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.1.2-SNAPSHOT</version>
+        <version>0.1.2.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-api-baidu</artifactId>
-    <version>${xj-api-baidu.version}</version>
+    <version>${revision}</version>
 
     <!-- sdk地址：https://ai.baidu.com/sdk#vis -->
     <!-- sdk地址：https://ai.baidu.com/sdk#vis -->
@@ -22,7 +22,6 @@
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-core</artifactId>
-            <version>${xj-base-core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>

@@ -5,12 +5,12 @@
     <parent>
         <artifactId>xj-base</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.1.2-SNAPSHOT</version>
+        <version>0.1.2.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-base-pay</artifactId>
-    <version>${xj-base-pay.version}</version>
+    <version>${revision}</version>
 
     <!-- 聚合支付模块 -->
     <dependencies>
@@ -18,13 +18,11 @@
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-api-wx-pay</artifactId>
-            <version>${xj-api-wx-pay.version}</version>
         </dependency>
         <!-- 核心组件- 通用base层+字典枚举  -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-core</artifactId>
-            <version>${xj-base-core.version}</version>
         </dependency>
     </dependencies>
 </project>

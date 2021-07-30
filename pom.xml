@@ -11,8 +11,9 @@
 
     <groupId>com.ws.ldy</groupId>
     <artifactId>spring-boot-plus2</artifactId>
-    <version>0.1.2-SNAPSHOT</version>
-    <name>spring-boot-plus2</name>
+    <version>${revision}</version>
+    <!-- 如果不定义名称系统默认为  <name>${groupId}:${artifactId}:${revision}</name> -->
+    <name>${artifactId}:${revision}</name>
     <packaging>pom</packaging>
     <description>Demo project for Spring Boot</description>
 
@@ -23,37 +24,12 @@
     </modules>
 
     <properties>
-        <!-- ================== 内部jar版本START ===================== -->
-        <!-- 架构版本 RELEASE=正式版 SNAPSHOT=开发版(实时刷新jar依赖), 改版本号修改时请使用全局替换,${revision}读取会导致子模块无法单独打包 -->
-        <revision>0.1.2.1-SNAPSHOT</revision>
-        <!-- 项目代码版本 -->
-        <xj-test-server.version>  0.1.2.1</xj-test-server.version>       <!-- 业务模块-个人业务+测试 -->
-
-        <!-- 系统核心包 -->
-        <xj-base-core.version>    0.1.2.1</xj-base-core.version>          <!-- 通用base层,枚举字段层,常用工具类,统一返回+全局异常处理 -->
-        <xj-base-pay.version>     0.1.2.1</xj-base-pay.version>           <!-- 聚合支付服务  -->
-        <xj-base-admin.version>   0.1.2.1</xj-base-admin.version>         <!-- 基础服务-api  -->
-        <xj-base-admin-ui.version>0.1.2.1</xj-base-admin-ui.version>      <!-- 基础服务-页面 -->
-
-        <!-- 系统第三方集成 -->
-        <xj-api-sms1086.version>         0.1.2.1</xj-api-sms1086.version>
-        <xj-api-aliyun-oss.version>      0.1.2.1</xj-api-aliyun-oss.version>
-        <xj-api-aliyun-sms.version>      0.1.2.1</xj-api-aliyun-sms.version>
-        <xj-api-baidu.version>           0.1.2.1</xj-api-baidu.version>
-        <xj-api-kuaidi-kuaidi100.version>0.1.2.1</xj-api-kuaidi-kuaidi100.version>
-        <xj-api-kuaidi-sf.version>       0.1.2.1</xj-api-kuaidi-sf.version>
-        <xj-api-qiniu-oss.version>       0.1.2.1</xj-api-qiniu-oss.version>
-        <xj-api-wx-app.version>          0.1.2.1</xj-api-wx-app.version>
-        <xj-api-wx-mp.version>           0.1.2.1</xj-api-wx-mp.version>
-        <xj-api-wx-pay.version>          0.1.2.1</xj-api-wx-pay.version>
-        <xj-doc-swagger2.version>        0.1.2.1</xj-doc-swagger2.version>
-        <xj-fw-boot-admin.version>       0.1.2.1</xj-fw-boot-admin.version>
-        <xj-fw-websocket.version>        0.1.2.1</xj-fw-websocket.version>
-        <xj-fw-redis.version>            0.1.2.1</xj-fw-redis.version>
-        <xj-api-qq-open.version>         0.1.2.1</xj-api-qq-open.version>
-        <xj-api-wx-open.version>         0.1.2.1</xj-api-wx-open.version>
-        <!-- ================== 内部jar版本END ======================= -->
-        <!-- ================== 编码环境 START ======================= -->
+        <!--
+          架构版本 RELEASE=正式版 SNAPSHOT=开发版(实时刷新jar依赖),
+          改版本号修改时请使用全局替换, ${revision} 读取会导致子模块无法单独打包
+          spring-boot-plus2/pom.xml + xj-base/pom.xml + xj-server/pom.xml + xj-third/pom.xml,
+         -->
+        <revision>0.1.2.2-SNAPSHOT</revision>
         <!-- 文件拷贝时的编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -68,32 +44,151 @@
     </properties>
 
 
-    <!-- 核心jar -->
+    <!-- 所有子模块中默认加载依赖  -->
     <dependencies>
-        <!-- 热部署，开发使用-打包前请注释 -->
-        <!--  <dependency>-->
-        <!--      <groupId>org.springframework.boot</groupId>-->
-        <!--      <artifactId>spring-boot-devtools</artifactId>-->
-        <!--      <optional>false</optional>-->
-        <!--  </dependency>-->
-
-        <!-- spring-boot-starter-test -->
-        <!--  <dependency>-->
-        <!--      <groupId>org.springframework.boot</groupId>-->
-        <!--      <artifactId>spring-boot-starter-test</artifactId>-->
-        <!--      <scope>test</scope>-->
-        <!--  </dependency>-->
-
         <!-- spring-mvc 虽然获得很多子服务不启动,但需要用到web注解-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- lombok  生成get/ser -->
+        <!-- lombok  生成get/ser  了马达 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
     </dependencies>
+
+
+    <!-- 统一依赖管理  -->
+    <dependencyManagement>
+        <dependencies>
+            <!--  ================================================  -->
+            <!--  ============== 当前架构jar - start  ================  -->
+            <!--  ================================================  -->
+            <!-- 系统核心代码 -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-base-admin</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 界面- 后台管理系统ui -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-base-admin-ui</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 第三方服务- 阿里云oss -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-base-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 聚合支付 -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-base-pay</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 阿里云oss  -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-api-aliyun-oss</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 阿里云sms -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-api-aliyun-sms</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 百度智能云 -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-api-baidu</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 快递100 -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-api-kuaidi-kuaidi100</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 顺丰 -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-api-kuaidi-sf</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 七牛云 -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-api-qiniu-oss</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- qq互联 -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-api-qq-open</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- sms1086 短信 -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-api-sms1086</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 微信小程序  -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-api-wx-app</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 微信公众号  -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-api-wx-mp</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 微信开放平台  -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-api-wx-open</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 微信支付  -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-api-wx-pay</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- swagger 接口文档  -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-doc-swagger2</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- admin监控平台服务  -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-fw-boot-admin</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- redis 服务 -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-fw-redis</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- websocket 服务 -->
+            <dependency>
+                <groupId>com.ws.ldy</groupId>
+                <artifactId>xj-fw-websocket</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--  ================================================  -->
+            <!--  ============== 当前架构jar - end  ================  -->
+            <!--  ================================================  -->
+        </dependencies>
+    </dependencyManagement>
 </project>

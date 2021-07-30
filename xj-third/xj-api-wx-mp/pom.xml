@@ -5,12 +5,12 @@
     <parent>
         <artifactId>xj-third</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.1.2-SNAPSHOT</version>
+        <version>0.1.2.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-api-wx-mp</artifactId>
-    <version>${xj-api-wx-mp.version}</version>
+    <version>${revision}</version>
 
     <properties>
         <weixin-java-mp.version>4.0.0</weixin-java-mp.version>
@@ -20,7 +20,6 @@
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-core</artifactId>
-            <version>${xj-base-core.version}</version>
         </dependency>
         <!-- 微信公众号 WxJava 开源sdk包 -->
         <dependency>

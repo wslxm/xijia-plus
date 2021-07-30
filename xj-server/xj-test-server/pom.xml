@@ -5,12 +5,12 @@
     <parent>
         <artifactId>xj-server</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.1.2-SNAPSHOT</version>
+        <version>0.1.2.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-test-server</artifactId>
-    <version>${xj-test-server.version}</version>
+    <version>${revision}</version>
 
     <properties>
         <dynamic-datasource-spring-boot-starter.version>2.5.4</dynamic-datasource-spring-boot-starter.version>
@@ -23,28 +23,23 @@
         <!--      <artifactId>dynamic-datasource-spring-boot-starter</artifactId>-->
         <!--      <version>${dynamic-datasource-spring-boot-starter.version}</version>-->
         <!--  </dependency>-->
-
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-admin</artifactId>
-            <version>${xj-base-admin.version}</version>
         </dependency>
         <!-- 界面- 后台管理系统ui -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-admin-ui</artifactId>
-            <version>${xj-base-admin-ui.version}</version>
         </dependency>
         <!-- 第三方服务- 阿里云oss -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-api-aliyun-oss</artifactId>
-            <version>${xj-api-aliyun-oss.version}</version>
         </dependency>
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-fw-websocket</artifactId>
-            <version>${xj-fw-websocket.version}</version>
         </dependency>
     </dependencies>
 

@@ -5,12 +5,12 @@
     <parent>
         <artifactId>xj-third</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.1.2-SNAPSHOT</version>
+        <version>0.1.2.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-fw-boot-admin</artifactId>
-    <version>${xj-fw-boot-admin.version}</version>
+    <version>${revision}</version>
 
     <!-- 需在启动类添加 @EnableAdminServer 注解,和添加yml配置 -->
     <properties>

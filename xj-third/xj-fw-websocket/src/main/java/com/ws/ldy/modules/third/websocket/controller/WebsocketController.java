@@ -83,7 +83,7 @@ public class WebsocketController {
         map.put("path", path);
         map.put("userId", userId);
         map.put("username", username);
-        log.info("websocket请求地址:" + path);
+        log.info("websocket请求地址11:" + path);
         return R.success(map);
     }
 

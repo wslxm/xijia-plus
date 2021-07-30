@@ -5,12 +5,12 @@
     <parent>
         <artifactId>xj-base</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.1.2-SNAPSHOT</version>
+        <version>0.1.2.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xj-base-admin-ui</artifactId>
-    <version>${xj-base-admin-ui.version}</version>
+    <version>${revision}</version>
 
     <dependencies>
         <!-- 解析html包-thymeleaf -->

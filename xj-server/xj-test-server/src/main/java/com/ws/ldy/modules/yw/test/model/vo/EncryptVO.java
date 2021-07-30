@@ -18,6 +18,7 @@ public class EncryptVO implements Serializable {
 
     private String b;
 
+
     private EncryptVO encrypt;
 
     private List<EncryptVO> encrypts;
