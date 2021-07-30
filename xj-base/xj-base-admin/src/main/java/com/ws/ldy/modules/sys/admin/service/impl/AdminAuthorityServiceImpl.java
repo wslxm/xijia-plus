@@ -3,11 +3,12 @@ package com.ws.ldy.modules.sys.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ws.ldy.XjAdminServer;
+import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.common.cache.JvmCache;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.common.utils.other.ClassUtil;
 import com.ws.ldy.common.utils.EnumUtil;
 import com.ws.ldy.common.utils.id.IdUtil;
+import com.ws.ldy.common.utils.other.ClassUtil;
 import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.enums.Admin;
 import com.ws.ldy.enums.Base;
@@ -59,8 +60,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     @Override
     public List<AdminAuthorityVO> findList(Integer type, String pid) {
         // refreshAuthCache
-
-        Map<String, AdminAuthority> authMap = JvmCache.getAuthMap();
+        Map<String, AdminAuthority> authMap = JvmCache.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
         List<AdminAuthority> list = new ArrayList<>();
         for (AdminAuthority item : authMap.values()) {
             // 判断类型
@@ -441,7 +441,9 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 .orderByDesc(AdminAuthority::getMethod)
         );
         // 缓存所有接口数据到 jvm
-        JvmCache.setAuthMap(authorityList.stream().collect(Collectors.toMap(AdminAuthority::getUrl, auth -> auth)));
+        Map<String, AdminAuthority> authMap = authorityList.stream().collect(Collectors.toMap(AdminAuthority::getUrl, auth -> auth));
+        JvmCache.set(CacheKey.AUTH_MAP_KEY.getKey(), authMap);
+
         // 数据统计
         int authorityCount = 0;
         int authorityCountState2 = 0;
@@ -480,7 +482,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      */
     @Override
     public AdminAuthority findFatherAuth(String uri) {
-        Map<String, AdminAuthority> authMap = JvmCache.getAuthMap();
+        Map<String, AdminAuthority> authMap = JvmCache.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
         AdminAuthority adminAuthority = authMap.get(uri);
         if (adminAuthority == null) {
             return null;

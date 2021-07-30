@@ -3,11 +3,12 @@ package com.ws.ldy.config.aspect.gateway;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.ws.ldy.auth.entity.JwtUser;
+import com.ws.ldy.auth.util.JwtUtil;
+import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.common.cache.JvmCache;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
-import com.ws.ldy.auth.entity.JwtUser;
-import com.ws.ldy.auth.util.JwtUtil;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.sys.xj.model.entity.XjAdminLog;
 import com.ws.ldy.modules.sys.xj.service.XjAdminLogService;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -209,7 +211,10 @@ public class SysLog {
             // 未登录
             log.setFullName("╥﹏╥");
             log.setUserId("0");
-            AdminAuthority adminAuthority = JvmCache.getAuthMap().get(uri);
+
+            Map<String, AdminAuthority> authMap = JvmCache.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
+            AdminAuthority adminAuthority = authMap.get(uri);
+            // AdminAuthority adminAuthority = JvmCache.getAuthMap().get(uri);
             if (adminAuthority != null) {
                 log.setType(adminAuthority.getType());
             } else {

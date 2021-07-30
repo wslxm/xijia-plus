@@ -14,7 +14,7 @@
 - 11、xj-fw-redis 服务中增加方法块分布式锁， 所有 @SynchronizedLock 注解即可(2021-7-27)
 - 12、移除mybatis-plus 下的 dynamic 组件,默认使用单数据源, 避免子模块引入了xj-base-core 启动服务配置排除数据源无效 (2021-7-27)
 - 13、优化子模块管理, 子模块使用 dependencyManagement 管理版本,使用时不在需要版本号
-
+- 14、优化 JvmCache 缓存类 为 通用缓存, 并处理了原缓存相关数据，添加缓存key枚举对象CacheKey(2021/7/30)
  
 ## 版本：v-0.1.1
 -------- 2021-5-12

@@ -21,6 +21,13 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
 
 
     /**
+     * 查询所有（缓存到jvm）
+     * @param isDisable  是否查询禁用数据 =true 查询*默认   =false 不查询
+     * @return
+     */
+    List<AdminDictionaryVO> findList(Boolean isDisable);
+
+    /**
      * 添加
      * @param
      * @return
@@ -34,13 +41,6 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
      */
     Boolean upd(AdminDictionaryDTO dto);
 
-
-    /**
-     * 查询所有（缓存到jvm）
-     * @param isDisable  是否查询禁用数据 =true 查询*默认   =false 不查询
-     * @return
-     */
-    List<AdminDictionaryVO> findList(Boolean isDisable);
 
     /**
      * 修改排序

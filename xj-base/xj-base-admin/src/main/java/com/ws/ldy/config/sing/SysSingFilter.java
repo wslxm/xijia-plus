@@ -4,9 +4,11 @@ package com.ws.ldy.config.sing;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.common.cache.JvmCache;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
+import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
 import com.ws.ldy.modules.sys.xj.model.entity.XjAdminConfig;
 import com.ws.ldy.modules.sys.xj.service.XjAdminConfigService;
 import lombok.extern.slf4j.Slf4j;
@@ -55,13 +57,15 @@ public class SysSingFilter implements Filter {
 
         // 1.1、判断接口是否被管理,没有被管理直接放行
         String uri = request.getRequestURI();
-        if (!JvmCache.getAuthMap().containsKey(uri)) {
+
+        Map<String, AdminAuthority> authMap = JvmCache.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
+        if (!authMap.containsKey(uri)) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
 
         // 1.2、判断接口是否需要验签
-        Boolean isSign = JvmCache.getAuthMap().get(uri).getIsSign();
+        Boolean isSign = authMap.get(uri).getIsSign();
         if(!isSign){
             filterChain.doFilter(servletRequest, servletResponse);
             return;

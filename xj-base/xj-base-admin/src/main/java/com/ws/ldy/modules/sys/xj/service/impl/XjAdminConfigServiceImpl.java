@@ -1,6 +1,7 @@
 package com.ws.ldy.modules.sys.xj.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.common.cache.JvmCache;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.error.ErrorException;
@@ -13,6 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 系统全局数据信息配置表
@@ -29,15 +32,14 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
 
     @Override
     public XjAdminConfig findByCode(String code) {
-        if (JvmCache.getConfigMap().isEmpty()) {
+        if (!JvmCache.containsKey(CacheKey.CONFIG_MAP_KEY.getKey())) {
             List<XjAdminConfig> list = this.list();
             if (!list.isEmpty()) {
-                for (XjAdminConfig xjAdminConfig : list) {
-                    JvmCache.getConfigMap().put(xjAdminConfig.getCode(), xjAdminConfig);
-                }
+                Map<String, XjAdminConfig> xjAdminConfigMap = list.stream().collect(Collectors.toMap(XjAdminConfig::getCode, p -> p));
+                JvmCache.set(CacheKey.CONFIG_MAP_KEY.getKey(), xjAdminConfigMap);
             }
         }
-        return JvmCache.getConfigMap().get(code);
+        return JvmCache.getMap(CacheKey.CONFIG_MAP_KEY.getKey(), XjAdminConfig.class).get(code);
     }
 
     @Override
@@ -50,7 +52,7 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
             throw new ErrorException(RType.DICT_DUPLICATE);
         }
         boolean b = this.save(dto.convert(XjAdminConfig.class));
-        JvmCache.delConfigMap();
+        JvmCache.del(CacheKey.CONFIG_MAP_KEY.getKey());
         return b;
     }
 
@@ -67,7 +69,7 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
             }
         }
         boolean b = this.updateById(dto.convert(XjAdminConfig.class));
-        JvmCache.delConfigMap();
+        JvmCache.del(CacheKey.CONFIG_MAP_KEY.getKey());
         return b;
     }
 }

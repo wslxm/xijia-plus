@@ -1,11 +1,12 @@
 package com.ws.ldy.config.aspect.gateway;
 
 
+import com.ws.ldy.auth.entity.JwtUser;
+import com.ws.ldy.auth.util.JwtUtil;
+import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.common.cache.JvmCache;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
-import com.ws.ldy.auth.entity.JwtUser;
-import com.ws.ldy.auth.util.JwtUtil;
 import com.ws.ldy.enums.Admin;
 import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -69,11 +71,12 @@ public class SysAuth {
             return R.success(null);
         }
         // 2、是否被权限管理, 没有直接放行
-        if (!JvmCache.getAuthMap().containsKey(uri)) {
+        Map<String, AdminAuthority> authMap = JvmCache.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
+        if (!authMap.containsKey(uri)) {
             return R.success(null);
         }
         // 3、接口是否禁用，是直接返回禁用信息
-        AdminAuthority adminAuthority = JvmCache.getAuthMap().get(uri);
+        AdminAuthority adminAuthority = authMap.get(uri);
         if (adminAuthority.getDisable().equals(Base.Disable.V1.getValue())) {
             //禁用
             return R.error(RType.AUTHORITY_DISABLE);
