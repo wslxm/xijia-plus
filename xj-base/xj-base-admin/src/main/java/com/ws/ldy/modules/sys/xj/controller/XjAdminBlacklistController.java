@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.cache.JvmCache;
+import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
@@ -76,7 +78,7 @@ public class XjAdminBlacklistController extends BaseController<XjAdminBlacklistS
         XjAdminBlacklist adminBlacklist = dto.convert(XjAdminBlacklist.class);
         boolean result = baseService.save(adminBlacklist);
         // 置空缓存
-        sysBlacklist.delBlacklistCache();
+        JvmCache.del(CacheKey.BLACK_LIST.getKey());
         return R.successInsert(result);
     }
 
@@ -89,7 +91,7 @@ public class XjAdminBlacklistController extends BaseController<XjAdminBlacklistS
         }
         boolean result = baseService.updateById(dto.convert(XjAdminBlacklist.class));
         // 置空缓存
-        sysBlacklist.delBlacklistCache();
+        JvmCache.del(CacheKey.BLACK_LIST.getKey());
         return R.successUpdate(result);
     }
 
@@ -100,7 +102,7 @@ public class XjAdminBlacklistController extends BaseController<XjAdminBlacklistS
                 .set(XjAdminBlacklist::getDisable, disable)
                 .eq(XjAdminBlacklist::getId, id));
         // 置空缓存
-        sysBlacklist.delBlacklistCache();
+        JvmCache.del(CacheKey.BLACK_LIST.getKey());
         return R.successUpdate(result);
     }
 
@@ -110,7 +112,7 @@ public class XjAdminBlacklistController extends BaseController<XjAdminBlacklistS
     public R<Boolean> del(@RequestParam String id) {
         boolean result = baseService.removeById(id);
         // 置空缓存
-        sysBlacklist.delBlacklistCache();
+        JvmCache.del(CacheKey.BLACK_LIST.getKey());
         return R.successDelete(result);
     }
 }

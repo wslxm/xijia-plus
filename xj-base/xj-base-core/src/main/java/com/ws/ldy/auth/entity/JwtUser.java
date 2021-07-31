@@ -21,33 +21,24 @@ import java.util.List;
 public class JwtUser implements Serializable {
 
     private static final long serialVersionUID = -5989040987347929030L;
-
-    //================== 通用字段列==================
     /**
-     * 登录类型 ->   管理端：JwtUtil.userType[0]   用户端： JwtUtil.userType[1]  | 更多端自行指定和编辑JwtUtil代码
+     * 登录类型 ->  默认管理端：JwtUtil.userType[0] 默认用户端：JwtUtil.userType[1]  | 更多端查看JwtUtil.userType
      */
     private Integer type;
+
     /**
      * 用户Id | 对应指定类型的用户表id
      */
     private String userId;
+
     /**
      * 真实姓名/昵称
      */
     private String fullName;
     /**
-     * 第一账号 --> 账号/用户名
+     * jwt-token有效期  (单位-分)
      */
-    private String username;
-    /**
-     * 第二账号 --> 手机号
-     */
-    private String phone;
-    /**
-     * 头像url
-     */
-    private String head;
-
+    private Integer expiration;
 
     //================== 管理端专属字段 ==================
     /**
@@ -55,15 +46,4 @@ public class JwtUser implements Serializable {
      */
     private List<String> authList;
 
-    /**
-     * token 刷新时间(单位分) -> 相当于设置生成的token 总有效期
-     * 如果expiration 过期了, 该值将会刷新到最新的时间 + refreshTime (分)
-     * 如果在 refreshTime 分没登录过, 将返回登录过期给用户
-     */
-    private Integer refreshTime;
-
-    /**
-     * 单次token有效期 -> 相当多久刷新一次 token
-     */
-    private Integer expiration;
 }

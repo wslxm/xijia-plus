@@ -9,19 +9,20 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.ws.ldy</groupId>
-    <artifactId>spring-boot-plus2</artifactId>
-    <version>${revision}</version>
-    <!-- 如果不定义名称系统默认为  <name>${groupId}:${artifactId}:${revision}</name> -->
-    <name>${artifactId}:${revision}</name>
-    <packaging>pom</packaging>
-    <description>Demo project for Spring Boot</description>
-
     <modules>
         <module>xj-server</module>      <!-- 代码    -->
         <module>xj-third</module>       <!-- 功能集成 -->
         <module>xj-base</module>        <!-- 核心模块 -->
     </modules>
+
+    <groupId>com.ws.ldy</groupId>
+    <artifactId>spring-boot-plus2</artifactId>
+    <version>0.1.2.2-SNAPSHOT</version>
+
+    <!-- 对应名称： 如果不定义名称系统默认为  <name>${groupId}:${artifactId}:${revision}</name> -->
+    <name>${artifactId}:${revision}</name>
+    <packaging>pom</packaging>
+    <description>Demo project for Spring Boot</description>
 
     <properties>
         <!--

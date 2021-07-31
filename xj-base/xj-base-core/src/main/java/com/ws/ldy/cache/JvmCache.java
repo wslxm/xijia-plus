@@ -1,4 +1,4 @@
-package com.ws.ldy.common.cache;
+package com.ws.ldy.cache;
 
 import java.util.ArrayList;
 import java.util.HashMap;

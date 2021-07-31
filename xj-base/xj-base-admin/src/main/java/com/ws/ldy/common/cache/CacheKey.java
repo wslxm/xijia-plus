@@ -15,9 +15,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CacheKey {
     //
-    DICT_LIST_KEY("dict-list-key"),
-    AUTH_MAP_KEY("auth-map-key"),
-    CONFIG_MAP_KEY("config-map-key"),
+    DICT_LIST_KEY("dict-list-key"),       // 字典
+    AUTH_MAP_KEY("auth-map-key"),         // 接口权限
+    CONFIG_MAP_KEY("config-map-key"),     // 全局配置
+    LOGIN_ADMIN_USER("login-admin-user"), // 登录人信息
+    BLACK_LIST("black-list"),             // 系统黑/白名单
     ;
     private String key;
 }

@@ -3,8 +3,8 @@ package com.ws.ldy.modules.sys.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ws.ldy.XjAdminServer;
+import com.ws.ldy.cache.JvmCache;
 import com.ws.ldy.common.cache.CacheKey;
-import com.ws.ldy.common.cache.JvmCache;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
 import com.ws.ldy.common.utils.EnumUtil;
 import com.ws.ldy.common.utils.id.IdUtil;
@@ -78,10 +78,10 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             }
         }
         // 查询所有
-//        List<AdminAuthority> list = this.list(new LambdaQueryWrapper<AdminAuthority>()
-//                .orderByDesc(AdminAuthority::getType)
-//                .orderByDesc(AdminAuthority::getMethod)
-//        );
+        // List<AdminAuthority> list = this.list(new LambdaQueryWrapper<AdminAuthority>()
+        //         .orderByDesc(AdminAuthority::getType)
+        //         .orderByDesc(AdminAuthority::getMethod)
+        // );
         List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(list, AdminAuthorityVO.class);
         // pid='' 的数据设置 pid 为枚举字典的code 值
         adminAuthorityVOList.forEach(i -> {

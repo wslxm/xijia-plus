@@ -5,8 +5,8 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ws.ldy.auth.entity.JwtUser;
 import com.ws.ldy.auth.util.JwtUtil;
+import com.ws.ldy.cache.JvmCache;
 import com.ws.ldy.common.cache.CacheKey;
-import com.ws.ldy.common.cache.JvmCache;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
@@ -63,7 +63,7 @@ public class SysLog {
      */
     public XjAdminLog log(ProceedingJoinPoint proceed, HttpServletRequest request) {
         String serverName = request.getServerName();         // 获取域名(服务器路径)
-        String referer = request.getHeader("referer");    // 请求来源(发起者当前页面路径)
+        String referer = request.getHeader("referer");     // 请求来源(发起者当前页面路径)
         String ip = getIpAddress(request);                   // 获取用户真实ip(发起者)
         String uri = request.getRequestURI();                // 请求行中的接口名称
         String method = request.getMethod();                 // 请求方式(get/post)
@@ -199,7 +199,7 @@ public class SysLog {
     private XjAdminLog setJwtUser(XjAdminLog log, HttpServletRequest request) {
         String uri = request.getRequestURI();
         // 获取登录用户信息
-        R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request,null);
+        R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, null);
         // 记录日志时不管token是否过期等，是否有效等, 能获取到用户信息表示已登录,否则表示未登录
         if (jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
             // 已登录

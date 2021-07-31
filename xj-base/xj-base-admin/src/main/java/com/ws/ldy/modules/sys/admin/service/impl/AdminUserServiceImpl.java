@@ -2,10 +2,10 @@ package com.ws.ldy.modules.sys.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.ws.ldy.common.result.RType;
 import com.ws.ldy.auth.entity.JwtUser;
 import com.ws.ldy.auth.util.JwtUtil;
 import com.ws.ldy.auth.util.MD5Util;
+import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.error.ErrorException;
 import com.ws.ldy.enums.Base;
 import com.ws.ldy.modules.sys.admin.mapper.AdminUserMapper;
@@ -145,14 +145,14 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // 5、生成jwt
         JwtUser jwtUser = new JwtUser();
         jwtUser.setUserId(user.getId());
-        jwtUser.setUsername(user.getUsername());
+        // jwtUser.setUsername(user.getUsername());
         jwtUser.setFullName(user.getFullName());
         jwtUser.setType(JwtUtil.userType[0]);
-        jwtUser.setHead(user.getHead());
-        jwtUser.setPhone(user.getPhone());
+        // jwtUser.setHead(user.getHead());
+        // jwtUser.setPhone(user.getPhone());
         // 设置token有效期(分)
-        jwtUser.setRefreshTime(60);
-        jwtUser.setExpiration(5);
+        // jwtUser.setRefreshTime(60);
+        jwtUser.setExpiration(60);
         // 添加权限 和 权限数据版本号,当权限发生改变时，直接刷新token信息
         jwtUser.setAuthList(authList);
         JwtUtil.createToken(jwtUser, response);
@@ -192,7 +192,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     @Override
     public Boolean del(String userId) {
-        adminRoleUserService.remove(new LambdaUpdateWrapper<AdminRoleUser>().eq(AdminRoleUser::getUserId,userId));
+        adminRoleUserService.remove(new LambdaUpdateWrapper<AdminRoleUser>().eq(AdminRoleUser::getUserId, userId));
         return this.removeById(userId);
     }
 }
