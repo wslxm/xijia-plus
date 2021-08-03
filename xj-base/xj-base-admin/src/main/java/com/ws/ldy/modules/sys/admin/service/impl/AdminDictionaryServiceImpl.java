@@ -3,7 +3,7 @@ package com.ws.ldy.modules.sys.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
-import com.ws.ldy.cache.JvmCache;
+import com.ws.ldy.cache.CacheUtil;
 import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.common.function.LambdaUtils;
 import com.ws.ldy.common.result.RType;
@@ -42,16 +42,16 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      */
     @Override
     public List<AdminDictionaryVO> findList(Boolean isDisable) {
-        if (!JvmCache.containsKey(CacheKey.DICT_LIST_KEY.getKey())) {
+        if (!CacheUtil.containsKey(CacheKey.DICT_LIST_KEY.getKey())) {
             // 查询所有字典数据
             List<AdminDictionary> adminDictionaries = baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
                     .orderByAsc(AdminDictionary::getSort)
                     .orderByAsc(AdminDictionary::getCode)
             );
             List<AdminDictionaryVO> dictList = BeanDtoVoUtil.listVo(adminDictionaries, AdminDictionaryVO.class);
-            JvmCache.set(CacheKey.DICT_LIST_KEY.getKey(), dictList);
+            CacheUtil.set(CacheKey.DICT_LIST_KEY.getKey(), dictList);
         }
-        List<AdminDictionaryVO> listVO = JvmCache.getList(CacheKey.DICT_LIST_KEY.getKey(), AdminDictionaryVO.class);
+        List<AdminDictionaryVO> listVO = CacheUtil.getList(CacheKey.DICT_LIST_KEY.getKey(), AdminDictionaryVO.class);
         /**
          * 是否获取禁用数据
          */
@@ -81,7 +81,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         }
         boolean res = this.save(dto.convert(AdminDictionary.class));
         //清除缓存
-        JvmCache.del(CacheKey.DICT_LIST_KEY.getKey());
+        CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
         return res;
     }
 
@@ -104,7 +104,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         }
         boolean res = this.updateById(dto.convert(AdminDictionary.class));
         //清除缓存
-        JvmCache.del(CacheKey.DICT_LIST_KEY.getKey());
+        CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
         return res;
     }
 
@@ -116,7 +116,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         dict.setSort(sort);
         boolean b = this.updateById(dict);
         //清除缓存
-        JvmCache.del(CacheKey.DICT_LIST_KEY.getKey());
+        CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
         return b;
     }
 
@@ -125,7 +125,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         List<String> ids = this.findByIdFetchIds(id);
         boolean res = this.removeByIds(ids);
         //清除缓存
-        JvmCache.del(CacheKey.DICT_LIST_KEY.getKey());
+        CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
         return res;
     }
 

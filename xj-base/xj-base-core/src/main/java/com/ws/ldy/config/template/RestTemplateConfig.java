@@ -20,17 +20,23 @@ import java.util.List;
 @Configuration
 public class RestTemplateConfig {
 
+
+    //    @Bean
+    //    public RestTemplate restTemplate() {
+    //        return new RestTemplate();
+    //    }
+
+
     /**
      * RestTemplate =  rest,http风格的,api调用工具
-     * 使用
-     *
+     * <P>
+     * 使用：
      * @Autowired private RestTemplate restTemplate;
      * String result = restTemplate.getForObject(memberUrl, String.class);
+     * </P>
+     *
+
      */
-//    @Bean
-//    public RestTemplate restTemplate() {
-//        return new RestTemplate();
-//    }
     @Bean
     //@LoadBalanced
     public RestTemplate restTemplate() {

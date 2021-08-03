@@ -2,7 +2,7 @@ package com.ws.ldy.config.aspect.gateway;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ws.ldy.cache.JvmCache;
+import com.ws.ldy.cache.CacheUtil;
 import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
@@ -125,7 +125,7 @@ public class SysBlacklist {
      */
     private Map<String, List> findBlacklist() {
         // 如果没有缓存，就去数据库获取
-        if (!JvmCache.containsKey(CacheKey.BLACK_LIST.getKey())) {
+        if (!CacheUtil.containsKey(CacheKey.BLACK_LIST.getKey())) {
             // 如果数据库没有配置，缓存设置默认对象，让其不为空，防止无限制查询数据库
             Map<String, List<String>> blacklistCache = new HashMap<>();
             List<XjAdminBlacklist> blacklist = xjAdminBlacklistService.list(new LambdaQueryWrapper<XjAdminBlacklist>().eq(XjAdminBlacklist::getDisable, Base.Disable.V0));
@@ -144,9 +144,9 @@ public class SysBlacklist {
                     blacklistCache.put(Xj.BlacklistType.V2.getValue() + "", heiIps);
                 }
             }
-            JvmCache.set(CacheKey.BLACK_LIST.getKey(), blacklistCache);
+            CacheUtil.set(CacheKey.BLACK_LIST.getKey(), blacklistCache);
         }
-        return JvmCache.getMap(CacheKey.BLACK_LIST.getKey(), List.class);
+        return CacheUtil.getMap(CacheKey.BLACK_LIST.getKey(), List.class);
     }
 
 

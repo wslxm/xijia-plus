@@ -1,7 +1,7 @@
 package com.ws.ldy.modules.sys.xj.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ws.ldy.cache.JvmCache;
+import com.ws.ldy.cache.CacheUtil;
 import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.error.ErrorException;
@@ -32,14 +32,14 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
 
     @Override
     public XjAdminConfig findByCode(String code) {
-        if (!JvmCache.containsKey(CacheKey.CONFIG_MAP_KEY.getKey())) {
+        if (!CacheUtil.containsKey(CacheKey.CONFIG_MAP_KEY.getKey())) {
             List<XjAdminConfig> list = this.list();
             if (!list.isEmpty()) {
                 Map<String, XjAdminConfig> xjAdminConfigMap = list.stream().collect(Collectors.toMap(XjAdminConfig::getCode, p -> p));
-                JvmCache.set(CacheKey.CONFIG_MAP_KEY.getKey(), xjAdminConfigMap);
+                CacheUtil.set(CacheKey.CONFIG_MAP_KEY.getKey(), xjAdminConfigMap);
             }
         }
-        return JvmCache.getMap(CacheKey.CONFIG_MAP_KEY.getKey(), XjAdminConfig.class).get(code);
+        return CacheUtil.getMap(CacheKey.CONFIG_MAP_KEY.getKey(), XjAdminConfig.class).get(code);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
             throw new ErrorException(RType.DICT_DUPLICATE);
         }
         boolean b = this.save(dto.convert(XjAdminConfig.class));
-        JvmCache.del(CacheKey.CONFIG_MAP_KEY.getKey());
+        CacheUtil.del(CacheKey.CONFIG_MAP_KEY.getKey());
         return b;
     }
 
@@ -69,7 +69,7 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
             }
         }
         boolean b = this.updateById(dto.convert(XjAdminConfig.class));
-        JvmCache.del(CacheKey.CONFIG_MAP_KEY.getKey());
+        CacheUtil.del(CacheKey.CONFIG_MAP_KEY.getKey());
         return b;
     }
 }

@@ -1,8 +1,5 @@
-package com.ws.ldy.cache;
+package com.ws.ldy.cache.jvm;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -38,23 +35,12 @@ public class JvmCache {
     /**
      * 获取缓存--对象 + 集合  +  Map
      * @param key
-     * @param t
      * @return
      */
-    public static <T> T get(String key, Class<T> t) {
-        Object obj = cacheMap.get(key);
-        return obj == null ? null : (T) obj;
+    public static Object get(String key) {
+        return cacheMap.get(key);
     }
 
-    public static <T> List<T> getList(String key, Class<T> t) {
-        Object obj = cacheMap.get(key);
-        return obj == null ? new ArrayList<>() : (List<T>) obj;
-    }
-
-    public static <T> Map<String, T> getMap(String key, Class<T> t) {
-        Object obj = cacheMap.get(key);
-        return obj == null ? new HashMap<>() : (Map<String, T>) obj;
-    }
 
     /**
      * 判断指定key 是否 存在缓存数据
@@ -69,17 +55,10 @@ public class JvmCache {
      * key
      * value
      */
-    public static <T> void set(String key, T t) {
-        cacheMap.put(key, t);
+    public static <T> void set(String key, Object obj) {
+        cacheMap.put(key, obj);
     }
 
-    public static <T> void set(String key, List<T> list) {
-        cacheMap.put(key, list);
-    }
-
-    public static <T> void set(String key, Map<String, T> map) {
-        cacheMap.put(key, map);
-    }
 
     /**
      * 删除指定keu 缓存

@@ -4,7 +4,7 @@ package com.ws.ldy.config.sing;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.ws.ldy.cache.JvmCache;
+import com.ws.ldy.cache.CacheUtil;
 import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
@@ -58,7 +58,7 @@ public class SysSingFilter implements Filter {
         // 1.1、判断接口是否被管理,没有被管理直接放行
         String uri = request.getRequestURI();
 
-        Map<String, AdminAuthority> authMap = JvmCache.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
+        Map<String, AdminAuthority> authMap = CacheUtil.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
         if (!authMap.containsKey(uri)) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;

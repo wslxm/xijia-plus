@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ws.ldy.auth.entity.JwtUser;
 import com.ws.ldy.auth.util.JwtUtil;
-import com.ws.ldy.cache.JvmCache;
+import com.ws.ldy.cache.CacheUtil;
 import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
@@ -212,9 +212,9 @@ public class SysLog {
             log.setFullName("╥﹏╥");
             log.setUserId("0");
 
-            Map<String, AdminAuthority> authMap = JvmCache.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
+            Map<String, AdminAuthority> authMap = CacheUtil.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
             AdminAuthority adminAuthority = authMap.get(uri);
-            // AdminAuthority adminAuthority = JvmCache.getAuthMap().get(uri);
+            // AdminAuthority adminAuthority = CacheUtil.getAuthMap().get(uri);
             if (adminAuthority != null) {
                 log.setType(adminAuthority.getType());
             } else {

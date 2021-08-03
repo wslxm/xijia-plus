@@ -12,12 +12,12 @@ public class SpringContextUtil implements ApplicationContextAware {
     /**
      * 上下文对象实例
      */
-    private ApplicationContext applicationContext;
+    private static ApplicationContext applicationContext;
 
     @Override
     @Autowired
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-          this.applicationContext = applicationContext;
+    public void setApplicationContext(ApplicationContext inApplicationContext) throws BeansException {
+        applicationContext = inApplicationContext;
     }
 
     /**
@@ -25,7 +25,7 @@ public class SpringContextUtil implements ApplicationContextAware {
      *
      * @return
      */
-    public ApplicationContext getApplicationContext() {
+    public static ApplicationContext getApplicationContext() {
         return applicationContext;
     }
 
@@ -35,7 +35,7 @@ public class SpringContextUtil implements ApplicationContextAware {
      * @param name
      * @return
      */
-    public Object getBean(String name) {
+    public static Object getBean(String name) {
         return getApplicationContext().getBean(name);
     }
 
@@ -46,7 +46,7 @@ public class SpringContextUtil implements ApplicationContextAware {
      * @param <T>
      * @return
      */
-    public <T> T getBean(Class<T> clazz) {
+    public static <T> T getBean(Class<T> clazz) {
         return getApplicationContext().getBean(clazz);
     }
 
@@ -58,7 +58,7 @@ public class SpringContextUtil implements ApplicationContextAware {
      * @param <T>
      * @return
      */
-    public <T> T getBean(String name, Class<T> clazz) {
+    public static <T> T getBean(String name, Class<T> clazz) {
         return getApplicationContext().getBean(name, clazz);
     }
 }

@@ -1,4 +1,4 @@
-package com.ws.ldy.common.utils;
+package com.ws.ldy.lock.util;
 
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
@@ -20,7 +20,7 @@ import java.util.Properties;
  *
  * @author wangsong
  */
-public class PropUtil {
+public class RedisPropUtil {
 
 
     public static Object findByKey(String key) {
@@ -51,7 +51,7 @@ public class PropUtil {
      */
     public static Object findPropertiesByKey(String key, String env, String suffix) {
         String fileName = "application" + (env == null ? "" : "-" + env) + suffix;
-        InputStream in = PropUtil.class.getClassLoader().getResourceAsStream(fileName);
+        InputStream in = RedisPropUtil.class.getClassLoader().getResourceAsStream(fileName);
         Properties prop = new Properties();
         String rw = null;
         try {

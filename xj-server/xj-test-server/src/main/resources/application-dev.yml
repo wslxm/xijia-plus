@@ -12,6 +12,23 @@ spring:
     username: root
     password: root123456
     type: com.alibaba.druid.pool.DruidDataSource
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
+#    password:
+#    database: 0
+#    timeout: 1000s  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
+#    # 连接池配置，2.0中直接使用jedis或者lettuce配置连接池
+#    jedis:
+#      pool:
+#        # 最大空闲连接数
+#        max-idle: 500
+#        # 最小空闲连接数
+#        min-idle: 50
+#        # 等待可用连接的最大时间，负数为不限制
+#        max-wait: -1
+#        # 最大活跃连接数，负数为不限制
+#        max-active: -1
 
 aliyun:
   ## 对象存储服务，个人账号,拉取此代码调试后请修改为自己的,如发现滥用,将关停
@@ -47,11 +64,13 @@ swagger:
   isShow: true                                     # 是否开启文档 true展示 false隐藏
 
 
+
+
 # 登录处理回调地址
-wechat:
-  open:
-    ## 回调地址-页面
-    callbackUrl: https://portal.clzytech.com/portal/loginback?method=weichat
-    ## 自己的appID和appKey
-    appId: wxa6778e201b26f0c0
-    appSecret: 5624eae2bca46202493bfb1edd41d5b2
+#wechat:
+#  open:
+#    ## 回调地址-页面
+#    callbackUrl: https://portal.clzytech.com/portal/loginback?method=weichat
+#    ## 自己的appID和appKey
+#    appId: wxa6778e201b26f0c0
+#    appSecret: 5624eae2bca46202493bfb1edd41d5b2

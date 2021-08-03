@@ -3,7 +3,7 @@ package com.ws.ldy.config.aspect.gateway;
 
 import com.ws.ldy.auth.entity.JwtUser;
 import com.ws.ldy.auth.util.JwtUtil;
-import com.ws.ldy.cache.JvmCache;
+import com.ws.ldy.cache.CacheUtil;
 import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.result.RType;
@@ -71,7 +71,7 @@ public class SysAuth {
             return R.success(null);
         }
         // 2、是否被权限管理, 没有直接放行
-        Map<String, AdminAuthority> authMap = JvmCache.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
+        Map<String, AdminAuthority> authMap = CacheUtil.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
         if (!authMap.containsKey(uri)) {
             return R.success(null);
         }

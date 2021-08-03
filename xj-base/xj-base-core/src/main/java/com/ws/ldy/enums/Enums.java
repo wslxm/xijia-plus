@@ -1,4 +1,4 @@
-//package com.ws.ldy.enums;
+package com.ws.ldy.enums;//package com.ws.ldy.enums;
 //
 //import com.baomidou.mybatisplus.core.enums.IEnum;
 //import lombok.AllArgsConstructor;

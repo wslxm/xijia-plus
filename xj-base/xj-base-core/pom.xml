@@ -40,7 +40,11 @@
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-doc-swagger2</artifactId>
         </dependency>
-
+        <!-- redis 服务 -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-fw-redis</artifactId>
+        </dependency>
         <!-- mybatis-plus  -->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -72,7 +76,6 @@
             <artifactId>jjwt</artifactId>
             <version>${jjwt.version}</version>
         </dependency>
-
         <!-- cglib dto转po/vo使用 -->
         <dependency>
             <groupId>cglib</groupId>

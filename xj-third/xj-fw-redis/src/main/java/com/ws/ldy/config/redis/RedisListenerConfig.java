@@ -1,4 +1,4 @@
-package com.ws.ldy.config;
+package com.ws.ldy.config.redis;
 
 
 import org.springframework.context.annotation.Bean;

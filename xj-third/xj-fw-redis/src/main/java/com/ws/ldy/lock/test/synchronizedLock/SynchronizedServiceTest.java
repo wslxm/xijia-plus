@@ -1,6 +1,6 @@
-package com.ws.ldy.taskscheduling.synchronizedLock;
+package com.ws.ldy.lock.test.synchronizedLock;
 
-import com.ws.ldy.taskscheduling.annotation.SynchronizedLock;
+import com.ws.ldy.lock.annotation.SynchronizedLock;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  */
 @Service
 @Slf4j
-public class SynchronizedTestService {
+public class SynchronizedServiceTest {
 
 
     /**
@@ -33,6 +33,6 @@ public class SynchronizedTestService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        log.info(LocalDateTime.now() + "--hello world!" + i);
+        log.info(LocalDateTime.now() + "--hello world!--" + i);
     }
 }

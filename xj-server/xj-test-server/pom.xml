@@ -37,6 +37,7 @@
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-api-aliyun-oss</artifactId>
         </dependency>
+        <!-- websocket -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-fw-websocket</artifactId>

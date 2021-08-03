@@ -1,5 +1,6 @@
-package com.ws.ldy.util;
+package com.ws.ldy.lock.util;
 
+import com.ws.ldy.config.error.RedisErrorException;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -9,10 +10,25 @@ import java.util.Objects;
 
 
 @Component
-public class RedisLock {
+public class RedisLockUtil {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
+
+
+    /**
+     * 判断redis 是否启用
+     * @return true 是 flase 否
+     */
+    public static Boolean isRedis() {
+        // 获取yml 的redis 配置
+        Object redisHost = RedisPropUtil.findByKey("spring.redis.host");
+        if (redisHost == null || "".equals(redisHost.toString())) {
+            return false;
+        }
+        return true;
+    }
+
 
     /**
      * 获取一个redis分布锁, 100% 只有一个线程能获取到锁
@@ -28,7 +44,10 @@ public class RedisLock {
      * @return
      */
     @SuppressWarnings("all")
-    public  boolean lock(String lockKey, long lockExpireMils) {
+    public boolean lock(String lockKey, long lockExpireMils) {
+        if (!isRedis()) {
+            throw new RedisErrorException(10009, "获取分布式锁[" + lockKey + "]失败");
+        }
         return (Boolean) redisTemplate.execute((RedisCallback) connection -> {
             long nowTime = System.currentTimeMillis();
             // 设置一个永久对象,value值为锁的过期时间

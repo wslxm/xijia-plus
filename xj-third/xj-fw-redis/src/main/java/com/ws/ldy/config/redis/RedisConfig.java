@@ -1,4 +1,4 @@
-package com.ws.ldy.config;
+package com.ws.ldy.config.redis;
 
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;

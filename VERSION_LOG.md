@@ -17,8 +17,11 @@
 - 14、优化 JvmCache 缓存类 为 通用缓存, 并处理了原缓存相关数据，添加缓存key枚举对象CacheKey(2021/7/30)
 - 15、优化 JWT 生成工具类, 删除了JwtUser中部分字段(2021/7/31)
 - 16、优化 SysBlacklist黑名单缓存数据到 JvmCache 缓存类中,JvmCache移动到xj-base-core管理,子模块的CacheKey缓存key自行管理
- 
- 
+- 17、增加 PropUtil 工具类,可直接读取yml 或 properties 配置文件
+- 18、增加 CacheUtil 缓存类, JvmCache+RedisCache(新增)类 ，改为被 CacheUtil调用
+- 19、缓存动态修改, 集成了redis默认使用redis缓存，没有集成则使用jvm缓存, 方便灵活切换单服务 或 服务集群操作
+- 20、优化 ExcelUtil 工具,调用时可配置宽/高, 可配置是否需要表头行,字段行,描叙行
+- 21、优化 xj-fw-redis 中的同步锁,和任务锁
  
  
  
