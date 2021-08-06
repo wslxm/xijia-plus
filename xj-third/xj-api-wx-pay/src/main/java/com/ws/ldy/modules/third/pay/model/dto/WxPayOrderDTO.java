@@ -20,7 +20,7 @@ import java.io.Serializable;
 public class WxPayOrderDTO implements Serializable {
 
     private static final long serialVersionUID = 1794442166403619513L;
-    private String outTradeNo;     // 必传 -- 商户订单号
+    private String outTradeNo;     // 必传 -- 交易号
     private Integer totalFee;      // 必传 -- 金额(单位分)
     private String openid;         // 必传 -- 用户openid (交易类型 JSAPI 时必传)
     private String notifyUrl;      // 必传 -- 回调地址

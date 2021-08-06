@@ -6,8 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -74,13 +72,22 @@ public class FileUploadUtil {
         if (filePath.lastIndexOf("/") != filePath.length() - 1) {
             return R.error(errorCode, "The path must end with [/]");
         }
-        // 特殊符号处理
-        try {
-            fileName = URLEncoder.encode(fileName, "utf-8");
-            fileName = fileName.replaceAll("\\+", "%20").replaceAll("%", "");
-        } catch (UnsupportedEncodingException e) {
-            log.debug(e.toString());
-        }
+        // 文件名中对url中不安全的字符处理
+        //try {
+        //    // 使用encode会破坏文件名的中文
+        //    fileName = URLEncoder.encode(fileName, "utf-8");
+        //    fileName = fileName.replaceAll("\\+", "%20").replaceAll("%", "");
+        //} catch (UnsupportedEncodingException e) {
+        //    log.debug(e.toString());
+        // }
+        fileName = fileName.replaceAll("\\+", "")
+                .replaceAll(" ", "")
+                .replaceAll("/", "")
+                .replaceAll("\\?", "")
+                .replaceAll("%", "")
+                .replaceAll("#", "")
+                .replaceAll("&", "")
+                .replaceAll("=", "");
         // 获取上传的跟目录(如：image)
         String path = filePath.split("/")[0];
         // 获取后缀(小写)

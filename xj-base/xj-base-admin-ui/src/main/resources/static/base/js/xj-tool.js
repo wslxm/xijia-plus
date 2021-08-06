@@ -9,12 +9,12 @@
 /**
  * 获取url 参数
  * @author wangsong
- * @param null
+ * @param name key
  * @date 2020/12/13 0013 0:59
  * @return
  * @version 1.0.0
  */
-function getParam(name) {
+function getUrlParam(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg); //获取url中"?"符后的字符串并正则匹配
     var context = "";

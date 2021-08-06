@@ -116,6 +116,9 @@ public class WxPayServiceImpl implements PayService {
 
     /**
      * 支付回调
+     * <P>
+     *    微信回调频率： 15s/15s/30s/3m/10m/20m/30m/30m/30m/60m/3h/3h/3h/6h/6h - 总计 24h4m)
+     * </P>
      * @author wangsong
      * @param xmlData
      * @version 1.0.0

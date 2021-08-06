@@ -40,10 +40,11 @@ aliyun:
     bucket: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
 
 
-# 日志配置, filePath线上日志存放地址（logback-spring.xml 读取） , methods 记录那些请求数据到数据库
+# 日志配置, filePath线上日志存放地址（logback-spring.xml 读取） , methods 记录那些请求持久化到数据到数据库
 logging:
   filePath: /usr/local/work/xijia2/logs
   methods: POST,PUT,DELETE
+
 
 # swagger配置
 swagger:
@@ -62,8 +63,6 @@ swagger:
   defaultKey: TOKEN                                # 默认请求头key
   defaultValue: token                              # 默认请求头值-当为token时，可以访问任意接口, 但接口中存在获取token用户信息时,将返回jwt解析错误
   isShow: true                                     # 是否开启文档 true展示 false隐藏
-
-
 
 
 # 登录处理回调地址

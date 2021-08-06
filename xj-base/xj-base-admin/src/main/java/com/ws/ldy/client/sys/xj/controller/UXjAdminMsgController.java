@@ -3,10 +3,11 @@ package com.ws.ldy.client.sys.xj.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.auth.util.JwtUtil;
 import com.ws.ldy.common.result.R;
 import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.auth.util.JwtUtil;
 import com.ws.ldy.constant.BaseConstant;
 import com.ws.ldy.enums.Base;
 import com.ws.ldy.enums.Xj;
@@ -20,7 +21,10 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
 
 
 /**
@@ -44,13 +48,20 @@ public class UXjAdminMsgController extends BaseController<XjAdminMsgService> {
             @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
             @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),
             @ApiImplicitParam(name = "isRead", value = "是否已读(0-未读 1-已读) 不传查所有", required = false, paramType = "query", example = ""),
+            @ApiImplicitParam(name = "msgTypes", value = "查询指定状态集", required = false, paramType = "query", example = ""),
+            @ApiImplicitParam(name = "noMsgTypes", value = "排除查询指定状态集", required = false, paramType = "query", example = ""),
     })
-    public R<IPage<XjAdminMsgVO>> findPage(Integer isRead) {
+    public R<IPage<XjAdminMsgVO>> findPage(@RequestParam(required = false) Integer isRead,
+                                           @RequestParam(required = false) String msgTypes,
+                                           @RequestParam(required = false) String noMsgTypes
+    ) {
         Page<XjAdminMsg> page = baseService.page(this.getPage(), new LambdaQueryWrapper<XjAdminMsg>()
                 .orderByDesc(XjAdminMsg::getCreateTime)
                 .eq(isRead != null, XjAdminMsg::getIsRead, isRead)
-                .eq( XjAdminMsg::getUserType, Xj.MsgUserType.V1.getValue())
-                .eq( XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())
+                .eq(XjAdminMsg::getUserType, Xj.MsgUserType.V1.getValue())
+                .eq(XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())
+                .in(StringUtils.isNotBlank(msgTypes), XjAdminMsg::getMsgType, StringUtils.isNotBlank(msgTypes) ? Arrays.asList(msgTypes.split(",")) : null)
+                .notIn(StringUtils.isNotBlank(noMsgTypes), XjAdminMsg::getMsgType, StringUtils.isNotBlank(noMsgTypes) ? Arrays.asList(noMsgTypes.split(",")) : null)
         );
         return R.successFind(BeanDtoVoUtil.pageVo(page, XjAdminMsgVO.class));
     }

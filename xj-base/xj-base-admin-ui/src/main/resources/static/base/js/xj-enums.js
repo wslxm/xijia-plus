@@ -108,6 +108,7 @@ Dict = {
      *    code         设置默认参数key
      *    name         设置默认参数value (与key同时存在才生效)
      *    defaultVal   默认选中值,对应字典code,  如果传递null, 默认选中第一条数据 (默认选中,和数据回显使用)
+     *    order        排序(是否正序，true是，false 否)
      *
      *  参考示例：
      *     <div class="layui-form-item">
@@ -120,7 +121,7 @@ Dict = {
      *          </div>
      *     </div>
      */
-    getDictSelect: function (enumKay, code, name, defaultVal) {
+    getDictSelect: function (enumKay, code, name, defaultVal,order) {
         //不填默认值
         let html = "";
         if (code != null && name != null) {
@@ -131,7 +132,7 @@ Dict = {
             }
         }
         // 获取排序后的字典List列表(数组)
-        let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap);
+        let dictMap = Dict.dictMapSort(Dict.getDict(enumKay).dictMap,order);
         //
         for (let i = 0; i < dictMap.length; i++) {
             if (defaultVal == null) {
@@ -263,14 +264,14 @@ Dict = {
                     .replace("{title}", dictMap[i].name)
                     .replace("{title}", dictMap[i].name)
                     .replace("{value}", dictMap[i].code)
-                    .replace("{checked}", "checked")
+                    .replace("{checked}", "checked");
             } else {
                 html += checkboxTemplates
                     .replace("{name}", name)
                     .replace("{title}", dictMap[i].name)
                     .replace("{title}", dictMap[i].name)
                     .replace("{value}", dictMap[i].code)
-                    .replace("{checked}", "")
+                    .replace("{checked}", "");
             }
         }
         return html;
@@ -278,20 +279,26 @@ Dict = {
 
 
     /**
-     * 根据sort字段排序
-     * @param array
+     * 根据sort字段排序,
+     * @param dictMap 字典
+     * @param order 排序(是否正序，true是，false 否)
      */
-    dictMapSort: function (dictMap) {
+    dictMapSort: function (dictMap, order) {
         let array = [];
         for (let index in dictMap) {
             array.push(dictMap[index]);
         }
-        array.sort(function (a, b) {
-            return a.sort - b.sort
-        });
+        if (order == null || order) {
+            array.sort(function (a, b) {
+                return a.sort - b.sort;
+            });
+        } else {
+            array.sort(function (a, b) {
+                return b.sort - a.sort;
+            });
+        }
         return array;
-    }
-    ,
+    },
 
 
     /**

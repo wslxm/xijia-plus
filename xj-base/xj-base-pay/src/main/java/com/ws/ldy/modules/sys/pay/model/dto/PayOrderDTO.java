@@ -25,7 +25,7 @@ public class PayOrderDTO implements Serializable {
     private BigDecimal channelFee;
     @ApiModelProperty(value = "商户订单号")
     private String orderNo;
-    @ApiModelProperty(value = "商户交易号//tradeNo")
+    @ApiModelProperty(value = "商户交易号/tradeNo")
     private String transactionNo;
     @ApiModelProperty(value = "商品描述(建议传递, 不传默认=暂无商品描叙")
     private String body;
