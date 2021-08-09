@@ -1,10 +1,9 @@
-package {packPath}.{rootModule}.{packPathZp}.{moduleName}.model.entity;
+package {packPath}.{rootModule}.{moduleName}.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import {packPath}.{rootModule}.sys.base.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,6 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import com.ws.ldy.core.base.model.BaseEntity;
 
 /**
  * {tableComment}

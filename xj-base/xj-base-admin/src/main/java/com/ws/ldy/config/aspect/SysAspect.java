@@ -1,12 +1,12 @@
 package com.ws.ldy.config.aspect;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.ws.ldy.auth.entity.JwtUser;
-import com.ws.ldy.common.result.R;
-import com.ws.ldy.common.result.RType;
 import com.ws.ldy.config.aspect.gateway.*;
-import com.ws.ldy.config.error.GlobalExceptionHandler;
-import com.ws.ldy.modules.sys.xj.model.entity.XjAdminLog;
+import com.ws.ldy.core.auth.entity.JwtUser;
+import com.ws.ldy.core.config.error.GlobalExceptionHandler;
+import com.ws.ldy.core.result.R;
+import com.ws.ldy.core.result.RType;
+import com.ws.ldy.manage.xj.model.entity.XjAdminLog;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -63,11 +63,11 @@ public class SysAspect {
     @Autowired
     private SysEncrypt sysEncrypt;
 
-//    /**
-//     * 验签
-//     */
-//    @Autowired
-//    private SysSing sysSing;
+     // /**
+     //  * 验签
+     //  */
+     // @Autowired
+     // private SysSing sysSing;
 
     /**
      * 全局异常

@@ -2,16 +2,16 @@ package com.ws.ldy.config.aspect.gateway;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ws.ldy.cache.CacheUtil;
 import com.ws.ldy.common.cache.CacheKey;
-import com.ws.ldy.common.result.R;
-import com.ws.ldy.common.result.RType;
-import com.ws.ldy.common.utils.BeanDtoVoUtil;
-import com.ws.ldy.enums.Base;
-import com.ws.ldy.enums.Xj;
-import com.ws.ldy.modules.sys.xj.model.entity.XjAdminBlacklist;
-import com.ws.ldy.modules.sys.xj.model.vo.XjAdminBlacklistVO;
-import com.ws.ldy.modules.sys.xj.service.XjAdminBlacklistService;
+import com.ws.ldy.core.cache.CacheUtil;
+import com.ws.ldy.core.result.R;
+import com.ws.ldy.core.result.RType;
+import com.ws.ldy.core.utils.BeanDtoVoUtil;
+import com.ws.ldy.core.enums.Base;
+import com.ws.ldy.core.enums.Xj;
+import com.ws.ldy.manage.xj.model.entity.XjAdminBlacklist;
+import com.ws.ldy.manage.xj.model.vo.XjAdminBlacklistVO;
+import com.ws.ldy.manage.xj.service.XjAdminBlacklistService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

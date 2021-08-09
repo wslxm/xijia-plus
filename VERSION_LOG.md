@@ -24,7 +24,15 @@
 - 21、优化 xj-fw-redis 中的同步锁,和任务锁
 - 22、优化消息查询XjAdminMsg 下的findPage 查询增加查询条件消息类型和排除类型
 - 23、优化阿里云文件上传中文/特殊url字符处理,让中文可以正常展示
-- 24、重命名 js文件中获取url测试 getParam 方法为 getUrlParam
+- 24、重命名 js文件中获取url测试 getParam 方法为 getUrlParam (2021/8/6)
+- 25、移除数据库自动备份功能(2021/8/6)
+- 26、优化目录结构, 移除models,增加manage为管理端接口(2021/8/6)
+- 27、优化目录结构, xj-starter 下所有包名更新为 xxx.xxx.xxx.starter.自定义模块含义名称(2021/8/6)
+- 28、优化pom部分依赖关系,处理相同依赖版本不一致的jar(2021/8/6)
+- 29、增加 spring-boot-plus2-demo，删除 xj-server 模块(2021/8/6)
+- 30、修改 xj-base-core 模块 +xj-base-pay模块包名为 core 和 basepay(2021/8/6)
+- 31、修改 AdminAuthorityServiceImpl 的 refreshAuthDB 方法扫码接口自动读取启动服务模块的启动类scanBasePackages路径(支持多路径)
+- 32、 help/sql/spring-boot-plus2-0.1.2.sql 更新(2021/8/9)
  
  
  

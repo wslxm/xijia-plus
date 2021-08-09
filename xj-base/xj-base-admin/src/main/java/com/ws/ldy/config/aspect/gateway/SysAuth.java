@@ -1,15 +1,15 @@
 package com.ws.ldy.config.aspect.gateway;
 
 
-import com.ws.ldy.auth.entity.JwtUser;
-import com.ws.ldy.auth.util.JwtUtil;
-import com.ws.ldy.cache.CacheUtil;
 import com.ws.ldy.common.cache.CacheKey;
-import com.ws.ldy.common.result.R;
-import com.ws.ldy.common.result.RType;
-import com.ws.ldy.enums.Admin;
-import com.ws.ldy.enums.Base;
-import com.ws.ldy.modules.sys.admin.model.entity.AdminAuthority;
+import com.ws.ldy.core.auth.entity.JwtUser;
+import com.ws.ldy.core.auth.util.JwtUtil;
+import com.ws.ldy.core.cache.CacheUtil;
+import com.ws.ldy.core.result.R;
+import com.ws.ldy.core.result.RType;
+import com.ws.ldy.core.enums.Admin;
+import com.ws.ldy.core.enums.Base;
+import com.ws.ldy.manage.admin.model.entity.AdminAuthority;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户--修改</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/components/layuiadmin/layui/src/css/layui.css">
+
+
+    <script src="/manage/js/app.js"></script>
+</head>
+<body>
+
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="name" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Code</label>
+        <div class="layui-input-inline">
+            <input type="text" id="code" name="code" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色描叙</label>
+        <div class="layui-input-inline">
+            <input type="text" id="desc" name="desc" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单分配</label>
+        <div class="layui-input-inline">
+            <div id="test12" class="demo-tree demo-tree-box"></div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认添加">
+        <input type="button" lay-submit lay-filter="layuiadmin-app-form-edit" id="layuiadmin-app-form-edit" value="确认编辑">
+    </div>
+</div>
+
+<script>
+
+    let findByPidOrRoleIdTree = "/api/admin/adminMenu/findByPidOrRoleIdTree";
+
+    layui.use(['form', 'tree'], function () {
+        init();
+        formSubmit();
+    });
+
+    function init(){
+        //父页面的值,赋值到当前页
+        $("#name").val(parent.data.name);
+        $("#desc").val(parent.data.desc);
+        $("#code").val(parent.data.code);
+
+        // 获取菜单tree 数据并处理为树结构型状结构需要的数据
+        let menusTree = Ajax.get(findByPidOrRoleIdTree + "?roleId=" + parent.data.id).data;
+        // 递归
+        menusTree = initMenuTreeNext(menusTree);
+        // 菜单数据
+        layui.tree.render({
+            elem: '#test12'
+            , data: menusTree
+            , showCheckbox: true  //是否显示复选框
+            , id: 'menus'
+            // , isJump: true  //是否允许点击节点时弹出新窗口跳转
+            , click: function (obj) {
+                let data = obj.data;  //获取当前点击的节点数据
+                layer.msg('状态：' + obj.state + '<br>节点数据：' + JSON.stringify(data));
+            }
+        });
+    }
+
+
+    function formSubmit() {
+        //监听提交
+        layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            // 获取选择菜单
+            let checkedData = layui.tree.getChecked("menus");
+            let menuIds = [];
+            nextTreeIds(menuIds, checkedData);
+            data.field.menuIds = menuIds;
+            //
+            data.field.id = parent.data.id;
+            let result = Ajax.put(path + "/admin/adminRole/upd", data.field);
+            let index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+            parent.layer.msg(result.msg);
+            //重载表格
+            parent.xijiaRenderTable();
+        });
+    }
+
+
+    /**
+     * 处理菜单数据()
+     */
+    function initMenuTreeNext(menusTree) {
+        //设置数据
+        $.each(menusTree, function (index) {
+            menusTree[index].title = menusTree[index].name;
+            menusTree[index].id = menusTree[index].id;
+            //menusTree[index].field = '';
+            // 注意这里，layui.tree 有个bug ，如果上级菜单为选中状态,下级的菜单会默认全选中，所以把页面已上的级菜单全部设置为false 解决
+            if (menusTree[index].root == 1 || menusTree[index].root == 2) {
+                menusTree[index].checked = false;
+            } else {
+                menusTree[index].checked = menusTree[index].isChecked;
+            }
+            menusTree[index].spread = true;
+            if (menusTree[index].menus != null) {
+                menusTree[index].children = initMenuTreeNext(menusTree[index].menus)
+            }
+            menusTree[index].menus = null;
+        });
+        return menusTree;
+    }
+
+
+    /**
+     * 获取节点所有的选中数据 id， checkedData是所有选中的数据
+     * tree.getChecked('demoId1');
+     */
+    function nextTreeIds(ids, checkedData) {
+        $.each(checkedData, function (index) {
+            ids.push(checkedData[index].id);
+            if (checkedData[index].children != null) {
+                nextTreeIds(ids, checkedData[index].children)
+            }
+        });
+    }
+</script>
+</body>
+</html>

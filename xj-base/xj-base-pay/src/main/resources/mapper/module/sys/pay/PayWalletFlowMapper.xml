@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ws.ldy.modules.sys.pay.mapper.PayWalletFlowMapper">
+<mapper namespace="com.ws.ldy.basepay.manage.mapper.PayWalletFlowMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ws.ldy.modules.sys.pay.model.entity.PayWalletFlow">
+    <resultMap id="BaseResultMap" type="com.ws.ldy.basepay.manage.model.entity.PayWalletFlow">
 
         <result column="id" property="id"/>
         <result column="create_user" property="createUser"/>

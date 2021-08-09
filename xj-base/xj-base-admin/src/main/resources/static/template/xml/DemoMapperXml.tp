@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="{packPath}.{rootModule}.{moduleName}.mapper.{tableNameUp}Mapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="{packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp}">
+{resultMap}
+        </resultMap>
+
+        <!-- 通用查询结果列: <include refid="Base_Column_List"></include>  -->
+        <sql id="Base_Column_List">
+{columnList}
+        </sql>
+
+
+        <!-- id 查询 -->
+        <select id="findIdB" resultType="{packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp}">
+               SELECT
+               *
+               FROM {tableName} a
+               WHERE a.id = #{id}
+         </select>
+
+        <!-- 全部查询 -->
+        <select id="findListB" resultType="{packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp}">
+            SELECT
+            *
+            FROM {tableName} a
+            WHERE a.deleted=0
+            ORDER BY a.create_time DESC
+        </select>
+
+
+        <!-- 动态添加 -->
+        <insert id="tableNameUp">
+{xmlInsert}
+        </insert>
+
+
+        <!-- id动态编辑 -->
+        <update id="xjUpdate">
+{xmlUpd}
+         </update>
+
+
+         <!-- id删除 -->
+         <update id="deleteB">
+              delete from {tableName} where id = #{id}
+         </update>
+</mapper>
+

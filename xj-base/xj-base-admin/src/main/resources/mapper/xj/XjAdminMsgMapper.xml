@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ws.ldy.manage.xj.mapper.XjAdminMsgMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="com.ws.ldy.manage.xj.model.entity.XjAdminMsg">
+
+               <result column="id" property="id" />
+               <result column="create_user" property="createUser" />
+               <result column="update_user" property="updateUser" />
+               <result column="create_time" property="createTime" />
+               <result column="update_time" property="updateTime" />
+               <result column="deleted" property="deleted" />
+               <result column="version" property="version" />
+               <result column="user_id" property="userId" />
+               <result column="content" property="content" />
+               <result column="user_type" property="userType" />
+               <result column="msg_type" property="msgType" />
+               <result column="is_read" property="isRead" />
+        </resultMap>
+
+        <!-- 通用查询结果列: <include refid="Base_Column_List"></include>  -->
+        <sql id="Base_Column_List">
+
+               id,
+               create_user,
+               update_user,
+               create_time,
+               update_time,
+               deleted,
+               version,
+               user_id,
+               content,
+               user_type,
+               msg_type,
+               is_read
+        </sql>
+
+</mapper>
+

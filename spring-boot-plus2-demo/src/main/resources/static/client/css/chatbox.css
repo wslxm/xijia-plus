@@ -1,0 +1,342 @@
+/*body {*/
+/*    background-color: #ebebeb;*/
+/*    font-family: -apple-system;*/
+/*    font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;*/
+/*}*/
+
+/*.chat-sender {*/
+/*    clear: both;*/
+/*    font-size: 80%;*/
+/*}*/
+
+/*.chat-sender div:nth-of-type(1) {*/
+/*    float: left;*/
+/*}*/
+
+/*.chat-sender div:nth-of-type(2) {*/
+/*    margin: 0 50px 2px 60px;*/
+/*    padding: 0px;*/
+/*    color: #848484;*/
+/*    font-size: 70%;*/
+/*    text-align: left;*/
+/*}*/
+
+/*!* 左边气泡*!*/
+/*.chat-sender div:nth-of-type(3) {*/
+/*    background-color: #ffdad4;*/
+/*    !*float: left;*!*/
+/*    margin: 0 10% 10px 60px;*/
+/*    padding: 10px 10px 10px 10px;*/
+/*    border-radius: 7px;*/
+/*    text-indent: -12px;*/
+/*}*/
+
+/*.chat-receiver {*/
+/*    clear: both;*/
+/*    font-size: 80%;*/
+
+/*}*/
+
+/*.chat-receiver div:nth-of-type(1) {*/
+/*    float: right;*/
+/*}*/
+
+/*.chat-receiver div:nth-of-type(2) {*/
+/*    margin: 0px 60px 2px 50px;*/
+/*    padding: 0px;*/
+/*    color: #848484;*/
+/*    font-size: 70%;*/
+/*    text-align: right;*/
+/*}*/
+
+/*.chat-receiver div:nth-of-type(3) {*/
+/*    !*float:right;*!*/
+/*    background-color: #b2e281;*/
+/*    margin: 0px 60px 10px 90%;*/
+/*    padding: 10px 10px 10px 10px;*/
+/*    border-radius: 7px;*/
+/*}*/
+
+/*.chat-receiver div:first-child img,*/
+/*.chat-sender div:first-child img {*/
+/*    width: 40px;*/
+/*    height: 40px;*/
+/*    margin-left: 10px;*/
+/*    !*border-radius: 10%;*!*/
+/*}*/
+
+
+/*.chat-left_triangle {*/
+/*    height: 0px;*/
+/*    width: 0px;*/
+/*    border-width: 6px;*/
+/*    border-style: solid;*/
+/*    border-color: transparent #ffdad4 transparent transparent;*/
+/*    position: relative;*/
+/*    left: -22px;*/
+/*    top: 3px;*/
+/*}*/
+
+/*.chat-right_triangle {*/
+/*    height: 0px;*/
+/*    width: 0px;*/
+/*    border-width: 6px;*/
+/*    border-style: solid;*/
+/*    border-color: transparent transparent transparent #b2e281;*/
+/*    position: relative;*/
+/*    right: -22px;*/
+/*    top: 3px;*/
+/*}*/
+
+/*.chat-notice {*/
+/*    clear: both;*/
+/*    font-size: 70%;*/
+/*    color: white;*/
+/*    text-align: center;*/
+/*    margin-top: 15px;*/
+/*    margin-bottom: 15px;*/
+/*}*/
+
+/*.chat-notice span {*/
+/*    background-color: #cecece;*/
+/*    line-height: 25px;*/
+/*    border-radius: 5px;*/
+/*    padding: 5px 10px;*/
+/*}*/
+
+
+
+
+
+
+/*!* ======================= new 新================================== *!*/
+
+/*!* 微信气泡 *!*/
+/*div.speech {*/
+/*    float: left;*/
+/*    margin: 0px 0;*/
+/*    padding: 8px;*/
+/*    table-layout: fixed;*/
+/*    word-break: break-all;*/
+/*    position: relative;*/
+/*    background: -webkit-gradient( linear, 50% 0%, 50% 100%, from(#ffffff), color-stop(0.1, #ececec), color-stop(0.5, #dbdbdb), color-stop(0.9, #dcdcdc), to(#8c8c8c) );*/
+/*    border: 1px solid #989898;*/
+/*    border-radius: 8px;*/
+/*}*/
+/*div.speech:before {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    width: 0;*/
+/*    height: 0;*/
+/*    left: 15px;*/
+/*    top: -20px;*/
+/*    border: 10px solid;*/
+/*    border-color: transparent transparent #989898 transparent;*/
+/*}*/
+/*div.speech:after {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    width: 0;*/
+/*    height: 0;*/
+/*    left: 17px;*/
+/*    top: -16px;*/
+/*    border: 8px solid;*/
+/*    border-color: transparent transparent #ffffff transparent;*/
+/*}*/
+/*div.speech.right {*/
+/*    display: inline-block;*/
+/*    box-shadow: -2px 2px 5px #CCC;*/
+/*    margin-right: 10px;*/
+/*    max-width: 75%;*/
+/*    float: right;*/
+/*    background: -webkit-gradient( linear, 50% 0%, 50% 100%, from(#e4ffa7), color-stop(0.1, #bced50), color-stop(0.4, #aed943), color-stop(0.8, #a7d143), to(#99BF40) );*/
+/*}*/
+/*div.speech.right:before {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    width: 0;*/
+/*    height: 0;*/
+/*    top: 9px;*/
+/*    bottom: auto;*/
+/*    left: auto;*/
+/*    right: -10px;*/
+/*    border-width: 9px 0 9px 10px;*/
+/*    border-color: transparent #989898;*/
+/*}*/
+/*div.speech.right:after {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    width: 0;*/
+/*    height: 0;*/
+/*    top: 10px;*/
+/*    bottom: auto;*/
+/*    left: auto;*/
+/*    right: -8px;*/
+/*    border-width: 8px 0 8px 9px;*/
+/*    border-color: transparent #bced50;*/
+/*}*/
+/*div .left {*/
+/*    display: inline-block;*/
+/*    box-shadow: 2px 2px 2px #CCCCCC;*/
+/*    margin-left: 20px;*/
+/*    margin-bottom: 10px;*/
+/*    max-width: 75%;*/
+/*    position: relative;*/
+/*    background: -webkit-gradient( linear, 50% 0%, 50% 100%, from(#ffffff), color-stop(0.1, #eae8e8), color-stop(0.4, #E3E3E3), color-stop(0.8, #DFDFDF), to(#D9D9D9) );*/
+/*}*/
+/*div .left:before {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    width: 0;*/
+/*    height: 0;*/
+/*    top: 9px;*/
+/*    bottom: auto;*/
+/*    left: -10px;*/
+/*    border-width: 9px 10px 9px 0;*/
+/*    border-color: transparent #989898;*/
+/*}*/
+/*div .left:after {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    width: 0;*/
+/*    height: 0;*/
+/*    top: 10px;*/
+/*    bottom: auto;*/
+/*    left: -8px;*/
+/*    border-width: 8px 9px 8px 0;*/
+/*    border-color: transparent #eae8e8;*/
+/*}*/
+/*.leftimg {*/
+/*    float: left;*/
+/*    margin-top: 10px;*/
+/*}*/
+/*.rightimg {*/
+/*    float: right;*/
+/*    margin-top: 10px;*/
+/*}*/
+/*.leftd {*/
+/*    clear: both;*/
+/*    float: left;*/
+/*    margin-left: 10px;*/
+/*}*/
+/*.rightd {*/
+/*    clear: both;*/
+/*    float: right;*/
+/*    margin-right: 10px;*/
+/*}*/
+
+/*.leftd_h{*/
+/*    width: 39px;*/
+/*    height: 39px;*/
+/*    border-radius: 100%;*/
+/*    display: block;*/
+/*    float: left;*/
+/*    overflow: hidden;*/
+/*}*/
+
+/*.leftd_h img{*/
+/*    display: block;*/
+/*    width: 100%;*/
+/*    height: auto;*/
+/*}*/
+/*.rightd_h{*/
+/*    width: 39px;*/
+/*    height: 39px;*/
+/*    border-radius: 100%;*/
+/*    display: block;*/
+/*    float: right;*/
+/*    overflow: hidden;*/
+/*}*/
+
+/*.rightd_h img{*/
+/*    display: block;*/
+/*    width: 100%;*/
+/*    height: auto;*/
+/*}*/
+
+
+/*!* ============================================================ *!*/
+
+/*!* overflow-y :auto;overflow :auto;  宽高自适应滚动条   *!*/
+/*!***/
+/** 群聊*/
+/**!*/
+/*.quLiao {*/
+/*    width: 80%;*/
+/*    height: 600px;*/
+/*    background-color: #ffffff;*/
+/*    float: left;*/
+/*    !*overflow: auto;*!*/
+/*    overflow-x: auto; !* 展示div最下内容 竖直方向有滚动条，如果想要横向的，可以把y改为x*!*/
+/*}*/
+
+/*!***/
+/* * 在线人-列表样式*/
+/* *!*/
+/*.zxListLi {*/
+/*    cursor: pointer;*/
+/*    margin-left: 5%;*/
+/*    margin-top: 2%;*/
+/*}*/
+
+
+/*!**  输入框中内容的图片占比宽度 *!*/
+/*.text img {*/
+/*    width: 200px;*/
+/*    object-fit: cover; !* 剪切图片，保留原始比例 *!*/
+/*}*/
+
+/*!**  输入框中内容的表情占比宽度 *!*/
+/*.text .emoji_icon {*/
+/*    width: 25px !important;*/
+/*    height: 25px !important;*/
+/*    object-fit: cover; !* 剪切图片，保留原始比例 *!*/
+/*}*/
+
+
+/*!**  消息列表中内容的图片占比宽度， 是按气泡为父元素指定的  *!*/
+/*.quLiao img {*/
+/*    width: 200px !important;*/
+/*    height: 120px !important;*/
+/*    object-fit: cover; !* 剪切图片，保留原始比例 *!*/
+/*}*/
+
+
+/*!**  消息列表中的图片占比宽度 *!*/
+/*.quLiao .headPic {*/
+/*    width: 40px !important;*/
+/*    height: 40px !important;*/
+/*    object-fit: cover; !* 剪切图片，保留原始比例 *!*/
+/*}*/
+
+
+/*!*  消息列表中表情大小 ，固定大小 *!*/
+/*.quLiao .emoji_icon {*/
+/*    width: 25px !important;*/
+/*    height: 25px !important;*/
+/*}*/
+
+
+/*!***/
+/** 内容+左菜单的滚动条*/
+/**!*/
+/*!*滚动条样式 滚动条整体部分，可以设置宽度啥的*!*/
+/*.scrollBar::-webkit-scrollbar {*/
+/*    width: 1px;*/
+/*}*/
+
+/*!*滚动条样式 滚动的滑块*!*/
+/*.scrollBar::-webkit-scrollbar-thumb {*/
+/*    border-radius: 10px;*/
+/*    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);*/
+/*    background: rgba(0, 0, 0, 0.2);*/
+/*}*/
+
+/*!*滚动条样式 外层轨道*!*/
+/*.scrollBar::-webkit-scrollbar-track {*/
+/*    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);*/
+/*    border-radius: 0;*/
+/*    background: rgba(0, 0, 0, 0.1);*/
+
+/*}*/
+

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>xj-base</artifactId>
         <groupId>com.ws.ldy</groupId>
-        <version>0.1.2.2-SNAPSHOT</version>
+        <version>0.1.2.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -23,10 +23,15 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
         <!--
-        自定义模块 start
-        注释范围的依赖,在需要启动服务的项目按需加载
-        已加载的都是系统必须加载的
+             自定义模块 start
+             注释范围的依赖,在需要启动服务的项目按需加载
+             已加载的都是系统必须加载的
         -->
+        <!-- 界面- 后台管理系统ui -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-base-admin-ui</artifactId>
+        </dependency>
         <!-- 核心组件- 通用base层+字典枚举+ 统一返回+常用工具类    -->
         <dependency>
             <groupId>com.ws.ldy</groupId>
@@ -38,4 +43,29 @@
             <artifactId>xj-doc-swagger2</artifactId>
         </dependency>
     </dependencies>
+
+    <!-- 多环境配置 -->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profiles.active>dev</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>pro</id>
+            <properties>
+                <profiles.active>pro</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
 </project>

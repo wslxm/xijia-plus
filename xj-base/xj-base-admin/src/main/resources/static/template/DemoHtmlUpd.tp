@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/components/layuiadmin/layui/src/css/layui.css">
 
 
-    <script src="/modules/js/app.js"></script>
+    <script src="/manage/js/app.js"></script>
     {add-upd-introduce}
 </head>
 <body>

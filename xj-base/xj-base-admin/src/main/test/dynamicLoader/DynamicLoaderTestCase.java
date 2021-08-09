@@ -1,7 +1,7 @@
 package dynamicLoader;
 
 import com.ws.ldy.XijiaServer;
-import com.ws.ldy.common.utils.DynamicLoader;
+import com.ws.ldy.pay.core.common.utils.DynamicLoader;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

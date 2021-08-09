@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xj-starter</artifactId>
+        <groupId>com.ws.ldy</groupId>
+        <version>0.1.2.5-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>xj-api-wx-mp</artifactId>
+    <version>${revision}</version>
+
+    <properties>
+        <weixin-java-mp.version>4.0.0</weixin-java-mp.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-base-core</artifactId>
+        </dependency>
+        <!-- 微信公众号 WxJava 开源sdk包 -->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>${weixin-java-mp.version}</version>
+        </dependency>
+    </dependencies>
+</project>

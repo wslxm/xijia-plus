@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户--添加</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/components/layuiadmin/layui/src/css/layui.css">
+
+
+    <script src="/manage/js/app.js"></script>
+</head>
+<body>
+
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">通知终端</label>
+        <div class="layui-input-inline">
+            <select id="userType" name="userType"  lay-filter="userType">
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">消息接收人</label>
+        <div class="layui-input-inline">
+            <select id="userId" name="userId"  lay-filter="userId">
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">消息类型</label>
+        <div class="layui-input-inline">
+            <select id="msgType" name="msgType"  lay-filter="msgType">
+            </select>
+        </div>
+    </div>
+    <div id="contentText" class="layui-form-item">
+        <label class="layui-form-label">发送内容</label>
+        <div class="layui-input-block">
+            <textarea id="content" name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认添加">
+        <input type="button" lay-submit lay-filter="layuiadmin-app-form-edit" id="layuiadmin-app-form-edit" value="确认编辑">
+    </div>
+</div>
+
+<script>
+    var userFindList = path + "/admin/adminUser/findList";
+
+
+    layui.use(['form'], function () {
+        adminMsgaddFormSubmit();
+        adminMsgaddInit();
+    });
+
+    function adminMsgaddInit() {
+        // 初始化相关数据
+        $("#userType").html(Dict.getDictSelect(Enums.Xj.MsgUserType, null, null, null));
+        $("#msgType").html(Dict.getDictSelect(Enums.Xj.MsgType, null, null, null));
+        // 刷新,否则部分from 表单样式不生效
+        initUsersSelect(1);
+        layui.form.render();
+
+        // 监听选择
+        layui.form.on('select(userType)', function (data) {
+            initUsersSelect(data.value);
+        });
+    }
+
+
+    /**
+     * 加载选择的用户
+     */
+    function  initUsersSelect(userType) {
+        let usersHtml = "";
+        if(userType == 2){
+            // 管理端=2
+            let users = Ajax.get(userFindList).data;
+            let usersHtml = "";
+            for (let i = 0; i < users.length; i++) {
+                if (i === 0) {
+                    usersHtml += "<option value='" + users[i].id + "' selected>" + users[i].fullName + "</option>";
+                } else {
+                    usersHtml += "<option value='" + users[i].id + "'>" + users[i].fullName + "</option>";
+                }
+            }
+            $("#userId").html(usersHtml);
+            layui.form.render();
+        }else{
+            // 用户端=1
+            $("#userId").html(usersHtml);
+            layui.form.render();
+        }
+    }
+
+
+    function adminMsgaddFormSubmit() {
+        //监听提交
+        layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            let result = Ajax.post(path + "/admin/xj/adminMsg/insert", data.field);
+            let index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+            parent.layer.msg(result.msg);
+            //重载表格
+            parent.adminMsgRenderTable();
+            // 重载后-刷新分页数据
+            parent.adminMsgLayPage();
+        });
+    }
+</script>
+</body>
+</html>

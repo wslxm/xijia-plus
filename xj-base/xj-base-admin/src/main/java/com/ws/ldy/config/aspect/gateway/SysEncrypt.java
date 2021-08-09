@@ -1,10 +1,10 @@
 package com.ws.ldy.config.aspect.gateway;
 
 
-import com.ws.ldy.common.annotation.XjSecret;
-import com.ws.ldy.common.result.R;
-import com.ws.ldy.common.result.RType;
-import com.ws.ldy.config.aspect.Base64Util;
+import com.ws.ldy.config.filter.sing.annotation.XjSecret;
+import com.ws.ldy.core.result.R;
+import com.ws.ldy.core.result.RType;
+import com.ws.ldy.config.aspect.util.Base64Util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.ProceedingJoinPoint;

@@ -1,0 +1,27 @@
+package {packPath}.{rootModule}.{moduleName}.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import {packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp};
+
+/**
+ * {tableComment}
+ * <p>
+ * {describe}
+ * </p>
+ * {author}
+ * {email}
+ * {date}
+ */
+public interface {tableNameUp}Mapper extends BaseMapper<{tableNameUp}> {
+
+      {tableNameUp} findIdB(String id);
+
+      List<{tableNameUp}> findListB();
+
+      int insertB({tableNameUp} {tableNameLower});
+
+      int updateB({tableNameUp} {tableNameLower});
+
+      int deleteB(String id);
+}
+

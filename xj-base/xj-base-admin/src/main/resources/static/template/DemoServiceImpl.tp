@@ -1,10 +1,10 @@
-package {packPath}.{rootModule}.{packPathZp}.{moduleName}.service.impl;
+package {packPath}.{rootModule}.{moduleName}.service.impl;
 
-import {packPath}.{rootModule}.{packPathZp}.{moduleName}.mapper.{tableNameUp}Mapper;
-import {packPath}.{rootModule}.{packPathZp}.{moduleName}.model.entity.{tableNameUp};
-import {packPath}.{rootModule}.{packPathZp}.{moduleName}.service.{tableNameUp}Service;
-import {packPath}.{rootModule}.sys.base.service.impl.BaseIServiceImpl;
 import org.springframework.stereotype.Service;
+import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
+import {packPath}.{rootModule}.{moduleName}.mapper.{tableNameUp}Mapper;
+import {packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp};
+import {packPath}.{rootModule}.{moduleName}.service.{tableNameUp}Service;
 
 /**
  * {tableComment}

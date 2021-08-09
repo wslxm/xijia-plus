@@ -1,11 +1,11 @@
 package com.ws.ldy.config.aspect.gateway;
 
-import com.ws.ldy.common.annotation.ApiIdempotent;
 import com.ws.ldy.common.annotation.ApiIdempotentAuth;
+import com.ws.ldy.core.config.error.ErrorException;
+import com.ws.ldy.common.annotation.ApiIdempotent;
 import com.ws.ldy.common.idempotent.util.XJIdempotentUtils;
-import com.ws.ldy.common.result.R;
-import com.ws.ldy.common.result.RType;
-import com.ws.ldy.config.error.ErrorException;
+import com.ws.ldy.core.result.R;
+import com.ws.ldy.core.result.RType;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;

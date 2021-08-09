@@ -8,10 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="/components/layuiadmin/layui/src/css/layui.css" media="all">
     <link rel="stylesheet" href="/components/layuiadmin/style/admin.css" media="all">
-    <link rel="stylesheet" href="/modules/css/search.css" media="all">
+    <link rel="stylesheet" href="/manage/css/base-search.css" media="all">
 
     <script src="/base/js/jquery-3.4.1.min.js"></script>
-    <script src="/modules/js/app.js"></script>
+    <script src="/manage/js/app.js"></script>
 </head>
 <body>
 <style>
@@ -61,8 +61,8 @@
     let {tableNameLower}Del = path + "/admin/{moduleName}/{tableNameLower}/del";                  // 删除
 
     // 路由
-    let {tableNameLower}PageAdd =  "/page/{rootModule}_{packPathZp}_{moduleName}_{tableNameLower}_{tableNameLower}Add";   //添加弹出
-    let {tableNameLower}PageUpd =  "/page/{rootModule}_{packPathZp}_{moduleName}_{tableNameLower}_{tableNameLower}Upd";   //编辑弹出
+    let {tableNameLower}PageAdd =  "/page/{rootModule}_{moduleName}_{tableNameLower}_{tableNameLower}Add";   //添加弹出
+    let {tableNameLower}PageUpd =  "/page/{rootModule}_{moduleName}_{tableNameLower}_{tableNameLower}Upd";   //编辑弹出
 
 
     let res;       // 完整的后台数据

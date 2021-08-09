@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="{packPath}.{rootModule}.{packPathZp}.{moduleName}.mapper.{tableNameUp}Mapper">
+<mapper namespace="{packPath}.{rootModule}.{moduleName}.mapper.{tableNameUp}Mapper">
 
         <!-- 通用查询映射结果 -->
-        <resultMap id="BaseResultMap" type="{packPath}.{rootModule}.{packPathZp}.{moduleName}.model.entity.{tableNameUp}">
+        <resultMap id="BaseResultMap" type="{packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp}">
 {resultMap}
         </resultMap>
 
@@ -12,39 +12,6 @@
 {columnList}
         </sql>
 
-        <!-- id 查询 -->
-        <select id="xjFindId" resultType="{packPath}.{rootModule}.{packPathZp}.{moduleName}.mapper.{tableNameUp}">
-               SELECT
-               *
-               FROM {tableName} a
-               WHERE a.id = #{id}
-         </select>
 
-        <!-- 全部查询 -->
-        <select id="xjFindList" resultType="{packPath}.{rootModule}.{packPathZp}.{moduleName}.mapper.{tableNameUp}">
-            SELECT
-            *
-            FROM {tableName} a
-            WHERE a.deleted=0
-            ORDER BY a.create_time DESC
-        </select>
-
-
-        <!-- 动态添加 -->
-        <insert id="xjInsert">
-{xmlInsert}
-        </insert>
-
-
-        <!-- id动态编辑 -->
-        <update id="xjUpdate">
-{xmlUpd}
-         </update>
-
-
-         <!-- id删除 -->
-         <update id="xjDelete">
-              delete from {tableName} where id = #{id}
-         </update>
 </mapper>
 

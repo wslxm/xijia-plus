@@ -1,6 +1,6 @@
 package com.ws.ldy.config.init;
 
-import com.ws.ldy.modules.sys.admin.service.AdminAuthorityService;
+import com.ws.ldy.manage.admin.service.AdminAuthorityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
