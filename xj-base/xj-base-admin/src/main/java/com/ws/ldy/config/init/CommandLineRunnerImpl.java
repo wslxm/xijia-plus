@@ -1,5 +1,8 @@
 package com.ws.ldy.config.init;
 
+import com.ws.ldy.core.cache.redis.RedisCache;
+import com.ws.ldy.core.utils.PropUtil;
+import com.ws.ldy.core.utils.bean.SpringContextUtil;
 import com.ws.ldy.manage.admin.service.AdminAuthorityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,44 +24,28 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     @Autowired
     private AdminAuthorityService adminAuthorityService;
 
-//    @Autowired
-//    private AliYunOssProperties aliYunOssProperties;
-//    @Autowired
-//    private AliSmsUtil aliSmsUtil;
-//    @Autowired
-//    private WxPayProperties wxPayProperties;
-//
-//    @Autowired
-//    private WxMqProperties wxMqProperties;
-//
-//    @Autowired
-//    private WxAppProperties wxAppProperties;
-//
-//    @Autowired
-//    private QiNiuOssProperties qiNiuOssProperties;
-//
-//    @Autowired
-//    private KuaiDi100Properties kuaiDi100Properties;
-//
-//    @Autowired
-//    private SFProperties sfProperties;
-
     @Override
     public void run(String... args) {
         // ========== 启动信息配置参数打印 ========
-        getSuccessYellowBright();       // 启动成功图
+        // 启动成功图
+        getSuccessYellowBright();
         // 更新权限表数据
         adminAuthorityService.refreshAuthDB();
         // 更新权限缓存数据
         adminAuthorityService.refreshAuthCache();
-//        aliYunOssProperties.println();       // 阿里云oss
-//        aliSmsUtil.println();                // 阿里云sms
-//        wxPayProperties.println();           // 微信支付
-//        wxMqProperties.println();            // 微信公众号
-//        wxAppProperties.println();           // 微信小程序
-//        qiNiuOssProperties.println();        // 七牛云oss
-//        kuaiDi100Properties.println();       // 快递100
-//        sfProperties.println();              // 快递-顺丰-丰桥
+        // 当前是否启动redis
+        Boolean isRedis = RedisCache.isRedis();
+        log.info("当前是否启用 redis: {} , {} ", isRedis, !isRedis ? "程序默认使用jvm缓存机制" : "缓存机制将采用redis机制, spring.redis.host = " + PropUtil.findByKey("spring.redis.host"));
+        // 当前启动环境
+        //System.getProperty("spring.profiles.active")
+        log.info("当前启动环境 spring.profiles.active = {}", SpringContextUtil.getActiveProfile());
+        // 日志测试
+        log.error("error日志测试是否正常输出");
+        log.warn("warn日志测试是否正常输出");
+        log.debug("debug日志测试是否正常输出");
+        log.info("info日志测试是否正常输出");
+
+
     }
 
 
@@ -66,19 +53,19 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
      *  启动成功图
      */
     public static void getSuccessYellowBright() {
-        log.debug("" +
-                "         ####                #             #  ##               ##  \n" +
-                "     #########        ##### ##             #               #   ##  \n" +
-                "      ##   ##        ####   #####          ####        ######  # ##\n" +
-                "      #    ##            #########    #######          ############\n" +
-                "     ########       ####### ## ##     ###   #  #         ## ####  #\n" +
-                "     ##            #####    #  ##      #    ## ##        ##   ##  #\n" +
-                "     ##               # #  ##  ##      # ### ###         ###  #   #\n" +
-                "     ##########      ##### ##  ##      ## ## ###       ####  ##  ##\n" +
-                "    ## ###  ###     #### ###   #      ##  ## ##       ###   ##   ##\n" +
-                "    ## ##   ##      ##    ##  ##      ##  # ####            ##   ##\n" +
-                "   ##  ##  ##            ## ####     ##  ## #  ## #        ##  ### \n" +
-                "  ##   #######          ##   ##      #   #      ###       #    ### \n" +
+        log.info("\r\n" +
+                "         ####                #             #  ##               ##  \r\n" +
+                "     #########        ##### ##             #               #   ##  \r\n" +
+                "      ##   ##        ####   #####          ####        ######  # ##\r\n" +
+                "      #    ##            #########    #######          ############\r\n" +
+                "     ########       ####### ## ##     ###   #  #         ## ####  #\r\n" +
+                "     ##            #####    #  ##      #    ## ##        ##   ##  #\r\n" +
+                "     ##               # #  ##  ##      # ### ###         ###  #   #\r\n" +
+                "     ##########      ##### ##  ##      ## ## ###       ####  ##  ##\r\n" +
+                "    ## ###  ###     #### ###   #      ##  ## ##       ###   ##   ##\r\n" +
+                "    ## ##   ##      ##    ##  ##      ##  # ####            ##   ##\r\n" +
+                "   ##  ##  ##            ## ####     ##  ## #  ## #        ##  ### \r\n" +
+                "  ##   #######          ##   ##      #   #      ###       #    ### \r\n" +
                 "                             #                   ##                ");
     }
 

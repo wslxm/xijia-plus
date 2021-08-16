@@ -17,7 +17,7 @@
     </appender>
 
     <!-- info 日志,按照每天生成日志文件 -->
-    <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名, 路径+服务名-->
             <FileNamePattern>${LOG_HOME}/${LOG_NAME}/info/${LOG_NAME}.%d{yyyy-MM-dd}.log</FileNamePattern>
@@ -30,7 +30,7 @@
         </encoder>
         <!--日志文件最大的大小-->
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>10MB</MaxFileSize>
+            <MaxFileSize>3MB</MaxFileSize>
         </triggeringPolicy>
         <!-- 过滤日志,不打印错误日志 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -41,7 +41,7 @@
     </appender>
 
     <!-- error日志 -->
-    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 过滤日志 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名, 路径+服务名-->
@@ -55,7 +55,7 @@
         </encoder>
         <!--日志文件最大的大小-->
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>10MB</MaxFileSize>
+            <MaxFileSize>3MB</MaxFileSize>
         </triggeringPolicy>
         <!-- 过滤日志，只打印错误信息 -->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -63,21 +63,23 @@
         </filter>
     </appender>
 
-    <!-- 拦截堆错误包 -->
-    <logger name="com.lplb" level="INFO"/>
-    <logger name="com.lplb" level="DEBUG"/>
-    <logger name="com.alibaba.nacos.client.config.impl.ClientWorker" level="ERROR"/><!--不打印INFO级别的日志-->
+    <!-- 拦截堆错误包, 不打印-指定类-指定级别-的日志-->
+    <logger name="com.alibaba.nacos.client.config.impl.ClientWorker" level="ERROR"/>
     <logger name="springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator" level="ERROR"/>
-    <logger name="de.codecentric.boot.admin.server.web.servlet.InstancesProxyController" level="ERROR"/><!-- 屏蔽系统监控日志，太多,在每秒实现  -->
-    <logger name="java.lang.NoClassDefFoundError" level="ERROR"/><!-- 屏蔽动态添加java类的警告内容  -->
-
+    <logger name="de.codecentric.boot.admin.server.web.servlet.InstancesProxyController" level="ERROR"/><!-- 屏蔽系统监控日志太多,在每秒实现  -->
+    <logger name="java.lang.NoClassDefFoundError" level="ERROR"/> <!-- 屏蔽动态添加java类的警告内容  -->
     <!-- 解决SpringBootAdmin错误日志问题 -->
     <logger name="org.apache.catalina.connector.CoyoteAdapter" level="OFF"/>
 
-    <!-- 日志输出级别 -->
+    <!-- 日志输出级别  [ level > FATAL > ERROR > WARN > INFO > DEBUG > ] 只建议配置以下4种 ERROR、WARN、INFO、DEBUG
+       DEBUG[调试信息] -> [ERROR、WARN、INFO、DEBUG]
+       INFO [一般信息] -> [ERROR、WARN、INFO]
+       WARN [警告信息] -> [ERROR、WARN]
+       ERROR[错误信息] -> [ERROR]
+     -->
     <root level="INFO">
-        <appender-ref ref="STDOUT"/>           <!--控制台输出-->
-        <appender-ref ref="FILE_INFO"/>        <!--INFO 日志文件输出 -->
-        <appender-ref ref="FILE_ERROR"/>       <!--ERROR 日志文件输出 -->
+        <appender-ref ref="STDOUT"/>       <!--控制台输出-->
+        <appender-ref ref="INFO"/>         <!--INFO 日志文件输出 -->
+        <appender-ref ref="ERROR"/>        <!--ERROR 日志文件输出 -->
     </root>
 </configuration>

@@ -33,7 +33,8 @@
 - 30、修改 xj-base-core 模块 +xj-base-pay模块包名为 core 和 basepay(2021/8/6)
 - 31、修改 AdminAuthorityServiceImpl 的 refreshAuthDB 方法扫码接口自动读取启动服务模块的启动类scanBasePackages路径(支持多路径)
 - 32、 help/sql/spring-boot-plus2-0.1.2.sql 更新(2021/8/9)
- 
+- 33、 优化 XjToolServerImpl 工具类
+- 34、 优化在PropUtil 工具类 获取启动环境修改为ApplicationContext 中获取,防止读取错误
  
  
 ## 版本：v-0.1.1

@@ -1,4 +1,4 @@
-package com.ws.ldy.core.utils.bean;
+package com.ws.ldy.starter.redis.lock.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SpringContextUtil implements ApplicationContextAware {
+public class RedisSpringContextUtil implements ApplicationContextAware {
 
     /**
      * 上下文对象实例
@@ -74,5 +74,4 @@ public class SpringContextUtil implements ApplicationContextAware {
         }
         return activeProfiles[0];
     }
-
 }

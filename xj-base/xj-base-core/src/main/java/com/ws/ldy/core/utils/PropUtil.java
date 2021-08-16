@@ -1,5 +1,6 @@
 package com.ws.ldy.core.utils;
 
+import com.ws.ldy.core.utils.bean.SpringContextUtil;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -8,7 +9,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * 读取配置文件
+ * 读取配置文件 (无法正常读取 -Dspring.profiles.active=pro 测试配置)
  * <P>
  *     不区分 yml / properties,都可以读取， 不区分启动环境(自动读取 如：application.yml + application-dev.yml 配置, -dev 为当前启动的环境测试)
  *     1、先读取 application.yml
@@ -24,19 +25,21 @@ public class PropUtil {
 
 
     public static Object findByKey(String key) {
-        Object env = findYmlByKey("spring.profiles.active", null, ".yml");
-        if (env == null) {
-            env = findPropertiesByKey("spring.profiles.active", null, ".properties");
-        }
+        // 获取当前环境
+        String env = SpringContextUtil.getActiveProfile();
+        //  Object env = findYmlByKey("spring.profiles.active", null, ".yml");
+        //  if (env == null) {
+        //      env = findPropertiesByKey("spring.profiles.active", null, ".properties");
+        //  }
         Object val = findYmlByKey(key, null, ".yml");
         if (val == null) {
-            val = findYmlByKey(key, env.toString(), ".yml");
+            val = findYmlByKey(key, env, ".yml");
         }
         if (val == null) {
             val = findPropertiesByKey(key, null, ".properties");
         }
         if (val == null) {
-            val = findPropertiesByKey(key, env.toString(), ".properties");
+            val = findPropertiesByKey(key, env, ".properties");
         }
         return val;
     }

@@ -1,6 +1,6 @@
-//package com.ws.ldy.taskscheduling.task;
+//package com.ws.ldy.starter.redis.lock.locktest.task;
 //
-//import com.ws.ldy.taskscheduling.annotation.TaskLock;
+//import com.ws.ldy.starter.redis.lock.annotation.TaskLock;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.scheduling.annotation.EnableScheduling;

@@ -24,19 +24,20 @@ public class RedisPropUtil {
 
 
     public static Object findByKey(String key) {
-        Object env = findYmlByKey("spring.profiles.active", null, ".yml");
-        if (env == null) {
-            env = findPropertiesByKey("spring.profiles.active", null, ".properties");
-        }
+        String env = RedisSpringContextUtil.getActiveProfile();
+        //  Object env = findYmlByKey("spring.profiles.active", null, ".yml");
+        //  if (env == null) {
+        //      env = findPropertiesByKey("spring.profiles.active", null, ".properties");
+        //  }
         Object val = findYmlByKey(key, null, ".yml");
         if (val == null) {
-            val = findYmlByKey(key, env.toString(), ".yml");
+            val = findYmlByKey(key, env, ".yml");
         }
         if (val == null) {
             val = findPropertiesByKey(key, null, ".properties");
         }
         if (val == null) {
-            val = findPropertiesByKey(key, env.toString(), ".properties");
+            val = findPropertiesByKey(key, env, ".properties");
         }
         return val;
     }

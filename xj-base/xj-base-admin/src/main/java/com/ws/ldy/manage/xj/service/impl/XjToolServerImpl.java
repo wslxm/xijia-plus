@@ -19,8 +19,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-// 参考： http://blog.csdn.net/zhongweijian/article/details/7619383
-// 参考2： https://blog.csdn.net/coolchaobing/article/details/86736190
 @Service
 public class XjToolServerImpl implements XjToolServer {
 
@@ -89,7 +87,7 @@ public class XjToolServerImpl implements XjToolServer {
             String[] rams = arr.split("\n");
             String ramsValue = rams[1];
             ramsValue = ramsValue.replace("Mem:", "");
-            // 对应索引(单位，GB) 0=total  1=used   2=free  3=shared  4=buff/cache   5=available
+            // 获取后的参数对应索引(单位，GB) 0=total  1=used   2=free  3=shared  4=buff/cache   5=available
             List<Double> ramVals = new ArrayList<>();
             for (int i = 0; i < ramsValue.length(); i++) {
                 if (ramsValue.charAt(i) != ' ') {
@@ -102,14 +100,21 @@ public class XjToolServerImpl implements XjToolServer {
                             i++;
                         }
                     }
-                    //System.out.println("val=" + val);
+                    // System.out.println("val=" + val);
+                    // Mi表示（1Mi=1024x1024）,M表示（1M=1000x1000）（其它单位类推， 如Ki/K Gi/G）
                     double valDouble = 0;
-                    if (val.indexOf("G") != -1) {
+                    if (val.indexOf("Gi") != -1) {
+                        valDouble = Double.parseDouble(val.replace("Gi", ""));
+                    } else if (val.indexOf("G") != -1) {
                         valDouble = Double.parseDouble(val.replace("G", ""));
+                    } else if (val.indexOf("Mi") != -1) {
+                        valDouble = Double.parseDouble(val.replace("Mi", "")) / 1024;
                     } else if (val.indexOf("M") != -1) {
-                        valDouble = Double.parseDouble(val.replace("M", "")) / 1024;
+                        valDouble = Double.parseDouble(val.replace("M", "")) / 1000;
+                    } else if (val.indexOf("Ki") != -1) {
+                        valDouble = Double.parseDouble(val.replace("Ki", "")) / 1024 / 1024;
                     } else if (val.indexOf("K") != -1) {
-                        valDouble = Double.parseDouble(val.replace("K", "")) / 1024 / 1024;
+                        valDouble = Double.parseDouble(val.replace("K", "")) / 1000 / 1000;
                     }
                     //System.out.println("valDouble=" + valDouble);
                     ramVals.add(valDouble);
@@ -141,7 +146,7 @@ public class XjToolServerImpl implements XjToolServer {
     }
 
     //
-    static String loadStream(InputStream in) throws IOException {
+    public static String loadStream(InputStream in) throws IOException {
         int ptr = 0;
         in = new BufferedInputStream(in);
         StringBuffer buffer = new StringBuffer();

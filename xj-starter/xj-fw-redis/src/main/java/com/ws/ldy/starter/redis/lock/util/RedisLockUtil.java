@@ -23,7 +23,7 @@ public class RedisLockUtil {
     public static Boolean isRedis() {
         // 获取yml 的redis 配置
         Object redisHost = RedisPropUtil.findByKey("spring.redis.host");
-        if (redisHost == null || "".equals(redisHost.toString())) {
+        if (redisHost == null || "".equals(redisHost)) {
             return false;
         }
         return true;

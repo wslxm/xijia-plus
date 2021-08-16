@@ -1,10 +1,10 @@
 package com.ws.ldy.config.aspect.gateway;
 
 
+import com.ws.ldy.config.aspect.util.Base64Util;
 import com.ws.ldy.config.filter.sing.annotation.XjSecret;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
-import com.ws.ldy.config.aspect.util.Base64Util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -181,6 +181,8 @@ public class SysEncrypt {
         } catch (Exception e) {
             return obj;
         }
-        return decryptOrEncryptEntity(r.getData(), 1);
+        R<Object> objectR = decryptOrEncryptEntity(r.getData(), 1);
+        objectR.setMsg(r.getMsg());
+        return objectR;
     }
 }

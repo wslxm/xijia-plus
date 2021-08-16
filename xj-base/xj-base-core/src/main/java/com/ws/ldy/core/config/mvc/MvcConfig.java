@@ -19,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @SuppressWarnings("all")
 @Configuration
-public class XjMvcConfig implements WebMvcConfigurer {
+public class MvcConfig implements WebMvcConfigurer {
 
     /**
      * 访问URL路径与 resources\templates 页面(.html）路径映射配置, 这里主要做单独的页面跳转
