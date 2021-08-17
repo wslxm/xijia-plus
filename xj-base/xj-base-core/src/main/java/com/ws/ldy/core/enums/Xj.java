@@ -7,7 +7,7 @@ import lombok.Getter;
 @SuppressWarnings("all")
 public interface Xj{
 
-    // -
+    // 【固定值】
     @Getter
     @AllArgsConstructor
     enum BannerIsSkip implements IEnum<Integer> {
@@ -19,7 +19,7 @@ public interface Xj{
         private String desc;
     }
 
-    // -
+    // 【动态值】
     @Getter
     @AllArgsConstructor
     enum BannerPosition implements IEnum<Integer> {
@@ -29,7 +29,7 @@ public interface Xj{
         private String desc;
     }
 
-    // -
+    // 【固定值】
     @Getter
     @AllArgsConstructor
     enum BlacklistType implements IEnum<Integer> {
@@ -40,7 +40,7 @@ public interface Xj{
         private String desc;
     }
 
-    // -
+    // 【动态值】
     @Getter
     @AllArgsConstructor
     enum MsgType implements IEnum<Integer> {
@@ -52,7 +52,7 @@ public interface Xj{
         private String desc;
     }
 
-    // -
+    // 【动态值】
     @Getter
     @AllArgsConstructor
     enum MsgUserType implements IEnum<Integer> {

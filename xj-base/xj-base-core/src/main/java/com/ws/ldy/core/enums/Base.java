@@ -7,7 +7,7 @@ import lombok.Getter;
 @SuppressWarnings("all")
 public interface Base{
 
-    // -
+    // 【固定值】用于代码生成默认使用的code值
     @Getter
     @AllArgsConstructor
     enum Default implements IEnum<Integer> {
@@ -19,7 +19,7 @@ public interface Base{
         private String desc;
     }
 
-    // -
+    // 【固定值】
     @Getter
     @AllArgsConstructor
     enum Deleted implements IEnum<Integer> {
@@ -30,7 +30,7 @@ public interface Base{
         private String desc;
     }
 
-    // -
+    // 【固定值】
     @Getter
     @AllArgsConstructor
     enum Disable implements IEnum<Integer> {
@@ -41,7 +41,7 @@ public interface Base{
         private String desc;
     }
 
-    // -
+    // 【固定值】
     @Getter
     @AllArgsConstructor
     enum Gender implements IEnum<Integer> {
@@ -53,7 +53,7 @@ public interface Base{
         private String desc;
     }
 
-    // -
+    // 【固定值】
     @Getter
     @AllArgsConstructor
     enum IsRead implements IEnum<Integer> {

@@ -7,30 +7,33 @@ import lombok.Getter;
 @SuppressWarnings("all")
 public interface Pay{
 
-    // -
+    // 【动态值】当前支付业务
     @Getter
     @AllArgsConstructor
     enum PayBusiness implements IEnum<Integer> {
         V1(1, "用户下单"),    // -
-        V2(2, "vip充值/续费"),    // -
+        V2(2, "vip 充值/续费"),    // -
+        V3(3, "月卡购买"),    // -
+        V4(4, "其他"),    // -
         ;
         private Integer value;
         private String desc;
     }
 
-    // -
+    // 【固定值】
     @Getter
     @AllArgsConstructor
     enum PayChannel implements IEnum<Integer> {
         V1(1, "支付宝"),    // -
         V2(2, "微信"),    // -
         V3(3, "银联"),    // -
+        V4(4, "其他"),    // -
         ;
         private Integer value;
         private String desc;
     }
 
-    // -
+    // 【固定值】用于记录支付交易请求状态
     @Getter
     @AllArgsConstructor
     enum PayState implements IEnum<Integer> {
@@ -44,7 +47,7 @@ public interface Pay{
         private String desc;
     }
 
-    // -
+    // 【固定值】
     @Getter
     @AllArgsConstructor
     enum PayType implements IEnum<Integer> {
@@ -57,7 +60,7 @@ public interface Pay{
         private String desc;
     }
 
-    // -
+    // 【固定值】
     @Getter
     @AllArgsConstructor
     enum WalletType implements IEnum<Integer> {

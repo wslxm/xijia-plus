@@ -4,11 +4,10 @@ import com.baomidou.mybatisplus.core.enums.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-
 @SuppressWarnings("all")
 public interface Admin{
 
-    // 动态编辑权限状态
+    // 【固定值】：用于编辑指定接口的【权限状态】
     @Getter
     @AllArgsConstructor
     enum AuthorityState implements IEnum<Integer> {
@@ -21,7 +20,7 @@ public interface Admin{
         private String desc;
     }
 
-    // 默认类型, 来进行默认权限指定
+    // 【固定值】：用于新接口自动生成【权限状态】
     @Getter
     @AllArgsConstructor
     enum AuthorityType implements IEnum<Integer> {
@@ -34,7 +33,7 @@ public interface Admin{
         private String desc;
     }
 
-    // -
+    // 【固定值】
     @Getter
     @AllArgsConstructor
     enum MenuRoot implements IEnum<Integer> {
@@ -46,12 +45,12 @@ public interface Admin{
         private String desc;
     }
 
-    // -
+    // 【动态值】, 如有需要根据业务指定
     @Getter
     @AllArgsConstructor
     enum Position implements IEnum<Integer> {
         V0(0, "系统管理员"),    // -
-        V1(1, "平台人员"),    // -根据此类型进行预定订单排班
+        V1(1, "平台人员"),    // -
         ;
         private Integer value;
         private String desc;
