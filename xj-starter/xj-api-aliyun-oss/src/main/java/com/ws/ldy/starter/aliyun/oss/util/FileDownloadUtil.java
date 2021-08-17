@@ -49,7 +49,8 @@ public class FileDownloadUtil {
             URLConnection conn = url.openConnection();
             InputStream in = conn.getInputStream();
             // 设置response的Header
-            response.addHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes()));
+            //response.addHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes()));
+            response.addHeader("Content-Disposition", "attachment;filename=" +java.net.URLEncoder.encode(fileName , "UTF-8"));
             response.setContentType("application/octet-stream");
             response.setHeader("content-type", "application/octet-stream");
             response.addHeader("Content-Length", conn.getContentLength() + "");//文件长度

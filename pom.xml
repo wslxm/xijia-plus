@@ -233,12 +233,6 @@
                 <artifactId>cglib</artifactId>
                 <version>${cglib.version}</version>
             </dependency>
-            <!-- mybatis-plus page dto/po/vo 转换使用 -->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus-boot-starter.version}</version>
-            </dependency>
             <!-- Hutool是一个小而全的Java工具类库  -->
             <dependency>
                 <groupId>cn.hutool</groupId>

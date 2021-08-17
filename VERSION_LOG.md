@@ -35,6 +35,8 @@
 - 32、 help/sql/spring-boot-plus2-0.1.2.sql 更新(2021/8/9)
 - 33、 优化 XjToolServerImpl 工具类
 - 34、 优化在PropUtil 工具类 获取启动环境修改为ApplicationContext 中获取,防止读取错误
+- 35、 修复 阿里云oss download 下载文件文件名中文错误(2021/8/16)
+- 36、 优化 spring-boot-plus2-demo 相关代码及配置(2021/8/16)
  
  
 ## 版本：v-0.1.1

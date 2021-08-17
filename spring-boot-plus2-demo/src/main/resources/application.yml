@@ -2,10 +2,7 @@ spring:
   ## maven面板动态切换dev/pro环境
   profiles:
     active: "@profiles.active@"
-  ## 项目名
-  application:
-    name: xijia
-  ## 当遇到同样beng名字的时候，是否允许覆盖注册
+  ## 当遇到同样bend名字的时候，是否允许覆盖注册
   main:
     allow-bean-definition-overriding: true
   ## 关闭thymeleaf缓存 开发时使用,否则没有实时画面
@@ -28,9 +25,9 @@ spring:
   ## 数据源的连接的基础配置, 当前为mybatis-plus配置方法
   datasource:
     druid:
-      ############################
-      #####  druid连接池配置   #####
-      ############################
+      #############################
+      #####  druid 连接池配置   #####
+      #############################
       initialSize: 5    # 初始化大小
       minIdle: 5        # 最小值
       maxActive: 20     # 最大值
@@ -64,9 +61,9 @@ spring:
         # 访问地址
         url-pattern: "/druid/*"   # 访问地址 ip+端口/druid
         # allow: 127.0.0.1        # 允许那些ip, 不配置时默认允许所有
+        # deny: 192.168.0.1       # 禁止那些ip
         login-username: admin     # 账号
         login-password: 123456    # 密码
-        deny: 192.168.0.1         # 禁止那些ip
         reset-enable: true        # 是否可以重置
         enabled: true             # 启用
 
@@ -74,13 +71,12 @@ spring:
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
   configuration:
-    # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
+    # 是否开启自动驼峰命名规则映射,从数据库列名到Java属性驼峰命名的类似映射
     map-underscore-to-camel-case: true
     # 如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段
     call-setters-on-nulls: true
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
 
 # 代码生成配置
 gc:

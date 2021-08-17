@@ -13,10 +13,6 @@
     <artifactId>spring-boot-plus2-demo</artifactId>
     <version>1.0.0</version>
 
-    <properties>
-        <dynamic-datasource-spring-boot-starter.version>2.5.4</dynamic-datasource-spring-boot-starter.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.ws.ldy</groupId>
@@ -37,7 +33,7 @@
 
     <!-- 打jar包配置 -->
     <build>
-        <finalName>spring-boot-plus2-demo</finalName>
+        <finalName>spring-boot-plus2-demo-${profiles.active}</finalName>
         <!--<finalName>xijia-server-${profiles.active}</finalName>-->
         <plugins>
             <plugin>
