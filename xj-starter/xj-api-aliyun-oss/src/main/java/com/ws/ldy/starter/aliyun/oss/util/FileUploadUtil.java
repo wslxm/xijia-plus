@@ -2,6 +2,7 @@ package com.ws.ldy.starter.aliyun.oss.util;
 
 
 import com.ws.ldy.core.result.R;
+import com.ws.ldy.starter.aliyun.oss.result.AliyunRType;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -31,11 +32,6 @@ public class FileUploadUtil {
     private final static String PATH_VIDEO = "video";  //  oss/file/video  视频
     private final static String PATH_DOC = "doc";      //  oss/file/doc    文档(excel/pdf/word 等)
     private final static String PATH_FILE = "file";    //  oss/file/file   任意文件
-
-    /**
-     * 文件上传失败code
-     */
-    private final static Integer errorCode = 10002;
 
     /**
      * 图片最小体积开始压缩 (图片大于该值进行压缩操作) 1M * 1.5 = 1.5M  -->  只对大于1.5M的图片进行压缩
@@ -70,7 +66,7 @@ public class FileUploadUtil {
      */
     public static R<String> getPath(String filePath, String fileName) {
         if (filePath.lastIndexOf("/") != filePath.length() - 1) {
-            return R.error(errorCode, "The path must end with [/]");
+            return R.error(AliyunRType.FILE_UPLOAD_FAILED.getValue(), "The path must end with [/]");
         }
         // 文件名中对url中不安全的字符处理
         //try {
@@ -95,7 +91,7 @@ public class FileUploadUtil {
         if (PATH_IMAGE.equals(path)) {
             // 图片(重命名)
             R<String> stringR = formatVerification(imageSuffix, null, suffixName, fileName);
-            return stringR.getCode().equals(errorCode) ? stringR : R.success(getTimeStr20() + "-" + fileName);
+            return stringR.getCode().equals(AliyunRType.FILE_UPLOAD_FAILED.getValue()) ? stringR : R.success(getTimeStr20() + "-" + fileName);
         } else if (PATH_MUSIC.equals(path)) {
             // 音频
             return formatVerification(musicSuffix, null, suffixName, fileName);
@@ -110,7 +106,7 @@ public class FileUploadUtil {
             return formatVerification(null, excludeFileSuffix, suffixName, fileName);
         } else {
             // 日志错误
-            return R.error(errorCode, "Path error");
+            return R.error(AliyunRType.FILE_UPLOAD_FAILED.getValue(), "Path error");
         }
     }
 
@@ -124,11 +120,11 @@ public class FileUploadUtil {
     public static R<String> formatVerification(List<String> suffixs, List<String> excludeFileSuffix, String suffixName, String fileName) {
         // 验证格式是否在范围内
         if (suffixs != null && !suffixs.contains(suffixName)) {
-            return R.error(errorCode, "格式错误,仅支持:" + suffixs.toString() + ", 当前格式为：" + suffixName);
+            return R.error(AliyunRType.FILE_UPLOAD_FAILED.getValue(), "格式错误,仅支持:" + suffixs.toString() + ", 当前格式为：" + suffixName);
         }
         // 验证格式是否禁止上传
         if (excludeFileSuffix != null && excludeFileSuffix.contains(suffixName)) {
-            return R.error(errorCode, "禁止上传文件格式:" + excludeFileSuffix.toString());
+            return R.error(AliyunRType.FILE_UPLOAD_FAILED.getValue(), "禁止上传文件格式:" + excludeFileSuffix.toString());
         }
         return R.success(fileName);
     }

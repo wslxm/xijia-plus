@@ -1,21 +1,21 @@
 package com.ws.ldy.basepay.manage.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.ws.ldy.basepay.manage.model.dto.EntPayDTO;
+import com.ws.ldy.basepay.manage.model.dto.PayOrderDTO;
+import com.ws.ldy.basepay.manage.model.dto.PayRefundDTO;
+import com.ws.ldy.basepay.manage.model.entity.PayRecord;
+import com.ws.ldy.basepay.manage.model.vo.PayOrderResultVO;
+import com.ws.ldy.basepay.manage.model.vo.PayRecordVO;
+import com.ws.ldy.basepay.manage.service.PayRecordService;
+import com.ws.ldy.basepay.manage.service.PayService;
+import com.ws.ldy.core.config.error.ErrorException;
+import com.ws.ldy.core.enums.Pay;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
 import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.core.utils.BigDecimalUtil;
 import com.ws.ldy.core.utils.id.IdUtil;
-import com.ws.ldy.core.config.error.ErrorException;
-import com.ws.ldy.core.enums.Pay;
-import com.ws.ldy.basepay.manage.model.dto.EntPayDTO;
-import com.ws.ldy.basepay.manage.model.dto.PayOrderDTO;
-import com.ws.ldy.basepay.manage.model.dto.PayRefundDTO;
-import com.ws.ldy.basepay.manage.model.vo.PayOrderResultVO;
-import com.ws.ldy.basepay.manage.model.vo.PayRecordVO;
-import com.ws.ldy.basepay.manage.model.entity.PayRecord;
-import com.ws.ldy.basepay.manage.service.PayRecordService;
-import com.ws.ldy.basepay.manage.service.PayService;
 import com.ws.ldy.starter.pay.config.WxPayProperties;
 import com.ws.ldy.starter.pay.model.dto.WxEntPayDTO;
 import com.ws.ldy.starter.pay.model.dto.WxPayOrderDTO;
@@ -24,6 +24,7 @@ import com.ws.ldy.starter.pay.model.vo.WxEntPayResultVO;
 import com.ws.ldy.starter.pay.model.vo.WxPayOrderNotifyResultVO;
 import com.ws.ldy.starter.pay.model.vo.WxPayOrderResultVO;
 import com.ws.ldy.starter.pay.model.vo.WxPayRefundResultVO;
+import com.ws.ldy.starter.pay.result.WxPayRType;
 import com.ws.ldy.starter.pay.service.XjEntPayService;
 import com.ws.ldy.starter.pay.service.XjWxPayService;
 import lombok.extern.slf4j.Slf4j;
@@ -134,14 +135,14 @@ public class WxPayServiceImpl implements PayService {
         PayRecord payRecord = payRecordService.findOrderByTradeNo(wxPayOrderNotifyResultVO.getOutTradeNo());
         if (payRecord == null) {
             log.info("微信支付回调：交易订单不存在,交易号={}", wxPayOrderNotifyResultVO.getOutTradeNo());
-            return R.error(RType.WX_PAY_FAILURE, null, "微信支付回调：交易订单不存在,交易号=" + wxPayOrderNotifyResultVO.getOutTradeNo());
+            return R.error(WxPayRType.WX_PAY_FAILURE, null, "微信支付回调：交易订单不存在,交易号=" + wxPayOrderNotifyResultVO.getOutTradeNo());
         }
         // 回调判重
         if (!payRecord.getPayState().equals(Pay.PayState.V0.getValue())
                 && !payRecord.getPayState().equals(Pay.PayState.V1.getValue())
         ) {
             log.info("微信支付回调：回调重复执行,交易号={}", wxPayOrderNotifyResultVO.getOutTradeNo());
-            return R.error(RType.WX_PAY_REPEAT, null, "微信支付回调：重复执行回调,交易号=" + wxPayOrderNotifyResultVO.getOutTradeNo());
+            return R.error(WxPayRType.WX_PAY_REPEAT, null, "微信支付回调：重复执行回调,交易号=" + wxPayOrderNotifyResultVO.getOutTradeNo());
         }
         // 记录回调数据(不管支付成功还是失败先记录支付回调信息,避免业务异常无迹可寻)
         String outTradeNo = wxPayOrderNotifyResultVO.getOutTradeNo();

@@ -4,9 +4,9 @@ import com.github.binarywang.wxpay.bean.entpay.EntPayRequest;
 import com.github.binarywang.wxpay.bean.entpay.EntPayResult;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.result.RType;
 import com.ws.ldy.starter.pay.model.dto.WxEntPayDTO;
 import com.ws.ldy.starter.pay.model.vo.WxEntPayResultVO;
+import com.ws.ldy.starter.pay.result.WxPayRType;
 import com.ws.ldy.starter.pay.service.XjEntPayService;
 import com.ws.ldy.starter.pay.wxApi.EntPayApi;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class XjEntPayServiceImpl implements XjEntPayService {
     @Override
     public R<WxEntPayResultVO> entPay(WxEntPayDTO wxEntPayDTO) {
         if (StringUtils.isBlank(wxEntPayDTO.getOpenid())) {
-            return R.error(RType.WX_PAY_NO_OPENID);
+            return R.error(WxPayRType.WX_PAY_NO_OPENID);
         }
         // 默认是否验证用户姓名
         if (StringUtils.isBlank(wxEntPayDTO.getCheckName())) {
@@ -62,8 +62,8 @@ public class XjEntPayServiceImpl implements XjEntPayService {
             BeanUtils.copyProperties(result, vo);
             // return vo;
         } catch (WxPayException e) {
-            return R.error(RType.WX_PAY_FAILURE.getValue(),
-                    RType.WX_PAY_FAILURE.getMsg()
+            return R.error(WxPayRType.WX_PAY_FAILURE.getValue(),
+                    WxPayRType.WX_PAY_FAILURE.getMsg()
                             + ":" + e.getReturnMsg()
                             + ":" + e.getCustomErrorMsg()
                             + ":" + e.getErrCodeDes());
@@ -75,8 +75,8 @@ public class XjEntPayServiceImpl implements XjEntPayService {
             } else if (!"SUCCESS".equals(vo.getResultCode())) {
                 log.info("业务结果错误,交易号={}", vo.getPartnerTradeNo());
             }
-            return R.error(RType.WX_PAY_FAILURE.getValue(),
-                    RType.WX_PAY_FAILURE.getMsg()
+            return R.error(WxPayRType.WX_PAY_FAILURE.getValue(),
+                    WxPayRType.WX_PAY_FAILURE.getMsg()
                             + ":" + vo.getReturnMsg()
                             + ":" + vo.getErrCodeDes());
         }

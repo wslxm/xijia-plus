@@ -3,6 +3,7 @@ package com.ws.ldy.starter.qiniu.oss.controller;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
 import com.ws.ldy.starter.qiniu.oss.model.vo.TokenAndUrlVO;
+import com.ws.ldy.starter.qiniu.oss.result.QiNiuRType;
 import com.ws.ldy.starter.qiniu.oss.util.FileUploadUtil;
 import com.ws.ldy.starter.qiniu.oss.util.QiNiuUtils;
 import io.swagger.annotations.Api;
@@ -59,7 +60,7 @@ public class QiNiuOssController {
             String url = qiNiuUtils.uploadStream(file.getInputStream(), fileName);
             return R.success(url);
         } catch (Exception e) {
-            return R.error(RType.FILE_UPLOAD_FAILED);
+            return R.error(QiNiuRType.FILE_UPLOAD_FAILED);
         }
     }
 }

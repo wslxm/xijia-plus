@@ -6,12 +6,12 @@ import cn.binarywang.wx.miniapp.bean.WxMaCodeLineColor;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaSubscribeMessage;
-import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.result.RType;
 import com.ws.ldy.core.config.error.ErrorException;
-import com.ws.ldy.starter.wechat.app.server.WxAppService;
+import com.ws.ldy.core.result.R;
 import com.ws.ldy.starter.wechat.app.model.WxMaJscode2SessionResultVO;
 import com.ws.ldy.starter.wechat.app.model.WxMaPhoneNumberInfoVO;
+import com.ws.ldy.starter.wechat.app.result.WxAppRType;
+import com.ws.ldy.starter.wechat.app.server.WxAppService;
 import com.ws.ldy.starter.wechat.app.util.Base64ImgUtils;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -118,7 +118,7 @@ public class WxAppServiceImpl implements WxAppService {
             return R.success(vo);
         } catch (WxErrorException e) {
             log.debug(e.toString());
-            throw new ErrorException(RType.WX_APP_ERROR.getValue(), e.getError().getErrorCode() + ":" + e.getError().getErrorMsg());
+            throw new ErrorException(WxAppRType.WX_APP_ERROR.getValue(), e.getError().getErrorCode() + ":" + e.getError().getErrorMsg());
         }
     }
 

@@ -37,7 +37,8 @@
 - 34、 优化在PropUtil 工具类 获取启动环境修改为ApplicationContext 中获取,防止读取错误
 - 35、 修复 阿里云oss download 下载文件文件名中文错误(2021/8/16)
 - 36、 优化 spring-boot-plus2-demo 相关代码及配置(2021/8/16)
- 
+- 37、 返回类R增加error方法,支持自定义返回枚举类,便于子模块重定义RType,需提供getValue/getMsg方法) (2021/8/17)
+- 38、 优化子模块返回枚举,增加AliyunRType/WxPayRType 等
  
 ## 版本：v-0.1.1
 -------- 2021-5-12

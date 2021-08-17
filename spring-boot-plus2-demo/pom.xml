@@ -18,7 +18,6 @@
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-base-admin</artifactId>
         </dependency>
-
         <!-- 第三方服务- 阿里云oss -->
         <dependency>
             <groupId>com.ws.ldy</groupId>

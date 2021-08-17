@@ -8,7 +8,6 @@ import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.bean.result.WxPayRefundResult;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.result.RType;
 import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.core.utils.id.IdUtil;
 import com.ws.ldy.starter.pay.model.dto.WxPayOrderDTO;
@@ -16,6 +15,7 @@ import com.ws.ldy.starter.pay.model.dto.WxPayRefundDTO;
 import com.ws.ldy.starter.pay.model.vo.WxPayOrderNotifyResultVO;
 import com.ws.ldy.starter.pay.model.vo.WxPayOrderResultVO;
 import com.ws.ldy.starter.pay.model.vo.WxPayRefundResultVO;
+import com.ws.ldy.starter.pay.result.WxPayRType;
 import com.ws.ldy.starter.pay.service.XjWxPayService;
 import com.ws.ldy.starter.pay.wxApi.WxPayApi;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +59,7 @@ public class XjWxPayServiceImpl implements XjWxPayService {
         }
         // JSAPI 支付时必须传递openId
         if (dto.getTradeType().equals("JSAPI") && StringUtils.isBlank(dto.getOpenid())) {
-            return R.error(RType.WX_PAY_NO_OPENID);
+            return R.error(WxPayRType.WX_PAY_NO_OPENID);
         }
         // 默认商品id(NATIVE支付必传)
         if (StringUtils.isBlank(dto.getProductId())) {
@@ -92,7 +92,7 @@ public class XjWxPayServiceImpl implements XjWxPayService {
             return R.success(vo);
         } catch (WxPayException e) {
             log.debug(e.toString());
-            return R.error(RType.WX_PAY_FAILURE.getValue(), RType.WX_PAY_FAILURE.getMsg()
+            return R.error(WxPayRType.WX_PAY_FAILURE.getValue(), WxPayRType.WX_PAY_FAILURE.getMsg()
                     + ":" + e.getReturnMsg()
                     + ":" + e.getErrCodeDes()
                     + ":" + e.getCustomErrorMsg()
@@ -124,8 +124,8 @@ public class XjWxPayServiceImpl implements XjWxPayService {
             return R.success(vo);
         } catch (WxPayException e) {
             log.debug(e.toString());
-            return R.error(RType.WX_PAY_FAILURE.getValue(),
-                    RType.WX_PAY_FAILURE.getMsg()
+            return R.error(WxPayRType.WX_PAY_FAILURE.getValue(),
+                    WxPayRType.WX_PAY_FAILURE.getMsg()
                             + ":" + e.getReturnMsg()
                             + ":" + e.getCustomErrorMsg()
                             + ":" + e.getErrCodeDes());

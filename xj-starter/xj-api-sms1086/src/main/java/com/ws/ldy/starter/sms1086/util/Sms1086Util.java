@@ -3,6 +3,7 @@ package com.ws.ldy.starter.sms1086.util;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
 import com.ws.ldy.starter.sms1086.model.SmsCode;
+import com.ws.ldy.starter.sms1086.result.Sms1086RType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -84,7 +85,7 @@ public class Sms1086Util {
         } catch (Exception e) {
             log.debug(e.toString());
         }
-        return R.error(RType.SMS_FAIL);
+        return R.error(Sms1086RType.SMS_FAIL);
     }
 
     //===================================================================================
@@ -145,7 +146,7 @@ public class Sms1086Util {
         } catch (Exception e) {
             log.debug(e.toString());
         }
-        return R.error(RType.SMS_FAIL);
+        return R.error(Sms1086RType.SMS_FAIL);
 
         // 模拟发送
 //        String code = "123456";
@@ -167,17 +168,17 @@ public class Sms1086Util {
     public R<String> verifySMS(String phone, String code) {
         boolean result = smsCache.containsKey(phone);
         if (!result) {
-            return R.error(RType.SMS_INVALID.getValue(), "验证码无效");
+            return R.error(Sms1086RType.SMS_INVALID.getValue(), "验证码无效");
         } else {
             SmsCode smsCode = smsCache.get(phone);
             if (!code.equals(smsCode.getCode())) {
                 //验证码无效
-                return R.error(RType.SMS_INVALID.getValue(), "验证码错误或已使用");
+                return R.error(Sms1086RType.SMS_INVALID.getValue(), "验证码错误或已使用");
             }
             Long expirationTime = smsCode.getTime();
             if (System.currentTimeMillis() > expirationTime) {
                 // 验证码过期
-                return R.error(RType.SMS_EXPIRED.getValue(), "验证码过期");
+                return R.error(Sms1086RType.SMS_EXPIRED.getValue(), "验证码过期");
             }
         }
         // 清除使用过的验证码

@@ -2,6 +2,7 @@ package com.ws.ldy.starter.qiniu.oss.util;
 
 
 import com.ws.ldy.core.result.R;
+import com.ws.ldy.starter.qiniu.oss.result.QiNiuRType;
 import lombok.SneakyThrows;
 
 import java.text.SimpleDateFormat;
@@ -25,7 +26,6 @@ public class FileUploadUtil {
     private final static String UPLOAD_PATH_EXCEL = "excel";  //  oss/file/excel  表格
     private final static String UPLOAD_PATH_PDF = "pdf";      //  oss/file/pdf    pdf文件
     private final static String UPLOAD_PATH_FILE = "file";    //  oss/file/file   任意文件
-    private final static Integer errorCode = 10002; //文件上传失败code
 
     /**
      * 上传路径文件格式判断
@@ -36,7 +36,7 @@ public class FileUploadUtil {
      */
     public static R<String> getPath(String filePath, String fileName) {
         if (filePath.lastIndexOf("/") != filePath.length() - 1) {
-            R.error(errorCode, "路径必须已[/]结尾");
+            R.error(QiNiuRType.FILE_UPLOAD_FAILED.getValue(), "路径必须已[/]结尾");
         }
         // 目录开头
         String path = filePath.split("/")[0];
@@ -47,7 +47,7 @@ public class FileUploadUtil {
              * 图片 （ 图片重命名- (17位时间+3位随机数+原文件名称）-- 生成20位前缀
              */
             if (!"jpg".equals(suffixName) && !"png".equals(suffixName) && !"jpeg".equals(suffixName) && !"gif".equals(suffixName)) {
-                R.error(errorCode, "图片仅支持上传-[jpg,png,jpeg,jif]");
+                R.error(QiNiuRType.FILE_UPLOAD_FAILED.getValue(), "图片仅支持上传-[jpg,png,jpeg,jif]");
             }
             fileName = getTimeStr20() + "-" + fileName;
         } else if (UPLOAD_PATH_MUSIC.equals(path)) {
@@ -55,35 +55,35 @@ public class FileUploadUtil {
              * 音频
              */
             if (!"mp3".equals(suffixName)) {
-                R.error(errorCode, "音乐仅支持上传-[mp3]");
+                R.error(QiNiuRType.FILE_UPLOAD_FAILED.getValue(), "音乐仅支持上传-[mp3]");
             }
         } else if (UPLOAD_PATH_VIDEO.equals(path)) {
             /**
              * 视频
              */
             if (!"mp4".equals(suffixName)) {
-                R.error(errorCode, "视频仅支持上传-[mp4]");
+                R.error(QiNiuRType.FILE_UPLOAD_FAILED.getValue(), "视频仅支持上传-[mp4]");
             }
         } else if (UPLOAD_PATH_EXCEL.equals(path)) {
             /**
              * excel
              */
             if (!"xlsx".equals(suffixName) && !"xls".equals(suffixName)) {
-                R.error(errorCode, "EXCEL仅支持上传-[xlxs,xlx]");
+                R.error(QiNiuRType.FILE_UPLOAD_FAILED.getValue(), "EXCEL仅支持上传-[xlxs,xlx]");
             }
         } else if (UPLOAD_PATH_PDF.equals(path)) {
             /**
              * pdf
              */
             if (!"pdf".equals(suffixName)) {
-                R.error(errorCode, "PDF仅支持上传-[pdf]");
+                R.error(QiNiuRType.FILE_UPLOAD_FAILED.getValue(), "PDF仅支持上传-[pdf]");
             }
         } else if (UPLOAD_PATH_FILE.equals(path)) {
             /**
              * 任意文件，不做限制
              */
         } else {
-            R.error(errorCode, "路径错误");
+            R.error(QiNiuRType.FILE_UPLOAD_FAILED.getValue(), "路径错误");
         }
         // 空格+逗号+括号+一些特殊符号 统一转为_,部分地方无法解析，如逗号分隔url, editor 编辑器, URL请求空格问题
         fileName = fileName

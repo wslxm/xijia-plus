@@ -3,6 +3,7 @@ package com.ws.ldy.starter.aliyun.oss.controller;
 import com.aliyun.oss.model.OSSObjectSummary;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
+import com.ws.ldy.starter.aliyun.oss.result.AliyunRType;
 import com.ws.ldy.starter.aliyun.oss.util.FileDownloadUtil;
 import com.ws.ldy.starter.aliyun.oss.util.FileUploadUtil;
 import com.ws.ldy.starter.aliyun.oss.util.OSSUtil;
@@ -62,7 +63,7 @@ public class AliOssController {
         // 验证文件格式及路径，并获取文件上传路径, file.getOriginalFilename()=原文件名
         R<String> rFileName = FileUploadUtil.getPath(filePath, file.getOriginalFilename());
         if (!rFileName.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-            return R.error(RType.FILE_UPLOAD_FAILED.getValue(), rFileName.getMsg());
+            return R.error(AliyunRType.FILE_UPLOAD_FAILED.getValue(), rFileName.getMsg());
         }
         String fileName = rFileName.getData();
         try {
@@ -72,7 +73,7 @@ public class AliOssController {
             String path = ossUtil.upload(filePath, fileName, inputStream);
             return R.success(path);
         } catch (Exception e) {
-            return R.error(RType.FILE_UPLOAD_FAILED);
+            return R.error(AliyunRType.FILE_UPLOAD_FAILED);
         }
     }
 
