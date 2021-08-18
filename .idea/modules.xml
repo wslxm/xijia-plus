@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/spring-boot-plus2.iml" filepath="$PROJECT_DIR$/.idea/spring-boot-plus2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-plus2-demo/spring-boot-plus2-demo.iml" filepath="$PROJECT_DIR$/spring-boot-plus2-demo/spring-boot-plus2-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-api-aliyun-oss/xj-api-aliyun-oss.iml" filepath="$PROJECT_DIR$/xj-starter/xj-api-aliyun-oss/xj-api-aliyun-oss.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-api-aliyun-sms/xj-api-aliyun-sms.iml" filepath="$PROJECT_DIR$/xj-starter/xj-api-aliyun-sms/xj-api-aliyun-sms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-api-baidu/xj-api-baidu.iml" filepath="$PROJECT_DIR$/xj-starter/xj-api-baidu/xj-api-baidu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-api-kuaidi-kuaidi100/xj-api-kuaidi-kuaidi100.iml" filepath="$PROJECT_DIR$/xj-starter/xj-api-kuaidi-kuaidi100/xj-api-kuaidi-kuaidi100.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-api-kuaidi-sf/xj-api-kuaidi-sf.iml" filepath="$PROJECT_DIR$/xj-starter/xj-api-kuaidi-sf/xj-api-kuaidi-sf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-api-qiniu-oss/xj-api-qiniu-oss.iml" filepath="$PROJECT_DIR$/xj-starter/xj-api-qiniu-oss/xj-api-qiniu-oss.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-api-qq-open/xj-api-qq-open.iml" filepath="$PROJECT_DIR$/xj-starter/xj-api-qq-open/xj-api-qq-open.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-api-sms1086/xj-api-sms1086.iml" filepath="$PROJECT_DIR$/xj-starter/xj-api-sms1086/xj-api-sms1086.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-api-wx-app/xj-api-wx-app.iml" filepath="$PROJECT_DIR$/xj-starter/xj-api-wx-app/xj-api-wx-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-api-wx-mp/xj-api-wx-mp.iml" filepath="$PROJECT_DIR$/xj-starter/xj-api-wx-mp/xj-api-wx-mp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-api-wx-open/xj-api-wx-open.iml" filepath="$PROJECT_DIR$/xj-starter/xj-api-wx-open/xj-api-wx-open.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-api-wx-pay/xj-api-wx-pay.iml" filepath="$PROJECT_DIR$/xj-starter/xj-api-wx-pay/xj-api-wx-pay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-base/xj-base.iml" filepath="$PROJECT_DIR$/xj-base/xj-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-base/xj-base-admin/xj-base-admin.iml" filepath="$PROJECT_DIR$/xj-base/xj-base-admin/xj-base-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-base/xj-base-admin-ui/xj-base-admin-ui.iml" filepath="$PROJECT_DIR$/xj-base/xj-base-admin-ui/xj-base-admin-ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-base/xj-base-core/xj-base-core.iml" filepath="$PROJECT_DIR$/xj-base/xj-base-core/xj-base-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-base/xj-base-pay/xj-base-pay.iml" filepath="$PROJECT_DIR$/xj-base/xj-base-pay/xj-base-pay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-doc-swagger2/xj-doc-swagger2.iml" filepath="$PROJECT_DIR$/xj-starter/xj-doc-swagger2/xj-doc-swagger2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-fw-boot-admin/xj-fw-boot-admin.iml" filepath="$PROJECT_DIR$/xj-starter/xj-fw-boot-admin/xj-fw-boot-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-fw-redis/xj-fw-redis.iml" filepath="$PROJECT_DIR$/xj-starter/xj-fw-redis/xj-fw-redis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-fw-websocket/xj-fw-websocket.iml" filepath="$PROJECT_DIR$/xj-starter/xj-fw-websocket/xj-fw-websocket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xj-starter/xj-starter.iml" filepath="$PROJECT_DIR$/xj-starter/xj-starter.iml" />
+    </modules>
+  </component>
+</project>
