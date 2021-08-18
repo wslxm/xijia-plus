@@ -1,8 +1,8 @@
 package com.ws.ldy.core.config.error;
 
 
-import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
+import com.ws.ldy.core.utils.EnumUtil;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -34,14 +34,14 @@ public class ErrorException extends RuntimeException {
     }
 
     //枚举传递（建议先定义枚举）
-    public ErrorException(RType RType) {
-        this.code = RType.getValue();
-        this.msg = RType.getMsg();
+    public ErrorException(RType rType) {
+        this.code = rType.getValue();
+        this.msg = rType.getMsg();
     }
 
     //枚举传递（建议先定义枚举）
     public <E> ErrorException(E e) {
-        this.code = R.getEnumValue(e);
-        this.msg = R.getEnumMsg(e);
+        this.code = EnumUtil.getValue(e);
+        this.msg = EnumUtil.getMsg(e);
     }
 }
