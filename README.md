@@ -6,7 +6,7 @@ QQ群：1037211892
 
 项目宗旨：只为急速开发而生, 主要针对于中小型的项目快速开发
 
-这是开发一个基于spring-boot + mybatis-plus+ druid+ mysql8 + layui + swagger2 的后台快速开发骨架，后台采用级简化代码，
+这是开发一个基于spring-boot2.2.0 + mybatis-plus3.3.1 + druid + mysql8 + layui2.5.6 + swagger2.9.2 的后台快速开发骨架，后台采用级简化代码，
 所有基本操作无需写任何的dao，service层代码，包括(增删改查，及多添加/动态修改，多删除，分页/条件/排序查询,添加，修改，展示的html代码
 
 
@@ -20,16 +20,17 @@ QQ群：1037211892
  [http://xijia.plus/help](http://xijia.plus/help) 
 
 #### 最新说明
-- 当前主分支为v-0.1.1 的分支最后更新代码,可稳定运行(2021-6-2更新)
+- 当前主分支为v-0.1.2 的分支最后更新代码,可稳定运行(2021-8-18更新)
 - 项目于0.0.9+模块化，模块化目的:减轻项目大小,按需加载
 - 更新日志文档(2021-6-24更新): [https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md) 
+
 
 #### 各版本目录结构
 
 - 0.0.8版本(2021-1-14更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.0.8 版本及之前目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/0.0.8 版本及之前目录结构.md) 
 - 0.0.9-0.1.0 版本(2021-3-05更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.0.9- 0.1.0  版本目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/0.0.9-%200.1.0%20%20%E7%89%88%E6%9C%AC%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.md) 
 - 0.1.1 版本(2021-6-24更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.1版本目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.1版本目录结构.md) 
-- 0.1.1 版本(2021-7-29更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.2版本目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.2版本目录结构.md) 
+- 0.1.2 版本(2021-8-18更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.2版本目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.2版本目录结构.md) 
 
 
 #### 更多
@@ -51,13 +52,16 @@ QQ群：1037211892
 
 #### 增强功能
 - 1、代码生成/代码生成在线预览   
-- 2、操作记录，请求响应完整记录请求响应数据
-- 3、黑名单管理, 一键拉黑非法请求
-- 4、banner 管理, 快速进行运营推广
-- 5、全局配置，让页面数据动起来，不用因为修改页面内容而去改代码的难题
-- 6、帮助中心, 提供文档添加，查看功能
+- 2、角色/菜单/权限管理 
+- 3、操作记录，请求响应完整记录请求响应数据
+- 4、黑名单管理, 一键拉黑非法请求
+- 5、banner 管理, 快速进行运营推广
+- 6、全局配置，让页面数据动起来，不用因为修改页面内容而去改代码的难题
+- 7、请求日志持久化
+
 
 #### 第三方API功能
+
 - 1、集成 springBootAdmn 系统监控
 - 2、集成 knife4j 接口文档,可生成离线html，word, pdf 文档， 服务地址：http://localhost/doc.html，
 - 3、集成 swagger2 接口文档,地址：http://localhost/swagger-ui.html
@@ -87,7 +91,7 @@ QQ群：1037211892
 - 1、拉取代码
 - 2、创建数据库[spring-boot-plus2]
 - 3、导入跟目录下的 sql 目录下对应的最新版本 sql, 注意主分支对应的版本，历史sql版本在old下，非sql/old下的sql,如 sql/file 如当前版本有使用到也一起导入到数据库
-- 4、启动项目
+- 4、启动demo项目
 
 程序找不到包处理方法：https://blog.csdn.net/weixin_43173021/article/details/108280524
 
