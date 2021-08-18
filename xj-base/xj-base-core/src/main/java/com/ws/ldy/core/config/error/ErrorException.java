@@ -1,6 +1,7 @@
 package com.ws.ldy.core.config.error;
 
 
+import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,5 +37,11 @@ public class ErrorException extends RuntimeException {
     public ErrorException(RType RType) {
         this.code = RType.getValue();
         this.msg = RType.getMsg();
+    }
+
+    //枚举传递（建议先定义枚举）
+    public <E> ErrorException(E e) {
+        this.code = R.getEnumValue(e);
+        this.msg = R.getEnumMsg(e);
     }
 }

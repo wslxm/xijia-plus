@@ -347,7 +347,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     private String generateEnumJava(AdminDictionaryVO dict) {
 
         StringBuilder sb = new StringBuilder();
-        sb.append("package com.ws.ldy.core.enums;;\n\n");
+        sb.append("package com.ws.ldy.core.enums;;\n");
         sb.append("\nimport com.baomidou.mybatisplus.core.enums.IEnum;");
         sb.append("\nimport lombok.AllArgsConstructor;");
         sb.append("\nimport lombok.Getter;\n");
@@ -398,7 +398,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     private String generateEnumJava2(AdminDictionaryVO dict) {
         String code = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dict.getCode());
         StringBuilder sb = new StringBuilder();
-        sb.append("package com.ws.ldy.core.enums;\n\n");
+        sb.append("package com.ws.ldy.core.enums;\n");
         sb.append("\nimport com.baomidou.mybatisplus.core.enums.IEnum;");
         sb.append("\nimport lombok.AllArgsConstructor;");
         sb.append("\nimport lombok.Getter;\n");

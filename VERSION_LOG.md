@@ -6,7 +6,7 @@
 - 3、xj-base-pay 支付模块增加支持微信扫码支付, 依赖xj-api-wx-pay模块，具体看 com.ws.ldy.modules.sys.pay.controller.PayTestController 中的扫码支付测试接口
 - 4、代码生成优化,生成的各种类分离, mapperXml 增加自动生成的sql方法xjFindId(id查询)xjFindList(全部查询)xjInsert(动态增加)xjUpdate(动态编辑)xjDelete(删除)
 - 5、xj-api-wx-open 增加 微信扫码登录功能
-- 6、修复查询jvm信息在linux 获取内存信息 单位为 k 单位时的异常 
+- 6、修复查询 jvm 信息在 linux 获取内存信息 单位为 k 单位时的异常 
 - 7、修复AdminUserController 分页查询id 参数提供错误
 - 8、移除 xj-base-util 和 xj-base-result 板块, 相关代码已移动到 xj-base-core 模块中(2021-7-28)
 - 9、移除 xj-doc-knife4j 板块, 在 xj-doc-swagger2 模块中默认加载 knife4j, 不需要需手动注释 或 引入时进行排除(2021-7-28)
@@ -16,18 +16,18 @@
 - 13、优化子模块管理, 子模块使用 dependencyManagement 管理版本,使用时不在需要版本号
 - 14、优化 JvmCache 缓存类 为 通用缓存, 并处理了原缓存相关数据，添加缓存key枚举对象CacheKey(2021/7/30)
 - 15、优化 JWT 生成工具类, 删除了JwtUser中部分字段(2021/7/31)
-- 16、优化 SysBlacklist黑名单缓存数据到 JvmCache 缓存类中,JvmCache移动到xj-base-core管理,子模块的CacheKey缓存key自行管理
+- 16、优化 SysBlacklist 黑名单缓存数据到 JvmCache 缓存类中,JvmCache移动到xj-base-core管理,子模块的CacheKey缓存key自行管理
 - 17、增加 PropUtil 工具类,可直接读取yml 或 properties 配置文件
 - 18、增加 CacheUtil 缓存类, JvmCache+RedisCache(新增)类 ，改为被 CacheUtil调用
 - 19、缓存动态修改, 集成了redis默认使用redis缓存，没有集成则使用jvm缓存, 方便灵活切换单服务 或 服务集群操作
 - 20、优化 ExcelUtil 工具,调用时可配置宽/高, 可配置是否需要表头行,字段行,描叙行
 - 21、优化 xj-fw-redis 中的同步锁,和任务锁
-- 22、优化消息查询XjAdminMsg 下的findPage 查询增加查询条件消息类型和排除类型
+- 22、优化消息查询 XjAdminMsg 下的 findPage 查询增加查询条件消息类型和排除类型
 - 23、优化阿里云文件上传中文/特殊url字符处理,让中文可以正常展示
 - 24、重命名 js文件中获取url测试 getParam 方法为 getUrlParam (2021/8/6)
 - 25、移除数据库自动备份功能(2021/8/6)
-- 26、优化目录结构, 移除models,增加manage为管理端接口(2021/8/6)
-- 27、优化目录结构, xj-starter 下所有包名更新为 xxx.xxx.xxx.starter.自定义模块含义名称(2021/8/6)
+- 26、优化目录结构, 移除 models,增加manage为管理端接口(2021/8/6)
+- 27、优化目录结构,修改 xj-third 为 xj-starter, 并且xj-starter下的所有包名更新为 xxx.xxx.xxx.starter.自定义模块含义名称(2021/8/6)
 - 28、优化pom部分依赖关系,处理相同依赖版本不一致的jar(2021/8/6)
 - 29、增加 spring-boot-plus2-demo，删除 xj-server 模块(2021/8/6)
 - 30、修改 xj-base-core 模块 +xj-base-pay模块包名为 core 和 basepay(2021/8/6)
@@ -39,6 +39,7 @@
 - 36、 优化 spring-boot-plus2-demo 相关代码及配置(2021/8/16)
 - 37、 返回类R增加error方法,支持自定义返回枚举类,便于子模块重定义RType,需提供getValue/getMsg方法) (2021/8/17)
 - 38、 优化子模块返回枚举,增加AliyunRType/WxPayRType 等
+- 39、 修复查询 jvm 信息在 linux-docker 获取内存信息 单位为 Ki/Gi/Mi 单位时的异常 
  
 ## 版本：v-0.1.1
 -------- 2021-5-12

@@ -1,15 +1,15 @@
-## 生产环境
+## 本地测试环境
 server:
-  port: 9048
+  port: 9047
 
 spring:
   autoconfigure:
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://xijia.plus/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
+    url: jdbc:mysql://127.0.0.1/spring-boot-plus2-1?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
     username: root
-    password: root123456
+    password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
 
 aliyun:
