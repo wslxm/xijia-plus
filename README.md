@@ -27,7 +27,7 @@ QQ群：1037211892
 #### 各版本目录结构
 
 - 0.0.8版本(2021-1-14更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.0.8 版本及之前目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/0.0.8 版本及之前目录结构.md) 
-- 0.0.9-0.1.0 版本(2021-3-05更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.0.9- 0.1.0  版本目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.0.9- 0.1.0  版本目录结构.md) 
+- 0.0.9-0.1.0 版本(2021-3-05更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.0.9- 0.1.0  版本目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/0.0.9-%200.1.0%20%20%E7%89%88%E6%9C%AC%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.md) 
 - 0.1.1 版本(2021-6-24更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.1版本目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.1版本目录结构.md) 
 - 0.1.1 版本(2021-7-29更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.2版本目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.2版本目录结构.md) 
 
