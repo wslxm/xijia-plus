@@ -1,6 +1,6 @@
 package com.ws.ldy.manage.xj.model.dto;
 
-import com.ws.ldy.core.base.model.BaseDto;
+import com.ws.ldy.core.base.model.Convert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.Range;
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "XjAdminBannerDTO 对象", description = "banner表")
-public class XjAdminBannerDTO extends BaseDto {
+public class XjAdminBannerDTO extends Convert {
 
     private static final long serialVersionUID = 0L;
 

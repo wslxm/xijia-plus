@@ -1,14 +1,15 @@
 package com.ws.ldy.config.aspect.gateway;
 
 
+import com.ws.ldy.common.cache.AuthCacheKeyUtil;
 import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.core.auth.entity.JwtUser;
 import com.ws.ldy.core.auth.util.JwtUtil;
 import com.ws.ldy.core.cache.CacheUtil;
-import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.result.RType;
 import com.ws.ldy.core.enums.Admin;
 import com.ws.ldy.core.enums.Base;
+import com.ws.ldy.core.result.R;
+import com.ws.ldy.core.result.RType;
 import com.ws.ldy.manage.admin.model.entity.AdminAuthority;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,11 +73,12 @@ public class SysAuth {
         }
         // 2、是否被权限管理, 没有直接放行
         Map<String, AdminAuthority> authMap = CacheUtil.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
-        if (!authMap.containsKey(uri)) {
+        String cacheKey =  AuthCacheKeyUtil.getAuthCacheKey (request.getMethod(), request.getRequestURI());
+        if (!authMap.containsKey(cacheKey)) {
             return R.success(null);
         }
         // 3、接口是否禁用，是直接返回禁用信息
-        AdminAuthority adminAuthority = authMap.get(uri);
+        AdminAuthority adminAuthority = authMap.get(cacheKey);
         if (adminAuthority.getDisable().equals(Base.Disable.V1.getValue())) {
             //禁用
             return R.error(RType.AUTHORITY_DISABLE);
@@ -113,11 +115,14 @@ public class SysAuth {
             }
             // 判断权限
             JwtUser jwtUser = result.getData();
-            if (jwtUser.getAuthList() == null || !jwtUser.getAuthList().contains(request.getRequestURI())) {
+            if (jwtUser.getAuthList() == null || !jwtUser.getAuthList().contains(cacheKey)) {
                 return R.error(RType.AUTHORITY_NO_PERMISSION);
             }
             return R.success(jwtUser);
         }
         return R.success(null);
     }
+
+
+
 }

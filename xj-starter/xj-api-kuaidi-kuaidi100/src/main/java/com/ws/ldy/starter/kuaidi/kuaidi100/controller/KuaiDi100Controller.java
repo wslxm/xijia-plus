@@ -24,7 +24,7 @@ public class KuaiDi100Controller {
 //        return R.success(kuaiDi100Service.findKuaiDiCode(orderId));
 //    }
 
-    @ApiOperation(value = "根据快递单号查询物流信息", notes = "" +
+    @ApiOperation(value = "根据快递单号查询物流信息" +
             "\r\n 1、自动识别单号" +
             "\r\n 2、返回参数查看：https://api.kuaidi100.com/help/doc/?code=5f0ffb5ebc8da837cbd8aefc&openKey=%E5%AE%9E%E6%97%B6%E5%BF%AB%E9%80%92%E6%9F%A5%E8%AF%A2#part2" +
             "\r\n 3、测试单号：75429527532676" +

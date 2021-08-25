@@ -38,7 +38,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
 
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
-    @ApiOperation(value = "分页查询", notes = "")
+    @ApiOperation(value = "分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
             @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),
@@ -54,7 +54,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
 
 
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
-    @ApiOperation(value = "查询所有", notes = "")
+    @ApiOperation(value = "查询所有")
     public R<List<AdminRoleVO>> findList() {
         List<AdminRole> roles = baseService.list();
         return R.successFind(BeanDtoVoUtil.listVo(roles, AdminRoleVO.class));
@@ -62,7 +62,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    @ApiOperation(value = "添加", notes = "")
+    @ApiOperation(value = "添加")
     public R<Boolean> insert(@RequestBody AdminRoleDTO dto) {
         if (StringUtils.isNotBlank(dto.getId())) {
             throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
@@ -72,7 +72,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
-    @ApiOperation(value = "ID编辑", notes = "")
+    @ApiOperation(value = "ID编辑")
     public R<Boolean> upd(@RequestBody AdminRoleDTO dto) {
         if (StringUtils.isBlank(dto.getId())) {
             throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
@@ -82,7 +82,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
 
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    @ApiOperation(value = "ID删除", notes = "")
+    @ApiOperation(value = "ID删除")
     public R<Boolean> del(@RequestParam String id) {
         return R.successDelete(baseService.del(id));
     }
@@ -102,7 +102,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
 
 
     @RequestMapping(value = "/updUserRole", method = RequestMethod.PUT)
-    @ApiOperation(value = "用户的角色分配", notes = "")
+    @ApiOperation(value = "用户的角色分配")
     @Deprecated
     public R<Boolean> updUserRole(@RequestBody UserRoleDTO dto) {
         if (baseService.updUserRole(dto)) {
@@ -113,7 +113,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     }
 
     @RequestMapping(value = "/updRoleAuth", method = RequestMethod.PUT)
-    @ApiOperation(value = "角色的URL权限分配", notes = "")
+    @ApiOperation(value = "角色的URL权限分配")
     public R<Boolean> updRoleAuth(@RequestBody RoleAuthDTO dto) {
         if (baseService.roleUrlAuth(dto)) {
             return R.successUpdate(true);
@@ -123,14 +123,14 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     }
 
     @RequestMapping(value = "/updRoleMenu", method = RequestMethod.PUT)
-    @ApiOperation(value = "角色的菜单分配", notes = "")
+    @ApiOperation(value = "角色的菜单分配")
     public R<Boolean> updRoleMenu(@RequestBody RoleMenuDTO dto) {
         // 菜单每次都是重新请求接口获取的,不用做任何配置
         return R.successUpdate(baseService.roleMenuAuth(dto));
     }
 
     @RequestMapping(value = "/updRoleAuthAll", method = RequestMethod.PUT)
-    @ApiOperation(value = "所有角色拥有所有权限", notes = "")
+    @ApiOperation(value = "所有角色拥有所有权限")
     public R<Boolean> updRoleAuthAll() {
         return R.successUpdate(baseService.roleAuthAll());
     }

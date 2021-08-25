@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
 <head>
     <meta charset="utf-8">
     <title>用户--添加</title>
@@ -13,8 +13,8 @@
     <script src="/manage/js/app.js"></script>
 </head>
 <style>
-    .layui-input-inline{
-        width: 80%!important;
+    .layui-input-inline {
+        width: 80% !important;
     }
 </style>
 <body>
@@ -33,24 +33,24 @@
             <input type="text" id="dbName" name="dbName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
-<!--    <div class="layui-form-item">-->
-<!--        <label class="layui-form-label layui-required">连接地址</label>-->
-<!--        <div class="layui-input-inline">-->
-<!--            <input type="text" id="dbUrl" name="dbUrl" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="layui-form-item">-->
-<!--        <label class="layui-form-label layui-required">账号</label>-->
-<!--        <div class="layui-input-inline">-->
-<!--            <input type="text" id="dbUsername" name="dbUsername" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="layui-form-item">-->
-<!--        <label class="layui-form-label layui-required">密码</label>-->
-<!--        <div class="layui-input-inline">-->
-<!--            <input type="text" id="dbPassword" name="dbPassword" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    <div class="layui-form-item">-->
+    <!--        <label class="layui-form-label layui-required">连接地址</label>-->
+    <!--        <div class="layui-input-inline">-->
+    <!--            <input type="text" id="dbUrl" name="dbUrl" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="layui-form-item">-->
+    <!--        <label class="layui-form-label layui-required">账号</label>-->
+    <!--        <div class="layui-input-inline">-->
+    <!--            <input type="text" id="dbUsername" name="dbUsername" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="layui-form-item">-->
+    <!--        <label class="layui-form-label layui-required">密码</label>-->
+    <!--        <div class="layui-input-inline">-->
+    <!--            <input type="text" id="dbPassword" name="dbPassword" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">-->
+    <!--        </div>-->
+    <!--    </div>-->
     <div class="layui-form-item">
         <label class="layui-form-label">表前缀</label>
         <div class="layui-input-inline">
@@ -97,28 +97,26 @@
 <script>
 
     $(function () {
-           <!-- 父页面的值,赋值到当前页 -->
-          
-         $('#dbTitle').val(parent.data.dbTitle);
-         $('#dbName').val(parent.data.dbName);
-         $('#dbUrl').val(parent.data.dbUrl);
-         $('#dbUsername').val(parent.data.dbUsername);
-         $('#dbPassword').val(parent.data.dbPassword);
-         $('#dbPrefix').val(parent.data.dbPrefix);
-         $('#dbFieldPrefix').val(parent.data.dbFieldPrefix);
-         $('#dbGeneralField').val(parent.data.dbGeneralField);
-         $('#packPath').val(parent.data.packPath);
-         $('#modules').val(parent.data.modules);
-         $('#modulesName').val(parent.data.modulesName);
-     });
+        <!-- 父页面的值,赋值到当前页 -->
+
+        $('#dbTitle').val(parent.data.dbTitle);
+        $('#dbName').val(parent.data.dbName);
+        $('#dbUrl').val(parent.data.dbUrl);
+        $('#dbUsername').val(parent.data.dbUsername);
+        $('#dbPassword').val(parent.data.dbPassword);
+        $('#dbPrefix').val(parent.data.dbPrefix);
+        $('#dbFieldPrefix').val(parent.data.dbFieldPrefix);
+        $('#dbGeneralField').val(parent.data.dbGeneralField);
+        $('#packPath').val(parent.data.packPath);
+        $('#modules').val(parent.data.modules);
+        $('#modulesName').val(parent.data.modulesName);
+    });
 
 
     layui.use(['form'], function () {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            data.field.id = parent.data.id;
-            //data.field.id = parent.data.id;
-            let result = Ajax.put(path + "/admin/adminDatasource/upd", data.field);
+            let result = Ajax.put(parent.datasourceUrl + "/" + parent.data.id, data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

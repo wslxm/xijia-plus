@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.*;
 public class XjAdminBannerController extends BaseController<XjAdminBannerService> {
 
     @GetMapping(value = "/list")
-    @ApiOperation(value = "列表查询")
+    @ApiOperation(value = "列表/分页查询")
     public R<IPage<XjAdminBannerVO>> list(@ModelAttribute @Validated XjAdminBannerQuery query) {
         LambdaQueryWrapper<XjAdminBanner> queryWrapper = new LambdaQueryWrapper<XjAdminBanner>()
                 .orderByAsc(XjAdminBanner::getPosition)
@@ -45,8 +45,7 @@ public class XjAdminBannerController extends BaseController<XjAdminBannerService
         if (query.getIsExport()) {
             // excel
             ExcelUtil.exportExcelDownload(BeanDtoVoUtil.listVo(baseService.list(queryWrapper), XjAdminBannerVO.class), response);
-            return null;
-        } else if (query.getCurrent() <= 0) {
+        } else if (query.getCurrent() > 0) {
             // list
             IPage<XjAdminBannerVO> page = new Page<>();
             page = page.setRecords(BeanDtoVoUtil.listVo(baseService.list(queryWrapper), XjAdminBannerVO.class));
@@ -56,6 +55,13 @@ public class XjAdminBannerController extends BaseController<XjAdminBannerService
             IPage<XjAdminBannerVO> page = BeanDtoVoUtil.pageVo(baseService.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminBannerVO.class);
             return R.successFind(page);
         }
+        return null;
+    }
+
+    @GetMapping(value = "/{id}")
+    @ApiOperation(value = "ID查询")
+    public R<XjAdminBannerVO> findId(@PathVariable String id) {
+        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(id), XjAdminBannerVO.class));
     }
 
 
@@ -82,4 +88,10 @@ public class XjAdminBannerController extends BaseController<XjAdminBannerService
         return R.successDelete(baseService.removeById(id));
     }
 
+
+//    @DeleteMapping(value = "/delByIds")
+//    @ApiOperation(value = "批量ID删除")
+//    public R<Boolean> delByIds(@RequestBody List<String> ids) {
+//        return R.successDelete(baseService.removeByIds(ids));
+//    }
 }

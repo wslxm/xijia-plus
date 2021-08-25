@@ -23,7 +23,7 @@
 
 <script>
     //登录页加密
-    let config = Ajax.get(path + "/admin/xj/adminConfig/findByCode?code=is_login_token");
+    let config = Ajax.get(path + "/admin/xj/config/findByCode?code=is_login_token");
     if (config.data != null) {
         if (config.data.content !== "false") {
             let code = prompt("请输入访问令牌：");
@@ -166,19 +166,19 @@
         });
 
         // 项目名
-        let res = Ajax.get(path + "/admin/xj/adminConfig/findByCode?code=entry_name");
+        let res = Ajax.get(path + "/admin/xj/config/findByCode?code=entry_name");
         $("#entry_name").html(res.data.content);
 
         // 背景图
-        res = Ajax.get(path + "/admin/xj/adminConfig/findByCode?code=login_bg_img");
+        res = Ajax.get(path + "/admin/xj/config/findByCode?code=login_bg_img");
         $(".xijiaLoginDiv").css("background", "url(" + res.data.content + ")");
 
         // 备案号：蜀ICP备19022468号-1
-        res = Ajax.get(path + "/admin/xj/adminConfig/findByCode?code=beian");
+        res = Ajax.get(path + "/admin/xj/config/findByCode?code=beian");
         $("#beian").html(res.data.content);
 
         // 项目描叙
-        res = Ajax.get(path + "/admin/xj/adminConfig/findByCode?code=project_desc");
+        res = Ajax.get(path + "/admin/xj/config/findByCode?code=project_desc");
         $("#project_desc").html(res.data.content);
 
         // 初始化操作

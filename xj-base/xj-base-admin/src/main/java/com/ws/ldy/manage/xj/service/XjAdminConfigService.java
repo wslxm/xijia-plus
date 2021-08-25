@@ -20,6 +20,6 @@ public interface XjAdminConfigService extends IService<XjAdminConfig> {
 
     boolean  insert(XjAdminConfigDTO dto);
 
-    boolean  upd(XjAdminConfigDTO dto);
+    boolean  upd(String id,XjAdminConfigDTO dto);
 }
 

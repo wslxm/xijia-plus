@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<html>
 <head>
     <meta charset="utf-8">
     <title>代码生成数据源维护表</title>
@@ -15,7 +15,7 @@
 </head>
 <body>
 <style>
-    .layui-inline{
+    .layui-inline {
         width: 260px;
     }
 </style>
@@ -67,13 +67,14 @@
 <script>
 
     // 接口
-    let adminDatasourceFindPage = path + "/admin/adminDatasource/findPage";        //查询-分页
-    let adminDatasourceDel = path + "/admin/adminDatasource/del";                  //删除
-    let adminDatasourceUpdPwd = path + "/admin/adminDatasource/updPwd";               //修改密码
+    var datasourceUrl = path + "/admin/datasource";
+    let datasourceListUrl = path + "/admin/datasource/list";
+    let datasourceIdUpdPwdUrl = path + "/admin/datasource/{id}/updPwd";       // 修改密码
+    var datasourceDataSourceTest = path + "/admin/datasource/dataSourceTest";  // 测试连接
 
     // 路由
-    let adminDatasourcePageAdd =  "/page/manage_gc_datasource_datasourceAdd";   //添加弹出
-    let adminDatasourcePageUpd =  "/page/manage_gc_datasource_datasourceUpd";   //编辑弹出
+    let adminDatasourcePageAdd = "/page/manage_gc_datasource_datasourceAdd";   //添加弹出
+    let adminDatasourcePageUpd = "/page/manage_gc_datasource_datasourceUpd";   //编辑弹出
 
     let table;     // 数据表格组件
     let laypage;   // 分页组件
@@ -98,7 +99,7 @@
      *
      */
     function xijiaRenderTable(params) {
-        res = Ajax.get(adminDatasourceFindPage + getPage() + xijiaSearchParam());
+        res = Ajax.get(datasourceListUrl + getPage() + xijiaSearchParam());
         table.render({
             elem: '#auth-table'
             , data: res.data.records
@@ -108,7 +109,7 @@
             , cols: [
                 [
                     // {type: 'checkbox', fixed: 'left'}   //fixed: 'right', , fixed: 'left'
-                     
+
                     {field: 'dbTitle', title: '命名'},
                     {field: 'dbName', title: '库名'},
                     {field: 'dbUrl', title: '连接地址'},
@@ -168,7 +169,7 @@
         table.on('toolbar(auth-table)', function (obj) {
             //添加
             if (obj.event === "add") {
-                Pop.tipsWindown(adminDatasourcePageAdd,  "80%", "80%", "添加");
+                Pop.tipsWindown(adminDatasourcePageAdd, "80%", "80%", "添加");
             }
         });
     }
@@ -190,8 +191,7 @@
             }
             //删除
             if (obj.event === 'del') {
-                let params = "?id=" + data.id;
-                Pop.tipsDeleteId(adminDatasourceDel + params, obj);
+                Pop.tipsDeleteId(datasourceUrl + "/" + data.id, obj);
             }
             //   重置密码
             if (obj.event === 'resetPassword') {
@@ -202,9 +202,7 @@
                     title: '重置密码',
                     area: ['300px', '200px'] //自定义文本域宽高
                 }, function (value, index, elem) {
-                    let params = "?id=" + data.id;
-                    params += "&password=" + value;
-                    let result = Ajax.put(adminDatasourceUpdPwd + params);
+                    let result = Ajax.put(datasourceIdUpdPwdUrl.replace("{id}", data.id) + "?password=" + value);
                     layer.msg(result.msg);
                     layer.close(index);
                 });
@@ -246,11 +244,11 @@
      * @version 1.0.0
      */
     function xijiaSearchParam() {
-            let params = "";
-            params += "&dbTitle=" + $("#dbTitle").val();
-            params += "&dbName=" + $("#dbName").val();
+        let params = "";
+        params += "&dbTitle=" + $("#dbTitle").val();
+        params += "&dbName=" + $("#dbName").val();
 
-            return params;
+        return params;
     }
 </script>
 </body>

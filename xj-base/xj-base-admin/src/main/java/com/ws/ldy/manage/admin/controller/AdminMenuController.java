@@ -96,7 +96,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    @ApiOperation(value = "菜单添加", notes = "")
+    @ApiOperation(value = "菜单添加")
     public R<Boolean> insert(@RequestBody AdminMenuDTO dto) {
         if (StringUtils.isNotBlank(dto.getId())) {
             throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
@@ -107,7 +107,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
 
 
     @RequestMapping(value = "/upd", method = RequestMethod.PUT)
-    @ApiOperation(value = "ID编辑", notes = "")
+    @ApiOperation(value = "ID编辑")
     public R<Void> upd(@RequestBody AdminMenuDTO dto) {
         if (StringUtils.isBlank(dto.getId())) {
             throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);

@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,7 @@ import java.util.Map;
  */
 @SuppressWarnings("all")
 @Api(value = "WebsocketController", tags = "Websocket  -->  消息通知/即时通讯")
-@RequestMapping( "/api/open/websocket")
+@RequestMapping("/api/open/websocket")
 @RestController
 @Slf4j
 public class WebsocketController {
@@ -72,18 +73,25 @@ public class WebsocketController {
         // 随机用户id + 用户名
         String userId = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
         String username = "游客:" + new SimpleDateFormat("ssSSS").format(new Date());
+
+        // 判断是https请求还是http,对应使用 ws 或 wss
+        String serverPrefix = "ws://";
+        String referer = request.getHeader("referer");
+        if (StringUtils.isNotBlank(referer) && "https".equals(referer.substring(0, 5))) {
+            serverPrefix = "wss://";
+        }
         // 如果是线上 (域名+socket地址+id+用户名)
-        String path = "ws://" + serverName + interfaceName + "/" ;//+ userId + "/" + username
+        String path = serverPrefix + serverName + interfaceName + "/";//+ userId + "/" + username
         // 如果是本地 (ip + 端口 + socket地址 + id +用户名)
         if ("127.0.0.1".equals(serverName) || "localhost".equals(serverName)) {
-            path = "ws://" + serverName + ":" + port + interfaceName + "/";
+            path = serverPrefix + serverName + ":" + port + interfaceName + "/";
         }
-        //返回参数
+        // 返回参数
         Map<String, String> map = new HashMap<>();
         map.put("path", path);
         map.put("userId", userId);
         map.put("username", username);
-        log.info("websocket请求地址11:" + path);
+        log.info("websocket请求地址:" + path);
         return R.success(map);
     }
 
@@ -101,8 +109,8 @@ public class WebsocketController {
             @ApiImplicitParam(name = "content", value = "发送内容", required = true),
             @ApiImplicitParam(name = "extras", value = "附加发送内容", required = true)
     })
-    public R<Void> send(String form, String username,String headPic, String to, String content, String extras) {
-        websocketService.send(form, username,headPic, to, content, extras);
+    public R<Void> send(String form, String username, String headPic, String to, String content, String extras) {
+        websocketService.send(form, username, headPic, to, content, extras);
         return R.success();
     }
 
@@ -122,4 +130,6 @@ public class WebsocketController {
     public R<List<OnlineUserVO>> getOnlineUsersList() {
         return R.success(websocketService.getOnlineUsersList());
     }
+
+
 }

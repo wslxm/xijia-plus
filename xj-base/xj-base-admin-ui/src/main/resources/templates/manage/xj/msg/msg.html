@@ -51,8 +51,8 @@
 <script>
 
     // 接口
-    let adminMsgFindPage = path + "/admin/xj/adminMsg/findPage";        //查询-分页
-    let adminMsgDel = path + "/admin/xj/adminMsg/del";                  //删除
+    var msgUrl = path + "/admin/xj/msg";
+    let msgListUrl = path + "/admin/xj/msg/list";
 
     // 路由
     let adminMsgPageAdd = "/page/manage_xj_msg_msgAdd";   //添加弹出
@@ -79,7 +79,7 @@
      * </p>
      */
     function adminMsgRenderTable() {
-        res = Ajax.get(adminMsgFindPage + getPage() + adminMsgSearchParam());
+        res = Ajax.get(msgListUrl + getPage() + adminMsgSearchParam());
         layui.table.render({
             elem: '#auth-table'
             , data: res.data.records
@@ -179,8 +179,7 @@
                 Pop.tipsWindown(adminMsgPageUpd, "600px", "400px", "修改");
             }
             if (obj.event === 'del') {
-                let params = "?id=" + data.id;
-                Pop.tipsDeleteId(adminMsgDel + params, obj);
+                Pop.tipsDeleteId(msgUrl + "/" + data.id, obj);
             }
         });
     }

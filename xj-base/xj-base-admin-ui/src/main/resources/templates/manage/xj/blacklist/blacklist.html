@@ -61,9 +61,8 @@
 <script>
 
     // 接口
-    let adminBlacklistFindPage = path + "/admin/xj/adminBlacklist/findPage";        //查询-分页
-    let adminBlacklistDel = path + "/admin/xj/adminBlacklist/del";                  //删除
-    let adminBlacklistUpdDisable = path + "/admin/xj/adminBlacklist/updDisable";    //启用禁用
+    var blacklistUrl = path + "/admin/xj/blacklist";
+    let blacklistListUrl = path + "/admin/xj/blacklist/list";
 
     // 路由
     let adminBlacklistPageAdd = "/page/manage_xj_blacklist_blacklistAdd";   //添加弹出
@@ -102,7 +101,7 @@
      *
      */
     function xijiaRenderTable(params) {
-        res = Ajax.get(adminBlacklistFindPage + getPage() + xijiaSearchParam());
+        res = Ajax.get(blacklistListUrl + getPage() + xijiaSearchParam());
         layui.table.render({
             elem: '#auth-table'
             , data: res.data.records
@@ -213,8 +212,7 @@
             }
             //删除
             if (obj.event === 'del') {
-                let params = "?id=" + data.id;
-                Pop.tipsDeleteId(adminBlacklistDel + params, obj);
+                Pop.tipsDeleteId(blacklistUrl + "/" + data.id, obj);
             }
         });
     }
@@ -267,15 +265,9 @@
      */
     function xijiaEventSwitch() {
         layui.form.on('switch(disable)', function (data) {
-            let disable = 0;
-            if (data.elem.checked) {
-                disable = 0;
-            } else {
-                disable = 1;
-            }
-            let param = "?id=" + data.elem.attributes['id'].nodeValue;
-            param += "&disable=" + disable;
-            let result = Ajax.put(adminBlacklistUpdDisable + param);
+            let disable = data.elem.checked ? 0 : 1;
+            let id = data.elem.attributes['id'].nodeValue;
+            let result = Ajax.put(blacklistUrl + "/" + id, {disable: disable});
             layer.msg(result.msg)
         });
     }

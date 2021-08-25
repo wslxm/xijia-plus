@@ -49,7 +49,7 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
     }
 
 
-    @ApiOperation(value = "查询所有 || 根据角色ID选中", notes = "" +
+    @ApiOperation(value = "查询所有 || 根据角色ID选中" +
             "1、没有传递角色Id,查询所有权限数据 isChecked=false \r\n" +
             "2、跟据角色ID查询,角色当前拥有权限：isChecked=true 角色没有权限：isChecked=false \r\n" +
             "3、只查询管理端 \r\n" +
@@ -64,7 +64,7 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
 
 
     @RequestMapping(value = "/findByRoleIdAuthorityTreeChecked", method = RequestMethod.GET)
-    @ApiOperation(value = "查询所有 || 根据角色ID选中 -> Tree ", notes = "" +
+    @ApiOperation(value = "查询所有 || 根据角色ID选中 -> Tree " +
             "1、没有传递角色Id,查询所有权限数据 isChecked=false \r\n" +
             "2、跟据角色ID查询,角色当前拥有权限：isChecked=true 角色没有权限：isChecked=false \r\n" +
             "3、只查询管理端 \r\n" +

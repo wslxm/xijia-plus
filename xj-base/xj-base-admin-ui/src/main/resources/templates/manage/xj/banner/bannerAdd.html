@@ -97,7 +97,7 @@
     function formSubmit() {
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            let result = Ajax.post(path + "/admin/xj/adminBanner/insert", data.field);
+            let result = Ajax.post(parent.bannerUrl, data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

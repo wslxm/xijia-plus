@@ -2,26 +2,22 @@ package com.ws.ldy.manage.xj.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.result.RType;
-import com.ws.ldy.core.utils.BeanDtoVoUtil;
-import com.ws.ldy.core.config.error.ErrorException;
-import com.ws.ldy.core.constant.BaseConstant;
 import com.ws.ldy.core.base.controller.BaseController;
+import com.ws.ldy.core.constant.BaseConstant;
+import com.ws.ldy.core.result.R;
+import com.ws.ldy.core.utils.BeanDtoVoUtil;
+import com.ws.ldy.core.utils.excel.ExcelUtil;
 import com.ws.ldy.manage.xj.model.dto.XjAdminLogDTO;
 import com.ws.ldy.manage.xj.model.entity.XjAdminLog;
+import com.ws.ldy.manage.xj.model.query.XjAdminLogQuery;
 import com.ws.ldy.manage.xj.model.vo.XjAdminLogVO;
 import com.ws.ldy.manage.xj.service.XjAdminLogService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
 
 
 /**
@@ -34,79 +30,58 @@ import java.util.Arrays;
  * @date 2020-10-28 20:44:32
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin +"/xj/adminLog")
+@RequestMapping(BaseConstant.Uri.apiAdmin +"/xj/log")
 @Api(value = "XjAdminLogController", tags = "base-plus--操作记录")
 public class XjAdminLogController extends BaseController<XjAdminLogService> {
 
 
-    @RequestMapping(value = "/findPage", method = RequestMethod.GET)
-    @ApiOperation(value = "分页查询", notes = "")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
-            @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),
-            @ApiImplicitParam(name = "fullName", value = "请求人", required = false, paramType = "query", example = ""),
-            @ApiImplicitParam(name = "uri", value = "请求uri", required = false, paramType = "query", example = ""),
-            @ApiImplicitParam(name = "methodDesc", value = "请求方法--swagger注释", required = false, paramType = "query", example = ""),
-            @ApiImplicitParam(name = "state", value = "状态： 1-请求成功 0-请求失败", required = false, paramType = "query", example = ""),
-
-    })
-    public R<IPage<XjAdminLogVO>> findPage(
-            @RequestParam(required = false) String fullName,
-            @RequestParam(required = false) String uri,
-            @RequestParam(required = false) String classDesc,
-            @RequestParam(required = false) String methodDesc,
-            @RequestParam(required = false) Integer state
-    ) {
-        Page<XjAdminLog> page = baseService.page(this.getPage(), new LambdaQueryWrapper<XjAdminLog>()
+    @GetMapping(value = "/list")
+    @ApiOperation(value = "分页查询")
+    public R<IPage<XjAdminLogVO>> list(@ModelAttribute @Validated XjAdminLogQuery query) {
+        LambdaQueryWrapper<XjAdminLog> queryWrapper = new LambdaQueryWrapper<XjAdminLog>()
                 .orderByDesc(XjAdminLog::getCreateTime)
-                .like(StringUtils.isNotBlank(fullName), XjAdminLog::getFullName, fullName)
-                .like(StringUtils.isNotBlank(uri), XjAdminLog::getUri, uri)
-                .like(StringUtils.isNotBlank(classDesc), XjAdminLog::getClassDesc, classDesc)
-                .like(StringUtils.isNotBlank(methodDesc), XjAdminLog::getMethodDesc, methodDesc)
-                .eq(state != null, XjAdminLog::getState, state)
-
-        );
-        return R.successFind(BeanDtoVoUtil.pageVo(page, XjAdminLogVO.class));
-    }
-
-    @RequestMapping(value = "/findId", method = RequestMethod.GET)
-    @ApiOperation(value = "ID查询", notes = "")
-    public R<XjAdminLogVO> findId(@RequestParam String id) {
-        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(id), XjAdminLogVO.class));
-    }
-
-
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    @ApiOperation(value = "添加", notes = "必须不传递ID")
-    public R<Boolean> insert(@RequestBody @Validated XjAdminLogDTO dto) {
-        if (StringUtils.isNotBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
+                .like(StringUtils.isNotBlank(query.getFullName()), XjAdminLog::getFullName, query.getFullName())
+                .like(StringUtils.isNotBlank(query.getUri()), XjAdminLog::getUri, query.getUri())
+                .like(StringUtils.isNotBlank(query.getClassDesc()), XjAdminLog::getClassDesc, query.getClassDesc())
+                .like(StringUtils.isNotBlank(query.getMethodDesc()), XjAdminLog::getMethodDesc, query.getMethodDesc())
+                .eq(query.getState() != null, XjAdminLog::getState, query.getState());
+        if (query.getIsExport()) {
+            // excel
+            ExcelUtil.exportExcelDownload(BeanDtoVoUtil.listVo(baseService.list(queryWrapper), XjAdminLogVO.class), response);
+            return null;
+        } else if (query.getCurrent() <= 0) {
+            // list
+            IPage<XjAdminLogVO> page = new Page<>();
+            page = page.setRecords(BeanDtoVoUtil.listVo(baseService.list(queryWrapper), XjAdminLogVO.class));
+            return R.successFind(page);
+        } else {
+            // page
+            IPage<XjAdminLogVO> page = BeanDtoVoUtil.pageVo(baseService.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminLogVO.class);
+            return R.successFind(page);
         }
+    }
+
+    @PostMapping
+    @ApiOperation(value = "添加")
+    public R<Boolean> insert(@RequestBody @Validated XjAdminLogDTO dto) {
         XjAdminLog adminLog = dto.convert(XjAdminLog.class);
         return R.successInsert(baseService.save(adminLog));
     }
 
 
-    @RequestMapping(value = "/upd", method = RequestMethod.PUT)
-    @ApiOperation(value = "ID编辑", notes = "必须传递ID")
-    public R<Boolean> upd(@RequestBody @Validated XjAdminLogDTO dto) {
-        if (StringUtils.isBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
-        }
-        return R.successUpdate(baseService.updateById(dto.convert(XjAdminLog.class)));
+    @PutMapping(value = "/{id}")
+    @ApiOperation(value = "ID编辑")
+    public R<Boolean> upd(@PathVariable String id, @RequestBody @Validated XjAdminLogDTO dto) {
+        XjAdminLog entity = dto.convert(XjAdminLog.class);
+        entity.setId(id);
+        return R.successUpdate(baseService.updateById(entity));
     }
 
 
-    @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    @ApiOperation(value = "ID删除", notes = "")
-    public R<Boolean> del(@RequestParam String id) {
+    @DeleteMapping(value = "/{id}")
+    @ApiOperation(value = "ID删除")
+    public R<Boolean> del(@PathVariable String id) {
         return R.successDelete(baseService.removeById(id));
     }
 
-
-    @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE)
-    @ApiOperation(value = "批量ID删除", notes = "")
-    public R<Boolean> delByIds(@RequestParam String[] ids) {
-        return R.successDelete(baseService.removeByIds(Arrays.asList(ids)));
-    }
 }

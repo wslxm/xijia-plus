@@ -1,6 +1,7 @@
 package com.ws.ldy.manage.xj.model.dto;
 
 import com.ws.ldy.core.base.model.BaseDto;
+import com.ws.ldy.core.base.model.Convert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,7 +19,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "XjAdminMsgDTO 对象", description = "订单-->及时消息通知表")
-public class XjAdminMsgDTO extends BaseDto {
+public class XjAdminMsgDTO extends Convert {
 
     private static final long serialVersionUID = 0L;
 

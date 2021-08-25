@@ -18,14 +18,14 @@ package com.ws.ldy.basepay.manage.controller;
 //    private PayService payService;
 //
 //    @RequestMapping(value = "/wx/order", method = RequestMethod.POST)
-//    @ApiOperation(value = "微信支付回调", notes = "")
+//    @ApiOperation(value = "微信支付回调")
 //    public String orderCallback(@RequestBody String xmlData) {
 //        return payService.orderCallback(xmlData);
 //    }
 //
 //
 //    @RequestMapping(value = "/wx/refund", method = RequestMethod.POST)
-//    @ApiOperation(value = "微信退款回调", notes = "")
+//    @ApiOperation(value = "微信退款回调")
 //    public String refundCallback() {
 //        return null;
 //    }

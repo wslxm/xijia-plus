@@ -43,7 +43,7 @@ public class WxMpController {
 
 
     @RequestMapping(value = "/auth/getAuthCodeUrl", method = RequestMethod.GET)
-    @ApiOperation(value = "网页授权登录 -->  1、获取授权URL,并重定向到指定页", notes = "" +
+    @ApiOperation(value = "网页授权登录 -->  1、获取授权URL,并重定向到指定页" +
             "\r\n 注意： 返回的url需在微信开发者工具访问或手机微信中打开" +
             "\r\n 注意： code 有效期5分钟" +
             "\r\n 注意： 需配置：网页授权获取用户基本信息域名" +
@@ -66,7 +66,7 @@ public class WxMpController {
 
 
     @RequestMapping(value = "/auth/getOpenId", method = RequestMethod.GET)
-    @ApiOperation(value = "网页授权登录 -->  2、通过code 获取openId", notes = "")
+    @ApiOperation(value = "网页授权登录 -->  2、通过code 获取openId")
     public R<String> getOpenId(@RequestParam String code) {
         R<WxMpAccessTokenVO> wxAccessTokenVOData = wxMpH5AuthUtil.getAccessToken(code);
         if (!wxAccessTokenVOData.getCode().equals(RType.SYS_SUCCESS.getValue())) {
@@ -78,14 +78,14 @@ public class WxMpController {
 
 
     @RequestMapping(value = "/auth/getUserInfo", method = RequestMethod.GET)
-    @ApiOperation(value = "网页授权登录 -->  2、通过code 获取openId + 微信用户信息b", notes = "")
+    @ApiOperation(value = "网页授权登录 -->  2、通过code 获取openId + 微信用户信息b")
     public R<WxMpUserInfoVO> getUserInfo(@RequestParam(required = true) String code) {
         return wxMpH5AuthUtil.getUserInfo(code);
     }
 
 
     @RequestMapping(value = "/jsapi/sign", method = RequestMethod.GET)
-    @ApiOperation(value = "jssdk获取签名参数", notes = "")
+    @ApiOperation(value = "jssdk获取签名参数")
     @ApiImplicitParam(name = "url", value = "使用jssdk的页面",   required = true, paramType = "query", example = "")
     public R<WxMpJsapiSignatureVO> getJsapiSign(@RequestParam(required = true) String url) throws WxErrorException {
         return wxMpJsApUtil.createJsapiSignature(url);

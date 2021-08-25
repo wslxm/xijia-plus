@@ -1,16 +1,15 @@
 package com.ws.ldy.manage.xj.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ws.ldy.core.cache.CacheUtil;
 import com.ws.ldy.common.cache.CacheKey;
-import com.ws.ldy.core.result.RType;
-import com.ws.ldy.core.config.error.ErrorException;
 import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
+import com.ws.ldy.core.cache.CacheUtil;
+import com.ws.ldy.core.config.error.ErrorException;
+import com.ws.ldy.core.result.RType;
 import com.ws.ldy.manage.xj.mapper.XjAdminConfigMapper;
 import com.ws.ldy.manage.xj.model.dto.XjAdminConfigDTO;
 import com.ws.ldy.manage.xj.model.entity.XjAdminConfig;
 import com.ws.ldy.manage.xj.service.XjAdminConfigService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,9 +43,6 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
 
     @Override
     public boolean insert(XjAdminConfigDTO dto) {
-        if (StringUtils.isNotBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
-        }
         // 判code重复
         if (this.count(new LambdaQueryWrapper<XjAdminConfig>().eq(XjAdminConfig::getCode, dto.getCode())) > 0) {
             throw new ErrorException(RType.DICT_DUPLICATE);
@@ -57,18 +53,16 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
     }
 
     @Override
-    public boolean upd(XjAdminConfigDTO dto) {
-        if (StringUtils.isBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
-        }
-        //
-        XjAdminConfig config = this.getById(dto.getId());
+    public boolean upd(String id,XjAdminConfigDTO dto) {
+        XjAdminConfig config = this.getById(id);
         if (!config.getCode().equals(dto.getCode())) {
             if (this.count(new LambdaQueryWrapper<XjAdminConfig>().eq(XjAdminConfig::getCode, dto.getCode())) > 0) {
                 throw new ErrorException(RType.DICT_DUPLICATE);
             }
         }
-        boolean b = this.updateById(dto.convert(XjAdminConfig.class));
+        XjAdminConfig entity = dto.convert(XjAdminConfig.class);
+        entity.setId(id);
+        boolean b = this.updateById(entity);
         CacheUtil.del(CacheKey.CONFIG_MAP_KEY.getKey());
         return b;
     }

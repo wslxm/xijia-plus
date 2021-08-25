@@ -3,10 +3,12 @@ package com.ws.ldy.core.base.controller;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 public class BaseController<S extends IService> {
 
@@ -23,6 +25,10 @@ public class BaseController<S extends IService> {
 
     /**
      * 获取分页对象   === mybatis-plus
+     * <P>
+     *     1、从 Param 参数中获取
+     *     2、从 path 参数中获取
+     * </P>
      *
      * @return
      */
@@ -30,10 +36,17 @@ public class BaseController<S extends IService> {
         // 分页参数
         String current = request.getParameter("current");
         String size = request.getParameter("size");
-        // 页数
-        Integer cursor = current == null ? 1 : Integer.parseInt(current);
-        Integer limit = size == null ? 20 : Integer.parseInt(size);
-        // 分页大小
+        if (current == null || size == null) {
+            // 从 path 获取
+            Map<String, String> pathVariables = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+            if (pathVariables != null) {
+                current = pathVariables.get("current");
+                size = pathVariables.get("size");
+            }
+        }
+        // 设置默认分页大小
+        int cursor = current == null ? 1 : Integer.parseInt(current);
+        int limit = size == null ? 20 : Integer.parseInt(size);
         return new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(cursor, limit);
     }
 

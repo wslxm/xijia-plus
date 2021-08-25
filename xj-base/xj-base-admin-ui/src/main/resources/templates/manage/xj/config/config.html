@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<html>
 <head>
     <meta charset="utf-8">
     <title>系统全局数据信息配置表</title>
@@ -20,6 +20,7 @@
     .layui-inline {
         width: 260px;
     }
+
     /* 设置数据表格行高 */
     .layui-table-cell {
         height: 50px;
@@ -73,8 +74,8 @@
 <script>
 
     // 接口
-    let adminConfigFindPage = path + "/admin/xj/adminConfig/findPage";        //查询-分页
-    let adminConfigDel = path + "/admin/xj/adminConfig/del";                  //删除
+    var configUrl = path + "/admin/xj/config";
+    let configListUrl = path + "/admin/xj/config/list";
 
     // 路由
     let adminConfigPageAdd = "/page/manage_xj_config_configAdd";   //添加弹出
@@ -99,7 +100,7 @@
      *
      */
     function xijiaRenderTable(params) {
-        res = Ajax.get(adminConfigFindPage + getPage() + xijiaSearchParam());
+        res = Ajax.get(configListUrl + getPage() + xijiaSearchParam());
         layui.table.render({
             elem: '#auth-table'
             , data: res.data.records
@@ -109,23 +110,24 @@
                 [
                     // {type: 'checkbox', fixed: 'left'}   //fixed: 'right', , fixed: 'left'
 
-                    {field: 'code', title: 'Code',width: 250},
-                    {field: 'name', title: '配置名称',width: 250},
-                   // {field: 'content', title: '配置内容'},
+                    {field: 'code', title: 'Code', width: 250},
+                    {field: 'name', title: '配置名称', width: 250},
+                    // {field: 'content', title: '配置内容'},
                     {
                         field: 'content', title: '配置内容', templet: function (res) {
-                            if(res.type === 0){
+                            if (res.type === 0) {
                                 return res.content;
-                            }else{
-                              let imgs =   res.content.split(",");
-                              let html ="";
+                            } else {
+                                let imgs = res.content.split(",");
+                                let html = "";
                                 for (let i = 0; i < imgs.length; i++) {
                                     html += "<img src='" + imgs[i] + "'  style='height: 50px;width: 60px;margin-left: 10px'>";
                                 }
-                                return html;}
+                                return html;
+                            }
                         }
                     },
-                    {field: 'sort', title: '排序',width: 250}
+                    {field: 'sort', title: '排序', width: 250}
                     , {title: '操作', toolbar: '#barDemo', width: 250}
                 ]
             ]
@@ -201,8 +203,7 @@
             }
             //删除
             if (obj.event === 'del') {
-                let params = "?id=" + data.id;
-                Pop.tipsDeleteId(adminConfigDel + params, obj);
+                Pop.tipsDeleteId(configUrl + "/" + data.id, obj);
             }
         });
     }

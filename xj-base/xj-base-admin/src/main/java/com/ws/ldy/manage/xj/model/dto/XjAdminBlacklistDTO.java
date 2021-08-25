@@ -1,11 +1,10 @@
 package com.ws.ldy.manage.xj.model.dto;
 
-import com.ws.ldy.core.base.model.BaseDto;
+import com.ws.ldy.core.base.model.Convert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
@@ -21,7 +20,7 @@ import org.hibernate.validator.constraints.Range;
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "XjAdminBlacklistDTO 对象", description = "黑名单")
-public class XjAdminBlacklistDTO extends BaseDto {
+public class XjAdminBlacklistDTO extends Convert {
 
     private static final long serialVersionUID = 0L;
     

@@ -37,7 +37,7 @@ public class PayRecordController extends BaseController<PayRecordService> {
 
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
-    @ApiOperation(value = "分页查询", notes = "")
+    @ApiOperation(value = "分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
             @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),

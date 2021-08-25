@@ -36,7 +36,7 @@ function msgTab() {
  * 获取消息
  */
 function findPage(page) {
-    let res = Ajax.get(adminMsgFindPage + getPage(page, 8) + "&isRead=" + isRead);
+    let res = Ajax.get(msgListUrl + getPage(page, 8) + "&isRead=" + isRead);
     // 加载数据
     showText(res.data.records);
     return res;
@@ -81,7 +81,7 @@ function xijiaLayPage(res) {
  * @type {string}
  */
 function read(id) {
-    Ajax.put(msgRead + id);
+    Ajax.put(msgIdRead.replace("{id}", id));
     // let curr = $(".layui-laypage-skip .layui-input").val()
     findPage(null);
     //

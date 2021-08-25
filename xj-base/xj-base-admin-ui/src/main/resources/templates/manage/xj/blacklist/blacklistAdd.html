@@ -58,7 +58,7 @@
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.type = parseInt(data.field.type);
-            let result = Ajax.post(path + "/admin/xj/adminBlacklist/insert", data.field);
+            let result = Ajax.post(parent.blacklistUrl, data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

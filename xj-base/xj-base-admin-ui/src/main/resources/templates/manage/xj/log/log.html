@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<html>
 <head>
     <meta charset="utf-8">
     <title>操作记录表</title>
@@ -91,8 +91,8 @@
 <script>
 
     // 接口
-    let adminLogFindPage = path + "/admin/xj/adminLog/findPage";        //查询-分页
-    let adminLogDel = path + "/admin/xj/adminLog/del";                  //删除
+    var logUrl = path + "/admin/xj/log";
+    let logListUrl = path + "/admin/xj/log/list";
 
     // 路由
     let adminLogPageUpd = "/page/manage_xj_log_logDetails.html";   //编辑弹出
@@ -116,7 +116,7 @@
      *
      */
     function xijiaRenderTable(params) {
-        res = Ajax.get(adminLogFindPage + getPage() + xijiaSearchParam());
+        res = Ajax.get(logListUrl + getPage() + xijiaSearchParam());
         layui.table.render({
             elem: '#auth-table'
             , data: res.data.records
@@ -211,8 +211,7 @@
             }
             //删除
             if (obj.event === 'del') {
-                let params = "?id=" + data.id;
-                Pop.tipsDeleteId(adminLogDel + params, obj);
+                Pop.tipsDeleteId(logUrl + "/" + data.id, obj);
             }
         });
     }

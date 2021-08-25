@@ -34,7 +34,7 @@ public class PayTestController {
     private PayService payService;
 
     @RequestMapping(value = "/createOrder", method = RequestMethod.POST)
-    @ApiOperation(value = "下单 JSAPI (公众号/小程序支付拉起微信支付)", notes = "")
+    @ApiOperation(value = "下单 JSAPI (公众号/小程序支付拉起微信支付)")
     public R<PayOrderResultVO> createOrder(@RequestParam String openId) {
         PayOrderDTO dto = new PayOrderDTO();
         dto.setMoneyTotal(new BigDecimal("1"));
@@ -50,7 +50,7 @@ public class PayTestController {
     }
 
     @RequestMapping(value = "/createOrder2", method = RequestMethod.POST)
-    @ApiOperation(value = "下单 NATIVE (微信扫码支付)", notes = "")
+    @ApiOperation(value = "下单 NATIVE (微信扫码支付)")
     public R<PayOrderResultVO> createOrder2() {
         PayOrderDTO dto = new PayOrderDTO();
         dto.setMoneyTotal(new BigDecimal("1"));
@@ -67,7 +67,7 @@ public class PayTestController {
 
 
     @RequestMapping(value = "/entPay", method = RequestMethod.POST)
-    @ApiOperation(value = "打款测试", notes = "")
+    @ApiOperation(value = "打款测试")
     public R<Boolean> entPay(@RequestParam String openId) {
         EntPayDTO entPayDTO = new EntPayDTO();
         entPayDTO.setOpenid(openId);
@@ -82,7 +82,7 @@ public class PayTestController {
 
 
     @RequestMapping(value = "/refund", method = RequestMethod.POST)
-    @ApiOperation(value = "退款测试", notes = "")
+    @ApiOperation(value = "退款测试")
     public R<Boolean> refund() {
         PayRefundDTO refundDTO = new PayRefundDTO();
         refundDTO.setOrderNo(IdUtil.getNo());      // 订单号(支付订单生成)

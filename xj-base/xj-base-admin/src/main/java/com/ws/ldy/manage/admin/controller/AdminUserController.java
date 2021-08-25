@@ -43,7 +43,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
 
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
-    @ApiOperation(value = "分页查询", notes = "")
+    @ApiOperation(value = "分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
             @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),
@@ -67,7 +67,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
 
 
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
-    @ApiOperation(value = "查询所有(只返回姓名/昵称/电话/id)", notes = "")
+    @ApiOperation(value = "查询所有(只返回姓名/昵称/电话/id)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "searchName", value = "姓名or用户名", required = true, paramType = "query", example = ""),
     })
@@ -86,7 +86,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
 
 
     @RequestMapping(value = "/findId", method = RequestMethod.GET)
-    @ApiOperation(value = "ID查询", notes = "")
+    @ApiOperation(value = "ID查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户Id", required = false, paramType = "query"),
     })
@@ -106,7 +106,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    @ApiOperation(value = "添加", notes = "")
+    @ApiOperation(value = "添加")
     public R<Boolean> insert(@RequestBody UserAdminDTO dto) {
         if (StringUtils.isNotBlank(dto.getId())) {
             throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
@@ -126,14 +126,14 @@ public class AdminUserController extends BaseController<AdminUserService> {
     }
 
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    @ApiOperation(value = "ID删除", notes = "")
+    @ApiOperation(value = "ID删除")
     public R<Boolean> del(@RequestParam String id) {
         return R.successDelete(baseService.del(id));
     }
 
 
     @RequestMapping(value = "/updResetPassword", method = RequestMethod.PUT)
-    @ApiOperation(value = "重置任意用户密码", notes = "")
+    @ApiOperation(value = "重置任意用户密码")
     public R<Boolean> updResetPassword(@RequestParam String id, @RequestParam String password) {
         return R.successUpdate(baseService.update(new LambdaUpdateWrapper<AdminUser>()
                 .set(AdminUser::getPassword, MD5Util.encode(password))
@@ -173,7 +173,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
 
 
     @RequestMapping(value = "/bindWeChatMq", method = RequestMethod.POST)
-    @ApiOperation(value = "微信公众号openId绑定", notes = "")
+    @ApiOperation(value = "微信公众号openId绑定")
     public R<Boolean> bindWeChatMq(@RequestParam String username, @RequestParam String password, @RequestParam String openId) {
         return R.success(baseService.bindWeChatMq(username, password, openId));
     }

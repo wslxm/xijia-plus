@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
 <head>
     <meta charset="utf-8">
     <title>用户--添加</title>
@@ -159,9 +159,8 @@
                 let urls = getPicSort("imgZmList");
                 data.field.content = urls;
             }
-            data.field.id = parent.data.id;
             //data.field.id = parent.data.id;
-            let result = Ajax.put(path + "/admin/xj/adminConfig/upd", data.field);
+            let result = Ajax.put(parent.configUrl + "/" + parent.data.id, data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);
@@ -169,7 +168,6 @@
             parent.xijiaRenderTable();
         });
     }
-
 
 
     /**

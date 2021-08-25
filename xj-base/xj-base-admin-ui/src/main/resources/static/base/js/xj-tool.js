@@ -44,3 +44,16 @@ function isMobile() {
     ) return true;
     return false;
 }
+
+
+
+/**
+  * 判断是否为https  请求
+  * @author wangsong
+  * @mail  1720696548@qq.com
+  * @date  2021/8/24 0024 9:31
+  * @version 1.0.0
+  */
+function isHttps() {
+    return 'https:' == document.location.protocol ? true : false;
+}

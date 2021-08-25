@@ -36,7 +36,7 @@ public class UPayWalletFlowController extends BaseController<PayWalletFlowServic
 
 
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
-    @ApiOperation(value = "我的缴费记录-分页查询", notes = "")
+    @ApiOperation(value = "我的缴费记录-分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
             @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),

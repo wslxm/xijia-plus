@@ -52,9 +52,8 @@
         //监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
             data.field.type = parseInt(data.field.type);
-            data.field.id = parent.data.id;
-            //data.field.id = parent.data.id;
-            let result = Ajax.put(path + "/admin/xj/adminBlacklist/upd", data.field);
+            // data.field.id = parent.data.id;
+            let result = Ajax.put(parent.blacklistUrl + "/" + parent.data.id, data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

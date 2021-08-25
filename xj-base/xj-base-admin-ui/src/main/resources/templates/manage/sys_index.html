@@ -192,10 +192,10 @@
     // layer.close(index);
     let menuTree = path + "/admin/adminMenu/findTree";            // 树菜单数据
     let findUser = path + "/admin/adminUser/findUser";            // 获取用户信息
-    let adminMsgFindPage = path + "/admin/xj/adminMsg/findPage";     // 查询通知消息  isRead=0-未读 1-已读
-    let entry_name = path + "/admin/xj/adminConfig/findByCode?code=entry_name";  // 获取项目名称
-    let msgRead = path + "/admin/xj/adminMsg/read?id=";               // 修改消息为已读
-    let msgUnreadNumAll = path + "/admin/xj/adminMsg/findUnreadNum";   // 获取未读信息数量
+    let msgListUrl = path + "/admin/xj/msg/list";                 // 查询通知消息  isRead=0-未读 1-已读
+    let configOneByCode = path + "/admin/xj/config/findByCode?code=entry_name";  // 获取项目名称
+    let msgIdRead = path + "/admin/xj/msg/{id}/read";                            // 修改消息为已读
+    let msgUnreadNumAll = path + "/admin/xj/msg/findUnreadNum";                  // 获取未读信息数量
 
     // 路径跳转
     let homePage = "/page/manage_jvmInfo";                       // 进入系统首页展示路由jvm信息, /page/console_user_user  / /page/front_show_show

@@ -32,8 +32,8 @@ function initIndex() {
     $("#head").attr("src", user.head);         // 展示头像
 
     // 加载项目名称
-    let res = Ajax.get(entry_name);          // 获取项目名
-    $("#entry_name").html(res.data.content); // 展示
+    let res = Ajax.get(configOneByCode);       // 获取项目名
+    $("#entry_name").html(res.data.content);   // 展示
 
     // 加载字典
     Dict.refreshDict();  //获取字典数据

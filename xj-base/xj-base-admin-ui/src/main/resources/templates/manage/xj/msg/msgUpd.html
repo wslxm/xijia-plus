@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
 <head>
     <meta charset="utf-8">
     <title>用户--添加</title>
@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">消息类型:  1-系统通知  2-订单业务通知 </label>
+        <label class="layui-form-label">消息类型: 1-系统通知 2-订单业务通知 </label>
         <div class="layui-input-inline">
             <input type="text" id="msgType" name="msgType" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
@@ -59,7 +59,7 @@
         adminMsgupdFormSubmit()
     });
 
-    function adminMsgupdInit(){
+    function adminMsgupdInit() {
         <!-- 初始化相关数据, 和父页面的值赋值到当前页 -->
 
         $('#userId').val(parent.data.userId);
@@ -72,12 +72,10 @@
         layui.form.render();
     }
 
-    function adminMsgupdFormSubmit(){
+    function adminMsgupdFormSubmit() {
         // 监听提交
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            data.field.id = parent.data.id;
-            //data.field.id = parent.data.id;
-            let result = Ajax.put(path + "/admin/xj/adminMsg/upd", data.field);
+            let result = Ajax.put(parent.msgUrl + "/" + parent.data.id, data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

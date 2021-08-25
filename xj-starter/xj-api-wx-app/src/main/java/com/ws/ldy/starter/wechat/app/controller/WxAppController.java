@@ -66,7 +66,7 @@ public class WxAppController {
 
 
     @RequestMapping(value = "/subscribe/sendMsgTest", method = RequestMethod.POST)
-    @ApiOperation(value = "订阅消息发送测试", notes = "" +
+    @ApiOperation(value = "订阅消息发送测试" +
             "1、需在微信小程序中配置模板： 微信公众平台 -> 小程序 -> 功能 -> 订阅消息 \r\n" +
             "2、小程序需发起订阅请求,用户点击同意才能发送成功\r\n" +
             "3、详见微信文档：https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/subscribe-message.html")
