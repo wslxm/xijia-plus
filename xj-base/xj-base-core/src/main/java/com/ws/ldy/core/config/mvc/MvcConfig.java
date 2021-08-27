@@ -2,7 +2,6 @@ package com.ws.ldy.core.config.mvc;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
@@ -18,42 +17,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MvcConfig implements WebMvcConfigurer {
 
     /**
-     * 访问URL路径与 resources\templates 页面(.html）路径映射配置, 这里主要做单独的页面跳转
-     * <p>
-     * 如: 访问/login  为访问 sys_login.html 页面，自动指定了/ 后缀（.html） resources同webapp（也就是web根目录） templates同WEB-INF
-     * </P>
-     */
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index").setViewName("manage/sys_index");        // 管理端主页
-        registry.addViewController("/login").setViewName("manage/sys_login");        // 管理端登录页
-        registry.addViewController("/").setViewName("manage/sys_login");             // 管理端登录页
-        //
-        // registry.addViewController("/fh").setViewName("client/tool/fhConvert.html");     // 文本转符号生成器
-        // registry.addViewController("/java").setViewName("client/tool/javaCodeRun");      // java代码运行器
-        // registry.addViewController("/lts").setViewName("client/websocket/lts.html");     // 在线聊天室
-        // registry.addViewController("/help").setViewName("client/help/index");            // 兮家手册
-        // registry.addViewController("/user").setViewName("client/index");                 // 用户端首页
-    }
-
-
-    /**
      * 静态资源访问路径映射
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        //文件保存路径, 让程序可以访问到改路径, 访问 /File 读取项目跟路径的File目录
+        // 文件保存路径, 让程序可以访问到改路径, 访问 /File 读取项目跟路径的File目录
         registry.addResourceHandler("/File/**").addResourceLocations("file:File/");
         // 解决静态资源无法访问（可选）， 优先读取  resources/resources  ->  resources/static  ->  resources/public
         registry.addResourceHandler("/**").addResourceLocations(
                 "classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/");
-        // 直接在浏览器访问：根目录/swagger-ui.html
-        registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-        // 需要用到的webjars（包含js、css等）
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-        // 文档地址
-        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
-
 }

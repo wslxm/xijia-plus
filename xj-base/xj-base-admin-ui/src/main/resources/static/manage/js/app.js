@@ -25,6 +25,7 @@ document.write("<script language=javascript src='/base/js/xj-req-ajax.js'></scri
  * <p>
  */
 var path = "/api";
+//var path = "http://127.0.0.1:9048/api";
 var uploadPath = "/api/open/aliOssFile/upload";
 
 

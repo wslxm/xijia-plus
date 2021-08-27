@@ -17,6 +17,11 @@
 <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
 
     <div class="layui-form-item">
+        <label class="layui-form-label">终端</label>
+        <div id="terminal" class="layui-input-block">
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">头像</label>
         <span class="layui-input-inline">
             <button type="button" class="layui-btn layui-btn-danger" id="test7" style="width: 180px"><i class="layui-icon"></i>上传头像</button>
@@ -101,7 +106,7 @@
 <script>
 
 
-    let user_role_admin_list = path + "/admin/adminRole/findUserRole";      // 角色分配查询所有--用户当前角色赋予Checked=true
+    // let user_role_admin_list = path + "/admin/adminRole/findUserRole";      // 角色分配查询所有--用户当前角色赋予Checked=true
 
 
     layui.use(['form', 'upload'], function () {
@@ -121,10 +126,11 @@
         $("#fullName").val(parent.data.fullName);
         $("#age").val(parent.data.age);
         $("#address").val(parent.data.address);
-        $("#gender").html(Dict.getDictRadio(Enums.Base.Gender, "gender", parent.data.gender));               // 性别
+        $("#gender").html(Dict.getDictRadio(Enums.Base.Gender, "gender", parent.data.gender));             // 性别
         $("#position").html(Dict.getDictRadio(Enums.Admin.Position, "position", parent.data.position));    // 职位
+        $("#terminal").html(Dict.getDictRadio(Enums.Admin.Terminal, "terminal",parent.data.terminal));     // 终端
         // 获取角色列表
-        let roleList = Ajax.get(user_role_admin_list + "?userId=" + parent.data.id).data;
+        let roleList = Ajax.get(parent.roleFindUserRole + "?userId=" + parent.data.id).data;
         let roleHtml = "";
         let roleHtmlTemplates = "<input type='checkbox' name='{name}' value='{value}' lay-skin='primary' title='{title}'  {checked}>" +
             "<div class='layui-unselect layui-form-checkbox' lay-skin='primary'>" +
@@ -152,7 +158,6 @@
 
     function formSubmit() {
         layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
-            data.field.id = parent.data.id;
             data.field.time = parent.data.time;
             // 放入角色数据
             let roles_box = [];
@@ -160,7 +165,7 @@
                 roles_box.push($(this).val());
             });
             data.field.roles = roles_box;
-            let result = Ajax.put(path + "/admin/adminUser/upd", data.field);
+            let result = Ajax.put(parent.userUrl + "/" + parent.data.id, data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

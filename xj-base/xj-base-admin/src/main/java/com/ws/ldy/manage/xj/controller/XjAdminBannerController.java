@@ -1,14 +1,9 @@
 package com.ws.ldy.manage.xj.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.core.base.controller.BaseController;
 import com.ws.ldy.core.constant.BaseConstant;
 import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.utils.BeanDtoVoUtil;
-import com.ws.ldy.core.utils.excel.ExcelUtil;
 import com.ws.ldy.manage.xj.model.dto.XjAdminBannerDTO;
 import com.ws.ldy.manage.xj.model.entity.XjAdminBanner;
 import com.ws.ldy.manage.xj.model.query.XjAdminBannerQuery;
@@ -34,28 +29,11 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "XjAdminBannerController", tags = "base-plus--banner")
 public class XjAdminBannerController extends BaseController<XjAdminBannerService> {
 
+
     @GetMapping(value = "/list")
     @ApiOperation(value = "列表查询")
     public R<IPage<XjAdminBannerVO>> list(@ModelAttribute @Validated XjAdminBannerQuery query) {
-        LambdaQueryWrapper<XjAdminBanner> queryWrapper = new LambdaQueryWrapper<XjAdminBanner>()
-                .orderByAsc(XjAdminBanner::getPosition)
-                .orderByAsc(XjAdminBanner::getSort)
-                .orderByDesc(XjAdminBanner::getCreateTime)
-                .eq(StringUtils.isNotBlank(query.getName()), XjAdminBanner::getName, query.getName());
-        if (query.getIsExport()) {
-            // excel
-            ExcelUtil.exportExcelDownload(BeanDtoVoUtil.listVo(baseService.list(queryWrapper), XjAdminBannerVO.class), response);
-            return null;
-        } else if (query.getCurrent() <= 0) {
-            // list
-            IPage<XjAdminBannerVO> page = new Page<>();
-            page = page.setRecords(BeanDtoVoUtil.listVo(baseService.list(queryWrapper), XjAdminBannerVO.class));
-            return R.successFind(page);
-        } else {
-            // page
-            IPage<XjAdminBannerVO> page = BeanDtoVoUtil.pageVo(baseService.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminBannerVO.class);
-            return R.successFind(page);
-        }
+       return R.success(baseService.list(query));
     }
 
 

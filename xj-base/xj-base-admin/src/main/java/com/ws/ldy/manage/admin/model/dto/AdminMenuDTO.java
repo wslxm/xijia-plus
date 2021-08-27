@@ -1,6 +1,6 @@
 package com.ws.ldy.manage.admin.model.dto;
 
-import com.ws.ldy.core.base.model.BaseDto;
+import com.ws.ldy.core.base.model.Convert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,7 +16,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "AdminMenuDTO", description = "菜单")
-public class AdminMenuDTO extends BaseDto {
+public class AdminMenuDTO extends Convert {
 
     private static final long serialVersionUID = -33297418791559528L;
     @ApiModelProperty(value = "目录级别(1，系统, 2、菜单, 3、页面)")
@@ -35,4 +35,6 @@ public class AdminMenuDTO extends BaseDto {
     private Integer sort;
     @ApiModelProperty(value = "禁用（0-否，1-是）")
     private Integer disable;
+    @ApiModelProperty(value = "终端 (字段code)")
+    private Integer terminal;
 }

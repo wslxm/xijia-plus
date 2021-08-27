@@ -1,7 +1,10 @@
 package com.ws.ldy.manage.xj.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.manage.xj.model.entity.XjAdminBlacklist;
+import com.ws.ldy.manage.xj.model.query.XjAdminBlacklistQuery;
+import com.ws.ldy.manage.xj.model.vo.XjAdminBlacklistVO;
 
 /**
  * 黑名单
@@ -14,5 +17,6 @@ import com.ws.ldy.manage.xj.model.entity.XjAdminBlacklist;
  */
 public interface XjAdminBlacklistService extends IService<XjAdminBlacklist> {
 
+    IPage<XjAdminBlacklistVO> list(XjAdminBlacklistQuery query);
 }
 

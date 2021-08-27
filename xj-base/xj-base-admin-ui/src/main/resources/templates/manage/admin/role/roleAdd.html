@@ -16,6 +16,12 @@
 <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
 
     <div class="layui-form-item">
+        <label class="layui-form-label">终端</label>
+        <div id="terminal" class="layui-input-block">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
         <label class="layui-form-label">角色名称</label>
         <div class="layui-input-inline">
             <input type="text" id="name" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
@@ -51,7 +57,7 @@
 </div>
 
 <script>
-    let findByPidOrRoleIdTree = "/api/admin/adminMenu/findByPidOrRoleIdTree";
+    //let findByPidOrRoleIdTree = "/api/admin/adminMenu/findByPidOrRoleIdTree";
 
     layui.use(['form', 'tree'], function () {
         init();
@@ -60,8 +66,9 @@
 
 
     function init() {
+        $("#terminal").html(Dict.getDictRadio(Enums.Admin.Terminal, "terminal",parent.data.terminal));     // 终端
         // 获取菜单tree 数据并处理为树结构型状结构需要的数据
-        let menusTree = Ajax.get(findByPidOrRoleIdTree).data;
+        let menusTree = Ajax.get(parent.menuMenuTree).data;
         // 递归处理
         menusTree = initMenuTreeNext(menusTree);
         // 加载菜单数据
@@ -76,6 +83,9 @@
                 layer.msg('状态：' + obj.state + '<br>节点数据：' + JSON.stringify(data));
             }
         });
+
+        // 刷新,否则select可能不生效
+        layui.form.render();
     }
 
     function formSubmit() {
@@ -87,7 +97,7 @@
             nextTreeIds(menuIds, checkedData);
             data.field.menuIds = menuIds;
             //
-            let result = Ajax.post(path + "/admin/adminRole/insert", data.field);
+            let result = Ajax.post(parent.roleUrl, data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

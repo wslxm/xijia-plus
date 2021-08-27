@@ -14,7 +14,13 @@
 </head>
 <body>
 <!-- 搜索 -->
-<div class="searchTable">
+<div class="searchTable layui-form" >
+     终端：
+    <div class="layui-input-inline">
+        <select id="terminal" lay-filter="terminal">
+            <!--  <option value='" + dices[index].code + "' pid='" + dices[index].pid + "'>" + dices[index].name + "</option>-->
+        </select>
+    </div>
     ID搜索：
     <div class="layui-inline">
         <input class="layui-input" id="id" name="id" placeholder="请输入ID搜索" autocomplete="off">
@@ -51,11 +57,12 @@
 </script>
 <script>
     //接口
-    let user_admin_find_page = path + "/admin/adminUser/findPage";              // 用户查询
-    let user_admin_update = path + "/admin/adminUser/upd";                   // 用户编辑
-    let user_admin_delete = path + "/admin/adminUser/del";                   // 用户删除
-    let user_admin_deletes = path + "/admin/adminUser/delByIds";             // 批量删除
-    let user_admin_upd_reset_pws = path + "/admin/adminUser/updResetPassword";  // 重置密码
+    var userUrl = path + "/admin/user";
+    let userListUrl = path + "/admin/user/list";
+    let userDelByIdsUrl = path + "/admin/user/delByIds";                 // 批量删除
+    let userUpdResetPassword = path + "/admin/user/{id}/resetPassword";  // 重置密码
+    var roleFindUserRole = path + "/admin/role/findUserRole";            // 角色分配查询所有--用户当前角色赋予Checked=true
+
 
     //路由
     let user_admin_page_upd = "/page/manage_admin_user_userUpd";          // 用户编辑弹出
@@ -67,13 +74,24 @@
     var data;      // 当前行数据（弹出层时可直接parent.data获取）
 
     layui.use(['form', 'table', 'laypage'], function () {
+        xijiainit();
         xijiaRenderTable();   // 数据表格 - 获取表格
         xijiaLayPage();           // 分页插件
         xijiaEventToolbar();      // 工具栏事件（多删除/添加）
         xijiaEventTool();         // 监听数据表格内按钮操作（编辑,删除等）
         xijiaEventSearch();       // 监听条件搜索
         xijiaEventSwitch();       // 监听单选
+
     });
+
+
+
+    function xijiainit() {
+        $("#terminal").html(Dict.getDictSelect(Enums.Admin.Terminal, "", "所有","1"));     // 终端
+        // 刷新,否则select可能不生效
+        layui.form.render();
+    }
+
 
     /**
      *  重载表格和加载表格
@@ -82,7 +100,7 @@
      * @param params get请求的参数拼接
      */
     function xijiaRenderTable() {
-        res = Ajax.get(user_admin_find_page + getPage() + xijiaSearchParam());
+        res = Ajax.get(userListUrl + getPage() + xijiaSearchParam());
         layui.table.render({
             elem: '#auth-table'
             //, url: findAll
@@ -93,24 +111,35 @@
             , limit: res.data.size //显示的数量
             , cols: [
                 [
-                    {type: 'checkbox', fixed: 'left'}
+                    {type: 'checkbox', fixed: 'left'},
                     //, {field: 'id', title: 'ID', width: 80, fixed: 'left'}
-                    , {
-                    field: 'head', title: '头像', width: 70, templet: function (res) {
-                        return "<img src='" + res.head + "'  style='border-radius: 30px;width: 30px;height: 30px;'>";
-                    }
-                }
-                    , {field: 'username', title: '账号', width: 120,}
-                    , {field: 'phone', title: '手机号', width: 120,}
-                    , {field: 'fullName', title: '姓名/用户名'}
-                    , {field: 'age', title: '年龄', sort: true}
-                    ,
+                    {
+                        field: 'head', title: '头像', width: 70, templet: function (res) {
+                            return "<img src='" + res.head + "'  style='border-radius: 30px;width: 30px;height: 30px;'>";
+                        }
+                    },
+                    {field: 'username', title: '账号', width: 140},
+                    {field: 'phone', title: '手机号', width: 140},
+                    {field: 'fullName', title: '姓名/用户名'},
+                    {field: 'age', title: '年龄', sort: true},
+                    {field: 'regTime', title: '注册时间', width: 165},
                     {
                         field: 'gender', title: '性别', templet: function (res) {
                             return Dict.convert(Enums.Base.Gender, res.gender);
                         }
                     },
-                    {field: 'address', title: '地址'},
+                    {
+                        field: 'terminal', title: '终端', templet: function (res) {
+                            return Dict.convert(Enums.Admin.Terminal, res.terminal);
+                        }
+                    },
+                    {
+                        field: 'position', title: '职位', templet: function (res) {
+                            return Dict.convert(Enums.Admin.Position, res.position);
+                        }
+                    },
+                    /*  {field: 'address', title: '地址'},*/
+
                     {
                         field: 'disable', width: 120, title: '禁用/启用', templet: function (res) {
                             if (res.disable == 0) {
@@ -120,9 +149,8 @@
                             }
                         }
                     },
-                    {field: 'regTime', title: '注册时间', width: 165}
-                    , {field: 'endTime', title: '最后登录时间', width: 165}
-                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 330}
+                    /*  , {field: 'endTime', title: '最后登录时间', width: 165}*/
+                    {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 330}
                 ]
             ]
         });
@@ -187,7 +215,7 @@
                     ids[i] = data[i].id;
                 }
                 if (ids.length > 0) {
-                    let result = Ajax.delete(user_admin_deletes + "?ids=" + ids);
+                    let result = Ajax.delete(userDelByIdsUrl + "?ids=" + ids);
                     xijiaRenderTable();
                     layer.msg(result.msg);
                 }
@@ -218,8 +246,7 @@
             }
             //   单行删除
             if (obj.event === 'del') {
-                let params = "?id=" + data.id;
-                Pop.tipsDeleteId(user_admin_delete + params, obj);
+                Pop.tipsDeleteId(userUrl + "/" + data.id, obj);
             }
             //   重置密码
             if (obj.event === 'resetPassword') {
@@ -230,9 +257,7 @@
                     title: '重置密码',
                     area: ['300px', '200px'] //自定义文本域宽高
                 }, function (value, index, elem) {
-                    let params = "?id=" + data.id;
-                    params += "&password=" + value;
-                    let result = Ajax.put(user_admin_upd_reset_pws + params);
+                    let result = Ajax.put(userUpdResetPassword.replace("{id}", data.id) + "?password=" + value);
                     layer.msg(result.msg);
                     layer.close(index);
                 });
@@ -280,6 +305,7 @@
         params += "&id=" + $("#id").val();
         params += "&username=" + $("#username").val();
         params += "&fullName=" + $("#fullName").val();
+        params += "&terminal=" + $("#terminal").val();
         return params;
     }
 
@@ -290,17 +316,9 @@
      */
     function xijiaEventSwitch() {
         layui.form.on('switch(disable)', function (data) {
-            let disable = 0;
-            if (data.elem.checked) {
-                disable = 0;
-            } else {
-                disable = 1;
-            }
-            let reqData = {
-                id: data.elem.attributes['id'].nodeValue,
-                disable: disable
-            };
-            let result = Ajax.put(user_admin_update, reqData);
+            let disable = data.elem.checked ? 0 : 1;
+            let id = data.elem.attributes['id'].nodeValue;
+            let result = Ajax.put(userUrl + "/" + id, {disable: disable});
             layer.msg(result.msg)
         });
     }

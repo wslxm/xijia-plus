@@ -1,6 +1,7 @@
 package com.ws.ldy.manage.admin.model.dto;
 
 import com.ws.ldy.core.base.model.BaseDto;
+import com.ws.ldy.core.base.model.Convert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,7 +17,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "AdminDictionaryDTO", description = "字典表")
-public class AdminDictionaryDTO extends BaseDto {
+public class AdminDictionaryDTO extends Convert {
 
     private static final long serialVersionUID = 0L;
 

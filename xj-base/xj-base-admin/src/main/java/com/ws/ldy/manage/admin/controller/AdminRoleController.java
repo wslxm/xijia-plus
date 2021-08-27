@@ -1,25 +1,17 @@
 package com.ws.ldy.manage.admin.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.result.RType;
-import com.ws.ldy.core.utils.BeanDtoVoUtil;
-import com.ws.ldy.core.config.error.ErrorException;
+import com.ws.ldy.core.base.controller.BaseController;
 import com.ws.ldy.core.constant.BaseConstant;
+import com.ws.ldy.core.result.R;
 import com.ws.ldy.manage.admin.model.dto.AdminRoleDTO;
 import com.ws.ldy.manage.admin.model.dto.role.RoleAuthDTO;
 import com.ws.ldy.manage.admin.model.dto.role.RoleMenuDTO;
 import com.ws.ldy.manage.admin.model.dto.role.UserRoleDTO;
-import com.ws.ldy.manage.admin.model.entity.AdminRole;
+import com.ws.ldy.manage.admin.model.query.AdminRoleQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminRoleVO;
 import com.ws.ldy.manage.admin.service.AdminRoleService;
-import com.ws.ldy.core.base.controller.BaseController;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,68 +24,44 @@ import java.util.List;
  * @date 2019/11/13 13:38
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/adminRole")
+@RequestMapping(BaseConstant.Uri.apiAdmin + "/role")
 @Api(value = "AdminRoleController", tags = "base--角色管理")
 public class AdminRoleController extends BaseController<AdminRoleService> {
 
 
-    @RequestMapping(value = "/findPage", method = RequestMethod.GET)
-    @ApiOperation(value = "分页查询")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
-            @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),
-            @ApiImplicitParam(name = "name", value = "角色名称", required = false, paramType = "query"),
-    })
-    public R<IPage<AdminRoleVO>> findPage(String name) {
-        Page<AdminRole> page = baseService.page(this.getPage(), new LambdaQueryWrapper<AdminRole>()
-                .orderByAsc(AdminRole::getId)
-                .like(StringUtils.isNotBlank(name), AdminRole::getName, name)
-        );
-        return R.successFind(BeanDtoVoUtil.pageVo(page, AdminRoleVO.class));
+    @GetMapping(value = "/list")
+    @ApiOperation(value = "列表查询")
+    public R<IPage<AdminRoleVO>> list(@ModelAttribute AdminRoleQuery query) {
+        return R.success(baseService.list(query));
     }
 
 
-    @RequestMapping(value = "/findList", method = RequestMethod.GET)
-    @ApiOperation(value = "查询所有")
-    public R<List<AdminRoleVO>> findList() {
-        List<AdminRole> roles = baseService.list();
-        return R.successFind(BeanDtoVoUtil.listVo(roles, AdminRoleVO.class));
-    }
-
-
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @PostMapping
     @ApiOperation(value = "添加")
     public R<Boolean> insert(@RequestBody AdminRoleDTO dto) {
-        if (StringUtils.isNotBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
-        }
         return R.successInsert(baseService.insert(dto));
     }
 
 
-    @RequestMapping(value = "/upd", method = RequestMethod.PUT)
+    @PutMapping(value = "/{id}")
     @ApiOperation(value = "ID编辑")
-    public R<Boolean> upd(@RequestBody AdminRoleDTO dto) {
-        if (StringUtils.isBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
-        }
-        return R.successUpdate(baseService.upd(dto));
+    public R<Boolean> upd(@PathVariable String id, @RequestBody AdminRoleDTO dto) {
+        return R.successUpdate(baseService.upd(id, dto));
     }
 
 
-    @RequestMapping(value = "/del", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     @ApiOperation(value = "ID删除")
-    public R<Boolean> del(@RequestParam String id) {
+    public R<Boolean> del(@PathVariable String id) {
         return R.successDelete(baseService.del(id));
     }
-
 
     //=========================================================================
     //============================ 增删改查外 ===================================
     //=========================================================================
     //=========================================================================
 
-    @RequestMapping(value = "/findUserRole", method = RequestMethod.GET)//Checked
+    @GetMapping(value = "/findUserRole")//Checked
     @ApiOperation(value = "获取指定用户的角色列表", notes = "用户角色分配查询到所有角色, 并使用户拥有的角色赋予 isChecked=true")
     public R<List<AdminRoleVO>> findRoleChecked(@RequestParam String userId) {
         List<AdminRoleVO> roles = baseService.findByUserIdRoleChecked(userId);
@@ -101,7 +69,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     }
 
 
-    @RequestMapping(value = "/updUserRole", method = RequestMethod.PUT)
+    @PutMapping(value = "/updUserRole")
     @ApiOperation(value = "用户的角色分配")
     @Deprecated
     public R<Boolean> updUserRole(@RequestBody UserRoleDTO dto) {
@@ -112,7 +80,8 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
         }
     }
 
-    @RequestMapping(value = "/updRoleAuth", method = RequestMethod.PUT)
+
+    @PutMapping(value = "/updRoleAuth")
     @ApiOperation(value = "角色的URL权限分配")
     public R<Boolean> updRoleAuth(@RequestBody RoleAuthDTO dto) {
         if (baseService.roleUrlAuth(dto)) {
@@ -122,14 +91,16 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
         }
     }
 
-    @RequestMapping(value = "/updRoleMenu", method = RequestMethod.PUT)
+
+    @PutMapping(value = "/updRoleMenu")
     @ApiOperation(value = "角色的菜单分配")
     public R<Boolean> updRoleMenu(@RequestBody RoleMenuDTO dto) {
         // 菜单每次都是重新请求接口获取的,不用做任何配置
         return R.successUpdate(baseService.roleMenuAuth(dto));
     }
 
-    @RequestMapping(value = "/updRoleAuthAll", method = RequestMethod.PUT)
+
+    @PutMapping(value = "/updRoleAuthAll")
     @ApiOperation(value = "所有角色拥有所有权限")
     public R<Boolean> updRoleAuthAll() {
         return R.successUpdate(baseService.roleAuthAll());

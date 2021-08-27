@@ -1,6 +1,6 @@
 package com.ws.ldy.manage.admin.model.dto;
 
-import com.ws.ldy.core.base.model.BaseDto;
+import com.ws.ldy.core.base.model.Convert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,25 +18,20 @@ import java.util.List;
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "AdminRoleDTO", description = "角色")
-public class AdminRoleDTO extends BaseDto {
-
+public class AdminRoleDTO extends Convert {
 
     private static final long serialVersionUID = 5684918982089765949L;
-
     @ApiModelProperty(value = "角色名")
     private String name;
-
     @ApiModelProperty(value = "描叙")
     private String desc;
-
     @ApiModelProperty(value = "查询code")
     private String code;
-
     @ApiModelProperty(value = "禁用（0-否，1-是）")
     private Integer disable;
-
+    @ApiModelProperty(value = "终端 (字段code)")
+    private Integer terminal;
     @ApiModelProperty(value = "角色的菜单列表ids")
-    private  List<String> menuIds;
-
+    private List<String> menuIds;
 }
 

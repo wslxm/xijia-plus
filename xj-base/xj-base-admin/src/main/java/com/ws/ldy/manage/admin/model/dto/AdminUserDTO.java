@@ -1,7 +1,7 @@
 package com.ws.ldy.manage.admin.model.dto;
 
 
-import com.ws.ldy.core.base.model.BaseDto;
+import com.ws.ldy.core.base.model.Convert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,8 +18,8 @@ import java.util.List;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "AdminRoleUserDTO", description = "用户表")
-public class UserAdminDTO extends BaseDto {
+@ApiModel(value = "AdminUserDTO", description = "用户表")
+public class AdminUserDTO extends Convert {
 
     private static final long serialVersionUID = 4934650100711613453L;
 
@@ -44,7 +44,8 @@ public class UserAdminDTO extends BaseDto {
 
     @ApiModelProperty(value = "职位（字典code）")
     private Integer position;
-
+    @ApiModelProperty(value = "终端 (字段code)")
+    private Integer terminal;
     @ApiModelProperty(value = "角色Id")
     List<String> roles;
 }

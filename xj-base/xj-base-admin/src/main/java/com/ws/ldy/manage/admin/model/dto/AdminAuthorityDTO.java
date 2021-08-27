@@ -1,6 +1,6 @@
 package com.ws.ldy.manage.admin.model.dto;
 
-import com.ws.ldy.core.base.model.BaseDto;
+import com.ws.ldy.core.base.model.Convert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,7 +21,7 @@ import org.hibernate.validator.constraints.Range;
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "AdminAuthorityDTO 对象", description = "权限接口表")
-public class AdminAuthorityDTO extends BaseDto {
+public class AdminAuthorityDTO extends Convert {
 
     private static final long serialVersionUID = 0L;
 

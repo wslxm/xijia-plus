@@ -47,8 +47,8 @@ public class SysAuth {
 
 
     public SysAuth() {
-        URIS.add("/api/admin/adminUser/login");          // 管理端登录接口
-        URIS.add("/api/admin/adminRole/updRoleAuthAll"); // 给所有角色分配所有权限
+        URIS.add("/api/admin/user/login");          // 管理端登录接口
+        URIS.add("/api/admin/role/updRoleAuthAll"); // 给所有角色分配所有权限
     }
 
 

@@ -3,21 +3,22 @@ package com.ws.ldy.manage.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
-import com.ws.ldy.core.cache.CacheUtil;
 import com.ws.ldy.common.cache.CacheKey;
+import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
+import com.ws.ldy.core.cache.CacheUtil;
 import com.ws.ldy.core.common.function.LambdaUtils;
+import com.ws.ldy.core.config.error.ErrorException;
+import com.ws.ldy.core.enums.Base;
 import com.ws.ldy.core.result.RType;
 import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.core.utils.paramVerification.StringUtil;
-import com.ws.ldy.core.config.error.ErrorException;
-import com.ws.ldy.core.enums.Base;
 import com.ws.ldy.manage.admin.mapper.AdminDictionaryMapper;
 import com.ws.ldy.manage.admin.model.dto.AdminDictionaryDTO;
 import com.ws.ldy.manage.admin.model.entity.AdminDictionary;
+import com.ws.ldy.manage.admin.model.query.AdminDictionaryQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminDictionaryCodeGroup;
 import com.ws.ldy.manage.admin.model.vo.AdminDictionaryVO;
 import com.ws.ldy.manage.admin.service.AdminDictionaryService;
-import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -68,9 +69,6 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     @Override
     public Boolean insert(AdminDictionaryDTO dto) {
-        if (StringUtils.isNotBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
-        }
         if (StringUtils.isBlank(dto.getCode().trim())) {
             throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + LambdaUtils.convert(AdminDictionaryDTO::getCode));
         }
@@ -86,15 +84,12 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     }
 
     @Override
-    public Boolean upd(AdminDictionaryDTO dto) {
-        if (StringUtils.isBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
-        }
+    public Boolean upd(String id, AdminDictionaryDTO dto) {
         // 因为Code不能重复, 编辑了Code 需单独处理数据
         if (dto.getCode() != null) {
             dto.setCode(dto.getCode().trim());
             // 原数据
-            AdminDictionary dict = this.getById(dto.getId());
+            AdminDictionary dict = this.getById(id);
             //  原数据code != new Code, 判断数据库是否存在修改后的code值 ， code为Integer时不处理
             if (!dict.getCode().equals(dto.getCode().trim())) {
                 if (!StringUtil.isInteger(dto.getCode()) && this.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
@@ -102,7 +97,9 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
                 }
             }
         }
-        boolean res = this.updateById(dto.convert(AdminDictionary.class));
+        AdminDictionary entity = dto.convert(AdminDictionary.class);
+        entity.setId(id);
+        boolean res = this.updateById(entity);
         //清除缓存
         CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
         return res;
@@ -133,16 +130,16 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     /**
      * 根据code 查询下级所有
      * @author wangsong
-     * @param code 父级code, 不传查询code，传递了只查询指定code下数据
-     * @param isDisable     是否查询禁用数据       = true 查询*默认   = false 不查询
-     * @param isBottomLayer 是否需要最后一级数据   = true 需要*默认   = false 不需要
-     * @param isTree        是否返回树结构数据    = tree 是*默认     = false 否(返回过滤后的 list列表)
      * @date 2020/8/8 0008 1:15
      * @return com.ws.ldy.modules.admin.model.vo.AdminDictionaryVO
      * @version 1.0.0
      */
     @Override
-    public List<AdminDictionaryVO> findByCodeFetchDictVO(String code, Boolean isDisable, Boolean isBottomLayer, Boolean isTree) {
+    public List<AdminDictionaryVO> findByCodeFetchDictVO(AdminDictionaryQuery query) {
+        Boolean isDisable = query.getIsDisable();
+        Boolean isBottomLayer = query.getIsBottomLayer();
+        Boolean isTree = query.getIsTree();
+        String code = query.getCode();
         // 默认参数
         if (isDisable == null) {
             isDisable = true;
@@ -292,7 +289,12 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     @Override
     public Map<String, String> generateEnum(String enumName) {
-        List<AdminDictionaryVO> dict = this.findByCodeFetchDictVO(enumName, true, true, true);
+        AdminDictionaryQuery query = new AdminDictionaryQuery();
+        query.setCode(enumName);
+        query.setIsDisable(true);
+        query.setIsBottomLayer(true);
+        query.setIsTree(true);
+        List<AdminDictionaryVO> dict = this.findByCodeFetchDictVO(query);
         String enumsJava = null;
         if (enumName.equals("ENUMS")) {
             enumsJava = this.generateEnumJava(dict.get(0));

@@ -1,7 +1,10 @@
 package com.ws.ldy.manage.xj.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.manage.xj.model.entity.XjAdminLog;
+import com.ws.ldy.manage.xj.model.query.XjAdminLogQuery;
+import com.ws.ldy.manage.xj.model.vo.XjAdminLogVO;
 
 /**
  * 操作记录表
@@ -13,6 +16,8 @@ import com.ws.ldy.manage.xj.model.entity.XjAdminLog;
  * @date  2020-10-28 20:44:32
  */
 public interface XjAdminLogService extends IService<XjAdminLog> {
+
+    IPage<XjAdminLogVO> list(XjAdminLogQuery query);
 
 }
 

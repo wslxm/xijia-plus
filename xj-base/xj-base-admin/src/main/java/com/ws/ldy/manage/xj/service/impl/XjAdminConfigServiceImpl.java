@@ -1,14 +1,20 @@
 package com.ws.ldy.manage.xj.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.core.cache.CacheUtil;
 import com.ws.ldy.core.config.error.ErrorException;
 import com.ws.ldy.core.result.RType;
+import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.manage.xj.mapper.XjAdminConfigMapper;
 import com.ws.ldy.manage.xj.model.dto.XjAdminConfigDTO;
 import com.ws.ldy.manage.xj.model.entity.XjAdminConfig;
+import com.ws.ldy.manage.xj.model.query.XjAdminConfigQuery;
+import com.ws.ldy.manage.xj.model.vo.XjAdminConfigVO;
 import com.ws.ldy.manage.xj.service.XjAdminConfigService;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +34,19 @@ import java.util.stream.Collectors;
 @Service
 public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapper, XjAdminConfig> implements XjAdminConfigService {
 
+    @Override
+    public IPage<XjAdminConfigVO> list(XjAdminConfigQuery query) {
+        LambdaQueryWrapper<XjAdminConfig> queryWrapper = new LambdaQueryWrapper<XjAdminConfig>()
+                .orderByDesc(XjAdminConfig::getCreateTime)
+                .eq(StringUtils.isNotBlank(query.getCode()), XjAdminConfig::getCode, query.getCode())
+                .like(StringUtils.isNotBlank(query.getName()), XjAdminConfig::getName, query.getName());
+        if (query.getCurrent() <= 0) {
+            IPage<XjAdminConfigVO> page = new Page<>();
+            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), XjAdminConfigVO.class));
+        } else {
+            return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminConfigVO.class);
+        }
+    }
 
     @Override
     public XjAdminConfig findByCode(String code) {

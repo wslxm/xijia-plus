@@ -18,6 +18,7 @@ import com.ws.ldy.manage.admin.model.dto.AdminAuthorityDTO;
 import com.ws.ldy.manage.admin.model.entity.AdminAuthority;
 import com.ws.ldy.manage.admin.model.entity.AdminRole;
 import com.ws.ldy.manage.admin.model.entity.AdminRoleAuth;
+import com.ws.ldy.manage.admin.model.query.AdminAuthorityQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminAuthorityVO;
 import com.ws.ldy.manage.admin.service.AdminAuthorityService;
 import com.ws.ldy.manage.admin.service.AdminRoleAuthService;
@@ -56,7 +57,9 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      * @date 2019/11/25 0025 11:55
      */
     @Override
-    public List<AdminAuthorityVO> findList(Integer type, String pid) {
+    public List<AdminAuthorityVO> list(AdminAuthorityQuery query) {
+        Integer type = query.getType();
+        String pid = query.getPid();
         // refreshAuthCache
         Map<String, AdminAuthority> authMap = CacheUtil.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
         List<AdminAuthority> list = new ArrayList<>();
@@ -121,9 +124,11 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean upd(AdminAuthorityDTO dto) {
+    public Boolean upd(String id, AdminAuthorityDTO dto) {
         // 更新
-        boolean b = this.updateById(dto.convert(AdminAuthority.class));
+        AdminAuthority entity = dto.convert(AdminAuthority.class);
+        entity.setId(id);
+        boolean b = this.updateById(entity);
         // 刷新缓存
         this.refreshAuthCache();
         return b;
@@ -185,8 +190,8 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             Integer state = null;
             // 获取类名/类注释
             Api api = classInfo.getDeclaredAnnotation(Api.class);
-            String classDesc =  classInfo.getSimpleName();
-            String className =  classDesc;
+            String classDesc = classInfo.getSimpleName();
+            String className = classDesc;
             if (api != null) {
                 classDesc = api.tags()[0];
                 className = api.value();
@@ -216,9 +221,9 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             if (uriType != null) {
                 String classLog = "  接口类：--------------@.@[" + classDesc + "-" + className + "]--";
                 log.info(String.format("%-100s", classLog).replace(" ", "-"));
-                if (authorityMap.containsKey( AuthCacheKeyUtil.getAuthKey("", url))) {
+                if (authorityMap.containsKey(AuthCacheKeyUtil.getAuthKey("", url))) {
                     // 存在修改
-                    AdminAuthority updAuthority = authorityMap.get( AuthCacheKeyUtil.getAuthKey("", url));
+                    AdminAuthority updAuthority = authorityMap.get(AuthCacheKeyUtil.getAuthKey("", url));
                     updAuthority.setUrl(url);
                     updAuthority.setDesc(classDesc);
                     updAuthority.setType(uriType);
@@ -227,7 +232,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                     this.putMethods(classInfo, authorityMap, updAuthority, updAuth, addAuth);
                     updAuth.add(updAuthority);
                     // 移除Map中已取出的数据
-                    authorityMap.remove( AuthCacheKeyUtil.getAuthKey("", url));
+                    authorityMap.remove(AuthCacheKeyUtil.getAuthKey("", url));
                 } else {
                     // 不存在新添加
                     AdminAuthority addAuthority = new AdminAuthority();
@@ -259,7 +264,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             // 判断新增的接口中是否有重复的url，如果Url有重复直接将直接抛出异常
             Map<String, AdminAuthority> addUrls = null;
             try {
-                addUrls = list.stream().collect(Collectors.toMap(item ->  AuthCacheKeyUtil.getAuthKey(item.getMethod(), item.getUrl()), item -> item));
+                addUrls = list.stream().collect(Collectors.toMap(item -> AuthCacheKeyUtil.getAuthKey(item.getMethod(), item.getUrl()), item -> item));
             } catch (Exception e) {
                 log.info("接口 URI 地址重复命名,不能存在相同的【请求方式+请求uri】");
                 e.printStackTrace();
@@ -345,8 +350,8 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             log.info("  接口资源：[{}]  -->  [{}]  -->  [{}] ", String.format("%-6s", requestMethod), String.format("%-40s", url), desc);
             // 存在修改，不存在新添加
             // url = url + ":" + methodName;
-            if (authorityMap.containsKey( AuthCacheKeyUtil.getAuthKey(requestMethod, url))) {
-                AdminAuthority updAuthority = authorityMap.get( AuthCacheKeyUtil.getAuthKey(requestMethod, url));
+            if (authorityMap.containsKey(AuthCacheKeyUtil.getAuthKey(requestMethod, url))) {
+                AdminAuthority updAuthority = authorityMap.get(AuthCacheKeyUtil.getAuthKey(requestMethod, url));
                 updAuthority.setPid(authority.getId());
                 updAuthority.setDesc(desc);
                 updAuthority.setUrl(url);
@@ -354,7 +359,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 updAuthority.setType(authority.getType());
                 updAuth.add(updAuthority);
                 // 移除Map中已取出的数据
-                authorityMap.remove( AuthCacheKeyUtil.getAuthKey(requestMethod, url));
+                authorityMap.remove(AuthCacheKeyUtil.getAuthKey(requestMethod, url));
             } else {
                 AdminAuthority addAuthority = new AdminAuthority();
                 addAuthority.setId(IdUtil.snowflakeId());
@@ -379,7 +384,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      * @date 2019/11/25 0025 11:55
      */
     @Override
-    public List<AdminAuthorityVO> findByRoleIdAuthorityChecked(String roleId) {
+    public List<AdminAuthorityVO> authList(String roleId) {
         // 获取当前角色拥有的url权限列表
         List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>()
                 .select(AdminRoleAuth::getRoleId, AdminRoleAuth::getAuthId, AdminRoleAuth::getId)
@@ -414,7 +419,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      * @return
      */
     @Override
-    public List<AdminAuthorityVO> findByRoleIdAuthorityTreeChecked(String roleId) {
+    public List<AdminAuthorityVO> authTree(String roleId) {
         // 获取当前角色拥有的url权限列表
         List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>()
                 .select(AdminRoleAuth::getRoleId, AdminRoleAuth::getAuthId, AdminRoleAuth::getId)
@@ -527,7 +532,6 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         log.info("权限数据加载成功, 当前 [需登录/授权] 的接口数量为: {}", authorityCountState2);
         log.info("权限数据加载成功, 当前 [所有接口] 的接口数量为:    {}", authorityCount);
     }
-
 
 
     /**

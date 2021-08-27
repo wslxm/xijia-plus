@@ -54,11 +54,6 @@
              注释范围的依赖,在需要启动服务的项目按需加载
              已加载的都是系统必须加载的
         -->
-        <!-- 界面- 后台管理系统ui -->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-base-admin-ui</artifactId>
-        </dependency>
         <!-- 核心组件- 通用base层+字典枚举+ 统一返回+常用工具类    -->
         <dependency>
             <groupId>com.ws.ldy</groupId>

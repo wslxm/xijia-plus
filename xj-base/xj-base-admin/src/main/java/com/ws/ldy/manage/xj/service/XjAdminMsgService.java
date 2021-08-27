@@ -1,8 +1,11 @@
 package com.ws.ldy.manage.xj.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.manage.xj.model.dto.XjAdminMsgDTO;
 import com.ws.ldy.manage.xj.model.entity.XjAdminMsg;
+import com.ws.ldy.manage.xj.model.query.XjAdminMsgQuery;
+import com.ws.ldy.manage.xj.model.vo.XjAdminMsgVO;
 
 /**
  * 订单-->及时消息通知表
@@ -15,7 +18,7 @@ import com.ws.ldy.manage.xj.model.entity.XjAdminMsg;
  */
 public interface XjAdminMsgService extends IService<XjAdminMsg> {
 
-
+    IPage<XjAdminMsgVO> list(XjAdminMsgQuery query);
     /**
      * 发送消息
      */

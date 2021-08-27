@@ -1,8 +1,11 @@
 package com.ws.ldy.manage.xj.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.manage.xj.model.dto.XjAdminConfigDTO;
 import com.ws.ldy.manage.xj.model.entity.XjAdminConfig;
+import com.ws.ldy.manage.xj.model.query.XjAdminConfigQuery;
+import com.ws.ldy.manage.xj.model.vo.XjAdminConfigVO;
 
 /**
  * 系统全局数据信息配置表
@@ -15,6 +18,7 @@ import com.ws.ldy.manage.xj.model.entity.XjAdminConfig;
  */
 public interface XjAdminConfigService extends IService<XjAdminConfig> {
 
+    IPage<XjAdminConfigVO> list(XjAdminConfigQuery query);
 
     XjAdminConfig findByCode(String code);
 

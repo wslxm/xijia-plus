@@ -30,22 +30,27 @@
 
         <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list"
              style="padding: 20px 30px 0 0;">
+            <div id="terminalDiv" class="layui-form-item">
+                <label class="layui-form-label">终端</label>
+                <div id="terminal" class="layui-input-block">
+                </div>
+            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">名称</label>
                 <div class="layui-input-inline">
                     <input type="text" id="name" name="name" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div id="urlDiv" class="layui-form-item">
                 <label class="layui-form-label">路由</label>
                 <div class="layui-input-inline">
                     <input type="text" id="url" name="url" placeholder="请输入路由" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div id="twoUrlDiv" class="layui-form-item">
                 <label class="layui-form-label">第二路由</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="twoUrl" name="twoUrl" lay-verify="" placeholder="非必填" autocomplete="off" class="layui-input">
+                    <input type="text" id="twoUrl" name="twoUrl" placeholder="非必填" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -75,12 +80,32 @@
         </div>
     </body>
     <script>
-        layui.use(['iconHhysFa','form'], function () {
+        layui.use(['iconHhysFa', 'form'], function () {
             init();
             formSubmit();
         });
 
         function init() {
+            //判断
+            if (parent.data.root === 1) {
+                // 添加系统--屏蔽路由
+                $("#urlDiv").attr("style", "display:none");
+                $("#twoUrlDiv").attr("style", "display:none");
+            } else if (parent.data.root === 2) {
+                // 添加菜单--屏蔽路由, 屏蔽终端
+                //  $("#terminalDiv").attr("style", "display:none");
+                $("#urlDiv").attr("style", "display:none");
+                $("#twoUrlDiv").attr("style", "display:none");
+            } else if (parent.data.root === 3) {
+                // 添加页面--路由设置为必填, 屏蔽终端
+                // $("#terminalDiv").attr("style", "display:none");
+                $("#url").attr("lay-verify", "required");
+            }
+
+            $("#terminal").html(Dict.getDictRadio(Enums.Admin.Terminal, "terminal", parent.data.terminal)); // 终端
+            // 刷新,否则select可能不生效
+            layui.form.render();
+
             // 回显父页面的值
             $("#name").val(parent.data.name);
             $("#icon").val(parent.data.icon);
@@ -116,16 +141,9 @@
         function formSubmit() {
             //监听提交
             layui.form.on('submit(layuiadmin-app-form-submit)', function (res) {
-                let data = {
-                    id: parent.data.id,
-                    name: $("#name").val(),
-                    icon: $("#icon").val(),
-                    url: $("#url").val(),
-                    twoUrl: $("#twoUrl").val(),
-                    sort: $("#sort").val()
-                };
+                let data = res.field;
                 // 修改
-                let result = Ajax.put(path + "/admin/adminMenu/upd", data);
+                let result = Ajax.put(parent.menuUrl + "/" + parent.data.id, data);
                 // 关闭弹层
                 let index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);

@@ -3,16 +3,21 @@ package com.ws.ldy.manage.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.core.enums.Admin;
+import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.manage.admin.mapper.AdminRoleMapper;
 import com.ws.ldy.manage.admin.model.dto.AdminRoleDTO;
 import com.ws.ldy.manage.admin.model.dto.role.RoleAuthDTO;
 import com.ws.ldy.manage.admin.model.dto.role.RoleMenuDTO;
 import com.ws.ldy.manage.admin.model.dto.role.UserRoleDTO;
 import com.ws.ldy.manage.admin.model.entity.*;
+import com.ws.ldy.manage.admin.model.query.AdminRoleQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminRoleVO;
 import com.ws.ldy.manage.admin.service.*;
-import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +43,23 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
     private AdminRoleMenuService adminRoleMenuService;
     @Autowired
     private AdminRoleAuthService adminRoleAuthService;
+
+
+    @Override
+    public IPage<AdminRoleVO> list(AdminRoleQuery query) {
+        LambdaQueryWrapper<AdminRole> queryWrapper = new LambdaQueryWrapper<AdminRole>()
+                .eq(query.getTerminal() != null, AdminRole::getTerminal, query.getTerminal())
+                .orderByAsc(AdminRole::getId)
+                .like(StringUtils.isNotBlank(query.getName()), AdminRole::getName, query.getName());
+        if (query.getCurrent() <= 0) {
+            // list
+            IPage<AdminRoleVO> page = new Page<>();
+            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), AdminRoleVO.class));
+        } else {
+            // page
+            return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), AdminRoleVO.class);
+        }
+    }
 
     /**
      * 添加角色-默认有所有URL 权限
@@ -66,8 +88,9 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean upd(AdminRoleDTO dto) {
+    public Boolean upd(String id, AdminRoleDTO dto) {
         AdminRole role = dto.convert(AdminRole.class);
+        role.setId(id);
         this.updateById(role);
         // 给角色分配菜单权限(先删除后添加)
         adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, role.getId()));

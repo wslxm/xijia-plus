@@ -1,19 +1,15 @@
 package com.ws.ldy.manage.admin.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.result.RType;
-import com.ws.ldy.core.utils.BeanDtoVoUtil;
-import com.ws.ldy.core.config.error.ErrorException;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ws.ldy.core.base.controller.BaseController;
 import com.ws.ldy.core.constant.BaseConstant;
-import com.ws.ldy.core.enums.Admin;
+import com.ws.ldy.core.result.R;
+import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.manage.admin.model.dto.AdminMenuDTO;
-import com.ws.ldy.manage.admin.model.entity.AdminMenu;
+import com.ws.ldy.manage.admin.model.query.AdminMenuQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminMenuVO;
 import com.ws.ldy.manage.admin.service.AdminMenuService;
-import com.ws.ldy.core.base.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,7 +17,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *   菜单
@@ -31,13 +26,41 @@ import java.util.stream.Collectors;
  * @date 2019/11/13 13:38
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin +"/adminMenu")
+@RequestMapping(BaseConstant.Uri.apiAdmin + "/menu")
 @Api(value = "AdminMenuController", tags = "base--菜单管理")
 public class AdminMenuController extends BaseController<AdminMenuService> {
 
 
-    @RequestMapping(value = "/findTree", method = RequestMethod.GET)
-    @ApiOperation(value = "左导航菜单", notes = "当前用户对应的角色菜单数据，树结构数据,无限级,不限制层次,根据sort字段正序排序,sort越小越靠前")
+    @GetMapping(value = "/list")
+    @ApiOperation(value = "列表查询", notes = "根据sort正序排序返回")
+    public R<IPage<AdminMenuVO>> list(@ModelAttribute AdminMenuQuery query) {
+        return R.success(baseService.list(query));
+    }
+
+
+    @PostMapping
+    @ApiOperation(value = "菜单添加")
+    public R<Boolean> insert(@RequestBody AdminMenuDTO dto) {
+        return R.successInsert(baseService.insert(dto));
+    }
+
+
+    @PutMapping(value = "/{id}")
+    @ApiOperation(value = "ID编辑", notes = "如果修改了终端,那么下级数据全部变更为父级选中的终端")
+    public R<Boolean> upd(@PathVariable String id, @RequestBody AdminMenuDTO dto) {
+        return R.successUpdate(baseService.upd(id, dto));
+    }
+
+
+    @DeleteMapping(value = "/{id}")
+    @ApiOperation(value = "ID删除", notes = "同时删除当前菜单和当前菜单下的所有子菜单")
+    public R<List<String>> del(@PathVariable String id) {
+        return R.successDelete(baseService.del(id));
+    }
+
+
+    @GetMapping(value = "/findTree")
+    @ApiOperation(value = "左导航菜单", notes = "当前用户对应的角色菜单数据, 树结构数据,无限级,不限制层次,根据sort字段正序排序,sort越小越靠前")
     public R<List<AdminMenuVO>> menuTree() {
         //获取菜单
         List<AdminMenuVO> menuTree = baseService.getMenuTree();
@@ -45,81 +68,41 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
     }
 
 
-    @RequestMapping(value = "/findList", method = RequestMethod.GET)
-    @ApiOperation(value = "查询所有", notes = "根据sort字段正序排序,sort越小越靠前")
-    @ApiImplicitParam(name = "isBottomLayer", value = "true=需要最后一级的数据  false=不需要最后一级 (默认true)", required = true, paramType = "query", example = "true")
-    public R<List<AdminMenuVO>> findList(Boolean isBottomLayer) {
-        List<AdminMenu> menus = baseService.list(new LambdaQueryWrapper<AdminMenu>()
-                .orderByAsc(AdminMenu::getSort)
-                .orderByAsc(AdminMenu::getId)
-        );
-        if (isBottomLayer==null || isBottomLayer) {
-            return R.successFind(BeanDtoVoUtil.listVo(menus, AdminMenuVO.class));
-        } else {
-            List<AdminMenu> newMenus = menus.stream().filter(i -> !i.getRoot().equals(Admin.MenuRoot.V3.getValue())).collect(Collectors.toList());
-            return R.successFind(BeanDtoVoUtil.listVo(newMenus, AdminMenuVO.class));
-        }
-    }
-
-    /**
-     * @param id     父id
-     * @param roleId 角色Id，判断当前是否有权限并选中 List
-     */
-    @RequestMapping(value = "/findByPidOrRoleId", method = RequestMethod.GET)
-    @ApiOperation(value = "pid + roleId 查询菜单列表", notes = "1、未传递查询所有: isChecked=false || null \r\n " +
+    @GetMapping(value = "/menuList")
+    @ApiOperation(value = "pid + roleId 查询菜单列表", notes = "" +
+            "1、未传递查询所有: isChecked=false || null \r\n " +
             "2、根据 pid + roleId 查询当前角色+指定父菜单下的所有菜单给予选中状态 isChecked=true，包括自身, 不在当前 pid 下和 roleId没有权限角色的: isChecked=false || null, 返回List 列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "父id", required = false, paramType = "query"),
             @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "terminal", value = "终端(不传查所有)", required = false, paramType = "query", example = "")
     })
-    public R<List<AdminMenuVO>> findByPidOrRoleId(String id, String roleId) {
-        List<AdminMenuVO> menus = baseService.findPIdOrRoleIdList(id, roleId);
+    public R<List<AdminMenuVO>> menuList(@RequestParam(required = false) String id,
+                                         @RequestParam(required = false) String roleId,
+                                         @RequestParam(required = false) Integer terminal) {
+        List<AdminMenuVO> menus = baseService.menuList(id, roleId, terminal);
         return R.successFind(BeanDtoVoUtil.listVo(menus, AdminMenuVO.class));
     }
-
 
     /**
      * @param id     父id
      * @param roleId 角色Id，判断当前是否有权限并选中 Tree
      */
-    @RequestMapping(value = "/findByPidOrRoleIdTree", method = RequestMethod.GET)
-    @ApiOperation(value = "pid + roleId 查询菜单列表", notes = "1、未传递查询所有: isChecked=false || null \r\n " +
+    @GetMapping(value = "/menuTree")
+    @ApiOperation(value = "pid + roleId 查询菜单列表", notes = "" +
+            "1、未传递查询所有: isChecked=false || null \r\n " +
             "2、根据 pid + roleId 查询当前角色+指定父菜单下的所有菜单给予选中状态 isChecked=true，包括自身, 不在当前 pid 下和 roleId没有权限角色的: isChecked=false || null, 返回List->Tree ")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "父id", required = false, paramType = "query"),
-            @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
+            @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "terminal", value = "终端(不传查所有)", required = false, paramType = "query", example = "")
     })
-    public R<List<AdminMenuVO>> findByPidOrRoleIdTree(String id, String roleId) {
-        List<AdminMenuVO> menus = baseService.findPIdOrRoleIdTree(id, roleId);
+    public R<List<AdminMenuVO>> menuTree(@RequestParam(required = false) String id,
+                                         @RequestParam(required = false) String roleId,
+                                         @RequestParam(required = false) Integer terminal
+    ) {
+        List<AdminMenuVO> menus = baseService.menuTree(id, roleId, terminal);
         return R.successFind(BeanDtoVoUtil.listVo(menus, AdminMenuVO.class));
     }
 
-
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    @ApiOperation(value = "菜单添加")
-    public R<Boolean> insert(@RequestBody AdminMenuDTO dto) {
-        if (StringUtils.isNotBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
-        }
-        Boolean result = baseService.insert(dto);
-        return R.successInsert(result);
-    }
-
-
-    @RequestMapping(value = "/upd", method = RequestMethod.PUT)
-    @ApiOperation(value = "ID编辑")
-    public R<Void> upd(@RequestBody AdminMenuDTO dto) {
-        if (StringUtils.isBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_TRUE);
-        }
-        baseService.updateById(dto.convert(AdminMenu.class));
-        return R.successUpdate();
-    }
-
-
-    @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    @ApiOperation(value = "ID删除", notes = "同时删除当前菜单和当前菜单下的所有子菜单")
-    public R<List<String>> del(@RequestParam String id) {
-        return R.successDelete(  baseService.del(id));
-    }
 }

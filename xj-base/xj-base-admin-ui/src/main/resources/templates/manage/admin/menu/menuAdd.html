@@ -30,19 +30,24 @@
         <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list"
              style="padding: 20px 30px 0 0;">
 
+            <div id="terminalDiv" class="layui-form-item">
+                <label class="layui-form-label">终端</label>
+                <div id="terminal" class="layui-input-block">
+                </div>
+            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">名称</label>
                 <div class="layui-input-inline">
                     <input type="text" id="name" name="name" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div id="urlShow" class="layui-form-item">
+            <div id="urlDiv" class="layui-form-item">
                 <label class="layui-form-label">路由</label>
                 <div class="layui-input-inline">
                     <input type="text" id="url" name="url" placeholder="请输入路由" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div id="urlShow2" class="layui-form-item">
+            <div id="twoUrlDiv" class="layui-form-item">
                 <label class="layui-form-label">第二路由</label>
                 <div class="layui-input-inline">
                     <input type="text" id="twoUrl" name="twoUrl" placeholder="非必填" autocomplete="off" class="layui-input">
@@ -81,20 +86,23 @@
         });
 
         function init() {
+
             //默认值
             $("#sort").val(0);
             $("#icon").val("layui-icon-file-b");
             //判断
             if (parent.data.lv === 1) {
                 // 添加系统--屏蔽路由
-                $("#urlShow").attr("style", "display:none");
-                $("#urlShow2").attr("style", "display:none");
+                $("#urlDiv").attr("style", "display:none");
+                $("#twoUrlDiv").attr("style", "display:none");
             } else if (parent.data.lv === 2) {
-                // 添加菜单--屏蔽路由
-                $("#urlShow").attr("style", "display:none");
-                $("#urlShow2").attr("style", "display:none");
+                // 添加菜单--屏蔽路由, 屏蔽终端
+               /* $("#terminalDiv").attr("style", "display:none");*/
+                $("#urlDiv").attr("style", "display:none");
+                $("#twoUrlDiv").attr("style", "display:none");
             } else if (parent.data.lv === 3) {
-                // 添加页面--路由必填
+                // 添加页面--路由设置为必填, 屏蔽终端
+                /* $("#terminalDiv").attr("style", "display:none");*/
                 $("#url").attr("lay-verify", "required");
             }
 
@@ -120,20 +128,28 @@
                     //console.log(d);
                 }
             });
+            // 终端
+            if(parent.data.terminal === null || parent.data.terminal === ""){
+                $("#terminal").html(Dict.getDictRadio(Enums.Admin.Terminal, "terminal"));
+            }else{
+                $("#terminal").html(Dict.getDictRadio(Enums.Admin.Terminal, "terminal",parent.data.terminal));
+            }
+            // 刷新,否则select可能不生效
+            layui.form.render();
         }
 
         function formSubmit() {
             // 监听提交
-            layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            layui.form.on('submit(layuiadmin-app-form-submit)', function (res) {
                 WindowPos.onbeforeunload();
                 //顶级菜单父Id=0, 其他为当前选中行
                 if (parent.data.lv === 1) {
-                    data.field.pid = 0;
+                    res.field.pid = 0;
                 } else {
-                    data.field.pid = parent.data.id;
+                    res.field.pid = parent.data.id;
                 }
-                data.field.root = parent.data.lv;  // 目录级别
-                let result = Ajax.post(path + "/admin/adminMenu/insert", data.field);
+                res.field.root = parent.data.lv;  // 目录级别
+                let result = Ajax.post(parent.menuUrl, res.field);
                 let index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);
                 parent.layer.msg(result.msg);

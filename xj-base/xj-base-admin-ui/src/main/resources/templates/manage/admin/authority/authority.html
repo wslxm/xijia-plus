@@ -37,7 +37,7 @@
     </div>
     <div class="layui-input-inline">
         <select id="fatherPid" lay-filter="fatherPid">
-              <option value=''></option>
+            <option value=''></option>
         </select>
     </div>
     <!-- 展开/折叠 -->
@@ -56,7 +56,7 @@
 
 
     <script type="text/html" id="barDisable">
-        {{#  if(d.url != '/admin/adminAuthority/upd' && d.url != '/admin/adminAuthority/findList' && d.method != '' ){  }}
+        {{#  if(d.url != '/api/admin/authority/{id}' && d.url != '/api/admin/authority/list' && d.method != '' ){  }}
 
         {{#  if(d.disable ==0 ){ }}
         <input type='checkbox' authId={{d.id}} lay-filter='disable' lay-skin='switch' lay-text='启用|禁用' checked>
@@ -68,7 +68,7 @@
     </script>
 
     <script type="text/html" id="isSign">
-        {{#  if(d.url != '/admin/adminAuthority/upd' && d.url != '/admin/adminAuthority/findList' && d.method != '' ){  }}
+        {{#  if(d.url != '/api/admin/authority/{id}' && d.url != '/api/admin/authority/list' && d.method != '' ){  }}
 
         {{#  if(d.isSign == true){ }}
         <input type='checkbox' authId={{d.id}} lay-filter='isSign' lay-skin='switch' lay-text='需验签|不验签' checked>
@@ -100,8 +100,8 @@
 
 <script>
     // 接口
-    let find_list = path + "/admin/adminAuthority/findList";     // 查询菜单树
-    let update = path + "/admin/adminAuthority/upd";             // 编辑
+    let authorityListUrl = path + "/admin/authority/list";
+    let authorityUrl = path + "/admin/authority";
 
     // 当前行数据
     var data = null;
@@ -120,7 +120,7 @@
 
 
     function init() {
-        $("#authorityType").html(Dict.getDictSelect(Enums.Admin.AuthorityType,1));
+        $("#authorityType").html(Dict.getDictSelect(Enums.Admin.AuthorityType, 1));
         xijiaRenderTable();
         pidSelects();
         layui.form.render();
@@ -146,13 +146,11 @@
         let type = $("#authorityType").val();
         $.each(auths, function (index, item) {
             if (item.pid == type) {
-                html += "<option value='" +item.id + "'>" + item.desc + "</option>"
+                html += "<option value='" + item.id + "'>" + item.desc + "</option>"
             }
         });
         $("#fatherPid").html(html);
     }
-
-
 
 
     /**
@@ -164,7 +162,7 @@
      */
     function xijiaRenderTable() {
         //菜单数据
-        res = Ajax.get(find_list + "?" + xijiaSearchParam());
+        res = Ajax.get(authorityListUrl + "?" + xijiaSearchParam());
         // 渲染表格
         layer.load(2);
         //加载数据
@@ -264,53 +262,25 @@
 
         // 禁用
         layui.form.on('switch(disable)', function (data) {
-            let disable = 0;
-            if (data.elem.checked) {
-                disable = 0;
-            } else {
-                disable = 1;
-            }
-            let reqData = {
-                id: data.elem.attributes['authId'].nodeValue,
-                disable: disable
-            };
-            let result = Ajax.put(update, reqData);
+            let id = data.elem.attributes['authId'].nodeValue;
+            let disable = data.elem.checked ? 0 : 1;
+            let result = Ajax.put(authorityUrl + "/" + id, {disable: disable});
             layui.layer.msg(result.msg)
         });
 
-        // 禁用
+        // 是否验签
         layui.form.on('switch(isSign)', function (data) {
-            let isSign = false;
-            if (data.elem.checked) {
-                isSign = true;
-            } else {
-                isSign = false;
-            }
-            let reqData = {
-                id: data.elem.attributes['authId'].nodeValue,
-                isSign: isSign
-            };
-            let result = Ajax.put(update, reqData);
+            let id = data.elem.attributes['authId'].nodeValue;
+            let isSign = data.elem.checked;
+            let result = Ajax.put(authorityUrl + "/" + id, {isSign: isSign});
             layui.layer.msg(result.msg)
         });
 
         // 是否需要登录
         layui.form.on('switch(stateLogin)', function (data) {
-            let state = null;
             let id = data.elem.attributes['authId'].nodeValue;
-            if (data.elem.checked) {
-                state = 1;
-            } else {
-                state = 0;
-                // $("input[name='stateAuth-" + id + "']").next().removeClass('layui-form-onswitch');
-                // $("input[name='stateAuth-" + id + "']").next().children('em').text('不授权')
-            }
-            let reqData = {
-                id: id,
-                state: state
-            };
-            console.log(state);
-            let result = Ajax.put(update, reqData);
+            let state = data.elem.checked ? 1 : 0;
+            let result = Ajax.put(authorityUrl + "/" + id, {state: state});
             //
             let stateAuthOnswitch = $("input[name='stateAuth-" + id + "']").next().attr('class');
             if (state === 0 && stateAuthOnswitch.indexOf("layui-form-onswitch") !== -1) {
@@ -322,24 +292,11 @@
             layui.layer.msg(result.msg)
         });
 
-
         // 是否需要授权
         layui.form.on('switch(stateAuth)', function (data) {
-            let state = null;
             let id = data.elem.attributes['authId'].nodeValue;
-            if (data.elem.checked) {
-                state = 2;
-                // $("input[name='stateLogin-" + id + "']").next().addClass('layui-form-onswitch');
-                // $("input[name='stateLogin-" + id + "']").next().children('em').text('需登录')
-            } else {
-                state = 1;
-            }
-            let reqData = {
-                id: id,
-                state: state
-            };
-            console.log(state);
-            let result = Ajax.put(update, reqData);
+            let state = data.elem.checked ? 2 : 1;
+            let result = Ajax.put(authorityUrl + "/" + id, {state: state});
             //
             let stateLoginOnswitch = $("input[name='stateLogin-" + id + "']").next().attr('class');
             if (state === 2 && stateLoginOnswitch.indexOf("layui-form-onswitch") === -1) {

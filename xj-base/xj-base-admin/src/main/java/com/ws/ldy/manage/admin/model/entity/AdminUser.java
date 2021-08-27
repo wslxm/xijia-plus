@@ -77,15 +77,16 @@ public class AdminUser extends BaseEntity {
      */
     @TableField(value = "`disable`")
     private Integer disable;
-
     /**
      * 职位 职位(字典code)
      */
     private Integer position;
-
     /**
      * 微信openId
      */
     private String wxOpenId;
-
+    /**
+     * 终端 (字段code)
+     */
+    private Integer terminal;
 }

@@ -60,4 +60,9 @@ public class AdminMenu extends BaseEntity {
      */
     @TableField(value = "`disable`")
     private Integer disable;
+
+    /**
+     * 终端 (字段code)
+     */
+    private Integer terminal;
 }

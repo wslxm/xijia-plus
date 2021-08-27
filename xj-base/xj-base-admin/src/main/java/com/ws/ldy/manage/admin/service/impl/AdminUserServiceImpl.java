@@ -2,22 +2,27 @@ package com.ws.ldy.manage.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.core.auth.entity.JwtUser;
 import com.ws.ldy.core.auth.util.JwtUtil;
 import com.ws.ldy.core.auth.util.MD5Util;
-import com.ws.ldy.core.result.RType;
+import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.core.config.error.ErrorException;
 import com.ws.ldy.core.enums.Base;
+import com.ws.ldy.core.result.RType;
+import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.manage.admin.mapper.AdminUserMapper;
-import com.ws.ldy.manage.admin.model.dto.UserAdminDTO;
+import com.ws.ldy.manage.admin.model.dto.AdminUserDTO;
 import com.ws.ldy.manage.admin.model.entity.AdminRoleUser;
 import com.ws.ldy.manage.admin.model.entity.AdminUser;
+import com.ws.ldy.manage.admin.model.query.AdminUserQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminUserVO;
 import com.ws.ldy.manage.admin.service.AdminAuthorityService;
 import com.ws.ldy.manage.admin.service.AdminRoleService;
 import com.ws.ldy.manage.admin.service.AdminRoleUserService;
 import com.ws.ldy.manage.admin.service.AdminUserService;
-import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +47,27 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
 
     @Override
+    public IPage<AdminUserVO> list(AdminUserQuery query) {
+        LambdaQueryWrapper<AdminUser> queryWrapper = new LambdaQueryWrapper<AdminUser>()
+                .orderByDesc(AdminUser::getCreateTime)
+                .eq(com.baomidou.mybatisplus.core.toolkit.StringUtils.isNotBlank(query.getId()), AdminUser::getId, query.getId())
+                .eq(query.getPosition() != null, AdminUser::getPosition, query.getPosition())
+                .eq(query.getDisable() != null, AdminUser::getDisable, query.getDisable())
+                .eq(query.getTerminal() != null, AdminUser::getTerminal, query.getTerminal())
+                .like(com.baomidou.mybatisplus.core.toolkit.StringUtils.isNotBlank(query.getFullName()), AdminUser::getFullName, query.getFullName())
+                .like(com.baomidou.mybatisplus.core.toolkit.StringUtils.isNotBlank(query.getUsername()), AdminUser::getUsername, query.getUsername())
+                .like(com.baomidou.mybatisplus.core.toolkit.StringUtils.isNotBlank(query.getPhone()), AdminUser::getPhone, query.getPhone());
+        if (query.getCurrent() <= 0) {
+            // list
+            IPage<AdminUserVO> page = new Page<>();
+            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), AdminUserVO.class));
+        } else {
+            // page
+            return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), AdminUserVO.class);
+        }
+    }
+
+    @Override
     public AdminUserVO findId(String id) {
         AdminUser user = this.getById(id);
         AdminUserVO userVO = user.convert(AdminUserVO.class);
@@ -61,64 +87,84 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     @Override
     @Transactional
-    public Boolean insert(@RequestBody UserAdminDTO userAdminDto) {
+    public Boolean insert(@RequestBody AdminUserDTO dto) {
         // 判重账号
         if (this.count(new LambdaUpdateWrapper<AdminUser>()
-                .eq(AdminUser::getUsername, userAdminDto.getUsername())
+                .eq(AdminUser::getUsername, dto.getUsername())
                 .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
         ) > 0) {
             throw new ErrorException(RType.USER_ACCOUNT_IS_DUPLICATE);
         }
         // 判重电话
         if (this.count(new LambdaUpdateWrapper<AdminUser>()
-                .eq(AdminUser::getPhone, userAdminDto.getPhone())
+                .eq(AdminUser::getPhone, dto.getPhone())
                 .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
         ) > 0) {
             throw new ErrorException(RType.USER_PHONE_IS_DUPLICATE);
         }
         //
-        AdminUser adminUser = userAdminDto.convert(AdminUser.class);
+        AdminUser adminUser = dto.convert(AdminUser.class);
         adminUser.setPassword(MD5Util.encode(adminUser.getPassword()));
         adminUser.setDisable(0);  //默认启用状态
         adminUser.setRegTime(LocalDateTime.now());
         this.save(adminUser);
-        if (userAdminDto.getRoles() != null) {
+        if (dto.getRoles() != null) {
             //分配角色
-            adminRoleService.updUserRole(adminUser.getId(), userAdminDto.getRoles());
+            adminRoleService.updUserRole(adminUser.getId(), dto.getRoles());
         }
         return true;
     }
 
     @Override
     @Transactional
-    public Boolean upd(@RequestBody UserAdminDTO userAdminDto) {
-        AdminUser adminUser = this.getById(userAdminDto.getId());
+    public Boolean upd(String id, AdminUserDTO dto) {
+
         //判重账号
-        if (!adminUser.getUsername().equals(userAdminDto.getUsername())) {
-            if (this.count(new LambdaUpdateWrapper<AdminUser>()
-                    .eq(AdminUser::getUsername, userAdminDto.getUsername())
-                    .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
-            ) > 0) {
-                throw new ErrorException(RType.USER_ACCOUNT_IS_DUPLICATE);
+        AdminUser adminUser = this.getOne(new LambdaQueryWrapper<AdminUser>().select(AdminUser::getUsername, AdminUser::getPhone).eq(AdminUser::getId, id));
+        if (StringUtils.isNotBlank(dto.getUsername())) {
+            if (!adminUser.getUsername().equals(dto.getUsername())) {
+                if (this.count(new LambdaUpdateWrapper<AdminUser>()
+                        .eq(AdminUser::getUsername, dto.getUsername())
+                        .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
+                ) > 0) {
+                    throw new ErrorException(RType.USER_ACCOUNT_IS_DUPLICATE);
+                }
             }
         }
-        //判重电话
-        if (!adminUser.getPhone().equals(userAdminDto.getPhone())) {
-            if (this.count(new LambdaUpdateWrapper<AdminUser>()
-                    .eq(AdminUser::getPhone, userAdminDto.getPhone())
-                    .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
-            ) > 0) {
-                throw new ErrorException(RType.USER_PHONE_IS_DUPLICATE);
+        if (StringUtils.isNotBlank(dto.getPhone())) {
+            //判重电话
+            if (!adminUser.getPhone().equals(dto.getPhone())) {
+                if (this.count(new LambdaUpdateWrapper<AdminUser>()
+                        .eq(AdminUser::getPhone, dto.getPhone())
+                        .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
+                ) > 0) {
+                    throw new ErrorException(RType.USER_PHONE_IS_DUPLICATE);
+                }
             }
         }
-        this.updateById(userAdminDto.convert(AdminUser.class));
+        AdminUser entity = dto.convert(AdminUser.class);
+        entity.setId(id);
+        this.updateById(entity);
         //分配角色
-        if (userAdminDto.getRoles() != null) {
-            adminRoleService.updUserRole(userAdminDto.getId(), userAdminDto.getRoles());
+        if (dto.getRoles() != null) {
+            adminRoleService.updUserRole(id, dto.getRoles());
         }
         return true;
     }
 
+    @Override
+    public List<AdminUserVO> listKeyData(String searchName, String terminal) {
+        List<AdminUser> list = this.list(new LambdaQueryWrapper<AdminUser>()
+                .select(AdminUser::getUsername, AdminUser::getFullName, AdminUser::getPhone, AdminUser::getId)
+                .eq(terminal != null, AdminUser::getTerminal, terminal)
+                .orderByDesc(AdminUser::getCreateTime)
+                .and(com.baomidou.mybatisplus.core.toolkit.StringUtils.isNotBlank(searchName),
+                        i -> i.like(AdminUser::getFullName, searchName)
+                                .or().like(AdminUser::getUsername, searchName)
+                )
+        );
+        return BeanDtoVoUtil.listVo(list, AdminUserVO.class);
+    }
 
     //username = 手机号或者账号(手机号或账号不能重复)
     @Override
@@ -163,6 +209,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         this.updateById(updAdminUser);
         return true;
     }
+
 
     /**
      * 绑定微信公众号-openId

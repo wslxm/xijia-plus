@@ -1,12 +1,14 @@
 package com.ws.ldy.manage.admin.service;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.manage.admin.model.dto.AdminRoleDTO;
 import com.ws.ldy.manage.admin.model.dto.role.RoleAuthDTO;
 import com.ws.ldy.manage.admin.model.dto.role.RoleMenuDTO;
 import com.ws.ldy.manage.admin.model.dto.role.UserRoleDTO;
 import com.ws.ldy.manage.admin.model.entity.AdminRole;
+import com.ws.ldy.manage.admin.model.query.AdminRoleQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminRoleVO;
 
 import java.util.List;
@@ -20,6 +22,8 @@ import java.util.List;
  */
 public interface AdminRoleService extends IService<AdminRole> {
 
+
+    IPage<AdminRoleVO> list( AdminRoleQuery query);
 
     /**
      * 添加角色-默认有所有URL 权限
@@ -37,7 +41,7 @@ public interface AdminRoleService extends IService<AdminRole> {
      * @param dto
      * @return
      */
-    Boolean upd(AdminRoleDTO dto);
+    Boolean upd(String id,AdminRoleDTO dto);
 
 
     /**

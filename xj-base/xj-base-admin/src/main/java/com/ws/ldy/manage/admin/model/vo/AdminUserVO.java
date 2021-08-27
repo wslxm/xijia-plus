@@ -32,8 +32,8 @@ public class AdminUserVO extends BaseVo {
     private String phone;
     @ApiModelProperty(value = "昵称")
     private String fullName;
- //   @ApiModelProperty(value = "密码")
-//    private String password;
+    // @ApiModelProperty(value = "密码")
+    // private String password;
     @ApiModelProperty(value = "地址")
     private String address;
     @ApiModelProperty(value = "年龄")
@@ -48,10 +48,10 @@ public class AdminUserVO extends BaseVo {
     private LocalDateTime endTime;
     @ApiModelProperty(value = "是否选中（角色是否有改用户，前台复选框默认选中需要值）")
     private Boolean isChecked;
-
     @ApiModelProperty(value = "职位（字典code）")
     private Integer position;
-
+    @ApiModelProperty(value = "终端 (字段code)")
+    private Integer terminal;
     @ApiModelProperty(value = "用户角色")
-    List<String> roles;
+    private List<String> roles;
 }

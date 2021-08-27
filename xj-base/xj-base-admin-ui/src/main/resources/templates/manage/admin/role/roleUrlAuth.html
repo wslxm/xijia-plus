@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<html>
 <head>
     <meta charset="utf-8">
     <title>角色分配-菜单权限</title>
@@ -46,11 +46,10 @@
 </script>
 
 <script>
-    // let role_find_list = path + "/admin/adminRole/findList";              // 角色查询-所有
-    let auth_find_list = path + "/admin/adminAuthority/findByRoleIdList";     // 取消查询--查询所有(角色check)
-    let auth_upd_authority = path + "/admin/adminAuthority/refreshAuthority"; // 权限刷新扫描列表
-    let updRoleUrlAuth = path + "/admin/adminRole/updRoleAuth";               // 角色URL权限修改
 
+    let authorityListUrl = path + "/admin/authority/authList";                       // 取消查询--查询所有(角色check)
+    let authorityRefreshAuthorityUrl = path + "/admin/authority/refreshAuthority";   // 权限刷新扫描列表
+    let roleUpdRoleAuthUrl = path + "/admin/role/updRoleAuth";                       // 角色URL权限修改
 
     let res;           // 后台返回完整菜单数据
     let checkData;     // 所有选中数据
@@ -65,16 +64,14 @@
         // 复选框默认是否选中字段名
         layui.table = $.extend(layui.table, {config: {checkName: 'isChecked'}});
         // 获得菜单数据
-        res = Ajax.get(auth_find_list);
-        xijiaRenderTable(res);         // 初始化右边 table 数据
+        // res = Ajax.get(authorityListUrl);
+        // xijiaRenderTable(res);         // 初始化右边 table 数据
         xijiaEventCheckbox();          // 监听复选框选中
         xijiaSelected();
 
         // 默认加载当前角色数据
         xijiaInit(parent.data)
     });
-
-
 
 
     /**
@@ -85,7 +82,7 @@
      */
     function xijiaInit(item) {
         // 获得菜单数据
-        res = Ajax.get(auth_find_list + "?roleId=" + item.id);
+        res = Ajax.get(authorityListUrl + "?roleId=" + item.id);
         // 加载
         xijiaRenderTable();
         // 当前角色id
@@ -94,8 +91,6 @@
         // 展示当前角色名
         $("#roleName").html(roleName);
     }
-
-
 
 
     /**
@@ -125,9 +120,9 @@
             cols: [
                 [
                     {type: 'checkbox'},
-                    {field: 'desc', width: "40%" ,title: '接口描叙'},
-                    {field: 'method',width: "20%" , title: '请求方式'},
-                    {field: 'url',width: "40%",title: '接口地址'},
+                    {field: 'desc', width: "40%", title: '接口描叙'},
+                    {field: 'method', width: "20%", title: '请求方式'},
+                    {field: 'url', width: "40%", title: '接口地址'},
 
                 ]
             ]
@@ -146,7 +141,7 @@
             //console.log(JSON.stringify(obj))
             if (obj.type === "all") {
                 // 更新所有选中数据te = 数据表格Id
-                checkData = table.checkStatus('te');
+                checkData = layui.table.checkStatus('te');
             } else if (obj.type === "one") {
                 // 递归选中/取消选中
                 isChecked(res.data, obj.data, obj.checked);
@@ -297,7 +292,7 @@
             roleId: roleId,
             authIds: authIds
         };
-        let result = Ajax.put(updRoleUrlAuth, data);
+        let result = Ajax.put(roleUpdRoleAuthUrl, data);
         layer.msg(result.msg + " 当前角色拥有菜单：" + checkData.data.length + "个 ")
     }
 

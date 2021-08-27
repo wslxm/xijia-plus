@@ -31,6 +31,12 @@
         <div class="layui-container layui-form" style="width: 96%;margin-left: 40px">
             <br>
             <br>
+            终端：
+            <div class="layui-input-inline">
+                <select id="terminal" lay-filter="terminal">
+                    <!--  <option value='" + dices[index].code + "' pid='" + dices[index].pid + "'>" + dices[index].name + "</option>-->
+                </select>
+            </div>
             <div class="layui-input-inline">
                 <select id="fatherMeuns" lay-filter="refreshTableMeuns">
                     <!--  <option value='" + dices[index].code + "' pid='" + dices[index].pid + "'>" + dices[index].name + "</option>-->
@@ -55,9 +61,11 @@
 
         <script>
             // 接口
-            let find_list = path + "/admin/adminMenu/findList";     // 查询菜单树
-            let deletes = path + "/admin/adminMenu/del";     // 删除
-            let update = path + "/admin/adminMenu/upd";      // 编辑
+            var menuUrl = path + "/admin/menu";
+            var menuListUrl = path + "/admin/menu/list";
+            // 修改父级查询
+            var menuMenuListUrl = path + "/admin/menu/menuList?isBottomLayer=false";
+
             // 路由
             let page_add = "/page/manage_admin_menu_menuAdd";        // 添加菜单/页面弹层
             let page_upd = "/page/manage_admin_menu_menuUpd";        // 菜单编辑弹层
@@ -65,16 +73,17 @@
 
             // 当前行数据
             var data = null;
-            var menus;              // 所有菜单数据
-            var pids;          // 父菜单ids
-            var currentPid;    // 当前父id
-            var tableMenus;         // 表格加载的菜单数据
+            var menus;                  // 所有菜单数据
+            var tableMenus;             // 表格加载的菜单数据
+            var terminalKey = "1";      // 终端（默认平台）
+            var pidKey = "";            // 父id
 
             layui.config({
                 base: '../components/treetable-lay/module/' //静态资源所在路径
             }).extend({
                 treetable: 'treetable-lay/treetable'
             }).use(['table', 'treetable'], function () {
+                xijiaInit();
                 xijiaRenderTable();       // 数据表格 - 获取表格
                 xijiaEventToolbar();      // 工具栏事件（多删除/添加）
                 xijiaEventTool();         // 监听数据表格内按钮操作（编辑,删除等）
@@ -83,34 +92,17 @@
 
             });
 
-
-            /**
-             * 处理 table 数据
-             */
-            function xijiaRenderTable() {
-                pids = [];
-                //currentPid = null;
-                //菜单数据
-                menus = Ajax.get(find_list).data;
-                // 拼接搜索值
-                // let html = "<option value=''>所有</option>";
-                let html = "";
-                $.each(menus, function (index, item) {
-                    if (menus[index].pid == 0) {
-                        pids.push(menus[index].id);
-                        if (currentPid == menus[index].id) {
-                            html += "<option value='" + menus[index].id + "' selected>" + menus[index].name + "</option>"
-                        } else {
-                            html += "<option value='" + menus[index].id + "'>" + menus[index].name + "</option>"
-                        }
-                    }
-                });
-                $("#fatherMeuns").html(html);
+            function xijiaInit() {
+                $("#terminal").html(Dict.getDictSelect(Enums.Admin.Terminal, "", "所有",terminalKey));     // 终端
                 // 刷新,否则select可能不生效
                 layui.form.render();
-                // 默认第一个菜单
-                refreshTable(null);
-                // 监听选择
+
+                // 监听终端选择(重新在服务端获取数据)
+                layui.form.on('select(terminal)', function (data) {
+                    pidKey = "";
+                    xijiaRenderTable(data.value);
+                });
+                // 监听父级选择(直接刷新页面数据)
                 layui.form.on('select(refreshTableMeuns)', function (data) {
                     refreshTable(data.value)
                 });
@@ -118,20 +110,43 @@
 
 
             /**
-             * 切换table中的数据 和默认tanle数据处理
+             * 处理 table 数据
+             */
+            function xijiaRenderTable(terminal) {
+                terminalKey = (terminal !== null && terminal !== undefined) ? terminal : terminalKey;
+                // 获取菜单数据
+                menus = Ajax.get(menuListUrl + "?terminal=" + terminalKey).data.records;
+                // 默认加载所有
+                refreshTable(pidKey);
+                // 加载父级搜索值：拼接搜索值
+                let html = "<option value='' selected>所有</option>";
+                $.each(menus, function (index, item) {
+                    if (menus[index].pid === "0") {
+                        html += "<option value='" + menus[index].id + "'>" + menus[index].name + "</option>"
+                    }
+                });
+                $("#fatherMeuns").html(html);
+                // 刷新,否则select可能不生效
+                layui.form.render();
+            }
+
+
+            /**
+             * 切换table中的数据 和默认table 数据处理
+             * pid : 父id
              */
             function refreshTable(pid) {
-                if (pid != null) {
-                    currentPid = pid;
-                } else if (currentPid == null) {
-                    currentPid = pids[0];
+                pidKey = (pid !== null && pid !== undefined) ? pid : pidKey;
+                // 空展示所有
+                if (pidKey === "") {
+                    tableMenus = menus;
+                    xijiaRenderTableTwo();
                 } else {
-                    currentPid = pids.indexOf(currentPid) === -1 ? pids[0] : currentPid;
+                    // 干掉当前未选中的 pid,去掉了指定父级pid的数据,该类目下的所有时间将隐藏
+                    // 获取当前选中的pid下的所有菜单(排除为父级并且不等于pid的数据)
+                    tableMenus = menus.filter(item => ((item.pid === "0" && item.id === pid) || item.pid !== "0"));
+                    xijiaRenderTableTwo();
                 }
-                let newPids = pids.filter(v => v !== currentPid);
-                let newMenus = menus.filter(item => newPids.indexOf(item.id) === -1);
-                tableMenus = newMenus;
-                xijiaRenderTableTwo();
             }
 
 
@@ -271,8 +286,7 @@
                             , btn: ['必须删', '不删了']
                             , yes: function (index) {
                                 // 获得要删除菜单及所有子菜单
-                                let delData = "?id=" + data.id;
-                                let result = Ajax.delete(deletes + delData);
+                                let result = Ajax.delete(menuUrl + "/" + data.id);
                                 // 重载页面 // parent.window.location.reload();
                                 WindowPos.onbeforeunload();  // 记录滚动条位置
                                 xijiaRenderTable();             // 重载数据
@@ -302,13 +316,13 @@
                     let result;
                     if (field === "sort") {
                         //   1，sort-修改排序
-                        result = Ajax.put(update, {id: data.id, sort: val});
+                        result = Ajax.put(menuUrl, {id: data.id, sort: val});
                     } else if (field === "icon") {
                         //   2，icon-修改图标
-                        result = Ajax.put(update, {id: data.id, icon: val})
+                        result = Ajax.put(menuUrl, {id: data.id, icon: val})
                     } else if (field === "url") {
                         //   3、url-修改菜单url
-                        result = Ajax.put(update, {id: data.id, url: val})
+                        result = Ajax.put(menuUrl, {id: data.id, url: val})
                     } else {
                         //   4、name-修改菜单名
                     }
@@ -364,17 +378,9 @@
              */
             function xijiaEventSwitch() {
                 layui.form.on('switch(disable)', function (data) {
-                    let disable = 0;
-                    if (data.elem.checked) {
-                        disable = 0;
-                    } else {
-                        disable = 1;
-                    }
-                    let reqData = {
-                        id: data.elem.attributes['menuId'].nodeValue,
-                        disable: disable
-                    };
-                    let result = Ajax.put(update, reqData);
+                    let disable = data.elem.checked ? 0 : 1;
+                    let id = data.elem.attributes['menuId'].nodeValue;
+                    let result = Ajax.put(menuUrl + "/" + id, {disable: disable});
                     layer.msg(result.msg)
                 });
             }

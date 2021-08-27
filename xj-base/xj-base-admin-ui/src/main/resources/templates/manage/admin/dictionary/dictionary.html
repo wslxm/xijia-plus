@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc" xmlns:visibility="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>tree-table</title>
@@ -80,10 +80,10 @@
     <a class="layui-btn layui-btn-xs" lay-event="add" style="opacity: 0">+ 子类别</a>
     {{#  } }}
     {{#  if(!StringUtils.checkNumber(d.code)){ }}
-        <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="updPid">变更父级</a>
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="updPid">变更父级</a>
     {{# }if(StringUtils.checkNumber(d.code)) { }}
-        <!--隐藏占位 opacity: 0-->
-        <a class="layui-btn layui-btn-warm layui-btn-xs" style="opacity: 0" lay-event="updPid">变更父级</a>
+    <!--隐藏占位 opacity: 0-->
+    <a class="layui-btn layui-btn-warm layui-btn-xs" style="opacity: 0" lay-event="updPid">变更父级</a>
     {{#  } }}
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -92,12 +92,11 @@
 
 <script>
     // 接口
-    let find_code = path + "/admin/adminDictionary/findByCode";    // 查询列表
-    let update = path + "/admin/adminDictionary/upd";              // 编辑
-    let deletes = path + "/admin/adminDictionary/del";             // 删除
-    let upd_sort = path + "/admin/adminDictionary/updBySort";      // 修改排序
-    let find_dict_category = path + "/admin/adminDictionary/findDictCategory";  // 查询字典类别
-    let generate_enum = path + "/admin/adminDictionary/generateEnum";   // 生成枚举字段
+    var dictionaryUrl = path + "/admin/dictionary";
+    var dictionaryListUrl = path + "/admin/dictionary/list";
+    let dictionaryIdSortUrl = path + "/admin/dictionary/{id}/sort";                 // 修改排序
+    let dictionaryIdListCategoryUrl = path + "/admin/dictionary/list/category";     // 查询类别
+    let dictionaryGenerateEnumUrl = path + "/admin/dictionary/generateEnum";        // 生成枚举字段
     // 路由
     let page_add = "/page/manage_admin_dictionary_dictionaryAdd";     // 添加弹层
     let page_upd = "/page/manage_admin_dictionary_dictionaryUpd";     // 编辑弹层
@@ -109,7 +108,6 @@
     var threePid;
     var twoPid;
     var onePid;
-
 
 
     layui.config({
@@ -137,7 +135,7 @@
     function xijiaRenderTable() {
 
         //菜单数据
-        let dataJson = Ajax.get(find_code + xijiaSearchParam());
+        let dataJson = Ajax.get(dictionaryListUrl + xijiaSearchParam());
         // 渲染表格
         layer.load(2);
         //加载数据
@@ -159,7 +157,7 @@
                     // {field: 'id', width: 200, title: 'ID'},//edit: 'text',
                     {field: 'name', width: 300, title: '字典名称'},
                     {field: 'code', width: 250, title: '字典Code'},
-                    {field: 'desc',width: 400, title: '字典描叙'},
+                    {field: 'desc', width: 400, title: '字典描叙'},
                     {field: 'sort', width: 150, edit: 'text', title: '排序'},
                     {
                         field: 'disable', width: 178, title: '禁用/启用', templet: function (res) {
@@ -232,11 +230,11 @@
                     , btn: ['必须删', '不删了']
                     , yes: function (index) {
                         // 获得要删除菜单及所有子菜单
-                        let delData = "?id=" + data.id;
-                        let result = Ajax.delete(deletes + delData);
-                        // 重载页面 // parent.window.location.reload();
+                        let result = Ajax.delete(dictionaryUrl + "/" + data.id);
+                        // 重载页面
+                        // parent.window.location.reload();
                         WindowPos.onbeforeunload();  // 记录滚动条位置
-                        xijiaRenderTable();             // 重载数据
+                        xijiaRenderTable();          // 重载数据
                         WindowPos.onload();          // 还原滚动条位置
                         layer.msg(result.msg);
                         //layer.msg(result.msg + " 请手动刷新");
@@ -257,15 +255,11 @@
             let data = obj.data;   // 得到所在行整行数据
             let val = obj.value;   // 得到修改后的值
             let field = obj.field; // 得到修改的字段
-            let result;
+            // 1、 sort-修改排序
             if (field === "sort") {
-                // 1、 sort-修改排序
-                let params = "";
-                params += "?id=" + data.id;
-                params += "&sort=" + val;
-                result = Ajax.put(upd_sort + params);
+                let result = Ajax.put(dictionaryUrl + "/" + data.id, {sort: val});
+                layer.msg(result.msg)
             }
-            layer.msg(result.msg);
         });
     }
 
@@ -316,20 +310,9 @@
      */
     function xijiaEventSwitch() {
         layui.form.on('switch(disable)', function (data) {
-            let disable = 0;
-            if (data.elem.checked) {
-                disable = 0;
-            } else {
-                disable = 1;
-            }
-            let reqData = {
-                id: data.elem.attributes['id'].nodeValue,
-                disable: disable
-            };
-            // let param = "";
-            // param += "?id=" + data.elem.attributes['id'].nodeValue;
-            // param += "&disable=" + disable;
-            let result = Ajax.put(update, reqData);
+            let id = data.elem.attributes['id'].nodeValue;
+            let disable = data.elem.checked ? 0 : 1;
+            let result = Ajax.put(dictionaryUrl + "/" + id, {disable: disable});
             layer.msg(result.msg)
         });
     }
@@ -346,21 +329,21 @@
         let code = "";
         if (codeOne != null && codeOne !== '') {
             code = codeOne;
-            pid  = onePid;
+            pid = onePid;
         }
         if (codeTwo != null && codeTwo !== '') {
             code = codeTwo;
-            pid  = twoPid;
+            pid = twoPid;
         }
         if (codeThree != null && codeThree !== '') {
             code = codeThree;
-            pid  = threePid;
+            pid = threePid;
         }
         if (code === "") {
             code = "ENUMS";
             pid = "0";
         }
-        let res = Ajax.get(generate_enum+"?enumsKey="+code );
+        let res = Ajax.get(dictionaryGenerateEnumUrl + "?enumsKey=" + code);
         //let jsonData = JSON.parse(data);
         //tab层
         //let html = "<div style='width: 95%;height: 95%;'><iframe src='/{file}' style='width: 100%;height: 730px;margin-top: 1%'></iframe></div>";
@@ -386,7 +369,7 @@
      * 初始化相关数据
      */
     function initSearch() {
-        let dices = Ajax.get(find_dict_category).data;
+        let dices = Ajax.get(dictionaryIdListCategoryUrl).data;
         // 不填默认值
         let html = "<option value=''>所有</option>";
         $.each(dices, function (index, item) {
@@ -405,7 +388,7 @@
     function xijiaEventSelect() {
         layui.form.on('select(codeOne)', function (data) {
             // 加载二级数据
-            let dices = Ajax.get(find_dict_category + "?code=" + data.value).data;
+            let dices = Ajax.get(dictionaryIdListCategoryUrl + "?code=" + data.value).data;
             let html = "<option value=''>所有</option>";
             $.each(dices, function (index, item) {
                 html += "<option value='" + dices[index].code + "' pid='" + dices[index].pid + "'>" + dices[index].name + "</option>"
@@ -422,7 +405,7 @@
 
         layui.form.on('select(codeTwo)', function (data) {
             // 加载三级数据
-            let dices = Ajax.get(find_dict_category + "?code=" + data.value).data;
+            let dices = Ajax.get(dictionaryIdListCategoryUrl + "?code=" + data.value).data;
             let html = "<option value=''>所有</option>";
             $.each(dices, function (index, item) {
                 html += "<option value='" + dices[index].code + "' pid='" + dices[index].pid + "'>" + dices[index].name + "</option>"
@@ -458,15 +441,15 @@
         let code = "";
         if (codeOne != null && codeOne !== '') {
             code = codeOne;
-            pid  = onePid;
+            pid = onePid;
         }
         if (codeTwo != null && codeTwo !== '') {
             code = codeTwo;
-            pid  = twoPid;
+            pid = twoPid;
         }
         if (codeThree != null && codeThree !== '') {
             code = codeThree;
-            pid  = threePid;
+            pid = threePid;
         }
         if (code === "") {
             pid = "0";

@@ -3,6 +3,7 @@ package com.ws.ldy.manage.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.manage.admin.model.dto.AdminAuthorityDTO;
 import com.ws.ldy.manage.admin.model.entity.AdminAuthority;
+import com.ws.ldy.manage.admin.model.query.AdminAuthorityQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminAuthorityVO;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    List<AdminAuthorityVO> findList(Integer type, String pid);
+    List<AdminAuthorityVO> list(AdminAuthorityQuery query);
 
 
     /**
@@ -30,7 +31,7 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      * @author wangsong
      * @param dto
      */
-    Boolean upd(AdminAuthorityDTO dto);
+    Boolean upd(String id,AdminAuthorityDTO dto);
 
     /**
      * 接口自动扫描（1、项目启动时自动执行   2、设置了权限授权状态更新）
@@ -48,7 +49,7 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    List<AdminAuthorityVO> findByRoleIdAuthorityChecked(String roleId);
+    List<AdminAuthorityVO> authList(String roleId);
 
     /**
      * 获取用户的url权限列表，给指定角色的有的权限数据赋予选中状态(tree数据)
@@ -57,7 +58,7 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    List<AdminAuthorityVO> findByRoleIdAuthorityTreeChecked(String roleId);
+    List<AdminAuthorityVO> authTree(String roleId);
 
 
     /**

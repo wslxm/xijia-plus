@@ -1,12 +1,22 @@
 package com.ws.ldy.manage.xj.service.impl;
 
-import com.ws.ldy.core.enums.Base;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.core.auth.util.JwtUtil;
 import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
+import com.ws.ldy.core.enums.Base;
+import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.manage.xj.mapper.XjAdminMsgMapper;
 import com.ws.ldy.manage.xj.model.dto.XjAdminMsgDTO;
 import com.ws.ldy.manage.xj.model.entity.XjAdminMsg;
+import com.ws.ldy.manage.xj.model.query.XjAdminMsgQuery;
+import com.ws.ldy.manage.xj.model.vo.XjAdminMsgVO;
 import com.ws.ldy.manage.xj.service.XjAdminMsgService;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 
 /**
  * 订单-->及时消息通知表
@@ -20,6 +30,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, XjAdminMsg> implements XjAdminMsgService {
 
+    @Override
+    public IPage<XjAdminMsgVO> list(XjAdminMsgQuery query) {
+        LambdaQueryWrapper<XjAdminMsg> queryWrapper = new LambdaQueryWrapper<XjAdminMsg>()
+                .orderByDesc(XjAdminMsg::getCreateTime)
+                .eq(query.getIsRead() != null, XjAdminMsg::getIsRead, query.getIsRead())
+                .eq(XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())
+                .in(StringUtils.isNotBlank(query.getMsgTypes()), XjAdminMsg::getMsgType, StringUtils.isNotBlank(query.getMsgTypes()) ? Arrays.asList(query.getMsgTypes().split(",")) : null)
+                .notIn(StringUtils.isNotBlank(query.getNoMsgTypes()), XjAdminMsg::getMsgType, StringUtils.isNotBlank(query.getNoMsgTypes()) ? Arrays.asList(query.getNoMsgTypes().split(",")) : null);
+        if (query.getCurrent() <= 0) {
+            IPage<XjAdminMsgVO> page = new Page<>();
+            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), XjAdminMsgVO.class));
+        } else {
+            return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminMsgVO.class);
+        }
+    }
 
     @Override
     public boolean insertMsg(XjAdminMsgDTO dto) {

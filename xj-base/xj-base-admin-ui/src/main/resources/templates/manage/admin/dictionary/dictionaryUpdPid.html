@@ -35,8 +35,8 @@
 
 
     // 菜单查询--数据列表
-    let menu_find_id_list = path + "/admin/adminDictionary/findByCode";
-    let update = path + "/admin/adminDictionary/upd";
+    // let menu_find_id_list = path + "/admin/dictionary/findByCode";
+    // let update = path + "/admin/dictionary/upd";
 
     // 后台返回完整菜单数据
     let res;
@@ -64,9 +64,9 @@
      * @param params
      */
     function xijiaRenderTable() {
-        if(res== null){
+        if (res == null) {
             // 首次加载获得菜单数据
-            res = Ajax.get(menu_find_id_list + xijiaSearchParam());
+            res = Ajax.get(parent.dictionaryListUrl + xijiaSearchParam());
         }
         // 渲染表格
         layer.load(2);
@@ -180,12 +180,8 @@
                 layer.msg("没有选择");
                 throw new Error("没有选择")
             }
-            let data = {
-                id: parent.data.id,
-                pid: pid,
-            };
             // 修改
-            let result = Ajax.put(update, data);
+            let result = Ajax.put(parent.dictionaryUrl + "/" + parent.data.id, {pid: pid});
             // 关闭弹层
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);

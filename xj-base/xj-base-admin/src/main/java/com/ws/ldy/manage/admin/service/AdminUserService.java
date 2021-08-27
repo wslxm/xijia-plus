@@ -1,12 +1,12 @@
 package com.ws.ldy.manage.admin.service;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ws.ldy.manage.admin.model.dto.UserAdminDTO;
+import com.ws.ldy.manage.admin.model.dto.AdminUserDTO;
 import com.ws.ldy.manage.admin.model.entity.AdminUser;
+import com.ws.ldy.manage.admin.model.query.AdminUserQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminUserVO;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -18,6 +18,9 @@ import java.util.List;
  * @date 2019/11/13 15:10
  */
 public interface AdminUserService extends IService<AdminUser> {
+
+
+    IPage<AdminUserVO> list(AdminUserQuery query);
 
 
     /**
@@ -38,11 +41,13 @@ public interface AdminUserService extends IService<AdminUser> {
     public List<AdminUser> findByRoleId(String roleId);
 
 
-    public Boolean insert(@RequestBody UserAdminDTO userAdminDto);
+    public Boolean insert(AdminUserDTO dto);
 
 
-    public Boolean upd(@RequestBody UserAdminDTO userAdminDto);
+    public Boolean upd(String id, AdminUserDTO dto);
 
+
+    List<AdminUserVO> listKeyData(String searchName, String terminal);
 
     /**
      * 登录，支持手机号+密码 和 账号+密码 登录
@@ -50,7 +55,7 @@ public interface AdminUserService extends IService<AdminUser> {
      * @param password
      * @return
      */
-    public Boolean login(@RequestParam String username, @RequestParam String password);
+    public Boolean login(String username, String password);
 
 
     public Boolean bindWeChatMq(String username, String password, String openId);

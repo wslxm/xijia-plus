@@ -36,9 +36,7 @@
 
             });
 
-            // 菜单查询--数据列表
-            let menu_find_id_list = path + "/admin/adminMenu/findList?isBottomLayer=false";
-            let update = path + "/admin/adminMenu/upd";
+
             // 后台返回完整菜单数据
             let res;
 
@@ -70,8 +68,8 @@
              */
             function xijiaRenderTable() {
                 // 获得菜单数据
-                if(res==null){
-                    res = Ajax.get(menu_find_id_list);
+                if (res == null) {
+                    res = Ajax.get(parent.menuMenuListUrl);
                 }
                 // 渲染表格
                 layer.load(2);
@@ -186,12 +184,8 @@
                         layer.msg("没有选择");
                         throw new Error("没有选择")
                     }
-                    let data = {
-                        id: parent.data.id,
-                        pid: pid,
-                    };
                     // 修改
-                    let result = Ajax.put(update, data);
+                    let result = Ajax.put(parent.menuUrl + "/" + parent.data.id, {pid: pid});
                     // 关闭弹层
                     let index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);

@@ -1,9 +1,11 @@
 package com.ws.ldy.manage.admin.service;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.manage.admin.model.dto.AdminMenuDTO;
 import com.ws.ldy.manage.admin.model.entity.AdminMenu;
+import com.ws.ldy.manage.admin.model.query.AdminMenuQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminMenuVO;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
  */
 public interface AdminMenuService extends IService<AdminMenu> {
 
+    IPage<AdminMenuVO> list(AdminMenuQuery query);
 
     /**
      * 添加(超管默认分配改菜单)
@@ -25,23 +28,29 @@ public interface AdminMenuService extends IService<AdminMenu> {
      */
     Boolean insert(AdminMenuDTO dto);
 
+    /**
+     * 编辑
+     * @param id
+     * @param dto
+     * @return
+     */
+    Boolean upd(String id, AdminMenuDTO dto);
 
     /**
-     *    获取导航树菜单列表
+     * 删除菜单并删除菜单的所有下级 以及 菜单和角色的绑定关系数据
+     * @param menuId
+     * @return 数据的菜单数据id
+     */
+    List<String> del(String menuId);
+
+    /**
+     *   获取导航树菜单列表
      *
      * @return
      * @date 2019/11/13 14:45
      */
     List<AdminMenuVO> getMenuTree();
 
-    /**
-     *   根据父id 查询所有子节点数据（包括自己 Tree数据）, 根据角色权限赋值isChecked = true||false
-     *
-     * @param pId
-     * @return java.util.List<com.ws.ldy.adminconsole.entity.AdminMenu>
-     * @date 2019/11/15 16:18
-     */
-    List<AdminMenuVO> findPIdOrRoleIdTree(String pId, String roleId);
 
     /**
      *   根据父id 查询所有子节点数据（包括自己 List列表） , 根据角色权限赋值isChecked = true||false
@@ -50,14 +59,15 @@ public interface AdminMenuService extends IService<AdminMenu> {
      * @return java.util.List<com.ws.ldy.adminconsole.entity.AdminMenu>
      * @date 2019/11/15 16:18
      */
-    List<AdminMenuVO> findPIdOrRoleIdList(String pId, String roleId);
-
+    List<AdminMenuVO> menuList(String pId, String roleId, Integer terminal);
 
     /**
-     * 删除菜单并删除菜单的所有下级 以及 菜单和角色的绑定关系数据
-     * @param menuId
-     * @return 数据的菜单数据id
+     *   根据父id 查询所有子节点数据（包括自己 Tree数据）, 根据角色权限赋值isChecked = true||false
+     *
+     * @param pId
+     * @return java.util.List<com.ws.ldy.adminconsole.entity.AdminMenu>
+     * @date 2019/11/15 16:18
      */
-    List<String> del(String menuId);
+    List<AdminMenuVO> menuTree(String pId, String roleId, Integer terminal);
 
 }

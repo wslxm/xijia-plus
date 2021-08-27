@@ -10,7 +10,6 @@ import com.ws.ldy.core.constant.BaseConstant;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
 import com.ws.ldy.core.utils.BeanDtoVoUtil;
-import com.ws.ldy.core.utils.excel.ExcelUtil;
 import com.ws.ldy.manage.gc.model.dto.XjAdminDatasourceDTO;
 import com.ws.ldy.manage.gc.model.entity.XjAdminDatasource;
 import com.ws.ldy.manage.gc.model.query.XjAdminDatasourceQuery;
@@ -45,11 +44,7 @@ public class XjAdminDatasourceController extends BaseController<XjAdminDatasourc
                 .orderByDesc(XjAdminDatasource::getCreateTime)
                 .like(StringUtils.isNotBlank(query.getDbTitle()), XjAdminDatasource::getDbTitle, query.getDbTitle())
                 .like(StringUtils.isNotBlank(query.getDbName()), XjAdminDatasource::getDbName, query.getDbName());
-        if (query.getIsExport()) {
-            // excel
-            ExcelUtil.exportExcelDownload(BeanDtoVoUtil.listVo(baseService.list(queryWrapper), XjAdminDatasource.class), response);
-            return null;
-        } else if (query.getCurrent() <= 0) {
+          if (query.getCurrent() <= 0) {
             // list
             IPage<XjAdminDatasourceVO> page = new Page<>();
             page = page.setRecords(BeanDtoVoUtil.listVo(baseService.list(queryWrapper), XjAdminDatasourceVO.class));
@@ -72,6 +67,7 @@ public class XjAdminDatasourceController extends BaseController<XjAdminDatasourc
         return R.successInsert(baseService.save(xjDatasource));
     }
 
+
     @PostMapping(value = "/dataSourceTest")
     @ApiOperation("数据源连接测试")
     public R<Boolean> dataSourceTest(@RequestBody @Validated XjAdminDatasourceDTO dto) {
@@ -80,11 +76,13 @@ public class XjAdminDatasourceController extends BaseController<XjAdminDatasourc
         return R.success(true);
     }
 
+
     @PutMapping(value = "/{id}")
     @ApiOperation(value = "ID编辑")
     public R<Boolean> upd(@RequestBody @Validated XjAdminDatasourceDTO dto) {
         return R.successUpdate(baseService.updateById(dto.convert(XjAdminDatasource.class)));
     }
+
 
     @PutMapping(value = "/{id}/updPwd")
     @ApiOperation(value = "修改/重置密码")
@@ -94,6 +92,7 @@ public class XjAdminDatasourceController extends BaseController<XjAdminDatasourc
         entity.setDbPassword(password);
         return R.successUpdate(baseService.updateById(entity));
     }
+
 
     @DeleteMapping(value = "/{id}")
     @ApiOperation(value = "ID删除")

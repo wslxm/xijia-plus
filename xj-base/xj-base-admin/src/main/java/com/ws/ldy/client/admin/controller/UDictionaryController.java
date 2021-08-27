@@ -1,11 +1,12 @@
 package com.ws.ldy.client.admin.controller;
 
-import com.ws.ldy.core.result.R;
+import com.ws.ldy.core.base.controller.BaseController;
 import com.ws.ldy.core.constant.BaseConstant;
+import com.ws.ldy.core.result.R;
+import com.ws.ldy.manage.admin.model.query.AdminDictionaryQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminDictionaryCodeGroup;
 import com.ws.ldy.manage.admin.model.vo.AdminDictionaryVO;
 import com.ws.ldy.manage.admin.service.AdminDictionaryService;
-import com.ws.ldy.core.base.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -54,11 +55,12 @@ public class UDictionaryController extends BaseController<AdminDictionaryService
     public R<List<AdminDictionaryVO>> findByCode(@RequestParam(required = false) String code,
                                                  @RequestParam(required = false) Boolean isTree
     ) {
-        // 是否查询禁用数据 true 查询  false 不查询
-        // 是否需要最后一级数据 true 需要 false 不需要
-        boolean isDisable = false;
-        boolean isBottomLayer = false;
-        List<AdminDictionaryVO> dictVO = baseService.findByCodeFetchDictVO(code, isDisable, isBottomLayer, isTree);
+        AdminDictionaryQuery query = new AdminDictionaryQuery();
+        query.setCode(code);
+        query.setIsTree(isTree);
+        query.setIsDisable(false);
+        query.setIsBottomLayer(false);
+        List<AdminDictionaryVO> dictVO = baseService.findByCodeFetchDictVO(query);
         return R.success(dictVO);
     }
 }
