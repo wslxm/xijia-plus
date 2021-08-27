@@ -3,9 +3,9 @@ package com.ws.ldy.manage.gc.util;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
+import com.ws.ldy.core.utils.LocalDateTimeUtil;
 import com.ws.ldy.core.utils.id.IdUtil;
 import com.ws.ldy.core.utils.json.JsonUtil;
-import com.ws.ldy.core.utils.LocalDateTimeUtil;
 import com.ws.ldy.manage.gc.config.GenerateConfig;
 import lombok.extern.slf4j.Slf4j;
 
@@ -244,9 +244,9 @@ public class GenerateDataProcessing {
                         //.replace("{entryName}", DsField.entryName)
                         //代码生成方法内获得的处理数据
                         .replace("{entitys}", GenerateConfig.FIELD_ENTITYS)
-                        .replace("{findPageParam}", GenerateConfig.FIND_PAGE_PARAM)
                         .replace("{findPageMybatisPlus}", GenerateConfig.FIND_PAGE_MYBATIS_PLUS)
-                        .replace("{swaggerRemark}", GenerateConfig.SWAGGER_REMARK)
+                        //.replace("{swaggerRemark}", GenerateConfig.SWAGGER_REMARK)
+                        //.replace("{findPageParam}", GenerateConfig.FIND_PAGE_PARAM)
                         // mapper - xml
                         .replace("{resultMap}", GenerateConfig.RESULT_MAP)
                         .replace("{columnList}", GenerateConfig.COLUMN_LIST)

@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="/components/layuiadmin/layui/src/css/layui.css" media="all">
     <link rel="stylesheet" href="/components/layuiadmin/style/admin.css" media="all">
     <link rel="stylesheet" href="/manage/css/base-search.css" media="all">
-
-    <script src="/base/js/jquery-3.4.1.min.js"></script>
     <script src="/manage/js/app.js"></script>
 </head>
 <body>
@@ -57,8 +55,8 @@
 <script>
 
     // 接口
-    let {tableNameLower}FindPage = path + "/admin/{moduleName}/{tableNameLower}/findPage";        // 查询-分页
-    let {tableNameLower}Del = path + "/admin/{moduleName}/{tableNameLower}/del";                  // 删除
+    var {tableNameLower}Url = path + "/admin/{moduleName}/{tableNameLower}";
+    var {tableNameLower}ListUrl = path + "/admin/{moduleName}/{tableNameLower}/list";
 
     // 路由
     let {tableNameLower}PageAdd =  "/page/{rootModule}_{moduleName}_{tableNameLower}_{tableNameLower}Add";   //添加弹出
@@ -86,7 +84,7 @@
      * </p>
      */
     function {tableNameLower}RenderTable() {
-        res = Ajax.get({tableNameLower}FindPage + getPage() + {tableNameLower}SearchParam());
+        res = Ajax.get({tableNameLower}ListUrl + getPage() + {tableNameLower}SearchParam());
         layui.table.render({
             elem: '#auth-table'
             , data: res.data.records
@@ -169,8 +167,7 @@
                 Pop.tipsWindown({tableNameLower}PageUpd, "1024px", "768px", "修改");
             }
             if (obj.event === 'del') {
-                let params = "?id=" + data.id;
-                Pop.tipsDeleteId({tableNameLower}Del + params, obj);
+                Pop.tipsDeleteId({tableNameLower}Url + "/" + data.id, obj);
             }
         });
     }

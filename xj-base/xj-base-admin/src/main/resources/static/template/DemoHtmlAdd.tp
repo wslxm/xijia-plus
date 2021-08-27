@@ -7,8 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="/components/layuiadmin/layui/src/css/layui.css">
-
-
     <script src="/manage/js/app.js"></script>
     {add-upd-introduce}
 </head>
@@ -47,7 +45,7 @@
          //监听提交
          layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
                {add-upd-submit-js}
-               let result = Ajax.post(path + "/admin/{moduleName}/{tableNameLower}/insert", data.field);
+               let result = Ajax.post(parent.{tableNameLower}Url, data.field);
                let index = parent.layer.getFrameIndex(window.name);
                parent.layer.close(index);
                parent.layer.msg(result.msg);

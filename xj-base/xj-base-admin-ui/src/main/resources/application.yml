@@ -11,6 +11,10 @@ spring:
     mode: LEGACYHTML5
     prefix: classpath:/templates/
     suffix: .html
-
+  ## 处理静态资源中文乱码
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
 
 

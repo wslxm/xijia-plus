@@ -1,12 +1,13 @@
-package {packPath}.{rootModule}.{moduleName}.model.vo;
+package {packPath}.{rootModule}.{moduleName}.model.query;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Range;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import com.ws.ldy.core.base.model.BaseVo;
+import com.ws.ldy.core.base.model.BaseQuery;
 
 /**
  * {tableComment}
@@ -19,8 +20,8 @@ import com.ws.ldy.core.base.model.BaseVo;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "{tableNameUp}VO 对象", description = "{tableComment}")
-public class {tableNameUp}VO extends BaseVo {
+@ApiModel(value = "{tableNameUp}Query 对象", description = "{tableComment}")
+public class {tableNameUp}Query extends BaseQuery {
 
     private static final long serialVersionUID = -{serialVersionUID}L;
     {entitys}

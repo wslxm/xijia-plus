@@ -24,8 +24,8 @@ document.write("<script language=javascript src='/base/js/xj-req-ajax.js'></scri
  *   也可指定：本地 "http://127.0.0.1:9049/api" ||  线上ip地址： http://47.107.128.84:9049/api ||  线上域名地址： http://xijia.plus
  * <p>
  */
-var path = "/api";
-//var path = "http://127.0.0.1:9048/api";
+//var path = "/api";
+var path = "http://127.0.0.1:9048/api";
 var uploadPath = "/api/open/aliOssFile/upload";
 
 

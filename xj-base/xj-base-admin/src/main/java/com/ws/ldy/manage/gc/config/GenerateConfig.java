@@ -35,7 +35,7 @@ public class GenerateConfig {
     public static String PROJECT_NAME;                    // 项目名/路径，如：xj-server/xj-test-server
     public static String PACK_PATH;                       // 包路径
     public static String ROOT_MODULE;                     // 根模块(固定为：modules(管理端), 用户端为：client)
-    //public static String PACK_PATH_ZP;                    // 业务分类模块(sys 系统代码  yw 业务代码)
+    //public static String PACK_PATH_ZP;                  // 业务分类模块(sys 系统代码  yw 业务代码)
     public static String MODULE_NAME;                     // 子模块(业务分类,如用户管理,订单管理模块拆分，也可以统一一个名称放在一起)
     public static boolean entitySwagger = false;          // 实体类是否使用swagger注释, true=是  false=否 entity / vo / dto 是否使用swagger 注释
     public static List<String> BASE_FIELDS = null;        // mysql 数据表通用字段
@@ -96,6 +96,7 @@ public class GenerateConfig {
     public final static String PATH_ENTITY = "model/entity/";
     public final static String PATH_VO = "model/vo/";
     public final static String PATH_DTO = "model/dto/";
+    public final static String PATH_Query = "model/query/";
     public final static String PATH_CONTROLLER = "controller/";
     public final static String PATH_SERVICE = "service/";
     public final static String PATH_SERVICE_IMPL = "service/impl/";
@@ -132,9 +133,9 @@ public class GenerateConfig {
 
     // java参数 (代码生成过程中获得)
     public static String FIELD_ENTITYS = "";             // entity 实体类所有字段数据
-    public static String FIND_PAGE_PARAM = "";           // controller， findPage方法参数列表
-    public static String FIND_PAGE_MYBATIS_PLUS = "";    // controller， findPage方法查询参数,拼接到mybatisPlus方法中参数列表
-    public static String SWAGGER_REMARK = "";            // controller， findPage方法查询参数，的swagger注释
+    //public static String FIND_PAGE_PARAM = "";           // controller， findPage方法参数列表
+    //public static String SWAGGER_REMARK = "";            // controller， findPage方法查询参数，的swagger注释
+    public static String FIND_PAGE_MYBATIS_PLUS = "";    // 列表查询方法查询参数,拼接到mybatisPlus方法中参数列表
 
     // xml 参数(代码生成过程中获得)
     public static String RESULT_MAP = "";                // mapper xml 字段与实体类映射

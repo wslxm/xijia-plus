@@ -11,17 +11,15 @@ import java.util.Map;
 
 @SuppressWarnings("all")
 @Component
-public class XjGenerationDTO extends BaseGcImpl implements XjGenerationSevice {
+public class XjGenerationQuery extends BaseGcImpl implements XjGenerationSevice {
 
 
     @Override
     public void run(List<Map<String, Object>> data, String path) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "DTO");
-        //数据拼接(所有字段)
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "Query");
         this.generateParameters(data);
-        // 数据保存到替换对象类,使模板中可以读取
         GenerateDataProcessing.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
-        XjGenerateController.pathMap.put("DTO", getBaseUrl(request) + "/" + brBwPath.get("path").toString());
+        XjGenerateController.pathMap.put("Query", getBaseUrl(request) + "/" + brBwPath.get("path").toString());
     }
 
 
@@ -30,8 +28,9 @@ public class XjGenerationDTO extends BaseGcImpl implements XjGenerationSevice {
         StringBuffer fields = new StringBuffer();
         int position = 0;
         for (Map<String, Object> fieldMap : data) {
-            // 通用字段过滤
-            if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
+            // 判断是否需要生成查询
+            Object search = fieldMap.get("search");
+            if (search == null || !Boolean.parseBoolean(search.toString())) {
                 continue;
             }
             String type = fieldMap.get("type").toString();
@@ -49,7 +48,7 @@ public class XjGenerationDTO extends BaseGcImpl implements XjGenerationSevice {
                 }
             }
             // 3、生成字段
-            fields.append("\r\n    " + super.JXModel(fieldName, type) + "\r\n");
+            fields.append("\r\n    " + super.JXModel(fieldName, type)+"\r\n");
         }
         // 数据保存到替换对象类,使模板中可以读取
         GenerateConfig.FIELD_ENTITYS = fields.toString();

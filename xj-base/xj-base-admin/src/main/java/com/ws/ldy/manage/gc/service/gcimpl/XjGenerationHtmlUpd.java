@@ -153,6 +153,6 @@ public class XjGenerationHtmlUpd extends BaseIServiceImpl implements XjGeneratio
         GenerateConfig.ADD_UPD_SUBMIT_JS = submitjs.toString();
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
-        XjGenerateController.pathMap.put("mainUpd", brBwPath.get("path").toString());
+        XjGenerateController.pathMap.put("mainUpd",getBaseUrl(request) + "/" +brBwPath.get("path").toString());
     }
 }

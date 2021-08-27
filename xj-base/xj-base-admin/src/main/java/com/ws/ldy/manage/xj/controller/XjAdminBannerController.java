@@ -5,7 +5,6 @@ import com.ws.ldy.core.base.controller.BaseController;
 import com.ws.ldy.core.constant.BaseConstant;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.manage.xj.model.dto.XjAdminBannerDTO;
-import com.ws.ldy.manage.xj.model.entity.XjAdminBanner;
 import com.ws.ldy.manage.xj.model.query.XjAdminBannerQuery;
 import com.ws.ldy.manage.xj.model.vo.XjAdminBannerVO;
 import com.ws.ldy.manage.xj.service.XjAdminBannerService;
@@ -29,35 +28,28 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "XjAdminBannerController", tags = "base-plus--banner")
 public class XjAdminBannerController extends BaseController<XjAdminBannerService> {
 
-
     @GetMapping(value = "/list")
     @ApiOperation(value = "列表查询")
     public R<IPage<XjAdminBannerVO>> list(@ModelAttribute @Validated XjAdminBannerQuery query) {
-       return R.success(baseService.list(query));
+        return R.success(baseService.list(query));
     }
-
 
     @PostMapping
-    @ApiOperation(value = "添加", notes = "必须不传递ID")
-    public R<Boolean> insert(@RequestBody @Validated XjAdminBannerDTO dto) {
-        XjAdminBanner adminBanner = dto.convert(XjAdminBanner.class);
-        return R.successInsert(baseService.save(adminBanner));
+    @ApiOperation(value = "添加")
+    public R<String> insert(@RequestBody @Validated XjAdminBannerDTO dto) {
+        return R.successInsert(baseService.insert(dto));
     }
-
 
     @PutMapping(value = "/{id}")
-    @ApiOperation(value = "ID编辑", notes = "必须传递ID")
+    @ApiOperation(value = "ID编辑")
     public R<Boolean> upd(@PathVariable String id, @RequestBody @Validated XjAdminBannerDTO dto) {
-        XjAdminBanner entity = dto.convert(XjAdminBanner.class);
-        entity.setId(id);
-        return R.successUpdate(baseService.updateById(entity));
+        return R.successUpdate(baseService.upd(id, dto));
     }
-
 
     @DeleteMapping(value = "/{id}")
     @ApiOperation(value = "ID删除")
     public R<Boolean> del(@PathVariable String id) {
-        return R.successDelete(baseService.removeById(id));
+        return R.successDelete(baseService.del(id));
     }
 
 }

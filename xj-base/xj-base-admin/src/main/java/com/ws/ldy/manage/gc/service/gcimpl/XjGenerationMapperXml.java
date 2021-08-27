@@ -41,7 +41,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGenerat
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // 文件url记录
-        XjGenerateController.pathMap.put("mapperXml", brBwPath.get("path").toString());
+        XjGenerateController.pathMap.put("mapperXml", getBaseUrl(request) + "/" + brBwPath.get("path").toString());
     }
 
 

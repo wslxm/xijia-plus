@@ -146,7 +146,7 @@ public class XjGenerationHtmlAdd extends BaseIServiceImpl implements XjGeneratio
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // url保存
-        XjGenerateController.pathMap.put("mainAdd", brBwPath.get("path").toString());
+        XjGenerateController.pathMap.put("mainAdd", getBaseUrl(request) +"/" +brBwPath.get("path").toString());
     }
 
 }

@@ -1,10 +1,17 @@
 package {packPath}.{rootModule}.{moduleName}.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
 import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
 import {packPath}.{rootModule}.{moduleName}.mapper.{tableNameUp}Mapper;
-import {packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp};
 import {packPath}.{rootModule}.{moduleName}.service.{tableNameUp}Service;
+import {packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp};
+import {packPath}.{rootModule}.{moduleName}.model.vo.{tableNameUp}VO;
+import {packPath}.{rootModule}.{moduleName}.model.dto.{tableNameUp}DTO;
+import {packPath}.{rootModule}.{moduleName}.model.query.{tableNameUp}Query;
+import com.ws.ldy.core.utils.BeanDtoVoUtil;
 
 /**
  * {tableComment}
@@ -18,5 +25,35 @@ import {packPath}.{rootModule}.{moduleName}.service.{tableNameUp}Service;
 @Service
 public class {tableNameUp}ServiceImpl extends BaseIServiceImpl<{tableNameUp}Mapper, {tableNameUp}> implements {tableNameUp}Service {
 
+    @Override
+    public IPage<{tableNameUp}VO> list({tableNameUp}Query query) {
+        LambdaQueryWrapper<{tableNameUp}> queryWrapper = new LambdaQueryWrapper<{tableNameUp}>()
+{findPageMybatisPlus}
+                .orderByDesc({tableNameUp}::getCreateTime);
+        if (query.getCurrent() <= 0) {
+            IPage<{tableNameUp}VO> page = new Page<>();
+            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), {tableNameUp}VO.class));
+        } else {
+            return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), {tableNameUp}VO.class);
+        }
+    }
 
+    @Override
+    public String insert({tableNameUp}DTO dto) {
+        {tableNameUp} entity = dto.convert({tableNameUp}.class);
+        boolean b = this.save(entity);
+        return entity.getId();
+    }
+
+    @Override
+    public boolean upd(String id,{tableNameUp}DTO dto) {
+        {tableNameUp} entity = dto.convert({tableNameUp}.class);
+        entity.setId(id);
+        return this.updateById(entity);
+    }
+
+    @Override
+    public boolean del(String id) {
+        return this.removeById(id);
+    }
 }

@@ -1,7 +1,11 @@
 package {packPath}.{rootModule}.{moduleName}.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import {packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp};
+import {packPath}.{rootModule}.{moduleName}.model.vo.{tableNameUp}VO;
+import {packPath}.{rootModule}.{moduleName}.model.dto.{tableNameUp}DTO;
+import {packPath}.{rootModule}.{moduleName}.model.query.{tableNameUp}Query;
 
 /**
  * {tableComment}
@@ -14,5 +18,12 @@ import {packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp};
  */
 public interface {tableNameUp}Service extends IService<{tableNameUp}> {
 
+    IPage<{tableNameUp}VO> list({tableNameUp}Query query);
+
+    String insert({tableNameUp}DTO dto);
+
+    boolean upd( String id, {tableNameUp}DTO dto);
+
+    boolean del(String id);
 }
 

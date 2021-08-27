@@ -48,6 +48,8 @@ public class XjGenerateController extends BaseController<XjGenerationService> {
     @Autowired
     private XjGenerationVO xjGenerationVO;
     @Autowired
+    private XjGenerationQuery xjGenerationQuery;
+    @Autowired
     private XjGenerationMapper xjGenerationMapper;
     @Autowired
     private XjGenerationMapperXml xjGenerationMapperXml;
@@ -99,6 +101,7 @@ public class XjGenerateController extends BaseController<XjGenerationService> {
         xjGenerationEntity.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_ENTITY);             // 生成Entity
         xjGenerationVO.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_VO);                     // 生成VO
         xjGenerationDTO.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_DTO);                   // 生成DTO
+        xjGenerationQuery.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_Query);               // 生成Query
         xjGenerationController.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_CONTROLLER);     // 生成Controller
         xjGenerationService.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_SERVICE);           // 生成service
         xjGenerationServiceImpl.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_SERVICE_IMPL);  // 生成serviceImpl
@@ -152,6 +155,7 @@ public class XjGenerateController extends BaseController<XjGenerationService> {
         xjGenerationEntity.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_ENTITY);             // 生成Entity
         xjGenerationVO.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_VO);                     // 生成VO
         xjGenerationDTO.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_DTO);                   // 生成DTO
+        xjGenerationQuery.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_Query);               // 生成Query
         xjGenerationController.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_CONTROLLER);     // 生成Controller
         xjGenerationService.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE);           // 生成service
         xjGenerationServiceImpl.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE_IMPL);  // 生成serviceImpl
@@ -189,6 +193,7 @@ public class XjGenerateController extends BaseController<XjGenerationService> {
         mapPath.put("entity", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_ENTITY + GenerateConfig.TABLE_NAME_UP + ".java");
         mapPath.put("vo", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_VO + GenerateConfig.TABLE_NAME_UP + "VO.java");
         mapPath.put("dto", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_DTO + GenerateConfig.TABLE_NAME_UP + "DTO.java");
+        mapPath.put("query", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_DTO + GenerateConfig.TABLE_NAME_UP + "Query.java");
         mapPath.put("controller", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_CONTROLLER + GenerateConfig.TABLE_NAME_UP + "Controller.java");
         mapPath.put("service", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE + GenerateConfig.TABLE_NAME_UP + "Service.java");
         mapPath.put("serviceImpl", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE_IMPL + GenerateConfig.TABLE_NAME_UP + "ServiceImpl.java");

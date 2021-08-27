@@ -2,6 +2,7 @@ package com.ws.ldy.manage.xj.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ws.ldy.manage.xj.model.dto.XjAdminBannerDTO;
 import com.ws.ldy.manage.xj.model.entity.XjAdminBanner;
 import com.ws.ldy.manage.xj.model.query.XjAdminBannerQuery;
 import com.ws.ldy.manage.xj.model.vo.XjAdminBannerVO;
@@ -18,5 +19,11 @@ import com.ws.ldy.manage.xj.model.vo.XjAdminBannerVO;
 public interface XjAdminBannerService extends IService<XjAdminBanner> {
 
     IPage<XjAdminBannerVO> list(XjAdminBannerQuery query);
+
+    String insert(XjAdminBannerDTO dto);
+
+    boolean upd( String id, XjAdminBannerDTO dto);
+
+    boolean del(String id);
 }
 
