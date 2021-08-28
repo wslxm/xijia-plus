@@ -48,22 +48,14 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     @Override
     public IPage<AdminUserVO> list(AdminUserQuery query) {
-        LambdaQueryWrapper<AdminUser> queryWrapper = new LambdaQueryWrapper<AdminUser>()
-                .orderByDesc(AdminUser::getCreateTime)
-                .eq(com.baomidou.mybatisplus.core.toolkit.StringUtils.isNotBlank(query.getId()), AdminUser::getId, query.getId())
-                .eq(query.getPosition() != null, AdminUser::getPosition, query.getPosition())
-                .eq(query.getDisable() != null, AdminUser::getDisable, query.getDisable())
-                .eq(query.getTerminal() != null, AdminUser::getTerminal, query.getTerminal())
-                .like(com.baomidou.mybatisplus.core.toolkit.StringUtils.isNotBlank(query.getFullName()), AdminUser::getFullName, query.getFullName())
-                .like(com.baomidou.mybatisplus.core.toolkit.StringUtils.isNotBlank(query.getUsername()), AdminUser::getUsername, query.getUsername())
-                .like(com.baomidou.mybatisplus.core.toolkit.StringUtils.isNotBlank(query.getPhone()), AdminUser::getPhone, query.getPhone());
         if (query.getCurrent() <= 0) {
             // list
             IPage<AdminUserVO> page = new Page<>();
-            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), AdminUserVO.class));
+            return page.setRecords(baseMapper.list(null, query));
         } else {
             // page
-            return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), AdminUserVO.class);
+            IPage<AdminUserVO> page = new Page<>(query.getCurrent(),query.getSize());
+            return page.setRecords(baseMapper.list(page, query));
         }
     }
 
@@ -90,9 +82,9 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         adminUser.setDisable(0);  //默认启用状态
         adminUser.setRegTime(LocalDateTime.now());
         this.save(adminUser);
-        if (dto.getRoles() != null) {
+        if (dto.getRoleIds() != null) {
             //分配角色
-            adminRoleService.updUserRole(adminUser.getId(), dto.getRoles());
+            adminRoleService.updUserRole(adminUser.getId(), dto.getRoleIds());
         }
         return true;
     }
@@ -128,8 +120,8 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         this.updateById(entity);
 
         // 角色信息重分配
-        if (dto.getRoles() != null) {
-            adminRoleService.updUserRole(id, dto.getRoles());
+        if (dto.getRoleIds() != null) {
+            adminRoleService.updUserRole(id, dto.getRoleIds());
         }
         return true;
     }
@@ -149,7 +141,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
                 .eq(AdminRoleUser::getUserId, id)
         );
         //保存角色id
-        userVO.setRoles(roleUsers == null ? null : roleUsers.stream().map(AdminRoleUser::getRoleId).collect(Collectors.toList()));
+        userVO.setRoleIds(roleUsers == null ? null : roleUsers.stream().map(AdminRoleUser::getRoleId).collect(Collectors.toList()));
         return userVO;
     }
 

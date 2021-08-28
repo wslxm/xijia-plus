@@ -3,25 +3,29 @@
 <mapper namespace="com.ws.ldy.manage.admin.mapper.AdminUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ws.ldy.manage.admin.model.entity.AdminUser">
-
-        <result column="id" property="id"/>
-        <result column="create_user" property="createUser"/>
-        <result column="update_user" property="updateUser"/>
+    <resultMap id="BaseResultMap" type="com.ws.ldy.manage.admin.model.vo.AdminUserVO">
+        <id column="id" property="id"/>
         <result column="create_time" property="createTime"/>
-        <result column="update_time" property="updateTime"/>
-        <result column="deleted" property="deleted"/>
-        <result column="version" property="version"/>
-        <result column="head" property="head"/>
         <result column="username" property="username"/>
-        <result column="full_name" property="fullName"/>
-        <result column="password" property="password"/>
-        <result column="address" property="address"/>
-        <result column="age" property="age"/>
+        <!-- <result column="password" property="password"/> -->
         <result column="gender" property="gender"/>
         <result column="disable" property="disable"/>
+        <result column="position" property="position"/>
+        <result column="terminal" property="terminal"/>
+        <result column="head" property="head"/>
+        <result column="phone" property="phone"/>
+        <result column="full_name" property="fullName"/>
+        <result column="address" property="address"/>
+        <result column="age" property="age"/>
         <result column="reg_time" property="regTime"/>
         <result column="end_time" property="endTime"/>
+        <result column="wx_open_id" property="wxOpenId"/>
+        <result column="remarks" property="remarks"/>
+        <!-- 角色信息 -->
+        <collection property="roles" ofType="com.ws.ldy.manage.admin.model.vo.AdminRoleVO">
+            <id column="roleId" property="id"/>
+            <result column="roleName" property="name"/>
+        </collection>
     </resultMap>
 
     <!-- 通用查询结果列: <include refid="Base_Column_List"></include>  -->
@@ -46,11 +50,44 @@
                end_time
         </sql>
 
+    <select id="list" resultMap="BaseResultMap">
+        select
+        *,
+        r.id as roleId,
+        r.name as roleName
+        from t_admin_user u
+        left join t_admin_role_user ru on u.id = ru.user_id
+        left join t_admin_role r on r.id = ru.role_id
+        where u.deleted = 0
+        <if test="query.id != null and query.id != ''">
+            and u.id = #{query.id}
+        </if>
+        <if test="query.username != null and query.username != ''">
+            and u.username = #{query.username}
+        </if>
+        <if test="query.phone != null and query.phone != ''">
+            and u.phone = #{query.phone}
+        </if>
+        <if test="query.fullName != null and query.fullName != ''">
+            and u.fullName = #{query.fullName}
+        </if>
+        <if test="query.disable != null">
+            and u.disable = #{query.disable}
+        </if>
+        <if test="query.position != null">
+            and u.position = #{query.position}
+        </if>
+        <if test="query.terminal != null">
+            and u.terminal = #{query.terminal}
+        </if>
+        order by u.create_time
+    </select>
+
     <select id="findByRoleId" resultType="com.ws.ldy.manage.admin.model.entity.AdminUser">
               select * from t_admin_user where id in (
                      select user_id from t_admin_role_user where role_id = #{roleId}
               )
-       </select>
+     </select>
 
 </mapper>
 

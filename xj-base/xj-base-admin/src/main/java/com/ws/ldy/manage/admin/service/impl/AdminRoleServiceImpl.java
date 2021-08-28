@@ -94,8 +94,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
         this.updateById(role);
         // 给角色分配菜单权限(先删除后添加)
         adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, role.getId()));
-        boolean b = adminRoleMenuService.insert(role.getId(), dto.getMenuIds());
-        return b;
+        return adminRoleMenuService.insert(role.getId(), dto.getMenuIds());
     }
 
     /**
@@ -216,8 +215,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
         //删除所有
         adminRoleAuthService.remove(null);
         //更新权限
-        boolean result = adminRoleAuthService.saveBatch(addRoleAuthList, 1024);
-        return result;
+        return adminRoleAuthService.saveBatch(addRoleAuthList, 1024);
     }
 
     /**

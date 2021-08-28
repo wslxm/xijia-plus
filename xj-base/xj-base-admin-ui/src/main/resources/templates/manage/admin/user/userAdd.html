@@ -100,7 +100,7 @@
 
     <div class="layui-form-item" pane="">
         <label class="layui-form-label">角色</label> <!-- 默认选中： checked="   禁用： disabled=""  -->
-        <div id="roles" class="layui-input-block">
+        <div id="roleIds" class="layui-input-block">
         </div>
     </div>
 
@@ -142,7 +142,7 @@
                 .replace("{value}", roleList[index].id)
                 .replace("{checked}", "")
         });
-        $("#roles").html(roleHtml);   // 角色
+        $("#roleIds").html(roleHtml);   // 角色
         // 刷新,否则select可能不生效
         layui.form.render();
     }
@@ -179,7 +179,7 @@
             $('input[type=checkbox]:checked').each(function () {
                 roles_box.push($(this).val());
             });
-            data.field.roles = roles_box;
+            data.field.roleIds = roles_box;
             //
             let result = Ajax.post(parent.userUrl, data.field);
             let index = parent.layer.getFrameIndex(window.name);

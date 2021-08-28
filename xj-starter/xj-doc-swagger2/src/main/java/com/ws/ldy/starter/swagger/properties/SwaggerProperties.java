@@ -1,4 +1,4 @@
-package com.ws.ldy.starter.swagger2config;
+package com.ws.ldy.starter.swagger.properties;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

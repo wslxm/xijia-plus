@@ -463,13 +463,13 @@ _.compose = ->
 # Object Functions
 # ----------------
 
-# Retrieve the names of an object's properties.
+# Retrieve the names of an object's com.ws.ldy.starter.swagger.properties.
 _.keys = nativeKeys or (obj) ->
   return _.range 0, obj.length if _.isArray(obj)
   key for key, val of obj
 
 
-# Retrieve the values of an object's properties.
+# Retrieve the values of an object's com.ws.ldy.starter.swagger.properties.
 _.values = (obj) ->
   _.map obj, _.identity
 

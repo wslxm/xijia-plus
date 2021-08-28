@@ -48,5 +48,5 @@ public class AdminUserDTO extends Convert {
     @ApiModelProperty(value = "备注")
     private String remarks;
     @ApiModelProperty(value = "角色Id")
-    List<String> roles;
+    private List<String> roleIds;
 }

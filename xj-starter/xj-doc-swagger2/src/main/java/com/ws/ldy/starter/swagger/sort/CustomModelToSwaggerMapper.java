@@ -1,4 +1,4 @@
-package com.ws.ldy.starter.swagger2config;
+package com.ws.ldy.starter.swagger.sort;
 
 import io.swagger.models.parameters.Parameter;
 import lombok.extern.slf4j.Slf4j;

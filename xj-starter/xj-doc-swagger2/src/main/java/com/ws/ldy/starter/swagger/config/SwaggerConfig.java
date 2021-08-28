@@ -1,9 +1,10 @@
-package com.ws.ldy.starter.swagger2config;
+package com.ws.ldy.starter.swagger.config;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import com.ws.ldy.starter.swagger.properties.SwaggerProperties;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.ws.ldy.starter.swagger2config;
+package com.ws.ldy.starter.swagger.sort;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;

@@ -23,7 +23,8 @@ import java.util.List;
 public class AdminUserVO extends BaseVo {
 
     private static final long serialVersionUID = 4934650100711613453L;
-
+    @ApiModelProperty(value = "创建时间")
+    private String createTime;
     @ApiModelProperty(value = "头像")
     private String head;
     @ApiModelProperty(value = "账号/用户名")
@@ -32,8 +33,6 @@ public class AdminUserVO extends BaseVo {
     private String phone;
     @ApiModelProperty(value = "昵称")
     private String fullName;
-    // @ApiModelProperty(value = "密码")
-    // private String password;
     @ApiModelProperty(value = "地址")
     private String address;
     @ApiModelProperty(value = "年龄")
@@ -52,8 +51,12 @@ public class AdminUserVO extends BaseVo {
     private Integer position;
     @ApiModelProperty(value = "终端 (字段code)")
     private Integer terminal;
+    @ApiModelProperty(value = "终端 (字段code)")
+    private Integer wxOpenId;
     @ApiModelProperty(value = "备注")
     private String remarks;
-    @ApiModelProperty(value = "用户角色")
-    private List<String> roles;
+    @ApiModelProperty(value = "用户角色id, id 查询返回")
+    private List<String> roleIds;
+    @ApiModelProperty(value = "用户角色id, 列表查询返回(只返回id/name)")
+    private List<AdminRoleVO> roles;
 }
