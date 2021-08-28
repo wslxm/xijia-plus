@@ -1,14 +1,10 @@
 package com.ws.ldy.manage.xj.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.ws.ldy.core.auth.util.JwtUtil;
 import com.ws.ldy.core.base.controller.BaseController;
 import com.ws.ldy.core.constant.BaseConstant;
-import com.ws.ldy.core.enums.Base;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.manage.xj.model.dto.XjAdminMsgDTO;
-import com.ws.ldy.manage.xj.model.entity.XjAdminMsg;
 import com.ws.ldy.manage.xj.model.query.XjAdminMsgQuery;
 import com.ws.ldy.manage.xj.model.vo.XjAdminMsgVO;
 import com.ws.ldy.manage.xj.service.XjAdminMsgService;
@@ -49,21 +45,14 @@ public class XjAdminMsgController extends BaseController<XjAdminMsgService> {
 
     @PutMapping(value = "/{id}/read")
     @ApiOperation(value = "消息修改为已读")
-    public R<Boolean> upd(@PathVariable String id) {
-        XjAdminMsg entity = new XjAdminMsg();
-        entity.setId(id);
-        entity.setIsRead(Base.IsRead.V1.getValue());
-        return R.successUpdate(baseService.updateById(entity));
+    public R<Boolean> updRead(@PathVariable String id) {
+        return R.successUpdate(baseService.updRead(id));
     }
 
 
     @ApiOperation(value = "查询未读数量(当前登录用户)")
     @GetMapping(value = "/findUnreadNum")
-    public R<Integer> unread() {
-        int count = baseService.count(new LambdaQueryWrapper<XjAdminMsg>()
-                .eq(XjAdminMsg::getIsRead, Base.IsRead.V0.getValue())
-                .eq(XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())
-        );
-        return R.successFind(count);
+    public R<Integer> findUnreadNum() {
+        return R.successFind(baseService.findUnreadNum());
     }
 }

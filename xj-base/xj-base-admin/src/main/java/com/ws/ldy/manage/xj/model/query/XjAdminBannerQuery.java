@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
-import org.hibernate.validator.constraints.Length;
 
 /**
  * banner表
@@ -25,6 +24,9 @@ public class XjAdminBannerQuery extends BaseQuery {
 
     @ApiModelProperty(value = "banner标题" ,position = 0)
     private String name;
+
+    @ApiModelProperty(value = "位置(字典code)" ,position = 0)
+    private Integer position;
 
 }
 

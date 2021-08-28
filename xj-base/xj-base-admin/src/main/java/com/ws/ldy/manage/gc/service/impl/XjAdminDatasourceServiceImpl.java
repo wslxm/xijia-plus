@@ -1,8 +1,15 @@
 package com.ws.ldy.manage.gc.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
+import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.manage.gc.mapper.XjAdminDatasourceMapper;
 import com.ws.ldy.manage.gc.model.entity.XjAdminDatasource;
+import com.ws.ldy.manage.gc.model.query.XjAdminDatasourceQuery;
+import com.ws.ldy.manage.gc.model.vo.XjAdminDatasourceVO;
 import com.ws.ldy.manage.gc.service.XjAdminDatasourceService;
 import org.springframework.stereotype.Service;
 
@@ -19,4 +26,19 @@ import org.springframework.stereotype.Service;
 public class XjAdminDatasourceServiceImpl extends BaseIServiceImpl<XjAdminDatasourceMapper, XjAdminDatasource> implements XjAdminDatasourceService {
 
 
+    @Override
+    public IPage<XjAdminDatasourceVO> list(XjAdminDatasourceQuery query) {
+        LambdaQueryWrapper<XjAdminDatasource> queryWrapper = new LambdaQueryWrapper<XjAdminDatasource>()
+                .orderByDesc(XjAdminDatasource::getCreateTime)
+                .like(StringUtils.isNotBlank(query.getDbTitle()), XjAdminDatasource::getDbTitle, query.getDbTitle())
+                .like(StringUtils.isNotBlank(query.getDbName()), XjAdminDatasource::getDbName, query.getDbName());
+        if (query.getCurrent() <= 0) {
+            // list
+            IPage<XjAdminDatasourceVO> page = new Page<>();
+            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), XjAdminDatasourceVO.class));
+        } else {
+            // page
+            return  BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminDatasourceVO.class);
+        }
+    }
 }

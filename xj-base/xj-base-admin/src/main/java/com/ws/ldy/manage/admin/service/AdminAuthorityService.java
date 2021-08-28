@@ -25,22 +25,12 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      */
     List<AdminAuthorityVO> list(AdminAuthorityQuery query);
 
-
     /**
      * 编辑
      * @author wangsong
      * @param dto
      */
-    Boolean upd(String id,AdminAuthorityDTO dto);
-
-    /**
-     * 接口自动扫描（1、项目启动时自动执行   2、设置了权限授权状态更新）
-     *
-     * @return void
-     * @date 2019/11/25 0025 11:55
-     */
-    Boolean refreshAuthDB();
-
+    Boolean upd(String id, AdminAuthorityDTO dto);
 
     /**
      * 获取用户的url权限列表，给指定角色的有的权限数据赋予选中状态(list数据)
@@ -60,7 +50,6 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      */
     List<AdminAuthorityVO> authTree(String roleId);
 
-
     /**
      * 获取用户的url权限列表，只返回未禁用的 url
      *
@@ -71,22 +60,19 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
     List<String> findByUserIdaAndDisableFetchAuthority(String userId);
 
     /**
-     * 刷新接口
+     * 扫描接口, 加入权限管理中（用于url授权, 在项目启动时调用进行自动执行, 初始化相关权限接口）
      *
-     * @param
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    public void refreshAuthCache();
-
+    Boolean refreshAuthDB();
 
     /**
-     * 子级找父级
+     * 刷新缓存中的接口接口信息 (用于url授权, 在项目启动时调用和，权限数据更新时调用)
      *
      * @param
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    public AdminAuthority findFatherAuth(String uri);
-
+    void refreshAuthCache();
 }

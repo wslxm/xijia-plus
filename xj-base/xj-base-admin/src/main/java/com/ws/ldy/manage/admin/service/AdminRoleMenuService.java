@@ -7,7 +7,7 @@ import com.ws.ldy.manage.admin.model.entity.AdminRoleMenu;
 import java.util.List;
 
 /**
- *   角色+菜单管理
+ * 角色+菜单管理
  *
  * @author 王松
  * @WX-QQ 1720696548

@@ -20,10 +20,11 @@ public interface XjAdminConfigService extends IService<XjAdminConfig> {
 
     IPage<XjAdminConfigVO> list(XjAdminConfigQuery query);
 
-    XjAdminConfig findByCode(String code);
-
     boolean  insert(XjAdminConfigDTO dto);
 
     boolean  upd(String id,XjAdminConfigDTO dto);
+
+    XjAdminConfigVO findByCode(String code);
+
 }
 

@@ -68,24 +68,6 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     }
 
     @Override
-    public AdminUserVO findId(String id) {
-        AdminUser user = this.getById(id);
-        AdminUserVO userVO = user.convert(AdminUserVO.class);
-        List<AdminRoleUser> roleUsers = adminRoleUserService.list(new LambdaQueryWrapper<AdminRoleUser>()
-                .select(AdminRoleUser::getRoleId)
-                .eq(AdminRoleUser::getUserId, id)
-        );
-        //保存角色id
-        userVO.setRoles(roleUsers == null ? null : roleUsers.stream().map(AdminRoleUser::getRoleId).collect(Collectors.toList()));
-        return userVO;
-    }
-
-    @Override
-    public List<AdminUser> findByRoleId(String roleId) {
-        return baseMapper.findByRoleId(roleId);
-    }
-
-    @Override
     @Transactional
     public Boolean insert(@RequestBody AdminUserDTO dto) {
         // 判重账号
@@ -118,10 +100,9 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     @Override
     @Transactional
     public Boolean upd(String id, AdminUserDTO dto) {
-
-        //判重账号
         AdminUser adminUser = this.getOne(new LambdaQueryWrapper<AdminUser>().select(AdminUser::getUsername, AdminUser::getPhone).eq(AdminUser::getId, id));
         if (StringUtils.isNotBlank(dto.getUsername())) {
+            // 判重账号
             if (!adminUser.getUsername().equals(dto.getUsername())) {
                 if (this.count(new LambdaUpdateWrapper<AdminUser>()
                         .eq(AdminUser::getUsername, dto.getUsername())
@@ -132,7 +113,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
             }
         }
         if (StringUtils.isNotBlank(dto.getPhone())) {
-            //判重电话
+            // 判重电话
             if (!adminUser.getPhone().equals(dto.getPhone())) {
                 if (this.count(new LambdaUpdateWrapper<AdminUser>()
                         .eq(AdminUser::getPhone, dto.getPhone())
@@ -145,12 +126,38 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         AdminUser entity = dto.convert(AdminUser.class);
         entity.setId(id);
         this.updateById(entity);
-        //分配角色
+
+        // 角色信息重分配
         if (dto.getRoles() != null) {
             adminRoleService.updUserRole(id, dto.getRoles());
         }
         return true;
     }
+
+    @Override
+    public Boolean del(String userId) {
+        adminRoleUserService.remove(new LambdaUpdateWrapper<AdminRoleUser>().eq(AdminRoleUser::getUserId, userId));
+        return this.removeById(userId);
+    }
+
+    @Override
+    public AdminUserVO findId(String id) {
+        AdminUser user = this.getById(id);
+        AdminUserVO userVO = user.convert(AdminUserVO.class);
+        List<AdminRoleUser> roleUsers = adminRoleUserService.list(new LambdaQueryWrapper<AdminRoleUser>()
+                .select(AdminRoleUser::getRoleId)
+                .eq(AdminRoleUser::getUserId, id)
+        );
+        //保存角色id
+        userVO.setRoles(roleUsers == null ? null : roleUsers.stream().map(AdminRoleUser::getRoleId).collect(Collectors.toList()));
+        return userVO;
+    }
+
+    @Override
+    public List<AdminUser> findByRoleId(String roleId) {
+        return baseMapper.findByRoleId(roleId);
+    }
+
 
     @Override
     public List<AdminUserVO> listKeyData(String searchName, String terminal) {
@@ -166,7 +173,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         return BeanDtoVoUtil.listVo(list, AdminUserVO.class);
     }
 
-    //username = 手机号或者账号(手机号或账号不能重复)
+
     @Override
     public Boolean login(@RequestParam String username, @RequestParam String password) {
         // 1、判断账号
@@ -211,6 +218,24 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     }
 
 
+    @Override
+    public Boolean updResetPassword(String id, String password) {
+        return this.update(new LambdaUpdateWrapper<AdminUser>()
+                .set(AdminUser::getPassword, MD5Util.encode(password))
+                .eq(AdminUser::getId, id));
+    }
+
+
+    @Override
+    public Boolean updByPassword(String oldPassword, String password) {
+        AdminUser adminUser = this.getById(JwtUtil.getJwtUser(request).getUserId());
+        if (!adminUser.getPassword().equals(MD5Util.encode(oldPassword))) {
+            throw new ErrorException(RType.USER_PASSWORD_ERROR);
+        }
+        adminUser.setPassword(MD5Util.encode(password));
+        return this.updateById(adminUser);
+    }
+
     /**
      * 绑定微信公众号-openId
      * @param username
@@ -234,12 +259,5 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         }
         //绑定
         return this.update(new LambdaUpdateWrapper<AdminUser>().eq(AdminUser::getWxOpenId, openId));
-    }
-
-
-    @Override
-    public Boolean del(String userId) {
-        adminRoleUserService.remove(new LambdaUpdateWrapper<AdminRoleUser>().eq(AdminRoleUser::getUserId, userId));
-        return this.removeById(userId);
     }
 }

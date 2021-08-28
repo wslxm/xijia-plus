@@ -3,12 +3,9 @@ package com.ws.ldy.client.xj.controller;
 import com.ws.ldy.core.base.controller.BaseController;
 import com.ws.ldy.core.constant.BaseConstant;
 import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.utils.BeanDtoVoUtil;
-import com.ws.ldy.manage.xj.model.entity.XjAdminConfig;
 import com.ws.ldy.manage.xj.model.vo.XjAdminConfigVO;
 import com.ws.ldy.manage.xj.service.XjAdminConfigService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,11 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UXjAdminConfigController extends BaseController<XjAdminConfigService> {
 
 
-    @GetMapping(value = "/one/{code}")
+    @GetMapping(value = "/findByCode")
     @ApiOperation(value = "CODE查询")
-    @ApiImplicitParam(name = "code", value = "配置code|搜索值(不能重复)", required = false, paramType = "query", example = "")
     public R<XjAdminConfigVO> findByCode(@RequestParam String code) {
-        XjAdminConfig xjAdminConfig = baseService.findByCode(code);
-        return R.successFind(BeanDtoVoUtil.convert(xjAdminConfig, XjAdminConfigVO.class));
+        return R.successFind(baseService.findByCode(code));
     }
 }

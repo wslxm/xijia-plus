@@ -1,16 +1,9 @@
 package com.ws.ldy.client.xj.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ws.ldy.core.auth.util.JwtUtil;
 import com.ws.ldy.core.base.controller.BaseController;
 import com.ws.ldy.core.constant.BaseConstant;
-import com.ws.ldy.core.enums.Base;
 import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.utils.BeanDtoVoUtil;
-import com.ws.ldy.manage.xj.model.entity.XjAdminMsg;
 import com.ws.ldy.manage.xj.model.query.XjAdminMsgQuery;
 import com.ws.ldy.manage.xj.model.vo.XjAdminMsgVO;
 import com.ws.ldy.manage.xj.service.XjAdminMsgService;
@@ -18,8 +11,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
 
 
 /**
@@ -40,32 +31,20 @@ public class UXjAdminMsgController extends BaseController<XjAdminMsgService> {
     @GetMapping(value = "/list")
     @ApiOperation(value = "分页查询")
     public R<IPage<XjAdminMsgVO>> list(@ModelAttribute @Validated XjAdminMsgQuery query) {
-        Page<XjAdminMsg> page = baseService.page(this.getPage(), new LambdaQueryWrapper<XjAdminMsg>()
-                .orderByDesc(XjAdminMsg::getCreateTime)
-                .eq(query.getIsRead() != null, XjAdminMsg::getIsRead, query.getIsRead())
-                .eq(XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())
-                .in(StringUtils.isNotBlank(query.getMsgTypes()), XjAdminMsg::getMsgType, StringUtils.isNotBlank(query.getMsgTypes()) ? Arrays.asList(query.getMsgTypes().split(",")) : null)
-                .notIn(StringUtils.isNotBlank(query.getNoMsgTypes()), XjAdminMsg::getMsgType, StringUtils.isNotBlank(query.getNoMsgTypes()) ? Arrays.asList(query.getNoMsgTypes().split(",")) : null)
-        );
-        return R.successFind(BeanDtoVoUtil.pageVo(page, XjAdminMsgVO.class));
+        return R.successFind(baseService.list(query));
     }
 
-    @ApiOperation(value = "查询未读数量(当前登录用户)")
-    @GetMapping(value = "/findUnreadNum")
-    public R<Integer> unread() {
-        int count = baseService.count(new LambdaQueryWrapper<XjAdminMsg>()
-                .eq(XjAdminMsg::getIsRead, Base.IsRead.V0.getValue())
-                .eq(XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())
-        );
-        return R.successFind(count);
-    }
 
     @PutMapping(value = "/{id}/read")
     @ApiOperation(value = "消息修改为已读")
-    public R<Boolean> upd(@PathVariable String id) {
-        XjAdminMsg entity = new XjAdminMsg();
-        entity.setId(id);
-        entity.setIsRead(Base.IsRead.V1.getValue());
-        return R.successUpdate(baseService.updateById(entity));
+    public R<Boolean> updRead(@PathVariable String id) {
+        return R.successUpdate(baseService.updRead(id));
+    }
+
+
+    @ApiOperation(value = "查询未读数量(当前登录用户)")
+    @GetMapping(value = "/findUnreadNum")
+    public R<Integer> findUnreadNum() {
+        return R.successFind(baseService.findUnreadNum());
     }
 }

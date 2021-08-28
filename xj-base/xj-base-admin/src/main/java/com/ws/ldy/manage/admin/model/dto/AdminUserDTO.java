@@ -41,11 +41,12 @@ public class AdminUserDTO extends Convert {
     private Integer gender;
     @ApiModelProperty(value = "禁用（0-否，1-是）")
     private Integer disable;
-
     @ApiModelProperty(value = "职位（字典code）")
     private Integer position;
     @ApiModelProperty(value = "终端 (字段code)")
     private Integer terminal;
+    @ApiModelProperty(value = "备注")
+    private String remarks;
     @ApiModelProperty(value = "角色Id")
     List<String> roles;
 }

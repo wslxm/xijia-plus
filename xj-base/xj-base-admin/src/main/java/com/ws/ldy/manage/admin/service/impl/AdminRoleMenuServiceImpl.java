@@ -15,7 +15,6 @@ public class AdminRoleMenuServiceImpl extends BaseIServiceImpl<AdminRoleMenuMapp
 
     @Override
     public boolean insert(String roleId, List<String> menuIds) {
-
         if (menuIds != null && menuIds.size() > 0) {
             List<AdminRoleMenu> roleMenus = new ArrayList<>();
             menuIds.forEach(menuId ->{

@@ -32,6 +32,7 @@ public class XjAdminBannerServiceImpl extends BaseIServiceImpl<XjAdminBannerMapp
                 .orderByAsc(XjAdminBanner::getPosition)
                 .orderByAsc(XjAdminBanner::getSort)
                 .orderByDesc(XjAdminBanner::getCreateTime)
+                .eq(query.getPosition() != null, XjAdminBanner::getName, query.getPosition())
                 .eq(StringUtils.isNotBlank(query.getName()), XjAdminBanner::getName, query.getName());
         if (query.getCurrent() <= 0) {
             IPage<XjAdminBannerVO> page = new Page<>();
@@ -49,7 +50,7 @@ public class XjAdminBannerServiceImpl extends BaseIServiceImpl<XjAdminBannerMapp
     }
 
     @Override
-    public boolean upd(String id,XjAdminBannerDTO dto) {
+    public boolean upd(String id, XjAdminBannerDTO dto) {
         XjAdminBanner entity = dto.convert(XjAdminBanner.class);
         entity.setId(id);
         return this.updateById(entity);

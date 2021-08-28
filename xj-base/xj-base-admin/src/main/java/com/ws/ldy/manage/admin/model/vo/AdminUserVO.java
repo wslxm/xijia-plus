@@ -52,6 +52,8 @@ public class AdminUserVO extends BaseVo {
     private Integer position;
     @ApiModelProperty(value = "终端 (字段code)")
     private Integer terminal;
+    @ApiModelProperty(value = "备注")
+    private String remarks;
     @ApiModelProperty(value = "用户角色")
     private List<String> roles;
 }

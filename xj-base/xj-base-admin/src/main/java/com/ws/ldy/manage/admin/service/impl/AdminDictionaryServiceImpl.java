@@ -35,107 +35,8 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      */
     private static final String PID = "0";
 
-
-    /**
-     * 查询所有（缓存到jvm）
-     * @param isDisable  是否查询禁用数据 =true 查询*默认   =false 不查询
-     * @return
-     */
     @Override
-    public List<AdminDictionaryVO> findList(Boolean isDisable) {
-        if (!CacheUtil.containsKey(CacheKey.DICT_LIST_KEY.getKey())) {
-            // 查询所有字典数据
-            List<AdminDictionary> adminDictionaries = baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
-                    .orderByAsc(AdminDictionary::getSort)
-                    .orderByAsc(AdminDictionary::getCode)
-            );
-            List<AdminDictionaryVO> dictList = BeanDtoVoUtil.listVo(adminDictionaries, AdminDictionaryVO.class);
-            CacheUtil.set(CacheKey.DICT_LIST_KEY.getKey(), dictList);
-        }
-        List<AdminDictionaryVO> listVO = CacheUtil.getList(CacheKey.DICT_LIST_KEY.getKey(), AdminDictionaryVO.class);
-        /**
-         * 是否获取禁用数据
-         */
-        // 为了让数据不改变缓存数据,不使用引用,使用深拷贝
-        List<AdminDictionaryVO> adminDictionaryVOS = BeanDtoVoUtil.listVo(listVO, AdminDictionaryVO.class);
-        if (isDisable) {
-            return adminDictionaryVOS;
-        } else {
-            //排除禁用数据(.stream() 后的数据依旧是引用数据)
-            return adminDictionaryVOS.stream().filter(i -> i.getDisable().equals(Base.Disable.V0.getValue())).collect(Collectors.toList());
-        }
-    }
-
-
-    @Override
-    public Boolean insert(AdminDictionaryDTO dto) {
-        if (StringUtils.isBlank(dto.getCode().trim())) {
-            throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + LambdaUtils.convert(AdminDictionaryDTO::getCode));
-        }
-        dto.setCode(dto.getCode().trim());
-        if (!StringUtil.isInteger(dto.getCode()) && this.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
-            // 字符串code 为 string时不能重复, 为Integer时可以重复
-            throw new ErrorException(RType.DICT_DUPLICATE);
-        }
-        boolean res = this.save(dto.convert(AdminDictionary.class));
-        //清除缓存
-        CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
-        return res;
-    }
-
-    @Override
-    public Boolean upd(String id, AdminDictionaryDTO dto) {
-        // 因为Code不能重复, 编辑了Code 需单独处理数据
-        if (dto.getCode() != null) {
-            dto.setCode(dto.getCode().trim());
-            // 原数据
-            AdminDictionary dict = this.getById(id);
-            //  原数据code != new Code, 判断数据库是否存在修改后的code值 ， code为Integer时不处理
-            if (!dict.getCode().equals(dto.getCode().trim())) {
-                if (!StringUtil.isInteger(dto.getCode()) && this.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
-                    throw new ErrorException(RType.DICT_DUPLICATE);
-                }
-            }
-        }
-        AdminDictionary entity = dto.convert(AdminDictionary.class);
-        entity.setId(id);
-        boolean res = this.updateById(entity);
-        //清除缓存
-        CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
-        return res;
-    }
-
-
-    @Override
-    public Boolean updBySort(String id, Integer sort) {
-        AdminDictionary dict = new AdminDictionary();
-        dict.setId(id);
-        dict.setSort(sort);
-        boolean b = this.updateById(dict);
-        //清除缓存
-        CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
-        return b;
-    }
-
-    @Override
-    public Boolean del(String id) {
-        List<String> ids = this.findByIdFetchIds(id);
-        boolean res = this.removeByIds(ids);
-        //清除缓存
-        CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
-        return res;
-    }
-
-
-    /**
-     * 根据code 查询下级所有
-     * @author wangsong
-     * @date 2020/8/8 0008 1:15
-     * @return com.ws.ldy.modules.admin.model.vo.AdminDictionaryVO
-     * @version 1.0.0
-     */
-    @Override
-    public List<AdminDictionaryVO> findByCodeFetchDictVO(AdminDictionaryQuery query) {
+    public List<AdminDictionaryVO> list(AdminDictionaryQuery query) {
         Boolean isDisable = query.getIsDisable();
         Boolean isBottomLayer = query.getIsBottomLayer();
         Boolean isTree = query.getIsTree();
@@ -158,7 +59,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         }
 
         //2、获取所有字典数据
-        List<AdminDictionaryVO> dictListVO = findList(isDisable);
+        List<AdminDictionaryVO> dictListVO = this.findList(isDisable);
 
         if (dictListVO.isEmpty()) {
             return dictListVO;
@@ -207,41 +108,55 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     }
 
 
-    /**
-     * 查询下级所有Id,  包括禁用数据的Id,包括自己的Id
-     * @author wangsong
-     * @param id
-     * @date 2020/8/8 0008 1:16
-     * @return java.util.List<java.lang.String>
-     * @version 1.0.0
-     */
     @Override
-    public List<String> findByIdFetchIds(String id) {
-        List<String> ids = new ArrayList<>();
-        ids.add(id);
-        // 查询所有
-        List<AdminDictionaryVO> dictList = this.findList(true);
-        List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(dictList, AdminDictionaryVO.class);
-        for (AdminDictionaryVO adminDictionaryVO : dictVoList) {
-            if (id.equals(adminDictionaryVO.getId())) {
-                // 递归添加下级数据
-                nextLowerNode(dictVoList, adminDictionaryVO, ids);
-            }
+    public Boolean insert(AdminDictionaryDTO dto) {
+        if (StringUtils.isBlank(dto.getCode().trim())) {
+            throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + LambdaUtils.convert(AdminDictionaryDTO::getCode));
         }
-        return ids;
+        dto.setCode(dto.getCode().trim());
+        if (!StringUtil.isInteger(dto.getCode()) && this.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
+            // 字符串code 为 string时不能重复, 为Integer时可以重复
+            throw new ErrorException(RType.DICT_DUPLICATE);
+        }
+        boolean res = this.save(dto.convert(AdminDictionary.class));
+        //清除缓存
+        CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
+        return res;
     }
 
 
-    /**
-     * 查询所有数据并根据code分组，不包括禁用数据 (前端缓存该数据)
-     * <p>
-     *     key - value 形式，因为所有添加下层数据是引用。每一个key下的value 数据依然有所有的层级关系数据
-     * </p>
-     * @author wangsong
-     * @date 2020/8/8 0008 1:07
-     * @return java.util.Map<java.lang.String, com.ws.ldy.modules.admin.model.vo.AdminDictionaryVO>
-     * @version 1.0.0
-     */
+    @Override
+    public Boolean upd(String id, AdminDictionaryDTO dto) {
+        // 因为Code不能重复, 编辑了Code 需单独处理数据
+        if (dto.getCode() != null) {
+            dto.setCode(dto.getCode().trim());
+            // 原数据
+            AdminDictionary dict = this.getById(id);
+            //  原数据code != new Code, 判断数据库是否存在修改后的code值 ， code为Integer时不处理
+            if (!dict.getCode().equals(dto.getCode().trim())) {
+                if (!StringUtil.isInteger(dto.getCode()) && this.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
+                    throw new ErrorException(RType.DICT_DUPLICATE);
+                }
+            }
+        }
+        AdminDictionary entity = dto.convert(AdminDictionary.class);
+        entity.setId(id);
+        boolean res = this.updateById(entity);
+        //清除缓存
+        CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
+        return res;
+    }
+
+    @Override
+    public Boolean del(String id) {
+        List<String> ids = this.findByIdFetchIds(id);
+        boolean res = this.removeByIds(ids);
+        //清除缓存
+        CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
+        return res;
+    }
+
+
     @Override
     public Map<String, AdminDictionaryCodeGroup> findCodeGroup() {
         List<AdminDictionaryVO> dictList = findList(false);
@@ -287,6 +202,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         return dictList.stream().filter(p -> p.getPid().equals(finalNewPid)).collect(Collectors.toList());
     }
 
+
     @Override
     public Map<String, String> generateEnum(String enumName) {
         AdminDictionaryQuery query = new AdminDictionaryQuery();
@@ -294,9 +210,9 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         query.setIsDisable(true);
         query.setIsBottomLayer(true);
         query.setIsTree(true);
-        List<AdminDictionaryVO> dict = this.findByCodeFetchDictVO(query);
+        List<AdminDictionaryVO> dict = this.list(query);
         String enumsJava = null;
-        if (enumName.equals("ENUMS")) {
+        if ("ENUMS".equals(enumName)) {
             enumsJava = this.generateEnumJava(dict.get(0));
         } else {
             enumsJava = this.generateEnumJava2(dict.get(0));
@@ -457,6 +373,62 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         return sb.toString();
     }
 
+
+
+    /**
+     * 查询下级所有Id,  包括禁用数据的Id,包括自己的Id
+     * @author wangsong
+     * @param id
+     * @date 2020/8/8 0008 1:16
+     * @return java.util.List<java.lang.String>
+     * @version 1.0.0
+     */
+    private List<String> findByIdFetchIds(String id) {
+        List<String> ids = new ArrayList<>();
+        ids.add(id);
+        // 查询所有
+        List<AdminDictionaryVO> dictList = this.findList(true);
+        List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(dictList, AdminDictionaryVO.class);
+        for (AdminDictionaryVO adminDictionaryVO : dictVoList) {
+            if (id.equals(adminDictionaryVO.getId())) {
+                // 递归添加下级数据
+                nextLowerNode(dictVoList, adminDictionaryVO, ids);
+            }
+        }
+        return ids;
+    }
+
+
+
+
+    /**
+     * 查询所有（缓存到jvm）
+     * @param isDisable  是否查询禁用数据 =true 查询*默认   =false 不查询
+     * @return
+     */
+    private List<AdminDictionaryVO> findList(Boolean isDisable) {
+        if (!CacheUtil.containsKey(CacheKey.DICT_LIST_KEY.getKey())) {
+            // 查询所有字典数据
+            List<AdminDictionary> adminDictionaries = baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
+                    .orderByAsc(AdminDictionary::getSort)
+                    .orderByAsc(AdminDictionary::getCode)
+            );
+            List<AdminDictionaryVO> dictList = BeanDtoVoUtil.listVo(adminDictionaries, AdminDictionaryVO.class);
+            CacheUtil.set(CacheKey.DICT_LIST_KEY.getKey(), dictList);
+        }
+        List<AdminDictionaryVO> listVO = CacheUtil.getList(CacheKey.DICT_LIST_KEY.getKey(), AdminDictionaryVO.class);
+        /**
+         * 是否获取禁用数据
+         */
+        // 为了让数据不改变缓存数据,不使用引用,使用深拷贝
+        List<AdminDictionaryVO> adminDictionaryVOS = BeanDtoVoUtil.listVo(listVO, AdminDictionaryVO.class);
+        if (isDisable) {
+            return adminDictionaryVOS;
+        } else {
+            //排除禁用数据(.stream() 后的数据依旧是引用数据)
+            return adminDictionaryVOS.stream().filter(i -> i.getDisable().equals(Base.Disable.V0.getValue())).collect(Collectors.toList());
+        }
+    }
 
 }
 

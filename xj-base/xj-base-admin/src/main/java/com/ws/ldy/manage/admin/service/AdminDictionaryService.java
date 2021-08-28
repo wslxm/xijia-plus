@@ -20,76 +20,44 @@ import java.util.Map;
  */
 public interface AdminDictionaryService extends IService<AdminDictionary> {
 
-
     /**
-     * 查询所有（缓存到jvm）
-     * @param isDisable  是否查询禁用数据 =true 查询*默认   =false 不查询
-     * @return
+     * 列表查询, 根据code查询数据+ 下级所有层级数据（无限递归），先根据 Sort排序，在根据 Code排序
+     * @return java.util.List<com.ws.ldy.admin.model.vo.AdminDictionaryVO>
+     * @date 2020/7/12 0012 19:22
      */
-    List<AdminDictionaryVO> findList(Boolean isDisable);
+    List<AdminDictionaryVO> list(AdminDictionaryQuery query);
 
-    /**
-     * 添加
-     * @param
-     * @return
-     */
     Boolean insert(AdminDictionaryDTO dto);
 
-    /**
-     * 编辑
-     * @param
-     * @return
-     */
-    Boolean upd(String id,AdminDictionaryDTO dto);
-
-
-    /**
-     * 修改排序
-     * @param id
-     * @param sort
-     * @return
-     */
-    Boolean updBySort(String id, Integer sort);
+    Boolean upd(String id, AdminDictionaryDTO dto);
 
     /**
      * id删除，并删除下级数据
      * @param id
-     * @return
      */
     Boolean del(String id);
 
-
     /**
-     * 根据code查询数据+ 下级所有层级数据（无限递归），先根据 Sort排序，在根据 Code排序
-     * @return java.util.List<com.ws.ldy.admin.model.vo.AdminDictionaryVO>
-     * @date 2020/7/12 0012 19:22
-     */
-    List<AdminDictionaryVO> findByCodeFetchDictVO(AdminDictionaryQuery query);
-
-    /**
-     * 查询下级所有Id, 包括禁用数据
-     */
-    List<String> findByIdFetchIds(String id);
-
-    /**
-     * 分组查询-key-value数据： 不包括禁用数据
-     * @return
+     * 分组查询-key-value数据 (前端尽量缓存该数据)
+     * <p>
+     *     key-value 形式，因为所有添加下层数据是引用。每一个key下的value 数据依然有所有的层级关系数据
+     * </p>
+     * @author wangsong
+     * @date 2020/8/8 0008 1:07
+     * @return java.util.Map<java.lang.String, com.ws.ldy.modules.admin.model.vo.AdminDictionaryVO>
+     * @version 1.0.0
      */
     Map<String, AdminDictionaryCodeGroup> findCodeGroup();
-
 
     /**
      * 查询字典类别(级联数据)
      * @param code 父级code, 不传默认为顶层
-     * @return
      */
     List<AdminDictionaryVO> findDictCategory(String code);
 
-
     /**
-     * 生成枚举
+     * 生成枚举 (生成 Enum 的java 类和 生成js findCodeGroup查询数据的key )
      * @param enumName 父级枚举key，只生成指定key下的数据
      */
     Map<String, String> generateEnum(String enumName);
-
 }

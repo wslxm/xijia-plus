@@ -33,4 +33,3 @@ public class AdminDictionaryQuery extends Convert {
     private Boolean isTree;
 
 }
-

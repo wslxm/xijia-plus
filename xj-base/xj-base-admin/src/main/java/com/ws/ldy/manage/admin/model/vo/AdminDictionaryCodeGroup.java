@@ -34,10 +34,10 @@ public class AdminDictionaryCodeGroup implements Serializable {
     @ApiModelProperty(value = "排序")
     private Integer sort;
 
-//        @ApiModelProperty(value = "版本号")//除了版本号的字段,其他全为空
-//        private Integer version;
+    // @ApiModelProperty(value = "版本号")//除了版本号的字段,其他全为空
+    // private Integer version;
 
-    //除了版本号的字段,其他数据该字段全为空
+    // 除了版本号的字段,其他数据该字段全为空
     @ApiModelProperty(value = "子级,key=code")
     LinkedHashMap<String, AdminDictionaryCodeGroup> dictMap;
 }

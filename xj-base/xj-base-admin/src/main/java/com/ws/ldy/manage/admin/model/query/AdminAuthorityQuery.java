@@ -26,13 +26,9 @@ public class AdminAuthorityQuery extends BaseQuery {
     private static final long serialVersionUID = 0L;
 
     @ApiModelProperty(notes = "权限类Id(方法与类/层级关系展示)", position = 0)
-    @Length(min = 1, max = 32, message = "权限类Id 必须小于32位")
     private String pid;
 
     @ApiModelProperty(notes = "终端(字典code, 如 0-管理端 1-用户端)", position = 5)
-    @Range(min = 0, max = 9L, message = "终端 必须小于9")
     private Integer type;
-
-
 
 }

@@ -69,8 +69,6 @@ public class BaseGcImpl extends BaseIServiceImpl {
      * @param type 字段类型
      * @param typeDetail  字段类型长度  int(11)
      * @param desc 字段备注
-     *
-     *
      */
     @SuppressWarnings("all")
     protected String JsrModel(String type, String typeDetail, String desc) {
@@ -109,7 +107,7 @@ public class BaseGcImpl extends BaseIServiceImpl {
         } else if (type.equals("varchar") || type.equals("char") || type.equals("text") || type.equals("longtext")) {
             // 字符串
             if (typeDetail.indexOf("(") != -1) {
-                jsr = "@Length(min=1, max={MAX},message = \"{DESC} 必须>=0 和 <={MAX}位)\"";
+                jsr = "@Length(min=0, max={MAX},message = \"{DESC} 必须>=0 和 <={MAX}位)\"";
                 String max = typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")"));
                 jsr = jsr.replaceAll("\\{MAX}", max).replace("{DESC}",desc);
             }

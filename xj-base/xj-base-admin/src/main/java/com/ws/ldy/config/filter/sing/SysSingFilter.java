@@ -11,7 +11,7 @@ import com.ws.ldy.core.cache.CacheUtil;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
 import com.ws.ldy.manage.admin.model.entity.AdminAuthority;
-import com.ws.ldy.manage.xj.model.entity.XjAdminConfig;
+import com.ws.ldy.manage.xj.model.vo.XjAdminConfigVO;
 import com.ws.ldy.manage.xj.service.XjAdminConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -48,7 +48,7 @@ public class SysSingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         // 是否需要验签(总开关)
-        XjAdminConfig xjAdminConfig = xjAdminConfigService.findByCode("is_sign");
+        XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode("is_sign");
         if (xjAdminConfig != null && "false".equals(xjAdminConfig.getContent())) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;

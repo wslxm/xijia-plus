@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ws.ldy.core.base.controller.BaseController;
 import com.ws.ldy.core.constant.BaseConstant;
 import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.manage.admin.model.dto.AdminMenuDTO;
 import com.ws.ldy.manage.admin.model.query.AdminMenuQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminMenuVO;
@@ -62,9 +61,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
     @GetMapping(value = "/findTree")
     @ApiOperation(value = "左导航菜单", notes = "当前用户对应的角色菜单数据, 树结构数据,无限级,不限制层次,根据sort字段正序排序,sort越小越靠前")
     public R<List<AdminMenuVO>> menuTree() {
-        //获取菜单
-        List<AdminMenuVO> menuTree = baseService.getMenuTree();
-        return R.successFind(menuTree);
+        return R.successFind(baseService.getMenuTree());
     }
 
 
@@ -80,8 +77,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
     public R<List<AdminMenuVO>> menuList(@RequestParam(required = false) String id,
                                          @RequestParam(required = false) String roleId,
                                          @RequestParam(required = false) Integer terminal) {
-        List<AdminMenuVO> menus = baseService.menuList(id, roleId, terminal);
-        return R.successFind(BeanDtoVoUtil.listVo(menus, AdminMenuVO.class));
+        return R.successFind(baseService.menuList(id, roleId, terminal));
     }
 
     /**
@@ -101,8 +97,6 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
                                          @RequestParam(required = false) String roleId,
                                          @RequestParam(required = false) Integer terminal
     ) {
-        List<AdminMenuVO> menus = baseService.menuTree(id, roleId, terminal);
-        return R.successFind(BeanDtoVoUtil.listVo(menus, AdminMenuVO.class));
+        return R.successFind(baseService.menuTree(id, roleId, terminal));
     }
-
 }

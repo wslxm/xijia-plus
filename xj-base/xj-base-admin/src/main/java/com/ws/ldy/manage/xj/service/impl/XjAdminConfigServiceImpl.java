@@ -49,18 +49,6 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
     }
 
     @Override
-    public XjAdminConfig findByCode(String code) {
-        if (!CacheUtil.containsKey(CacheKey.CONFIG_MAP_KEY.getKey())) {
-            List<XjAdminConfig> list = this.list();
-            if (!list.isEmpty()) {
-                Map<String, XjAdminConfig> xjAdminConfigMap = list.stream().collect(Collectors.toMap(XjAdminConfig::getCode, p -> p));
-                CacheUtil.set(CacheKey.CONFIG_MAP_KEY.getKey(), xjAdminConfigMap);
-            }
-        }
-        return CacheUtil.getMap(CacheKey.CONFIG_MAP_KEY.getKey(), XjAdminConfig.class).get(code);
-    }
-
-    @Override
     public boolean insert(XjAdminConfigDTO dto) {
         // 判code重复
         if (this.count(new LambdaQueryWrapper<XjAdminConfig>().eq(XjAdminConfig::getCode, dto.getCode())) > 0) {
@@ -84,5 +72,18 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
         boolean b = this.updateById(entity);
         CacheUtil.del(CacheKey.CONFIG_MAP_KEY.getKey());
         return b;
+    }
+
+    @Override
+    public XjAdminConfigVO findByCode(String code) {
+        if (!CacheUtil.containsKey(CacheKey.CONFIG_MAP_KEY.getKey())) {
+            List<XjAdminConfig> list = this.list();
+            if (!list.isEmpty()) {
+                Map<String, XjAdminConfig> xjAdminConfigMap = list.stream().collect(Collectors.toMap(XjAdminConfig::getCode, p -> p));
+                CacheUtil.set(CacheKey.CONFIG_MAP_KEY.getKey(), xjAdminConfigMap);
+            }
+        }
+        XjAdminConfig xjAdminConfig = CacheUtil.getMap(CacheKey.CONFIG_MAP_KEY.getKey(), XjAdminConfig.class).get(code);
+        return BeanDtoVoUtil.convert(xjAdminConfig,XjAdminConfigVO.class);
     }
 }

@@ -9,6 +9,8 @@ import com.ws.ldy.manage.admin.model.vo.AdminDictionaryCodeGroup;
 import com.ws.ldy.manage.admin.model.vo.AdminDictionaryVO;
 import com.ws.ldy.manage.admin.service.AdminDictionaryService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,10 +34,8 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
     @GetMapping(value = "/list")
     @ApiOperation(value = "列表查询 (默认返回Tree数据,可指定Tree或List)", notes = "不能传递字符串数字Code查询")
     public R<List<AdminDictionaryVO>> list(@ModelAttribute AdminDictionaryQuery query) {
-        List<AdminDictionaryVO> dictVO = baseService.findByCodeFetchDictVO(query);
-        return R.success(dictVO);
+        return R.success(baseService.list(query));
     }
-
 
     @PostMapping
     @ApiOperation(value = "添加", notes = "字符串类型的 Code不能重复,  数字类型的Code可以重复")
@@ -78,7 +78,11 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
 
 
     @GetMapping(value = "/generateEnum")
-    @ApiOperation(value = "生成枚举", notes = "排序数字越小,越靠前, \n 返回参数Map<String, String> ==> \n map.java = 完整的java枚举字段 \n map.js = 代码枚举字典key，前端直接通过key获取对应值")
+    @ApiOperation(value = "生成枚举", notes = "" +
+            "1、生成 Enum 的java 类和 生成js findCodeGroup查询数据的key\r\n" +
+            "2、排序数字越小,越靠前\r\n" +
+            "3、返回参数Map<String, String> ==>  map.java = 完整的java枚举字段  map.js = 代码枚举字典key,  前端直接通过key获取对应值\r\n" +
+            "")
     public R<Map<String, String>> generateEnum(String enumsKey) {
         return R.success(baseService.generateEnum(enumsKey));
     }

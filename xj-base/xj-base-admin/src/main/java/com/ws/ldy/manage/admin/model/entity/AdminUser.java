@@ -89,4 +89,8 @@ public class AdminUser extends BaseEntity {
      * 终端 (字段code)
      */
     private Integer terminal;
+    /**
+     * 备注
+     */
+    private Integer remarks;
 }

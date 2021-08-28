@@ -69,7 +69,7 @@ public class CustomSwaggerParameterBuilder implements ExpandedParameterBuilderPl
     private void fromApiParam(ParameterExpansionContext context, ApiParam apiParam) {
         String allowableProperty = Strings.emptyToNull(apiParam.allowableValues());
         AllowableValues allowable = allowableValues(
-                Optional.fromNullable(allowableProperty),
+                java.util.Optional.ofNullable(allowableProperty),
                 context.getFieldType().getErasedType());
 
         maybeSetParameterName(context, apiParam.name())
@@ -89,7 +89,7 @@ public class CustomSwaggerParameterBuilder implements ExpandedParameterBuilderPl
     private void fromApiModelProperty(ParameterExpansionContext context, ApiModelProperty apiModelProperty) {
         String allowableProperty = Strings.emptyToNull(apiModelProperty.allowableValues());
         AllowableValues allowable = allowableValues(
-                Optional.fromNullable(allowableProperty),
+                java.util.Optional.ofNullable(allowableProperty),
                 context.getFieldType().getErasedType());
 
         maybeSetParameterName(context, apiModelProperty.name())
@@ -110,7 +110,7 @@ public class CustomSwaggerParameterBuilder implements ExpandedParameterBuilderPl
         return context.getParameterBuilder();
     }
 
-    private AllowableValues allowableValues(final Optional<String> optionalAllowable, Class<?> fieldType) {
+    private AllowableValues allowableValues(final java.util.Optional<String> optionalAllowable, Class<?> fieldType) {
 
         AllowableValues allowable = null;
         if (enumTypeDeterminer.isEnum(fieldType)) {

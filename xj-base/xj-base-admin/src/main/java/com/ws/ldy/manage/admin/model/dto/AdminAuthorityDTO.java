@@ -26,19 +26,19 @@ public class AdminAuthorityDTO extends Convert {
     private static final long serialVersionUID = 0L;
 
     @ApiModelProperty(notes = "权限类Id(方法与类/层级关系展示)", position = 0)
-    @Length(min = 1, max = 32, message = "权限类Id 必须小于32位")
+    @Length(min = 0, max = 32, message = "权限类Id 必须小于32位")
     private String pid;
 
     @ApiModelProperty(notes = "请求方式(GET/POST/PUT/DELETE)", position = 1)
-    @Length(min = 1, max = 32, message = "请求方式 必须小于32位")
+    @Length(min = 0, max = 32, message = "请求方式 必须小于32位")
     private String method;
 
     @ApiModelProperty(notes = "权限url", position = 2)
-    @Length(min = 1, max = 128, message = "权限url 必须小于128位")
+    @Length(min = 0, max = 128, message = "权限url 必须小于128位")
     private String url;
 
     @ApiModelProperty(notes = "权限备注信息", position = 3)
-    @Length(min = 1, max = 128, message = "权限备注信息 必须小于128位")
+    @Length(min = 0, max = 128, message = "权限备注信息 必须小于128位")
     private String desc;
 
     @ApiModelProperty(notes = "禁用(0-否 1-是)", position = 4)

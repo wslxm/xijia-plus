@@ -19,52 +19,60 @@ import java.util.List;
  */
 public interface AdminUserService extends IService<AdminUser> {
 
-
     IPage<AdminUserVO> list(AdminUserQuery query);
 
+    Boolean insert(AdminUserDTO dto);
 
-    /**
-     * id查询，代当前有的角色List<String>
-     * @param id
-     * @return
-     */
-    public AdminUserVO findId(String id);
-
-    /**
-     * 根据角色Id查询指定用户
-     * @author wangsong
-     * @param roleId
-     * @date 2020/8/9 0009 10:08
-     * @return void
-     * @version 1.0.0
-     */
-    public List<AdminUser> findByRoleId(String roleId);
-
-
-    public Boolean insert(AdminUserDTO dto);
-
-
-    public Boolean upd(String id, AdminUserDTO dto);
-
-
-    List<AdminUserVO> listKeyData(String searchName, String terminal);
-
-    /**
-     * 登录，支持手机号+密码 和 账号+密码 登录
-     * @param username
-     * @param password
-     * @return
-     */
-    public Boolean login(String username, String password);
-
-
-    public Boolean bindWeChatMq(String username, String password, String openId);
-
+    Boolean upd(String id, AdminUserDTO dto);
 
     /**
      * 删除用户及用户关联的角色的关系数据
-     * @param userId
-     * @return
+     * @param id
      */
-    Boolean del(String userId);
+    Boolean del(String id);
+
+    /**
+     * id查询，同时查询用户下的角色[List<String>]
+     * @param id
+     */
+    AdminUserVO findId(String id);
+
+    /**
+     * 根据角色Id查询指定用户
+     * @param roleId
+     */
+    List<AdminUser> findByRoleId(String roleId);
+
+    /**
+     * 查询关键数据(id/姓名/昵称/电话)
+     * @param searchName   昵称/姓名
+     * @param terminal 终端
+     */
+    List<AdminUserVO> listKeyData(String searchName, String terminal);
+
+    /**
+     * 登录
+     * @param username 手机号或者账号
+     * @param password 密码
+     */
+    Boolean login(String username, String password);
+
+    /**
+     * 重置用户密码
+     */
+    Boolean updResetPassword(String id, String password);
+
+    /**
+     * 修改当前代理人的密码
+     */
+    Boolean updByPassword(String oldPassword, String password);
+
+    /**
+     * 绑定微信
+     * @param username
+     * @param password
+     * @param openId
+     */
+    Boolean bindWeChatMq(String username, String password, String openId);
+
 }

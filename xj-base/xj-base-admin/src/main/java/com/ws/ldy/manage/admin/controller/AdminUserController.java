@@ -1,16 +1,12 @@
 package com.ws.ldy.manage.admin.controller;
 
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ws.ldy.core.auth.util.JwtUtil;
-import com.ws.ldy.core.auth.util.MD5Util;
 import com.ws.ldy.core.base.controller.BaseController;
 import com.ws.ldy.core.constant.BaseConstant;
 import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.result.RType;
 import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.manage.admin.model.dto.AdminUserDTO;
-import com.ws.ldy.manage.admin.model.entity.AdminUser;
 import com.ws.ldy.manage.admin.model.query.AdminUserQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminUserVO;
 import com.ws.ldy.manage.admin.service.AdminUserService;
@@ -70,12 +66,11 @@ public class AdminUserController extends BaseController<AdminUserService> {
         return R.successDelete(baseService.del(id));
     }
 
-    @PutMapping(value = "/{id}/resetPassword")
-    @ApiOperation(value = "重置任意用户密码")
-    public R<Boolean> updResetPassword(@PathVariable String id, @RequestParam String password) {
-        return R.successUpdate(baseService.update(new LambdaUpdateWrapper<AdminUser>()
-                .set(AdminUser::getPassword, MD5Util.encode(password))
-                .eq(AdminUser::getId, id)));
+
+    @GetMapping(value = "/findUser")
+    @ApiOperation("查询当前登录人的个人信息")
+    public R<AdminUserVO> findUser() {
+        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(JwtUtil.getJwtUser(request).getUserId()), AdminUserVO.class));
     }
 
 
@@ -90,18 +85,13 @@ public class AdminUserController extends BaseController<AdminUserService> {
     @GetMapping(value = "/list/keyData")
     @ApiOperation(value = "查询所有-只返回关键数据(姓名/昵称/电话/id)")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "searchName", value = "姓名or用户名", required = true, paramType = "query", example = ""),
+            @ApiImplicitParam(name = "searchName", value = "姓名or用户名", required = false, paramType = "query", example = ""),
             @ApiImplicitParam(name = "terminal", value = "终端(不传查所有)", required = false, paramType = "query", example = "")
     })
-    public R<List<AdminUserVO>> listKeyData(
-            @RequestParam(required = false) String searchName,
-            @RequestParam(required = false) String terminal) {
+    public R<List<AdminUserVO>> listKeyData(@RequestParam(required = false) String searchName, @RequestParam(required = false) String terminal) {
         return R.success(baseService.listKeyData(searchName, terminal));
     }
 
-    //==============================================================================================
-    //========================================== 当前用户操作 ========================================
-    //==============================================================================================
 
     @ApiOperation("用户登录")
     @PostMapping(value = "/login")
@@ -110,29 +100,24 @@ public class AdminUserController extends BaseController<AdminUserService> {
             @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query"),
     })
     public R<Boolean> login(@RequestParam String username, @RequestParam String password) {
-        baseService.login(username, password);
-        return R.success(true);
-    }
-
-
-    @RequestMapping(value = "/findUser", method = RequestMethod.GET)
-    @ApiOperation("查询当前登录人的个人信息")
-    public R<AdminUserVO> findUser() {
-        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(JwtUtil.getJwtUser(request).getUserId()), AdminUserVO.class));
+        return R.success(baseService.login(username, password));
     }
 
 
     @PutMapping(value = "/updByPassword")
     @ApiOperation(value = "修改当前登录人的密码", notes = "判断原密码是否正确,不正确返回错误信息msg ,正确直接修改,密码进行MD5加密 --> val(前端输入密码值)+盐(后端规则指定)=最终密码）")
     public R<Boolean> updByPassword(@RequestParam String oldPassword, @RequestParam String password) {
-        AdminUser adminUser = baseService.getById(JwtUtil.getJwtUser(request).getUserId());
-        if (adminUser.getPassword().equals(MD5Util.encode(oldPassword))) {
-            adminUser.setPassword(MD5Util.encode(password));
-            return R.successUpdate(baseService.updateById(adminUser));
-        } else {
-            return R.error(RType.USER_PASSWORD_ERROR);
-        }
+        return R.successUpdate(baseService.updByPassword(oldPassword, password));
     }
+
+
+    @PutMapping(value = "/{id}/resetPassword")
+    @ApiOperation(value = "重置任意用户密码")
+    public R<Boolean> updResetPassword(@PathVariable String id, @RequestParam String password) {
+        return R.successUpdate(baseService.updResetPassword(id, password));
+    }
+
+
     //   @PostMapping(value = "/bindWeChatMq")
     //   @ApiOperation(value = "微信公众号openId绑定")
     //   public R<Boolean> bindWeChatMq(@RequestParam String username, @RequestParam String password, @RequestParam String openId) {

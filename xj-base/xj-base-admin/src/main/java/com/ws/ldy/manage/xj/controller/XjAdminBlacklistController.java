@@ -1,13 +1,10 @@
 package com.ws.ldy.manage.xj.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.core.base.controller.BaseController;
-import com.ws.ldy.core.cache.CacheUtil;
 import com.ws.ldy.core.constant.BaseConstant;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.manage.xj.model.dto.XjAdminBlacklistDTO;
-import com.ws.ldy.manage.xj.model.entity.XjAdminBlacklist;
 import com.ws.ldy.manage.xj.model.query.XjAdminBlacklistQuery;
 import com.ws.ldy.manage.xj.model.vo.XjAdminBlacklistVO;
 import com.ws.ldy.manage.xj.service.XjAdminBlacklistService;
@@ -41,33 +38,21 @@ public class XjAdminBlacklistController extends BaseController<XjAdminBlacklistS
 
     @PostMapping
     @ApiOperation(value = "添加")
-    public R<Boolean> insert(@RequestBody @Validated XjAdminBlacklistDTO dto) {
-        XjAdminBlacklist adminBlacklist = dto.convert(XjAdminBlacklist.class);
-        boolean result = baseService.save(adminBlacklist);
-        // 置空缓存
-        CacheUtil.del(CacheKey.BLACK_LIST.getKey());
-        return R.successInsert(result);
+    public R<String> insert(@RequestBody @Validated XjAdminBlacklistDTO dto) {
+        return R.successInsert(baseService.insert(dto));
     }
 
 
     @PutMapping(value = "/{id}")
     @ApiOperation(value = "ID编辑")
     public R<Boolean> upd(@PathVariable String id, @RequestBody @Validated XjAdminBlacklistDTO dto) {
-        XjAdminBlacklist entity = dto.convert(XjAdminBlacklist.class);
-        entity.setId(id);
-        boolean result = baseService.updateById(entity);
-        // 置空缓存
-        CacheUtil.del(CacheKey.BLACK_LIST.getKey());
-        return R.successUpdate(result);
+        return R.successUpdate(baseService.upd(id, dto));
     }
 
 
     @DeleteMapping(value = "/{id}")
     @ApiOperation(value = "ID删除")
     public R<Boolean> del(@PathVariable String id) {
-        boolean result = baseService.removeById(id);
-        // 置空缓存
-        CacheUtil.del(CacheKey.BLACK_LIST.getKey());
-        return R.successDelete(result);
+        return R.successDelete(baseService.del(id));
     }
 }

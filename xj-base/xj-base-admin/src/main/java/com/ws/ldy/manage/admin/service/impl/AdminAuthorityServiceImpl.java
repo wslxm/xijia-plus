@@ -135,6 +135,116 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     }
 
 
+
+
+    /**
+     * 获取接口列表，给指定角色的拥有的权限数据赋予选中状态
+     *
+     * @param roleId
+     * @return void
+     * @date 2019/11/25 0025 11:55
+     */
+    @Override
+    public List<AdminAuthorityVO> authList(String roleId) {
+        // 获取当前角色拥有的url权限列表
+        List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>()
+                .select(AdminRoleAuth::getRoleId, AdminRoleAuth::getAuthId, AdminRoleAuth::getId)
+                .eq(AdminRoleAuth::getRoleId, roleId)
+        );
+        List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
+        // 获取所有管理端的url,请求方式排序( PC_admin)
+        List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
+                .orderByAsc(AdminAuthority::getMethod)
+                .eq(AdminAuthority::getType, Admin.AuthorityType.V0.getValue())
+        );
+        // 返回数据处理
+        if (authorityList == null || authorityList.isEmpty()) {
+            return new ArrayList<>();
+        } else {
+            List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authorityList, AdminAuthorityVO.class);
+            adminAuthorityVOList.forEach(authVO -> {
+                if (roleAuthIds.contains(authVO.getId())) {
+                    authVO.setIsChecked(true);
+                } else {
+                    authVO.setIsChecked(false);
+                }
+            });
+            return adminAuthorityVOList;
+        }
+    }
+
+
+    /**
+     * 获取权限列表，给指定角色的拥有的权限数据赋予选中状态(树结构)
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<AdminAuthorityVO> authTree(String roleId) {
+        // 获取当前角色拥有的url权限列表
+        List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>()
+                .select(AdminRoleAuth::getRoleId, AdminRoleAuth::getAuthId, AdminRoleAuth::getId)
+                .eq(AdminRoleAuth::getRoleId, roleId)
+        );
+        List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
+        // 获取所有管理端的url,请求方式排序( PC_admin)
+        List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
+                .orderByAsc(AdminAuthority::getMethod)
+                .eq(AdminAuthority::getType, Admin.AuthorityType.V0.getValue())
+        );
+        List<AdminAuthorityVO> respAuthorityVOList = new ArrayList<>();
+        // 返回数据处理
+        if (authorityList == null || authorityList.isEmpty()) {
+            return respAuthorityVOList;
+        } else {
+            List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authorityList, AdminAuthorityVO.class);
+            adminAuthorityVOList.forEach(authVO -> {
+                if (roleAuthIds.contains(authVO.getId())) {
+                    authVO.setIsChecked(true);
+                } else {
+                    authVO.setIsChecked(false);
+                }
+                // 拼接下级tree数据
+                if ("".equals(authVO.getPid()) || "0".equals(authVO.getPid())) {
+                    adminAuthorityVOList.forEach(authTwoVO -> {
+                        if (authTwoVO.getPid().equals(authVO.getId())) {
+                            if (authVO.getAuthoritys() == null) {
+                                ArrayList<AdminAuthorityVO> authorityVOS = new ArrayList<>();
+                                authorityVOS.add(authTwoVO);
+                                authVO.setAuthoritys(authorityVOS);
+                            } else {
+                                authVO.getAuthoritys().add(authTwoVO);
+                            }
+                        }
+                    });
+                    respAuthorityVOList.add(authVO);
+                }
+            });
+            return respAuthorityVOList;
+        }
+    }
+
+
+    /**
+     * 获取用户的url权限列表，只返回未禁用的 需要登录+授权的url
+     *
+     * @param  userId 用户id
+     * @return void
+     * @date 2019/11/25 0025 11:55
+     */
+    @Override
+    public List<String> findByUserIdaAndDisableFetchAuthority(String userId) {
+        List<AdminAuthority> auth = baseMapper.findByUserIdaAndDisableFetchAuthority(
+                userId, Base.Disable.V0.getValue(), Admin.AuthorityState.V2.getValue()
+        );
+        if (auth == null) {
+            return new ArrayList<>();
+        } else {
+            return auth.stream().map(p -> AuthCacheKeyUtil.getCacheKey(p.getMethod(), p.getUrl())).collect(Collectors.toList());
+        }
+    }
+
+
     /**
      *   接口自动扫描（1、项目启动时自动执行   2、设置了权限授权状态更新
      *   <p>
@@ -376,121 +486,6 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     }
 
 
-    /**
-     * 获取接口列表，给指定角色的拥有的权限数据赋予选中状态
-     *
-     * @param roleId
-     * @return void
-     * @date 2019/11/25 0025 11:55
-     */
-    @Override
-    public List<AdminAuthorityVO> authList(String roleId) {
-        // 获取当前角色拥有的url权限列表
-        List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>()
-                .select(AdminRoleAuth::getRoleId, AdminRoleAuth::getAuthId, AdminRoleAuth::getId)
-                .eq(AdminRoleAuth::getRoleId, roleId)
-        );
-        List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
-        // 获取所有管理端的url,请求方式排序( PC_admin)
-        List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
-                .orderByAsc(AdminAuthority::getMethod)
-                .eq(AdminAuthority::getType, Admin.AuthorityType.V0.getValue())
-        );
-        // 返回数据处理
-        if (authorityList == null || authorityList.isEmpty()) {
-            return new ArrayList<>();
-        } else {
-            List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authorityList, AdminAuthorityVO.class);
-            adminAuthorityVOList.forEach(authVO -> {
-                if (roleAuthIds.contains(authVO.getId())) {
-                    authVO.setIsChecked(true);
-                } else {
-                    authVO.setIsChecked(false);
-                }
-            });
-            return adminAuthorityVOList;
-        }
-    }
-
-
-    /**
-     * 获取权限列表，给指定角色的拥有的权限数据赋予选中状态(树结构)
-     * @param roleId
-     * @return
-     */
-    @Override
-    public List<AdminAuthorityVO> authTree(String roleId) {
-        // 获取当前角色拥有的url权限列表
-        List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>()
-                .select(AdminRoleAuth::getRoleId, AdminRoleAuth::getAuthId, AdminRoleAuth::getId)
-                .eq(AdminRoleAuth::getRoleId, roleId)
-        );
-        List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
-        // 获取所有管理端的url,请求方式排序( PC_admin)
-        List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
-                .orderByAsc(AdminAuthority::getMethod)
-                .eq(AdminAuthority::getType, Admin.AuthorityType.V0.getValue())
-        );
-        List<AdminAuthorityVO> respAuthorityVOList = new ArrayList<>();
-        // 返回数据处理
-        if (authorityList == null || authorityList.isEmpty()) {
-            return respAuthorityVOList;
-        } else {
-            List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authorityList, AdminAuthorityVO.class);
-            adminAuthorityVOList.forEach(authVO -> {
-                if (roleAuthIds.contains(authVO.getId())) {
-                    authVO.setIsChecked(true);
-                } else {
-                    authVO.setIsChecked(false);
-                }
-                // 拼接下级tree数据
-                if ("".equals(authVO.getPid()) || "0".equals(authVO.getPid())) {
-                    adminAuthorityVOList.forEach(authTwoVO -> {
-                        if (authTwoVO.getPid().equals(authVO.getId())) {
-                            if (authVO.getAuthoritys() == null) {
-                                ArrayList<AdminAuthorityVO> authorityVOS = new ArrayList<>();
-                                authorityVOS.add(authTwoVO);
-                                authVO.setAuthoritys(authorityVOS);
-                            } else {
-                                authVO.getAuthoritys().add(authTwoVO);
-                            }
-                        }
-                    });
-                    respAuthorityVOList.add(authVO);
-                }
-            });
-            return respAuthorityVOList;
-        }
-    }
-
-
-    /**
-     * 获取用户的url权限列表，只返回未禁用的 需要登录+授权的url
-     *
-     * @param  userId 用户id
-     * @return void
-     * @date 2019/11/25 0025 11:55
-     */
-    @Override
-    public List<String> findByUserIdaAndDisableFetchAuthority(String userId) {
-        List<AdminAuthority> auth = baseMapper.findByUserIdaAndDisableFetchAuthority(
-                userId, Base.Disable.V0.getValue(), Admin.AuthorityState.V2.getValue()
-        );
-        if (auth == null) {
-            return new ArrayList<>();
-        } else {
-            return auth.stream().map(p -> AuthCacheKeyUtil.getCacheKey(p.getMethod(), p.getUrl())).collect(Collectors.toList());
-        }
-    }
-
-
-    /**
-     * 刷新权限数据
-     * @author wangsong
-     * @date 2020/8/22 0022 22:35
-     * @return void
-     * @version 1.0.0
-     */
     @Override
     public void refreshAuthCache() {
         // 查询权限表中所有接口
@@ -531,29 +526,6 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         log.info("权限数据加载成功, 当前 [只需登录] 的接口数量为:    {}", authorityCountState1);
         log.info("权限数据加载成功, 当前 [需登录/授权] 的接口数量为: {}", authorityCountState2);
         log.info("权限数据加载成功, 当前 [所有接口] 的接口数量为:    {}", authorityCount);
-    }
-
-
-    /**
-     * 子级找父级
-     *
-     * @param
-     * @return void
-     * @date 2019/11/25 0025 11:55
-     */
-    @Override
-    public AdminAuthority findFatherAuth(String uri) {
-        Map<String, AdminAuthority> authMap = CacheUtil.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
-        AdminAuthority adminAuthority = authMap.get(uri);
-        if (adminAuthority == null) {
-            return null;
-        }
-        for (AdminAuthority auth : authMap.values()) {
-            if (adminAuthority.getPid().equals(auth.getId())) {
-                return auth;
-            }
-        }
-        return null;
     }
 }
 

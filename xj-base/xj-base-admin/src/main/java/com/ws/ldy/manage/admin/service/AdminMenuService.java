@@ -23,48 +23,37 @@ public interface AdminMenuService extends IService<AdminMenu> {
 
     /**
      * 添加(超管默认分配改菜单)
-     * @param dto
-     * @return
      */
     Boolean insert(AdminMenuDTO dto);
 
-    /**
-     * 编辑
-     * @param id
-     * @param dto
-     * @return
-     */
+
     Boolean upd(String id, AdminMenuDTO dto);
 
     /**
      * 删除菜单并删除菜单的所有下级 以及 菜单和角色的绑定关系数据
-     * @param menuId
-     * @return 数据的菜单数据id
      */
     List<String> del(String menuId);
 
     /**
-     *   获取导航树菜单列表
-     *
-     * @return
-     * @date 2019/11/13 14:45
+     * 获取导航树菜单列表
      */
     List<AdminMenuVO> getMenuTree();
 
-
     /**
-     *   根据父id 查询所有子节点数据（包括自己 List列表） , 根据角色权限赋值isChecked = true||false
-     *
-     * @param pId
+     * 根据父id 查询所有子节点数据（包括自己 List列表） , 根据角色权限赋值isChecked = true||false
+     * @param pId 父id
+     * @param roleId 角色id
+     * @param terminal 终端
      * @return java.util.List<com.ws.ldy.adminconsole.entity.AdminMenu>
      * @date 2019/11/15 16:18
      */
     List<AdminMenuVO> menuList(String pId, String roleId, Integer terminal);
 
     /**
-     *   根据父id 查询所有子节点数据（包括自己 Tree数据）, 根据角色权限赋值isChecked = true||false
-     *
-     * @param pId
+     * 根据父id 查询所有子节点数据（包括自己 Tree数据）, 根据角色权限赋值isChecked = true||false
+     * @param pId 父id
+     * @param roleId 角色id
+     * @param terminal 终端
      * @return java.util.List<com.ws.ldy.adminconsole.entity.AdminMenu>
      * @date 2019/11/15 16:18
      */

@@ -53,14 +53,13 @@ public class UDictionaryController extends BaseController<AdminDictionaryService
             @ApiImplicitParam(name = "isTree", value = "isTree 是否返回树结构数据 tree 是 false 否(返回过滤后的 list列表)", required = false, paramType = "query"),
     })
     public R<List<AdminDictionaryVO>> findByCode(@RequestParam(required = false) String code,
-                                                 @RequestParam(required = false) Boolean isTree
-    ) {
+                                                 @RequestParam(required = false) Boolean isTree) {
         AdminDictionaryQuery query = new AdminDictionaryQuery();
         query.setCode(code);
         query.setIsTree(isTree);
         query.setIsDisable(false);
         query.setIsBottomLayer(false);
-        List<AdminDictionaryVO> dictVO = baseService.findByCodeFetchDictVO(query);
+        List<AdminDictionaryVO> dictVO = baseService.list(query);
         return R.success(dictVO);
     }
 }

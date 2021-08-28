@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ws.ldy.core.base.controller.BaseController;
 import com.ws.ldy.core.constant.BaseConstant;
 import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.manage.xj.model.dto.XjAdminConfigDTO;
 import com.ws.ldy.manage.xj.model.query.XjAdminConfigQuery;
 import com.ws.ldy.manage.xj.model.vo.XjAdminConfigVO;
@@ -61,8 +60,7 @@ public class XjAdminConfigController extends BaseController<XjAdminConfigService
     @RequestMapping(value = "findByCode", method = RequestMethod.GET)
     @ApiOperation(value = "CODE查询")
     public R<XjAdminConfigVO> findByCode(@RequestParam String code) {
-        return R.successFind(BeanDtoVoUtil.convert(baseService.findByCode(code), XjAdminConfigVO.class));
+        return R.successFind(baseService.findByCode(code));
     }
-
 
 }

@@ -12,9 +12,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @mail 1720696548@qq.com
  * @date 2020/1/13 0013 20:20
  */
-@SuppressWarnings("all")
 @Configuration
-public class MvcConfig implements WebMvcConfigurer {
+public class XjBaseAdminMvcConfig implements WebMvcConfigurer {
 
     /**
      * 静态资源访问路径映射

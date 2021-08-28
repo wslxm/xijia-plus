@@ -56,4 +56,20 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
         entity.setIsRead(Base.IsRead.V0.getValue());
         return this.save(entity);
     }
+
+    @Override
+    public boolean updRead(String id) {
+        XjAdminMsg entity = new XjAdminMsg();
+        entity.setId(id);
+        entity.setIsRead(Base.IsRead.V1.getValue());
+        return this.updateById(entity);
+    }
+
+    @Override
+    public Integer findUnreadNum() {
+        return this.count(new LambdaQueryWrapper<XjAdminMsg>()
+                .eq(XjAdminMsg::getIsRead, Base.IsRead.V0.getValue())
+                .eq(XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())
+        );
+    }
 }

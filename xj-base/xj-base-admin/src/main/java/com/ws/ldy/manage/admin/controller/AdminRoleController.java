@@ -61,11 +61,10 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     //=========================================================================
     //=========================================================================
 
-    @GetMapping(value = "/findUserRole")//Checked
+    @GetMapping(value = "/findUserRole")
     @ApiOperation(value = "获取指定用户的角色列表", notes = "用户角色分配查询到所有角色, 并使用户拥有的角色赋予 isChecked=true")
     public R<List<AdminRoleVO>> findRoleChecked(@RequestParam String userId) {
-        List<AdminRoleVO> roles = baseService.findByUserIdRoleChecked(userId);
-        return R.successFind(roles);
+        return R.successFind(baseService.findByUserIdRoleChecked(userId));
     }
 
 
@@ -73,22 +72,14 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     @ApiOperation(value = "用户的角色分配")
     @Deprecated
     public R<Boolean> updUserRole(@RequestBody UserRoleDTO dto) {
-        if (baseService.updUserRole(dto)) {
-            return R.successUpdate(true);
-        } else {
-            return R.successUpdate(false);
-        }
+        return R.successUpdate(baseService.updUserRole(dto));
     }
 
 
     @PutMapping(value = "/updRoleAuth")
     @ApiOperation(value = "角色的URL权限分配")
     public R<Boolean> updRoleAuth(@RequestBody RoleAuthDTO dto) {
-        if (baseService.roleUrlAuth(dto)) {
-            return R.successUpdate(true);
-        } else {
-            return R.successUpdate(false);
-        }
+        return R.successUpdate(baseService.roleUrlAuth(dto));
     }
 
 
