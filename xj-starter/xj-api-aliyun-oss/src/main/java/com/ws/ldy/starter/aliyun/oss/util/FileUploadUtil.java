@@ -90,8 +90,8 @@ public class FileUploadUtil {
         String suffixName = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()).toLowerCase();
         if (PATH_IMAGE.equals(path)) {
             // 图片(重命名)
-            R<String> stringR = formatVerification(imageSuffix, null, suffixName, fileName);
-            return stringR.getCode().equals(AliyunRType.FILE_UPLOAD_FAILED.getValue()) ? stringR : R.success(getTimeStr20() + "-" + fileName);
+            return formatVerification(imageSuffix, null, suffixName, fileName);
+            // stringR.getCode().equals(AliyunRType.FILE_UPLOAD_FAILED.getValue()) ? stringR : R.success(getTimeStr20() + "-" + fileName);
         } else if (PATH_MUSIC.equals(path)) {
             // 音频
             return formatVerification(musicSuffix, null, suffixName, fileName);
@@ -126,7 +126,7 @@ public class FileUploadUtil {
         if (excludeFileSuffix != null && excludeFileSuffix.contains(suffixName)) {
             return R.error(AliyunRType.FILE_UPLOAD_FAILED.getValue(), "禁止上传文件格式:" + excludeFileSuffix.toString());
         }
-        return R.success(fileName);
+        return R.success(getTimeStr20() + "-" + fileName);
     }
 
 
@@ -167,7 +167,7 @@ public class FileUploadUtil {
 
 
     /**
-     * 获取随机串
+     * 获取随机串（时间-- 2为秒+3位毫秒+3位随机数 = 8位随机串）
      * @return
      */
     private static String getTimeStr20() {
@@ -176,9 +176,11 @@ public class FileUploadUtil {
         } catch (InterruptedException e) {
             log.debug(e.toString());
         }
-        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+        String timeStamp = new SimpleDateFormat("ssSSS").format(new Date());
         Random random = new Random();
-        timeStamp += (random.nextInt(10) + "") + (random.nextInt(10) + "") + (random.nextInt(10) + "");
+        for (int i = 0; i < 3; i++) {
+            timeStamp += (random.nextInt(10) + "");
+        }
         return timeStamp;
     }
 }
