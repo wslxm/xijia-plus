@@ -6,6 +6,7 @@ import com.ws.ldy.core.constant.BaseConstant;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.manage.xj.model.dto.XjAdminMsgDTO;
 import com.ws.ldy.manage.xj.model.query.XjAdminMsgQuery;
+import com.ws.ldy.manage.xj.model.vo.XjAdminMsgFindAllNumVO;
 import com.ws.ldy.manage.xj.model.vo.XjAdminMsgVO;
 import com.ws.ldy.manage.xj.service.XjAdminMsgService;
 import io.swagger.annotations.Api;
@@ -38,7 +39,7 @@ public class XjAdminMsgController extends BaseController<XjAdminMsgService> {
 
     @PostMapping
     @ApiOperation(value = "添加/发送消息")
-    public R<Boolean> insert(@RequestBody @Validated XjAdminMsgDTO dto) {
+    public R<String> insert(@RequestBody @Validated XjAdminMsgDTO dto) {
         return R.success(baseService.insertMsg(dto));
     }
 
@@ -54,5 +55,12 @@ public class XjAdminMsgController extends BaseController<XjAdminMsgService> {
     @GetMapping(value = "/findUnreadNum")
     public R<Integer> findUnreadNum() {
         return R.successFind(baseService.findUnreadNum());
+    }
+
+
+    @ApiOperation(value = "查询全部/已读/未读数量(当前登录用户)")
+    @GetMapping(value = "/findAllNum")
+    public R<XjAdminMsgFindAllNumVO> findAllNum() {
+        return R.successFind(baseService.findAllNum());
     }
 }

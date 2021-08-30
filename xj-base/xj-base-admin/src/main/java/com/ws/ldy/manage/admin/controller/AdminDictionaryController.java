@@ -9,8 +9,6 @@ import com.ws.ldy.manage.admin.model.vo.AdminDictionaryCodeGroup;
 import com.ws.ldy.manage.admin.model.vo.AdminDictionaryVO;
 import com.ws.ldy.manage.admin.service.AdminDictionaryService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +37,7 @@ public class AdminDictionaryController extends BaseController<AdminDictionarySer
 
     @PostMapping
     @ApiOperation(value = "添加", notes = "字符串类型的 Code不能重复,  数字类型的Code可以重复")
-    public R<Boolean> insert(@RequestBody AdminDictionaryDTO dto) {
+    public R<String> insert(@RequestBody AdminDictionaryDTO dto) {
         return R.successInsert(baseService.insert(dto));
     }
 

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ws.ldy.manage.xj.model.dto.XjAdminMsgDTO;
 import com.ws.ldy.manage.xj.model.entity.XjAdminMsg;
 import com.ws.ldy.manage.xj.model.query.XjAdminMsgQuery;
+import com.ws.ldy.manage.xj.model.vo.XjAdminMsgFindAllNumVO;
 import com.ws.ldy.manage.xj.model.vo.XjAdminMsgVO;
 
 /**
@@ -23,18 +24,23 @@ public interface XjAdminMsgService extends IService<XjAdminMsg> {
     /**
      * 发送消息
      */
-    boolean insertMsg(XjAdminMsgDTO dto);
+    String insertMsg(XjAdminMsgDTO dto);
 
     /**
      * 修改信息为已读
      */
     boolean updRead(String id);
 
-
     /**
      * 查询未读消息数量
      * @return
      */
     Integer findUnreadNum() ;
+
+    /**
+     * 查询已读/未读数量
+     * @return
+     */
+    XjAdminMsgFindAllNumVO findAllNum();
 }
 

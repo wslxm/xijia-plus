@@ -21,7 +21,7 @@ public interface AdminUserService extends IService<AdminUser> {
 
     IPage<AdminUserVO> list(AdminUserQuery query);
 
-    Boolean insert(AdminUserDTO dto);
+    String insert(AdminUserDTO dto);
 
     Boolean upd(String id, AdminUserDTO dto);
 

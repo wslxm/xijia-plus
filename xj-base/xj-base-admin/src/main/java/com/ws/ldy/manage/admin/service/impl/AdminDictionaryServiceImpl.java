@@ -109,7 +109,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
 
     @Override
-    public Boolean insert(AdminDictionaryDTO dto) {
+    public String insert(AdminDictionaryDTO dto) {
         if (StringUtils.isBlank(dto.getCode().trim())) {
             throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + LambdaUtils.convert(AdminDictionaryDTO::getCode));
         }
@@ -118,10 +118,11 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
             // 字符串code 为 string时不能重复, 为Integer时可以重复
             throw new ErrorException(RType.DICT_DUPLICATE);
         }
-        boolean res = this.save(dto.convert(AdminDictionary.class));
+        AdminDictionary entity = dto.convert(AdminDictionary.class);
+        boolean b = this.save(entity);
         //清除缓存
         CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
-        return res;
+        return entity.getId();
     }
 
 

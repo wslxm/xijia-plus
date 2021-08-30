@@ -1,12 +1,9 @@
 package com.ws.ldy.manage.gc.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ws.ldy.core.base.controller.BaseController;
-import com.ws.ldy.core.config.error.ErrorException;
 import com.ws.ldy.core.constant.BaseConstant;
 import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.result.RType;
 import com.ws.ldy.manage.gc.model.dto.XjAdminDatasourceDTO;
 import com.ws.ldy.manage.gc.model.entity.XjAdminDatasource;
 import com.ws.ldy.manage.gc.model.query.XjAdminDatasourceQuery;
@@ -43,12 +40,10 @@ public class XjAdminDatasourceController extends BaseController<XjAdminDatasourc
 
     @PostMapping
     @ApiOperation(value = "添加")
-    public R<Boolean> insert(@RequestBody @Validated XjAdminDatasourceDTO dto) {
-        if (StringUtils.isNotBlank(dto.getId())) {
-            throw new ErrorException(RType.PARAM_ID_REQUIRED_FALSE);
-        }
+    public R<String> insert(@RequestBody @Validated XjAdminDatasourceDTO dto) {
         XjAdminDatasource xjDatasource = dto.convert(XjAdminDatasource.class);
-        return R.successInsert(baseService.save(xjDatasource));
+        boolean b = baseService.save(xjDatasource);
+        return R.successInsert(xjDatasource.getId());
     }
 
 

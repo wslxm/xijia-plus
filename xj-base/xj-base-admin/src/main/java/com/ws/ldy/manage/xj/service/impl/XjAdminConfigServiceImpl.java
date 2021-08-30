@@ -49,14 +49,15 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
     }
 
     @Override
-    public boolean insert(XjAdminConfigDTO dto) {
+    public String insert(XjAdminConfigDTO dto) {
         // 判code重复
         if (this.count(new LambdaQueryWrapper<XjAdminConfig>().eq(XjAdminConfig::getCode, dto.getCode())) > 0) {
             throw new ErrorException(RType.DICT_DUPLICATE);
         }
-        boolean b = this.save(dto.convert(XjAdminConfig.class));
+        XjAdminConfig entity = dto.convert(XjAdminConfig.class);
+        boolean b = this.save(entity);
         CacheUtil.del(CacheKey.CONFIG_MAP_KEY.getKey());
-        return b;
+        return entity.getId();
     }
 
     @Override

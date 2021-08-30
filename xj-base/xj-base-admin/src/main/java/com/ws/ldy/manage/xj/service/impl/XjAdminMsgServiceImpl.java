@@ -12,6 +12,7 @@ import com.ws.ldy.manage.xj.mapper.XjAdminMsgMapper;
 import com.ws.ldy.manage.xj.model.dto.XjAdminMsgDTO;
 import com.ws.ldy.manage.xj.model.entity.XjAdminMsg;
 import com.ws.ldy.manage.xj.model.query.XjAdminMsgQuery;
+import com.ws.ldy.manage.xj.model.vo.XjAdminMsgFindAllNumVO;
 import com.ws.ldy.manage.xj.model.vo.XjAdminMsgVO;
 import com.ws.ldy.manage.xj.service.XjAdminMsgService;
 import org.springframework.stereotype.Service;
@@ -47,14 +48,15 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
     }
 
     @Override
-    public boolean insertMsg(XjAdminMsgDTO dto) {
+    public String insertMsg(XjAdminMsgDTO dto) {
         XjAdminMsg entity = new XjAdminMsg();
         entity.setUserId(dto.getUserId());
         entity.setContent(dto.getContent());
         entity.setUserType(dto.getUserType());
         entity.setMsgType(dto.getMsgType());
         entity.setIsRead(Base.IsRead.V0.getValue());
-        return this.save(entity);
+        boolean b = this.save(entity);
+        return entity.getId();
     }
 
     @Override
@@ -71,5 +73,15 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
                 .eq(XjAdminMsg::getIsRead, Base.IsRead.V0.getValue())
                 .eq(XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())
         );
+    }
+
+    @Override
+    public XjAdminMsgFindAllNumVO findAllNum() {
+        String userId = JwtUtil.getJwtUser(request).getUserId();
+        XjAdminMsgFindAllNumVO vo = new XjAdminMsgFindAllNumVO();
+        vo.setAllNum(this.count(new LambdaQueryWrapper<XjAdminMsg>().eq(XjAdminMsg::getUserId, userId)));
+        vo.setHaveReadNum(this.count(new LambdaQueryWrapper<XjAdminMsg>().eq(XjAdminMsg::getIsRead, Base.IsRead.V1.getValue()).eq(XjAdminMsg::getUserId, userId)));
+        vo.setUnreadNum(this.count(new LambdaQueryWrapper<XjAdminMsg>().eq(XjAdminMsg::getIsRead, Base.IsRead.V0.getValue()).eq(XjAdminMsg::getUserId, userId)));
+        return vo;
     }
 }

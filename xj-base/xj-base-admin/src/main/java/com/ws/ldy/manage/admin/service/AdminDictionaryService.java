@@ -27,7 +27,7 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
      */
     List<AdminDictionaryVO> list(AdminDictionaryQuery query);
 
-    Boolean insert(AdminDictionaryDTO dto);
+    String insert(AdminDictionaryDTO dto);
 
     Boolean upd(String id, AdminDictionaryDTO dto);
 

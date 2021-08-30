@@ -38,7 +38,7 @@ public class XjAdminConfigController extends BaseController<XjAdminConfigService
 
     @PostMapping
     @ApiOperation(value = "添加")
-    public R<Boolean> insert(@RequestBody @Validated XjAdminConfigDTO dto) {
+    public R<String> insert(@RequestBody @Validated XjAdminConfigDTO dto) {
         return R.successInsert(baseService.insert(dto));
     }
 

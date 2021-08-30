@@ -30,7 +30,7 @@ public interface AdminRoleService extends IService<AdminRole> {
      * @author wangsong
      * @param dto
      */
-    Boolean insert(AdminRoleDTO dto);
+    String insert(AdminRoleDTO dto);
 
     /**
      * 编辑角色信息

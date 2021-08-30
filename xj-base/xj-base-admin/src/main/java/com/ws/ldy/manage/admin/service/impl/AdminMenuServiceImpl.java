@@ -63,14 +63,15 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
 
 
     @Override
-    public Boolean insert(AdminMenuDTO dto) {
+    public String insert(AdminMenuDTO dto) {
         AdminMenu adminMenu = dto.convert(AdminMenu.class);
         this.save(adminMenu);
         // 添加菜单给超管默认分配该菜单
         AdminRole sysRole = adminRoleService.findSysRole();
         ArrayList<String> strings = new ArrayList<>();
         strings.add(adminMenu.getId());
-        return adminRoleMenuService.insert(sysRole.getId(), strings);
+        boolean b = adminRoleMenuService.insert(sysRole.getId(), strings);
+        return adminMenu.getId();
     }
 
 

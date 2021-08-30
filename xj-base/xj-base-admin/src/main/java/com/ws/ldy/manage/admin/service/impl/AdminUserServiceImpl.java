@@ -61,7 +61,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     @Override
     @Transactional
-    public Boolean insert(@RequestBody AdminUserDTO dto) {
+    public String insert(@RequestBody AdminUserDTO dto) {
         // 判重账号
         if (this.count(new LambdaUpdateWrapper<AdminUser>()
                 .eq(AdminUser::getUsername, dto.getUsername())
@@ -86,7 +86,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
             //分配角色
             adminRoleService.updUserRole(adminUser.getId(), dto.getRoleIds());
         }
-        return true;
+        return adminUser.getId();
     }
 
     @Override

@@ -47,7 +47,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
 
     @PostMapping
     @ApiOperation(value = "添加")
-    public R<Boolean> insert(@RequestBody AdminUserDTO dto) {
+    public R<String> insert(@RequestBody AdminUserDTO dto) {
         return R.success(baseService.insert(dto));
     }
 

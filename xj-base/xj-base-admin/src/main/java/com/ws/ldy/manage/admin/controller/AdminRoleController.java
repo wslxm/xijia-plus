@@ -38,7 +38,7 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
 
     @PostMapping
     @ApiOperation(value = "添加")
-    public R<Boolean> insert(@RequestBody AdminRoleDTO dto) {
+    public R<String> insert(@RequestBody AdminRoleDTO dto) {
         return R.successInsert(baseService.insert(dto));
     }
 

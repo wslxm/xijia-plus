@@ -1,6 +1,7 @@
 package com.ws.ldy.manage.gc.model.dto;
 
 import com.ws.ldy.core.base.model.BaseDto;
+import com.ws.ldy.core.base.model.Convert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,7 +20,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "XjAdminDatasourceDTO 对象", description = "代码生成数据源维护表")
-public class XjAdminDatasourceDTO extends BaseDto {
+public class XjAdminDatasourceDTO extends Convert {
 
     private static final long serialVersionUID = 0L;
     

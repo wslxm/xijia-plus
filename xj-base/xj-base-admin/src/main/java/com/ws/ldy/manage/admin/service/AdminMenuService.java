@@ -24,7 +24,7 @@ public interface AdminMenuService extends IService<AdminMenu> {
     /**
      * 添加(超管默认分配改菜单)
      */
-    Boolean insert(AdminMenuDTO dto);
+    String insert(AdminMenuDTO dto);
 
 
     Boolean upd(String id, AdminMenuDTO dto);

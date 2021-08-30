@@ -39,7 +39,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
 
     @PostMapping
     @ApiOperation(value = "菜单添加")
-    public R<Boolean> insert(@RequestBody AdminMenuDTO dto) {
+    public R<String> insert(@RequestBody AdminMenuDTO dto) {
         return R.successInsert(baseService.insert(dto));
     }
 

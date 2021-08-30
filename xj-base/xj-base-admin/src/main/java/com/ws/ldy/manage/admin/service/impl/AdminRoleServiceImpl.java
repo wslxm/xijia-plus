@@ -71,7 +71,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean insert(AdminRoleDTO dto) {
+    public String insert(AdminRoleDTO dto) {
         AdminRole role = dto.convert(AdminRole.class);
         this.save(role);
         // 给角色分配菜单权限
@@ -83,7 +83,8 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
         for (AdminAuthority authority : authorityList) {
             roleAuthList.add(new AdminRoleAuth(authority.getId(), role.getId()));
         }
-        return adminRoleAuthService.saveBatch(roleAuthList);
+        boolean b = adminRoleAuthService.saveBatch(roleAuthList);
+        return role.getId();
     }
 
     @Override
