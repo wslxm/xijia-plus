@@ -31,7 +31,7 @@ public class AdminUserDTO extends Convert {
     private String phone;
     @ApiModelProperty(value = "昵称")
     private String fullName;
-    @ApiModelProperty(value = "密码")
+    @ApiModelProperty(value = "密码(编辑无法进行修改)")
     private String password;
     @ApiModelProperty(value = "地址")
     private String address;

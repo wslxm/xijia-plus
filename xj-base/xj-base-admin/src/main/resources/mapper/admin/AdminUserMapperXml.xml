@@ -52,7 +52,7 @@
 
     <select id="list" resultMap="BaseResultMap">
         select
-        *,
+        u.*,
         r.id as roleId,
         r.name as roleName
         from t_admin_user u
@@ -79,6 +79,9 @@
         </if>
         <if test="query.terminal != null">
             and u.terminal = #{query.terminal}
+        </if>
+          <if test="createUserId != null">
+            and u.create_user = #{createUserId}
         </if>
         order by u.create_time
     </select>

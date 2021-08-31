@@ -119,7 +119,6 @@
         init();
         upload();
         formSubmit();
-        verify();
     });
 
 
@@ -130,7 +129,7 @@
         $("#position").html(Dict.getDictRadio(Enums.Admin.Position, "position", null)); // 职位
         $("#terminal").html(Dict.getDictRadio(Enums.Admin.Terminal, "terminal")); // 终端
         // 获取角色列表
-        let roleList = Ajax.get(parent.roleFindUserRole + "?userId=").data;
+        let roleList = Ajax.get(parent.roleFindUserRole.replace("{userId}", "")).data.records;
         let roleHtml = "";
         let roleHtmlTemplates = "<input type='checkbox' name='{name}' value='{value}' lay-skin='primary' title='{title}' {checked}>" +
             "<div class='layui-unselect layui-form-checkbox' lay-skin='primary'>" +
@@ -193,16 +192,6 @@
         });
     }
 
-    // 参数验证
-    function verify() {
-        layui.form.verify({
-            imgHead: function (value, item) { //value：表单的值、item：表单的DOM对象
-                if (value == null || value === "") {
-                    return '请上传头像';
-                }
-            }
-        });
-    }
 
     /**
      * 输入姓名->生成账号

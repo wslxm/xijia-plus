@@ -66,9 +66,10 @@
 
 
     function init() {
-        $("#terminal").html(Dict.getDictRadio(Enums.Admin.Terminal, "terminal",parent.data.terminal));     // 终端
+        // 终端
+        $("#terminal").html(Dict.getDictRadio(Enums.Admin.Terminal, "terminal"));
         // 获取菜单tree 数据并处理为树结构型状结构需要的数据
-        let menusTree = Ajax.get(parent.menuMenuTree).data;
+        let menusTree = Ajax.get(parent.menuList.replace("{roleId}", "")).data;
         // 递归处理
         menusTree = initMenuTreeNext(menusTree);
         // 加载菜单数据

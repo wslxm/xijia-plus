@@ -1,7 +1,6 @@
 package com.ws.ldy.manage.admin.controller;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ws.ldy.core.base.controller.BaseController;
 import com.ws.ldy.core.constant.BaseConstant;
 import com.ws.ldy.core.result.R;
@@ -10,8 +9,6 @@ import com.ws.ldy.manage.admin.model.query.AdminMenuQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminMenuVO;
 import com.ws.ldy.manage.admin.service.AdminMenuService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,8 +28,8 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
 
 
     @GetMapping(value = "/list")
-    @ApiOperation(value = "列表查询", notes = "根据sort正序排序返回")
-    public R<IPage<AdminMenuVO>> list(@ModelAttribute AdminMenuQuery query) {
+    @ApiOperation(value = "列表查询(不支持分页)", notes = "根据sort正序排序返回")
+    public R<List<AdminMenuVO>> list(@ModelAttribute AdminMenuQuery query) {
         return R.success(baseService.list(query));
     }
 
@@ -60,43 +57,7 @@ public class AdminMenuController extends BaseController<AdminMenuService> {
 
     @GetMapping(value = "/findTree")
     @ApiOperation(value = "左导航菜单", notes = "当前用户对应的角色菜单数据, 树结构数据,无限级,不限制层次,根据sort字段正序排序,sort越小越靠前")
-    public R<List<AdminMenuVO>> menuTree() {
-        return R.successFind(baseService.getMenuTree());
-    }
-
-
-    @GetMapping(value = "/menuList")
-    @ApiOperation(value = "pid + roleId 查询菜单列表", notes = "" +
-            "1、未传递查询所有: isChecked=false || null \r\n " +
-            "2、根据 pid + roleId 查询当前角色+指定父菜单下的所有菜单给予选中状态 isChecked=true，包括自身, 不在当前 pid 下和 roleId没有权限角色的: isChecked=false || null, 返回List 列表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "父id", required = false, paramType = "query"),
-            @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query"),
-            @ApiImplicitParam(name = "terminal", value = "终端(不传查所有)", required = false, paramType = "query", example = "")
-    })
-    public R<List<AdminMenuVO>> menuList(@RequestParam(required = false) String id,
-                                         @RequestParam(required = false) String roleId,
-                                         @RequestParam(required = false) Integer terminal) {
-        return R.successFind(baseService.menuList(id, roleId, terminal));
-    }
-
-    /**
-     * @param id     父id
-     * @param roleId 角色Id，判断当前是否有权限并选中 Tree
-     */
-    @GetMapping(value = "/menuTree")
-    @ApiOperation(value = "pid + roleId 查询菜单列表", notes = "" +
-            "1、未传递查询所有: isChecked=false || null \r\n " +
-            "2、根据 pid + roleId 查询当前角色+指定父菜单下的所有菜单给予选中状态 isChecked=true，包括自身, 不在当前 pid 下和 roleId没有权限角色的: isChecked=false || null, 返回List->Tree ")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "父id", required = false, paramType = "query"),
-            @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query"),
-            @ApiImplicitParam(name = "terminal", value = "终端(不传查所有)", required = false, paramType = "query", example = "")
-    })
-    public R<List<AdminMenuVO>> menuTree(@RequestParam(required = false) String id,
-                                         @RequestParam(required = false) String roleId,
-                                         @RequestParam(required = false) Integer terminal
-    ) {
-        return R.successFind(baseService.menuTree(id, roleId, terminal));
+    public R<List<AdminMenuVO>> findTree() {
+        return R.successFind(baseService.findTree());
     }
 }

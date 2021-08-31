@@ -57,6 +57,6 @@ public class AdminUserVO extends BaseVo {
     private String remarks;
     @ApiModelProperty(value = "用户角色id, id 查询返回")
     private List<String> roleIds;
-    @ApiModelProperty(value = "用户角色id, 列表查询返回(只返回id/name)")
+    @ApiModelProperty(value = "用户角色信息,列表查询返回(只返回id/name)")
     private List<AdminRoleVO> roles;
 }

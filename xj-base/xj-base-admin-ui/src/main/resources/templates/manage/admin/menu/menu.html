@@ -62,9 +62,9 @@
         <script>
             // 接口
             var menuUrl = path + "/admin/menu";
-            var menuListUrl = path + "/admin/menu/list";
+            var menuListUrl = path + "/admin/menu/list?isLoginUser=true";
             // 修改父级查询
-            var menuMenuListUrl = path + "/admin/menu/menuList?isBottomLayer=false";
+            var menuMenuListUrl = path + "/admin/menu/list?isBottomLayer=false";
 
             // 路由
             let page_add = "/page/manage_admin_menu_menuAdd";        // 添加菜单/页面弹层
@@ -93,7 +93,7 @@
             });
 
             function xijiaInit() {
-                $("#terminal").html(Dict.getDictSelect(Enums.Admin.Terminal, "", "所有",terminalKey));     // 终端
+                $("#terminal").html(Dict.getDictSelect(Enums.Admin.Terminal, "", "所有", terminalKey));     // 终端
                 // 刷新,否则select可能不生效
                 layui.form.render();
 
@@ -115,7 +115,7 @@
             function xijiaRenderTable(terminal) {
                 terminalKey = (terminal !== null && terminal !== undefined) ? terminal : terminalKey;
                 // 获取菜单数据
-                menus = Ajax.get(menuListUrl + "?terminal=" + terminalKey).data.records;
+                menus = Ajax.get(menuListUrl + "&terminal=" + terminalKey ).data;
                 // 默认加载所有
                 refreshTable(pidKey);
                 // 加载父级搜索值：拼接搜索值
@@ -316,13 +316,13 @@
                     let result;
                     if (field === "sort") {
                         //   1，sort-修改排序
-                        result = Ajax.put(menuUrl, {id: data.id, sort: val});
+                        result = Ajax.put(menuUrl + "/" + data.id, {sort: val});
                     } else if (field === "icon") {
                         //   2，icon-修改图标
-                        result = Ajax.put(menuUrl, {id: data.id, icon: val})
+                        result = Ajax.put(menuUrl + "/" + data.id, {icon: val})
                     } else if (field === "url") {
                         //   3、url-修改菜单url
-                        result = Ajax.put(menuUrl, {id: data.id, url: val})
+                        result = Ajax.put(menuUrl + "/" + data.id, {url: val})
                     } else {
                         //   4、name-修改菜单名
                     }

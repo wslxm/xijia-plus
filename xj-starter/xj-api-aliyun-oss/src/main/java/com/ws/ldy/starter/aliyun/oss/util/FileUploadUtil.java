@@ -167,7 +167,7 @@ public class FileUploadUtil {
 
 
     /**
-     * 获取随机串（时间-- 2为秒+3位毫秒+3位随机数 = 8位随机串）
+     * 获取随机串（时间-- 2位秒+3位毫秒+3位随机数 = 8位随机串）
      * @return
      */
     private static String getTimeStr20() {

@@ -77,11 +77,16 @@ public class GenerateConfig {
         BASE_PATH_HTML_TXT_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/txt/";
         BASE_PATH_JAVA_YL = "File/" + PROJECT_NAME + "/code/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + MODULE_NAME + "/";
         BASE_PATH_XML_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/mapper/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
-        BASE_PATH_HTML = PROJECT_NAME + "/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
-        BASE_PATH_JAVA = PROJECT_NAME + "/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + MODULE_NAME.replace(".", "/") + "/";
-        //BASE_PATH_XML = PROJECT_NAME + "/src/main/resources/mapper/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
-        BASE_PATH_XML = PROJECT_NAME + "/src/main/resources/mapper/" + MODULE_NAME + "/";
-        log.info("===============代码生成配置已加载=================");
+        if(PROJECT_NAME==null || "".equals(PROJECT_NAME)){
+            BASE_PATH_HTML = PROJECT_NAME + "src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
+            BASE_PATH_JAVA = PROJECT_NAME + "src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + MODULE_NAME.replace(".", "/") + "/";
+            BASE_PATH_XML = PROJECT_NAME + "src/main/resources/mapper/" + MODULE_NAME + "/";
+        }else{
+            BASE_PATH_HTML = PROJECT_NAME + "/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
+            BASE_PATH_JAVA = PROJECT_NAME + "/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + MODULE_NAME.replace(".", "/") + "/";
+            BASE_PATH_XML = PROJECT_NAME + "/src/main/resources/mapper/" + MODULE_NAME + "/";
+        }
+       log.info("===============代码生成配置已加载=================");
     }
 
 

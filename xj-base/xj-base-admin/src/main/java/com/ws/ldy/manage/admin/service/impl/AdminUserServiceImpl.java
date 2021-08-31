@@ -48,14 +48,16 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     @Override
     public IPage<AdminUserVO> list(AdminUserQuery query) {
+        // 是否只查询当前登录人创建的用户
+        String createUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
         if (query.getCurrent() <= 0) {
             // list
             IPage<AdminUserVO> page = new Page<>();
-            return page.setRecords(baseMapper.list(null, query));
+            return page.setRecords(baseMapper.list(null, query,createUserId));
         } else {
             // page
-            IPage<AdminUserVO> page = new Page<>(query.getCurrent(),query.getSize());
-            return page.setRecords(baseMapper.list(page, query));
+            IPage<AdminUserVO> page = new Page<>(query.getCurrent(), query.getSize());
+            return page.setRecords(baseMapper.list(page, query,createUserId));
         }
     }
 
@@ -70,17 +72,19 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
             throw new ErrorException(RType.USER_ACCOUNT_IS_DUPLICATE);
         }
         // 判重电话
-        if (this.count(new LambdaUpdateWrapper<AdminUser>()
-                .eq(AdminUser::getPhone, dto.getPhone())
-                .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
-        ) > 0) {
-            throw new ErrorException(RType.USER_PHONE_IS_DUPLICATE);
+        if (StringUtils.isNotBlank(dto.getUsername())) {
+            if (this.count(new LambdaUpdateWrapper<AdminUser>()
+                    .eq(AdminUser::getPhone, dto.getPhone())
+                    .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
+            ) > 0) {
+                throw new ErrorException(RType.USER_PHONE_IS_DUPLICATE);
+            }
         }
-        //
         AdminUser adminUser = dto.convert(AdminUser.class);
         adminUser.setPassword(MD5Util.encode(adminUser.getPassword()));
         adminUser.setDisable(0);  //默认启用状态
         adminUser.setRegTime(LocalDateTime.now());
+        adminUser.setCreateUser(JwtUtil.getJwtUser(request).getUserId());
         this.save(adminUser);
         if (dto.getRoleIds() != null) {
             //分配角色
@@ -120,7 +124,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         this.updateById(entity);
 
         // 角色信息重分配
-        if (dto.getRoleIds() != null) {
+        if (dto.getRoleIds() != null && dto.getRoleIds().size() > 0) {
             adminRoleService.updUserRole(id, dto.getRoleIds());
         }
         return true;

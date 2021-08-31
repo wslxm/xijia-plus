@@ -148,7 +148,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGenerat
             //驼峰字段名
             String fieldNameHump = GenerateDataProcessing.getFieldName(fieldName);
             if ("id".equals(fieldName)) {
-                resultMap.append("\r\n               <result id=\"" + fieldName + "\" property=\"" + fieldNameHump + "\"/>");
+                resultMap.append("\r\n               <id column=\"" + fieldName + "\" property=\"" + fieldNameHump + "\"/>");
             } else {
                 resultMap.append("\r\n               <result column=\"" + fieldName + "\" property=\"" + fieldNameHump + "\"/>");
             }

@@ -61,7 +61,8 @@
     let userListUrl = path + "/admin/user/list";
     let userDelByIdsUrl = path + "/admin/user/delByIds";                 // 批量删除
     let userUpdResetPassword = path + "/admin/user/{id}/resetPassword";  // 重置密码
-    var roleFindUserRole = path + "/admin/role/findUserRole";            // 角色分配查询所有--用户当前角色赋予Checked=true
+    // 角色分配查询所有--用户当前角色赋予Checked=true
+    var roleFindUserRole = path + "/admin/role/list?userId={userId}&isUserIdChecked=true&isLoginUser=true";
 
 
     //路由

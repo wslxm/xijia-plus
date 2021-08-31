@@ -22,13 +22,16 @@ public class XjAdminMsgQuery extends BaseQuery {
 
     private static final long serialVersionUID = 0L;
 
-    @ApiModelProperty(value = "是否已读(0-未读 1-已读)", position = 12)
+    @ApiModelProperty(value = "是否已读(0-未读 1-已读)", position = 1)
     private Integer isRead;
 
-    @ApiModelProperty(value = "查询指定状态集", position = 12)
+    @ApiModelProperty(value = "是否只查询当前登录人的信息, 默认true", position = 2)
+    private Boolean isLoginUser = true;
+
+    @ApiModelProperty(value = "查询指定消息集", position = 3)
     private String msgTypes;
 
-    @ApiModelProperty(value = "排除查询指定状态集", position = 12)
+    @ApiModelProperty(value = "排除查询指定消息集", position = 4)
     private String noMsgTypes;
 
 

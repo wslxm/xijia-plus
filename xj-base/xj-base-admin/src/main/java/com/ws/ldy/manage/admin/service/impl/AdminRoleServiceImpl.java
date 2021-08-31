@@ -4,11 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.core.auth.util.JwtUtil;
 import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.core.enums.Admin;
-import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.manage.admin.mapper.AdminRoleMapper;
 import com.ws.ldy.manage.admin.model.dto.AdminRoleDTO;
 import com.ws.ldy.manage.admin.model.dto.role.RoleAuthDTO;
@@ -18,11 +17,16 @@ import com.ws.ldy.manage.admin.model.entity.*;
 import com.ws.ldy.manage.admin.model.query.AdminRoleQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminRoleVO;
 import com.ws.ldy.manage.admin.service.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -47,19 +51,44 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
 
     @Override
     public IPage<AdminRoleVO> list(AdminRoleQuery query) {
-        LambdaQueryWrapper<AdminRole> queryWrapper = new LambdaQueryWrapper<AdminRole>()
-                .eq(query.getTerminal() != null, AdminRole::getTerminal, query.getTerminal())
-                .orderByAsc(AdminRole::getId)
-                .like(StringUtils.isNotBlank(query.getName()), AdminRole::getName, query.getName());
+
+
+        // 是否只查询当前登录人创建的角色
+        String createUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
+        // 是否不屏蔽用户id查询数据,只用 IsChecked 标记，将queryUserId单独存放起来
+        String queryUserId = query.getUserId();
+        if (query.getIsUserIdChecked()) {
+            query.setUserId(null);
+        }
+
+        // 查询
+        IPage<AdminRoleVO> page = null;
         if (query.getCurrent() <= 0) {
             // list
-            IPage<AdminRoleVO> page = new Page<>();
-            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), AdminRoleVO.class));
+            page = new Page<>();
+            page = page.setRecords(baseMapper.list(null, query, createUserId));
         } else {
             // page
-            return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), AdminRoleVO.class);
+            page = new Page<>(query.getCurrent(), query.getSize());
+            page = page.setRecords(baseMapper.list(page, query, createUserId));
         }
+
+        // 根据用户标记 IsChecked
+        if (query.getIsUserIdChecked() && StringUtils.isNotBlank(queryUserId)) {
+            // 查询用户当前角色
+            List<AdminRoleUser> roleUsers = roleUserAdminService.list(new LambdaQueryWrapper<AdminRoleUser>().eq(AdminRoleUser::getUserId, queryUserId));
+            Map<String, AdminRoleUser> roleUserMap = roleUsers.stream().collect(Collectors.toMap(AdminRoleUser::getRoleId, p -> p));
+            page.getRecords().forEach(p -> {
+                if (roleUserMap.containsKey(p.getId())) {
+                    p.setIsChecked(true);
+                } else {
+                    p.setIsChecked(false);
+                }
+            });
+        }
+        return page;
     }
+
 
     /**
      * 添加角色-默认有所有URL 权限
@@ -73,6 +102,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
     @Transactional(rollbackFor = Exception.class)
     public String insert(AdminRoleDTO dto) {
         AdminRole role = dto.convert(AdminRole.class);
+        role.setCreateUser(JwtUtil.getJwtUser(request).getUserId());
         this.save(role);
         // 给角色分配菜单权限
         adminRoleMenuService.insert(role.getId(), dto.getMenuIds());
@@ -97,36 +127,6 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
         adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, role.getId()));
         return adminRoleMenuService.insert(role.getId(), dto.getMenuIds());
     }
-
-    /**
-     * 查询用户角色| 用户当前拥有角色赋予 isChecked=true
-     * @author wangsong
-     * @mail 1720696548@qq.com
-     * @date 2020/8/9 0009 9:44
-     * @version 1.0.0
-     */
-    @Override
-    public List<AdminRoleVO> findByUserIdRoleChecked(String userId) {
-        //查询所有角色
-        List<AdminRole> roles = this.list();
-        //查询用户当前角色
-        List<AdminRoleUser> roleUsers = roleUserAdminService.list(new LambdaQueryWrapper<AdminRoleUser>().eq(AdminRoleUser::getUserId, userId));
-        Map<String, String> roleUserMap = new HashMap<>();
-        roleUsers.forEach(item -> roleUserMap.put(item.getRoleId(), "0"));
-        //返回数据
-        List<AdminRoleVO> adminRoleVOList = new ArrayList<>();
-        roles.forEach(role -> {
-            AdminRoleVO roleVo = role.convert(AdminRoleVO.class);
-            if (roleUserMap.containsKey(role.getId())) {
-                roleVo.setIsChecked(true);
-            } else {
-                roleVo.setIsChecked(false);
-            }
-            adminRoleVOList.add(roleVo);
-        });
-        return adminRoleVOList;
-    }
-
 
     @Override
     @Transactional(rollbackFor = Exception.class)

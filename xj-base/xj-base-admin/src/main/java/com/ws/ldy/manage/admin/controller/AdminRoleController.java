@@ -15,8 +15,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  *
  * @author 王松
@@ -61,11 +59,11 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     //=========================================================================
     //=========================================================================
 
-    @GetMapping(value = "/findUserRole")
-    @ApiOperation(value = "获取指定用户的角色列表", notes = "用户角色分配查询到所有角色, 并使用户拥有的角色赋予 isChecked=true")
-    public R<List<AdminRoleVO>> findRoleChecked(@RequestParam String userId) {
-        return R.successFind(baseService.findByUserIdRoleChecked(userId));
-    }
+//    @GetMapping(value = "/findUserRole")
+//    @ApiOperation(value = "获取指定用户的角色列表", notes = "用户角色分配查询到所有角色, 并使用户拥有的角色赋予 isChecked=true")
+//    public R<List<AdminRoleVO>> findRoleChecked(@RequestParam String userId) {
+//        return R.successFind(baseService.findByUserIdRoleChecked(userId));
+//    }
 
 
     @PutMapping(value = "/updUserRole")

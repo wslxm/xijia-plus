@@ -2,27 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ws.ldy.manage.admin.mapper.AdminMenuMapper">
 
-        <!-- 通用查询映射结果 -->
-        <resultMap id="BaseResultMap" type="com.ws.ldy.manage.admin.model.entity.AdminMenu">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ws.ldy.manage.admin.model.entity.AdminMenu">
 
-               <result column="id" property="id" />
-               <result column="create_user" property="createUser" />
-               <result column="update_user" property="updateUser" />
-               <result column="create_time" property="createTime" />
-               <result column="update_time" property="updateTime" />
-               <result column="deleted" property="deleted" />
-               <result column="version" property="version" />
-               <result column="pid" property="pid" />
-               <result column="name" property="name" />
-               <result column="url" property="url" />
-               <result column="icon" property="icon" />
-               <result column="sort" property="sort" />
-               <result column="root" property="root" />
-               <result column="disable" property="disable" />
-        </resultMap>
+        <result column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="version" property="version"/>
+        <result column="pid" property="pid"/>
+        <result column="name" property="name"/>
+        <result column="url" property="url"/>
+        <result column="icon" property="icon"/>
+        <result column="sort" property="sort"/>
+        <result column="root" property="root"/>
+        <result column="disable" property="disable"/>
+    </resultMap>
 
-        <!-- 通用查询结果列: <include refid="Base_Column_List"></include>  -->
-        <sql id="Base_Column_List">
+    <!-- 通用查询结果列: <include refid="Base_Column_List"></include>  -->
+    <sql id="Base_Column_List">
 
                id,
                create_user,
@@ -39,6 +39,28 @@
                root,
                disable
         </sql>
+
+
+    <select id="list" resultType="com.ws.ldy.manage.admin.model.vo.AdminMenuVO">
+        select
+        m.*
+        from t_admin_menu m
+        left join t_admin_role_menu rm on rm.menu_id = m.id
+        left join t_admin_role_user ru on ru.role_id = rm.role_id
+        left join t_admin_user u on u.id = ru.user_id
+        where m.deleted = 0
+        <if test="terminal != null">
+            and m.terminal = #{terminal}
+        </if>
+        <if test="loginUserId != null">
+            and u.id = #{loginUserId}
+        </if>
+        <if test="loginUserId != null">
+            and u.id = #{loginUserId}
+        </if>
+        group by m.id
+        order by m.sort asc,m.create_time desc
+    </select>
 
 </mapper>
 

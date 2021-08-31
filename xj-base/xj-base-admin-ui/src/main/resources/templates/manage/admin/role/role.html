@@ -53,7 +53,7 @@
     var roleUrl = path + "/admin/role";
     var roleListUrl = path + "/admin/role/list";
     // 编辑添加页获取菜单
-    var menuMenuTree = path + "/admin/menu/menuTree";
+    var menuList = path + "/admin/menu/list?roleId={roleId}&isLoginUser=true&isTree=true";
     //
     let page_add = "/page/manage_admin_role_roleAdd";  //角色添加弹出
     let page_upd = "/page/manage_admin_role_roleUpd";  //角色编辑弹出
@@ -251,6 +251,7 @@
         let params = "";
         params += "&name=" + $("#name").val();
         params += "&terminal=" + $("#terminal").val();
+        params += "&isLoginUser=true";
         return params;
     }
 

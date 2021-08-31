@@ -128,9 +128,9 @@
         $("#address").val(parent.data.address);
         $("#gender").html(Dict.getDictRadio(Enums.Base.Gender, "gender", parent.data.gender));             // 性别
         $("#position").html(Dict.getDictRadio(Enums.Admin.Position, "position", parent.data.position));    // 职位
-        $("#terminal").html(Dict.getDictRadio(Enums.Admin.Terminal, "terminal",parent.data.terminal));     // 终端
+        $("#terminal").html(Dict.getDictRadio(Enums.Admin.Terminal, "terminal", parent.data.terminal));     // 终端
         // 获取角色列表
-        let roleList = Ajax.get(parent.roleFindUserRole + "?userId=" + parent.data.id).data;
+        let roleList = Ajax.get(parent.roleFindUserRole.replace("{userId}", parent.data.id)).data.records;
         let roleHtml = "";
         let roleHtmlTemplates = "<input type='checkbox' name='{name}' value='{value}' lay-skin='primary' title='{title}'  {checked}>" +
             "<div class='layui-unselect layui-form-checkbox' lay-skin='primary'>" +

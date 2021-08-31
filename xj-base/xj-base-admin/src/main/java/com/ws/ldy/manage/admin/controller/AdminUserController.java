@@ -70,7 +70,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
     @GetMapping(value = "/findUser")
     @ApiOperation("查询当前登录人的个人信息")
     public R<AdminUserVO> findUser() {
-        return R.successFind(BeanDtoVoUtil.convert(baseService.getById(JwtUtil.getJwtUser(request).getUserId()), AdminUserVO.class));
+        return R.successFind(BeanDtoVoUtil.convert(baseService.findId(JwtUtil.getJwtUser(request).getUserId()), AdminUserVO.class));
     }
 
 
@@ -101,6 +101,13 @@ public class AdminUserController extends BaseController<AdminUserService> {
     })
     public R<Boolean> login(@RequestParam String username, @RequestParam String password) {
         return R.success(baseService.login(username, password));
+    }
+
+
+    @PutMapping(value = "/updUser")
+    @ApiOperation(value = "修改当前登录人的信息")
+    public R<Boolean> updUser(@RequestBody AdminUserDTO dto) {
+        return R.successUpdate(baseService.upd(JwtUtil.getJwtUser(request).getUserId(), dto));
     }
 
 

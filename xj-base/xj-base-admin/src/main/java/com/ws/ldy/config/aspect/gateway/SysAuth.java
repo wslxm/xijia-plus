@@ -11,6 +11,8 @@ import com.ws.ldy.core.enums.Base;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
 import com.ws.ldy.manage.admin.model.entity.AdminAuthority;
+import com.ws.ldy.manage.xj.model.vo.XjAdminConfigVO;
+import com.ws.ldy.manage.xj.service.XjAdminConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +34,9 @@ public class SysAuth {
 
     @Autowired
     private HttpServletResponse response;
+
+    @Autowired
+    private XjAdminConfigService xjAdminConfigService;
 
     /**
      * 默认放行token, 让swagger可以访问接口
@@ -73,7 +78,7 @@ public class SysAuth {
         }
         // 2、是否被权限管理, 没有直接放行
         Map<String, AdminAuthority> authMap = CacheUtil.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
-        String cacheKey =  AuthCacheKeyUtil.getAuthCacheKey (request.getMethod(), request.getRequestURI());
+        String cacheKey = AuthCacheKeyUtil.getAuthCacheKey(request.getMethod(), request.getRequestURI());
         if (!authMap.containsKey(cacheKey)) {
             return R.success(null);
         }
@@ -113,8 +118,12 @@ public class SysAuth {
                 // error
                 return result;
             }
-            // 判断权限
             JwtUser jwtUser = result.getData();
+            // 判断权限
+            XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode("is_auth");
+            if (xjAdminConfig != null && "false".equals(xjAdminConfig.getContent())) {
+                return R.success(jwtUser);
+            }
             if (jwtUser.getAuthList() == null || !jwtUser.getAuthList().contains(cacheKey)) {
                 return R.error(RType.AUTHORITY_NO_PERMISSION);
             }
@@ -122,7 +131,6 @@ public class SysAuth {
         }
         return R.success(null);
     }
-
 
 
 }

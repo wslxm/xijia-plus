@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface AdminUserMapper extends BaseMapper<AdminUser> {
 
-    List<AdminUserVO> list(IPage<AdminUserVO> page, AdminUserQuery query);
+    List<AdminUserVO> list(IPage<AdminUserVO> page, AdminUserQuery query,String createUserId);
 
     /**
      * 根据角色Id查询指定用户信息

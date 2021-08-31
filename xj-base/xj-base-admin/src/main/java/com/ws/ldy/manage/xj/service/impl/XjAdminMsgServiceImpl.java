@@ -36,7 +36,7 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
         LambdaQueryWrapper<XjAdminMsg> queryWrapper = new LambdaQueryWrapper<XjAdminMsg>()
                 .orderByDesc(XjAdminMsg::getCreateTime)
                 .eq(query.getIsRead() != null, XjAdminMsg::getIsRead, query.getIsRead())
-                .eq(XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())
+                .eq(query.getIsLoginUser(), XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())
                 .in(StringUtils.isNotBlank(query.getMsgTypes()), XjAdminMsg::getMsgType, StringUtils.isNotBlank(query.getMsgTypes()) ? Arrays.asList(query.getMsgTypes().split(",")) : null)
                 .notIn(StringUtils.isNotBlank(query.getNoMsgTypes()), XjAdminMsg::getMsgType, StringUtils.isNotBlank(query.getNoMsgTypes()) ? Arrays.asList(query.getNoMsgTypes().split(",")) : null);
         if (query.getCurrent() <= 0) {

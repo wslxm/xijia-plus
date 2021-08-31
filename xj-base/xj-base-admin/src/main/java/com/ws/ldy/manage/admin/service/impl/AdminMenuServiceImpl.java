@@ -2,8 +2,6 @@ package com.ws.ldy.manage.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.core.auth.util.JwtUtil;
 import com.ws.ldy.core.base.model.BaseVo;
 import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
@@ -23,6 +21,7 @@ import com.ws.ldy.manage.admin.model.vo.AdminMenuVO;
 import com.ws.ldy.manage.admin.service.AdminMenuService;
 import com.ws.ldy.manage.admin.service.AdminRoleMenuService;
 import com.ws.ldy.manage.admin.service.AdminRoleService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,26 +44,59 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
 
 
     @Override
-    public IPage<AdminMenuVO> list(AdminMenuQuery query) {
-        LambdaQueryWrapper<AdminMenu> queryWrapper = new LambdaQueryWrapper<AdminMenu>()
-                .eq(query.getTerminal() != null, AdminMenu::getTerminal, query.getTerminal())
-                .orderByAsc(AdminMenu::getSort)
-                .orderByAsc(AdminMenu::getId);
-        if (query.getCurrent() <= 0) {
-            // list
-            IPage<AdminMenuVO> page = new Page<>();
-            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), AdminMenuVO.class));
-        } else {
-            // page
-            IPage<AdminMenuVO> page = BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), AdminMenuVO.class);
-            return page.setRecords(page.getRecords().stream().filter(i -> !i.getRoot().equals(Admin.MenuRoot.V3.getValue())).collect(Collectors.toList()));
+    public List<AdminMenuVO> list(AdminMenuQuery query) {
+        // 判断是否只查询当前登录人存在的菜单
+        String loginUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
+        Integer terminal = query.getTerminal();
+        //
+        String pId = query.getPid();
+        String roleId = query.getRoleId();
+        Boolean isTree = query.getIsTree();
+        Boolean isBottomLayer = query.getIsBottomLayer();
+
+        // 1、查询菜单
+        List<AdminMenuVO> menuVOList = baseMapper.list(terminal, loginUserId);
+
+        // 2、获取角色拥有的菜单id(没有角色id或没有 角色对应的菜单数据,创建空roleMenuIdList对象)
+        List<AdminRoleMenu> userRoleMenus = roleId != null ? adminRoleMenuMapper.findRoleId(roleId) : new ArrayList<>();
+        List<String> roleMenuIdList = !userRoleMenus.isEmpty() ? userRoleMenus.stream().map(AdminRoleMenu::getMenuId).collect(Collectors.toList()) : new ArrayList<>();
+
+        // 3、是否需要最后一级数据,false 不需要, 过滤最后一级数据
+        if (isBottomLayer != null && !isBottomLayer) {
+            menuVOList = menuVOList.stream().filter(p -> (!p.getRoot().equals(Admin.MenuRoot.V3.getValue()))).collect(Collectors.toList());
         }
+
+        // 4、pid，存在pid, 过滤其他数据
+        if (StringUtils.isNotBlank(pId)) {
+            menuVOList = menuVOList.stream().filter(p -> (p.getId().equals(pId) || p.getPid().equals(pId))).collect(Collectors.toList());
+        }
+
+        // 5、result(判断返回tree还是list)
+        List<AdminMenuVO> resMenuVoList = new LinkedList<>();
+        if (isTree != null && isTree) {
+            // 返回 tree (递归处理)
+            for (AdminMenuVO menuVo : menuVOList) {
+                if (menuVo.getRoot() == 1 || (menuVo.getRoot() != 1 && menuVo.getId().equals(pId))) {
+                    this.nextLowerIdNodeTreeChecked(menuVOList, menuVo, roleMenuIdList);
+                    this.setChecked(menuVo, roleMenuIdList);
+                    resMenuVoList.add(menuVo);
+                }
+            }
+        } else {
+            // 返回 list (循环处理)
+            for (AdminMenuVO menuVo : menuVOList) {
+                this.setChecked(menuVo, roleMenuIdList);
+                resMenuVoList.add(menuVo);
+            }
+        }
+        return resMenuVoList;
     }
 
 
     @Override
     public String insert(AdminMenuDTO dto) {
         AdminMenu adminMenu = dto.convert(AdminMenu.class);
+        adminMenu.setCreateUser(JwtUtil.getJwtUser(request).getUserId());
         this.save(adminMenu);
         // 添加菜单给超管默认分配该菜单
         AdminRole sysRole = adminRoleService.findSysRole();
@@ -77,24 +109,29 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
 
     @Override
     public Boolean upd(String id, AdminMenuDTO dto) {
-        // 判断是否修改了终端
-        int count = 0;
+        // 判断是否修改了终端, 修改了终端同时, 同时更新下级所有数据的终端
         if (dto.getTerminal() != null) {
-            count = this.count(new LambdaQueryWrapper<AdminMenu>().eq(AdminMenu::getId, id).eq(AdminMenu::getTerminal, dto.getTerminal()));
-        }
-        if (count < 1) {
-            // 修改了终端,更新下级所有数据的终端 -> 查询所有下级数据
-            List<String> menuIds = this.menuList(id, null, null).stream().map(BaseVo::getId).collect(Collectors.toList());
-            if (!menuIds.isEmpty()) {
-                //
-                List<AdminMenu> updList = new ArrayList<>();
-                for (String menuId : menuIds) {
-                    AdminMenu updAdminMenu = new AdminMenu();
-                    updAdminMenu.setId(menuId);
-                    updAdminMenu.setTerminal(dto.getTerminal());
-                    updList.add(updAdminMenu);
+            int count = this.count(new LambdaQueryWrapper<AdminMenu>().eq(AdminMenu::getId, id).eq(AdminMenu::getTerminal, dto.getTerminal()));
+            if (count < 1) {
+                // 查询所有下级数据
+                AdminMenuQuery query = new AdminMenuQuery();
+                query.setTerminal(null);
+                query.setPid(id);
+                query.setRoleId(null);
+                query.setIsTree(null);
+                query.setIsBottomLayer(null);
+                List<AdminMenuVO> menus = this.list(query);
+                if (!menus.isEmpty()) {
+                    List<String> menuIds = menus.stream().map(BaseVo::getId).collect(Collectors.toList());
+                    List<AdminMenu> updList = new ArrayList<>();
+                    for (String menuId : menuIds) {
+                        AdminMenu updAdminMenu = new AdminMenu();
+                        updAdminMenu.setId(menuId);
+                        updAdminMenu.setTerminal(dto.getTerminal());
+                        updList.add(updAdminMenu);
+                    }
+                    this.updateBatchById(updList);
                 }
-                this.updateBatchById(updList);
             }
         }
         // 修改当前数据
@@ -105,13 +142,24 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
 
 
     @Override
-    public List<String> del(String menuId) {
-        List<String> menuIds = this.menuList(menuId, null, null).stream().map(BaseVo::getId).collect(Collectors.toList());
-        if (!menuIds.isEmpty()) {
-            this.removeByIds(menuIds);
-            adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().in(AdminRoleMenu::getMenuId, menuIds));
+    public List<String> del(String id) {
+        AdminMenuQuery query = new AdminMenuQuery();
+        query.setTerminal(null);
+        query.setPid(id);
+        query.setRoleId(null);
+        query.setIsTree(null);
+        query.setIsBottomLayer(null);
+        List<AdminMenuVO> menus = this.list(query);
+        if (!menus.isEmpty()) {
+            List<String> menuIds = menus.stream().map(BaseVo::getId).collect(Collectors.toList());
+            if (!menuIds.isEmpty()) {
+                this.removeByIds(menuIds);
+                // 生成角色菜单关联数据
+                adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().in(AdminRoleMenu::getMenuId, menuIds));
+            }
+            return menuIds;
         }
-        return menuIds;
+        return new ArrayList<>();
     }
 
 
@@ -130,7 +178,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
      * @version 1.0.0
      */
     @Override
-    public List<AdminMenuVO> getMenuTree() {
+    public List<AdminMenuVO> findTree() {
         List<AdminRoleMenu> userRoleMenus = adminRoleMenuMapper.findByUserIdAndDisableFetchMenu(JwtUtil.getJwtUser(request).getUserId(), Base.Disable.V0.getValue());
         if (userRoleMenus == null || userRoleMenus.isEmpty()) {
             throw new ErrorException(RType.USER_NO_MENU);
@@ -189,117 +237,6 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
     //=========================================================================
 
     /**
-     * 根据父id 查询所有子节点数据（包括自己） , 根据角色 权限赋值isChecked = true||false
-     *
-     * @param pId 父id-非必传,没有获取所有
-     * @param roleId 角色id-非必传, 没有所有 isChecked = false
-     * @return java.util.List<com.ws.ldy.admin.model.vo.AdminMenuVO>
-     * @author ws
-     * @mail 1720696548@qq.com
-     * @date 2020/4/19 0019 20:36
-     */
-    @Override
-    public List<AdminMenuVO> menuList(String pId, String roleId, Integer terminal) {
-        List<AdminRoleMenu> userRoleMenus = roleId != null ? adminRoleMenuMapper.findRoleId(roleId) : new ArrayList<>();
-        List<String> roleMenuIdList = !userRoleMenus.isEmpty() ? userRoleMenus.stream().map(AdminRoleMenu::getMenuId).collect(Collectors.toList()) : new ArrayList<>();
-        List<AdminMenuVO> adminMenuVOList = BeanDtoVoUtil.listVoStream(this.list(new LambdaQueryWrapper<AdminMenu>()
-                .eq(terminal != null, AdminMenu::getTerminal, terminal)
-                .orderByAsc(AdminMenu::getSort)
-        ), AdminMenuVO.class);
-        // result
-        List<AdminMenuVO> menuVoList = new LinkedList<>();
-        if (pId == null) {
-            adminMenuVOList.forEach(fatherMenuVo -> {
-                if (fatherMenuVo.getRoot() == 1) {
-                    menuVoList.add(fatherMenuVo);
-                    this.setChecked(fatherMenuVo, roleMenuIdList);
-                    this.nextLowerIdNodeListChecked(adminMenuVOList, fatherMenuVo, roleMenuIdList, menuVoList);
-                }
-            });
-        } else {
-            adminMenuVOList.forEach(fatherMenuVo -> {
-                if (pId.equals(fatherMenuVo.getId())) {
-                    menuVoList.add(fatherMenuVo);
-                    this.setChecked(fatherMenuVo, roleMenuIdList);
-                    this.nextLowerIdNodeListChecked(adminMenuVOList, fatherMenuVo, roleMenuIdList, menuVoList);
-                }
-            });
-        }
-        return menuVoList;
-    }
-
-
-    /**
-     * 获取指定父节点下的子节点(递归遍历),权限 isChecked = true||false
-     *
-     * @param menuVos     所有节点
-     * @param fatherMenuVo  当前节点
-     * @param roleMenuIdList 选中角色权限
-     * @param menuVoList 返回数据,列表
-     * @return void
-     * @date 2019/11/13 15:20
-     */
-    private void nextLowerIdNodeListChecked(List<AdminMenuVO> menuVos, AdminMenuVO fatherMenuVo, List<String> roleMenuIdList, List<AdminMenuVO> menuVoList) {
-        menuVos.forEach(menuVo -> {
-            if (menuVo.getPid().equals(fatherMenuVo.getId())) {
-                menuVoList.add(menuVo);
-                this.setChecked(menuVo, roleMenuIdList);
-                this.nextLowerIdNodeListChecked(menuVos, menuVo, roleMenuIdList, menuVoList);
-            }
-        });
-    }
-
-    //=========================================================================
-    //=========================================================================
-    //=========================================================================
-    /**
-     *  根据 pid + roleId查询Tree 结构菜单 -->  返回无权限数据, 权限 isChecked = true||false 标识
-     * <P>
-     *    - 查询角色拥有的所有菜单，并把id放入 - roleMenuIdList,如果 roleId==null 或没有数据则 roleMenuIdList.size = 0 防止空指针异常
-     *    - 查询所有菜单，存在 pid 只获取指定父级下的数据, 不存在获取所有数据 || 第一层数据= List <root == 1>的数据
-     *    - return ：第一层数据为顶级菜单 root=1, 下级为 tree数据
-     * </P>
-     * @param pId 父Id
-     * @param roleId 父Id
-     * @return java.util.List<com.ws.ldy.admin.model.vo.AdminMenuVO>
-     * @author ws
-     * @mail 1720696548@qq.com
-     * @date 2020/4/19 0019 20:39
-     */
-    @Override
-    public List<AdminMenuVO> menuTree(String pId, String roleId, Integer terminal) {
-        // 查询角色菜单
-        List<AdminRoleMenu> userRoleMenus = roleId != null ? adminRoleMenuMapper.findRoleId(roleId) : new ArrayList<>();
-        // 获取角色菜单的ids
-        List<String> roleMenuIdList = !userRoleMenus.isEmpty() ? userRoleMenus.stream().map(AdminRoleMenu::getMenuId).collect(Collectors.toList()) : new ArrayList<>();
-        // 获取所有菜单
-        List<AdminMenuVO> adminMenuVOList = BeanDtoVoUtil.listVoStream(this.list(new LambdaQueryWrapper<AdminMenu>()
-                .eq(terminal != null, AdminMenu::getTerminal, terminal)
-                .orderByAsc(AdminMenu::getSort)
-        ), AdminMenuVO.class);
-        List<AdminMenuVO> menuList = new LinkedList<>();
-        if (pId == null) {
-            adminMenuVOList.forEach(menuVo -> {
-                if (menuVo.getRoot() == 1) {
-                    this.nextLowerIdNodeChecked(adminMenuVOList, menuVo, roleMenuIdList);
-                    this.setChecked(menuVo, roleMenuIdList);
-                    menuList.add(menuVo);
-                }
-            });
-        } else {
-            adminMenuVOList.forEach(menuVo -> {
-                if (menuVo.getRoot() == 1 && pId.equals(menuVo.getId())) {
-                    this.nextLowerIdNodeChecked(adminMenuVOList, menuVo, roleMenuIdList);
-                    this.setChecked(menuVo, roleMenuIdList);
-                    menuList.add(menuVo);
-                }
-            });
-        }
-        return menuList;
-    }
-
-
-    /**
      * 获取指定父节点下的子节点(递归遍历) 权限 isChecked = true||false  Tree
      *
      * @param menuVos     所有节点
@@ -309,7 +246,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
      * @date 2019/11/13 15:20
      */
     //@formatter:off
-    private void nextLowerIdNodeChecked(List<AdminMenuVO> menuVos, AdminMenuVO fatherMenuVo, List<String> roleMenuIdList) {
+    private void nextLowerIdNodeTreeChecked(List<AdminMenuVO> menuVos, AdminMenuVO fatherMenuVo, List<String> roleMenuIdList) {
         menuVos.forEach(menuVo -> {
             if (menuVo.getPid().equals(fatherMenuVo.getId())) {
                 if (fatherMenuVo.getMenus() == null) {
@@ -320,7 +257,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
                     fatherMenuVo.getMenus().add(menuVo);
                 }
                 this.setChecked(menuVo, roleMenuIdList);
-                this.nextLowerIdNodeChecked(menuVos, menuVo, roleMenuIdList);
+                this.nextLowerIdNodeTreeChecked(menuVos, menuVo, roleMenuIdList);
             }
         });
     }

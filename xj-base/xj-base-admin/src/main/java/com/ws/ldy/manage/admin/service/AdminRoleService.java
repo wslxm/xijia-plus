@@ -47,7 +47,7 @@ public interface AdminRoleService extends IService<AdminRole> {
      * 查询用户角色| 用户当前拥有角色赋予 isChecked=true
      * @param userId
      */
-    List<AdminRoleVO> findByUserIdRoleChecked(String userId);
+   // List<AdminRoleVO> findByUserIdRoleChecked(String userId);
 
     /**
      * 修改用户角色
