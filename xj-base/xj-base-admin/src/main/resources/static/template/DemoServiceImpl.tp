@@ -34,7 +34,8 @@ public class {tableNameUp}ServiceImpl extends BaseIServiceImpl<{tableNameUp}Mapp
             IPage<{tableNameUp}VO> page = new Page<>();
             return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), {tableNameUp}VO.class));
         } else {
-            return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), {tableNameUp}VO.class);
+            IPage<LqsShopVO> page = new Page<>(query.getCurrent(), query.getSize());
+            return BeanDtoVoUtil.pageVo(this.page(page, queryWrapper), {tableNameUp}VO.class);
         }
     }
 

@@ -29,7 +29,7 @@ public class AdminRoleDTO extends Convert {
     private String code;
     @ApiModelProperty(value = "禁用（0-否，1-是）")
     private Integer disable;
-    @ApiModelProperty(value = "终端 (字段code)")
+    @ApiModelProperty(value = "终端 (字典code)")
     private Integer terminal;
     @ApiModelProperty(value = "角色的菜单列表ids")
     private List<String> menuIds;

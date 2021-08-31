@@ -1,6 +1,5 @@
 package com.ws.ldy.core.base.model;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 
@@ -15,6 +14,6 @@ import lombok.Data;
 @Data
 public class BaseDto extends Convert {
 
-    @ApiModelProperty(value = "id--> 添加不传，修改必传")
-    private String id;
+//    @ApiModelProperty(value = "id--> 添加不传，修改必传")
+//    private String id;
 }

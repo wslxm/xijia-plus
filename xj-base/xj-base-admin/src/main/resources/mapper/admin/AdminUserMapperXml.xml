@@ -80,7 +80,7 @@
         <if test="query.terminal != null">
             and u.terminal = #{query.terminal}
         </if>
-          <if test="createUserId != null">
+        <if test="createUserId != null">
             and u.create_user = #{createUserId}
         </if>
         order by u.create_time
@@ -91,6 +91,5 @@
                      select user_id from t_admin_role_user where role_id = #{roleId}
               )
      </select>
-
 </mapper>
 

@@ -17,6 +17,7 @@ import com.ws.ldy.manage.admin.model.dto.AdminUserDTO;
 import com.ws.ldy.manage.admin.model.entity.AdminRoleUser;
 import com.ws.ldy.manage.admin.model.entity.AdminUser;
 import com.ws.ldy.manage.admin.model.query.AdminUserQuery;
+import com.ws.ldy.manage.admin.model.vo.AdminRoleVO;
 import com.ws.ldy.manage.admin.model.vo.AdminUserVO;
 import com.ws.ldy.manage.admin.service.AdminAuthorityService;
 import com.ws.ldy.manage.admin.service.AdminRoleService;
@@ -53,11 +54,11 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         if (query.getCurrent() <= 0) {
             // list
             IPage<AdminUserVO> page = new Page<>();
-            return page.setRecords(baseMapper.list(null, query,createUserId));
+            return page.setRecords(baseMapper.list(null, query, createUserId));
         } else {
             // page
             IPage<AdminUserVO> page = new Page<>(query.getCurrent(), query.getSize());
-            return page.setRecords(baseMapper.list(page, query,createUserId));
+            return page.setRecords(baseMapper.list(page, query, createUserId));
         }
     }
 
@@ -138,14 +139,15 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     @Override
     public AdminUserVO findId(String id) {
-        AdminUser user = this.getById(id);
-        AdminUserVO userVO = user.convert(AdminUserVO.class);
-        List<AdminRoleUser> roleUsers = adminRoleUserService.list(new LambdaQueryWrapper<AdminRoleUser>()
-                .select(AdminRoleUser::getRoleId)
-                .eq(AdminRoleUser::getUserId, id)
-        );
-        //保存角色id
-        userVO.setRoleIds(roleUsers == null ? null : roleUsers.stream().map(AdminRoleUser::getRoleId).collect(Collectors.toList()));
+        AdminUserQuery query = new AdminUserQuery();
+        query.setId(id);
+        IPage<AdminUserVO> list = this.list(query);
+        if (list.getRecords().size() == 0) {
+            throw new ErrorException(RType.PARAM_ERROR.getValue(), RType.PARAM_ERROR.getMsg() + ":id");
+        }
+        AdminUserVO userVO = list.getRecords().get(0);
+        // 保存角色id
+        userVO.setRoleIds(userVO.getRoles() == null ? null : userVO.getRoles().stream().map(AdminRoleVO::getId).collect(Collectors.toList()));
         return userVO;
     }
 
