@@ -11,6 +11,7 @@ import {packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp};
 import {packPath}.{rootModule}.{moduleName}.model.vo.{tableNameUp}VO;
 import {packPath}.{rootModule}.{moduleName}.model.dto.{tableNameUp}DTO;
 import {packPath}.{rootModule}.{moduleName}.model.query.{tableNameUp}Query;
+import org.apache.commons.lang3.StringUtils;
 import com.ws.ldy.core.utils.BeanDtoVoUtil;
 
 /**
@@ -34,7 +35,7 @@ public class {tableNameUp}ServiceImpl extends BaseIServiceImpl<{tableNameUp}Mapp
             IPage<{tableNameUp}VO> page = new Page<>();
             return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), {tableNameUp}VO.class));
         } else {
-            IPage<LqsShopVO> page = new Page<>(query.getCurrent(), query.getSize());
+            Page<{tableNameUp}> page = new Page<>(query.getCurrent(), query.getSize());
             return BeanDtoVoUtil.pageVo(this.page(page, queryWrapper), {tableNameUp}VO.class);
         }
     }

@@ -55,9 +55,6 @@
         <if test="loginUserId != null">
             and u.id = #{loginUserId}
         </if>
-        <if test="loginUserId != null">
-            and u.id = #{loginUserId}
-        </if>
         group by m.id
         order by m.sort asc,m.create_time desc
     </select>

@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 /**
  *   角色
  *
@@ -18,6 +20,8 @@ import lombok.ToString;
 @ApiModel(value = "AdminRoleVO", description = "角色表")
 public class AdminRoleVO extends BaseVo {
 
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createTime;
     @ApiModelProperty(value = "角色名")
     private String name;
     @ApiModelProperty(value = "描叙")
