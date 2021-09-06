@@ -66,8 +66,8 @@ spring:
       stat-view-servlet:
         # 访问地址
         url-pattern: "/druid/*"   # 访问地址 ip+端口/druid
-        #allow: 127.0.0.1          # 允许那些ip, 不配置时默认允许所有
-        #deny: 192.168.0.1         # 禁止那些ip
+        # allow: 127.0.0.1          # 允许那些ip, 不配置时默认允许所有
+        # deny: 192.168.0.1         # 禁止那些ip
         login-username: admin     # 账号
         login-password: 123456    # 密码
         reset-enable: true        # 是否可以重置
