@@ -49,8 +49,6 @@
 </div>
 
 <script>
-    var userFindList = path + "/admin/adminUser/findList";
-
 
     layui.use(['form'], function () {
         adminMsgaddFormSubmit();
@@ -79,7 +77,7 @@
         let usersHtml = "";
         if(userType == 2){
             // 管理端=2
-            let users = Ajax.get(userFindList).data;
+            let users = Ajax.get(parent.userListUrl).data.records;
             let usersHtml = "";
             for (let i = 0; i < users.length; i++) {
                 if (i === 0) {

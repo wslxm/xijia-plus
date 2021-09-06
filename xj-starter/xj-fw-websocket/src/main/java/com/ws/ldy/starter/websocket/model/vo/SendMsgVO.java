@@ -40,11 +40,11 @@ public class SendMsgVO implements Serializable {
      */
     private String to;
     /**
-     * 发送内容
+     * 发送内容(text/json)
      */
     private String content;
     /**
-     * 扩展消息字段(json)
+     * 扩展消息字段(text/json)
      */
     private String extras;
     /**

@@ -69,6 +69,11 @@
             <groupId>com.ws.ldy</groupId>
             <artifactId>xj-doc-swagger2</artifactId>
         </dependency>
+        <!-- websocket  -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-fw-websocket</artifactId>
+        </dependency>
         <!-- 第三方服务- 阿里云oss -->
         <dependency>
             <groupId>com.ws.ldy</groupId>

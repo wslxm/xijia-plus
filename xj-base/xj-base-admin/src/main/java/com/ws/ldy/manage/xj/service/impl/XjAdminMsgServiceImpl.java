@@ -1,5 +1,6 @@
 package com.ws.ldy.manage.xj.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -15,6 +16,8 @@ import com.ws.ldy.manage.xj.model.query.XjAdminMsgQuery;
 import com.ws.ldy.manage.xj.model.vo.XjAdminMsgFindAllNumVO;
 import com.ws.ldy.manage.xj.model.vo.XjAdminMsgVO;
 import com.ws.ldy.manage.xj.service.XjAdminMsgService;
+import com.ws.ldy.starter.websocket.service.WebsocketService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -30,6 +33,10 @@ import java.util.Arrays;
  */
 @Service
 public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, XjAdminMsg> implements XjAdminMsgService {
+
+    @Autowired
+    private WebsocketService webSocketService;
+
 
     @Override
     public IPage<XjAdminMsgVO> list(XjAdminMsgQuery query) {
@@ -48,7 +55,7 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
     }
 
     @Override
-    public String insertMsg(XjAdminMsgDTO dto) {
+    public String insert(XjAdminMsgDTO dto) {
         XjAdminMsg entity = new XjAdminMsg();
         entity.setUserId(dto.getUserId());
         entity.setContent(dto.getContent());
@@ -56,6 +63,8 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
         entity.setMsgType(dto.getMsgType());
         entity.setIsRead(Base.IsRead.V0.getValue());
         boolean b = this.save(entity);
+        // 发送webSocket消息
+        webSocketService.send("sys-sms", "系统消息", "", dto.getUserId(), JSON.toJSONString(entity), null);
         return entity.getId();
     }
 

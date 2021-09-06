@@ -22,9 +22,9 @@ public interface XjAdminMsgService extends IService<XjAdminMsg> {
     IPage<XjAdminMsgVO> list(XjAdminMsgQuery query);
 
     /**
-     * 发送消息
+     * 添加/发送消息（如果需要的端webSocket已连接，同时发送webSocket信息）
      */
-    String insertMsg(XjAdminMsgDTO dto);
+    String insert(XjAdminMsgDTO dto);
 
     /**
      * 修改信息为已读
@@ -35,7 +35,7 @@ public interface XjAdminMsgService extends IService<XjAdminMsg> {
      * 查询未读消息数量
      * @return
      */
-    Integer findUnreadNum() ;
+    Integer findUnreadNum();
 
     /**
      * 查询已读/未读数量

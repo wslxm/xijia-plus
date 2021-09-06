@@ -40,7 +40,7 @@ public class XjAdminMsgController extends BaseController<XjAdminMsgService> {
     @PostMapping
     @ApiOperation(value = "添加/发送消息")
     public R<String> insert(@RequestBody @Validated XjAdminMsgDTO dto) {
-        return R.success(baseService.insertMsg(dto));
+        return R.success(baseService.insert(dto));
     }
 
 

@@ -1,6 +1,5 @@
 package com.ws.ldy;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2019/10/31 20:45
  * @version 1.0.0
  */
-@SpringBootApplication(scanBasePackages = { "com.ws.ldy"}, exclude = DruidDataSourceAutoConfigure.class)
+@SpringBootApplication(scanBasePackages = { "com.ws.ldy"})//, exclude = DruidDataSourceAutoConfigure.class
 @MapperScan({"com.ws.ldy.*.*.mapper"})
 //@EnableAdminServer     // springbootAdmin
 //@ServletComponentScan
