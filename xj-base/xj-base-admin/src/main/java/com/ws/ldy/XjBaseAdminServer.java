@@ -3,7 +3,6 @@ package com.ws.ldy;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.ServletComponentScan;
 
 
 /**
@@ -19,7 +18,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  */
 @SpringBootApplication(scanBasePackages = { "com.ws.ldy"})//,exclude = DruidDataSourceAutoConfigure.class
 @MapperScan({"com.ws.ldy.*.*.mapper"})
-@ServletComponentScan
+//@ServletComponentScan
 public class XjBaseAdminServer {
 
     public static void main(String[] args) {

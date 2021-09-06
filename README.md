@@ -6,7 +6,7 @@ QQ群：1037211892
 
 项目宗旨：只为急速开发而生, 主要针对于中小型的项目快速开发
 
-这是开发一个基于spring-boot2.2.0 + mybatis-plus3.3.1 + druid + mysql8 + layui2.5.6 + swagger2.9.2 的后台快速开发骨架，后台采用级简化代码，
+这是开发一个基于spring-boot2.2.2 + mybatis-plus3.3.1 + druid + mysql8 + layui2.5.6 + swagger2.9.2 的后台快速开发骨架，后台采用级简化代码，
 所有基本操作无需写任何的dao，service层代码，包括(增删改查，及多添加/动态修改，多删除，分页/条件/排序查询,添加，修改，展示的html代码
 
 

@@ -7,14 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 /**
- * 启动类
- *
- * 注解 @SpringBootApplication
- *    - exclude = DruidDataSourceAutoConfigure.class 为排除默认数据源, 启动时不配置数据源时不会报错
- *    - scanBasePackages = {} 扫描路径, 指定包下存在spring相关注解的类的将被spring bend容器管理
-
- * 注解 @MapperScan
- *   - mybatis-plus 扫描 mapper层
+ * 启动类 (修改架构可直接使用该模块)
+ * - exclude = DruidDataSourceAutoConfigure.class 为排除默认数据源
+ * - @MapperScan 为mapper 扫包路径
+ * - @EnableAdminServer 为监控Admin中心,访问地址为项目路径+ /bootAdmin, yml中配置
+ * - @ServletComponentScan 为开启 Druid 监控平台
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2019/10/31 20:45
