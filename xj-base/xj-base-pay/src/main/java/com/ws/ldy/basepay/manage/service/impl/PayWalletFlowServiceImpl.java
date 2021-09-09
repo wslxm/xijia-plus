@@ -1,11 +1,12 @@
 package com.ws.ldy.basepay.manage.service.impl;
 
-import com.ws.ldy.core.enums.Pay;
-import com.ws.ldy.basepay.manage.service.PayWalletFlowService;
-import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.basepay.manage.mapper.PayWalletFlowMapper;
 import com.ws.ldy.basepay.manage.model.dto.PayWalletFlowDTO;
 import com.ws.ldy.basepay.manage.model.entity.PayWalletFlow;
+import com.ws.ldy.basepay.manage.service.PayWalletFlowService;
+import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
+import com.ws.ldy.core.enums.Admin;
+import com.ws.ldy.core.enums.Base;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -41,8 +42,8 @@ public class PayWalletFlowServiceImpl extends BaseIServiceImpl<PayWalletFlowMapp
     public Boolean addPlatformWalletFlow(String orderNo,
                                          BigDecimal money,
                                          BigDecimal moneyAfter,
-                                         Pay.WalletType walletType,
-                                         Pay.PayBusiness payBusiness) {
+                                         Base.WalletType walletType,
+                                         Admin.PayBusiness payBusiness) {
         PayWalletFlowDTO dto = new PayWalletFlowDTO();
         dto.setUserId("0");
         dto.setOrderNo(orderNo);
@@ -69,8 +70,8 @@ public class PayWalletFlowServiceImpl extends BaseIServiceImpl<PayWalletFlowMapp
                                      String orderNo,
                                      BigDecimal money,
                                      BigDecimal moneyAfter,
-                                     Pay.WalletType walletType,
-                                     Pay.PayBusiness payBusiness) {
+                                     Base.WalletType walletType,
+                                     Admin.PayBusiness payBusiness) {
         PayWalletFlowDTO dto = new PayWalletFlowDTO();
         dto.setUserId(userId);
         dto.setOrderNo(orderNo);

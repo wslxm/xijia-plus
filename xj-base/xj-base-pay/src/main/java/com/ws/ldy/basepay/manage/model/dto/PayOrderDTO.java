@@ -1,7 +1,7 @@
 package com.ws.ldy.basepay.manage.model.dto;
 
 
-import com.ws.ldy.core.enums.Pay;
+import com.ws.ldy.core.enums.Admin;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -30,7 +30,7 @@ public class PayOrderDTO implements Serializable {
     @ApiModelProperty(value = "商品描述(建议传递, 不传默认=暂无商品描叙")
     private String body;
     @ApiModelProperty(value = "业务类型（当前系统字典code）")
-    private Pay.PayBusiness payBusiness;
+    private Admin.PayBusiness payBusiness;
     /*** 请求必传 */
 
     /*** 微信jsapi 支付额外必传 */

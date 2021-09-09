@@ -1,14 +1,14 @@
 package com.ws.ldy.basepay.manage.controller;
 
-import com.ws.ldy.core.result.R;
-import com.ws.ldy.core.utils.id.IdUtil;
-import com.ws.ldy.core.constant.BaseConstant;
-import com.ws.ldy.core.enums.Pay;
 import com.ws.ldy.basepay.manage.model.dto.EntPayDTO;
 import com.ws.ldy.basepay.manage.model.dto.PayOrderDTO;
 import com.ws.ldy.basepay.manage.model.dto.PayRefundDTO;
 import com.ws.ldy.basepay.manage.model.vo.PayOrderResultVO;
 import com.ws.ldy.basepay.manage.service.PayService;
+import com.ws.ldy.core.constant.BaseConstant;
+import com.ws.ldy.core.enums.Admin;
+import com.ws.ldy.core.result.R;
+import com.ws.ldy.core.utils.id.IdUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class PayTestController {
         dto.setChannelFee(null);
         dto.setTransactionNo(IdUtil.getNo());
         dto.setOrderNo(IdUtil.getNo());
-        dto.setPayBusiness(Pay.PayBusiness.V1);
+        dto.setPayBusiness(Admin.PayBusiness.V1);
         dto.setBody("下单测试");
         dto.setWxTradeType("JSAPI");
         dto.setWxOpenid(openId);
@@ -58,7 +58,7 @@ public class PayTestController {
         dto.setChannelFee(null);
         dto.setTransactionNo(IdUtil.getNo());
         dto.setOrderNo(IdUtil.getNo());
-        dto.setPayBusiness(Pay.PayBusiness.V1);
+        dto.setPayBusiness(Admin.PayBusiness.V1);
         dto.setBody("下单测试");
         dto.setWxTradeType("NATIVE");
         // dto.setWxOpenid(openId);
@@ -73,7 +73,7 @@ public class PayTestController {
         entPayDTO.setOpenid(openId);
         entPayDTO.setAmount(new BigDecimal("0.01"));
         entPayDTO.setOrderNo(IdUtil.getNo());
-        entPayDTO.setPayBusiness(Pay.PayBusiness.V2);
+        entPayDTO.setPayBusiness(Admin.PayBusiness.V2);
         entPayDTO.setDescription("企业打款");
         // entPayDTO.setCheckName();
         // entPayDTO.setReUserName();
@@ -90,7 +90,7 @@ public class PayTestController {
         refundDTO.setOutRefundNo(IdUtil.getNo());  // 退款号
         refundDTO.setTotalFee(new BigDecimal("1"));
         refundDTO.setRefundFee(new BigDecimal("0.01"));
-        refundDTO.setPayBusiness(Pay.PayBusiness.V2);
+        refundDTO.setPayBusiness(Admin.PayBusiness.V2);
         refundDTO.setRefundDesc("退款描叙");
         return payService.refund(refundDTO);
     }

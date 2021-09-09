@@ -10,7 +10,7 @@ import com.ws.ldy.basepay.manage.model.vo.PayRecordVO;
 import com.ws.ldy.basepay.manage.service.PayRecordService;
 import com.ws.ldy.basepay.manage.service.PayService;
 import com.ws.ldy.core.config.error.ErrorException;
-import com.ws.ldy.core.enums.Pay;
+import com.ws.ldy.core.enums.Base;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
 import com.ws.ldy.core.utils.BeanDtoVoUtil;
@@ -104,8 +104,8 @@ public class WxPayServiceImpl implements PayService {
                 tradeNo,
                 JSON.toJSONString(wxOrderDto),
                 JSON.toJSONString(wxPayOrderResult),
-                Pay.PayState.V0,
-                Pay.PayType.V1,
+                Base.PayState.V0,
+                Base.PayType.V1,
                 dto.getPayBusiness(),
                 dto.getPlatformFee(),
                 dto.getChannelFee(),
@@ -138,8 +138,8 @@ public class WxPayServiceImpl implements PayService {
             return R.error(WxPayRType.WX_PAY_FAILURE, null, "微信支付回调：交易订单不存在,交易号=" + wxPayOrderNotifyResultVO.getOutTradeNo());
         }
         // 回调判重
-        if (!payRecord.getPayState().equals(Pay.PayState.V0.getValue())
-                && !payRecord.getPayState().equals(Pay.PayState.V1.getValue())
+        if (!payRecord.getPayState().equals(Base.PayState.V0.getValue())
+                && !payRecord.getPayState().equals(Base.PayState.V1.getValue())
         ) {
             log.info("微信支付回调：回调重复执行,交易号={}", wxPayOrderNotifyResultVO.getOutTradeNo());
             return R.error(WxPayRType.WX_PAY_REPEAT, null, "微信支付回调：重复执行回调,交易号=" + wxPayOrderNotifyResultVO.getOutTradeNo());
@@ -147,7 +147,7 @@ public class WxPayServiceImpl implements PayService {
         // 记录回调数据(不管支付成功还是失败先记录支付回调信息,避免业务异常无迹可寻)
         String outTradeNo = wxPayOrderNotifyResultVO.getOutTradeNo();
         String callbackData = JSON.toJSONString(wxPayOrderNotifyResultVO);
-        payRecordService.updStateAndCallbackData(outTradeNo, Pay.PayState.V1.getValue(), callbackData, null);
+        payRecordService.updStateAndCallbackData(outTradeNo, Base.PayState.V1.getValue(), callbackData, null);
 
         // 判断是否正常接收回调
         Integer moneyTotal = BigDecimalUtil.multiply100(payRecord.getMoneyTotal()).intValue();
@@ -165,11 +165,11 @@ public class WxPayServiceImpl implements PayService {
             }
             // 支付失败
             log.info("{},交易号={}", errorRemarks, wxPayOrderNotifyResultVO.getOutTradeNo());
-            Boolean result = payRecordService.updStateAndCallbackData(outTradeNo, Pay.PayState.V2.getValue(), callbackData, errorRemarks);
+            Boolean result = payRecordService.updStateAndCallbackData(outTradeNo, Base.PayState.V2.getValue(), callbackData, errorRemarks);
             return R.success(BeanDtoVoUtil.convert(payRecord, PayRecordVO.class));
         } else {
             // 支付成功
-            Boolean result = payRecordService.updStateAndCallbackData(outTradeNo, Pay.PayState.V3.getValue(), callbackData, null);
+            Boolean result = payRecordService.updStateAndCallbackData(outTradeNo, Base.PayState.V3.getValue(), callbackData, null);
             return R.success(BeanDtoVoUtil.convert(payRecord, PayRecordVO.class));
         }
     }
@@ -208,8 +208,8 @@ public class WxPayServiceImpl implements PayService {
                     tradeNo,
                     JSON.toJSONString(wxEntPayDTO),
                     JSON.toJSONString(wxEntPayResultVOData.getMsg()),
-                    Pay.PayState.V2,
-                    Pay.PayType.V4,
+                    Base.PayState.V2,
+                    Base.PayType.V4,
                     entPayDTO.getPayBusiness());
             return R.error(wxEntPayResultVOData.getCode(), wxEntPayResultVOData.getMsg(), false, "企业打款失败");
         } else {
@@ -220,8 +220,8 @@ public class WxPayServiceImpl implements PayService {
                     tradeNo,
                     JSON.toJSONString(wxEntPayDTO),
                     JSON.toJSONString(wxEntPayResultVO),
-                    Pay.PayState.V3,
-                    Pay.PayType.V4,
+                    Base.PayState.V3,
+                    Base.PayType.V4,
                     entPayDTO.getPayBusiness());
             return R.success(true);
         }
@@ -254,8 +254,8 @@ public class WxPayServiceImpl implements PayService {
                     refundDTO.getOutRefundNo(),
                     JSON.toJSONString(refundDTO),
                     JSON.toJSONString(wxPayRefundResultVOR.getMsg()),
-                    Pay.PayState.V2,
-                    Pay.PayType.V3,
+                    Base.PayState.V2,
+                    Base.PayType.V3,
                     refundDTO.getPayBusiness());
             return R.error(wxPayRefundResultVOR.getCode(), wxPayRefundResultVOR.getMsg(), false, "退款失败");
         } else {
@@ -266,8 +266,8 @@ public class WxPayServiceImpl implements PayService {
                     refundDTO.getOutRefundNo(),
                     JSON.toJSONString(refundDTO),
                     JSON.toJSONString(wxPayRefundResultVO),
-                    Pay.PayState.V3,
-                    Pay.PayType.V3,
+                    Base.PayState.V3,
+                    Base.PayType.V3,
                     refundDTO.getPayBusiness());
             return R.success(true);
         }

@@ -3,6 +3,8 @@ package com.ws.ldy.core.base.model;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  *  通用Vo,获取反序列类生成UUID
  *
@@ -14,6 +16,9 @@ import lombok.Data;
 @Data
 public class BaseVo extends Convert {
 
-    @ApiModelProperty(notes = "ID")
+    @ApiModelProperty(notes = "ID", position = 0)
     private String id;
+
+    @ApiModelProperty(value = "创建时间", position = 0)
+    private LocalDateTime createTime;
 }

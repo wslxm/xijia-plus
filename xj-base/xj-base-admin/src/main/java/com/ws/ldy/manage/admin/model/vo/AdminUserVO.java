@@ -23,8 +23,6 @@ import java.util.List;
 public class AdminUserVO extends BaseVo {
 
     private static final long serialVersionUID = 4934650100711613453L;
-    @ApiModelProperty(value = "创建时间")
-    private String createTime;
     @ApiModelProperty(value = "头像")
     private String head;
     @ApiModelProperty(value = "账号/用户名")

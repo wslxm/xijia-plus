@@ -87,11 +87,11 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         // pid='' 的数据设置 pid 为枚举字典的code 值
         adminAuthorityVOList.forEach(i -> {
             if (StringUtils.isBlank(i.getPid())) {
-                i.setPid(EnumUtil.getByCode(i.getType(), Admin.AuthorityType.class).getValue().toString());
+                i.setPid(EnumUtil.getByCode(i.getType(), Base.AuthorityType.class).getValue().toString());
             }
         });
         // 生成Admin.AuthorityType 的权限数据放入列表, 有多少条枚举字段就添加几条数据进去, id=枚举的code, pid=''的也设置为了枚举code, 同等于设置了父子级关系
-        for (Admin.AuthorityType authorityType : Admin.AuthorityType.values()) {
+        for (Base.AuthorityType authorityType : Base.AuthorityType.values()) {
             // 只拼接指定id的数据
             if (authorityType.getValue().equals(type)) {
                 AdminAuthorityVO adminAuthorityVO = new AdminAuthorityVO();
@@ -155,7 +155,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         // 获取所有管理端的url,请求方式排序( PC_admin)
         List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
                 .orderByAsc(AdminAuthority::getMethod)
-                .eq(AdminAuthority::getType, Admin.AuthorityType.V0.getValue())
+                .eq(AdminAuthority::getType, Base.AuthorityType.V0.getValue())
         );
         // 返回数据处理
         if (authorityList == null || authorityList.isEmpty()) {
@@ -190,7 +190,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         // 获取所有管理端的url,请求方式排序( PC_admin)
         List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
                 .orderByAsc(AdminAuthority::getMethod)
-                .eq(AdminAuthority::getType, Admin.AuthorityType.V0.getValue())
+                .eq(AdminAuthority::getType, Base.AuthorityType.V0.getValue())
         );
         List<AdminAuthorityVO> respAuthorityVOList = new ArrayList<>();
         // 返回数据处理
@@ -235,7 +235,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     @Override
     public List<String> findByUserIdaAndDisableFetchAuthority(String userId) {
         List<AdminAuthority> auth = baseMapper.findByUserIdaAndDisableFetchAuthority(
-                userId, Base.Disable.V0.getValue(), Admin.AuthorityState.V2.getValue()
+                userId, Base.Disable.V0.getValue(), Base.AuthorityState.V2.getValue()
         );
         if (auth == null) {
             return new ArrayList<>();
@@ -309,24 +309,24 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             String url = requestMappingClass.value()[0];
             if (url.indexOf(BaseConstant.Uri.apiAdmin) != -1) {
                 // 管理端 | 默认需登录+授权
-                uriType = Admin.AuthorityType.V0.getValue();
-                state = Admin.AuthorityState.V2.getValue();
+                uriType = Base.AuthorityType.V0.getValue();
+                state = Base.AuthorityState.V2.getValue();
             } else if (url.indexOf(BaseConstant.Uri.apiClient) != -1) {
                 // 用户端 | 默认需登录
-                uriType = Admin.AuthorityType.V1.getValue();
-                state = Admin.AuthorityState.V1.getValue();
+                uriType = Base.AuthorityType.V1.getValue();
+                state = Base.AuthorityState.V1.getValue();
             } else if (url.indexOf(BaseConstant.Uri.apiOpen) != -1) {
                 // 通用 | 默认无需登录+无需授权
-                uriType = Admin.AuthorityType.V2.getValue();
-                state = Admin.AuthorityState.V0.getValue();
+                uriType = Base.AuthorityType.V2.getValue();
+                state = Base.AuthorityState.V0.getValue();
             } else if (url.indexOf(BaseConstant.Uri.apiOauth2) != -1) {
                 // Oauth2.0接口 | 默认需Oauth2.0授权
-                uriType = Admin.AuthorityType.V3.getValue();
-                state = Admin.AuthorityState.V3.getValue();
+                uriType = Base.AuthorityType.V3.getValue();
+                state = Base.AuthorityState.V3.getValue();
             } else {
                 // 其他 api默认放行
-                uriType = Admin.AuthorityType.V2.getValue();
-                state = Admin.AuthorityState.V0.getValue();
+                uriType = Base.AuthorityType.V2.getValue();
+                state = Base.AuthorityState.V0.getValue();
             }
             if (uriType != null) {
                 String classLog = "  接口类：--------------@.@[" + classDesc + "-" + className + "]--";
@@ -506,15 +506,15 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         int authorityCountState0 = 0;
         for (AdminAuthority auth : authorityList) {
             // 所有被管理的权限,管理端，需登录/授权的接口数量
-            if (StringUtils.isNotBlank(auth.getPid()) && auth.getState().equals(Admin.AuthorityState.V2.getValue())) {
+            if (StringUtils.isNotBlank(auth.getPid()) && auth.getState().equals(Base.AuthorityState.V2.getValue())) {
                 authorityCountState2++;
             }
             // 需登录接口数量
-            if (StringUtils.isNotBlank(auth.getPid()) && auth.getState().equals(Admin.AuthorityState.V1.getValue())) {
+            if (StringUtils.isNotBlank(auth.getPid()) && auth.getState().equals(Base.AuthorityState.V1.getValue())) {
                 authorityCountState1++;
             }
             // 放行接口数量
-            if (StringUtils.isNotBlank(auth.getPid()) && auth.getState().equals(Admin.AuthorityState.V0.getValue())) {
+            if (StringUtils.isNotBlank(auth.getPid()) && auth.getState().equals(Base.AuthorityState.V0.getValue())) {
                 authorityCountState0++;
             }
             // 总接口数

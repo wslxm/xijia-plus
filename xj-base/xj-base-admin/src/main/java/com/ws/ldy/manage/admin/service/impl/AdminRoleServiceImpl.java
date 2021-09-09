@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ws.ldy.core.auth.util.JwtUtil;
 import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
-import com.ws.ldy.core.enums.Admin;
+import com.ws.ldy.core.enums.Base;
 import com.ws.ldy.manage.admin.mapper.AdminRoleMapper;
 import com.ws.ldy.manage.admin.model.dto.AdminRoleDTO;
 import com.ws.ldy.manage.admin.model.dto.role.RoleAuthDTO;
@@ -204,7 +204,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
         List<AdminRole> roleList = adminRoleService.list();
         List<AdminAuthority> authList = adminAuthorityService.list(new LambdaQueryWrapper<AdminAuthority>()
                 .select(AdminAuthority::getId)
-                .eq(AdminAuthority::getType, Admin.AuthorityType.V0.getValue())
+                .eq(AdminAuthority::getType, Base.AuthorityType.V0.getValue())
         );
         //
         List<AdminRoleAuth> addRoleAuthList = new ArrayList<>();

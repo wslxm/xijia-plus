@@ -103,7 +103,7 @@
                     // {type: 'checkbox', fixed: 'left'}   //fixed: 'right', , fixed: 'left'
                     {
                         field: 'position', title: '位置', templet: function (res) {
-                            return Dict.convert(Enums.Xj.BannerPosition, res.position);
+                            return Dict.convert(Enums.Admin.BannerPosition, res.position);
                         }
                     },
                     {field: 'name', title: '标题'},
@@ -116,7 +116,7 @@
                     },
                     {
                         field: 'isSkip', title: '是否跳转', templet: function (res) {
-                            return Dict.convert(Enums.Xj.BannerIsSkip, res.isSkip);
+                            return Dict.convert(Enums.Base.BannerIsSkip, res.isSkip);
                         }
                     },
                     {field: 'sort', title: '排序'},

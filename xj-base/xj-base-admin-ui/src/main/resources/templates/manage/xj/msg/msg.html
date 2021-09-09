@@ -94,12 +94,12 @@
                     {field: 'userId', title: '接收人Id'},
                     {
                         field: 'userType', title: '通知终端', templet: function (res) {
-                            return Dict.convert(Enums.Xj.MsgUserType, res.userType);
+                            return Dict.convert(Enums.Admin.MsgUserType, res.userType);
                         }
                     },
                     {
                         field: 'msgType', title: '消息类型', templet: function (res) {
-                            return Dict.convert(Enums.Xj.MsgType, res.msgType);
+                            return Dict.convert(Enums.Admin.MsgType, res.msgType);
                         }
                     },
                     {field: 'content', title: '内容'},

@@ -1,11 +1,12 @@
 package com.test.springbootplus2.manage.test.controller;
 
 import com.test.springbootplus2.manage.test.model.dto.EncryptDTO;
+import com.test.springbootplus2.manage.test.model.dto.Page;
 import com.test.springbootplus2.manage.test.model.dto.SignDto;
 import com.test.springbootplus2.manage.test.model.vo.EncryptVO;
 import com.ws.ldy.config.filter.sing.annotation.XjSecret;
-import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.constant.BaseConstant;
+import com.ws.ldy.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,15 @@ import java.util.List;
 @RequestMapping(BaseConstant.Uri.apiOpen + "/xj/sign")
 @Api(value = "XjAdminBannerController", tags = "body参数验签测试")
 public class TestSignContoller {
+
+
+
+    @RequestMapping(value = "/test8", method = RequestMethod.POST)
+    @ApiOperation(value = "参数验签")
+    public R<Boolean> test8(@RequestBody Page<SignDto> dto) {
+        System.out.println("成功执行");
+        return R.success(true);
+    }
 
 
     /**

@@ -69,7 +69,7 @@
         $('#desc').val(parent.data.desc);
         $('#disable').val(parent.data.disable);
         // select 字典数据
-        $("#type").html(Dict.getDictSelect(Enums.Xj.BlacklistType));    // 类型
+        $("#type").html(Dict.getDictSelect(Enums.Base.BlacklistType));    // 类型
         // select 回显
         $("#type").find("option").each(function () {
             if ($(this).val() == parent.data.type) {

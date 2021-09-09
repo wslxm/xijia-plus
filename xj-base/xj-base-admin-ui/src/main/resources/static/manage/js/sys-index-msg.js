@@ -110,7 +110,7 @@ function showText(dataJson) {
         // 消息
         html += htmlMsg
             .replace("{read}", dataJson[index].isRead === 0 ? "<span style='margin-right: 3%;' class='layui-badge-dot'></span>" : "")
-            .replace("{title}", Dict.convert(Enums.Xj.MsgType, dataJson[index].msgType))
+            .replace("{title}", Dict.convert(Enums.Admin.MsgType, dataJson[index].msgType))
             .replace("{content}", dataJson[index].content)
             .replace("{createTime}", dataJson[index].createTime)
             .replace("{id}", dataJson[index].id)

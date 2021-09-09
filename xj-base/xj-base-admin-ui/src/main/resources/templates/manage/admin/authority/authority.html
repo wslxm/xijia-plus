@@ -120,7 +120,7 @@
 
 
     function init() {
-        $("#authorityType").html(Dict.getDictSelect(Enums.Admin.AuthorityType, 1));
+        $("#authorityType").html(Dict.getDictSelect(Enums.Base.AuthorityType, 1));
         xijiaRenderTable();
         pidSelects();
         layui.form.render();
@@ -190,7 +190,7 @@
                     {field: 'url', title: '权限url', width: "22%"},
                     {
                         field: 'type', title: '终端', width: 180, templet: function (res) {
-                            return Dict.convert(Enums.Admin.AuthorityType, res.type);
+                            return Dict.convert(Enums.Base.AuthorityType, res.type);
                         }
                     },
                     // {

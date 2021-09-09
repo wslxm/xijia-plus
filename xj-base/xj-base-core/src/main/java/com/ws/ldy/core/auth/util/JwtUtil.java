@@ -1,10 +1,10 @@
 package com.ws.ldy.core.auth.util;
 
 import com.ws.ldy.core.auth.entity.JwtUser;
+import com.ws.ldy.core.config.error.ErrorException;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
 import com.ws.ldy.core.utils.json.JsonUtil;
-import com.ws.ldy.core.config.error.ErrorException;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -91,9 +91,24 @@ public class JwtUtil {
 
 
     /**
+     *
+     *
+     * @param request
+     * @return true-已登录 false-未登录
+     */
+
+
+    /**
      * 获取登录信息，如过 token无效过期等，会进入对应的异常信息中返回
      * <p>
-     *     此方法用于权限验证, aop中，日志中获取用户信息, 注意返回的 R，如果出现异常,过期等信息不会直接抛出, 将返回到R 中
+     *     1、此方法用于权限验证, aop中，日志中获取用户信息, 注意返回的 R，如果出现异常,过期等信息不会直接抛出, 将返回到R 中
+     *     2、此方法可在业务代码中判断当前是否登录( R.getCode == 200 表示登录/ 其他情况表示未登录)
+     *         示例代码：
+     *         R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, response);
+     *         Boolean isLogin = jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue()) ? true : false;
+     *         if (isLogin) {
+     *             String userId = jwtUserR.getData().getUserId();
+     *         }
      * </p>
      * @param request
      * @param response

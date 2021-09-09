@@ -39,6 +39,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         // 当前启动环境
         //System.getProperty("spring.profiles.active")
         log.info("当前启动环境 spring.profiles.active = {}", SpringContextUtil.getActiveProfile());
+        log.info("当前启动端口 server.port = {}", PropUtil.findByKey("server.port"));
         // 日志测试
         log.info("开始测试当前日志级别配置【error-错误日志 | warn-警告日志 | info-普通日志 | debug-调试日志】 最后输出的日志类型为当前日志级别");
         log.error("error 错误日志已正常输出");

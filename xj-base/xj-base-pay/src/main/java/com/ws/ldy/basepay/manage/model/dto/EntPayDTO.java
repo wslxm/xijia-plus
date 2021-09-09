@@ -1,7 +1,7 @@
 package com.ws.ldy.basepay.manage.model.dto;
 
-import com.ws.ldy.core.enums.Pay;
 import com.ws.ldy.core.base.model.Convert;
+import com.ws.ldy.core.enums.Admin;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.ToString;
@@ -23,7 +23,7 @@ public class EntPayDTO extends Convert {
     private String openid;               // 必传 -- 用户openId
     private BigDecimal amount;           // 必传 -- 金额（元）
     private String orderNo;              // 必传 -- 订单号(申请打款订单)
-    private Pay.PayBusiness payBusiness; // 必传 -- 业务类型（当前系统字典code）
+    private Admin.PayBusiness payBusiness; // 必传 -- 业务类型（当前系统字典code）
     private String description;          // 非必传(微信支付参数) -- 企业付款备注（默认--理赔）
     private String checkName;            // 非必传(微信支付参数) -- 是否验证真实项目(默认 NO_CHECK) NO_CHECK：不校验真实姓名  FORCE_CHECK：强校验真实姓名
     private String reUserName;           // 非必传(微信支付参数) -- 收款用户姓名

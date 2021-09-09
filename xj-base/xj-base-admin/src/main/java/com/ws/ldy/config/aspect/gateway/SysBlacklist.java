@@ -8,7 +8,6 @@ import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
 import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.core.enums.Base;
-import com.ws.ldy.core.enums.Xj;
 import com.ws.ldy.manage.xj.model.entity.XjAdminBlacklist;
 import com.ws.ldy.manage.xj.model.vo.XjAdminBlacklistVO;
 import com.ws.ldy.manage.xj.service.XjAdminBlacklistService;
@@ -82,28 +81,28 @@ public class SysBlacklist {
             return R.success();
         }
         // 2、没有配置黑名单，直接放行
-        if (!blacklistCache.containsKey(Xj.BlacklistType.V2.getValue() + "")) {
+        if (!blacklistCache.containsKey(Base.BlacklistType.V2.getValue() + "")) {
             return R.success();
         }
         // 3、检查黑名单，如果被列进的指定ip的黑名单，直接拦截
-        if (blacklistCache.containsKey(Xj.BlacklistType.V2.getValue() + "")) {
-            List<String> heiIps = blacklistCache.get(Xj.BlacklistType.V2.getValue() + "");
+        if (blacklistCache.containsKey(Base.BlacklistType.V2.getValue() + "")) {
+            List<String> heiIps = blacklistCache.get(Base.BlacklistType.V2.getValue() + "");
             if (heiIps.contains(ip)) {
                 return R.error(RType.SYS_BLACK_LIST_IP.getValue(), "[" + ip + "] " + RType.SYS_BLACK_LIST_IP.getMsg());
             }
         }
         // 4、如果配置了白名单( * )直接放行除了黑名单的所有ip
-        if (blacklistCache.containsKey(Xj.BlacklistType.V1.getValue() + "")) {
-            List<String> baiIps = blacklistCache.get(Xj.BlacklistType.V1.getValue() + "");
+        if (blacklistCache.containsKey(Base.BlacklistType.V1.getValue() + "")) {
+            List<String> baiIps = blacklistCache.get(Base.BlacklistType.V1.getValue() + "");
             if (baiIps.contains("*")) {
                 return R.success();
             }
         }
         // 5、如果配置了黑名单( * )拦截除了白名单外的所有ip
-        if (blacklistCache.containsKey(Xj.BlacklistType.V2.getValue() + "")) {
-            List<String> heiIps = blacklistCache.get(Xj.BlacklistType.V2.getValue() + "");
+        if (blacklistCache.containsKey(Base.BlacklistType.V2.getValue() + "")) {
+            List<String> heiIps = blacklistCache.get(Base.BlacklistType.V2.getValue() + "");
             if (heiIps.contains("*")) {
-                List<String> baiIps = blacklistCache.get(Xj.BlacklistType.V1.getValue() + "");
+                List<String> baiIps = blacklistCache.get(Base.BlacklistType.V1.getValue() + "");
                 if (baiIps == null || !baiIps.contains(ip)) {
                     return R.error(RType.SYS_WHITE_LIST_NO_IP.getValue(), "[" + ip + "] " + RType.SYS_WHITE_LIST_NO_IP.getMsg());
                 }
@@ -133,15 +132,15 @@ public class SysBlacklist {
                 // key=1(白名单)  key=2(黑名单)) 黑名单优先级高于白名单, list为 ip集合
                 List<XjAdminBlacklistVO> adminBlacklistVOS = BeanDtoVoUtil.listVo(blacklist, XjAdminBlacklistVO.class);
                 Map<Integer, List<XjAdminBlacklistVO>> blacklistGroupByType = adminBlacklistVOS.stream().collect(Collectors.groupingBy(XjAdminBlacklistVO::getType));
-                List<XjAdminBlacklistVO> baiMD = blacklistGroupByType.get(Xj.BlacklistType.V1.getValue());
-                List<XjAdminBlacklistVO> heiMD = blacklistGroupByType.get(Xj.BlacklistType.V2.getValue());
+                List<XjAdminBlacklistVO> baiMD = blacklistGroupByType.get(Base.BlacklistType.V1.getValue());
+                List<XjAdminBlacklistVO> heiMD = blacklistGroupByType.get(Base.BlacklistType.V2.getValue());
                 if (baiMD != null) {
                     List<String> baiIps = baiMD.stream().map(XjAdminBlacklistVO::getIp).collect(Collectors.toList());
-                    blacklistCache.put(Xj.BlacklistType.V1.getValue() + "", baiIps);
+                    blacklistCache.put(Base.BlacklistType.V1.getValue() + "", baiIps);
                 }
                 if (heiMD != null) {
                     List<String> heiIps = heiMD.stream().map(XjAdminBlacklistVO::getIp).collect(Collectors.toList());
-                    blacklistCache.put(Xj.BlacklistType.V2.getValue() + "", heiIps);
+                    blacklistCache.put(Base.BlacklistType.V2.getValue() + "", heiIps);
                 }
             }
             CacheUtil.set(CacheKey.BLACK_LIST.getKey(), blacklistCache);

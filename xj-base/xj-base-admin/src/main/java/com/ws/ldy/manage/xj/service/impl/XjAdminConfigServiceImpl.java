@@ -37,6 +37,7 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
     @Override
     public IPage<XjAdminConfigVO> list(XjAdminConfigQuery query) {
         LambdaQueryWrapper<XjAdminConfig> queryWrapper = new LambdaQueryWrapper<XjAdminConfig>()
+                .orderByAsc(XjAdminConfig::getSort)
                 .orderByDesc(XjAdminConfig::getCreateTime)
                 .eq(StringUtils.isNotBlank(query.getCode()), XjAdminConfig::getCode, query.getCode())
                 .like(StringUtils.isNotBlank(query.getName()), XjAdminConfig::getName, query.getName());

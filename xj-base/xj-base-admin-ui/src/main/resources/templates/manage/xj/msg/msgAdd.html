@@ -57,8 +57,8 @@
 
     function adminMsgaddInit() {
         // 初始化相关数据
-        $("#userType").html(Dict.getDictSelect(Enums.Xj.MsgUserType, null, null, null));
-        $("#msgType").html(Dict.getDictSelect(Enums.Xj.MsgType, null, null, null));
+        $("#userType").html(Dict.getDictSelect(Enums.Admin.MsgUserType, null, null, null));
+        $("#msgType").html(Dict.getDictSelect(Enums.Admin.MsgType, null, null, null));
         // 刷新,否则部分from 表单样式不生效
         initUsersSelect(1);
         layui.form.render();

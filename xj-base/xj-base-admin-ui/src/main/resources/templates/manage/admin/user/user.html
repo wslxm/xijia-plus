@@ -62,7 +62,7 @@
     let userDelByIdsUrl = path + "/admin/user/delByIds";                 // 批量删除
     let userUpdResetPassword = path + "/admin/user/{id}/resetPassword";  // 重置密码
     // 角色分配查询所有--用户当前角色赋予Checked=true
-    var roleFindUserRole = path + "/admin/role/list?userId={userId}&isUserIdChecked=true&isLoginUser=true";
+    var roleFindUserRole = path + "/admin/role/list?userId={userId}&isUserIdChecked=true";
 
 
     //路由
@@ -91,6 +91,11 @@
         $("#terminal").html(Dict.getDictSelect(Enums.Admin.Terminal, "", "所有","1"));     // 终端
         // 刷新,否则select可能不生效
         layui.form.render();
+
+        // 监听终端选择(重新在服务端获取数据)
+        layui.form.on('select(terminal)', function (data) {
+            xijiaRenderTable();
+        });
     }
 
 

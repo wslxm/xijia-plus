@@ -62,7 +62,7 @@
         <script>
             // 接口
             var menuUrl = path + "/admin/menu";
-            var menuListUrl = path + "/admin/menu/list?isLoginUser=true";
+            var menuListUrl = path + "/admin/menu/list";
             // 修改父级查询
             var menuMenuListUrl = path + "/admin/menu/list?isBottomLayer=false";
 
@@ -115,7 +115,7 @@
             function xijiaRenderTable(terminal) {
                 terminalKey = (terminal !== null && terminal !== undefined) ? terminal : terminalKey;
                 // 获取菜单数据
-                menus = Ajax.get(menuListUrl + "&terminal=" + terminalKey ).data;
+                menus = Ajax.get(menuListUrl + "?terminal=" + terminalKey ).data;
                 // 默认加载所有
                 refreshTable(pidKey);
                 // 加载父级搜索值：拼接搜索值

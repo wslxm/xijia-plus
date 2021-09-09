@@ -10,6 +10,7 @@ import com.ws.ldy.core.auth.util.MD5Util;
 import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.core.config.error.ErrorException;
 import com.ws.ldy.core.enums.Base;
+import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
 import com.ws.ldy.core.utils.BeanDtoVoUtil;
 import com.ws.ldy.manage.admin.mapper.AdminUserMapper;
@@ -73,7 +74,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
             throw new ErrorException(RType.USER_ACCOUNT_IS_DUPLICATE);
         }
         // 判重电话
-        if (StringUtils.isNotBlank(dto.getUsername())) {
+        if (StringUtils.isNotBlank(dto.getPhone())) {
             if (this.count(new LambdaUpdateWrapper<AdminUser>()
                     .eq(AdminUser::getPhone, dto.getPhone())
                     .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
@@ -83,9 +84,18 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         }
         AdminUser adminUser = dto.convert(AdminUser.class);
         adminUser.setPassword(MD5Util.encode(adminUser.getPassword()));
-        adminUser.setDisable(0);  //默认启用状态
         adminUser.setRegTime(LocalDateTime.now());
-        adminUser.setCreateUser(JwtUtil.getJwtUser(request).getUserId());
+        if (dto.getDisable() == null) {
+            // 如果未设置状态,默认启用状态
+            adminUser.setDisable(Base.Disable.V0.getValue());
+        }
+        // 判断当前是否登录(登录了添加创建人)
+        R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, response);
+        Boolean isLogin = jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue()) ? true : false;
+        if (isLogin) {
+            String userId = jwtUserR.getData().getUserId();
+            adminUser.setCreateUser(userId);
+        }
         this.save(adminUser);
         if (dto.getRoleIds() != null) {
             //分配角色
@@ -196,11 +206,9 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // 5、生成jwt
         JwtUser jwtUser = new JwtUser();
         jwtUser.setUserId(user.getId());
-        // jwtUser.setUsername(user.getUsername());
+        jwtUser.setTerminal(user.getTerminal());
         jwtUser.setFullName(user.getFullName());
         jwtUser.setType(JwtUtil.userType[0]);
-        // jwtUser.setHead(user.getHead());
-        // jwtUser.setPhone(user.getPhone());
         // 设置token有效期(分)
         // jwtUser.setRefreshTime(60);
         jwtUser.setExpiration(60);

@@ -34,7 +34,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
     @GetMapping(value = "/list")
     @ApiOperation(value = "列表查询")
     public R<IPage<AdminUserVO>> list(@ModelAttribute AdminUserQuery query) {
-        return R.success(baseService.list(query));
+        return R.successFind(baseService.list(query));
     }
 
 
@@ -48,7 +48,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
     @PostMapping
     @ApiOperation(value = "添加")
     public R<String> insert(@RequestBody AdminUserDTO dto) {
-        return R.success(baseService.insert(dto));
+        return R.successInsert(baseService.insert(dto));
     }
 
 

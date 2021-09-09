@@ -25,7 +25,7 @@ document.write("<script language=javascript src='/base/js/xj-req-ajax.js'></scri
  * <p>
  */
 var path = "/api";
-//var path = "http://127.0.0.1:9048/api";
+// var path = "http://127.0.0.1:9048/api";
 var uploadPath = "/api/open/aliOssFile/upload";
 
 
@@ -38,6 +38,42 @@ var uploadPath = "/api/open/aliOssFile/upload";
 var loginPwd = "xijia";
 var loginPage = "../login";
 var cacheToken = "ADMIN-TOKEN";
+
+
+
+/**
+ * 枚举字段key（管理端字典列表中生成获取，增加了字典值需维护，不需要手写）
+ * @type s
+ */
+Enums = {
+    // 系统枚举(固定值)
+    Base: {
+        Default : "DEFAULT",  // 默认字典(代码生成默认字典)
+        Deleted : "DELETED",  // 逻辑删除
+        Disable : "DISABLE",  // 是否禁用
+        Gender : "GENDER",  // 性别
+        AuthorityState : "AUTHORITY_STATE",  // 权限状态
+        AuthorityType : "AUTHORITY_TYPE",  // 权限类型
+        MenuRoot : "MENU_ROOT",  // 菜单级别
+        BannerIsSkip : "BANNER_IS_SKIP",  // banner是否跳转
+        IsRead : "IS_READ",  // 是否已读
+        BlacklistType : "BLACKLIST_TYPE",  // 黑/白名单类型
+        PayChannel : "PAY_CHANNEL",  // 支付渠道
+        PayState : "PAY_STATE",  // 支付状态
+        PayType : "PAY_TYPE",  // 支付类型
+        WalletType : "WALLET_TYPE",  // 流水类型
+    },
+    // 系统枚举(动态值)
+    Admin: {
+        Terminal : "TERMINAL",  // 终端
+        Position : "POSITION",  // 部门职位
+        BannerPosition : "BANNER_POSITION",  // banner 位置
+        MsgType : "MSG_TYPE",  // 及时消息类型
+        MsgUserType : "MSG_USER_TYPE",  // 及时消息终端
+        PayBusiness : "PAY_BUSINESS",  // 支付业务
+    },
+};
+
 
 
 // 全局请求头,token 的参数获取 (xj-req-ajax.js 中调用)

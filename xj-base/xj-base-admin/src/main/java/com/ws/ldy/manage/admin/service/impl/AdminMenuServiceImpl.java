@@ -63,7 +63,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
 
         // 3、是否需要最后一级数据,false 不需要, 过滤最后一级数据
         if (isBottomLayer != null && !isBottomLayer) {
-            menuVOList = menuVOList.stream().filter(p -> (!p.getRoot().equals(Admin.MenuRoot.V3.getValue()))).collect(Collectors.toList());
+            menuVOList = menuVOList.stream().filter(p -> (!p.getRoot().equals(Base.MenuRoot.V3.getValue()))).collect(Collectors.toList());
         }
 
         // 4、pid，存在pid, 过滤其他数据

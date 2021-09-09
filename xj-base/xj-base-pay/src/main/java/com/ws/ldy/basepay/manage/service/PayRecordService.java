@@ -1,8 +1,9 @@
 package com.ws.ldy.basepay.manage.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ws.ldy.core.enums.Pay;
 import com.ws.ldy.basepay.manage.model.entity.PayRecord;
+import com.ws.ldy.core.enums.Admin;
+import com.ws.ldy.core.enums.Base;
 
 import java.math.BigDecimal;
 
@@ -35,9 +36,9 @@ public interface PayRecordService extends IService<PayRecord> {
                          String tradeNo,
                          String requestData,
                          String responseData,
-                         Pay.PayState payState,
-                         Pay.PayType payType,
-                         Pay.PayBusiness payBusiness
+                         Base.PayState payState,
+                         Base.PayType payType,
+                         Admin.PayBusiness payBusiness
     );
 
 
@@ -64,9 +65,9 @@ public interface PayRecordService extends IService<PayRecord> {
                          String tradeNo,
                          String requestData,
                          String responseData,
-                         Pay.PayState payState,
-                         Pay.PayType payType,
-                         Pay.PayBusiness payBusiness,
+                         Base.PayState payState,
+                         Base.PayType payType,
+                         Admin.PayBusiness payBusiness,
                          BigDecimal platformFee,
                          BigDecimal channelFee,
                          BigDecimal moneySurplus

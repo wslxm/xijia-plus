@@ -3,11 +3,12 @@ package com.ws.ldy.basepay.manage.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.ws.ldy.core.enums.Pay;
-import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.basepay.manage.mapper.PayRecordMapper;
 import com.ws.ldy.basepay.manage.model.entity.PayRecord;
 import com.ws.ldy.basepay.manage.service.PayRecordService;
+import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
+import com.ws.ldy.core.enums.Admin;
+import com.ws.ldy.core.enums.Base;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,9 +38,9 @@ public class PayRecordServiceImpl extends BaseIServiceImpl<PayRecordMapper, PayR
                                 String tradeNo,
                                 String requestData,
                                 String responseData,
-                                Pay.PayState payState,
-                                Pay.PayType payType,
-                                Pay.PayBusiness payBusiness
+                                Base.PayState payState,
+                                Base.PayType payType,
+                                Admin.PayBusiness payBusiness
     ) {
         return this.addPayRecord(money, orderNo, tradeNo, requestData, responseData, payState, payType, payBusiness,
                 new BigDecimal("0"), new BigDecimal("0"), new BigDecimal("0"));
@@ -52,9 +53,9 @@ public class PayRecordServiceImpl extends BaseIServiceImpl<PayRecordMapper, PayR
                                 String tradeNo,
                                 String requestData,
                                 String responseData,
-                                Pay.PayState payState,
-                                Pay.PayType payType,
-                                Pay.PayBusiness payBusiness,
+                                Base.PayState payState,
+                                Base.PayType payType,
+                                Admin.PayBusiness payBusiness,
                                 BigDecimal platformFee,
                                 BigDecimal channelFee,
                                 BigDecimal moneySurplus
@@ -70,7 +71,7 @@ public class PayRecordServiceImpl extends BaseIServiceImpl<PayRecordMapper, PayR
         record.setResponseData(responseData);
         record.setPayState(payState.getValue());
         record.setPayType(payType.getValue());
-        record.setPayChannel(Pay.PayChannel.V2.getValue());
+        record.setPayChannel(Base.PayChannel.V2.getValue());
         record.setBusinessType(payBusiness.getValue());
         record.setBusinessDesc(payBusiness.getDesc());
         record.setCallbackData(null);

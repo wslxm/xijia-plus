@@ -94,12 +94,12 @@ public class SysAuth {
         }
 
         // 4、登录/授权验证
-        if (adminAuthority.getState().equals(Admin.AuthorityState.V0.getValue())) {
+        if (adminAuthority.getState().equals(Base.AuthorityState.V0.getValue())) {
             /**
              *  0- 无需登录 (不做任何处理)
              */
             return R.success(null);
-        } else if (adminAuthority.getState().equals(Admin.AuthorityState.V1.getValue())) {
+        } else if (adminAuthority.getState().equals(Base.AuthorityState.V1.getValue())) {
             /**
              *  1- 需登录 (能获取用户信息jwtUser 即成功)
              */
@@ -109,7 +109,7 @@ public class SysAuth {
                 return result;
             }
             return R.success(result.getData());
-        } else if (adminAuthority.getState().equals(Admin.AuthorityState.V2.getValue())) {
+        } else if (adminAuthority.getState().equals(Base.AuthorityState.V2.getValue())) {
             /**
              *  2- 需登录+授权 (100% 管理端才会进入, 验证用户信息的权限列表中是否存在当前接口，存在放行，不存在拦截返回无权限访问)
              */

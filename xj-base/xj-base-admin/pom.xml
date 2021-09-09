@@ -16,6 +16,41 @@
     <properties>
     </properties>
 
+
+    <dependencies>
+        <!-- aop -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!--
+             自定义模块 start
+             注释范围的依赖,在需要启动服务的项目按需加载
+             已加载的都是系统必须加载的
+        -->
+        <!-- 核心组件- 通用base层+字典枚举+ 统一返回+常用工具类    -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-base-core</artifactId>
+        </dependency>
+        <!-- 界面- 后台管理系统ui -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-base-admin-ui</artifactId>
+        </dependency>
+        <!-- 第三方服务- 阿里云oss -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-api-aliyun-oss</artifactId>
+        </dependency>
+        <!-- websocket  -->
+        <dependency>
+            <groupId>com.ws.ldy</groupId>
+            <artifactId>xj-fw-websocket</artifactId>
+        </dependency>
+    </dependencies>
+
+
     <!-- 多环境配置 -->
     <profiles>
         <profile>
@@ -42,42 +77,4 @@
             </properties>
         </profile>
     </profiles>
-
-    <dependencies>
-        <!-- aop -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-        <!--
-             自定义模块 start
-             注释范围的依赖,在需要启动服务的项目按需加载
-             已加载的都是系统必须加载的
-        -->
-        <!-- 界面- 后台管理系统ui -->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-base-admin-ui</artifactId>
-        </dependency>
-        <!-- 核心组件- 通用base层+字典枚举+ 统一返回+常用工具类    -->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-base-core</artifactId>
-        </dependency>
-        <!-- 接口文档- swagger2  -->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-doc-swagger2</artifactId>
-        </dependency>
-        <!-- websocket  -->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-fw-websocket</artifactId>
-        </dependency>
-        <!-- 第三方服务- 阿里云oss -->
-        <dependency>
-            <groupId>com.ws.ldy</groupId>
-            <artifactId>xj-api-aliyun-oss</artifactId>
-        </dependency>
-    </dependencies>
 </project>
