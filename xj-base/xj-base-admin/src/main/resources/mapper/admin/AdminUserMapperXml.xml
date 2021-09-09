@@ -69,7 +69,7 @@
             and u.phone = #{query.phone}
         </if>
         <if test="query.fullName != null and query.fullName != ''">
-            and u.fullName = #{query.fullName}
+            and u.full_name = #{query.fullName}
         </if>
         <if test="query.disable != null">
             and u.disable = #{query.disable}

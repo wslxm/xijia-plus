@@ -107,7 +107,7 @@ public class BaseGcImpl extends BaseIServiceImpl {
         } else if (type.equals("varchar") || type.equals("char") || type.equals("text") || type.equals("longtext")) {
             // 字符串
             if (typeDetail.indexOf("(") != -1) {
-                jsr = "@Length(min=0, max={MAX},message = \"{DESC} 必须>=0 和 <={MAX}位)\"";
+                jsr = "@Length(min=0, max={MAX},message = \"{DESC} 必须>=0 和 <={MAX}位\")";
                 String max = typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")"));
                 jsr = jsr.replaceAll("\\{MAX}", max).replace("{DESC}",desc);
             }
