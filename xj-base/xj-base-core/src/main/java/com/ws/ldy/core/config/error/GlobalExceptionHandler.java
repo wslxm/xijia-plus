@@ -108,9 +108,9 @@ public class GlobalExceptionHandler {
             List<FieldError> fieldErrors = ((MethodArgumentNotValidException) e).getBindingResult().getFieldErrors();
             String field = fieldErrors.get(0).getField();   // 错误字段，多个错误，取第一个
             String msg = fieldErrors.get(0).getDefaultMessage(); //错误 message，多个错误，取第一个
-            String errorMsg = RType.PARAM_ERROR_JSR303.getMsg() + "  --> 【字段=" + field + " --> 提示用户的错误信息=" + msg + "】    -->    完整的栈错误信息：" + e.getMessage();
+            String errorMsg = RType.PARAM_ERROR.getMsg() + "  --> JSR 【字段=" + field + " --> 提示用户的错误信息=" + msg + "】    -->    完整的栈错误信息：" + e.getMessage();
             log.info(logStr + errorMsg);
-            return R.error(RType.PARAM_ERROR_JSR303.getValue(), msg, errorMsg);
+            return R.error(RType.PARAM_ERROR.getValue(), msg, errorMsg);
         } else if (e instanceof BindException) {
             /**
              * query JSR 303 为参数验证错误（只打印核心错误内容）
@@ -118,9 +118,9 @@ public class GlobalExceptionHandler {
             List<FieldError> fieldErrors = ((BindException) e).getBindingResult().getFieldErrors();
             String field = fieldErrors.get(0).getField();   // 错误字段，多个错误，取第一个
             String msg = fieldErrors.get(0).getDefaultMessage(); //错误 message，多个错误，取第一个
-            String errorMsg = RType.PARAM_ERROR_JSR303.getMsg() + "  --> 【字段=" + field + " --> 提示用户的错误信息=" + msg + "】    -->    完整的栈错误信息：" + e.getMessage();
+            String errorMsg = RType.PARAM_ERROR.getMsg() + "  --> JSR 【字段=" + field + " --> 提示用户的错误信息=" + msg + "】    -->    完整的栈错误信息：" + e.getMessage();
             log.info(logStr + errorMsg);
-            return R.error(RType.PARAM_ERROR_JSR303.getValue(), msg, errorMsg);
+            return R.error(RType.PARAM_ERROR.getValue(), msg, errorMsg);
         } else if (e instanceof MissingServletRequestParameterException) {
             /**
              * 未传递 Parameter 参数验证错误, 一般为 @Parameter 指定参数未传递（只打印核心错误内容）
@@ -138,10 +138,10 @@ public class GlobalExceptionHandler {
             MethodParameter parameter = ((MethodArgumentTypeMismatchException) e).getParameter();
             String name = ((MethodArgumentTypeMismatchException) e).getName();
             Class<?> requiredType = ((MethodArgumentTypeMismatchException) e).getRequiredType();
-            String errorMsg = RType.PARAM_TYPE_DOES_NOT_MATCH.getMsg() + "  --> 【 " + name + " : " + requiredType + "】  --->  详细错误信息:" + e.getMessage();
+            String errorMsg = RType.PARAM_ERROR.getMsg() + " 类型不匹配 --> 【 " + name + " : " + requiredType + "】  --->  详细错误信息:" + e.getMessage();
             log.info(logStr + errorMsg);
             //  返回前端提示name参数:类型 参数不匹配
-            return R.error(RType.PARAM_TYPE_DOES_NOT_MATCH.getValue(), name + ":" + requiredType + RType.PARAM_TYPE_DOES_NOT_MATCH.getMsg(), errorMsg);
+            return R.error(RType.PARAM_ERROR.getValue(), name + ":" + requiredType + RType.PARAM_ERROR.getMsg() + ":类型不匹配", errorMsg);
         } else if (e instanceof DataIntegrityViolationException) {
             /**
              * 保存到数据库DB相关错误

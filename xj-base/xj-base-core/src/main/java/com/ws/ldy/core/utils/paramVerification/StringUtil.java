@@ -16,7 +16,7 @@ public class StringUtil {
     /**
      * 判断字符串是否是一个isInteger 数字类型
      * @param str
-     * @return
+     * @return true if 是
      */
     public static boolean isInteger(String str) {
         return pattern.matcher(str).matches();

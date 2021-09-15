@@ -41,7 +41,7 @@ public class SwaggerFilter implements Filter {
             // 默认展示,配置为false不展示
             XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode("is_swagger");
             if (xjAdminConfig != null && "false".equals(xjAdminConfig.getContent())) {
-                R<Void> r = R.error(RType.SYS_ERROR_CODE_401);
+                R<Void> r = R.error(RType.SYS_ERROR_CODE_403);
                 servletResponse.setContentType("application/json;charset=utf-8");
                 servletResponse.getWriter().write(JSON.toJSONString(r));
                 return;

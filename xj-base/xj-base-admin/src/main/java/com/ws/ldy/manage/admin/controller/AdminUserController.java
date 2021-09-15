@@ -14,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
 
     @GetMapping(value = "/list")
     @ApiOperation(value = "列表查询")
-    public R<IPage<AdminUserVO>> list(@ModelAttribute AdminUserQuery query) {
+    public R<IPage<AdminUserVO>> list(@ModelAttribute @Validated AdminUserQuery query) {
         return R.successFind(baseService.list(query));
     }
 
@@ -47,7 +48,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
 
     @PostMapping
     @ApiOperation(value = "添加")
-    public R<String> insert(@RequestBody AdminUserDTO dto) {
+    public R<String> insert(@RequestBody @Validated AdminUserDTO dto) {
         return R.successInsert(baseService.insert(dto));
     }
 

@@ -54,7 +54,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         // 1、判断 code , 不能传递字符串数字来查询
         if (StringUtils.isNotBlank(code)) {
             if (StringUtil.isInteger(code)) {
-                throw new ErrorException(RType.PARAM_ERROR);
+                throw new ErrorException(RType.PARAM_ERROR.getValue(),RType.PARAM_ERROR.getMsg()+":code");
             }
         }
 
@@ -111,7 +111,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     @Override
     public String insert(AdminDictionaryDTO dto) {
         if (StringUtils.isBlank(dto.getCode().trim())) {
-            throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + LambdaUtils.convert(AdminDictionaryDTO::getCode));
+            throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() +":code");
         }
         dto.setCode(dto.getCode().trim());
         if (!StringUtil.isInteger(dto.getCode()) && this.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {

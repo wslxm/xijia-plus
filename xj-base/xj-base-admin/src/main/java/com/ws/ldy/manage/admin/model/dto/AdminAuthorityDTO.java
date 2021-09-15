@@ -1,12 +1,15 @@
 package com.ws.ldy.manage.admin.model.dto;
 
 import com.ws.ldy.core.base.model.Convert;
+import com.ws.ldy.core.utils.validated.RegUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.Pattern;
 
 
 /**
@@ -35,6 +38,7 @@ public class AdminAuthorityDTO extends Convert {
 
     @ApiModelProperty(notes = "权限url", position = 2)
     @Length(min = 0, max = 128, message = "权限url 必须小于128位")
+    @Pattern(regexp = RegUtil.URL, message = RegUtil.URL_MSG)
     private String url;
 
     @ApiModelProperty(notes = "权限备注信息", position = 3)
@@ -53,7 +57,7 @@ public class AdminAuthorityDTO extends Convert {
     @Range(min = 0, max = 9L, message = "授权状态 必须小于9")
     private Integer state;
 
-    @ApiModelProperty(notes = "是否需要验签" ,position = 7)
-    private  Boolean isSign;
+    @ApiModelProperty(notes = "是否需要验签", position = 7)
+    private Boolean isSign;
 
 }

@@ -88,9 +88,10 @@ public class SysBlacklist {
         if (blacklistCache.containsKey(Base.BlacklistType.V2.getValue() + "")) {
             List<String> heiIps = blacklistCache.get(Base.BlacklistType.V2.getValue() + "");
             if (heiIps.contains(ip)) {
-                return R.error(RType.SYS_BLACK_LIST_IP.getValue(), "[" + ip + "] " + RType.SYS_BLACK_LIST_IP.getMsg());
+                return R.error(RType.AUTHORITY_BLACK_LIST_IP.getValue(), "[" + ip + "] " + RType.AUTHORITY_BLACK_LIST_IP.getMsg());
             }
         }
+
         // 4、如果配置了白名单( * )直接放行除了黑名单的所有ip
         if (blacklistCache.containsKey(Base.BlacklistType.V1.getValue() + "")) {
             List<String> baiIps = blacklistCache.get(Base.BlacklistType.V1.getValue() + "");
@@ -104,7 +105,7 @@ public class SysBlacklist {
             if (heiIps.contains("*")) {
                 List<String> baiIps = blacklistCache.get(Base.BlacklistType.V1.getValue() + "");
                 if (baiIps == null || !baiIps.contains(ip)) {
-                    return R.error(RType.SYS_WHITE_LIST_NO_IP.getValue(), "[" + ip + "] " + RType.SYS_WHITE_LIST_NO_IP.getMsg());
+                    return R.error(RType.AUTHORITY_WHITE_LIST_NO_IP.getValue(), "[" + ip + "] " + RType.AUTHORITY_WHITE_LIST_NO_IP.getMsg());
                 }
             }
         }

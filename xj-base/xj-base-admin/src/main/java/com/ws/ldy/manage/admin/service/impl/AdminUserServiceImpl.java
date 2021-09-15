@@ -13,6 +13,7 @@ import com.ws.ldy.core.enums.Base;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
 import com.ws.ldy.core.utils.BeanDtoVoUtil;
+import com.ws.ldy.core.utils.validated.RegUtil;
 import com.ws.ldy.manage.admin.mapper.AdminUserMapper;
 import com.ws.ldy.manage.admin.model.dto.AdminUserDTO;
 import com.ws.ldy.manage.admin.model.entity.AdminRoleUser;
@@ -65,7 +66,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     @Override
     @Transactional
-    public String insert(@RequestBody AdminUserDTO dto) {
+    public String insert( AdminUserDTO dto) {
         // 判重账号
         if (this.count(new LambdaUpdateWrapper<AdminUser>()
                 .eq(AdminUser::getUsername, dto.getUsername())
@@ -107,10 +108,12 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     @Override
     @Transactional
     public Boolean upd(String id, AdminUserDTO dto) {
-        AdminUser adminUser = this.getOne(new LambdaQueryWrapper<AdminUser>().select(AdminUser::getUsername, AdminUser::getPhone).eq(AdminUser::getId, id));
+        AdminUser adminUser = this.getOne(new LambdaQueryWrapper<AdminUser>()
+                .select(AdminUser::getUsername, AdminUser::getPhone)
+                .eq(AdminUser::getId, id));
         if (StringUtils.isNotBlank(dto.getUsername())) {
             // 判重账号
-            if (!adminUser.getUsername().equals(dto.getUsername())) {
+            if (!dto.getUsername().equals(adminUser.getUsername())) {
                 if (this.count(new LambdaUpdateWrapper<AdminUser>()
                         .eq(AdminUser::getUsername, dto.getUsername())
                         .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
@@ -121,7 +124,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         }
         if (StringUtils.isNotBlank(dto.getPhone())) {
             // 判重电话
-            if (!adminUser.getPhone().equals(dto.getPhone())) {
+            if (!dto.getPhone().equals(adminUser.getPhone())) {
                 if (this.count(new LambdaUpdateWrapper<AdminUser>()
                         .eq(AdminUser::getPhone, dto.getPhone())
                         .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
@@ -206,21 +209,19 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // 5、生成jwt
         JwtUser jwtUser = new JwtUser();
         jwtUser.setUserId(user.getId());
-        jwtUser.setTerminal(user.getTerminal());
         jwtUser.setFullName(user.getFullName());
+        jwtUser.setTerminal(user.getTerminal());
         jwtUser.setType(JwtUtil.userType[0]);
         // 设置token有效期(分)
-        // jwtUser.setRefreshTime(60);
         jwtUser.setExpiration(60);
         // 添加权限 和 权限数据版本号,当权限发生改变时，直接刷新token信息
         jwtUser.setAuthList(authList);
         JwtUtil.createToken(jwtUser, response);
-        // 6、刷新登录时间
+        // 6、刷新最后登录时间
         AdminUser updAdminUser = new AdminUser();
         updAdminUser.setId(user.getId());
         updAdminUser.setEndTime(LocalDateTime.now());
-        this.updateById(updAdminUser);
-        return true;
+        return this.updateById(updAdminUser);
     }
 
 
