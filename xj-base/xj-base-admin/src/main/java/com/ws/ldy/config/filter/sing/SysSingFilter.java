@@ -4,6 +4,7 @@ package com.ws.ldy.config.filter.sing;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.ws.ldy.common.cache.AuthCacheKeyUtil;
 import com.ws.ldy.common.cache.CacheKey;
 import com.ws.ldy.config.filter.sing.util.RequestWrapper;
 import com.ws.ldy.config.filter.sing.util.SignUtil;
@@ -61,13 +62,14 @@ public class SysSingFilter implements Filter {
         String uri = request.getRequestURI();
 
         Map<String, AdminAuthority> authMap = CacheUtil.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
-        if (!authMap.containsKey(uri)) {
+        String cacheKey = AuthCacheKeyUtil.getAuthCacheKey(request.getMethod(), request.getRequestURI());
+        if (!authMap.containsKey(cacheKey)) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
 
         // 1.2、判断接口是否需要验签
-        Boolean isSign = authMap.get(uri).getIsSign();
+        Boolean isSign = authMap.get(cacheKey).getIsSign();
         if(!isSign){
             filterChain.doFilter(servletRequest, servletResponse);
             return;

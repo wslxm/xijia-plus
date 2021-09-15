@@ -57,7 +57,7 @@ public class XjAdminConfigController extends BaseController<XjAdminConfigService
     }
 
 
-    @RequestMapping(value = "findByCode", method = RequestMethod.GET)
+    @RequestMapping(value = "/findByCode", method = RequestMethod.GET)
     @ApiOperation(value = "CODE查询")
     public R<XjAdminConfigVO> findByCode(@RequestParam String code) {
         return R.successFind(baseService.findByCode(code));

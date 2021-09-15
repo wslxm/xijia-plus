@@ -33,9 +33,9 @@ public enum RType {
     PARAM_SAVE_TO_DB_ID_REPEAT(9998, "主键ID重复"),//数据保存到数据库时参数错误
     DB_EXECUTE_SQL_ERROR(9998, "执行sql时出错"),
     // 参数验签错误
-    PARAM_SIGN_ERROR(9997, "验签: 参数错误,参数验证失败"),
-    PARAM_IS_NO_SIGN(9997, "验签: 没有 sign 或 timestamp 参数"),
-    PARAM_TIME_OUT(9997, "验签: 请求超时"),  // 请求超时,可能请求被拦截篡改参数后再请求
+    PARAM_SIGN_ERROR(9997, "验签失败: 请求参数异常或格式错误"),
+    PARAM_IS_NO_SIGN(9997, "验签失败: 缺少sign或timestamp参数"),
+    PARAM_TIME_OUT(9997, "验签失败: 请求超时"),  // 请求超时,可能请求被拦截篡改参数后再请求
     PARAM_DECRYPTION_ERROR(9997, "参数解密错误"),
     // 权限认证,注意，前端需拦截所有为10000的返回重定向到登录页
     AUTHORITY_LOGIN_EXPIRED(10000, "登录过期"),
