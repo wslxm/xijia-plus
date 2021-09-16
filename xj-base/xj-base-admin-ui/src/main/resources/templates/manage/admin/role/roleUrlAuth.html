@@ -47,13 +47,13 @@
 
 <script>
 
-    let authorityListUrl = path + "/admin/authority/authList";                       // 取消查询--查询所有(角色check)
+    let authorityListUrl = path + "/admin/authority/list";                           // 取消查询--查询所有(角色check)
     let authorityRefreshAuthorityUrl = path + "/admin/authority/refreshAuthority";   // 权限刷新扫描列表
     let roleUpdRoleAuthUrl = path + "/admin/role/updRoleAuth";                       // 角色URL权限修改
 
     let res;           // 后台返回完整菜单数据
     let checkData;     // 所有选中数据
-    let roleId = -1;   // 角色Id
+    let roleId = "-1";   // 角色Id
     let roleName;      // 角色名称
 
     layui.config({
@@ -82,7 +82,7 @@
      */
     function xijiaInit(item) {
         // 获得菜单数据
-        res = Ajax.get(authorityListUrl + "?roleId=" + item.id);
+        res = Ajax.get(authorityListUrl + "?type=0&roleId=" + item.id);
         // 加载
         xijiaRenderTable();
         // 当前角色id
@@ -168,7 +168,7 @@
      */
     function isChecked(nodeAll, node, checked) {
         // 当菜单级别为3(页面时)，跳出，不往下递归
-        if (node.pid !== '' && node.pid !== 0) {
+        if (node.pid !== '' && node.pid !== "0") {
             return;
         }
         // console.log("父菜单name=" + node.name + "")
@@ -230,7 +230,7 @@
             }
             // 父id, 如果自己存在选中,那就选中这个父id
             for (let i = 0; i < res.data.length; i++) {
-                if (res.data[i].pid === "") {
+                if (res.data[i].pid === "" || res.data[i].pid === "0") {
                     for (let j = 0; j < res.data.length; j++) {
                         if (res.data[j].pid === res.data[i].id && res.data[j].isChecked) {
                             res.data[i].isChecked = true;
@@ -274,7 +274,7 @@
      * @return
      */
     function xijiaEventUpdClick() {
-        if (roleId === -1) {
+        if (roleId === "-1") {
             layer.msg("没有选选择角色");
             return;
         }
@@ -293,7 +293,7 @@
             authIds: authIds
         };
         let result = Ajax.put(roleUpdRoleAuthUrl, data);
-        layer.msg(result.msg + " 当前角色拥有菜单：" + checkData.data.length + "个 ")
+        layer.msg(result.msg + " 当前角色拥有权限：" + checkData.data.length + "个 ")
     }
 
 </script>

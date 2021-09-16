@@ -37,12 +37,34 @@
     </sql>
 
 
-    <select id="findByUserIdaAndDisableFetchAuthority" resultType="com.ws.ldy.manage.admin.model.entity.AdminAuthority">
-        SELECT * FROM  t_admin_authority where id in(
-                  SELECT auth_id FROM t_admin_role_auth  where role_id in (
-                       SELECT role_id FROM t_admin_role_user ru,t_admin_role r where ru.role_id=r.id and ru.deleted=0  and r.deleted=0 and disable=#{disable} and user_id = #{userId}
-                  ) and deleted=0
-         ) and deleted=0  and disable=#{disable} and state=#{state}
+    <select id="findByUserIdAuthority" resultType="com.ws.ldy.manage.admin.model.entity.AdminAuthority">
+        SELECT
+        a.*
+        FROM t_admin_authority a
+        left join t_admin_role_auth ra on ra.auth_id = a.id
+        left join t_admin_role_user ru on ru.role_id = ra.role_id
+        left join t_admin_role r on r.id = ra.role_id
+        where a.deleted = 0
+        <if test="userId != null">
+           and ru.user_id = #{userId}
+        </if>
+        <if test=" pid != null and pid != ''">
+            and(
+            a.pid = #{pid} or a.id = #{pid}
+            )
+        </if>
+        <if test="disable != null">
+            and r.disable = #{disable}
+            and a.disable = #{disable}
+        </if>
+        <if test="state != null">
+            and a.state = #{state}
+        </if>
+        <if test="type != null">
+            and a.type = #{type}
+        </if>
+        group by a.id
+        order by a.method asc,a.url asc
     </select>
 </mapper>
 

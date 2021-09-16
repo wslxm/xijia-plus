@@ -4,13 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ws.ldy.common.cache.AuthCacheKeyUtil;
 import com.ws.ldy.common.cache.CacheKey;
+import com.ws.ldy.core.auth.util.JwtUtil;
 import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.core.cache.CacheUtil;
 import com.ws.ldy.core.constant.BaseConstant;
-import com.ws.ldy.core.enums.Admin;
 import com.ws.ldy.core.enums.Base;
 import com.ws.ldy.core.utils.BeanDtoVoUtil;
-import com.ws.ldy.core.utils.EnumUtil;
 import com.ws.ldy.core.utils.id.IdUtil;
 import com.ws.ldy.core.utils.other.ClassUtil;
 import com.ws.ldy.manage.admin.mapper.AdminAuthorityMapper;
@@ -48,6 +47,8 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     private AdminRoleAuthService adminRoleAuthService;
     @Autowired
     private AdminRoleService adminRoleService;
+    @Autowired
+    private AdminAuthorityMapper adminAuthorityMapper;
 
 
     /**
@@ -58,69 +59,47 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      */
     @Override
     public List<AdminAuthorityVO> list(AdminAuthorityQuery query) {
-        Integer type = query.getType();
-        String pid = query.getPid();
-        // refreshAuthCache
-        Map<String, AdminAuthority> authMap = CacheUtil.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
-        List<AdminAuthority> list = new ArrayList<>();
-        for (AdminAuthority item : authMap.values()) {
-            // 判断类型
-            if (type != null && !item.getType().equals(type)) {
-                continue;
+        // 1、查询指定用户 或 所有权限数据, 或指定pid 的数据
+        String loginUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
+        List<AdminAuthority> authoritys = adminAuthorityMapper.findByUserIdAuthority(loginUserId, query.getPid(), query.getType(), query.getState(), query.getDisable());
+        List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authoritys, AdminAuthorityVO.class);
+
+        // 2、根据角色控制数据是否有权限状态
+        if (StringUtils.isNotBlank(query.getRoleId())) {
+            List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>()
+                    .select(AdminRoleAuth::getRoleId, AdminRoleAuth::getAuthId, AdminRoleAuth::getId)
+                    .eq(AdminRoleAuth::getRoleId, query.getRoleId())
+            );
+            List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
+            // 赋值true/false
+            for (AdminAuthorityVO adminAuthorityVO : adminAuthorityVOList) {
+                adminAuthorityVO.setIsChecked(roleAuthIds.contains(adminAuthorityVO.getId()));
             }
-            // 判断pid
-            if (StringUtils.isNotBlank(pid)) {
-                if (pid.equals(item.getId()) || pid.equals(item.getPid())) {
-                    list.add(item);
+        }
+        // 3、resurt，返回list
+        if (!query.getIsTree()) {
+            //
+            return adminAuthorityVOList;
+        }
+        // 4、resurt，返回tree
+        List<AdminAuthorityVO> adminAuthorityVOTree = new ArrayList<>();
+        // 循环处理数据,获取第一级类数据
+        for (AdminAuthorityVO authVO : adminAuthorityVOList) {
+            if ("".equals(authVO.getPid()) || "0".equals(authVO.getPid())) {
+                // 循环处理数据,获取第二级方法数据
+                List<AdminAuthorityVO> nextAdminAuthorityVOTree = new ArrayList<>();
+                for (AdminAuthorityVO authTwoVO : adminAuthorityVOList) {
+                    if (authTwoVO.getPid().equals(authVO.getId())) {
+                        nextAdminAuthorityVOTree.add(authTwoVO);
+                    }
                 }
-            }
-            if (StringUtils.isBlank(pid)) {
-                list.add(item);
-            }
-        }
-        // 查询所有
-        // List<AdminAuthority> list = this.list(new LambdaQueryWrapper<AdminAuthority>()
-        //         .orderByDesc(AdminAuthority::getType)
-        //         .orderByDesc(AdminAuthority::getMethod)
-        // );
-        List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(list, AdminAuthorityVO.class);
-        // pid='' 的数据设置 pid 为枚举字典的code 值
-        adminAuthorityVOList.forEach(i -> {
-            if (StringUtils.isBlank(i.getPid())) {
-                i.setPid(EnumUtil.getByCode(i.getType(), Base.AuthorityType.class).getValue().toString());
-            }
-        });
-        // 生成Admin.AuthorityType 的权限数据放入列表, 有多少条枚举字段就添加几条数据进去, id=枚举的code, pid=''的也设置为了枚举code, 同等于设置了父子级关系
-        for (Base.AuthorityType authorityType : Base.AuthorityType.values()) {
-            // 只拼接指定id的数据
-            if (authorityType.getValue().equals(type)) {
-                AdminAuthorityVO adminAuthorityVO = new AdminAuthorityVO();
-                adminAuthorityVO.setId(authorityType.getValue().toString());
-                adminAuthorityVO.setDesc(authorityType.getDesc());
-                // 设置顶级 pid
-                adminAuthorityVO.setPid("-1");
-                adminAuthorityVO.setMethod("");
-                adminAuthorityVO.setType(null);
-                adminAuthorityVO.setState(null);
-                adminAuthorityVO.setDisable(null);
-                adminAuthorityVOList.add(adminAuthorityVO);
-            }
-            // 所有数据
-            if (type == null) {
-                AdminAuthorityVO adminAuthorityVO = new AdminAuthorityVO();
-                adminAuthorityVO.setId(authorityType.getValue().toString());
-                adminAuthorityVO.setDesc(authorityType.getDesc());
-                // 设置顶级 pid
-                adminAuthorityVO.setPid("-1");
-                adminAuthorityVO.setMethod("");
-                adminAuthorityVO.setType(null);
-                adminAuthorityVO.setState(null);
-                adminAuthorityVO.setDisable(null);
-                adminAuthorityVOList.add(adminAuthorityVO);
+                authVO.setAuthoritys(nextAdminAuthorityVOTree);
+                adminAuthorityVOTree.add(authVO);
             }
         }
-        return adminAuthorityVOList;
+        return adminAuthorityVOTree;
     }
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -135,96 +114,6 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     }
 
 
-
-
-    /**
-     * 获取接口列表，给指定角色的拥有的权限数据赋予选中状态
-     *
-     * @param roleId
-     * @return void
-     * @date 2019/11/25 0025 11:55
-     */
-    @Override
-    public List<AdminAuthorityVO> authList(String roleId) {
-        // 获取当前角色拥有的url权限列表
-        List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>()
-                .select(AdminRoleAuth::getRoleId, AdminRoleAuth::getAuthId, AdminRoleAuth::getId)
-                .eq(AdminRoleAuth::getRoleId, roleId)
-        );
-        List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
-        // 获取所有管理端的url,请求方式排序( PC_admin)
-        List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
-                .orderByAsc(AdminAuthority::getMethod)
-                .eq(AdminAuthority::getType, Base.AuthorityType.V0.getValue())
-        );
-        // 返回数据处理
-        if (authorityList == null || authorityList.isEmpty()) {
-            return new ArrayList<>();
-        } else {
-            List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authorityList, AdminAuthorityVO.class);
-            adminAuthorityVOList.forEach(authVO -> {
-                if (roleAuthIds.contains(authVO.getId())) {
-                    authVO.setIsChecked(true);
-                } else {
-                    authVO.setIsChecked(false);
-                }
-            });
-            return adminAuthorityVOList;
-        }
-    }
-
-
-    /**
-     * 获取权限列表，给指定角色的拥有的权限数据赋予选中状态(树结构)
-     * @param roleId
-     * @return
-     */
-    @Override
-    public List<AdminAuthorityVO> authTree(String roleId) {
-        // 获取当前角色拥有的url权限列表
-        List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>()
-                .select(AdminRoleAuth::getRoleId, AdminRoleAuth::getAuthId, AdminRoleAuth::getId)
-                .eq(AdminRoleAuth::getRoleId, roleId)
-        );
-        List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
-        // 获取所有管理端的url,请求方式排序( PC_admin)
-        List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
-                .orderByAsc(AdminAuthority::getMethod)
-                .eq(AdminAuthority::getType, Base.AuthorityType.V0.getValue())
-        );
-        List<AdminAuthorityVO> respAuthorityVOList = new ArrayList<>();
-        // 返回数据处理
-        if (authorityList == null || authorityList.isEmpty()) {
-            return respAuthorityVOList;
-        } else {
-            List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authorityList, AdminAuthorityVO.class);
-            adminAuthorityVOList.forEach(authVO -> {
-                if (roleAuthIds.contains(authVO.getId())) {
-                    authVO.setIsChecked(true);
-                } else {
-                    authVO.setIsChecked(false);
-                }
-                // 拼接下级tree数据
-                if ("".equals(authVO.getPid()) || "0".equals(authVO.getPid())) {
-                    adminAuthorityVOList.forEach(authTwoVO -> {
-                        if (authTwoVO.getPid().equals(authVO.getId())) {
-                            if (authVO.getAuthoritys() == null) {
-                                ArrayList<AdminAuthorityVO> authorityVOS = new ArrayList<>();
-                                authorityVOS.add(authTwoVO);
-                                authVO.setAuthoritys(authorityVOS);
-                            } else {
-                                authVO.getAuthoritys().add(authTwoVO);
-                            }
-                        }
-                    });
-                    respAuthorityVOList.add(authVO);
-                }
-            });
-            return respAuthorityVOList;
-        }
-    }
-
-
     /**
      * 获取用户的url权限列表，只返回未禁用的 需要登录+授权的url
      *
@@ -233,9 +122,13 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      * @date 2019/11/25 0025 11:55
      */
     @Override
-    public List<String> findByUserIdaAndDisableFetchAuthority(String userId) {
-        List<AdminAuthority> auth = baseMapper.findByUserIdaAndDisableFetchAuthority(
-                userId, Base.Disable.V0.getValue(), Base.AuthorityState.V2.getValue()
+    public List<String> findByUserIdAuthority(String userId) {
+        List<AdminAuthority> auth = baseMapper.findByUserIdAuthority(
+                userId,
+                null,
+                null,
+                Base.AuthorityState.V2.getValue(),
+                Base.Disable.V0.getValue()
         );
         if (auth == null) {
             return new ArrayList<>();
@@ -335,6 +228,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                     // 存在修改
                     AdminAuthority updAuthority = authorityMap.get(AuthCacheKeyUtil.getAuthKey("", url));
                     updAuthority.setUrl(url);
+                    updAuthority.setPid("0");
                     updAuthority.setDesc(classDesc);
                     updAuthority.setType(uriType);
                     updAuthority.setState(state);
@@ -347,7 +241,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                     // 不存在新添加
                     AdminAuthority addAuthority = new AdminAuthority();
                     addAuthority.setId(IdUtil.snowflakeId());
-                    addAuthority.setPid("");
+                    addAuthority.setPid("0");
                     addAuthority.setMethod("");
                     addAuthority.setUrl(url);
                     addAuthority.setDesc(classDesc);

@@ -33,34 +33,10 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
         return R.successFind(baseService.list(query));
     }
 
-
     @PutMapping(value = "/{id}")
     @ApiOperation(value = "ID编辑", notes = "必须传递ID")
     public R<Boolean> upd(@PathVariable String id, @RequestBody @Validated AdminAuthorityDTO dto) {
         return R.successUpdate(baseService.upd(id, dto));
-    }
-
-
-    @ApiOperation(value = "查询所有List结构/角色权限标记", notes = "" +
-            "1、没有传递角色Id,查询所有权限数据 isChecked=false \r\n" +
-            "2、跟据角色ID查询,角色当前拥有权限：isChecked=true 角色没有权限：isChecked=false \r\n" +
-            "3、只查询管理端 \r\n" +
-            "4、数据按请求方式排序")
-    @GetMapping(value = {"/authList"})
-    public R<List<AdminAuthorityVO>> authList(@RequestParam(required = false) String roleId) {
-        List<AdminAuthorityVO> roleAuthorityChecked = baseService.authList(roleId);
-        return R.success(roleAuthorityChecked);
-    }
-
-
-    @GetMapping(value = "/authTree")
-    @ApiOperation(value = "查询所有Tree结构/角色权限标记", notes = "" +
-            "1、没有传递角色Id,查询所有权限数据 isChecked=false \r\n" +
-            "2、跟据角色ID查询,角色当前拥有权限：isChecked=true 角色没有权限：isChecked=false \r\n" +
-            "3、只查询管理端 \r\n" +
-            "4、数据按请求方式排序")
-    public R<List<AdminAuthorityVO>> authTree(@RequestParam(required = false) String roleId) {
-        return R.successFind(baseService.authTree(roleId));
     }
 
 

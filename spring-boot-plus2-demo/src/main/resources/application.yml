@@ -4,7 +4,7 @@ spring:
     active: "@profiles.active@"
     ## 项目名
   application:
-    name: spring-boot-plus2
+    name: spring-boot-plus2-demo
   ## 当遇到同样bend名字的时候，是否允许覆盖注册
   main:
     allow-bean-definition-overriding: true

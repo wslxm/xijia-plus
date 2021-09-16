@@ -33,31 +33,13 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
     Boolean upd(String id, AdminAuthorityDTO dto);
 
     /**
-     * 获取用户的url权限列表，给指定角色的有的权限数据赋予选中状态(list数据)
-     *
-     * @param roleId 角色id
-     * @return void
-     * @date 2019/11/25 0025 11:55
-     */
-    List<AdminAuthorityVO> authList(String roleId);
-
-    /**
-     * 获取用户的url权限列表，给指定角色的有的权限数据赋予选中状态(tree数据)
-     *
-     * @param roleId 角色id
-     * @return void
-     * @date 2019/11/25 0025 11:55
-     */
-    List<AdminAuthorityVO> authTree(String roleId);
-
-    /**
      * 获取用户的url权限列表，只返回未禁用的 url
      *
      * @param  userId 用户id
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    List<String> findByUserIdaAndDisableFetchAuthority(String userId);
+    List<String> findByUserIdAuthority(String userId);
 
     /**
      * 扫描接口, 加入权限管理中（用于url授权, 在项目启动时调用进行自动执行, 初始化相关权限接口）

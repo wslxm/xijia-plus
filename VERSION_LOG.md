@@ -28,7 +28,8 @@
 - 24、优化菜单进行了重新分类
 - 25、ExcelUtil 工具类优化
 - 26、处理接口变更restful风后无法正常验签问题
-- 27、 help/sql/spring-boot-plus2-0.1.3.sql 已更新(2021/9/15)
+- 27、 优化权限查询接口
+- 28、 help/sql/spring-boot-plus2-0.1.3.sql 已更新(2021/9/15)
 
 
 ## 版本：v-0.1.2

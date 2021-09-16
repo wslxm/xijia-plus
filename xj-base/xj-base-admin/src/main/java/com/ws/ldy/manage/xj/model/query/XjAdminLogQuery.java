@@ -37,6 +37,5 @@ public class XjAdminLogQuery extends BaseQuery {
     @ApiModelProperty(value = "1-请求成功 0-请求失败" ,position = 17)
     private Integer state;
 
-
 }
 

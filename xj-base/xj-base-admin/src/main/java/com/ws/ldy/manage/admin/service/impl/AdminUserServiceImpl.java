@@ -205,7 +205,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         }
         // 登录成功
         // 4、获取权限列表,保存权限-未禁用,管理端(登录+认证的)
-        List<String> authList = adminAuthorityService.findByUserIdaAndDisableFetchAuthority(user.getId());
+        List<String> authList = adminAuthorityService.findByUserIdAuthority(user.getId());
         // 5、生成jwt
         JwtUser jwtUser = new JwtUser();
         jwtUser.setUserId(user.getId());
