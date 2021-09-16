@@ -6,7 +6,7 @@ QQ群：1037211892
 
 项目宗旨：只为急速开发而生, 主要针对于中小型的项目快速开发
 
-这是开发一个基于spring-boot2.2.2 + mybatis-plus3.3.1 + druid + mysql8 + layui2.5.6 + swagger2.9.2 的后台快速开发骨架，后台采用级简化代码，
+这是开发一个基于spring-boot2.2.2 + mybatis-plus3.3.1 + druid + mysql5.7+ + layui2.5.6 + swagger2.9.2 的后台快速开发骨架，后台采用级简化代码，
 所有基本操作无需写任何的dao，service层代码，包括(增删改查，及多添加/动态修改，多删除，分页/条件/排序查询,添加，修改，展示的html代码
 
 
@@ -20,9 +20,9 @@ QQ群：1037211892
  [http://xijia.plus/help](http://xijia.plus/help) 
 
 #### 最新说明
-- 当前主分支为v-0.1.2 的分支最后更新代码,可稳定运行(2021-8-18更新)
+- 当前主分支为v-0.1.3 的分支最后更新代码,可稳定运行(2021-8-18更新)
 - 项目于0.0.9+模块化，模块化目的:减轻项目大小,按需加载
-- 更新日志文档(2021-6-24更新): [https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md) 
+- 更新日志文档(2021-9-16更新): [https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/VERSION_LOG.md) 
 
 
 #### 各版本目录结构
@@ -31,7 +31,7 @@ QQ群：1037211892
 - 0.0.9-0.1.0 版本(2021-3-05更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.0.9- 0.1.0  版本目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/0.0.9-%200.1.0%20%20%E7%89%88%E6%9C%AC%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.md) 
 - 0.1.1 版本(2021-6-24更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.1版本目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.1版本目录结构.md) 
 - 0.1.2 版本(2021-8-18更新)：[https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.2版本目录结构.md](https://gitee.com/wslxm/spring-boot-plus2/blob/master/目录结构/0.1.2版本目录结构.md) 
-
+- 0.1.3 (参考 0.1.2 即可,无变化)
 
 #### 更多
 
@@ -90,9 +90,11 @@ QQ群：1037211892
 
 - 1、拉取代码
 - 2、创建数据库[spring-boot-plus2]
-- 3、导入跟目录下的 sql 目录下对应的最新版本 sql, 注意主分支对应的版本，历史sql版本在old下，非sql/old下的sql,如 sql/file 如当前版本有使用到也一起导入到数据库
-- 4、启动demo项目
+- 3、导入跟目录下的 help/sql 目录下对应的最新版本 sql, 注意主分支对应的版本
+- 4、启动demo项目(spring-boot-plus2-demo/ --> SpringBootPlus2DemoServer 或  xj-base/xj-base-admin/ -->  XjBaseAdminServer)
 
 程序找不到包处理方法：https://blog.csdn.net/weixin_43173021/article/details/108280524
 
-注：最新分支的代码与当前项目测试库的是外网连接，拉取最新分支的最新代码在本地可直接使用当前项目的测试服数据库来启动，切勿修改测试库数据，否则到时测试地址无法使用，谢谢
+注：
+- 最新分支的代码与当前项目测试库的是外网连接，拉取最新分支的最新代码在本地可直接使用当前项目的测试服数据库来启动
+- 切勿修改测试库数据，否则到时测试地址无法使用，谢谢
