@@ -10,8 +10,10 @@
     </parent>
 
     <modules>
-        <module>xj-base</module>       <!-- 核心模块 -->
-        <module>xj-starter</module>    <!-- 功能集成 -->
+        <module>spring-boot-plus2-demo</module>
+        <module>xj-base</module>      <!-- 核心模块 -->
+        <module>xj-starter</module>   <!-- 功能集成 -->
+        <module>xj-web</module>       <!-- vue前端 -->
     </modules>
 
     <groupId>com.ws.ldy</groupId>

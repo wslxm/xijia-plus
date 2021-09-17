@@ -1,7 +1,12 @@
 
 ## 版本：v-0.1.3
+----------------------- 2021-10-??
+1、添加前端 avue脚手架
 
------------------------ 2021-8-18
+
+## 版本：v-0.1.3
+
+----------------------- 2021-9-16
 - 1、优化 EnumUtil工具类 及 返回对象 R 参数
 - 2、修改接口统一为 restful 风格, 现支持定义 RequestMapping 以及Get/Post/Put/Delete 的 Mapping 注解
 - 3、移除RequestMapping 对应, 所有接口变更为 Get/Post/Put/Delete 的 Mapping  定义
@@ -29,7 +34,7 @@
 - 25、ExcelUtil 工具类优化
 - 26、处理接口变更restful风后无法正常验签问题
 - 27、优化权限查询接口
-- 28、help/sql/spring-boot-plus2-0.1.3.sql 已更新(2021/9/15)
+- 28、help/sql/spring-boot-plus2-0.1.3.sql 已更新(2021/9/16)
 
 
 ## 版本：v-0.1.2
