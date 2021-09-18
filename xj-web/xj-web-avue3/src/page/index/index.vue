@@ -101,7 +101,7 @@ export default {
         if (data.length !== 0) {
           this.$router.$avueRouter.formatRoutes(data, true);
         }
-        //当点击顶部菜单做的事件
+        // 当点击顶部菜单做的事件
         if (!validatenull(item)) {
           let itemActive = {},
             childItemActive = 0;

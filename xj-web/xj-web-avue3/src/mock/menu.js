@@ -1,7 +1,10 @@
 import Mock from 'mockjs'
+
 function randomColor () {
   return '#' + Math.random().toString(16).substr(2, 6).toUpperCase();
 }
+
+// 顶部菜单数据
 const top = [{
   label: "首页",
   path: "/wel/index",
@@ -30,6 +33,8 @@ const top = [{
   },
   parentId: 2
 }]
+
+// 左菜单数据
 const first = [{
   label: "缓冲",
   path: '/cache',
@@ -234,6 +239,7 @@ const first = [{
   },
   children: []
 }]
+
 const second = [{
   label: "测试页面",
   path: '/test',
@@ -244,6 +250,7 @@ const second = [{
   },
   children: []
 }]
+
 export default ({ mock }) => {
   if (!mock) return;
   let menu = [first, second];
@@ -258,5 +265,4 @@ export default ({ mock }) => {
       data: top
     }
   })
-
 }

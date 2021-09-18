@@ -1,12 +1,20 @@
 import request from '@/router/axios';
 import { baseUrl } from '@/config/env';
+
+/**
+  * 账号密码登录
+  * @author wangsong
+  * @mail  1720696548@qq.com
+  * @date  2021/9/17 0017 22:50 
+  * @version 1.0.0      
+  */
 export const loginByUsername = (username, password, code, redomStr) => request({
-    url: baseUrl + '/user/login',
+    url: baseUrl + '/api/admin/user/login',
     method: 'post',
     meta: {
         isToken: false
     },
-    data: {
+    params: {
         username,
         password,
         code,
@@ -14,28 +22,30 @@ export const loginByUsername = (username, password, code, redomStr) => request({
     }
 })
 
+/**
+  * 获取登录人的用户信息
+  * @author wangsong
+  * @mail  1720696548@qq.com
+  * @date  2021/9/17 0017 22:51 
+  * @version 1.0.0      
+  */
 export const getUserInfo = () => request({
-    url: baseUrl + '/user/getUserInfo',
+    url: baseUrl + '/api/admin/user/findUser',
     method: 'get'
 });
 
+/**
+  * 刷新token
+  * @author wangsong
+  * @mail  1720696548@qq.com
+  * @date  2021/9/17 0017 22:51 
+  * @version 1.0.0      
+  */
 export const refeshToken = () => request({
     url: baseUrl + '/user/refesh',
     method: 'post'
 })
 
-export const getMenu = (type = 0) => request({
-    url: baseUrl + '/user/getMenu',
-    method: 'get',
-    data: {
-        type
-    }
-});
-
-export const getTopMenu = () => request({
-    url: baseUrl + '/user/getTopMenu',
-    method: 'get'
-});
 
 export const sendLogs = (list) => request({
     url: baseUrl + '/user/logout',
@@ -43,6 +53,13 @@ export const sendLogs = (list) => request({
     data: list
 })
 
+/**
+  * 退出登录
+  * @author wangsong
+  * @mail  1720696548@qq.com
+  * @date  2021/9/17 0017 22:56
+  * @version 1.0.0      
+  */
 export const logout = () => request({
     url: baseUrl + '/user/logout',
     meta: {
