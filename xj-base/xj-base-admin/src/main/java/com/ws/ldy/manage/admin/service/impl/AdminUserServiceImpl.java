@@ -13,7 +13,6 @@ import com.ws.ldy.core.enums.Base;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
 import com.ws.ldy.core.utils.BeanDtoVoUtil;
-import com.ws.ldy.core.utils.validated.RegUtil;
 import com.ws.ldy.manage.admin.mapper.AdminUserMapper;
 import com.ws.ldy.manage.admin.model.dto.AdminUserDTO;
 import com.ws.ldy.manage.admin.model.entity.AdminRoleUser;
@@ -29,8 +28,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -66,7 +63,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     @Override
     @Transactional
-    public String insert( AdminUserDTO dto) {
+    public String insert(AdminUserDTO dto) {
         // 判重账号
         if (this.count(new LambdaUpdateWrapper<AdminUser>()
                 .eq(AdminUser::getUsername, dto.getUsername())
@@ -186,11 +183,12 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
 
     @Override
-    public Boolean login(@RequestParam String username, @RequestParam String password) {
+    public Boolean login(String username, String password, Integer terminal) {
         // 1、判断账号
         AdminUser user = this.getOne(new LambdaQueryWrapper<AdminUser>()
                 .and(i -> i.eq(AdminUser::getUsername, username)
                         .or().eq(AdminUser::getPhone, username))
+                .eq(terminal != null, AdminUser::getTerminal, terminal)
         );
         if (user == null) {
             throw new ErrorException(RType.LOGIN_IS_NO_ACCOUNT);

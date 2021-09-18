@@ -7,6 +7,7 @@ import com.ws.ldy.manage.admin.model.dto.AdminUserDTO;
 import com.ws.ldy.manage.admin.model.entity.AdminUser;
 import com.ws.ldy.manage.admin.model.query.AdminUserQuery;
 import com.ws.ldy.manage.admin.model.vo.AdminUserVO;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -55,7 +56,7 @@ public interface AdminUserService extends IService<AdminUser> {
      * @param username 手机号或者账号
      * @param password 密码
      */
-    Boolean login(String username, String password);
+    Boolean login(String username, String password, Integer terminal);
 
     /**
      * 重置用户密码
