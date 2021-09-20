@@ -101,7 +101,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
             @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query"),
             @ApiImplicitParam(name = "terminal", value = "终端", required = false, paramType = "query"),
     })
-    public R<Boolean> login(@RequestParam String username, @RequestParam String password, @RequestParam Integer terminal) {
+    public R<Boolean> login(@RequestParam String username, @RequestParam String password, Integer terminal) {
         return R.success(baseService.login(username, password, terminal));
     }
 
