@@ -7,24 +7,26 @@
            label-width="0">
     <el-form-item prop="phone">
       <el-input size="small"
-                @keyup.enter.native="handleLogin"
+                @keyup.enter="handleLogin"
                 v-model="loginForm.phone"
                 auto-complete="off"
                 :placeholder="$t('login.phone')">
-        <i slot="prefix"
-           class="icon-shouji"></i>
+        <template #prefix>
+          <i class="icon-shouji"></i>
+        </template>
       </el-input>
     </el-form-item>
     <el-form-item prop="code">
       <el-input size="small"
-                @keyup.enter.native="handleLogin"
+                @keyup.enter="handleLogin"
                 v-model="loginForm.code"
                 auto-complete="off"
                 :placeholder="$t('login.code')">
-        <i slot="prefix"
-           class="icon-yanzhengma"
-           style="margin-top:6px;"></i>
-        <template slot="append">
+        <template #prefix>
+          <i class="icon-yanzhengma"></i>
+        </template>
+
+        <template #append>
           <span @click="handleSend"
                 class="msg-text"
                 :class="[{display:msgKey}]">{{msgText}}</span>
@@ -34,18 +36,18 @@
     <el-form-item>
       <el-button size="small"
                  type="primary"
-                 @click.native.prevent="handleLogin"
+                 @click.prevent="handleLogin"
                  class="login-submit">{{$t('login.submit')}}</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
-import { isvalidatemobile } from "@/util/validate";
+import { isvalidatemobile } from "utils/validate";
 import { mapGetters } from "vuex";
 export default {
   name: "codelogin",
-  data() {
+  data () {
     const validatePhone = (rule, value, callback) => {
       if (isvalidatemobile(value)[0]) {
         callback(new Error(isvalidatemobile(value)[1]));
@@ -74,14 +76,14 @@ export default {
       }
     };
   },
-  created() {
+  created () {
     this.msgText = this.config.MSGINIT;
     this.msgTime = this.config.MSGTIME;
   },
-  mounted() {},
+  mounted () { },
   computed: {
     ...mapGetters(["tagWel"]),
-    config() {
+    config () {
       return {
         MSGINIT: this.$t("login.msgText"),
         MSGSCUCCESS: this.$t("login.msgSuccess"),
@@ -91,7 +93,7 @@ export default {
   },
   props: [],
   methods: {
-    handleSend() {
+    handleSend () {
       if (this.msgKey) return;
       this.msgText = this.msgTime + this.config.MSGSCUCCESS;
       this.msgKey = true;
@@ -106,7 +108,7 @@ export default {
         }
       }, 1000);
     },
-    handleLogin() {
+    handleLogin () {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.$store.dispatch("LoginByPhone", this.loginForm).then(() => {

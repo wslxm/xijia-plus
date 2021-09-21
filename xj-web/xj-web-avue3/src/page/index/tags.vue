@@ -15,7 +15,7 @@
          :class="{'avue-tags__box--close':!website.isFirstPage}">
       <el-tabs v-model="active"
                type="card"
-               @contextmenu.native="handleContextmenu"
+               @contextmenu="handleContextmenu"
                :closable="tagLen!==1"
                @tab-click="openTag"
                @edit="menuTag">
@@ -23,13 +23,16 @@
                      v-for="item in tagList"
                      :label="generateTitle(item)"
                      :name="item.value">
-          <span slot="label">
-            {{generateTitle(item)}}
-            <i class="el-icon-refresh"
-               :class="{'turn':refresh}"
-               @click="handleRefresh"
-               v-if="active==item.value"></i>
-          </span>
+          <template #label>
+            <span>
+              {{generateTitle(item)}}
+              <i class="el-icon-refresh"
+                 :class="{'turn':refresh}"
+                 @click="handleRefresh"
+                 v-if="active==item.value"></i>
+            </span>
+          </template>
+
         </el-tab-pane>
 
       </el-tabs>
@@ -39,11 +42,13 @@
           {{$t('tagsView.menu')}}
           <i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="$parent.isSearch=true">{{$t('tagsView.search')}}</el-dropdown-item>
-          <el-dropdown-item @click.native="closeOthersTags">{{$t('tagsView.closeOthers')}}</el-dropdown-item>
-          <el-dropdown-item @click.native="closeAllTags">{{$t('tagsView.closeAll')}}</el-dropdown-item>
-        </el-dropdown-menu>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="openSearch">{{$t('tagsView.search')}}</el-dropdown-item>
+            <el-dropdown-item @click="closeOthersTags">{{$t('tagsView.closeOthers')}}</el-dropdown-item>
+            <el-dropdown-item @click="closeAllTags">{{$t('tagsView.closeAll')}}</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
       </el-dropdown>
     </div>
 
@@ -62,13 +67,12 @@ export default {
       contextmenuFlag: false
     };
   },
-  created () { },
-  mounted () {
-    this.setActive();
-  },
   watch: {
-    tag () {
-      this.setActive();
+    tag: {
+      handler (val) {
+        this.active = val.value;
+      },
+      immediate: true,
     },
     contextmenuFlag () {
       window.addEventListener("mousedown", this.watchContextmenu);
@@ -81,6 +85,9 @@ export default {
     }
   },
   methods: {
+    openSearch () {
+      this.$store.commit('SET_IS_SEARCH', true)
+    },
     handleRefresh () {
       this.refresh = true;
       this.$store.commit('SET_IS_REFRESH', false);
@@ -89,7 +96,7 @@ export default {
       }, 100)
       setTimeout(() => {
         this.refresh = false;
-      }, 1000)
+      }, 500)
     },
     generateTitle (item) {
       return this.$router.$avueRouter.generateTitle(item.label, item.meta.i18n);
@@ -102,7 +109,6 @@ export default {
     },
     handleContextmenu (event) {
       let target = event.target;
-      // 解决 https://github.com/d2-projects/d2-admin/issues/54
       let flag = false;
       if (target.className.indexOf("el-tabs__item") > -1) flag = true;
       else if (target.parentNode.className.indexOf("el-tabs__item") > -1) {
@@ -117,10 +123,6 @@ export default {
         this.tagName = target.getAttribute("aria-controls").slice(5);
         this.contextmenuFlag = true;
       }
-    },
-    //激活当前选项
-    setActive () {
-      this.active = this.tag.value;
     },
     menuTag (value, action) {
       if (action === "remove") {

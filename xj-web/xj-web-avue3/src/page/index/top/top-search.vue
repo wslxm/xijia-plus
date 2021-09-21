@@ -6,7 +6,7 @@
                    :placeholder="$t('search')"
                    @select="handleSelect">
 
-    <template slot-scope="{ item }">
+    <template #="{ item }">
       <i :class="[item[iconKey],'icon']"></i>
       <div class="name">{{ item[labelKey] }}</div>
       <div class="addr">{{ item[pathKey] }}</div>
@@ -34,16 +34,18 @@ export default {
   },
   computed: {
     labelKey () {
-      return this.website.menu.label;
+      return this.website.menu.label
     },
     pathKey () {
-      return this.website.menu.path;
+      return this.website.menu.path
     },
     iconKey () {
-      return this.website.menu.icon;
+      return this.website.menu.icon
     },
     childrenKey () {
-      return this.website.menu.children
+      return (
+        this.website.menu.children
+      );
     },
     ...mapGetters(["menu"])
   },
@@ -92,8 +94,8 @@ export default {
 <style lang="scss">
 .my-autocomplete {
   li {
-    line-height: normal;
-    padding: 7px;
+    line-height: normal !important;
+    padding: 7px !important;
     .icon {
       margin-right: 5px;
       display: inline-block;

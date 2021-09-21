@@ -6,7 +6,6 @@ export default {
   logo: "A",
   key: 'avue',//配置主键,目前用于存储
   indexTitle: '后台快速开发模版',
-  lockPage: '/lock',
   tokenTime: 6000,//token过期时间
   Authorization: 'TOKEN',
   //http的status默认放行不才用统一处理的,
@@ -20,11 +19,9 @@ export default {
     collapse: true,
     search: true,
     lock: true,
-    screenshot: true,
     fullscren: true,
     theme: true,
-    menu: true,
-    color: true,
+    menu: true
   },
   fistPage: {
     label: "首页",

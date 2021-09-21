@@ -1,4 +1,4 @@
-import Layout from '@/page/index/'
+import Layout from '@/page/index/index.vue'
 import Store from '@/store/'
 export default [{
   path: '/wel',
@@ -11,7 +11,7 @@ export default [{
       i18n: 'dashboard'
     },
     component: () =>
-      import( /* webpackChunkName: "views" */ '@/views/wel/index')
+      import( /* webpackChunkName: "views" */ '@/views/wel/index.vue')
   }, {
     path: 'more',
     name: '控制台',
@@ -21,18 +21,6 @@ export default [{
     },
     component: () =>
       import( /* webpackChunkName: "views" */ '@/views/wel/dashboard.vue')
-  }]
-}, {
-  path: '/form-detail',
-  component: Layout,
-  children: [{
-    path: 'index',
-    name: '详情页',
-    meta: {
-      i18n: 'detail'
-    },
-    component: () =>
-      import( /* webpackChunkName: "views" */ '@/views/util/form-detail')
   }]
 }, {
   path: '/info',
@@ -45,7 +33,7 @@ export default [{
       i18n: 'info'
     },
     component: () =>
-      import( /* webpackChunkName: "views" */ '@/views/user/info')
+      import( /* webpackChunkName: "views" */ '@/views/user/info.vue')
   }, {
     path: 'setting',
     name: '个人设置',
@@ -53,32 +41,18 @@ export default [{
       i18n: 'setting'
     },
     component: () =>
-      import( /* webpackChunkName: "views" */ '@/views/user/setting')
+      import( /* webpackChunkName: "views" */ '@/views/user/setting.vue')
   }]
 }, {
   path: '/query',
-  name: '参数',
   component: Layout,
-  meta: {
-    i18n: 'params'
-  },
   children: [{
     path: ':params',
-    component: () =>
-      import( /* webpackChunkName: "views" */ '@/views/util/params')
-  }]
-}, {
-  path: '/test',
-  redirect: '/test/index',
-  component: Layout,
-  children: [{
-    name: '测试页面',
+    name: '参数传递',
     meta: {
-      i18n: 'test'
+      i18n: 'params'
     },
-    path: 'index',
     component: () =>
-      import( /* webpackChunkName: "views" */ '@/views/util/test')
+      import( /* webpackChunkName: "views" */ '@/views/util/params.vue')
   }]
-
 }]

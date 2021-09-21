@@ -1,15 +1,11 @@
 <template>
-  <div class="setting">
-    <el-button class="setting"
-               type="primary"
-               :class="{'setting--show':show}"
-               @click="show=!show"
-               :icon="show?'el-icon-close':'el-icon-s-tools'"></el-button>
-    <el-drawer append-to-body
-               class="setting-panel"
-               :with-header="false"
-               :visible.sync="show"
-               size="320px">
+  <i class="setting-icon el-icon-s-tools"
+     @click="show=true"></i>
+  <el-drawer append-to-body
+             :with-header="false"
+             v-model="show"
+             size="30%">
+    <div class="setting">
       <h5>导航模式</h5>
       <div class="setting-checkbox">
         <el-tooltip class="item"
@@ -57,8 +53,8 @@
           </el-switch>
         </div>
       </div>
-    </el-drawer>
-  </div>
+    </div>
+  </el-drawer>
 </template>
 
 <script>
@@ -83,16 +79,10 @@ export default {
         label: '主题选择',
         value: 'theme'
       }, {
-        label: '主题颜色',
-        value: 'color'
-      }, {
         label: '顶部菜单',
         value: 'menu'
       }],
       list2: [{
-        label: '意见反馈',
-        value: 'screenshot'
-      }, {
         label: '日志调试',
         value: 'debug'
       }, {
@@ -110,18 +100,10 @@ export default {
 
 <style lang="scss" >
 .setting {
-  position: fixed;
-  top: 50%;
-  right: -2px;
-  z-index: 2048;
-  transition: right 0.3s;
-  &--show {
-    right: 320px;
-  }
-  &-panel {
-    .el-drawer__body {
-      padding: 0 20px;
-    }
+  padding: 20px 10px;
+  &-icon {
+    font-size: 18px;
+    color: #666;
   }
   &-item {
     display: flex;
@@ -130,7 +112,6 @@ export default {
     margin-bottom: 8px;
   }
   &-checkbox {
-    margin: 0 auto 20px 0;
     &--check {
       position: absolute;
       color: #409eff;

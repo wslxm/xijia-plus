@@ -1,68 +1,63 @@
 <template>
-  <div>
-    <div class="mac_bg"></div>
-    <div class="desktop">
-      <div class="top">
-        <el-dropdown trigger="click">
-          <div class="logo"><i class="iconfont icon-pingguo"></i></div>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>
-                <div>{{userInfo.username}}</div>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <top-lock text="锁定屏幕"></top-lock>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <div @click="switchTheme">退出主题</div>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <span @click="logout">{{$t('navbar.logOut')}}</span>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-        <div class="space"></div>
-        <div class="status">
-          <div class="audio"><i class="iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu-39"></i></div>
-          <div class="datetime">{{timeString}}</div>
-          <div class="notification"><i class="iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu-25"></i></div>
-        </div>
-      </div>
-      <div class="body">
-        <div class="desktop-app">
-          <template v-for="item in deskTopAppList">
-            <div class="app-item"
-                 :key="item.key"
-                 @click="openApp(item)"
-                 v-if="!item.hideInDesktop">
-              <div class="icon"
-                   :style="{backgroundColor:item.iconBgColor,color:item.iconColor}"><i class="iconfont"
-                   :class="item.icon"></i></div>
-              <div class="title">{{item.label}}</div>
-            </div>
-          </template>
-        </div>
-      </div>
-      <div class="footer">
-        <div class="space"></div>
-        <div class="dock">
-          <template v-for="item in openAppList">
-            <div class="item"
-                 :key="item.key"
-                 @click="openApp(item)">
-              <i :style="{backgroundColor:item.iconBgColor,color:item.iconColor}"
-                 class="iconfont"
-                 :class="item.icon"></i>
-              <small style="margin-top:5px;font-size:10px">{{item.label}}</small>
-            </div>
-          </template>
-        </div>
-        <div class="space"></div>
+  <div class="mac_bg"></div>
+  <div class="desktop">
+    <div class="top">
+      <el-dropdown trigger="click">
+        <div class="logo"><i class="iconfont icon-pingguo"></i></div>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <div>{{userInfo.username}}</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <top-lock text="锁定屏幕"></top-lock>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div @click="switchTheme">退出主题</div>
+            </el-dropdown-item>
+            <el-dropdown-item @click="logout">{{$t('navbar.logOut')}}</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      <div class="space"></div>
+      <div class="status">
+        <div class="audio"><i class="iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu-39"></i></div>
+        <div class="datetime">{{timeString}}</div>
+        <div class="notification"><i class="iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu-25"></i></div>
       </div>
     </div>
+    <div class="body">
+      <div class="desktop-app">
+        <template v-for="item in deskTopAppList"
+                  :key="item.key">
+          <div class="app-item"
+               @click="openApp(item)"
+               v-if="!item.hideInDesktop">
+            <div class="icon"
+                 :style="{backgroundColor:item.iconBgColor,color:item.iconColor}"><i class="iconfont"
+                 :class="item.icon"></i></div>
+            <div class="title">{{item.label}}</div>
+          </div>
+        </template>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="space"></div>
+      <div class="dock">
+        <template v-for="item in openAppList"
+                  :key="item.key">
+          <div class="item"
+               @click="openApp(item)">
+            <i :style="{backgroundColor:item.iconBgColor,color:item.iconColor}"
+               class="iconfont"
+               :class="item.icon"></i>
+            <small style="margin-top:5px;font-size:10px">{{item.label}}</small>
+          </div>
+        </template>
+      </div>
+      <div class="space"></div>
+    </div>
   </div>
-
 </template>
 <script>
 import { mapGetters } from "vuex";

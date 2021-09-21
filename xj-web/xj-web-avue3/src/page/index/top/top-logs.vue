@@ -5,7 +5,7 @@
       <i class="icon-rizhi1"></i>
     </el-badge>
     <el-dialog title="日志"
-               :visible.sync="box"
+               v-model="box"
                width="60%"
                append-to-body>
       <el-button type="primary"

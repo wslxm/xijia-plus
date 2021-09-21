@@ -1,6 +1,6 @@
 
-import { validatenull } from "@/util/validate";
-import { getStore } from "@/util/store.js";
+import { validatenull } from "@/utils/validate";
+import { getStore } from "@/utils/store.js";
 export default {
   data () {
     return {

@@ -3,11 +3,11 @@
     <el-menu :default-active="activeIndex"
              mode="horizontal"
              text-color="#333">
-      <template v-for="(item,index) in items">
+      <template v-for="(item,index) in items"
+                :key="index">
         <el-menu-item :index="item.parentId+''"
-                      @click.native="openMenu(item)"
-                      :key="index">
-          <template slot="title">
+                      @click="openMenu(item)">
+          <template #title>
             <i :class="item.icon"></i>
             <span>{{generateTitle(item)}}</span>
           </template>

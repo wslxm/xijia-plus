@@ -1,51 +1,37 @@
-import Vue from 'vue';
-import axios from './router/axios';
-import VueAxios from 'vue-axios';
-import App from './App';
-import router from './router/router';
-import './permission'; // 权限
-import './error'; // 日志
-import './cache';//页面缓冲
+import { createApp } from 'vue'
+import website from './config/website'
+import axios from './axios';
+import router from './router/';
 import store from './store';
-import { loadStyle } from './util/util'
-import * as urls from '@/config/env';
-import Element from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-import AVUE from '@smallwei/avue'
-import '@smallwei/avue/lib/index.css'
-import { iconfontUrl, iconfontVersion } from '@/config/env';
-import i18n from './lang' // Internationalization
-import './styles/common.scss';
-import basicBlock from './components/basic-block/main'
-import basicContainer from './components/basic-container/main'
-import crudCommon from '@/mixins/crud.js'
+import i18n from './lang/';
+import ElementPlus from 'element-plus';
+import 'element-plus/lib/theme-chalk/index.css';
+import { validatenull } from './utils/validate'
+import { getScreen } from './utils/util'
+import './permission';
+import error from './error';
+import basicBlock from 'components/basic-block/main.vue'
+import basicContainer from 'components/basic-container/main.vue'
+import App from './App.vue'
+import animate from 'animate.css'
 import dayjs from 'dayjs'
-import website from '@/config/website'
-window.$crudCommon = crudCommon
-Vue.prototype.$dayjs = dayjs
-Vue.prototype.website = website;
-Vue.config.productionTip = false;
-Vue.use(VueAxios, axios)
-Vue.use(Element, {
-  i18n: (key, value) => i18n.t(key, value)
-})
-Vue.use(AVUE, {
-  i18n: (key, value) => i18n.t(key, value)
-})
+import 'styles/common.scss';
+
+const app = createApp(App)
 //注册全局容器
-Vue.component('basicContainer', basicContainer)
-Vue.component('basicBlock', basicBlock)
-// 加载相关url地址
-Object.keys(urls).forEach(key => {
-  Vue.prototype[key] = urls[key];
+app.component('basicContainer', basicContainer)
+app.component('basicBlock', basicBlock)
+app.config.globalProperties.$axios = axios
+app.config.globalProperties.$dayjs = dayjs
+app.config.globalProperties.website = website
+app.config.globalProperties.validatenull = validatenull;
+app.config.globalProperties.getScreen = getScreen
+app.use(error);
+app.use(i18n)
+app.use(animate)
+app.use(store)
+app.use(router)
+app.use(ElementPlus, {
+  i18n: i18n.global.t,
 })
-// 动态加载阿里云字体库
-iconfontVersion.forEach(ele => {
-  loadStyle(iconfontUrl.replace('$key', ele));
-})
-new Vue({
-  router,
-  store,
-  i18n,
-  render: h => h(App)
-}).$mount('#app')
+app.mount('#app')

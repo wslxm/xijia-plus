@@ -1,8 +1,6 @@
 <template>
   <div class="avue-contail"
        :class="{'avue--collapse':isCollapse,}">
-    <screenshot v-if="setting.screenshot"></screenshot>
-    <setting></setting>
     <div class="avue-layout"
          :class="{'avue-layout--horizontal':isHorizontal}">
       <div class="avue-sidebar"
@@ -21,15 +19,14 @@
                   v-show="isSearch"></search>
         </transition>
         <!-- 主体视图层 -->
-        <div style="flex:auto;overflow-y:auto;overflow-x:hidden;"
-             id="avue-view"
-             v-show="!isSearch">
-          <keep-alive>
-            <router-view class="avue-view"
-                         v-if="$route.meta.keepAlive && isRefresh" />
-          </keep-alive>
-          <router-view class="avue-view"
-                       v-if="!$route.meta.keepAlive && isRefresh" />
+        <div id="avue-view"
+             v-show="!isSearch"
+             v-if="isRefresh">
+          <router-view #="{ Component }">
+            <keep-alive :include="$store.getters.tagsKeep">
+              <component :is="Component" />
+            </keep-alive>
+          </router-view>
         </div>
         <div class="avue-footer">
           <p class="copyright">© 2018-2021 Avue designed by smallwei</p>
@@ -41,67 +38,44 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import tags from "./tags";
-import screenshot from './screenshot';
-import setting from './setting';
-import search from "./search";
-import logo from "./logo";
-import top from "./top/";
-import sidebar from "./sidebar/";
-import admin from "@/util/admin";
-import { validatenull } from "@/util/validate";
 import index from '@/mixins/index'
+import { validatenull } from 'utils/validate'
+import { mapGetters } from "vuex";
+import tags from "./tags.vue";
+import search from "./search.vue";
+import logo from "./logo.vue";
+import top from "./top/index.vue";
+import sidebar from "./sidebar/index.vue";
 export default {
+  mixins: [index],
   components: {
     top,
     logo,
     tags,
     search,
-    sidebar,
-    setting,
-    screenshot
+    sidebar
   },
   name: "index",
-  mixins: [index],
   provide () {
     return {
       index: this
     };
   },
-  data () {
-    return {
-      //搜索控制
-      isSearch: false
-    };
-  },
-  mounted () {
-    this.init();
-  },
   computed: {
-    ...mapGetters(["isHorizontal", "setting", "isRefresh", "isCollapse", "menu"]),
+    ...mapGetters(["isHorizontal", "isRefresh", "isLock", "isCollapse", "isSearch", "menu"]),
     validSidebar () {
       return !((this.$route.meta || {}).menu == false || (this.$route.query || {}).menu == 'false')
     }
   },
   props: [],
   methods: {
-    // 屏幕检测
-    init () {
-      this.$store.commit("SET_SCREEN", admin.getScreen());
-      window.onresize = () => {
-        setTimeout(() => {
-          this.$store.commit("SET_SCREEN", admin.getScreen());
-        }, 0);
-      };
-    },
     //打开菜单
     openMenu (item = {}) {
       this.$store.dispatch("GetMenu", item.parentId).then(data => {
         if (data.length !== 0) {
           this.$router.$avueRouter.formatRoutes(data, true);
         }
-        // 当点击顶部菜单做的事件
+        //当点击顶部菜单做的事件
         if (!validatenull(item)) {
           let itemActive = {},
             childItemActive = 0;

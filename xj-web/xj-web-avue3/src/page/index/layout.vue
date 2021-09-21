@@ -1,10 +1,7 @@
 <template>
-  <div>
-    <keep-alive>
-      <router-view class="avue-view"
-                   v-if="$route.meta.keepAlive" />
+  <router-view #="{ Component }">
+    <keep-alive :include="$store.getters.tagsKeep">
+      <component :is="Component" />
     </keep-alive>
-    <router-view class="avue-view"
-                 v-if="!$route.meta.keepAlive" />
-  </div>
+  </router-view>
 </template>

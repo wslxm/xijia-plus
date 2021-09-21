@@ -1,46 +1,47 @@
 <template>
-  <div class="menu-wrapper">
-    <template v-for="item in menu">
-      <el-menu-item v-if="validatenull(item[childrenKey]) && validRoles(item)"
-                    :index="getPath(item)"
-                    @click="open(item)"
-                    :key="item[labelKey]">
-        <i :class="item[iconKey]"></i>
-        <span slot="title"
-              :alt="item[pathKey]">{{getTitle(item)}}</span>
-      </el-menu-item>
-      <el-submenu v-else-if="!validatenull(item[childrenKey])&&validRoles(item)"
+  <template v-for="item in menu">
+    <el-menu-item v-if="validatenull(item[childrenKey]) && validRoles(item)"
                   :index="getPath(item)"
+                  @click="open(item)"
                   :key="item[labelKey]">
-        <template slot="title">
-          <i :class="item[iconKey]"></i>
-          <span slot="title"
-                :class="{'el-menu--display':keyCollapse}">{{getTitle(item)}}</span>
-        </template>
-        <template v-for="(child,cindex) in item[childrenKey]">
-          <el-menu-item :index="getPath(child)"
-                        @click="open(child)"
-                        v-if="validatenull(child[childrenKey])"
-                        :key="child[labelKey]">
-            <i :class="child[iconKey]"></i>
-            <span slot="title">{{getTitle(child)}}</span>
-          </el-menu-item>
-          <sidebar-item v-else
-                        :menu="[child]"
-                        :key="cindex"></sidebar-item>
-        </template>
-      </el-submenu>
-    </template>
-  </div>
+      <i :class="item[iconKey]"></i>
+      <template #title>
+        <span :alt="item[pathKey]">{{getTitle(item)}}</span>
+      </template>
+    </el-menu-item>
+    <el-submenu v-else-if="!validatenull(item[childrenKey])&&validRoles(item)"
+                :index="getPath(item)"
+                :key="item[labelKey]">
+      <template #title>
+        <i :class="item[iconKey]"></i>
+        <span>{{getTitle(item)}}</span>
+      </template>
+      <template v-for="(child,cindex) in item[childrenKey]"
+                :key="child[labelKey]">
+        <el-menu-item :index="getPath(child)"
+                      @click="open(child)"
+                      v-if="validatenull(child[childrenKey])">
+          <i :class="child[iconKey]"></i>
+          <template #title>
+            <span>{{getTitle(child)}}</span>
+          </template>
+        </el-menu-item>
+        <sidebar-item v-else
+                      :menu="[child]"
+                      :key="cindex"></sidebar-item>
+      </template>
+    </el-submenu>
+  </template>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { validatenull } from "@/util/validate";
+import { isURL, validatenull } from 'utils/validate'
+import website from '@/config/website'
 export default {
   name: "sidebarItem",
   data () {
     return {
-      props: this.website.menu
+      props: website.menu
     }
   },
   props: {
@@ -51,7 +52,7 @@ export default {
   created () { },
   mounted () { },
   computed: {
-    ...mapGetters(["roles", "screen", "keyCollapse"]),
+    ...mapGetters(["roles"]),
     labelKey () {
       return this.props.label
     },
@@ -62,10 +63,13 @@ export default {
       return this.props.query
     },
     iconKey () {
-      return this.props.icon;
+      return this.props.icon
     },
     childrenKey () {
-      return this.props.children;
+      return this.props.children
+    },
+    metaKey () {
+      return this.props.meta
     },
     nowTagValue () { return this.$route.path }
   },
@@ -87,7 +91,6 @@ export default {
       return validatenull(val);
     },
     open (item) {
-      if (this.screen <= 1) this.$store.commit("SET_COLLAPSE");
       this.$router.push({
         path: item[this.pathKey],
         query: item[this.queryKey]

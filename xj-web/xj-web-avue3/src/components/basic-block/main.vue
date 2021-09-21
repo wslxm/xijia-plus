@@ -55,9 +55,9 @@ export default {
     styleName () {
       return {
         animationDelay: `${this.time / 25}s`,
-        width: this.setPx(this.width),
-        height: this.setPx(this.height),
-        margin: this.setPx(this.gutter)
+        width: `${this.width}px`,
+        height: `${this.height}px`,
+        margin: `${this.gutter}px`,
       }
     },
     boxStyleName () {

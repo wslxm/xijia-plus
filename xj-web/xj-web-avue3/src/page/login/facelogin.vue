@@ -1,13 +1,16 @@
 <template>
-  <div>
-    <avue-video ref="video"
-                :width="300"></avue-video>
-  </div>
+  <basic-video ref="video"
+               :width="350">
+  </basic-video>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import basicVideo from '@/components/basic-video/main.vue'
 export default {
+  components: {
+    basicVideo
+  },
   data () {
     return {
       loginForm: {
@@ -20,7 +23,7 @@ export default {
   created () {
     setTimeout(() => {
       this.handleLogin()
-    }, 4000)
+    }, 6000)
   },
   computed: {
     ...mapGetters(["tagWel"])

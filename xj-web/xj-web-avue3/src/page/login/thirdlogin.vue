@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { openWindow } from "@/util/util";
+import { openWindow } from "utils/util";
 
 export default {
   name: "thirdLogin",

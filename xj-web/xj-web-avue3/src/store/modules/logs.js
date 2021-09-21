@@ -1,4 +1,4 @@
-import { setStore, getStore } from '@/util/store'
+import { setStore, getStore } from 'utils/store'
 import dayjs from 'dayjs'
 import { sendLogs } from '@/api/user'
 const logs = {

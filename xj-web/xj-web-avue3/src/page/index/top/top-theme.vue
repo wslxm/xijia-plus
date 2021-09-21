@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog title="选择"
-               :visible.sync="box"
+               v-model="box"
                width="50%">
       <el-radio-group v-model="text"
                       class="list">
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { setTheme } from "@/util/util";
+import { setTheme } from "utils/util";
 import { mapGetters } from "vuex";
 export default {
   data () {
@@ -80,7 +80,7 @@ export default {
           name: "beautiful主题",
           value: "theme-beautiful"
         }, {
-          name: "mac OS主题",
+          name: "Mac OS主题",
           value: "mac-os"
         }
       ]

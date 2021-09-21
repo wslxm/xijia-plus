@@ -6,9 +6,11 @@
       <div class="avue-searchs__form">
         <el-input :placeholder="$t('search')"
                   v-model="value"
-                  @keydown.esc.native="handleEsc">
-          <el-button slot="append"
-                     icon="el-icon-search"></el-button>
+                  @keydown.esc="handleEsc">
+          <template #append>
+            <el-button icon="el-icon-search"></el-button>
+          </template>
+
         </el-input>
         <p>
           <el-tag>你可以使用快捷键esc 关闭</el-tag>
@@ -55,22 +57,24 @@ export default {
   },
   computed: {
     labelKey () {
-      return this.website.menu.label;
+      return this.website.menu.label
     },
     pathKey () {
-      return this.website.menu.path;
+      return this.website.menu.path
     },
     iconKey () {
-      return this.website.menu.icon;
+      return this.website.menu.icon
     },
     childrenKey () {
-      return this.website.menu.children
+      return (
+        this.website.menu.children
+      );
     },
     ...mapGetters(["menu"])
   },
   methods: {
     handleEsc () {
-      this.$parent.isSearch = false;
+      this.$store.commit('SET_IS_SEARCH', false)
     },
     getMenuList () {
       const findMenu = list => {
@@ -103,7 +107,6 @@ export default {
       };
     },
     handleSelect (item) {
-      this.handleEsc();
       this.value = "";
       this.$router.push({
         path: item[this.pathKey],

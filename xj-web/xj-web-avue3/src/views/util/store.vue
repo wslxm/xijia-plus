@@ -58,7 +58,7 @@ import {
   removeStore,
   clearStore,
   getAllStore
-} from "@/util/store";
+} from "utils/store";
 export default {
   name: "store",
   methods: {

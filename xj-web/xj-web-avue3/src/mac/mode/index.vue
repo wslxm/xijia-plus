@@ -58,7 +58,8 @@
 </template>
 
 <script>
-import { isURL } from '@/util/validate'
+import { isURL } from 'utils/validate'
+import { defineAsyncComponent } from 'vue'
 export default {
   data () {
     return {

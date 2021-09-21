@@ -27,7 +27,7 @@ export default {
   computed: {
     styleName () {
       return {
-        borderRadius: this.setPx(this.radius),
+        borderRadius: `${this.radius}px`,
         background: this.background,
       }
     }

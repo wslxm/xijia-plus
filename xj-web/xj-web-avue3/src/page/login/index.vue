@@ -1,27 +1,25 @@
 <template>
   <div class="login-container"
        @keyup.enter="handleLogin">
-    <top-color v-show="false"></top-color>
-    <div class="login-weaper animated bounceInDown">
-      <div class="login-left">
-        <div class="login-time">
-          {{time}}
-        </div>
+    <div class="login-time">
+      {{time}}
+    </div>
+    <div class="login-weaper">
+      <div class="login-left animate__animated animate__fadeInLeft">
         <img class="img"
              src="/img/logo.png"
              alt="">
         <p class="title">{{ $t('login.info') }}</p>
       </div>
-      <div class="login-border">
+      <div class="login-border animate__animated animate__fadeInRight">
         <div class="login-main">
-          <h4 class="login-title">
+          <p class="login-title">
             {{ $t('login.title') }}{{website.title}}
             <top-lang></top-lang>
-          </h4>
+          </p>
           <userLogin v-if="activeName==='user'"></userLogin>
           <codeLogin v-else-if="activeName==='code'"></codeLogin>
           <faceLogin v-else-if="activeName==='face'"></faceLogin>
-          <thirdLogin></thirdLogin>
           <div class="login-menu">
             <a href="#"
                @click.stop="activeName='user'">{{ $t('login.userLogin') }}</a>
@@ -30,20 +28,19 @@
             <a href="#"
                @click.stop="activeName='face'">{{ $t('login.faceLogin') }}</a>
           </div>
+          <thirdLogin></thirdLogin>
         </div>
-
       </div>
     </div>
   </div>
 </template>
 <script>
-import userLogin from "./userlogin";
-import codeLogin from "./codelogin";
-import thirdLogin from "./thirdlogin";
-import faceLogin from "./facelogin";
-import { validatenull } from "@/util/validate";
-import topLang from "@/page/index/top/top-lang";
-import topColor from "@/page/index/top/top-color";
+import userLogin from "./userlogin.vue";
+import codeLogin from "./codelogin.vue";
+import thirdLogin from "./thirdlogin.vue";
+import faceLogin from "./facelogin.vue";
+import { validatenull } from "@/utils/validate";
+import topLang from "@/page/index/top/top-lang.vue";
 export default {
   name: "login",
   components: {
@@ -51,8 +48,7 @@ export default {
     codeLogin,
     thirdLogin,
     faceLogin,
-    topLang,
-    topColor
+    topLang
   },
   data () {
     return {
@@ -63,8 +59,7 @@ export default {
   watch: {
     $route () {
       const params = this.$route.query;
-      this.socialForm.state = params.state;
-      this.socialForm.code = params.code;
+      this.socialForm = params
       if (!validatenull(this.socialForm.state)) {
         const loading = this.$loading({
           lock: true,
@@ -93,7 +88,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-@import "@/styles/login.scss";
-</style>

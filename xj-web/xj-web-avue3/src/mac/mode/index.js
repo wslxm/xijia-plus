@@ -1,11 +1,11 @@
 import Main from './index.vue';
-import Vue from 'vue'
 import { isVNode } from './util';
+import { createApp } from 'vue';
 let instance;
 let instances = [];
 let seed = 1;
 const Mode = (function () {
-  let MessageConstructor = Vue.extend(Main);
+  let MessageConstructor = Main;
   const obj = function (item = {}, opts = {}) {
     let id = 'Mode_' + seed++;
     let options = Object.assign({
@@ -15,9 +15,9 @@ const Mode = (function () {
     options.onClose = function () {
       obj.close(id, userOnClose);
     };
-    instance = new MessageConstructor({
-      data: options
-    });
+    const parent = document.createElement('div')
+    let app = createApp(MessageConstructor)
+    instance = app.mount(parent);
     Object.keys(options).forEach(ele => {
       instance[ele] = options[ele]
     })
@@ -26,12 +26,11 @@ const Mode = (function () {
       instance.$slots.default = [instance.message];
       instance.message = null;
     }
-    instance.vm = instance.$mount();
-    document.body.appendChild(instance.vm.$el);
-    instance.vm.isShow = true;
-    instance.dom = instance.vm.$el;
+    document.body.appendChild(instance.$el);
+    instance.isShow = true;
+    instance.dom = instance.$el;
     instances.push(instance);
-    return instance.vm;
+    return instance;
   }
   obj.close = function (id, userOnClose) {
     for (let i = 0, len = instances.length; i < len; i++) {

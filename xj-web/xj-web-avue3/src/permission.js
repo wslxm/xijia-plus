@@ -1,16 +1,11 @@
-/**
- * 全站权限配置
- * 
- */
-import router from './router/router'
+import router from './router/'
 import store from './store'
-import { validatenull } from '@/util/validate'
-import { getToken } from '@/util/auth'
+import { validatenull } from '@/utils/validate'
+import { getToken } from '@/utils/auth'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-import website from '@/config/website'
 NProgress.configure({ showSpinner: false });
-const lockPage = website.lockPage; //锁屏页
+const lockPage = '/lock'; //锁屏页
 router.beforeEach((to, from, next) => {
   const meta = to.meta || {};
   const isMenu = meta.menu === undefined ? to.query.menu : meta.menu;
@@ -24,7 +19,7 @@ router.beforeEach((to, from, next) => {
       //如果用户信息为空则获取用户信息，获取用户信息失败，跳转到登录页
       if (store.getters.roles.length === 0) {
         store.dispatch('GetUserInfo').then(() => {
-          next()
+          next({ ...to, replace: true })
         }).catch(() => {
           store.dispatch('FedLogOut').then(() => {
             next({ path: '/login' })
@@ -60,11 +55,12 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-router.afterEach(() => {
+router.afterEach(to => {
   NProgress.done();
-  let title = store.getters.tag.label;
-  let i18n = store.getters.tag.meta.i18n;
+  let title = to.name;
+  let i18n = to.meta.i18n;
   title = router.$avueRouter.generateTitle(title, i18n)
   //根据当前的标签也获取label的值动态设置浏览器标题
   router.$avueRouter.setTitle(title);
+  store.commit('SET_IS_SEARCH', false)
 });

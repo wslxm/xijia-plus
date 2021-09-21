@@ -7,42 +7,42 @@
            label-width="0">
     <el-form-item prop="username">
       <el-input size="small"
-                @keyup.enter.native="handleLogin"
+                @keyup.enter="handleLogin"
                 v-model="loginForm.username"
                 auto-complete="off"
                 :placeholder="$t('login.username')">
-        <i slot="prefix"
-           class="icon-yonghu"></i>
+        <template #prefix>
+          <i class="icon-yonghu"></i>
+        </template>
       </el-input>
     </el-form-item>
     <el-form-item prop="password">
       <el-input size="small"
-                @keyup.enter.native="handleLogin"
+                @keyup.enter="handleLogin"
                 :type="passwordType"
                 v-model="loginForm.password"
                 auto-complete="off"
                 :placeholder="$t('login.password')">
-        <i class="el-icon-view el-input__icon"
-           slot="suffix"
-           @click="showPassword"></i>
-        <i slot="prefix"
-           class="icon-mima"></i>
+        <template #suffix>
+          <i class="el-icon-view el-input__icon"
+             @click="showPassword"></i>
+        </template>
+        <template #prefix>
+          <i class="icon-mima"></i>
+        </template>
       </el-input>
     </el-form-item>
     <el-form-item prop="code">
-      <el-row :span="24">
-        <el-col :span="16">
-          <el-input size="small"
-                    @keyup.enter.native="handleLogin"
-                    :maxlength="code.len"
-                    v-model="loginForm.code"
-                    auto-complete="off"
-                    :placeholder="$t('login.code')">
-            <i slot="prefix"
-               class="icon-yanzhengma"></i>
-          </el-input>
-        </el-col>
-        <el-col :span="8">
+      <el-input size="small"
+                @keyup.enter="handleLogin"
+                :maxlength="code.len"
+                v-model="loginForm.code"
+                auto-complete="off"
+                :placeholder="$t('login.code')">
+        <template #prefix>
+          <i class="icon-yanzhengma"></i>
+        </template>
+        <template #append>
           <div class="login-code">
             <span class="login-code-img"
                   @click="refreshCode"
@@ -53,26 +53,25 @@
                  v-else />
             <!-- <i class="icon-shuaxin login-code-icon" @click="refreshCode"></i> -->
           </div>
-        </el-col>
-      </el-row>
-
+        </template>
+      </el-input>
     </el-form-item>
 
     <el-form-item>
       <el-button type="primary"
                  size="small"
-                 @click.native.prevent="handleLogin"
+                 @click.prevent="handleLogin"
                  class="login-submit">{{$t('login.submit')}}</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
-import { randomLenNum } from "@/util/util";
+import { randomLenNum } from "utils/util";
 import { mapGetters } from "vuex";
 export default {
   name: "userlogin",
-  data() {
+  data () {
     const validateCode = (rule, value, callback) => {
       if (this.code.value != value) {
         this.loginForm.code = "";
@@ -113,28 +112,28 @@ export default {
       passwordType: "password"
     };
   },
-  created() {
+  created () {
     this.refreshCode();
   },
-  mounted() {},
+  mounted () { },
   computed: {
     ...mapGetters(["tagWel"])
   },
   props: [],
   methods: {
-    refreshCode() {
+    refreshCode () {
       this.loginForm.redomStr = randomLenNum(this.code.len, true);
       this.code.type == "text"
         ? (this.code.value = randomLenNum(this.code.len))
-        : (this.code.src = `${this.codeUrl}/${this.loginForm.redomStr}`);
+        : (this.code.src = `/${this.loginForm.redomStr}`);
       this.loginForm.code = this.code.value;
     },
-    showPassword() {
+    showPassword () {
       this.passwordType == ""
         ? (this.passwordType = "password")
         : (this.passwordType = "");
     },
-    handleLogin() {
+    handleLogin () {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.$store.dispatch("LoginByUsername", this.loginForm).then(() => {
