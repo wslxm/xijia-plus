@@ -16,7 +16,6 @@ import App from './App.vue'
 import animate from 'animate.css'
 import dayjs from 'dayjs'
 import 'styles/common.scss';
-
 const app = createApp(App)
 //注册全局容器
 app.component('basicContainer', basicContainer)
@@ -34,4 +33,10 @@ app.use(router)
 app.use(ElementPlus, {
   i18n: i18n.global.t,
 })
+
+// avue
+import Avue from '@smallwei/avue';
+import '@smallwei/avue/lib/index.css';
+app.use(Avue)
+
 app.mount('#app')
