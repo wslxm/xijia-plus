@@ -63,13 +63,13 @@
             and u.id = #{query.id}
         </if>
         <if test="query.username != null and query.username != ''">
-            and u.username = #{query.username}
+            and u.username = concat('%',#{query.username},'%')
         </if>
         <if test="query.phone != null and query.phone != ''">
-            and u.phone = #{query.phone}
+            and u.phone = concat('%',#{query.phone},'%')
         </if>
         <if test="query.fullName != null and query.fullName != ''">
-            and u.full_name = #{query.fullName}
+            and u.full_name = concat('%',#{query.fullName},'%')
         </if>
         <if test="query.disable != null">
             and u.disable = #{query.disable}
