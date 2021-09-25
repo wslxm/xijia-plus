@@ -89,15 +89,7 @@ public class JwtUtil {
         return jwtUser2.getData();
     }
 
-
-    /**
-     *
-     *
-     * @param request
-     * @return true-已登录 false-未登录
-     */
-
-
+    
     /**
      * 获取登录信息，如过 token无效过期等，会进入对应的异常信息中返回
      * <p>
