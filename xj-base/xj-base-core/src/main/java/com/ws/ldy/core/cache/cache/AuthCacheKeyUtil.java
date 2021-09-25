@@ -1,4 +1,4 @@
-package com.ws.ldy.common.cache;
+package com.ws.ldy.core.cache.cache;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.ws.ldy.core.utils.paramVerification.StringUtil;

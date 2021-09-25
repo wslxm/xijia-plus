@@ -4,8 +4,9 @@ package com.ws.ldy.config.filter.sing;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.ws.ldy.common.cache.AuthCacheKeyUtil;
-import com.ws.ldy.common.cache.CacheKey;
+import com.ws.ldy.core.cache.cache.AuthCacheKeyUtil;
+import com.ws.ldy.core.cache.cache.CacheKey;
+import com.ws.ldy.core.cache.cache.ConfigCacheKey;
 import com.ws.ldy.config.filter.sing.util.RequestWrapper;
 import com.ws.ldy.config.filter.sing.util.SignUtil;
 import com.ws.ldy.core.cache.CacheUtil;
@@ -49,7 +50,7 @@ public class SysSingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         // 是否需要验签(总开关)
-        XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode("is_sign");
+        XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.IS_SIGN);
         if (xjAdminConfig != null && "false".equals(xjAdminConfig.getContent())) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;

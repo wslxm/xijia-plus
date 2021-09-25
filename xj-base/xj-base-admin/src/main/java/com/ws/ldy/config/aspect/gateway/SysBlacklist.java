@@ -2,7 +2,7 @@ package com.ws.ldy.config.aspect.gateway;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ws.ldy.common.cache.CacheKey;
+import com.ws.ldy.core.cache.cache.CacheKey;
 import com.ws.ldy.core.cache.CacheUtil;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;

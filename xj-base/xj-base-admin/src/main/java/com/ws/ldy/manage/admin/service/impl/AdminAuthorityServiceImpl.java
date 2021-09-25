@@ -2,8 +2,8 @@ package com.ws.ldy.manage.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.ws.ldy.common.cache.AuthCacheKeyUtil;
-import com.ws.ldy.common.cache.CacheKey;
+import com.ws.ldy.core.cache.cache.AuthCacheKeyUtil;
+import com.ws.ldy.core.cache.cache.CacheKey;
 import com.ws.ldy.core.auth.util.JwtUtil;
 import com.ws.ldy.core.base.service.impl.BaseIServiceImpl;
 import com.ws.ldy.core.cache.CacheUtil;

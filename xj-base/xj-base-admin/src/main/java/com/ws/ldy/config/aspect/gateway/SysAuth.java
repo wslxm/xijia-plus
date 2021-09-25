@@ -1,12 +1,12 @@
 package com.ws.ldy.config.aspect.gateway;
 
 
-import com.ws.ldy.common.cache.AuthCacheKeyUtil;
-import com.ws.ldy.common.cache.CacheKey;
+import com.ws.ldy.core.cache.cache.AuthCacheKeyUtil;
+import com.ws.ldy.core.cache.cache.CacheKey;
+import com.ws.ldy.core.cache.cache.ConfigCacheKey;
 import com.ws.ldy.core.auth.entity.JwtUser;
 import com.ws.ldy.core.auth.util.JwtUtil;
 import com.ws.ldy.core.cache.CacheUtil;
-import com.ws.ldy.core.enums.Admin;
 import com.ws.ldy.core.enums.Base;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
@@ -120,7 +120,7 @@ public class SysAuth {
             }
             JwtUser jwtUser = result.getData();
             // 判断权限
-            XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode("is_auth");
+            XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.IS_AUTH );
             if (xjAdminConfig != null && "false".equals(xjAdminConfig.getContent())) {
                 return R.success(jwtUser);
             }

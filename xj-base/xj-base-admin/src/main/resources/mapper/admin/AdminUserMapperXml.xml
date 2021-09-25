@@ -25,6 +25,7 @@
         <collection property="roles" ofType="com.ws.ldy.manage.admin.model.vo.AdminRoleVO">
             <id column="roleId" property="id"/>
             <result column="roleName" property="name"/>
+            <result column="roleCode" property="code"/>
         </collection>
     </resultMap>
 
@@ -54,6 +55,7 @@
         select
         u.*,
         r.id as roleId,
+        r.code as roleCode,
         r.name as roleName
         from t_admin_user u
         left join t_admin_role_user ru on u.id = ru.user_id
