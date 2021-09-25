@@ -7,8 +7,8 @@ QQ群：1037211892
 #### 项目描叙:
 这是开发一个后台管理系统快速开发骨架,采用级简化代码，所有基本crud 操作无需写任何的 dao，service层代码，包括(增删改查，及多添加/动态修改，多删除，分页/条件/排序查询,添加，修改，展示的html代码
 
-#### 常用技术:
-- 后端：jdk1.8 + spring-boot2.2.2 + mybatis-plus3.3.1 + druid 1.1.22 + mysql5.7 + swagger2.9.2 
+#### 采用技术:
+- 后端：jdk1.8 + spring-boot2.2.2 + mybatis-plus3.3.1 + druid 1.1.22 + mysql5.7+ + swagger2.9.2 
 - 前端：layui 2.5.6 + js + jquery
 
 #### 项目宗旨：
