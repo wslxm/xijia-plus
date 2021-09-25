@@ -4,16 +4,21 @@ QQ群：1037211892
 
 ### 一、项目简述
 
-这是开发一个基于 后端(jdk1.8 + spring-boot2.2.2 + mybatis-plus3.3.1 + druid 1.1.22 + mysql5.7 + swagger2.9.2 ) +  前端(layui 2.5.6 + js + jquery) 的后台管理系统快速开发骨架
-采用级简化代码，所有基本操作无需写任何的dao，service层代码，包括(增删改查，及多添加/动态修改，多删除，分页/条件/排序查询,添加，修改，展示的html代码
+#### 项目描叙:
+这是开发一个后台管理系统快速开发骨架,采用级简化代码，所有基本crud 操作无需写任何的 dao，service层代码，包括(增删改查，及多添加/动态修改，多删除，分页/条件/排序查询,添加，修改，展示的html代码
 
-项目宗旨：只为急速开发而生, 主要针对于中小型的项目快速开发
+#### 常用技术:
+- 后端：jdk1.8 + spring-boot2.2.2 + mybatis-plus3.3.1 + druid 1.1.22 + mysql5.7 + swagger2.9.2 
+- 前端：layui 2.5.6 + js + jquery
+
+#### 项目宗旨：
+   - 只为急速开发而生, 主要针对于中小型的项目快速开发
    - 1、快速 (提供基础crud生成)
    - 2、简洁 (对重复使用率高的工具代码进行封装)
    - 3、规范 (对接口命名,方法命名等,请求方式等统一规范,让接口对接更简单)
    - 4、扩展 (提供常有的第三方工具集成,如果 阿里云oss文件管理,短信，微信支付等的集成)
 
-其他说明: 
+#### 其他说明: 
 支持跨域,支持前后端代码抽离并独立开发(springboot（后端)/layui（前端）, 如有前端人员，也可使用其他开发语言来进行对接，如：vue.js
 swagger2 文档, 地址：http://ip:port/swagger-ui.html 
 
@@ -27,7 +32,7 @@ swagger2 文档, 地址：http://ip:port/swagger-ui.html
 
 2.x 版本演示地址： 开发中(敬请期待)
 
-### 三。文档地址：
+### 三、文档地址：
 
 查阅文档： [http://xijia.plus/help](http://xijia.plus/help) 
 
@@ -87,12 +92,24 @@ swagger2 文档, 地址：http://ip:port/swagger-ui.html
 - 13、接入 markdown 编辑器editor，并实现cv上传图片，满足你的文本编辑需求
 
 
-### 八、项目外观展示
+### 八、项目展示
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/1206/114540_8a29dc40_2208600.png "屏幕截图.png")
+登录页
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0925/103734_b430eda8_2208600.png "屏幕截图.png")
+
+系统首页
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0925/103758_b62b76fa_2208600.png "屏幕截图.png")
+
+代码生成
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0925/103834_ab76402c_2208600.png "屏幕截图.png")
+
+菜单管理
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0925/103852_4e742e37_2208600.png "屏幕截图.png")
+
+全局配置
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0925/103918_2a04aefb_2208600.png "屏幕截图.png")
 
 更多自行访问展示地址
-
 
 ### 九、开始使用
 
