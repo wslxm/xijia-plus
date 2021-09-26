@@ -3,7 +3,7 @@ package com.ws.ldy.config.aspect.gateway;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.ws.ldy.common.cache.CacheKey;
+import com.ws.ldy.core.cache.cache.CacheKey;
 import com.ws.ldy.core.auth.entity.JwtUser;
 import com.ws.ldy.core.auth.util.JwtUtil;
 import com.ws.ldy.core.cache.CacheUtil;

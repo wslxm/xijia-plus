@@ -1,7 +1,12 @@
 package com.ws.ldy.core.auth.util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ws.ldy.core.auth.entity.JwtUser;
+import com.ws.ldy.core.cache.CacheUtil;
+import com.ws.ldy.core.cache.cache.CacheKey;
 import com.ws.ldy.core.config.error.ErrorException;
+import com.ws.ldy.core.cache.cache.ConfigCacheKey;
 import com.ws.ldy.core.result.R;
 import com.ws.ldy.core.result.RType;
 import com.ws.ldy.core.utils.json.JsonUtil;
@@ -11,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.Map;
 
 /***
  *   jwt 工具类
@@ -51,6 +57,8 @@ public class JwtUtil {
     public static String createToken(JwtUser jwtUser, HttpServletResponse response) {
         // 压缩数据
         String deflaterJwtUser = DeflaterUtils.zipString(JsonUtil.toJSONStringNoNull(jwtUser));
+        // token每次刷新时长
+        long refreshTime = (long) (1000L * 60 * (Double.parseDouble(jwtUser.getExpiration() + "") / 10));
         // 生成jwt
         String jwtToken = Jwts
                 .builder()
@@ -63,7 +71,7 @@ public class JwtUtil {
                 // tokne 真实有效期,在真实有效期内, 如果 jwt-token过期了, 将自动延长有效期设置的总有效期时长, 如果在tokne 真实有效期内未使用过,则token过期
                 .claim(EXPIRED_TIME, System.currentTimeMillis() + (1000L * 60 * (jwtUser.getExpiration())))
                 // jwt-token 过期时间, jwt-token 如果过期了, 更新jwt-token参数，jwt-token参数有效期为(真实有效期/10)
-                .setExpiration(new Date(System.currentTimeMillis() + (1000L * 60 * (jwtUser.getExpiration() / 10))))
+                .setExpiration(new Date(System.currentTimeMillis() + refreshTime))
                 // 加密方式,加密key
                 .signWith(SignatureAlgorithm.HS256, APPSECRET_KEY).compact();
         // 放入Header
@@ -88,14 +96,6 @@ public class JwtUtil {
         }
         return jwtUser2.getData();
     }
-
-
-    /**
-     *
-     *
-     * @param request
-     * @return true-已登录 false-未登录
-     */
 
 
     /**
@@ -137,7 +137,18 @@ public class JwtUtil {
             if (System.currentTimeMillis() > expiredTime) {
                 return R.error(RType.AUTHORITY_LOGIN_EXPIRED);
             }
-            // token在真实有效期内, 刷新token
+            // 管理端获取每次刷新获取新的刷新时间,如果没有设值，使用登录设置的默认时间
+            if (jwtUser.getType().equals(userType[0])) {
+                // 这里不能调系统admin服务,使用缓存一层一层的获取
+                Map<String, Object> map = CacheUtil.getMap(CacheKey.CONFIG_MAP_KEY.getKey(), Object.class);
+                JSONObject jsonObject = JSON.parseObject(JSONObject.toJSONString(map));
+                // 获取指定配置
+                Object obj = jsonObject.get(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
+                if (obj != null) {
+                    String content = JSON.parseObject(JSONObject.toJSONString(obj)).get("content").toString();
+                    jwtUser.setExpiration(Integer.parseInt(content));
+                }
+            }
             createToken(jwtUser, response);
             log.info("token 已刷新");
             return R.success(jwtUser);

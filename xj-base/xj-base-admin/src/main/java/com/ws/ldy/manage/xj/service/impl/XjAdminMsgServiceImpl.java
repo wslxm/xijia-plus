@@ -37,7 +37,6 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
     @Autowired
     private WebsocketService webSocketService;
 
-
     @Override
     public IPage<XjAdminMsgVO> list(XjAdminMsgQuery query) {
         LambdaQueryWrapper<XjAdminMsg> queryWrapper = new LambdaQueryWrapper<XjAdminMsg>()

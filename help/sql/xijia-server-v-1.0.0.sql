@@ -4296,6 +4296,7 @@ INSERT INTO `t_xj_admin_config` VALUES ('1383627414470467586', NULL, '-1', '2021
 INSERT INTO `t_xj_admin_config` VALUES ('1383636872395255809', NULL, '-1', '2021-04-18 12:21:51', '2021-09-07 16:19:45', 0, 0, 'is_swagger', 'swagger文档开关(true / false)', 'true', 0, 0);
 INSERT INTO `t_xj_admin_config` VALUES ('1383644845431689218', NULL, '-1', '2021-04-18 12:53:32', '2021-09-07 16:19:45', 0, 0, 'is_login_token', '访问登录页是否需要令牌', 'false', 0, 0);
 INSERT INTO `t_xj_admin_config` VALUES ('1432597381643304961', NULL, '-1', '2021-08-31 14:53:26', '2021-09-15 22:24:16', 0, 0, 'is_auth', 'api 接口是否验权(true / false)', 'true', 0, 0);
+INSERT INTO `t_xj_admin_config` VALUES ('1441701074921598977', NULL, '-1', '2021-09-25 17:48:16', '2021-09-25 19:53:21', 0, 0, 'login_expiration_manage', '管理端登录令牌有效期 (单位分)', '10', 0, 0);
 
 -- ----------------------------
 -- Table structure for t_xj_admin_datasource

@@ -1,4 +1,4 @@
-package com.ws.ldy.common.cache;
+package com.ws.ldy.core.cache.cache;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

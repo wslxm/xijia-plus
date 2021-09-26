@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ws.ldy.core.cache.cache.ConfigCacheKey;
 import com.ws.ldy.core.auth.entity.JwtUser;
 import com.ws.ldy.core.auth.util.JwtUtil;
 import com.ws.ldy.core.auth.util.MD5Util;
@@ -24,6 +25,8 @@ import com.ws.ldy.manage.admin.service.AdminAuthorityService;
 import com.ws.ldy.manage.admin.service.AdminRoleService;
 import com.ws.ldy.manage.admin.service.AdminRoleUserService;
 import com.ws.ldy.manage.admin.service.AdminUserService;
+import com.ws.ldy.manage.xj.model.vo.XjAdminConfigVO;
+import com.ws.ldy.manage.xj.service.XjAdminConfigService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +47,9 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     @Autowired
     private AdminAuthorityService adminAuthorityService;
+
+    @Autowired
+    private XjAdminConfigService xjAdminConfigService;
 
 
     @Override
@@ -204,6 +210,10 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // 登录成功
         // 4、获取权限列表,保存权限-未禁用,管理端(登录+认证的)
         List<String> authList = adminAuthorityService.findByUserIdAuthority(user.getId());
+        // 获取登录token 有效期
+        XjAdminConfigVO configVO = xjAdminConfigService.findByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
+        Integer expiration = configVO != null ? Integer.parseInt(configVO.getContent()) : 60;
+
         // 5、生成jwt
         JwtUser jwtUser = new JwtUser();
         jwtUser.setUserId(user.getId());
@@ -211,7 +221,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         jwtUser.setTerminal(user.getTerminal());
         jwtUser.setType(JwtUtil.userType[0]);
         // 设置token有效期(分)
-        jwtUser.setExpiration(60);
+        jwtUser.setExpiration(expiration);
         // 添加权限 和 权限数据版本号,当权限发生改变时，直接刷新token信息
         jwtUser.setAuthList(authList);
         JwtUtil.createToken(jwtUser, response);
