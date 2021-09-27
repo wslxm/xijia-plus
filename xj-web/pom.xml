@@ -13,7 +13,6 @@
 
     <modules>
         <module>xj-web-avue2</module>
-        <module>xj-web-avue3</module>
     </modules>
 
 </project>
