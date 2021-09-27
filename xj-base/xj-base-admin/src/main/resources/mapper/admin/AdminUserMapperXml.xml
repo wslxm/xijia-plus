@@ -85,7 +85,7 @@
         <if test="createUserId != null">
             and u.create_user = #{createUserId}
         </if>
-        order by u.create_time
+        order by u.create_time desc
     </select>
 
     <select id="findByRoleId" resultType="com.ws.ldy.manage.admin.model.entity.AdminUser">
