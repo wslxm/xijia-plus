@@ -1,11 +1,14 @@
 
 <template>
-    <avue-crud
-            :data="data"
-            :option="option"
-            :page.sync="page"
-            @on-load="onLoad"
-    ></avue-crud>
+    <div>角色管理
+        <avue-crud
+                :data="data"
+                :option="option"
+                :page.sync="page"
+                @on-load="onLoad"
+        ></avue-crud>
+
+    </div>
 </template>
 
 
@@ -22,6 +25,10 @@
                     align: 'center',
                     menuAlign: 'center',
                     column: [
+                        {
+                            label: '序号',
+                            prop: 'id'
+                        },
                         {
                             label: '角色名称',
                             prop: 'name'

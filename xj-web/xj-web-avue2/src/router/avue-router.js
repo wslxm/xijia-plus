@@ -38,6 +38,7 @@ RouterPlugin.install = function (option = {}) {
         },
         //动态路由
         formatRoutes: function (aMenu = [], first) {
+            console.log("======"+ aMenu)
             const aRouter = []
             const propsConfig = website.menu
             const propsDefault = {
@@ -112,6 +113,30 @@ RouterPlugin.install = function (option = {}) {
         }
     }
 }
+
+
+// console.log(ele)
+// if(ele.path){
+//     console.log(ele.component)
+//     let str = ele.component
+//     // component: () => Store.getters.isMacOs ? import('@/mac/lock.vue') : import('@/page/lock/index'),
+//     ele.component = require([`../${str}.vue`])
+//     console.log(ele)
+//     // ele.component = component(resolve) {
+//     //     require([`../${ele.component}.vue`], resolve)
+//     // };
+//
+//     Router.addRoute(ele)
+//     // console.log(Router)
+//     // RouterPlugin.install = function() {
+//     //     console.log(Router)
+//     //     // this.$router = option.router;
+//     //     // this.$store = option.store;
+//     //     // console.log(this)
+//     // }
+//     // this.$router.addRoute(ele);
+// }
+
 export const formatPath = (ele, first) => {
     const propsDefault = website.menu;
     const icon = ele[propsDefault.icon];
