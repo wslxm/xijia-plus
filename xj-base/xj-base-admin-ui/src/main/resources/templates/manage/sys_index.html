@@ -16,6 +16,10 @@
     <script src="/manage/js/sys-index.js"></script>
     <script>
         /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
+        // 判断是否登录,没有登录跳登录页
+        if (sessionStorage.getItem(cacheToken) == null) {
+            location.href = loginPage;
+        }
     </script>
 </head>
 <style>
@@ -71,17 +75,17 @@
                     <a onclick="msg()" href="javascript:;"> <!-- layadmin-event="msg" -->
                         <i class="layui-icon layui-icon-notice"></i>
                         <!-- 如果有新消息，则显示小圆点 -->
-                          <span id="isReadAll" class="layui-badge-dot"></span>
-                          <!--  <span id="isReadAll" class="layui-badge">10</span>-->
+                        <span id="isReadAll" class="layui-badge-dot"></span>
+                        <!--  <span id="isReadAll" class="layui-badge">10</span>-->
                     </a>
                 </li>
 
                 <!--  便签 -->
-<!--                <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
-<!--                    <a href="javascript:;" layadmin-event="note">-->
-<!--                        <i class="layui-icon layui-icon-note"></i>-->
-<!--                    </a>-->
-<!--                </li>-->
+                <!--                <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+                <!--                    <a href="javascript:;" layadmin-event="note">-->
+                <!--                        <i class="layui-icon layui-icon-note"></i>-->
+                <!--                    </a>-->
+                <!--                </li>-->
 
 
                 <!-- 配色方案 -->

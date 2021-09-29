@@ -25,12 +25,12 @@ swagger2 文档, 地址：http://ip:port/swagger-ui.html
 
 ### 二、预览地址
 
-1.x 版本演示地址： [http://xijia.plus/](http://xijia.plus/) 
+layui 版本演示地址： [http://xijia.plus/](http://xijia.plus/) 
 账号：10000  
 密码：10000
 
 
-2.x 版本演示地址： 开发中(敬请期待)
+vue 版本演示地址： 开发中(敬请期待)
 
 ### 三、文档地址：
 
