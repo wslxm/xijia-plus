@@ -25,13 +25,13 @@ public class RegUtil {
     public static final String STRONG_PASSWORD_TWO = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{5,17}$";
     public static final String STRONG_PASSWORD_TWO_MSG = "密码必须包含 【小写字母+大写字母+数字且长度在8-18位之间】";
     // 手机号(11位)
-    public static final String PHONE = "^((13[0-9])|(14[0-9])|(15[^4,\\D])|(16[0-9])|(17[0-9])|(18[0,5-9])|(19[0-9]))\\d{8}$";
-    public static final String PHONE_MSG = "只能输入正确的11位手机号";
+    public static final String PHONE = "^1[3456789]\\d{9}$";
+    public static final String PHONE_MSG = "请输入正确的11位手机号";
     // 邮箱
     public static final String EMAIL = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
     public static final String EMAIL_MSG = "请输入正确的邮箱号";
     // 汉字
-    public static final String CHINESE = "^[\u4e00-\u9fa5],{0,}$";
+    public static final String CHINESE = "[\\u4e00-\\u9fa5]+";
     public static final String CHINESE_MSG = "只能输入中文";
     // 身份证
     public static final String ID_CARD = "(^\\d{18}$)|(^\\d{15}$)";
@@ -74,7 +74,7 @@ public class RegUtil {
     /**
      * 校验手机号
      */
-    public static boolean isMobile(String mobile) {
+    public static boolean isPhone(String mobile) {
         return Pattern.matches(PHONE, mobile);
     }
 
@@ -118,5 +118,6 @@ public class RegUtil {
         System.out.println(RegUtil.isPassword("123456"));
         System.out.println(RegUtil.isPasswordStrong("A123456！@#￥%…&*"));
         System.out.println(RegUtil.isPasswordStrongTwo("Ab123456！@#￥%…&*"));
+        System.out.println(RegUtil.isPhone("1762868996"));
     }
 }

@@ -43,10 +43,10 @@
             <version>${springfox-swagger2-ui.version}</version>
         </dependency>
         <!-- knife4j-ui - 不需要注释，注意加载顺序,必须在swagger2 之下引入 -->
-         <!--   <dependency>-->
-         <!--       <groupId>com.github.xiaoymin</groupId>-->
-         <!--       <artifactId>knife4j-spring-boot-starter</artifactId>-->
-         <!--       <version>${knife4j-spring-boot-starter.version}</version>-->
-         <!--   </dependency>-->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>${knife4j-spring-boot-starter.version}</version>
+        </dependency>
     </dependencies>
 </project>
