@@ -13,7 +13,7 @@ wechat:
 swagger:
   ## (模块名称 | 扫包路径),最多可配置10个
   #packages:
-  #  - "通用模块 | com.ws.ldy.modules.third"
+  #  - "通用模块 | com.github.wslxm.modules.third"
   # author: wangsong                                 # 作者/负责人-姓名
   # email: 1270696548@qq.com                         # 作者/负责人-邮箱
   # url: https://gitee.com/wslxm/spring-boot-plus2   # 作者/负责人-个人社交地址

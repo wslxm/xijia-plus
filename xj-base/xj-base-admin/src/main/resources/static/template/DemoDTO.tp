@@ -11,7 +11,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import com.ws.ldy.core.base.model.BaseDto;
+import com.github.wslxm.core.base.model.BaseDto;
 
 /**
  * {tableComment}

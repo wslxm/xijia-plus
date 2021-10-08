@@ -72,7 +72,7 @@ gc:
   author: ws                              # 作者
   email: 1720696548@qq.com                # 邮箱
   projectName: xj-base/xj-base-admin              # 项目名/路径，如：xj-server/xj-test-server
-  packPath: com.ws.ldy                    # 包路径(如: com.ws.ldy)
+  packPath: com.github.wslxm                    # 包路径(如: com.github.wslxm)
   rootModule: manage                      # 根模块(固定为：manage (管理端), 用户端为：client)
   moduleName: lqs                         # 子模块(如用户管理,订单管理模块拆分，也可以统一一个名称放在一起,但不建议)
   tablePrefixDefault: t_                  # 表前缀 (生成的类名会过滤掉前缀)

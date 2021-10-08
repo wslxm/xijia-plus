@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ws.ldy.manage.admin.mapper.AdminRoleMapper">
+<mapper namespace="com.github.wslxm.springbootplus2.manage.admin.mapper.AdminRoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ws.ldy.manage.admin.model.entity.AdminRole">
+    <resultMap id="BaseResultMap" type="com.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRole">
 
         <result column="id" property="id"/>
         <result column="create_user" property="createUser"/>
@@ -33,7 +33,7 @@
                disable
         </sql>
 
-    <select id="list" resultType="com.ws.ldy.manage.admin.model.vo.AdminRoleVO">
+    <select id="list" resultType="com.github.wslxm.springbootplus2.manage.admin.model.vo.AdminRoleVO">
         select
         r.*
         from t_admin_role r

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ws.ldy.manage.admin.mapper.AdminAuthorityMapper">
+<mapper namespace="com.github.wslxm.springbootplus2.manage.admin.mapper.AdminAuthorityMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ws.ldy.manage.admin.model.entity.AdminAuthority">
+    <resultMap id="BaseResultMap" type="com.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority">
 
         <result column="id" property="id"/>
         <result column="create_user" property="createUser"/>
@@ -37,7 +37,7 @@
     </sql>
 
 
-    <select id="findByUserIdAuthority" resultType="com.ws.ldy.manage.admin.model.entity.AdminAuthority">
+    <select id="findByUserIdAuthority" resultType="com.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority">
         SELECT
         a.*
         FROM t_admin_authority a

@@ -9,7 +9,8 @@
 - 5、处理服务swagger首页抛异常 java.lang.NumberFormatException: For input string: "", 修改 logback-spring.xml过滤异常(2021/9/30)
 - 6、处理 终端(terminal)支持每个端账号独立,不同端的账号允许重复,登录如果没有传递终端,有多条账号信息时默认登录为总管理端 terminal=1 账号 (2021/9/30)
 - 7、添加组织机构功能 (2021/9/30)
-- 8、添加用户选择组织机构功能,查询用户信息(id查询,个人信息查询)返回组织机构信息 (2021/9/30)
+- 8、添加用户选择组织机构功能,查询用户信息(id查询,个人信息查询)返回组织机构信息 (2021/10/8)
+- 9、代码同步至github, 正式更新包名为： com.github.wslxm -> spring-boot-plus2
 
 
 ## 版本：v-0.1.3
@@ -51,7 +52,7 @@
 ----------------------- 2021-8-18
 - 1、更新项目模块结构，xj-base-jwt 模块合并至 xj-base-core, xj-doc-swagger2-ui 合并至xj-doc-swagger2，删除及util下的所有模块，增加 xj-base-util
 - 2、优化静态资源读取优先级, /META-INF/resources/ -> /resources/ -> /static/ -> /public/
-- 3、xj-base-pay 支付模块增加支持微信扫码支付, 依赖xj-api-wx-pay模块，具体看 com.ws.ldy.modules.sys.pay.controller.PayTestController 中的扫码支付测试接口
+- 3、xj-base-pay 支付模块增加支持微信扫码支付, 依赖xj-api-wx-pay模块，具体看 com.github.wslxm.modules.sys.pay.controller.PayTestController 中的扫码支付测试接口
 - 4、代码生成优化,生成的各种类分离, mapperXml 增加自动生成的sql方法xjFindId(id查询)xjFindList(全部查询)xjInsert(动态增加)xjUpdate(动态编辑)xjDelete(删除)
 - 5、xj-api-wx-open 增加 微信扫码登录功能
 - 6、修复查询 jvm 信息在 linux 获取内存信息 单位为 k 单位时的异常 
