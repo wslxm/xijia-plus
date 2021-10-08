@@ -13,6 +13,12 @@
     <script src="/manage/js/app.js"></script>
 </head>
 <body>
+<style>
+    .layui-form-item .layui-input-inline {
+        width: 300px;
+    !important;
+    }
+</style>
 
 <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
 
@@ -87,21 +93,11 @@
     <div class="layui-form-item">
         <label class="layui-form-label">部门</label>
         <div class="layui-input-inline">
-            <select id="ogranOneId" name="ogranOneId" lay-filter="ogranIdOneClick">
-                <option value="">请选择</option>
-            </select>
-        </div>
-        <div class="layui-input-inline">
-            <select id="ogranTwoId" name="ogranTwoId" lay-filter="ogranIdTwoClick">
-            </select>
-        </div>
-        <div class="layui-input-inline">
-            <select id="ogranThreeId" name="ogranThreeId" lay-filter="ogranIdThreeClick">
-            </select>
+            <div class="rc-cascader">
+                <input type="text" id="organId" name="organId" value="" style="display: none;"/>
+            </div>
         </div>
     </div>
-    <!-- 保存最终选择的部门-->
-    <input type="hidden" id="ogranId" name="ogranId">
 
     <div class="layui-form-item">
         <label class="layui-form-label">职位</label>
@@ -126,39 +122,43 @@
 
 
     // let user_role_admin_list = path + "/admin/adminRole/findUserRole";      // 角色分配查询所有--用户当前角色赋予Checked=true
+    layui.config({
+        base: '../components/cascader/ext/' //静态资源所在路径
+    }).extend({
+        cascader: 'cascader/cascader'
+    }).use(['jquery', 'cascader', 'form', 'upload'], function () {
 
-
-    layui.use(['form', 'upload'], function () {
         init();
+        initOrgan()
         upload();
         formSubmit();
-        verify();
+        //verify();
     });
 
 
     function init() {
 
         // 获取一级公司/部门
-        ogranListOne = Ajax.get(parent.ogranListUrl).data;
-        ogranListOneHtml = "<option value=\"\">请选择</option>"
-        for (let i = 0; i < ogranListOne.length; i++) {
-            ogranListOneHtml += "<option value='" + ogranListOne[i].id + "'> " + ogranListOne[i].name + "  </option>"
+        organListOne = Ajax.get(parent.organListUrl).data;
+        organListOneHtml = "<option value=\"\">请选择</option>"
+        for (let i = 0; i < organListOne.length; i++) {
+            organListOneHtml += "<option value='" + organListOne[i].id + "'> " + organListOne[i].name + "  </option>"
         }
-        $("#ogranOneId").html(ogranListOneHtml);
+        $("#organOneId").html(organListOneHtml);
 
         // 监听选择(直接刷新页面数据)
-        layui.form.on('select(ogranIdOneClick)', function (data) {
-            ogranIdOneClick(data.value);
-            $("#ogranId").html(data.value);
+        layui.form.on('select(organIdOneClick)', function (data) {
+            organIdOneClick(data.value);
+            $("#organId").html(data.value);
         });
         // 监听选择(直接刷新页面数据)
-        layui.form.on('select(ogranIdTwoClick)', function (data) {
-            ogranIdTwoClick(data.value);
-            $("#ogranId").html(data.value);
+        layui.form.on('select(organIdTwoClick)', function (data) {
+            organIdTwoClick(data.value);
+            $("#organId").html(data.value);
         });
         // 监听选择(直接刷新页面数据)
-        layui.form.on('select(ogranIdThreeClick)', function (data) {
-            $("#ogranId").html(data.value);
+        layui.form.on('select(organIdThreeClick)', function (data) {
+            $("#organId").html(data.value);
         });
 
 
@@ -170,6 +170,7 @@
         $("#fullName").val(parent.data.fullName);
         $("#age").val(parent.data.age);
         $("#address").val(parent.data.address);
+        $("#organId").val(parent.data.organId);
         $("#gender").html(Dict.getDictRadio(Enums.Base.Gender, "gender", parent.data.gender));             // 性别
         $("#position").html(Dict.getDictRadio(Enums.Admin.Position, "position", parent.data.position));    // 职位
         $("#terminal").html(Dict.getDictRadio(Enums.Admin.Terminal, "terminal", parent.data.terminal));     // 终端
@@ -195,81 +196,45 @@
             }
         });
         $("#roleIds").html(roleHtml);
-
-        // 回显公司/部门
-        if (parent.data.ogranId != null) {
-            // 当前数据和当前级别
-            let ogranList = [];
-            let root;
-            for (let i = 0; i < ogranListOne.length; i++) {
-                if (parent.dataogranId == ogranListOne[i].id) {
-                    root = ogranListOne[i].root;
-                    // 获取同父id数据
-                    for (let j = 0; j < ogranListOne.length; j++) {
-                        if (ogranListOne[i].pid == ogranListOne[j].pid) {
-                            ogranList.push(ogranListOne[j])
-                        }
-                    }
-                }
-            }
-            // 渲染最后一级数据
-            ogranIdTwoClick(id)
-        }
         // 刷新,否则select可能不生效
         layui.form.render();
     }
 
-    /**
-     * 渲染部门二级选择
-     */
-    function ogranIdOneClick(id) {
-        if (id == null || id == "") {
-            $("#ogranTwoId").html("");
-            $("#ogranThreeId").html("");
-        }
 
-        // 获取选中的下级数据
-        for (let i = 0; i < ogranListOne.length; i++) {
-            if (id == ogranListOne[i].id) {
-                ogranListTwo = ogranListOne[i].ograns;
-                // 渲染下级部门
-                //let ogranListTwoHtml = "<option value=\"\">请选择</option>"
-                let ogranListTwoHtml = ""
-                for (let i = 0; i < ogranListTwo.length; i++) {
-                    ogranListTwoHtml += "<option value='" + ogranListTwo[i].id + "'> " + ogranListTwo[i].name + "  </option>"
-                }
-                $("#ogranTwoId").html(ogranListTwoHtml);
-                break;
-            }
-        }
-        // 刷新,否则select可能不生效
-        layui.form.render();
+    function initOrgan() {
+        var areaTree = Ajax.get(parent.organListUrl).data;
+        // *elem：HTMLElement对象，例如：$('input[name=example]')[0]
+        // *options：Array 数据
+        // onChange: Function(curr, value) curr: 选中值，value：所有值(当multiple为true有效)
+        // multiple：boolean 是否开启多选，默认 Flase
+        // collapseTags：boolean 是否折叠选项（multiple 开启时有效），默认 True
+        // showAllLevels: boolean 是否查看所有级名，默认 True
+        // props：数据对象解析，默认：{ label: 'label', value: 'value', children: 'children' }
+        // placeholder：String 无选择文本填充 默认 请选择
+        // separator：String 显示文本的分隔符号（showAllLevels开启时生效） 默认 /
+        // valueSeparator：String 选择值的级联分隔符号 默认 ,
+        // groupSeparator：String 多选时选择值的组分隔符号 默认 |
+        var $ = layui.jquery, cascader = layui.cascader;
+        cascader.render({
+            elem: $('input[name=organId]')[0],
+            options: areaTree,
+            // onChange: function(curr, value){
+            //     console.log(curr+ value);
+            // },
+            multiple: false,
+            showAllLevels: true,
+            collapseTags: false,
+            valueSeparator: ",", //String 选择值的级联分隔符号 默认 ,
+            placeholder: "无",
+            props: {
+                label: 'name',
+                value: 'id',
+                children: 'organs'
+            },
+            //options: JSON.parse(areaTree),
+        });
     }
 
-    /**
-     * 渲染部门三级选择
-     */
-    function ogranIdTwoClick(id) {
-        if (id == null || id == "") {
-            $("#ogranThreeId").html("");
-        }
-        // 获取选中的下级数据
-        for (let i = 0; i < ogranListTwo.length; i++) {
-            if (id == ogranListTwo[i].id) {
-                let ogranListThree = ogranListTwo[i].ograns;
-                // 渲染下级部门
-                let ogranListThreeHtml = "<option value=\"\">请选择</option>"
-                //let ogranListThreeHtml = ""
-                for (let i = 0; i < ogranListThree.length; i++) {
-                    ogranListThreeHtml += "<option value='" + ogranListThree[i].id + "'> " + ogranListThree[i].name + "  </option>"
-                }
-                $("#ogranThreeId").html(ogranListThreeHtml);
-                break;
-            }
-        }
-        // 刷新,否则select可能不生效
-        layui.form.render();
-    }
 
 
     function formSubmit() {

@@ -80,7 +80,7 @@ public class AdminUser extends BaseEntity {
     /**
      * 公司/部门
      */
-    private String ogranId;
+    private String organId;
 
     /**
      * 职位 职位(字典code)

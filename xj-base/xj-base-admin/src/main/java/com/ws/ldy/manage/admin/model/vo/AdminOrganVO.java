@@ -1,12 +1,12 @@
-package com.ws.ldy.manage.admin.model.dto;
+package com.ws.ldy.manage.admin.model.vo;
 
-import com.ws.ldy.core.base.model.BaseDto;
+import com.ws.ldy.core.base.model.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
+
+import java.util.List;
 
 /**
  * 基础表--组织机构
@@ -19,38 +19,34 @@ import org.hibernate.validator.constraints.Range;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "AdminOgranDTO 对象", description = "基础表--组织机构")
-public class AdminOgranDTO extends BaseDto {
+@ApiModel(value = "AdminOrganVO 对象", description = "基础表--组织机构")
+public class AdminOrganVO extends BaseVo {
 
-    private static final long serialVersionUID = -603467428411871238L;
+    private static final long serialVersionUID = -603467428327985153L;
     
     @ApiModelProperty(value = "父Id (顶级父id=0)",position = 0)
-    @Length(min=0, max=32,message = "父Id  必须>=0 和 <=32位")
     private String pid;
 
     @ApiModelProperty(value = "部门编码 (开始查询使用,不可重复)",position = 1)
-    @Length(min=0, max=32,message = "部门编码  必须>=0 和 <=32位")
     private String code;
 
     @ApiModelProperty(value = "部门/公司名称",position = 2)
-    @Length(min=0, max=32,message = "部门/公司名称 必须>=0 和 <=32位")
     private String name;
 
     @ApiModelProperty(value = "部门/公司描叙",position = 3)
-    @Length(min=0, max=128,message = "部门/公司描叙 必须>=0 和 <=128位")
     private String desc;
 
     @ApiModelProperty(value = "排序",position = 4)
-    @Range(min=0, max=1215752191L,message = "排序 必须>=0 和 <=1215752191")
     private Integer sort;
 
     @ApiModelProperty(value = "禁用(0-否 1-是)",position = 5)
-    @Range(min=0, max=9L,message = "禁用 必须>=0 和 <=9")
     private Integer disable;
 
     @ApiModelProperty(value = "级别(1-一级 2-二级 3-三级)",position = 5)
-    @Range(min=0, max=9L,message = "级别 必须>=0 和 <=9")
     private Integer root;
+
+    @ApiModelProperty(value = "下级数据",position = 5)
+    private List<AdminOrganVO>  organs;
 
 }
 

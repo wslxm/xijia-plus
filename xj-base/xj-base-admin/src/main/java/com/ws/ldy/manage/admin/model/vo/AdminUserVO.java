@@ -44,7 +44,7 @@ public class AdminUserVO extends BaseVo {
     @ApiModelProperty(value = "最后登录时间")
     private LocalDateTime endTime;
     @ApiModelProperty(value = "公司/部门Id")
-    private String ogranId;
+    private String organId;
     @ApiModelProperty(value = "职位（字典code）")
     private Integer position;
     @ApiModelProperty(value = "终端 (字段code)")
@@ -60,5 +60,5 @@ public class AdminUserVO extends BaseVo {
     @ApiModelProperty(value = "用户角色信息,id 查询存在/列表查询都返回(只返回id/name)")
     private List<AdminRoleVO> roles;
     @ApiModelProperty(value = "公司/部门信息,存在下级关联数据")
-    private AdminOgranVO ogran;
+    private AdminOrganVO organ;
 }

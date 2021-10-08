@@ -10,7 +10,7 @@ public interface Base{
     // -
     @Getter
     @AllArgsConstructor
-    enum OgranRoot implements IEnum<Integer> {
+    enum OrganRoot implements IEnum<Integer> {
         V1(1, "一级"),    // -
         V2(2, "二级"),    // -
         V3(3, "三级"),    // -

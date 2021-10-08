@@ -102,7 +102,7 @@
         <label class="layui-form-label">部门</label>
         <div class="layui-input-inline">
             <div class="rc-cascader">
-                <input type="text" id="ogranId" name="ogranId" value="" style="display: none;"/>
+                <input type="text" id="organId" name="organId" value="" style="display: none;"/>
             </div>
         </div>
     </div>
@@ -128,11 +128,6 @@
 </div>
 
 <script>
-    // 一级部门数据 部门完整数据
-    var ogranListOne;
-    // 当前选中部门的二级部门数据,便于获取三级数据
-    var ogranListTwo;
-
     // layui.config({
     //     base: '../components/treetable-lay/module/' //静态资源所在路径
     // }).extend({
@@ -146,7 +141,7 @@
     }).use(['jquery', 'cascader', 'form', 'upload'], function () {
 
         init();
-        initOgran()
+        initOrgan()
         upload();
         formSubmit();
     });
@@ -177,8 +172,8 @@
     }
 
 
-    function initOgran() {
-        var areaTree = Ajax.get(parent.ogranListUrl).data;
+    function initOrgan() {
+        var areaTree = Ajax.get(parent.organListUrl).data;
         // *elem：HTMLElement对象，例如：$('input[name=example]')[0]
         // *options：Array 数据
         // onChange: Function(curr, value) curr: 选中值，value：所有值(当multiple为true有效)
@@ -192,7 +187,7 @@
         // groupSeparator：String 多选时选择值的组分隔符号 默认 |
         var $ = layui.jquery, cascader = layui.cascader;
         cascader.render({
-            elem: $('input[name=ogranId]')[0],
+            elem: $('input[name=organId]')[0],
             options: areaTree,
             // onChange: function(curr, value){
             //     console.log(curr+ value);
@@ -205,7 +200,7 @@
             props: {
                 label: 'name',
                 value: 'id',
-                children: 'ograns'
+                children: 'organs'
             },
             //options: JSON.parse(areaTree),
         });

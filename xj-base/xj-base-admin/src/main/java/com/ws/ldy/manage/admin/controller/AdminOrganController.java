@@ -3,10 +3,10 @@ package com.ws.ldy.manage.admin.controller;
 import com.ws.ldy.core.base.controller.BaseController;
 import com.ws.ldy.core.constant.BaseConstant;
 import com.ws.ldy.core.result.R;
-import com.ws.ldy.manage.admin.model.dto.AdminOgranDTO;
-import com.ws.ldy.manage.admin.model.query.AdminOgranQuery;
-import com.ws.ldy.manage.admin.model.vo.AdminOgranVO;
-import com.ws.ldy.manage.admin.service.AdminOgranService;
+import com.ws.ldy.manage.admin.model.dto.AdminOrganDTO;
+import com.ws.ldy.manage.admin.model.query.AdminOrganQuery;
+import com.ws.ldy.manage.admin.model.vo.AdminOrganVO;
+import com.ws.ldy.manage.admin.service.AdminOrganService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -25,25 +25,25 @@ import java.util.List;
  * @date 2021-09-30 16:10:57
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/ogran")
-@Api(value = "AdminOgranController", tags = "基础表--组织机构")
-public class AdminOgranController extends BaseController<AdminOgranService> {
+@RequestMapping(BaseConstant.Uri.apiAdmin + "/organ")
+@Api(value = "AdminOrganController", tags = "基础表--组织机构")
+public class AdminOrganController extends BaseController<AdminOrganService> {
 
     @GetMapping(value = "/list")
     @ApiOperation(value = "列表查询")
-    public R<List<AdminOgranVO>> list(@ModelAttribute @Validated AdminOgranQuery query) {
+    public R<List<AdminOrganVO>> list(@ModelAttribute @Validated AdminOrganQuery query) {
         return R.success(baseService.list(query));
     }
 
     @PostMapping
     @ApiOperation(value = "添加")
-    public R<String> insert(@RequestBody @Validated AdminOgranDTO dto) {
+    public R<String> insert(@RequestBody @Validated AdminOrganDTO dto) {
         return R.successInsert(baseService.insert(dto));
     }
 
     @PutMapping(value = "/{id}")
     @ApiOperation(value = "ID编辑")
-    public R<Boolean> upd(@PathVariable String id, @RequestBody @Validated AdminOgranDTO dto) {
+    public R<Boolean> upd(@PathVariable String id, @RequestBody @Validated AdminOrganDTO dto) {
         return R.successUpdate(baseService.upd(id, dto));
     }
 

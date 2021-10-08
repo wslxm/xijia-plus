@@ -61,11 +61,11 @@
 
 <script>
     // 接口
-    var ogranUrl = path + "/admin/ogran";
-    var ogranListUrl = path + "/admin/ogran/list";
+    var organUrl = path + "/admin/organ";
+    var organListUrl = path + "/admin/organ/list";
     // 路由
-    let page_add = "/page/manage_admin_ogran_ogranAdd";     // 添加弹层
-    let page_upd = "/page/manage_admin_ogran_ogranUpd";     // 编辑弹层
+    let page_add = "/page/manage_admin_organ_organAdd";     // 添加弹层
+    let page_upd = "/page/manage_admin_organ_organUpd";     // 编辑弹层
 
     // 当前行数据
     var data;
@@ -99,7 +99,7 @@
     function xijiaRenderTable() {
 
         //菜单数据
-        let dataJson = Ajax.get(ogranListUrl + xijiaSearchParam());
+        let dataJson = Ajax.get(organListUrl + xijiaSearchParam());
         // 渲染表格
         layer.load(2);
         //加载数据
@@ -194,7 +194,7 @@
                     , btn: ['必须删', '不删了']
                     , yes: function (index) {
                         // 获得要删除菜单及所有子菜单
-                        let result = Ajax.delete(ogranUrl + "/" + data.id);
+                        let result = Ajax.delete(organUrl + "/" + data.id);
                         // 重载页面
                         // parent.window.location.reload();
                         WindowPos.onbeforeunload();  // 记录滚动条位置
@@ -269,7 +269,7 @@
         layui.form.on('switch(disable)', function (data) {
             let id = data.elem.attributes['id'].nodeValue;
             let disable = data.elem.checked ? 0 : 1;
-            let result = Ajax.put(ogranUrl + "/" + id, {disable: disable});
+            let result = Ajax.put(organUrl + "/" + id, {disable: disable});
             layer.msg(result.msg)
         });
     }

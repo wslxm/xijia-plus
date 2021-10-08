@@ -50,7 +50,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     private XjAdminConfigService xjAdminConfigService;
 
     @Autowired
-    private AdminOgranService adminOgranService;
+    private AdminOrganService adminOrganService;
 
 
     @Override
@@ -138,7 +138,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // 角色id组装便于角色回显
         userVO.setRoleIds(userVO.getRoles() == null ? null : userVO.getRoles().stream().map(AdminRoleVO::getId).collect(Collectors.toList()));
         // 公司/部门信息
-        userVO.setOgran(adminOgranService.fingNextOgrans(userVO.getOgranId()));
+        userVO.setOrgan(adminOrganService.fingNextOrgans(userVO.getOrganId()));
         return userVO;
     }
 

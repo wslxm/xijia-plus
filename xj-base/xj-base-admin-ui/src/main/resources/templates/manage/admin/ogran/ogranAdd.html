@@ -56,18 +56,18 @@
 
 <script>
     layui.use(['laydate', 'upload', 'form'], function () {
-        adminOgranaddFormSubmit();
-        adminOgranaddInit();
+        adminOrganaddFormSubmit();
+        adminOrganaddInit();
     });
 
-    function adminOgranaddInit() {
+    function adminOrganaddInit() {
         // 初始化相关数据
 
         // 刷新,否则部分from 表单样式不生效
         layui.form.render();
     }
 
-    function adminOgranaddFormSubmit() {
+    function adminOrganaddFormSubmit() {
 
 
         //监听提交
@@ -79,7 +79,7 @@
                 data.field.root = parent.data.root + 1;
                 data.field.pid = parent.data.id;
             }
-            let result = Ajax.post(parent.ogranUrl, data.field);
+            let result = Ajax.post(parent.organUrl, data.field);
             let index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
             parent.layer.msg(result.msg);

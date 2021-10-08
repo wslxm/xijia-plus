@@ -1,7 +1,7 @@
 package com.ws.ldy.manage.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ws.ldy.manage.admin.model.entity.AdminOgran;
+import com.ws.ldy.manage.admin.model.entity.AdminOrgan;
 
 /**
  * 基础表--组织机构
@@ -12,7 +12,7 @@ import com.ws.ldy.manage.admin.model.entity.AdminOgran;
  * @email  1720696548@qq.com
  * @date  2021-09-30 16:10:57
  */
-public interface AdminOgranMapper extends BaseMapper<AdminOgran> {
+public interface AdminOrganMapper extends BaseMapper<AdminOrgan> {
 
 
 }

@@ -1,10 +1,10 @@
 package com.ws.ldy.manage.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ws.ldy.manage.admin.model.dto.AdminOgranDTO;
-import com.ws.ldy.manage.admin.model.entity.AdminOgran;
-import com.ws.ldy.manage.admin.model.query.AdminOgranQuery;
-import com.ws.ldy.manage.admin.model.vo.AdminOgranVO;
+import com.ws.ldy.manage.admin.model.dto.AdminOrganDTO;
+import com.ws.ldy.manage.admin.model.entity.AdminOrgan;
+import com.ws.ldy.manage.admin.model.query.AdminOrganQuery;
+import com.ws.ldy.manage.admin.model.vo.AdminOrganVO;
 
 import java.util.List;
 
@@ -17,13 +17,13 @@ import java.util.List;
  * @email 1720696548@qq.com
  * @date 2021-09-30 16:10:57
  */
-public interface AdminOgranService extends IService<AdminOgran> {
+public interface AdminOrganService extends IService<AdminOrgan> {
 
-    List<AdminOgranVO> list(AdminOgranQuery query);
+    List<AdminOrganVO> list(AdminOrganQuery query);
 
-    String insert(AdminOgranDTO dto);
+    String insert(AdminOrganDTO dto);
 
-    boolean upd(String id, AdminOgranDTO dto);
+    boolean upd(String id, AdminOrganDTO dto);
 
     boolean del(String id);
 
@@ -35,6 +35,6 @@ public interface AdminOgranService extends IService<AdminOgran> {
      * @return boolean
      * @version 1.0.0
      */
-    AdminOgranVO fingNextOgrans(String id);
+    AdminOrganVO fingNextOrgans(String id);
 }
 

@@ -20,9 +20,9 @@ import org.hibernate.validator.constraints.Range;
  */
 @Data
 @ToString(callSuper = true)
-@TableName("t_admin_ogran")
-@ApiModel(value = "AdminOgran 对象", description = "基础表--组织机构")
-public class AdminOgran extends BaseEntity {
+@TableName("t_admin_organ")
+@ApiModel(value = "AdminOrgan 对象", description = "基础表--组织机构")
+public class AdminOrgan extends BaseEntity {
 
     private static final long serialVersionUID = -603467428239904776L;
     

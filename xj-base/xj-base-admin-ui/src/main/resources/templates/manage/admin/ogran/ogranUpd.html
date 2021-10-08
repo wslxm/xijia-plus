@@ -55,11 +55,11 @@
 
 <script>
     layui.use(['laydate','upload','form'], function () {
-        adminOgranupdInit();
-        adminOgranupdFormSubmit()
+        adminOrganupdInit();
+        adminOrganupdFormSubmit()
     });
 
-    function adminOgranupdInit(){
+    function adminOrganupdInit(){
           <!-- 初始化相关数据, 和父页面的值赋值到当前页 -->
           
          $('#code').val(parent.data.code);
@@ -70,11 +70,11 @@
           layui.form.render();
     }
 
-    function adminOgranupdFormSubmit(){
+    function adminOrganupdFormSubmit(){
           // 监听提交
           layui.form.on('submit(layuiadmin-app-form-submit)', function (data) {
                 
-                let result = Ajax.put(parent.ogranUrl + "/" + parent.data.id, data.field);
+                let result = Ajax.put(parent.organUrl + "/" + parent.data.id, data.field);
                 let index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);
                 parent.layer.msg(result.msg);

@@ -21,8 +21,8 @@ import com.ws.ldy.core.base.model.BaseQuery;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "AdminOgranQuery 对象", description = "基础表--组织机构")
-public class AdminOgranQuery extends Convert {
+@ApiModel(value = "AdminOrganQuery 对象", description = "基础表--组织机构")
+public class AdminOrganQuery extends Convert {
 
     private static final long serialVersionUID = -603467428491563017L;
 
