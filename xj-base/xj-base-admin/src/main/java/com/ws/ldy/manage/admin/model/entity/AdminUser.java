@@ -78,6 +78,11 @@ public class AdminUser extends BaseEntity {
     @TableField(value = "`disable`")
     private Integer disable;
     /**
+     * 公司/部门
+     */
+    private String ogranId;
+
+    /**
      * 职位 职位(字典code)
      */
     private Integer position;

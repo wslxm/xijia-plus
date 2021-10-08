@@ -43,6 +43,8 @@ public class AdminUserVO extends BaseVo {
     private LocalDateTime regTime;
     @ApiModelProperty(value = "最后登录时间")
     private LocalDateTime endTime;
+    @ApiModelProperty(value = "公司/部门Id")
+    private String ogranId;
     @ApiModelProperty(value = "职位（字典code）")
     private Integer position;
     @ApiModelProperty(value = "终端 (字段code)")
@@ -51,10 +53,12 @@ public class AdminUserVO extends BaseVo {
     private Integer wxOpenId;
     @ApiModelProperty(value = "备注")
     private String remarks;
-  /*  @ApiModelProperty(value = "是否选中(角色是否有改用户，前台复选框默认选中需要值)")
-    private Boolean isChecked;*/
+    /*  @ApiModelProperty(value = "是否选中(角色是否有改用户，前台复选框默认选中需要值)")
+      private Boolean isChecked;*/
     @ApiModelProperty(value = "用户角色ids, id 查询存在")
     private List<String> roleIds;
     @ApiModelProperty(value = "用户角色信息,id 查询存在/列表查询都返回(只返回id/name)")
     private List<AdminRoleVO> roles;
+    @ApiModelProperty(value = "公司/部门信息,存在下级关联数据")
+    private AdminOgranVO ogran;
 }

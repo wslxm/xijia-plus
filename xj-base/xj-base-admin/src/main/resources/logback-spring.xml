@@ -65,11 +65,11 @@
 
     <!-- 拦截堆错误包, 不打印-指定类-指定级别-的日志-->
     <logger name="com.alibaba.nacos.client.config.impl.ClientWorker" level="ERROR"/>
+    <logger name="io.swagger.models.parameters.AbstractSerializableParameter" level="ERROR"/>            <!-- swagger-bug，去除无设置默认参数异常日志  -->
     <logger name="springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator" level="ERROR"/>
     <logger name="de.codecentric.boot.admin.server.web.servlet.InstancesProxyController" level="ERROR"/><!-- 屏蔽系统监控日志太多,在每秒实现  -->
-    <logger name="java.lang.NoClassDefFoundError" level="ERROR"/> <!-- 屏蔽动态添加java类的警告内容  -->
-    <!-- 解决SpringBootAdmin错误日志问题 -->
-    <logger name="org.apache.catalina.connector.CoyoteAdapter" level="OFF"/>
+    <logger name="java.lang.NoClassDefFoundError" level="ERROR"/>              <!-- 屏蔽动态添加java类的警告内容  -->
+    <logger name="org.apache.catalina.connector.CoyoteAdapter" level="OFF"/>   <!-- 解决SpringBootAdmin错误日志问题 -->
 
     <!-- 日志输出级别  [ level > FATAL > ERROR > WARN > INFO > DEBUG > ] 只建议配置以下4种 ERROR、WARN、INFO、DEBUG
        DEBUG[调试信息] -> [ERROR、WARN、INFO、DEBUG]

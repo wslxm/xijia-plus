@@ -10,6 +10,7 @@
         <!-- <result column="password" property="password"/> -->
         <result column="gender" property="gender"/>
         <result column="disable" property="disable"/>
+        <result column="ogran_id" property="ogranId"/>
         <result column="position" property="position"/>
         <result column="terminal" property="terminal"/>
         <result column="head" property="head"/>

@@ -85,6 +85,25 @@
     </div>
 
     <div class="layui-form-item">
+        <label class="layui-form-label">部门</label>
+        <div class="layui-input-inline">
+            <select id="ogranOneId" name="ogranOneId" lay-filter="ogranIdOneClick">
+                <option value="">请选择</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select id="ogranTwoId" name="ogranTwoId" lay-filter="ogranIdTwoClick">
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select id="ogranThreeId" name="ogranThreeId" lay-filter="ogranIdThreeClick">
+            </select>
+        </div>
+    </div>
+    <!-- 保存最终选择的部门-->
+    <input type="hidden" id="ogranId" name="ogranId">
+
+    <div class="layui-form-item">
         <label class="layui-form-label">职位</label>
         <div id="position" class="layui-input-block">
         </div>
@@ -118,6 +137,31 @@
 
 
     function init() {
+
+        // 获取一级公司/部门
+        ogranListOne = Ajax.get(parent.ogranListUrl).data;
+        ogranListOneHtml = "<option value=\"\">请选择</option>"
+        for (let i = 0; i < ogranListOne.length; i++) {
+            ogranListOneHtml += "<option value='" + ogranListOne[i].id + "'> " + ogranListOne[i].name + "  </option>"
+        }
+        $("#ogranOneId").html(ogranListOneHtml);
+
+        // 监听选择(直接刷新页面数据)
+        layui.form.on('select(ogranIdOneClick)', function (data) {
+            ogranIdOneClick(data.value);
+            $("#ogranId").html(data.value);
+        });
+        // 监听选择(直接刷新页面数据)
+        layui.form.on('select(ogranIdTwoClick)', function (data) {
+            ogranIdTwoClick(data.value);
+            $("#ogranId").html(data.value);
+        });
+        // 监听选择(直接刷新页面数据)
+        layui.form.on('select(ogranIdThreeClick)', function (data) {
+            $("#ogranId").html(data.value);
+        });
+
+
         //父页面的值,赋值到当前页
         $("#head").val(parent.data.head);
         $("#headImg").attr("src", parent.data.head);
@@ -151,6 +195,78 @@
             }
         });
         $("#roleIds").html(roleHtml);
+
+        // 回显公司/部门
+        if (parent.data.ogranId != null) {
+            // 当前数据和当前级别
+            let ogranList = [];
+            let root;
+            for (let i = 0; i < ogranListOne.length; i++) {
+                if (parent.dataogranId == ogranListOne[i].id) {
+                    root = ogranListOne[i].root;
+                    // 获取同父id数据
+                    for (let j = 0; j < ogranListOne.length; j++) {
+                        if (ogranListOne[i].pid == ogranListOne[j].pid) {
+                            ogranList.push(ogranListOne[j])
+                        }
+                    }
+                }
+            }
+            // 渲染最后一级数据
+            ogranIdTwoClick(id)
+        }
+        // 刷新,否则select可能不生效
+        layui.form.render();
+    }
+
+    /**
+     * 渲染部门二级选择
+     */
+    function ogranIdOneClick(id) {
+        if (id == null || id == "") {
+            $("#ogranTwoId").html("");
+            $("#ogranThreeId").html("");
+        }
+
+        // 获取选中的下级数据
+        for (let i = 0; i < ogranListOne.length; i++) {
+            if (id == ogranListOne[i].id) {
+                ogranListTwo = ogranListOne[i].ograns;
+                // 渲染下级部门
+                //let ogranListTwoHtml = "<option value=\"\">请选择</option>"
+                let ogranListTwoHtml = ""
+                for (let i = 0; i < ogranListTwo.length; i++) {
+                    ogranListTwoHtml += "<option value='" + ogranListTwo[i].id + "'> " + ogranListTwo[i].name + "  </option>"
+                }
+                $("#ogranTwoId").html(ogranListTwoHtml);
+                break;
+            }
+        }
+        // 刷新,否则select可能不生效
+        layui.form.render();
+    }
+
+    /**
+     * 渲染部门三级选择
+     */
+    function ogranIdTwoClick(id) {
+        if (id == null || id == "") {
+            $("#ogranThreeId").html("");
+        }
+        // 获取选中的下级数据
+        for (let i = 0; i < ogranListTwo.length; i++) {
+            if (id == ogranListTwo[i].id) {
+                let ogranListThree = ogranListTwo[i].ograns;
+                // 渲染下级部门
+                let ogranListThreeHtml = "<option value=\"\">请选择</option>"
+                //let ogranListThreeHtml = ""
+                for (let i = 0; i < ogranListThree.length; i++) {
+                    ogranListThreeHtml += "<option value='" + ogranListThree[i].id + "'> " + ogranListThree[i].name + "  </option>"
+                }
+                $("#ogranThreeId").html(ogranListThreeHtml);
+                break;
+            }
+        }
         // 刷新,否则select可能不生效
         layui.form.render();
     }

@@ -68,12 +68,4 @@ public interface AdminUserService extends IService<AdminUser> {
      */
     Boolean updByPassword(String oldPassword, String password);
 
-    /**
-     * 绑定微信
-     * @param username
-     * @param password
-     * @param openId
-     */
-    Boolean bindWeChatMq(String username, String password, String openId);
-
 }

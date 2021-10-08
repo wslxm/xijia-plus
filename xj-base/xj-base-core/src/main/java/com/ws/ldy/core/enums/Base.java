@@ -7,6 +7,18 @@ import lombok.Getter;
 @SuppressWarnings("all")
 public interface Base{
 
+    // -
+    @Getter
+    @AllArgsConstructor
+    enum OgranRoot implements IEnum<Integer> {
+        V1(1, "一级"),    // -
+        V2(2, "二级"),    // -
+        V3(3, "三级"),    // -
+        ;
+        private Integer value;
+        private String desc;
+    }
+
     // 【固定值】用于代码生成默认使用的code值
     @Getter
     @AllArgsConstructor

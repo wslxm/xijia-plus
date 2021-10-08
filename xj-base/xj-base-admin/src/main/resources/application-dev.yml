@@ -8,9 +8,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://xijia.plus/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
-    username: root
-    password: root123456
+    url: jdbc:mysql://rm-8vbkpoec225c821d8vo.mysql.zhangbei.rds.aliyuncs.com/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
+    username: wangsong
+    password: XJspringbootplus@#
 
 aliyun:
   ## 对象存储服务，个人账号,拉取此代码调试后请修改为自己的,如发现滥用,将关停

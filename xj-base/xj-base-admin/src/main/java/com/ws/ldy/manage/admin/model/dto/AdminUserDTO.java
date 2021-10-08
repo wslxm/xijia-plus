@@ -49,4 +49,6 @@ public class AdminUserDTO extends Convert {
     private String remarks;
     @ApiModelProperty(value = "角色Id")
     private List<String> roleIds;
+    @ApiModelProperty(value = "公司/部门id(选择的最后一级)")
+    private String ogranId;
 }

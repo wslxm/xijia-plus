@@ -12,6 +12,12 @@
     <script src="/manage/js/app.js"></script>
 </head>
 <body>
+<style>
+    .layui-form-item .layui-input-inline {
+        width: 300px;
+    !important;
+    }
+</style>
 
 <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list"
      style="padding: 20px 30px 0 0;">
@@ -93,6 +99,15 @@
     <!--    </div>-->
 
     <div class="layui-form-item">
+        <label class="layui-form-label">部门</label>
+        <div class="layui-input-inline">
+            <div class="rc-cascader">
+                <input type="text" id="ogranId" name="ogranId" value="" style="display: none;"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
         <label class="layui-form-label">职位</label>
         <div id="position" class="layui-input-block">
         </div>
@@ -113,17 +128,32 @@
 </div>
 
 <script>
+    // 一级部门数据 部门完整数据
+    var ogranListOne;
+    // 当前选中部门的二级部门数据,便于获取三级数据
+    var ogranListTwo;
 
+    // layui.config({
+    //     base: '../components/treetable-lay/module/' //静态资源所在路径
+    // }).extend({
+    //     treetable: 'treetable-lay/treetable'
+    //
+    //
+    layui.config({
+        base: '../components/cascader/ext/' //静态资源所在路径
+    }).extend({
+        cascader: 'cascader/cascader'
+    }).use(['jquery', 'cascader', 'form', 'upload'], function () {
 
-    layui.use(['form', 'upload'], function () {
         init();
+        initOgran()
         upload();
         formSubmit();
     });
 
 
     function init() {
-        //默认隐藏头像
+        // 默认隐藏头像
         $("#headImg").hide();
         $("#gender").html(Dict.getDictRadio(Enums.Base.Gender, "gender", null));       // 性别
         $("#position").html(Dict.getDictRadio(Enums.Admin.Position, "position", null)); // 职位
@@ -145,6 +175,42 @@
         // 刷新,否则select可能不生效
         layui.form.render();
     }
+
+
+    function initOgran() {
+        var areaTree = Ajax.get(parent.ogranListUrl).data;
+        // *elem：HTMLElement对象，例如：$('input[name=example]')[0]
+        // *options：Array 数据
+        // onChange: Function(curr, value) curr: 选中值，value：所有值(当multiple为true有效)
+        // multiple：boolean 是否开启多选，默认 Flase
+        // collapseTags：boolean 是否折叠选项（multiple 开启时有效），默认 True
+        // showAllLevels: boolean 是否查看所有级名，默认 True
+        // props：数据对象解析，默认：{ label: 'label', value: 'value', children: 'children' }
+        // placeholder：String 无选择文本填充 默认 请选择
+        // separator：String 显示文本的分隔符号（showAllLevels开启时生效） 默认 /
+        // valueSeparator：String 选择值的级联分隔符号 默认 ,
+        // groupSeparator：String 多选时选择值的组分隔符号 默认 |
+        var $ = layui.jquery, cascader = layui.cascader;
+        cascader.render({
+            elem: $('input[name=ogranId]')[0],
+            options: areaTree,
+            // onChange: function(curr, value){
+            //     console.log(curr+ value);
+            // },
+            multiple: false,
+            showAllLevels: true,
+            collapseTags: false,
+            valueSeparator: ",", //String 选择值的级联分隔符号 默认 ,
+            placeholder: "无",
+            props: {
+                label: 'name',
+                value: 'id',
+                children: 'ograns'
+            },
+            //options: JSON.parse(areaTree),
+        });
+    }
+
 
 
     function upload() {
