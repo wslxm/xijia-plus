@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tree-table</title>
+    <link rel="stylesheet" href="/components/treetable-lay/assets/layui/css/layui.css">
+    <link rel="stylesheet" href="/components/treetable-lay/assets/common.css"/>
+    <script src='/components/treetable-lay/assets/layui/layui.js'></script>
+    <script src="/manage/js/app.js"></script>
+    <style>
+        /* 搜索框大小 */
+        input {
+            height: 33px;
+            width: 150px;
+            line-height: 33px;
+            padding: 0 7px;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            margin-bottom: -2px;
+            outline: none;
+        }
+
+        /* 搜索按钮颜色 */
+        input:focus {
+            border-color: #009E94;
+        }
+    </style>
+</head>
+
+<body>
+<!-- 设置数据表格宽 -->
+<div class="layui-container layui-form" style="width: 96%;margin-left: 40px">
+    <br>
+    <br>
+    <!-- 展开/折叠 -->
+    <div class="layui-btn-group">
+        <button class="layui-btn layui-btn-primary" id="btn-expand">全部展开</button>
+        <button class="layui-btn layui-btn-primary" id="btn-fold">全部折叠</button>
+    </div>
+    <!-- 搜索按钮 -->
+    <input id="edt-search" type="text" placeholder="输入关键字"/>&nbsp;&nbsp;
+    <button class="layui-btn  layui-btn-normal layui-btn-sm" id="btn-search">&nbsp;搜索&nbsp;&nbsp;</button>
+    <!-- 表格头按钮 -->
+    <button class="layui-btn  layui-btn-sm" data-type="add">+ 添加公司</button>
+    <!-- 数据表格 -->
+    <table id="auth-table" class="layui-table" lay-filter="auth-table"></table>
+</div>
+
+
+<!-- 每一行的数据修改或删除  隐藏占位 opacity: -->
+<script type="text/html" id="barDemo">
+    {{#  if(d.root == 1 || d.root == 2){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="add">+ 子类别</a>
+    {{# }if(d.root == 3) { }}
+    <a class="layui-btn layui-btn-xs" lay-event="" style="opacity: 0">+ 子类别</a>
+    {{#  } }}
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+<script>
+    // 接口
+    var ogranUrl = path + "/admin/ogran";
+    var ogranListUrl = path + "/admin/ogran/list";
+    // 路由
+    let page_add = "/page/manage_admin_ogran_ogranAdd";     // 添加弹层
+    let page_upd = "/page/manage_admin_ogran_ogranUpd";     // 编辑弹层
+
+    // 当前行数据
+    var data;
+    var pid = "0";
+    var threePid;
+    var twoPid;
+    var onePid;
+
+
+    layui.config({
+        base: '../components/treetable-lay/module/' //静态资源所在路径
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['table', 'treetable'], function () {
+        xijiaRenderTable();       // 数据表格 - 获取表格
+        xijiaEventToolbar();      // 工具栏事件（多删除/添加）
+        xijiaEventTool();         // 监听数据表格内按钮操作（编辑,删除等）
+        xijiaEventSearch();       // 监听条件搜索
+        xijiaEventSwitch();       // 监听单选-是否禁用
+        initSearch();             //渲染select搜索
+    });
+
+
+    /**
+     *   数据表格
+     * @author ws
+     * @mail  1720696548@qq.com
+     * @date  2020/4/19 0019 21:43
+     * @return
+     */
+    function xijiaRenderTable() {
+
+        //菜单数据
+        let dataJson = Ajax.get(ogranListUrl + xijiaSearchParam());
+        // 渲染表格
+        layer.load(2);
+        //加载数据
+        layui.treetable.render({
+            treeColIndex: 0,            // 菜单列索引 ,加载展开图标
+            treeSpid: pid,                // 顶级父id的pid值
+            treeIdName: 'id',           // id 字段名
+            treePidName: 'pid',         // pid 字段名
+            treeDefaultClose: false,    // 是否默认折叠
+            treeLinkage: true,          // 父级展开时是否自动展开所有子级
+            elem: '#auth-table',        //table 的 div
+            data: dataJson.data,        //直接加载数据
+            done: function () {
+                //  $("table").css("width", "96%");
+                layer.closeAll('loading');
+            },
+            cols: [
+                [
+                    // {field: 'id', width: 200, title: 'ID'},//edit: 'text',
+                    {field: 'name', width: 300, title: '名称'},
+                    {field: 'code', width: 200, title: 'Code'},
+                    {field: 'desc',  title: '描叙'},
+                    {field: 'sort', width: 200, edit: 'text', title: '排序'},
+                    {
+                        field: 'disable', width: 200, title: '禁用/启用', templet: function (res) {
+                            let id = res.id;
+                            if (res.disable === 0) {
+                                return "   <input type='checkbox'  id = '" + id + "' lay-filter='disable' lay-skin='switch' lay-text='启用|禁用' checked>"
+                            } else if (res.disable === 1) {
+                                return "   <input type='checkbox'  id = '" + id + "'  lay-filter='disable' lay-skin='switch' lay-text='启用|禁用'>"
+                            }
+                        }
+                    },
+                    {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 300}
+                ]
+            ]
+        });
+    }
+
+
+    /**
+     *   工具栏事件（多删除 || 添加）  ==>> toolbar(auth-table): toolbar=监听表格头事件,  auth-table=数据表格elem 名称
+     * @author ws
+     * @mail  1720696548@qq.com
+     * @param null
+     * @date  2020/4/10 0010 0:05
+     * @return
+     */
+    function xijiaEventToolbar() {
+        let $ = layui.$, active = {
+            add: function () {
+                data = [];    // 初始化data
+                data.lv = 1;  // 给初始化后的data添加值，表示添加顶级类别
+                Pop.tipsWindown(page_add, "600px", "400px", "添加公司/部门");
+            }
+        };
+        //必须在下面/监听class = demoTable内按钮
+        $('.layui-container .layui-btn').on('click', function () {
+            let type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    }
+
+
+    /**
+     * 监听数据表格内按钮（编辑 || 删除 || 其他）, tool(auth-table)==> tool =监听按钮， auth-table=数据表格elem对应值
+     * @author ws
+     * @mail  1720696548@qq.com
+     * @date  2020/4/10 0010 0:03
+     * @return
+     */
+    function xijiaEventTool() {
+        //  表格内的按钮监听
+        layui.table.on('tool(auth-table)', function (obj) {
+            //当前行数据
+            data = obj.data;
+            //   添加子数据
+            if (obj.event === 'add') {
+                data.lv = 2; // 表示添加子类别
+                Pop.tipsWindown(page_add, "600px", "400px", "添加子公司/部门--" + data.name)
+            }
+            //   编辑
+            if (obj.event === 'edit') {
+                data.lv = 3;  // 编辑字典
+                Pop.tipsWindown(page_upd, "600px", "400px", "编辑公司/部门--" + data.name)
+            }
+            //   删除行
+            if (obj.event === 'del') {
+                let msg = "你确定要删除[ " + data.name + " ]么？";
+                layer.msg(msg, {
+                    time: 0
+                    , btn: ['必须删', '不删了']
+                    , yes: function (index) {
+                        // 获得要删除菜单及所有子菜单
+                        let result = Ajax.delete(ogranUrl + "/" + data.id);
+                        // 重载页面
+                        // parent.window.location.reload();
+                        WindowPos.onbeforeunload();  // 记录滚动条位置
+                        xijiaRenderTable();          // 重载数据
+                        WindowPos.onload();          // 还原滚动条位置
+                        layer.msg(result.msg);
+                        //layer.msg(result.msg + " 请手动刷新");
+                    }
+                });
+            }
+        });
+
+        //  表格内直接编辑内容的监听
+        layui.table.on('edit(auth-table)', function (obj) {
+            let data = obj.data;   // 得到所在行整行数据
+            let val = obj.value;   // 得到修改后的值
+            let field = obj.field; // 得到修改的字段
+            // 1、 sort-修改排序
+            if (field === "sort") {
+                let result = Ajax.put(dictionaryUrl + "/" + data.id, {sort: val});
+                layer.msg(result.msg)
+            }
+        });
+    }
+
+    /**
+     *   条件搜索
+     * @author ws
+     * @mail  1720696548@qq.com
+     * @date  2020/4/10 0010 0:03
+     * @return
+     */
+    function xijiaEventSearch() {
+        layui.$('#btn-expand').click(function () {
+            layui.treetable.expandAll('#auth-table');
+        });
+
+        layui.$('#btn-fold').click(function () {
+            layui.treetable.foldAll('#auth-table');
+        });
+
+        layui.$('#btn-search').click(function () {
+            let keyword = $('#edt-search').val();
+            let searchCount = 0;
+            layui.$('#auth-table').next('.treeTable').find('.layui-table-body tbody tr td').each(function () {
+                layui.$(this).css('background-color', 'transparent');
+                let text = $(this).text();
+                if (keyword !== '' && text.indexOf(keyword) >= 0) {
+                    layui.$(this).css('background-color', 'rgba(250,230,160,0.5)');
+                    if (searchCount === 0) {
+                        layui.treetable.expandAll('#auth-table');
+                        layui.$('html,body').stop(true);
+                        layui.$('html,body').animate({scrollTop: $(this).offset().top - 150}, 500);
+                    }
+                    searchCount++;
+                }
+            });
+            if (keyword === '') {
+                layer.msg("请输入搜索内容", {icon: 5});
+            } else if (searchCount === 0) {
+                layer.msg("没有匹配结果", {icon: 5});
+            }
+        });
+    }
+
+    /**
+     *  监听单选选中--禁用
+     * <p>
+     * switch(state) 对应 lay-filter='state'
+     */
+    function xijiaEventSwitch() {
+        layui.form.on('switch(disable)', function (data) {
+            let id = data.elem.attributes['id'].nodeValue;
+            let disable = data.elem.checked ? 0 : 1;
+            let result = Ajax.put(ogranUrl + "/" + id, {disable: disable});
+            layer.msg(result.msg)
+        });
+    }
+
+
+    /**
+     * 搜索参数
+     * @author wangsong
+     * @date 2020/8/23 0023 22:53
+     * @return
+     * @version 1.0.0
+     */
+    function xijiaSearchParam() {
+        let codeThree = $("#codeThree").val();
+        let codeTwo = $("#codeTwo").val();
+        let codeOne = $("#codeOne").val();
+        let code = "";
+        if (codeOne != null && codeOne !== '') {
+            code = codeOne;
+            pid = onePid;
+        }
+        if (codeTwo != null && codeTwo !== '') {
+            code = codeTwo;
+            pid = twoPid;
+        }
+        if (codeThree != null && codeThree !== '') {
+            code = codeThree;
+            pid = threePid;
+        }
+        if (code === "") {
+            pid = "0";
+        }
+        let params = "";
+        params += "?code=" + code;        // 父级code, 不传查询code，传递了只查询指定code下数据
+        params += "&isBottomLayer=true";  // 是否需要最后一级数据 true 需要*默认 false 不需要
+        params += "&isDisable=true";      // 是否查询禁用数据 true 查询*默认 false 不查询
+        params += "&isTree=false";        // isTree 是否返回树结构数据 tree 是*默认 false 否(返回过滤后的 list列表)
+        return params;
+    }
+
+</script>
+</body>
+</html>
