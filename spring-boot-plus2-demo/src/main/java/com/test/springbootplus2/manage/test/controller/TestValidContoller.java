@@ -1,9 +1,9 @@
 package com.test.springbootplus2.manage.test.controller;
 
 import com.test.springbootplus2.manage.test.model.dto.ValidDTO;
-import com.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import com.github.wslxm.springbootplus2.core.result.R;
-import com.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
+import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
+import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestBody;

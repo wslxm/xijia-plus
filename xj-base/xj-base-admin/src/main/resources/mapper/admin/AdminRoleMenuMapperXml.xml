@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.github.wslxm.springbootplus2.manage.admin.mapper.AdminRoleMenuMapper">
+<mapper namespace="io.github.wslxm.springbootplus2.manage.admin.mapper.AdminRoleMenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRoleMenu">
+    <resultMap id="BaseResultMap" type="io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRoleMenu">
 
         <result column="id" property="id"/>
         <result column="create_user" property="createUser"/>
@@ -31,13 +31,13 @@
         </sql>
 
 
-    <select id="findRoleId" resultType="com.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRoleMenu">
+    <select id="findRoleId" resultType="io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRoleMenu">
          select * from t_admin_role_menu where role_id = #{roleId}
     </select>
 
 
 
-    <select id="findByUserIdAndDisableFetchMenu" resultType="com.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRoleMenu">
+    <select id="findByUserIdAndDisableFetchMenu" resultType="io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRoleMenu">
         SELECT * FROM t_admin_role_menu where role_id in
         (
                SELECT role_id FROM t_admin_role_user ru,t_admin_role r

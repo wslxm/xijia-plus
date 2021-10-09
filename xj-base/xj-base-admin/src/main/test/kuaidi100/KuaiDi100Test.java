@@ -1,7 +1,7 @@
 //package kuaidi100;
 //
-//import com.github.wslxm.YaBeiServer;
-//import com.github.wslxm.others.kuaidi.kuaidi100.util.KuaiDi100Util;
+//import io.github.wslxm.YaBeiServer;
+//import io.github.wslxm.others.kuaidi.kuaidi100.util.KuaiDi100Util;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
 //import org.springframework.beans.factory.annotation.Autowired;

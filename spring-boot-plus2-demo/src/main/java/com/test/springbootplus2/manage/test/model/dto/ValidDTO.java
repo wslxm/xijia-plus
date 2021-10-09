@@ -1,7 +1,7 @@
 package com.test.springbootplus2.manage.test.model.dto;
 
 
-import com.github.wslxm.springbootplus2.core.base.model.Convert;
+import io.github.wslxm.springbootplus2.core.base.model.Convert;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.ToString;

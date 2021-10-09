@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>xj-starter</artifactId>
-        <groupId>com.github.wslxm</groupId>
+        <groupId>io.github.wslxm</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -18,7 +18,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.wslxm</groupId>
+            <groupId>io.github.wslxm</groupId>
             <artifactId>xj-base-core</artifactId>
         </dependency>
         <!-- 微信公众号 WxJava 开源sdk包 -->

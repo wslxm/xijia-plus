@@ -17,8 +17,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2019/10/31 20:45
  * @version 1.0.0
  */
-@SpringBootApplication(scanBasePackages = {"com.test.springbootplus2", "com.github.wslxm"}, exclude = DruidDataSourceAutoConfigure.class)
-@MapperScan({"com.test.springbootplus2.*.*.mapper", "com.github.wslxm.*.*.mapper"})
+@SpringBootApplication(scanBasePackages = {"com.test.springbootplus2", "io.github.wslxm"}, exclude = DruidDataSourceAutoConfigure.class)
+@MapperScan({"com.test.springbootplus2.*.*.mapper", "io.github.wslxm.*.*.mapper"})
 public class SpringBootPlus2DemoServer {
 
     public static void main(String[] args) {

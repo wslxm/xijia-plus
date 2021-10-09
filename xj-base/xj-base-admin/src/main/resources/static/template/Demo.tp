@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.ToString;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import com.github.wslxm.core.base.model.BaseEntity;
+import io.github.wslxm.core.base.model.BaseEntity;
 
 /**
  * {tableComment}

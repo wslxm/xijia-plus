@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.github.wslxm.springbootplus2.manage.gc.mapper.XjDataBaseMapper">
+<mapper namespace="io.github.wslxm.springbootplus2.manage.gc.mapper.XjDataBaseMapper">
 
 
-    <select id="findTable" resultType="com.github.wslxm.springbootplus2.manage.gc.model.vo.XjTableVO">
+    <select id="findTable" resultType="io.github.wslxm.springbootplus2.manage.gc.model.vo.XjTableVO">
         select table_name name,table_comment `comment` from information_schema.tables where table_schema=#{libraryName}
     </select>
 
-    <select id="findTableField" resultType="com.github.wslxm.springbootplus2.manage.gc.model.vo.XjTableFieldVO">
+    <select id="findTableField" resultType="io.github.wslxm.springbootplus2.manage.gc.model.vo.XjTableFieldVO">
         
         select
              column_name as name,

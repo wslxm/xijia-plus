@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.github.wslxm</groupId>
+        <groupId>io.github.wslxm</groupId>
         <artifactId>spring-boot-plus2</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
@@ -15,12 +15,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.wslxm</groupId>
+            <groupId>io.github.wslxm</groupId>
             <artifactId>xj-base-admin</artifactId>
         </dependency>
         <!-- 第三方服务- 阿里云oss -->
         <dependency>
-            <groupId>com.github.wslxm</groupId>
+            <groupId>io.github.wslxm</groupId>
             <artifactId>xj-api-aliyun-oss</artifactId>
         </dependency>
     </dependencies>
