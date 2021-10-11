@@ -14,11 +14,9 @@ import io.github.wslxm.springbootplus2.manage.admin.model.dto.role.RoleAuthDTO;
 import io.github.wslxm.springbootplus2.manage.admin.model.dto.role.RoleMenuDTO;
 import io.github.wslxm.springbootplus2.manage.admin.model.dto.role.UserRoleDTO;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.*;
-import io.github.wslxm.springbootplus2.manage.admin.service.*;
-
 import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminRoleQuery;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminRoleVO;
-
+import io.github.wslxm.springbootplus2.manage.admin.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -124,10 +122,11 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
     public Boolean upd(String id, AdminRoleDTO dto) {
         AdminRole role = dto.convert(AdminRole.class);
         role.setId(id);
-        this.updateById(role);
+        boolean b = this.updateById(role);
         // 给角色分配菜单权限(先删除后添加)
         adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, role.getId()));
-        return adminRoleMenuService.insert(role.getId(), dto.getMenuIds());
+        adminRoleMenuService.insert(role.getId(), dto.getMenuIds());
+        return b;
     }
 
     @Override

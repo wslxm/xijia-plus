@@ -1,37 +1,43 @@
-
 import request from '@/router/axios';
-import { baseUrl } from '@/config/env';
-export const list = (data) => {
-  return request({
-    url: baseUrl + '/crud/list',
-    method: 'get',
-    meta: {
-      isSerialize: true
-    },
-    params: data
-  })
+import {baseUrl} from '@/config/env';
+
+// 查询
+export const get = (uri, data) => {
+    return request({
+        url: baseUrl + uri,
+        method: 'get',
+        meta: {
+            isSerialize: true
+        },
+        params: data
+    })
 }
-export const del = (id) => request.delete(baseUrl + '/crud/delete', {
-  params: {
-    id
-  }
-})
-export const add = (data) => request({
-  url: baseUrl + '/crud/add',
-  method: 'post',
-  meta: {
-    isSerialize: true
-  },
-  data: data
-})
-export const update = (id, data) => request({
-  url: baseUrl + '/crud/update',
-  method: 'put',
-  meta: {
-    isSerialize: true
-  },
-  data: data
+
+// 添加
+export const post = (uri, data) => request({
+    url: baseUrl + uri,
+    method: 'post',
+    meta: {
+        isSerialize: false
+    },
+    data: data
 })
 
+// 编辑
+export const put = (uri, data) => request({
+    url: baseUrl + uri,
+    method: 'put',
+    meta: {
+        isSerialize: false
+    },
+    data: data
+})
+
+// id删除
+export const del = (uri, id) => request.delete(baseUrl + uri, {
+    params: {
+        id
+    }
+})
 
 

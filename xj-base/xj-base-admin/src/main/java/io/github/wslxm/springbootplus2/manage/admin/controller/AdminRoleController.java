@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(BaseConstant.Uri.apiAdmin + "/role")
 @Api(value = "AdminRoleController", tags = "base--角色管理")
+@CrossOrigin
 public class AdminRoleController extends BaseController<AdminRoleService> {
 
 

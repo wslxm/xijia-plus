@@ -16,6 +16,7 @@ import Store from '../store/';
 Vue.use(VueRouter)
 const Router = new VueRouter({
   mode: 'history',
+  //mode: 'hash',
   routes: [...PageRouter, ...ViewsRouter]
 })
 AvueRouter.install({

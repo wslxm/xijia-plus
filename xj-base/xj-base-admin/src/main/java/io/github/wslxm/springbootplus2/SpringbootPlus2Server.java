@@ -19,10 +19,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = { "io.github.wslxm.springbootplus2"})//,exclude = DruidDataSourceAutoConfigure.class
 @MapperScan({"io.github.wslxm.springbootplus2.*.*.mapper"})
 //@ServletComponentScan
-public class SpringbootPlus2BaseAdminServer {
+public class SpringbootPlus2Server {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringbootPlus2BaseAdminServer.class, args);
+        SpringApplication.run(SpringbootPlus2Server.class, args);
     }
 }
 
