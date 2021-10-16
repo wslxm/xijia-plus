@@ -260,7 +260,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/8/16 0016 0:10
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private String generateEnumJava(AdminDictionaryVO dict) {
 
@@ -311,7 +311,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/8/16 0016 0:10
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private String generateEnumJava2(AdminDictionaryVO dict) {
         String code = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dict.getCode());
@@ -352,7 +352,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/8/16 0016 0:29
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private String generateEnumJs(AdminDictionaryVO dict) {
         StringBuilder sb = new StringBuilder();
@@ -381,7 +381,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * @param id
      * @date 2020/8/8 0008 1:16
      * @return java.util.List<java.lang.String>
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private List<String> findByIdFetchIds(String id) {
         List<String> ids = new ArrayList<>();

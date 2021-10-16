@@ -9,7 +9,7 @@ import java.util.List;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/11/2 0002 15:28 
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class MapUtil {
     /**
@@ -32,7 +32,7 @@ public class MapUtil {
      * @author wangsong
      * @date 2020/11/2 0002 14:02
      * @return void
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public String getArea6(String province) {
         if (hbList.contains(province)) {
@@ -57,7 +57,7 @@ public class MapUtil {
      * @author wangsong
      * @date 2020/11/2 0002 14:02
      * @return void
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static String getArea7(String province) {
         if (hbList.contains(province)) {

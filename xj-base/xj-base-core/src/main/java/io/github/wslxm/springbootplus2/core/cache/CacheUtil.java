@@ -17,7 +17,7 @@ import java.util.Map;
  * @author wangsong
  * @date 2021/8/2 0002 10:00
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class CacheUtil {
 

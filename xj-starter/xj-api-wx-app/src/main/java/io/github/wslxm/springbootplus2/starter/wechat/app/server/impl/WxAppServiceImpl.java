@@ -38,7 +38,7 @@ public class WxAppServiceImpl implements WxAppService {
      * @author wangsong
      * @date 2020/9/22 0022 14:22
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     public R<String> createQrCode(@RequestParam String scene,
@@ -68,7 +68,7 @@ public class WxAppServiceImpl implements WxAppService {
      * msgContent 格式如： { "key1": { "value": any }, "key2": { "value": any } }
      * @date 2020/9/22 0022 14:22
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     public R<String> sendMsg(String openId, String templateId, Map<String, String> content) {
@@ -105,7 +105,7 @@ public class WxAppServiceImpl implements WxAppService {
      * @param code
      * @date 2020/9/22 0022 14:22
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     public R<WxMaJscode2SessionResultVO> login(String code) {

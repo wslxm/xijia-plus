@@ -29,7 +29,7 @@ import java.util.List;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/11/20 0020 9:06
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Configuration
 @EnableSwagger2
@@ -100,7 +100,7 @@ public class SwaggerConfig {
      * @param groupNameOrPackage
      * @date 2021/7/28 0028 14:29
      * @return springfox.documentation.spring.web.plugins.Docket
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public Docket createDocket(Object groupNameOrPackage) {
         String groupName = getGroupName(groupNameOrPackage.toString());
@@ -172,7 +172,7 @@ public class SwaggerConfig {
      * @author wangsong
      * @date 2021/1/20 0020 14:45
      * @return java.util.List<springfox.documentation.service.Parameter>
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private List<Parameter> getGlobalParameter() {
         ParameterBuilder parameterBuilder = new ParameterBuilder();
@@ -207,7 +207,7 @@ public class SwaggerConfig {
      * @param basePackage
      * @date 2020/12/29 0029 11:18
      * @return com.google.common.base.Predicate<springfox.documentation.RequestHandler>
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static Predicate<RequestHandler> basePackage(final String basePackage) {
         return input -> declaringClass(input).transform(handlerPackage(basePackage)).or(true);

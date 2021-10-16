@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/1/23 0023 9:17
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Component
 @Slf4j
@@ -64,7 +64,7 @@ public class SysBlacklist {
      * @author wangsong
      * @date 2020/11/28 0028 0:01
      * @return io.github.wslxm.common.result.R
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @SuppressWarnings("all")
     public R<Void> blacklistAuth() {
@@ -121,7 +121,7 @@ public class SysBlacklist {
      * @author wangsong
      * @date 2021/7/31 0031 15:07
      * @return java.util.Map<java.lang.String, java.util.List < java.lang.String>>
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private Map<String, List> findBlacklist() {
         // 如果没有缓存，就去数据库获取
@@ -156,7 +156,7 @@ public class SysBlacklist {
      * @param request
      * @date 2020/7/14 0014 14:16
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private String getIpAddress(HttpServletRequest request) {
         String unknown = "unknown";

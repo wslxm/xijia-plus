@@ -17,7 +17,7 @@ import java.util.HashMap;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/2/2 0002 9:58
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Component
 @Slf4j
@@ -394,7 +394,7 @@ public class BaiDuWeiZiApiUtil {
      * @param in
      * @date 2021/2/2 0002 10:27
      * @return byte[]
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private static byte[] readImageFile(InputStream in) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();

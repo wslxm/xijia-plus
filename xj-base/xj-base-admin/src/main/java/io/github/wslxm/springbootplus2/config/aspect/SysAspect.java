@@ -27,7 +27,7 @@ import java.util.concurrent.*;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/11/15 0015 11:16
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Slf4j
 @Aspect
@@ -157,7 +157,7 @@ public class SysAspect {
      * @param proceed
      * @date 2020/7/14 0014 14:14
      * @return java.lang.Object
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private Object run(ProceedingJoinPoint proceed) throws Throwable {
         long startTime1 = System.currentTimeMillis();

@@ -22,7 +22,7 @@ public interface XjDataBaseMapper {
      * @param libraryName
      * @date 2020/7/30 0030 11:59
      * @return java.util.List<XjTableVO>
-     * @version 1.0.0
+     * @version 1.0.1
      */
     List<XjTableVO> findTable(@Param("libraryName") String libraryName);
 

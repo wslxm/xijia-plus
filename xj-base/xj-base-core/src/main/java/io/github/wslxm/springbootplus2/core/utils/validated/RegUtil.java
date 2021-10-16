@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/9/13 0013 10:59
- * @version 1.0.0
+ * @version 1.0.1
  */
 @SuppressWarnings("all")
 public class RegUtil {

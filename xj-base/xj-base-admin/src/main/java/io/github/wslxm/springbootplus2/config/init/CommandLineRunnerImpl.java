@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/7/23 0023 9:04
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Component
 @Slf4j

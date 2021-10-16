@@ -5,7 +5,7 @@ package io.github.wslxm.springbootplus2.basepay.manage.service.impl;
 // * @author wangsong
 // * @date 2021/1/5 0005 9:13
 // * @return
-// * @version 1.0.0
+// * @version 1.0.1
 // */
 //@Service
 //public class AilYunPayServiceImpl implements PayService {

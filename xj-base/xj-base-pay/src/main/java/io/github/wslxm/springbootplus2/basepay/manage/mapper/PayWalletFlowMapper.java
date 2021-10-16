@@ -23,7 +23,7 @@ public interface PayWalletFlowMapper extends BaseMapper<PayWalletFlow> {
      * @param userId
      * @date 2021/1/28 0028 11:26
      * @return java.math.BigDecimal
-     * @version 1.0.0
+     * @version 1.0.1
      */
     BigDecimal findUserTotalAmount(@Param("userId") String userId);
 

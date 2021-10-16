@@ -18,7 +18,7 @@ swagger:
   # email: 1270696548@qq.com                         # 作者/负责人-邮箱
   # url: https://gitee.com/wslxm/spring-boot-plus2   # 作者/负责人-个人社交地址
   # termsOfServiceUrl:                               # 服务条款-访问地址
-  # version: 1.0.0                                   # 版本号
+  # version: 1.0.1                                   # 版本号
   # defaultKey: TOKEN                                # 默认请求头key
   # defaultValue: token                              # 默认请求头值-当为token时，可以访问任意接口, 但接口中存在获取token用户信息时,将返回jwt解析错误
   # isShow: true                                     # 是否开启文档 true展示 false隐藏

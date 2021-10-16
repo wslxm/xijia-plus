@@ -7,7 +7,7 @@ import io.github.wslxm.springbootplus2.starter.qq.model.vo.QQLoginVO;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/6/5 0005 22:30
- * @version 1.0.0
+ * @version 1.0.1
  */
 public interface QQLoginService {
 

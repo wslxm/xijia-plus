@@ -7,7 +7,7 @@ import java.lang.annotation.*;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/4/10 0010 15:59 
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})
 @Retention(RetentionPolicy.RUNTIME)

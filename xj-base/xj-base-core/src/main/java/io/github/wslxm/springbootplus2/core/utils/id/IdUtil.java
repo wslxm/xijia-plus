@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/8/16 0016 20:28
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Slf4j
 public class IdUtil {

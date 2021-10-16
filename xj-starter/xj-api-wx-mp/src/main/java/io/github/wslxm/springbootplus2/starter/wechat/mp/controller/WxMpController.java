@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author wangsong
  * @date 2020/9/22 0022 11:49
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 @RestController
 @RequestMapping("/api/open/wx/mp")

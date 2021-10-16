@@ -11,7 +11,7 @@
 // * @author wangsong
 // * @mail 1720696548@qq.com
 // * @date 2021/7/27 0027 11:55
-// * @version 1.0.0
+// * @version 1.0.1
 // */
 //@Service
 //@Slf4j
@@ -24,7 +24,7 @@
 //     * @param i
 //     * @date 2021/7/27 0027 11:56
 //     * @return void
-//     * @version 1.0.0
+//     * @version 1.0.1
 //     */
 //    @SynchronizedLock(lockKed = "test")
 //    public void test(Integer i) {

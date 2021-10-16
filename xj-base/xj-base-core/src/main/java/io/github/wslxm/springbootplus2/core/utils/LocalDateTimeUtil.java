@@ -254,7 +254,7 @@ public class LocalDateTimeUtil {
      *  月    ChronoUnit.MONTHS
      *  年    ChronoUnit.YEARS
      *  </P>
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static LocalDateTime subtract(LocalDateTime time, long number, TemporalUnit field) {
         return time.minus(number, field);
@@ -296,7 +296,7 @@ public class LocalDateTimeUtil {
      * @param time
      * @date 2020/12/24 0024 15:10
      * @return java.time.LocalDateTime
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static LocalDateTime getDayStart(LocalDateTime time) {
         return time.withHour(0)
@@ -362,7 +362,7 @@ public class LocalDateTimeUtil {
      * @param time
      * @date 2020/12/24 0024 15:10
      * @return java.time.LocalDateTime
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static LocalDateTime getTheHour(LocalDateTime time) {
         return time.withMinute(0)     // 分
@@ -383,7 +383,7 @@ public class LocalDateTimeUtil {
      * @param time
      * @date 2020/12/24 0024 15:21
      * @return java.time.LocalDateTime
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static LocalDateTime getTheMinute(LocalDateTime time) {
         return time.withSecond(0)     // 秒
@@ -446,7 +446,7 @@ public class LocalDateTimeUtil {
      * @param timeStr
      * @date 2020/12/24 0024 15:21
      * @return java.time.LocalDateTime
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static LocalDateTime parse(String timeStr) {
         return LocalDateTime.parse(timeStr, DF_YYYY_MM_DD_HH_MM_SS);
@@ -469,7 +469,7 @@ public class LocalDateTimeUtil {
      * @param time
      * @date 2020/12/24 0024 15:25
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static String parse(LocalDateTime time) {
         return DF_YYYY_MM_DD_HH_MM_SS.format(time);
@@ -534,7 +534,7 @@ public class LocalDateTimeUtil {
      * @param timestamp
      * @date 2021/5/12 0012 17:13
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static LocalDateTime parseTimestamp(Long timestamp) {
         return LocalDateTime.ofEpochSecond(timestamp / 1000, 0, ZoneOffset.ofHours(8));
@@ -545,7 +545,7 @@ public class LocalDateTimeUtil {
      * @author wangsong
      * @date 2021/5/12 0012 17:13
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static Long parseTimestamp(LocalDateTime time) {
         return time.toEpochSecond(ZoneOffset.ofHours(8));
@@ -662,7 +662,7 @@ public class LocalDateTimeUtil {
      * @param type  1-包含开始和结束时间  2-包含结束-不包含开始时间  3-包含开始-不包含结束时间  4-不包含开始和结束时间
      * @date 2020/12/24 0024 15:16
      * @return java.util.List<java.time.LocalDateTime>
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static List<LocalDateTime> getBetweenList(LocalDateTime startTime, LocalDateTime endTime, Integer type) {
         // 指定开始时间  00:00:00  // 指定结束时间  00:00:00

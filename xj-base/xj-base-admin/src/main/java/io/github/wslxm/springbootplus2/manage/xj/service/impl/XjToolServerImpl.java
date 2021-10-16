@@ -218,7 +218,7 @@ public class XjToolServerImpl implements XjToolServer {
      * @author wangsong
      * @date 2021/5/12 0012 11:44
      * @return io.github.wslxm.modules.sys.xj.model.vo.XjToolJvmInfoVO.FileInfoVO
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private XjToolJvmInfoVO.FileInfoVO getFileInfo() {
         // 磁盘信息

@@ -11,7 +11,7 @@ import lombok.Data;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/12/27 0027 9:32
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Data
 @ApiModel(value = "WxPayMpOrderResultVO 对象", description = "jsapi 前端调起支付需要的参数")

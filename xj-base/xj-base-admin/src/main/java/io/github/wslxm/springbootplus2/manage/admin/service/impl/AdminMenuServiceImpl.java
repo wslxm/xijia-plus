@@ -174,7 +174,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
      * @author wangsong
      * @date 2020/8/5 0005 15:38
      * @return java.util.List<io.github.wslxm.modules.admin.model.vo.AdminMenuVO>
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     public List<AdminMenuVO> findTree() {

@@ -25,7 +25,7 @@ import java.util.HashMap;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/9/15 0015 17:24 
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Service
 @Slf4j
@@ -75,7 +75,7 @@ public class SFServiceImpl implements SFService {
      * @param orderId
      * @date 2020/9/24 0024 9:16
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     public R<String> cancelOrder(String orderId) {

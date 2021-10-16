@@ -16,7 +16,7 @@ public interface WxAppService {
      * @author wangsong
      * @date 2020/9/22 0022 14:22
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public R<String> createQrCode(@RequestParam String scene,
                                   @RequestParam String page,
@@ -32,7 +32,7 @@ public interface WxAppService {
      * @param content 发送内容（key,value 公司）
      * @date 2020/9/22 0022 14:22
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public R<String> sendMsg(String openId, String templateId, Map<String, String> content);
 
@@ -43,7 +43,7 @@ public interface WxAppService {
      * @param code
      * @date 2020/9/22 0022 14:22
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public R<WxMaJscode2SessionResultVO> login(String code);
 
@@ -53,7 +53,7 @@ public interface WxAppService {
      * @author wangsong
      * @date 2020/9/22 0022 14:22
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public R<WxMaPhoneNumberInfoVO> phone(String sessionKey, String encryptedData, String iv);
 

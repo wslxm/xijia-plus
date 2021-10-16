@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/9/30 0030 17:29 
- * @version 1.0.0
+ * @version 1.0.1
  */
 @SuppressWarnings("all")
 @Component

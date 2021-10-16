@@ -30,7 +30,7 @@ import java.util.Map;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/9/9 0009 9:38
- * @version 1.0.0
+ * @version 1.0.1
  */
 @SuppressWarnings("all")
 @Component
@@ -62,7 +62,7 @@ public class KuaiDi100Util {
      * @author requestCreate 下单参数
      * @date 2020/9/15 0015 15:42
      * @return void
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public List<KuaiDiCode> findKuaiDiCode(String orderId) {
         String url = AUTONUMBER_AUTO_URL.replace("NUM", orderId).replace("KEY", kuaiDi100Properties.getKey());

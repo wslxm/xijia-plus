@@ -29,7 +29,7 @@ import java.time.Duration;
  * @author wangsong
  * @date 2021/3/2 0002 17:38
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Configuration
 @EnableCaching // 启用缓存，这个注解很重要；可以使用

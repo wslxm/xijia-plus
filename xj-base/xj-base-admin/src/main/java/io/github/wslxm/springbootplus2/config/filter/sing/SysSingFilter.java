@@ -36,7 +36,7 @@ import java.util.Map;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/3/29 0029 19:49
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Component
 @Slf4j
@@ -114,7 +114,7 @@ public class SysSingFilter implements Filter {
      * @param parameterMap query参数
      * @date 2021/4/1 0001 19:50
      * @return io.github.wslxm.common.result.R<java.lang.Boolean>
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public R<Boolean> isSing(String body, Map<String, String[]> parameterMap, HttpServletRequest request) {
         // 判断是否传递参数

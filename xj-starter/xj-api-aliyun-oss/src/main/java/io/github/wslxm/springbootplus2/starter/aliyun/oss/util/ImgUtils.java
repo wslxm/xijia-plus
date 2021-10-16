@@ -20,7 +20,7 @@ import java.io.InputStream;
  *
  * @author yc
  * @create 2020/10/18 22:43
- * @since 1.0.0
+ * @since 1.0.1
  */
 @Slf4j
 public class ImgUtils {

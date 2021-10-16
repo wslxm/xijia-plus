@@ -31,7 +31,7 @@ import java.util.Map;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/9/30 0030 16:33
- * @version 1.0.0
+ * @version 1.0.1
  */
 @SuppressWarnings("all")
 @Api(value = "WebsocketController", tags = "Websocket  -->  消息通知/即时通讯")

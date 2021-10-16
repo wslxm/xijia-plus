@@ -49,7 +49,7 @@ public class XjWxPayServiceImpl implements XjWxPayService {
      * @param dto
      * @date 2020/12/27 0027 19:59
      * @return io.github.wslxm.others.wechat.pay.model.vo.WxPayMpOrderResultVO
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     public R<WxPayOrderResultVO> createOrder(WxPayOrderDTO dto) {
@@ -107,7 +107,7 @@ public class XjWxPayServiceImpl implements XjWxPayService {
      * @param dto
      * @date 2020/12/27 0027 19:59
      * @return com.github.binarywang.wxpay.bean.result.WxRefundResultVO
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     public R<WxPayRefundResultVO> refund(WxPayRefundDTO dto) {

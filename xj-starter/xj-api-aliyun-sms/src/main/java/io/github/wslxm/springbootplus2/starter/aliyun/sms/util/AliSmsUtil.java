@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/8/1 0001 11:39
- * @version 1.0.0
+ * @version 1.0.1
  */
 @SuppressWarnings("all")
 @Slf4j
@@ -64,7 +64,7 @@ public class AliSmsUtil {
      * @param templateParam  短信模板变量对应的实际值，JSON格式。String 否	{"code":"1111"}
      * @date 2020/8/4 0004 16:27
      * @return boolean
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public boolean sendMsg(String phones, String SignName, String templateCode, String templateParam) {
         DefaultProfile profile = DefaultProfile.getProfile(product, accessKeyId, accessKeySecret);

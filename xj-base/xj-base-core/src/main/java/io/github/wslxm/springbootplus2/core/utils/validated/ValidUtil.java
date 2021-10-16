@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
  * @param null
  * @date 2021/9/30 0030 9:13
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class ValidUtil {
 
@@ -38,7 +38,7 @@ public class ValidUtil {
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2021/9/30 0030 9:36
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static void isStrLen(String str, Integer min, Integer max, String paramName) {
         isNotBlank(str, paramName);
@@ -91,7 +91,7 @@ public class ValidUtil {
      * @param paramName 参数名称描叙
      * @date 2021/9/30 0030 9:49
      * @return void
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static void isChinese(String chinese, String paramName) {
         isNotBlank(chinese, paramName);

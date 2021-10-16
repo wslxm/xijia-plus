@@ -54,7 +54,7 @@ Pop = {
      * @author wangsong
      * @date 2021/3/9 0009 17:45
      * @return
-     * @version 1.0.0
+     * @version 1.0.1
      */
     tipsWindownRight: function (content, width, height, name, btn) {
         if (btn == null) {

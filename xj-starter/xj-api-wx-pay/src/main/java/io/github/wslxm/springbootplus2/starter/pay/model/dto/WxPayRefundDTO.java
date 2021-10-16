@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author wangsong
  * @date 2021/1/22 0022 10:45
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Data
 @ToString(callSuper = true)

@@ -1,8 +1,9 @@
 import {removeToken, setToken} from '@/util/auth'
 import {getStore, setStore} from '@/util/store'
 import {deepClone} from '@/util/util'
-import {getMenu, getTopMenu, getUserInfo, loginByUsername, logout, refeshToken} from '@/api/user'
+import {getMenu, getTopMenu, getUserInfo, loginByUsername, refeshToken} from '@/api/user'
 import {formatPath} from '@/router/avue-router'
+
 const user = {
     state: {
         userInfo: {},
@@ -75,19 +76,19 @@ const user = {
         // 登出
         LogOut({commit}) {
             return new Promise((resolve, reject) => {
-                logout().then(() => {
-                    commit('SET_TOKEN', '')
-                    commit('SET_MENUALL_NULL', []);
-                    commit('SET_MENU', [])
-                    commit('SET_TAG_LIST', [])
-                    commit('SET_ROLES', [])
-                    commit('DEL_ALL_TAG', []);
-                    commit('CLEAR_LOCK');
-                    removeToken()
-                    resolve()
-                }).catch(error => {
-                    reject(error)
-                })
+                //  logout().then(() => {
+                commit('SET_TOKEN', '')
+                commit('SET_MENUALL_NULL', []);
+                commit('SET_MENU', [])
+                commit('SET_TAG_LIST', [])
+                commit('SET_ROLES', [])
+                commit('DEL_ALL_TAG', []);
+                commit('CLEAR_LOCK');
+                removeToken()
+                resolve()
+                // }).catch(error => {
+                //     reject(error)
+                // })
             })
         },
         //注销session
@@ -146,7 +147,7 @@ const user = {
          * @param parentId 注意这里的 parentId = 索引
          * @date 2021/9/21 0021 19:02
          * @return
-         * @version 1.0.0
+         * @version 1.0.1
          */
         GetMenu({commit}, parentId) {
             console.log("获取左菜单 parentId=" + parentId)

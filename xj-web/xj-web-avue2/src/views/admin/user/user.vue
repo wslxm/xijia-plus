@@ -23,14 +23,16 @@
                 <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
                 <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
             </template>
+            <template slot-scope="{row,index,type,size}" slot="head">
+                <el-avatar :src="row.head"></el-avatar>
+            </template>
         </avue-crud>
-        <!-- 弹层 -->
-        <el-dialog title="新增" :visible.sync="addDialogVisible" :width="dialogWidth">
-            <Add :closeDialog="closeDialog" :uri="uri"></Add>
+        <el-dialog title="新增" :visible.sync="addDialogVisible" :width="dialogWidth" :destroy-on-close="true">
+            <Add :closeDialog="closeDialog" :uri="uri" :organs="organs" :roles="roles"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="编辑" :visible.sync="updDialogVisible" :width="dialogWidth">
-            <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
+        <el-dialog title="编辑" :visible.sync="updDialogVisible" :width="dialogWidth" :destroy-on-close="true">
+            <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData" :organs="organs" :roles="roles"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
     </div>
@@ -38,29 +40,34 @@
 
 
 <script>
-    import {delRow, list, put} from '@/api/crud';
+    import {delRow, get,list, put} from '@/api/crud';
     import {getDict} from '@/api/dict';
     import website from '@/config/website';
 
+
     export default {
         components: {
-            Add: () => import('./roleAdd'),
-            Upd: () => import('./roleUpd')
+            Add: () => import('./userAdd'),
+            Upd: () => import('./userUpd')
         },
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/role/list",
-                    info: "/api/admin/role"
+                    infoList: "/api/admin/user/list",
+                    info: "/api/admin/user",
+                    organInfo: "/api/admin/organ/list",
+                    roleInfo: "/api/admin/role/list"
                 },
                 dialogWidth: "60%",
                 addDialogVisible: false,   // 添加弹层开关状态
                 updDialogVisible: false,   // 添加弹层开关状态
-                rowData: {},               // 当前选中行数据()
                 page: website.pageParams,  // 分页参数
                 search: {},                // 查询参数
                 data: [],                  // 列表数据
-                option: {}                 // 列表配置( mounted() 方法中配置)
+                organs: [],                // 部门数据
+                roles: [],                 // 角色数据
+                rowData: {},               // 当前选中行数据
+                option: {},
             }
         },
         mounted() {
@@ -69,50 +76,69 @@
             // 字段配置
             this.option.column = [
                 {
-                    label: '角色名称',
-                    prop: 'name',
+                    label: '头像',
+                    prop: 'head',
+                },
+                {
+                    label: '账号',
+                    prop: 'username',
                     search: true,
-                    searchSpan: 5,
-                    searchRules: [{
-                        required: false,
-                        // trigger: "blur"
-                    }],
                 },
                 {
-                    label: 'code',
-                    prop: 'code'
+                    label: '手机号',
+                    prop: 'phone',
                 },
                 {
-                    label: '描叙',
-                    prop: 'desc'
+                    label: '姓名',
+                    search: true,
+                    prop: 'fullName'
+                },
+                {
+                    label: '年龄',
+                    prop: 'age',
+                }, {
+                    label: '性别',
+                    prop: 'gender',
+                    dicData: getDict(website.Dict.Base.Gender),
+                },
+                {
+                    label: '注册时间',
+                    prop: 'regTime',
                 },
                 {
                     label: '终端',
                     prop: 'terminal',
-                    dicData: getDict(website.Dict.Admin.Terminal, true, false, true),
-                    search: true,
-                    searchSpan: 5,
-                    type: "select",
-                    searchRules: [{
-                        required: false,
-                        // trigger: "blur"
-                    }],
+                    dicData: getDict(website.Dict.Admin.Terminal),
+                },
+                {
+                    label: '职位',
+                    prop: 'position',
+                    dicData: getDict(website.Dict.Admin.Position),
                 },
                 {
                     label: '启用/禁用',
                     prop: 'disable',
-                    // type: "switch",
-                    //cell: true,
-                    // dicData: getDict(Dict.Base.Disable),
-                    //html:true,
-                    // formatter:(val)=>{
-                    //     console.log(val)
-                    //     return '<span style="color:red">'+val.disable+'</span>'
-                    // }
-                    //addDisplay: true,    // 添加页是否展示该字段
-                    //addDisabled: false   // 添加页该字段是否禁止输入(addDisplay=true时生效)
+                    type: "switch",
+                    dicData: getDict(website.Dict.Base.Disable),
                 }
             ]
+        },
+        created() {
+            // 部门数据(弹层数据)
+            get(this.uri.organInfo, {disable: 0, isTree: true}).then((res) => {
+                this.organs = res.data.data;
+                console.log(this.organs)
+            })
+            // 角色数据(弹层数据)
+            get(this.uri.roleInfo, {disable: 0}).then((res) => {
+                console.log(res)
+                this.roles = res.data.data.records;
+                for (const role of this.roles) {
+                    role.value = role.id;
+                    role.label = role.name;
+                }
+                console.log(this.roles)
+            })
         },
         methods: {
             /**
@@ -123,6 +149,7 @@
             onLoad(page) {
                 list(this);
             },
+
             // 搜索,并重置页数为1
             searchChange(params, done) {
                 this.page.currentPage = 1;
@@ -131,9 +158,11 @@
             },
             // 添加/编辑保存数据后 关闭弹层+ true-刷新列表 false-不刷新
             closeDialog(isRefresh) {
+                console.log("----1")
                 this.addDialogVisible = false;
                 this.updDialogVisible = false;
                 if (isRefresh != null && isRefresh) {
+                    console.log("----2")
                     this.onLoad();
                 }
             },

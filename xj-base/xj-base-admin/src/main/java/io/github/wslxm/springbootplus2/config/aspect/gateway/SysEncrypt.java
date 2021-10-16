@@ -24,7 +24,7 @@ import java.util.List;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/4/9 0009 17:16
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Aspect
 @Component
@@ -169,7 +169,7 @@ public class SysEncrypt {
      * @author wangsong
      * @date 2021/4/9 0009 17:17
      * @return args
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public Object encrypt(Object obj) {
         if (!isEncrypt) {

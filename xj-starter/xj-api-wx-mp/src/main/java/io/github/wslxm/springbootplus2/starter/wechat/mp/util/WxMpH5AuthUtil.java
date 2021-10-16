@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
  * @author wangsong
  * @date 2020/9/22 0022 11:49
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Service
 @Slf4j
@@ -68,7 +68,7 @@ public class WxMpH5AuthUtil {
      * @param code
      * @date 2020/9/22 0022 14:22
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public R<WxMpAccessTokenVO> getAccessToken(String code) {
         try {
@@ -93,7 +93,7 @@ public class WxMpH5AuthUtil {
      * @param code  传递code
      * @date 2020/9/22 0022 11:40
      * @return com.alibaba.fastjson.JSONObject
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public R<WxMpUserInfoVO> getUserInfo(String code) {
         WxOAuth2AccessToken accessToken = null;

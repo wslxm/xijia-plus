@@ -9,15 +9,7 @@ let iconfontUrl = `//at.alicdn.com/t/font_$key.css`;
 // 未知
 let codeUrl = `${baseUrl}/code`
 
-/**
- * 分页参数统一配置
- * @type
- */
-const pageParams = {
-    pageSize: 10,
-    pagerCount: 5,
-    pageSizes: [10, 15, 1],
-}
+
 
 const env = process.env
 // if (env.NODE_ENV == 'development') {
@@ -28,12 +20,10 @@ const env = process.env
 //   // baseUrl = ``;  // 测试环境地址
 // }
 
-
 export {
     baseUrl,
     iconfontUrl,
     iconfontVersion,
     codeUrl,
     env,
-    pageParams
 }

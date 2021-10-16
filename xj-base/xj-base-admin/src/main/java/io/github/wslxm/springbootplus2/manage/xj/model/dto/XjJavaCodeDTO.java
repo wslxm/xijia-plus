@@ -9,7 +9,7 @@ import java.io.Serializable;
   * @author wangsong
   * @mail  1720696548@qq.com
   * @date  2020/11/29 0029 11:16
-  * @version 1.0.0
+  * @version 1.0.1
   */
 @Data
 public class XjJavaCodeDTO implements Serializable {

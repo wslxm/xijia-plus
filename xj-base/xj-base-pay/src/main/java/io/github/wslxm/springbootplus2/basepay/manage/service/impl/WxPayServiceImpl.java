@@ -39,7 +39,7 @@ import java.math.BigDecimal;
  * @author wangsong
  * @date 2021/1/5 0005 9:13
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Service
 @Slf4j
@@ -63,7 +63,7 @@ public class WxPayServiceImpl implements PayService {
      * 支付
      * @author wangsong
      * @param dto
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -122,7 +122,7 @@ public class WxPayServiceImpl implements PayService {
      * </P>
      * @author wangsong
      * @param xmlData
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     public R<PayRecordVO> orderCallback(String xmlData) {
@@ -180,7 +180,7 @@ public class WxPayServiceImpl implements PayService {
      * 企业打款
      * @author wangsong
      * @param entPayDTO
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -232,7 +232,7 @@ public class WxPayServiceImpl implements PayService {
      * 微信退款 (支付订单退款原路返回)
      * @author wangsong
      * @param refundDTO
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     @Transactional(rollbackFor = Exception.class)

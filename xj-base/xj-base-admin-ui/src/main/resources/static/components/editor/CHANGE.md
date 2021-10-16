@@ -2,13 +2,13 @@
 
 ### v1.0.x
 
-##### v1.0.0 beta
+##### v1.0.1 beta
 
 预览版：基本功能完成；
 
-##### v1.0.0 releases
+##### v1.0.1 releases
 
-发布 v1.0.0 正式版。
+发布 v1.0.1 正式版。
 
 主要更新：
 
@@ -372,7 +372,7 @@ v1.2.0 主要更新：
 - 修改 iPad 等移动终端的浏览器无法上传图片的问题 [#48](https://github.com/pandao/editor.md/issues/48)；
 - 修复单独引用 `editormd.preview.css` 时无法显示 Font Awesome 和 Editor.md logo 字体的问题；
 - 更新和修改 Gulp 构建；
-    - 修改了 `Gulpfile.js` ，并且 `gulp-ruby-sass` 升级到最新版本 `1.0.0-alpha.3` ; 
+    - 修改了 `Gulpfile.js` ，并且 `gulp-ruby-sass` 升级到最新版本 `1.0.1-alpha.3` ; 
     - 编辑 SCSS 时，不再生成 CSS 的 Source map 文件；
 - 执行 jshint 和更正一些 JS 写法的不规范，精简了代码；
 - 新增配置项 `appendMarkdown` 和 `appendMarkdown()` 方法，用于(初始化前后)追加 Markdown 到 Textarea ；

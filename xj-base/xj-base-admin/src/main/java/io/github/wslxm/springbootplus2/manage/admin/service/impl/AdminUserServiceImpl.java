@@ -219,7 +219,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
      * @param  terminal 终端, 如果没有传递终端, 可以导致查出不同端的多条账号数据
      * @date 2021/9/30 0030 14:18
      * @return boolean
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private AdminUser loginUsernameOrPhone(String username, String password, Integer terminal) {
         // 1、判断账号
@@ -261,7 +261,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
      * @param oldUserName 原手机号
      * @date 2021/9/30 0030 14:12
      * @return void
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private void verifyRepeatUsername(String username, String oldUserName, Integer terminal, Integer oldTerminal) {
         if (StringUtils.isNotBlank(username)) {
@@ -286,7 +286,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
      * @param oldPhone 原手机号
      * @date 2021/9/30 0030 14:11
      * @return void
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private void verifyRepeatePhone(String phone, String oldPhone, Integer terminal, Integer oldTerminal) {
         if (StringUtils.isNotBlank(phone)) {

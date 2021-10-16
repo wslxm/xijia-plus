@@ -7,7 +7,7 @@ import java.util.Random;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/9/22 0022 18:47
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class RandomUtil {
 
@@ -20,7 +20,7 @@ public class RandomUtil {
      * @param len
      * @date 2020/9/22 0022 18:50
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static String code(Integer len) {
         String code = "";

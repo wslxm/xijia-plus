@@ -19,7 +19,7 @@ public interface AdminUserMapper extends BaseMapper<AdminUser> {
      * @param roleId
      * @date 2020/8/9 0009 10:17
      * @return java.util.List<io.github.wslxm.modules.admin.model.entity.AdminUser>
-     * @version 1.0.0
+     * @version 1.0.1
      */
     List<AdminUser> findByRoleId(@Param("roleId") String roleId);
 

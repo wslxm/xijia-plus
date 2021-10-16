@@ -5,7 +5,7 @@ package io.github.wslxm.springbootplus2.core.cache.cache;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/9/25 0025 17:22
- * @version 1.0.0
+ * @version 1.0.1
  */
 @SuppressWarnings("all")
 public class ConfigCacheKey {

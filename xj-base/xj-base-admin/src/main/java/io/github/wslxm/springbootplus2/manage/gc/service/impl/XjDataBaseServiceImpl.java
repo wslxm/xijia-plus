@@ -72,7 +72,7 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
      * @author wangsong
      * @date 2020/11/4 0004 17:55
      * @return java.util.List<io.github.wslxm.others.generatecode.model.vo.XjTableVO>
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private List<XjTableVO> findJdbcTable(String dataSourceId) {
         XjAdminDatasource datasource = adminDatasourceService.getById(dataSourceId);

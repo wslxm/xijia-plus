@@ -7,7 +7,7 @@ import io.github.wslxm.springbootplus2.core.result.R;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/9/16 0016 10:26
- * @version 1.0.0
+ * @version 1.0.1
  */
 public interface KuaiDi100Service {
 

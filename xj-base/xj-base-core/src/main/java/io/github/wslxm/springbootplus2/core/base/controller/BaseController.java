@@ -57,7 +57,7 @@ public class BaseController<S extends IService> {
      * @param request
      * @date 2020/7/14 0014 14:16
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     protected static String getIpAddress(HttpServletRequest request) {
         String unknown = "unknown";

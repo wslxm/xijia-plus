@@ -23,7 +23,7 @@ public class PageController {
      * @param fileName
      * @date 2021/1/23 0023 16:33
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @RequestMapping(value = "/page/{fileName}", method = RequestMethod.GET)
     public String add(@PathVariable String fileName) {

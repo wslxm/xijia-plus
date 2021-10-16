@@ -8,7 +8,7 @@ import io.github.wslxm.springbootplus2.core.utils.paramVerification.StringUtil;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/8/25 0025 10:51
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class AuthCacheKeyUtil {
 
@@ -23,7 +23,7 @@ public class AuthCacheKeyUtil {
      * @param url
      * @date 2021/8/25 0025 11:02
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static String getCacheKey(String method, String url) {
         String[] urlArr = url.split("/");
@@ -48,7 +48,7 @@ public class AuthCacheKeyUtil {
      * @param url
      * @date 2021/8/25 0025 11:01
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static String getAuthCacheKey(String method, String url) {
         String[] urlArr = url.split("/");

@@ -152,7 +152,7 @@ public class WxPayApi {
      * @param xmlData
      * @date 2020/12/27 0027 8:35
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public WxPayOrderNotifyResult parseOrderNotifyResult(@RequestBody String xmlData) throws WxPayException {
         final WxPayOrderNotifyResult notifyResult = this.wxService.parseOrderNotifyResult(xmlData);
@@ -165,7 +165,7 @@ public class WxPayApi {
      * @param xmlData
      * @date 2020/12/27 0027 8:35
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public WxPayRefundNotifyResult parseRefundNotifyResult(@RequestBody String xmlData) throws WxPayException {
         final WxPayRefundNotifyResult result = this.wxService.parseRefundNotifyResult(xmlData);
@@ -180,7 +180,7 @@ public class WxPayApi {
      * @param xmlData
      * @date 2020/12/27 0027 8:35
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public String parseScanPayNotifyResult(String xmlData) throws WxPayException {
         final WxScanPayNotifyResult result = this.wxService.parseScanPayNotifyResult(xmlData);
@@ -353,7 +353,7 @@ public class WxPayApi {
      * @author wangsong
      * @date 2020/12/27 0027 8:37
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public String getSandboxSignKey() throws WxPayException {
         return this.wxService.getSandboxSignKey();
@@ -364,7 +364,7 @@ public class WxPayApi {
      * @param request
      * @date 2020/12/27 0027 8:37
      * @return com.github.binarywang.wxpay.bean.coupon.WxPayCouponSendResult
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public WxPayCouponSendResult sendCoupon(@RequestBody WxPayCouponSendRequest request) throws WxPayException {
         return this.wxService.sendCoupon(request);
@@ -375,7 +375,7 @@ public class WxPayApi {
      * @author wangsong
      * @date 2020/12/27 0027 8:37
      * @return com.github.binarywang.wxpay.bean.coupon.WxPayCouponSendResult
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public WxPayCouponStockQueryResult queryCouponStock(@RequestBody WxPayCouponStockQueryRequest request) throws WxPayException {
         return this.wxService.queryCouponStock(request);
@@ -387,7 +387,7 @@ public class WxPayApi {
      * @author wangsong
      * @date 2020/12/27 0027 8:37
      * @return com.github.binarywang.wxpay.bean.coupon.WxPayCouponSendResult
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public WxPayCouponInfoQueryResult queryCouponInfo(@RequestBody WxPayCouponInfoQueryRequest request) throws WxPayException {
         return this.wxService.queryCouponInfo(request);
@@ -399,7 +399,7 @@ public class WxPayApi {
      * @author wangsong
      * @date 2020/12/27 0027 8:37
      * @return com.github.binarywang.wxpay.bean.coupon.WxPayCouponSendResult
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public String queryComment(Date beginDate, Date endDate, Integer offset, Integer limit) throws WxPayException {
         return this.wxService.queryComment(beginDate, endDate, offset, limit);

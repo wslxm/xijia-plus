@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author wangsong
  * @date 2020/12/19 0019 17:16
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 //@Slf4j
 //@Aspect
@@ -54,7 +54,7 @@ public class SysIdempotent {
      * @param proceed
      * @date 2020/12/20 0020 18:33
      * @return java.lang.Object
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public R run(ProceedingJoinPoint proceed) {
         // 获取请求参数

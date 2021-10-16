@@ -40,7 +40,7 @@ public class WebSocketConfig implements ServletContextInitializer {
      * @param servletContext
      * @date 2020/12/6 0006 13:49
      * @return void
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     public void onStartup(ServletContext servletContext) {

@@ -6,7 +6,7 @@
 // * @author wangsong
 // * @date 2020/12/26 0026 17:42
 // * @return
-// * @version 1.0.0
+// * @version 1.0.1
 // */
 //public interface WxMqUrl {
 //

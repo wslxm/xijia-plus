@@ -82,7 +82,7 @@ public class Base64ImgUtils {
      * @param file
      * @date 2021/3/3 0003 15:00
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static String file2Base64(File file) {
         if (file == null) {
@@ -111,7 +111,7 @@ public class Base64ImgUtils {
      * @param base64
      * @date 2021/3/3 0003 15:00
      * @return java.io.File
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static File base64ToFile(String base64) {
         if (base64 == null || "".equals(base64)) {

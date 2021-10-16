@@ -16,7 +16,7 @@ import java.util.zip.Inflater;
  * @author wangsong
  * @date 2020/12/29 0029 18:08
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Slf4j
 public class DeflaterUtils {

@@ -45,7 +45,7 @@
 //     * @param filePath
 //     * @date 2020/12/24 0024 17:42
 //     * @return io.github.wslxm.common.result.R
-//     * @version 1.0.0
+//     * @version 1.0.1
 //     */
 //    @RequestMapping(value = "/upload", method = RequestMethod.POST)//consumes = "multipart/*", headers = "content-type=multipart/form-data"
 //    @ApiOperation("单文件上传")

@@ -20,7 +20,7 @@ import java.util.zip.ZipOutputStream;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/8/14 0014 15:14
- * @version 1.0.0
+ * @version 1.0.1
  */
 @SuppressWarnings("all")
 @Slf4j
@@ -35,7 +35,7 @@ public class FileDownloadUtil {
      * @param fileName 下载的文件名
      * @date 2020/8/26 0026 17:00
      * @return void
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static void download(String filePath, String fileName, HttpServletResponse response) {
         // 下载网络文件
@@ -85,7 +85,7 @@ public class FileDownloadUtil {
      * @param zipName     压缩包名 + .zip
      * @date 2020/8/26 0026 17:01
      * @return void
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static void downloadZip(List<String> filePaths, String zipName, HttpServletResponse res) { //String zipName = zipName;       // 压缩包名字
         //项目跟目录

@@ -8,7 +8,7 @@ import java.util.List;
   * @author wangsong
   * @mail  1720696548@qq.com
   * @date  2021/7/8 0008 15:31
-  * @version 1.0.0
+  * @version 1.0.1
   */
 public class WxUserInfo {
 

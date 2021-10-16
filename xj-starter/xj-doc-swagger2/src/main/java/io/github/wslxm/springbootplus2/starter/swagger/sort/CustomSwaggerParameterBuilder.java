@@ -34,7 +34,7 @@ import static springfox.documentation.swagger.common.SwaggerPluginSupport.SWAGGE
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/8/21 0021 11:03
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Primary
 @Component

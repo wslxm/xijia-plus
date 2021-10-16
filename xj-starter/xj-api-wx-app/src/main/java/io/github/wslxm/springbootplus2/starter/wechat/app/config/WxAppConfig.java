@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author yc
  * @create 2019/12/18 9:26
- * @since 1.0.0
+ * @since 1.0.1
  */
 @Configuration
 public class WxAppConfig {

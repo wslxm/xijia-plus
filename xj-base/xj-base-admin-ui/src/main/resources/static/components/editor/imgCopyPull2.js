@@ -3,7 +3,7 @@
  * @author 王松
  * @mail  1720696548@qq.com
  * @date  2020/10/24 0024 13:25
- * @version 1.0.0
+ * @version 1.0.1
  */
 /**
  * 监听粘贴( qq截图/微信截图/网络复制图片，直接 ctrl+v粘贴 或 右键粘贴直接上传图片并处理格式，本地图片不支持)
@@ -16,7 +16,7 @@
  * @param null
  * @date 2020/10/24 0024 11:07
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 // $("#L_content").on('paste', function (eventObj) {
 document.addEventListener('paste', function (event) {
@@ -56,7 +56,7 @@ document.addEventListener('paste', function (event) {
  * @author wangsong
  * @mail  1720696548@qq.com
  * @date  2020/10/24 0024 11:30
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 // 阻止拖放的图片在新窗口中直接显示，拖放的目标对象此时是document对象
@@ -99,7 +99,7 @@ L_content.ondrop = function (e) {
  * @author wangsong
  * @date 2020/10/24 0024 9:47
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 function upload(fileList) {
     // 图片数量，全部上传成功在刷新页面

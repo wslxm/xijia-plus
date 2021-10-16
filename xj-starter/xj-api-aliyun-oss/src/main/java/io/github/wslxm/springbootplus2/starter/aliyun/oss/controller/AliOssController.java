@@ -83,7 +83,7 @@ public class AliOssController {
 //     * @author wangsong
 //     * @mail 1720696548@qq.com
 //     * @date 2020/10/2 0002 8:54
-//     * @version 1.0.0
+//     * @version 1.0.1
 //     */
 //    @RequestMapping(value = "/uploads", method = RequestMethod.POST, headers = "content-type=multipart/form-data") //consumes = "multipart/*", headers = "content-type=multipart/form-data"
 //    @ApiOperation("OSS-文件上传,可在指定路径后追加子路径,以/结尾，返回完整可访问当前服务内网访问OSS的完整URL")

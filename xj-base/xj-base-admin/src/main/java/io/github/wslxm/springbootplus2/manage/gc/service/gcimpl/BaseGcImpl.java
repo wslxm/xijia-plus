@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/8/27 0027 17:28
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class BaseGcImpl extends BaseIServiceImpl {
 

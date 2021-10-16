@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
   * @author wangsong
   * @mail  1720696548@qq.com
   * @date  2021/6/14 0014 11:27
-  * @version 1.0.0
+  * @version 1.0.1
   */
 @SuppressWarnings({"all"})
 @Configuration

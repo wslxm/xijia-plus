@@ -8,7 +8,7 @@ import java.util.Map;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/9/14 0014 14:19
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class Java8MapSort {
 

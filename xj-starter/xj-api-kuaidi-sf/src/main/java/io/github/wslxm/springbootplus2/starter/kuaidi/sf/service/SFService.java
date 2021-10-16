@@ -8,7 +8,7 @@ import io.github.wslxm.springbootplus2.starter.kuaidi.sf.entity.placeAnOrder.req
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/9/15 0015 17:22
- * @version 1.0.0
+ * @version 1.0.1
  */
 public interface SFService {
 

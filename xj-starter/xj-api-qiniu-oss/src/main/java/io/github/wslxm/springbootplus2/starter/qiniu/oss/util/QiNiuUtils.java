@@ -65,7 +65,7 @@ public class QiNiuUtils {
      * @author wangsong
      * @date 2020/10/16 0016 14:07
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public TokenAndUrlVO getUpToken() {
         Auth auth = Auth.create(qiNiuOssProperties.getAccessKey(), qiNiuOssProperties.getSecretKey());
@@ -84,7 +84,7 @@ public class QiNiuUtils {
      * @param targetFileName
      * @date 2020/12/25 0025 9:54
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public String uploadStream(InputStream uploadStream, String targetFileName) {
         this.init();

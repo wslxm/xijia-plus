@@ -15,7 +15,7 @@ import java.util.Map;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/7/13 0013 11:52
- * @version 1.0.0
+ * @version 1.0.1
  */
 @SuppressWarnings("all")
 @Component
@@ -50,7 +50,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGenerat
      * @author wangsong
      * @date 2021/7/13 0013 11:26
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private String insertXml(List<Map<String, Object>> data) {
         StringBuffer insertList = new StringBuffer("            insert into " + GenerateConfig.TABLE_NAME + "(");
@@ -102,7 +102,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGenerat
      * @author wangsong
      * @date 2021/7/13 0013 11:26
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private String updateXml(List<Map<String, Object>> data) {
         StringBuffer updateList = new StringBuffer("            update " + GenerateConfig.TABLE_NAME);
@@ -138,7 +138,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGenerat
      * @author wangsong
      * @date 2021/7/13 0013 11:26
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private String resultXml(List<Map<String, Object>> data) {
         StringBuffer resultMap = new StringBuffer();
@@ -162,7 +162,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGenerat
      * @author wangsong
      * @date 2021/7/13 0013 11:26
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private String columnXml(List<Map<String, Object>> data) {
         StringBuffer columnList = new StringBuffer();

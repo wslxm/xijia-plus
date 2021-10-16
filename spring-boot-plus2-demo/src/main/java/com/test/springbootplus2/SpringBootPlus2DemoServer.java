@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2019/10/31 20:45
- * @version 1.0.0
+ * @version 1.0.1
  */
 @SpringBootApplication(scanBasePackages = {"com.test.springbootplus2", "io.github.wslxm"}, exclude = DruidDataSourceAutoConfigure.class)
 @MapperScan({"com.test.springbootplus2.*.*.mapper", "io.github.wslxm.*.*.mapper"})

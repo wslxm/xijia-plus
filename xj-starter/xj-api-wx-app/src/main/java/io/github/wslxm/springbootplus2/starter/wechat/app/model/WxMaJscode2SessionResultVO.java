@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/3/23 0023 16:07
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Data
 @ToString(callSuper = true)

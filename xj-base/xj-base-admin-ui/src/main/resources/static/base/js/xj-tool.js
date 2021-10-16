@@ -12,7 +12,7 @@
  * @param name key
  * @date 2020/12/13 0013 0:59
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 function getUrlParam(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -31,7 +31,7 @@ function getUrlParam(name) {
  * @author wangsong
  * @date 2020/12/14 0014 19:07
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 function isMobile() {
     if (navigator.userAgent.match(/Android/i)
@@ -52,7 +52,7 @@ function isMobile() {
   * @author wangsong
   * @mail  1720696548@qq.com
   * @date  2021/8/24 0024 9:31
-  * @version 1.0.0
+  * @version 1.0.1
   */
 function isHttps() {
     return 'https:' == document.location.protocol ? true : false;

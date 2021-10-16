@@ -5,7 +5,7 @@
  * @author wangsong
  * @date 2020/12/15 0015 10:02
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 function addExpand() {
     var imgs = document.getElementsByTagName("img");
@@ -24,7 +24,7 @@ function addExpand() {
  * @author wangsong
  * @date 2020/12/15 0015 10:02
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 function expandPhoto() {
     var overlay = document.createElement("div");

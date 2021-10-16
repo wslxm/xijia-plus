@@ -40,7 +40,7 @@ public class LockAspect {
      * @param proceed
      * @date 2021/7/27 0027 11:04
      * @return void
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Around("execution(* *.*(..)) && @annotation(io.github.wslxm.springbootplus2.starter.redis.lock.annotation.TaskLock)")
     public void taskLockPoint(ProceedingJoinPoint proceed) {
@@ -94,7 +94,7 @@ public class LockAspect {
      * @param proceed
      * @date 2021/7/27 0027 11:04
      * @return void
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Around("@annotation(io.github.wslxm.springbootplus2.starter.redis.lock.annotation.SynchronizedLock)")
     public void synchronizedLockPoint(ProceedingJoinPoint proceed) {

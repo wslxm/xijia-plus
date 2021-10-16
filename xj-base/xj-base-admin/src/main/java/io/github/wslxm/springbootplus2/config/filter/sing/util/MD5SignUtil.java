@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
  * @author wangsong
  * @date 2021/4/1 0001 21:02
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class MD5SignUtil {
 

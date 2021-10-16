@@ -31,7 +31,7 @@ import java.util.concurrent.Future;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/1/23 0023 9:17
- * @version 1.0.0
+ * @version 1.0.1
  */
 @SuppressWarnings("all")
 @Slf4j
@@ -59,7 +59,7 @@ public class SysLog {
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/10/28 0028 15:04
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public XjAdminLog log(ProceedingJoinPoint proceed, HttpServletRequest request) {
         String serverName = request.getServerName();         // 获取域名(服务器路径)
@@ -138,7 +138,7 @@ public class SysLog {
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/10/28 0028 20:03
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public void updLog(Future<XjAdminLog> future, Integer state, Long executeTime, Long businessTime, String method, String uri, Object obj) {
         // 判断是否记录到数据库,根据请求方式区分
@@ -238,7 +238,7 @@ public class SysLog {
      * @param methodDesc
      * @date 2020/11/9 0009 16:33
      * @return void
-     * @version 1.0.0
+     * @version 1.0.1
      */
     //String userName, String userId, String ip, String host, Integer port, String className, String url, Object[] args, String classDesc, String methodDesc
     private void printLog(XjAdminLog adminlog) {
@@ -263,7 +263,7 @@ public class SysLog {
      * @param request
      * @date 2020/7/14 0014 14:16
      * @return java.lang.String
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private String getIpAddress(HttpServletRequest request) {
         String unknown = "unknown";

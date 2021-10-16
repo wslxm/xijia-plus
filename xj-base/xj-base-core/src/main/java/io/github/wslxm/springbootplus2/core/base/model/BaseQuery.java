@@ -10,7 +10,7 @@ import lombok.Data;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/8/25 0025 11:53
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Data
 public class BaseQuery extends Convert {

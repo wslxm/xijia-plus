@@ -1,34 +1,16 @@
 ## 生产环境
-
 server:
-  port: 9049
+  port: 9050
 
 spring:
   autoconfigure:
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://xijia.plus/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
-    username: root
-    password: root123456
     type: com.alibaba.druid.pool.DruidDataSource
-#  redis:
-#    host: 127.0.0.1
-#    port: 6379
-#    password:
-#    database: 0
-#    timeout: 1000s  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
-#    # 连接池配置，2.0中直接使用jedis或者lettuce配置连接池
-#    jedis:
-#      pool:
-#        # 最大空闲连接数
-#        max-idle: 500
-#        # 最小空闲连接数
-#        min-idle: 50
-#        # 等待可用连接的最大时间，负数为不限制
-#        max-wait: -1
-#        # 最大活跃连接数，负数为不限制
-#        max-active: -1
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-8vbkpoec225c821d8vo.mysql.zhangbei.rds.aliyuncs.com/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
+    username: wangsong
+    password: XJspringbootplus@#
 
 aliyun:
   ## 对象存储服务，个人账号,拉取此代码调试后请修改为自己的,如发现滥用,将关停
@@ -39,22 +21,18 @@ aliyun:
     bucketName: xijia-sz
     bucket: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
 
-
 # 日志配置,日志存放地址(logback-spring.xml 读取), methods 记录那些请求持久化到数据到数据库
 logging:
   filePath: logs
   methods: POST,PUT,DELETE
 
-
 # swagger配置
 swagger:
   ## (模块名称 | 扫包路径),最多可配置10个
   packages:
-    - "架构--系统功能-管理端 | io.github.wslxm.manage"
-    - "架构--系统功能-用户端 | io.github.wslxm.client"
-    - "架构--通用服务-starter | io.github.wslxm.modules.third"
-    - "业务--管理端 | com.test.springbootplus2.manage"
-    - "业务--用户端 | com.test.springbootplus2.client"
+    - "架构--系统功能-管理端 | io.github.wslxm.springbootplus2.manage"
+    - "架构--系统功能-用户端 | io.github.wslxm.springbootplus2.client"
+    - "架构--通用服务-starter | io.github.wslxm.springbootplus2.starter"
   author: wangsong                                 # 作者/负责人-姓名
   email: 1270696548@qq.com                         # 作者/负责人-邮箱
   url: https://gitee.com/wslxm/spring-boot-plus2   # 作者/负责人-个人社交地址
@@ -63,13 +41,3 @@ swagger:
   defaultKey: TOKEN                                # 默认请求头key
   defaultValue: token                              # 默认请求头值-当为token时，可以访问任意接口, 但接口中存在获取token用户信息时,将返回jwt解析错误
   isShow: true                                     # 是否开启文档 true展示 false隐藏
-
-
-# 登录处理回调地址
-#wechat:
-#  open:
-#    ## 回调地址-页面
-#    callbackUrl: https://portal.clzytech.com/portal/loginback?method=weichat
-#    ## 自己的appID和appKey
-#    appId: wxa6778e201b26f0c0
-#    appSecret: 5624eae2bca46202493bfb1edd41d5b2

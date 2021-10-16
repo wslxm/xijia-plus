@@ -31,7 +31,7 @@
 // * @author wangsong
 // * @date 2021/1/14 0014 19:12
 // * @return
-// * @version 1.0.0
+// * @version 1.0.1
 // */
 //@Component
 //@Configuration
@@ -203,7 +203,7 @@
 //     * @param date2  结束时间
 //     * @date 2021/1/25 0025 17:22
 //     * @return void
-//     * @version 1.0.0
+//     * @version 1.0.1
 //     */
 //    private void delete(String dirs, Date date1, Date date2) {
 //        File dir = new File(dirs);

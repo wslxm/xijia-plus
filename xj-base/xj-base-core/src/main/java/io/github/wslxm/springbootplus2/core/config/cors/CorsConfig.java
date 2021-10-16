@@ -11,7 +11,7 @@ import org.springframework.web.filter.CorsFilter;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/8/16 0016 17:43 
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Configuration
 public class CorsConfig {
@@ -21,7 +21,7 @@ public class CorsConfig {
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/10/29 0029 19:16 
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Bean
     public CorsFilter corsFilter() {

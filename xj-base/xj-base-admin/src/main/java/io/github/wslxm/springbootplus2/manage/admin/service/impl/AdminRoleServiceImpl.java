@@ -96,7 +96,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      * @param dto
      * @date 2020/9/19 0019 10:56
      * @return java.lang.Boolean
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -150,7 +150,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      * @author wangsong
      * @date 2020/8/9 0009 9:41
      * @return boolean
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -197,7 +197,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      * @author wangsong
      * @date 2020/10/9 0009 15:50
      * @return boolean
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     @Transactional(rollbackFor = Exception.class)

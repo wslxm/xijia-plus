@@ -14,7 +14,7 @@ import java.util.List;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/11/20 0020 12:02 
- * @version 1.0.0
+ * @version 1.0.1
  */
 public abstract class BaseConverter<D, E, V> {
 

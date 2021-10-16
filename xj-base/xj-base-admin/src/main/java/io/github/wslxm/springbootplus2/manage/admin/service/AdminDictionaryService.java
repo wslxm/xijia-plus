@@ -45,7 +45,7 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
      * @author wangsong
      * @date 2020/8/8 0008 1:07
      * @return java.util.Map<java.lang.String, io.github.wslxm.modules.admin.model.vo.AdminDictionaryVO>
-     * @version 1.0.0
+     * @version 1.0.1
      */
     Map<String, AdminDictionaryCodeGroup> findCodeGroup();
 

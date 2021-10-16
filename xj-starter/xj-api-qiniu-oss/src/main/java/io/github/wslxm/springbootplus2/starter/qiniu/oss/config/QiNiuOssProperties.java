@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * @author wangsong
  * @date 2020/12/11 0011 17:10
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 @SuppressWarnings("all")
 @Configuration

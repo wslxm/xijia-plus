@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @author wangsong
  * @date 2020/12/26 0026 18:35
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Configuration
 @ConfigurationProperties(prefix = "wx.pay")

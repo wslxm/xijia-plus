@@ -22,7 +22,7 @@ import java.util.Map;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2020/11/12 0012 16:35
- * @version 1.0.0
+ * @version 1.0.1
  */
 @SuppressWarnings("ALL")
 @Slf4j
@@ -73,7 +73,7 @@ public class CreatrQrCode {
      *
      * @date 2020/11/12 0012 10:11
      * @return void
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static synchronized File generateQRCode(String content, BufferedImage logoImg, String text, int type) {
         // 生成 普通的二维码
@@ -100,7 +100,7 @@ public class CreatrQrCode {
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/11/12 0012 14:53
-     * @version 1.0.0
+     * @version 1.0.1
      * @return File 二维码的文件
      */
     public static File qrCode(String content) {
@@ -138,7 +138,7 @@ public class CreatrQrCode {
      * @param logo
      * @date 2020/11/12 0012 16:36
      * @return java.io.File
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static File qrCodeLogo(File qrPic, BufferedImage logo) {
         File file = new File(IMG_LOGO);
@@ -173,7 +173,7 @@ public class CreatrQrCode {
      * @param pressText 文字
      * @date 2020/11/12 0012 16:36
      * @return java.io.File
-     * @version 1.0.0
+     * @version 1.0.1
      */
     private static File qrCodeLogoText(String pressText) {
         // 计算文字开始的位置
@@ -262,7 +262,7 @@ public class CreatrQrCode {
      * @param args
      * @date 2020/11/12 0012 16:36
      * @return void
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public static void main(String args[]) throws IOException {
 

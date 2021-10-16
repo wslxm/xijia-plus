@@ -19,7 +19,7 @@ import java.io.UnsupportedEncodingException;
  * @author wangsong
  * @mail 1720696548@qq.com
  * @date 2021/7/27 0027 19:51
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Slf4j
 @Component
@@ -61,7 +61,7 @@ public class WxOpenLoginServiceImpl implements WxOpenLoginService {
      * @param code
      * @date 2021/7/8 0008 14:25
      * @return com.alibaba.fastjson.JSONObject
-     * @version 1.0.0
+     * @version 1.0.1
      */
     @Override
     public JSONObject getAccessToken(String code) {

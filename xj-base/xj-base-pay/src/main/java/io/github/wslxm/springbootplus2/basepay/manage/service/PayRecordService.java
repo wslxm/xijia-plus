@@ -58,7 +58,7 @@ public interface PayRecordService extends IService<PayRecord> {
      * @param moneySurplus 剩余金额(如存在子商户, 则为子商户实际收入)
      * @date 2021/3/26 0026 10:59
      * @return boolean
-     * @version 1.0.0
+     * @version 1.0.1
      */
     boolean addPayRecord(BigDecimal money,
                          String orderNo,
@@ -78,7 +78,7 @@ public interface PayRecordService extends IService<PayRecord> {
      * @author wangsong
      * @date 2021/1/5 0005 15:14
      * @return
-     * @version 1.0.0
+     * @version 1.0.1
      */
     PayRecord findOrderByTradeNo(String tradeNo);
 
@@ -92,7 +92,7 @@ public interface PayRecordService extends IService<PayRecord> {
      * @param callbackData *  回调数据
      * @param errorRemarks 支付错误的描叙信息(可null)
      * @return
-     * @version 1.0.0
+     * @version 1.0.1
      */
     public boolean updStateAndCallbackData(String tradeNo, Integer state, String callbackData, String errorRemarks);
 }

@@ -33,7 +33,7 @@ public interface AdminOrganService extends IService<AdminOrgan> {
      * @param id
      * @date 2021/10/1 0001 10:33
      * @return boolean
-     * @version 1.0.0
+     * @version 1.0.1
      */
     AdminOrganVO fingNextOrgans(String id);
 }

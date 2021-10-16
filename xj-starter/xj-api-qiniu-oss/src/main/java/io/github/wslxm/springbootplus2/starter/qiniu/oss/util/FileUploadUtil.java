@@ -14,7 +14,7 @@ import java.util.Random;
  * @author wangsong
  * @date 2020/12/11 0011 14:01
  * @return
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class FileUploadUtil {
 

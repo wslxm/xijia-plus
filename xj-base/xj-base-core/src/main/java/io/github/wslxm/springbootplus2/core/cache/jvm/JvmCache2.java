@@ -17,7 +17,7 @@
 // * @author wangsong
 // * @mail 1720696548@qq.com
 // * @date 2021/3/15 0015 9:08
-// * @version 1.0.0
+// * @version 1.0.1
 // */
 //public class JvmCache2 {
 //
