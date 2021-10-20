@@ -25,12 +25,12 @@
             </template>
         </avue-crud>
         <!-- 弹层 -->
-        <el-dialog title="新增" :visible.sync="addDialogVisible" :width="dialogWidth">
-            <Add :closeDialog="closeDialog" :uri="uri"></Add>
+        <el-dialog title="新增" :visible.sync="addDialogVisible" :width="dialogWidth" @close="closeDialog" :destroy-on-close="true">
+            <Add :closeDialog="closeDialog" :uri="uri" :menus="menus"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="编辑" :visible.sync="updDialogVisible" :width="dialogWidth">
-            <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
+        <el-dialog title="编辑" :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog" :destroy-on-close="true">
+            <Upd :closeDialog="closeDialog" :uri="uri" :menus="menus" :rowData="rowData"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
     </div>
@@ -38,7 +38,7 @@
 
 
 <script>
-    import {delRow, list, put} from '@/api/crud';
+    import {delRow, get, list, put} from '@/api/crud';
     import {getDict} from '@/api/dict';
     import website from '@/config/website';
 
@@ -51,17 +51,26 @@
             return {
                 uri: {
                     infoList: "/api/admin/role/list",
-                    info: "/api/admin/role"
+                    info: "/api/admin/role",
+                    menuList: "/api/admin/menu/list?disable=0&isTree=true&roleId={roleId}"
                 },
-                dialogWidth: "60%",
+                dialogWidth: "40%",
                 addDialogVisible: false,   // 添加弹层开关状态
                 updDialogVisible: false,   // 添加弹层开关状态
                 rowData: {},               // 当前选中行数据()
+                menus: [],                 // 弹层菜单数据
                 page: website.pageParams,  // 分页参数
                 search: {},                // 查询参数
                 data: [],                  // 列表数据
                 option: {}                 // 列表配置( mounted() 方法中配置)
             }
+        },
+        created() {
+            // 获取菜单数据(添加弹层数据)
+            get(this.uri.menuList.replace("{roleId}", "")).then((res) => {
+                console.log("==", res.data.data)
+                this.menus = res.data.data;
+            })
         },
         mounted() {
             // 基础配置
@@ -114,13 +123,14 @@
                 }
             ]
         },
+
         methods: {
             /**
              * 直接触发：  首次自动加载 / 点击分页 / 切换分页 / 跳转也 / 点击刷新
              * 被调用触发：搜索后 /  添加/编辑保存后 / 删除后
              * @author wangsong
              */
-            onLoad(page) {
+            onLoad() {
                 list(this);
             },
             // 搜索,并重置页数为1
@@ -133,6 +143,7 @@
             closeDialog(isRefresh) {
                 this.addDialogVisible = false;
                 this.updDialogVisible = false;
+                this.rowData = {};
                 if (isRefresh != null && isRefresh) {
                     this.onLoad();
                 }
@@ -146,11 +157,11 @@
                 put(this.uri.info + "/" + row.id, {disable: disable});
             },
             // 点击保存行数据(供行操作的任意地方获取数据)
-            handleRowClick(row, event, column) {
+            handleRowClick(row) {
                 this.rowData = row;
             },
             // 自动配置,单元格样式数字，对指定列设置字体颜色,大小，粗细等
-            cellStyle({row, column, rowIndex, columnIndex}) {
+            cellStyle({row, column}) {
                 if (column.property == "disable") {
                     // fontWeight: 'bold',fontSize: '20'
                     return row.disable == 0 ? {color: 'green'} : {color: 'red'}

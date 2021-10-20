@@ -4,14 +4,17 @@
  */
 import router from './router/router'
 import store from './store'
-import { validatenull } from '@/util/validate'
-import { getToken } from '@/util/auth'
+import {validatenull} from '@/util/validate'
+import {getToken} from '@/util/auth'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import website from '@/config/website'
+
 NProgress.configure({ showSpinner: false });
 const lockPage = website.lockPage; //锁屏页
 router.beforeEach((to, from, next) => {
+
+  console.log("====路由跳转=======")
   const meta = to.meta || {};
   const isMenu = meta.menu === undefined ? to.query.menu : meta.menu;
   store.commit('SET_IS_MENU', isMenu === undefined);

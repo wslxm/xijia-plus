@@ -1,6 +1,23 @@
 <template>
     <div>
         <avue-form ref="form" v-model="obj" :option="option" @reset-change="emptytChange" @submit="submit">
+            <!-- 菜单树 -->
+            <template slot-scope="scope" slot="text">
+                <el-card class="box-card">
+                    <!--<div slot="header" class="clearfix">
+                        <span>选择菜单</span>
+                    </div>-->
+                    <el-tree
+                            :data="menuData"
+                            show-checkbox
+                            node-key="id"
+                            @check="menusCheck"
+                            :default-expand-all=true
+                            :default-checked-keys="menuDefaultCheckedKeys"
+                            :props="menusProps">
+                    </el-tree>
+                </el-card>
+            </template>
         </avue-form>
     </div>
 </template>
@@ -22,13 +39,21 @@
                     terminal: 1
                 },
                 obj: {},
-                sizeValue: 'small'
+                sizeValue: 'small',
+                // 菜单配置
+                menuData: this.menus,
+                menuDefaultCheckedKeys: [],
+                menusProps: {
+                    children: 'menus',
+                    label: 'name'
+                }
             }
         },
         // 接收值父组件传递值
         props: {
             closeDialog: [],    // 关闭弹层方法
-            uri: {}             // 接口信息
+            uri: {},             // 接口信息
+            menus: [],           // 树
         },
         computed: {
             option() {
@@ -79,15 +104,20 @@
                             }],
                         },
 
+                        // {
+                        //     label: "是否禁用",
+                        //     prop: "disable",
+                        //     span: 20,
+                        //     type: "switch",
+                        //     dicData: getDict(website.Dict.Base.Disable, false),
+                        //     rules: [{
+                        //         required: true,
+                        //     }],
+                        // }
                         {
-                            label: "是否禁用",
-                            prop: "disable",
-                            span: 6,
-                            type: "switch",
-                            dicData: getDict(website.Dict.Base.Disable, false),
-                            rules: [{
-                                required: true,
-                            }],
+                            label: '菜单',
+                            prop: 'text',
+                            // formslot: true,
                         }
                     ]
                 }
@@ -97,7 +127,6 @@
             this.obj = this.defaultData
         },
         methods: {
-
             emptytChange() {
                 // 关闭弹出
                 this.closeDialog(false);
@@ -106,14 +135,31 @@
                 // this.$message.success('已清空');
             },
             submit(form, done) {
-                post(this.uri.info, this.obj).then((res) => {
+                post(this.uri.info, this.obj).then(() => {
                     // 添加成功关闭弹层并刷新数据
                     this.closeDialog(true);
                     done(form);
-                }).catch(err => {
+                }).catch(() => {
                     done(form);
                 })
+            },
+            //共两个参数，
+            // 依次为：传递给 data 属性的数组中该节点所对应的对象、
+            // 树目前的选中状态对象，包含 checkedNodes、checkedKeys、halfCheckedNodes、halfCheckedKeys 四个属性
+            menusCheck(data, nodes) {
+                this.obj.menuIds = [];
+                this.obj.menuIds.push.apply(this.obj.menuIds, nodes.checkedKeys)
+                this.obj.menuIds.push.apply(this.obj.menuIds, nodes.halfCheckedKeys)
+                console.log("menuIds=", this.obj.menuIds)
             },
         }
     }
 </script>
+<style>
+    .box-card {
+        margin-top: -20px !important;
+        width: 150%;
+        height: 400px;
+        overflow-y: auto /* 开启滚动显示溢出内容 */
+    }
+</style>

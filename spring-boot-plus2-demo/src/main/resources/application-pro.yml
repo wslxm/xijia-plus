@@ -1,4 +1,43 @@
-## 正式环境
+## 生产环境
 server:
   port: 9049
 
+spring:
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-8vbkpoec225c821d8vo.mysql.zhangbei.rds.aliyuncs.com/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
+    username: wangsong
+    password: XJspringbootplus@#
+
+aliyun:
+  ## 对象存储服务，个人账号,拉取此代码调试后请修改为自己的,如发现滥用,将关停
+  oss:
+    endpoint: oss-cn-shenzhen.aliyuncs.com
+    accessKeyId: LTAI4Fyfy2DTf4yUrvKqHwH4
+    accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8
+    bucketName: xijia-sz
+    bucket: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
+
+# 日志配置,日志存放地址(logback-spring.xml 读取), methods 记录那些请求持久化到数据到数据库
+logging:
+  filePath: logs
+  methods: POST,PUT,DELETE
+
+# swagger配置
+swagger:
+  ## (模块名称 | 扫包路径),最多可配置10个
+  packages:
+    - "架构--系统功能-管理端 | io.github.wslxm.springbootplus2.manage"
+    - "架构--系统功能-用户端 | io.github.wslxm.springbootplus2.client"
+    - "架构--通用服务-starter | io.github.wslxm.springbootplus2.starter"
+  author: wangsong                                 # 作者/负责人-姓名
+  email: 1270696548@qq.com                         # 作者/负责人-邮箱
+  url: https://gitee.com/wslxm/spring-boot-plus2   # 作者/负责人-个人社交地址
+  termsOfServiceUrl:                               # 服务条款-访问地址
+  version: 1.0.1                                   # 版本号
+  defaultKey: TOKEN                                # 默认请求头key
+  defaultValue: token                              # 默认请求头值-当为token时，可以访问任意接口, 但接口中存在获取token用户信息时,将返回jwt解析错误
+  isShow: true                                     # 是否开启文档 true展示 false隐藏

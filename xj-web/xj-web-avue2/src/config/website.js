@@ -26,9 +26,10 @@ export default {
         menu: true,
         color: true,
     },
+    // 配置首页路径
     fistPage: {
         label: "首页",
-        value: "/wel/index",
+        value: "/",
         params: {},
         query: {},
         meta: {
@@ -39,10 +40,10 @@ export default {
     //配置菜单的属性
     menu: {
         iconDefault: 'icon-caidan',
-        label: 'label',
-        path: 'path',
+        label: 'name',
+        path: 'url',
         icon: 'icon',
-        children: 'children',
+        children: 'menus',
         query: 'query',
         href: 'href',
         meta: 'meta'

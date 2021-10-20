@@ -1,13 +1,31 @@
 <template>
     <div>
         <avue-form ref="form" v-model="obj" :option="option" @reset-change="emptytChange" @submit="submit">
+
+            <!-- 菜单树 -->
+            <template slot-scope="scope" slot="text">
+                <el-card class="box-card">
+                    <!--<div slot="header" class="clearfix">
+                        <span>选择菜单</span>
+                    </div>-->
+                    <el-tree
+                            :data="menuData"
+                            show-checkbox
+                            node-key="id"
+                            @check="menusCheck"
+                            :default-expand-all=true
+                            :default-checked-keys="menuDefaultCheckedKeys"
+                            :props="menusProps">
+                    </el-tree>
+                </el-card>
+            </template>
         </avue-form>
     </div>
 </template>
 
 <script>
     import {getDict} from '@/api/dict';
-    import {put} from '@/api/crud';
+    import {get, put} from '@/api/crud';
     import website from '@/config/website';
 
     export default {
@@ -15,7 +33,14 @@
         data() {
             return {
                 obj: this.rowData,
-                sizeValue: 'small'
+                sizeValue: 'small',
+                // 菜单配置
+                menuData: this.menus,
+                menuDefaultCheckedKeys: [],
+                menusProps: {
+                    children: 'menus',
+                    label: 'name'
+                }
             }
         },
         // 接收值父组件传递值
@@ -23,11 +48,25 @@
             closeDialog: [],         // 关闭弹层方法
             uri: {},                 // 添加接口
             rowData: {},             // 当前行数据
+            menus: [],               // 数
         },
         // 监听数据的变化,更新当前行数据
         watch: {
-            rowData: function (newRowData, oldRowData) {
-                this.obj = newRowData;
+            rowData: function (newRowData) {
+                if (newRowData != null && newRowData.id != null) {
+                    console.log("=====", this.menus)
+                    this.obj = newRowData;
+                    // 获取菜单数据(弹层数据)
+                    get(this.uri.menuList.replace("{roleId}", newRowData.id)).then((res) => {
+                        // 获取选中菜单
+                        this.menuData = res.data.data
+                        this.obj.menuIds = [];
+                        this.menuDefaultCheckedKeys = [];
+                        this.nextMenuIds(res.data.data, this.obj.menuIds, this.menuDefaultCheckedKeys)
+                        console.log("总值=", this.obj.menuIds)
+                        console.log("需回显值=", this.menuDefaultCheckedKeys)
+                    })
+                }
             }
         },
         computed: {
@@ -65,12 +104,18 @@
                             label: "描叙",
                             prop: "desc",
                             span: 20
-                        }, {
-                            label: "是否禁用",
-                            prop: "disable",
-                            span: 6,
-                            type: "switch",
-                            dicData: getDict(website.Dict.Base.Disable, false),
+                        },
+                        // {
+                        //     label: "是否禁用",
+                        //     prop: "disable",
+                        //     span: 20,
+                        //     type: "switch",
+                        //     dicData: getDict(website.Dict.Base.Disable, false),
+                        // },
+                        {
+                            label: '菜单',
+                            prop: 'text',
+                            // formslot: true,
                         }
                     ]
                 }
@@ -88,6 +133,7 @@
             emptytChange() {
                 this.closeDialog(false);
                 this.obj = this.rowData;
+                this.menuDefaultCheckedKeys = [];
             },
             submit(form, done) {
                 put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
@@ -96,10 +142,50 @@
                         this.closeDialog(true);
                     }
                     done(form);
-                }).catch(err => {
+                }).catch(() => {
                     done(form);
                 })
             },
+            //共两个参数，
+            // 依次为：传递给 data 属性的数组中该节点所对应的对象、
+            // 树目前的选中状态对象，包含 checkedNodes、checkedKeys、halfCheckedNodes、halfCheckedKeys 四个属性
+            menusCheck(data, nodes) {
+                this.obj.menuIds = [];
+                this.obj.menuIds.push.apply(this.obj.menuIds, nodes.checkedKeys)
+                this.obj.menuIds.push.apply(this.obj.menuIds, nodes.halfCheckedKeys)
+                console.log("menuIds=", this.obj.menuIds)
+            },
+
+            /**
+             * 获取菜单的ids
+             * @author wangsong
+             * @mail  1720696548@qq.com
+             * @date  2021/10/20 0020 21:48
+             * @version 1.0.0
+             */
+            nextMenuIds(menus, menuIds, menuDefaultCheckedKeys) {
+                for (let i = 0; i < menus.length; i++) {
+                    if (menus[i].isChecked) {
+                        menuIds.push(menus[i].id);
+                        if (menus[i].menus != null && menus[i].menus.length > 0) {
+                            // 不是最后一级递归处理
+                            this.nextMenuIds(menus[i].menus, menuIds, menuDefaultCheckedKeys)
+                        } else {
+                            // 只设置最后一级默认到回显值
+                            menuDefaultCheckedKeys.push(menus[i].id);
+                        }
+                    }
+                }
+            }
         }
     }
 </script>
+
+<style>
+    .box-card {
+        margin-top: -20px !important;
+        width: 150%;
+        height: 400px;
+        overflow-y: auto /* 开启滚动显示溢出内容 */
+    }
+</style>

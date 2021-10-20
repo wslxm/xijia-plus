@@ -29,6 +29,8 @@ public class AdminMenuVO extends BaseVo {
     private String name;
     @ApiModelProperty(value = "菜单url")
     private String url;
+    @ApiModelProperty(value = "路径-vue路由字段")
+    private String pathx;
     @ApiModelProperty(value = "第二菜单url, 如url不满足前后端分离, 可使用第二路由")
     private String twoUrl;
     @ApiModelProperty(value = "图标")

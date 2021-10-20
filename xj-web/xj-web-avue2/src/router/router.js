@@ -11,19 +11,23 @@ import VueRouter from 'vue-router';
 import PageRouter from './page/'
 import ViewsRouter from './views/'
 import AvueRouter from './avue-router';
-import i18n from '@/lang'// Internationalization
+import i18n from '@/lang' // Internationalization
 import Store from '../store/';
+
 Vue.use(VueRouter)
 const Router = new VueRouter({
-  mode: 'history',
-  //mode: 'hash',
-  routes: [...PageRouter, ...ViewsRouter]
+    mode: 'history',
+    //mode: 'hash',
+    routes: [...PageRouter, ...ViewsRouter]
 })
 AvueRouter.install({
-  store: Store,
-  router: Router,
-  i18n: i18n,
-  keepAlive: false,
+    store: Store,
+    router: Router,
+    i18n: i18n,
+    keepAlive: false,
 });
-Router.$avueRouter.formatRoutes(Store.state.user.menuAll, true);
+Router.$avueRouter.formatRoutes(Store.state.user.menu, true);
+// Router.before( ){
+//   formatRoutes(Store.state.user.menuAll, true);
+// }
 export default Router

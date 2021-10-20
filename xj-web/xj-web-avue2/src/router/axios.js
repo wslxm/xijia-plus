@@ -91,7 +91,6 @@ axios.interceptors.response.use(res => {
             return Promise.reject(new Error(res.data.msg))
         }
     } else {
-        console.log('2' + res.request.custom.method)
         if (res.request.custom.method != "get" && res.request.custom.method != "GET") {
             // 成功提示
             Message({

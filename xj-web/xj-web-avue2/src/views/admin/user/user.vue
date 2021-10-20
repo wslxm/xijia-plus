@@ -21,26 +21,39 @@
             </template>
             <template slot-scope="{row,index,type,size}" slot="menu">
                 <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updPwdDialogVisible = true">重置密码</el-button>
                 <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
             </template>
             <template slot-scope="{row,index,type,size}" slot="head">
                 <el-avatar :src="row.head"></el-avatar>
             </template>
         </avue-crud>
-        <el-dialog title="新增" :visible.sync="addDialogVisible" :width="dialogWidth" :destroy-on-close="true">
+        <el-dialog title="新增" :visible.sync="addDialogVisible" :width="dialogWidth" @close="closeDialog" :destroy-on-close="true">
             <Add :closeDialog="closeDialog" :uri="uri" :organs="organs" :roles="roles"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="编辑" :visible.sync="updDialogVisible" :width="dialogWidth" :destroy-on-close="true">
+        <el-dialog title="编辑" :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog" :destroy-on-close="true">
             <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData" :organs="organs" :roles="roles"></Upd>
             <span slot="footer" class="dialog-footer"></span>
+        </el-dialog>
+
+        <el-dialog title="重置密码" :visible.sync="updPwdDialogVisible" width="30%">
+            <el-form ref="form" label-width="80px">
+                <el-form-item label="输入密码">
+                    <el-input v-model="rowPassword.info"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="updPwdDialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="updPwd()">确 定</el-button>
+            </span>
         </el-dialog>
     </div>
 </template>
 
 
 <script>
-    import {delRow, get,list, put} from '@/api/crud';
+    import {delRow, get, list, put} from '@/api/crud';
     import {getDict} from '@/api/dict';
     import website from '@/config/website';
 
@@ -56,17 +69,23 @@
                     infoList: "/api/admin/user/list",
                     info: "/api/admin/user",
                     organInfo: "/api/admin/organ/list",
-                    roleInfo: "/api/admin/role/list"
+                    roleInfo: "/api/admin/role/list",
+                    resetPassword: "/api/admin/user/{id}/resetPassword"
                 },
                 dialogWidth: "60%",
-                addDialogVisible: false,   // 添加弹层开关状态
-                updDialogVisible: false,   // 添加弹层开关状态
+                updPwdDialogVisible: false,   // 重置密码弹层开关状态
+                addDialogVisible: false,      // 添加弹层开关状态
+                updDialogVisible: false,      // 添加弹层开关状态
                 page: website.pageParams,  // 分页参数
                 search: {},                // 查询参数
                 data: [],                  // 列表数据
                 organs: [],                // 部门数据
                 roles: [],                 // 角色数据
                 rowData: {},               // 当前选中行数据
+                rowPassword: {             // 重置密码数据保存
+                    info: "123456",
+                    default: "123456",
+                },
                 option: {},
             }
         },
@@ -127,7 +146,6 @@
             // 部门数据(弹层数据)
             get(this.uri.organInfo, {disable: 0, isTree: true}).then((res) => {
                 this.organs = res.data.data;
-                console.log(this.organs)
             })
             // 角色数据(弹层数据)
             get(this.uri.roleInfo, {disable: 0}).then((res) => {
@@ -137,7 +155,6 @@
                     role.value = role.id;
                     role.label = role.name;
                 }
-                console.log(this.roles)
             })
         },
         methods: {
@@ -158,11 +175,10 @@
             },
             // 添加/编辑保存数据后 关闭弹层+ true-刷新列表 false-不刷新
             closeDialog(isRefresh) {
-                console.log("----1")
                 this.addDialogVisible = false;
                 this.updDialogVisible = false;
+                this.rowData = {};
                 if (isRefresh != null && isRefresh) {
-                    console.log("----2")
                     this.onLoad();
                 }
             },
@@ -173,6 +189,11 @@
             // 启用/禁用
             updDisable(row, index, disable) {
                 put(this.uri.info + "/" + row.id, {disable: disable});
+            },
+            updPwd() {
+                put(this.uri.resetPassword.replace("{id}", this.rowData.id), null, {password: this.rowPassword.info});
+                this.updPwdDialogVisible = false
+                this.rowPassword.info = this.rowPassword.default
             },
             // 点击保存行数据(供行操作的任意地方获取数据)
             handleRowClick(row, event, column) {

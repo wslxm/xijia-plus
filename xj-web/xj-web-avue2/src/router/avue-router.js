@@ -14,7 +14,7 @@ RouterPlugin.install = function (option = {}) {
     let i18n = option.i18n
     this.$router.$avueRouter = {
         safe: this,
-        // 设置标题
+        // 设置标题l
         setTitle: (title) => {
             const defaultTitle = i18n.t('title');
             title = title ? `${title}——${defaultTitle}` : defaultTitle;
@@ -37,107 +37,71 @@ RouterPlugin.install = function (option = {}) {
             return title
         },
         //动态路由
-        formatRoutes: function (aMenu = [], first) {
-            console.log("======"+ aMenu)
-            const aRouter = []
-            const propsConfig = website.menu
-            const propsDefault = {
-                label: propsConfig.label,
-                path: propsConfig.path,
-                icon: propsConfig.icon,
-                children: propsConfig.children,
-                meta: propsConfig.meta,
-            }
-            if (aMenu.length === 0) return;
-            for (let i = 0; i < aMenu.length; i++) {
-                const oMenu = aMenu[i];
-                let path = oMenu[propsDefault.path],
-                    component = oMenu.component,
-                    name = oMenu[propsDefault.label],
-                    icon = oMenu[propsDefault.icon],
-                    children = oMenu[propsDefault.children],
-                    query = oMenu[propsDefault.query],
-                    meta = oMenu[propsDefault.meta];
-                if (option.keepAlive) meta.keepAlive = meta.keepAlive || option.keepAlive
-                const isChild = children && children.length !== 0;
-                const oRouter = {
-                    path: path,
-                    component(resolve) {
-                        // 判断是否为首路由
-                        if (first) {
-                            option.store.getters.isMacOs ? require(['../page/index/layout.vue'], resolve) : require(['../page/index'], resolve)
-                            // 判断是否为多层路由
-                        } else if (isChild && !first) {
-                            require(['../page/index/layout'], resolve)
-                            // 判断是否为最终的页面视图
-                        } else {
-                            require([`../${component}.vue`], resolve)
-                        }
-                    },
-                    name,
-                    icon,
-                    meta,
-                    query,
-                    redirect: (() => {
-                        if (!isChild && first) return `${path}`
-                        else return '';
-                    })(),
-                    // 处理是否为一级路由
-                    children: !isChild ? (() => {
-                        if (first) {
-                            oMenu[propsDefault.path] = path;
-                            return [{
-                                component(resolve) {
-                                    require([`../${component}.vue`], resolve)
-                                },
-                                icon,
-                                name,
-                                meta,
-                                query,
-                                path: ''
-                            }]
-                        }
-                        return [];
-                    })() : (() => {
-                        return this.formatRoutes(children, false)
-                    })()
+        formatRoutes: function (menus = []) {
+            // 获取所有路由
+            let addRoutes = [];
+            this.nextRoute(menus, addRoutes);
+            // 注册
+            console.log("路由数量：", addRoutes.length)
+            addRoutes.forEach((router) => {
+                this.safe.$router.addRoute(router)
+            })
+        },
+        nextRoute(menus, addRoutes) {
+            for (let i = 0; i < menus.length; i++) {
+                let url = menus[i].url;
+                let name = menus[i].name;
+                let icon = menus[i].icon;
+                let root = menus[i].root;
+                if (root == 3) {
+                    // 添加页面路由
+                    addRoutes.push(this.addRoute(url, name, icon));
                 }
-                aRouter.push(oRouter)
+                if (menus[i].menus != null && menus[i].menus.length > 0) {
+                    // 递归
+                    this.nextRoute(menus[i].menus, addRoutes);
+                }
             }
-            if (first) {
-                aRouter.forEach((ele) => this.safe.$router.addRoute(ele))
-            } else {
-                return aRouter
+        },
+        /**
+         * 添加到路由方法
+         * @param url
+         * @param name
+         * @param icon
+         */
+        addRoute(url, name, icon) {
+            let component = url;
+            for (let i = 0; i < 5; i++) {
+                component = component.substring(0, 1) === "/" ? component.substring(1) : component;
             }
-
+            console.log("动态路由注册：[" + name + "] [" + component + "][" + icon + "]")
+            let router = {
+                path: "/",
+                component: () => import('@/page/index/index.vue'),
+                // redirect: '/wel/index',
+                children: [{
+                    path: component,
+                    component(resolve) {
+                        require([`../${component}.vue`], resolve)
+                    },
+                    meta: {
+                        keepAlive: true,
+                        isTab: true,
+                        isAuth: false,
+                    },
+                    name: name,
+                    icon: icon,
+                    query: null
+                }]
+            }
+            return router;
         }
     }
 }
 
 
-// console.log(ele)
-// if(ele.path){
-//     console.log(ele.component)
-//     let str = ele.component
-//     // component: () => Store.getters.isMacOs ? import('@/mac/lock.vue') : import('@/page/lock/index'),
-//     ele.component = require([`../${str}.vue`])
-//     console.log(ele)
-//     // ele.component = component(resolve) {
-//     //     require([`../${ele.component}.vue`], resolve)
-//     // };
-//
-//     Router.addRoute(ele)
-//     // console.log(Router)
-//     // RouterPlugin.install = function() {
-//     //     console.log(Router)
-//     //     // this.$router = option.router;
-//     //     // this.$store = option.store;
-//     //     // console.log(this)
-//     // }
-//     // this.$router.addRoute(ele);
-// }
-
 export const formatPath = (ele, first) => {
+    console.log("====")
     const propsDefault = website.menu;
     const icon = ele[propsDefault.icon];
     ele[propsDefault.icon] = !icon ? propsDefault.iconDefault : icon;
@@ -161,7 +125,8 @@ export const formatPath = (ele, first) => {
                 child.component = iframeComponent
                 child[propsDefault.query] = {url: iframeSrc(href)}
             }
-            child[propsDefault.path] = `${ele[propsDefault.path]}/${child[propsDefault.path]}`
+            //child[propsDefault.path] = `${ele[propsDefault.path]}/${child[propsDefault.path]}`
+            child[propsDefault.path] = `${child[propsDefault.path]}`
             formatPath(child);
         })
     }

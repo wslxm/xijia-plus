@@ -70,6 +70,18 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
             menuVOList = menuVOList.stream().filter(p -> (p.getId().equals(pId) || p.getPid().equals(pId))).collect(Collectors.toList());
         }
 
+        // 增加path字段数据
+        for (AdminMenuVO menuVo : menuVOList) {
+            if (StringUtils.isNotBlank(menuVo.getUrl())) {
+                String[] urls = menuVo.getUrl().split("/");
+                String urlsStr = "";
+                for (int i = 1; i < urls.length; i++) {
+                    urlsStr += urls[i];
+                }
+                menuVo.setPathx(urlsStr);
+            }
+        }
+
         // 5、result(判断返回tree还是list)
         List<AdminMenuVO> resMenuVoList = new LinkedList<>();
         if (isTree != null && isTree) {

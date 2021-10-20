@@ -28,9 +28,11 @@
         // 监听数据的变化,更新当前行数据
         watch: {
             rowData: function (newRowData, oldRowData) {
-                get(this.uri.info + "/" + newRowData.id).then((res) => {
-                    this.obj = res.data.data;
-                })
+                if(newRowData!=null && newRowData.id!=null){
+                    get(this.uri.info + "/" + newRowData.id).then((res) => {
+                        this.obj = res.data.data;
+                    })
+                }
             }
         },
         computed: {

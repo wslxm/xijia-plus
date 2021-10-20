@@ -25,7 +25,6 @@ const user = {
             // });
             return new Promise((resolve) => {
                 loginByUsername(userInfo.username, userInfo.password, userInfo.code, userInfo.redomStr).then(res => {
-                    const data = res.data.data;
                     commit('SET_TOKEN', res.headers.token);
                     commit('DEL_ALL_TAG', []);
                     commit('CLEAR_LOCK');
@@ -75,7 +74,7 @@ const user = {
         },
         // 登出
         LogOut({commit}) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 //  logout().then(() => {
                 commit('SET_TOKEN', '')
                 commit('SET_MENUALL_NULL', []);
@@ -86,9 +85,6 @@ const user = {
                 commit('CLEAR_LOCK');
                 removeToken()
                 resolve()
-                // }).catch(error => {
-                //     reject(error)
-                // })
             })
         },
         //注销session
@@ -108,39 +104,11 @@ const user = {
         GetTopMenu() {
             return new Promise(resolve => {
                 getTopMenu().then((res) => {
-                    console.log("获取顶部菜单" + res)
-                    // 处理返回数据成avue格式数据，详见mock/menu.js 文件静态数据
-                    const top = [];
-                    for (let i = 0; i < res.data.data.length; i++) {
-                        let resTopMenu = res.data.data[i];
-                        let topMenu = {};
-                        topMenu.label = resTopMenu.name;
-                        topMenu.path = "";
-                        topMenu.icon = resTopMenu.icon;
-                        topMenu.meta = {} // i18n: 'dashboard'
-                        // 让parentId = 索引
-                        topMenu.parentId = i;
-                        top.push(topMenu);
-                    }
-                    const data = top;
+                    const data = res.data.data;
                     resolve(data)
                 })
             })
         },
-        // //获取系统菜单
-        // GetMenu ({ commit }, parentId) {
-        //   return new Promise(resolve => {
-        //     getMenu(parentId).then((res) => {
-        //       const data = res.data.data
-        //       let menu = deepClone(data);
-        //       menu.forEach(ele => formatPath(ele, true));
-        //       commit('SET_MENUALL', menu)
-        //       commit('SET_MENU', menu)
-        //       resolve(menu)
-        //     })
-        //   })
-        // },
-
         /**
          * 获取系统菜单
          * @author wangsong
@@ -149,30 +117,37 @@ const user = {
          * @return
          * @version 1.0.1
          */
-        GetMenu({commit}, parentId) {
-            console.log("获取左菜单 parentId=" + parentId)
-            if (parentId == null) {
-                parentId = 0;
-            }
-            let resDateJson = null;
-
-
+        GetMenu({commit}, item) {
             return new Promise(resolve => {
-                getMenu(null).then((res) => {
-                    const resDatas = res.data.data[parentId].menus;
-                    var data = getAvueMenuData(resDatas);
-                    // avue方法
-                    let menu = deepClone(data);
-                    menu.forEach(ele => formatPath(ele, true));
-                    commit('SET_MENUALL', menu)
-                    commit('SET_MENU', menu)
-                    // 注册到路由
-                    // RouterPlugin.install.formatRoutes(menu);
-                    resolve(menu)
-                })
+                if (item != null && item.id != null) {
+                    // 直接缓存中获取返回
+                    let menus = getStore({name: 'xj-menus'}) || [];
+                    let newMenus = [];
+                    for (let i = 0; i < menus.length; i++) {
+                        if (item.id == menus[i].id) {
+                            newMenus = menus[i].menus
+                            break;
+                        }
+                    }
+                    // 缓存左菜单
+                    commit('SET_MENUALL', newMenus)
+                    commit('SET_MENU', newMenus)
+                    resolve(newMenus);
+                } else {
+                    getMenu(item.id).then((res) => {
+                        let menus = res.data.data;
+                        let newMenus = deepClone(menus);
+                        newMenus.forEach(ele => formatPath(ele, true));
+                        // 缓存所有菜单数据
+                        setStore({name: 'xj-menus', content: newMenus})
+                        // 缓存左菜单
+                        commit('SET_MENUALL', newMenus[0].menus)
+                        commit('SET_MENU', newMenus[0].menus)
+                        resolve(newMenus[0].menus)
+                    })
+                }
             })
         },
-
     },
     mutations: {
         SET_TOKEN: (state, token) => {
@@ -218,56 +193,29 @@ const user = {
 
 
 /**
- * 左菜单/ 处理返回数据成avue格式数据,格式详见 mock/menu.js 文件静态数据
+ * 左菜单/处理返回数据成avue格式数据
  * @returns {*}
  * @constructor
  */
-function getAvueMenuData(resDatas) {
-    // const roues = [];
-
-    const data = [];
-    // 一级菜单
-    for (let i = 0; i < resDatas.length; i++) {
-        const menu = {};
-        const resData = resDatas[i];
-        menu.label = resData.name;
-        menu.path = ""
-        menu.icon = resData.icon
-        menu.iconBgColor = "#8B694B";
-        //menu.meta = {i18n: 'cache', keepAlive: false};
-        menu.children = [];
-        //
-        // if (menu.path != "") {
-        //     roues.push({path: menu.path, component: menu.component})
-        // }
-        if (resData.menus != null) {
-            // 二级菜单
-            for (let i = 0; i < resData.menus.length; i++) {
-                let menuTwo = {};
-                let resDataTwo = resData.menus[i];
-                menuTwo.label = resDataTwo.name;
-                // 生成一个访问key
-                let urls = resDataTwo.url.split('/');
-                let newUrl = "";
-                for (let j = 0; j < urls.length; j++) {
-                    newUrl += urls[j];
-                }
-                //
-                menuTwo.path = newUrl;
-                menuTwo.component = resDataTwo.url
-                menuTwo.icon = resDataTwo.icon
-                menuTwo.iconBgColor = "#8B694B";
-                //menuTwo.meta = {i18n: 'cache', keepAlive: false};
-                menuTwo.children = [];
-                menu.children.push(menuTwo);
-                // if (menuTwo.path != "") {
-                //   roues.push({path: menuTwo.path, component: menuTwo.component})
-                // }
-            }
-        }
-        data.push(menu);
-    }
-    return data;
-}
+// function nextMenu(menus) {
+//     // 一级菜单
+//     for (let i = 0; i < menus.length; i++) {
+//         const menu = menus[i]
+//         menu.label = menu.name;
+//         menu.icon = menu.icon
+//         menu.component = menu.url
+//         menu.iconBgColor = "#8B694B";
+//         //menu.meta = {i18n: 'cache', keepAlive: false};
+//         // 根据路径删除访问路径
+//         menu.path = ""
+//         if (menu.url != null && menu.url != '') {
+//             menu.path = menu.url
+//         }
+//         menu.children = menu.menus;
+//         if (menu.children != null && menu.children.length > 0) {
+//             nextMenu(menu.children);
+//         }
+//     }
+// }
 
 export default user

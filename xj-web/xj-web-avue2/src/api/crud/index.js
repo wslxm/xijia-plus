@@ -24,13 +24,14 @@ export const post = (uri, data) => request({
 })
 
 // 编辑
-export const put = (uri, data) => request({
+export const put = (uri, data, params) => request({
     url: baseUrl + uri,
     method: 'put',
     meta: {
         isSerialize: false
     },
-    data: data
+    data: data,
+    params: params
 })
 
 
@@ -101,19 +102,40 @@ export const delRow = (thih, uri, id, index) => {
 /**
  * 分页查询/列表查询
  * @author wangsong
+ * @param thih
+ * @param isPage 是否分页
+ * @param isPage 是否触发回调函数（定义 onLoadCallback 方法）
  * @mail  1720696548@qq.com
  * @date  2021/10/16 0016 10:00
  * @version 1.0.0
  */
-export const list = (thih) => {
+export const list = (thih, isPage, isCallback) => {
+    // 默认分页
+    isPage = isPage == null ? true : isPage
+    isCallback = isCallback == null ? false : isCallback
     // 查询参数
-    let params = thih.search;
+    let params = thih.search != null ? thih.search : {};
     // 分页参数
-    params.current = thih.page.currentPage;
-    params.size = thih.page.pageSize;
+    params.current = thih.page != null ? thih.page.currentPage : 0;
+    params.size = thih.page != null ? thih.page.pageSize : 0;
     // 发起请求
     get(thih.uri.infoList, params).then(res => {
-        thih.data = res.data.data.records;
-        thih.page.total = res.data.data.total;
+        if (isPage) {
+            // 分页
+            thih.data = res.data.data.records;
+            thih.page.total = res.data.data.total;
+        } else {
+            // 不分页
+            thih.data = res.data.data;
+        }
+        // 添加行编辑默认为false
+        // for (let i = 0; i < thih.data.length; i++) {
+        //     thih.data[i].$cellEdit = false
+        // }
+        console.log(thih.data)
+        if (isCallback) {
+            // 回调
+            thih.onLoadCallback(res);
+        }
     })
 }
