@@ -2,14 +2,14 @@ import request from '@/router/axios';
 import {baseUrl} from '@/config/env';
 
 // 查询
-export const get = (uri, data) => {
+export const get = (uri, params) => {
     return request({
         url: baseUrl + uri,
         method: 'get',
         meta: {
-            isSerialize: true
+            isSerialize: false
         },
-        params: data
+        params: params
     })
 }
 

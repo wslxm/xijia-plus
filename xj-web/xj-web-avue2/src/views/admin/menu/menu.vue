@@ -22,11 +22,12 @@
                 <el-input v-model="row.sort" @blur="rowSortBlur(row)" placeholder=""></el-input>
             </template>
 
+
             <template slot-scope="{scope,row,index,type,size}" slot="disable">
                 <el-switch v-model="row.disable" @change="updDisable(row,index,row.disable)"
                            active-color="#13ce66" inactive-color="#ff4949"
                            :active-value=0 :inactive-value=1
-                           active-text="启用" inactive-text="禁用">
+                           active-text="" inactive-text="">
                 </el-switch>
             </template>
             <template slot-scope="{row,index,type,size}" slot="addMenuOrPage">
@@ -35,7 +36,7 @@
             </template>
             <template slot-scope="{row,index,type,size}" slot="menu">
                 <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">变更父级</el-button>
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updPidDialogVisible = true">变更父级</el-button>
                 <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
             </template>
             <template slot-scope="{row,index,type,size}" slot="head">
@@ -48,6 +49,10 @@
         </el-dialog>
         <el-dialog title="编辑" :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog" :destroy-on-close="true">
             <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
+            <span slot="footer" class="dialog-footer"></span>
+        </el-dialog>
+        <el-dialog title="变更父级" :visible.sync="updPidDialogVisible" width="25%" @close="closeDialog" :destroy-on-close="true">
+            <UpdPid :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></UpdPid>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
 
@@ -64,17 +69,20 @@
     export default {
         components: {
             Add: () => import('./menuAdd'),
-            Upd: () => import('./menuUpd')
+            Upd: () => import('./menuUpd'),
+            UpdPid: () => import('./menuPid')
         },
         data() {
             return {
                 uri: {
                     infoList: "/api/admin/menu/list?isTree=true",
                     info: "/api/admin/menu",
+                    infoPidList: "/api/admin/menu/list?disable=0&isTree=true&isBottomLayer=false",
                 },
                 dialogWidth: "60%",
                 addDialogVisible: false,      // 添加弹层开关状态
                 updDialogVisible: false,      // 添加弹层开关状态
+                updPidDialogVisible: false,      // 添加弹层开关状态
                 page: website.pageParams,     // 分页参数
                 search: {                     // 搜索参数
                     terminal: 2
@@ -112,43 +120,44 @@
                         prop: 'name',
                         align: 'left',
                         search: true,
-                        width:200,
+                        width: 200,
                         searchSpan: 5,
                     },
                     {
                         label: '路由',
                         prop: 'url',
                         align: 'left',
-                        width:300,
+                        width: 300,
                         //cell: true
                     },
                     {
                         label: '排序',
                         prop: 'sort',
-                        width:150,
+                        width: 150,
                     },
                     {
                         label: '图标',
                         prop: 'icon',
-                        width:150,
+                        width: 150,
                     },
                     {
                         label: '目录级别',
                         prop: 'root',
                         // type: "switch",
                         dicData: getDict(website.Dict.Base.MenuRoot),
-                        width:150,
+                        width: 150,
                     },
                     {
-                        label: '启用/禁用',
+                        label: '禁用/启用',
                         prop: 'disable',
                         //     type: "switch",
                         //     dicData: getDict(website.Dict.Base.Disable),
-                    }, {
-                    label: '添加菜单/页面',
-                    prop: 'addMenuOrPage',
-                    align: 'left',
-                }
+                    },
+                    {
+                        label: '添加菜单/页面',
+                        prop: 'addMenuOrPage',
+                        width: 250,
+                    },
                 ]
         },
         methods: {
@@ -171,6 +180,7 @@
             closeDialog(isRefresh) {
                 this.addDialogVisible = false;
                 this.updDialogVisible = false;
+                this.updPidDialogVisible = false;
                 this.rowData = {};
                 if (isRefresh != null && isRefresh) {
                     this.onLoad();

@@ -16,7 +16,7 @@
                 <el-switch v-model="row.disable" @change="updDisable(row,index,row.disable)"
                            active-color="#13ce66" inactive-color="#ff4949"
                            :active-value=0 :inactive-value=1
-                           active-text="启用" inactive-text="禁用">
+                           active-text="" inactive-text="">
                 </el-switch>
             </template>
             <template slot-scope="{row,index,type,size}" slot="menu">
@@ -108,7 +108,7 @@
                     }],
                 },
                 {
-                    label: '启用/禁用',
+                    label: '禁用/启用',
                     prop: 'disable',
                     // type: "switch",
                     //cell: true,

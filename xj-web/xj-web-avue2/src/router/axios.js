@@ -78,10 +78,16 @@ axios.interceptors.response.use(res => {
                 message: res.data.msg,
                 type: 'error'
             })
-            setTimeout(function () {
-                this.$router.push({path: "/login"});
-                return Promise.reject(new Error(res.data.msg))
-            }, 1000)
+            // setTimeout(() => {
+            //     console.log("===登录过期")
+            //     //router.push({path: "/login"});
+            //     window.location.href = "/login"
+            //     return Promise.reject(new Error(res.data.msg))
+            // },1000);
+            store.dispatch("LogOut").then(() => {
+                router.push({path: "/login"});
+            });
+            return Promise.reject(new Error(res.data.msg))
         } else {
             // 非10000直接抛后台给的错误提示信息
             Message({
