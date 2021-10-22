@@ -111,6 +111,12 @@ public class XjGenerateController extends BaseController<XjGenerationService> {
         xjGenerationHtmlMain.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
         xjGenerationHtmlAdd.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
         xjGenerationHtmlUpd.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+
+        // vue 生成的预览
+        xjGenerationHtmlMain.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+        xjGenerationHtmlAdd.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+        xjGenerationHtmlUpd.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+
         System.err.println("代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/"
                 + GenerateConfig.ROOT_MODULE + "_"
                 //+ GenerateConfig.PACK_PATH_ZP + "_"

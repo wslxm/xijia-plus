@@ -1,0 +1,102 @@
+<template>
+    <div>
+        <avue-crud :data="data"
+                   :option="option"
+                   :page.sync="page"
+                   :search.sync="search"
+                   :cell-style="cellStyle"
+                   @on-load="onLoad"
+                   @refresh-change="onLoad"
+                   @search-change="searchChange"
+                   @row-click="handleRowClick">
+            <template slot-scope="scope" slot="menuLeft">
+                <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
+            </template>
+            <template slot-scope="{row,index,type,size}" slot="menu">
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
+                <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
+            </template>
+        </avue-crud>
+        <el-dialog title="新增" :visible.sync="addDialogVisible" :width="dialogWidth" @close="closeDialog" :destroy-on-close="true">
+            <Add :closeDialog="closeDialog" :uri="uri"></Add>
+            <span slot="footer" class="dialog-footer"></span>
+        </el-dialog>
+        <el-dialog title="编辑" :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog" :destroy-on-close="true">
+            <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
+            <span slot="footer" class="dialog-footer"></span>
+        </el-dialog>
+    </div>
+</template>
+
+
+<script>
+    import {get,post,put,del,delRow,list,update} from '@/api/crud';
+    import {getDict} from '@/api/dict';
+    import website from '@/config/website';
+
+    export default {
+        components: {
+            Add: () => import('./{vueDemo}Add'),
+            Upd: () => import('./{vueDemo}Upd')
+        },
+        data() {
+            return {
+                uri: {
+                    infoList: "/api/admin/{vueDemo}/list",
+                    info: "/api/admin/{vueDemo}",
+                },
+                dialogWidth: "60%",
+                updPwdDialogVisible: false,   // 重置密码弹层开关状态
+                addDialogVisible: false,      // 添加弹层开关状态
+                updDialogVisible: false,      // 添加弹层开关状态
+                page: website.pageParams,     // 分页参数
+                search: {},                   // 查询参数
+                data: [],                     // 列表数据
+                rowData: {},                  // 当前选中行数据
+                option: {},
+            }
+        },
+        mounted() {
+            // 基础配置
+            this.option = website.optionConfig
+            // 字段配置
+            this.option.column = [
+                {vueInfoColumns}
+            ]
+        },
+        created() {
+        },
+        methods: {
+            onLoad() {
+                list(this);
+            },
+            searchChange(params, done) {
+                this.page.currentPage = 1;
+                this.onLoad();
+                done();
+            },
+            closeDialog(isRefresh) {
+                this.addDialogVisible = false;
+                this.updDialogVisible = false;
+                this.rowData = {};
+                if (isRefresh != null && isRefresh) {
+                    this.onLoad();
+                }
+            },
+            rowDel(row, index) {
+                delRow(this, this.uri.info, row.id, index);
+            },
+            // 点击保存行数据(供行操作的任意地方获取数据)
+            handleRowClick(row) {
+                this.rowData = row;
+            },
+            // 自动配置,单元格样式数字，对指定列设置字体颜色,大小，粗细等
+            cellStyle({row, column}) {
+                // if (column.property == "disable") {
+                     // fontWeight: 'bold',fontSize: '20'
+                     // return row.disable == 0 ? {color: 'green'} : {color: 'red'}
+                // }
+            }
+        }
+    }
+</script>

@@ -1,0 +1,66 @@
+<template>
+    <div>
+        <avue-form ref="form" v-model="obj" :option="option" @reset-change="emptytChange" @submit="submit">
+        </avue-form>
+    </div>
+</template>
+
+<script>
+    import {get,post,put,del,delRow,list,update} from '@/api/crud';
+    import {getDict} from '@/api/dict';
+    import website from '@/config/website';
+
+    export default {
+        data() {
+            return {
+                obj: {},               // 表单数据
+            }
+        },
+        // 接收值父组件传递值
+        props: {
+            closeDialog: [],           // 关闭弹层方法
+            uri: {},                   // 接口数据
+            rowData: {},               // 当前行数据
+        },
+        // 监听数据的变化,更新当前行数据
+        watch: {
+            rowData: function (newRowData, oldRowData) {
+                if(newRowData!=null && newRowData.id!=null){
+                    get(this.uri.info + "/" + newRowData.id).then((res) => {
+                        this.obj = res.data.data;
+                    })
+                }
+            }
+        },
+        computed: {
+            option() {
+                return {
+                    submitText: '提交',
+                    emptyText: "关闭",
+                    submitBtn: true,   // 提交按钮
+                    emptyBtn: true,    // 清空按钮
+                    mockBtn: false,    // 模拟按钮
+                    printBtn: false,   // 打印按钮
+                    column: [
+                        {vueUpdColumns}
+                    ]
+                }
+            }
+        },
+        methods: {
+            emptytChange() {
+                this.closeDialog(false);
+            },
+            submit(form, done) {
+                put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
+                    if (res.data.code == 200) {
+                        this.closeDialog(true);
+                    }
+                    done(form);
+                }).catch(err => {
+                    done(form);
+                })
+            }
+        }
+    }
+</script>
