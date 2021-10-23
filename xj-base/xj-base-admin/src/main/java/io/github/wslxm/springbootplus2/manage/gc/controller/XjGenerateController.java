@@ -1,9 +1,9 @@
 package io.github.wslxm.springbootplus2.manage.gc.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import io.github.wslxm.springbootplus2.core.result.R;
-import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
+import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
+import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.dto.XjGenerateDto;
 import io.github.wslxm.springbootplus2.manage.gc.model.entity.XjAdminDatasource;
@@ -65,7 +65,12 @@ public class XjGenerateController extends BaseController<XjGenerationService> {
     private XjGenerationHtmlAdd xjGenerationHtmlAdd;
     @Autowired
     private XjGenerationHtmlUpd xjGenerationHtmlUpd;
-
+    @Autowired
+    private XjGenerationVueMain xjGenerationVueMain;
+    @Autowired
+    private XjGenerationVueAdd xjGenerationVueAdd;
+    @Autowired
+    private XjGenerationVueUpd xjGenerationVueUpd;
 
     /**
      * 预览代码生成 (查询预览代码，预览代码存放于File/code/src.... 目录下，前端可直接访问)
@@ -113,9 +118,11 @@ public class XjGenerateController extends BaseController<XjGenerationService> {
         xjGenerationHtmlUpd.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
 
         // vue 生成的预览
-        xjGenerationHtmlMain.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
-        xjGenerationHtmlAdd.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
-        xjGenerationHtmlUpd.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+        xjGenerationVueMain.run(dataList, GenerateConfig.BASE_PATH_VUE_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+        xjGenerationVueAdd.run(dataList, GenerateConfig.BASE_PATH_VUE_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+        xjGenerationVueUpd.run(dataList, GenerateConfig.BASE_PATH_VUE_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+        //xjGenerationHtmlAdd.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+        //xjGenerationHtmlUpd.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
 
         System.err.println("代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/"
                 + GenerateConfig.ROOT_MODULE + "_"
@@ -173,7 +180,7 @@ public class XjGenerateController extends BaseController<XjGenerationService> {
         xjGenerationHtmlUpd.run(dataList, GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/");
         System.err.println("代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/"
                 + GenerateConfig.ROOT_MODULE + "_"
-               // + GenerateConfig.PACK_PATH_ZP + "_"
+                // + GenerateConfig.PACK_PATH_ZP + "_"
                 + GenerateConfig.MODULE_NAME + "_"
                 + GenerateConfig.TABLE_NAME_LOWER + "_"
                 + GenerateConfig.TABLE_NAME_LOWER);
@@ -211,7 +218,7 @@ public class XjGenerateController extends BaseController<XjGenerationService> {
         mapPath.put("index",
                 "/page/"
                         + GenerateConfig.ROOT_MODULE + "_"
-                       // + GenerateConfig.PACK_PATH_ZP + "_"
+                        // + GenerateConfig.PACK_PATH_ZP + "_"
                         + GenerateConfig.MODULE_NAME + "_"
                         + GenerateConfig.TABLE_NAME_LOWER + "_"
                         + GenerateConfig.TABLE_NAME_LOWER);

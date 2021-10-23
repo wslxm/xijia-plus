@@ -2,11 +2,11 @@ package io.github.wslxm.springbootplus2.manage.gc.util;
 
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
 import com.google.common.base.CaseFormat;
 import io.github.wslxm.springbootplus2.core.utils.LocalDateTimeUtil;
 import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.core.utils.json.JsonUtil;
+import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
@@ -130,6 +130,11 @@ public class GenerateDataProcessing {
              * 生成 html
              */
             upPath = path + GenerateConfig.TABLE_NAME_LOWER + name.replace("Html", "") + GenerateConfig.SUFFIX_HTML_PT;
+        } else if (name.indexOf("Vue") != -1) {
+            /**
+             * 生成 vue 代码
+             */
+            upPath = path + GenerateConfig.TABLE_NAME_LOWER + name.replace("Vue", "") + GenerateConfig.SUFFIX_VUE_PT;
         } else if (name.indexOf("Xml") != -1) {
             /**
              * 生成xml,  xml文件 去除文件名上的 Xml
@@ -225,25 +230,24 @@ public class GenerateDataProcessing {
         String newLine = null;
         try {
             while ((line = br.readLine()) != null) {
-                newLine = line
-                        //注释信息
-                        .replace("{author}", "@author  " + GenerateConfig.AUTHOR)
+                //注释信息
+                newLine = line.replace("{author}", "@author  " + GenerateConfig.AUTHOR)
                         .replace("{email}", "@email  " + GenerateConfig.EMAIL)
                         .replace("{describe}", GenerateConfig.DESCRIBE)
-                        .replace("{rootModule}", GenerateConfig.ROOT_MODULE)   // 模块根目录
-                        .replace("{moduleName}", GenerateConfig.MODULE_NAME)   // 模块一级目录
-                        //.replace("{packPathZp}", GenerateConfig.PACK_PATH_ZP)  // 模块子目录
-                        .replace("{date}", "@date  " + LocalDateTimeUtil.parse(LocalDateTimeUtil.now()))
-                        //原始数据
-                        .replace("{tableName}", GenerateConfig.TABLE_NAME)            // 表名
-                        .replace("{tableNameUp}", GenerateConfig.TABLE_NAME_UP)       // 表名大写开头驼峰
-                        .replace("{tableNameLower}", GenerateConfig.TABLE_NAME_LOWER) // 表名小写开头驼峰
-                        // .replace("{htmlNameLower}", DsField.TABLE_NAME_LOWER)      // 表名小写开头驼峰
-                        .replace("{packPath}", GenerateConfig.PACK_PATH)              // 包路径
-                        .replace("{tableComment}", GenerateConfig.TABLE_COMMENT)      // 数据表的注释
+                        .replace("{rootModule}", GenerateConfig.ROOT_MODULE)        // 模块根目录
+                        .replace("{moduleName}", GenerateConfig.MODULE_NAME)        // 模块一级目录
+                        //.replace("{packPathZp}", GenerateConfig.PACK_PATH_ZP)           // 模块子目录
+                        .replace("{date}", "@date  " + LocalDateTimeUtil.parse(LocalDateTimeUtil.now()));
+                //原始数据
+                newLine = newLine.replace("{tableName}", GenerateConfig.TABLE_NAME)              // 表名
+                        .replace("{tableNameUp}", GenerateConfig.TABLE_NAME_UP)        // 表名大写开头驼峰
+                        .replace("{tableNameLower}", GenerateConfig.TABLE_NAME_LOWER)  // 表名小写开头驼峰
+                        // .replace("{htmlNameLower}", DsField.TABLE_NAME_LOWER)             // 表名小写开头驼峰
+                        .replace("{packPath}", GenerateConfig.PACK_PATH)               // 包路径
                         //.replace("{entryName}", DsField.entryName)
-                        //代码生成方法内获得的处理数据
-                        .replace("{entitys}", GenerateConfig.FIELD_ENTITYS)
+                        .replace("{tableComment}", GenerateConfig.TABLE_COMMENT);      // 数据表的注释
+                // 后端代码(替换数据)
+                newLine = newLine.replace("{entitys}", GenerateConfig.FIELD_ENTITYS)
                         .replace("{findPageMybatisPlus}", GenerateConfig.FIND_PAGE_MYBATIS_PLUS)
                         //.replace("{swaggerRemark}", GenerateConfig.SWAGGER_REMARK)
                         //.replace("{findPageParam}", GenerateConfig.FIND_PAGE_PARAM)
@@ -253,9 +257,9 @@ public class GenerateDataProcessing {
                         .replace("{xmlInsert}", GenerateConfig.XML_INSERT)
                         .replace("{xmlUpd}", GenerateConfig.XML_UPD)
                         // entity/vo/dto的 serialVersionUID生成(雪花算法)
-                        .replace("{serialVersionUID}", IdUtil.snowflakeId())
-                        // html
-                        .replace("{layui-fields}", GenerateConfig.LAYUI_FIELDS)
+                        .replace("{serialVersionUID}", IdUtil.snowflakeId());
+                // 前端 layui html(替换数据)
+                newLine = newLine.replace("{layui-fields}", GenerateConfig.LAYUI_FIELDS)
                         .replace("{layui-search-pt-str}", GenerateConfig.LAYUI_SEARCH_PT_STR)
                         .replace("{layui-search-params-str}", GenerateConfig.LAYUI_SEARCH_PARAMS_STR)
                         .replace("{layui-search-js-str}", GenerateConfig.LAYUI_SEARCH_JS_STR)
@@ -263,8 +267,16 @@ public class GenerateDataProcessing {
                         .replace("{add-upd-introduce}", GenerateConfig.ADD_UPD_INTRODUCE)
                         .replace("{add-upd-htmls}", GenerateConfig.ADD_UPD_HTMLS)
                         .replace("{add-upd-js}", GenerateConfig.ADD_UPD_JS)
-                        .replace("{add-upd-submit-js}", GenerateConfig.ADD_UPD_SUBMIT_JS)
+                        .replace("{add-upd-submit-js}", GenerateConfig.ADD_UPD_SUBMIT_JS);
+
+                // 前端 vue (替换数据)
+                newLine = newLine
+                        .replace("{vue-info-columns}", GenerateConfig.VUE_INFO_COLUMNS)
+                        .replace("{vue-add-columns}", GenerateConfig.VUE_ADD_COLUMNS)
+                        .replace("{vue-add-columns-default}", GenerateConfig.VUE_ADD_COLUMNS_DEFAULT)
+                        .replace("{vue-upd-columns}", GenerateConfig.VUE_UPD_COLUMNS)
                 ;
+                // 替换行
                 bw.write(newLine);
                 bw.newLine();
                 bw.flush();

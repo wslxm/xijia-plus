@@ -36,39 +36,66 @@
 
     export default {
         components: {
-            Add: () => import('./{vueDemo}Add'),
-            Upd: () => import('./{vueDemo}Upd')
+            Add: () => import('./adminDictionaryAdd'),
+            Upd: () => import('./adminDictionaryUpd')
         },
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/{vueDemo}/list",
-                    info: "/api/admin/{vueDemo}",
+                    infoList: "/api/admin/dictionary/list",
+                    info: "/api/admin/dictionary",
                 },
                 dialogWidth: "60%",
-                updPwdDialogVisible: false,   // 重置密码弹层开关状态
-                addDialogVisible: false,      // 添加弹层开关状态
-                updDialogVisible: false,      // 添加弹层开关状态
-                page: website.pageParams,     // 分页参数
-                search: {},                   // 查询参数
-                data: [],                     // 列表数据
-                rowData: {},                  // 当前选中行数据
+                addDialogVisible: false,
+                updDialogVisible: false,
+                page: website.pageParams,
+                search: {},
+                data: [],
+                rowData: {},
                 option: {},
             }
         },
         mounted() {
-            // 基础配置
             this.option = website.optionConfig
-            // 字段配置
+            this.option.defaultExpandAll = true
+            this.option.rowKey = "id"
+            this.option.treeProps = {
+                children: 'dictList'
+            }
             this.option.column = [
-                {vueInfoColumns}
+                {
+                    label: '字典名称',
+                    prop: 'name',
+                    align: 'left',
+                },
+                {
+                    label: '字典类型',
+                    prop: 'code',
+                }, 
+                {
+                    label: '父Id',
+                    prop: 'pid',
+                }, 
+                {
+                    label: '描叙',
+                    prop: 'desc',
+                }, 
+                {
+                    label: '排序',
+                    prop: 'sort',
+                }, 
+                {
+                    label: '禁用',
+                    prop: 'disable',
+                }, 
+
             ]
         },
         created() {
         },
         methods: {
             onLoad() {
-                list(this);
+                list(this,false);
             },
             searchChange(params, done) {
                 this.page.currentPage = 1;
@@ -86,16 +113,14 @@
             rowDel(row, index) {
                 delRow(this, this.uri.info, row.id, index);
             },
-            // 点击保存行数据(供行操作的任意地方获取数据)
             handleRowClick(row) {
                 this.rowData = row;
             },
-            // 自动配置,单元格样式数字，对指定列设置字体颜色,大小，粗细等
             cellStyle({row, column}) {
-                // if (column.property == "disable") {
-                     // fontWeight: 'bold',fontSize: '20'
-                     // return row.disable == 0 ? {color: 'green'} : {color: 'red'}
-                // }
+                 if (column.property == "disable") {
+                    //  fontWeight: 'bold',fontSize: '20'
+                     return row.disable == 0 ? {color: 'green'} : {color: 'red'}
+                 }
             }
         }
     }

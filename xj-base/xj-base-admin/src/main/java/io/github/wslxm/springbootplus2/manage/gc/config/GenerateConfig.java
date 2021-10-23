@@ -48,10 +48,12 @@ public class GenerateConfig {
     //
     // 预览的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
     public static String BASE_PATH_HTML_TXT_YL = null;
+    public static String BASE_PATH_VUE_TXT_YL = null;
     public static String BASE_PATH_JAVA_YL = null;
     public static String BASE_PATH_XML_YL = null;
     // 生成的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
     public static String BASE_PATH_HTML = null;
+    public static String BASE_PATH_VUE = null;
     public static String BASE_PATH_JAVA = null;
     public static String BASE_PATH_XML = null;
 
@@ -75,18 +77,21 @@ public class GenerateConfig {
         FATHER_PATH = generateProperties.fatherPath;
         // 代码生成位置
         BASE_PATH_HTML_TXT_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/txt/";
+        BASE_PATH_VUE_TXT_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/txtVue/";
         BASE_PATH_JAVA_YL = "File/" + PROJECT_NAME + "/code/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + MODULE_NAME + "/";
         BASE_PATH_XML_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/mapper/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
-        if(PROJECT_NAME==null || "".equals(PROJECT_NAME)){
+        if (PROJECT_NAME == null || "".equals(PROJECT_NAME)) {
+            BASE_PATH_VUE = PROJECT_NAME + "src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
             BASE_PATH_HTML = PROJECT_NAME + "src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
             BASE_PATH_JAVA = PROJECT_NAME + "src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + MODULE_NAME.replace(".", "/") + "/";
             BASE_PATH_XML = PROJECT_NAME + "src/main/resources/mapper/" + MODULE_NAME + "/";
-        }else{
+        } else {
+            BASE_PATH_VUE = PROJECT_NAME + "/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
             BASE_PATH_HTML = PROJECT_NAME + "/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
             BASE_PATH_JAVA = PROJECT_NAME + "/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + MODULE_NAME.replace(".", "/") + "/";
             BASE_PATH_XML = PROJECT_NAME + "/src/main/resources/mapper/" + MODULE_NAME + "/";
         }
-       log.info("===============代码生成配置已加载=================");
+        log.info("===============代码生成配置已加载=================");
     }
 
 
@@ -115,12 +120,14 @@ public class GenerateConfig {
     public static String SUFFIX_JAVA = ".java";               // 实际 java 后缀名
     public static String SUFFIX_XML = ".xml";                 // 实际 xml 后缀名
     public static String SUFFIX_HTML = ".html";               // 实际 html 后缀名
+    public static String SUFFIX_VUE = ".vue";                 // 实际 vue 后缀名
     //
     public static String SUFFIX_TXT = ".txt";                 // 预览文件后缀名
     //
     public static String SUFFIX_JAVA_PT = ".txt";             // 最后生成html 后缀名
     public static String SUFFIX_HTML_PT = ".txt";             // 最后生成的html 后缀名
     public static String SUFFIX_XML_PT = ".txt";              // 最后生成的html 后缀名
+    public static String SUFFIX_VUE_PT = ".vue";              // 最后生成的vue 后缀名
 
 
     //=======================================================================================================
@@ -158,6 +165,16 @@ public class GenerateConfig {
     public static String ADD_UPD_HTMLS = "";              // 生成html 添加页/编辑页，表单所有字段代码生成
     public static String ADD_UPD_JS = "";                 // 生成html 添加/编辑页，js代码生成
     public static String ADD_UPD_SUBMIT_JS = "";          // 生成html 添加/编辑页，多选js 提交参数处理代码生成
+
+    // vue 代码
+    public static String VUE_INFO_COLUMNS = "";             // 生成vue表格页字段
+    public static String VUE_ADD_COLUMNS_DEFAULT = "";      // vue添加页字段默认值
+    public static String VUE_ADD_COLUMNS = "";              // vue添加页字段
+    public static String VUE_UPD_COLUMNS = "";              // vue编辑页字段
+
+
+    //public static String LAYUI_SEARCH_PT_STR = "";        // 生成html主页，搜索条件拼接
+    //public static String LAYUI_SEARCH_PARAMS_STR = "";    // 生成html主页，搜索条件url参数
 
 
     /**
