@@ -45,8 +45,13 @@ public class XjGenerationHtmlUpd extends BaseIServiceImpl implements XjGeneratio
             if ("id".equals(name)) {
                 fieldId = "data.field." + name + " = parent.data." + name + ";";
             } else {
-                // 判断是否选中
-                if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
+                // 未勾选的字段过滤
+                Object checked = fieldMap.get("checked");      // 兼容layui
+                Object isChecked = fieldMap.get("isChecked");  // 兼容vue
+                if (checked !=null && !Boolean.parseBoolean(checked.toString())) {
+                    continue;
+                }
+                if (isChecked !=null && !Boolean.parseBoolean(isChecked.toString())) {
                     continue;
                 }
                 //1

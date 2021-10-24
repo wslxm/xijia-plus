@@ -127,7 +127,7 @@ public class GenerateConfig {
     public static String SUFFIX_JAVA_PT = ".txt";             // 最后生成html 后缀名
     public static String SUFFIX_HTML_PT = ".txt";             // 最后生成的html 后缀名
     public static String SUFFIX_XML_PT = ".txt";              // 最后生成的html 后缀名
-    public static String SUFFIX_VUE_PT = ".vue";              // 最后生成的vue 后缀名
+    public static String SUFFIX_VUE_PT = ".txt";              // 最后生成的vue 后缀名
 
 
     //=======================================================================================================

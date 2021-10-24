@@ -215,13 +215,17 @@ public class XjGenerateController extends BaseController<XjGenerationService> {
         mapPath.put("htmlMain", GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/" + GenerateConfig.TABLE_NAME_LOWER + "Main.html");
         mapPath.put("htmlAdd", GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/" + GenerateConfig.TABLE_NAME_LOWER + "Add.html");
         mapPath.put("htmlUpd", GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/" + GenerateConfig.TABLE_NAME_LOWER + "Upd.html");
-        mapPath.put("index",
-                "/page/"
-                        + GenerateConfig.ROOT_MODULE + "_"
-                        // + GenerateConfig.PACK_PATH_ZP + "_"
-                        + GenerateConfig.MODULE_NAME + "_"
-                        + GenerateConfig.TABLE_NAME_LOWER + "_"
-                        + GenerateConfig.TABLE_NAME_LOWER);
+        mapPath.put("index", "/page/"
+                + GenerateConfig.ROOT_MODULE + "_"
+                // + GenerateConfig.PACK_PATH_ZP + "_"
+                + GenerateConfig.MODULE_NAME + "_"
+                + GenerateConfig.TABLE_NAME_LOWER + "_"
+                + GenerateConfig.TABLE_NAME_LOWER);
+        mapPath.put("vueIndex", "/views/"
+                + GenerateConfig.ROOT_MODULE + "/"
+                + GenerateConfig.MODULE_NAME + "/"
+                + GenerateConfig.TABLE_NAME_LOWER + "/"
+                + GenerateConfig.TABLE_NAME_LOWER);
         return R.success(mapPath);
     }
 }

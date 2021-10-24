@@ -28,8 +28,13 @@ public class XjGenerationVO extends BaseGcImpl implements XjGenerationSevice {
         StringBuffer fields = new StringBuffer();
         int position = 0;
         for (Map<String, Object> fieldMap : data) {
-            // 通用字段过滤
-            if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
+            // 未勾选的字段过滤
+            Object checked = fieldMap.get("checked");      // 兼容layui
+            Object isChecked = fieldMap.get("isChecked");  // 兼容vue
+            if (checked !=null && !Boolean.parseBoolean(checked.toString())) {
+                continue;
+            }
+            if (isChecked !=null && !Boolean.parseBoolean(isChecked.toString())) {
                 continue;
             }
             String type = fieldMap.get("type").toString();

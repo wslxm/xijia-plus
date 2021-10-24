@@ -39,8 +39,13 @@ public class XjGenerationHtmlAdd extends BaseIServiceImpl implements XjGeneratio
         StringBuffer submitjs = new StringBuffer();
 
         for (Map<String, Object> fieldMap : dataList) {
-            // 判断是否选中
-            if (!Boolean.parseBoolean(fieldMap.get("checked").toString())) {
+            // 未勾选的字段过滤
+            Object checked = fieldMap.get("checked");      // 兼容layui
+            Object isChecked = fieldMap.get("isChecked");  // 兼容vue
+            if (checked !=null && !Boolean.parseBoolean(checked.toString())) {
+                continue;
+            }
+            if (isChecked !=null && !Boolean.parseBoolean(isChecked.toString())) {
                 continue;
             }
             String name = GenerateDataProcessing.getFieldName(fieldMap.get("name").toString());

@@ -88,6 +88,7 @@ export default {
         cellBtn: false,           // 是否开启行编辑功能（可在指定页面重新设值,勿修改此处）
         addBtn: false,            // 是否需要新增数据按钮（自定义按钮无效）
         menu: true,               // 是否开启操作栏
+        // menuWidth:380,         // 操作栏宽度
         editBtn: false,           // 操作栏是否需要编辑按钮(开启操作栏生效)
         delBtn: false,            // 操作栏是否需要删除按钮(开启操作栏生效，行编辑功能开启时不展示删除按钮)
     },
