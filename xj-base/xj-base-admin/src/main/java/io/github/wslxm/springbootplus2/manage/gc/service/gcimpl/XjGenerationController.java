@@ -29,6 +29,6 @@ public class XjGenerationController extends BaseIServiceImpl implements XjGenera
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // 文件url记录
-        XjGenerateController.pathMap.put("controller", getBaseUrl(request) + "/" + brBwPath.get("path").toString());
+        XjGenerateController.pathMap.put("controller", brBwPath.get("path").toString());
     }
 }

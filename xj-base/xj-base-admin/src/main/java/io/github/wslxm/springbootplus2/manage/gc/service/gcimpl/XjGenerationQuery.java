@@ -19,7 +19,7 @@ public class XjGenerationQuery extends BaseGcImpl implements XjGenerationSevice 
         Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "Query");
         this.generateParameters(data);
         GenerateDataProcessing.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
-        XjGenerateController.pathMap.put("Query", getBaseUrl(request) + "/" + brBwPath.get("path").toString());
+        XjGenerateController.pathMap.put("Query",brBwPath.get("path").toString());
     }
 
 

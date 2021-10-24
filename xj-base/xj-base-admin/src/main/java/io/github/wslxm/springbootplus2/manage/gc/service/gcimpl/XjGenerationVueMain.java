@@ -61,7 +61,7 @@ public class XjGenerationVueMain extends BaseIServiceImpl implements XjGeneratio
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // 文件url记录
-        XjGenerateController.pathMap.put("vueMain", getBaseUrl(request) + "/" + brBwPath.get("path").toString());
+        XjGenerateController.pathMap.put("vueMain",  brBwPath.get("path").toString());
     }
 
 }

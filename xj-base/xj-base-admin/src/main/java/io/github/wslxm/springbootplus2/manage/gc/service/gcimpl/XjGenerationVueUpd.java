@@ -37,10 +37,10 @@ public class XjGenerationVueUpd extends BaseIServiceImpl implements XjGeneration
             // 未勾选的字段过滤
             Object checked = fieldMap.get("checked");      // 兼容layui
             Object isChecked = fieldMap.get("isChecked");  // 兼容vue
-            if (checked !=null && !Boolean.parseBoolean(checked.toString())) {
+            if (checked != null && !Boolean.parseBoolean(checked.toString())) {
                 continue;
             }
-            if (isChecked !=null && !Boolean.parseBoolean(isChecked.toString())) {
+            if (isChecked != null && !Boolean.parseBoolean(isChecked.toString())) {
                 continue;
             }
             // 1
@@ -61,6 +61,6 @@ public class XjGenerationVueUpd extends BaseIServiceImpl implements XjGeneration
         GenerateConfig.VUE_UPD_COLUMNS = vueUpdColumns.toString();
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
-        XjGenerateController.pathMap.put("vueMainUpd", getBaseUrl(request) + "/" + brBwPath.get("path").toString());
+        XjGenerateController.pathMap.put("vueMainUpd", brBwPath.get("path").toString());
     }
 }

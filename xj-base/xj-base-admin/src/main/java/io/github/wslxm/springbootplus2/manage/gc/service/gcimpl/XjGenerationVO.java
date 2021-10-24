@@ -19,7 +19,7 @@ public class XjGenerationVO extends BaseGcImpl implements XjGenerationSevice {
         Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "VO");
         this.generateParameters(data);
         GenerateDataProcessing.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
-        XjGenerateController.pathMap.put("VO", getBaseUrl(request) + "/" + brBwPath.get("path").toString());
+        XjGenerateController.pathMap.put("VO",  brBwPath.get("path").toString());
     }
 
 

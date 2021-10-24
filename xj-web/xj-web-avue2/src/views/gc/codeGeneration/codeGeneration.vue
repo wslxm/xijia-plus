@@ -201,14 +201,13 @@
             },
             // 获取代码生成路径
             finDGenerateGetPath() {
-                this.findPageDialogVisible = true;
                 get(this.uri.generateGetPath, {tableName: this.search.tableName}).then((res) => {
                     this.generatePaths = res.data.data;
+                    this.findPageDialogVisible = true;
                 })
             },
             // 生成预览代码
             findGeneratePreview() {
-                this.generateCodePreviewDialogVisible = true;
                 let data = {
                     tableComment: this.treeRowData.comment,
                     tableName: this.search.tableName,
@@ -217,6 +216,7 @@
                 }
                 post(this.uri.generatePreview, data).then((res) => {
                     this.generateCodePreviews = res.data.data;
+                    this.generateCodePreviewDialogVisible = true;
                 })
             }
 

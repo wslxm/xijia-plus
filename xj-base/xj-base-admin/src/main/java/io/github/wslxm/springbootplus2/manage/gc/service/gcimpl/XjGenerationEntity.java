@@ -23,7 +23,7 @@ public class XjGenerationEntity extends BaseGcImpl implements XjGenerationSevice
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // 返回路径
-        XjGenerateController.pathMap.put("entity", getBaseUrl(request) + "/" + brBwPath.get("path").toString());
+        XjGenerateController.pathMap.put("entity", brBwPath.get("path").toString());
     }
 
 

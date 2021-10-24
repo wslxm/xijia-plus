@@ -21,7 +21,7 @@ public class XjGenerationDTO extends BaseGcImpl implements XjGenerationSevice {
         this.generateParameters(data);
         // 数据保存到替换对象类,使模板中可以读取
         GenerateDataProcessing.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
-        XjGenerateController.pathMap.put("DTO", getBaseUrl(request) + "/" + brBwPath.get("path").toString());
+        XjGenerateController.pathMap.put("DTO",  brBwPath.get("path").toString());
     }
 
 

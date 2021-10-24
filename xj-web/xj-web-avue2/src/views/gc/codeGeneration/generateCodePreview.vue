@@ -2,55 +2,56 @@
     <div>
         <el-tabs style="margin-top: -30px" v-model="activeName">
             <el-tab-pane label="entity" name="entity">
-                <iframe class="iframe" :src='obj.entity'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.entity'></iframe>
             </el-tab-pane>
             <el-tab-pane label="DTO" name="DTO">
-                <iframe class="iframe" :src='obj.DTO'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.DTO'></iframe>
             </el-tab-pane>
             <el-tab-pane label="VO" name="VO">
-                <iframe class="iframe" :src='obj.VO'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.VO'></iframe>
             </el-tab-pane>
             <el-tab-pane label="Query" name="Query">
-                <iframe class="iframe" :src='obj.Query'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.Query'></iframe>
             </el-tab-pane>
             <el-tab-pane label="controller" name="controller">
-                <iframe class="iframe" :src='obj.controller'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.controller'></iframe>
             </el-tab-pane>
             <el-tab-pane label="service" name="service">
-                <iframe class="iframe" :src='obj.service'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.service'></iframe>
             </el-tab-pane>
             <el-tab-pane label="serviceImpl" name="serviceImpl">
-                <iframe class="iframe" :src='obj.serviceImpl'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.serviceImpl'></iframe>
             </el-tab-pane>
             <el-tab-pane label="mapper" name="mapper">
-                <iframe class="iframe" :src='obj.mapper'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.mapper'></iframe>
             </el-tab-pane>
             <el-tab-pane label="mapperXml" name="mapperXml">
-                <iframe class="iframe" :src='obj.mapperXml'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.mapperXml'></iframe>
             </el-tab-pane>
             <el-tab-pane label="layui表格页" name="main">
-                <iframe class="iframe" :src='obj.main'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.main'></iframe>
             </el-tab-pane>
             <el-tab-pane label="layui添加页" name="mainAdd">
-                <iframe class="iframe" :src='obj.mainAdd'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.mainAdd'></iframe>
             </el-tab-pane>
             <el-tab-pane label="layui编辑页" name="mainUpd">
-                <iframe class="iframe" :src='obj.mainUpd'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.mainUpd'></iframe>
             </el-tab-pane>
             <el-tab-pane label="vue表格页" name="vueMain">
-                <iframe class="iframe" :src='obj.vueMain'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.vueMain'></iframe>
             </el-tab-pane>
             <el-tab-pane label="vue添加页" name="vueMainAdd">
-                <iframe class="iframe" :src='obj.vueMainAdd'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.vueMainAdd'></iframe>
             </el-tab-pane>
             <el-tab-pane label="vue编辑页" name="vueMainUpd">
-                <iframe class="iframe" :src='obj.vueMainUpd'></iframe>
+                <iframe class="iframe" :src='baseUrl+obj.vueMainUpd'></iframe>
             </el-tab-pane>
         </el-tabs>
     </div>
 </template>
 
 <script>
+    import {baseUrl} from '@/config/env';
 
     export default {
         // name: "RoleAdd",
@@ -58,7 +59,9 @@
             return {
                 // 当前数据
                 obj: this.generateCodePreviews,
-                activeName: "entity"
+                activeName: "entity",
+                // 走代理访问生成的文件
+                baseUrl: baseUrl + "/",
             }
         },
         // 接收值父组件传递值
