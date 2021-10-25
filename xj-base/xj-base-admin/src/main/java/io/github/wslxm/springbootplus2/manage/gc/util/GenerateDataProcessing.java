@@ -108,6 +108,21 @@ public class GenerateDataProcessing {
         }
     }
 
+    /**
+     *  判断文件路径是否存在，存在删除
+     *
+     * @param path
+     * @return void
+     * @date 2019/11/22 15:18
+     */
+    public static void delFile(String path) {
+        // 不存在创建文件夹
+        File file = new File(path);
+        if (file.exists()) {
+            file.delete();
+        }
+    }
+
 
     /**
      *  获得BufferedReader（根据url读取模版文档），BufferedWriter （写入文件流），path生成的件路径

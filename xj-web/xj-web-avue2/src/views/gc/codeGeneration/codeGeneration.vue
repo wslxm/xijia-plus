@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div>
         <el-container>
             <el-aside style="padding-left: 10px;padding-top: 2.5px" width="220px">
                 <span>数据表选择</span>
@@ -7,7 +7,7 @@
             </el-aside>
             <el-main>
                 当前表: <font color="#ff69b4"> {{treeRowData.name}} - {{treeRowData.comment}}</font>
-                <!--crud-->
+                <!-- crud -->
                 <avue-crud
                         ref="crudField"
                         :data="data"
@@ -26,9 +26,17 @@
                         <el-button type="primary" size="small" plain @click="addDialogVisible = true">生成layui代码</el-button>
                         <el-button type="primary" size="small" plain @click="addDialogVisible = true">生成vue代码</el-button>
                     </template>
+                    <!-- 是否是搜索参数 -->
+                    <template slot-scope="{scope,row,index,type,size}" slot="search">
+                        <el-switch v-model="row.search"
+                                   active-color="#13ce66" inactive-color="#ff4949"
+                                   :active-value=true :inactive-value=false
+                                   active-text="" inactive-text="">
+                        </el-switch>
+                    </template>
                     <template slot-scope="{row,index,type,size}" slot="menu">
-                       <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
-                       <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>-->
+                        <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
+                        <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
                     </template>
                 </avue-crud>
                 <!--crud-->
@@ -82,7 +90,6 @@
                 page: website.pageParams,
                 search: {tableName: "t_basic"},
                 data: [],
-                checkednDatas: [],         // 复选选择数据
                 rowData: {},
                 option: {},
                 generatePaths: {},         // 代码生成路径数据
@@ -113,39 +120,46 @@
             this.option = website.optionConfig
             this.option.index = false;
             this.option.menu = false;
+            this.option.rowKey = "id"
             //this.option.height = 200;
             // 开启多选
-            this.option.selection = true,
-                this.option.column = [
-                    {
-                        label: '字段名',
-                        prop: 'name',
-                        align: 'left',
-                        width: 300,
-                    },
-                    {
-                        label: '字段类型(长度)',
-                        prop: 'typeDetail',
-                        align: 'left',
-                    },
-                    {
-                        label: '字段描叙',
-                        prop: 'desc',
-                        align: 'left',
-                        overHidden: true
-                    },
+            this.option.selection = true;
+            this.option.reserveSelection = true;
+            this.option.column = [
+                {
+                    label: '字段名',
+                    prop: 'name',
+                    align: 'left',
+                    width: 300,
+                },
+                {
+                    label: '字段类型(长度)',
+                    prop: 'typeDetail',
+                    align: 'left',
+                },
+                {
+                    label: '字段描叙',
+                    prop: 'desc',
+                    align: 'left',
+                    overHidden: true
+                },
 
-                    {
-                        label: '是否允许空',
-                        prop: 'isNull',
-                        align: 'left',
-                    },
-                    {
-                        label: '默认值',
-                        prop: 'defaultVal',
-                        align: 'left',
-                    },
-                ]
+                {
+                    label: '是否允许空',
+                    prop: 'isNull',
+                    align: 'left',
+                },
+                {
+                    label: '默认值',
+                    prop: 'defaultVal',
+                    align: 'left',
+                },
+                {
+                    label: '是否搜索(eq)',
+                    prop: 'search',
+                    align: 'left',
+                },
+            ]
         },
         created() {
             get(this.uri.infoTableList).then((res) => {
@@ -177,19 +191,17 @@
             },
             // 选中的复选字段
             selectionChange(list) {
-                this.checkednDatas = list;
-                // 先修改原数据全为false不选择
-                // 先修改原数据全为false不选择
-                // for (let i = 0; i < this.data.length; i++) {
-                //     if (list.includes(this.data[i])) {
-                //         this.data[i].isChecked = true
-                //     }else{
-                //         this.data[i].isChecked = false
-                //     }
-                // }
-                // this.$message.success(JSON.stringify(this.checkednDatas))
+                console.log("======处理选中数据")
+                // 给所有数据处理当前 isChecked 参数
+                this.$nextTick(function () {
+                    let checkednNames = list.map(item => item.name)
+                    this.data.forEach(item => {
+                        console.log(item.name, "--", checkednNames.includes(item.name))
+                        item.isChecked = checkednNames.includes(item.name)
+                    });
+                })
             },
-            // 复选选中数据处理
+            // 加载数据处理复选选中数据处理（调用 toggleSelection 后会自动触发 selectionChange）
             checkeds() {
                 this.$nextTick(function () {
                     for (let i = 0; i < this.data.length; i++) {
@@ -215,11 +227,13 @@
                     data: JSON.stringify(this.data)
                 }
                 post(this.uri.generatePreview, data).then((res) => {
+                    for (var k in res.data.data) {
+                        res.data.data[k] = res.data.data[k] + "?" + Date.now();
+                    }
                     this.generateCodePreviews = res.data.data;
                     this.generateCodePreviewDialogVisible = true;
                 })
-            }
-
+            },
         }
     }
 </script>
