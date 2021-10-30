@@ -75,6 +75,30 @@ export const upload = (thih, file, column) => {
 }
 
 
+// 下载
+export const download = (uri, data) => {
+    request({
+        url: baseUrl + uri,
+        method: 'post',
+        data: data,
+        // 下载zip文件需要使用的响应格式,这是区别于普通post请求的地方,重点!!!
+        responseType: "blob"
+    }).then(res => {
+        // 下载格式为zip { type: "application/zip" }
+        let blob = new Blob([res.data], {type: "application/zip"});
+        let elink = document.createElement("a");   // 创建一个<a>标签
+        elink.style.display = "none";                       // 隐藏标签
+        elink.href = window.URL.createObjectURL(blob);      // 配置href
+        // 获取名称
+        let filename = res.headers["content-disposition"]
+        elink.download = filename.split(';')[1].split('=')[1]
+        elink.click();
+        URL.revokeObjectURL(elink.href);   // 释放URL 对象
+        document.body.removeChild(elink);  // 移除<a>标签
+    })
+}
+
+
 /**
  * 删除行
  * @author wangsong

@@ -1,11 +1,10 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
-import io.github.wslxm.springbootplus2.manage.gc.controller.XjGenerateController;
-import io.github.wslxm.springbootplus2.manage.gc.template.*;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
-import io.github.wslxm.springbootplus2.manage.gc.service.XjGenerationSevice;
-
+import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
+import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
+import io.github.wslxm.springbootplus2.manage.gc.template.*;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,7 @@ import java.util.Map;
 
 @SuppressWarnings("all")
 @Component
-public class XjGenerationHtmlUpd extends BaseIServiceImpl implements XjGenerationSevice {
+public class XjGenerationHtmlUpd extends BaseIServiceImpl implements XjGcSevice {
 
 
     /**
@@ -159,6 +158,6 @@ public class XjGenerationHtmlUpd extends BaseIServiceImpl implements XjGeneratio
         GenerateConfig.ADD_UPD_SUBMIT_JS = submitjs.toString();
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
-        XjGenerateController.pathMap.put("mainUpd", brBwPath.get("path").toString());
+        XjGenerationSeviceImpl.pathMap.put("mainUpd", brBwPath.get("path").toString());
     }
 }

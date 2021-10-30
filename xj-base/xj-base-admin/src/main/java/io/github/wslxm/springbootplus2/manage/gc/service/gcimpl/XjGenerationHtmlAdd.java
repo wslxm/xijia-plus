@@ -1,10 +1,10 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
-import io.github.wslxm.springbootplus2.manage.gc.controller.XjGenerateController;
-import io.github.wslxm.springbootplus2.manage.gc.template.*;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
-import io.github.wslxm.springbootplus2.manage.gc.service.XjGenerationSevice;
+import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
+import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
+import io.github.wslxm.springbootplus2.manage.gc.template.*;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,7 @@ import java.util.Map;
 
 @SuppressWarnings("all")
 @Component
-public class XjGenerationHtmlAdd extends BaseIServiceImpl implements XjGenerationSevice {
+public class XjGenerationHtmlAdd extends BaseIServiceImpl implements XjGcSevice {
 
     /**
      * 生成Html-Add 添加页
@@ -151,7 +151,7 @@ public class XjGenerationHtmlAdd extends BaseIServiceImpl implements XjGeneratio
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // url保存
-        XjGenerateController.pathMap.put("mainAdd", brBwPath.get("path").toString());
+        XjGenerationSeviceImpl.pathMap.put("mainAdd", brBwPath.get("path").toString());
     }
 
 }

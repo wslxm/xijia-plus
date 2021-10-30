@@ -2,8 +2,8 @@ package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
-import io.github.wslxm.springbootplus2.manage.gc.controller.XjGenerateController;
-import io.github.wslxm.springbootplus2.manage.gc.service.XjGenerationSevice;
+import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
+import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 
 @SuppressWarnings("all")
 @Component
-public class XjGenerationVueMain extends BaseIServiceImpl implements XjGenerationSevice {
+public class XjGenerationVueMain extends BaseIServiceImpl implements XjGcSevice {
 
     /**
      * 生成Html-main 主页
@@ -36,10 +36,10 @@ public class XjGenerationVueMain extends BaseIServiceImpl implements XjGeneratio
             // 未勾选的字段过滤
             Object checked = fieldMap.get("checked");      // 兼容layui
             Object isChecked = fieldMap.get("isChecked");  // 兼容vue
-            if (checked !=null && !Boolean.parseBoolean(checked.toString())) {
+            if (checked != null && !Boolean.parseBoolean(checked.toString())) {
                 continue;
             }
-            if (isChecked !=null && !Boolean.parseBoolean(isChecked.toString())) {
+            if (isChecked != null && !Boolean.parseBoolean(isChecked.toString())) {
                 continue;
             }
             // 获取字段名
@@ -51,17 +51,26 @@ public class XjGenerationVueMain extends BaseIServiceImpl implements XjGeneratio
             } else {
                 desc = fieldMap.get("desc").toString();
             }
+
+            // 判断是否需要生成查询
+            Object search = fieldMap.get("search");
+            if (search == null || !Boolean.parseBoolean(search.toString())) {
+                continue;
+            }
+
             vueInfoColumns.append("                {\n" +
                     "                    label: '" + desc + "',\n" +
                     "                    prop: '" + name + "',\n" +
                     "                }, \r\n");
+
+            // search: true,
         }
         // 数据保存
         GenerateConfig.VUE_INFO_COLUMNS = vueInfoColumns.toString();
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // 文件url记录
-        XjGenerateController.pathMap.put("vueMain",  brBwPath.get("path").toString());
+        XjGenerationSeviceImpl.pathMap.put("vueMain", brBwPath.get("path").toString());
     }
 
 }

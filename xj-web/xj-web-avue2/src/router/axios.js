@@ -68,6 +68,12 @@ axios.interceptors.response.use(res => {
         })
         return Promise.reject(new Error(message))
     }
+    // 判断是否是文件，是文件就直接返回
+    if ((res.data != null && res.data instanceof Blob)
+        || (res.headers["content-type"] != null && res.headers["content-type"].indexOf('application/octet-stream') != -1)) {
+        return res;
+    }
+    console.log("===")
     //==================================================
     //==================统一处理业务code码================
     //==================================================
@@ -97,7 +103,7 @@ axios.interceptors.response.use(res => {
             return Promise.reject(new Error(res.data.msg))
         }
     } else {
-        if (res.request.custom.method != "get" && res.request.custom.method != "GET") {
+        if (res.config != null && res.config.method != "get" && res.config.method != "GET") {
             // 成功提示
             Message({
                 message: res.data.msg,

@@ -10,8 +10,9 @@
 
 <script>
     import {getDict} from '@/api/dict';
-    import {post, upload} from '@/api/crud';
+    import {post} from '@/api/crud';
     import website from '@/config/website';
+    import {baseUploadUrl} from "../../../config/env";
 
     export default {
         // name: "RoleAdd",
@@ -66,10 +67,14 @@
                             label: '头像',
                             prop: 'head',
                             span: 24,
+                            dataType: 'string', // 字符串模式
                             type: 'upload',
-                            listType: 'picture-img', // 图片格式, 单图-picture-img 多图-picture-card
-                            dataType: 'string',      // 字符串模式
-                            path: 'image/head/',     // 文件保存路径
+                            listType: 'picture-img',                  // 图片格式, 单图-[picture-img]  多图-[picture-card]  缩略图-[picture]
+                            action: baseUploadUrl + 'image/head/',    // 上传地址 + 文件保存上传地址(详见接口描叙)
+                            tip: '只能上传jpg/png文件，且不超过500kb',
+                            propsHttp: {
+                                res: 'data'
+                            },
                         },
                         {
                             label: '姓名',
@@ -161,8 +166,11 @@
                 })
             },
             uploadBefore(file, done, loading, column) {
-                upload(this, file, column);
                 done(file)
+            },
+            uploadAfter(res, done, loading, column) {
+                this.$message.success('上传成功')
+                done();
             },
         }
     }

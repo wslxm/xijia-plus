@@ -52,7 +52,7 @@ public class PropUtil {
      * @param env
      * @return
      */
-    public static Object findPropertiesByKey(String key, String env, String suffix) {
+    private static Object findPropertiesByKey(String key, String env, String suffix) {
         String fileName = "application" + (env == null ? "" : "-" + env) + suffix;
         InputStream in = PropUtil.class.getClassLoader().getResourceAsStream(fileName);
         Properties prop = new Properties();
@@ -73,7 +73,7 @@ public class PropUtil {
      * @param env
      * @return
      */
-    public static Object findYmlByKey(String key, String env, String suffix) {
+    private static Object findYmlByKey(String key, String env, String suffix) {
         String fileName = "application" + (env == null ? "" : "-" + env) + suffix;
         Resource resource = new ClassPathResource(fileName);
         Properties properties = null;

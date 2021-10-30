@@ -1,9 +1,9 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
-import io.github.wslxm.springbootplus2.manage.gc.controller.XjGenerateController;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
-import io.github.wslxm.springbootplus2.manage.gc.service.XjGenerationSevice;
+import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
+import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ import java.util.Map;
 
 @SuppressWarnings("all")
 @Component
-public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGenerationSevice {
+public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSevice {
 
 
     /**
@@ -31,7 +31,7 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGener
         // 开始生成文件并进行数据替换
         GenerateDataProcessing.replacBrBwWritee(brBwPath);
         // 文件url记录
-        XjGenerateController.pathMap.put("serviceImpl", brBwPath.get("path").toString());
+        XjGenerationSeviceImpl.pathMap.put("serviceImpl", brBwPath.get("path").toString());
     }
 
 

@@ -24,7 +24,7 @@
                         <el-button type="primary" size="small" plain @click="findGeneratePreview()">生成预览代码(在线查看)</el-button>
                         <el-button type="primary" size="small" plain @click="addDialogVisible = true">生成后端代码</el-button>
                         <el-button type="primary" size="small" plain @click="addDialogVisible = true">生成layui代码</el-button>
-                        <el-button type="primary" size="small" plain @click="addDialogVisible = true">生成vue代码</el-button>
+                        <el-button type="primary" size="small" plain @click="generateCodeVue()">生成vue代码</el-button>
                     </template>
                     <!-- 是否是搜索参数 -->
                     <template slot-scope="{scope,row,index,type,size}" slot="search">
@@ -65,7 +65,7 @@
 
 
 <script>
-    import {get, post} from '@/api/crud';
+    import {download, get, post} from '@/api/crud';
     import website from '@/config/website';
 
     export default {
@@ -82,6 +82,7 @@
                     infoTableList: "/api/admin/dataBase/table/list",   // 所有表
                     generateGetPath: "/api/admin/generate/getPath",    // 代码生成路径
                     generatePreview: "/api/admin/generate/preview",    // 生成预览代码
+                    generateCodeVue: "/api/admin/generate/generateCodeVue",    // 生成vue代码(直接下载)
                 },
                 dialogWidth: "60%",
                 findPageDialogVisible: false,
@@ -182,7 +183,7 @@
             handleRowClick(row) {
                 this.rowData = row;
             },
-            // 选择数据表
+            // 选择数据表获取字段
             nodeClick(data) {
                 this.treeRowData = data;
                 this.search.tableName = data.name;
@@ -203,13 +204,12 @@
             },
             // 加载数据处理复选选中数据处理（调用 toggleSelection 后会自动触发 selectionChange）
             checkeds() {
-                this.$nextTick(function () {
-                    for (let i = 0; i < this.data.length; i++) {
-                        if (this.data[i].isChecked) {
-                            this.$refs.crudField.toggleSelection([this.data[i]])
-                        }
+                this.$refs.crudField.toggleSelection([]);
+                for (let i = 0; i < this.data.length; i++) {
+                    if (this.data[i].isChecked) {
+                        this.$refs.crudField.toggleSelection([this.data[i]]);
                     }
-                })
+                }
             },
             // 获取代码生成路径
             finDGenerateGetPath() {
@@ -234,6 +234,16 @@
                     this.generateCodePreviewDialogVisible = true;
                 })
             },
+            // 生成vue代码（下载）
+            generateCodeVue() {
+                let data = {
+                    tableComment: this.treeRowData.comment,
+                    tableName: this.search.tableName,
+                    dataSourceId: "",
+                    data: JSON.stringify(this.data)
+                }
+                download(this.uri.generateCodeVue, data);
+            }
         }
     }
 </script>

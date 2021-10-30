@@ -22,7 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 阿里云OSS 文件上传下载
@@ -55,10 +57,12 @@ public class AliOssController {
                     "文档=doc/" + "\r\n" +
                     "任意文件=file/" + "\r\n" +
                     ")", required = true),
-            @ApiImplicitParam(name = "isReduce", value = "是否压缩(默认压缩, 压缩后图片MB大小直线下降, 放大后的清晰度将下降)", required = false)
+            @ApiImplicitParam(name = "isReduce", value = "是否压缩(默认压缩, 压缩后图片MB大小直线下降, 放大后的清晰度将下降)", required = false),
+            @ApiImplicitParam(name = "resType", value = "返回类型(1- data=url(默认)  2- data=[name:xxx ,url: xxx])", required = false)
     })
-    public R<String> upload(@RequestParam MultipartFile file,
+    public R<Object> upload(@RequestParam MultipartFile file,
                             @RequestParam("filePath") String filePath,
+                            @RequestParam("resType") Integer resType,
                             @RequestParam(required = false) Boolean isReduce) {
         // 验证文件格式及路径，并获取文件上传路径, file.getOriginalFilename()=原文件名
         R<String> rFileName = FileUploadUtil.getPath(filePath, file.getOriginalFilename());
@@ -70,8 +74,15 @@ public class AliOssController {
             // 获得上传的文件流并并对图片进行压缩
             InputStream inputStream = FileUploadUtil.imgReduce(filePath, isReduce, file.getInputStream());
             // 上传到OSS,返回访问地址
-            String path = ossUtil.upload(filePath, fileName, inputStream);
-            return R.success(path);
+            if(resType==null || resType==1){
+                return R.success( ossUtil.upload(filePath, fileName, inputStream));
+            }else{
+                String path = ossUtil.upload(filePath, fileName, inputStream);
+                Map<String, String> res = new HashMap<>();
+                res.put("name",file.getOriginalFilename());
+                res.put("url",path);
+                return R.success( res);
+            }
         } catch (Exception e) {
             return R.error(AliyunRType.FILE_UPLOAD_FAILED);
         }
