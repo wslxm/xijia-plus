@@ -44,11 +44,11 @@
         </el-container>
 
         <!-- {{generatePaths}}-->
-        <el-dialog title="查看生成路径" :visible.sync="findPageDialogVisible" width="60%" :destroy-on-close="true">
+        <el-dialog v-dialogDrag title="查看生成路径" :visible.sync="findPageDialogVisible" top="6vh" width="60%" :destroy-on-close="true">
             <Paths :generatePaths="generatePaths"></Paths>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="生成代码预览" :visible.sync="generateCodePreviewDialogVisible" width="80%" :destroy-on-close="true">
+        <el-dialog v-dialogDrag title="生成代码预览" :visible.sync="generateCodePreviewDialogVisible" top="6vh" width="80%" :destroy-on-close="true">
             <CodePreview :generateCodePreviews="generateCodePreviews"></CodePreview>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>

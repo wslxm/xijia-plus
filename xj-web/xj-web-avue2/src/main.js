@@ -5,7 +5,8 @@ import App from './App';
 import router from './router/router';
 import './permission'; // 权限
 import './error'; // 日志
-import './cache';//页面缓冲
+import './cache'; // 页面缓冲
+
 import store from './store';
 import { loadStyle } from './util/util'
 import * as urls from '@/config/env';
@@ -13,6 +14,7 @@ import Element from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import AVUE from '@smallwei/avue'
 import '@smallwei/avue/lib/index.css'
+
 import { iconfontUrl, iconfontVersion } from '@/config/env';
 import i18n from './lang' // Internationalization
 import './styles/common.scss';
@@ -21,6 +23,7 @@ import basicContainer from './components/basic-container/main'
 import crudCommon from '@/mixins/crud.js'
 import dayjs from 'dayjs'
 import website from '@/config/website'
+import '@/util/dialogdrag'
 window.$crudCommon = crudCommon
 Vue.prototype.$dayjs = dayjs
 Vue.prototype.website = website;
@@ -43,6 +46,7 @@ Object.keys(urls).forEach(key => {
 iconfontVersion.forEach(ele => {
   loadStyle(iconfontUrl.replace('$key', ele));
 })
+
 new Vue({
   router,
   store,
