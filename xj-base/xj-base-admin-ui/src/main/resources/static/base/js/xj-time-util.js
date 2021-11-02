@@ -76,7 +76,7 @@ TimeUtil = {
         let m = Math.floor(t / 1000 / 60 % 60);
         let s = Math.floor(t / 1000 % 60);
         let html = d + " 天" + h + " 时" + m + " 分" + s + " 秒";
-        console.log(html);
+        console.debug(html);
         return d;
     },
 

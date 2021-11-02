@@ -6,6 +6,7 @@ import router from './router/router';
 import './permission'; // 权限
 import './error'; // 日志
 import './cache'; // 页面缓冲
+import '@/util/dialogdrag'
 
 import store from './store';
 import { loadStyle } from './util/util'
@@ -23,7 +24,7 @@ import basicContainer from './components/basic-container/main'
 import crudCommon from '@/mixins/crud.js'
 import dayjs from 'dayjs'
 import website from '@/config/website'
-import '@/util/dialogdrag'
+
 window.$crudCommon = crudCommon
 Vue.prototype.$dayjs = dayjs
 Vue.prototype.website = website;

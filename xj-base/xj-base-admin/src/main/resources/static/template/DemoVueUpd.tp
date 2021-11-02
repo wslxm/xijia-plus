@@ -9,6 +9,7 @@
     import {get,post,put,del,delRow,list,update} from '@/api/crud';
     import {getDict} from '@/api/dict';
     import website from '@/config/website';
+    import {baseUploadUrl} from "../../../config/env";
 
     export default {
         data() {
@@ -24,6 +25,7 @@
         },
         watch: {
             rowData: function (newRowData, oldRowData) {
+                console.log("原:", oldRowData.id, "  -->新:", newRowData.id)
                 if (this.isIdFind) {
                     this.findId(newRowData);
                 } else {
@@ -50,11 +52,13 @@
             },
             submit(form, done) {
                 put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
+                    console.debug(res);
                     if (res.data.code == 200) {
                         this.closeDialog(true);
                     }
                     done(form);
                 }).catch(err => {
+                    console.error(err);
                     done(form);
                 })
             },

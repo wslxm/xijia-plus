@@ -4,7 +4,7 @@ define(function(require){
     
     require("../../src/js/languages/en"); // 加载英语语言包
     
-    console.log($, editormd);
+    console.debug($, editormd);
                 
     $.get("./test.md", function(md){
         testEditor = editormd("test-editormd", {
@@ -19,7 +19,7 @@ define(function(require){
             flowChart : true,              // 疑似Sea.js与Raphael.js有冲突，必须先加载Raphael.js，Editor.md才能在Sea.js下正常进行；
             sequenceDiagram : true,        // 同上
             onload : function() {
-                console.log('onload', this);
+                console.debug('onload', this);
                 //this.fullscreen();
                 //this.unwatch();
                 //this.watch().fullscreen();

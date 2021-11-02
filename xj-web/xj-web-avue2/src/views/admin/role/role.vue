@@ -68,13 +68,13 @@
         created() {
             // 获取菜单数据(添加弹层数据)
             get(this.uri.menuList.replace("{roleId}", "")).then((res) => {
-                console.log("==", res.data.data)
+                console.debug("==", res.data.data)
                 this.menus = res.data.data;
             })
         },
         mounted() {
             // 基础配置
-            this.option = website.optionConfig
+            this.option =  JSON.parse(JSON.stringify(website.optionConfig));
             // 字段配置
             this.option.column = [
                 {

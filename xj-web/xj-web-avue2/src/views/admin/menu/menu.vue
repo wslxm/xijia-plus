@@ -94,7 +94,7 @@
         },
         mounted() {
             // 基础配置
-            this.option = website.optionConfig
+            this.option =  JSON.parse(JSON.stringify(website.optionConfig));
             this.option.index = false
             this.option.defaultExpandAll = true
             //this.option.cellBtnt = true
@@ -167,7 +167,7 @@
              * @author wangsong
              */
             onLoad() {
-                console.log("默认搜索值" + JSON.stringify(this.search))
+                console.debug("默认搜索值" + JSON.stringify(this.search))
                 list(this, false);
             },
             // 搜索,并重置页数为1

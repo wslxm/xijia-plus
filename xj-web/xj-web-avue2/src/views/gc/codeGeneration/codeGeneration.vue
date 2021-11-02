@@ -22,8 +22,7 @@
                     <template slot-scope="scope" slot="menuLeft">
                         <el-button type="primary" size="small" plain @click="finDGenerateGetPath()">查看生成路径</el-button>
                         <el-button type="primary" size="small" plain @click="findGeneratePreview()">生成预览代码(在线查看)</el-button>
-                        <el-button type="primary" size="small" plain @click="addDialogVisible = true">生成后端代码</el-button>
-                        <el-button type="primary" size="small" plain @click="addDialogVisible = true">生成layui代码</el-button>
+                        <el-button type="primary" size="small" plain @click="generateCodeJava()">生成后端代码</el-button>
                         <el-button type="primary" size="small" plain @click="generateCodeVue()">生成vue代码</el-button>
                     </template>
                     <!-- 是否是搜索参数 -->
@@ -70,8 +69,6 @@
 
     export default {
         components: {
-            // Add: () => import('./adminAuthorityAdd'),
-            // Upd: () => import('./adminAuthorityUpd')
             Paths: () => import('./generatePaths'),
             CodePreview: () => import('./generateCodePreview.vue')
         },
@@ -118,7 +115,7 @@
             }
         },
         mounted() {
-            this.option = website.optionConfig
+            this.option =  JSON.parse(JSON.stringify(website.optionConfig));
             this.option.index = false;
             this.option.menu = false;
             this.option.rowKey = "id"
@@ -183,17 +180,26 @@
             handleRowClick(row) {
                 this.rowData = row;
             },
-            // 选择数据表获取字段
+            // 加载数据处理复选选中数据处理（调用 toggleSelection 后会自动触发 selectionChange）
+            checkeds() {
+                // 清除数据
+                this.$refs.crudField.toggleSelection();
+                // 加载数据
+                for (let i = 0; i < this.data.length; i++) {
+                    if (this.data[i].isChecked) {
+                        this.$refs.crudField.toggleSelection([this.data[i]]);
+                    }
+                }
+            },
+            // 选择数据表  查询刷新字段表数据
             nodeClick(data) {
                 this.treeRowData = data;
                 this.search.tableName = data.name;
                 this.onLoad();
                 //this.$message.success(JSON.stringify(data))
             },
-            // 选中的复选字段
+            // 选中的复选字段，给所有数据处理当前 isChecked 参数
             selectionChange(list) {
-                console.log("======处理选中数据")
-                // 给所有数据处理当前 isChecked 参数
                 this.$nextTick(function () {
                     let checkednNames = list.map(item => item.name)
                     this.data.forEach(item => {
@@ -201,15 +207,6 @@
                         item.isChecked = checkednNames.includes(item.name)
                     });
                 })
-            },
-            // 加载数据处理复选选中数据处理（调用 toggleSelection 后会自动触发 selectionChange）
-            checkeds() {
-                this.$refs.crudField.toggleSelection([]);
-                for (let i = 0; i < this.data.length; i++) {
-                    if (this.data[i].isChecked) {
-                        this.$refs.crudField.toggleSelection([this.data[i]]);
-                    }
-                }
             },
             // 获取代码生成路径
             finDGenerateGetPath() {
@@ -233,6 +230,16 @@
                     this.generateCodePreviews = res.data.data;
                     this.generateCodePreviewDialogVisible = true;
                 })
+            },
+            // 生成后端代码（生成到项目）
+            generateCodeVue() {
+                let data = {
+                    tableComment: this.treeRowData.comment,
+                    tableName: this.search.tableName,
+                    dataSourceId: "",
+                    data: JSON.stringify(this.data)
+                }
+                download(this.uri.generateCodeVue, data);
             },
             // 生成vue代码（下载）
             generateCodeVue() {

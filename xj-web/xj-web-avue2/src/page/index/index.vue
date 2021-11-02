@@ -101,7 +101,7 @@
             },
             //打开菜单
             openMenu(item = {}) {
-                console.log("--获取左侧菜单")
+                console.debug("--获取左侧菜单")
                 this.$store.dispatch("GetMenu", item).then(data => {
                     if (data.length !== 0) {
                         this.$router.$avueRouter.formatRoutes(data, true);

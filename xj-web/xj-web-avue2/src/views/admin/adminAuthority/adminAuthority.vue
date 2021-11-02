@@ -56,7 +56,7 @@
             }
         },
         mounted() {
-            this.option = website.optionConfig
+            this.option =  JSON.parse(JSON.stringify(website.optionConfig));
             this.option.defaultExpandAll = false
             this.option.rowKey = "id"
             this.option.treeProps = {

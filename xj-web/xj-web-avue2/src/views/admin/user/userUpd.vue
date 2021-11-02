@@ -1,8 +1,8 @@
 <template>
     <div>
+        <!--:upload-before="uploadBefore"
+        :upload-after="uploadAfter"-->
         <avue-form ref="form" v-model="obj" :option="option"
-                   :upload-before="uploadBefore"
-                   :upload-after="uploadAfter"
                    @reset-change="emptytChange"
                    @submit="submit">
         </avue-form>
@@ -33,6 +33,7 @@
         // 监听数据的变化,更新当前行数据
         watch: {
             rowData: function (newRowData, oldRowData) {
+                console.debug("原:", oldRowData.id, "  -->新:", newRowData.id)
                 if (newRowData != null && newRowData.id != null) {
                     get(this.uri.info + "/" + newRowData.id).then((res) => {
                         this.obj = res.data.data;
@@ -69,6 +70,14 @@
                             propsHttp: {
                                 res: 'data'
                             },
+                            uploadBefore: (file, done, loading, column) => {
+                                // 文件上传前处理
+                                done(file)
+                            },
+                            uploadAfter: (res, done, loading, column) => {
+                                this.$message.success('上传成功')
+                                done()
+                            }
                         },
                         {
                             label: '姓名',
@@ -151,22 +160,24 @@
             },
             submit(form, done) {
                 put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
+                    console.debug(res);
                     // 添加成功关闭弹层
                     if (res.data.code == 200) {
                         this.closeDialog(true);
                     }
                     done(form);
                 }).catch(err => {
+                    console.error(err);
                     done(form);
                 })
             },
-            uploadBefore(file, done, loading, column) {
-                done(file)
-            },
-            uploadAfter(res, done, loading, column) {
-                this.$message.success('上传成功')
-                done();
-            },
+            // uploadBefore(file, done, loading, column) {
+            //     done(file)
+            // },
+            // uploadAfter(res, done, loading, column) {
+            //     this.$message.success('上传成功')
+            //     done();
+            // },
         }
     }
 </script>

@@ -135,7 +135,8 @@
                 // this.$message.success('已清空');
             },
             submit(form, done) {
-                post(this.uri.info, this.obj).then(() => {
+                post(this.uri.info, this.obj).then((res) => {
+                    console.log(res);
                     // 添加成功关闭弹层并刷新数据
                     this.closeDialog(true);
                     done(form);

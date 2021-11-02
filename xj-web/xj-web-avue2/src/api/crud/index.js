@@ -156,7 +156,7 @@ export const list = (thih, isPage, isCallback) => {
         // for (let i = 0; i < thih.data.length; i++) {
         //     thih.data[i].$cellEdit = false
         // }
-        console.log(thih.data)
+        console.debug(thih.data)
         if (isCallback) {
             // 回调
             thih.onLoadCallback(res);

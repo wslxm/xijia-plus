@@ -12,6 +12,7 @@
     import {get,post,put,del,delRow,list,update} from '@/api/crud';
     import {getDict} from '@/api/dict';
     import website from '@/config/website';
+    import {baseUploadUrl} from "../../../config/env";
 
     export default {
         data() {
@@ -48,11 +49,13 @@
             },
             submit(form, done) {
                 post(this.uri.info, this.obj).then((res) => {
+                    console.log(res);
                     if (res.data.code == 200) {
                        this.closeDialog(true);
                     }
                     done(form);
-                }).catch(() => {
+                }).catch((err) => {
+                    console.error(err);
                     done(form);
                 })
             },

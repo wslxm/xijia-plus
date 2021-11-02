@@ -2,7 +2,6 @@
     <div>
         <avue-form ref="form" v-model="obj" :option="option"
                    @reset-change="emptytChange"
-                   :upload-before="uploadBefore"
                    @submit="submit">
         </avue-form>
     </div>
@@ -75,6 +74,14 @@
                             propsHttp: {
                                 res: 'data'
                             },
+                            uploadBefore: (file, done, loading, column) => {
+                                // 文件上传前处理
+                                done(file)
+                            },
+                            uploadAfter: (res, done, loading, column) => {
+                                this.$message.success('上传成功')
+                                done()
+                            }
                         },
                         {
                             label: '姓名',
@@ -159,18 +166,13 @@
             },
             submit(form, done) {
                 post(this.uri.info, this.obj).then((res) => {
+                    console.debug(res);
                     this.closeDialog(true);
                     done(form);
                 }).catch(err => {
+                    console.error(err);
                     done(form);
                 })
-            },
-            uploadBefore(file, done, loading, column) {
-                done(file)
-            },
-            uploadAfter(res, done, loading, column) {
-                this.$message.success('上传成功')
-                done();
             },
         }
     }

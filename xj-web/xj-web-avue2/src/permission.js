@@ -14,7 +14,7 @@ NProgress.configure({ showSpinner: false });
 const lockPage = website.lockPage; //锁屏页
 router.beforeEach((to, from, next) => {
 
-  console.log("====路由跳转=======")
+  console.debug("====路由跳转=======")
   const meta = to.meta || {};
   const isMenu = meta.menu === undefined ? to.query.menu : meta.menu;
   store.commit('SET_IS_MENU', isMenu === undefined);

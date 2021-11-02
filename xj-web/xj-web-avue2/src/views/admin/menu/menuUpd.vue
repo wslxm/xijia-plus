@@ -7,7 +7,7 @@
 
 <script>
     import {getDict,} from '@/api/dict';
-    import {put, upload} from '@/api/crud';
+    import {put} from '@/api/crud';
     import website from '@/config/website';
 
     export default {
@@ -25,6 +25,7 @@
         // 监听数据的变化,更新当前行数据
         watch: {
             rowData: function (newRowData, oldRowData) {
+                console.debug("原:", oldRowData.id, "  -->新:", newRowData.id)
                 if (newRowData != null && newRowData.id != null) {
                     this.obj = this.rowData;
 
@@ -89,12 +90,14 @@
             },
             submit(form, done) {
                 put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
+                    console.debug(res);
                     // 添加成功关闭弹层
                     if (res.data.code == 200) {
                         this.closeDialog(true);
                     }
                     done(form);
                 }).catch(err => {
+                    console.error(err);
                     done(form);
                 })
             },

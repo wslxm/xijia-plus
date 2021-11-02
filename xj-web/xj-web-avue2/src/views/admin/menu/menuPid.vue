@@ -49,6 +49,7 @@
                 if (newRowData != null && newRowData.id != null) {
                     this.obj = this.rowData;
                     get(this.uri.infoPidList).then((res) => {
+                        console.debug(res)
                         this.menuData = res.data.data;
                         this.menuDefaultCheckedKeys[0] = newRowData.pid;
                     })
@@ -63,13 +64,15 @@
             submit(form, done) {
                 // let pid = this.$refs.reftree.getCheckedKeys()[0];
                 let pid = this.obj.pid;
-                put(this.uri.info + "/" + this.obj.id, {pid, pid}).then((res) => {
+                put(this.uri.info + "/" + this.obj.id, {pid: pid}).then((res) => {
+                    console.debug(res);
                     // 添加成功关闭弹层
                     if (res.data.code == 200) {
                         this.closeDialog(true);
                     }
                     done(form);
                 }).catch(err => {
+                    console.debug(err);
                     done(form);
                 })
             },
@@ -77,6 +80,7 @@
             // 依次为：传递给 data 属性的数组中该节点所对应的对象、
             // 树目前的选中状态对象，包含 checkedNodes、checkedKeys、halfCheckedNodes、halfCheckedKeys 四个属性
             menusCheck(data, nodes) {
+                console.debug(data.id, nodes)
                 this.obj.pid = data.id;
                 this.$refs.reftree.setCheckedKeys([data.id]);
             },

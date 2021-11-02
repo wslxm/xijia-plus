@@ -62,6 +62,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
 
     @Override
     public Map<String, String> preview(XjGenerateDto generateDto) {
+        pathMap = new HashMap<>();
         // 处理数据
         List<Map<String, Object>> dataList = getProcessingData(generateDto);
         // 预览生成的文件为txt格式,方便预览
@@ -99,6 +100,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
 
     @Override
     public Map<String, String> generateCode(XjGenerateDto generateDto) {
+        pathMap = new HashMap<>();
         // 处理数据
         List<Map<String, Object>> dataList = getProcessingData(generateDto);
         // 生成的文件为对应代码格式,直接生成到目录
@@ -132,6 +134,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
 
     @Override
     public void generateCodeVue(XjGenerateDto generateDto) {
+        pathMap = new HashMap<>();
         // 处理数据
         List<Map<String, Object>> dataList = getProcessingData(generateDto);
         GenerateConfig.SUFFIX_VUE_PT = GenerateConfig.SUFFIX_VUE;

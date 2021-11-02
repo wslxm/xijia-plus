@@ -39,6 +39,7 @@
         // 监听数据的变化,更新当前行数据
         watch: {
             rowData: function (newRowData, oldRowData) {
+                console.debug("原:", oldRowData.id, "  -->新:", newRowData.id)
                 if (newRowData != null && newRowData.id != null) {
                     // 根据选择行设置相关默认值
                     this.obj.terminal = newRowData.terminal;
@@ -50,7 +51,7 @@
                     if (this.obj.root == 3) {
                         this.defaults.url.display = true;
                     }
-                    console.log("===" + this.obj)
+                    console.debug("===" + this.obj)
                 }
             }
         },
@@ -120,9 +121,11 @@
             },
             submit(form, done) {
                 post(this.uri.info, this.obj).then((res) => {
+                    console.debug(res);
                     this.closeDialog(true);
                     done(form);
                 }).catch(err => {
+                    console.debug(err);
                     done(form);
                 })
             },

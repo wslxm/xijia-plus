@@ -90,8 +90,9 @@
             }
         },
         mounted() {
+            console.log("==========")
             // 基础配置
-            this.option = website.optionConfig
+            this.option = JSON.parse(JSON.stringify(website.optionConfig));
             // 字段配置
             this.option.column = [
                 {
@@ -149,7 +150,7 @@
             })
             // 角色数据(弹层数据)
             get(this.uri.roleInfo, {disable: 0}).then((res) => {
-                console.log(res)
+                console.debug(res)
                 this.roles = res.data.data.records;
                 for (const role of this.roles) {
                     role.value = role.id;

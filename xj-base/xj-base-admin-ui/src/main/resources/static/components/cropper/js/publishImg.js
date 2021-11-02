@@ -158,7 +158,7 @@ function deleteElement(obj) {
     // 删除服务器文件
     // let result = Ajax.delete(path + "/aliOssFile/del?filePath=" + src);
     // console.log("删除文件：" + src + "  结果:" + result.msg);
-    console.log("删除文件：" + src);
+    console.debug("删除文件：" + src);
 }
 
 
@@ -205,7 +205,7 @@ function croppers_pic(obj) {
             , imgUrl: src
             , url: uploadPath + '?filePath=image/config/'  //图片上传接口返回和（layui 的upload 模块）返回的JOSN一样
             , done: function (result) { //上传完毕回调
-                console.log("修改文件：" + result.data + "  结果:" + result.msg);
+                console.debug("修改文件：" + result.data + "  结果:" + result.msg);
                 // 更改图片src
                 obj.parentNode.childNodes["0"].src = result.data;
                 //关闭当前弹层
@@ -231,7 +231,7 @@ function getPicSort(imgZmListId) {
         let leftVal = leftObj.split(":")[1];
         leftVal = leftVal.substring(0, leftVal.length - 2);
         let url = $(this).find("img").attr("src");
-        console.log("位置：" + leftVal + "  url: " + url);
+        console.debug("位置：" + leftVal + "  url: " + url);
         keys.push(parseInt(leftVal));
         map.set(parseInt(leftVal), url);
     });
@@ -239,8 +239,8 @@ function getPicSort(imgZmListId) {
     let ulrs = "";
     for (let i = 0; i < keys.length; i++) {
         ulrs += map.get(keys[i]) + ",";
-        console.log(keys[i], map.get(keys[i]));
+        console.debug(keys[i], map.get(keys[i]));
     }
-    console.log(ulrs);
+    console.debug(ulrs);
     return ulrs.substring(0, ulrs.length - 1);
 }

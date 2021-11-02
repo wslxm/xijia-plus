@@ -52,7 +52,8 @@
         },
         // 监听数据的变化,更新当前行数据
         watch: {
-            rowData: function (newRowData) {
+            rowData: function (newRowData,oldRowData) {
+                console.log("原:", oldRowData.id, "  -->新:", newRowData.id)
                 if (newRowData != null && newRowData.id != null) {
                     console.log("=====", this.menus)
                     this.obj = newRowData;
@@ -142,7 +143,8 @@
                         this.closeDialog(true);
                     }
                     done(form);
-                }).catch(() => {
+                }).catch((err) => {
+                    console.error(err);
                     done(form);
                 })
             },

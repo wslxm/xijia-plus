@@ -73,7 +73,7 @@ axios.interceptors.response.use(res => {
         || (res.headers["content-type"] != null && res.headers["content-type"].indexOf('application/octet-stream') != -1)) {
         return res;
     }
-    console.log("===")
+    console.debug("===")
     //==================================================
     //==================统一处理业务code码================
     //==================================================
