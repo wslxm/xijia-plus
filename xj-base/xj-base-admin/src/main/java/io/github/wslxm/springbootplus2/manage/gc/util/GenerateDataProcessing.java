@@ -7,6 +7,7 @@ import io.github.wslxm.springbootplus2.core.utils.LocalDateTimeUtil;
 import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.core.utils.json.JsonUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
@@ -37,11 +38,11 @@ public class GenerateDataProcessing {
      * @return java.util.List<java.util.Map < java.lang.String, java.lang.Object>>
      * @date 2019/11/22 12:08
      */
-    public static List<Map<String, Object>> getDataAnalysis(String data) {
+    public static List<DbFieldPO> getDataAnalysis(String data) {
         //所有字段数据处理成 List集 -->  每个字段名称，类型，描叙为 Map集
-        List<Map<String, Object>> tableList = new ArrayList<>();
+        List<DbFieldPO> tableList = new ArrayList<>();
         List<Object> dataObjs = JsonUtil.parseList(data, null);
-        dataObjs.forEach(item -> tableList.add(JsonUtil.parseMap(item.toString())));
+        dataObjs.forEach(item -> tableList.add(JsonUtil.parseObject(item.toString(), DbFieldPO.class)));
         //log.debug(tableList.toString());
         return tableList;
     }

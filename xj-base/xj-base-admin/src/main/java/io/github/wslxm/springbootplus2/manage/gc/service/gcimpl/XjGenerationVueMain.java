@@ -1,9 +1,11 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
+import io.github.wslxm.springbootplus2.manage.gc.template.VueMainTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +16,7 @@ import java.util.Map;
 
 @SuppressWarnings("all")
 @Component
-public class XjGenerationVueMain extends BaseIServiceImpl implements XjGcSevice {
+public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
 
     /**
      * 生成Html-main 主页
@@ -26,44 +28,56 @@ public class XjGenerationVueMain extends BaseIServiceImpl implements XjGcSevice 
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(List<Map<String, Object>> dataList, String path) {
+    public void run(List<DbFieldPO> dataList, String path) {
         Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "Vue");
         BufferedReader br = (BufferedReader) brBwPath.get("br");
         BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
         // 数据表格字段
         StringBuffer vueInfoColumns = new StringBuffer(" ");
-        for (Map<String, Object> fieldMap : dataList) {
+        for (DbFieldPO fieldMap : dataList) {
             // 未勾选的字段过滤
-            Object checked = fieldMap.get("checked");      // 兼容layui
-            Object isChecked = fieldMap.get("isChecked");  // 兼容vue
-            if (checked != null && !Boolean.parseBoolean(checked.toString())) {
+            if (isChecked(fieldMap)) {
                 continue;
             }
-            if (isChecked != null && !Boolean.parseBoolean(isChecked.toString())) {
-                continue;
-            }
-            // 获取字段名
-            String name = GenerateDataProcessing.getFieldName(fieldMap.get("name").toString());
-            // 获取字段描叙
-            String desc = "";
-            if (fieldMap.get("desc").toString().indexOf("(") != -1) {
-                desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
-            } else {
-                desc = fieldMap.get("desc").toString();
-            }
-
+            String name = GenerateDataProcessing.getFieldName(fieldMap.getName());
+            String newDesc = getDesc(fieldMap.getDesc());
             // 判断是否需要生成查询
-            Object search = fieldMap.get("search");
-            if (search == null || !Boolean.parseBoolean(search.toString())) {
-                continue;
+            boolean searchBoolean = fieldMap.getSearch() != null ? fieldMap.getSearch() : false;
+            Object vueFieldType = fieldMap.getVueFieldType();
+            Integer vueFieldTypeInt = (vueFieldType != null) ? Integer.parseInt(vueFieldType.toString()) : -1;
+            if (vueFieldTypeInt.equals(Base.VueFieldType.V4.getValue())
+                    || vueFieldTypeInt.equals(Base.VueFieldType.V6.getValue())
+                    || vueFieldTypeInt.equals(Base.VueFieldType.V7.getValue())
+                    || vueFieldTypeInt.equals(Base.VueFieldType.V9.getValue())
+            ) {
+                vueInfoColumns.append(VueMainTemplate.TEXT_DICT
+                        .replace("{label}", newDesc)
+                        .replace("{prop}", name)
+                        .replace("{search}", searchBoolean + "")
+                );
+            } else if (vueFieldTypeInt.equals(Base.VueFieldType.V5.getValue())
+                    || vueFieldTypeInt.equals(Base.VueFieldType.V8.getValue())
+            ) {
+                vueInfoColumns.append(VueMainTemplate.TEXT_DICT_CHECKBOX
+                        .replace("{label}", newDesc)
+                        .replace("{prop}", name)
+                        .replace("{search}", searchBoolean + "")
+                );
+            } else if (vueFieldTypeInt.equals(Base.VueFieldType.V13.getValue())
+                    || vueFieldTypeInt.equals(Base.VueFieldType.V14.getValue())
+                    || vueFieldTypeInt.equals(Base.VueFieldType.V15.getValue())
+            ) {
+                vueInfoColumns.append(VueMainTemplate.IMG
+                        .replace("{label}", newDesc)
+                        .replace("{prop}", name)
+                );
+            } else {
+                vueInfoColumns.append(VueMainTemplate.TEXT
+                        .replace("{label}", newDesc)
+                        .replace("{prop}", name)
+                        .replace("{search}", searchBoolean + "")
+                );
             }
-
-            vueInfoColumns.append("                {\n" +
-                    "                    label: '" + desc + "',\n" +
-                    "                    prop: '" + name + "',\n" +
-                    "                }, \r\n");
-
-            // search: true,
         }
         // 数据保存
         GenerateConfig.VUE_INFO_COLUMNS = vueInfoColumns.toString();

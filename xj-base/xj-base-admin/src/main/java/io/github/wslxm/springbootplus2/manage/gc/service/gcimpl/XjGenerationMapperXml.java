@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
@@ -32,7 +33,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(List<Map<String, Object>> data, String path) {
+    public void run(List<DbFieldPO> data, String path) {
         Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "MapperXml");
         GenerateConfig.RESULT_MAP = resultXml(data);
         GenerateConfig.COLUMN_LIST = columnXml(data);
@@ -52,14 +53,14 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
      * @return java.lang.String
      * @version 1.0.1
      */
-    private String insertXml(List<Map<String, Object>> data) {
+    private String insertXml(List<DbFieldPO> data) {
         StringBuffer insertList = new StringBuffer("            insert into " + GenerateConfig.TABLE_NAME + "(");
         insertList.append("\r\n            <trim suffixOverrides=\",\">");
         // 拼接字段 key
         for (int i = 0; i < data.size(); i++) {
-            Map<String, Object> fieldMap = data.get(i);
-            String type = fieldMap.get("type").toString();                                               // 字段类型
-            String fieldNameHump = GenerateDataProcessing.getFieldName(fieldMap.get("name").toString());  // 字段名驼峰
+            DbFieldPO fieldMap = data.get(i);
+            String type = fieldMap.getType();                                               // 字段类型
+            String fieldNameHump = GenerateDataProcessing.getFieldName(fieldMap.getName());  // 字段名驼峰
             // 拼接--动态添加sql
             if (type.equals("varchar") || type.equals("text")) {
                 insertList.append("\r\n                <if test=\"" + fieldNameHump + " != null and " + fieldNameHump + "  != ''\">");
@@ -67,7 +68,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
                 insertList.append("\r\n                <if test=\"" + fieldNameHump + " != null\">");
             }
             // 字段名(第一个不拼接逗号)
-            insertList.append("\r\n                    `" + fieldMap.get("name").toString() + "`,");
+            insertList.append("\r\n                    `" + fieldMap.getName() + "`,");
             insertList.append("\r\n               </if>");
         }
         insertList.append("\r\n            </trim>");
@@ -76,10 +77,10 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
         insertList.append("\r\n            )values(");
         insertList.append("\r\n            <trim suffixOverrides=\",\">");
         for (int i = 0; i < data.size(); i++) {
-            Map<String, Object> fieldMap = data.get(i);
+            DbFieldPO fieldMap = data.get(i);
             // 字段类型日
-            String type = fieldMap.get("type").toString();
-            String fieldNameHump = GenerateDataProcessing.getFieldName(fieldMap.get("name").toString());
+            String type = fieldMap.getType();
+            String fieldNameHump = GenerateDataProcessing.getFieldName(fieldMap.getName());
             // 拼接--动态添加sql
             if (type.equals("varchar") || type.equals("text")) {
                 insertList.append("\r\n                <if test=\"" + fieldNameHump + " != null and " + fieldNameHump + " != ''\">");
@@ -104,17 +105,17 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
      * @return java.lang.String
      * @version 1.0.1
      */
-    private String updateXml(List<Map<String, Object>> data) {
+    private String updateXml(List<DbFieldPO> data) {
         StringBuffer updateList = new StringBuffer("            update " + GenerateConfig.TABLE_NAME);
         updateList.append("\r\n            <set>");
         for (int i = 0; i < data.size(); i++) {
-            Map<String, Object> fieldMap = data.get(i);
+            DbFieldPO fieldMap = data.get(i);
             // 字段名
-            String fieldName = fieldMap.get("name").toString();
+            String fieldName = fieldMap.getName();
             // 驼峰字段名
             String fieldNameHump = GenerateDataProcessing.getFieldName(fieldName);
             // 字段类型日
-            String type = fieldMap.get("type").toString();
+            String type = fieldMap.getType();
             if (!fieldName.toLowerCase().equals("id")) {
                 // 拼接--动态编辑sql
                 if (type.equals("varchar") || type.equals("text")) {
@@ -140,11 +141,11 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
      * @return java.lang.String
      * @version 1.0.1
      */
-    private String resultXml(List<Map<String, Object>> data) {
+    private String resultXml(List<DbFieldPO> data) {
         StringBuffer resultMap = new StringBuffer();
-        for (Map<String, Object> fieldMap : data) {
+        for (DbFieldPO fieldMap : data) {
             //字段名
-            String fieldName = fieldMap.get("name").toString();
+            String fieldName = fieldMap.getName();
             //驼峰字段名
             String fieldNameHump = GenerateDataProcessing.getFieldName(fieldName);
             if ("id".equals(fieldName)) {
@@ -164,11 +165,11 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
      * @return java.lang.String
      * @version 1.0.1
      */
-    private String columnXml(List<Map<String, Object>> data) {
+    private String columnXml(List<DbFieldPO> data) {
         StringBuffer columnList = new StringBuffer();
-        for (Map<String, Object> fieldMap : data) {
+        for (DbFieldPO fieldMap : data) {
             //字段名
-            String fieldName = fieldMap.get("name").toString();
+            String fieldName = fieldMap.getName();
             columnList.append("\r\n               " + fieldName + ",");
         }
         return columnList.toString().substring(0, columnList.toString().length() - 1);

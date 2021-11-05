@@ -1,7 +1,8 @@
 package io.github.wslxm.springbootplus2.manage.gc.service;
 
+import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
+
 import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("all")
 public interface XjGcSevice {
@@ -13,6 +14,6 @@ public interface XjGcSevice {
      * @date 2019/11/20 19:18
      * @return void
      */
-    public void run(List<Map<String, Object>> data, String path);
+    public void run(List<DbFieldPO> data, String path);
 
 }

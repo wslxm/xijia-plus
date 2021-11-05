@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.template.*;
@@ -27,7 +28,7 @@ public class XjGenerationHtmlAdd extends BaseIServiceImpl implements XjGcSevice 
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(List<Map<String, Object>> dataList, String path) {
+    public void run(List<DbFieldPO> dataList, String path) {
 
         Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "HtmlAdd");
         BufferedReader br = (BufferedReader) brBwPath.get("br");
@@ -38,31 +39,31 @@ public class XjGenerationHtmlAdd extends BaseIServiceImpl implements XjGcSevice 
         StringBuffer js = new StringBuffer();
         StringBuffer submitjs = new StringBuffer();
 
-        for (Map<String, Object> fieldMap : dataList) {
+        for (DbFieldPO fieldMap : dataList) {
             // 未勾选的字段过滤
-            Object checked = fieldMap.get("checked");      // 兼容layui
-            Object isChecked = fieldMap.get("isChecked");  // 兼容vue
-            if (checked !=null && !Boolean.parseBoolean(checked.toString())) {
+            Object checked = fieldMap.getChecked();      // 兼容layui
+            Object isChecked = fieldMap.getIsChecked();  // 兼容vue
+            if (checked != null && !Boolean.parseBoolean(checked.toString())) {
                 continue;
             }
-            if (isChecked !=null && !Boolean.parseBoolean(isChecked.toString())) {
+            if (isChecked != null && !Boolean.parseBoolean(isChecked.toString())) {
                 continue;
             }
-            String name = GenerateDataProcessing.getFieldName(fieldMap.get("name").toString());
+            String type = fieldMap.getType();
+            String desc = fieldMap.getDesc();
+            String fieldName = fieldMap.getName();
+            String typeDetail = fieldMap.getTypeDetail();
+            String name = GenerateDataProcessing.getFieldName(fieldMap.getName());
             if ("id".equals(name)) {
                 continue;
             }
             //1
-            String desc = "";
-            if (fieldMap.get("desc").toString().indexOf("(") != -1) {
-                desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
-            } else {
-                desc = fieldMap.get("desc").toString();
+            if (desc != null && desc.indexOf("(") != -1) {
+                desc = desc.substring(0, desc.indexOf("("));
             }
             //  String primarykeyId = GenerateDataProcessing.getValue(fieldMap, "primarykeyId", ""); //是否id
             //  String selfGrowth = GenerateDataProcessing.getValue(fieldMap, "selfGrowth", "");//是否自增
             //  if (!primarykeyId.equals("true")) {     // }
-            String type = fieldMap.get("type").toString();
             if (name.indexOf("Pics") != -1) {
                 // 判断是否为图片
                 introduce.append("\r\n" + LayuiPicTemplate.ADD_UPD_PICS_INTRODUCE);

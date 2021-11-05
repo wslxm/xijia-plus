@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
@@ -25,7 +26,7 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(List<Map<String, Object>> data, String path) {
+    public void run(List<DbFieldPO> data, String path) {
         Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "ServiceImpl");
         this.generateParameters(data);
         // 开始生成文件并进行数据替换
@@ -35,15 +36,15 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
     }
 
 
-    private void generateParameters(List<Map<String, Object>> data) {
+    private void generateParameters(List<DbFieldPO> data) {
         // MybatisPlus搜索条件数据拼接
         StringBuffer findPageMybatisPlus = new StringBuffer("");
         // 处理参数
-        for (Map<String, Object> fieldMap : data) {
-            String fieldName = fieldMap.get("name").toString();
-            String type = fieldMap.get("type").toString();
-            String desc = fieldMap.get("desc").toString();
-            Object search = fieldMap.get("search");
+        for (DbFieldPO fieldMap : data) {
+            String fieldName = fieldMap.getName();
+            String type = fieldMap.getType();
+            String desc = fieldMap.getDesc();
+            Object search = fieldMap.getSearch();
             if (search == null || !Boolean.parseBoolean(search.toString())) {
                 continue;
             }

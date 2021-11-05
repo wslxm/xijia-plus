@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.template.*;
@@ -28,7 +29,7 @@ public class XjGenerationHtmlUpd extends BaseIServiceImpl implements XjGcSevice 
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(List<Map<String, Object>> dataList, String path) {
+    public void run(List<DbFieldPO> dataList, String path) {
 
         Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "HtmlUpd");
         BufferedReader br = (BufferedReader) brBwPath.get("br");
@@ -38,15 +39,15 @@ public class XjGenerationHtmlUpd extends BaseIServiceImpl implements XjGcSevice 
         StringBuffer js = new StringBuffer();
         StringBuffer submitjs = new StringBuffer();
         String fieldId = "";
-        for (Map<String, Object> fieldMap : dataList) {
+        for (DbFieldPO fieldMap : dataList) {
 
-            String name = GenerateDataProcessing.getFieldName(fieldMap.get("name").toString());
+            String name = GenerateDataProcessing.getFieldName(fieldMap.getName());
             if ("id".equals(name)) {
                 fieldId = "data.field." + name + " = parent.data." + name + ";";
             } else {
                 // 未勾选的字段过滤
-                Object checked = fieldMap.get("checked");      // 兼容layui
-                Object isChecked = fieldMap.get("isChecked");  // 兼容vue
+                Object checked = fieldMap.getChecked();      // 兼容layui
+                Object isChecked = fieldMap.getIsChecked();  // 兼容vue
                 if (checked !=null && !Boolean.parseBoolean(checked.toString())) {
                     continue;
                 }
@@ -54,15 +55,12 @@ public class XjGenerationHtmlUpd extends BaseIServiceImpl implements XjGcSevice 
                     continue;
                 }
                 //1
-                String desc = "";
-                if (fieldMap.get("desc").toString().indexOf("(") != -1) {
-                    desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
-                } else {
-                    desc = fieldMap.get("desc").toString();
+                String desc = fieldMap.getDesc();
+                String type = fieldMap.getType();
+                if (desc != null && desc.indexOf("(") != -1) {
+                    desc = desc.substring(0, desc.indexOf("("));
                 }
-                String type = fieldMap.get("type").toString();
                 if (name.indexOf("Pics") != -1) {
-
                     // 判断是否为图片
                     introduce.append("\r\n" + LayuiPicTemplate.ADD_UPD_PICS_INTRODUCE);
                     htmls.append("\r\n" + LayuiPicTemplate.ADD_UPD_PICS_HTML

@@ -71,7 +71,7 @@ export default {
         card: true,              // 是否开启卡片模式
         searchMenuSpan: 4,       // 搜索按钮于搜索框的间隙
         border: true,            // 是否开启列分割线
-        align: 'center',         // 内容是否居中
+        // align: 'center',         // 内容是否居中(默认左对齐)
         // menuAlign:'center',   // 菜单是否居中(开启了行编辑无效)
         index: true,             // 开启序号
         indexLabel: '序号',       // 序号命令
@@ -112,6 +112,7 @@ export default {
             PayState: "PAY_STATE",  // 支付状态
             PayType: "PAY_TYPE",  // 支付类型
             WalletType: "WALLET_TYPE",  // 流水类型
+            VueFieldType: "VUE_FIELD_TYPE",  // vue
         },
         // 系统枚举(动态值)
         Admin: {

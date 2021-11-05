@@ -39,7 +39,7 @@ public class ErrorException extends RuntimeException {
         this.msg = rType.getMsg();
     }
 
-    //枚举传递（建议先定义枚举）
+    //任意枚举传递（建议先定义枚举-必须存在值 value, msg）
     public <E> ErrorException(E e) {
         this.code = EnumUtil.getValue(e);
         this.msg = EnumUtil.getMsg(e);

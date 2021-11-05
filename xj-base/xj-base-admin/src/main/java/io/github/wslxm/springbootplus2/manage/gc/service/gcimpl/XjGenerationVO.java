@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
@@ -15,7 +16,7 @@ public class XjGenerationVO extends BaseGcImpl implements XjGcSevice {
 
 
     @Override
-    public void run(List<Map<String, Object>> data, String path) {
+    public void run(List<DbFieldPO> data, String path) {
         Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "VO");
         this.generateParameters(data);
         GenerateDataProcessing.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
@@ -23,24 +24,24 @@ public class XjGenerationVO extends BaseGcImpl implements XjGcSevice {
     }
 
 
-    private void generateParameters(List<Map<String, Object>> data) {
+    private void generateParameters(List<DbFieldPO> data) {
         //数据拼接(所有字段)
         StringBuffer fields = new StringBuffer();
         int position = 0;
-        for (Map<String, Object> fieldMap : data) {
+        for (DbFieldPO fieldMap : data) {
             // 未勾选的字段过滤
-            Object checked = fieldMap.get("checked");      // 兼容layui
-            Object isChecked = fieldMap.get("isChecked");  // 兼容vue
+            Object checked = fieldMap.getChecked();      // 兼容layui
+            Object isChecked = fieldMap.getIsChecked();  // 兼容vue
             if (checked !=null && !Boolean.parseBoolean(checked.toString())) {
                 continue;
             }
             if (isChecked !=null && !Boolean.parseBoolean(isChecked.toString())) {
                 continue;
             }
-            String type = fieldMap.get("type").toString();
-            String desc = fieldMap.get("desc").toString();
-            String fieldName = fieldMap.get("name").toString();
-            String typeDetail = fieldMap.get("typeDetail").toString();
+            String type = fieldMap.getType();
+            String desc = fieldMap.getDesc();
+            String fieldName =fieldMap.getName();
+            String typeDetail = fieldMap.getTypeDetail();
             // 1、生成swagger注解
             fields.append("\r\n    @ApiModelProperty(value = \"" + desc + "\",position = " + (position++) + ")");
             // 3、生成字段

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
-import io.github.wslxm.core.base.service.impl.BaseIServiceImpl;
+import {packPath}.core.base.service.impl.BaseIServiceImpl;
 import {packPath}.{rootModule}.{moduleName}.mapper.{tableNameUp}Mapper;
 import {packPath}.{rootModule}.{moduleName}.service.{tableNameUp}Service;
 import {packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp};
@@ -12,7 +12,7 @@ import {packPath}.{rootModule}.{moduleName}.model.vo.{tableNameUp}VO;
 import {packPath}.{rootModule}.{moduleName}.model.dto.{tableNameUp}DTO;
 import {packPath}.{rootModule}.{moduleName}.model.query.{tableNameUp}Query;
 import org.apache.commons.lang3.StringUtils;
-import io.github.wslxm.core.utils.BeanDtoVoUtil;
+import {packPath}.core.utils.BeanDtoVoUtil;
 
 /**
  * {tableComment}

@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.core.enums;
 
+
 import com.baomidou.mybatisplus.core.enums.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +15,31 @@ public interface Base{
         V1(1, "一级"),    // -
         V2(2, "二级"),    // -
         V3(3, "三级"),    // -
+        ;
+        private Integer value;
+        private String desc;
+    }
+
+    // vue代码生成使用
+    @Getter
+    @AllArgsConstructor
+    enum VueFieldType implements IEnum<Integer> {
+        V1(1, "文本-(input)"),    // -
+        V2(2, "数字-(number)"),    // -
+        V3(3, "密码-(password)"),    // -
+        V4(4, "单选-(radio)"),    // -
+        V5(5, "多选-(checkbox)"),    // -
+        V6(6, "下拉选择-(select-单选)"),    // -
+        V7(7, "下拉选择 (select-单选+搜索)"),    // -
+        V8(8, "下拉选择 (select-多选+搜索)"),    // -
+        V9(9, "开关-(switch)"),    // -
+        V10(10, "日期-(data)"),    // yyyy-MM-dd
+        V11(11, "日期时间-(datetime)"),    // yyyy-MM-dd hh:mm:ss
+        V12(12, "时间-(time)"),    // -
+        V13(13, "文件上传(默认单图)"),    // -
+        V14(14, "文件上传(多图)"),    // -
+        V15(15, "文件上传（缩略图）"),    // -
+        V16(16, "文件上传（附件）"),    // -
         ;
         private Integer value;
         private String desc;

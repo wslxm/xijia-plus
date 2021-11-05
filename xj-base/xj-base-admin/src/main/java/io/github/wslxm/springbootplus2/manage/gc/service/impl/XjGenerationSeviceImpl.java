@@ -1,11 +1,13 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.PropUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.dto.XjGenerateDto;
 import io.github.wslxm.springbootplus2.manage.gc.model.entity.XjAdminDatasource;
+import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjAdminDatasourceService;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGenerationSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.gcimpl.*;
@@ -64,7 +66,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
     public Map<String, String> preview(XjGenerateDto generateDto) {
         pathMap = new HashMap<>();
         // 处理数据
-        List<Map<String, Object>> dataList = getProcessingData(generateDto);
+        List<DbFieldPO> dataList = getProcessingData(generateDto);
         // 预览生成的文件为txt格式,方便预览
         GenerateConfig.SUFFIX_JAVA_PT = GenerateConfig.SUFFIX_TXT;
         GenerateConfig.SUFFIX_HTML_PT = GenerateConfig.SUFFIX_TXT;
@@ -102,7 +104,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
     public Map<String, String> generateCode(XjGenerateDto generateDto) {
         pathMap = new HashMap<>();
         // 处理数据
-        List<Map<String, Object>> dataList = getProcessingData(generateDto);
+        List<DbFieldPO> dataList = getProcessingData(generateDto);
         // 生成的文件为对应代码格式,直接生成到目录
         GenerateConfig.SUFFIX_JAVA_PT = GenerateConfig.SUFFIX_JAVA;
         GenerateConfig.SUFFIX_VUE_PT = GenerateConfig.SUFFIX_VUE;
@@ -136,7 +138,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
     public void generateCodeVue(XjGenerateDto generateDto) {
         pathMap = new HashMap<>();
         // 处理数据
-        List<Map<String, Object>> dataList = getProcessingData(generateDto);
+        List<DbFieldPO> dataList = getProcessingData(generateDto);
         GenerateConfig.SUFFIX_VUE_PT = GenerateConfig.SUFFIX_VUE;
         // vue 生成的预览
         xjGenerationVueMain.run(dataList, GenerateConfig.BASE_PATH_VUE_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
@@ -197,7 +199,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
      * @date 2021/10/26 0026 1:52 
      * @version 1.0.0
      */
-    private List<Map<String, Object>> getProcessingData(XjGenerateDto generateDto) {
+    private List<DbFieldPO> getProcessingData(XjGenerateDto generateDto) {
         // 表前缀和字段前缀配置
         if (StringUtils.isNotBlank(generateDto.getDataSourceId())) {
             XjAdminDatasource datasource = adminDatasourceService.getById(generateDto.getDataSourceId());
@@ -208,7 +210,9 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             GenerateConfig.FIELD_PREFIX = GenerateConfig.FIELD_PREFIX_DEFAULT;
         }
         // 解析数据库字段数据
-        List<Map<String, Object>> dataList = GenerateDataProcessing.getDataAnalysis(generateDto.getData());
+        List<DbFieldPO> dataList = GenerateDataProcessing.getDataAnalysis(generateDto.getData());
+        //List<DbFieldPO> dataList2 = JSON.parseObject(generateDto.getData(), List.class);
+        DbFieldPO dbFieldPO = dataList.get(0);
         // 获取地址,用于读取模板位置 (请求地址，去除接口名）
         String baseUrl = request.getRequestURL().toString().replace(request.getServletPath(), "");
         // 初始化代码生成相关通用数据,如： 1、包路径 2、数据库的表名称 3、代码模板位置,resources,

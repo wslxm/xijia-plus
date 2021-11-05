@@ -23,7 +23,13 @@
                         <el-button type="primary" size="small" plain @click="finDGenerateGetPath()">查看生成路径</el-button>
                         <el-button type="primary" size="small" plain @click="findGeneratePreview()">生成预览代码(在线查看)</el-button>
                         <el-button type="primary" size="small" plain @click="generateCodeJava()">生成后端代码</el-button>
-                        <el-button type="primary" size="small" plain @click="generateCodeVue()">生成vue代码</el-button>
+                        <el-button type="primary" size="small" plain @click="generateCodeVueFun()">生成vue代码</el-button>
+                    </template>
+                    <!-- 数据类型 -->
+                    <template slot-scope="{scope,row,index,type,size}" slot="vueFieldType">
+                        <!--<el-col :span="6">-->
+                        <avue-select v-model="row.vueFieldType" placeholder="请选择内容" type="tree" :dic="vueFieldTypeDic"></avue-select>
+                        <!-- </el-col>-->
                     </template>
                     <!-- 是否是搜索参数 -->
                     <template slot-scope="{scope,row,index,type,size}" slot="search">
@@ -65,6 +71,7 @@
 
 <script>
     import {download, get, post} from '@/api/crud';
+    import {getDict} from '@/api/dict';
     import website from '@/config/website';
 
     export default {
@@ -79,7 +86,8 @@
                     infoTableList: "/api/admin/dataBase/table/list",   // 所有表
                     generateGetPath: "/api/admin/generate/getPath",    // 代码生成路径
                     generatePreview: "/api/admin/generate/preview",    // 生成预览代码
-                    generateCodeVue: "/api/admin/generate/generateCodeVue",    // 生成vue代码(直接下载)
+                    generateCode: "/api/admin/generate/generateCode",   // 生成代码
+                    generateCodeVue: "/api/admin/generate/generateCodeVue", // 只生成vue代码(直接下载)
                 },
                 dialogWidth: "60%",
                 findPageDialogVisible: false,
@@ -92,6 +100,7 @@
                 option: {},
                 generatePaths: {},         // 代码生成路径数据
                 generateCodePreviews: {},  // 预览代码数据
+                vueFieldTypeDic: getDict(website.Dict.Base.VueFieldType),  // 字段类型选择数据
                 // 数据表
                 treeRowData: {name: "t_basic", comment: "系统通用字段表"},
                 treeData: [],
@@ -115,7 +124,7 @@
             }
         },
         mounted() {
-            this.option =  JSON.parse(JSON.stringify(website.optionConfig));
+            this.option = JSON.parse(JSON.stringify(website.optionConfig));
             this.option.index = false;
             this.option.menu = false;
             this.option.rowKey = "id"
@@ -141,22 +150,28 @@
                     align: 'left',
                     overHidden: true
                 },
-
                 {
-                    label: '是否允许空',
+                    label: 'vue表单类型',
+                    prop: 'vueFieldType',
+                    //type: "select",
+                    //dicData: getDict(website.Dict.Base.VueFieldType),
+                },
+                {
+                    label: '是否搜索(eq搜索)',
+                    prop: 'search',
+                    align: 'left',
+                },
+                {
+                    label: '是否允许空(mysql)',
                     prop: 'isNull',
                     align: 'left',
                 },
                 {
-                    label: '默认值',
+                    label: '默认值(mysql)',
                     prop: 'defaultVal',
                     align: 'left',
                 },
-                {
-                    label: '是否搜索(eq)',
-                    prop: 'search',
-                    align: 'left',
-                },
+
             ]
         },
         created() {
@@ -169,6 +184,9 @@
             onLoad() {
                 get(this.uri.infoFieldList, {tableName: this.search.tableName}).then((res) => {
                     this.data = res.data.data;
+                    res.data.data.forEach((item) => {
+                        item.vueFieldType = 1;
+                    })
                     this.checkeds();
                 })
             },
@@ -232,17 +250,25 @@
                 })
             },
             // 生成后端代码（生成到项目）
-            generateCodeVue() {
-                let data = {
-                    tableComment: this.treeRowData.comment,
-                    tableName: this.search.tableName,
-                    dataSourceId: "",
-                    data: JSON.stringify(this.data)
-                }
-                download(this.uri.generateCodeVue, data);
+            generateCodeJava() {
+                this.$confirm(`生成服务端代码, 如果重新生成将覆盖原数据, 是否继续?`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let data = {
+                        tableComment: this.treeRowData.comment,
+                        tableName: this.search.tableName,
+                        dataSourceId: "",
+                        data: JSON.stringify(this.data)
+                    }
+                    post(this.uri.generateCode, data).then(() => {
+                        this.$message.success("代码生成成功");
+                    })
+                })
             },
             // 生成vue代码（下载）
-            generateCodeVue() {
+            generateCodeVueFun() {
                 let data = {
                     tableComment: this.treeRowData.comment,
                     tableName: this.search.tableName,

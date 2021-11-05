@@ -9,6 +9,14 @@
                    @refresh-change="onLoad"
                    @search-change="searchChange"
                    @row-click="handleRowClick">
+            <!-- 启用/禁用插槽(默认提供,按需使用) -->
+            <template slot-scope="{scope,row,index,type,size}" slot="disable">
+                <el-switch v-model="row.disable" @change="updDisable(row,index,row.disable)"
+                           active-color="#13ce66" inactive-color="#ff4949"
+                           :active-value=0 :inactive-value=1
+                           active-text="" inactive-text="">
+                </el-switch>
+            </template>
             <template slot-scope="scope" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
             </template>
@@ -17,11 +25,12 @@
                 <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
             </template>
         </avue-crud>
-        <el-dialog title="新增" v-dialogDrag :visible.sync="addDialogVisible" :width="dialogWidth" @close="closeDialog" :destroy-on-close="true">
+        <!-- 弹层 -->
+        <el-dialog title="新增" v-dialogDrag :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog" :destroy-on-close="true">
             <Add :closeDialog="closeDialog" :uri="uri"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="编辑" v-dialogDrag :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog" :destroy-on-close="true">
+        <el-dialog title="编辑" v-dialogDrag :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog" :destroy-on-close="true">
             <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
@@ -42,8 +51,8 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/{tableNameLower}/list",
-                    info: "/api/admin/{tableNameLower}",
+                    infoList: "/api/admin/{moduleName}/{tableNameLower}/list",
+                    info: "/api/admin/{moduleName}/{tableNameLower}",
                 },
                 dialogWidth: "60%",
                 addDialogVisible: false,
@@ -56,7 +65,7 @@
             }
         },
         mounted() {
-            this.option = website.optionConfig
+            this.option = JSON.parse(JSON.stringify(website.optionConfig));
             this.option.column = [
 {vue-info-columns}
             ]
@@ -65,7 +74,7 @@
         },
         methods: {
             onLoad() {
-                list(this,false);
+                list(this,true);
             },
             searchChange(params, done) {
                 this.page.currentPage = 1;
@@ -82,6 +91,10 @@
             },
             rowDel(row, index) {
                 delRow(this, this.uri.info, row.id, index);
+            },
+            // 启用/禁用
+            updDisable(row, index, disable) {
+                put(this.uri.info + "/" + row.id, {disable: disable});
             },
             handleRowClick(row) {
                 this.rowData = row;

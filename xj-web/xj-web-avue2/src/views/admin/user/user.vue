@@ -116,7 +116,8 @@
                 {
                     label: '年龄',
                     prop: 'age',
-                }, {
+                },
+                {
                     label: '性别',
                     prop: 'gender',
                     dicData: getDict(website.Dict.Base.Gender),

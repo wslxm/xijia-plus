@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 @SuppressWarnings("all")
 @Component
-public class XjGenerationVueAdd extends BaseIServiceImpl implements XjGcSevice {
+public class XjGenerationVueAdd extends BaseGcImpl implements XjGcSevice {
 
     /**
      * 生成Html-Add 添加页
@@ -26,7 +26,7 @@ public class XjGenerationVueAdd extends BaseIServiceImpl implements XjGcSevice {
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(List<Map<String, Object>> dataList, String path) {
+    public void run(List<DbFieldPO> dataList, String path) {
 
         Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "VueAdd");
         BufferedReader br = (BufferedReader) brBwPath.get("br");
@@ -35,37 +35,21 @@ public class XjGenerationVueAdd extends BaseIServiceImpl implements XjGcSevice {
         StringBuffer vueAddColumnsDefault = new StringBuffer("");
         StringBuffer vueAddColumns = new StringBuffer("");
         //
-        for (Map<String, Object> fieldMap : dataList) {
+        for (DbFieldPO fieldMap : dataList) {
             // 未勾选的字段过滤
-            Object checked = fieldMap.get("checked");      // 兼容layui
-            Object isChecked = fieldMap.get("isChecked");  // 兼容vue
-            if (checked !=null && !Boolean.parseBoolean(checked.toString())) {
+            if (isChecked(fieldMap)) {
                 continue;
             }
-            if (isChecked !=null && !Boolean.parseBoolean(isChecked.toString())) {
+            // 不生成id
+            if ("id".equals(fieldMap.getName())) {
                 continue;
             }
-            String name = GenerateDataProcessing.getFieldName(fieldMap.get("name").toString());
-            if ("id".equals(name)) {
-                continue;
-            }
-            //1
-            String desc = "";
-            if (fieldMap.get("desc").toString().indexOf("(") != -1) {
-                desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
-            } else {
-                desc = fieldMap.get("desc").toString();
-            }
-            //  String primarykeyId = GenerateDataProcessing.getValue(fieldMap, "primarykeyId", ""); //是否id
-            //  String selfGrowth = GenerateDataProcessing.getValue(fieldMap, "selfGrowth", "");//是否自增
-            //  if (!primarykeyId.equals("true")) {     // }
-            String type = fieldMap.get("type").toString();
+            // 生成字段默认值
+            String name = GenerateDataProcessing.getFieldName(fieldMap.getName());
             vueAddColumnsDefault.append("                    " + name + ": " + null + ",\n");
-            vueAddColumns.append("                        {\n" +
-                    "                            label: '" + desc + "',\n" +
-                    "                            prop: '" + name + "',\n" +
-                    "                            span: 20,\n" +
-                    "                        },\n");
+            // 生成字段
+            String vueColumn = JXVueColumns(fieldMap.getName(), getDesc(fieldMap.getDesc()), fieldMap.getVueFieldType());
+            vueAddColumns.append(vueColumn);
         }
         // 数据保存
         GenerateConfig.VUE_ADD_COLUMNS_DEFAULT = vueAddColumnsDefault.toString();
@@ -75,25 +59,4 @@ public class XjGenerationVueAdd extends BaseIServiceImpl implements XjGcSevice {
         // url保存
         XjGenerationSeviceImpl.pathMap.put("vueMainAdd", brBwPath.get("path").toString());
     }
-
-
-//        if (name.indexOf("Pics") != -1) {
-//        // 判断是否为图片
-//    } else if (name.indexOf("Pic") != -1) {
-//        // 判断是否为图片
-//    } else if (name.indexOf("Codes") != -1) {
-//        // 判断是否为多选
-//    } else if (name.indexOf("Code") != -1) {
-//        // 判断是否为单选
-//    } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
-//        // 时间字段
-//    } else if (type.equals("double") || type.equals("float") || type.equals("decimal")) {
-//        // 小数
-//    } else if (type.equals("int") || type.equals("bigint")) {
-//        // 整数
-//    } else if (type.equals("text") || type.equals("longtext")) {
-//        // 大字段使用textarea 输入框
-//    } else {
-//        //  其他按普通字符串处理(input输入))
-//    }
 }

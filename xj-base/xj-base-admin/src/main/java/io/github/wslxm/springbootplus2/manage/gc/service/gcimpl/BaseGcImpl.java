@@ -1,6 +1,9 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.enums.Base;
+import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
+import io.github.wslxm.springbootplus2.manage.gc.template.VueAddUpdTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
 
 import java.math.BigDecimal;
@@ -26,7 +29,7 @@ public class BaseGcImpl extends BaseIServiceImpl {
     @SuppressWarnings("all")
     protected String JXModel(String fieldName, String type) {
         // 转驼峰模式
-        fieldName =  GenerateDataProcessing.getFieldName(fieldName);
+        fieldName = GenerateDataProcessing.getFieldName(fieldName);
         String field = "";
         //字段
         if (type.equals("int")) {
@@ -85,9 +88,11 @@ public class BaseGcImpl extends BaseIServiceImpl {
                 Double max = (Math.pow(10, len) - 1);
                 jsr = "@Range(min=0, max={MAX}L,message = \"{DESC} 必须>=0 和 <={MAX}\")";
                 if (type.equals("int")) {
-                    jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max.toString()).intValue() + "").replace("{DESC}",desc);;
+                    jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max.toString()).intValue() + "").replace("{DESC}", desc);
+                    ;
                 } else {
-                    jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max.toString()).longValue() + "").replace("{DESC}",desc);;
+                    jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max.toString()).longValue() + "").replace("{DESC}", desc);
+                    ;
                 }
             }
         } else if (type.equals("double") || type.equals("float") || type.equals("decimal") || type.equals("float")) {
@@ -99,9 +104,11 @@ public class BaseGcImpl extends BaseIServiceImpl {
                 Double max = (Math.pow(10, len) - 1);
                 jsr = "@Range(min=0, max={MAX}L,message = \"{DESC} 必须>=0 和 <={MAX}\")";
                 if (type.equals("int")) {
-                    jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max.toString()).intValue() + "").replace("{DESC}",desc);;
+                    jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max.toString()).intValue() + "").replace("{DESC}", desc);
+                    ;
                 } else {
-                    jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max.toString()).longValue() + "").replace("{DESC}",desc);;
+                    jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max.toString()).longValue() + "").replace("{DESC}", desc);
+                    ;
                 }
             }
         } else if (type.equals("varchar") || type.equals("char") || type.equals("text") || type.equals("longtext")) {
@@ -109,7 +116,7 @@ public class BaseGcImpl extends BaseIServiceImpl {
             if (typeDetail.indexOf("(") != -1) {
                 jsr = "@Length(min=0, max={MAX},message = \"{DESC} 必须>=0 和 <={MAX}位\")";
                 String max = typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")"));
-                jsr = jsr.replaceAll("\\{MAX}", max).replace("{DESC}",desc);
+                jsr = jsr.replaceAll("\\{MAX}", max).replace("{DESC}", desc);
             }
         } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
             // 时间暂无
@@ -117,4 +124,92 @@ public class BaseGcImpl extends BaseIServiceImpl {
         }
         return jsr;
     }
+
+
+    /**
+     * 判断当前字段是否勾选
+     * @author wangsong
+     * @param fieldMap
+     * @date 2021/11/4 0004 7:04
+     * @return boolean
+     * @version 1.0.0
+     */
+    protected boolean isChecked(DbFieldPO fieldMap) {
+        Boolean checked = fieldMap.getChecked();      // 兼容layui
+        Boolean isChecked = fieldMap.getIsChecked();  // 兼容vue
+        if (checked != null && !Boolean.parseBoolean(checked.toString())) {
+            return true;
+        }
+        if (isChecked != null && !Boolean.parseBoolean(isChecked.toString())) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 获取 desc 字段描叙 去掉 () 内后的数据
+     * @param fieldMap
+     * @return
+     */
+    protected String getDesc(String desc) {
+        if (desc != null) {
+            if (desc.indexOf("(") != -1) {
+                desc = desc.substring(0, desc.indexOf("("));
+            }
+            if (desc.indexOf("（") != -1) {
+                desc = desc.substring(0, desc.indexOf("（"));
+            }
+        }
+        return desc;
+    }
+
+
+    /**
+     * 获取vue 添加或编辑页的 表单数据
+     * @param fieldMap
+     * @return
+     */
+    protected String JXVueColumns(String name, String newDesc, Integer type) {
+        String columnStr = null;
+        name = GenerateDataProcessing.getFieldName(name);
+        if (type.equals(Base.VueFieldType.V1.getValue())) {
+            columnStr = VueAddUpdTemplate.INPUT.replace("{label}", newDesc).replace("{prop}", name);
+        } else if (type.equals(Base.VueFieldType.V2.getValue())) {
+            columnStr = VueAddUpdTemplate.NUMBER.replace("{label}", newDesc).replace("{prop}", name);
+        } else if (type.equals(Base.VueFieldType.V3.getValue())) {
+            //
+        } else if (type.equals(Base.VueFieldType.V4.getValue())) {
+            columnStr = VueAddUpdTemplate.RADIO.replace("{label}", newDesc).replace("{prop}", name);
+        } else if (type.equals(Base.VueFieldType.V5.getValue())) {
+            columnStr = VueAddUpdTemplate.CHECKBOX.replace("{label}", newDesc).replace("{prop}", name);
+        } else if (type.equals(Base.VueFieldType.V6.getValue())) {
+            columnStr = VueAddUpdTemplate.SELECT.replace("{label}", newDesc).replace("{prop}", name);
+        } else if (type.equals(Base.VueFieldType.V7.getValue())) {
+            //
+        } else if (type.equals(Base.VueFieldType.V8.getValue())) {
+            //
+        } else if (type.equals(Base.VueFieldType.V9.getValue())) {
+            columnStr = VueAddUpdTemplate.SWITCH.replace("{label}", newDesc).replace("{prop}", name);
+        } else if (type.equals(Base.VueFieldType.V10.getValue())) {
+            //
+        } else if (type.equals(Base.VueFieldType.V11.getValue())) {
+            columnStr = VueAddUpdTemplate.DATETIME.replace("{label}", newDesc).replace("{prop}", name);
+        } else if (type.equals(Base.VueFieldType.V12.getValue())) {
+            //
+        } else if (type.equals(Base.VueFieldType.V13.getValue())) {
+            columnStr = VueAddUpdTemplate.UPLOAD.replace("{label}", newDesc).replace("{prop}", name);
+        } else if (type.equals(Base.VueFieldType.V14.getValue())) {
+            //
+        } else if (type.equals(Base.VueFieldType.V15.getValue())) {
+            //
+        } else if (type.equals(Base.VueFieldType.V16.getValue())) {
+            //
+        }
+        // 没有默认 input
+        if (columnStr == null) {
+            columnStr = VueAddUpdTemplate.INPUT.replace("{label}", newDesc).replace("{prop}", name);
+        }
+        return columnStr;
+    }
+
 }

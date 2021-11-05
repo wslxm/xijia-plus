@@ -2,11 +2,12 @@
     <div>
         <avue-form ref="form" v-model="obj" :option="option" @reset-change="emptytChange" @submit="submit">
             <!-- 菜单树 -->
+
             <template slot-scope="scope" slot="text">
                 <el-card class="box-card">
-                    <!--<div slot="header" class="clearfix">
+                    <!-- <div slot="header" class="clearfix">
                         <span>选择菜单</span>
-                    </div>-->
+                    </div> -->
                     <el-tree
                             :data="menuData"
                             show-checkbox
@@ -157,10 +158,16 @@
     }
 </script>
 <style>
+
+    /*滚动条样式 滚动条整体部分，可以设置宽度啥的*/
+    .box-card::-webkit-scrollbar {
+        width: 1px;
+    }
+
     .box-card {
         margin-top: -20px !important;
         width: 150%;
         height: 400px;
-        overflow-y: auto /* 开启滚动显示溢出内容 */
+        overflow-y: auto;
     }
 </style>

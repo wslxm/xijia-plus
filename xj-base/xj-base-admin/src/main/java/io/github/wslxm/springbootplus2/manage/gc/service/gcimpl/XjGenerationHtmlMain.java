@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.template.LayuiMainTemplate;
@@ -28,7 +29,7 @@ public class XjGenerationHtmlMain extends BaseIServiceImpl implements XjGcSevice
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(List<Map<String, Object>> dataList, String path) {
+    public void run(List<DbFieldPO> dataList, String path) {
         Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "Html");
         BufferedReader br = (BufferedReader) brBwPath.get("br");
         BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
@@ -39,23 +40,24 @@ public class XjGenerationHtmlMain extends BaseIServiceImpl implements XjGcSevice
         StringBuffer searchJsStr = new StringBuffer();
         // 搜索条件请求值url拼接
         StringBuffer SearchParamsStr = new StringBuffer();
-        for (Map<String, Object> fieldMap : dataList) {
+        for (DbFieldPO fieldMap : dataList) {
             // 未勾选的字段过滤
-            Object checked = fieldMap.get("checked");      // 兼容layui
-            Object isChecked = fieldMap.get("isChecked");  // 兼容vue
+            Object checked = fieldMap.getChecked();      // 兼容layui
+            Object isChecked = fieldMap.getIsChecked();  // 兼容vue
             if (checked !=null && !Boolean.parseBoolean(checked.toString())) {
                 continue;
             }
             if (isChecked !=null && !Boolean.parseBoolean(isChecked.toString())) {
                 continue;
             }
-            String name = GenerateDataProcessing.getFieldName(fieldMap.get("name").toString());
+            String name = GenerateDataProcessing.getFieldName(fieldMap.getName());
             //1
-            String desc = "";
-            if (fieldMap.get("desc").toString().indexOf("(") != -1) {
-                desc = fieldMap.get("desc").toString().substring(0, fieldMap.get("desc").toString().indexOf("("));
-            } else {
-                desc = fieldMap.get("desc").toString();
+            String type = fieldMap.getType();
+            String desc = fieldMap.getDesc();
+            String fieldName =fieldMap.getName();
+            String typeDetail = fieldMap.getTypeDetail();
+            if (desc != null && desc.indexOf("(") != -1) {
+                desc = desc.substring(0, desc.indexOf("("));
             }
             // 数据表格内容
             if (name.indexOf("Pic") != -1) {
@@ -75,7 +77,7 @@ public class XjGenerationHtmlMain extends BaseIServiceImpl implements XjGcSevice
                 );
             }
             //
-            Object search = fieldMap.get("search");
+            Object search = fieldMap.getSearch();
             //是否为搜索值
             if (search == null || !Boolean.parseBoolean(search.toString())) {
                 continue;

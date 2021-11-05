@@ -52,7 +52,7 @@
         },
         // 监听数据的变化,更新当前行数据
         watch: {
-            rowData: function (newRowData,oldRowData) {
+            rowData: function (newRowData, oldRowData) {
                 console.log("原:", oldRowData.id, "  -->新:", newRowData.id)
                 if (newRowData != null && newRowData.id != null) {
                     console.log("=====", this.menus)
@@ -184,6 +184,11 @@
 </script>
 
 <style>
+    /*滚动条样式 滚动条整体部分，可以设置宽度啥的*/
+    .box-card::-webkit-scrollbar {
+        width: 1px;
+    }
+
     .box-card {
         margin-top: -20px !important;
         width: 150%;
