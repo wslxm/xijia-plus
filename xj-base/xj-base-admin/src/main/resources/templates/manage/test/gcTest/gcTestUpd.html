@@ -77,6 +77,12 @@
             </div>
         </div>
     </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">大文本字段</label>
+        <div class="layui-input-inline">
+            <input type="text" id="text" name="text" lay-verify="required" placeholder="请输入大文本字段" autocomplete="off" class="layui-input" >
+        </div>
+    </div>
 
     <div class="layui-form-item layui-hide">
         <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认提交">
@@ -107,6 +113,7 @@
               ,position : 'fixed'
          });
          $('#time').val(parent.data.time);
+         $('#text').val(parent.data.text);
           // 刷新,否则部分from 表单样式不生效
           layui.form.render();
     }

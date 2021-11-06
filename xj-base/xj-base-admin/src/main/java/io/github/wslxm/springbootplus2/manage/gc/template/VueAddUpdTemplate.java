@@ -9,7 +9,29 @@ public interface VueAddUpdTemplate {
     String INPUT = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
+            "                            maxlength: '{maxlength}',\n" +
+            "                            showWordLimit: 'true',\n" +
             "                            span: 20,\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请输入 {label}\",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }]\n" +
+            "                        },\n";
+
+    //  大文本 {label}  {prop}
+    String TEXTAREA = "                        {\n" +
+            "                            label: '{label}',\n" +
+            "                            prop: '{prop}',\n" +
+            "                            type: 'textarea',\n" +
+            "                            maxlength: '{maxlength}',\n" +
+            "                            showWordLimit: 'true',\n" +
+            "                            span: 20,\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请输入 {label}\",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }]\n" +
             "                        },\n";
 
     //  数字 {label}  {prop}
@@ -21,6 +43,11 @@ public interface VueAddUpdTemplate {
             "                            maxRows: 99999999,\n" +
             "                            row: true,\n" +
             "                            span: 20,\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请输入 {label}\",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }]\n" +
             "                        },\n";
 
     //  单选 {label}  {prop}
@@ -30,6 +57,11 @@ public interface VueAddUpdTemplate {
             "                            type: 'radio',\n" +
             "                            dicData: getDict(website.Dict.Base.Default),\n" +
             "                            span: 20,\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请选择 {label}\",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }]\n" +
             "                        },\n";
 
     //  多选 {label}  {prop}
@@ -40,6 +72,11 @@ public interface VueAddUpdTemplate {
             "                            dataType: 'string', // 字符串模式\n" +
             "                            dicData: getDict(website.Dict.Base.Default),\n" +
             "                            span: 20,\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请选择 {label}\",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }]\n" +
             "                        },\n";
 
     //  下拉选 {label}  {prop}
@@ -49,6 +86,11 @@ public interface VueAddUpdTemplate {
             "                            type: 'select',\n" +
             "                            dicData: getDict(website.Dict.Base.Default),\n" +
             "                            span: 20,\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请选择 {label}\",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }]\n" +
             "                        },\n";
 
     //  开关 {label}  {prop}
@@ -58,6 +100,11 @@ public interface VueAddUpdTemplate {
             "                            type: 'switch',\n" +
             "                            dicData: getDict(website.Dict.Base.Default),\n" +
             "                            span: 20,\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请选择 {label}\",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }]\n" +
             "                        },\n";
 
 
@@ -69,6 +116,11 @@ public interface VueAddUpdTemplate {
             "                            format: 'yyyy-MM-dd hh:mm:ss',\n" +
             "                            valueFormat: 'yyyy-MM-dd hh:mm:ss',\n" +
             "                            span: 20,\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请选择 {label}\",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }]\n" +
             "                        },\n";
 
 
@@ -76,12 +128,17 @@ public interface VueAddUpdTemplate {
     String UPLOAD = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
-            "                            span: 20,\n" +
             "                            dataType: 'string', // 字符串模式\n" +
             "                            type: 'upload',\n" +
             "                            listType: 'picture-img',                // 单图-[picture-img] 多图-[picture-card] 缩略图-[picture](不定义=附件)\n" +
             "                            action: baseUploadUrl + 'file/gc/',     // 上传地址(详见接口描叙,默认允许任意文件)\n" +
             "                            tip: '只能上传jpg/png文件，且不超过500kb',\n" +
+            "                            span: 20,\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请上传 {label}\",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }],\n" +
             "                            propsHttp: {\n" +
             "                                res: 'data'\n" +
             "                            },\n" +

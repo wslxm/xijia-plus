@@ -51,7 +51,7 @@ public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
                     || vueFieldTypeInt.equals(Base.VueFieldType.V9.getValue())
             ) {
                 vueInfoColumns.append(VueMainTemplate.TEXT_DICT
-                        .replace("{label}", newDesc)
+                        .replaceAll("\\{label}", newDesc)
                         .replace("{prop}", name)
                         .replace("{search}", searchBoolean + "")
                 );
@@ -59,7 +59,7 @@ public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
                     || vueFieldTypeInt.equals(Base.VueFieldType.V8.getValue())
             ) {
                 vueInfoColumns.append(VueMainTemplate.TEXT_DICT_CHECKBOX
-                        .replace("{label}", newDesc)
+                        .replaceAll("\\{label}", newDesc)
                         .replace("{prop}", name)
                         .replace("{search}", searchBoolean + "")
                 );
@@ -68,12 +68,12 @@ public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
                     || vueFieldTypeInt.equals(Base.VueFieldType.V15.getValue())
             ) {
                 vueInfoColumns.append(VueMainTemplate.IMG
-                        .replace("{label}", newDesc)
+                        .replaceAll("\\{label}", newDesc)
                         .replace("{prop}", name)
                 );
             } else {
                 vueInfoColumns.append(VueMainTemplate.TEXT
-                        .replace("{label}", newDesc)
+                        .replaceAll("\\{label}", newDesc)
                         .replace("{prop}", name)
                         .replace("{search}", searchBoolean + "")
                 );

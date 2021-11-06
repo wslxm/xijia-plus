@@ -40,6 +40,7 @@ public interface Base{
         V14(14, "文件上传(多图)"),    // -
         V15(15, "文件上传（缩略图）"),    // -
         V16(16, "文件上传（附件）"),    // -
+        V17(17, "大文本"),    // -
         ;
         private Integer value;
         private String desc;

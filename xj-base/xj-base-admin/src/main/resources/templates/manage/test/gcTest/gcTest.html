@@ -27,12 +27,6 @@
 
 <!-- 搜索 -->
 <div class="searchTable layui-form">
-    <div class="layui-inline">
-        <label class="layui-form-label">名称 :</label>
-        <div class="layui-input-block">
-            <input type="text" id="name" name="name" placeholder="请输入名称 ..." autocomplete="off" class="layui-input">
-        </div>
-    </div>
 
     <!-- <button class="layui-btn layui-btn-normal layui-btn-sm" data-type="reload">搜索</button>-->
     <div class="layui-inline">
@@ -108,7 +102,8 @@
                     {field: 'city', title: '城市 '},
                     {field: 'disable', title: '禁用 '},
                     {field: 'headUrl', title: '头像 '},
-                    {field: 'time', title: '时间'}
+                    {field: 'time', title: '时间'},
+                    {field: 'text', title: '大文本字段'}
                     , {title: '操作', toolbar: '#barDemo', width: 250}
                 ]
             ]
@@ -220,7 +215,6 @@
      */
     function gcTestSearchParam() {
             let params = "";
-            params += "&name=" + $("#name").val();
 
             return params;
     }

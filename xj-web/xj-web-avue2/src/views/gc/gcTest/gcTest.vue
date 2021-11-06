@@ -70,7 +70,7 @@
                  {
                     label: '名称 ',
                     prop: 'name',
-                    search: true,
+                    search: false,
                     overHidden: true,
                 },
                 {
@@ -84,7 +84,7 @@
                     prop: 'sex',
                     search: false,
                     overHidden: true,
-                    dicData: getDict(website.Dict.Base.Gender),
+                    dicData: getDict(website.Dict.Base.Default),
                 },
                 {
                     label: '爱好 ',
@@ -97,7 +97,7 @@
                 {
                     label: '城市 ',
                     prop: 'city',
-                    search: true,
+                    search: false,
                     overHidden: true,
                     dicData: getDict(website.Dict.Base.Default),
                 },
@@ -128,6 +128,12 @@
                 {
                     label: '时间',
                     prop: 'time',
+                    search: false,
+                    overHidden: true,
+                },
+                {
+                    label: '更多信息',
+                    prop: 'text',
                     search: false,
                     overHidden: true,
                 },

@@ -20,6 +20,7 @@
                <result column="disable" property="disable"/>
                <result column="head_url" property="headUrl"/>
                <result column="time" property="time"/>
+               <result column="text" property="text"/>
         </resultMap>
 
         <!-- 通用查询结果列: <include refid="Base_Column_List"></include>  -->
@@ -39,7 +40,8 @@
                city,
                disable,
                head_url,
-               time
+               time,
+               text
         </sql>
 
 
