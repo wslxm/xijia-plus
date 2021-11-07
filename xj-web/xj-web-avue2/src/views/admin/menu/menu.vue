@@ -61,10 +61,6 @@
 
 
 <script>
-    import {getDict} from '@/api/dict';
-    import {delRow, list, put} from '@/api/crud';
-    import website from '@/config/website';
-
 
     export default {
         components: {
@@ -83,8 +79,8 @@
                 addDialogVisible: false,      // 添加弹层开关状态
                 updDialogVisible: false,      // 添加弹层开关状态
                 updPidDialogVisible: false,      // 添加弹层开关状态
-                page: website.pageParams,     // 分页参数
-                search: {                     // 搜索参数
+                page: this.website.pageParams,   // 分页参数
+                search: {                        // 搜索参数
                     terminal: 2
                 },
                 data: [],                     // 列表数据
@@ -94,7 +90,7 @@
         },
         mounted() {
             // 基础配置
-            this.option =  JSON.parse(JSON.stringify(website.optionConfig));
+            this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.index = false
             this.option.defaultExpandAll = true
             //this.option.cellBtnt = true
@@ -108,7 +104,7 @@
                     {
                         label: '终端',
                         prop: 'terminal',
-                        dicData: getDict(website.Dict.Admin.Terminal, true, false, true),
+                        dicData: this.dict.get(this.website.Dict.Admin.Terminal, true, false, true),
                         search: true,
                         searchValue: this.search.terminal,
                         searchSpan: 5,
@@ -144,7 +140,7 @@
                         label: '目录级别',
                         prop: 'root',
                         // type: "switch",
-                        dicData: getDict(website.Dict.Base.MenuRoot),
+                        dicData: this.dict.get(this.website.Dict.Base.MenuRoot),
                         width: 150,
                     },
                     {
@@ -168,7 +164,7 @@
              */
             onLoad() {
                 console.debug("默认搜索值" + JSON.stringify(this.search))
-                list(this, false);
+                this.crud.list(this, false);
             },
             // 搜索,并重置页数为1
             searchChange(params, done) {
@@ -188,22 +184,22 @@
             },
             // 行删除
             rowDel(row, index) {
-                delRow(this, this.uri.info, row.id, index);
+                this.crud.delRow(this, this.uri.info, row.id, index);
             },
             // 启用/禁用
             updDisable(row, index, disable) {
-                put(this.uri.info + "/" + row.id, {disable: disable});
+                this.crud.put(this.uri.info + "/" + row.id, {disable: disable});
             },
             // 编辑url
             rowUrlBlur(row) {
                 if (this.rowData.url != row.url) {
-                    put(this.uri.info + "/" + row.id, {url: row.url});
+                    this.crud.put(this.uri.info + "/" + row.id, {url: row.url});
                 }
             },
             // 编辑排序
             rowSortBlur(row) {
                 if (this.rowData.sort != row.sort) {
-                    put(this.uri.info + "/" + row.id, {sort: row.sort});
+                    this.crud.put(this.uri.info + "/" + row.id, {sort: row.sort});
                 }
             },
             // 点击保存行数据(供行操作的任意地方获取数据)

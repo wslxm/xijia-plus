@@ -8,11 +8,7 @@
 </template>
 
 <script>
-    import {getDict} from '@/api/dict';
-    import {post} from '@/api/crud';
-    import website from '@/config/website';
-    import {baseUploadUrl} from "../../../config/env";
-
+    import {baseUploadUrl} from "@/config/env";
     export default {
         // name: "RoleAdd",
         data() {
@@ -60,7 +56,7 @@
                             prop: 'terminal',
                             span: 20,
                             type: "radio",
-                            dicData: getDict(website.Dict.Admin.Terminal),
+                            dicData: this.dict.get(this.website.Dict.Admin.Terminal),
                         },
                         {
                             label: '头像',
@@ -108,7 +104,7 @@
                             prop: 'gender',
                             span: 20,
                             type: "radio",
-                            dicData: getDict(website.Dict.Base.Gender),
+                            dicData: this.dict.get(this.website.Dict.Base.Gender),
                         },
                         {
                             label: '年龄',
@@ -137,7 +133,7 @@
                             prop: 'position',
                             span: 20,
                             type: "radio",
-                            dicData: getDict(website.Dict.Admin.Position),
+                            dicData: this.dict.get(this.website.Dict.Admin.Position),
                         },
                         {
                             label: '角色',
@@ -151,7 +147,7 @@
                             prop: 'disable',
                             span: 20,
                             type: "switch",
-                            dicData: getDict(website.Dict.Base.Disable, false),
+                            dicData: this.dict.get(this.website.Dict.Base.Disable, false),
                         }
                     ]
                 }
@@ -165,7 +161,7 @@
                 this.closeDialog(false);
             },
             submit(form, done) {
-                post(this.uri.info, this.obj).then((res) => {
+                this.crud.post(this.uri.info, this.obj).then((res) => {
                     console.debug(res);
                     this.closeDialog(true);
                     done(form);

@@ -11,7 +11,7 @@
                    @row-click="handleRowClick">
             <!-- 启用/禁用插槽(默认提供,按需使用) -->
             <template slot-scope="{scope,row,index,type,size}" slot="disable">
-                <el-switch v-model="row.disable" @change="updDisable(row,index,row.disable)"
+                <el-switch v-model="row.disable" @change="updDisable(row)"
                            active-color="#13ce66" inactive-color="#ff4949"
                            :active-value=0 :inactive-value=1
                            active-text="" inactive-text="">
@@ -39,10 +39,6 @@
 
 
 <script>
-    import {get,post,put,del,delRow,list,update} from '@/api/crud';
-    import {getDict} from '@/api/dict';
-    import website from '@/config/website';
-
     export default {
         components: {
             Add: () => import('./gcTestAdd'),
@@ -57,7 +53,7 @@
                 dialogWidth: "60%",
                 addDialogVisible: false,
                 updDialogVisible: false,
-                page: website.pageParams,
+                page: this.website.pageParams,
                 search: {},
                 data: [],
                 rowData: {},
@@ -65,7 +61,7 @@
             }
         },
         mounted() {
-            this.option = JSON.parse(JSON.stringify(website.optionConfig));
+            this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.column = [
                  {
                     label: '名称 ',
@@ -84,7 +80,7 @@
                     prop: 'sex',
                     search: false,
                     overHidden: true,
-                    dicData: getDict(website.Dict.Base.Default),
+                    dicData: this.dict.get(this.website.Dict.Base.Default),
                 },
                 {
                     label: '爱好 ',
@@ -92,21 +88,21 @@
                     search: false,
                     overHidden: true,
                     dataType: 'string',
-                    dicData: getDict(website.Dict.Base.Default),
+                    dicData: this.dict.get(this.website.Dict.Base.Default),
                 },
                 {
                     label: '城市 ',
                     prop: 'city',
                     search: false,
                     overHidden: true,
-                    dicData: getDict(website.Dict.Base.Default),
+                    dicData: this.dict.get(this.website.Dict.Base.Default),
                 },
                 {
                     label: '禁用 ',
                     prop: 'disable',
                     search: false,
                     overHidden: true,
-                    dicData: getDict(website.Dict.Base.Default),
+                    dicData: this.dict.get(this.website.Dict.Base.Default),
                 },
                 {
                     label: '头像  ',
@@ -144,9 +140,9 @@
         },
         methods: {
             onLoad() {
-                list(this,true);
+                this.crud.list(this,true);
             },
-            searchChange(params, done) {
+            searchChange(done) {
                 this.page.currentPage = 1;
                 this.onLoad();
                 done();
@@ -160,11 +156,11 @@
                 }
             },
             rowDel(row, index) {
-                delRow(this, this.uri.info, row.id, index);
+                this.crud.delRow(this, this.uri.info, row.id, index);
             },
             // 启用/禁用
-            updDisable(row, index, disable) {
-                put(this.uri.info + "/" + row.id, {disable: disable});
+            updDisable(row) {
+                this.crud.put(this.uri.info + "/" + row.id, {disable: row.disable});
             },
             handleRowClick(row) {
                 this.rowData = row;

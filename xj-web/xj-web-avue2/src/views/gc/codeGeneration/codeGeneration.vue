@@ -70,9 +70,6 @@
 
 
 <script>
-    import {download, get, post} from '@/api/crud';
-    import {getDict} from '@/api/dict';
-    import website from '@/config/website';
 
     export default {
         components: {
@@ -93,14 +90,14 @@
                 findPageDialogVisible: false,
                 generateCodePreviewDialogVisible: false,
                 updDialogVisible: false,
-                page: website.pageParams,
+                page: this.website.pageParams,
                 search: {tableName: "t_basic"},
                 data: [],
                 rowData: {},
                 option: {},
                 generatePaths: {},         // 代码生成路径数据
                 generateCodePreviews: {},  // 预览代码数据
-                vueFieldTypeDic: getDict(website.Dict.Base.VueFieldType),  // 字段类型选择数据
+                vueFieldTypeDic: this.dict.get(this.website.Dict.Base.VueFieldType),  // 字段类型选择数据
                 // 数据表
                 treeRowData: {name: "t_basic", comment: "系统通用字段表"},
                 treeData: [],
@@ -124,7 +121,7 @@
             }
         },
         mounted() {
-            this.option = JSON.parse(JSON.stringify(website.optionConfig));
+            this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.index = false;
             this.option.menu = false;
             this.option.rowKey = "id"
@@ -153,8 +150,6 @@
                 {
                     label: 'vue表单类型',
                     prop: 'vueFieldType',
-                    //type: "select",
-                    //dicData: getDict(website.Dict.Base.VueFieldType),
                 },
                 {
                     label: '是否搜索(eq搜索)',
@@ -175,14 +170,14 @@
             ]
         },
         created() {
-            get(this.uri.infoTableList).then((res) => {
+            this.crud.get(this.uri.infoTableList).then((res) => {
                 this.treeData = res.data.data;
             })
 
         },
         methods: {
             onLoad() {
-                get(this.uri.infoFieldList, {tableName: this.search.tableName}).then((res) => {
+                this.crud.get(this.uri.infoFieldList, {tableName: this.search.tableName}).then((res) => {
                     this.data = res.data.data;
                     res.data.data.forEach((item) => {
                         item.vueFieldType = 1;
@@ -228,7 +223,7 @@
             },
             // 获取代码生成路径
             finDGenerateGetPath() {
-                get(this.uri.generateGetPath, {tableName: this.search.tableName}).then((res) => {
+                this.crud.get(this.uri.generateGetPath, {tableName: this.search.tableName}).then((res) => {
                     this.generatePaths = res.data.data;
                     this.findPageDialogVisible = true;
                 })
@@ -241,7 +236,7 @@
                     dataSourceId: "",
                     data: JSON.stringify(this.data)
                 }
-                post(this.uri.generatePreview, data).then((res) => {
+                this.crud.post(this.uri.generatePreview, data).then((res) => {
                     for (var k in res.data.data) {
                         res.data.data[k] = res.data.data[k] + "?" + Date.now();
                     }
@@ -262,7 +257,7 @@
                         dataSourceId: "",
                         data: JSON.stringify(this.data)
                     }
-                    post(this.uri.generateCode, data).then(() => {
+                    this.crud.post(this.uri.generateCode, data).then(() => {
                         this.$message.success("代码生成成功");
                     })
                 })
@@ -275,7 +270,7 @@
                     dataSourceId: "",
                     data: JSON.stringify(this.data)
                 }
-                download(this.uri.generateCodeVue, data);
+                this.crud.download(this.uri.generateCodeVue, data);
             }
         }
     }

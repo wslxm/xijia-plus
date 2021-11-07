@@ -24,9 +24,6 @@
 </template>
 
 <script>
-    import {getDict} from '@/api/dict';
-    import {post} from '@/api/crud';
-    import website from '@/config/website';
 
     export default {
         // name: "RoleAdd",
@@ -71,7 +68,7 @@
                             label: "终端",
                             prop: "terminal",
                             type: "select",
-                            dicData: getDict(website.Dict.Admin.Terminal),
+                            dicData: this.dict.get(this.website.Dict.Admin.Terminal),
                             span: 20,
                             rules: [{
                                 required: true,
@@ -136,7 +133,7 @@
                 // this.$message.success('已清空');
             },
             submit(form, done) {
-                post(this.uri.info, this.obj).then((res) => {
+                this.crud.post(this.uri.info, this.obj).then((res) => {
                     console.log(res);
                     // 添加成功关闭弹层并刷新数据
                     this.closeDialog(true);

@@ -24,10 +24,6 @@
 </template>
 
 <script>
-    import {getDict} from '@/api/dict';
-    import {get, put} from '@/api/crud';
-    import website from '@/config/website';
-
     export default {
         // name: "RoleUpd",
         data() {
@@ -58,7 +54,7 @@
                     console.log("=====", this.menus)
                     this.obj = newRowData;
                     // 获取菜单数据(弹层数据)
-                    get(this.uri.menuList.replace("{roleId}", newRowData.id)).then((res) => {
+                    this.crud.get(this.uri.menuList.replace("{roleId}", newRowData.id)).then((res) => {
                         // 获取选中菜单
                         this.menuData = res.data.data
                         this.obj.menuIds = [];
@@ -85,7 +81,7 @@
                             label: "终端",
                             prop: "terminal",
                             type: "select",
-                            dicData: getDict(website.Dict.Admin.Terminal),
+                            dicData: this.dict.get(this.website.Dict.Admin.Terminal),
                             span: 20,
                             mock: {
                                 type: 'dic'
@@ -137,7 +133,7 @@
                 this.menuDefaultCheckedKeys = [];
             },
             submit(form, done) {
-                put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
+                this.crud.put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
                     // 添加成功关闭弹层
                     if (res.data.code == 200) {
                         this.closeDialog(true);

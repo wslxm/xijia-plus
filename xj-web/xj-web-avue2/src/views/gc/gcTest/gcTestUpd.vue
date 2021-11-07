@@ -1,16 +1,15 @@
 <template>
     <div>
-        <avue-form ref="form" v-model="obj" :option="option" @reset-change="emptytChange" @submit="submit">
+        <avue-form ref="form" v-model="obj" :option="option"
+                   @reset-change="emptytChange"
+                   @submit="submit">
         </avue-form>
     </div>
 </template>
 
 <script>
-    import {get,post,put,del,delRow,list,update} from '@/api/crud';
-    import {getDict} from '@/api/dict';
-    import website from '@/config/website';
-    import {baseUploadUrl} from "../../../config/env";
 
+    import {baseUploadUrl} from "@/config/env";
     export default {
         data() {
             return {
@@ -44,8 +43,8 @@
                         {
                             label: '名称 ',
                             prop: 'name',
-                            maxlength: '64',
-                            showWordLimit: 'true',
+                            maxlength: 64,
+                            showWordLimit: true,
                             span: 20,
                             rules: [{
                                 required: true,
@@ -71,7 +70,7 @@
                             label: '性别 ',
                             prop: 'sex',
                             type: 'radio',
-                            dicData: getDict(website.Dict.Base.Default),
+                            dicData: this.dict.get(this.website.Dict.Base.Default),
                             span: 20,
                             rules: [{
                                 required: true,
@@ -84,7 +83,7 @@
                             prop: 'like',
                             type: 'checkbox',
                             dataType: 'string', // 字符串模式
-                            dicData: getDict(website.Dict.Base.Default),
+                            dicData: this.dict.get(this.website.Dict.Base.Default),
                             span: 20,
                             rules: [{
                                 required: true,
@@ -96,7 +95,7 @@
                             label: '城市 ',
                             prop: 'city',
                             type: 'select',
-                            dicData: getDict(website.Dict.Base.Default),
+                            dicData: this.dict.get(this.website.Dict.Base.Default),
                             span: 20,
                             rules: [{
                                 required: true,
@@ -108,7 +107,7 @@
                             label: '禁用 ',
                             prop: 'disable',
                             type: 'switch',
-                            dicData: getDict(website.Dict.Base.Default),
+                            dicData: this.dict.get(this.website.Dict.Base.Default),
                             span: 20,
                             rules: [{
                                 required: true,
@@ -159,8 +158,8 @@
                             label: '更多信息',
                             prop: 'text',
                             type: 'textarea',
-                            maxlength: '128',
-                            showWordLimit: 'true',
+                            maxlength: 128,
+                            showWordLimit: true,
                             span: 20,
                             rules: [{
                                 required: true,
@@ -178,7 +177,7 @@
                 this.closeDialog(false);
             },
             submit(form, done) {
-                put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
+                this.crud.put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
                     console.debug(res);
                     if (res.data.code == 200) {
                         this.closeDialog(true);
@@ -191,7 +190,7 @@
             },
             findId(newRowData) {
                 if (newRowData != null && newRowData.id != null) {
-                    get(this.uri.info + "/" + newRowData.id).then((res) => {
+                    this.crud.get(this.uri.info + "/" + newRowData.id).then((res) => {
                          this.obj = res.data.data;
                     })
                 }

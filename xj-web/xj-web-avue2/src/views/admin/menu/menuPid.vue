@@ -15,8 +15,6 @@
 </template>
 
 <script>
-    import {get, put} from '@/api/crud';
-
     export default {
         data() {
             return {
@@ -46,9 +44,10 @@
         // 监听数据的变化,更新当前行数据
         watch: {
             rowData: function (newRowData, oldRowData) {
+                console.debug("原:", oldRowData.id, "  -->新:", newRowData.id)
                 if (newRowData != null && newRowData.id != null) {
                     this.obj = this.rowData;
-                    get(this.uri.infoPidList).then((res) => {
+                    this.crud.get(this.uri.infoPidList).then((res) => {
                         console.debug(res)
                         this.menuData = res.data.data;
                         this.menuDefaultCheckedKeys[0] = newRowData.pid;
@@ -64,7 +63,7 @@
             submit(form, done) {
                 // let pid = this.$refs.reftree.getCheckedKeys()[0];
                 let pid = this.obj.pid;
-                put(this.uri.info + "/" + this.obj.id, {pid: pid}).then((res) => {
+                this.crud.put(this.uri.info + "/" + this.obj.id, {pid: pid}).then((res) => {
                     console.debug(res);
                     // 添加成功关闭弹层
                     if (res.data.code == 200) {

@@ -52,7 +52,6 @@
     import admin from "@/util/admin";
     import {validatenull} from "@/util/validate";
     import index from '@/mixins/index'
-    import {refreshDict} from '@/api/dict';
 
     export default {
         components: {
@@ -91,7 +90,7 @@
             // 屏幕检测
             init() {
                 // 获取或更新字典
-                refreshDict();
+                this.dict.refreshDict();
                 this.$store.commit("SET_SCREEN", admin.getScreen());
                 window.onresize = () => {
                     setTimeout(() => {

@@ -1,16 +1,15 @@
 <template>
     <div>
-        <avue-form ref="form" v-model="obj" :option="option" @reset-change="emptytChange" @submit="submit">
+        <avue-form ref="form" v-model="obj" :option="option"
+                   @reset-change="emptytChange"
+                   @submit="submit">
         </avue-form>
     </div>
 </template>
 
 <script>
-    import {get,post,put,del,delRow,list,update} from '@/api/crud';
-    import {getDict} from '@/api/dict';
-    import website from '@/config/website';
-    import {baseUploadUrl} from "../../../config/env";
 
+    import {baseUploadUrl} from "@/config/env";
     export default {
         data() {
             return {
@@ -51,7 +50,7 @@
                 this.closeDialog(false);
             },
             submit(form, done) {
-                put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
+                this.crud.put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
                     console.debug(res);
                     if (res.data.code == 200) {
                         this.closeDialog(true);
@@ -64,7 +63,7 @@
             },
             findId(newRowData) {
                 if (newRowData != null && newRowData.id != null) {
-                    get(this.uri.info + "/" + newRowData.id).then((res) => {
+                    this.crud.get(this.uri.info + "/" + newRowData.id).then((res) => {
                          this.obj = res.data.data;
                     })
                 }

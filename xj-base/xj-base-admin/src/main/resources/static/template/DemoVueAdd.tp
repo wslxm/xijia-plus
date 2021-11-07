@@ -2,18 +2,14 @@
     <div>
         <avue-form ref="form" v-model="obj" :option="option"
                    @reset-change="emptytChange"
-                   :upload-before="uploadBefore"
                    @submit="submit">
         </avue-form>
     </div>
 </template>
 
 <script>
-    import {get,post,put,del,delRow,list,update} from '@/api/crud';
-    import {getDict} from '@/api/dict';
-    import website from '@/config/website';
-    import {baseUploadUrl} from "../../../config/env";
 
+    import {baseUploadUrl} from "@/config/env";
     export default {
         data() {
             return {
@@ -48,8 +44,8 @@
                 this.closeDialog(false);
             },
             submit(form, done) {
-                post(this.uri.info, this.obj).then((res) => {
-                    console.log(res);
+                this.crud.post(this.uri.info, this.obj).then((res) => {
+                    console.debug(res);
                     if (res.data.code == 200) {
                        this.closeDialog(true);
                     }

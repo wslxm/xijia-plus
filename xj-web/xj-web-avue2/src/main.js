@@ -24,10 +24,14 @@ import basicContainer from './components/basic-container/main'
 import crudCommon from '@/mixins/crud.js'
 import dayjs from 'dayjs'
 import website from '@/config/website'
+import crud from '@/util/crud' // 通用crud/文件下载等方法
+import dict from '@/util/dict' // 字典
 
 window.$crudCommon = crudCommon
 Vue.prototype.$dayjs = dayjs
 Vue.prototype.website = website;
+Vue.prototype.crud = crud;
+Vue.prototype.dict = dict;
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios)
 Vue.use(Element, {

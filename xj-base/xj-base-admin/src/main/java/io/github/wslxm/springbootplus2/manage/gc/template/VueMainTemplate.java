@@ -24,7 +24,7 @@ public interface VueMainTemplate {
             "                    prop: '{prop}',\n" +
             "                    search: {search},\n" +
             "                    overHidden: true,\n" +
-            "                    dicData: getDict(website.Dict.Base.Default),\n" +
+            "                    dicData: this.dict.get(this.website.Dict.Base.Default),\n" +
             "                },\n";
 
 
@@ -37,7 +37,7 @@ public interface VueMainTemplate {
             "                    search: {search},\n" +
             "                    overHidden: true,\n" +
             "                    dataType: 'string',\n" +
-            "                    dicData: getDict(website.Dict.Base.Default),\n" +
+            "                    dicData: this.dict.get(this.website.Dict.Base.Default),\n" +
             "                },\n";
 
 

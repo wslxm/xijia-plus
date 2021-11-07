@@ -8,9 +8,6 @@
 </template>
 
 <script>
-    import {getDict} from '@/api/dict';
-    import {post} from '@/api/crud';
-    import website from '@/config/website';
 
     export default {
         data() {
@@ -76,7 +73,7 @@
                             span: 20,
                             //disabled: true,
                             type: "radio",
-                            dicData: getDict(website.Dict.Admin.Terminal),
+                            dicData: this.dict.get(this.website.Dict.Admin.Terminal),
                         },
                         {
                             label: '菜单级别',
@@ -84,7 +81,7 @@
                             span: 20,
                             disabled: true,
                             type: "radio",
-                            dicData: getDict(website.Dict.Base.MenuRoot),
+                            dicData: this.dict.get(this.website.Dict.Base.MenuRoot),
                         },
                         {
                             label: '菜单名称',
@@ -120,7 +117,7 @@
                 this.closeDialog(false);
             },
             submit(form, done) {
-                post(this.uri.info, this.obj).then((res) => {
+                this.crud.post(this.uri.info, this.obj).then((res) => {
                     console.debug(res);
                     this.closeDialog(true);
                     done(form);

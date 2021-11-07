@@ -10,10 +10,7 @@
 </template>
 
 <script>
-    import {getDict,} from '@/api/dict';
-    import {get, put} from '@/api/crud';
-    import website from '@/config/website';
-    import {baseUploadUrl} from "../../../config/env";
+    import {baseUploadUrl} from "@/config/env";
 
     export default {
         // name: "RoleUpd",
@@ -35,7 +32,7 @@
             rowData: function (newRowData, oldRowData) {
                 console.debug("原:", oldRowData.id, "  -->新:", newRowData.id)
                 if (newRowData != null && newRowData.id != null) {
-                    get(this.uri.info + "/" + newRowData.id).then((res) => {
+                    this.crud.get(this.uri.info + "/" + newRowData.id).then((res) => {
                         this.obj = res.data.data;
                     })
                 }
@@ -56,7 +53,7 @@
                             prop: 'terminal',
                             span: 20,
                             type: "radio",
-                            dicData: getDict(website.Dict.Admin.Terminal),
+                            dicData: this.dict.get(this.website.Dict.Admin.Terminal),
                         },
                         {
                             label: '头像',
@@ -104,7 +101,7 @@
                             prop: 'gender',
                             span: 20,
                             type: "radio",
-                            dicData: getDict(website.Dict.Base.Gender),
+                            dicData: this.dict.get(this.website.Dict.Base.Gender),
                         },
                         {
                             label: '年龄',
@@ -133,7 +130,7 @@
                             prop: 'position',
                             span: 20,
                             type: "radio",
-                            dicData: getDict(website.Dict.Admin.Position),
+                            dicData: this.dict.get(this.website.Dict.Admin.Position),
                         },
                         {
                             label: '角色',
@@ -148,7 +145,7 @@
                             prop: 'disable',
                             span: 20,
                             type: "switch",
-                            dicData: getDict(website.Dict.Base.Disable, false),
+                            dicData: this.dict.get(this.website.Dict.Base.Disable, false),
                         }
                     ]
                 }
@@ -159,7 +156,7 @@
                 this.closeDialog(false);
             },
             submit(form, done) {
-                put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
+                this.crud.put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
                     console.debug(res);
                     // 添加成功关闭弹层
                     if (res.data.code == 200) {

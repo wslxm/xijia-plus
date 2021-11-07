@@ -9,8 +9,8 @@ public interface VueAddUpdTemplate {
     String INPUT = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
-            "                            maxlength: '{maxlength}',\n" +
-            "                            showWordLimit: 'true',\n" +
+            "                            maxlength: {maxlength},\n" +
+            "                            showWordLimit: true,\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
             "                                required: true,\n" +
@@ -24,8 +24,8 @@ public interface VueAddUpdTemplate {
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'textarea',\n" +
-            "                            maxlength: '{maxlength}',\n" +
-            "                            showWordLimit: 'true',\n" +
+            "                            maxlength: {maxlength},\n" +
+            "                            showWordLimit: true,\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
             "                                required: true,\n" +
@@ -55,7 +55,7 @@ public interface VueAddUpdTemplate {
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'radio',\n" +
-            "                            dicData: getDict(website.Dict.Base.Default),\n" +
+            "                            dicData: this.dict.get(this.website.Dict.Base.Default),\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
             "                                required: true,\n" +
@@ -70,7 +70,7 @@ public interface VueAddUpdTemplate {
             "                            prop: '{prop}',\n" +
             "                            type: 'checkbox',\n" +
             "                            dataType: 'string', // 字符串模式\n" +
-            "                            dicData: getDict(website.Dict.Base.Default),\n" +
+            "                            dicData: this.dict.get(this.website.Dict.Base.Default),\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
             "                                required: true,\n" +
@@ -84,7 +84,7 @@ public interface VueAddUpdTemplate {
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'select',\n" +
-            "                            dicData: getDict(website.Dict.Base.Default),\n" +
+            "                            dicData: this.dict.get(this.website.Dict.Base.Default),\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
             "                                required: true,\n" +
@@ -98,7 +98,7 @@ public interface VueAddUpdTemplate {
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'switch',\n" +
-            "                            dicData: getDict(website.Dict.Base.Default),\n" +
+            "                            dicData: this.dict.get(this.website.Dict.Base.Default),\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
             "                                required: true,\n" +

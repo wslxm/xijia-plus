@@ -11,6 +11,7 @@
                    @row-click="handleRowClick">
             <template slot-scope="scope" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
+                <el-button type="primary" size="small" plain @click="updRoleAuthAll()">所有角色分配所有权限</el-button>
             </template>
             <template slot-scope="{scope,row,index,type,size}" slot="disable">
                 <el-switch v-model="row.disable" @change="updDisable(row,index,row.disable)"
@@ -38,9 +39,6 @@
 
 
 <script>
-    import {delRow, get, list, put} from '@/api/crud';
-    import {getDict} from '@/api/dict';
-    import website from '@/config/website';
 
     export default {
         components: {
@@ -52,6 +50,7 @@
                 uri: {
                     infoList: "/api/admin/role/list",
                     info: "/api/admin/role",
+                    updRoleAuthAll: "/api/admin/role/updRoleAuthAll",
                     menuList: "/api/admin/menu/list?disable=0&isTree=true&roleId={roleId}"
                 },
                 dialogWidth: "40%",
@@ -59,22 +58,24 @@
                 updDialogVisible: false,   // 添加弹层开关状态
                 rowData: {},               // 当前选中行数据()
                 menus: [],                 // 弹层菜单数据
-                page: website.pageParams,  // 分页参数
-                search: {},                // 查询参数
+                page: this.website.pageParams,  // 分页参数
+                search: {                        // 搜索参数
+                    terminal: 2
+                },
                 data: [],                  // 列表数据
                 option: {}                 // 列表配置( mounted() 方法中配置)
             }
         },
         created() {
             // 获取菜单数据(添加弹层数据)
-            get(this.uri.menuList.replace("{roleId}", "")).then((res) => {
+            this.crud.get(this.uri.menuList.replace("{roleId}", "")).then((res) => {
                 console.debug("==", res.data.data)
                 this.menus = res.data.data;
             })
         },
         mounted() {
             // 基础配置
-            this.option =  JSON.parse(JSON.stringify(website.optionConfig));
+            this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             // 字段配置
             this.option.column = [
                 {
@@ -98,8 +99,9 @@
                 {
                     label: '终端',
                     prop: 'terminal',
-                    dicData: getDict(website.Dict.Admin.Terminal, true, false, true),
+                    dicData: this.dict.get(this.website.Dict.Admin.Terminal, true, false, true),
                     search: true,
+                    searchValue: this.search.terminal,
                     searchSpan: 5,
                     type: "select",
                     searchRules: [{
@@ -131,7 +133,7 @@
              * @author wangsong
              */
             onLoad() {
-                list(this);
+                this.crud.list(this, true);
             },
             // 搜索,并重置页数为1
             searchChange(params, done) {
@@ -150,11 +152,21 @@
             },
             // 行删除
             rowDel(row, index) {
-                delRow(this, this.uri.info, row.id, index);
+                this.crud.delRow(this, this.uri.info, row.id, index);
             },
             // 启用/禁用
             updDisable(row, index, disable) {
-                put(this.uri.info + "/" + row.id, {disable: disable});
+                this.crud.put(this.uri.info + "/" + row.id, {disable: disable});
+            },
+            updRoleAuthAll() {
+                this.$confirm(`确认让所有角色拥有所有权限嘛?`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.crud.put(this.uri.updRoleAuthAll);
+                })
+
             },
             // 点击保存行数据(供行操作的任意地方获取数据)
             handleRowClick(row) {

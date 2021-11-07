@@ -42,7 +42,7 @@ RouterPlugin.install = function (option = {}) {
             let addRoutes = [];
             this.nextRoute(menus, addRoutes);
             // 注册
-            console.debug("路由数量：", addRoutes.length)
+            //console.debug("路由数量：", addRoutes.length)
             addRoutes.forEach((router) => {
                 this.safe.$router.addRoute(router)
             })
@@ -74,7 +74,7 @@ RouterPlugin.install = function (option = {}) {
             for (let i = 0; i < 5; i++) {
                 component = component.substring(0, 1) === "/" ? component.substring(1) : component;
             }
-            console.debug("动态路由注册：[" + name + "] [" + component + "][" + icon + "]")
+            //console.debug("动态路由注册：[" + name + "] [" + component + "][" + icon + "]")
             let router = {
                 path: "/",
                 component: () => import('@/page/index/index.vue'),
@@ -101,7 +101,6 @@ RouterPlugin.install = function (option = {}) {
 
 
 export const formatPath = (ele, first) => {
-    console.debug("====")
     const propsDefault = website.menu;
     const icon = ele[propsDefault.icon];
     ele[propsDefault.icon] = !icon ? propsDefault.iconDefault : icon;
