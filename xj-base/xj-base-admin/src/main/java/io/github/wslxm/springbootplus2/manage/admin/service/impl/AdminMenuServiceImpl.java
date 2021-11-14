@@ -52,6 +52,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
         String roleId = query.getRoleId();
         Boolean isTree = query.getIsTree();
         Boolean isBottomLayer = query.getIsBottomLayer();
+        Integer root = query.getRoot();
 
         // 1、查询菜单
         List<AdminMenuVO> menuVOList = baseMapper.list(terminal, loginUserId);
@@ -64,8 +65,11 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
         if (isBottomLayer != null && !isBottomLayer) {
             menuVOList = menuVOList.stream().filter(p -> (!p.getRoot().equals(Base.MenuRoot.V3.getValue()))).collect(Collectors.toList());
         }
-
-        // 4、pid，存在pid, 过滤其他数据
+        // 4、根据级别过滤(1-目录 2-菜单 3-页面)
+        if (root != null) {
+            menuVOList = menuVOList.stream().filter(p -> (p.getRoot() <= root)).collect(Collectors.toList());
+        }
+        // 5、pid，存在pid, 过滤其他数据
         if (StringUtils.isNotBlank(pId)) {
             menuVOList = menuVOList.stream().filter(p -> (p.getId().equals(pId) || p.getPid().equals(pId))).collect(Collectors.toList());
         }
@@ -82,7 +86,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
             }
         }
 
-        // 5、result(判断返回tree还是list)
+        // 6、result(判断返回tree还是list)
         List<AdminMenuVO> resMenuVoList = new LinkedList<>();
         if (isTree != null && isTree) {
             // 返回 tree (递归处理)

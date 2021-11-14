@@ -8,17 +8,16 @@
             <el-main>
                 当前表: <font color="#ff69b4"> {{treeRowData.name}} - {{treeRowData.comment}}</font>
                 <!-- crud -->
-                <avue-crud
-                        ref="crudField"
-                        :data="data"
-                        :option="option"
-                        :page.sync="page"
-                        :search.sync="search"
-                        @on-load="onLoad"
-                        @refresh-change="onLoad"
-                        @selection-change="selectionChange"
-                        @search-change="searchChange"
-                        @row-click="handleRowClick">
+                <avue-crud ref="crudField"
+                           :data="data"
+                           :option="option"
+                           :page.sync="page"
+                           :search.sync="search"
+                           @on-load="onLoad"
+                           @refresh-change="onLoad"
+                           @selection-change="selectionChange"
+                           @search-change="searchChange"
+                           @row-click="handleRowClick">
                     <template slot-scope="scope" slot="menuLeft">
                         <el-button type="primary" size="small" plain @click="finDGenerateGetPath()">查看生成路径</el-button>
                         <el-button type="primary" size="small" plain @click="findGeneratePreview()">生成预览代码(在线查看)</el-button>
@@ -49,11 +48,11 @@
         </el-container>
 
         <!-- {{generatePaths}}-->
-        <el-dialog v-dialogDrag title="查看生成路径" :visible.sync="findPageDialogVisible" top="6vh" width="60%" :destroy-on-close="true">
+        <el-dialog v-dialogDrag title="查看生成路径" v-if="findPageDialogVisible" :visible.sync="findPageDialogVisible" top="6vh" width="60%">
             <Paths :generatePaths="generatePaths"></Paths>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog v-dialogDrag title="生成代码预览" :visible.sync="generateCodePreviewDialogVisible" top="6vh" width="80%" :destroy-on-close="true">
+        <el-dialog v-dialogDrag title="生成代码预览" v-if="generateCodePreviewDialogVisible" :visible.sync="generateCodePreviewDialogVisible" top="6vh" width="80%">
             <CodePreview :generateCodePreviews="generateCodePreviews"></CodePreview>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
@@ -175,6 +174,9 @@
             })
 
         },
+        activated: function () {
+            this.crud.doLayout(this, this.$refs.crudField)
+        },
         methods: {
             onLoad() {
                 this.crud.get(this.uri.infoFieldList, {tableName: this.search.tableName}).then((res) => {
@@ -183,6 +185,7 @@
                         item.vueFieldType = 1;
                     })
                     this.checkeds();
+
                 })
             },
             searchChange(params, done) {

@@ -1,6 +1,7 @@
 <template>
     <div>
-        <avue-crud :data="data"
+        <avue-crud ref="crudUser"
+                   :data="data"
                    :option="option"
                    :page.sync="page"
                    :search.sync="search"
@@ -28,11 +29,11 @@
                 <el-avatar :src="row.head"></el-avatar>
             </template>
         </avue-crud>
-        <el-dialog title="新增" :visible.sync="addDialogVisible" :width="dialogWidth" @close="closeDialog" :destroy-on-close="true">
+        <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" @close="closeDialog">
             <Add :closeDialog="closeDialog" :uri="uri" :organs="organs" :roles="roles"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="编辑" :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog" :destroy-on-close="true">
+        <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible"  :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog">
             <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData" :organs="organs" :roles="roles"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
@@ -87,6 +88,9 @@
                 option: {},
             }
         },
+        activated: function () {
+            this.crud.doLayout(this, this.$refs.crudUser)
+        },
         mounted() {
             // 基础配置
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
@@ -129,6 +133,7 @@
                     type: "select",
                     search: true,
                     searchValue: this.search.terminal,
+                    searchOrder: 1,
                     dicData: this.dict.get(this.website.Dict.Admin.Terminal),
                 },
                 {
@@ -167,10 +172,11 @@
              */
             onLoad() {
                 this.crud.list(this, true);
+                this.crud.doLayout(this, this.$refs.crudUser)
             },
 
             // 搜索,并重置页数为1
-            searchChange(done) {
+            searchChange(params,done) {
                 this.page.currentPage = 1;
                 this.onLoad();
                 done();

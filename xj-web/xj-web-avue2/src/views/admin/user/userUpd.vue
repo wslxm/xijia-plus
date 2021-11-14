@@ -54,6 +54,11 @@
                             span: 20,
                             type: "radio",
                             dicData: this.dict.get(this.website.Dict.Admin.Terminal),
+                            rules: [{
+                                required: true,
+                                message: "请选择 终端 ",
+                                trigger: "blur"
+                            }]
                         },
                         {
                             label: '头像',
@@ -67,34 +72,50 @@
                             propsHttp: {
                                 res: 'data'
                             },
-                            uploadBefore: (file, done, loading, column) => {
+                            uploadBefore: (file, done) => {
                                 // 文件上传前处理
                                 done(file)
                             },
-                            uploadAfter: (res, done, loading, column) => {
+                            uploadAfter: (res, done) => {
                                 this.$message.success('上传成功')
                                 done()
-                            }
+                            },
+                            rules: [{
+                                required: true,
+                                message: "请上传 头像 ",
+                                trigger: "blur"
+                            }]
                         },
                         {
                             label: '姓名',
                             prop: 'fullName',
                             span: 20,
+                            rules: [{
+                                required: true,
+                                message: "请输入 姓名 ",
+                                trigger: "blur"
+                            }]
+
                         },
                         {
                             label: '账号',
                             prop: 'username',
                             span: 20,
-                        },
-                        {
-                            label: '密码',
-                            prop: 'password',
-                            span: 20,
+                            rules: [{
+                                required: true,
+                                message: "请输入 账号 ",
+                                trigger: "blur"
+                            }]
                         },
                         {
                             label: '手机号',
                             prop: 'phone',
                             span: 20,
+                            rules: [{
+                                required: true,
+                                message: "请输入 手机号 ",
+                                trigger: "blur"
+                            }]
                         },
                         {
                             label: '性别',
@@ -102,16 +123,31 @@
                             span: 20,
                             type: "radio",
                             dicData: this.dict.get(this.website.Dict.Base.Gender),
+                            rules: [{
+                                required: true,
+                                message: "请选择 性别 ",
+                                trigger: "blur"
+                            }]
                         },
                         {
                             label: '年龄',
                             prop: 'age',
                             span: 20,
+                            rules: [{
+                                required: true,
+                                message: "请输入 年龄 ",
+                                trigger: "blur"
+                            }]
                         },
                         {
                             label: '地址',
                             prop: 'address',
                             span: 20,
+                            rules: [{
+                                required: true,
+                                message: "请输入 地址 ",
+                                trigger: "blur"
+                            }]
                         },
                         {
                             label: '部门',
@@ -123,7 +159,12 @@
                                 value: "id",
                                 label: "name",
                                 children: "organs"
-                            }
+                            },
+                            rules: [{
+                                required: true,
+                                message: "请选择 部门 ",
+                                trigger: "blur"
+                            }]
                         },
                         {
                             label: '职位',
@@ -131,14 +172,23 @@
                             span: 20,
                             type: "radio",
                             dicData: this.dict.get(this.website.Dict.Admin.Position),
+                            rules: [{
+                                required: true,
+                                message: "请选择 职位 ",
+                                trigger: "blur"
+                            }]
                         },
                         {
                             label: '角色',
                             prop: 'roleIds',
                             span: 20,
-                            //dataType: 'string',
                             type: "checkbox",
-                            dicData: this.roles
+                            dicData: this.roles,
+                            rules: [{
+                                required: true,
+                                message: "请选择 角色 ",
+                                trigger: "blur"
+                            }]
                         },
                         {
                             label: '启用/禁用',
@@ -146,6 +196,11 @@
                             span: 20,
                             type: "switch",
                             dicData: this.dict.get(this.website.Dict.Base.Disable, false),
+                            rules: [{
+                                required: true,
+                                message: "请选择 启用/禁用 ",
+                                trigger: "blur"
+                            }]
                         }
                     ]
                 }
@@ -168,13 +223,6 @@
                     done(form);
                 })
             },
-            // uploadBefore(file, done, loading, column) {
-            //     done(file)
-            // },
-            // uploadAfter(res, done, loading, column) {
-            //     this.$message.success('上传成功')
-            //     done();
-            // },
         }
     }
 </script>

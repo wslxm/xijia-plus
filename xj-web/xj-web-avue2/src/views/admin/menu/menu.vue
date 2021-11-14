@@ -1,6 +1,6 @@
 <template>
     <div>
-        <avue-crud ref="crud"
+        <avue-crud ref="crudMenu"
                    :data="data"
                    :option="option"
                    :search.sync="search"
@@ -43,19 +43,18 @@
                 <el-avatar :src="row.head"></el-avatar>
             </template>
         </avue-crud>
-        <el-dialog title="新增" :visible.sync="addDialogVisible" :width="dialogWidth" @close="closeDialog" :destroy-on-close="true">
+        <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" @close="closeDialog">
             <Add :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="编辑" :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog" :destroy-on-close="true">
+        <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog">
             <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="变更父级" :visible.sync="updPidDialogVisible" width="25%" @close="closeDialog" :destroy-on-close="true">
+        <el-dialog title="变更父级" v-dialogDrag v-if="updPidDialogVisible" :visible.sync="updPidDialogVisible" width="25%" @close="closeDialog">
             <UpdPid :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></UpdPid>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-
     </div>
 </template>
 
@@ -73,12 +72,12 @@
                 uri: {
                     infoList: "/api/admin/menu/list?isTree=true",
                     info: "/api/admin/menu",
-                    infoPidList: "/api/admin/menu/list?disable=0&isTree=true&isBottomLayer=false",
+                    infoPidList: "/api/admin/menu/list?disable=0&isTree=true&root={root}",
                 },
                 dialogWidth: "60%",
                 addDialogVisible: false,      // 添加弹层开关状态
                 updDialogVisible: false,      // 添加弹层开关状态
-                updPidDialogVisible: false,      // 添加弹层开关状态
+                updPidDialogVisible: false,      // 变更父级开关状态
                 page: this.website.pageParams,   // 分页参数
                 search: {                        // 搜索参数
                     terminal: 2
@@ -87,6 +86,9 @@
                 rowData: {},                  // 当前选中行数据
                 option: {}
             }
+        },
+        activated: function () {
+            this.crud.doLayout(this, this.$refs.crudMenu)
         },
         mounted() {
             // 基础配置
@@ -115,7 +117,7 @@
                         label: '菜单名称',
                         prop: 'name',
                         align: 'left',
-                        search: true,
+                        search: false,
                         width: 200,
                         searchSpan: 5,
                     },
@@ -146,8 +148,6 @@
                     {
                         label: '禁用/启用',
                         prop: 'disable',
-                        //     type: "switch",
-                        //     dicData: getDict(website.Dict.Base.Disable),
                     },
                     {
                         label: '添加菜单/页面',
@@ -156,6 +156,7 @@
                     },
                 ]
         },
+
         methods: {
             /**
              * 直接触发：  首次自动加载 / 点击分页 / 切换分页 / 跳转也 / 点击刷新
@@ -163,8 +164,8 @@
              * @author wangsong
              */
             onLoad() {
-                console.debug("默认搜索值" + JSON.stringify(this.search))
                 this.crud.list(this, false);
+                this.crud.doLayout(this, this.$refs.crudMenu)
             },
             // 搜索,并重置页数为1
             searchChange(params, done) {

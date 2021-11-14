@@ -3,7 +3,7 @@
         <avue-form ref="form" v-model="obj" :option="option" @reset-change="emptytChange" @submit="submit">
 
             <!-- 菜单树 -->
-            <template slot-scope="scope" slot="text">
+            <template slot-scope="scope" slot="menuIds">
                 <el-card class="box-card">
                     <!--<div slot="header" class="clearfix">
                         <span>选择菜单</span>
@@ -83,24 +83,33 @@
                             type: "select",
                             dicData: this.dict.get(this.website.Dict.Admin.Terminal),
                             span: 20,
-                            mock: {
-                                type: 'dic'
-                            },
+                            rules: [{
+                                required: true,
+                            }],
                         },
                         {
                             label: "角色名称",
                             prop: "name",
                             span: 20,
+                            rules: [{
+                                required: true,
+                            }],
                         },
                         {
                             label: "code",
                             prop: "code",
-                            span: 20
+                            span: 20,
+                            rules: [{
+                                required: true,
+                            }],
                         },
                         {
                             label: "描叙",
                             prop: "desc",
-                            span: 20
+                            span: 20,
+                            rules: [{
+                                required: true,
+                            }],
                         },
                         // {
                         //     label: "是否禁用",
@@ -111,7 +120,10 @@
                         // },
                         {
                             label: '菜单',
-                            prop: 'text',
+                            prop: 'menuIds',
+                            rules: [{
+                                required: true,
+                            }],
                             // formslot: true,
                         }
                     ]
@@ -151,7 +163,7 @@
                 this.obj.menuIds = [];
                 this.obj.menuIds.push.apply(this.obj.menuIds, nodes.checkedKeys)
                 this.obj.menuIds.push.apply(this.obj.menuIds, nodes.halfCheckedKeys)
-                console.log("menuIds=", this.obj.menuIds)
+                console.debug("menuIds=", this.obj.menuIds)
             },
 
             /**

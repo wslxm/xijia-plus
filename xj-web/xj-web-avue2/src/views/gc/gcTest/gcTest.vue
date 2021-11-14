@@ -66,7 +66,7 @@
                  {
                     label: '名称 ',
                     prop: 'name',
-                    search: false,
+                    search: true,
                     overHidden: true,
                 },
                 {
@@ -142,7 +142,8 @@
             onLoad() {
                 this.crud.list(this,true);
             },
-            searchChange(done) {
+            searchChange(params,done) {
+                console.debug(params)
                 this.page.currentPage = 1;
                 this.onLoad();
                 done();

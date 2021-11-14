@@ -142,11 +142,11 @@ public interface VueAddUpdTemplate {
             "                            propsHttp: {\n" +
             "                                res: 'data'\n" +
             "                            },\n" +
-            "                            uploadBefore: (file, done, loading, column) => {\n" +
+            "                            uploadBefore: (file, done) => {\n" +
             "                                // 文件上传前处理\n" +
             "                                done(file)\n" +
             "                            },\n" +
-            "                            uploadAfter: (res, done, loading, column) => {\n" +
+            "                            uploadAfter: (res, done) => {\n" +
             "                                this.$message.success('上传成功')\n" +
             "                                done()\n" +
             "                            }\n" +

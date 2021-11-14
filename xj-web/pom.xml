@@ -12,7 +12,5 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>xj-web-avue2</module>
     </modules>
-
 </project>

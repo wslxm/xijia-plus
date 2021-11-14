@@ -47,7 +47,8 @@
                 console.debug("原:", oldRowData.id, "  -->新:", newRowData.id)
                 if (newRowData != null && newRowData.id != null) {
                     this.obj = this.rowData;
-                    this.crud.get(this.uri.infoPidList).then((res) => {
+                    let infoPidList = this.uri.infoPidList.replace("{root}", newRowData.root - 1);
+                    this.crud.get(infoPidList).then((res) => {
                         console.debug(res)
                         this.menuData = res.data.data;
                         this.menuDefaultCheckedKeys[0] = newRowData.pid;
@@ -63,7 +64,8 @@
             submit(form, done) {
                 // let pid = this.$refs.reftree.getCheckedKeys()[0];
                 let pid = this.obj.pid;
-                this.crud.put(this.uri.info + "/" + this.obj.id, {pid: pid}).then((res) => {
+                let terminal = this.obj.terminal;
+                this.crud.put(this.uri.info + "/" + this.obj.id, {pid: pid, terminal: terminal}).then((res) => {
                     console.debug(res);
                     // 添加成功关闭弹层
                     if (res.data.code == 200) {
@@ -81,6 +83,7 @@
             menusCheck(data, nodes) {
                 console.debug(data.id, nodes)
                 this.obj.pid = data.id;
+                this.obj.terminal = data.terminal;
                 this.$refs.reftree.setCheckedKeys([data.id]);
             },
         }

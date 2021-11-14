@@ -1,6 +1,7 @@
 <template>
     <div>
-        <avue-crud :data="data"
+        <avue-crud ref="crudRole"
+                   :data="data"
                    :option="option"
                    :page.sync="page"
                    :search.sync="search"
@@ -22,16 +23,21 @@
             </template>
             <template slot-scope="{row,index,type,size}" slot="menu">
                 <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updAuthDialogVisible = true">资源分配</el-button>
                 <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
             </template>
         </avue-crud>
         <!-- 弹层 -->
-        <el-dialog title="新增" v-dialogDrag :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog" :destroy-on-close="true">
+        <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
             <Add :closeDialog="closeDialog" :uri="uri" :menus="menus"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="编辑" v-dialogDrag :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog" :destroy-on-close="true">
+        <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
             <Upd :closeDialog="closeDialog" :uri="uri" :menus="menus" :rowData="rowData"></Upd>
+            <span slot="footer" class="dialog-footer"></span>
+        </el-dialog>
+        <el-dialog :title="'资源分配-'+this.rowData.name" v-dialogDrag v-if="updAuthDialogVisible" :visible.sync="updAuthDialogVisible" width="60%" top="6vh" @close="closeDialog">
+            <RoleAuth :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></RoleAuth>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
     </div>
@@ -43,19 +49,23 @@
     export default {
         components: {
             Add: () => import('./roleAdd'),
-            Upd: () => import('./roleUpd')
+            Upd: () => import('./roleUpd'),
+            RoleAuth: () => import('./roleAuth'),
         },
         data() {
             return {
                 uri: {
                     infoList: "/api/admin/role/list",
                     info: "/api/admin/role",
-                    updRoleAuthAll: "/api/admin/role/updRoleAuthAll",
-                    menuList: "/api/admin/menu/list?disable=0&isTree=true&roleId={roleId}"
+                    updRoleAuthAll: "/api/admin/role/updRoleAuthAll",  // 使用角色拥有所有权限
+                    menuList: "/api/admin/menu/list?disable=0&isTree=true&roleId={roleId}", // 分配菜单查询信息
+                    authListByRole: "/api/admin/authority/list?type=0&isTree=true&roleId={roleId}",  // 分配资源查询信息
+                    updRoleAuth: "/api/admin/role/updRoleAuth",   // 角色-分配资源
                 },
                 dialogWidth: "40%",
                 addDialogVisible: false,   // 添加弹层开关状态
                 updDialogVisible: false,   // 添加弹层开关状态
+                updAuthDialogVisible: false,   // 资源分配
                 rowData: {},               // 当前选中行数据()
                 menus: [],                 // 弹层菜单数据
                 page: this.website.pageParams,  // 分页参数
@@ -72,6 +82,9 @@
                 console.debug("==", res.data.data)
                 this.menus = res.data.data;
             })
+        },
+        activated: function () {
+            this.crud.doLayout(this, this.$refs.crudRole)
         },
         mounted() {
             // 基础配置
@@ -102,6 +115,7 @@
                     dicData: this.dict.get(this.website.Dict.Admin.Terminal, true, false, true),
                     search: true,
                     searchValue: this.search.terminal,
+                    searchOrder: 1,
                     searchSpan: 5,
                     type: "select",
                     searchRules: [{
@@ -134,6 +148,7 @@
              */
             onLoad() {
                 this.crud.list(this, true);
+                this.crud.doLayout(this, this.$refs.crudRole)
             },
             // 搜索,并重置页数为1
             searchChange(params, done) {
@@ -145,6 +160,7 @@
             closeDialog(isRefresh) {
                 this.addDialogVisible = false;
                 this.updDialogVisible = false;
+                this.updAuthDialogVisible = false;
                 this.rowData = {};
                 if (isRefresh != null && isRefresh) {
                     this.onLoad();

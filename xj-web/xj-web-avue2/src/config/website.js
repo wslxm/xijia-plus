@@ -7,7 +7,7 @@ export default {
     key: 'avue',  // 配置主键,目前用于存储
     indexTitle: 'spring-boot-plus2',
     lockPage: '/lock',
-    tokenTime: 6000,//token过期时间
+    tokenTime: 60 * 60 * 24 * 15, //token过期时间(秒)
     Authorization: 'TOKEN',
     //http的status默认放行不才用统一处理的,
     statusWhiteList: [400],
@@ -69,12 +69,13 @@ export default {
      */
     optionConfig: {
         card: true,              // 是否开启卡片模式
-        searchMenuSpan: 4,       // 搜索按钮于搜索框的间隙
+        searchMenuSpan: 2,       // 搜索按钮于搜索框的间隙
         border: true,            // 是否开启列分割线
-        // align: 'center',         // 内容是否居中(默认左对齐)
+        // align: 'center',      // 内容是否居中(默认左对齐)
         // menuAlign:'center',   // 菜单是否居中(开启了行编辑无效)
         index: true,             // 开启序号
         indexLabel: '序号',       // 序号命令
+        emptyBtn: false,          // 是否开启列表搜索的清空按钮
         // align: 'center',
         // menuAlign: 'center',
         // searchIcon: true,

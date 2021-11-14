@@ -3,7 +3,7 @@
         <avue-form ref="form" v-model="obj" :option="option" @reset-change="emptytChange" @submit="submit">
             <!-- 菜单树 -->
 
-            <template slot-scope="scope" slot="text">
+            <template slot-scope="scope" slot="menuIds">
                 <el-card class="box-card">
                     <!-- <div slot="header" class="clearfix">
                         <span>选择菜单</span>
@@ -101,7 +101,6 @@
                                 required: true,
                             }],
                         },
-
                         // {
                         //     label: "是否禁用",
                         //     prop: "disable",
@@ -114,7 +113,10 @@
                         // }
                         {
                             label: '菜单',
-                            prop: 'text',
+                            prop: 'menuIds',
+                            rules: [{
+                                required: true,
+                            }],
                             // formslot: true,
                         }
                     ]
