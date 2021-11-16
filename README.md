@@ -26,11 +26,13 @@ swagger2 文档, 地址：http://ip:port/swagger-ui.html
 ### 二、预览地址
 
 layui 版本演示地址： [http://xijia.plus/](http://xijia.plus/) 
+
 账号：10000  
 密码：10000
 
 
-vue 版本演示地址：  [http://vue.xijia.plus/](http://vue.xijia.plus/) 
+vue 版本演示地址：  [http://vue.xijia.plus/](http://vue.xijia.plus/)
+ 
 账号：test  
 密码：123456
 
@@ -94,7 +96,10 @@ vue 版本演示地址：  [http://vue.xijia.plus/](http://vue.xijia.plus/)
 - 13、接入 markdown 编辑器editor，并实现cv上传图片，满足你的文本编辑需求
 
 
-### 八、项目展示
+### 八、项目展示1 （新 avue版展示）
+![输入图片说明](https://images.gitee.com/uploads/images/2021/1116/120206_346806fb_2208600.png "屏幕截图.png")
+
+### 八、项目展示2
 
 登录页
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0925/103734_b430eda8_2208600.png "屏幕截图.png")
