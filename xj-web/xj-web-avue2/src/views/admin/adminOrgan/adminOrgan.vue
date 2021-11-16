@@ -1,6 +1,6 @@
 <template>
     <div>
-        <avue-crud ref="crudxjAdminBanner"
+        <avue-crud ref="crudadminOrgan"
                    :data="data"
                    :option="option"
                    :page.sync="page"
@@ -18,8 +18,13 @@
                            active-text="" inactive-text="">
                 </el-switch>
             </template>
+            <!-- 添加子类别 type=2 -->
+            <template slot-scope="{row,index,type,size}" slot="addOrgan">
+                <el-button type="primary" plain icon="el-icon-plus" v-show="row.root < 3" size="mini" @click="addDialogVisible = true">子公司/部门
+                </el-button>
+            </template>
             <template slot-scope="scope" slot="menuLeft">
-                <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
+                <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增公司</el-button>
             </template>
             <template slot-scope="{row,index,type,size}" slot="menu">
                 <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
@@ -28,7 +33,7 @@
         </avue-crud>
         <!-- 弹层 -->
         <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
-            <Add :closeDialog="closeDialog" :uri="uri"></Add>
+            <Add :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
         <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
@@ -42,14 +47,14 @@
 <script>
     export default {
         components: {
-            Add: () => import('./xjAdminBannerAdd'),
-            Upd: () => import('./xjAdminBannerUpd')
+            Add: () => import('./adminOrganAdd'),
+            Upd: () => import('./adminOrganUpd')
         },
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/xj/banner/list",
-                    info: "/api/admin/xj/banner",
+                    infoList: "/api/admin/organ/list?isTree=true",
+                    info: "/api/admin/organ",
                 },
                 dialogWidth: "60%",
                 addDialogVisible: false,
@@ -63,81 +68,74 @@
         },
         mounted() {
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
+            //this.option.menu = false
+            this.option.defaultExpandAll = true
+            this.option.index = false
+            this.option.rowKey = "id"
+            //this.option. = "id"
+            this.option.height = 800
+            this.option.treeProps = {
+                children: 'organs'
+            }
             this.option.column = [
                 {
-                    label: '位置',
-                    prop: 'position',
+                    label: '部门/公司名称',
+                    prop: 'name',
                     search: false,
                     overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Admin.BannerPosition),
                 },
                 {
-                    label: 'banner标题',
-                    prop: 'name',
-                    search: true,
-                    searchLabelWidth: 90,
+                    label: '部门编码 ',
+                    prop: 'code',
+                    search: false,
                     overHidden: true,
                 },
+
                 {
-                    label: 'banner描叙',
+                    label: '部门/公司描叙',
                     prop: 'desc',
                     search: false,
                     overHidden: true,
                 },
                 {
-                    label: 'banner图片 ',
-                    prop: 'imgUrl',
-                    search: false,
-                    overHidden: true,
-                    html: true,
-                    formatter: (val) => {
-                        if (val.imgUrl == null || val.imgUrl == '') {
-                            return "";
-                        } else {
-                            let imgs = val.imgUrl.split(",");
-                            let html = "";
-                            imgs.forEach(item => html += "<img src='" + item + "'  style='height: 40px;width: 50px;margin-top: 10px'>")
-                            return html;
-                        }
-                    }
-                },
-                {
-                    label: 'banner排序',
+                    label: '排序',
                     prop: 'sort',
                     search: false,
                     overHidden: true,
                 },
                 {
-                    label: 'banner禁用',
+                    label: '禁用',
                     prop: 'disable',
                     search: false,
                     overHidden: true,
                 },
                 {
-                    label: '是否跳转',
-                    prop: 'isSkip',
+                    label: '级别',
+                    prop: 'root',
                     search: false,
-                    overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Base.BannerIsSkip),
                 },
                 {
-                    label: '跳转地址url',
-                    prop: 'skipUrl',
-                    search: false,
-                    overHidden: true,
+                    label: '添加子类别',
+                    prop: 'addOrgan',
                 },
-
+                // {
+                //     label: '级别',
+                //     prop: 'root',
+                //     search: false,
+                //     overHidden: true,
+                //     dicData: this.dict.get(this.website.Dict.Base.Default),
+                // },
             ]
         },
         created() {
         },
         activated: function () {
-            this.crud.doLayout(this, this.$refs.crudxjAdminBanner)
+            this.crud.doLayout(this, this.$refs.crudadminOrgan)
         },
         methods: {
             onLoad() {
-                this.crud.list(this, true);
-                this.crud.doLayout(this, this.$refs.crudxjAdminBanner)
+                this.crud.list(this, false)
+                this.crud.doLayout(this, this.$refs.crudadminOrgan)
             },
             searchChange(params, done) {
                 console.debug(params)

@@ -132,11 +132,11 @@
                             propsHttp: {
                                 res: 'data'
                             },
-                            uploadBefore: (file, done, loading, column) => {
+                            uploadBefore: (file, done) => {
                                 // 文件上传前处理
                                 done(file)
                             },
-                            uploadAfter: (res, done, loading, column) => {
+                            uploadAfter: (res, done) => {
                                 this.$message.success('上传成功')
                                 done()
                             }

@@ -31,9 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UXjAdminBannerController extends BaseController<XjAdminBannerService> {
 
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/list/{position}")
     @ApiOperation(value = "列表-位置查询")
-    @ApiImplicitParam(name = "position", value = "位置(字典code)", required = true, paramType = "query", example = "")
+    @ApiImplicitParam(name = "position", value = "位置(字典code)", required = true, paramType = "path", example = "")
     public R<IPage<XjAdminBannerVO>> list(@PathVariable Integer position) {
         XjAdminBannerQuery query = new XjAdminBannerQuery();
         query.setPosition(position);

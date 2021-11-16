@@ -114,6 +114,7 @@ export default {
             PayType: "PAY_TYPE",  // 支付类型
             WalletType: "WALLET_TYPE",  // 流水类型
             VueFieldType: "VUE_FIELD_TYPE",  // vue
+            ConfigType: "CONFIG_TYPE",  // vue
         },
         // 系统枚举(动态值)
         Admin: {

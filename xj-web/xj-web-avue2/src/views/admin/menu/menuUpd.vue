@@ -50,7 +50,7 @@
                         {
                             label: '菜单级别',
                             prop: 'root',
-                            span: 24,
+                            span: 20,
                             disabled: true,
                             type: "radio",
                             dicData: this.dict.get(this.website.Dict.Base.MenuRoot),
@@ -58,7 +58,7 @@
                         {
                             label: '菜单名称',
                             prop: 'name',
-                            span: 24,
+                            span: 20,
                         },
                         {
                             label: '路由',

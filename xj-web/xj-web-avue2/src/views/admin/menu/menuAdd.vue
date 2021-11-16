@@ -1,6 +1,5 @@
 <template>
     <div>
-        {{obj}}
         <avue-form :defaults.sync="defaults" ref="form" v-model="obj" :option="option"
                    @reset-change="emptytChange"
                    @submit="submit">

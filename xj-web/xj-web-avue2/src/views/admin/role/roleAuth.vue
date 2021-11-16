@@ -308,6 +308,6 @@
 
 <style>
     .checkList {
-        padding-left: 60%;
+        padding-left: 50%;
     }
 </style>

@@ -33,6 +33,8 @@
                     </el-option>
                 </el-select>
             </el-col>
+            <!--generateDictDialogVisible = true-->
+            <el-button type="primary" size="small" plain @click="generateDict()">生成枚举</el-button>
         </el-card>
 
         <avue-crud ref="crudDict"
@@ -64,6 +66,7 @@
             </template>
             <template slot-scope="{row,index,type,size}" slot="menu">
                 <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button> <!--row.type=3,-->
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updPidDialogVisible = true">变更父级</el-button> <!--row.type=3,-->
                 <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
             </template>
         </avue-crud>
@@ -88,6 +91,26 @@
             <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
+        <el-dialog title="变更父级"
+                   adminDictionary.vue
+                   v-if="updPidDialogVisible"
+                   :visible.sync="updPidDialogVisible"
+                   width="30%"
+                   top="6vh"
+                   @close="closeDialog">
+            <AdminDictionaryPid :closeDialog="closeDialog"  :uri="uri" :rowData="rowData"></AdminDictionaryPid>
+            <span slot="footer" class="dialog-footer"></span>
+        </el-dialog>
+        <el-dialog title="预览"
+                   adminDictionary.vue
+                   v-if="generateDictDialogVisible"
+                   :visible.sync="generateDictDialogVisible"
+                   :width="dialogWidth"
+                   top="6vh"
+                   @close="closeDialog">
+            <GenerateDict :closeDialog="closeDialog" :generateDictData="generateDictData"></GenerateDict>
+            <span slot="footer" class="dialog-footer"></span>
+        </el-dialog>
     </div>
 </template>
 
@@ -96,30 +119,33 @@
     export default {
         components: {
             Add: () => import('./adminDictionaryAdd'),
-            Upd: () => import('./adminDictionaryUpd')
+            Upd: () => import('./adminDictionaryUpd'),
+            GenerateDict: () => import('./generateDictPreview'), //生成js/枚举类预览
+            AdminDictionaryPid: () => import('./adminDictionaryPid') //变更父级
         },
         data() {
             return {
                 uri: {
                     infoList: "/api/admin/dictionary/list",
                     info: "/api/admin/dictionary",
+                    generateEnum: "/api/admin/dictionary/generateEnum?enumsKey={enumsKey}",
+                    updPidInfoList: "/api/admin/dictionary/list?isTree=true&isBottomLayer=false",
+                    updPidInfoList: "/api/admin/dictionary/list?isTree=true&isBottomLayer=false",
                 },
                 dialogWidth: "60%",
                 addDialogVisible: false,
                 updDialogVisible: false,
+                updPidDialogVisible: false,
+                generateDictDialogVisible: false,
                 page: this.website.pageParams,
-                search: {},
-                form: {
-                    diceOneCode: "",
-                    diceTwoCode: "",
-                    diceThreeCode: ""
-                },
+                search: {}, // 一级/二级/三级选中数据
                 data: [],
                 rowData: {},
                 option: {},
-                dictOneDict: [],
-                dictTwoDict: [],
-                dictThreeDict: [],
+                dictOneDict: [], // 一级选择数据
+                dictTwoDict: [], // 二级选择数据
+                dictThreeDict: [], // 三级选择数据
+                generateDictData: [], // 生成枚举数据
             }
         },
         mounted() {
@@ -178,7 +204,7 @@
             this.crud.doLayout(this, this.$refs.crudDict)
         },
         methods: {
-            onLoad(type) {
+            onLoad() {
                 console.log("===")
                 // 获取搜索key- code
                 let code = null;
@@ -206,8 +232,9 @@
             },
             closeDialog(isRefresh) {
                 this.addDialogVisible = false;
-                this.addIsSubclass = false;
                 this.updDialogVisible = false;
+                this.generateDictDialogVisible = false;
+                this.updPidDialogVisible = false;
                 this.rowData = {};
                 if (isRefresh != null && isRefresh) {
                     this.onLoad();
@@ -276,6 +303,21 @@
                     return true;
                 }
                 return false;
+            },
+            // 生成枚举
+            generateDict() {
+                let enumsKey = "ENUMS";
+                if (this.search.diceThreeCode != null) {
+                    enumsKey = this.search.diceThreeCode;
+                } else if (this.search.diceTwoCode != null) {
+                    enumsKey = this.search.diceTwoCode;
+                } else if (this.search.diceOneCode != null) {
+                    enumsKey = this.search.diceOneCode;
+                }
+                this.crud.get(this.uri.generateEnum.replace("{enumsKey}", enumsKey)).then((res) => {
+                    this.generateDictDialogVisible = true;
+                    this.generateDictData = res.data.data;
+                })
             }
         }
     }

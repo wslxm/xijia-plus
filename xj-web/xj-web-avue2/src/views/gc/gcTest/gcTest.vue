@@ -1,6 +1,7 @@
 <template>
     <div>
-        <avue-crud :data="data"
+        <avue-crud ref="crudgcTest"
+                   :data="data"
                    :option="option"
                    :page.sync="page"
                    :search.sync="search"
@@ -26,11 +27,11 @@
             </template>
         </avue-crud>
         <!-- 弹层 -->
-        <el-dialog title="新增" v-dialogDrag :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog" :destroy-on-close="true">
+        <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
             <Add :closeDialog="closeDialog" :uri="uri"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="编辑" v-dialogDrag :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog" :destroy-on-close="true">
+        <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
             <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
@@ -138,9 +139,13 @@
         },
         created() {
         },
+        activated: function () {
+            this.crud.doLayout(this, this.$refs.crudgcTest)
+        },
         methods: {
             onLoad() {
                 this.crud.list(this,true);
+                this.crud.doLayout(this, this.$refs.crudgcTest)
             },
             searchChange(params,done) {
                 console.debug(params)

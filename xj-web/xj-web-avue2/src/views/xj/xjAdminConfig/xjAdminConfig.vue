@@ -1,6 +1,6 @@
 <template>
     <div>
-        <avue-crud ref="crudxjAdminBanner"
+        <avue-crud ref="crudxjAdminConfig"
                    :data="data"
                    :option="option"
                    :page.sync="page"
@@ -42,14 +42,14 @@
 <script>
     export default {
         components: {
-            Add: () => import('./xjAdminBannerAdd'),
-            Upd: () => import('./xjAdminBannerUpd')
+            Add: () => import('./xjAdminConfigAdd'),
+            Upd: () => import('./xjAdminConfigUpd')
         },
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/xj/banner/list",
-                    info: "/api/admin/xj/banner",
+                    infoList: "/api/admin/xj/config/list",
+                    info: "/api/admin/xj/config",
                 },
                 dialogWidth: "60%",
                 addDialogVisible: false,
@@ -64,67 +64,36 @@
         mounted() {
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.column = [
-                {
-                    label: '位置',
-                    prop: 'position',
-                    search: false,
+                 {
+                    label: '配置code',
+                    prop: 'code',
+                    search: true,
                     overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Admin.BannerPosition),
                 },
                 {
-                    label: 'banner标题',
+                    label: '配置名称',
                     prop: 'name',
                     search: true,
-                    searchLabelWidth: 90,
                     overHidden: true,
                 },
                 {
-                    label: 'banner描叙',
-                    prop: 'desc',
+                    label: '配置内容',
+                    prop: 'content',
                     search: false,
                     overHidden: true,
                 },
                 {
-                    label: 'banner图片 ',
-                    prop: 'imgUrl',
-                    search: false,
-                    overHidden: true,
-                    html: true,
-                    formatter: (val) => {
-                        if (val.imgUrl == null || val.imgUrl == '') {
-                            return "";
-                        } else {
-                            let imgs = val.imgUrl.split(",");
-                            let html = "";
-                            imgs.forEach(item => html += "<img src='" + item + "'  style='height: 40px;width: 50px;margin-top: 10px'>")
-                            return html;
-                        }
-                    }
-                },
-                {
-                    label: 'banner排序',
+                    label: '排序',
                     prop: 'sort',
                     search: false,
                     overHidden: true,
                 },
                 {
-                    label: 'banner禁用',
-                    prop: 'disable',
+                    label: '类型',
+                    prop: 'type',
                     search: false,
                     overHidden: true,
-                },
-                {
-                    label: '是否跳转',
-                    prop: 'isSkip',
-                    search: false,
-                    overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Base.BannerIsSkip),
-                },
-                {
-                    label: '跳转地址url',
-                    prop: 'skipUrl',
-                    search: false,
-                    overHidden: true,
+                    dicData: this.dict.get(this.website.Dict.Base.ConfigType),
                 },
 
             ]
@@ -132,14 +101,14 @@
         created() {
         },
         activated: function () {
-            this.crud.doLayout(this, this.$refs.crudxjAdminBanner)
+            this.crud.doLayout(this, this.$refs.crudxjAdminConfig)
         },
         methods: {
             onLoad() {
-                this.crud.list(this, true);
-                this.crud.doLayout(this, this.$refs.crudxjAdminBanner)
+                this.crud.list(this,true);
+                this.crud.doLayout(this, this.$refs.crudxjAdminConfig)
             },
-            searchChange(params, done) {
+            searchChange(params,done) {
                 console.debug(params)
                 this.page.currentPage = 1;
                 this.onLoad();
@@ -164,10 +133,16 @@
                 this.rowData = row;
             },
             cellStyle({row, column}) {
-                if (column.property == "disable") {
-                    // fontWeight: 'bold',fontSize: '20'
-                    return row.disable == 0 ? {color: 'green'} : {color: 'red'}
-                }
+                 if (column.property == "type") {
+                     // fontWeight: 'bold',fontSize: '20'
+                     if(row.type == 0){
+                         return {color: 'green'}
+                     }else if(row.type == 1){
+                         return {color: '#20B2AA'}
+                     }else if(row.type == 2){
+                         return {color: '#9932CC'}
+                     }
+                 }
             }
         }
     }

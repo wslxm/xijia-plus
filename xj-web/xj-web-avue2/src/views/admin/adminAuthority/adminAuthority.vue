@@ -1,5 +1,20 @@
 <template>
     <div>
+        <!-- 搜索 -->
+        <el-card class="el-card__body">
+            <el-col :span="5">
+                <label>选择接口端: </label>
+                <el-select v-model="search.type" clearable size="small" style="width: 220px" placeholder="" @change="typeDictHandle()">
+                    <el-option
+                            v-for="item in typeDict"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+            </el-col>
+        </el-card>
+
         <avue-crud ref="crudAuth"
                    :data="data"
                    :option="option"
@@ -101,8 +116,8 @@
                     label: '终端',
                     prop: 'type',
                     type: "select",
-                    search: true,
-                    searchValue: this.search.type,
+                    search: false,
+                    //searchValue: this.search.type,
                     overHidden: true,
                     dicData: this.dict.get(this.website.Dict.Base.AuthorityType),
                 },
@@ -132,13 +147,13 @@
         created() {
         },
         activated: function () {
-            console.log( this.$refs.crudAuth)
+            console.log(this.$refs.crudAuth)
             this.crud.doLayout(this, this.$refs.crudAuth)
         },
         methods: {
             onLoad() {
                 this.crud.list(this, false);
-                console.log( this.$refs.crudAuth)
+                console.log(this.$refs.crudAuth)
                 this.crud.doLayout(this, this.$refs.crudAuth)
             },
             searchChange(params, done) {
@@ -172,12 +187,17 @@
             handleRowClick(row) {
                 this.rowData = row;
             },
+
             cellStyle({row, column}) {
                 if (column.property == "disable") {
                     // fontWeight: 'bold',fontSize: '20'
                     return row.disable == 0 ? {color: 'green'} : {color: 'red'}
                 }
-            }
+            },
+            // 切换端
+            typeDictHandle() {
+                this.onLoad()
+            },
         },
     }
 </script>

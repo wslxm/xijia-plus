@@ -32,7 +32,7 @@ public class XjAdminBannerServiceImpl extends BaseIServiceImpl<XjAdminBannerMapp
                 .orderByAsc(XjAdminBanner::getPosition)
                 .orderByAsc(XjAdminBanner::getSort)
                 .orderByDesc(XjAdminBanner::getCreateTime)
-                .eq(query.getPosition() != null, XjAdminBanner::getName, query.getPosition())
+                .eq(query.getPosition() != null, XjAdminBanner::getPosition, query.getPosition())
                 .eq(StringUtils.isNotBlank(query.getName()), XjAdminBanner::getName, query.getName());
         if (query.getCurrent() <= 0) {
             IPage<XjAdminBannerVO> page = new Page<>();
