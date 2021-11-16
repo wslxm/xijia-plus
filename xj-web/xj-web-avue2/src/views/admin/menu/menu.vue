@@ -97,6 +97,7 @@
             this.option.defaultExpandAll = true
             //this.option.cellBtnt = true
             this.option.rowKey = "id"
+            this.option.height = 600
             // 字段配置
             this.option.treeProps = {
                 children: 'menus'

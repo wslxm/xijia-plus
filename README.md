@@ -30,7 +30,9 @@ layui 版本演示地址： [http://xijia.plus/](http://xijia.plus/)
 密码：10000
 
 
-vue 版本演示地址： 开发中(敬请期待)
+vue 版本演示地址：  [http://vue.xijia.plus/](http://vue.xijia.plus/) 
+账号：test  
+密码：123456
 
 ### 三、文档地址：
 

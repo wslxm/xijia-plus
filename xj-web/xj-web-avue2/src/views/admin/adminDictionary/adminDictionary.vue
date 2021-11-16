@@ -156,7 +156,7 @@
             this.option.index = false
             this.option.rowKey = "id"
             //this.option. = "id"
-            this.option.height = 800
+            this.option.height = 600
             this.option.treeProps = {
                 children: 'dictList'
             }
