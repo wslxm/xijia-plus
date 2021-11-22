@@ -192,15 +192,16 @@
 </script>
 
 <style>
+    .box-card {
+        margin-top: -20px !important;
+        width: 150%;
+        height: 400px;
+        overflow-y: auto!important; /* 开启滚动显示溢出内容 */
+    }
+
     /*滚动条样式 滚动条整体部分，可以设置宽度啥的*/
     .box-card::-webkit-scrollbar {
         width: 1px;
     }
 
-    .box-card {
-        margin-top: -20px !important;
-        width: 150%;
-        height: 400px;
-        overflow-y: auto /* 开启滚动显示溢出内容 */
-    }
 </style>

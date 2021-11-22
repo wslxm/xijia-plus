@@ -21,7 +21,7 @@ export default {
         search: true,
         lock: true,
         screenshot: true,
-        fullscren: true,
+        fullscren: false,
         theme: true,
         menu: true,
         color: true,

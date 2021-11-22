@@ -1,24 +1,21 @@
 <template>
     <div class="avue-top">
         <div class="top-bar__left">
-            <div class="avue-breadcrumb"
-                 :class="[{ 'avue-breadcrumb--active': isCollapse }]"
-                 v-if="setting.collapse&&!isHorizontal">
-                <i class="icon-navicon"
-                   @click="setCollapse"></i>
+            <div class="avue-breadcrumb" :class="[{ 'avue-breadcrumb--active': isCollapse }]" v-if="setting.collapse&&!isHorizontal">
+                <i class="icon-navicon" @click="setCollapse"></i>
             </div>
         </div>
         <div class="top-bar__title">
-            <div class="top-bar__item top-bar__item--show"
-                 v-if="setting.menu">
+            <div class="top-bar__item top-bar__item--show" v-if="setting.menu">
                 <top-menu ref="topMenu"></top-menu>
             </div>
-            <span class="top-bar__item"
-                  v-if="setting.search">
-        <top-search></top-search>
-      </span>
+            <span class="top-bar__item" v-if="setting.search">
+                 <top-search></top-search>
+           </span>
         </div>
+        <!--  顶部按钮 -->
         <div class="top-bar__right">
+            <!-- 主题颜色 -->
             <el-tooltip v-if="setting.color"
                         effect="dark"
                         :content="$t('navbar.color')"
@@ -27,6 +24,7 @@
                     <top-color></top-color>
                 </div>
             </el-tooltip>
+            <!-- 日志 -->
             <el-tooltip v-if="setting.debug"
                         effect="dark"
                         :content="logsFlag?$t('navbar.bug'):logsLen+$t('navbar.bugs')"
@@ -35,6 +33,7 @@
                     <top-logs></top-logs>
                 </div>
             </el-tooltip>
+            <!-- 锁屏 -->
             <el-tooltip v-if="setting.lock"
                         effect="dark"
                         :content="$t('navbar.lock')"
@@ -43,6 +42,7 @@
                     <top-lock></top-lock>
                 </div>
             </el-tooltip>
+            <!-- 主题 -->
             <el-tooltip v-if="setting.theme"
                         effect="dark"
                         :content="$t('navbar.theme')"
@@ -51,13 +51,16 @@
                     <top-theme></top-theme>
                 </div>
             </el-tooltip>
+            <!-- 消息 -->
             <el-tooltip effect="dark"
                         :content="$t('navbar.notice')"
                         placement="bottom">
                 <div class="top-bar__item top-bar__item--show">
-                    <top-notice></top-notice>
+                   <!-- <top-notice></top-notice>-->
+                    <top-msg></top-msg>
                 </div>
             </el-tooltip>
+            <!-- 语言 -->
             <el-tooltip effect="dark"
                         :content="$t('navbar.language')"
                         placement="bottom">
@@ -65,6 +68,7 @@
                     <top-lang></top-lang>
                 </div>
             </el-tooltip>
+            <!-- 全屏 -->
             <el-tooltip v-if="setting.fullscren"
                         effect="dark"
                         :content="isFullScren?$t('navbar.screenfullF'):$t('navbar.screenfull')"
@@ -74,13 +78,13 @@
                        @click="handleScreen"></i>
                 </div>
             </el-tooltip>
-            <img class="top-bar__img"
-                 :src="userInfo.avatar">
+            <!-- 头像-->
+            <img class="top-bar__img" :src="userInfo.head">
+            <!-- 下拉菜单  -->
             <el-dropdown>
-        <span class="el-dropdown-link">
-          {{userInfo.username}}
-          <i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
+                 <span class="el-dropdown-link">  {{userInfo.username}}
+                     <i class="el-icon-arrow-down el-icon--right"></i>
+                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <!--          <el-dropdown-item>-->
                     <!--            <router-link to="/">{{$t('navbar.dashboard')}}</router-link>-->
@@ -109,6 +113,7 @@
     import topLogs from "./top-logs";
     import topColor from "./top-color";
     import topNotice from './top-notice'
+    import topMsg from './top-msg'
     import topLang from "./top-lang";
 
     export default {
@@ -120,6 +125,7 @@
             topLogs,
             topColor,
             topNotice,
+            topMsg,
             topLang
         },
         name: "top",

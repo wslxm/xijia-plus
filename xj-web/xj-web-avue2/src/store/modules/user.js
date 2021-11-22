@@ -101,6 +101,11 @@ const user = {
                 resolve()
             })
         },
+        /**
+         * 获取顶部菜单
+         * @returns {Promise<unknown>}
+         * @constructor
+         */
         GetTopMenu() {
             return new Promise(resolve => {
                 getTopMenu().then((res) => {
@@ -118,34 +123,32 @@ const user = {
          * @version 1.0.1
          */
         GetMenu({commit}, item) {
+            console.log("菜单获取", item);
             return new Promise(resolve => {
-                if (item != null && item.id != null) {
-                    // 直接缓存中获取返回
-                    let menus = getStore({name: 'xj-menus'}) || [];
-                    let newMenus = [];
-                    for (let i = 0; i < menus.length; i++) {
-                        if (item.id == menus[i].id) {
-                            newMenus = menus[i].menus
-                            break;
+                //item != null ? item.id : null
+                getMenu().then((res) => {
+                    let menus = res.data.data;
+                    let newMenus = deepClone(menus);
+                    newMenus.forEach(ele => formatPath(ele, true));
+                    // 缓存所有菜单数据
+                    //setStore({name: 'xj-menus', content: newMenus})
+                    if (item != null && item.id) {
+                        for (let i = 0; i < newMenus.length; i++) {
+                            if (newMenus[i].id == item.id) {
+                                // 缓存左菜单
+                                commit('SET_MENUALL', newMenus[i].menus)
+                                commit('SET_MENU', newMenus[i].menus)
+                                resolve(newMenus[i].menus)
+                                break
+                            }
                         }
-                    }
-                    // 缓存左菜单
-                    commit('SET_MENUALL', newMenus)
-                    commit('SET_MENU', newMenus)
-                    resolve(newMenus);
-                } else {
-                    getMenu(item.id).then((res) => {
-                        let menus = res.data.data;
-                        let newMenus = deepClone(menus);
-                        newMenus.forEach(ele => formatPath(ele, true));
-                        // 缓存所有菜单数据
-                        setStore({name: 'xj-menus', content: newMenus})
+                    } else {
                         // 缓存左菜单
                         commit('SET_MENUALL', newMenus[0].menus)
                         commit('SET_MENU', newMenus[0].menus)
                         resolve(newMenus[0].menus)
-                    })
-                }
+                    }
+                })
             })
         },
     },

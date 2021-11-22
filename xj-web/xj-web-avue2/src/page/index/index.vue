@@ -113,12 +113,19 @@
                         if (item.path) {
                             itemActive = item;
                         } else {
-                            if (this.menu[childItemActive].length == 0) {
+                            console.log(this.menu)
+                            // if (this.menu[childItemActive].length == 0) {
+                            //     itemActive = this.menu[childItemActive];
+                            // } else {
+                            //     itemActive = this.menu[childItemActive].children[childItemActive];
+                            // }
+                            if (this.menu[childItemActive].menus == null || this.menu[childItemActive].menus.length == 0) {
                                 itemActive = this.menu[childItemActive];
                             } else {
-                                itemActive = this.menu[childItemActive].children[childItemActive];
+                                itemActive = this.menu[childItemActive].menus[childItemActive];
                             }
                         }
+                        console.debug("3")
                         this.$store.commit('SET_MENUID', item);
                         this.$router.push({
                             path: itemActive.path

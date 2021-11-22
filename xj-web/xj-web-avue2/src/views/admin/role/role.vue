@@ -28,7 +28,7 @@
             </template>
         </avue-crud>
         <!-- 弹层 -->
-        <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
+        <el-dialog title="新增"  v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
             <Add :closeDialog="closeDialog" :uri="uri" :menus="menus"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>

@@ -2,7 +2,7 @@
     <div>
         <!-- 搜索 -->
         <el-card class="el-card__body">
-            <el-col :span="5">
+            <el-col :span="24">
                 <label>选择接口端: </label>
                 <el-select v-model="search.type" clearable size="small" style="width: 220px" placeholder="" @change="typeDictHandle()">
                     <el-option

@@ -32,7 +32,7 @@
             </template>
             <template slot-scope="{row,index,type,size}" slot="addMenuOrPage">
                 <el-button type="primary" plain icon="el-icon-plus" v-show="row.root <= 2" size="mini" @click="addDialogVisible = true,row.nextRoot=2">菜单</el-button>
-                <el-button type="primary" plain icon="el-icon-plus" v-show="row.root == 2" size="mini" @click="addDialogVisible = true,row.nextRoot=3">页面</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" v-show="row.root <= 2" size="mini" @click="addDialogVisible = true,row.nextRoot=3">页面</el-button>
             </template>
             <template slot-scope="{row,index,type,size}" slot="menu">
                 <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>

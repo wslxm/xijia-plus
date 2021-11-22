@@ -2,9 +2,10 @@
     <div>
         <!-- 搜索 -->
         <el-card class="el-card__body">
-            <el-col :span="5">
+            <el-col :span="24">
                 <label>字典筛选: </label>
-                <el-select v-model="search.diceOneCode" clearable size="small" style="width: 220px" placeholder="筛选一级" @change="diceOneHandle(search.diceOneCode)">
+                <span style="margin-left: 5px">
+                    <el-select v-model="search.diceOneCode" clearable size="small" style="width: 220px" placeholder="筛选一级" @change="diceOneHandle(search.diceOneCode)">
                     <el-option
                             v-for="item in dictOneDict"
                             :key="item.code"
@@ -12,29 +13,29 @@
                             :value="item.code">
                     </el-option>
                 </el-select>
-            </el-col>
-            <el-col :span="4">
-                <el-select v-model="search.diceTwoCode" clearable size="small" style="width: 220px" placeholder="筛选二级" @change="diceTwoHandle(search.diceTwoCode)">
+                </span>
+                <span style="margin-left: 20px">
+                    <el-select v-model="search.diceTwoCode" clearable size="small" style="width: 220px" placeholder="筛选二级" @change="diceTwoHandle(search.diceTwoCode)">
                     <el-option
                             v-for="item in dictTwoDict"
                             :key="item.code"
                             :label="item.name"
                             :value="item.code">
                     </el-option>
-                </el-select>
-            </el-col>
-            <el-col :span="4">
-                <el-select v-model="search.diceThreeCode" clearable size="small" style="width: 220px" placeholder="筛选三级" @change="diceThreeHandle(search.diceThreeCode)">
+                </el-select></span>
+                <span style="margin-left: 20px">
+                    <el-select v-model="search.diceThreeCode" clearable size="small" style="width: 220px" placeholder="筛选三级" @change="diceThreeHandle(search.diceThreeCode)">
                     <el-option
                             v-for="item in dictThreeDict"
                             :key="item.code"
                             :label="item.name"
                             :value="item.code">
                     </el-option>
-                </el-select>
+                </el-select></span>
+                <span style="margin-left: 20px">
+                    <el-button type="primary" size="small" plain @click="generateDict()">生成枚举</el-button>
+                </span>
             </el-col>
-            <!--generateDictDialogVisible = true-->
-            <el-button type="primary" size="small" plain @click="generateDict()">生成枚举</el-button>
         </el-card>
 
         <avue-crud ref="crudDict"
@@ -98,7 +99,7 @@
                    width="30%"
                    top="6vh"
                    @close="closeDialog">
-            <AdminDictionaryPid :closeDialog="closeDialog"  :uri="uri" :rowData="rowData"></AdminDictionaryPid>
+            <AdminDictionaryPid :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></AdminDictionaryPid>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
         <el-dialog title="预览"

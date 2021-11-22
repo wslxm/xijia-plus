@@ -157,16 +157,17 @@
     }
 </script>
 <style>
-
-    /*滚动条样式 滚动条整体部分，可以设置宽度啥的*/
-    .box-card::-webkit-scrollbar {
-        width: 1px;
-    }
-
     .box-card {
         margin-top: -20px !important;
         width: 150%;
         height: 400px;
-        overflow-y: auto;
+        overflow-y: auto!important;
     }
+
+    /*滚动条样式 滚动条整体部分，可以设置宽度啥的*/
+    .box-card::-webkit-scrollbar {
+        width: 10px;
+    }
+
+
 </style>
