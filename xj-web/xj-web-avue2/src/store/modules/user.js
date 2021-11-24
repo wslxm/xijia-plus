@@ -15,8 +15,10 @@ const user = {
         token: getStore({name: 'token'}) || '',
     },
     actions: {
+
         //根据用户名登录
         LoginByUsername({commit}, userInfo = {}) {
+            console.log("---")
             // const user = encryption({
             //   data: userInfo,
             //   type: 'Aes',

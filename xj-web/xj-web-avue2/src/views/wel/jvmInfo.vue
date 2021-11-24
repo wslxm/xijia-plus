@@ -175,11 +175,11 @@
                 this.obj = res.data.data;
             })
         },
-        // created() {
-        //     this.crud.get(this.uri.jvmInfo).then((res) => {
-        //         this.obj = res.data.data;
-        //     })
-        // },
+        created() {
+            this.crud.get(this.uri.jvmInfo).then((res) => {
+                this.obj = res.data.data;
+            })
+        },
         methods: {
             dateDifference(faultDate, completeTime) {
                 var stime = new Date(faultDate).getTime();

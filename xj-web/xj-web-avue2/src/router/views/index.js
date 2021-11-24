@@ -5,8 +5,7 @@ export default [
     {
         path: '/wel',
         component: () => Store.getters.isMacOs ? import('@/mac/index.vue') : import('@/page/index/index.vue'),
-        //redirect: 'wel/index',
-        redirect: 'views/wel/jvmInfo', // 找的动态路由
+        redirect: 'wel/jvmInfo',
         children: [{
             path: 'index',
             name: '首页',
@@ -24,7 +23,17 @@ export default [
             },
             component: () =>
                 import( /* webpackChunkName: "views" */ '@/views/wel/dashboard.vue')
-        }]
+        }, {
+            path: 'jvmInfo',
+            name: '首页',
+            meta: {
+                i18n: 'dashboard',
+                menu: true, // 是否加载左菜单
+            },
+            component: () =>
+                import( /* webpackChunkName: "views" */ '@/views/wel/jvmInfo.vue')
+        }
+        ]
     }
     , {
         path: '/form-detail',

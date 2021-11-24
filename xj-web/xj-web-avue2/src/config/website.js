@@ -11,7 +11,7 @@ export default {
     Authorization: 'TOKEN',
     //http的status默认放行不才用统一处理的,
     statusWhiteList: [400],
-    //配置首页不可关闭
+    //标签是否可关闭
     isFirstPage: false,
     setting: {
         sidebar: 'vertical',
@@ -26,7 +26,7 @@ export default {
         menu: true,
         color: true,
     },
-    // 配置首页路径
+    // 配置首页路径，只能配置静态路由,在登录页动态路由还没有进行注册,
     fistPage: {
         label: "首页",
         value: "/",

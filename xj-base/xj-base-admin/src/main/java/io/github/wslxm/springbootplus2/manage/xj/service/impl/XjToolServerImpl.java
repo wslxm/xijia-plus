@@ -5,6 +5,7 @@ import com.sun.management.OperatingSystemMXBean;
 import io.github.wslxm.springbootplus2.core.utils.LocalDateTimeUtil;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjToolJvmInfoVO;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjToolServer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedInputStream;
@@ -16,10 +17,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
+@Slf4j
 public class XjToolServerImpl implements XjToolServer {
 
 
@@ -66,76 +66,80 @@ public class XjToolServerImpl implements XjToolServer {
      */
     @SuppressWarnings("all")
     private XjToolJvmInfoVO.RamVO getRam() {
-        double kb = 1024 * 1024 * 1024;
+        double gb = 1024 * 1024 * 1024;
         // linux 获取服务器内存信息目录
         double totalMemory = 0;
         double remainingMemory = 0;
         double usedMemory = 0;
         double usageRate = 0;
         String property = System.getProperty("os.name");
-        if ("Linux".equals(property)) {
-            // System.out.println("进来了：");
-            // linux 使用命令获取，如果此次部分linux 系统无法获取，请使用其他方法
-            String newCmd = "free -h";
-            String arr = null;
-            try {
-                Process process = Runtime.getRuntime().exec(new String[]{"bash", "-c", newCmd});
-                arr = loadStream(process.getInputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            String[] rams = arr.split("\n");
-            String ramsValue = rams[1];
-            ramsValue = ramsValue.replace("Mem:", "");
-            // 获取后的参数对应索引(单位，GB) 0=total  1=used   2=free  3=shared  4=buff/cache   5=available
-            List<Double> ramVals = new ArrayList<>();
-            for (int i = 0; i < ramsValue.length(); i++) {
-                if (ramsValue.charAt(i) != ' ') {
-                    String val = "";
-                    for (int j = i; j < ramsValue.length(); j++) {
-                        if (ramsValue.charAt(i) == ' ') {
-                            break;
-                        } else {
-                            val += ramsValue.charAt(i);
-                            i++;
-                        }
-                    }
-                    // System.out.println("val=" + val);
-                    // Mi表示（1Mi=1024x1024）,M表示（1M=1000x1000）（其它单位类推， 如Ki/K Gi/G）
-                    double valDouble = 0;
-                    if (val.indexOf("Gi") != -1) {
-                        valDouble = Double.parseDouble(val.replace("Gi", ""));
-                    } else if (val.indexOf("G") != -1) {
-                        valDouble = Double.parseDouble(val.replace("G", ""));
-                    } else if (val.indexOf("Mi") != -1) {
-                        valDouble = Double.parseDouble(val.replace("Mi", "")) / 1024;
-                    } else if (val.indexOf("M") != -1) {
-                        valDouble = Double.parseDouble(val.replace("M", "")) / 1000;
-                    } else if (val.indexOf("Ki") != -1) {
-                        valDouble = Double.parseDouble(val.replace("Ki", "")) / 1024 / 1024;
-                    } else if (val.indexOf("K") != -1) {
-                        valDouble = Double.parseDouble(val.replace("K", "")) / 1000 / 1000;
-                    }
-                    //System.out.println("valDouble=" + valDouble);
-                    ramVals.add(valDouble);
-                }
-            }
-            //System.out.println("参数：" + JSON.toJSONString(ramVals));
-            totalMemory = ramVals.get(0);                // 总内存
-            remainingMemory = ramVals.get(5);            // 剩于内存
-            usedMemory = totalMemory - remainingMemory;  // 已用内存(总内存-剩余内存)
-            usageRate = usedMemory / totalMemory;        // 已使用比率 (已用内存/最大内存)
-
-        } else {
-            // 非linux 使用api获取
-            double maxMemory = Runtime.getRuntime().maxMemory() / kb;
-            OperatingSystemMXBean os = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-            //  available
-            totalMemory = (double) os.getTotalPhysicalMemorySize() / kb;     // 总内存
-            remainingMemory = (double) os.getFreePhysicalMemorySize() / kb;  // 剩于内存（需减去当前服务）
-            usedMemory = totalMemory - remainingMemory;                      // 已用内存(总内存-剩余内存)
-            usageRate = usedMemory / totalMemory;                            // 已使用比率 (已用内存/最大内存)
-        }
+        // if ("Linux".equals(property)) {
+        //     // System.out.println("进来了：");
+        //     // linux 使用命令获取，如果此次部分linux 系统无法获取，请使用其他方法
+        //     //String newCmd = "free -h";
+        //     String newCmd = "free -m";
+        //     String arr = null;
+        //     try {
+        //         Process process = Runtime.getRuntime().exec(new String[]{"bash", "-c", newCmd});
+        //         //Process process = Runtime.getRuntime().exec(new String[]{"/bin/bash", "-c", newCmd});
+        //         arr = loadStream(process.getInputStream());
+        //     } catch (IOException e) {
+        //         e.printStackTrace();
+        //     }
+        //     log.info("ram：\r\n" + arr);
+        //     String[] rams = arr.split("\n");
+        //     String ramsValue = rams[1];
+        //     ramsValue = ramsValue.replace("Mem:", "");
+        //     // 获取后的参数对应索引(单位，GB) 0=total  1=used   2=free  3=shared  4=buff/cache   5=available
+        //     List<Double> ramVals = new ArrayList<>();
+        //     for (int i = 0; i < ramsValue.length(); i++) {
+        //         if (ramsValue.charAt(i) != ' ') {
+        //             String val = "";
+        //             for (int j = i; j < ramsValue.length(); j++) {
+        //                 if (ramsValue.charAt(i) == ' ') {
+        //                     break;
+        //                 } else {
+        //                     val += ramsValue.charAt(i);
+        //                     i++;
+        //                 }
+        //             }
+        //             // System.out.println("val=" + val);
+        //             // Mi表示（1Mi=1024x1024）,M表示（1M=1000x1000）（其它单位类推， 如Ki/K Gi/G）
+        //             //  double valDouble = 0;
+        //             //  if (val.indexOf("Gi") != -1) {
+        //             //      valDouble = Double.parseDouble(val.replace("Gi", ""));
+        //             //  } else if (val.indexOf("G") != -1) {
+        //             //      valDouble = Double.parseDouble(val.replace("G", ""));
+        //             //  } else if (val.indexOf("Mi") != -1) {
+        //             //      valDouble = Double.parseDouble(val.replace("Mi", "")) / 1024;
+        //             //  } else if (val.indexOf("M") != -1) {
+        //             //      valDouble = Double.parseDouble(val.replace("M", "")) / 1000;
+        //             //  } else if (val.indexOf("Ki") != -1) {
+        //             //      valDouble = Double.parseDouble(val.replace("Ki", "")) / 1024 / 1024;
+        //             //  } else if (val.indexOf("K") != -1) {
+        //             //      valDouble = Double.parseDouble(val.replace("K", "")) / 1000 / 1000;
+        //             //  }
+        //             double valDouble = Double.parseDouble(val) / 1000;
+        //             //System.out.println("valDouble=" + valDouble);
+        //             ramVals.add(valDouble);
+        //         }
+        //     }
+        //     //System.out.println("参数：" + JSON.toJSONString(ramVals));
+        //     totalMemory = ramVals.get(0);                // 总内存
+        //     remainingMemory = ramVals.get(5);            // 剩于内存
+        //     usedMemory = totalMemory - remainingMemory;  // 已用内存(总内存-剩余内存)
+        //     usageRate = usedMemory / totalMemory;        // 已使用比率 (已用内存/最大内存)
+        //
+        // } else {
+        // 非linux 使用api获取
+        double maxMemory = Runtime.getRuntime().maxMemory() / gb;
+        OperatingSystemMXBean os = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+        //  available
+        totalMemory = (double) os.getTotalPhysicalMemorySize() / gb;     // 总内存
+        remainingMemory = (double) os.getFreePhysicalMemorySize() / gb;  // 剩于内存（需减去当前服务）
+        usedMemory = totalMemory - remainingMemory;                      // 已用内存(总内存-剩余内存)
+        usageRate = usedMemory / totalMemory;                            // 已使用比率 (已用内存/最大内存)
+        //     }
         // vo
         XjToolJvmInfoVO.RamVO ramVO = new XjToolJvmInfoVO.RamVO();
         ramVO.setTotalMemory(new BigDecimal(totalMemory).setScale(2, RoundingMode.HALF_UP).doubleValue());
