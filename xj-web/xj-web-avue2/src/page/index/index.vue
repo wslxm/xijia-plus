@@ -137,3 +137,8 @@
         }
     };
 </script>
+<style>
+    .avue-tags__menu{
+        z-index: 1!important;
+    }
+</style>

@@ -1,9 +1,10 @@
 <template>
-    <div style="font-size: 14px;margin-left: 2%;width: 96%;">
-        <el-card style="height: 220px;margin-top: 0px">
-            <el-row>
-                <el-col :span="9">
-                   CPU
+    <div style="font-size: 14px;margin-left: 1%; width: 98%;">
+
+        <el-row>
+            <el-col :span="12">
+                <el-card style="height: 220px; margin-top: 0px">
+                    CPU
                     <el-divider></el-divider>
                     <div class="grid-content bg-purple">
                         <el-col :span="16">
@@ -21,10 +22,12 @@
                             <div style="margin-top: 5px">{{this.obj.cpu.usageRate}} %</div>
                         </el-col>
                     </div>
-                </el-col>
-                <el-col :span="4"></el-col>
-                <el-col :span="9">
-                   内存
+                </el-card>
+            </el-col>
+           <!-- <el-col :span="2"></el-col>-->
+            <el-col :span="12">
+                <el-card style="height: 220px;margin-top: 0px;">
+                    内存
                     <el-divider></el-divider>
                     <div class="grid-content bg-purple-light">
                         <el-col :span="10">
@@ -49,9 +52,10 @@
                             <div style="margin-top: 5px"> {{this.obj.jvmRam.usageRate}} %</div>
                         </el-col>
                     </div>
-                </el-col>
-            </el-row>
-        </el-card>
+                </el-card>
+            </el-col>
+        </el-row>
+
 
         <el-card style="height: 150px;margin-top: 10px">
             <el-row>
@@ -95,7 +99,7 @@
                             <div style="margin-top: 5px">项目路径</div>
                             <div style="margin-top: 5px">程序PID</div>
                         </el-col>
-                      <el-col :span="8">
+                        <el-col :span="8">
                             <div>{{this.obj.jvmInformation.javaName}}</div>
                             <div style="margin-top: 5px">{{this.obj.jvmInformation.javaVersion}}</div>
                             <div style="margin-top: 5px">{{this.obj.jvmInformation.jdkPath}}</div>
@@ -108,7 +112,7 @@
                         </el-col>
                         <el-col :span="6">
                             <div>{{this.obj.jvmInformation.startTime}}</div>
-                            <div style="margin-top: 5px">{{ dateDifference(this.obj.jvmInformation.startTime,  new Date().getTime())  }}</div>
+                            <div style="margin-top: 5px">{{ dateDifference(this.obj.jvmInformation.startTime, new Date().getTime()) }}</div>
                         </el-col>
                     </div>
                 </el-col>
@@ -119,7 +123,7 @@
         <el-card style="height: 150px;margin-top: 10px">
             <el-row>
                 <el-col :span="24">
-                   磁盘状态
+                    磁盘状态
                     <el-divider></el-divider>
                     <div class="grid-content bg-purple">
                         <el-col :span="5">
@@ -147,7 +151,7 @@
                 <el-col :span="4"></el-col>
             </el-row>
         </el-card>
-        <div style="height: 50px"> </div>
+        <div style="height: 50px"></div>
     </div>
 </template>
 
@@ -160,12 +164,12 @@
                     jvmInfo: "/api/admin/xj/jvm/jvmInfo"
                 },
                 obj: {
-                    fileInfo:{},
-                    cpu:{},
-                    jvmRam:{},
-                    ram:{},
-                    serverInformation:{},
-                    jvmInformation:{}
+                    fileInfo: {},
+                    cpu: {},
+                    jvmRam: {},
+                    ram: {},
+                    serverInformation: {},
+                    jvmInformation: {}
                 }
             }
         },

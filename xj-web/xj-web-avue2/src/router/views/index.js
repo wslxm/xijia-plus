@@ -29,6 +29,7 @@ export default [
             meta: {
                 i18n: 'dashboard',
                 menu: true, // 是否加载左菜单
+                isTab: true, // 是否加载tab
             },
             component: () =>
                 import( /* webpackChunkName: "views" */ '@/views/wel/jvmInfo.vue')
