@@ -13,6 +13,7 @@
                            :option="option"
                            :page.sync="page"
                            :search.sync="search"
+                           :table-loading="loading"
                            @on-load="onLoad"
                            @refresh-change="onLoad"
                            @selection-change="selectionChange"
@@ -85,6 +86,7 @@
                     generateCode: "/api/admin/generate/generateCode",   // 生成代码
                     generateCodeVue: "/api/admin/generate/generateCodeVue", // 只生成vue代码(直接下载)
                 },
+                loading: true,
                 dialogWidth: "60%",
                 findPageDialogVisible: false,
                 generateCodePreviewDialogVisible: false,
@@ -179,13 +181,14 @@
         },
         methods: {
             onLoad() {
+                this.loading = true;
                 this.crud.get(this.uri.infoFieldList, {tableName: this.search.tableName}).then((res) => {
                     this.data = res.data.data;
                     res.data.data.forEach((item) => {
                         item.vueFieldType = 1;
                     })
                     this.checkeds();
-
+                    this.loading = false;
                 })
             },
             searchChange(params, done) {

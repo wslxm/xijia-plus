@@ -2,16 +2,15 @@ package io.github.wslxm.springbootplus2.config.aspect.gateway;
 
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
-import io.github.wslxm.springbootplus2.manage.xj.model.entity.XjAdminLog;
-import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminLogService;
-import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.core.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.cache.CacheUtil;
+import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
+import io.github.wslxm.springbootplus2.manage.xj.model.entity.XjAdminLog;
+import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +50,7 @@ public class SysLog {
 
 
     /**
-     * 打印日志到控制台 / 记录访问日志到数据库
+     * 请求日志收集 / 打印日志到控制台
      * <P>
      *  如需统一日志收集,在此收集内容到统一日志收集器中
      * </P>
@@ -61,7 +60,7 @@ public class SysLog {
      * @date 2020/10/28 0028 15:04
      * @version 1.0.1
      */
-    public XjAdminLog log(ProceedingJoinPoint proceed, HttpServletRequest request) {
+    public XjAdminLog requestLogCollectAndPrint(ProceedingJoinPoint proceed, HttpServletRequest request) {
         String serverName = request.getServerName();         // 获取域名(服务器路径)
         String referer = request.getHeader("referer");     // 请求来源(发起者当前页面路径)
         String ip = getIpAddress(request);                   // 获取用户真实ip(发起者)
@@ -120,7 +119,7 @@ public class SysLog {
         this.printLog(log);
         // 数据是否入库,根据请求方式判断,yml 日志配置中配置
         if (methods.indexOf(method) != -1) {
-            adminLogService.save(log);
+            // adminLogService.save(log);
             return log;
         } else {
             return null;
@@ -129,7 +128,7 @@ public class SysLog {
 
 
     /**
-     * 访问结束后添加日志结果到数据库
+     * 响应日志记录 / 添加日志数据持久化到数据库
      * @param1 future 请求日志记录线程
      * @param state=0 失败 (默认)  type=1 成功
      * @param obj 返回数据
@@ -140,7 +139,7 @@ public class SysLog {
      * @date 2020/10/28 0028 20:03
      * @version 1.0.1
      */
-    public void updLog(Future<XjAdminLog> future, Integer state, Long executeTime, Long businessTime, String method, String uri, Object obj) {
+    public void responseLogAndSave(Future<XjAdminLog> future, Integer state, Long executeTime, Long businessTime, String method, String uri, Object obj) {
         // 判断是否记录到数据库,根据请求方式区分
         if (methods.indexOf(method) == -1) {
             return;
@@ -171,13 +170,11 @@ public class SysLog {
                 }
                 // 记录返回数据
                 if (logs != null) {
-                    adminLogService.update(new LambdaUpdateWrapper<XjAdminLog>()
-                            .set(XjAdminLog::getExecuteTime, executeTime)
-                            .set(XjAdminLog::getBusinessTime, businessTime)
-                            .set(XjAdminLog::getState, state)
-                            .set(XjAdminLog::getResponseData, data)
-                            .eq(XjAdminLog::getId, logs.getId())
-                    );
+                    logs.setExecuteTime(executeTime);
+                    logs.setExecuteTime(businessTime);
+                    logs.setState(state);
+                    logs.setResponseData(data);
+                    adminLogService.save(logs);
                 } else {
                     log.info("note logging failed logs null request uri " + uri);
                 }
@@ -228,19 +225,11 @@ public class SysLog {
     /**
      * 打印请求信息
      * @author wangsong
-     * @param ip
-     * @param host
-     * @param port
-     * @param className
-     * @param url
-     * @param args
-     * @param classDesc
-     * @param methodDesc
+     * @param adminlog
      * @date 2020/11/9 0009 16:33
      * @return void
      * @version 1.0.1
      */
-    //String userName, String userId, String ip, String host, Integer port, String className, String url, Object[] args, String classDesc, String methodDesc
     private void printLog(XjAdminLog adminlog) {
         // 控制台打印
         log.info("" +
@@ -251,7 +240,6 @@ public class SysLog {
                 adminlog.getFullName(), adminlog.getUserId(), adminlog.getClassDesc(), adminlog.getMethodDesc(), adminlog.getClassName(),
                 String.format("%-65s", adminlog.getUrl()), adminlog.getRequestData()
         );
-
         // 用户ip:[{}]   设备名:[{}]   端口：[{}]
         // adminlog.getIp(), adminlog.getHost(), adminlog.getPort()
     }

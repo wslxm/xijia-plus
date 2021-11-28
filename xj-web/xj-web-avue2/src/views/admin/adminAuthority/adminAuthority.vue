@@ -20,6 +20,7 @@
                    :option="option"
                    :page.sync="page"
                    :search.sync="search"
+                   :table-loading="loading"
                    :cell-style="cellStyle"
                    @on-load="onLoad"
                    @refresh-change="onLoad"
@@ -70,6 +71,7 @@
                     infoList: "/api/admin/authority/list?isTree=true",
                     info: "/api/admin/authority",
                 },
+                loading: true,
                 dialogWidth: "60%",
                 addDialogVisible: false,
                 updDialogVisible: false,
@@ -147,13 +149,11 @@
         created() {
         },
         activated: function () {
-            console.log(this.$refs.crudAuth)
             this.crud.doLayout(this, this.$refs.crudAuth)
         },
         methods: {
             onLoad() {
                 this.crud.list(this, false);
-                console.log(this.$refs.crudAuth)
                 this.crud.doLayout(this, this.$refs.crudAuth)
             },
             searchChange(params, done) {

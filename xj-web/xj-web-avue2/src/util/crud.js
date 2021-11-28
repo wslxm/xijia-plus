@@ -148,7 +148,9 @@ export default {
      * @version 1.0.0
      */
     list(thih, isPage, isCallback) {
-
+        // 开启 loading 等待
+        thih.loading = true;
+        //setTimeout(() => {
         // 默认分页
         isPage = isPage == null ? true : isPage
         isCallback = isCallback == null ? false : isCallback
@@ -181,17 +183,24 @@ export default {
                 // 回调
                 thih.onLoadCallback(res);
             }
-            // // 解决表格错位(需表格ref=crud)
-            // thih.$nextTick(() => {
-            //     if (thih.$refs.crud != null) {
-            //         thih.$refs.crud.doLayout();
-            //     }
-            // });
+            // 关闭 loading 等待
+            //thih.$nextTick(() => {
+            thih.loading = false;
+            // })
         })
+        //}, 0);
     },
     /**
      * 此方法为表格数据重置后，重置表格样式，防止表格 操作栏和列表 位置对不上
      * @author wangsong
+     * <P>
+     *      // // 解决表格错位(需表格ref=crud)
+     *      //  thih.$nextTick(() => {
+     *      //      if (thih.$refs.crud != null) {
+     *      //          thih.$refs.crud.doLayout();
+     *      //      }
+     *      //  });
+     * </P>
      * @thih
      * @ref  表格 ref值 如：this.$refs.crud
      * @mail  1720696548@qq.com

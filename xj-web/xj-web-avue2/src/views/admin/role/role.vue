@@ -5,6 +5,7 @@
                    :option="option"
                    :page.sync="page"
                    :search.sync="search"
+                   :table-loading="loading"
                    :cell-style="cellStyle"
                    @on-load="onLoad"
                    @refresh-change="onLoad"
@@ -62,6 +63,7 @@
                     authListByRole: "/api/admin/authority/list?type=0&isTree=true&roleId={roleId}",  // 分配资源查询信息
                     updRoleAuth: "/api/admin/role/updRoleAuth",   // 角色-分配资源
                 },
+                loading: true,
                 dialogWidth: "40%",
                 addDialogVisible: false,   // 添加弹层开关状态
                 updDialogVisible: false,   // 添加弹层开关状态

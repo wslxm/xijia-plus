@@ -43,6 +43,7 @@
                    :option="option"
                    :page.sync="page"
                    :search.sync="search"
+                   :table-loading="loading"
                    :cell-style="cellStyle"
                    @on-load="onLoad"
                    @refresh-change="onLoad"
@@ -133,6 +134,7 @@
                     updPidInfoList: "/api/admin/dictionary/list?isTree=true&isBottomLayer=false",
                     updPidInfoList: "/api/admin/dictionary/list?isTree=true&isBottomLayer=false",
                 },
+                loading: true,
                 dialogWidth: "60%",
                 addDialogVisible: false,
                 updDialogVisible: false,

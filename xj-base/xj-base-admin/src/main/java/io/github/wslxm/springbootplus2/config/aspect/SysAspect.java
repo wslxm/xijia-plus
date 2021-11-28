@@ -1,12 +1,12 @@
 package io.github.wslxm.springbootplus2.config.aspect;
 
-import io.github.wslxm.springbootplus2.config.aspect.gateway.*;
-import io.github.wslxm.springbootplus2.manage.xj.model.entity.XjAdminLog;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import io.github.wslxm.springbootplus2.config.aspect.gateway.*;
 import io.github.wslxm.springbootplus2.core.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.core.config.error.GlobalExceptionHandler;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.manage.xj.model.entity.XjAdminLog;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -63,11 +63,11 @@ public class SysAspect {
     @Autowired
     private SysEncrypt sysEncrypt;
 
-     // /**
-     //  * 验签
-     //  */
-     // @Autowired
-     // private SysSing sysSing;
+    /**
+     * 参数加密解密
+     */
+    @Autowired
+    private SysRateLimiter sysRateLimiter;
 
     /**
      * 全局异常
@@ -174,41 +174,43 @@ public class SysAspect {
                 return proceed.proceed();
             }
         }
-        // 1、验签, 移动到 SysSingFilter 过滤器中进行, 验证失败不会进入到aop
-        //  R<Boolean> singR = sysSing.isSing(proceed);
-        //  if (!singR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-        //      return singR;
-        //  }
-
+        // 验签, 已被移动到 SysSingFilter 过滤器中进行, 验证失败不会进入到aop
         // 2、记录请求日志, 将异步执行(与业务代码并行处理),不影响程序响应, future 为线程的返回值，用于后面异步执行响应结果
-        Future<XjAdminLog> future = executorService.submit(() -> sysLog.log(proceed, request));
+        Future<XjAdminLog> future = executorService.submit(() -> sysLog.requestLogCollectAndPrint(proceed, request));
 
+        // 3、限流
+        R rateLimiter = sysRateLimiter.run(proceed);
+        if (!rateLimiter.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+            // 7、记录响应结果
+            sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, rateLimiter);
+            return rateLimiter;
+        }
 
-        // 3、幂等验证
+        // 4、幂等验证
         R apiIdempotentR = sysIdempotent.run(proceed);
         if (!apiIdempotentR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
             // 7、记录响应结果
-            sysLog.updLog(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, apiIdempotentR);
+            sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, apiIdempotentR);
             return apiIdempotentR;
         }
 
-        // 4、黑/白名单认证
+        // 5、黑/白名单认证
         R blacklistR = sysBlacklist.blacklistAuth();
         if (!blacklistR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
             // 7、记录响应结果
-            sysLog.updLog(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, blacklistR);
+            sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, blacklistR);
             return blacklistR;
         }
 
-        // 5、登录授权认证
+        // 6、登录授权认证
         R<JwtUser> jwtUserR = sysAuth.loginAuth();
         if (!jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
             // 7、记录响应结果
-            sysLog.updLog(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, jwtUserR);
+            sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, jwtUserR);
             return jwtUserR;
         }
 
-        // 6、调用业务方法并记录执行时间
+        // 7、调用业务方法并记录执行时间
         long startTime2 = System.currentTimeMillis();
         Object obj = null;
         try {
@@ -224,11 +226,11 @@ public class SysAspect {
             obj = globalExceptionHandler.exceptionHandler(e);
         }
 
-        // 7、记录响应结果和记录响应时间(state=1-成功,等待请求线程执行完毕立即执行)
+        // 8、记录响应结果和记录响应时间(state=1-成功,等待请求线程执行完毕立即执行)
         long endTime1 = System.currentTimeMillis();
-        sysLog.updLog(future, 1, (endTime1 - startTime1), (endTime1 - startTime2), method, uri, obj);
+        sysLog.responseLogAndSave(future, 1, (endTime1 - startTime1), (endTime1 - startTime2), method, uri, obj);
 
-        // 8、返回结果
+        // 9、返回结果
         return obj;
     }
 }

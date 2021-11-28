@@ -1,12 +1,13 @@
 package io.github.wslxm.springbootplus2.client.xj.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.github.wslxm.springbootplus2.manage.xj.model.query.XjAdminBannerQuery;
-import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminBannerVO;
-import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminBannerService;
+import io.github.wslxm.springbootplus2.config.aspect.annotation.XjCurrentLimit;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.manage.xj.model.query.XjAdminBannerQuery;
+import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminBannerVO;
+import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminBannerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -30,10 +31,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "UXjAdminBannerController", tags = "yh--base-plus--banner")
 public class UXjAdminBannerController extends BaseController<XjAdminBannerService> {
 
-
     @GetMapping(value = "/list/{position}")
     @ApiOperation(value = "列表-位置查询")
     @ApiImplicitParam(name = "position", value = "位置(字典code)", required = true, paramType = "path", example = "")
+    @XjCurrentLimit(qbs = 200)
     public R<IPage<XjAdminBannerVO>> list(@PathVariable Integer position) {
         XjAdminBannerQuery query = new XjAdminBannerQuery();
         query.setPosition(position);

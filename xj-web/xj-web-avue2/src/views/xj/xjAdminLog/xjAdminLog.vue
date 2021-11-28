@@ -5,6 +5,7 @@
                    :option="option"
                    :page.sync="page"
                    :search.sync="search"
+                   :table-loading="loading"
                    :cell-style="cellStyle"
                    @on-load="onLoad"
                    @refresh-change="onLoad"
@@ -33,6 +34,7 @@
                 uri: {
                     infoList: "/api/admin/xj/log/list",
                 },
+                loading: true,
                 dialogWidth: "80%",
                 addDialogVisible: false,
                 updDialogVisible: false,

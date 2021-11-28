@@ -4,6 +4,7 @@
                    :data="data"
                    :option="option"
                    :search.sync="search"
+                   :table-loading="loading"
                    :cell-style="cellStyle"
                    @on-load="onLoad"
                    @refresh-change="onLoad"
@@ -74,6 +75,7 @@
                     info: "/api/admin/menu",
                     infoPidList: "/api/admin/menu/list?disable=0&isTree=true&root={root}",
                 },
+                loading: true,
                 dialogWidth: "60%",
                 addDialogVisible: false,      // 添加弹层开关状态
                 updDialogVisible: false,      // 添加弹层开关状态

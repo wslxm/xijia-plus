@@ -75,6 +75,20 @@ export default {
         }
         return dictListVO;
     },
+
+
+    /**
+     * 枚举转换工具类 --> 接口返回的状态值(数字)转换字典的Name值
+     */
+    convert: function (enumKay, code) {
+        //获取到指定key下的枚举对象
+        let dictMap = this.get(enumKay);
+        if (dictMap == null) {
+            return null;
+        } else {
+            return dictMap[code] == null ? "" : dictMap[code].label;
+        }
+    },
 }
 
 

@@ -25,6 +25,7 @@ public enum RType {
     SYS_ERROR_CODE_403(403, "403-无权限访问"),
     SYS_ERROR_CODE_500(500, "服务器错误"),
     SYS_IS_IDEMPOTENT(9901, "重复请求"),
+    SYS_CURRENT_LIMIT(9902, "当前服务人数过多,请稍后重试!"),
     // 参数错误 9999
     PARAM_ERROR(9999, "参数错误"),
     PARAM_MISSING(9999, "缺少参数"),

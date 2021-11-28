@@ -13,29 +13,41 @@
                    direction="rtl"
                    :visible.sync="drawer"
                    :with-header="true">
-             <span style="display:flex;margin-left: 5%;margin-top: -5%">
-                 <el-tabs v-model="activeName" @tab-click="handleClick">
-                   <el-tab-pane label="全部" name="all">
-                      <ui>
-			        	  <li v-for="(item, index) in obj">
-			        		  索引-{{index}} ---- {{item}}
-			        	  </li>
-			          </ui>
-                   </el-tab-pane>
-                   <el-tab-pane label="已读" name="1">
-                        <ui>
-			        	  <li v-for="(item, index) in obj">
-			        		  索引-{{index}} ---- {{item}}
-			        	  </li>
-			            </ui>
-                   </el-tab-pane>
-                   <el-tab-pane label="未读" name="0">
-                         <ui>
-			        	  <li v-for="(item, index) in obj">
-			        		  索引-{{index}} ---- {{item}}
-			        	  </li>
-			            </ui>
-                   </el-tab-pane>
+             <span style="display:flex; margin-left: 5%;margin-top: -5%">
+                 <el-tabs style="width: 100%" v-model="activeName" @tab-click="handleClick">
+                     <!-- -->
+                     <el-tab-pane label="全部" name="all">
+                         <div v-for="(item) in obj">
+                              <div style="margin-top: -3%">
+                                 <span class="msgTitle">{{dict.convert(website.Dict.Admin.MsgType, item.msgType) }} </span>
+                                 <span class="msgTime"> {{item.createTime}} </span>    <!--{{item.isRead}}-->
+                              </div>
+                              <div class="msgContent">{{item.content}}</div>
+                              <el-divider></el-divider>
+                         </div>
+                     </el-tab-pane>
+                     <!---->
+                     <el-tab-pane label="已读" name="1">
+                          <div v-for="(item) in obj">
+                               <div style="margin-top: -3%">
+                                 <span class="msgTitle">{{dict.convert(website.Dict.Admin.MsgType, item.msgType) }} </span>
+                                 <span class="msgTime"> {{item.createTime}} </span>    <!--{{item.isRead}}-->
+                               </div>
+                               <div class="msgContent">{{item.content}}</div>
+                               <el-divider></el-divider>
+                          </div>
+                     </el-tab-pane>
+                     <!---->
+                     <el-tab-pane label="未读" name="0">
+                           <div v-for="(item) in obj">
+                               <div style="margin-top: -3%">
+                                 <span class="msgTitle">{{dict.convert(website.Dict.Admin.MsgType, item.msgType) }} </span>
+                                 <span class="msgTime"> {{item.createTime}} </span>    <!--{{item.isRead}}-->
+                               </div>
+                               <div class="msgContent">{{item.content}}</div>
+                               <el-divider></el-divider>
+                           </div>
+                     </el-tab-pane>
                  </el-tabs>
              </span>
         </el-drawer>
@@ -81,7 +93,35 @@
 </script>
 
 <style lang="scss" scoped>
+    /* 设置弹层标题和内容的间隔 */
     /deep/ .el-drawer__header {
         margin-bottom: 5px;
+    }
+
+    /* 内容 */
+    .msgContent {
+        margin-right: 5%;
+        margin-top: -0%;
+        font-size: 13px;
+        white-space: normal;
+        //word-break: break-all;
+        //word-wrap: break-word;
+        line-height: 1.5
+    }
+
+    /* 标题 */
+    .msgTitle {
+        font-size: 15px;
+        font-weight: bold;
+        font-style: italic;
+    }
+
+    /* 时间 */
+    .msgTime {
+        font-size: 14px;
+        height: 20px;
+        color: #dad8d5;
+        float: right;
+        margin-right: 5%
     }
 </style>

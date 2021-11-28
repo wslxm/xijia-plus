@@ -5,6 +5,7 @@
                    :option="option"
                    :page.sync="page"
                    :search.sync="search"
+                   :table-loading="loading"
                    :cell-style="cellStyle"
                    @on-load="onLoad"
                    @refresh-change="onLoad"
@@ -51,6 +52,7 @@
                     infoList: "/api/admin/xj/blacklist/list",
                     info: "/api/admin/xj/blacklist",
                 },
+                loading: true,
                 dialogWidth: "60%",
                 addDialogVisible: false,
                 updDialogVisible: false,

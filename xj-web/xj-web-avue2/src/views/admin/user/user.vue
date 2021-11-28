@@ -5,6 +5,7 @@
                    :option="option"
                    :page.sync="page"
                    :search.sync="search"
+                   :table-loading="loading"
                    :cell-style="cellStyle"
                    @on-load="onLoad"
                    @refresh-change="onLoad"
@@ -33,7 +34,7 @@
             <Add :closeDialog="closeDialog" :uri="uri" :organs="organs" :roles="roles"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible"  :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog">
+        <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog">
             <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData" :organs="organs" :roles="roles"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
@@ -69,6 +70,7 @@
                     roleInfo: "/api/admin/role/list",
                     resetPassword: "/api/admin/user/{id}/resetPassword"
                 },
+                loading: true,
                 dialogWidth: "60%",
                 updPwdDialogVisible: false,   // 重置密码弹层开关状态
                 addDialogVisible: false,      // 添加弹层开关状态
@@ -172,11 +174,11 @@
              */
             onLoad() {
                 this.crud.list(this, true);
-                this.crud.doLayout(this, this.$refs.crudUser)
+                this.crud.doLayout(this, this.$refs.crudUser);
             },
 
             // 搜索,并重置页数为1
-            searchChange(params,done) {
+            searchChange(params, done) {
                 this.page.currentPage = 1;
                 this.onLoad();
                 done();
@@ -208,7 +210,7 @@
                 this.rowData = row;
             },
             // 自动配置,单元格样式数字，对指定列设置字体颜色,大小，粗细等
-            cellStyle({row,column}) {
+            cellStyle({row, column}) {
                 if (column.property == "disable") {
                     // fontWeight: 'bold',fontSize: '20'
                     return row.disable == 0 ? {color: 'green'} : {color: 'red'}

@@ -5,6 +5,7 @@
                    :option="option"
                    :page.sync="page"
                    :search.sync="search"
+                   :table-loading="loading"
                    :cell-style="cellStyle"
                    @on-load="onLoad"
                    @refresh-change="onLoad"
@@ -56,6 +57,7 @@
                     infoList: "/api/admin/organ/list?isTree=true",
                     info: "/api/admin/organ",
                 },
+                loading: true,
                 dialogWidth: "60%",
                 addDialogVisible: false,
                 updDialogVisible: false,
