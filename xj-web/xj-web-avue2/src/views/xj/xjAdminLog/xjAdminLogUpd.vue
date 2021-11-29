@@ -28,6 +28,8 @@
                     this.findId(newRowData);
                 } else {
                     this.obj = newRowData;
+                    this.obj.requestData = JSON.stringify(JSON.parse(newRowData.requestData), null, 2);
+                    this.obj.responseData = JSON.stringify(JSON.parse(newRowData.responseData), null, 2);
                 }
             }
         },

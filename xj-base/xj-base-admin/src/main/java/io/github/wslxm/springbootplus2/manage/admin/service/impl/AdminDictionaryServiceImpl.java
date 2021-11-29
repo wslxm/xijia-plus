@@ -212,12 +212,24 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         query.setIsTree(true);
         List<AdminDictionaryVO> dict = this.list(query);
         String enumsJava = null;
+        // 1、生成java枚举类
         if ("ENUMS".equals(enumName)) {
+            // 生成一个大的 Enums 类
             enumsJava = this.generateEnumJava(dict.get(0));
         } else {
+            // 生成小模块的枚举类
             enumsJava = this.generateEnumJava2(dict.get(0));
         }
+
+        // 2、生成js key
+        // enumName 不为 ENUMS 时 js 重新查询字典数据
+        if(!"ENUMS".equals(enumName)){
+            query.setCode("ENUMS");
+            dict = this.list(query);
+        }
         String enumsJs = this.generateEnumJs(dict.get(0));
+
+        // 3、返回
         Map<String, String> map = new HashMap<>();
         // 完整的枚举字典
         map.put("java", enumsJava);

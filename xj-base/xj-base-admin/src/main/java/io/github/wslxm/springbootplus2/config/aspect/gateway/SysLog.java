@@ -171,7 +171,7 @@ public class SysLog {
                 // 记录返回数据
                 if (logs != null) {
                     logs.setExecuteTime(executeTime);
-                    logs.setExecuteTime(businessTime);
+                    logs.setBusinessTime(businessTime);
                     logs.setState(state);
                     logs.setResponseData(data);
                     adminLogService.save(logs);

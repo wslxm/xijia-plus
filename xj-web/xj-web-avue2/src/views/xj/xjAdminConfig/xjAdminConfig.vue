@@ -41,6 +41,8 @@
 
 
 <script>
+
+
     export default {
         components: {
             Add: () => import('./xjAdminConfigAdd'),
@@ -66,7 +68,7 @@
         mounted() {
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.column = [
-                 {
+                {
                     label: '配置code',
                     prop: 'code',
                     search: true,
@@ -85,17 +87,18 @@
                     overHidden: true,
                 },
                 {
+                    label: '类型',
+                    prop: 'type',
+                    search: true,
+                    type: "select",
+                    overHidden: true,
+                    dicData: this.dict.get(this.website.Dict.Base.ConfigType),
+                },
+                {
                     label: '排序',
                     prop: 'sort',
                     search: false,
                     overHidden: true,
-                },
-                {
-                    label: '类型',
-                    prop: 'type',
-                    search: false,
-                    overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Base.ConfigType),
                 },
 
             ]
@@ -107,10 +110,10 @@
         },
         methods: {
             onLoad() {
-                this.crud.list(this,true);
+                this.crud.list(this, true);
                 this.crud.doLayout(this, this.$refs.crudxjAdminConfig)
             },
-            searchChange(params,done) {
+            searchChange(params, done) {
                 console.debug(params)
                 this.page.currentPage = 1;
                 this.onLoad();
@@ -135,16 +138,16 @@
                 this.rowData = row;
             },
             cellStyle({row, column}) {
-                 if (column.property == "type") {
-                     // fontWeight: 'bold',fontSize: '20'
-                     if(row.type == 0){
-                         return {color: 'green'}
-                     }else if(row.type == 1){
-                         return {color: '#20B2AA'}
-                     }else if(row.type == 2){
-                         return {color: '#9932CC'}
-                     }
-                 }
+                if (column.property == "type") {
+                    // fontWeight: 'bold',fontSize: '20'
+                    if (row.type == 0) {
+                        return {color: 'green'}
+                    } else if (row.type == 1) {
+                        return {color: '#20B2AA'}
+                    } else if (row.type == 2) {
+                        return {color: '#9932CC'}
+                    }
+                }
             }
         }
     }

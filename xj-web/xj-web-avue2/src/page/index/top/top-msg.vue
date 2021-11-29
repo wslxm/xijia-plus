@@ -13,14 +13,16 @@
                    direction="rtl"
                    :visible.sync="drawer"
                    :with-header="true">
-             <span style="display:flex; margin-left: 5%;margin-top: -5%">
+             <span style="display:flex; margin-left: 5%;margin-top: -2%">
                  <el-tabs style="width: 100%" v-model="activeName" @tab-click="handleClick">
                      <!-- -->
                      <el-tab-pane label="全部" name="all">
                          <div v-for="(item) in obj">
-                              <div style="margin-top: -3%">
-                                 <span class="msgTitle">{{dict.convert(website.Dict.Admin.MsgType, item.msgType) }} </span>
-                                 <span class="msgTime"> {{item.createTime}} </span>    <!--{{item.isRead}}-->
+                              <div style="margin-top: -0%">
+                                     <el-badge :hidden="item.isRead == 1" is-dot class="item">
+                                           <span class="msgTitle" @click="clickMsg(item)">{{dict.convert(website.Dict.Admin.MsgType, item.msgType) }} </span>
+                                    </el-badge>
+                                 <span class="msgTime">{{item.createTime}} </span>
                               </div>
                               <div class="msgContent">{{item.content}}</div>
                               <el-divider></el-divider>
@@ -30,7 +32,9 @@
                      <el-tab-pane label="已读" name="1">
                           <div v-for="(item) in obj">
                                <div style="margin-top: -3%">
-                                 <span class="msgTitle">{{dict.convert(website.Dict.Admin.MsgType, item.msgType) }} </span>
+                                 <el-badge :hidden="item.isRead == 1" is-dot class="item">
+                                       <span class="msgTitle" @click="clickMsg(item)">{{dict.convert(website.Dict.Admin.MsgType, item.msgType) }} </span>
+                                 </el-badge>
                                  <span class="msgTime"> {{item.createTime}} </span>    <!--{{item.isRead}}-->
                                </div>
                                <div class="msgContent">{{item.content}}</div>
@@ -40,9 +44,11 @@
                      <!---->
                      <el-tab-pane label="未读" name="0">
                            <div v-for="(item) in obj">
-                               <div style="margin-top: -3%">
-                                 <span class="msgTitle">{{dict.convert(website.Dict.Admin.MsgType, item.msgType) }} </span>
-                                 <span class="msgTime"> {{item.createTime}} </span>    <!--{{item.isRead}}-->
+                               <div style="margin-top: -3%" @click="clickMsg(item)">
+                                   <el-badge :hidden="item.isRead == 1" is-dot class="item">
+                                         <span class="msgTitle" @click="clickMsg(item)">{{dict.convert(website.Dict.Admin.MsgType, item.msgType) }} </span>
+                                   </el-badge>
+                                   <span class="msgTime"> {{item.createTime}} </span>    <!--{{item.isRead}}-->
                                </div>
                                <div class="msgContent">{{item.content}}</div>
                                <el-divider></el-divider>
@@ -50,6 +56,13 @@
                      </el-tab-pane>
                  </el-tabs>
              </span>
+            <div>
+                <span style="font-size: 12px;margin-left: 5%"> 共 {{page.total}} 条 | 共 {{page.pages}} 页  </span>
+                <span style="margin-left: 2%">  <el-button size="mini" @click="prevHandle()">上一页</el-button> </span>
+                <span style="margin-left: 2%"> {{page.current}} </span>
+                <span style="margin-left: 2%">  <el-button size="mini" @click="nextHandle()">下一页</el-button> </span>
+
+            </div>
         </el-drawer>
     </div>
 </template>
@@ -63,6 +76,13 @@
                 uri: {
                     infoList: "/api/admin/xj/msg/list",
                     findAllNum: "/api/admin/xj/msg/findAllNum", //查询已读/未读/使用数量
+                    read: "/api/admin/xj/msg/{id}/read", //修改为已读
+                },
+                page: {
+                    current: 1, //当前页
+                    size: 5,    //每页条数
+                    total: 0,   //总条数
+                    pages: 0,   //总页数
                 },
                 activeName: "all",
                 drawer: false,
@@ -71,9 +91,7 @@
             }
         },
         created() {
-            this.crud.get(this.uri.infoList).then((res) => {
-                this.obj = res.data.data.records;
-            })
+            this.handleClick();
             this.crud.get(this.uri.findAllNum).then((res) => {
                 this.allNum = res.data.data;
             })
@@ -84,9 +102,37 @@
                 if (this.activeName != "all") {
                     isRead = this.activeName;
                 }
-                this.crud.get(this.uri.infoList, {isRead: isRead}).then((res) => {
+                this.crud.get(this.uri.infoList, {current: this.page.current, size: this.page.size, isRead: isRead}).then((res) => {
                     this.obj = res.data.data.records;
+                    this.page.current = res.data.data.current;
+                    this.page.size = res.data.data.size;
+                    this.page.total = res.data.data.total;
+                    this.page.pages = res.data.data.pages;
                 })
+            },
+            // 上一页
+            prevHandle() {
+                if (this.page.current - 1 > 0) {
+                    this.page.current = this.page.current - 1;
+                }
+                this.handleClick();
+            },
+            // 下一页
+            nextHandle() {
+                if (this.page.current + 1 <= this.page.pages) {
+                    this.page.current = this.page.current + 1;
+                }
+                this.handleClick();
+            },
+            // 点击消息
+            clickMsg(item) {
+                if (item.isRead == 0) {
+                    // 修改为已读
+                    this.crud.put(this.uri.read.replace("{id}", item.id), {isRead: 1}).then((res) => {
+                        // 刷新当前列表
+                        this.handleClick();
+                    })
+                }
             }
         }
     };
@@ -101,7 +147,7 @@
     /* 内容 */
     .msgContent {
         margin-right: 5%;
-        margin-top: -0%;
+        margin-top: -7%;
         font-size: 13px;
         white-space: normal;
         //word-break: break-all;
@@ -113,14 +159,14 @@
     .msgTitle {
         font-size: 15px;
         font-weight: bold;
-        font-style: italic;
+        //font-style: italic;
     }
 
     /* 时间 */
     .msgTime {
         font-size: 14px;
         height: 20px;
-        color: #dad8d5;
+        color: #dac5cc;
         float: right;
         margin-right: 5%
     }

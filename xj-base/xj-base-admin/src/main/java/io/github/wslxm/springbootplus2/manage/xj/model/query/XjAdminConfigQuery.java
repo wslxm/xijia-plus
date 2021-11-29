@@ -28,6 +28,9 @@ public class XjAdminConfigQuery extends BaseQuery {
     @ApiModelProperty(value = "配置名称" ,position = 1)
     private String name;
 
+    @ApiModelProperty(value = "配置类型(字典code)" ,position = 2)
+    private Integer type;
+
 
 }
 

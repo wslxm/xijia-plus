@@ -3,18 +3,49 @@
         <avue-form ref="form" v-model="obj" :option="option"
                    @reset-change="emptytChange"
                    @submit="submit">
+
+            <template slot-scope="scope" slot="content">
+                {{obj.content }}
+                <span v-if="obj.type == 0">
+                        <el-input
+                                type="textarea"
+                                :rows="3"
+                                placeholder="请输入内容"
+                                v-model="obj.content">
+                       </el-input>
+                </span>
+                <span v-if="obj.type == 1">
+                     <el-upload
+                             :action="baseUploadUrl + 'image/config/'"
+                             list-type="picture-card"
+                             :file-list="fileList"
+                             :on-success="handleSuccess"
+                             :on-remove="handleRemove">
+                             <i class="el-icon-plus"></i>
+                      </el-upload>
+                </span>
+                <span v-if="obj.type == 2">
+                      <el-switch
+                              v-model="obj.content"
+                              active-color="#13ce66"
+                              inactive-color="#ff4949"
+                              active-value="true"
+                              inactive-value="false">
+                     </el-switch>
+                </span>
+            </template>
         </avue-form>
     </div>
 </template>
 
 <script>
 
-    import {baseUploadUrl} from "@/config/env";
     export default {
         data() {
             return {
                 obj: {},
                 isIdFind: false,
+                fileList: []
             }
         },
         props: {
@@ -29,6 +60,17 @@
                     this.findId(newRowData);
                 } else {
                     this.obj = newRowData;
+                    // 处理图片回显
+                    if (newRowData.type == 1) {
+                        let urls = newRowData.content.split(",");
+                        for (let i = 0; i < urls.length; i++) {
+                            let urlItem = {
+                                name: urls[i].substring(urls[i].lastIndexOf("/") + 1),
+                                url: urls[i]
+                            }
+                            this.fileList.push(urlItem);
+                        }
+                    }
                 }
             }
         },
@@ -127,10 +169,27 @@
             findId(newRowData) {
                 if (newRowData != null && newRowData.id != null) {
                     this.crud.get(this.uri.info + "/" + newRowData.id).then((res) => {
-                         this.obj = res.data.data;
+                        this.obj = res.data.data;
                     })
                 }
-             }
+            },
+            // 文件删除时的回调
+            handleRemove(file, fileList) {
+                if (file.url.indexOf("blob") != -1) {
+                    file.url = file.response.data.url;
+                }
+                this.obj.content = this.obj.content.replace("," + file.url, "");
+                this.obj.content = this.obj.content.replace(file.url + ",", "");
+                this.obj.content = this.obj.content.replace(file.url, "");
+            },
+            // 文件上传完成后的回调
+            handleSuccess(res) {
+                if (!this.obj.content) {
+                    this.obj.content = res.data.url;
+                } else {
+                    this.obj.content += "," + res.data.url
+                }
+            }
         }
     }
 </script>

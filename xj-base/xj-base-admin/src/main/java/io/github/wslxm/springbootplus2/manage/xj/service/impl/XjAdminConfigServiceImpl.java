@@ -40,6 +40,7 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
                 .orderByAsc(XjAdminConfig::getSort)
                 .orderByDesc(XjAdminConfig::getCreateTime)
                 .eq(StringUtils.isNotBlank(query.getCode()), XjAdminConfig::getCode, query.getCode())
+                .eq(query.getType()!=null, XjAdminConfig::getType, query.getType())
                 .like(StringUtils.isNotBlank(query.getName()), XjAdminConfig::getName, query.getName());
         if (query.getCurrent() <= 0) {
             IPage<XjAdminConfigVO> page = new Page<>();
