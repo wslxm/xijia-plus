@@ -4,7 +4,6 @@
 
             <!-- 菜单树 -->
             <template slot-scope="scope" slot="menuIds">
-                <el-card class="box-card">
                     <!--<div slot="header" class="clearfix">
                         <span>选择菜单</span>
                     </div>-->
@@ -17,7 +16,6 @@
                             :default-checked-keys="menuDefaultCheckedKeys"
                             :props="menusProps">
                     </el-tree>
-                </el-card>
             </template>
         </avue-form>
     </div>
@@ -190,18 +188,3 @@
         }
     }
 </script>
-
-<style>
-    .box-card {
-        margin-top: -20px !important;
-        width: 150%;
-        height: 400px;
-        overflow-y: auto!important; /* 开启滚动显示溢出内容 */
-    }
-
-    /*滚动条样式 滚动条整体部分，可以设置宽度啥的*/
-    .box-card::-webkit-scrollbar {
-        width: 1px;
-    }
-
-</style>

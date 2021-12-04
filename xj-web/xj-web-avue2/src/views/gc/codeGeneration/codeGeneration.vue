@@ -135,7 +135,7 @@
                     label: '字段名',
                     prop: 'name',
                     align: 'left',
-                    width: 300,
+                   // width: 200,
                 },
                 {
                     label: '字段类型(长度)',

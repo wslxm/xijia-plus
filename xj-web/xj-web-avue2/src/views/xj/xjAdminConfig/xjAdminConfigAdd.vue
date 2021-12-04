@@ -5,7 +5,6 @@
                    @submit="submit">
 
             <template slot-scope="scope" slot="content">
-                {{obj.content }}
                 <span v-if="obj.type == 0">
                         <el-input
                                 type="textarea"
