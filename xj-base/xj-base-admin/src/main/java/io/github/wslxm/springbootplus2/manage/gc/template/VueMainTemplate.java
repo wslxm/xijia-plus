@@ -13,28 +13,33 @@ public interface VueMainTemplate {
             "                    label: '{label}',\n" +
             "                    prop: '{prop}',\n" +
             "                    search: {search},\n" +
+            "                    searchSpan: 5,\n" +
             "                    overHidden: true,\n" +
             "                },\n";
 
     /**
-     * 字典  {label}  {prop} {search}
+     * 字典 (单选) {label}  {prop} {search}
      */
     String TEXT_DICT = "                {\n" +
             "                    label: '{label}',\n" +
             "                    prop: '{prop}',\n" +
+            "                    type: 'select',\n" +
             "                    search: {search},\n" +
+            "                    searchSpan: 5,\n" +
             "                    overHidden: true,\n" +
             "                    dicData: this.dict.get(this.website.Dict.Base.Default),\n" +
             "                },\n";
 
 
     /**
-     * 字典（多选） {label}  {prop} {search}
+     * 字典（多选） {label}  {prop} {search} ,
      */
     String TEXT_DICT_CHECKBOX = "                {\n" +
             "                    label: '{label}',\n" +
             "                    prop: '{prop}',\n" +
+            "                    type: 'select',\n" +
             "                    search: {search},\n" +
+            "                    searchSpan: 5,\n" +
             "                    overHidden: true,\n" +
             "                    dataType: 'string',\n" +
             "                    dicData: this.dict.get(this.website.Dict.Base.Default),\n" +
@@ -42,7 +47,7 @@ public interface VueMainTemplate {
 
 
     /**
-     * 字典（图片,支付多图/单图） {label}  {prop}
+     * 图片,支持多图/单图） {label}  {prop}
      */
     String IMG = "                {\n" +
             "                    label: '{label} ',\n" +

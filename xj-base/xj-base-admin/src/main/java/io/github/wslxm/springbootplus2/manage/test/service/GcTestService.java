@@ -14,11 +14,13 @@ import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
  * </p>
  * @author  ws
  * @email  1720696548@qq.com
- * @date  2021-11-06 08:16:29
+ * @date  2021-12-08 11:39:01
  */
 public interface GcTestService extends IService<GcTest> {
 
     IPage<GcTestVO> list(GcTestQuery query);
+
+    GcTestVO findId(String id);
 
     String insert(GcTestDTO dto);
 

@@ -40,6 +40,10 @@ public class {tableNameUp}ServiceImpl extends BaseIServiceImpl<{tableNameUp}Mapp
         }
     }
 
+    public {tableNameUp}VO findId(String id) {
+        return BeanDtoVoUtil.convert(this.getById(id),{tableNameUp}VO.class);
+    }
+
     @Override
     public String insert({tableNameUp}DTO dto) {
         {tableNameUp} entity = dto.convert({tableNameUp}.class);

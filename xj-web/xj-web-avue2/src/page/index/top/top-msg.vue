@@ -90,7 +90,11 @@
                 allNum: {},
             }
         },
+        beforeUpload : function () {
+            this.handleClick();
+        },
         created() {
+            // 首次进入加载数据
             this.handleClick();
             this.crud.get(this.uri.findAllNum).then((res) => {
                 this.allNum = res.data.data;

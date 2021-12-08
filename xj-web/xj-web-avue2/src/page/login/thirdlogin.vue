@@ -1,22 +1,23 @@
 <template>
+  <!-- 第三方登录 -->
   <div class="third">
-    <div class="box">
-      <i class="iconfont icon-QQ"
-         @click="handleClick('qq')"
-         style="color:#53a4d8"></i>
-      <i class="iconfont icon-weixinicon2x"
-         @click="handleClick('wx')"
-         style="color:#71c252"></i>
-      <i class="iconfont icon-weibo"
-         @click="handleClick('wb')"
-         style="color:#c73420"></i>
-      <i class="iconfont icon-zhifubao"
-         @click="handleClick('zfb')"
-         style="color:#439fe2"></i>
-      <i class="iconfont  icon-huaban88"
-         @click="handleClick('github')"
-         style="color:#666"></i>
-    </div>
+<!--    <div class="box">-->
+<!--      <i class="iconfont icon-QQ"-->
+<!--         @click="handleClick('qq')"-->
+<!--         style="color:#53a4d8"></i>-->
+<!--      <i class="iconfont icon-weixinicon2x"-->
+<!--         @click="handleClick('wx')"-->
+<!--         style="color:#71c252"></i>-->
+<!--      <i class="iconfont icon-weibo"-->
+<!--         @click="handleClick('wb')"-->
+<!--         style="color:#c73420"></i>-->
+<!--      <i class="iconfont icon-zhifubao"-->
+<!--         @click="handleClick('zfb')"-->
+<!--         style="color:#439fe2"></i>-->
+<!--      <i class="iconfont  icon-huaban88"-->
+<!--         @click="handleClick('github')"-->
+<!--         style="color:#666"></i>-->
+<!--    </div>-->
   </div>
 </template>
 

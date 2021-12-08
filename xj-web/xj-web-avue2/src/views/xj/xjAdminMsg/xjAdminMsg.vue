@@ -1,6 +1,6 @@
 <template>
     <div>
-        <avue-crud ref="crudgcTest"
+        <avue-crud ref="crudxjAdminMsg"
                    :data="data"
                    :option="option"
                    :page.sync="page"
@@ -23,8 +23,8 @@
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
             </template>
             <template slot-scope="{row,index,type,size}" slot="menu">
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
-                <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">查看</el-button>
+               <!-- <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>-->
             </template>
         </avue-crud>
         <!-- 弹层 -->
@@ -32,7 +32,7 @@
             <Add :closeDialog="closeDialog" :uri="uri"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
+        <el-dialog title="查看" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
             <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
@@ -43,14 +43,15 @@
 <script>
     export default {
         components: {
-            Add: () => import('./gcTestAdd'),
-            Upd: () => import('./gcTestUpd')
+            Add: () => import('./xjAdminMsgAdd'),
+            Upd: () => import('./xjAdminMsgUpd')
         },
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/test/gcTest/list",
-                    info: "/api/admin/test/gcTest",
+                    infoList: "/api/admin/xj/msg/list",
+                    info: "/api/admin/xj/msg",
+                    userList: "/api/admin/user/list/keyData",
                 },
                 loading: true,
                 dialogWidth: "60%",
@@ -67,86 +68,45 @@
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.column = [
                  {
-                    label: '名称 ',
-                    prop: 'name',
+                    label: '接收人Id',
+                    prop: 'userId',
                     search: true,
                     searchSpan: 5,
                     overHidden: true,
                 },
                 {
-                    label: '年龄 ',
-                    prop: 'age',
+                    label: '内容',
+                    prop: 'content',
                     search: false,
                     searchSpan: 5,
                     overHidden: true,
                 },
                 {
-                    label: '性别 ',
-                    prop: 'sex',
+                    label: '通知终端',
+                    prop: 'userType',
                     type: 'select',
-                    search: false,
+                    search: true,
                     searchSpan: 5,
                     overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Base.Default),
+                    dicData: this.dict.get(this.website.Dict.Admin.MsgUserType),
                 },
                 {
-                    label: '爱好 ',
-                    prop: 'like',
+                    label: '消息类型',
+                    prop: 'msgType',
                     type: 'select',
-                    search: false,
+                    search: true,
                     searchSpan: 5,
                     overHidden: true,
-                    dataType: 'string',
-                    dicData: this.dict.get(this.website.Dict.Base.Default),
+                    dicData: this.dict.get(this.website.Dict.Admin.MsgType),
                 },
                 {
-                    label: '城市 ',
-                    prop: 'city',
+                    label: '是否已读',
+                    prop: 'isRead',
                     type: 'select',
-                    search: false,
+                    search: true,
                     searchSpan: 5,
                     overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Base.Default),
-                },
-                {
-                    label: '禁用 ',
-                    prop: 'disable',
-                    type: 'select',
-                    search: false,
-                    searchSpan: 5,
-                    overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Base.Default),
-                },
-                {
-                    label: '头像  ',
-                    prop: 'headUrl',
-                    search: false,
-                    overHidden: true,
-                    html: true,
-                    formatter: (val) => {
-                        if(val.headUrl == null || val.headUrl == ''){
-                            return "";
-                        }else{
-                            let imgs = val.headUrl.split(",");
-                            let html = ""; 
-                            imgs.forEach(item => html += "<img src='" + item + "'  style='border-radius: 40px;height: 40px;width: 40px;margin-top: 10px'>")
-                            return html;
-                        }
-                    }
-                },
-                {
-                    label: '时间',
-                    prop: 'time',
-                    search: false,
-                    searchSpan: 5,
-                    overHidden: true,
-                },
-                {
-                    label: '更多信息',
-                    prop: 'text',
-                    search: false,
-                    searchSpan: 5,
-                    overHidden: true,
+                    dicData: this.dict.get(this.website.Dict.Base.IsRead),
                 },
 
             ]
@@ -154,12 +114,12 @@
         created() {
         },
         activated: function () {
-            this.crud.doLayout(this, this.$refs.crudgcTest)
+            this.crud.doLayout(this, this.$refs.crudxjAdminMsg)
         },
         methods: {
             onLoad() {
                 this.crud.list(this,true);
-                this.crud.doLayout(this, this.$refs.crudgcTest)
+                this.crud.doLayout(this, this.$refs.crudxjAdminMsg)
             },
             searchChange(params,done) {
                 console.debug(params)
@@ -186,9 +146,9 @@
                 this.rowData = row;
             },
             cellStyle({row, column}) {
-                 if (column.property == "disable") {
+                 if (column.property == "isRead") {
                      // fontWeight: 'bold',fontSize: '20'
-                     return row.disable == 0 ? {color: 'green'} : {color: 'red'}
+                     return row.isRead == 1 ? {color: 'green'} : {color: 'red'}
                  }
             }
         }

@@ -33,6 +33,12 @@ public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service
         return R.success(baseService.list(query));
     }
 
+    @GetMapping(value = "/{id}")
+    @ApiOperation(value = "ID查询")
+    public R<{tableNameUp}VO> findId(@PathVariable String id) {
+        return R.success(baseService.findId(id));
+    }
+
     @PostMapping
     @ApiOperation(value = "添加")
     public R<String> insert(@RequestBody @Validated {tableNameUp}DTO dto) {

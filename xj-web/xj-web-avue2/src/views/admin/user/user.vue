@@ -30,11 +30,11 @@
                 <el-avatar :src="row.head"></el-avatar>
             </template>
         </avue-crud>
-        <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" @close="closeDialog">
+        <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" top="6vh" :width="dialogWidth" @close="closeDialog">
             <Add :closeDialog="closeDialog" :uri="uri" :organs="organs" :roles="roles"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog">
+        <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" top="6vh" :width="dialogWidth" @close="closeDialog">
             <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData" :organs="organs" :roles="roles"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
@@ -106,6 +106,7 @@
                     label: '账号',
                     prop: 'username',
                     search: true,
+                    searchSpan: 5,
                 },
                 {
                     label: '手机号',
@@ -115,6 +116,7 @@
                     label: '姓名',
                     prop: 'fullName',
                     search: true,
+                    searchSpan: 5,
                 },
                 {
                     label: '年龄',
@@ -134,6 +136,7 @@
                     prop: 'terminal',
                     type: "select",
                     search: true,
+                    searchSpan: 5,
                     searchValue: this.search.terminal,
                     searchOrder: 1,
                     dicData: this.dict.get(this.website.Dict.Admin.Terminal),

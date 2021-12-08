@@ -20,6 +20,8 @@ public interface {tableNameUp}Service extends IService<{tableNameUp}> {
 
     IPage<{tableNameUp}VO> list({tableNameUp}Query query);
 
+    {tableNameUp}VO findId(String id);
+
     String insert({tableNameUp}DTO dto);
 
     boolean upd( String id, {tableNameUp}DTO dto);

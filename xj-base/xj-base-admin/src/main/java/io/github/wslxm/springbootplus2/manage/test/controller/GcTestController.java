@@ -20,7 +20,7 @@ import io.github.wslxm.springbootplus2.manage.test.service.GcTestService;
  * </p>
  * @author  ws
  * @email  1720696548@qq.com
- * @date  2021-11-06 08:16:29
+ * @date  2021-12-08 11:39:01
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.apiAdmin + "/test/gcTest")
@@ -31,6 +31,12 @@ public class GcTestController extends BaseController<GcTestService>  {
     @ApiOperation(value = "列表查询")
     public R<IPage<GcTestVO>> list(@ModelAttribute @Validated GcTestQuery query) {
         return R.success(baseService.list(query));
+    }
+
+    @GetMapping(value = "/{id}")
+    @ApiOperation(value = "ID查询")
+    public R<GcTestVO> findId(@PathVariable String id) {
+        return R.success(baseService.findId(id));
     }
 
     @PostMapping

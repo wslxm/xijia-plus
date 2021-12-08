@@ -19,7 +19,7 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
  * </p>
  * @author  ws
  * @email  1720696548@qq.com
- * @date  2021-11-06 08:16:28
+ * @date  2021-12-08 11:39:01
  */
 @Data
 @ToString(callSuper = true)
@@ -27,7 +27,7 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
 @ApiModel(value = "GcTest 对象", description = "代码生成测试表")
 public class GcTest extends BaseEntity {
 
-    private static final long serialVersionUID = -616756375816638468L;
+    private static final long serialVersionUID = -628403757167808514L;
     
     /** 
      * 名称 (文本) 
@@ -78,7 +78,7 @@ public class GcTest extends BaseEntity {
     private LocalDateTime time;
 
     /** 
-     * 大文本字段 
+     * 更多信息 
      */
     @TableField(value = "text")
     private String text;

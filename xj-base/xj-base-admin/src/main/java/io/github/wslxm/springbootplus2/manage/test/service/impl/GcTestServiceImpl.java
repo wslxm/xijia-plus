@@ -21,7 +21,7 @@ import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
  * </p>
  * @author  ws
  * @email  1720696548@qq.com
- * @date  2021-11-06 08:16:29
+ * @date  2021-12-08 11:39:01
  */
 @Service
 public class GcTestServiceImpl extends BaseIServiceImpl<GcTestMapper, GcTest> implements GcTestService {
@@ -29,6 +29,7 @@ public class GcTestServiceImpl extends BaseIServiceImpl<GcTestMapper, GcTest> im
     @Override
     public IPage<GcTestVO> list(GcTestQuery query) {
         LambdaQueryWrapper<GcTest> queryWrapper = new LambdaQueryWrapper<GcTest>()
+                .eq(StringUtils.isNotBlank(query.getName()),GcTest::getName,query.getName())
 
                 .orderByDesc(GcTest::getCreateTime);
         if (query.getCurrent() <= 0) {
@@ -38,6 +39,10 @@ public class GcTestServiceImpl extends BaseIServiceImpl<GcTestMapper, GcTest> im
             Page<GcTest> page = new Page<>(query.getCurrent(), query.getSize());
             return BeanDtoVoUtil.pageVo(this.page(page, queryWrapper), GcTestVO.class);
         }
+    }
+
+    public GcTestVO findId(String id) {
+        return BeanDtoVoUtil.convert(this.getById(id),GcTestVO.class);
     }
 
     @Override
