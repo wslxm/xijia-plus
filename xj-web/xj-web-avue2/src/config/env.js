@@ -4,8 +4,8 @@
 // 使用代理模式, 使用 /api 进行转发
 let baseUrl = '/api';
 let baseUploadUrl = baseUrl + '/api/open/aliOssFile/upload?resType=2&filePath=';
-let baseWebSocketUrl = 'ws://127.0.0.1:9048/websocket/{userId}/{fullName}/{head}';
-//let baseWebSocketUrl = 'ws://xijia.plus:9048/websocket/{userId}/{fullName}/{head}';
+//let baseWebSocketUrl = 'ws://127.0.0.1:9048/websocket/{userId}/{fullName}/{head}';
+let baseWebSocketUrl = 'ws://xijia.plus/websocket/{userId}/{fullName}/{head}';
 // 图片地址配置
 let iconfontVersion = ['567566_82imxaft0by'];
 let iconfontUrl = `//at.alicdn.com/t/font_$key.css`;
