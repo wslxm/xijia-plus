@@ -23,8 +23,9 @@ QQ群：1037211892
 ### 二、预览地址
 
 vue 版本演示地址：  [http://vue.xijia.plus/](http://vue.xijia.plus/)
-账号：test  
-密码：123456
+
+- 测试账号：test  
+- 测试密码：123456
 
 ### 三、接口文档：
 
