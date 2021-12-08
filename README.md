@@ -114,7 +114,7 @@ v-0.0.9 后开始记录版本大调整, 当前最新为 2.x 模块
 ### 九、开始使用
 #### 启动服务端
 - 1、拉取代码
-- 2、创建数据库[spring-boot-plus2]
+- 2、创建数据库[spring-boot-plus2] 编码：**utf8mb4**  排序规则：**utf8mb4_general_ci**
 - 3、导入跟目录下的 help/sql 目录下对应的最新版本 sql
 - 4、启动demo项目(spring-boot-plus2-demo/ --> SpringBootPlus2DemoServer 或  xj-base/xj-base-admin/ -->  XjBaseAdminServer)
 
