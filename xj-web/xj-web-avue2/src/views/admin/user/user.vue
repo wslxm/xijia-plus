@@ -66,7 +66,7 @@
                 uri: {
                     infoList: "/api/admin/user/list",
                     info: "/api/admin/user",
-                    organInfo: "/api/admin/organ/list",
+                    organInfo: "/api/admin/organ/list?disable=0",
                     roleInfo: "/api/admin/role/list",
                     resetPassword: "/api/admin/user/{id}/resetPassword"
                 },
