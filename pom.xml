@@ -16,7 +16,7 @@
 
     <groupId>io.github.wslxm</groupId>
     <artifactId>spring-boot-plus2</artifactId>
-    <version>1.0.4</version><!--1.0.1-SNAPSHOT-
+    <version>2.0.0</version><!--1.0.1-SNAPSHOT-
 
 
     <!- 对应名称： 如果不定义名称系统默认为  <name>${groupId}:${artifactId}:${revision}</name> -->
@@ -76,7 +76,7 @@
              改版本号修改时请使用全局替换, ${revision} 读取会导致子模块无法单独打包
              spring-boot-plus2/pom.xml + xj-base/pom.xml + xj-server/pom.xml + xj-starter/pom.xml,
          -->
-        <revision>1.0.4</revision>
+        <revision>2.0.0</revision>
         <!-- 文件拷贝时的编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -130,12 +130,6 @@
                 <artifactId>xj-base-admin</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <!-- 界面- 后台管理系统ui -->
-            <dependency>
-                <groupId>io.github.wslxm</groupId>
-                <artifactId>xj-base-admin-ui</artifactId>
-                <version>${revision}</version>
-            </dependency>
             <!-- 聚合支付 -->
             <dependency>
                 <groupId>io.github.wslxm</groupId>
@@ -160,34 +154,10 @@
                 <artifactId>xj-api-baidu</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <!-- 快递100 -->
-            <dependency>
-                <groupId>io.github.wslxm</groupId>
-                <artifactId>xj-api-kuaidi-kuaidi100</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <!-- 顺丰 -->
-            <dependency>
-                <groupId>io.github.wslxm</groupId>
-                <artifactId>xj-api-kuaidi-sf</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <!-- 七牛云 -->
-            <dependency>
-                <groupId>io.github.wslxm</groupId>
-                <artifactId>xj-api-qiniu-oss</artifactId>
-                <version>${revision}</version>
-            </dependency>
             <!-- qq互联 -->
             <dependency>
                 <groupId>io.github.wslxm</groupId>
                 <artifactId>xj-api-qq-open</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <!-- sms1086 短信 -->
-            <dependency>
-                <groupId>io.github.wslxm</groupId>
-                <artifactId>xj-api-sms1086</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- 微信小程序  -->
@@ -218,12 +188,6 @@
             <dependency>
                 <groupId>io.github.wslxm</groupId>
                 <artifactId>xj-doc-swagger2</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <!-- admin监控平台服务  -->
-            <dependency>
-                <groupId>io.github.wslxm</groupId>
-                <artifactId>xj-fw-boot-admin</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- redis 服务 -->

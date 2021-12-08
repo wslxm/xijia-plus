@@ -5,7 +5,7 @@
     <parent>
         <artifactId>xj-base</artifactId>
         <groupId>io.github.wslxm</groupId>
-        <version>1.0.4</version>
+        <version>2.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -32,11 +32,6 @@
         <dependency>
             <groupId>io.github.wslxm</groupId>
             <artifactId>xj-base-core</artifactId>
-        </dependency>
-        <!-- 界面- 后台管理系统ui -->
-        <dependency>
-            <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-base-admin-ui</artifactId>
         </dependency>
         <!-- 第三方服务- 阿里云oss -->
         <dependency>

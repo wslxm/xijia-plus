@@ -6,7 +6,7 @@
     <parent>
         <artifactId>spring-boot-plus2</artifactId>
         <groupId>io.github.wslxm</groupId>
-         <version>1.0.4</version>
+         <version>2.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,21 +14,16 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>xj-api-sms1086</module>
         <module>xj-api-aliyun-oss</module>
         <module>xj-api-aliyun-sms</module>
-        <module>xj-api-qiniu-oss</module>
         <module>xj-api-wx-mp</module>
         <module>xj-api-wx-app</module>
         <module>xj-api-wx-pay</module>
         <module>xj-api-baidu</module>
-        <module>xj-api-kuaidi-kuaidi100</module>
-        <module>xj-api-kuaidi-sf</module>
         <module>xj-api-qq-open</module>
         <module>xj-api-wx-open</module>
         <module>xj-doc-swagger2</module>
         <module>xj-fw-websocket</module>
         <module>xj-fw-redis</module>
-        <module>xj-fw-boot-admin</module>
     </modules>
 </project>
