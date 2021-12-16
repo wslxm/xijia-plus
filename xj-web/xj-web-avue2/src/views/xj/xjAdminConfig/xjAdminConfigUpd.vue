@@ -85,6 +85,7 @@
                             label: '类型',
                             prop: 'type',
                             type: 'radio',
+                            disabled: true,
                             dicData: this.dict.get(this.website.Dict.Base.ConfigType),
                             span: 20,
                             rules: [{
