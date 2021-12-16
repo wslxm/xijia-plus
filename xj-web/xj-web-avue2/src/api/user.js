@@ -26,7 +26,7 @@ export const refeshToken = () => request({
 })
 
 export const getMenu = (pid) => request({
-    url: baseUrl + '/api/admin/menu/list',
+    url: baseUrl + '/api/admin/menu/list?isLoginUser=true',
     method: 'get',
     params: {
         pid: pid,
@@ -37,7 +37,7 @@ export const getMenu = (pid) => request({
 });
 
 export const getTopMenu = () => request({
-    url: baseUrl + '/api/admin/menu/list',
+    url: baseUrl + '/api/admin/menu/list?isLoginUser=true',
     method: 'get',
     params: {
         disable: 0,
