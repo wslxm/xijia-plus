@@ -13,6 +13,7 @@
     <version>${revision}</version>
 
     <properties>
+
     </properties>
 
     <dependencies>
@@ -35,6 +36,17 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-api</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <artifactId>log4j-api</artifactId>
+            <groupId>org.apache.logging.log4j</groupId>
+            <version>2.15.0</version>
         </dependency>
         <!-- 获取数据库异常类 -->
         <dependency>
