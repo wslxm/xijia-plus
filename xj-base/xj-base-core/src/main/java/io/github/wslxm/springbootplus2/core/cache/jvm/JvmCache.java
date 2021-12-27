@@ -29,7 +29,7 @@ public class JvmCache {
      *    //   原  -->   private static Map<String, XjAdminConfig> configMap = new HashMap<>();
      * </P>
      */
-    private static final Map<String, Object> cacheMap = new ConcurrentHashMap<>();
+    private static final Map<String, Object> CACHE_MAP = new ConcurrentHashMap<>();
 
 
     /**
@@ -38,7 +38,7 @@ public class JvmCache {
      * @return
      */
     public static Object get(String key) {
-        return cacheMap.get(key);
+        return CACHE_MAP.get(key);
     }
 
 
@@ -46,7 +46,7 @@ public class JvmCache {
      * 判断指定key 是否 存在缓存数据
      */
     public static boolean containsKey(String key) {
-        return cacheMap.containsKey(key);
+        return CACHE_MAP.containsKey(key);
     }
 
 
@@ -56,7 +56,7 @@ public class JvmCache {
      * value
      */
     public static <T> void set(String key, Object obj) {
-        cacheMap.put(key, obj);
+        CACHE_MAP.put(key, obj);
     }
 
 
@@ -65,7 +65,7 @@ public class JvmCache {
      * @param key
      */
     public static boolean del(String key) {
-        cacheMap.remove(key);
+        CACHE_MAP.remove(key);
         return true;
     }
 
@@ -73,8 +73,8 @@ public class JvmCache {
      * 删除所有缓存
      */
     public static boolean delAll() {
-        for (String key : cacheMap.keySet()) {
-            cacheMap.remove(key);
+        for (String key : CACHE_MAP.keySet()) {
+            CACHE_MAP.remove(key);
         }
         return true;
     }

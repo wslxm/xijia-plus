@@ -11,7 +11,7 @@ import java.security.MessageDigest;
  * @date 2020/7/5 0005 22:06 
  */
 @Slf4j
-public class MD5Util {
+public class Md5Util {
 
     /**
      * md5盐-加密盐值
@@ -45,6 +45,6 @@ public class MD5Util {
     }
 
     public static void main(String[] args) {
-        log.debug(MD5Util.encode("123456"));
+        log.debug(Md5Util.encode("123456"));
     }
 }

@@ -2,9 +2,11 @@
 package io.github.wslxm.springbootplus2.starter.qq.model.entity;
 
 /**
+ *
+ *  @author wangsong
  * Created by Administrator on 2018/10/30/030.
  */
-public class QQUserInfo {
+public class QqUserInfo {
 
 	private Integer ret;
 	private String msg;

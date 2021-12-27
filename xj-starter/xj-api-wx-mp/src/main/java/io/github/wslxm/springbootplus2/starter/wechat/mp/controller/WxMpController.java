@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.starter.wechat.mp.controller;
 
 
+import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.starter.wechat.mp.entity.WxMpAccessTokenVO;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0.1
  */
 @RestController
-@RequestMapping("/api/open/wx/mp")
+@RequestMapping(BaseConstant.Uri.API_OPEN +"/wx/mp")
 @Api(value = "WxMpController", tags = "WX  -->  微信Mp")
 public class WxMpController {
 
@@ -68,11 +69,11 @@ public class WxMpController {
     @RequestMapping(value = "/auth/getOpenId", method = RequestMethod.GET)
     @ApiOperation(value = "网页授权登录 -->  2、通过code 获取openId")
     public R<String> getOpenId(@RequestParam String code) {
-        R<WxMpAccessTokenVO> wxAccessTokenVOData = wxMpH5AuthUtil.getAccessToken(code);
-        if (!wxAccessTokenVOData.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-            return R.error(wxAccessTokenVOData.getCode(), wxAccessTokenVOData.getMsg());
+        R<WxMpAccessTokenVO> wxAccessTokenVoData = wxMpH5AuthUtil.getAccessToken(code);
+        if (!wxAccessTokenVoData.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+            return R.error(wxAccessTokenVoData.getCode(), wxAccessTokenVoData.getMsg());
         } else {
-            return R.success(wxAccessTokenVOData.getData().getOpenid());
+            return R.success(wxAccessTokenVoData.getData().getOpenid());
         }
     }
 

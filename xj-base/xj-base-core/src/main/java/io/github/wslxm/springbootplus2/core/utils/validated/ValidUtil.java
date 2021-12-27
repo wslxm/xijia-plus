@@ -76,7 +76,7 @@ public class ValidUtil {
     /**
      * 校验身份证
      */
-    public static void isIDCard(String idCard, String paramName) {
+    public static void isIdCard(String idCard, String paramName) {
         isNotBlank(idCard, paramName);
         if (!RegUtil.isIDCard(idCard)) {
             throw new ErrorException(RType.PARAM_ERROR.getValue(), paramName + ":" + RegUtil.ID_CARD_MSG);

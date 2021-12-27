@@ -4,11 +4,12 @@ import com.github.binarywang.wxpay.bean.entpay.EntPayRequest;
 import com.github.binarywang.wxpay.bean.entpay.EntPayResult;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.starter.pay.constant.WxPayRespConstant;
 import io.github.wslxm.springbootplus2.starter.pay.model.dto.WxEntPayDTO;
 import io.github.wslxm.springbootplus2.starter.pay.model.vo.WxEntPayResultVO;
 import io.github.wslxm.springbootplus2.starter.pay.result.WxPayRType;
 import io.github.wslxm.springbootplus2.starter.pay.service.XjEntPayService;
-import io.github.wslxm.springbootplus2.starter.pay.wxApi.EntPayApi;
+import io.github.wslxm.springbootplus2.starter.pay.wxapi.EntPayApi;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ *  @author wangsong
  * <pre>
  * 企业付款相关接口
  * Created by Binary Wang on 2018/9/27.
@@ -69,10 +71,10 @@ public class XjEntPayServiceImpl implements XjEntPayService {
                             + ":" + e.getErrCodeDes());
         }
         // 交易结果验证
-        if (!"SUCCESS".equals(vo.getReturnCode()) || !"SUCCESS".equals(vo.getResultCode())) {
-            if (!"SUCCESS".equals(vo.getReturnCode())) {
+        if (!WxPayRespConstant.SUCCESS.equals(vo.getReturnCode()) || !WxPayRespConstant.SUCCESS.equals(vo.getResultCode())) {
+            if (!WxPayRespConstant.SUCCESS.equals(vo.getReturnCode())) {
                 log.info("支付签名验证/参数格式校验失败,交易号={}", vo.getPartnerTradeNo());
-            } else if (!"SUCCESS".equals(vo.getResultCode())) {
+            } else if (!WxPayRespConstant.SUCCESS.equals(vo.getResultCode())) {
                 log.info("业务结果错误,交易号={}", vo.getPartnerTradeNo());
             }
             return R.error(WxPayRType.WX_PAY_FAILURE.getValue(),

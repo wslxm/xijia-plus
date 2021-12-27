@@ -23,8 +23,10 @@ import java.time.Duration;
 /***
  *
  * 处理 redis缓存key 乱码, 以及保存对象数据设置为 json存储(默认二进制)
+ *
  * <P>
- *    继承CachingConfigurerSupport, 为了自定义生成KEY的策略。可以不继承。
+ *  继承CachingConfigurerSupport, 为了自定义生成KEY的策略。可以不继承。
+ *  注解 @EnableCaching  表示 启用缓存，这个注解很重要；可以使用
  * </P>
  * @author wangsong
  * @date 2021/3/2 0002 17:38
@@ -32,10 +34,9 @@ import java.time.Duration;
  * @version 1.0.1
  */
 @Configuration
-@EnableCaching // 启用缓存，这个注解很重要；可以使用
+@EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
 
-//    //@Value("${spring.cache.redis.time-to-live}")
     private Duration timeToLive = Duration.ZERO;
 
     @Bean(name = "redisTemplate")
@@ -67,7 +68,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
         RedisSerializer<String> redisSerializer = new StringRedisSerializer();
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
 
         //解决查询缓存转换异常的问题
         ObjectMapper om = new ObjectMapper();
@@ -81,10 +82,8 @@ public class RedisConfig extends CachingConfigurerSupport {
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
                 .disableCachingNullValues();
-
-        RedisCacheManager cacheManager = RedisCacheManager.builder(factory)
+        return RedisCacheManager.builder(factory)
                 .cacheDefaults(config)
                 .build();
-        return cacheManager;
     }
 }

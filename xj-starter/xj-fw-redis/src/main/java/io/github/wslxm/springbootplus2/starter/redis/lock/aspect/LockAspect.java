@@ -17,6 +17,9 @@ import java.lang.reflect.Method;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ *  @author wangsong
+ */
 @Aspect
 @Slf4j
 @Component

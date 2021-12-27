@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2020-11-27 22:44:49
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/xj/blacklist")
+@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/xj/blacklist")
 @Api(value = "XjAdminBlacklistController", tags = "base-plus--黑名单")
 public class XjAdminBlacklistController extends BaseController<XjAdminBlacklistService> {
 

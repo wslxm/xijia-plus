@@ -23,7 +23,7 @@ import {packPath}.{rootModule}.{moduleName}.service.{tableNameUp}Service;
  * {date}
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/{moduleName}/{tableNameLower}")
+@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/{moduleName}/{tableNameLower}")
 @Api(value ="{tableNameUp}Controller" ,tags = "{tableComment}")
 public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service>  {
 

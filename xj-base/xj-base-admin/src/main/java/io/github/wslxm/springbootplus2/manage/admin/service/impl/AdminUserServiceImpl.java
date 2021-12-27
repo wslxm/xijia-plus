@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.manage.admin.service.*;
 import io.github.wslxm.springbootplus2.core.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.core.auth.util.JwtUtil;
-import io.github.wslxm.springbootplus2.core.auth.util.MD5Util;
+import io.github.wslxm.springbootplus2.core.auth.util.Md5Util;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.cache.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
@@ -33,7 +33,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * @author wangsong
+ */
 @Service
 public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, AdminUser> implements AdminUserService {
 
@@ -69,14 +71,14 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public String insert(AdminUserDTO dto) {
         // 判重账号/判重电话
         this.verifyRepeatUsername(dto.getUsername(), null, dto.getTerminal(), null);
         this.verifyRepeatePhone(dto.getPhone(), null, dto.getTerminal(), null);
         //
         AdminUser adminUser = dto.convert(AdminUser.class);
-        adminUser.setPassword(MD5Util.encode(adminUser.getPassword()));
+        adminUser.setPassword(Md5Util.encode(adminUser.getPassword()));
         adminUser.setRegTime(LocalDateTime.now());
         if (dto.getDisable() == null) {
             // 如果未设置状态,默认启用状态
@@ -98,7 +100,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Boolean upd(String id, AdminUserDTO dto) {
         AdminUser adminUser = this.getOne(new LambdaQueryWrapper<AdminUser>()
                 .select(AdminUser::getUsername, AdminUser::getPhone, AdminUser::getTerminal)
@@ -138,7 +140,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // 角色id组装便于角色回显
         userVO.setRoleIds(userVO.getRoles() == null ? null : userVO.getRoles().stream().map(AdminRoleVO::getId).collect(Collectors.toList()));
         // 公司/部门信息
-        userVO.setOrgan(adminOrganService.fingNextOrgans(userVO.getOrganId()));
+        userVO.setOrgan(adminOrganService.findNextOrgans(userVO.getOrganId()));
         return userVO;
     }
 
@@ -195,7 +197,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     @Override
     public Boolean updResetPassword(String id, String password) {
         return this.update(new LambdaUpdateWrapper<AdminUser>()
-                .set(AdminUser::getPassword, MD5Util.encode(password))
+                .set(AdminUser::getPassword, Md5Util.encode(password))
                 .eq(AdminUser::getId, id));
     }
 
@@ -203,10 +205,10 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     @Override
     public Boolean updByPassword(String oldPassword, String password) {
         AdminUser adminUser = this.getById(JwtUtil.getJwtUser(request).getUserId());
-        if (!adminUser.getPassword().equals(MD5Util.encode(oldPassword))) {
+        if (!adminUser.getPassword().equals(Md5Util.encode(oldPassword))) {
             throw new ErrorException(RType.USER_PASSWORD_ERROR);
         }
-        adminUser.setPassword(MD5Util.encode(password));
+        adminUser.setPassword(Md5Util.encode(password));
         return this.updateById(adminUser);
     }
 
@@ -243,7 +245,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
             }
         }
         // 2、判断密码
-        if (!user.getPassword().equals(MD5Util.encode(password))) {
+        if (!user.getPassword().equals(Md5Util.encode(password))) {
             throw new ErrorException(RType.LOGIN_ERROR_USER_PASSWORD);
         }
         // 3、判断禁用

@@ -1,6 +1,8 @@
 package io.github.wslxm.springbootplus2.starter.baidu.controller;
 
+import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.starter.baidu.constant.TextExtractTypeEnum;
 import io.github.wslxm.springbootplus2.starter.baidu.util.BaiDuWeiZiApiUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-
+/**
+ * @author wangsong
+ */
 @RestController
-@RequestMapping("/api/open/baidu")
+@RequestMapping(BaseConstant.Uri.API_OPEN + "/baidu")
 @Api(value = "BaiDuApiController", tags = "BaiDu  -->  百度API")
 public class BaiDuApiController {
 
@@ -50,49 +54,49 @@ public class BaiDuApiController {
             "\r\n 21、网络图片文字识别（含位置版） " +
             "")
     public R<String> picTextExtract(@RequestParam("file") MultipartFile file, @RequestParam("type") Integer type) {
-        if(type == 1){
+        if (type.equals(TextExtractTypeEnum.V1.getCode())) {
             return baiDuWeiZiApiUtil.basicGeneral(file.getInputStream());
-        }else if(type == 2){
+        } else if (type.equals(TextExtractTypeEnum.V2.getCode())) {
             return baiDuWeiZiApiUtil.basicAccurateGeneral(file.getInputStream());
-        }else if(type == 3){
+        } else if (type.equals(TextExtractTypeEnum.V3.getCode())) {
             return baiDuWeiZiApiUtil.general(file.getInputStream());
-        }else if(type == 4){
+        } else if (type.equals(TextExtractTypeEnum.V4.getCode())) {
             return baiDuWeiZiApiUtil.accurateGeneral(file.getInputStream());
-        }else if(type == 5){
+        } else if (type.equals(TextExtractTypeEnum.V5.getCode())) {
             return baiDuWeiZiApiUtil.enhancedGeneral(file.getInputStream());
-        }else if(type == 6){
+        } else if (type.equals(TextExtractTypeEnum.V6.getCode())) {
             return baiDuWeiZiApiUtil.webImage(file.getInputStream());
-        }else if(type == 7){
+        } else if (type.equals(TextExtractTypeEnum.V7.getCode())) {
             return baiDuWeiZiApiUtil.idcard(file.getInputStream());
-        }else if(type == 8){
+        } else if (type.equals(TextExtractTypeEnum.V8.getCode())) {
             return baiDuWeiZiApiUtil.bankcard(file.getInputStream());
-        }else if(type == 9){
+        } else if (type.equals(TextExtractTypeEnum.V9.getCode())) {
             return baiDuWeiZiApiUtil.drivingLicense(file.getInputStream());
-        }else if(type == 10){
+        } else if (type.equals(TextExtractTypeEnum.V10.getCode())) {
             return baiDuWeiZiApiUtil.vehicleLicense(file.getInputStream());
-        }else if(type == 11){
+        } else if (type.equals(TextExtractTypeEnum.V11.getCode())) {
             return baiDuWeiZiApiUtil.plateLicense(file.getInputStream());
-        }else if(type == 12){
+        } else if (type.equals(TextExtractTypeEnum.V12.getCode())) {
             return baiDuWeiZiApiUtil.businessLicense(file.getInputStream());
-        }else if(type == 13){
+        } else if (type.equals(TextExtractTypeEnum.V13.getCode())) {
             return baiDuWeiZiApiUtil.receipt(file.getInputStream());
-        }else if(type == 14){
+        } else if (type.equals(TextExtractTypeEnum.V14.getCode())) {
             return null;
-        }else if(type == 15){
+        } else if (type.equals(TextExtractTypeEnum.V15.getCode())) {
             return baiDuWeiZiApiUtil.form(file.getInputStream());
-        }else if(type == 16){
+        } else if (type.equals(TextExtractTypeEnum.V16.getCode())) {
             return null;
-        }else if(type == 17){
+        } else if (type.equals(TextExtractTypeEnum.V17.getCode())) {
             return null;
-        }else if(type == 18){
+        } else if (type.equals(TextExtractTypeEnum.V18.getCode())) {
             return null;
-        }else if(type == 19){
+        } else if (type.equals(TextExtractTypeEnum.V19.getCode())) {
             return baiDuWeiZiApiUtil.docAnalysis(file.getInputStream());
-        }else if(type == 20){
+        } else if (type.equals(TextExtractTypeEnum.V20.getCode())) {
             return baiDuWeiZiApiUtil.meter(file.getInputStream());
-        }else if(type == 21){
+        } else if (type.equals(TextExtractTypeEnum.V21.getCode())) {
             return baiDuWeiZiApiUtil.webimageLoc(file.getInputStream());
-        }else{
+        } else {
             return null;
         }
     }

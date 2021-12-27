@@ -36,7 +36,9 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
+/**
+ * @author wangsong
+ */
 @Service
 @Slf4j
 public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMapper, AdminAuthority> implements AdminAuthorityService {
@@ -82,22 +84,22 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             return adminAuthorityVOList;
         }
         // 4、resurt，返回tree
-        List<AdminAuthorityVO> adminAuthorityVOTree = new ArrayList<>();
+        List<AdminAuthorityVO> adminAuthorityVoTree = new ArrayList<>();
         // 循环处理数据,获取第一级类数据
         for (AdminAuthorityVO authVO : adminAuthorityVOList) {
             if ("".equals(authVO.getPid()) || "0".equals(authVO.getPid())) {
                 // 循环处理数据,获取第二级方法数据
-                List<AdminAuthorityVO> nextAdminAuthorityVOTree = new ArrayList<>();
+                List<AdminAuthorityVO> nextAdminAuthorityVoTree = new ArrayList<>();
                 for (AdminAuthorityVO authTwoVO : adminAuthorityVOList) {
                     if (authTwoVO.getPid().equals(authVO.getId())) {
-                        nextAdminAuthorityVOTree.add(authTwoVO);
+                        nextAdminAuthorityVoTree.add(authTwoVO);
                     }
                 }
-                authVO.setAuthoritys(nextAdminAuthorityVOTree);
-                adminAuthorityVOTree.add(authVO);
+                authVO.setAuthoritys(nextAdminAuthorityVoTree);
+                adminAuthorityVoTree.add(authVO);
             }
         }
-        return adminAuthorityVOTree;
+        return adminAuthorityVoTree;
     }
 
 
@@ -153,7 +155,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     @SuppressWarnings("all")
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean refreshAuthDB() {
+    public Boolean refreshAuthDb() {
         log.info("  @.@...正在更新接口资源,所有被权限管理的接口将被打印出来…… ^.^ ");
 
         // 获取启动类注解上需要扫描的路径
@@ -200,19 +202,19 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 className = api.value();
             }
             String url = requestMappingClass.value()[0];
-            if (url.indexOf(BaseConstant.Uri.apiAdmin) != -1) {
+            if (url.indexOf(BaseConstant.Uri.API_ADMIN) != -1) {
                 // 管理端 | 默认需登录+授权
                 uriType = Base.AuthorityType.V0.getValue();
                 state = Base.AuthorityState.V2.getValue();
-            } else if (url.indexOf(BaseConstant.Uri.apiClient) != -1) {
+            } else if (url.indexOf(BaseConstant.Uri.API_CLIENT) != -1) {
                 // 用户端 | 默认需登录
                 uriType = Base.AuthorityType.V1.getValue();
                 state = Base.AuthorityState.V1.getValue();
-            } else if (url.indexOf(BaseConstant.Uri.apiOpen) != -1) {
+            } else if (url.indexOf(BaseConstant.Uri.API_OPEN) != -1) {
                 // 通用 | 默认无需登录+无需授权
                 uriType = Base.AuthorityType.V2.getValue();
                 state = Base.AuthorityState.V0.getValue();
-            } else if (url.indexOf(BaseConstant.Uri.apiOauth2) != -1) {
+            } else if (url.indexOf(BaseConstant.Uri.API_OAUTH2) != -1) {
                 // Oauth2.0接口 | 默认需Oauth2.0授权
                 uriType = Base.AuthorityType.V3.getValue();
                 state = Base.AuthorityState.V3.getValue();

@@ -23,62 +23,102 @@ import java.util.List;
 public interface AdminRoleService extends IService<AdminRole> {
 
 
+    /**
+     * 列表查询
+     *
+     * @param query query
+     * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminRoleVO>
+     * @version 1.0.0
+     */
     IPage<AdminRoleVO> list(AdminRoleQuery query);
+
 
     /**
      * 添加角色-默认有所有URL 权限
-     * @author wangsong
-     * @param dto
+     *
+     * @param dto dto
+     * @return java.lang.String
+     * @version 1.0.0
      */
     String insert(AdminRoleDTO dto);
 
+
     /**
      * 编辑角色信息
-     * @param dto
+     *
+     * @param id  id
+     * @param dto dto
+     * @return java.lang.Boolean
+     * @version 1.0.0
      */
     Boolean upd(String id, AdminRoleDTO dto);
 
+
     /**
      * 删除角色并删除角色关联的  (权限+菜单+用户) 的关系数据
+     *
+     * @param roleId roleId
+     * @return boolean
+     * @version 1.0.0
      */
     boolean del(String roleId);
 
-    /**
-     * 查询用户角色| 用户当前拥有角色赋予 isChecked=true
-     * @param userId
-     */
-   // List<AdminRoleVO> findByUserIdRoleChecked(String userId);
 
     /**
      * 修改用户角色
-     * @param userId
-     * @param roleIds
+     *
+     * @param userId  userId
+     * @param roleIds roleIds
+     * @return boolean
+     * @version 1.0.0
      */
     boolean updUserRole(String userId, List<String> roleIds);
 
+
     /**
      * 分配用户角色
+     *
+     * @param dto dto
+     * @return boolean
+     * @version 1.0.0
      */
     boolean updUserRole(UserRoleDTO dto);
 
+
     /**
-     *  分配角色菜单权限
+     * 分配角色菜单权限
+     *
+     * @param dto dto
+     * @return boolean
+     * @version 1.0.0
      */
     boolean roleMenuAuth(RoleMenuDTO dto);
 
 
-    /***
-     *  分配所有角色拥有所有权限
+    /**
+     * 分配所有角色拥有所有权限
+     *
+     * @return boolean
+     * @version 1.0.0
      */
     boolean roleAuthAll();
 
-    /***
-     *  分配角色url权限
+
+    /**
+     * 分配角色url权限
+     *
+     * @param dto dto
+     * @return boolean
+     * @version 1.0.0
      */
     boolean roleUrlAuth(RoleAuthDTO dto);
 
+
     /**
      * 获取超管角色
+     *
+     * @return io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRole
+     * @version 1.0.0
      */
     AdminRole findSysRole();
 

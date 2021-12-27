@@ -10,6 +10,9 @@ import lombok.ToString;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ *  @author wangsong
+ */
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "PayOrderDTO 对象", description = "支付下单需要用到的参数")

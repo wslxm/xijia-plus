@@ -27,7 +27,7 @@ import java.util.List;
  * @date 2019/11/13 13:38
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/user")
+@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/user")
 @Api(value = "AdminUserController", tags = "base--用户管理")
 public class AdminUserController extends BaseController<AdminUserService> {
 

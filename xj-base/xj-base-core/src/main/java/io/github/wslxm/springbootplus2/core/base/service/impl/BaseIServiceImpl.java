@@ -18,9 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  * @WX-QQ 1720696548
  * @date 2019/10/31 21:12
  */
-@SuppressWarnings("all")
 @Slf4j
-public class BaseIServiceImpl<M extends BaseMapper<T>,  T> extends ServiceImpl<M, T> {
+public class BaseIServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
 
     /**
      * 当前继承this类传递的Mapper 类 (提供Api操作，及Mapper.xml自定义sql)
@@ -48,12 +47,15 @@ public class BaseIServiceImpl<M extends BaseMapper<T>,  T> extends ServiceImpl<M
     /**
      * this = 当前继承BaseIServiceImpl+T 类的 Iservice类 （对 baseMapper 进行增强, 提供批量操作方法）
      */
-    //protected this;
+    /// protected this;
 
 
     /**
      * 获取项目的Ip 地址+端口 或者域名
-     * @return
+     *
+     * @param request request
+     * @return java.lang.String
+     * @version 1.0.0
      */
     public static String getBaseUrl(HttpServletRequest request) {
         // 接口名
@@ -61,8 +63,7 @@ public class BaseIServiceImpl<M extends BaseMapper<T>,  T> extends ServiceImpl<M
         // 完整url
         String url = request.getRequestURL().toString();
         // 去调接口后url
-        String baseUrl = url.replace(interfaceName, "");
-        return baseUrl;
+        return url.replace(interfaceName, "");
     }
 }
 

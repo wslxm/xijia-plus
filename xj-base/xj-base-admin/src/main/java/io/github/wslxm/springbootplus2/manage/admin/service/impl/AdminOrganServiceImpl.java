@@ -110,7 +110,7 @@ public class AdminOrganServiceImpl extends BaseIServiceImpl<AdminOrganMapper, Ad
 
 
     @Override
-    public AdminOrganVO fingNextOrgans(String id) {
+    public AdminOrganVO findNextOrgans(String id) {
         // 获取当前数据
         AdminOrgan adminOrgan = this.getOne(new LambdaQueryWrapper<AdminOrgan>()
                 .select(AdminOrgan::getId, AdminOrgan::getPid, AdminOrgan::getRoot, AdminOrgan::getName, AdminOrgan::getCode)

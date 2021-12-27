@@ -48,7 +48,7 @@ public class XjGenerationVueAdd extends BaseGcImpl implements XjGcSevice {
             String name = GenerateDataProcessing.getFieldName(fieldMap.getName());
             vueAddColumnsDefault.append("                    " + name + ": " + null + ",\n");
             // 生成字段
-            String vueColumn = JXVueColumns(fieldMap.getName(),
+            String vueColumn = jxVueColumns(fieldMap.getName(),
                     fieldMap.getType() ,
                     fieldMap.getTypeDetail(),
                     getDesc(fieldMap.getDesc()),

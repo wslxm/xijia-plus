@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *  全局页面传入日期字符串，自动转换成日期格式
+ * 全局页面传入日期字符串，自动转换成日期格式
  *
  * @author 王松
  * @WX-QQ 1720696548
@@ -19,13 +19,13 @@ import java.util.List;
 @Component
 public class DateConverterConfig implements Converter<String, Date> {
 
-    private static final List<String> formarts = new ArrayList<>(4);
+    private static final List<String> FORMATS = new ArrayList<>(4);
 
     static {
-        formarts.add("yyyy-MM");
-        formarts.add("yyyy-MM-dd");
-        formarts.add("yyyy-MM-dd hh:mm");
-        formarts.add("yyyy-MM-dd hh:mm:ss");
+        FORMATS.add("yyyy-MM");
+        FORMATS.add("yyyy-MM-dd");
+        FORMATS.add("yyyy-MM-dd hh:mm");
+        FORMATS.add("yyyy-MM-dd hh:mm:ss");
     }
 
     @Override
@@ -35,13 +35,13 @@ public class DateConverterConfig implements Converter<String, Date> {
             return null;
         }
         if (source.matches("^\\d{4}-\\d{1,2}$")) {
-            return parseDate(source, formarts.get(0));
+            return parseDate(source, FORMATS.get(0));
         } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
-            return parseDate(source, formarts.get(1));
+            return parseDate(source, FORMATS.get(1));
         } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
-            return parseDate(source, formarts.get(2));
+            return parseDate(source, FORMATS.get(2));
         } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$")) {
-            return parseDate(source, formarts.get(3));
+            return parseDate(source, FORMATS.get(3));
         } else {
             throw new IllegalArgumentException("Invalid boolean value '" + source + "'");
         }

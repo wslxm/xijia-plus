@@ -8,6 +8,9 @@ import lombok.ToString;
 
 import java.io.Serializable;
 
+/**
+ *  @author wangsong
+ */
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "WxMaPhoneNumberInfoVO 对象", description = "获取手机号")

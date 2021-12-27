@@ -23,7 +23,7 @@ import java.util.Map;
  * @date 2020/2/9 0009 20:33
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/generate")
+@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/generate")
 @Api(value = "XjGenerateController", tags = "base-gc--代码生成")
 public class XjGenerateController extends BaseController {
 

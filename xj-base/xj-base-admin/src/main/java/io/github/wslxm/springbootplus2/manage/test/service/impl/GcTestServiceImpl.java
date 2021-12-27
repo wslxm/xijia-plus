@@ -41,6 +41,7 @@ public class GcTestServiceImpl extends BaseIServiceImpl<GcTestMapper, GcTest> im
         }
     }
 
+    @Override
     public GcTestVO findId(String id) {
         return BeanDtoVoUtil.convert(this.getById(id),GcTestVO.class);
     }

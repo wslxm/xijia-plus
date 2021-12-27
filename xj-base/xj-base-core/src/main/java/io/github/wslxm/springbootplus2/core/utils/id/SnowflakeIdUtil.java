@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.core.utils.id;
 
 /**
+ *  @author wangsong
  * @description: 使用雪花算法生成全局id
  */
 public class SnowflakeIdUtil {

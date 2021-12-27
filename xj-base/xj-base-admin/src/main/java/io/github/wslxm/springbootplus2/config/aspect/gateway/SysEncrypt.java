@@ -31,8 +31,10 @@ import java.util.List;
 @Slf4j
 public class SysEncrypt {
 
-    // 是否开启加密(true=开启)
-    boolean isEncrypt = true;
+    /**
+     * 是否开启加密(true=开启)
+     */
+    private boolean isEncrypt = true;
 
     /**
      * 请求参数解密
@@ -141,10 +143,9 @@ public class SysEncrypt {
                     } catch (Exception e) {
                         log.error(name + ": 参数" + logMsg + "失败");
                         return R.error(RType.PARAM_DECRYPTION_ERROR.getValue(), RType.PARAM_DECRYPTION_ERROR.getMsg(), obj, name + logMsg + ": 失败");
-                        // e.printStackTrace();
+                        /// e.printStackTrace();
                     }
                 } else {
-                    // isNext=false 对参数进行解密or加密
                     try {
                         String fieldVal = (String) field.get(obj);
                         if (type == 1) {
@@ -155,7 +156,7 @@ public class SysEncrypt {
                     } catch (Exception e) {
                         log.error(name + ": 参数" + logMsg + "失败");
                         return R.error(RType.PARAM_DECRYPTION_ERROR.getValue(), RType.PARAM_DECRYPTION_ERROR.getMsg(), obj, name + logMsg + ": 失败");
-                        // e.printStackTrace();
+                        /// e.printStackTrace();
                     }
                 }
             }
@@ -175,9 +176,9 @@ public class SysEncrypt {
         if (!isEncrypt) {
             return obj;
         }
-        R r = null;
+        R<Object> r = null;
         try {
-            r = (R) obj;
+            r = (R<Object>) obj;
         } catch (Exception e) {
             return obj;
         }

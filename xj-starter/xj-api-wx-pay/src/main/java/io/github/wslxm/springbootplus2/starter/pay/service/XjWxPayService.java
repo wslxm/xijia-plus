@@ -7,7 +7,9 @@ import io.github.wslxm.springbootplus2.starter.pay.model.vo.WxPayOrderNotifyResu
 import io.github.wslxm.springbootplus2.starter.pay.model.vo.WxPayOrderResultVO;
 import io.github.wslxm.springbootplus2.starter.pay.model.vo.WxPayRefundResultVO;
 
+
 /**
+ *  @author wangsong
  * <pre>
  * 微信支付相关
  * Created by Binary Wang on 2018/9/27.

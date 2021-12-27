@@ -3,6 +3,9 @@ package io.github.wslxm.springbootplus2.config.filter.sing.util;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 
+/**
+ *  @author wangsong
+ */
 public class RequestReadUtils {
 
     private static final int BUFFER_SIZE = 1024 * 8;

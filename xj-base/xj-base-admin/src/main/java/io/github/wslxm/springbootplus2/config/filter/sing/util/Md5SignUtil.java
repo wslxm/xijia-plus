@@ -5,20 +5,22 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * 加签 md5工具类 (加密为32位小写)
+ *
  * @author wangsong
+ * @version 1.0.1
  * @date 2021/4/1 0001 21:02
  * @return
- * @version 1.0.1
  */
-public class MD5SignUtil {
+public class Md5SignUtil {
 
     /**
      * md5加密 32位 小写
+     *
      * @param plainText
      * @return
      */
-    public static String MD5(String plainText) {
-        String re_md5 = new String();
+    public static String md5(String plainText) {
+        String reMd5 = "";
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(plainText.getBytes());
@@ -27,19 +29,19 @@ public class MD5SignUtil {
             StringBuffer buf = new StringBuffer("");
             for (int offset = 0; offset < b.length; offset++) {
                 i = b[offset];
-                if (i < 0){
+                if (i < 0) {
                     i += 256;
                 }
-                if (i < 16){
+                if (i < 16) {
                     buf.append("0");
                 }
                 buf.append(Integer.toHexString(i));
             }
-            re_md5 = buf.toString();
+            reMd5 = buf.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return re_md5;
+        return reMd5;
     }
 }
 

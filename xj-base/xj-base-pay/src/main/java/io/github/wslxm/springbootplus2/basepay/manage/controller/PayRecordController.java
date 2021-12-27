@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021-01-05 10:14:05
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/pay/payRecord")
+@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/pay/payRecord")
 @Api(value = "PayRecordController", tags = "pay  -->  第三方支付记录")
 public class PayRecordController extends BaseController<PayRecordService> {
 

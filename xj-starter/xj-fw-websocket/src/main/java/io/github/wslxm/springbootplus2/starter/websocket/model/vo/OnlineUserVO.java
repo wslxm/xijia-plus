@@ -5,6 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
+ *  @author wangsong
  *   在线列表信息返回
  */
 @Data

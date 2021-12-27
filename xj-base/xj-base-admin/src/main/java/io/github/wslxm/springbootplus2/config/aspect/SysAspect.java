@@ -103,15 +103,24 @@ public class SysAspect {
     private final List<String> excludeUriList = new ArrayList<>();
 
     public SysAspect() {
-        excludeUriList.add("/bootAdmin/instances");  // springbootAdmin监控相关
-        excludeUriList.add("/bootAdmin");            // 系统监控相关
-        excludeUriList.add("/actuator");             // 系统监控相关
-        excludeUriList.add("/druid/");               // sql监控相关
-        excludeUriList.add("/page/");                // 页面跳转(路由)
-        excludeUriList.add("/error");                // 模板解析错误
-        excludeUriList.add("/api/admin/adminLog/");  // 日志相关
-        excludeUriList.add("/swagger-resources/");   // swagger访问
-        excludeUriList.add("/api/admin/xj/jvm/jvmInfo");   // 获取jvm信息
+        // springbootAdmin监控相关
+        excludeUriList.add("/bootAdmin/instances");
+        // 系统监控相关
+        excludeUriList.add("/bootAdmin");
+        // 系统监控相关
+        excludeUriList.add("/actuator");
+        // sql监控相关
+        excludeUriList.add("/druid/");
+        // 页面跳转(路由)
+        excludeUriList.add("/page/");
+        // 模板解析错误
+        excludeUriList.add("/error");
+        // 日志相关
+        excludeUriList.add("/api/admin/adminLog/");
+        // swagger访问
+        excludeUriList.add("/swagger-resources/");
+        // 获取jvm信息
+        excludeUriList.add("/api/admin/xj/jvm/jvmInfo");
     }
 
     /**
@@ -218,7 +227,6 @@ public class SysAspect {
             R<Object[]> rArgs = sysEncrypt.decrypt(proceed);
             // 6.2、请求接口
             obj = proceed.proceed(rArgs.getData());
-            //obj = proceed.proceed();
             // 6.3、响应核心参数加密
             obj = sysEncrypt.encrypt(obj);
         } catch (Exception e) {

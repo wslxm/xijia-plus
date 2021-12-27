@@ -6,10 +6,11 @@ import java.util.Map;
 
 /**
  * Token 生成与判断
+ *
  * @author wangsong
  * @date: 2019年4月27日 下午10:04:39
  */
-public class XJIdempotentUtils {
+public class XjIdempotentUtils {
 
     /**
      * 幂等id有效期（毫秒） 30分钟
@@ -28,6 +29,7 @@ public class XJIdempotentUtils {
 
     /**
      * 将token存入在 jvm || Memcached || redis
+     *
      * @return
      */
     public static String saveApiIdempotent() {
@@ -39,6 +41,7 @@ public class XJIdempotentUtils {
 
     /**
      * 判断token是否有效 / 是否为重复调用
+     *
      * @param tokenKey
      * @return Ext
      */

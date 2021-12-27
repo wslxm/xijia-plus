@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.starter.wechat.app.controller;
 
 
+import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.starter.wechat.app.model.WxMaJscode2SessionResultVO;
 import io.github.wslxm.springbootplus2.starter.wechat.app.model.WxMaPhoneNumberInfoVO;
@@ -24,7 +25,7 @@ import java.util.Map;
  * @version 1.0.1
  */
 @RestController
-@RequestMapping("/api/open/wx/app")
+@RequestMapping(BaseConstant.Uri.API_OPEN +"/wx/app")
 @Api(value = "WxAppController", tags = "WX  -->  APP小程序")
 public class WxAppController {
 

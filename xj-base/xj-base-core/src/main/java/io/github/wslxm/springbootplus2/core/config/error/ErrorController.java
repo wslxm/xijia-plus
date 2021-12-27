@@ -1,6 +1,8 @@
 package io.github.wslxm.springbootplus2.core.config.error;
 
 import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.utils.EnumUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,22 +32,8 @@ public class ErrorController {
     @RequestMapping(value = "/error/{code}")
     @ResponseBody
     public R<String> error(@PathVariable int code) {
-        // 根据状态值查询对应的枚举
-        // RType errorConstantEnum = EnumUtil.getByCode(Integer.valueOf(code), RType.class);
-        if (code == 400) {
-            return R.error(code, "400错误");
-        } else if (code == 401) {
-            return R.error(code, "禁止非法访问");
-        } else if (code == 403) {
-            return R.error(code, "无权限访问");
-        } else if (code == 404) {
-            return R.error(code, "找不到该请求");
-        } else if (code == 415) {
-            return R.error(code, "415错误");
-        } else if (code == 500) {
-            return R.error(code, "系统错误");
-        } else {
-            return R.error(code, "未知错误");
-        }
+        /// 根据状态值查询对应的枚举
+        // RType byCode = EnumUtil.getByCode(code, RType.class);
+        return R.error(code, code + " error");
     }
 }

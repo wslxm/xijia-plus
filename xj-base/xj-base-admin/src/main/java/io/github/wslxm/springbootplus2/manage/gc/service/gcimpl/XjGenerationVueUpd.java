@@ -38,7 +38,7 @@ public class XjGenerationVueUpd extends BaseGcImpl implements XjGcSevice {
                 continue;
             }
             // 生成字段
-            String vueColumn = JXVueColumns(fieldMap.getName(),
+            String vueColumn = jxVueColumns(fieldMap.getName(),
                     fieldMap.getType(),
                     fieldMap.getTypeDetail(),
                     getDesc(fieldMap.getDesc()),

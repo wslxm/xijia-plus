@@ -18,6 +18,9 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+/**
+ *  @author wangsong
+ */
 @Service
 @Slf4j
 public class XjToolServerImpl implements XjToolServer {
@@ -149,11 +152,11 @@ public class XjToolServerImpl implements XjToolServer {
         return ramVO;
     }
 
-    //
+
     public static String loadStream(InputStream in) throws IOException {
         int ptr = 0;
         in = new BufferedInputStream(in);
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         while ((ptr = in.read()) != -1) {
             buffer.append((char) ptr);
         }
@@ -187,21 +190,25 @@ public class XjToolServerImpl implements XjToolServer {
 
     /**
      * 获取 服务器相关信息
-     * @return
+     * @return XjToolJvmInfoVO.ServerInformationVO
      */
     private XjToolJvmInfoVO.ServerInformationVO getServerInformation() {
         XjToolJvmInfoVO.ServerInformationVO serverInformationVO = new XjToolJvmInfoVO.ServerInformationVO();
-        serverInformationVO.setName(SystemUtil.getHostInfo().getName());  // 主机名
-        serverInformationVO.setIp(SystemUtil.getHostInfo().getAddress());  // 主机ip
-        serverInformationVO.setOperatingSystem(SystemUtil.getOsInfo().getName());  // 系统版本
-        serverInformationVO.setSystemStructure(SystemUtil.getOsInfo().getArch());  // 系统架构
+        // 主机名
+        serverInformationVO.setName(SystemUtil.getHostInfo().getName());
+        // 主机ip
+        serverInformationVO.setIp(SystemUtil.getHostInfo().getAddress());
+        // 系统版本
+        serverInformationVO.setOperatingSystem(SystemUtil.getOsInfo().getName());
+        // 系统架构
+        serverInformationVO.setSystemStructure(SystemUtil.getOsInfo().getArch());
         return serverInformationVO;
     }
 
 
     /**
      * 获取 jvm/jdk 相关信息
-     * @return
+     * @return XjToolJvmInfoVO.JvmInformationVO
      */
     private XjToolJvmInfoVO.JvmInformationVO getJvmInformation() {
         XjToolJvmInfoVO.JvmInformationVO jvmInformationVO = new XjToolJvmInfoVO.JvmInformationVO();

@@ -23,7 +23,7 @@ import io.github.wslxm.springbootplus2.manage.test.service.GcTestService;
  * @date  2021-12-08 11:39:01
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/test/gcTest")
+@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/test/gcTest")
 @Api(value ="GcTestController" ,tags = "代码生成测试表")
 public class GcTestController extends BaseController<GcTestService>  {
 

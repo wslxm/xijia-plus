@@ -22,7 +22,7 @@ import java.util.List;
  * @date Mon Nov 25 08:02:49 CST 2019
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/authority")
+@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/authority")
 @Api(value = "AdminAuthorityController", tags = "base--URL权限管理")
 public class AdminAuthorityController extends BaseController<AdminAuthorityService> {
 
@@ -44,6 +44,6 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
     @PutMapping(value = "/refreshAuthority")
     @Deprecated
     public R<Boolean> refreshAuthority() {
-        return R.success(baseService.refreshAuthDB());
+        return R.success(baseService.refreshAuthDb());
     }
 }

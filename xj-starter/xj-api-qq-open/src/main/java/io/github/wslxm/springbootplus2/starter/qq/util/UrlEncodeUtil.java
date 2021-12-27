@@ -6,16 +6,19 @@
  * @创建人:
  * @描叙:
  */
-package io.github.wslxm.springbootplus2.starter.wechat.open.util;
+package io.github.wslxm.springbootplus2.starter.qq.util;
 
 import java.io.UnsupportedEncodingException;
 
-public class URLEncodeUtil {
+/**
+ *  @author wangsong
+ */
+public class UrlEncodeUtil {
     private final static String ENCODE = "UTF-8";
     /**
      * URL 解码
      */
-    public static String getURLDecoderString(String str) {
+    public static String getUrlDecoderString(String str) {
         String result = "";
         if (null == str) {
             return "";
@@ -30,7 +33,7 @@ public class URLEncodeUtil {
     /**
      * URL 转码
      */
-    public static String getURLEncoderString(String str) {
+    public static String getUrlEncoderString(String str) {
         String result = "";
         if (null == str) {
             return "";

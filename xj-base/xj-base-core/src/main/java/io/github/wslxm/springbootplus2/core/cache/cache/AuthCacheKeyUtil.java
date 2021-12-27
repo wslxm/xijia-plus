@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.core.cache.cache;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import io.github.wslxm.springbootplus2.core.utils.paramVerification.StringUtil;
+import io.github.wslxm.springbootplus2.core.utils.paramverification.StringUtil;
 
 /***
  * 权限 key 以 缓存key 处理/获取方法

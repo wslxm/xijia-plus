@@ -22,9 +22,9 @@ public class WxAppConfig {
         WxMaDefaultConfigImpl config = new WxMaDefaultConfigImpl();
         config.setAppid(wxAppProperties.getAppId());
         config.setSecret(wxAppProperties.getSecret());
-        //  config.setToken(wxAppProperties.getToken());
-        //  config.setAesKey(wxAppProperties.getAesKey());
-        //  config.setMsgDataFormat(a.getMsgDataFormat());
+        ///  config.setToken(wxAppProperties.getToken());
+        ///  config.setAesKey(wxAppProperties.getAesKey());
+        ///  config.setMsgDataFormat(a.getMsgDataFormat());
         WxMaService service = new WxMaServiceImpl();
         service.setWxMaConfig(config);
         return service;

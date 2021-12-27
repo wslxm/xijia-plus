@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ *  @author wangsong
  * wx 登陆常量配置类
  * 示例配置：
  * ``````

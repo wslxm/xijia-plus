@@ -21,24 +21,14 @@ import java.util.List;
 public class RestTemplateConfig {
 
 
-    //    @Bean
-    //    public RestTemplate restTemplate() {
-    //        return new RestTemplate();
-    //    }
-
-
     /**
      * RestTemplate =  rest,http风格的,api调用工具
-     * <P>
-     * 使用：
-     * @Autowired private RestTemplate restTemplate;
-     * String result = restTemplate.getForObject(memberUrl, String.class);
-     * </P>
-     *
-
+     * @author wangsong
+     * @date 2021/12/27 16:21
+     * @return org.springframework.web.client.RestTemplate
+     * @version 1.0.0
      */
     @Bean
-    //@LoadBalanced
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         List<HttpMessageConverter<?>> list = restTemplate.getMessageConverters();

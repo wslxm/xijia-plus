@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.starter.websocket.controller;
 
 
+import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.starter.websocket.model.vo.OnlineUserVO;
 import io.github.wslxm.springbootplus2.starter.websocket.service.WebsocketService;
@@ -35,7 +36,7 @@ import java.util.Map;
  */
 @SuppressWarnings("all")
 @Api(value = "WebsocketController", tags = "Websocket  -->  消息通知/即时通讯")
-@RequestMapping("/api/open/websocket")
+@RequestMapping(BaseConstant.Uri.API_OPEN +"/websocket")
 @RestController
 @Slf4j
 public class WebsocketController {

@@ -3,16 +3,18 @@ package io.github.wslxm.springbootplus2.starter.wechat.open.server.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
+import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.starter.wechat.open.config.WxOpenProperties;
 import io.github.wslxm.springbootplus2.starter.wechat.open.model.vo.WxUserInfoVO;
 import io.github.wslxm.springbootplus2.starter.wechat.open.server.WxOpenLoginService;
-import io.github.wslxm.springbootplus2.starter.wechat.open.util.URLEncodeUtil;
+import io.github.wslxm.springbootplus2.starter.wechat.open.util.UrlEncodeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 微信三方登录
@@ -36,7 +38,7 @@ public class WxOpenLoginServiceImpl implements WxOpenLoginService {
     public String getWxOpenLoginUrl() {
         return "https://open.weixin.qq.com/connect/qrconnect" +
                 "?appid=" + wxOpenProperties.getAppId() +
-                "&redirect_uri=" + URLEncodeUtil.getURLEncoderString(wxOpenProperties.getCallbackUrl()) +
+                "&redirect_uri=" + UrlEncodeUtil.getUrlEncoderString(wxOpenProperties.getCallbackUrl()) +
                 "&response_type=code" +
                 "&scope=snsapi_login" +
                 "&state=0" +
@@ -72,8 +74,13 @@ public class WxOpenLoginServiceImpl implements WxOpenLoginService {
                 "&grant_type=authorization_code";
         String forObject = restTemplate.getForObject(url, String.class);
         JSONObject jsonObject = JSON.parseObject(forObject, JSONObject.class);
-        if (jsonObject.get("errcode") != null) {
-            throw new ErrorException(Integer.parseInt(jsonObject.get("errcode").toString()), jsonObject.get("errmsg").toString());
+        String errCode = "errcode";
+        String errMsg = "errmsg";
+        if (jsonObject == null) {
+            throw new ErrorException(RType.PARAM_ANALYSIS_ERROR.getValue(), "微信响应参数解析错误");
+        }
+        if (jsonObject.get(errCode) != null) {
+            throw new ErrorException(Integer.parseInt(jsonObject.get(errCode).toString()), jsonObject.get(errMsg).toString());
         }
         return jsonObject;
     }
@@ -88,15 +95,16 @@ public class WxOpenLoginServiceImpl implements WxOpenLoginService {
                 "?access_token=" + accessToken +
                 "&openid=" + openid;
         String forObject = restTemplate.getForObject(url, String.class);
-        try {
-            // 处理中文乱码
-            forObject = new String(forObject.getBytes("ISO-8859-1"), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        if (forObject == null) {
+            throw new ErrorException(RType.PARAM_ANALYSIS_ERROR.getValue(), "微信响应参数解析错误");
         }
+        // 处理中文乱码
+        forObject = new String(forObject.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         JSONObject jsonObject = JSON.parseObject(forObject, JSONObject.class);
-        if (jsonObject.get("errcode") != null) {
-            throw new ErrorException(Integer.parseInt(jsonObject.get("errcode").toString()), jsonObject.get("errmsg").toString());
+        String errCode = "errcode";
+        String errMsg = "errmsg";
+        if (jsonObject.get(errCode) != null) {
+            throw new ErrorException(Integer.parseInt(jsonObject.get(errCode).toString()), jsonObject.get(errMsg).toString());
         }
         return JSON.parseObject(forObject, WxUserInfoVO.class);
     }

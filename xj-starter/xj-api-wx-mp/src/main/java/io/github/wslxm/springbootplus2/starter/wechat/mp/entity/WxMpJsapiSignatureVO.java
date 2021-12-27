@@ -7,6 +7,7 @@ import lombok.ToString;
 import java.io.Serializable;
 
 /**
+ *  @author wangsong
  * WX jssdk 使用签名参数
  */
 @Data

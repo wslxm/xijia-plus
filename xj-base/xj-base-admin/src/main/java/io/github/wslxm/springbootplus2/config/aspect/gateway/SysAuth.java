@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.config.aspect.gateway;
 
 
+import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
@@ -24,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *  @author wangsong
+ */
 @Component
 @Slf4j
 public class SysAuth {
@@ -44,16 +48,17 @@ public class SysAuth {
     @Value("${swagger.defaultValue:xijia@123}")
     private String tokenDefaultValue;
 
-
+    private final static String FALSE = "false";
     /**
      * 绝对放行接口，不受限于- 动态权限管理(勿随意配置)
      */
     private final List<String> URIS = new ArrayList<>();
 
-
     public SysAuth() {
-        URIS.add("/api/admin/user/login");          // 管理端登录接口
-        URIS.add("/api/admin/role/updRoleAuthAll"); // 给所有角色分配所有权限
+        // 管理端登录接口
+        URIS.add("/api/admin/user/login");
+        // 给所有角色分配所有权限
+        URIS.add("/api/admin/role/updRoleAuthAll");
     }
 
 
@@ -121,7 +126,7 @@ public class SysAuth {
             JwtUser jwtUser = result.getData();
             // 判断权限
             XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.IS_AUTH );
-            if (xjAdminConfig != null && "false".equals(xjAdminConfig.getContent())) {
+            if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
                 return R.success(jwtUser);
             }
             if (jwtUser.getAuthList() == null || !jwtUser.getAuthList().contains(cacheKey)) {

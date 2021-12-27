@@ -45,7 +45,7 @@ public class XjGenerationVO extends BaseGcImpl implements XjGcSevice {
             // 1、生成swagger注解
             fields.append("\r\n    @ApiModelProperty(value = \"" + desc + "\",position = " + (position++) + ")");
             // 3、生成字段
-            fields.append("\r\n    " + super.JXModel(fieldName, type) + "\r\n");
+            fields.append("\r\n    " + super.jxModel(fieldName, type) + "\r\n");
         }
         // 数据保存到替换对象类,使模板中可以读取
         GenerateConfig.FIELD_ENTITYS = fields.toString();

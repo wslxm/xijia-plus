@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.constant.FieldTypeConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
@@ -34,23 +35,25 @@ public class XjGenerationEntity extends BaseGcImpl implements XjGcSevice {
         int position = 0;
         for (DbFieldPO fieldMap : data) {
             // 未勾选的字段过滤
-            Object checked = fieldMap.getChecked() ;      // 兼容layui
-            Object isChecked = fieldMap.getIsChecked() ;  // 兼容vue
-            if (checked !=null && !Boolean.parseBoolean(checked.toString())) {
+            // 兼容layui
+            Object checked = fieldMap.getChecked();
+            // 兼容vue
+            Object isChecked = fieldMap.getIsChecked();
+            if (checked != null && !Boolean.parseBoolean(checked.toString())) {
                 continue;
             }
-            if (isChecked !=null && !Boolean.parseBoolean(isChecked.toString())) {
+            if (isChecked != null && !Boolean.parseBoolean(isChecked.toString())) {
                 continue;
             }
             String type = fieldMap.getType();
             String desc = fieldMap.getDesc();
-            String fieldName =fieldMap.getName();
+            String fieldName = fieldMap.getName();
             String typeDetail = fieldMap.getTypeDetail();
 
             // 1、生成注释
             if (GenerateConfig.entitySwagger) {
                 // 字段注释信息-->  Swagger2 模式
-                fields.append("\r\n    @ApiModelProperty(notes = \"" +desc + "\" ,position = " + position++ + ")");
+                fields.append("\r\n    @ApiModelProperty(notes = \"" + desc + "\" ,position = " + position++ + ")");
             } else {
                 // 字段注释信息-->  doc 注释
                 fields.append("\r\n    /** \r\n     * " + desc + " \r\n     */");
@@ -59,9 +62,10 @@ public class XjGenerationEntity extends BaseGcImpl implements XjGcSevice {
             // 2、处理id主键, 字段名为id的 添加id主键注解, 字段类型为 int 默认自增, bigint+varchar 默认雪花算法
             if ("id".equals(fieldName)) {
                 // id生成策略
-                if (type.equals("int")) {
+                if (type.equals(FieldTypeConstant.INT)) {
                     fields.append("\r\n    @TableId(type = IdType.AUTO) //自增");
-                } else if (type.equals("bigint") || type.equals("varchar") || type.equals("char")) {
+                } else if (type.equals(FieldTypeConstant.BIGINT) || type.equals(FieldTypeConstant.VARCHAR)
+                        || type.equals(FieldTypeConstant.CHAR)) {
                     fields.append("\r\n    @TableId(type = IdType.ASSIGN_ID) //雪花算法");
                 }
             }
@@ -74,7 +78,7 @@ public class XjGenerationEntity extends BaseGcImpl implements XjGcSevice {
             }
 
             // 4、生成字段
-            fields.append("\r\n    " + super.JXModel(fieldName, type) + "\r\n");
+            fields.append("\r\n    " + super.jxModel(fieldName, type) + "\r\n");
         }
         // 数据保存到替换对象类,使模板中可以读取
         GenerateConfig.FIELD_ENTITYS = fields.toString();

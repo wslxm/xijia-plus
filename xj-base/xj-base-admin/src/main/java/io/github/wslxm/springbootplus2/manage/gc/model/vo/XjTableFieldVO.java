@@ -4,6 +4,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+/**
+ *  @author wangsong
+ */
 @Data
 @ApiModel(value = "XjTableFieldVO", description = "数据库表字段")
 public class XjTableFieldVO {
@@ -23,11 +26,15 @@ public class XjTableFieldVO {
     @ApiModelProperty(value = "是否可用为空")
     private String isNull;
 
-    // 空串代码判断替换
+    /**
+     * 空串代码判断替换
+     */
     @ApiModelProperty(value = "默认数据")
     private String defaultVal;
 
-    // 代码判断
+    /**
+     * 代码判断
+     */
     @ApiModelProperty(value = "是否未通用字段")
     Boolean isChecked;
 }

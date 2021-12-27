@@ -9,7 +9,7 @@ import io.github.wslxm.springbootplus2.manage.gc.model.vo.XjTableFieldVO;
 import io.github.wslxm.springbootplus2.manage.gc.model.vo.XjTableVO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjAdminDatasourceService;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjDataBaseService;
-import io.github.wslxm.springbootplus2.manage.gc.util.JDBCPool;
+import io.github.wslxm.springbootplus2.manage.gc.util.JdbcPool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -90,15 +90,14 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
         // 3、判断使用默认数据源还是动态数据源来执行sql
         PreparedStatement pstmt = null;
         if (StringUtils.isBlank(dataSourceId)) {
-            pstmt = JDBCPool.getPstmt(dbUrl.substring(0, dbUrl.indexOf("?")), dbUserName, dbPassWord, sql);
+            pstmt = JdbcPool.getPstmt(dbUrl.substring(0, dbUrl.indexOf("?")), dbUserName, dbPassWord, sql);
         } else {
-            pstmt = JDBCPool.getPstmt(datasource.getDbUrl(), datasource.getDbUsername(), datasource.getDbPassword(), sql);
+            pstmt = JdbcPool.getPstmt(datasource.getDbUrl(), datasource.getDbUsername(), datasource.getDbPassword(), sql);
         }
         // 4、处理返回sql
         ResultSet rs = null;
         List<XjTableVO> vos = new ArrayList<>();
         try {
-            // pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
             //游标向下移动
             while (rs.next()) {
@@ -111,7 +110,7 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
         } catch (SQLException e) {
             log.debug(e.toString());
         } finally {
-            JDBCPool.closeQueryRes(rs);
+            JdbcPool.closeQueryRes(rs);
         }
         return vos;
     }
@@ -150,9 +149,9 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
         // 3、判断使用默认数据源还是动态数据源来执行sql
         PreparedStatement pstmt = null;
         if (StringUtils.isBlank(dataSourceId)) {
-            pstmt = JDBCPool.getPstmt(dbUrl.substring(0, dbUrl.indexOf("?")), dbUserName, dbPassWord, sql);
+            pstmt = JdbcPool.getPstmt(dbUrl.substring(0, dbUrl.indexOf("?")), dbUserName, dbPassWord, sql);
         } else {
-            pstmt = JDBCPool.getPstmt(datasource.getDbUrl(), datasource.getDbUsername(), datasource.getDbPassword(), sql);
+            pstmt = JdbcPool.getPstmt(datasource.getDbUrl(), datasource.getDbUsername(), datasource.getDbPassword(), sql);
         }
         ResultSet rs = null;
         List<XjTableFieldVO> vos = new ArrayList<>();
@@ -173,7 +172,7 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
         } catch (SQLException e) {
             log.debug(e.toString());
         } finally {
-            JDBCPool.closeQueryRes(rs);
+            JdbcPool.closeQueryRes(rs);
         }
         //
         if (datasource != null && StringUtils.isNotBlank(datasource.getDbGeneralField())) {

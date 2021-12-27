@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- *  时间处理工具类
+ * 时间处理工具类
  *
  * @author ws
  * @mail 1720696548@qq.com
@@ -46,18 +46,20 @@ public class LocalDateTimeUtil {
 
 
     /**
-     *  判断时间 小于
-     *  <P>   t1 < t2 = true （如：2019-10-13 11:11:00 < 2020-11-13 13:13:00 = true）  </P>
-     *  @author wangsong
+     * 判断时间 小于
+     * <P>   t1 < t2 = true （如：2019-10-13 11:11:00 < 2020-11-13 13:13:00 = true）  </P>
+     *
+     * @author wangsong
      */
     public static boolean isBefore(LocalDateTime t1, LocalDateTime t2) {
         return t1.isBefore(t2);
     }
 
     /**
-     *  判断时间 大于
-     *  <P>   t1 > t2 = true  </P>
-     *  @author wangsong
+     * 判断时间 大于
+     * <P>   t1 > t2 = true  </P>
+     *
+     * @author wangsong
      */
     public static boolean isAfter(LocalDateTime t1, LocalDateTime t2) {
         return t1.isAfter(t2);
@@ -65,16 +67,18 @@ public class LocalDateTimeUtil {
 
 
     /**
-     *  自构建 LocalDateTime ==> 年，月，日，时，分
-     *  @author wangsong
+     * 自构建 LocalDateTime ==> 年，月，日，时，分
+     *
+     * @author wangsong
      */
     public static LocalDateTime of(int year, int month, int dayOfMonth, int hour, int minute) {
         return LocalDateTime.of(year, month, dayOfMonth, hour, minute);
     }
 
     /**
-     *  自构建 LocalDateTime ==> 年，月，日，时，分，秒，毫秒（精确到9位数）
-     *  @author wangsong
+     * 自构建 LocalDateTime ==> 年，月，日，时，分，秒，毫秒（精确到9位数）
+     *
+     * @author wangsong
      */
     public static LocalDateTime of(int year, int month, int dayOfMonth, int hour, int minute, int second, int nanoOfSecond) {
         return LocalDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond);
@@ -90,16 +94,18 @@ public class LocalDateTimeUtil {
 
 
     /**
-     *  获取当前时间
-     *  @author wangsong
+     * 获取当前时间
+     *
+     * @author wangsong
      */
     public static LocalDateTime now() {
         return LocalDateTime.now();
     }
 
     /**
-     *  获取指定时间是周几  1到7
-     *  @author wangsong
+     * 获取指定时间是周几  1到7
+     *
+     * @author wangsong
      */
     public static int week(LocalDateTime time) {
         return time.getDayOfWeek().getValue();
@@ -107,8 +113,9 @@ public class LocalDateTimeUtil {
 
 
     /**
-     *  获取加或减N月的第一天 00:00:00
-     *  @author wangsong
+     * 获取加或减N月的第一天 00:00:00
+     *
+     * @author wangsong
      */
     public static LocalDateTime monthFirst(int num) {
         LocalDateTime newTime = plus(LocalDateTime.now(), num, ChronoUnit.MONTHS);
@@ -117,8 +124,9 @@ public class LocalDateTimeUtil {
     }
 
     /**
-     *  获取加或减N月的最后一天 23:59:59:99999999
-     *  @author wangsong
+     * 获取加或减N月的最后一天 23:59:59:99999999
+     *
+     * @author wangsong
      */
     public static LocalDateTime monthLast(int num) {
         LocalDateTime newTime = plus(LocalDateTime.now(), num, ChronoUnit.MONTHS);
@@ -129,6 +137,7 @@ public class LocalDateTimeUtil {
 
     /**
      * 获取指定时间月第一天
+     *
      * @author wangsong
      */
     public static LocalDateTime getMonthOfFirst(LocalDateTime time) {
@@ -138,6 +147,7 @@ public class LocalDateTimeUtil {
 
     /**
      * 获取指定时间月最后一天
+     *
      * @author wangsong
      */
     public static LocalDateTime getMonthOfLast(LocalDateTime time) {
@@ -147,8 +157,9 @@ public class LocalDateTimeUtil {
 
 
     /**
-     *  获取指定月 加或减N月的第一天 00:00:00
-     *  @author wangsong
+     * 获取指定月 加或减N月的第一天 00:00:00
+     *
+     * @author wangsong
      */
     public static LocalDateTime getMonthOfFirst(LocalDateTime time, int num) {
         LocalDateTime newTime = plus(time, num, ChronoUnit.MONTHS);
@@ -158,8 +169,9 @@ public class LocalDateTimeUtil {
 
 
     /**
-     *  获取指定月 加或减N月的最后一天  23:59:59:99999999
-     *  @author wangsong
+     * 获取指定月 加或减N月的最后一天  23:59:59:99999999
+     *
+     * @author wangsong
      */
     public static LocalDateTime getMonthOfLast(LocalDateTime time, int num) {
         LocalDateTime newTime = plus(time, num, ChronoUnit.MONTHS);
@@ -169,8 +181,9 @@ public class LocalDateTimeUtil {
 
 
     /**
-     *  获取加或减N周的第一天 00:00:00
-     *  @author wangsong
+     * 获取加或减N周的第一天 00:00:00
+     *
+     * @author wangsong
      */
     public static LocalDateTime weekFirst(int num) {
         int week = week(LocalDateTime.now());
@@ -180,8 +193,9 @@ public class LocalDateTimeUtil {
     }
 
     /**
-     *  获取加或减N周的最后一天  23:59:59:99999999
-     *  @author wangsong
+     * 获取加或减N周的最后一天  23:59:59:99999999
+     *
+     * @author wangsong
      */
     public static LocalDateTime weekLast(int num) {
         int week = week(LocalDateTime.now());
@@ -192,49 +206,47 @@ public class LocalDateTimeUtil {
 
 
     /**
-     *  获取指定年的第一天 00:00:00
-     *  @author wangsong
+     * 获取指定年的第一天 00:00:00
+     *
+     * @author wangsong
      */
     public static LocalDateTime yearFirst(LocalDateTime time) {
         int year = time.getYear();
-        return LocalDateTime.of(
-                year,           // 年
-                1,       // 月
-                1,  // 天
-                0,        // 时
-                0,      // 分
-                0,      // 秒
-                0);   // 毫秒（这里精确到9位数）
+        // 年 月  天 时 分 秒 毫秒（这里精确到9位数）
+        return LocalDateTime.of(1, 1, 0, 0, 0, 0);
     }
 
     /**
-     *  获取指定年的最后一天  23:59:59:99999999
-     *  @author wangsong
+     * 获取指定年的最后一天  23:59:59:99999999
+     *
+     * @author wangsong
      */
     public static LocalDateTime yearLast(LocalDateTime time) {
         int year = time.getYear();
+        // 年 月  天 时 分 秒 毫秒（这里精确到6位数）
         return LocalDateTime.of(
-                year,           // 年
-                12,       // 月
-                31,  // 天
-                23,        // 时
-                59,      // 分
-                59,      // 秒
-                999999);   // 毫秒（这里精确到6位数）
+                year,
+                12,
+                31,
+                23,
+                59,
+                59,
+                999999);
     }
 
 
     /**
-     *  获取指定时间之后的日期
-     *  <P>  根据field不同加不同值 , field为ChronoUnit.*
-     *  秒   ChronoUnit.SECONDS
-     *  分   ChronoUnit.MINUTES
-     *  时   ChronoUnit.HOURS
-     *  半天  ChronoUnit.HALF_DAYS
-     *  天    ChronoUnit.DAYS
-     *  月    ChronoUnit.MONTHS
-     *  年    ChronoUnit.YEARS
-     *  </P>
+     * 获取指定时间之后的日期
+     * <P>  根据field不同加不同值 , field为ChronoUnit.*
+     * 秒   ChronoUnit.SECONDS
+     * 分   ChronoUnit.MINUTES
+     * 时   ChronoUnit.HOURS
+     * 半天  ChronoUnit.HALF_DAYS
+     * 天    ChronoUnit.DAYS
+     * 月    ChronoUnit.MONTHS
+     * 年    ChronoUnit.YEARS
+     * </P>
+     *
      * @author wangsong
      */
     public static LocalDateTime plus(LocalDateTime time, long number, TemporalUnit field) {
@@ -244,16 +256,17 @@ public class LocalDateTimeUtil {
 
     /**
      * 获取指定时间之前的日期
+     *
      * @author wangsong
-     *  <P> 根据field不同减不同值 , field为ChronoUnit.*
-     *  秒   ChronoUnit.SECONDS
-     *  分   ChronoUnit.MINUTES
-     *  时   ChronoUnit.HOURS
-     *  半天  ChronoUnit.HALF_DAYS
-     *  天    ChronoUnit.DAYS
-     *  月    ChronoUnit.MONTHS
-     *  年    ChronoUnit.YEARS
-     *  </P>
+     * <P> 根据field不同减不同值 , field为ChronoUnit.*
+     * 秒   ChronoUnit.SECONDS
+     * 分   ChronoUnit.MINUTES
+     * 时   ChronoUnit.HOURS
+     * 半天  ChronoUnit.HALF_DAYS
+     * 天    ChronoUnit.DAYS
+     * 月    ChronoUnit.MONTHS
+     * 年    ChronoUnit.YEARS
+     * </P>
      * @version 1.0.1
      */
     public static LocalDateTime subtract(LocalDateTime time, long number, TemporalUnit field) {
@@ -263,20 +276,21 @@ public class LocalDateTimeUtil {
 
     /**
      * 获取两个日期的差
+     *
+     * @param startTime 开始时间
+     * @param endTime   计算时间
+     * @param field     根据field不同减不同值 , field为ChronoUnit.*
+     * @return startTime小 endTime大 返回正数，则反之
      * @author wangsong
-     *  <P>
-     *  秒   ChronoUnit.SECONDS
-     *  分   ChronoUnit.MINUTES
-     *  时   ChronoUnit.HOURS
-     *  半天  ChronoUnit.HALF_DAYS
-     *  天    ChronoUnit.DAYS
-     *  月    ChronoUnit.MONTHS
-     *  年    ChronoUnit.YEARS
-     *  </P>
-     *  @param startTime 开始时间
-     *  @param endTime   计算时间
-     *  @param field 根据field不同减不同值 , field为ChronoUnit.*
-     *  @return startTime小 endTime大 返回正数，则反之
+     * <p>
+     * 秒   ChronoUnit.SECONDS
+     * 分   ChronoUnit.MINUTES
+     * 时   ChronoUnit.HOURS
+     * 半天  ChronoUnit.HALF_DAYS
+     * 天    ChronoUnit.DAYS
+     * 月    ChronoUnit.MONTHS
+     * 年    ChronoUnit.YEARS
+     * </P>
      */
     public static long betweenTwoTime(LocalDateTime startTime, LocalDateTime endTime, ChronoUnit field) {
         Period period = Period.between(LocalDate.from(startTime), LocalDate.from(endTime));
@@ -292,10 +306,11 @@ public class LocalDateTimeUtil {
 
     /**
      * 获取指定某一天的开始时间 00:00:00
-     * @author wangsong
+     *
      * @param time
-     * @date 2020/12/24 0024 15:10
      * @return java.time.LocalDateTime
+     * @author wangsong
+     * @date 2020/12/24 0024 15:10
      * @version 1.0.1
      */
     public static LocalDateTime getDayStart(LocalDateTime time) {
@@ -308,21 +323,24 @@ public class LocalDateTimeUtil {
 
     /**
      * 获取指定某一天的结束时间  23:59:59.999
+     *
      * @author wangsong
      */
     public static LocalDateTime getDayEnd(LocalDateTime time) {
+        // 年 月  天 时 分 秒 毫秒（这里精确到6位数）
         return time
-                // .withDayOfMonth(1)    // 月
-                // .withDayOfYear(2)     // 天
-                .withHour(23)            // 时
-                .withMinute(59)          // 分
-                .withSecond(59)          // 秒
-                .withNano(999999);    // 毫秒（这里精确到6位数）
+                // .withDayOfMonth(1)
+                // .withDayOfYear(2)
+                .withHour(23)
+                .withMinute(59)
+                .withSecond(59)
+                .withNano(999999);
     }
 
 
     /**
      * 获取指定时间的周一
+     *
      * @author wangsong
      */
     public static LocalDateTime getWeekOfFirst(LocalDateTime time) {
@@ -333,6 +351,7 @@ public class LocalDateTimeUtil {
 
     /**
      * 获取指定时间的周日
+     *
      * @author wangsong
      */
     public static LocalDateTime getWeekOfLast(LocalDateTime time) {
@@ -345,8 +364,9 @@ public class LocalDateTimeUtil {
      * 获取17位时间戳字符串+3位随机数
      * <p>  这里增加了线程锁和延时一毫秒，单体项目100%不会重复，可用于生成订单号  </p>
      * 20200101125959999  2020-01-01 12:59:59:999
-     * @author wangsong
+     *
      * @return
+     * @author wangsong
      */
     public static synchronized String getTimeStr20() {
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
@@ -358,36 +378,39 @@ public class LocalDateTimeUtil {
 
     /**
      * 获取整点--  把指定时间的 分+秒设置为0
-     * @author wangsong
-     * @param time
-     * @date 2020/12/24 0024 15:10
+     *
+     * @param time time
      * @return java.time.LocalDateTime
+     * @author wangsong
+     * @date 2020/12/24 0024 15:10
      * @version 1.0.1
      */
     public static LocalDateTime getTheHour(LocalDateTime time) {
-        return time.withMinute(0)     // 分
-                .withSecond(0)        // 秒
-                .withNano(0);         // 毫秒（这里精确到9位数）
+        // 分   // 秒   // 毫秒（这里精确到9位数）
+        return time.withMinute(0)
+                .withSecond(0)
+                .withNano(0);
     }
 
 
     /**
      * 获取整分--  把指定时间的 秒设置为0
-     * <P>
-     *   如：
-     *   2020-01-01 12:10  ===>  等于 2020-01-01 12:20
-     *   2020-01-01 12:11  ===>  等于 2020-01-01 12:20
-     *   2020-01-01 12:19  ===>  等于 2020-01-01 12:20
+     * <p>
+     * 如：
+     * 2020-01-01 12:10  ===>  等于 2020-01-01 12:20
+     * 2020-01-01 12:11  ===>  等于 2020-01-01 12:20
+     * 2020-01-01 12:19  ===>  等于 2020-01-01 12:20
      * </P>
-     * @author wangsong
+     *
      * @param time
-     * @date 2020/12/24 0024 15:21
      * @return java.time.LocalDateTime
+     * @author wangsong
+     * @date 2020/12/24 0024 15:21
      * @version 1.0.1
      */
     public static LocalDateTime getTheMinute(LocalDateTime time) {
-        return time.withSecond(0)     // 秒
-                .withNano(0);         // 毫秒（这里精确到9位数）
+        // 秒    // 毫秒（这里精确到9位数）
+        return time.withSecond(0).withNano(0);
     }
 
 
@@ -400,6 +423,7 @@ public class LocalDateTimeUtil {
 
     /**
      * LocalDateTime 转为 天 的字符串，如1号返回 01
+     *
      * @author wangsong
      */
     public static Integer parseDayInt() {
@@ -408,32 +432,36 @@ public class LocalDateTimeUtil {
 
 
     /**
-     *  Date 转 LocalDateTime
-     *  @author wangsong
+     * Date 转 LocalDateTime
+     *
+     * @author wangsong
      */
     public static LocalDateTime parseLDT(Date date) {
         return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
 
     /**
-     *  LocalDateTime 转 Date
-     *  @author wangsong
+     * LocalDateTime 转 Date
+     *
+     * @author wangsong
      */
     public static Date parseDate(LocalDateTime time) {
         return Date.from(time.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     /**
-     *  LocalDateTime 转 毫秒
-     *  @author wangsong
+     * LocalDateTime 转 毫秒
+     *
+     * @author wangsong
      */
     public static Long parseMillisecond(LocalDateTime time) {
         return time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
     /**
-     *  LocalDateTime 转 秒
-     *  @author wangsong
+     * LocalDateTime 转 秒
+     *
+     * @author wangsong
      */
     public static Long parseSecond(LocalDateTime time) {
         return time.atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
@@ -442,10 +470,11 @@ public class LocalDateTimeUtil {
 
     /**
      * String 类型转成 LocalDateTime ,必须为完整时间：2020-01-20 17:07:05
-     * @author wangsong
+     *
      * @param timeStr
-     * @date 2020/12/24 0024 15:21
      * @return java.time.LocalDateTime
+     * @author wangsong
+     * @date 2020/12/24 0024 15:21
      * @version 1.0.1
      */
     public static LocalDateTime parse(String timeStr) {
@@ -456,6 +485,7 @@ public class LocalDateTimeUtil {
     /**
      * LocalDateTime 转 字符串
      * <P>  yyyy-MM-dd HH:mm:ss:SSS  (HH是24小时制，而hh是12小时制, ss是秒，SSS是毫秒) </P>
+     *
      * @author wangsong
      */
     public static String parse(LocalDateTime time, String pattern) {
@@ -465,10 +495,11 @@ public class LocalDateTimeUtil {
 
     /**
      * LocalDateTime转成String类型的时间
-     * @author wangsong
+     *
      * @param time
-     * @date 2020/12/24 0024 15:25
      * @return java.lang.String
+     * @author wangsong
+     * @date 2020/12/24 0024 15:25
      * @version 1.0.1
      */
     public static String parse(LocalDateTime time) {
@@ -478,6 +509,7 @@ public class LocalDateTimeUtil {
 
     /**
      * LocalDateTime 转字符串 yyyy-MM-dd 格式
+     *
      * @author wangsong
      */
     public static String parse_yyyyMMdd(LocalDateTime time) {
@@ -490,6 +522,7 @@ public class LocalDateTimeUtil {
 
     /**
      * LocalDateTime 转字符串 yyyy-MM-dd HH 格式
+     *
      * @author wangsong
      */
     public static String parse_yyyyMMddHH(LocalDateTime time) {
@@ -503,6 +536,7 @@ public class LocalDateTimeUtil {
 
     /**
      * LocalDateTime 转字符串 yyyy-MM 格式
+     *
      * @author wangsong
      */
     public static String parse_yyyyMM(LocalDateTime time) {
@@ -516,8 +550,9 @@ public class LocalDateTimeUtil {
 
     /**
      * Date 转 yyyy-MM-dd 字符串
-     * @author wangsong
+     *
      * @param time
+     * @author wangsong
      */
     public static String parse_yyyyMMdd(Date time) {
         if (time == null) {
@@ -530,10 +565,11 @@ public class LocalDateTimeUtil {
 
     /**
      * 将时间戳转为当前时间
-     * @author wangsong
+     *
      * @param timestamp
-     * @date 2021/5/12 0012 17:13
      * @return java.lang.String
+     * @author wangsong
+     * @date 2021/5/12 0012 17:13
      * @version 1.0.1
      */
     public static LocalDateTime parseTimestamp(Long timestamp) {
@@ -542,9 +578,10 @@ public class LocalDateTimeUtil {
 
     /**
      * 将时间转为时间戳
+     *
+     * @return java.lang.String
      * @author wangsong
      * @date 2021/5/12 0012 17:13
-     * @return java.lang.String
      * @version 1.0.1
      */
     public static Long parseTimestamp(LocalDateTime time) {
@@ -553,6 +590,7 @@ public class LocalDateTimeUtil {
 
     /**
      * yyyy-MM-dd 时间字符串转 LocalDateTime
+     *
      * @author wangsong
      */
     public static LocalDateTime parse_yyyyMMdd(String timeStr) {
@@ -588,7 +626,8 @@ public class LocalDateTimeUtil {
         }
         List<String> times = new ArrayList<>();
         String time = parse_yyyyMMdd(t);
-        for (int i = 0; i < 24; i++) {
+        int hourNum = 24;
+        for (int i = 0; i < hourNum; i++) {
             if (i < 10) {
                 times.add(time + " 0" + i);
             } else {
@@ -602,10 +641,11 @@ public class LocalDateTimeUtil {
     /**
      * 获取 n月前的第一天 到 n月后的最后一天的所有时间
      * <P>  一天一条数据 List<DateDays>  </P>
+     *
      * @param startNum 前n月，当前月开始为0
-     * @param entNum  后n月，当前月就是为0
-     * @author wangsong
+     * @param entNum   后n月，当前月就是为0
      * @return java.util.List<com.lplb.common.utils.LocalDateTimeUtil.DateDays>
+     * @author wangsong
      */
     public static List<DateDays> getDateDaysUpList(Integer startNum, Integer entNum) {
         // 本月第一天  00:00:00
@@ -631,9 +671,10 @@ public class LocalDateTimeUtil {
 
     /**
      * 获取月( 包含开始时间和结束时间的月，返回每一个月的字串， yyyy-MM 格式)
-     *  <p> 包含开始月，不包含结束月 </>
+     * <p> 包含开始月，不包含结束月 </>
+     *
      * @param startTime 开始月
-     * @param endTime 结束月
+     * @param endTime   结束月
      * @return
      */
     public static List<String> getMonths(LocalDateTime startTime, LocalDateTime endTime) {
@@ -656,12 +697,13 @@ public class LocalDateTimeUtil {
 
     /**
      * 获取指定开始时间到指定结束时间的每一天, 包括开始时间，不包括结束时间，如：2020-5-16到2020-5-18 获得时间为：[2020-5-16,2020-5-17]
-     * @author wangsong
+     *
      * @param startTime
      * @param endTime
-     * @param type  1-包含开始和结束时间  2-包含结束-不包含开始时间  3-包含开始-不包含结束时间  4-不包含开始和结束时间
-     * @date 2020/12/24 0024 15:16
+     * @param type      1-包含开始和结束时间  2-包含结束-不包含开始时间  3-包含开始-不包含结束时间  4-不包含开始和结束时间
      * @return java.util.List<java.time.LocalDateTime>
+     * @author wangsong
+     * @date 2020/12/24 0024 15:16
      * @version 1.0.1
      */
     public static List<LocalDateTime> getBetweenList(LocalDateTime startTime, LocalDateTime endTime, Integer type) {
@@ -733,7 +775,7 @@ public class LocalDateTimeUtil {
     }
 
     /**
-     *  测试方法
+     * 测试方法
      *
      * @param args
      * @return void
@@ -747,13 +789,10 @@ public class LocalDateTimeUtil {
         log.debug("当前时间毫秒数 ==> " + parseMillisecond(LocalDateTime.now()));
         log.debug("今天是几号：" + parseDayInt());
         log.debug("===========================================================");
-
-
         log.debug("今天开始时间 ==> " + getDayStart(LocalDateTime.now()));
         log.debug("今天结束时间 ==> " + getDayEnd(LocalDateTime.now()));
         log.debug("构建自定义时间 ==> " + of(2020, 1, 1, 12, 00, 00, 999999999));
         log.debug("指定格式 ==>  " + parse(LocalDateTime.now(), "yyyy-MM-dd HH:mm:ss:SSS"));
-
         log.debug("=========================" + LocalDateTime.now() + " 之前 ==================================");
         log.debug("10秒前 ==> " + subtract(LocalDateTime.now(), 10, ChronoUnit.SECONDS));
         log.debug("10分前 ==> " + subtract(LocalDateTime.now(), 10, ChronoUnit.MINUTES));
@@ -774,19 +813,20 @@ public class LocalDateTimeUtil {
         //  输出 ====>
         LocalDateTime start = LocalDateTime.of(2019, 10, 13, 11, 11);
         LocalDateTime end = LocalDateTime.of(2020, 11, 13, 13, 13);
-        log.debug("输出:" + parse(start, "yyyy-MM-dd HH:mm:ss") + " -到- " + parse(end, "yyyy-MM-dd HH:mm:ss") + "的时间差");                                     //====> 年:1
-        log.debug("年:" + betweenTwoTime(start, end, ChronoUnit.YEARS));      // ====> 年:1
-        log.debug("月:" + betweenTwoTime(start, end, ChronoUnit.MONTHS));     // ====> 月:13
-        log.debug("日:" + betweenTwoTime(start, end, ChronoUnit.DAYS));       // ====> 日:396
-        log.debug("半日:" + betweenTwoTime(start, end, ChronoUnit.HALF_DAYS));// ====> 半日:792
-        log.debug("小时:" + betweenTwoTime(start, end, ChronoUnit.HOURS));    // ====> 小时:9506
-        log.debug("分钟:" + betweenTwoTime(start, end, ChronoUnit.MINUTES));  // ====> 分钟:570362
-        log.debug("秒:" + betweenTwoTime(start, end, ChronoUnit.SECONDS));    // ====> 秒:34221720
-        log.debug("毫秒:" + betweenTwoTime(start, end, ChronoUnit.MILLIS));   // ====> 毫秒:34221720000
+        log.debug("输出:" + parse(start, "yyyy-MM-dd HH:mm:ss") + " -到- " + parse(end, "yyyy-MM-dd HH:mm:ss") + "的时间差");
+        log.debug("年:" + betweenTwoTime(start, end, ChronoUnit.YEARS));
+        log.debug("月:" + betweenTwoTime(start, end, ChronoUnit.MONTHS));
+        log.debug("日:" + betweenTwoTime(start, end, ChronoUnit.DAYS));
+        log.debug("半日:" + betweenTwoTime(start, end, ChronoUnit.HALF_DAYS));
+        log.debug("小时:" + betweenTwoTime(start, end, ChronoUnit.HOURS));
+        log.debug("分钟:" + betweenTwoTime(start, end, ChronoUnit.MINUTES));
+        log.debug("秒:" + betweenTwoTime(start, end, ChronoUnit.SECONDS));
+        log.debug("毫秒:" + betweenTwoTime(start, end, ChronoUnit.MILLIS));
         log.debug("================================== 时间大小 ===================================");
-        log.debug("2019-10-13 11:11:00 < 2020-11-13 13:13:00 = " + isBefore(start, end)); //t1 < t2 = true
-        log.debug("2019-10-13 11:11:00 > 2020-11-13 13:13:00 = " + isAfter(start, end));  //t1 > t2 = true
-
+        //t1 < t2 = true
+        log.debug("2019-10-13 11:11:00 < 2020-11-13 13:13:00 = " + isBefore(start, end));
+        //t1 > t2 = true
+        log.debug("2019-10-13 11:11:00 > 2020-11-13 13:13:00 = " + isAfter(start, end));
         log.debug("================================== 周几 ===================================");
         LocalDateTime of1 = LocalDateTime.of(2020, 4, 20, 0, 0);
         LocalDateTime of2 = LocalDateTime.of(2020, 4, 21, 0, 0);
@@ -819,8 +859,6 @@ public class LocalDateTimeUtil {
         log.debug("==================== 当前月1好到下N月底的每天数据 =========================");
         log.debug(" 前N月|后N月 -- 前N月|后N月所有时间 " + LocalDateTimeUtil.getDateDaysUpList(0, 2).toString());
         log.debug(" 前N月|后N月 -- 前N月|后N月所有时间 " + LocalDateTimeUtil.getDateDaysUpList(2, 2).toString());
-
-
         log.debug("==================获取指定开始时间和结束时间内的所有时间 ====================");
         LocalDateTime startTime = LocalDateTime.of(2020, 4, 20, 0, 0);
         LocalDateTime endTime = LocalDateTime.of(2020, 4, 25, 0, 0);
@@ -828,35 +866,23 @@ public class LocalDateTimeUtil {
         log.debug("2-包含结束-不包含开始时间" + getBetweenList(startTime, endTime, 2));
         log.debug("3-包含开始-不包含结束时间" + getBetweenList(startTime, endTime, 3));
         log.debug("4-不包含开始和结束时间" + getBetweenList(startTime, endTime, 4));
-
-
         log.debug("================== LocalDateTime与String日期互相转换 ====================");
         log.debug(parse("2020-01-20 17:07:05").toString());
         log.debug(parse(LocalDateTime.now()));
-
-
         log.debug("================== 时间特殊格式方法转换 ==================");
         log.debug(parse_yyyyMMddHH(LocalDateTime.now()));
         log.debug(parse_yyyyMMdd(LocalDateTime.now()));
         log.debug(parse_yyyyMMdd(new Date()));
         LocalDateTime dateTime = parse_yyyyMMdd("2020-06-06");
         log.debug(dateTime != null ? dateTime.toString() : "");
-        //
         log.debug(parse_yyyyMM(LocalDateTime.now()));
-
-
         log.debug("==================获取整时时间,舍弃分秒为0 ==================");
         log.debug(parse(getTheHour(LocalDateTime.now())));
-
-
         log.debug("==================获取整分时间,舍弃秒为0");
         log.debug(parse(getTheMinute(LocalDateTime.now())));
         log.debug(parse(getTheMinute(LocalDateTime.of(2020, 1, 1, 12, 50))));
-
-
         log.debug("==================获取指定时间内的每月");
         log.debug(getMonths(subtract(LocalDateTime.now(), 1, ChronoUnit.YEARS), LocalDateTime.now()).toString());
-
         log.debug("==================获取指定天的24小时");
         List<String> day24Hour = getDay24Hour(LocalDateTime.now());
         log.debug(day24Hour.toString());

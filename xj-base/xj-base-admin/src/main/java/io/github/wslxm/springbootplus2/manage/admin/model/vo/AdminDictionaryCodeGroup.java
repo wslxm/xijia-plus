@@ -11,15 +11,26 @@ import java.util.LinkedHashMap;
 
 /**
  * 分组字典对象,前端缓存对象
+ * <p>
+ * 注解 @JsonSerialize： 表示不返回空数据
+ * </P>
+ *
+ * @author wangsong
+ * @version 1.0.0
+ * @email 1720696548@qq.com
+ * @date 2021/12/27 17:28
  */
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "AdminDictionaryCodeGroup", description = "字典findCodeGroup方法VO数据")
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)//不返回空数据
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class AdminDictionaryCodeGroup implements Serializable {
 
     private static final long serialVersionUID = -3021322187688178780L;
-    @ApiModelProperty(value = "字典Id") //全为空，判断下级使用
+    /**
+     * 全为空，判断下级使用
+     */
+    @ApiModelProperty(value = "字典Id")
     private String id;
 
     @ApiModelProperty(value = "字典类型")
@@ -34,10 +45,6 @@ public class AdminDictionaryCodeGroup implements Serializable {
     @ApiModelProperty(value = "排序")
     private Integer sort;
 
-    // @ApiModelProperty(value = "版本号")//除了版本号的字段,其他全为空
-    // private Integer version;
-
-    // 除了版本号的字段,其他数据该字段全为空
     @ApiModelProperty(value = "子级,key=code")
     LinkedHashMap<String, AdminDictionaryCodeGroup> dictMap;
 }

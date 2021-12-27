@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "QQLoginVO 对象", description = "qq登录")
-public class QQLoginVO implements Serializable {
+public class QqLoginVO implements Serializable {
 
 	@ApiModelProperty(notes = "openId", position = 0)
 	private String qqOpenId;

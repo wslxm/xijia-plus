@@ -1,7 +1,8 @@
 package io.github.wslxm.springbootplus2.starter.pay.controller;
 
+import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.starter.pay.service.XjEntPayService;
-import io.github.wslxm.springbootplus2.starter.pay.wxApi.EntPayApi;
+import io.github.wslxm.springbootplus2.starter.pay.wxapi.EntPayApi;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @Api(value = "WebsocketController", tags = "WX  -->  微信企业付款")
-@RequestMapping( "/api/open/entPay")
+@RequestMapping( BaseConstant.Uri.API_OPEN +"/entPay")
 public class EntPayController {
 
-  // 直用方法
+  /**
+   * 直用方法
+   */
   @Autowired
   private EntPayApi entPayApi;
-  // 需要处理业务的中转方法
+  /**
+   * 需要处理业务的中转方法
+   */
   @Autowired
   private XjEntPayService xjEntPayService;
 

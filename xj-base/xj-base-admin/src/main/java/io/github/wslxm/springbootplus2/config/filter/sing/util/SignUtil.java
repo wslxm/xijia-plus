@@ -7,36 +7,52 @@ import java.net.URLEncoder;
 import java.util.*;
 
 /**
+ *  @author wangsong
  * 参数验证签名
  */
 @Slf4j
 public class SignUtil {
 
 
-    /** 加密密钥 */
+    /**
+     * 加密密钥
+     */
     private final static String APP_KEY = "xijia";
-    /** 加密Secret */
+    /**
+     * 加密Secret
+     */
     private final static String SECRET_KEY = "xijia@qwer";
-    /** 超时时间(毫秒) */
+    /**
+     * 超时时间(毫秒)
+     */
     private final static Long TIME_OUT = 3000L;
 
     // ====================固定参数=====================
     // ================================================
-    /** 字符编码 */
+    /**
+     * 字符编码
+     */
     private final static String INPUT_CHARSET = "UTF-8";
-    /** 验签 key */
+    /**
+     * 验签 key
+     */
     public final static String SIGN = "sign";
-    /** 时间戳 key */
+    /**
+     * 时间戳 key
+     */
     public final static String TIMESTAMP = "timestamp";
-    /** body参数的参数key */
+    /**
+     * body参数的参数key
+     */
     public final static String BODY = "body";
 
     /**
      * 请求参数Map转换验证Map
-     * <P>
-     *    SignUtil.toVerifyMap(request.getParameterMap(), false);
-     *    参数根据字母大小写排序
+     * <p>
+     * SignUtil.toVerifyMap(request.getParameterMap(), false);
+     * 参数根据字母大小写排序
      * </P>
+     *
      * @param requestParams 请求参数Map
      * @param charset       是否要转utf8编码
      * @return
@@ -62,7 +78,7 @@ public class SignUtil {
     /**
      * 除去数组中的空值和签名参数
      *
-     * @param sArray  签名参数组
+     * @param sArray 签名参数组
      * @return 去掉空值与签名参数后的新签名参数组
      */
     public static Map<String, String> paraFilter(Map<String, String> sArray) {
@@ -72,7 +88,8 @@ public class SignUtil {
         }
         for (String key : sArray.keySet()) {
             String value = sArray.get(key);
-            if (value == null || key.equalsIgnoreCase(SIGN)) { //|| "".equals(value)
+            //|| "".equals(value)
+            if (value == null || key.equalsIgnoreCase(SIGN)) {
                 continue;
             }
             result.put(key, value);
@@ -84,27 +101,28 @@ public class SignUtil {
     /**
      * 把数组所有元素排序，并按照“参数=参数值”的模式用“&”字符拼接成字符串
      *
-     * @param params  需要排序并参与字符拼接的参数组
-     * @param encode  是否需要UrlEncode
+     * @param params 需要排序并参与字符拼接的参数组
+     * @param encode 是否需要UrlEncode
      * @return 拼接后字符串
      */
     public static String createLinkString(Map<String, String> params, boolean encode) {
         List<String> keys = new ArrayList<>(params.keySet());
         Collections.sort(keys);
-        String prestr = "";
+        StringBuilder sb = new StringBuilder("");
         for (int i = 0; i < keys.size(); i++) {
             String key = keys.get(i);
             String value = params.get(key);
             if (encode) {
                 value = urlEncode(value, INPUT_CHARSET);
             }
-            if (i == keys.size() - 1) {// 拼接时，不包括最后一个&字符
-                prestr = prestr + key + "=" + value;
+            if (i == keys.size() - 1) {
+                // 拼接时，不包括最后一个&字符
+                sb.append(key).append("=").append(value);
             } else {
-                prestr = prestr + key + "=" + value + "&";
+                sb.append(key).append("=").append(value).append("&");
             }
         }
-        return prestr;
+        return sb.toString();
     }
 
     /**
@@ -166,7 +184,8 @@ public class SignUtil {
 
     /**
      * 根据反馈回来的信息，生成签名结果 current=1&fullName= &id=&size=10&timestamp=1618538349587&username=
-     * @param params  通知返回来的参数数组
+     *
+     * @param params 通知返回来的参数数组
      * @return 验证结果
      */
     public static boolean verify(Map<String, String> params) {
@@ -181,7 +200,7 @@ public class SignUtil {
             String preSignStr = createLinkString(sParaNew, false);
             log.info("加签参数:{}", preSignStr);
             // 获得签名验证结果
-            String mysign = MD5SignUtil.MD5(APP_KEY + preSignStr + SECRET_KEY);
+            String mysign = Md5SignUtil.md5(APP_KEY + preSignStr + SECRET_KEY);
             if (mysign.equals(sign)) {
                 isVerify = true;
             }
@@ -192,15 +211,13 @@ public class SignUtil {
     /**
      * 验证是否超时
      * timestamp = 请求时间(秒)
+     *
      * @return 验证结果
      */
     public static boolean isTimeVerify(Long timestamp) {
         // 判断请求是否超时
         long currentTimeMillis = System.currentTimeMillis();
-        if (timestamp != null && (currentTimeMillis - Long.parseLong(timestamp.toString())) < TIME_OUT) {
-            return true;
-        }
-        return false;
+        return timestamp != null && (currentTimeMillis - Long.parseLong(timestamp.toString())) < TIME_OUT;
 
     }
 }

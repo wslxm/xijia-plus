@@ -10,7 +10,7 @@ import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
-import io.github.wslxm.springbootplus2.core.utils.paramVerification.StringUtil;
+import io.github.wslxm.springbootplus2.core.utils.paramverification.StringUtil;
 import io.github.wslxm.springbootplus2.manage.admin.mapper.AdminDictionaryMapper;
 import io.github.wslxm.springbootplus2.manage.admin.model.dto.AdminDictionaryDTO;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminDictionary;
@@ -24,7 +24,9 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
+/**
+ * @author wangsong
+ */
 @Service
 @Slf4j
 public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionaryMapper, AdminDictionary> implements AdminDictionaryService {
@@ -33,6 +35,11 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * 父级pid
      */
     private static final String PID = "0";
+
+    /**
+     * 枚举最顶级
+     */
+    private static final String ENUMS = "ENUMS";
 
     @Override
     public List<AdminDictionaryVO> list(AdminDictionaryQuery query) {
@@ -53,7 +60,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         // 1、判断 code , 不能传递字符串数字来查询
         if (StringUtils.isNotBlank(code)) {
             if (StringUtil.isInteger(code)) {
-                throw new ErrorException(RType.PARAM_ERROR.getValue(),RType.PARAM_ERROR.getMsg()+":code");
+                throw new ErrorException(RType.PARAM_ERROR.getValue(), RType.PARAM_ERROR.getMsg() + ":code");
             }
         }
 
@@ -110,7 +117,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     @Override
     public String insert(AdminDictionaryDTO dto) {
         if (StringUtils.isBlank(dto.getCode().trim())) {
-            throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() +":code");
+            throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + ":code");
         }
         dto.setCode(dto.getCode().trim());
         if (!StringUtil.isInteger(dto.getCode()) && this.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
@@ -213,7 +220,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         List<AdminDictionaryVO> dict = this.list(query);
         String enumsJava = null;
         // 1、生成java枚举类
-        if ("ENUMS".equals(enumName)) {
+        if (ENUMS.equals(enumName)) {
             // 生成一个大的 Enums 类
             enumsJava = this.generateEnumJava(dict.get(0));
         } else {
@@ -223,8 +230,8 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
         // 2、生成js key
         // enumName 不为 ENUMS 时 js 重新查询字典数据
-        if(!"ENUMS".equals(enumName)){
-            query.setCode("ENUMS");
+        if (!ENUMS.equals(enumName)) {
+            query.setCode(ENUMS);
             dict = this.list(query);
         }
         String enumsJs = this.generateEnumJs(dict.get(0));
@@ -252,9 +259,9 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
             // 当前层级类还没有子层级对象就创建/有就追加
             if (zDict.getPid().equals(pDict.getId())) {
                 if (pDict.getDictList() == null) {
-                    ArrayList<AdminDictionaryVO> adminDictionaryVOS = new ArrayList<>();
-                    adminDictionaryVOS.add(zDict);
-                    pDict.setDictList(adminDictionaryVOS);
+                    ArrayList<AdminDictionaryVO> adminDictionaryVos = new ArrayList<>();
+                    adminDictionaryVos.add(zDict);
+                    pDict.setDictList(adminDictionaryVos);
                 } else {
                     pDict.getDictList().add(zDict);
                 }
@@ -346,7 +353,8 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
                 continue;
             }
             for (AdminDictionaryVO dictValue : dictField.getDictList()) {
-                sb.append("            " + /* dictField.getCode() + */"V" + dictValue.getCode()
+                /// sb.append("            " + /* dictField.getCode() + */"V" + dictValue.getCode()
+                sb.append("            V" + dictValue.getCode()
                         + "(" + dictValue.getCode() + ", \"" + dictValue.getName() + "\"),    // " + dictValue.getDesc() + "\n");
             }
             sb.append("            ;\n");
@@ -386,7 +394,6 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     }
 
 
-
     /**
      * 查询下级所有Id,  包括禁用数据的Id,包括自己的Id
      * @author wangsong
@@ -411,8 +418,6 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     }
 
 
-
-
     /**
      * 查询所有（缓存到jvm）
      * @param isDisable  是否查询禁用数据 =true 查询*默认   =false 不查询
@@ -433,12 +438,12 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
          * 是否获取禁用数据
          */
         // 为了让数据不改变缓存数据,不使用引用,使用深拷贝
-        List<AdminDictionaryVO> adminDictionaryVOS = BeanDtoVoUtil.listVo(listVO, AdminDictionaryVO.class);
+        List<AdminDictionaryVO> adminDictionaryVos = BeanDtoVoUtil.listVo(listVO, AdminDictionaryVO.class);
         if (isDisable) {
-            return adminDictionaryVOS;
+            return adminDictionaryVos;
         } else {
             //排除禁用数据(.stream() 后的数据依旧是引用数据)
-            return adminDictionaryVOS.stream().filter(i -> i.getDisable().equals(Base.Disable.V0.getValue())).collect(Collectors.toList());
+            return adminDictionaryVos.stream().filter(i -> i.getDisable().equals(Base.Disable.V0.getValue())).collect(Collectors.toList());
         }
     }
 
