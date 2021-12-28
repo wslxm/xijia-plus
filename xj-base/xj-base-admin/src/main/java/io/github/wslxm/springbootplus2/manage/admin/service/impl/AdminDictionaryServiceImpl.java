@@ -168,7 +168,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     public Map<String, AdminDictionaryCodeGroup> findCodeGroup() {
         List<AdminDictionaryVO> dictList = findList(false);
         List<AdminDictionaryCodeGroup> dictionaryCodeGroupList = BeanDtoVoUtil.listVo(dictList, AdminDictionaryCodeGroup.class);
-        Map<String, AdminDictionaryCodeGroup> dictGroupMap = new HashMap<>();
+        Map<String, AdminDictionaryCodeGroup> dictGroupMap = new HashMap<>(dictList.size(), 1);
         // return -按添加顺序排序
         for (AdminDictionaryCodeGroup fatherDictVo : dictionaryCodeGroupList) {
             // 不添加Integer参数类型，设置当前数据为父级，不论当前层次的，递归获取所有当前层次的下级数据
@@ -237,7 +237,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         String enumsJs = this.generateEnumJs(dict.get(0));
 
         // 3、返回
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(2,1);
         // 完整的枚举字典
         map.put("java", enumsJava);
         // 枚举字典key，直接通过key获取
@@ -250,9 +250,10 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     /**
      * 递归添加下级数据
+     *
      * @param dictVoList 所有节点
-     * @param pDict 上级节点
-     * @param ids 收集指定code下所有字典数据 id
+     * @param pDict      上级节点
+     * @param ids        收集指定code下所有字典数据 id
      */
     private void nextLowerNode(List<AdminDictionaryVO> dictVoList, AdminDictionaryVO pDict, List<String> ids) {
         for (AdminDictionaryVO zDict : dictVoList) {
@@ -276,6 +277,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     /**
      * 生成java 代码枚举对象， 请将生成好的代码直接替换到 enums/Enums 类( 指定为3级，所有子模块枚举共用一个枚举类)
+     *
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/8/16 0016 0:10
@@ -327,6 +329,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     /**
      * 生成java 代码枚举对象， 请将生成好的代码直接替换到 enums/Enums 小的二级类( 指定为2级，每个子模块枚举一个类)
+     *
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/8/16 0016 0:10
@@ -369,6 +372,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     /**
      * 拼接js 字典数据-KEY
+     *
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/8/16 0016 0:29
@@ -396,10 +400,11 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     /**
      * 查询下级所有Id,  包括禁用数据的Id,包括自己的Id
-     * @author wangsong
+     *
      * @param id
-     * @date 2020/8/8 0008 1:16
      * @return java.util.List<java.lang.String>
+     * @author wangsong
+     * @date 2020/8/8 0008 1:16
      * @version 1.0.1
      */
     private List<String> findByIdFetchIds(String id) {
@@ -420,7 +425,8 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     /**
      * 查询所有（缓存到jvm）
-     * @param isDisable  是否查询禁用数据 =true 查询*默认   =false 不查询
+     *
+     * @param isDisable 是否查询禁用数据 =true 查询*默认   =false 不查询
      * @return
      */
     private List<AdminDictionaryVO> findList(Boolean isDisable) {

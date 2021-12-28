@@ -2,7 +2,9 @@ package io.github.wslxm.springbootplus2.starter.qq.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Enums;
+import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Base;
+import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.starter.qq.service.QqLoginService;
 import io.github.wslxm.springbootplus2.starter.qq.config.ConstantsProperties;
 import io.github.wslxm.springbootplus2.starter.qq.model.entity.QqUserInfo;
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 
 /**
- *  @author wangsong
+ * @author wangsong
  */
 @Service
 @Slf4j
@@ -72,8 +74,7 @@ public class QqLoginServiceImpl implements QqLoginService {
             e.printStackTrace();
         }
         log.info("获取openId：" + result);
-        String openId = StringUtils.substringBetween(result, "\"openid\":\"", "\"}");
-        return openId;
+        return StringUtils.substringBetween(result, "\"openid\":\"", "\"}");
     }
 
 
@@ -91,29 +92,34 @@ public class QqLoginServiceImpl implements QqLoginService {
         String result = null;
         try {
             // 正常直接返回用户数据 json
-            result = HttpClientUtils.get(url.toString(), "UTF-8");
+            result = HttpClientUtils.get(url, "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
         }
         log.info("获取用户信息：" + result);
         QqUserInfo qqUserInfo = JSON.parseObject(result, QqUserInfo.class);
         QqLoginVO vo = new QqLoginVO();
-        // 性别
-        int genderCode = 0;
-        if (StringUtils.isNotBlank(qqUserInfo.getGender())) {
-            if (qqUserInfo.getGender().equals(Base.Gender.V1.getDesc())) {
-                genderCode = 1;
-            } else if (qqUserInfo.getGender().equals(Base.Gender.V2.getDesc())) {
-                genderCode = 2;
+        if (qqUserInfo != null) {
+            if (qqUserInfo.getRet() != null && qqUserInfo.getRet() == -1) {
+                throw new ErrorException(qqUserInfo.getRet(), qqUserInfo.getMsg());
             }
+            // 性别
+            int genderCode = 0;
+            if (StringUtils.isNotBlank(qqUserInfo.getGender())) {
+                if (qqUserInfo.getGender().equals(Base.Gender.V1.getDesc())) {
+                    genderCode = 1;
+                } else if (qqUserInfo.getGender().equals(Base.Gender.V2.getDesc())) {
+                    genderCode = 2;
+                }
+            }
+            vo.setGenderCode(genderCode);
+            if (StringUtils.isNotBlank(qqUserInfo.getYear())) {
+                vo.setBirthday(qqUserInfo.getYear() + "-01-01");
+            }
+            vo.setQqOpenId(openId);
+            vo.setNickname(qqUserInfo.getNickname());
+            vo.setHeadPic(qqUserInfo.getFigureurlQq());
         }
-        vo.setGenderCode(genderCode);
-        if (StringUtils.isNotBlank(qqUserInfo.getYear())) {
-            vo.setBirthday(qqUserInfo.getYear() + "-01-01");
-        }
-        vo.setQqOpenId(openId);
-        vo.setNickname(qqUserInfo.getNickname());
-        vo.setHeadPic(qqUserInfo.getFigureurl_qq());
         return vo;
     }
 }

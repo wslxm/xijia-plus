@@ -8,7 +8,9 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
-
+/**
+ * @author wangsong
+ */
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "SignDto 对象", description = "验签测试")
@@ -22,8 +24,12 @@ public class SignDto implements Serializable {
     @NotBlank
     private Integer e;
     private LocalDateTime a1;
-    // 测试下级
+    /**
+     * 测试下级
+     */
     private SignDto signDto;
-    // 测试list下级
+    /**
+     * 测试list下级
+     */
     private List<SignDto> dtos;
 }

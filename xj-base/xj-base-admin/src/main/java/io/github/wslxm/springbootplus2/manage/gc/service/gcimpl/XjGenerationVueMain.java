@@ -36,7 +36,7 @@ public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
         StringBuffer vueInfoColumns = new StringBuffer(" ");
         for (DbFieldPO fieldMap : dataList) {
             // 未勾选的字段过滤
-            if (isChecked(fieldMap)) {
+            if (!isChecked(fieldMap)) {
                 continue;
             }
             String name = GenerateDataProcessing.getFieldName(fieldMap.getName());

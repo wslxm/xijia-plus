@@ -39,7 +39,7 @@ public class XjGenerationQuery extends BaseGcImpl implements XjGcSevice {
             String fieldName = fieldMap.getName();
             String typeDetail = fieldMap.getTypeDetail();
             // 1、生成swagger注解
-            fields.append("\r\n    @ApiModelProperty(value = \"" + desc + "\",position = " + (position++) + ")");
+            fields.append("\r\n    @ApiModelProperty(value = \"" + desc + "\", position = " + (position++) + ")");
             // 2、生成必填参数jsr验证(先判断是否为必填参数)
             String isNull = fieldMap.getIsNull();
             if (("NO").equals(isNull)) {

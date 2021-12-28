@@ -14,7 +14,7 @@
         data() {
             return {
                 obj: {},
-                isIdFind: true,
+                isIdFind: false,
             }
         },
         props: {

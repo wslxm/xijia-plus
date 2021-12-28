@@ -75,7 +75,7 @@ public class WxAppController {
         // 模板Id
         String templateId = "mZlYMEKvhF1qFqjJE88B4PdHXQprWLyQh2DbLzMCCTs";
         // 模板参数
-        Map<String, String> sendMsg = new HashMap<>();
+        Map<String, String> sendMsg = new HashMap<>(2,1);
         sendMsg.put("thing1", "参数1");
         sendMsg.put("thing2", "参数2");
         // 发送

@@ -33,6 +33,12 @@
             <input type="text" id="name" name="name" placeholder="请输入名称 ..." autocomplete="off" class="layui-input">
         </div>
     </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">禁用 :</label>
+        <div class="layui-input-block">
+            <input type="text" id="disable" name="disable" placeholder="请输入禁用 ..." autocomplete="off" class="layui-input">
+        </div>
+    </div>
 
     <!-- <button class="layui-btn layui-btn-normal layui-btn-sm" data-type="reload">搜索</button>-->
     <div class="layui-inline">
@@ -222,6 +228,7 @@
     function gcTestSearchParam() {
             let params = "";
             params += "&name=" + $("#name").val();
+            params += "&disable=" + $("#disable").val();
 
             return params;
     }

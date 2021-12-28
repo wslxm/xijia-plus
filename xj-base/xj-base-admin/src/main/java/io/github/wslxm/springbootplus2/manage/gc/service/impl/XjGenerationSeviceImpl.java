@@ -67,7 +67,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
 
     @Override
     public Map<String, String> preview(XjGenerateDto generateDto) {
-        pathMap = new HashMap<>();
+        pathMap = new HashMap<>(16);
         // 处理数据
         List<DbFieldPO> dataList = getProcessingData(generateDto);
         // 预览生成的文件为txt格式,方便预览
@@ -105,7 +105,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
 
     @Override
     public Map<String, String> generateCode(XjGenerateDto generateDto) {
-        pathMap = new HashMap<>();
+        pathMap = new HashMap<>(16);
         // 处理数据
         List<DbFieldPO> dataList = getProcessingData(generateDto);
         // 生成的文件为对应代码格式,直接生成到目录
@@ -139,7 +139,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
 
     @Override
     public void generateCodeVue(XjGenerateDto generateDto) {
-        pathMap = new HashMap<>();
+        pathMap = new HashMap<>(16);
         // 处理数据
         List<DbFieldPO> dataList = getProcessingData(generateDto);
         GenerateConfig.SUFFIX_VUE_PT = GenerateConfig.SUFFIX_VUE;
@@ -167,7 +167,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         // 2、数据库的表名称
         // 3、代码模板位置,resources,
         GenerateConfig.dsField(tableName, null, GenerateConfig.PACK_PATH, baseUrl + GenerateConfig.PATH_TEMPLATE);
-        Map<String, String> mapPath = new HashMap<>();
+        Map<String, String> mapPath = new HashMap<>(16);
         mapPath.put("entity", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_ENTITY + GenerateConfig.TABLE_NAME_UP + ".java");
         mapPath.put("vo", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_VO + GenerateConfig.TABLE_NAME_UP + "VO.java");
         mapPath.put("dto", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_DTO + GenerateConfig.TABLE_NAME_UP + "DTO.java");

@@ -37,7 +37,7 @@ public class XjGenerationVueAdd extends BaseGcImpl implements XjGcSevice {
         //
         for (DbFieldPO fieldMap : dataList) {
             // 未勾选的字段过滤
-            if (isChecked(fieldMap)) {
+            if (!isChecked(fieldMap)) {
                 continue;
             }
             // 不生成id

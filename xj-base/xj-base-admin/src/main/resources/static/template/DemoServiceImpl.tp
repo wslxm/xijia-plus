@@ -13,15 +13,18 @@ import {packPath}.{rootModule}.{moduleName}.model.dto.{tableNameUp}DTO;
 import {packPath}.{rootModule}.{moduleName}.model.query.{tableNameUp}Query;
 import org.apache.commons.lang3.StringUtils;
 import {packPath}.core.utils.BeanDtoVoUtil;
+import java.util.List;
 
 /**
- * {tableComment}
+ * {tableComment} ServiceImpl
+ *
  * <p>
  * {describe}
  * </p>
- * {author}
- * {email}
- * {date}
+
+ * @author {author}
+ * @email {email}
+ * @date {date}
  */
 @Service
 public class {tableNameUp}ServiceImpl extends BaseIServiceImpl<{tableNameUp}Mapper, {tableNameUp}> implements {tableNameUp}Service {
@@ -32,16 +35,19 @@ public class {tableNameUp}ServiceImpl extends BaseIServiceImpl<{tableNameUp}Mapp
 {findPageMybatisPlus}
                 .orderByDesc({tableNameUp}::getCreateTime);
         if (query.getCurrent() <= 0) {
+            List<{tableNameUp}> list = this.list(queryWrapper);
             IPage<{tableNameUp}VO> page = new Page<>();
-            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), {tableNameUp}VO.class));
+            return page.setRecords(BeanDtoVoUtil.listVo(list, {tableNameUp}VO.class));
         } else {
             Page<{tableNameUp}> page = new Page<>(query.getCurrent(), query.getSize());
-            return BeanDtoVoUtil.pageVo(this.page(page, queryWrapper), {tableNameUp}VO.class);
+            Page<{tableNameUp}> resPage = this.page(page, queryWrapper);
+            return BeanDtoVoUtil.pageVo(resPage, {tableNameUp}VO.class);
         }
     }
 
+    @Override
     public {tableNameUp}VO findId(String id) {
-        return BeanDtoVoUtil.convert(this.getById(id),{tableNameUp}VO.class);
+        return BeanDtoVoUtil.convert(this.getById(id), {tableNameUp}VO.class);
     }
 
     @Override
@@ -52,7 +58,7 @@ public class {tableNameUp}ServiceImpl extends BaseIServiceImpl<{tableNameUp}Mapp
     }
 
     @Override
-    public boolean upd(String id,{tableNameUp}DTO dto) {
+    public boolean upd(String id, {tableNameUp}DTO dto) {
         {tableNameUp} entity = dto.convert({tableNameUp}.class);
         entity.setId(id);
         return this.updateById(entity);

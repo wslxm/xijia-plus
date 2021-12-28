@@ -132,7 +132,7 @@ public class BaseGcImpl extends BaseIServiceImpl {
      * 判断当前字段是否勾选
      *
      * @param fieldMap
-     * @return boolean
+     * @return boolean true 表示勾选，false 表示为勾选
      * @author wangsong
      * @date 2021/11/4 0004 7:04
      * @version 1.0.0

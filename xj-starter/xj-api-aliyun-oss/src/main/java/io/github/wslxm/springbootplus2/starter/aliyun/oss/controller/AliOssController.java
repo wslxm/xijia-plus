@@ -84,7 +84,7 @@ public class AliOssController {
                 return R.success(ossUtil.upload(filePath, fileName, inputStream));
             } else {
                 String path = ossUtil.upload(filePath, fileName, inputStream);
-                Map<String, String> res = new HashMap<>();
+                Map<String, String> res = new HashMap<>(2,1);
                 res.put("name", file.getOriginalFilename());
                 res.put("url", path);
                 return R.success(res);

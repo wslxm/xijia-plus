@@ -43,7 +43,7 @@ public class XjGenerationVO extends BaseGcImpl implements XjGcSevice {
             String fieldName =fieldMap.getName();
             String typeDetail = fieldMap.getTypeDetail();
             // 1、生成swagger注解
-            fields.append("\r\n    @ApiModelProperty(value = \"" + desc + "\",position = " + (position++) + ")");
+            fields.append("\r\n    @ApiModelProperty(value = \"" + desc + "\", position = " + (position++) + ")");
             // 3、生成字段
             fields.append("\r\n    " + super.jxModel(fieldName, type) + "\r\n");
         }

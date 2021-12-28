@@ -11,13 +11,15 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 文字识别api (图片参数为远程url，图片需先上传到服务器在进行识别操作)
+ *
  * @author wangsong
+ * @version 1.0.1
  * @mail 1720696548@qq.com
  * @date 2021/2/2 0002 9:58
- * @version 1.0.1
  */
 @Component
 @Slf4j
@@ -47,12 +49,12 @@ public class BaiDuWeiZiApiUtil {
 
     /**
      * 1、通用文字识别
-     *   用户向服务请求识别某张图中的所有文字
+     * 用户向服务请求识别某张图中的所有文字
      */
     public R<String> basicGeneral(InputStream in) {
 
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(4, 1);
         options.put("language_type", "CHN_ENG");
         options.put("detect_direction", "true");
         options.put("detect_language", "true");
@@ -65,11 +67,11 @@ public class BaiDuWeiZiApiUtil {
 
     /**
      * 2、通用文字识别高精度版
-     *   用户向服务请求识别某张图中的所有文字，相对于通用文字识别该产品精度更高，但是识别耗时会稍长。
+     * 用户向服务请求识别某张图中的所有文字，相对于通用文字识别该产品精度更高，但是识别耗时会稍长。
      */
     public R<String> basicAccurateGeneral(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(2,1);
         options.put("detect_direction", "true");
         options.put("probability", "true");
 
@@ -80,11 +82,11 @@ public class BaiDuWeiZiApiUtil {
 
     /**
      * 3、通用文字识别（含位置信息版）
-     *   用户向服务请求识别某张图中的所有文字，并返回文字在图中的位置信息。
+     * 用户向服务请求识别某张图中的所有文字，并返回文字在图中的位置信息。
      */
     public R<String> general(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(6,1);
         options.put("recognize_granularity", "big");
         options.put("language_type", "CHN_ENG");
         options.put("detect_direction", "true");
@@ -99,12 +101,12 @@ public class BaiDuWeiZiApiUtil {
 
 
     /**
-     *  4、通用文字识别（含位置信息高精度版）
-     *   用户向服务请求识别某张图中的所有文字，并返回文字在图片中的坐标信息，相对于通用文字识别（含位置信息版）该产品精度更高，但是识别耗时会稍长
+     * 4、通用文字识别（含位置信息高精度版）
+     * 用户向服务请求识别某张图中的所有文字，并返回文字在图片中的坐标信息，相对于通用文字识别（含位置信息版）该产品精度更高，但是识别耗时会稍长
      */
     public R<String> accurateGeneral(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(4,1);
         options.put("recognize_granularity", "big");
         options.put("detect_direction", "true");
         options.put("vertexes_location", "true");
@@ -117,11 +119,11 @@ public class BaiDuWeiZiApiUtil {
 
     /**
      * 5、通用文字识别（含生僻字版）
-     *    某些场景中，图片中的中文不光有常用字，还包含了生僻字，这时用户需要对该图进行文字识别，应使用通用文字识别（含生僻字版）。
+     * 某些场景中，图片中的中文不光有常用字，还包含了生僻字，这时用户需要对该图进行文字识别，应使用通用文字识别（含生僻字版）。
      */
     public R<String> enhancedGeneral(InputStream in) {
-// 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        // 传入可选参数调用接口
+        HashMap<String, String> options = new HashMap<>(4,1);
         options.put("language_type", "CHN_ENG");
         options.put("detect_direction", "true");
         options.put("detect_language", "true");
@@ -134,11 +136,11 @@ public class BaiDuWeiZiApiUtil {
 
     /**
      * 6、网络图片文字识别
-     *   用户向服务请求识别一些网络上背景复杂，特殊字体的文字。
+     * 用户向服务请求识别一些网络上背景复杂，特殊字体的文字。
      */
     public R<String> webImage(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(2,1);
         options.put("detect_direction", "true");
         options.put("detect_language", "true");
 
@@ -154,7 +156,7 @@ public class BaiDuWeiZiApiUtil {
      */
     public R<String> idcard(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(2,1);
         options.put("detect_direction", "true");
         options.put("detect_risk", "true");
         String idCardSide = "back";
@@ -167,11 +169,10 @@ public class BaiDuWeiZiApiUtil {
     /**
      * 8、银行卡识别
      * 识别银行卡并返回卡号和发卡行。
-     *
      */
     public R<String> bankcard(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(2,1);
 
         byte[] fileByte = readImageFile(in);
         JSONObject res = client.bankcard(fileByte, options);
@@ -182,11 +183,10 @@ public class BaiDuWeiZiApiUtil {
     /**
      * 9、驾驶证识别
      * 对机动车驾驶证所有关键字段进行识别
-     *
      */
     public R<String> drivingLicense(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(1,1);
         options.put("detect_direction", "true");
         byte[] fileByte = readImageFile(in);
         JSONObject res = client.drivingLicense(fileByte, options);
@@ -196,11 +196,10 @@ public class BaiDuWeiZiApiUtil {
     /**
      * 10、行驶证识别
      * 对机动车行驶证所有关键字段进行识别
-     *
      */
     public R<String> vehicleLicense(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(2,1);
         options.put("detect_direction", "true");
         options.put("accuracy", "normal");
         byte[] fileByte = readImageFile(in);
@@ -210,12 +209,11 @@ public class BaiDuWeiZiApiUtil {
 
     /**
      * 11、车牌识别
-     *识别机动车车牌，并返回签发地和号牌。
-     *
+     * 识别机动车车牌，并返回签发地和号牌。
      */
     public R<String> plateLicense(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(1,1);
         options.put("multi_detect", "true");
         byte[] fileByte = readImageFile(in);
         JSONObject res = client.plateLicense(fileByte, options);
@@ -225,11 +223,10 @@ public class BaiDuWeiZiApiUtil {
     /**
      * 12、营业执照识别
      * 识别营业执照，并返回关键字段的值，包括单位名称、法人、地址、有效期、证件编号、社会信用代码等。
-     *
      */
     public R<String> businessLicense(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(1,1);
         byte[] fileByte = readImageFile(in);
         JSONObject res = client.businessLicense(fileByte, options);
         return R.success(JSON.toJSONString(res));
@@ -239,11 +236,10 @@ public class BaiDuWeiZiApiUtil {
     /**
      * 13、通用票据识别
      * 用户向服务请求识别医疗票据、发票、的士票、保险保单等票据类图片中的所有文字，并返回文字在图中的位置信息。
-     *
      */
     public R<String> receipt(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(4,1);
         options.put("recognize_granularity", "big");
         options.put("probability", "true");
         options.put("accuracy", "normal");
@@ -270,12 +266,11 @@ public class BaiDuWeiZiApiUtil {
 
     /**
      * 15、表格文字识别同步接口
-     *    自动识别表格线及表格内容，结构化输出表头、表尾及每个单元格的文字内容。
-     *
+     * 自动识别表格线及表格内容，结构化输出表头、表尾及每个单元格的文字内容。
      */
     public R<String> form(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(1,1);
         byte[] fileByte = readImageFile(in);
         JSONObject res = client.form(fileByte, options);
         return R.success(JSON.toJSONString(res));
@@ -342,12 +337,11 @@ public class BaiDuWeiZiApiUtil {
 
     /**
      * 19、试卷分析与识别
-     *    可对文档版面进行分析，输出图、表、标题、文本的位置，并输出分版块内容的OCR识别结果，支持中、英两种语言，手写、印刷体混排多种场景
-     *
+     * 可对文档版面进行分析，输出图、表、标题、文本的位置，并输出分版块内容的OCR识别结果，支持中、英两种语言，手写、印刷体混排多种场景
      */
     public R<String> docAnalysis(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(1,1);
         byte[] fileByte = readImageFile(in);
         JSONObject res = client.docAnalysis(fileByte, options);
         return R.success(JSON.toJSONString(res));
@@ -355,12 +349,11 @@ public class BaiDuWeiZiApiUtil {
 
     /**
      * 20、仪器仪表盘读数识别
-     *    适用于不同品牌、不同型号的仪器仪表盘读数识别，广泛适用于各类血糖仪、血压仪、燃气表、电表等，可识别表盘上的数字、英文、符号，支持液晶屏、字轮表等表型。
-     *
+     * 适用于不同品牌、不同型号的仪器仪表盘读数识别，广泛适用于各类血糖仪、血压仪、燃气表、电表等，可识别表盘上的数字、英文、符号，支持液晶屏、字轮表等表型。
      */
     public R<String> meter(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(1,1);
         byte[] fileByte = readImageFile(in);
         JSONObject res = client.meter(fileByte, options);
         return R.success(JSON.toJSONString(res));
@@ -369,12 +362,11 @@ public class BaiDuWeiZiApiUtil {
 
     /**
      * 21、网络图片文字识别（含位置版）
-     *    支持识别艺术字体或背景复杂的文字内容，除文字信息外，还可返回每行文字的位置信息、行置信度，以及单字符内容和位置等。
-     *
+     * 支持识别艺术字体或背景复杂的文字内容，除文字信息外，还可返回每行文字的位置信息、行置信度，以及单字符内容和位置等。
      */
     public R<String> webimageLoc(InputStream in) {
         // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, String> options = new HashMap<>(1,1);
         //
         byte[] fileByte = readImageFile(in);
         JSONObject res = client.webimageLoc(fileByte, options);
@@ -384,16 +376,17 @@ public class BaiDuWeiZiApiUtil {
 
     /**
      * 流转二进制
-     * <P>
-     *        // 参数为本地图片二进制数组
-     *         byte[] fileByte = readImageFile(in);
-     *         JSONObject res = client.idcard(fileByte, idCardSide, options);
-     *         log.debug(res.toString(2));
+     * <p>
+     * // 参数为本地图片二进制数组
+     * byte[] fileByte = readImageFile(in);
+     * JSONObject res = client.idcard(fileByte, idCardSide, options);
+     * log.debug(res.toString(2));
      * </P>
-     * @author wangsong
+     *
      * @param in
-     * @date 2021/2/2 0002 10:27
      * @return byte[]
+     * @author wangsong
+     * @date 2021/2/2 0002 10:27
      * @version 1.0.1
      */
     private static byte[] readImageFile(InputStream in) {

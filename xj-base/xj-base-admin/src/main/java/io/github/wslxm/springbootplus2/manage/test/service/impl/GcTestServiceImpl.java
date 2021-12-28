@@ -14,14 +14,17 @@ import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
 import org.apache.commons.lang3.StringUtils;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 
+import java.util.List;
+
 /**
- * 代码生成测试表
+ * 代码生成测试表 ServiceImpl
+ *
  * <p>
  * ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655
  * </p>
- * @author  ws
- * @email  1720696548@qq.com
- * @date  2021-12-08 11:39:01
+ * @author ws
+ * @email 1720696548@qq.com
+ * @date 2021-12-28 11:39:46
  */
 @Service
 public class GcTestServiceImpl extends BaseIServiceImpl<GcTestMapper, GcTest> implements GcTestService {
@@ -29,21 +32,24 @@ public class GcTestServiceImpl extends BaseIServiceImpl<GcTestMapper, GcTest> im
     @Override
     public IPage<GcTestVO> list(GcTestQuery query) {
         LambdaQueryWrapper<GcTest> queryWrapper = new LambdaQueryWrapper<GcTest>()
-                .eq(StringUtils.isNotBlank(query.getName()),GcTest::getName,query.getName())
+                .eq(StringUtils.isNotBlank(query.getName()),GcTest::getName, query.getName())
+                .eq(query.getDisable() != null, GcTest::getDisable, query.getDisable())
 
                 .orderByDesc(GcTest::getCreateTime);
         if (query.getCurrent() <= 0) {
+            List<GcTest> list = this.list(queryWrapper);
             IPage<GcTestVO> page = new Page<>();
-            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), GcTestVO.class));
+            return page.setRecords(BeanDtoVoUtil.listVo(list, GcTestVO.class));
         } else {
             Page<GcTest> page = new Page<>(query.getCurrent(), query.getSize());
-            return BeanDtoVoUtil.pageVo(this.page(page, queryWrapper), GcTestVO.class);
+            Page<GcTest> resPage = this.page(page, queryWrapper);
+            return BeanDtoVoUtil.pageVo(resPage, GcTestVO.class);
         }
     }
 
     @Override
     public GcTestVO findId(String id) {
-        return BeanDtoVoUtil.convert(this.getById(id),GcTestVO.class);
+        return BeanDtoVoUtil.convert(this.getById(id), GcTestVO.class);
     }
 
     @Override
@@ -54,7 +60,7 @@ public class GcTestServiceImpl extends BaseIServiceImpl<GcTestMapper, GcTest> im
     }
 
     @Override
-    public boolean upd(String id,GcTestDTO dto) {
+    public boolean upd(String id, GcTestDTO dto) {
         GcTest entity = dto.convert(GcTest.class);
         entity.setId(id);
         return this.updateById(entity);

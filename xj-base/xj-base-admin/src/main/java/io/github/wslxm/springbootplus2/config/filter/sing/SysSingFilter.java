@@ -158,7 +158,7 @@ public class SysSingFilter implements Filter {
             body = JSONObject.toJSONString(obj, SerializerFeature.MapSortField);
             /// String newBody = JSON.toJSONStringWithDateFormat(jsonObject, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
             // 4、获取加签参数
-            verifyMap = new HashMap<>();
+            verifyMap = new HashMap<>(3,1);
             verifyMap.put(SignUtil.BODY, body);
             verifyMap.put(SignUtil.SIGN, sign.toString());
             verifyMap.put(SignUtil.TIMESTAMP, timestamp.toString());

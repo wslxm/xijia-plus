@@ -58,7 +58,7 @@ public class SignUtil {
      * @return
      */
     public static Map<String, String> toVerifyMap(Map<String, String[]> requestParams, boolean charset) {
-        Map<String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>(16);
         for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
             String name = (String) iter.next();
             String[] values = requestParams.get(name);
@@ -82,7 +82,7 @@ public class SignUtil {
      * @return 去掉空值与签名参数后的新签名参数组
      */
     public static Map<String, String> paraFilter(Map<String, String> sArray) {
-        Map<String, String> result = new HashMap<>();
+        Map<String, String> result = new HashMap<>(16);
         if (sArray == null || sArray.size() <= 0) {
             return result;
         }

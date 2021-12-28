@@ -9,7 +9,7 @@ import org.springframework.web.filter.CorsFilter;
 /**
  * 跨域配置
  * @author wangsong
- * @mail 1720696548@qq.com
+ * @email 1720696548@qq.com
  * @date 2021/8/16 0016 17:43 
  * @version 1.0.1
  */

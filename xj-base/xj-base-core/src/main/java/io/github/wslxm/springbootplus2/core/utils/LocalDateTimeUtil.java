@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.core.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jsqlparser.expression.operators.relational.Between;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,22 +29,35 @@ public class LocalDateTimeUtil {
     /**
      * 时间格式
      */
+    private static final String YYYY_MM_DD_HH_MM_SS_SSS = "yyyy-MM-dd HH:mm:ss.SSS";
     private static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
     private static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
     private static final String YYYY_MM_DD_HH = "yyyy-MM-dd HH";
     private static final String YYYY_MM_DD = "yyyy-MM-dd";
     private static final String YYYY_MM = "yyyy-MM";
     private static final String YYYY = "yyyy";
-    /**
-     * 时间转换方法
-     */
-    private static final DateTimeFormatter DF_YYYY_MM_DD_HH_MM_SS = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH_MM_SS);
-    private static final DateTimeFormatter DF_YYYY_MM_DD_HH_MM = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH_MM);
-    private static final DateTimeFormatter DF_YYYY_MM_DD_HH = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH);
-    private static final DateTimeFormatter DF_YYYY_MM_DD = DateTimeFormatter.ofPattern(YYYY_MM_DD);
-    private static final DateTimeFormatter DF_YYYY_MM = DateTimeFormatter.ofPattern(YYYY_MM);
-    private static final DateTimeFormatter DF_YYYY = DateTimeFormatter.ofPattern(YYYY);
+//    /**
+//     * 时间转换方法
+//     */
+//    private static final DateTimeFormatter DF_YYYY_MM_DD_HH_MM_SS = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH_MM_SS);
+//    private static final DateTimeFormatter DF_YYYY_MM_DD_HH_MM = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH_MM);
+//    private static final DateTimeFormatter DF_YYYY_MM_DD_HH = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH);
+//    private static final DateTimeFormatter DF_YYYY_MM_DD = DateTimeFormatter.ofPattern(YYYY_MM_DD);
+//    private static final DateTimeFormatter DF_YYYY_MM = DateTimeFormatter.ofPattern(YYYY_MM);
+//    private static final DateTimeFormatter DF_YYYY = DateTimeFormatter.ofPattern(YYYY);
 
+
+    /**
+     * 获取时间类型
+     * 1-包含开始和结束时间(默认)
+     * 2-包含结束-不包含开始时间   // 开始时间+1天
+     * 3-包含开始-不包含结束时间   // 结束时间-1天
+     * 4-不包含开始和结束时间 // 开始时间+1天  or 结束时间-1天
+     */
+    private static final int BETWEEN_TYPE_ONE = 1;
+    private static final int BETWEEN_TYPE_TWO = 2;
+    private static final int BETWEEN_TYPE_THREE = 3;
+    private static final int BETWEEN_TYPE_FOUR = 4;
 
     /**
      * 判断时间 小于
@@ -436,7 +450,7 @@ public class LocalDateTimeUtil {
      *
      * @author wangsong
      */
-    public static LocalDateTime parseLDT(Date date) {
+    public static LocalDateTime parseLdt(Date date) {
         return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
 
@@ -469,96 +483,76 @@ public class LocalDateTimeUtil {
 
 
     /**
-     * String 类型转成 LocalDateTime ,必须为完整时间：2020-01-20 17:07:05
+     * String 类型转成 LocalDateTime ,必须为完整时间,如：2020-01-20 00:00:00
      *
-     * @param timeStr
+     * @param timeStr 时间字符串
      * @return java.time.LocalDateTime
-     * @author wangsong
-     * @date 2020/12/24 0024 15:21
-     * @version 1.0.1
      */
     public static LocalDateTime parse(String timeStr) {
-        return LocalDateTime.parse(timeStr, DF_YYYY_MM_DD_HH_MM_SS);
+        return parse(timeStr, YYYY_MM_DD_HH_MM_SS);
+    }
+
+    /**
+     * String (2020-01-20 00:00:00)类型转成 LocalDateTime
+     *
+     * @param timeStr timeStr
+     * @param pattern pattern
+     * @return java.time.LocalDateTime
+     */
+    public static LocalDateTime parse(String timeStr, String pattern) {
+        if (pattern.equals(YYYY)) {
+            timeStr += "-01-01 00:00:00";
+        } else if (pattern.equals(YYYY_MM)) {
+            timeStr += "-01 00:00:00";
+        } else if (pattern.equals(YYYY_MM_DD)) {
+            timeStr += " 00:00:00";
+        } else if (pattern.equals(YYYY_MM_DD_HH)) {
+            timeStr += ":00:00";
+        } else if (pattern.equals(YYYY_MM_DD_HH_MM)) {
+            timeStr += ":00";
+        }
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH_MM_SS);
+        return LocalDateTime.parse(timeStr, dtf);
     }
 
 
     /**
-     * LocalDateTime 转 字符串
-     * <P>  yyyy-MM-dd HH:mm:ss:SSS  (HH是24小时制，而hh是12小时制, ss是秒，SSS是毫秒) </P>
+     * LocalDateTime 转完整 String 类型的时间 如：2020-01-20 00:00:00
      *
+     * @param time time
+     * @return java.lang.String
+     */
+    public static String parse(LocalDateTime time) {
+        return parse(time, YYYY_MM_DD_HH_MM_SS);
+    }
+
+
+    /**
+     * LocalDateTime 转指定类型的字符串
+     *
+     * @return java.lang.String
      * @author wangsong
      */
     public static String parse(LocalDateTime time, String pattern) {
-        return time.format(DateTimeFormatter.ofPattern(pattern));
-    }
-
-
-    /**
-     * LocalDateTime转成String类型的时间
-     *
-     * @param time
-     * @return java.lang.String
-     * @author wangsong
-     * @date 2020/12/24 0024 15:25
-     * @version 1.0.1
-     */
-    public static String parse(LocalDateTime time) {
-        return DF_YYYY_MM_DD_HH_MM_SS.format(time);
-    }
-
-
-    /**
-     * LocalDateTime 转字符串 yyyy-MM-dd 格式
-     *
-     * @author wangsong
-     */
-    public static String parse_yyyyMMdd(LocalDateTime time) {
         if (time == null) {
             return null;
         }
-        DateTimeFormatter df = DateTimeFormatter.ofPattern(YYYY_MM_DD);
-        return df.format(time);
-    }
-
-    /**
-     * LocalDateTime 转字符串 yyyy-MM-dd HH 格式
-     *
-     * @author wangsong
-     */
-    public static String parse_yyyyMMddHH(LocalDateTime time) {
-        if (time == null) {
-            return null;
-        }
-        DateTimeFormatter df = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH);
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(pattern);
         return df.format(time);
     }
 
 
     /**
-     * LocalDateTime 转字符串 yyyy-MM 格式
-     *
-     * @author wangsong
-     */
-    public static String parse_yyyyMM(LocalDateTime time) {
-        if (time == null) {
-            return null;
-        }
-        DateTimeFormatter df = DateTimeFormatter.ofPattern(YYYY_MM);
-        return df.format(time);
-    }
-
-
-    /**
-     * Date 转 yyyy-MM-dd 字符串
+     * Date 转指定格式的字符串
      *
      * @param time
      * @author wangsong
      */
-    public static String parse_yyyyMMdd(Date time) {
+    public static String parse(Date time, String pattern) {
         if (time == null) {
             return null;
         }
-        SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD);
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
         return format.format(time);
     }
 
@@ -588,31 +582,6 @@ public class LocalDateTimeUtil {
         return time.toEpochSecond(ZoneOffset.ofHours(8));
     }
 
-    /**
-     * yyyy-MM-dd 时间字符串转 LocalDateTime
-     *
-     * @author wangsong
-     */
-    public static LocalDateTime parse_yyyyMMdd(String timeStr) {
-        SimpleDateFormat df = new SimpleDateFormat(YYYY_MM_DD);
-        try {
-            Date parse = df.parse(timeStr);
-            LocalDateTime localDateTime = parse.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-            return localDateTime;
-        } catch (ParseException e) {
-            log.debug("error:{}", e);
-        }
-        return null;
-    }
-
-
-    //========================================================================================================
-    //========================================================================================================
-    //========================================================================================================
-    //====================================== 获取时间段的每一天 =================================================
-    //========================================================================================================
-    //========================================================================================================
-
 
     /**
      * 获取指定天的24小时  |  yyyy-MM-dd HH 格式
@@ -625,7 +594,7 @@ public class LocalDateTimeUtil {
             return new ArrayList<>();
         }
         List<String> times = new ArrayList<>();
-        String time = parse_yyyyMMdd(t);
+        String time = parse(t, YYYY_MM_DD);
         int hourNum = 24;
         for (int i = 0; i < hourNum; i++) {
             if (i < 10) {
@@ -685,7 +654,7 @@ public class LocalDateTimeUtil {
                 LocalDateTime time = plus(startTime, 1, ChronoUnit.MONTHS);
                 if (time != null) {
                     startTime = time;
-                    times.add(parse_yyyyMM(startTime));
+                    times.add(parse(startTime, YYYY_MM));
                 } else {
                     break;
                 }
@@ -710,15 +679,15 @@ public class LocalDateTimeUtil {
         // 指定开始时间  00:00:00  // 指定结束时间  00:00:00
         LocalDateTime oldStartTime = getDayStart(startTime);
         LocalDateTime oldEndTime = getDayStart(endTime);
-        // 1-包含开始和结束时间(默认)
+        // 1-包含开始和结束时间(默认) BetweenType
         // 2-包含结束-不包含开始时间   // 开始时间+1天
         // 3-包含开始-不包含结束时间   // 结束时间-1天
         // 4-不包含开始和结束时间 // 开始时间+1天  or 结束时间-1天
-        if (type == 2) {
+        if (type == BETWEEN_TYPE_TWO) {
             oldStartTime = plus(oldStartTime, 1, ChronoUnit.DAYS);
-        } else if (type == 3) {
+        } else if (type == BETWEEN_TYPE_THREE) {
             oldEndTime = subtract(endTime, 1, ChronoUnit.DAYS);
-        } else if (type == 4) {
+        } else if (type == BETWEEN_TYPE_FOUR) {
             oldStartTime = plus(oldStartTime, 1, ChronoUnit.DAYS);
             oldEndTime = subtract(endTime, 1, ChronoUnit.DAYS);
         }
@@ -784,6 +753,13 @@ public class LocalDateTimeUtil {
      * @date 2020/4/24 0024 15:54
      */
     public static void main(String[] args) {
+        test();
+        test1();
+        test2();
+        test3();
+    }
+
+    private static void test() {
         log.debug("当前时间 ==> " + LocalDateTime.now());
         log.debug("当前时间秒数 ==> " + parseSecond(LocalDateTime.now()));
         log.debug("当前时间毫秒数 ==> " + parseMillisecond(LocalDateTime.now()));
@@ -793,6 +769,11 @@ public class LocalDateTimeUtil {
         log.debug("今天结束时间 ==> " + getDayEnd(LocalDateTime.now()));
         log.debug("构建自定义时间 ==> " + of(2020, 1, 1, 12, 00, 00, 999999999));
         log.debug("指定格式 ==>  " + parse(LocalDateTime.now(), "yyyy-MM-dd HH:mm:ss:SSS"));
+
+
+    }
+
+    private static void test1() {
         log.debug("=========================" + LocalDateTime.now() + " 之前 ==================================");
         log.debug("10秒前 ==> " + subtract(LocalDateTime.now(), 10, ChronoUnit.SECONDS));
         log.debug("10分前 ==> " + subtract(LocalDateTime.now(), 10, ChronoUnit.MINUTES));
@@ -827,6 +808,9 @@ public class LocalDateTimeUtil {
         log.debug("2019-10-13 11:11:00 < 2020-11-13 13:13:00 = " + isBefore(start, end));
         //t1 > t2 = true
         log.debug("2019-10-13 11:11:00 > 2020-11-13 13:13:00 = " + isAfter(start, end));
+    }
+
+    private static void test2() {
         log.debug("================================== 周几 ===================================");
         LocalDateTime of1 = LocalDateTime.of(2020, 4, 20, 0, 0);
         LocalDateTime of2 = LocalDateTime.of(2020, 4, 21, 0, 0);
@@ -859,6 +843,11 @@ public class LocalDateTimeUtil {
         log.debug("==================== 当前月1好到下N月底的每天数据 =========================");
         log.debug(" 前N月|后N月 -- 前N月|后N月所有时间 " + LocalDateTimeUtil.getDateDaysUpList(0, 2).toString());
         log.debug(" 前N月|后N月 -- 前N月|后N月所有时间 " + LocalDateTimeUtil.getDateDaysUpList(2, 2).toString());
+
+    }
+
+
+    private static void test3() {
         log.debug("==================获取指定开始时间和结束时间内的所有时间 ====================");
         LocalDateTime startTime = LocalDateTime.of(2020, 4, 20, 0, 0);
         LocalDateTime endTime = LocalDateTime.of(2020, 4, 25, 0, 0);
@@ -870,12 +859,20 @@ public class LocalDateTimeUtil {
         log.debug(parse("2020-01-20 17:07:05").toString());
         log.debug(parse(LocalDateTime.now()));
         log.debug("================== 时间特殊格式方法转换 ==================");
-        log.debug(parse_yyyyMMddHH(LocalDateTime.now()));
-        log.debug(parse_yyyyMMdd(LocalDateTime.now()));
-        log.debug(parse_yyyyMMdd(new Date()));
-        LocalDateTime dateTime = parse_yyyyMMdd("2020-06-06");
-        log.debug(dateTime != null ? dateTime.toString() : "");
-        log.debug(parse_yyyyMM(LocalDateTime.now()));
+        log.debug(parse(LocalDateTime.now(), YYYY));
+        log.debug(parse(LocalDateTime.now(), YYYY_MM));
+        log.debug(parse(LocalDateTime.now(), YYYY_MM_DD));
+        log.debug(parse(LocalDateTime.now(), YYYY_MM_DD_HH));
+        log.debug(parse(LocalDateTime.now(), YYYY_MM_DD_HH_MM));
+        log.debug(parse(LocalDateTime.now(), YYYY_MM_DD_HH_MM_SS));
+        log.debug(parse(LocalDateTime.now(), YYYY_MM_DD_HH_MM_SS_SSS));
+        log.debug(parse(new Date(), YYYY_MM_DD));
+        log.debug(parse("2020", YYYY).toString());
+        log.debug(parse("2020-06", YYYY_MM).toString());
+        log.debug(parse("2020-06-06", YYYY_MM_DD).toString());
+        log.debug(parse("2020-06-06 00", YYYY_MM_DD_HH).toString());
+        log.debug(parse("2020-06-06 00:00", YYYY_MM_DD_HH_MM).toString());
+        log.debug(parse(LocalDateTime.now(), YYYY_MM));
         log.debug("==================获取整时时间,舍弃分秒为0 ==================");
         log.debug(parse(getTheHour(LocalDateTime.now())));
         log.debug("==================获取整分时间,舍弃秒为0");

@@ -14,17 +14,19 @@ import io.github.wslxm.springbootplus2.manage.test.service.GcTestService;
 
 
 /**
- * 代码生成测试表
+ * 代码生成测试表 前端控制器
+ *
  * <p>
  * ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655
  * </p>
- * @author  ws
- * @email  1720696548@qq.com
- * @date  2021-12-08 11:39:01
+ *
+ * @author ws
+ * @email 1720696548@qq.com
+ * @date 2021-12-28 11:39:46
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/test/gcTest")
-@Api(value ="GcTestController" ,tags = "代码生成测试表")
+@RequestMapping(BaseConstant.Uri.API_ADMIN + "/test/gcTest")
+@Api(value = "GcTestController",tags = "代码生成测试表")
 public class GcTestController extends BaseController<GcTestService>  {
 
     @GetMapping(value = "/list")
