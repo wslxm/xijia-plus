@@ -3,6 +3,8 @@ package io.github.wslxm.springbootplus2.core.utils;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.operators.relational.Between;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
@@ -36,16 +38,6 @@ public class LocalDateTimeUtil {
     private static final String YYYY_MM_DD = "yyyy-MM-dd";
     private static final String YYYY_MM = "yyyy-MM";
     private static final String YYYY = "yyyy";
-//    /**
-//     * 时间转换方法
-//     */
-//    private static final DateTimeFormatter DF_YYYY_MM_DD_HH_MM_SS = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH_MM_SS);
-//    private static final DateTimeFormatter DF_YYYY_MM_DD_HH_MM = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH_MM);
-//    private static final DateTimeFormatter DF_YYYY_MM_DD_HH = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH);
-//    private static final DateTimeFormatter DF_YYYY_MM_DD = DateTimeFormatter.ofPattern(YYYY_MM_DD);
-//    private static final DateTimeFormatter DF_YYYY_MM = DateTimeFormatter.ofPattern(YYYY_MM);
-//    private static final DateTimeFormatter DF_YYYY = DateTimeFormatter.ofPattern(YYYY);
-
 
     /**
      * 获取时间类型
@@ -58,6 +50,16 @@ public class LocalDateTimeUtil {
     private static final int BETWEEN_TYPE_TWO = 2;
     private static final int BETWEEN_TYPE_THREE = 3;
     private static final int BETWEEN_TYPE_FOUR = 4;
+
+    private static Random random;
+
+    static {
+        try {
+            random = SecureRandom.getInstanceStrong();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 判断时间 小于
@@ -374,6 +376,9 @@ public class LocalDateTimeUtil {
     }
 
 
+
+
+
     /**
      * 获取17位时间戳字符串+3位随机数
      * <p>  这里增加了线程锁和延时一毫秒，单体项目100%不会重复，可用于生成订单号  </p>
@@ -384,7 +389,6 @@ public class LocalDateTimeUtil {
      */
     public static synchronized String getTimeStr20() {
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
-        Random random = new Random();
         timeStamp += (random.nextInt(10) + "") + (random.nextInt(10) + "") + (random.nextInt(10) + "");
         return timeStamp;
     }

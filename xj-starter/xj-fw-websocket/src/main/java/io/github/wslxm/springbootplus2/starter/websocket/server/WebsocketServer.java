@@ -140,7 +140,7 @@ public class WebsocketServer {
      *
      * @param sendMsg：消息内容
      */
-    public Boolean send(SendMsgVO sendMsg) {
+    public void send(SendMsgVO sendMsg) {
         List all = Arrays.asList("all", "ALL");
         if (all.contains(sendMsg.getTo())) {
             // 发送消息给所有人
@@ -148,14 +148,12 @@ public class WebsocketServer {
             for (String userId : userIds) {
                 this.sendMsg(userId, sendMsg);
             }
-            return true;
         } else {
             //发送消息给指定人
             String[] userIds = sendMsg.getTo().split(",");
             for (String userId : userIds) {
                 this.sendMsg(userId, sendMsg);
             }
-            return true;
         }
     }
 

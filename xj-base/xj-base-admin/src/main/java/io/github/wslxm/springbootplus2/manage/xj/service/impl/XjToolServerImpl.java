@@ -239,7 +239,7 @@ public class XjToolServerImpl implements XjToolServer {
         double totalFile = 0;
         // 剩余空间
         double freeFile = 0;
-        //double unFile = 0L;
+        // double unFile = 0L;
         for (File file : files) {
             totalFile += (double) file.getTotalSpace() / kb;
             freeFile += (double) file.getFreeSpace() / kb;
@@ -248,7 +248,10 @@ public class XjToolServerImpl implements XjToolServer {
         // 已使用空间
         double usableFile = totalFile - freeFile;
         // 已使用比率
-        double usageRate = usableFile / totalFile;
+        double usageRate = 0;
+        if(totalFile!=0){
+            usageRate =  usableFile / totalFile;
+        }
         XjToolJvmInfoVO.FileInfoVO fileInfoVO = new XjToolJvmInfoVO.FileInfoVO();
         fileInfoVO.setFileSysType("\\");
         fileInfoVO.setTotal(new BigDecimal(totalFile).setScale(2, RoundingMode.HALF_UP).doubleValue());
