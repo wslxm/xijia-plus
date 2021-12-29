@@ -7,7 +7,9 @@ import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import org.springframework.stereotype.Service;
 
 
-@SuppressWarnings("all")
+/**
+ * @author wangsong
+ */
 @Service
 public class AdminRoleAuthServiceImpl extends BaseIServiceImpl<AdminRoleAuthMapper, AdminRoleAuth> implements AdminRoleAuthService {
 

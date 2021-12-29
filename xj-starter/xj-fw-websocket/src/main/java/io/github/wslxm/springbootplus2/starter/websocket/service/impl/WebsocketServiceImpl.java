@@ -58,8 +58,8 @@ public class WebsocketServiceImpl implements WebsocketService {
      * @return
      */
     @Override
-    public Boolean send(String form, String username, String headPic, String to, String content, String extras) {
+    public void send(String form, String username, String headPic, String to, String content, String extras) {
         // 发送消息
-       return websocketServer.send(new SendMsgVO(4, form, username,headPic,to, content, extras,websocketServer.getClientsSize()));
+        websocketServer.send(new SendMsgVO(4, form, username,headPic,to, content, extras,websocketServer.getClientsSize()));
     }
 }

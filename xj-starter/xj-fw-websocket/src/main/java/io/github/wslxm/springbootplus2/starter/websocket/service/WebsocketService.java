@@ -5,7 +5,7 @@ import io.github.wslxm.springbootplus2.starter.websocket.model.vo.OnlineUserVO;
 import java.util.List;
 
 /**
- *  @author wangsong
+ * @author wangsong
  * websocket 监听类(连接，断点，消息发送等)
  * <p>
  * /websocket/{userId}/{username}   =  /websocket/用户Id/用户名 来连接websocket，该参数会带到每一个监听方法中
@@ -41,10 +41,9 @@ public interface WebsocketService {
      * @param to       接收人id（多个逗号分隔）
      * @param content  发送内容
      * @param extras   扩暂发送内容
-     * @return java.lang.Boolean
      * @version 1.0.0
      */
-    Boolean send(String form, String username, String headPic, String to, String content, String extras);
+    void send(String form, String username, String headPic, String to, String content, String extras);
 }
 
 

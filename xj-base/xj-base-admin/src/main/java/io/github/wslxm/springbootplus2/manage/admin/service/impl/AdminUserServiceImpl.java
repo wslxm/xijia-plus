@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
 /**
  * @author wangsong
  */
@@ -86,7 +87,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         }
         // 判断当前是否登录(登录了添加创建人)
         R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, response);
-        Boolean isLogin = jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue()) ? true : false;
+        boolean isLogin = jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue());
         if (isLogin) {
             String userId = jwtUserR.getData().getUserId();
             adminUser.setCreateUser(userId);
@@ -215,12 +216,13 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     /**
      * 手机号和电话号登录验证，失败自动进入全局异常,成功返回用户信息
-     * @author wangsong
-     * @param  username 账号
-     * @param  password 密码
-     * @param  terminal 终端, 如果没有传递终端, 可以导致查出不同端的多条账号数据
-     * @date 2021/9/30 0030 14:18
+     *
+     * @param username 账号
+     * @param password 密码
+     * @param terminal 终端, 如果没有传递终端, 可以导致查出不同端的多条账号数据
      * @return boolean
+     * @author wangsong
+     * @date 2021/9/30 0030 14:18
      * @version 1.0.1
      */
     private AdminUser loginUsernameOrPhone(String username, String password, Integer terminal) {
@@ -258,17 +260,18 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     /**
      * 验证账号是否重复
-     * @author wangsong
-     * @param username 新手机号
+     *
+     * @param username    新手机号
      * @param oldUserName 原手机号
-     * @date 2021/9/30 0030 14:12
      * @return void
+     * @author wangsong
+     * @date 2021/9/30 0030 14:12
      * @version 1.0.1
      */
     private void verifyRepeatUsername(String username, String oldUserName, Integer terminal, Integer oldTerminal) {
         if (StringUtils.isNotBlank(username)) {
             // 判重账号
-            if (oldUserName == null || !username.equals(oldUserName) || !terminal.equals(oldTerminal)) {
+            if (!username.equals(oldUserName) || !terminal.equals(oldTerminal)) {
                 if (this.count(new LambdaUpdateWrapper<AdminUser>()
                         .eq(AdminUser::getUsername, username)
                         .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
@@ -283,17 +286,18 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     /**
      * 验证手机号是否重复
-     * @author wangsong
-     * @param phone 新手机号
+     *
+     * @param phone    新手机号
      * @param oldPhone 原手机号
-     * @date 2021/9/30 0030 14:11
      * @return void
+     * @author wangsong
+     * @date 2021/9/30 0030 14:11
      * @version 1.0.1
      */
     private void verifyRepeatePhone(String phone, String oldPhone, Integer terminal, Integer oldTerminal) {
         if (StringUtils.isNotBlank(phone)) {
             // 判重电话
-            if (oldPhone == null || !phone.equals(oldPhone) || !terminal.equals(oldTerminal)) {
+            if (!phone.equals(oldPhone) || !terminal.equals(oldTerminal)) {
                 if (this.count(new LambdaUpdateWrapper<AdminUser>()
                         .eq(AdminUser::getPhone, phone)
                         .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())

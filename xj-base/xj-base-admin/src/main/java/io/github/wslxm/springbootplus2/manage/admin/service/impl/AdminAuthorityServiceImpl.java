@@ -80,7 +80,6 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         }
         // 3、resurt，返回list
         if (!query.getIsTree()) {
-            //
             return adminAuthorityVOList;
         }
         // 4、resurt，返回tree
@@ -119,7 +118,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     /**
      * 获取用户的url权限列表，只返回未禁用的 需要登录+授权的url
      *
-     * @param  userId 用户id
+     * @param userId 用户id
      * @return void
      * @date 2019/11/25 0025 11:55
      */
@@ -141,13 +140,13 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     /**
-     *   接口自动扫描（1、项目启动时自动执行   2、设置了权限授权状态更新
-     *   <p>
-     *       扫描添加接口信息，扫描启动类下的所有包
-     *       存在修改（不修改原数据的禁用启动和权限状态,防止重启项目时修改被还原）
-     *       不存在添加
-     *       多余的生成
-     *   </p>
+     * 接口自动扫描（1、项目启动时自动执行   2、设置了权限授权状态更新
+     * <p>
+     * 扫描添加接口信息，扫描启动类下的所有包
+     * 存在修改（不修改原数据的禁用启动和权限状态,防止重启项目时修改被还原）
+     * 不存在添加
+     * 多余的生成
+     * </p>
      *
      * @return void
      * @date 2019/11/25 0025 9:02
@@ -354,8 +353,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             }
             // 日志输出, 使用占位方式让日志对齐
             log.info("  接口资源：[{}]  -->  [{}]  -->  [{}] ", String.format("%-6s", requestMethod), String.format("%-40s", url), desc);
-            // 存在修改，不存在新添加
-            // url = url + ":" + methodName;
+            /// 存在修改，不存在新添加
             if (authorityMap.containsKey(AuthCacheKeyUtil.getAuthKey(requestMethod, url))) {
                 AdminAuthority updAuthority = authorityMap.get(AuthCacheKeyUtil.getAuthKey(requestMethod, url));
                 updAuthority.setPid(authority.getId());

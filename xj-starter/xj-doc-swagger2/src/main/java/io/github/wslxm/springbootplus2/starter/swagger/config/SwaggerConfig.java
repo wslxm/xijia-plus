@@ -1,15 +1,11 @@
 package io.github.wslxm.springbootplus2.starter.swagger.config;
 
-import io.github.wslxm.springbootplus2.starter.swagger.properties.SwaggerProperties;
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import io.github.wslxm.springbootplus2.starter.swagger.properties.SwaggerProperties;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -108,8 +104,8 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName(groupName)
                 .select()
-                //.apis(RequestHandlerSelectors.basePackage("com.lplb.modules.pets")
-                .apis(basePackage(getPackage(groupNameOrPackage.toString())))
+                .apis(RequestHandlerSelectors.basePackage(getPackage(groupNameOrPackage.toString())))
+                // .apis(basePackage(getPackage(groupNameOrPackage.toString())))
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
                 .build()
@@ -203,39 +199,38 @@ public class SwaggerConfig {
     //=============================================================================================
     //=============================================================================================
 
-    /**
-     * 定义分隔符
-     */
-    private static final String SPLITOR = ",";
-
-
-    /**
-     * 让swagger支持配置多个 包路径
-     *
-     * @param basePackage
-     * @return com.google.common.base.Predicate<springfox.documentation.RequestHandler>
-     * @author wangsong
-     * @date 2020/12/29 0029 11:18
-     * @version 1.0.1
-     */
-    public static Predicate<RequestHandler> basePackage(final String basePackage) {
-        return input -> declaringClass(input).transform(handlerPackage(basePackage)).or(true);
-    }
-
-    private static Function<Class<?>, Boolean> handlerPackage(final String basePackage) {
-        return input -> {
-            // 循环判断匹配
-            for (String strPackage : basePackage.split(SPLITOR)) {
-                boolean isMatch = input.getPackage().getName().startsWith(strPackage);
-                if (isMatch) {
-                    return true;
-                }
-            }
-            return false;
-        };
-    }
-
-    private static Optional<? extends Class<?>> declaringClass(RequestHandler input) {
-        return Optional.fromNullable(input.declaringClass());
-    }
+//    /**
+//     * 定义分隔符
+//     */
+//    private static final String SPLITOR = ",";
+//
+//    /**
+//     * 让swagger支持配置多个 包路径
+//     *
+//     * @param basePackage
+//     * @return com.google.common.base.Predicate<springfox.documentation.RequestHandler>
+//     * @author wangsong
+//     * @date 2020/12/29 0029 11:18
+//     * @version 1.0.1
+//     */
+//    public static Predicate<RequestHandler> basePackage(final String basePackage) {
+//        return input -> declaringClass(input).map(handlerPackage(basePackage)::apply).orElse(true);
+//    }
+//
+//    private static Function<Class<?>, Boolean> handlerPackage(final String basePackage) {
+//        return input -> {
+//            // 循环判断匹配
+//            for (String strPackage : basePackage.split(SPLITOR)) {
+//                boolean isMatch = input.getPackage().getName().startsWith(strPackage);
+//                if (isMatch) {
+//                    return true;
+//                }
+//            }
+//            return false;
+//        };
+//    }
+//
+//    private static Optional<Class<?>> declaringClass(RequestHandler input) {
+//        return Optional.ofNullable(input.declaringClass());
+//    }
 }

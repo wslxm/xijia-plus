@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
  * <p>
  * ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655
  * </p>
+ *
  * @author ws
  * @email 1720696548@qq.com
  * @date 2021-09-30 16:10:57
@@ -53,11 +54,12 @@ public class AdminOrganServiceImpl extends BaseIServiceImpl<AdminOrganMapper, Ad
 
     /**
      * 递归
-     * @author wangsong
+     *
      * @param listVo
      * @param adminOrganVO
-     * @date 2021/9/30 0030 17:17
      * @return void
+     * @author wangsong
+     * @date 2021/9/30 0030 17:17
      * @version 1.0.1
      */
     private void newxOrgan(List<AdminOrganVO> listVo, AdminOrganVO adminOrganVO) {
@@ -127,6 +129,9 @@ public class AdminOrganServiceImpl extends BaseIServiceImpl<AdminOrganMapper, Ad
             AdminOrgan organOne = this.getOne(new LambdaQueryWrapper<AdminOrgan>()
                     .select(AdminOrgan::getId, AdminOrgan::getPid, AdminOrgan::getRoot, AdminOrgan::getName, AdminOrgan::getCode)
                     .eq(AdminOrgan::getPid, adminOrgan.getPid()));
+            if (organOne == null) {
+                return adminOrganVO;
+            }
             AdminOrganVO vo = BeanDtoVoUtil.convert(organOne, AdminOrganVO.class);
             vo.setOrgans(new ArrayList<AdminOrganVO>());
             vo.getOrgans().add(adminOrganVO);
@@ -136,17 +141,18 @@ public class AdminOrganServiceImpl extends BaseIServiceImpl<AdminOrganMapper, Ad
             AdminOrgan organTwo = this.getOne(new LambdaQueryWrapper<AdminOrgan>()
                     .select(AdminOrgan::getId, AdminOrgan::getPid, AdminOrgan::getRoot, AdminOrgan::getName, AdminOrgan::getCode)
                     .eq(AdminOrgan::getId, adminOrganVO.getPid()));
+            if (organTwo == null) {
+                return adminOrganVO;
+            }
             AdminOrganVO organTwoVO = BeanDtoVoUtil.convert(organTwo, AdminOrganVO.class);
             organTwoVO.setOrgans(new ArrayList<>());
             organTwoVO.getOrgans().add(adminOrganVO);
-            if (adminOrgan == null) {
-                return adminOrganVO;
-            }
+
             // 获取上级的上级
             AdminOrgan organOne = this.getOne(new LambdaQueryWrapper<AdminOrgan>()
                     .select(AdminOrgan::getId, AdminOrgan::getRoot, AdminOrgan::getName, AdminOrgan::getCode)
                     .eq(AdminOrgan::getId, organTwoVO.getPid()));
-            if (adminOrgan == null) {
+            if (organOne == null) {
                 return organTwoVO;
             }
             AdminOrganVO vo = BeanDtoVoUtil.convert(organOne, AdminOrganVO.class);

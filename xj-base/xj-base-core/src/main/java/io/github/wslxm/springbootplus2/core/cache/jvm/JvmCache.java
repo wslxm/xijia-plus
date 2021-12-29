@@ -8,8 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * <P>
  *    该缓存类主要储存系统常用数据, 不提供 id数据缓存
  *     -- 目前储存了 系统配置config，字典, 权限 等每次请求都会用来做验证的热点数据
- *     -- TODO 计划存入用户jwt 生成的 token 信息, 借此处理 重复登录,先登录的掉线, 强制退出, token 过长等问题
- *     -- TODO 计划加入redis 动态缓存切换, 集群时使用redis缓存， 单项目可直接使用jvm缓存
  * </P>
  * @author wangsong
  * @mail 1720696548@qq.com

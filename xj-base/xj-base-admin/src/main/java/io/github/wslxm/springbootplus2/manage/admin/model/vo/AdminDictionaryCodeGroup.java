@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "AdminDictionaryCodeGroup", description = "字典findCodeGroup方法VO数据")
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL )
 public class AdminDictionaryCodeGroup implements Serializable {
 
     private static final long serialVersionUID = -3021322187688178780L;
