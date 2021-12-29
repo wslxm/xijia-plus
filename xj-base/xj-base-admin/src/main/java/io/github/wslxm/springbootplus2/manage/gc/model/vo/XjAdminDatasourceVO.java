@@ -34,9 +34,6 @@ public class XjAdminDatasourceVO extends BaseVo {
     @ApiModelProperty(notes = "数据库账号" ,position = 3)
     private String dbUsername;
 
-//    @ApiModelProperty(notes = "数据库密码" ,position = 4)
-//    private String dbPassword;
-
     @ApiModelProperty(notes = "数据表前缀" ,position = 5)
     private String dbPrefix;
 

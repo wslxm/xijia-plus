@@ -69,7 +69,7 @@
                  {
                     label: '名称 ',
                     prop: 'name',
-                    search: true,
+                    search: false,
                     searchSpan: 5,
                     overHidden: true,
                 },

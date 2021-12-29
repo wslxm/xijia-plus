@@ -23,12 +23,33 @@ import java.math.BigDecimal;
 public class PayRefundDTO implements Serializable {
 
     private static final long serialVersionUID = -503731388638433298L;
-    private String orderNo;              // * 支付订单商户订单号
-    private String outTradeNo;           // * 支付订单商户交易号, // transactionNo
-    private String outRefundNo;          // * 商户退款单号
-    private BigDecimal totalFee;         // * 支付订单交易金额(单位元)
-    private BigDecimal refundFee;        // * 退款金额(单位元)
-    private Admin.PayBusiness payBusiness; // * 业务类型(当前系统字典code)
-    private String refundDesc;           // 退款原因
+    /**
+     * * 支付订单商户订单号
+     */
+    private String orderNo;
+    /**
+     *  * 支付订单商户交易号, // transactionNo
+     */
+    private String outTradeNo;
+    /**
+     * * 商户退款单号
+     */
+    private String outRefundNo;
+    /**
+     *  * 支付订单交易金额(单位元)
+     */
+    private BigDecimal totalFee;
+    /**
+     * * 退款金额(单位元)
+     */
+    private BigDecimal refundFee;
+    /**
+     * * 业务类型(当前系统字典code)
+     */
+    private Admin.PayBusiness payBusiness;
+    /**
+     * 退款原因
+     */
+    private String refundDesc;
 }
 

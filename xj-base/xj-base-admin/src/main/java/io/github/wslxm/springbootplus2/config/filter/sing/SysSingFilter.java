@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import io.github.wslxm.springbootplus2.config.filter.sing.util.RequestWrapper;
 import io.github.wslxm.springbootplus2.config.filter.sing.util.SignUtil;
+import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
@@ -28,15 +29,16 @@ import java.util.Map;
 
 /**
  * 验签过滤器
- * <P>
- *     1、文件不验签
- *     2、query参数根据 key排序拼接成字符串进行md5 生成sign 进行加密验证
- *     3、body‘参数根据 key排序(包括使用子级) 后转成json字符串使用md5生成sign 进行加密验证
+ * <p>
+ * 1、文件不验签
+ * 2、query参数根据 key排序拼接成字符串进行md5 生成sign 进行加密验证
+ * 3、body‘参数根据 key排序(包括使用子级) 后转成json字符串使用md5生成sign 进行加密验证
  * </P>
+ *
  * @author wangsong
+ * @version 1.0.1
  * @mail 1720696548@qq.com
  * @date 2021/3/29 0029 19:49
- * @version 1.0.1
  */
 @Component
 @Slf4j
@@ -51,7 +53,7 @@ public class SysSingFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         // 是否需要验签(总开关)
         XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.IS_SIGN);
-        if (xjAdminConfig != null && "false".equals(xjAdminConfig.getContent())) {
+        if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
@@ -71,14 +73,15 @@ public class SysSingFilter implements Filter {
 
         // 1.2、判断接口是否需要验签
         Boolean isSign = authMap.get(cacheKey).getIsSign();
-        if(!isSign){
+        if (!isSign) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
 
         // 2、如果是文件直接放行
         String contentType = servletRequest.getContentType();
-        if (contentType != null && contentType.contains("multipart/form-data")) {
+        String contentTypeFile = "multipart/form-data";
+        if (contentType != null && contentType.contains(contentTypeFile)) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
@@ -109,18 +112,22 @@ public class SysSingFilter implements Filter {
 
     /**
      * 参数验签, 防止抓包篡改
-     * @author wangsong
-     * @param body  body 参数
+     *
+     * @param body         body 参数
      * @param parameterMap query参数
-     * @date 2021/4/1 0001 19:50
      * @return io.github.wslxm.common.result.R<java.lang.Boolean>
+     * @author wangsong
+     * @date 2021/4/1 0001 19:50
      * @version 1.0.1
      */
     public R<Boolean> isSing(String body, Map<String, String[]> parameterMap, HttpServletRequest request) {
         // 判断是否传递参数
-        if (StringUtils.isBlank(body) && (parameterMap == null || parameterMap.isEmpty())) {
+        boolean isBody = StringUtils.isBlank(body);
+        boolean isQuery = parameterMap == null || parameterMap.isEmpty();
+        if (isBody && isQuery) {
             return R.success(true);
         }
+
         // 1、获取签名和时间戳
         Object sign = request.getHeader(SignUtil.SIGN);
         Object timestamp = request.getHeader(SignUtil.TIMESTAMP);
@@ -133,9 +140,8 @@ public class SysSingFilter implements Filter {
         }
         boolean isSing = true;
         Map<String, String> verifyMap = null;
-        /**
-         * 处理query 参数
-         */
+
+        // 处理query 参数
         if (parameterMap != null && !parameterMap.isEmpty()) {
             // 3、获取加签参数， 需要注意
             verifyMap = SignUtil.toVerifyMap(parameterMap, false);
@@ -144,17 +150,15 @@ public class SysSingFilter implements Filter {
             // 4、验证前端的加签和后端的是否一致
             isSing = SignUtil.verify(verifyMap);
         }
-        /**
-         * 处理body 参数
-         * 如果没有query参数,验证body参数
-         */
+
+        // 处理body 参数,如果没有query参数,验证body参数
         if (StringUtils.isNotBlank(body)) {
             // 3、获取请求的body 参数,注意前后端时间格式要统一，排序,处理时间格式
             Object obj = JSON.parseObject(body, Object.class);
             body = JSONObject.toJSONString(obj, SerializerFeature.MapSortField);
-            //String newBody = JSON.toJSONStringWithDateFormat(jsonObject, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+            /// String newBody = JSON.toJSONStringWithDateFormat(jsonObject, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
             // 4、获取加签参数
-            verifyMap = new HashMap<>();
+            verifyMap = new HashMap<>(3,1);
             verifyMap.put(SignUtil.BODY, body);
             verifyMap.put(SignUtil.SIGN, sign.toString());
             verifyMap.put(SignUtil.TIMESTAMP, timestamp.toString());

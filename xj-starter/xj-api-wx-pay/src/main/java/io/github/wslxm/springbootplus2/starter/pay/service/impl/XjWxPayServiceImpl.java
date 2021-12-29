@@ -10,6 +10,7 @@ import com.github.binarywang.wxpay.exception.WxPayException;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
+import io.github.wslxm.springbootplus2.starter.pay.constant.WxPayTradeType;
 import io.github.wslxm.springbootplus2.starter.pay.model.dto.WxPayOrderDTO;
 import io.github.wslxm.springbootplus2.starter.pay.model.dto.WxPayRefundDTO;
 import io.github.wslxm.springbootplus2.starter.pay.model.vo.WxPayOrderNotifyResultVO;
@@ -17,7 +18,7 @@ import io.github.wslxm.springbootplus2.starter.pay.model.vo.WxPayOrderResultVO;
 import io.github.wslxm.springbootplus2.starter.pay.model.vo.WxPayRefundResultVO;
 import io.github.wslxm.springbootplus2.starter.pay.result.WxPayRType;
 import io.github.wslxm.springbootplus2.starter.pay.service.XjWxPayService;
-import io.github.wslxm.springbootplus2.starter.pay.wxApi.WxPayApi;
+import io.github.wslxm.springbootplus2.starter.pay.wxapi.WxPayApi;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
+ * @author wangsong
  * <pre>
  * 微信支付相关
  * Created by Binary Wang on 2018/9/27.
@@ -55,10 +57,10 @@ public class XjWxPayServiceImpl implements XjWxPayService {
     public R<WxPayOrderResultVO> createOrder(WxPayOrderDTO dto) {
         // 默认支付方式
         if (StringUtils.isBlank(dto.getTradeType())) {
-            dto.setTradeType("JSAPI");
+            dto.setTradeType(WxPayTradeType.JSAPI);
         }
         // JSAPI 支付时必须传递openId
-        if (dto.getTradeType().equals("JSAPI") && StringUtils.isBlank(dto.getOpenid())) {
+        if (dto.getTradeType().equals(WxPayTradeType.JSAPI) && StringUtils.isBlank(dto.getOpenid())) {
             return R.error(WxPayRType.WX_PAY_NO_OPENID);
         }
         // 默认商品id(NATIVE支付必传)
@@ -82,10 +84,10 @@ public class XjWxPayServiceImpl implements XjWxPayService {
         orderRequest.setSpbillCreateIp(request.getRemoteHost());
         try {
             WxPayOrderResultVO vo = null;
-            if (orderRequest.getTradeType().equals("JSAPI")) {
+            if (orderRequest.getTradeType().equals(WxPayTradeType.JSAPI)) {
                 WxPayMpOrderResult result = wxPayApi.createOrder(orderRequest);
                 vo = BeanDtoVoUtil.convert(result, WxPayOrderResultVO.class);
-            } else if (orderRequest.getTradeType().equals("NATIVE")) {
+            } else if (orderRequest.getTradeType().equals(WxPayTradeType.NATIVE)) {
                 WxPayNativeOrderResult result = wxPayApi.createOrder(orderRequest);
                 vo = BeanDtoVoUtil.convert(result, WxPayOrderResultVO.class);
             }

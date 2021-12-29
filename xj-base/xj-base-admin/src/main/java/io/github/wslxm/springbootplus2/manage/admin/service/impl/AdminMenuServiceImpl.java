@@ -6,6 +6,7 @@ import io.github.wslxm.springbootplus2.core.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.model.BaseVo;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
+import io.github.wslxm.springbootplus2.core.enums.Admin;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
@@ -29,11 +30,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+/**
+ * @author wangsong
+ */
 @Service
 public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, AdminMenu> implements AdminMenuService {
 
-    //
     @Autowired
     private AdminRoleMenuMapper adminRoleMenuMapper;
     @Autowired
@@ -78,11 +80,11 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
         for (AdminMenuVO menuVo : menuVOList) {
             if (StringUtils.isNotBlank(menuVo.getUrl())) {
                 String[] urls = menuVo.getUrl().split("/");
-                String urlsStr = "";
+                StringBuilder urlsStr = new StringBuilder();
                 for (int i = 1; i < urls.length; i++) {
-                    urlsStr += urls[i];
+                    urlsStr.append(urls[i]);
                 }
-                menuVo.setPathx(urlsStr);
+                menuVo.setPathx(urlsStr.toString());
             }
         }
 
@@ -91,7 +93,17 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
         if (isTree != null && isTree) {
             // 返回 tree (递归处理)
             for (AdminMenuVO menuVo : menuVOList) {
-                if (menuVo.getRoot() == 1 || (menuVo.getRoot() != 1 && menuVo.getId().equals(pId))) {
+                // 是顶级菜单 或 用户传递的指定的pid时,进行递归往下找
+                boolean isPid = false;
+                boolean isRootOne = false;
+                if (pId != null) {
+                    // 当前id是否为用户传递的pid
+                    isPid = menuVo.getId().equals(pId);
+                } else {
+                    // 是否为顶级菜单
+                    isRootOne = menuVo.getRoot().equals(Base.MenuRoot.V1.getValue());
+                }
+                if (isRootOne || isPid) {
                     this.nextLowerIdNodeTreeChecked(menuVOList, menuVo, roleMenuIdList);
                     this.setChecked(menuVo, roleMenuIdList);
                     resMenuVoList.add(menuVo);
@@ -178,20 +190,6 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
     }
 
 
-    /**
-     * 查询 Tree 菜单 -->  不返回没有权限的数据
-     * <P>
-     *     1- 查询用户所有角色菜单数据（非禁用角色+ 非禁用菜单）, 没有返回错误提示
-     *     2- 存在查询当前用户角色的所有菜单权限|  Sort排序 | 未禁用的，没有数据返回错误提示
-     *     3- 递归把List数据处理成树菜单结构数据
-     * <P>
-     *   --return ：第一层数据为顶级菜单 root=1, 下级为 tree数据
-     *
-     * @author wangsong
-     * @date 2020/8/5 0005 15:38
-     * @return java.util.List<io.github.wslxm.modules.admin.model.vo.AdminMenuVO>
-     * @version 1.0.1
-     */
     @Override
     public List<AdminMenuVO> findTree() {
         List<AdminRoleMenu> userRoleMenus = adminRoleMenuMapper.findByUserIdAndDisableFetchMenu(JwtUtil.getJwtUser(request).getUserId(), Base.Disable.V0.getValue());
@@ -207,12 +205,12 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
         if (adminMenuList == null || adminMenuList.isEmpty()) {
             throw new ErrorException(RType.USER_NO_MENU);
         }
-        List<AdminMenuVO> menuVOS = BeanDtoVoUtil.listVoStream(adminMenuList, AdminMenuVO.class);
-        //return
+        List<AdminMenuVO> menuVos = BeanDtoVoUtil.listVoStream(adminMenuList, AdminMenuVO.class);
+        // return
         List<AdminMenuVO> menuList = new LinkedList<>();
-        menuVOS.forEach(fatherMenuVo -> {
+        menuVos.forEach(fatherMenuVo -> {
             if (fatherMenuVo.getRoot() == 1) {
-                this.nextLowerNode(menuVOS, fatherMenuVo, roleMenuIdList);
+                this.nextLowerNode(menuVos, fatherMenuVo, roleMenuIdList);
                 menuList.add(fatherMenuVo);
             }
         });
@@ -222,20 +220,20 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
 
     /**
      * 菜单数遍历子节点(递归遍历)，不添加没有权限的数据 Tree
-     * @param menuVos 所有节点
-     * @param fatherMenuVo  当前菜单节点，遍历后得到的数据的父节点
-     * @param roleMenuList  当前用户存在的菜单权限ID
-     * @date 2019/11/13 15:20
+     *
+     * @param menuVos      所有节点
+     * @param fatherMenuVo 当前菜单节点，遍历后得到的数据的父节点
+     * @param roleMenuList 当前用户存在的菜单权限ID
      * @return void
+     * @date 2019/11/13 15:20
      */
-    //@formatter:off
     private void nextLowerNode(List<AdminMenuVO> menuVos, AdminMenuVO fatherMenuVo, List<String> roleMenuList) {
         menuVos.forEach(menuVo -> {
             if (menuVo.getPid().equals(fatherMenuVo.getId()) && roleMenuList.contains(menuVo.getId())) {
                 if (fatherMenuVo.getMenus() == null) {
-                    ArrayList<AdminMenuVO> menuVOS = new ArrayList<>();
-                    menuVOS.add(menuVo);
-                    fatherMenuVo.setMenus(menuVOS);
+                    ArrayList<AdminMenuVO> nextMenuVos = new ArrayList<>();
+                    nextMenuVos.add(menuVo);
+                    fatherMenuVo.setMenus(nextMenuVos);
                 } else {
                     fatherMenuVo.getMenus().add(menuVo);
                 }
@@ -246,28 +244,22 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
     }
 
 
-    //@formatter:on
-    //=========================================================================
-    //=========================================================================
-    //=========================================================================
-
     /**
      * 获取指定父节点下的子节点(递归遍历) 权限 isChecked = true||false  Tree
      *
-     * @param menuVos     所有节点
-     * @param fatherMenuVo      当前节点
+     * @param menuVos        所有节点
+     * @param fatherMenuVo   当前节点
      * @param roleMenuIdList 选中角色权限
      * @return void
      * @date 2019/11/13 15:20
      */
-    //@formatter:off
     private void nextLowerIdNodeTreeChecked(List<AdminMenuVO> menuVos, AdminMenuVO fatherMenuVo, List<String> roleMenuIdList) {
         menuVos.forEach(menuVo -> {
             if (menuVo.getPid().equals(fatherMenuVo.getId())) {
                 if (fatherMenuVo.getMenus() == null) {
-                    ArrayList<AdminMenuVO> adminMenuVOS = new ArrayList<>();
-                    adminMenuVOS.add(menuVo);
-                    fatherMenuVo.setMenus(adminMenuVOS);
+                    ArrayList<AdminMenuVO> adminMenuVos = new ArrayList<>();
+                    adminMenuVos.add(menuVo);
+                    fatherMenuVo.setMenus(adminMenuVos);
                 } else {
                     fatherMenuVo.getMenus().add(menuVo);
                 }
@@ -276,10 +268,6 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
             }
         });
     }
-    //@formatter:on
-    //=========================================================================
-    //=========================================================================
-    //=========================================================================
 
     /**
      * 判断并设置为选中状态

@@ -5,6 +5,9 @@ import lombok.ToString;
 
 import java.io.Serializable;
 
+/**
+ *  @author wangsong
+ */
 @Data
 @ToString
 public class WxBaseResurtVO implements Serializable {

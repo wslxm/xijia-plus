@@ -34,11 +34,11 @@ public class XjGenerationVueUpd extends BaseGcImpl implements XjGcSevice {
         StringBuffer vueUpdColumns = new StringBuffer("");
         for (DbFieldPO fieldMap : dataList) {
             // 未勾选的字段过滤
-            if (isChecked(fieldMap)) {
+            if (!isChecked(fieldMap)) {
                 continue;
             }
             // 生成字段
-            String vueColumn = JXVueColumns(fieldMap.getName(),
+            String vueColumn = jxVueColumns(fieldMap.getName(),
                     fieldMap.getType(),
                     fieldMap.getTypeDetail(),
                     getDesc(fieldMap.getDesc()),

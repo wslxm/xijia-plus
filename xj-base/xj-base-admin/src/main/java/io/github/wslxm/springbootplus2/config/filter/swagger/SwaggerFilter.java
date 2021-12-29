@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.config.filter.swagger;
 
 
 import com.alibaba.fastjson.JSON;
+import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
 import io.github.wslxm.springbootplus2.core.cache.cache.ConfigCacheKey;
@@ -33,15 +34,16 @@ public class SwaggerFilter implements Filter {
     @Autowired
     private XjAdminConfigService xjAdminConfigService;
 
+    private final static String SWAGGER_UI = "swagger-ui.html";
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String uri = request.getRequestURI();
-        if (uri.indexOf("swagger-ui.html") != -1) {
+        if (uri.contains(SWAGGER_UI)) {
             // 默认展示,配置为false不展示
             XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode((ConfigCacheKey.IS_SWAGGER));
-            if (xjAdminConfig != null && "false".equals(xjAdminConfig.getContent())) {
+            if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
                 R<Void> r = R.error(RType.SYS_ERROR_CODE_403);
                 servletResponse.setContentType("application/json;charset=utf-8");
                 servletResponse.getWriter().write(JSON.toJSONString(r));

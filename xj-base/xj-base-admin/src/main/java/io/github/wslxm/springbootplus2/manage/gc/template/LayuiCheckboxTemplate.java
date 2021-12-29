@@ -1,7 +1,9 @@
 package io.github.wslxm.springbootplus2.manage.gc.template;
 
+
 /**
  * 复选Html 模板配置
+ * @author wangsong
  */
 public class LayuiCheckboxTemplate {
 

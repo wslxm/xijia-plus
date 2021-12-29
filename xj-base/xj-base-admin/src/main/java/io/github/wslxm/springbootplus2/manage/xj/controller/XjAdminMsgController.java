@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2020-09-23 10:40:23
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/xj/msg")
+@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/xj/msg")
 @Api(value = "XjAdminMsgController", tags = "base-plus--消息通知")
 public class XjAdminMsgController extends BaseController<XjAdminMsgService> {
 

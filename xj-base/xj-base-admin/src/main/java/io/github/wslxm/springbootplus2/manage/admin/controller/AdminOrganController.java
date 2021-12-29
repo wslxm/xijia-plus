@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2021-09-30 16:10:57
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/organ")
+@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/organ")
 @Api(value = "AdminOrganController", tags = "base--组织机构")
 public class AdminOrganController extends BaseController<AdminOrganService> {
 

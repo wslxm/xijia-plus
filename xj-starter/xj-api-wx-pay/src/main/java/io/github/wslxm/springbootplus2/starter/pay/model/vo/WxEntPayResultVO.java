@@ -3,6 +3,9 @@ package io.github.wslxm.springbootplus2.starter.pay.model.vo;
 import lombok.Data;
 import lombok.ToString;
 
+/**
+ *  @author wangsong
+ */
 @Data
 @ToString
 public class WxEntPayResultVO extends WxBaseResurtVO {

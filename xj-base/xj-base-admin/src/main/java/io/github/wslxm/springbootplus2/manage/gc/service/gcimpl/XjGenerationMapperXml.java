@@ -149,9 +149,9 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
             //驼峰字段名
             String fieldNameHump = GenerateDataProcessing.getFieldName(fieldName);
             if ("id".equals(fieldName)) {
-                resultMap.append("\r\n               <id column=\"" + fieldName + "\" property=\"" + fieldNameHump + "\"/>");
+                resultMap.append("\r\n        <id column=\"" + fieldName + "\" property=\"" + fieldNameHump + "\"/>");
             } else {
-                resultMap.append("\r\n               <result column=\"" + fieldName + "\" property=\"" + fieldNameHump + "\"/>");
+                resultMap.append("\r\n        <result column=\"" + fieldName + "\" property=\"" + fieldNameHump + "\"/>");
             }
         }
         return resultMap.toString();
@@ -170,7 +170,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
         for (DbFieldPO fieldMap : data) {
             //字段名
             String fieldName = fieldMap.getName();
-            columnList.append("\r\n               " + fieldName + ",");
+            columnList.append("\r\n        " + fieldName + ",");
         }
         return columnList.toString().substring(0, columnList.toString().length() - 1);
     }

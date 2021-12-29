@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 /**
+ *  @author wangsong
  * websocket 监听类(连接，断点，消息发送等)
  * <p>
  *   /websocket/{userId}/{username}   =  /websocket/用户Id/用户名 来连接websocket，该参数会带到每一个监听方法中
@@ -56,8 +58,8 @@ public class WebsocketServiceImpl implements WebsocketService {
      * @return
      */
     @Override
-    public Boolean send(String form, String username, String headPic, String to, String content, String extras) {
+    public void send(String form, String username, String headPic, String to, String content, String extras) {
         // 发送消息
-       return websocketServer.send(new SendMsgVO(4, form, username,headPic,to, content, extras,websocketServer.getClientsSize()));
+        websocketServer.send(new SendMsgVO(4, form, username,headPic,to, content, extras,websocketServer.getClientsSize()));
     }
 }

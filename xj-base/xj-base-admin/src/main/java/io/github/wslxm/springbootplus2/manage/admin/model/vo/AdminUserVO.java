@@ -53,8 +53,6 @@ public class AdminUserVO extends BaseVo {
     private Integer wxOpenId;
     @ApiModelProperty(value = "备注")
     private String remarks;
-    /*  @ApiModelProperty(value = "是否选中(角色是否有改用户，前台复选框默认选中需要值)")
-      private Boolean isChecked;*/
     @ApiModelProperty(value = "用户角色ids, id 查询存在")
     private List<String> roleIds;
     @ApiModelProperty(value = "用户角色信息,id 查询存在/列表查询都返回(只返回id/name)")

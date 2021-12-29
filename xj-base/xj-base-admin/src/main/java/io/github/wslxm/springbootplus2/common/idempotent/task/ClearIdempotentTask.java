@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.common.idempotent.task;
 
-import io.github.wslxm.springbootplus2.common.idempotent.util.XJIdempotentUtils;
+import io.github.wslxm.springbootplus2.common.idempotent.util.XjIdempotentUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -30,14 +30,14 @@ public class ClearIdempotentTask {
     @Scheduled(cron = "0 0 0/1 * * ?")
     private void clearIdempotent() {
         //iterator 遍历清理
-        Map<String, Long> cacheMap = XJIdempotentUtils.getCacheMap();
+        Map<String, Long> cacheMap = XjIdempotentUtils.getCacheMap();
         for (Iterator<Long> iterator = cacheMap.values().iterator(); iterator.hasNext(); ) {
             Long expiredTime = iterator.next();
             if (expiredTime - System.currentTimeMillis() < 0) {
                 iterator.remove();
             }
         }
-        Map<String, Long> cacheMapTwo = XJIdempotentUtils.getCacheMap();
+        Map<String, Long> cacheMapTwo = XjIdempotentUtils.getCacheMap();
         log.info("清理过期幂等token共 {} 个", cacheMap.size() - cacheMapTwo.size());
     }
 }

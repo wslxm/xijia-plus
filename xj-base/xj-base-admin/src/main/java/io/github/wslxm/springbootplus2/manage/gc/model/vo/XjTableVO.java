@@ -4,6 +4,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+/**
+ *  @author wangsong
+ */
 @Data
 @ApiModel(value = "XjTableVO", description = "数据库表")
 public class XjTableVO {

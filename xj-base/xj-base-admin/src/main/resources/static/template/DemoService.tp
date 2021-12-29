@@ -8,24 +8,57 @@ import {packPath}.{rootModule}.{moduleName}.model.dto.{tableNameUp}DTO;
 import {packPath}.{rootModule}.{moduleName}.model.query.{tableNameUp}Query;
 
 /**
- * {tableComment}
+ * {tableComment} Service
+ *
  * <p>
  * {describe}
  * </p>
- * {author}
- * {email}
- * {date}
+
+ * @author {author}
+ * @email {email}
+ * @date {date}
  */
 public interface {tableNameUp}Service extends IService<{tableNameUp}> {
 
+    /**
+     * 列表查询
+     *
+     * @param query query
+     * @return 分页列表数据
+     */
     IPage<{tableNameUp}VO> list({tableNameUp}Query query);
 
+    /**
+     * id 查询
+     *
+     * @param id id
+     * @return {tableNameUp}VO
+     */
     {tableNameUp}VO findId(String id);
 
+    /**
+     * 添加
+     *
+     * @param dto dto
+     * @return 主键id
+     */
     String insert({tableNameUp}DTO dto);
 
+    /**
+     * id 编辑
+     *
+     * @param id id
+     * @param dto dto
+     * @return boolean
+     */
     boolean upd( String id, {tableNameUp}DTO dto);
 
+    /**
+     * 删除
+     *
+     * @param id id
+     * @return boolean
+     */
     boolean del(String id);
 }
 

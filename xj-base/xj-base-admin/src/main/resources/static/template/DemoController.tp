@@ -14,18 +14,20 @@ import {packPath}.{rootModule}.{moduleName}.service.{tableNameUp}Service;
 
 
 /**
- * {tableComment}
+ * {tableComment} 前端控制器
+ *
  * <p>
  * {describe}
  * </p>
- * {author}
- * {email}
- * {date}
+ *
+ * @author {author}
+ * @email {email}
+ * @date {date}
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/{moduleName}/{tableNameLower}")
-@Api(value ="{tableNameUp}Controller" ,tags = "{tableComment}")
-public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service>  {
+@RequestMapping(BaseConstant.Uri.API_ADMIN + "/{moduleName}/{tableNameLower}")
+@Api(value = "{tableNameUp}Controller", tags = "{tableComment}")
+public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service> {
 
     @GetMapping(value = "/list")
     @ApiOperation(value = "列表查询")

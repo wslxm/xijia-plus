@@ -26,10 +26,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * 阿里云OSS 文件上传下载
+ * <p>
+ * consumes = "multipart/*", headers = "content-type=multipart/form-data"
+ * </P>
  *
- * @author peter 2018/10/20 21:32
+ * @author wangsong
+ * @version 1.0.0
+ * @email 1720696548@qq.com
+ * @date 2018/10/20 21:32
  */
 @RestController
 @Api(value = "AliOssController", tags = "AliYun --> OSS文件管理")
@@ -41,12 +48,11 @@ public class AliOssController {
     @Autowired
     private HttpServletResponse response;
 
-    // 阿里云oss工具类
     @Autowired
     private OSSUtil ossUtil;
 
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST) //consumes = "multipart/*", headers = "content-type=multipart/form-data"
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ApiOperation("OSS-文件上传,可在指定路径后追加子路径,以/结尾，返回完整可访问当前服务内网访问OSS的完整URL")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "filePath", value = "文件路径,必须指定开头目录,可使用二级目录,三级目录等等,如头像上传(" + "\r\n" +
@@ -74,21 +80,21 @@ public class AliOssController {
             // 获得上传的文件流并并对图片进行压缩
             InputStream inputStream = FileUploadUtil.imgReduce(filePath, isReduce, file.getInputStream());
             // 上传到OSS,返回访问地址
-            if(resType==null || resType==1){
-                return R.success( ossUtil.upload(filePath, fileName, inputStream));
-            }else{
+            if (resType == null || resType == 1) {
+                return R.success(ossUtil.upload(filePath, fileName, inputStream));
+            } else {
                 String path = ossUtil.upload(filePath, fileName, inputStream);
-                Map<String, String> res = new HashMap<>();
-                res.put("name",file.getOriginalFilename());
-                res.put("url",path);
-                return R.success( res);
+                Map<String, String> res = new HashMap<>(2,1);
+                res.put("name", file.getOriginalFilename());
+                res.put("url", path);
+                return R.success(res);
             }
         } catch (Exception e) {
             return R.error(AliyunRType.FILE_UPLOAD_FAILED);
         }
     }
 
-// 默认不需要多上传
+/// 默认不需要多上传
 //    /**
 //     * 多文件上传
 //     * @author wangsong

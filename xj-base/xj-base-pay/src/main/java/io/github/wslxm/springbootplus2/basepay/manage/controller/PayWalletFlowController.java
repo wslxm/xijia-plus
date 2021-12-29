@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2020-12-29 10:55:32
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/pets/petsWalletFlow")
+@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/pets/petsWalletFlow")
 @Api(value = "PayWalletFlowController", tags = "账单/流水/支付流水表")
 public class PayWalletFlowController extends BaseController<PayWalletFlowService> {
 

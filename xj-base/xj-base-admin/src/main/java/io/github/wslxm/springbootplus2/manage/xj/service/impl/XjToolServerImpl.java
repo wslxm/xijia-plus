@@ -18,6 +18,9 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+/**
+ *  @author wangsong
+ */
 @Service
 @Slf4j
 public class XjToolServerImpl implements XjToolServer {
@@ -149,11 +152,11 @@ public class XjToolServerImpl implements XjToolServer {
         return ramVO;
     }
 
-    //
+
     public static String loadStream(InputStream in) throws IOException {
         int ptr = 0;
         in = new BufferedInputStream(in);
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         while ((ptr = in.read()) != -1) {
             buffer.append((char) ptr);
         }
@@ -187,21 +190,25 @@ public class XjToolServerImpl implements XjToolServer {
 
     /**
      * 获取 服务器相关信息
-     * @return
+     * @return XjToolJvmInfoVO.ServerInformationVO
      */
     private XjToolJvmInfoVO.ServerInformationVO getServerInformation() {
         XjToolJvmInfoVO.ServerInformationVO serverInformationVO = new XjToolJvmInfoVO.ServerInformationVO();
-        serverInformationVO.setName(SystemUtil.getHostInfo().getName());  // 主机名
-        serverInformationVO.setIp(SystemUtil.getHostInfo().getAddress());  // 主机ip
-        serverInformationVO.setOperatingSystem(SystemUtil.getOsInfo().getName());  // 系统版本
-        serverInformationVO.setSystemStructure(SystemUtil.getOsInfo().getArch());  // 系统架构
+        // 主机名
+        serverInformationVO.setName(SystemUtil.getHostInfo().getName());
+        // 主机ip
+        serverInformationVO.setIp(SystemUtil.getHostInfo().getAddress());
+        // 系统版本
+        serverInformationVO.setOperatingSystem(SystemUtil.getOsInfo().getName());
+        // 系统架构
+        serverInformationVO.setSystemStructure(SystemUtil.getOsInfo().getArch());
         return serverInformationVO;
     }
 
 
     /**
      * 获取 jvm/jdk 相关信息
-     * @return
+     * @return XjToolJvmInfoVO.JvmInformationVO
      */
     private XjToolJvmInfoVO.JvmInformationVO getJvmInformation() {
         XjToolJvmInfoVO.JvmInformationVO jvmInformationVO = new XjToolJvmInfoVO.JvmInformationVO();
@@ -232,7 +239,7 @@ public class XjToolServerImpl implements XjToolServer {
         double totalFile = 0;
         // 剩余空间
         double freeFile = 0;
-        //double unFile = 0L;
+        // double unFile = 0L;
         for (File file : files) {
             totalFile += (double) file.getTotalSpace() / kb;
             freeFile += (double) file.getFreeSpace() / kb;
@@ -241,7 +248,10 @@ public class XjToolServerImpl implements XjToolServer {
         // 已使用空间
         double usableFile = totalFile - freeFile;
         // 已使用比率
-        double usageRate = usableFile / totalFile;
+        double usageRate = 0;
+        if(totalFile!=0){
+            usageRate =  usableFile / totalFile;
+        }
         XjToolJvmInfoVO.FileInfoVO fileInfoVO = new XjToolJvmInfoVO.FileInfoVO();
         fileInfoVO.setFileSysType("\\");
         fileInfoVO.setTotal(new BigDecimal(totalFile).setScale(2, RoundingMode.HALF_UP).doubleValue());

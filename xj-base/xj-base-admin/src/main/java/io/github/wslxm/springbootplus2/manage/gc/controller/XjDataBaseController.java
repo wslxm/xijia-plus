@@ -23,7 +23,7 @@ import java.util.List;
  */
 @SuppressWarnings({"all"})
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/dataBase")
+@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/dataBase")
 @Api(value = "XjDataBaseController", tags = "base-gc--代码生成--查询表数据")
 public class XjDataBaseController extends BaseController<XjDataBaseService> {
 

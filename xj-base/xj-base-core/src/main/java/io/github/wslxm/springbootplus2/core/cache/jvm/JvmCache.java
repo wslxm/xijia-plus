@@ -8,8 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * <P>
  *    该缓存类主要储存系统常用数据, 不提供 id数据缓存
  *     -- 目前储存了 系统配置config，字典, 权限 等每次请求都会用来做验证的热点数据
- *     -- TODO 计划存入用户jwt 生成的 token 信息, 借此处理 重复登录,先登录的掉线, 强制退出, token 过长等问题
- *     -- TODO 计划加入redis 动态缓存切换, 集群时使用redis缓存， 单项目可直接使用jvm缓存
  * </P>
  * @author wangsong
  * @mail 1720696548@qq.com
@@ -29,7 +27,7 @@ public class JvmCache {
      *    //   原  -->   private static Map<String, XjAdminConfig> configMap = new HashMap<>();
      * </P>
      */
-    private static final Map<String, Object> cacheMap = new ConcurrentHashMap<>();
+    private static final Map<String, Object> CACHE_MAP = new ConcurrentHashMap<>();
 
 
     /**
@@ -38,7 +36,7 @@ public class JvmCache {
      * @return
      */
     public static Object get(String key) {
-        return cacheMap.get(key);
+        return CACHE_MAP.get(key);
     }
 
 
@@ -46,7 +44,7 @@ public class JvmCache {
      * 判断指定key 是否 存在缓存数据
      */
     public static boolean containsKey(String key) {
-        return cacheMap.containsKey(key);
+        return CACHE_MAP.containsKey(key);
     }
 
 
@@ -56,7 +54,7 @@ public class JvmCache {
      * value
      */
     public static <T> void set(String key, Object obj) {
-        cacheMap.put(key, obj);
+        CACHE_MAP.put(key, obj);
     }
 
 
@@ -65,7 +63,7 @@ public class JvmCache {
      * @param key
      */
     public static boolean del(String key) {
-        cacheMap.remove(key);
+        CACHE_MAP.remove(key);
         return true;
     }
 
@@ -73,8 +71,8 @@ public class JvmCache {
      * 删除所有缓存
      */
     public static boolean delAll() {
-        for (String key : cacheMap.keySet()) {
-            cacheMap.remove(key);
+        for (String key : CACHE_MAP.keySet()) {
+            CACHE_MAP.remove(key);
         }
         return true;
     }

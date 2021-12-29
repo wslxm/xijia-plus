@@ -4,13 +4,15 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import {packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp};
 
 /**
- * {tableComment}
+ * {tableComment} Mapper
+ *
  * <p>
  * {describe}
  * </p>
- * {author}
- * {email}
- * {date}
+
+ * @author {author}
+ * @email {email}
+ * @date {date}
  */
 public interface {tableNameUp}Mapper extends BaseMapper<{tableNameUp}> {
 

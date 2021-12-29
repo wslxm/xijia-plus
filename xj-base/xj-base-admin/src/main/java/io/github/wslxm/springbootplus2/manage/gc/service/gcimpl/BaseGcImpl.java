@@ -2,6 +2,8 @@ package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.enums.Base;
+import io.github.wslxm.springbootplus2.manage.gc.constant.BracketConstant;
+import io.github.wslxm.springbootplus2.manage.gc.constant.FieldTypeConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.template.VueAddUpdTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
@@ -10,54 +12,56 @@ import java.math.BigDecimal;
 
 /**
  * 通用信息处理
+ *
  * @author wangsong
+ * @version 1.0.1
  * @mail 1720696548@qq.com
  * @date 2021/8/27 0027 17:28
- * @version 1.0.1
  */
 public class BaseGcImpl extends BaseIServiceImpl {
 
 
     /**
      * 数据库类型对应字段生成
-     * <P>
-     *   用于 entity+dto+vo=query
+     * <p>
+     * 用于 entity+dto+vo=query
      * </P>
-     * @param fieldName
-     * @param type
+     *
+     * @param fieldName 1
+     * @param type 1
      */
-    @SuppressWarnings("all")
-    protected String JXModel(String fieldName, String type) {
+    protected String jxModel(String fieldName, String type) {
         // 转驼峰模式
         fieldName = GenerateDataProcessing.getFieldName(fieldName);
         String field = "";
-        //字段
-        if (type.equals("int")) {
-            //整数int
+        // 字段
+        if (type.equals(FieldTypeConstant.INT)) {
+            // 整数int
             field = "private Integer " + fieldName + ";";
-        } else if (type.equals("bigint")) {
-            //整数Long
+        } else if (type.equals(FieldTypeConstant.BIGINT)) {
+            // 整数Long
             field = "private Long " + fieldName + ";";
-        } else if (type.equals("varchar") || type.equals("char")) {
-            //字符串
+        } else if (type.equals(FieldTypeConstant.VARCHAR) || type.equals(FieldTypeConstant.CHAR)) {
+            // 字符串
             field = "private String " + fieldName + ";";
-        } else if (type.equals("text") || type.equals("longtext")) {
-            //大文本、超大文本
+        } else if (type.equals(FieldTypeConstant.TEXT) || type.equals(FieldTypeConstant.LONG_TEXT)) {
+            // 大文本、超大文本
             field = "private String " + fieldName + ";";
-        } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
-            //时间
+        } else if (type.equals(FieldTypeConstant.DATETIME) || type.equals(FieldTypeConstant.TIME)
+                || type.equals(FieldTypeConstant.TIMESTAMP)) {
+            // 时间
             field = "private LocalDateTime " + fieldName + ";";
-        } else if (type.equals("double")) {
-            //双精度小数 Double
+        } else if (type.equals(FieldTypeConstant.DOUBLE)) {
+            // 双精度小数 Double
             field = "private Double " + fieldName + ";";
-        } else if (type.equals("float")) {
-            //单精度小数 Float
+        } else if (type.equals(FieldTypeConstant.FLOAT)) {
+            // 单精度小数 Float
             field = "private Float " + fieldName + ";";
-        } else if (type.equals("decimal")) {
-            //小数 decimal
+        } else if (type.equals(FieldTypeConstant.DECIMAL)) {
+            // 小数 decimal
             field = "private BigDecimal " + fieldName + ";";
-        } else if (type.equals("tinyint")) {
-            //布尔 tinyint
+        } else if (type.equals(FieldTypeConstant.TINYINT)) {
+            // 布尔 tinyint
             field = "private Boolean " + fieldName + ";";
         }
         return field;
@@ -66,60 +70,58 @@ public class BaseGcImpl extends BaseIServiceImpl {
 
     /**
      * 必填字段获取 jsr303 验证注解，  NO 代表必填,YES 非必填
-     * <P>
-     *     [\r\n    ]
+     * <p>
+     * [\r\n    ]
      * </P>
-     * @param type 字段类型
-     * @param typeDetail  字段类型长度  int(11)
-     * @param desc 字段备注
+     *
+     * @param type       字段类型
+     * @param typeDetail 字段类型长度  int(11)
+     * @param desc       字段备注
      */
-    @SuppressWarnings("all")
-    protected String JsrModel(String type, String typeDetail, String desc) {
+    protected String jsrModel(String type, String typeDetail, String desc) {
         // 获取数据库注释,去除括号后的内容
-        desc = (desc.indexOf("(") == -1) ? desc : desc.substring(0, desc.indexOf("("));
-        desc = (desc.indexOf("（") == -1) ? desc : desc.substring(0, desc.indexOf("（"));
+        desc = desc.contains(BracketConstant.LEFT_BRACKET) ? desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET)) : desc;
+        desc = desc.contains(BracketConstant.LEFT_BRACKET_TWO) ? desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_TWO)) : desc;
         String jsr = null;
         //字段
-        if (type.equals("int") || type.equals("bigint")) {
+        if (type.equals(FieldTypeConstant.INT) || type.equals(FieldTypeConstant.BIGINT)) {
             // 整数
             // int(11), 判断是否有长度,存在长度获取指定长度的最大值, 转为long添加到注解中
-            if (typeDetail.indexOf("(") != -1) {
+            if (typeDetail.contains(BracketConstant.LEFT_BRACKET)) {
                 int len = Integer.parseInt(typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")")));
-                Double max = (Math.pow(10, len) - 1);
+                double max = (Math.pow(10, len) - 1);
                 jsr = "@Range(min=0, max={MAX}L,message = \"{DESC} 必须>=0 和 <={MAX}\")";
-                if (type.equals("int")) {
-                    jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max.toString()).intValue() + "").replace("{DESC}", desc);
-                    ;
+                if (type.equals(FieldTypeConstant.INT)) {
+                    jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max + "").intValue() + "").replace("{DESC}", desc);
                 } else {
-                    jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max.toString()).longValue() + "").replace("{DESC}", desc);
-                    ;
+                    jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max + "").longValue() + "").replace("{DESC}", desc);
                 }
             }
-        } else if (type.equals("double") || type.equals("float") || type.equals("decimal") || type.equals("float")) {
+        } else if (type.equals(FieldTypeConstant.DOUBLE) || type.equals(FieldTypeConstant.FLOAT)
+                || type.equals(FieldTypeConstant.DECIMAL)) {
             //  小数
             //  判断是否有长度,存在长度获取指定长度的最大值, 转为long添加到注解中 decimal(10,2)，取10, 2不处理
-            if (typeDetail.indexOf("(") != -1) {
-                String typeDetailStr = typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")"));
+            if (typeDetail.contains(BracketConstant.LEFT_BRACKET)) {
+                String typeDetailStr = typeDetail.substring(typeDetail.indexOf(BracketConstant.LEFT_BRACKET) + 1,
+                        typeDetail.indexOf(BracketConstant.RIGHT_BRACKET));
                 int len = Integer.parseInt(typeDetailStr.split(",")[0]);
-                Double max = (Math.pow(10, len) - 1);
+                double max = (Math.pow(10, len) - 1);
                 jsr = "@Range(min=0, max={MAX}L,message = \"{DESC} 必须>=0 和 <={MAX}\")";
-                if (type.equals("int")) {
-                    jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max.toString()).intValue() + "").replace("{DESC}", desc);
-                    ;
-                } else {
-                    jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max.toString()).longValue() + "").replace("{DESC}", desc);
-                    ;
-                }
+                jsr = jsr.replaceAll("\\{MAX}", new BigDecimal(max + "").longValue() + "")
+                        .replace("{DESC}", desc);
             }
-        } else if (type.equals("varchar") || type.equals("char") || type.equals("text") || type.equals("longtext")) {
+        } else if (type.equals(FieldTypeConstant.VARCHAR) || type.equals(FieldTypeConstant.CHAR)
+                || type.equals(FieldTypeConstant.TEXT) || type.equals(FieldTypeConstant.LONG_TEXT)) {
             // 字符串
-            if (typeDetail.indexOf("(") != -1) {
+            if (typeDetail.contains(BracketConstant.LEFT_BRACKET)) {
                 jsr = "@Length(min=0, max={MAX},message = \"{DESC} 必须>=0 和 <={MAX}位\")";
-                String max = typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")"));
+                String max = typeDetail.substring(typeDetail.indexOf(BracketConstant.LEFT_BRACKET) + 1,
+                        typeDetail.indexOf(BracketConstant.RIGHT_BRACKET));
                 jsr = jsr.replaceAll("\\{MAX}", max).replace("{DESC}", desc);
             }
-        } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
-            // 时间暂无
+        } else if (type.equals(FieldTypeConstant.DATETIME) || type.equals(FieldTypeConstant.TIME)
+                || type.equals(FieldTypeConstant.TIMESTAMP)) {
+            /// 时间暂无
             // fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空\")");
         }
         return jsr;
@@ -128,36 +130,40 @@ public class BaseGcImpl extends BaseIServiceImpl {
 
     /**
      * 判断当前字段是否勾选
-     * @author wangsong
+     *
      * @param fieldMap
+     * @return boolean true 表示勾选，false 表示为勾选
+     * @author wangsong
      * @date 2021/11/4 0004 7:04
-     * @return boolean
      * @version 1.0.0
      */
     protected boolean isChecked(DbFieldPO fieldMap) {
-        Boolean checked = fieldMap.getChecked();      // 兼容layui
-        Boolean isChecked = fieldMap.getIsChecked();  // 兼容vue
-        if (checked != null && !Boolean.parseBoolean(checked.toString())) {
-            return true;
+        // 兼容layui
+        boolean checked = false;
+        if (fieldMap.getChecked() != null) {
+            checked = fieldMap.getChecked();
         }
-        if (isChecked != null && !Boolean.parseBoolean(isChecked.toString())) {
-            return true;
+        // 兼容vue
+        boolean isChecked = false;
+        if (fieldMap.getIsChecked() != null) {
+            isChecked = fieldMap.getIsChecked();
         }
-        return false;
+        return checked || isChecked;
     }
 
     /**
      * 获取 desc 字段描叙 去掉 () 内后的数据
-     * @param fieldMap
-     * @return
+     *
+     * @param desc
+     * @return String
      */
     protected String getDesc(String desc) {
         if (desc != null) {
-            if (desc.indexOf("(") != -1) {
-                desc = desc.substring(0, desc.indexOf("("));
+            if (desc.contains(BracketConstant.LEFT_BRACKET)) {
+                desc = desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET));
             }
-            if (desc.indexOf("（") != -1) {
-                desc = desc.substring(0, desc.indexOf("（"));
+            if (desc.contains(BracketConstant.LEFT_BRACKET)) {
+                desc = desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_TWO));
             }
         }
         return desc;
@@ -166,39 +172,50 @@ public class BaseGcImpl extends BaseIServiceImpl {
 
     /**
      * 获取vue 添加或编辑页的 表单数据
-     * @param fieldMap
-     * @param fieldMap
-     * @param fieldMap
+     *
+     * @param name
      * @param type
+     * @param typeDetail
+     * @param newDesc
+     * @param vueFieldType
      * @return
      */
-    protected String JXVueColumns(String name, String type,  String typeDetail, String newDesc, Integer vueFieldType) {
+    protected String jxVueColumns(String name, String type, String typeDetail, String newDesc, Integer vueFieldType) {
         // 生成表单时获取数据库的字段的长度来控制输入
-        Long maxlength = 0L;
-        if (type.equals("int") || type.equals("bigint")) {
+        long maxlength = 0L;
+        if (type.equals(FieldTypeConstant.INT) || type.equals(FieldTypeConstant.BIGINT)) {
             // int(11), 判断是否有长度,存在长度获取指定长度的最大值, 转为long添加到注解中
-            if (typeDetail.indexOf("(") != -1) {
-                int len = Integer.parseInt(typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")")));
-                Double max = (Math.pow(10, len) - 1);
-                maxlength = new BigDecimal(max.toString()).longValue();
+            if (typeDetail.contains(BracketConstant.LEFT_BRACKET)) {
+                int len = Integer.parseInt(typeDetail.substring(typeDetail.indexOf(BracketConstant.LEFT_BRACKET) + 1,
+                        typeDetail.indexOf(BracketConstant.RIGHT_BRACKET)));
+                double max = (Math.pow(10, len) - 1);
+                maxlength = new BigDecimal(max + "").longValue();
             }
-        } else if (type.equals("double") || type.equals("float") || type.equals("decimal") || type.equals("float")) {
+        } else if (type.equals(FieldTypeConstant.DOUBLE)
+                || type.equals(FieldTypeConstant.FLOAT)
+                || type.equals(FieldTypeConstant.DECIMAL)) {
             //  小数
             //  判断是否有长度,存在长度获取指定长度的最大值, 转为long添加到注解中 decimal(10,2)，取10, 2不处理
-            if (typeDetail.indexOf("(") != -1) {
-                String typeDetailStr = typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")"));
+            if (typeDetail.contains(BracketConstant.LEFT_BRACKET)) {
+                String typeDetailStr = typeDetail.substring(typeDetail.indexOf(BracketConstant.LEFT_BRACKET) + 1,
+                        typeDetail.indexOf(BracketConstant.RIGHT_BRACKET));
                 int len = Integer.parseInt(typeDetailStr.split(",")[0]);
-                Double max = (Math.pow(10, len) - 1);
-                maxlength = new BigDecimal(max.toString()).longValue();
+                double max = (Math.pow(10, len) - 1);
+                maxlength = new BigDecimal(max + "").longValue();
             }
-        } else if (type.equals("varchar") || type.equals("char") || type.equals("text") || type.equals("longtext")) {
+        } else if (type.equals(FieldTypeConstant.VARCHAR)
+                || type.equals(FieldTypeConstant.CHAR)
+                || type.equals(FieldTypeConstant.TEXT)
+                || type.equals(FieldTypeConstant.LONG_TEXT)) {
             // 字符串
-            if (typeDetail.indexOf("(") != -1) {
-                String max = typeDetail.substring(typeDetail.indexOf("(") + 1, typeDetail.indexOf(")"));
+            if (typeDetail.contains(BracketConstant.LEFT_BRACKET)) {
+                String max = typeDetail.substring(typeDetail.indexOf(BracketConstant.LEFT_BRACKET) + 1,
+                        typeDetail.indexOf(BracketConstant.RIGHT_BRACKET));
                 maxlength = Long.parseLong(max);
             }
-        } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
-            //
+        } else if (type.equals(FieldTypeConstant.DATETIME)
+                || type.equals(FieldTypeConstant.TIME)
+                || type.equals(FieldTypeConstant.TIMESTAMP)) {
         }
         // 处理字段
         String columnStr = null;

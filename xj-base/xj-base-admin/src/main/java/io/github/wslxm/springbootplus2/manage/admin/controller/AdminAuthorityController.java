@@ -22,7 +22,7 @@ import java.util.List;
  * @date Mon Nov 25 08:02:49 CST 2019
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/authority")
+@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/authority")
 @Api(value = "AdminAuthorityController", tags = "base--URL权限管理")
 public class AdminAuthorityController extends BaseController<AdminAuthorityService> {
 
@@ -42,8 +42,7 @@ public class AdminAuthorityController extends BaseController<AdminAuthorityServi
 
     @ApiOperation(value = "扫描权限", notes = "扫描权限列表数据, 1、存在变更接口描叙, 2、url变动会重新生成权限数据,角色原有的该接口权限会丢失,需重新分配 3、自动删除的多余接口")
     @PutMapping(value = "/refreshAuthority")
-    @Deprecated
     public R<Boolean> refreshAuthority() {
-        return R.success(baseService.refreshAuthDB());
+        return R.success(baseService.refreshAuthDb());
     }
 }

@@ -22,7 +22,7 @@ import java.util.List;
  * @date 2019/11/13 13:38
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/menu")
+@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/menu")
 @Api(value = "AdminMenuController", tags = "base--菜单管理")
 public class AdminMenuController extends BaseController<AdminMenuService> {
 

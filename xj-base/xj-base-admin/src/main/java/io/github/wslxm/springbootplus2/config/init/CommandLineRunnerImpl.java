@@ -30,7 +30,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         // 启动成功图
         getSuccessYellowBright();
         // 更新权限表数据
-        adminAuthorityService.refreshAuthDB();
+        adminAuthorityService.refreshAuthDb();
         // 更新权限缓存数据
         adminAuthorityService.refreshAuthCache();
         // 当前是否启动redis

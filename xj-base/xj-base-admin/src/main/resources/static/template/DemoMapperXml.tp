@@ -3,14 +3,14 @@
 <mapper namespace="{packPath}.{rootModule}.{moduleName}.mapper.{tableNameUp}Mapper">
 
         <!-- 通用查询映射结果 -->
-        <resultMap id="BaseResultMap" type="{packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp}">
+    <resultMap id="BaseResultMap" type="{packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp}">
 {resultMap}
-        </resultMap>
+    </resultMap>
 
         <!-- 通用查询结果列: <include refid="Base_Column_List"></include>  -->
-        <sql id="Base_Column_List">
+    <sql id="Base_Column_List">
 {columnList}
-        </sql>
+    </sql>
 
 
 </mapper>

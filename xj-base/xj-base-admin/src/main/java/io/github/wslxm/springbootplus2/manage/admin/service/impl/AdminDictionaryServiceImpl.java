@@ -10,7 +10,7 @@ import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
-import io.github.wslxm.springbootplus2.core.utils.paramVerification.StringUtil;
+import io.github.wslxm.springbootplus2.core.utils.paramverification.StringUtil;
 import io.github.wslxm.springbootplus2.manage.admin.mapper.AdminDictionaryMapper;
 import io.github.wslxm.springbootplus2.manage.admin.model.dto.AdminDictionaryDTO;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminDictionary;
@@ -24,7 +24,9 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
+/**
+ * @author wangsong
+ */
 @Service
 @Slf4j
 public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionaryMapper, AdminDictionary> implements AdminDictionaryService {
@@ -33,6 +35,11 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * 父级pid
      */
     private static final String PID = "0";
+
+    /**
+     * 枚举最顶级
+     */
+    private static final String ENUMS = "ENUMS";
 
     @Override
     public List<AdminDictionaryVO> list(AdminDictionaryQuery query) {
@@ -53,7 +60,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         // 1、判断 code , 不能传递字符串数字来查询
         if (StringUtils.isNotBlank(code)) {
             if (StringUtil.isInteger(code)) {
-                throw new ErrorException(RType.PARAM_ERROR.getValue(),RType.PARAM_ERROR.getMsg()+":code");
+                throw new ErrorException(RType.PARAM_ERROR.getValue(), RType.PARAM_ERROR.getMsg() + ":code");
             }
         }
 
@@ -110,7 +117,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     @Override
     public String insert(AdminDictionaryDTO dto) {
         if (StringUtils.isBlank(dto.getCode().trim())) {
-            throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() +":code");
+            throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + ":code");
         }
         dto.setCode(dto.getCode().trim());
         if (!StringUtil.isInteger(dto.getCode()) && this.count(new LambdaQueryWrapper<AdminDictionary>().eq(AdminDictionary::getCode, dto.getCode())) > 0) {
@@ -161,7 +168,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     public Map<String, AdminDictionaryCodeGroup> findCodeGroup() {
         List<AdminDictionaryVO> dictList = findList(false);
         List<AdminDictionaryCodeGroup> dictionaryCodeGroupList = BeanDtoVoUtil.listVo(dictList, AdminDictionaryCodeGroup.class);
-        Map<String, AdminDictionaryCodeGroup> dictGroupMap = new HashMap<>();
+        Map<String, AdminDictionaryCodeGroup> dictGroupMap = new HashMap<>(dictList.size(), 1);
         // return -按添加顺序排序
         for (AdminDictionaryCodeGroup fatherDictVo : dictionaryCodeGroupList) {
             // 不添加Integer参数类型，设置当前数据为父级，不论当前层次的，递归获取所有当前层次的下级数据
@@ -213,7 +220,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         List<AdminDictionaryVO> dict = this.list(query);
         String enumsJava = null;
         // 1、生成java枚举类
-        if ("ENUMS".equals(enumName)) {
+        if (ENUMS.equals(enumName)) {
             // 生成一个大的 Enums 类
             enumsJava = this.generateEnumJava(dict.get(0));
         } else {
@@ -223,14 +230,14 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
         // 2、生成js key
         // enumName 不为 ENUMS 时 js 重新查询字典数据
-        if(!"ENUMS".equals(enumName)){
-            query.setCode("ENUMS");
+        if (!ENUMS.equals(enumName)) {
+            query.setCode(ENUMS);
             dict = this.list(query);
         }
         String enumsJs = this.generateEnumJs(dict.get(0));
 
         // 3、返回
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(2, 1);
         // 完整的枚举字典
         map.put("java", enumsJava);
         // 枚举字典key，直接通过key获取
@@ -243,18 +250,19 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     /**
      * 递归添加下级数据
+     *
      * @param dictVoList 所有节点
-     * @param pDict 上级节点
-     * @param ids 收集指定code下所有字典数据 id
+     * @param pDict      上级节点
+     * @param ids        收集指定code下所有字典数据 id
      */
     private void nextLowerNode(List<AdminDictionaryVO> dictVoList, AdminDictionaryVO pDict, List<String> ids) {
         for (AdminDictionaryVO zDict : dictVoList) {
             // 当前层级类还没有子层级对象就创建/有就追加
             if (zDict.getPid().equals(pDict.getId())) {
                 if (pDict.getDictList() == null) {
-                    ArrayList<AdminDictionaryVO> adminDictionaryVOS = new ArrayList<>();
-                    adminDictionaryVOS.add(zDict);
-                    pDict.setDictList(adminDictionaryVOS);
+                    ArrayList<AdminDictionaryVO> adminDictionaryVos = new ArrayList<>();
+                    adminDictionaryVos.add(zDict);
+                    pDict.setDictList(adminDictionaryVos);
                 } else {
                     pDict.getDictList().add(zDict);
                 }
@@ -269,6 +277,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     /**
      * 生成java 代码枚举对象， 请将生成好的代码直接替换到 enums/Enums 类( 指定为3级，所有子模块枚举共用一个枚举类)
+     *
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/8/16 0016 0:10
@@ -285,27 +294,28 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         //模块名
         for (AdminDictionaryVO dictModule : dict.getDictList()) {
             sb.append("\n     /** ");
-            sb.append("\n      * " + dictModule.getDesc() + "");
+            sb.append("\n      * ").append(dictModule.getDesc());
             sb.append("\n      */ ");
-            sb.append("\n    interface " + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictModule.getCode() + "{\n"));
+            sb.append("\n    interface ").append(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictModule.getCode() + "{\n"));
             //枚举字典的-枚举名--驼峰模式
             if (dictModule.getDictList() == null) {
                 continue;
             }
             for (AdminDictionaryVO dictField : dictModule.getDictList()) {
                 String moduleName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictField.getCode());
-                sb.append("\n        // " + dictField.getDesc() + "\n");
+                sb.append("\n        // ").append(dictField.getDesc()).append("\n");
                 sb.append("        @Getter\n");
                 sb.append("        @AllArgsConstructor\n");
-                sb.append("        enum " + moduleName + " implements IEnum<Integer> {\n");
+                sb.append("        enum ").append(moduleName).append(" implements IEnum<Integer> {\n");
                 //枚举字典的-枚举属性
                 if (dictField.getDictList() == null) {
                     continue;
                 }
                 for (AdminDictionaryVO dictValue : dictField.getDictList()) {
-                    sb.append("            " + dictField.getCode() + "_" + dictValue.getCode() + "(" + dictValue.getCode() + ", \"" + dictValue.getName() + "\"),    // " + dictValue.getDesc() + "\n");
+                    sb.append("            ").append(dictField.getCode()).append("_")
+                            .append(dictValue.getCode()).append("(").append(dictValue.getCode()).append(", \"")
+                            .append(dictValue.getName()).append("\"),    // ").append(dictValue.getDesc()).append("\n");
                 }
-                //
                 sb.append("            ;\n");
                 sb.append("            private Integer value;\n");
                 sb.append("            private String desc;\n");
@@ -320,8 +330,9 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     /**
      * 生成java 代码枚举对象， 请将生成好的代码直接替换到 enums/Enums 小的二级类( 指定为2级，每个子模块枚举一个类)
+     *
      * @author wangsong
-     * @mail 1720696548@qq.com
+     * @email 1720696548@qq.com
      * @date 2020/8/16 0016 0:10
      * @version 1.0.1
      */
@@ -332,22 +343,25 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         sb.append("\nimport com.baomidou.mybatisplus.core.enums.IEnum;");
         sb.append("\nimport lombok.AllArgsConstructor;");
         sb.append("\nimport lombok.Getter;\n");
-        sb.append("\n@SuppressWarnings(\"all\")" +
-                "\npublic interface " + code + "{\n");
+        sb.append("\n@SuppressWarnings(\"all\")");
+        sb.append("\npublic interface ").append(code).append("{\n");
         // 字段名
         for (AdminDictionaryVO dictField : dict.getDictList()) {
             String moduleName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictField.getCode());
-            sb.append("\n        // " + dictField.getDesc() + "\n");
+            sb.append("\n        // ").append(dictField.getDesc()).append("\n");
             sb.append("        @Getter\n");
             sb.append("        @AllArgsConstructor\n");
-            sb.append("        enum " + moduleName + " implements IEnum<Integer> {\n");
+            sb.append("        enum ").append(moduleName).append(" implements IEnum<Integer> {\n");
             //枚举字典的-枚举属性
             if (dictField.getDictList() == null) {
                 continue;
             }
             for (AdminDictionaryVO dictValue : dictField.getDictList()) {
-                sb.append("            " + /* dictField.getCode() + */"V" + dictValue.getCode()
-                        + "(" + dictValue.getCode() + ", \"" + dictValue.getName() + "\"),    // " + dictValue.getDesc() + "\n");
+                /// sb.append("            " + /* dictField.getCode() + */"V" + dictValue.getCode()
+                sb.append("            V").append(dictValue.getCode())
+                        .append("(").append(dictValue.getCode())
+                        .append(", \"").append(dictValue.getName()).append("\"),    // ")
+                        .append(dictValue.getDesc()).append("\n");
             }
             sb.append("            ;\n");
             sb.append("            private Integer value;\n");
@@ -361,6 +375,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     /**
      * 拼接js 字典数据-KEY
+     *
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/8/16 0016 0:29
@@ -372,12 +387,12 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         sb.append("var Enums = {");
         //模块名
         for (AdminDictionaryVO dictModule : dict.getDictList()) {
-            sb.append("\n    // " + dictModule.getName() + "");
-            sb.append("\n    " + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictModule.getCode() + ": {"));
+            sb.append("\n    // ").append(dictModule.getName());
+            sb.append("\n    ").append(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictModule.getCode() + ": {"));
             //枚举字典的-枚举名--驼峰模式
             for (AdminDictionaryVO dictField : dictModule.getDictList()) {
                 String moduleName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dictField.getCode());
-                sb.append("\n        " + moduleName + " : \"" + dictField.getCode() + "\",  // " + dictField.getName());
+                sb.append("\n        ").append(moduleName).append(" : \"").append(dictField.getCode()).append("\",  // ").append(dictField.getName());
             }
             sb.append("\n    },");
         }
@@ -386,13 +401,13 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     }
 
 
-
     /**
      * 查询下级所有Id,  包括禁用数据的Id,包括自己的Id
-     * @author wangsong
+     *
      * @param id
-     * @date 2020/8/8 0008 1:16
      * @return java.util.List<java.lang.String>
+     * @author wangsong
+     * @date 2020/8/8 0008 1:16
      * @version 1.0.1
      */
     private List<String> findByIdFetchIds(String id) {
@@ -411,12 +426,11 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     }
 
 
-
-
     /**
      * 查询所有（缓存到jvm）
-     * @param isDisable  是否查询禁用数据 =true 查询*默认   =false 不查询
-     * @return
+     *
+     * @param isDisable 是否查询禁用数据 =true 查询*默认   =false 不查询
+     * @return list
      */
     private List<AdminDictionaryVO> findList(Boolean isDisable) {
         if (!CacheUtil.containsKey(CacheKey.DICT_LIST_KEY.getKey())) {
@@ -433,12 +447,12 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
          * 是否获取禁用数据
          */
         // 为了让数据不改变缓存数据,不使用引用,使用深拷贝
-        List<AdminDictionaryVO> adminDictionaryVOS = BeanDtoVoUtil.listVo(listVO, AdminDictionaryVO.class);
+        List<AdminDictionaryVO> adminDictionaryVos = BeanDtoVoUtil.listVo(listVO, AdminDictionaryVO.class);
         if (isDisable) {
-            return adminDictionaryVOS;
+            return adminDictionaryVos;
         } else {
             //排除禁用数据(.stream() 后的数据依旧是引用数据)
-            return adminDictionaryVOS.stream().filter(i -> i.getDisable().equals(Base.Disable.V0.getValue())).collect(Collectors.toList());
+            return adminDictionaryVos.stream().filter(i -> i.getDisable().equals(Base.Disable.V0.getValue())).collect(Collectors.toList());
         }
     }
 

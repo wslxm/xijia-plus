@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.starter.pay.wxApi;
+package io.github.wslxm.springbootplus2.starter.pay.wxapi;
 
 import com.github.binarywang.wxpay.bean.coupon.*;
 import com.github.binarywang.wxpay.bean.notify.WxPayNotifyResponse;
@@ -50,7 +50,13 @@ public class WxPayApi {
         return this.wxService.queryOrder(transactionId, outTradeNo);
     }
 
-    // 查询订单
+    /**
+     * 查询订单
+     *
+     * @param wxPayOrderQueryRequest wxPayOrderQueryRequest
+     * @return com.github.binarywang.wxpay.bean.result.WxPayOrderQueryResult
+     * @version 1.0.0
+     */
     public WxPayOrderQueryResult queryOrder(@RequestBody WxPayOrderQueryRequest wxPayOrderQueryRequest) throws WxPayException {
         return this.wxService.queryOrder(wxPayOrderQueryRequest);
     }
@@ -76,7 +82,13 @@ public class WxPayApi {
         return this.wxService.closeOrder(outTradeNo);
     }
 
-    //关闭订单
+    /**
+     * 关闭订单
+     *
+     * @param wxPayOrderCloseRequest wxPayOrderCloseRequest
+     * @return com.github.binarywang.wxpay.bean.result.WxPayOrderCloseResult
+     * @version 1.0.0
+     */
     public WxPayOrderCloseResult closeOrder(@RequestBody WxPayOrderCloseRequest wxPayOrderCloseRequest) throws WxPayException {
         return this.wxService.closeOrder(wxPayOrderCloseRequest);
     }
@@ -310,7 +322,13 @@ public class WxPayApi {
         return this.wxService.downloadBill(billDate, billType, tarType, deviceInfo);
     }
 
-    // 下载对账单
+    /**
+     * 下载对账单
+     *
+     * @param wxPayDownloadBillRequest wxPayDownloadBillRequest
+     * @return com.github.binarywang.wxpay.bean.result.WxPayBillResult
+     * @version 1.0.0
+     */
     public WxPayBillResult downloadBill(WxPayDownloadBillRequest wxPayDownloadBillRequest) throws WxPayException {
         return this.wxService.downloadBill(wxPayDownloadBillRequest);
     }

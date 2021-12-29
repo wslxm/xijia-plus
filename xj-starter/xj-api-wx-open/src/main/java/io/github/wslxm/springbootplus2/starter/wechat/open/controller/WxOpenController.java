@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.starter.wechat.open.controller;
 
 
+import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.starter.wechat.open.model.vo.WxUserInfoVO;
 import io.github.wslxm.springbootplus2.starter.wechat.open.server.WxOpenLoginService;
@@ -11,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ *  @author wangsong
+ */
 @RestController
 @Api(value = "WxOpenController", tags = "微信  -->  微信开放平台")
-@RequestMapping("/api/open/wx")
+@RequestMapping(BaseConstant.Uri.API_OPEN +"/wx")
 public class WxOpenController {
 
 

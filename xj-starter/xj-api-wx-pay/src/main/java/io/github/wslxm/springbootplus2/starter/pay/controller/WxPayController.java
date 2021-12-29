@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.starter.pay.controller;
 
 import com.github.binarywang.wxpay.exception.WxPayException;
+import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.starter.pay.model.dto.WxPayOrderDTO;
 import io.github.wslxm.springbootplus2.starter.pay.model.dto.WxPayRefundDTO;
@@ -24,11 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @Api(value = "WebsocketController", tags = "WX  -->  微信支付")
-@RequestMapping("/api/open/pay")
+@RequestMapping(BaseConstant.Uri.API_OPEN +"/pay")
 public class WxPayController {
 
 
-    // 需要处理业务的中转方法
+    /**
+     *  需要处理业务的中转方法
+     */
     @Autowired
     private XjWxPayService xjWxPayService;
 

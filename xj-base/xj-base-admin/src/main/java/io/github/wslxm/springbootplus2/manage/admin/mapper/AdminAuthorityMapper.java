@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * @author wangsong
+ */
 public interface AdminAuthorityMapper extends BaseMapper<AdminAuthority> {
 
 
@@ -15,6 +18,8 @@ public interface AdminAuthorityMapper extends BaseMapper<AdminAuthority> {
      * @param userId  用户id查询当前存在权限
      * @param disable 是否查询禁用数据
      * @param state  是否只查询需登录/需登录+授权等设计
+     * @param pid  pid
+     * @param type  type
      * @return java.util.List<io.github.wslxm.adminconsole.entity.AdminRoleAuth>
      * @date 2019/11/25 0025 11:54
      */

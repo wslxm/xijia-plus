@@ -57,7 +57,7 @@ public class CacheUtil {
         } else {
             obj = JvmCache.get(key);
         }
-        return obj == null ? new HashMap<>() : (Map<String, T>) obj;
+        return obj == null ? new HashMap<>(16) : (Map<String, T>) obj;
     }
 
 

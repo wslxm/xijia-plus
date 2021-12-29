@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.ToString;
 
 /**
+ *  @author wangsong
  * 短信验证码缓存数据
  */
 @Data

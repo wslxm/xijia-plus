@@ -14,13 +14,11 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ *  @author wangsong
  * Websocket 监听类(连接，断点，消息发送等)
  * <p>
  * /websocket/{userId}/{username}   =  /websocket/用户Id/用户名 来连接websocket，该参数会带到每一个监听方法中
@@ -142,21 +140,20 @@ public class WebsocketServer {
      *
      * @param sendMsg：消息内容
      */
-    public Boolean send(SendMsgVO sendMsg) {
-        if ("ALL".equals(sendMsg.getTo()) || "all".equals(sendMsg.getTo())) {
+    public void send(SendMsgVO sendMsg) {
+        List all = Arrays.asList("all", "ALL");
+        if (all.contains(sendMsg.getTo())) {
             // 发送消息给所有人
             Set<String> userIds = clients.keySet();
             for (String userId : userIds) {
                 this.sendMsg(userId, sendMsg);
             }
-            return true;
         } else {
             //发送消息给指定人
             String[] userIds = sendMsg.getTo().split(",");
             for (String userId : userIds) {
                 this.sendMsg(userId, sendMsg);
             }
-            return true;
         }
     }
 

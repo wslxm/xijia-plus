@@ -13,6 +13,7 @@ import io.github.wslxm.springbootplus2.starter.wechat.app.model.WxMaJscode2Sessi
 import io.github.wslxm.springbootplus2.starter.wechat.app.model.WxMaPhoneNumberInfoVO;
 import io.github.wslxm.springbootplus2.starter.wechat.app.result.WxAppRType;
 import io.github.wslxm.springbootplus2.starter.wechat.app.util.Base64ImgUtils;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-
+/**
+ *  @author wangsong
+ */
 @Service
 @Slf4j
 public class WxAppServiceImpl implements WxAppService {

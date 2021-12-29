@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.gc.template;
 
 /**
+ *  @author wangsong
  * 复选Html 模板配置
  */
 public class LayuiMainTemplate {

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  代码生成工具类( 处理相关数据使用)
+ * 代码生成工具类( 处理相关数据使用)
  *
  * @author ws
  * @mail 1720696548@qq.com
@@ -31,7 +31,7 @@ public class GenerateDataProcessing {
 
 
     /**
-     *  json 数据处理成 List<Map<String, Object>> (处理代码生成前端传入数据)
+     * json 数据处理成 List<Map<String, Object>> (处理代码生成前端传入数据)
      *
      * @param data
      * @param data [{ search：true }] 表示要为该字段添加搜索功能
@@ -49,7 +49,7 @@ public class GenerateDataProcessing {
 
 
     /**
-     *  把下化线的字段映射成驼峰模式
+     * 把下化线的字段映射成驼峰模式
      *
      * @return
      * @date 2019/11/20 19:22
@@ -95,7 +95,7 @@ public class GenerateDataProcessing {
 
 
     /**
-     *  判断文件路径是否存在，不存在创建
+     * 判断文件路径是否存在，不存在创建
      *
      * @param path
      * @return void
@@ -110,7 +110,7 @@ public class GenerateDataProcessing {
     }
 
     /**
-     *  判断文件路径是否存在，存在删除
+     * 判断文件路径是否存在，存在删除
      *
      * @param path
      * @return void
@@ -126,7 +126,7 @@ public class GenerateDataProcessing {
 
 
     /**
-     *  获得BufferedReader（根据url读取模版文档），BufferedWriter （写入文件流），path生成的件路径
+     * 获得BufferedReader（根据url读取模版文档），BufferedWriter （写入文件流），path生成的件路径
      *
      * @param DsField =  生成的路径/包名/类名等属性
      * @param path    =  代码生成路径，从父项目跟目录开始的路径
@@ -182,7 +182,7 @@ public class GenerateDataProcessing {
 
 
     /**
-     *  通过url 获取文件流
+     * 通过url 获取文件流
      *
      * @param urlStr
      * @param withSep
@@ -229,7 +229,7 @@ public class GenerateDataProcessing {
      *
      */
     /**
-     *  代码生成所有文件数据替换工具类
+     * 代码生成所有文件数据替换工具类
      *
      * @param brBwPath
      * @param DsField
@@ -247,21 +247,33 @@ public class GenerateDataProcessing {
         try {
             while ((line = br.readLine()) != null) {
                 //注释信息
-                newLine = line.replace("{author}", "@author  " + GenerateConfig.AUTHOR)
-                        .replace("{email}", "@email  " + GenerateConfig.EMAIL)
+                newLine = line.replace("{author}", GenerateConfig.AUTHOR)
+                        .replace("{email}", GenerateConfig.EMAIL)
                         .replace("{describe}", GenerateConfig.DESCRIBE)
-                        .replace("{rootModule}", GenerateConfig.ROOT_MODULE)        // 模块根目录
-                        .replace("{moduleName}", GenerateConfig.MODULE_NAME)        // 模块一级目录
-                        //.replace("{packPathZp}", GenerateConfig.PACK_PATH_ZP)           // 模块子目录
-                        .replace("{date}", "@date  " + LocalDateTimeUtil.parse(LocalDateTimeUtil.now()));
+                        // 模块根目录
+                        .replace("{rootModule}", GenerateConfig.ROOT_MODULE)
+                        // 模块一级目录
+                        .replace("{moduleName}", GenerateConfig.MODULE_NAME)
+                        // 模块子目录
+                        //.replace("{packPathZp}", GenerateConfig.PACK_PATH_ZP)
+                        .replace("{date}", LocalDateTimeUtil.parse(LocalDateTimeUtil.now()));
+
                 //原始数据
-                newLine = newLine.replace("{tableName}", GenerateConfig.TABLE_NAME)              // 表名
-                        .replace("{tableNameUp}", GenerateConfig.TABLE_NAME_UP)        // 表名大写开头驼峰
-                        .replace("{tableNameLower}", GenerateConfig.TABLE_NAME_LOWER)  // 表名小写开头驼峰
-                        // .replace("{htmlNameLower}", DsField.TABLE_NAME_LOWER)             // 表名小写开头驼峰
-                        .replace("{packPath}", GenerateConfig.PACK_PATH)               // 包路径
+                newLine = newLine
+                        // 表名
+                        .replace("{tableName}", GenerateConfig.TABLE_NAME)
+                        // 表名大写开头驼峰
+                        .replace("{tableNameUp}", GenerateConfig.TABLE_NAME_UP)
+                        // 表名小写开头驼峰
+                        .replace("{tableNameLower}", GenerateConfig.TABLE_NAME_LOWER)
+                        // 表名小写开头驼峰
+                        // .replace("{htmlNameLower}", DsField.TABLE_NAME_LOWER)
+                        // 包路径
+                        .replace("{packPath}", GenerateConfig.PACK_PATH)
                         //.replace("{entryName}", DsField.entryName)
-                        .replace("{tableComment}", GenerateConfig.TABLE_COMMENT);      // 数据表的注释
+                        // 数据表的注释
+                        .replace("{tableComment}", GenerateConfig.TABLE_COMMENT);
+
                 // 后端代码(替换数据)
                 newLine = newLine.replace("{entitys}", GenerateConfig.FIELD_ENTITYS)
                         .replace("{findPageMybatisPlus}", GenerateConfig.FIND_PAGE_MYBATIS_PLUS)
@@ -274,6 +286,7 @@ public class GenerateDataProcessing {
                         .replace("{xmlUpd}", GenerateConfig.XML_UPD)
                         // entity/vo/dto的 serialVersionUID生成(雪花算法)
                         .replace("{serialVersionUID}", IdUtil.snowflakeId());
+
                 // 前端 layui html(替换数据)
                 newLine = newLine.replace("{layui-fields}", GenerateConfig.LAYUI_FIELDS)
                         .replace("{layui-search-pt-str}", GenerateConfig.LAYUI_SEARCH_PT_STR)

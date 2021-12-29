@@ -9,7 +9,7 @@ import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminAuthorityVO;
 import java.util.List;
 
 /**
- *   Url权限
+ * Url权限
  *
  * @author wangsong
  * @WX-QQ 1720696548
@@ -20,6 +20,7 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
     /**
      * 查询所有权限数据，根据不同的端的枚举code 拼接最顶级的目录, 顶级目录ID = -1 （list数据）
      *
+     * @param query 字段
      * @return void
      * @date 2019/11/25 0025 11:55
      */
@@ -27,15 +28,18 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
 
     /**
      * 编辑
+     *
+     * @param id id
+     * @param dto 字段
      * @author wangsong
-     * @param dto
+     * @return boolean
      */
     Boolean upd(String id, AdminAuthorityDTO dto);
 
     /**
      * 获取用户的url权限列表，只返回未禁用的 url
      *
-     * @param  userId 用户id
+     * @param userId 用户id
      * @return void
      * @date 2019/11/25 0025 11:55
      */
@@ -47,12 +51,11 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    Boolean refreshAuthDB();
+    Boolean refreshAuthDb();
 
     /**
      * 刷新缓存中的接口接口信息 (用于url授权, 在项目启动时调用和，权限数据更新时调用)
      *
-     * @param
      * @return void
      * @date 2019/11/25 0025 11:55
      */

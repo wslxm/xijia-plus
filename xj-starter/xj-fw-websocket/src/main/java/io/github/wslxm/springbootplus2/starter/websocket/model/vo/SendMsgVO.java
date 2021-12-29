@@ -56,7 +56,7 @@ public class SendMsgVO implements Serializable {
      */
     private String createTime;
 
-    // private Integer msgType;  消息类型，int类型(0:text、1:image、2:voice、3:vedio、4:music、5:news)
+    /// private Integer msgType;  消息类型，int类型(0:text、1:image、2:voice、3:vedio、4:music、5:news)
 
     /**
      * @param msgType  消息类型(1-上线通知 2-下线通知 3-在线名单通知  4-代表普通消息通知 )

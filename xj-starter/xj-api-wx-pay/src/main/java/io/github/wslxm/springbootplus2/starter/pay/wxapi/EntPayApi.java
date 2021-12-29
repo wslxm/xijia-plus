@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.starter.pay.wxApi;
+package io.github.wslxm.springbootplus2.starter.pay.wxapi;
 
 import com.github.binarywang.wxpay.bean.entpay.*;
 import com.github.binarywang.wxpay.exception.WxPayException;

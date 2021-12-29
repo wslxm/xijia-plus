@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.starter.aliyun.sms.controller;
 
+import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.starter.aliyun.sms.util.AliSmsUtil;
 import io.swagger.annotations.Api;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(value = "AliSmsController", tags = "AliYun  --> SMS短信服务")
-@RequestMapping("/api/open/aliSms")
+@RequestMapping(BaseConstant.Uri.API_OPEN +"/aliSms")
 @Slf4j
 public class AliSmsController {
 

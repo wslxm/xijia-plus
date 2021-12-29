@@ -28,7 +28,7 @@ import java.util.Map;
  * @date Sun Nov 24 11:23:12 CST 2019
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiClient + "/dictionary")
+@RequestMapping(BaseConstant.Uri.API_CLIENT+ "/dictionary")
 @Api(value = "UDictionaryController", tags = "yh--base--字典管理")
 public class UDictionaryController extends BaseController<AdminDictionaryService> {
 

@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.basepay.manage.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
+import io.github.wslxm.springbootplus2.starter.pay.constant.WxPayRespConstant;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
@@ -45,7 +46,9 @@ import java.math.BigDecimal;
 @Slf4j
 public class WxPayServiceImpl implements PayService {
 
-    // 微信支付配置
+    /**
+     * 微信支付配置
+     */
     @Autowired
     private WxPayProperties wxPayProperties;
 
@@ -126,11 +129,11 @@ public class WxPayServiceImpl implements PayService {
      */
     @Override
     public R<PayRecordVO> orderCallback(String xmlData) {
-        R<WxPayOrderNotifyResultVO> wxPayOrderNotifyResultVOData = xjWxPayService.parseOrderNotifyResult(xmlData);
-        if (!wxPayOrderNotifyResultVOData.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-            return R.error(wxPayOrderNotifyResultVOData.getCode(), wxPayOrderNotifyResultVOData.getMsg(), null, "微信支付回调参数获取失败");
+        R<WxPayOrderNotifyResultVO> wxPayOrderNotifyResultVoData = xjWxPayService.parseOrderNotifyResult(xmlData);
+        if (!wxPayOrderNotifyResultVoData.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+            return R.error(wxPayOrderNotifyResultVoData.getCode(), wxPayOrderNotifyResultVoData.getMsg(), null, "微信支付回调参数获取失败");
         }
-        WxPayOrderNotifyResultVO wxPayOrderNotifyResultVO = wxPayOrderNotifyResultVOData.getData();
+        WxPayOrderNotifyResultVO wxPayOrderNotifyResultVO = wxPayOrderNotifyResultVoData.getData();
         // 交易记录查询
         PayRecord payRecord = payRecordService.findOrderByTradeNo(wxPayOrderNotifyResultVO.getOutTradeNo());
         if (payRecord == null) {
@@ -152,15 +155,15 @@ public class WxPayServiceImpl implements PayService {
         // 判断是否正常接收回调
         Integer moneyTotal = BigDecimalUtil.multiply100(payRecord.getMoneyTotal()).intValue();
         if (!moneyTotal.equals(wxPayOrderNotifyResultVO.getTotalFee())
-                || !"SUCCESS".equals(wxPayOrderNotifyResultVO.getReturnCode())
-                || !"SUCCESS".equals(wxPayOrderNotifyResultVO.getResultCode())
+                || !WxPayRespConstant.SUCCESS.equals(wxPayOrderNotifyResultVO.getReturnCode())
+                || !WxPayRespConstant.SUCCESS.equals(wxPayOrderNotifyResultVO.getResultCode())
         ) {
             String errorRemarks = "支付异常:";
             if (!moneyTotal.equals(wxPayOrderNotifyResultVO.getTotalFee())) {
                 errorRemarks += "微信支付金额异常";
-            } else if (!"SUCCESS".equals(wxPayOrderNotifyResultVO.getReturnCode())) {
+            } else if (!WxPayRespConstant.SUCCESS.equals(wxPayOrderNotifyResultVO.getReturnCode())) {
                 errorRemarks += "微信支付签名验证/参数格式校验失败";
-            } else if (!"SUCCESS".equals(wxPayOrderNotifyResultVO.getResultCode())) {
+            } else if (!WxPayRespConstant.SUCCESS.equals(wxPayOrderNotifyResultVO.getResultCode())) {
                 errorRemarks += "微信端业务结果错误";
             }
             // 支付失败
@@ -173,7 +176,6 @@ public class WxPayServiceImpl implements PayService {
             return R.success(BeanDtoVoUtil.convert(payRecord, PayRecordVO.class));
         }
     }
-
 
 
     /**
@@ -197,21 +199,21 @@ public class WxPayServiceImpl implements PayService {
         wxEntPayDTO.setDescription(entPayDTO.getDescription());
         wxEntPayDTO.setCheckName(entPayDTO.getCheckName());
         wxEntPayDTO.setReUserName(entPayDTO.getReUserName());
-        R<WxEntPayResultVO> wxEntPayResultVOData = xjEntPayService.entPay(wxEntPayDTO);
-        WxEntPayResultVO wxEntPayResultVO = wxEntPayResultVOData.getData();
+        R<WxEntPayResultVO> wxEntPayResultVoData = xjEntPayService.entPay(wxEntPayDTO);
+        WxEntPayResultVO wxEntPayResultVO = wxEntPayResultVoData.getData();
         // 判断成功失败
-        if (!wxEntPayResultVOData.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+        if (!wxEntPayResultVoData.getCode().equals(RType.SYS_SUCCESS.getValue())) {
             // 企业打款失败
             boolean b = payRecordService.addPayRecord(
                     entPayDTO.getAmount(),
                     orderNo,
                     tradeNo,
                     JSON.toJSONString(wxEntPayDTO),
-                    JSON.toJSONString(wxEntPayResultVOData.getMsg()),
+                    JSON.toJSONString(wxEntPayResultVoData.getMsg()),
                     Base.PayState.V2,
                     Base.PayType.V4,
                     entPayDTO.getPayBusiness());
-            return R.error(wxEntPayResultVOData.getCode(), wxEntPayResultVOData.getMsg(), false, "企业打款失败");
+            return R.error(wxEntPayResultVoData.getCode(), wxEntPayResultVoData.getMsg(), false, "企业打款失败");
         } else {
             // 企业打款成功
             boolean b = payRecordService.addPayRecord(
@@ -244,20 +246,20 @@ public class WxPayServiceImpl implements PayService {
         wxPayRefundDTO.setTotalFee(BigDecimalUtil.multiply100(refundDTO.getTotalFee()).intValue());
         wxPayRefundDTO.setRefundFee(BigDecimalUtil.multiply100(refundDTO.getRefundFee()).intValue());
         wxPayRefundDTO.setRefundDesc(refundDTO.getRefundDesc());
-        R<WxPayRefundResultVO> wxPayRefundResultVOR = xjWxPayService.refund(wxPayRefundDTO);
-        WxPayRefundResultVO wxPayRefundResultVO = wxPayRefundResultVOR.getData();
-        if (!wxPayRefundResultVOR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+        R<WxPayRefundResultVO> wxPayRefundResultVoR = xjWxPayService.refund(wxPayRefundDTO);
+        WxPayRefundResultVO wxPayRefundResultVO = wxPayRefundResultVoR.getData();
+        if (!wxPayRefundResultVoR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
             // 退款失败
             boolean b = payRecordService.addPayRecord(
                     refundDTO.getRefundFee(),
                     refundDTO.getOrderNo(),
                     refundDTO.getOutRefundNo(),
                     JSON.toJSONString(refundDTO),
-                    JSON.toJSONString(wxPayRefundResultVOR.getMsg()),
+                    JSON.toJSONString(wxPayRefundResultVoR.getMsg()),
                     Base.PayState.V2,
                     Base.PayType.V3,
                     refundDTO.getPayBusiness());
-            return R.error(wxPayRefundResultVOR.getCode(), wxPayRefundResultVOR.getMsg(), false, "退款失败");
+            return R.error(wxPayRefundResultVoR.getCode(), wxPayRefundResultVoR.getMsg(), false, "退款失败");
         } else {
             // 退款成功
             boolean b = payRecordService.addPayRecord(

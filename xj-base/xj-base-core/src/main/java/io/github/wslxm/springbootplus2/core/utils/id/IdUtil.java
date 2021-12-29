@@ -37,19 +37,18 @@ public class IdUtil {
     public synchronized static String getNo() {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
         long increment = noIncrement.getAndIncrement();
-        if(increment >= 999999){
+        int incrementMax = 999999;
+        if (increment >= incrementMax) {
             noIncrement.set(1);
         }
-        return format.format(new Date()) + String.format("%06d",increment);
+        return format.format(new Date()) + String.format("%06d", increment);
     }
-
 
 
     public static void main(String[] args) {
         // 自增id
-        for (int i = 0; i < 90000; i++) {
-            // log.debug(timestampSelfIncreasingId());
-            log.debug(getNo());
-        }
+//        for (int i = 0; i < 90000; i++) {
+//            log.debug(getNo());
+//        }
     }
 }

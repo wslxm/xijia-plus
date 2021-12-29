@@ -9,7 +9,7 @@ import io.github.wslxm.springbootplus2.manage.gc.model.entity.XjAdminDatasource;
 import io.github.wslxm.springbootplus2.manage.gc.model.query.XjAdminDatasourceQuery;
 import io.github.wslxm.springbootplus2.manage.gc.model.vo.XjAdminDatasourceVO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjAdminDatasourceService;
-import io.github.wslxm.springbootplus2.manage.gc.util.JDBCPool;
+import io.github.wslxm.springbootplus2.manage.gc.util.JdbcPool;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2020-11-04 20:11:08
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiAdmin + "/datasource")
+@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/datasource")
 @Api(value = "XjAdminDatasourceController", tags = "base-gc--代码生成--数据源维护")
 public class XjAdminDatasourceController extends BaseController<XjAdminDatasourceService> {
 
@@ -75,7 +75,7 @@ public class XjAdminDatasourceController extends BaseController<XjAdminDatasourc
     @ApiOperation("数据源连接测试")
     public R<Boolean> dataSourceTest(@RequestBody @Validated XjAdminDatasourceDTO dto) {
         // 主要没报错, 表示连接成功
-        JDBCPool.getConn(dto.getDbUrl(), dto.getDbUsername(), dto.getDbPassword());
+        JdbcPool.getConn(dto.getDbUrl(), dto.getDbUsername(), dto.getDbPassword());
         return R.success(true);
     }
 }

@@ -14,12 +14,13 @@ import java.util.stream.Collectors;
 
 /**
  * 重写 将Document转换成Swagger 类, 根据order进行排序 , 修复dto可以排序，但query类无法排序问题
+ *
  * @author wangsong
- * @mail 1720696548@qq.com
+ * @version 1.0.0
+ * @email 1720696548@qq.com
  * @date 2020/8/21 0021 11:02
- * @version 1.0.1
  */
-@Primary //同一个接口，可能会有几种不同的实现类，而默认只会采取其中一种的情况下
+@Primary
 @Component("ServiceModelToSwagger2Mapper")
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j

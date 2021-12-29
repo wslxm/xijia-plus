@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+/**
+ *  @author wangsong
+ */
 @Data
 @ApiModel(value = "XjGenerateDto", description = "代码生成")
 public class XjGenerateDto extends Convert {

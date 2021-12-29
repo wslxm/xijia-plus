@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2020-08-31 18:31:44
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiClient + "/xj/config")
+@RequestMapping(BaseConstant.Uri.API_CLIENT+ "/xj/config")
 @Api(value = "XjAdminConfigController", tags = "yh--base-plus--全局配置")
 public class UXjAdminConfigController extends BaseController<XjAdminConfigService> {
 

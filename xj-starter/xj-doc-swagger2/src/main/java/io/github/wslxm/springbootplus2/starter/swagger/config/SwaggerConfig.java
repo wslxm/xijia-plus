@@ -1,15 +1,11 @@
 package io.github.wslxm.springbootplus2.starter.swagger.config;
 
-import io.github.wslxm.springbootplus2.starter.swagger.properties.SwaggerProperties;
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import io.github.wslxm.springbootplus2.starter.swagger.properties.SwaggerProperties;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -54,52 +50,53 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public Docket SwaggerDocketC() {
+    public Docket swaggerDocketC() {
         return this.createDocket(swaggerProperties.getPackages().get("2") == null ? "C|xxx.xxx" : swaggerProperties.getPackages().get("2") + "|C");
     }
 
     @Bean
-    public Docket SwaggerDocketD() {
+    public Docket swaggerDocketD() {
         return this.createDocket(swaggerProperties.getPackages().get("3") == null ? "D|xxx.xxx" : swaggerProperties.getPackages().get("3") + "|D");
     }
 
     @Bean
-    public Docket SwaggerDocketE() {
+    public Docket swaggerDocketE() {
         return this.createDocket(swaggerProperties.getPackages().get("4") == null ? "E|xxx.xxx" : swaggerProperties.getPackages().get("4") + "|E");
     }
 
     @Bean
-    public Docket SwaggerDocketF() {
+    public Docket swaggerDocketF() {
         return this.createDocket(swaggerProperties.getPackages().get("5") == null ? "F|xxx.xxx" : swaggerProperties.getPackages().get("5") + "|F");
     }
 
     @Bean
-    public Docket SwaggerDocketG() {
+    public Docket swaggerDocketG() {
         return this.createDocket(swaggerProperties.getPackages().get("6") == null ? "G|xxx.xxx" : swaggerProperties.getPackages().get("6") + "|G");
     }
 
     @Bean
-    public Docket SwaggerDocketH() {
+    public Docket swaggerDocketH() {
         return this.createDocket(swaggerProperties.getPackages().get("7") == null ? "H|xxx.xxx" : swaggerProperties.getPackages().get("7") + "|H");
     }
 
     @Bean
-    public Docket SwaggerDocketI() {
+    public Docket swaggerDocketI() {
         return this.createDocket(swaggerProperties.getPackages().get("8") == null ? "I|xxx.xxx" : swaggerProperties.getPackages().get("8") + "|I");
     }
 
     @Bean
-    public Docket SwaggerDocketJ() {
+    public Docket swaggerDocketJ() {
         return this.createDocket(swaggerProperties.getPackages().get("9") == null ? "J|xxx.xxx" : swaggerProperties.getPackages().get("9") + "|J");
     }
 
 
     /**
      * 创建swagger 目录
-     * @author wangsong
+     *
      * @param groupNameOrPackage
-     * @date 2021/7/28 0028 14:29
      * @return springfox.documentation.spring.web.plugins.Docket
+     * @author wangsong
+     * @date 2021/7/28 0028 14:29
      * @version 1.0.1
      */
     public Docket createDocket(Object groupNameOrPackage) {
@@ -107,8 +104,8 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName(groupName)
                 .select()
-                //.apis(RequestHandlerSelectors.basePackage("com.lplb.modules.pets")
-                .apis(basePackage(getPackage(groupNameOrPackage.toString())))
+                .apis(RequestHandlerSelectors.basePackage(getPackage(groupNameOrPackage.toString())))
+                // .apis(basePackage(getPackage(groupNameOrPackage.toString())))
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
                 .build()
@@ -122,6 +119,7 @@ public class SwaggerConfig {
 
     /**
      * 获取模块名称, 自动填充分区号,
+     *
      * @param groupNameOrPackage
      * @return
      */
@@ -129,7 +127,8 @@ public class SwaggerConfig {
         String[] split = groupNameOrPackage.split("\\|");
         // 获取名称,如果是yml配置获取,手动拼接上分区标签 A/B/C/D 等
         String groupName = split[0];
-        if (split.length > 2) {
+        int len = 2;
+        if (split.length > len) {
             groupName = split[2] + "--" + groupName;
         }
         return groupName.trim();
@@ -138,6 +137,7 @@ public class SwaggerConfig {
 
     /**
      * 获取扫包路径，如果关闭了swagger或yml 没有配置当前分区,设置为一个不存在的包 xxx.xxx
+     *
      * @param groupNameOrPackage
      */
     private String getPackage(String groupNameOrPackage) {
@@ -153,6 +153,7 @@ public class SwaggerConfig {
 
     /**
      * 添加社交信息
+     *
      * @param groupName
      * @return
      */
@@ -169,9 +170,10 @@ public class SwaggerConfig {
 
     /**
      * swagger全局header参数添加
+     *
+     * @return java.util.List<springfox.documentation.service.Parameter>
      * @author wangsong
      * @date 2021/1/20 0020 14:45
-     * @return java.util.List<springfox.documentation.service.Parameter>
      * @version 1.0.1
      */
     private List<Parameter> getGlobalParameter() {
@@ -197,36 +199,38 @@ public class SwaggerConfig {
     //=============================================================================================
     //=============================================================================================
 
-    // 定义分隔符
-    private static final String splitor = ",";
-
-
-    /**
-     * 让swagger支持配置多个 包路径
-     * @author wangsong
-     * @param basePackage
-     * @date 2020/12/29 0029 11:18
-     * @return com.google.common.base.Predicate<springfox.documentation.RequestHandler>
-     * @version 1.0.1
-     */
-    public static Predicate<RequestHandler> basePackage(final String basePackage) {
-        return input -> declaringClass(input).transform(handlerPackage(basePackage)).or(true);
-    }
-
-    private static Function<Class<?>, Boolean> handlerPackage(final String basePackage) {
-        return input -> {
-            // 循环判断匹配
-            for (String strPackage : basePackage.split(splitor)) {
-                boolean isMatch = input.getPackage().getName().startsWith(strPackage);
-                if (isMatch) {
-                    return true;
-                }
-            }
-            return false;
-        };
-    }
-
-    private static Optional<? extends Class<?>> declaringClass(RequestHandler input) {
-        return Optional.fromNullable(input.declaringClass());
-    }
+//    /**
+//     * 定义分隔符
+//     */
+//    private static final String SPLITOR = ",";
+//
+//    /**
+//     * 让swagger支持配置多个 包路径
+//     *
+//     * @param basePackage
+//     * @return com.google.common.base.Predicate<springfox.documentation.RequestHandler>
+//     * @author wangsong
+//     * @date 2020/12/29 0029 11:18
+//     * @version 1.0.1
+//     */
+//    public static Predicate<RequestHandler> basePackage(final String basePackage) {
+//        return input -> declaringClass(input).map(handlerPackage(basePackage)::apply).orElse(true);
+//    }
+//
+//    private static Function<Class<?>, Boolean> handlerPackage(final String basePackage) {
+//        return input -> {
+//            // 循环判断匹配
+//            for (String strPackage : basePackage.split(SPLITOR)) {
+//                boolean isMatch = input.getPackage().getName().startsWith(strPackage);
+//                if (isMatch) {
+//                    return true;
+//                }
+//            }
+//            return false;
+//        };
+//    }
+//
+//    private static Optional<Class<?>> declaringClass(RequestHandler input) {
+//        return Optional.ofNullable(input.declaringClass());
+//    }
 }

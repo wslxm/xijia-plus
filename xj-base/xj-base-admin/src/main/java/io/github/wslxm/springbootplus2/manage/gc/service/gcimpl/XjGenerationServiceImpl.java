@@ -55,16 +55,16 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
             findPageMybatisPlus.append("                ");
             if (type.equals("int") || type.equals("bigint") || type.equals("tinyint")) {
                 // 整数 int/long/tinyint
-                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null," + GenerateConfig.TABLE_NAME_UP + "::get" + fieldName + ",query.get" + fieldName + "())");
+                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + GenerateConfig.TABLE_NAME_UP + "::get" + fieldName + ", query.get" + fieldName + "())");
             } else if (type.equals("double") || type.equals("float") || type.equals("decimal")) {
                 // 单精度小数 Float / 双精度小数 Double / decimal等
-                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null," + GenerateConfig.TABLE_NAME_UP + "::get" + fieldName + ",query.get" + fieldName + "())");
+                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + GenerateConfig.TABLE_NAME_UP + "::get" + fieldName + ", query.get" + fieldName + "())");
             } else if (type.equals("varchar") || type.equals("char") || type.equals("text") || type.equals("longtext")) {
                 // 字符串 / 大文本、超大文本
-                findPageMybatisPlus.append(".eq(StringUtils.isNotBlank(query.get" + fieldName + "())," + GenerateConfig.TABLE_NAME_UP + "::get" + fieldName + ",query.get" + fieldName + "())");
+                findPageMybatisPlus.append(".eq(StringUtils.isNotBlank(query.get" + fieldName + "()), " + GenerateConfig.TABLE_NAME_UP + "::get" + fieldName + ", query.get" + fieldName + "())");
             } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
                 // 时间
-                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null," + GenerateConfig.TABLE_NAME_UP + "::get" + fieldName + ",query.get" + fieldName + "())");
+                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + GenerateConfig.TABLE_NAME_UP + "::get" + fieldName + ", query.get" + fieldName + "())");
             }
             findPageMybatisPlus.append("\r\n");
         }

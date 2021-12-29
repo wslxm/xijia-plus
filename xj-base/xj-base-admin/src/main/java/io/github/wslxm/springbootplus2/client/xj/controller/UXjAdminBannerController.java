@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2020-08-23 23:14:01
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiClient + "/xj/banner")
+@RequestMapping(BaseConstant.Uri.API_CLIENT+ "/xj/banner")
 @Api(value = "UXjAdminBannerController", tags = "yh--base-plus--banner")
 public class UXjAdminBannerController extends BaseController<XjAdminBannerService> {
 

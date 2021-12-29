@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 限流 （基于 com.google.guava 的令牌桶）
  * @author wangsong
- * @mail 1720696548@qq.com
+ * @email 1720696548@qq.com
  * @date 2021/11/28 0028 9:49
  * @version 1.0.0
  */
@@ -27,7 +27,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class SysRateLimiter {
 
-    // private RateLimiter rateLimiter = RateLimiter.create(1);
+    /**
+     * private RateLimiter rateLimiter = RateLimiter.create(1);
+     */
     private ConcurrentHashMap<String, RateLimiter> rateLimiters = new ConcurrentHashMap();
 
     @Autowired

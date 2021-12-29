@@ -10,13 +10,15 @@ import java.time.LocalDateTime;
 import {packPath}.core.base.model.BaseQuery;
 
 /**
- * {tableComment}
+ * {tableComment} Query
+ *
  * <p>
  * {describe}
  * </p>
- * {author}
- * {email}
- * {date}
+
+ * @author {author}
+ * @email {email}
+ * @date {date}
  */
 @Data
 @ToString(callSuper = true)

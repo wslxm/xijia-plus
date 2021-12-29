@@ -23,7 +23,7 @@ git clone https://gitee.com/smallweigit/avue-cli.git
 # 进入项目
 cd avue-cli
 
-# 安装依赖
+# 安装依赖(当前node版本 node-v14.18.2)
 npm install --registry=https://registry.npm.taobao.org
 
 # 启动服务

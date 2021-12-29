@@ -8,7 +8,9 @@ import lombok.ToString;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
-
+/**
+ * @author wangsong
+ */
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "EncryptDTO 对象", description = "测试请求加密")

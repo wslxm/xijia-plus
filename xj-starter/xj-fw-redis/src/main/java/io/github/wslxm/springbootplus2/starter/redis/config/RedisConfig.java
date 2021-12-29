@@ -1,8 +1,10 @@
 package io.github.wslxm.springbootplus2.starter.redis.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -23,8 +25,10 @@ import java.time.Duration;
 /***
  *
  * 处理 redis缓存key 乱码, 以及保存对象数据设置为 json存储(默认二进制)
+ *
  * <P>
- *    继承CachingConfigurerSupport, 为了自定义生成KEY的策略。可以不继承。
+ *  继承CachingConfigurerSupport, 为了自定义生成KEY的策略。可以不继承。
+ *  注解 @EnableCaching  表示 启用缓存，这个注解很重要；可以使用
  * </P>
  * @author wangsong
  * @date 2021/3/2 0002 17:38
@@ -32,22 +36,23 @@ import java.time.Duration;
  * @version 1.0.1
  */
 @Configuration
-@EnableCaching // 启用缓存，这个注解很重要；可以使用
+@EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
 
-//    //@Value("${spring.cache.redis.time-to-live}")
     private Duration timeToLive = Duration.ZERO;
 
     @Bean(name = "redisTemplate")
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
-        //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
+        // 使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(mapper);
+        ObjectMapper om = new ObjectMapper();
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        /// om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance ,
+                ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+        jackson2JsonRedisSerializer.setObjectMapper(om);
         template.setValueSerializer(jackson2JsonRedisSerializer);
 
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
@@ -67,12 +72,14 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
         RedisSerializer<String> redisSerializer = new StringRedisSerializer();
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
 
         //解决查询缓存转换异常的问题
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        /// om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance ,
+                ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
         jackson2JsonRedisSerializer.setObjectMapper(om);
 
         // 配置序列化（解决乱码的问题）
@@ -81,10 +88,8 @@ public class RedisConfig extends CachingConfigurerSupport {
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
                 .disableCachingNullValues();
-
-        RedisCacheManager cacheManager = RedisCacheManager.builder(factory)
+        return RedisCacheManager.builder(factory)
                 .cacheDefaults(config)
                 .build();
-        return cacheManager;
     }
 }

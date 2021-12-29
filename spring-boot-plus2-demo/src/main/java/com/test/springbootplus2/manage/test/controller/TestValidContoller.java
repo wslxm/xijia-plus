@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
+/**
+ * @author wangsong
+ */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiOpen + "/xj/valid")
+@RequestMapping(BaseConstant.Uri.API_OPEN + "/xj/valid")
 @Api(value = "TestValidContoller", tags = "参数验证测试")
 public class TestValidContoller {
 
@@ -29,7 +31,7 @@ public class TestValidContoller {
         // 数字判断
         ValidUtil.isNotNull(dto.getNum(), "商品数量");
         ValidUtil.isEmail(dto.getEmail(), "商家邮箱");
-        ValidUtil.isIDCard(dto.getIDCard(), "商家身份证");
+        ValidUtil.isIdCard(dto.getIdCard(), "商家身份证");
         ValidUtil.isChinese(dto.getName(), "商家名称");
         return R.success(true);
     }

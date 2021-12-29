@@ -9,6 +9,9 @@ import lombok.ToString;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ *  @author wangsong
+ */
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "WxUserInfoVO 对象", description = "wx登录")

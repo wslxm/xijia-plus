@@ -1,11 +1,14 @@
 package io.github.wslxm.springbootplus2.manage.gc.template;
 
 /**
+ *  @author wangsong
  * 复选Html 模板配置
  */
 public interface VueAddUpdTemplate {
 
-    //  文本 {label}  {prop}
+    /**
+     * 文本 {label}  {prop}
+     */
     String INPUT = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
@@ -19,7 +22,9 @@ public interface VueAddUpdTemplate {
             "                            }]\n" +
             "                        },\n";
 
-    //  大文本 {label}  {prop}
+    /**
+     * 大文本 {label}  {prop}
+     */
     String TEXTAREA = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
@@ -34,7 +39,10 @@ public interface VueAddUpdTemplate {
             "                            }]\n" +
             "                        },\n";
 
-    //  数字 {label}  {prop}
+
+    /**
+     * 数字 {label}  {prop}
+     */
     String NUMBER = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
@@ -50,7 +58,9 @@ public interface VueAddUpdTemplate {
             "                            }]\n" +
             "                        },\n";
 
-    //  单选 {label}  {prop}
+    /**
+     * 单选 {label}  {prop}
+     */
     String RADIO = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
@@ -64,7 +74,9 @@ public interface VueAddUpdTemplate {
             "                            }]\n" +
             "                        },\n";
 
-    //  多选 {label}  {prop}
+    /**
+     * 多选 {label}  {prop}
+     */
     String CHECKBOX = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
@@ -79,7 +91,9 @@ public interface VueAddUpdTemplate {
             "                            }]\n" +
             "                        },\n";
 
-    //  下拉选 {label}  {prop}
+    /**
+     * 下拉选 {label}  {prop}
+     */
     String SELECT = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
@@ -93,7 +107,9 @@ public interface VueAddUpdTemplate {
             "                            }]\n" +
             "                        },\n";
 
-    //  开关 {label}  {prop}
+    /**
+     * 开关 {label}  {prop}
+     */
     String SWITCH = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
@@ -108,7 +124,9 @@ public interface VueAddUpdTemplate {
             "                        },\n";
 
 
-    //  时间日期 {label}  {prop}
+    /**
+     * 时间日期 {label}  {prop}
+     */
     String DATETIME = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
@@ -124,7 +142,9 @@ public interface VueAddUpdTemplate {
             "                        },\n";
 
 
-    //  文件上传 {label}  {prop}
+    /**
+     * 文件上传 {label}  {prop}
+     */
     String UPLOAD = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +

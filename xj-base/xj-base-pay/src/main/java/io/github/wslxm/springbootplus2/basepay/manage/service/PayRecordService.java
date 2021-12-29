@@ -73,12 +73,13 @@ public interface PayRecordService extends IService<PayRecord> {
                          BigDecimal moneySurplus
     );
 
+
     /**
      * 交易号查询
-     * @author wangsong
-     * @date 2021/1/5 0005 15:14
-     * @return
-     * @version 1.0.1
+     *
+     * @param tradeNo tradeNo
+     * @return io.github.wslxm.springbootplus2.basepay.manage.model.entity.PayRecord
+     * @version 1.0.0
      */
     PayRecord findOrderByTradeNo(String tradeNo);
 

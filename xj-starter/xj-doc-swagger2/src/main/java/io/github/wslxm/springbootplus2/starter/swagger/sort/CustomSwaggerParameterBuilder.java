@@ -99,7 +99,8 @@ public class CustomSwaggerParameterBuilder implements ExpandedParameterBuilderPl
                 .parameterAccess(apiModelProperty.access())
                 .hidden(apiModelProperty.hidden())
                 .scalarExample(apiModelProperty.example())
-                .order(apiModelProperty.position()) //源码这里是: SWAGGER_PLUGIN_ORDER，需要修正
+                //源码这里是: SWAGGER_PLUGIN_ORDER，需要修正
+                .order(apiModelProperty.position())
                 .build();
     }
 

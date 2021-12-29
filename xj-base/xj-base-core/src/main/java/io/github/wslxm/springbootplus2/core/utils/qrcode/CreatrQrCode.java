@@ -38,9 +38,12 @@ public class CreatrQrCode {
     // 生成的二维码文件格式 FILE_TYPE
     public static final String FILE_TYPE = "jpeg";
     // 带logo的二维码属性配置
-    public static final Color DEFAULT_BORDERCOLOR = Color.WHITE; // logo 默认边框颜色
-    public static final int DEFAULT_BORDER = 2;                  // logo 默认边框宽度
-    public static final int DEFAULT_LOGOPART = 4;                // logo 大小默认为照片的1/4
+    // logo 默认边框颜色
+    public static final Color DEFAULT_BORDERCOLOR = Color.WHITE;
+    // logo 默认边框宽度
+    public static final int DEFAULT_BORDER = 2;
+    // logo 大小默认为照片的1/4
+    public static final int DEFAULT_LOGOPART = 4;
     private static final int BORDER = DEFAULT_BORDER;
     private static final Color BORDER_COLOR = DEFAULT_BORDERCOLOR;
     private static final int LOGOPART = DEFAULT_LOGOPART;
@@ -148,7 +151,8 @@ public class CreatrQrCode {
             Graphics2D g = image.createGraphics();
             // 计算宽高
             int widthLogo = image.getWidth() / LOGOPART;
-            int heightLogo = image.getWidth() / LOGOPART; //保持二维码是正方形的
+            //保持二维码是正方形的
+            int heightLogo = image.getWidth() / LOGOPART;
             // logo放置位置
             int x = (image.getWidth() - widthLogo) / 2;
             int y = (image.getHeight() - heightLogo) / 2;

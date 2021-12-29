@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author wangsong
+ */
 @RestController
-@RequestMapping(BaseConstant.Uri.apiOpen + "/xj/sign")
+@RequestMapping(BaseConstant.Uri.API_OPEN + "/xj/sign")
 @Api(value = "XjAdminBannerController", tags = "body参数验签测试")
 public class TestSignContoller {
 

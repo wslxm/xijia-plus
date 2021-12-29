@@ -1,8 +1,9 @@
 package io.github.wslxm.springbootplus2.starter.qq.controller;
 
+import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
-import io.github.wslxm.springbootplus2.starter.qq.model.vo.QQLoginVO;
-import io.github.wslxm.springbootplus2.starter.qq.service.QQLoginService;
+import io.github.wslxm.springbootplus2.starter.qq.model.vo.QqLoginVO;
+import io.github.wslxm.springbootplus2.starter.qq.service.QqLoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,24 +19,24 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(value = "QQController", tags = "QQ  -->  QQ互联")
-@RequestMapping("/api/open/qq")
-public class QQController {
+@RequestMapping(BaseConstant.Uri.API_OPEN +"/qq")
+public class QqController {
 
 
     @Autowired
-    private QQLoginService qqLoginService;
+    private QqLoginService qqLoginService;
 
 
     @RequestMapping(value = "/getQQLoginUrl", method = RequestMethod.GET)
     @ApiOperation("获取qq登录链接")
-    public R<String> getQQLoginUrl()  {
-        return R.success(qqLoginService.getQQLoginUrl());
+    public R<String> getQqLoginUrl()  {
+        return R.success(qqLoginService.getQqLoginUrl());
     }
 
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     @ApiOperation("qq登录,通过code")
-    public R<QQLoginVO> login(String code)  {
+    public R<QqLoginVO> login(String code)  {
         return R.success(qqLoginService.getUserInfo(code));
     }
 }
