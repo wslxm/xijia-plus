@@ -36,6 +36,6 @@ public class AdminUserQuery extends BaseQuery {
     @ApiModelProperty(value = "终端（字典code）")
     private Integer terminal;
     @ApiModelProperty(value = "是否只查询当前登录人创建的用户,默认false", notes = "需要多层级的结构权限,在角色列表查询，和用户分配时使用传递true",position = 5)
-    private Boolean isLoginUser = false;
+    private Boolean isLoginUser;
 
 }

@@ -26,7 +26,7 @@ public class XjAdminMsgQuery extends BaseQuery {
     private Integer isRead;
 
     @ApiModelProperty(value = "是否只查询当前登录人的信息, 默认true", position = 2)
-    private Boolean isLoginUser = true;
+    private Boolean isLoginUser ;
 
     @ApiModelProperty(value = "查询指定消息集", position = 3)
     private String msgTypes;

@@ -32,6 +32,9 @@ public class AdminOrganServiceImpl extends BaseIServiceImpl<AdminOrganMapper, Ad
 
     @Override
     public List<AdminOrganVO> list(AdminOrganQuery query) {
+        if (query.getIsTree() == null) {
+            query.setIsTree(false);
+        }
         LambdaQueryWrapper<AdminOrgan> queryWrapper = new LambdaQueryWrapper<AdminOrgan>()
                 .eq(query.getDisable() != null, AdminOrgan::getDisable, query.getDisable())
                 .eq(StringUtils.isNotBlank(query.getPid()), AdminOrgan::getPid, query.getPid())

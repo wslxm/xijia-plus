@@ -10,8 +10,9 @@ import lombok.ToString;
 /**
  * 权限接口表
  * <p>
- *  ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655
+ * ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655
  * </p>
+ *
  * @author wangsong
  * @email 1720696548@qq.com
  * @date 2020-08-22 13:25:02
@@ -39,8 +40,8 @@ public class AdminAuthorityQuery extends BaseQuery {
     private String roleId;
 
     @ApiModelProperty(notes = "控制参数--是否只查询当前用户登录存在的权限(默认flase)", position = 4)
-    private Boolean isLoginUser = false;
+    private Boolean isLoginUser;
 
-    @ApiModelProperty(notes = "控制参数--是否返回Tree结构数据(true=Tree结构数据  false=返回list结构数据)", position = 5)
-    private Boolean isTree = false;
+    @ApiModelProperty(notes = "控制参数--是否返回Tree结构数据(true=Tree结构数据  false=返回list结构数据(默认))", position = 5)
+    private Boolean isTree;
 }

@@ -61,6 +61,12 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      */
     @Override
     public List<AdminAuthorityVO> list(AdminAuthorityQuery query) {
+        if (query.getIsLoginUser() == null) {
+            query.setIsLoginUser(false);
+        }
+        if (query.getIsTree() == null) {
+            query.setIsTree(false);
+        }
         // 1、查询指定用户 或 所有权限数据, 或指定pid 的数据
         String loginUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
         List<AdminAuthority> authoritys = adminAuthorityMapper.findByUserIdAuthority(loginUserId, query.getPid(), query.getType(), query.getState(), query.getDisable());

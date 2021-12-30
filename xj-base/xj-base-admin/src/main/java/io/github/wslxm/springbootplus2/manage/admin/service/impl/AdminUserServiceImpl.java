@@ -58,6 +58,9 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     @Override
     public IPage<AdminUserVO> list(AdminUserQuery query) {
+        if (query.getIsLoginUser() == null) {
+            query.setIsLoginUser(false);
+        }
         // 是否只查询当前登录人创建的用户
         String createUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
         if (query.getCurrent() <= 0) {

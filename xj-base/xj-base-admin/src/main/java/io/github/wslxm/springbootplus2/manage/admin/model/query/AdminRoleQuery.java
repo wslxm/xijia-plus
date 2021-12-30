@@ -30,10 +30,10 @@ public class AdminRoleQuery extends BaseQuery {
     private String userId;
 
     @ApiModelProperty(value = "是否踢除userId 查询参数,踢除后用户是否存在角色将改为 isChecked=true/false 来标记, true-踢除 false-不踢除(默认)  ", position = 4)
-    private Boolean isUserIdChecked = false;
+    private Boolean isUserIdChecked;
 
     @ApiModelProperty(value = "是否只查询当前登录人创建的角色, true-是 false-否(默认),需要多层级的结构权限,在角色列表查询，和用户分配时使用传递true ", position = 5)
-    private Boolean isLoginUser = false;
+    private Boolean isLoginUser;
 
 }
 

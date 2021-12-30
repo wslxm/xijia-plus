@@ -6,7 +6,6 @@ import io.github.wslxm.springbootplus2.core.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.model.BaseVo;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
-import io.github.wslxm.springbootplus2.core.enums.Admin;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
@@ -46,6 +45,15 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
 
     @Override
     public List<AdminMenuVO> list(AdminMenuQuery query) {
+        if (query.getIsLoginUser() == null) {
+            query.setIsLoginUser(false);
+        }
+        if (query.getIsTree() == null) {
+            query.setIsTree(false);
+        }
+        if (query.getIsBottomLayer() == null) {
+            query.setIsBottomLayer(true);
+        }
         // 判断是否只查询当前登录人存在的菜单
         String loginUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
         Integer terminal = query.getTerminal();

@@ -53,8 +53,12 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
 
     @Override
     public IPage<AdminRoleVO> list(AdminRoleQuery query) {
-
-
+        if (query.getIsUserIdChecked() == null) {
+            query.setIsUserIdChecked(false);
+        }
+        if (query.getIsLoginUser() == null) {
+            query.setIsLoginUser(false);
+        }
         // 是否只查询当前登录人创建的角色
         String createUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
         // 是否不屏蔽用户id查询数据,只用 IsChecked 标记，将queryUserId单独存放起来
@@ -94,10 +98,11 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
 
     /**
      * 添加角色-默认有所有URL 权限
-     * @author wangsong
+     *
      * @param dto
-     * @date 2020/9/19 0019 10:56
      * @return java.lang.Boolean
+     * @author wangsong
+     * @date 2020/9/19 0019 10:56
      * @version 1.0.1
      */
     @Override
@@ -149,9 +154,10 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
 
     /**
      * 分配用户的角色
+     *
+     * @return boolean
      * @author wangsong
      * @date 2020/8/9 0009 9:41
-     * @return boolean
      * @version 1.0.1
      */
     @Override
@@ -171,7 +177,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
 
 
     /**
-     *  分配角色菜单权限
+     * 分配角色菜单权限
      *
      * @return void
      * @author ws
@@ -196,9 +202,10 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
 
     /**
      * 所有角色拥有所有权限
+     *
+     * @return boolean
      * @author wangsong
      * @date 2020/10/9 0009 15:50
-     * @return boolean
      * @version 1.0.1
      */
     @Override
@@ -223,7 +230,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
     }
 
     /**
-     *  分配角色url权限
+     * 分配角色url权限
      *
      * @return void
      * @author ws

@@ -11,6 +11,7 @@ import router from '@/router/router'
 import {serialize} from '@/util/util'
 import {getToken} from '@/util/auth'
 import {Message} from 'element-ui'
+import {signQuery, signBody} from '@/util/SignUtil'
 import website from '@/config/website';
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
@@ -32,9 +33,9 @@ NProgress.configure({
 });
 
 
-//HTTPrequest拦截
+//HTTP request拦截
 axios.interceptors.request.use(config => {
-    NProgress.start() // start progress bar
+    NProgress.start();  // start progress bar
     const meta = (config.meta || {});
     const isToken = meta.isToken === false;
     if (getToken() && !isToken) {
@@ -44,13 +45,21 @@ axios.interceptors.request.use(config => {
     if (config.method === 'post' && meta.isSerialize === true) {
         config.data = serialize(config.data);
     }
-    return config
+
+    // 加签
+    let timestamp = new Date().getTime();
+    let sign = signQuery(config.url, config.params, timestamp);
+    sign = sign != null ? sign : signBody(config.data, timestamp);
+    config.headers['timestamp'] = `${timestamp}`;
+    config.headers['sign'] = `${sign}`;
+
+    return config;
 }, error => {
     return Promise.reject(error)
 });
 
 
-//HTTPresponse拦截
+//HTTP response拦截
 axios.interceptors.response.use(res => {
     console.debug(res.config.url, "  =》 res:", res)
     NProgress.done();

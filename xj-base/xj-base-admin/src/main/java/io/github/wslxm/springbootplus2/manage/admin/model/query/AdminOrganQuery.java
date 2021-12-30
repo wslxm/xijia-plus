@@ -29,7 +29,7 @@ public class AdminOrganQuery extends Convert {
     private Integer disable;
 
     @ApiModelProperty(value = "是否返回Tree数据,--非必传,  true=-返回tree false-返回list(默认)",position = 5)
-    private Boolean isTree = false;
+    private Boolean isTree ;
 
 }
 

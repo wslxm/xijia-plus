@@ -31,14 +31,14 @@ public class AdminMenuQuery extends Convert {
     private Integer disable;
 
     @ApiModelProperty(value = "是否返回Tree数据,--非必传,  true=-返回tree false-返回list(默认)", position = 5)
-    private Boolean isTree = false;
+    private Boolean isTree ;
 
     @ApiModelProperty(value = "是否需要最后一级的数据--非必传,  true需要(默认) false-不需要", position = 6)
-    private Boolean isBottomLayer = true;
+    private Boolean isBottomLayer;
 
     @ApiModelProperty(value = "查询级别(变根父级时查询列表)--非必传,查询参数当前选中数据的级别-1 (1-目录 2-菜单 3-页面)", position = 6)
     private Integer root;
 
     @ApiModelProperty(value = "是否只返回当前用户存在的菜单--非必传,  true是 false-否(默认))", position = 7)
-    private Boolean isLoginUser = false;
+    private Boolean isLoginUser ;
 }
