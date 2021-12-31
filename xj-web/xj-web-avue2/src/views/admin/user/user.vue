@@ -66,7 +66,7 @@
                 uri: {
                     infoList: "/api/admin/user/list",
                     info: "/api/admin/user",
-                    organInfo: "/api/admin/organ/list?disable=0",
+                    organInfo: "/api/admin/organ/list",
                     roleInfo: "/api/admin/role/list",
                     resetPassword: "/api/admin/user/{id}/resetPassword"
                 },
@@ -158,7 +158,7 @@
             // 部门数据(弹层数据)
             this.crud.get(this.uri.organInfo, {disable: 0, isTree: true}).then((res) => {
                 this.organs = res.data.data;
-            })
+            });
             // 角色数据(弹层数据)
             this.crud.get(this.uri.roleInfo, {disable: 0}).then((res) => {
                 console.debug(res)

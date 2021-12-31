@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.admin.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.config.filter.sing.annotation.XjSecret;
 import io.github.wslxm.springbootplus2.core.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
@@ -27,7 +28,7 @@ import java.util.List;
  * @date 2019/11/13 13:38
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/user")
+@RequestMapping(BaseConstant.Uri.API_ADMIN + "/user")
 @Api(value = "AdminUserController", tags = "base--用户管理")
 public class AdminUserController extends BaseController<AdminUserService> {
 
@@ -101,7 +102,7 @@ public class AdminUserController extends BaseController<AdminUserService> {
             @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query"),
             @ApiImplicitParam(name = "terminal", value = "终端", required = false, paramType = "query"),
     })
-    public R<Boolean> login(@RequestParam String username, @RequestParam String password, Integer terminal) {
+    public R<Boolean> login(@RequestParam String username, @XjSecret @RequestParam String password, Integer terminal) {
         return R.success(baseService.login(username, password, terminal));
     }
 

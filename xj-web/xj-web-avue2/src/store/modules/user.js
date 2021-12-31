@@ -18,15 +18,17 @@ const user = {
 
         //根据用户名登录
         LoginByUsername({commit}, userInfo = {}) {
-            console.log("---")
+            console.log("---");
             // const user = encryption({
             //   data: userInfo,
             //   type: 'Aes',
             //   key: 'avue',
             //   param: ['useranme', 'password']
             // });
+            let password =  Base64.encode(userInfo.password);
+            //Base64.decode('abcdefg');
             return new Promise((resolve) => {
-                loginByUsername(userInfo.username, userInfo.password, userInfo.code, userInfo.redomStr).then(res => {
+                loginByUsername(userInfo.username, password, userInfo.code, userInfo.redomStr).then(res => {
                     commit('SET_TOKEN', res.headers.token);
                     commit('DEL_ALL_TAG', []);
                     commit('CLEAR_LOCK');

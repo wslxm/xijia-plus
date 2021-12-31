@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.manage.admin.service.*;
 import io.github.wslxm.springbootplus2.core.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.core.auth.util.JwtUtil;
@@ -82,7 +83,8 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         this.verifyRepeatePhone(dto.getPhone(), null, dto.getTerminal(), null);
         //
         AdminUser adminUser = dto.convert(AdminUser.class);
-        adminUser.setPassword(Md5Util.encode(adminUser.getPassword()));
+        adminUser.setId(IdUtil.snowflakeId());
+        adminUser.setPassword(Md5Util.encode(adminUser.getPassword(), adminUser.getId()));
         adminUser.setRegTime(LocalDateTime.now());
         if (dto.getDisable() == null) {
             // 如果未设置状态,默认启用状态
@@ -201,7 +203,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     @Override
     public Boolean updResetPassword(String id, String password) {
         return this.update(new LambdaUpdateWrapper<AdminUser>()
-                .set(AdminUser::getPassword, Md5Util.encode(password))
+                .set(AdminUser::getPassword, Md5Util.encode(password, id))
                 .eq(AdminUser::getId, id));
     }
 
@@ -209,10 +211,10 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     @Override
     public Boolean updByPassword(String oldPassword, String password) {
         AdminUser adminUser = this.getById(JwtUtil.getJwtUser(request).getUserId());
-        if (!adminUser.getPassword().equals(Md5Util.encode(oldPassword))) {
+        if (!adminUser.getPassword().equals(Md5Util.encode(oldPassword, adminUser.getId()))) {
             throw new ErrorException(RType.USER_PASSWORD_ERROR);
         }
-        adminUser.setPassword(Md5Util.encode(password));
+        adminUser.setPassword(Md5Util.encode(password, adminUser.getId()));
         return this.updateById(adminUser);
     }
 
@@ -250,7 +252,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
             }
         }
         // 2、判断密码
-        if (!user.getPassword().equals(Md5Util.encode(password))) {
+        if (!user.getPassword().equals(Md5Util.encode(password,user.getId()))) {
             throw new ErrorException(RType.LOGIN_ERROR_USER_PASSWORD);
         }
         // 3、判断禁用
@@ -265,7 +267,9 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
      * 验证账号是否重复
      *
      * @param username    新手机号
-     * @param oldUserName 原手机号
+     * @param oldUserName 原手机号(注册可不填)
+     * @param terminal    终端
+     * @param oldTerminal 原终端(注册可不填)
      * @return void
      * @author wangsong
      * @date 2021/9/30 0030 14:12
@@ -290,8 +294,10 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     /**
      * 验证手机号是否重复
      *
-     * @param phone    新手机号
-     * @param oldPhone 原手机号
+     * @param phone       新手机号
+     * @param oldPhone    原手机号(注册可不填)
+     * @param terminal    终端
+     * @param oldTerminal 原终端(注册可不填)
      * @return void
      * @author wangsong
      * @date 2021/9/30 0030 14:11

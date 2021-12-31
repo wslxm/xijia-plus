@@ -26,31 +26,32 @@ import dayjs from 'dayjs'
 import website from '@/config/website'
 import crud from '@/util/crud' // 通用crud/文件下载等方法
 import dict from '@/util/dict' // 字典
+const  Base64 = require('js-base64').Base64;  // base64 工具
 
-window.$crudCommon = crudCommon
-Vue.prototype.$dayjs = dayjs
+window.$crudCommon = crudCommon;
+Vue.prototype.$dayjs = dayjs;
 Vue.prototype.website = website;
 Vue.prototype.crud = crud;
 Vue.prototype.dict = dict;
 Vue.config.productionTip = false;
-Vue.use(VueAxios, axios)
+Vue.use(VueAxios, axios);
 Vue.use(Element, {
   i18n: (key, value) => i18n.t(key, value)
-})
+});
 Vue.use(AVUE, {
   i18n: (key, value) => i18n.t(key, value)
-})
+});
 //注册全局容器
 Vue.component('basicContainer', basicContainer)
 Vue.component('basicBlock', basicBlock)
 // 加载相关url地址
 Object.keys(urls).forEach(key => {
   Vue.prototype[key] = urls[key];
-})
+});
 // 动态加载阿里云字体库
 iconfontVersion.forEach(ele => {
   loadStyle(iconfontUrl.replace('$key', ele));
-})
+});
 
 new Vue({
   router,
