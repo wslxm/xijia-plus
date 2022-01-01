@@ -27,5 +27,7 @@ public class Swagger2MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
         // 需要用到的webjars（包含js、css等）
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        // Knife4j 页面访问
+        registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
     }
 }

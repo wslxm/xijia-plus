@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.starter.swagger.config;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import com.google.common.collect.Lists;
 import io.github.wslxm.springbootplus2.starter.swagger.properties.SwaggerProperties;
 import io.swagger.annotations.ApiOperation;
@@ -29,6 +30,7 @@ import java.util.List;
  */
 @Configuration
 @EnableSwagger2
+@EnableKnife4j
 public class SwaggerConfig {
 
 
