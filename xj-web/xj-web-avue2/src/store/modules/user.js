@@ -25,7 +25,7 @@ const user = {
             //   key: 'avue',
             //   param: ['useranme', 'password']
             // });
-            let password =  Base64.encode(userInfo.password);
+            let password = Base64.encode(userInfo.password);
             //Base64.decode('abcdefg');
             return new Promise((resolve) => {
                 loginByUsername(userInfo.username, password, userInfo.code, userInfo.redomStr).then(res => {
@@ -80,28 +80,28 @@ const user = {
         LogOut({commit}) {
             return new Promise((resolve) => {
                 //  logout().then(() => {
-                commit('SET_TOKEN', '')
+                commit('SET_TOKEN', '');
                 commit('SET_MENUALL_NULL', []);
-                commit('SET_MENU', [])
-                commit('SET_TAG_LIST', [])
-                commit('SET_ROLES', [])
+                commit('SET_MENU', []);
+                commit('SET_TAG_LIST', []);
+                commit('SET_ROLES', []);
                 commit('DEL_ALL_TAG', []);
                 commit('CLEAR_LOCK');
-                removeToken()
+                removeToken();
                 resolve()
             })
         },
         //注销session
         FedLogOut({commit}) {
             return new Promise(resolve => {
-                commit('SET_TOKEN', '')
+                commit('SET_TOKEN', '');
                 commit('SET_MENUALL_NULL', []);
-                commit('SET_MENU', [])
-                commit('SET_TAG_LIST', [])
-                commit('SET_ROLES', [])
+                commit('SET_MENU', []);
+                commit('SET_TAG_LIST', []);
+                commit('SET_ROLES', []);
                 commit('DEL_ALL_TAG', []);
                 commit('CLEAR_LOCK');
-                removeToken()
+                removeToken();
                 resolve()
             })
         },
@@ -140,16 +140,16 @@ const user = {
                         for (let i = 0; i < newMenus.length; i++) {
                             if (newMenus[i].id == item.id) {
                                 // 缓存左菜单
-                                commit('SET_MENUALL', newMenus[i].menus)
-                                commit('SET_MENU', newMenus[i].menus)
+                                commit('SET_MENUALL', newMenus[i].menus);
+                                commit('SET_MENU', newMenus[i].menus);
                                 resolve(newMenus[i].menus)
                                 break
                             }
                         }
                     } else {
                         // 缓存左菜单
-                        commit('SET_MENUALL', newMenus[0].menus)
-                        commit('SET_MENU', newMenus[0].menus)
+                        commit('SET_MENUALL', newMenus[0].menus);
+                        commit('SET_MENU', newMenus[0].menus);
                         resolve(newMenus[0].menus)
                     }
                 })
@@ -158,9 +158,9 @@ const user = {
     },
     mutations: {
         SET_TOKEN: (state, token) => {
-            setToken(token)
+            setToken(token);
             state.token = token;
-            setStore({name: 'token', content: state.token})
+            // setStore({name: 'token', content: state.token})
         },
         SET_MENUID(state, menuId) {
             state.menuId = menuId;
@@ -174,16 +174,16 @@ const user = {
                 if (!menu.find(item => item.label == ele.label && item.path == ele.path)) {
                     menu.push(ele);
                 }
-            })
-            state.menuAll = menu
+            });
+            state.menuAll = menu;
             setStore({name: 'menuAll', content: state.menuAll})
         },
         SET_MENUALL_NULL: (state) => {
-            state.menuAll = []
+            state.menuAll = [];
             setStore({name: 'menuAll', content: state.menuAll})
         },
         SET_MENU: (state, menu) => {
-            state.menu = menu
+            state.menu = menu;
             setStore({name: 'menu', content: state.menu})
         },
         SET_ROLES: (state, roles) => {
@@ -196,7 +196,7 @@ const user = {
             });
         }
     }
-}
+};
 
 
 /**
