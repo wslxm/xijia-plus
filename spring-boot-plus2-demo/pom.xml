@@ -23,10 +23,10 @@
             <groupId>io.github.wslxm</groupId>
             <artifactId>xj-api-aliyun-oss</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-api-qq-open</artifactId>
-        </dependency>
+         <!--  <dependency>-->
+         <!--      <groupId>io.github.wslxm</groupId>-->
+         <!--      <artifactId>xj-api-qq-open</artifactId>-->
+         <!--  </dependency>-->
     </dependencies>
 
     <!-- 打jar包配置 -->

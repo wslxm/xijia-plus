@@ -132,7 +132,6 @@
                     info: "/api/admin/dictionary",
                     generateEnum: "/api/admin/dictionary/generateEnum?enumsKey={enumsKey}",
                     updPidInfoList: "/api/admin/dictionary/list?isTree=true&isBottomLayer=false",
-                    updPidInfoList: "/api/admin/dictionary/list?isTree=true&isBottomLayer=false",
                 },
                 loading: true,
                 dialogWidth: "60%",
@@ -155,14 +154,14 @@
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
 
             //this.option.menu = false
-            this.option.defaultExpandAll = true
-            this.option.index = false
-            this.option.rowKey = "id"
+            this.option.defaultExpandAll = true;
+            this.option.index = false;
+            this.option.rowKey = "id";
             //this.option. = "id"
-            this.option.height = 600
+            this.option.height = 600;
             this.option.treeProps = {
                 children: 'dictList'
-            }
+            };
             this.option.column = [
                 {
                     label: '字典名称',
@@ -208,7 +207,7 @@
         },
         methods: {
             onLoad() {
-                console.log("===")
+                console.log("===");
                 // 获取搜索key- code
                 let code = null;
                 if (this.search.diceThreeCode != null) {

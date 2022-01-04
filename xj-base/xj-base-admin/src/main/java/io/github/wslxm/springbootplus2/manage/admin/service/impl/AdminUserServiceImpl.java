@@ -177,7 +177,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // 登录成功
         // 4、获取权限列表,保存权限-未禁用,管理端(登录+认证的)
         List<String> authList = adminAuthorityService.findByUserIdAuthority(user.getId());
-        // 获取登录token 有效期
+        // 获取token 默认设置的有效期
         XjAdminConfigVO configVO = xjAdminConfigService.findByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
         Integer expiration = configVO != null ? Integer.parseInt(configVO.getContent()) : 60;
 

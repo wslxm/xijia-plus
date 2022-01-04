@@ -41,20 +41,20 @@
         created() {
             // 添加配置
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
-            this.option.refreshBtn = false
-            this.option.height = 560
+            this.option.refreshBtn = false;
+            this.option.height = 560;
             this.option.index = false;
             this.option.menu = false;
             this.option.tip = false;
-            this.option.rowKey = "id"
+            this.option.rowKey = "id";
             //this.option.height = 200;
             // 开启多选
             this.option.selection = true;
             this.option.reserveSelection = true;
-            this.option.defaultExpandAll = true
+            this.option.defaultExpandAll = true;
             this.option.treeProps = {
                 children: 'dictList'
-            }
+            };
             this.option.column = [
                 {
                     label: '字典名',

@@ -7,6 +7,7 @@ import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.core.utils.json.JsonUtil;
 import io.github.wslxm.springbootplus2.core.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.core.cache.cache.ConfigCacheKey;
@@ -48,8 +49,9 @@ public class JwtUtil {
 
     /**
      * 生成管理端的 token
-     * @param jwtUser 用户信息
-     * @param refreshTime  刷新时间(分),相当于 token的有效期
+     *
+     * @param jwtUser     用户信息
+     * @param refreshTime 刷新时间(分),相当于 token的有效期
      * @param response
      * @return java.lang.String
      * @date 2020/7/6 0006 9:26
@@ -74,18 +76,22 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + refreshTime))
                 // 加密方式,加密key
                 .signWith(SignatureAlgorithm.HS256, APPSECRET_KEY).compact();
-        // 放入Header
-        response.setHeader(TOKEN, jwtToken);
+
+        // jwt 信息放入缓存
+        String snowflakeId = IdUtil.snowflakeId();
+        CacheUtil.set(snowflakeId, jwtToken);
+        // 放入 Header
+        response.setHeader(TOKEN, snowflakeId);
         return jwtToken;
     }
 
 
     /**
-     *
      * 获取用户信息（自动区分登录类型--生成jwt时指定, jwtUser的type ）
-     *  <P>
-     *     此方法用于在项目中的任意地方获取用户信息，如果在登录授权验证中未过期，但在项目使用时过期, 会在这里抛出自定义异常，程序中无需判断
-     *  </P>
+     * <p>
+     * 此方法用于在项目中的任意地方获取用户信息，如果在登录授权验证中未过期，但在项目使用时过期, 会在这里抛出自定义异常，程序中无需判断
+     * </P>
+     *
      * @param token
      * @return
      */
@@ -101,26 +107,28 @@ public class JwtUtil {
     /**
      * 获取登录信息，如过 token无效过期等，会进入对应的异常信息中返回
      * <p>
-     *     1、此方法用于权限验证, aop中，日志中获取用户信息, 注意返回的 R，如果出现异常,过期等信息不会直接抛出, 将返回到R 中
-     *     2、此方法可在业务代码中判断当前是否登录( R.getCode == 200 表示登录/ 其他情况表示未登录)
-     *         示例代码：
-     *         R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, response);
-     *         Boolean isLogin = jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue()) ? true : false;
-     *         if (isLogin) {
-     *             String userId = jwtUserR.getData().getUserId();
-     *         }
+     * 1、此方法用于权限验证, aop中，日志中获取用户信息, 注意返回的 R，如果出现异常,过期等信息不会直接抛出, 将返回到R 中
+     * 2、此方法可在业务代码中判断当前是否登录( R.getCode == 200 表示登录/ 其他情况表示未登录)
+     * 示例代码：
+     * R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, response);
+     * Boolean isLogin = jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue()) ? true : false;
+     * if (isLogin) {
+     * String userId = jwtUserR.getData().getUserId();
+     * }
      * </p>
+     *
      * @param request
      * @param response
      * @return
      */
     public static R<JwtUser> getJwtUserR(HttpServletRequest request, HttpServletResponse response) {
-        String token = request.getHeader(TOKEN);
+        String snowflakeId = request.getHeader(TOKEN);
+        String jwtToken = CacheUtil.get(snowflakeId, String.class);
         try {
-            if (token == null || token == "") {
+            if (jwtToken == null || jwtToken == "") {
                 return R.error(RType.AUTHORITY_NO_TOKEN);
             }
-            Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
+            Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(jwtToken).getBody();
             return R.success(getClaimsJwtUser(claims));
         } catch (ExpiredJwtException ex) {
             /**
@@ -168,6 +176,7 @@ public class JwtUtil {
 
     /**
      * 获取用户信息的具体方法
+     *
      * @param claims
      * @return
      */

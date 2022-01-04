@@ -66,7 +66,7 @@
                             let urlItem = {
                                 name: urls[i].substring(urls[i].lastIndexOf("/") + 1),
                                 url: urls[i]
-                            }
+                            };
                             this.fileList.push(urlItem);
                         }
                     }

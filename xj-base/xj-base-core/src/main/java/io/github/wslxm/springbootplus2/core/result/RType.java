@@ -1,7 +1,6 @@
 package io.github.wslxm.springbootplus2.core.result;
 
 import com.baomidou.mybatisplus.core.enums.IEnum;
-import com.google.common.base.Enums;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -59,7 +58,7 @@ public enum RType implements IEnum {
     GENERATE_CODE_JDBC_ERROR(8001, "数据源连接信息错误"),
     // admin 模块[8101-8199]
     // 登录注册及用户相关
-    LOGIN_ERROR_USER_PASSWORD(8101, "用户名或密码错误"),
+    LOGIN_ERROR_USER_PASSWORD(8101, "密码错误"),
     LOGIN_IS_NO_ACCOUNT(8102, "用户/账号不存在"),
     LOGIN_IS_NO_DISABLE(8103, "账户被禁用"),
     PARAM_DECRYPTION_ERROR(8104, "参数解密错误"),
