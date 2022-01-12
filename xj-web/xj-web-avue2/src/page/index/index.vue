@@ -5,8 +5,7 @@
 
         <div class="avue-layout"
              :class="{'avue-layout--horizontal':isHorizontal}">
-            <div class="avue-sidebar"
-                 v-show="validSidebar">
+            <div class="avue-sidebar" v-show="validSidebar">
                 <!-- 左侧导航栏 -->
                 <logo/>
                 <sidebar/>

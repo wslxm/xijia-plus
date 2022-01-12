@@ -1,7 +1,8 @@
 <template>
     <div class="avue-top">
         <div class="top-bar__left">
-            <div class="avue-breadcrumb" :class="[{ 'avue-breadcrumb--active': isCollapse }]" v-if="setting.collapse&&!isHorizontal">
+            <div class="avue-breadcrumb" :class="[{ 'avue-breadcrumb--active': isCollapse }]"
+                 v-if="setting.collapse&&!isHorizontal">
                 <i class="icon-navicon" @click="setCollapse"></i>
             </div>
         </div>
@@ -56,7 +57,7 @@
                         :content="$t('navbar.notice')"
                         placement="bottom">
                 <div class="top-bar__item top-bar__item--show">
-                   <!-- <top-notice></top-notice>-->
+                    <!-- <top-notice></top-notice>-->
                     <top-msg></top-msg>
                 </div>
             </el-tooltip>
@@ -86,15 +87,15 @@
                      <i class="el-icon-arrow-down el-icon--right"></i>
                  </span>
                 <el-dropdown-menu slot="dropdown">
-                    <!--          <el-dropdown-item>-->
-                    <!--            <router-link to="/">{{$t('navbar.dashboard')}}</router-link>-->
-                    <!--          </el-dropdown-item>-->
-                    <!--          <el-dropdown-item>-->
-                    <!--            <router-link to="/info/index">{{$t('navbar.userinfo')}}</router-link>-->
-                    <!--          </el-dropdown-item>-->
-                    <!--          <el-dropdown-item>-->
-                    <!--            <router-link to="/info/setting">{{$t('navbar.setting')}}</router-link>-->
-                    <!--          </el-dropdown-item>-->
+                    <!--    <el-dropdown-item>-->
+                    <!--      <router-link to="/">{{$t('navbar.dashboard')}}</router-link>-->
+                    <!--    </el-dropdown-item>-->
+                    <el-dropdown-item>
+                        <router-link to="/info/index">{{$t('navbar.userinfo')}}</router-link>
+                    </el-dropdown-item>
+                    <!--    <el-dropdown-item>-->
+                    <!--      <router-link to="/info/setting">{{$t('navbar.setting')}}</router-link>-->
+                    <!--    </el-dropdown-item>-->
                     <el-dropdown-item @click.native="logout"
                                       divided>{{$t('navbar.logOut')}}
                     </el-dropdown-item>

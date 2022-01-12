@@ -59,7 +59,7 @@ export default [
                 i18n: 'info'
             },
             component: () =>
-                import( /* webpackChunkName: "views" */ '@/views/user/info')
+                import( /* webpackChunkName: "views" */ '@/views/admin/user/info')
         }, {
             path: 'setting',
             name: '个人设置',
@@ -67,7 +67,7 @@ export default [
                 i18n: 'setting'
             },
             component: () =>
-                import( /* webpackChunkName: "views" */ '@/views/user/setting')
+                import( /* webpackChunkName: "views" */ '@/views/admin/user/setting')
         }]
     }, {
         path: '/query',
