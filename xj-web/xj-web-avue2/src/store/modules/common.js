@@ -10,8 +10,8 @@ const common = {
         isRefresh: true,
         screen: -1,
         isLock: getStore({name: 'isLock'}),
-        colorName: getStore({name: 'colorName'}) || '#FF5E2C',    // 主题色 #409EFF #FF5E2C
-        themeName: getStore({name: 'themeName'}) || 'theme-hey',  // 背景主题 default
+        colorName: getStore({name: 'colorName'}) ||  website.setting.colorName,    // 主题色 #409EFF #FF5E2C
+        themeName: getStore({name: 'themeName'}) ||  website.setting.themeName,    // 背景主题 default
         lockPasswd: getStore({name: 'lockPasswd'}) || '',
         setting: website.setting
     },

@@ -9,22 +9,25 @@ export default {
     lockPage: '/lock',
     tokenTime: 60 * 60 * 24 * 15, //token过期时间(秒)
     Authorization: 'TOKEN',
-    //http的status默认放行不才用统一处理的,
+    // http的status默认放行不才用统一处理的,
     statusWhiteList: [400],
-    //标签是否可关闭
+    // 标签是否可关闭
     isFirstPage: false,
+    // 普通导航主题
     setting: {
-        sidebar: 'vertical',
-        tag: true,
-        debug: false,
-        collapse: true,
-        search: true,
-        lock: true,
-        screenshot: true,
-        fullscren: false,
-        theme: true,
-        menu: true,
-        color: true,
+        sidebar: 'vertical',    // 选项-- vertical -正常左菜单|  horizontal -左菜单在顶部横向展示
+        tag: true,              // 开关--是否开启页面 tag
+        debug: false,           // 开关-- dobug 功能项
+        collapse: true,         // 开关--菜单折叠按钮
+        search: true,           // 开关--搜索
+        lock: true,             // 开关--锁屏
+        screenshot: true,       // 开关--搜索
+        fullscren: false,       // 开关--全屏
+        menu: true,             // 开关--是否开启顶部菜单
+        theme: true,            // 开关--主题
+        color: true,            // 开关--主题色
+        colorName: "#FF5E2C",      // 默认主题色 setting.colorName
+        themeName: "theme-hey",    // 默认主题  setting.themeName
     },
     // 配置首页路径，只能配置静态路由,在登录页动态路由还没有进行注册,
     fistPage: {
