@@ -1,5 +1,6 @@
 <template>
     <div>
+        {{ this.obj.pid}}
         <avue-form ref="form" v-model="obj" :option="option"
                    @reset-change="emptytChange"
                    @submit="submit">
@@ -28,15 +29,6 @@
             closeDialog: [],
             uri: {},
             rowData: {},
-        },
-        watch: {
-            rowData: function (newRowData, oldRowData) {
-                console.log("原:", oldRowData.id, "  -->新:", newRowData.id)
-                if (newRowData != null && newRowData.id != null) {
-                    // 判断是否是添加子类别，不是添加子类rowData不会发生改变，不会触发此方法
-                    this.obj.pid = newRowData.id;
-                }
-            }
         },
         computed: {
             option() {
@@ -99,8 +91,12 @@
                 }
             }
         },
-        mounted() {
-            this.obj = this.defaultData
+        created() {
+            this.obj = this.defaultData;
+            // 判断是否是添加子类别，不是添加子类rowData不会发生改变，不会触发此方法
+            if (this.rowData !== null && JSON.stringify(this.rowData) !== '{}') {
+                this.obj.pid = this.rowData.id;
+            }
         },
         methods: {
             emptytChange() {
@@ -108,10 +104,7 @@
             },
             submit(form, done) {
                 this.crud.post(this.uri.info, this.obj).then((res) => {
-                    console.debug(res);
-                    if (res.data.code == 200) {
-                        this.closeDialog(true);
-                    }
+                    this.closeDialog(true);
                     done(form);
                 }).catch((err) => {
                     console.error(err);

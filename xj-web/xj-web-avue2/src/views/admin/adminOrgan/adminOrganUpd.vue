@@ -21,16 +21,6 @@
             uri: {},
             rowData: {},
         },
-        watch: {
-            rowData: function (newRowData, oldRowData) {
-                console.log("原:", oldRowData.id, "  -->新:", newRowData.id)
-                if (this.isIdFind) {
-                    this.findId(newRowData);
-                } else {
-                    this.obj = newRowData;
-                }
-            }
-        },
         computed: {
             option() {
                 return {
@@ -91,19 +81,22 @@
                 }
             }
         },
+        created() {
+            if (this.isIdFind) {
+                this.findId(this.rowData);
+            } else {
+                this.obj = this.rowData;
+            }
+        },
         methods: {
             emptytChange() {
                 this.closeDialog(false);
             },
             submit(form, done) {
                 this.crud.put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
-                    console.debug(res);
-                    if (res.data.code == 200) {
-                        this.closeDialog(true);
-                    }
+                    this.closeDialog(true);
                     done(form);
                 }).catch(err => {
-                    console.error(err);
                     done(form);
                 })
             },

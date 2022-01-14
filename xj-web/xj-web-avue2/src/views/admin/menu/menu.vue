@@ -10,16 +10,16 @@
                    @refresh-change="onLoad"
                    @search-change="searchChange"
                    @row-click="handleRowClick">
-            <template slot-scope="scope" slot="menuLeft">
+            <template slot-scope="" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
             </template>
 
-            <!-- 行编辑url -->
-            <template slot-scope="{scope,row,index,type,size}" slot="url">
+            <!-- 列表上进行编辑url -->
+            <template slot-scope="{row,index,type,size}" slot="url">
                 <el-input v-model="row.url" @blur="rowUrlBlur(row)" placeholder=""></el-input>
             </template>
-            <!-- 行编辑url -->
-            <template slot-scope="{scope,row,index,type,size}" slot="sort">
+            <!-- 列表上进行编辑sort -->
+            <template slot-scope="{row,index,type,size}" slot="sort">
                 <el-input v-model="row.sort" @blur="rowSortBlur(row)" placeholder=""></el-input>
             </template>
 
@@ -32,12 +32,12 @@
                 </el-switch>
             </template>
             <template slot-scope="{row,index,type,size}" slot="addMenuOrPage">
-                <el-button type="primary" plain icon="el-icon-plus" v-show="row.root <= 2" size="mini" @click="addDialogVisible = true,row.nextRoot=2">菜单</el-button>
-                <el-button type="primary" plain icon="el-icon-plus" v-show="row.root <= 2" size="mini" @click="addDialogVisible = true,row.nextRoot=3">页面</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" v-show="row.root <= 2" size="mini" @click="updRow(row,2)">菜单</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" v-show="row.root <= 2" size="mini" @click="updRow(row,3)">页面</el-button>
             </template>
             <template slot-scope="{row,index,type,size}" slot="menu">
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updPidDialogVisible = true">变更父级</el-button>
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,4)">变更父级</el-button>
                 <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
             </template>
             <template slot-scope="{row,index,type,size}" slot="head">
@@ -95,15 +95,15 @@
         mounted() {
             // 基础配置
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
-            this.option.index = false
-            this.option.defaultExpandAll = true
+            this.option.index = false;
+            this.option.defaultExpandAll = true;
             //this.option.cellBtnt = true
-            this.option.rowKey = "id"
-            this.option.height = 600
+            this.option.rowKey = "id";
+            this.option.height = 600;
             // 字段配置
             this.option.treeProps = {
                 children: 'menus'
-            }
+            };
             this.option.column =
                 [
                     {
@@ -184,6 +184,33 @@
                 this.rowData = {};
                 if (isRefresh != null && isRefresh) {
                     this.onLoad();
+                }
+            },
+            // 行编辑
+            updRow(row, type) {
+                this.rowData = row;
+                switch (type) {
+                    case 1:
+                        // 编辑
+                        this.updDialogVisible = true;
+                        break;
+                    case 2:
+                        // +菜单 (root级别 = 2)
+                        this.addDialogVisible = true;
+                        this.rowData.nextRoot = 2;
+                        break;
+                    case 3:
+                        // +页面 (root级别 = 3)
+                        this.addDialogVisible = true;
+                        this.rowData.nextRoot = 3;
+                        break;
+                    case 4:
+                        // 变更父级
+                        this.updPidDialogVisible = true;
+                        break;
+                    default:
+                        this.$message.error('操作类型错误');
+                        break;
                 }
             },
             // 行删除

@@ -9,13 +9,12 @@
                    :cell-style="cellStyle"
                    @on-load="onLoad"
                    @refresh-change="onLoad"
-                   @search-change="searchChange"
-                   @row-click="handleRowClick">
+                   @search-change="searchChange">
             <template slot-scope="scope" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
                 <el-button type="primary" size="small" plain @click="updRoleAuthAll()">所有角色分配所有权限</el-button>
             </template>
-            <template slot-scope="{scope,row,index,type,size}" slot="disable">
+            <template slot-scope="{row,index,type,size}" slot="disable">
                 <el-switch v-model="row.disable" @change="updDisable(row,index,row.disable)"
                            active-color="#13ce66" inactive-color="#ff4949"
                            :active-value=0 :inactive-value=1
@@ -23,18 +22,18 @@
                 </el-switch>
             </template>
             <template slot-scope="{row,index,type,size}" slot="menu">
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updAuthDialogVisible = true">资源分配</el-button>
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,2)">资源分配</el-button>
                 <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
             </template>
         </avue-crud>
         <!-- 弹层 -->
-        <el-dialog title="新增"  v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
-            <Add :closeDialog="closeDialog" :uri="uri" :menus="menus"></Add>
+        <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
+            <Add :closeDialog="closeDialog" :uri="uri"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
         <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
-            <Upd :closeDialog="closeDialog" :uri="uri" :menus="menus" :rowData="rowData"></Upd>
+            <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
         <el-dialog :title="'资源分配-'+this.rowData.name" v-dialogDrag v-if="updAuthDialogVisible" :visible.sync="updAuthDialogVisible" width="60%" top="6vh" @close="closeDialog">
@@ -65,26 +64,20 @@
                 },
                 loading: true,
                 dialogWidth: "40%",
-                addDialogVisible: false,   // 添加弹层开关状态
-                updDialogVisible: false,   // 添加弹层开关状态
-                updAuthDialogVisible: false,   // 资源分配
-                rowData: {},               // 当前选中行数据()
-                menus: [],                 // 弹层菜单数据
-                page: this.website.pageParams,  // 分页参数
+                addDialogVisible: false,         // 添加弹层开关状态
+                updDialogVisible: false,         // 编辑弹层开关状态
+                updAuthDialogVisible: false,     // 资源分配
+                rowData: {},                     // 当前选中行数据()
+                menus: [],                       // 弹层菜单数据
+                page: this.website.pageParams,   // 分页参数
+                data: [],                        // 列表数据
+                option: {},                      // 列表配置( mounted() 方法中配置)
                 search: {                        // 搜索参数
                     terminal: 2
                 },
-                data: [],                  // 列表数据
-                option: {}                 // 列表配置( mounted() 方法中配置)
             }
         },
-        created() {
-            // 获取菜单数据(添加弹层数据)
-            this.crud.get(this.uri.menuList.replace("{roleId}", "")).then((res) => {
-                console.debug("==", res.data.data)
-                this.menus = res.data.data;
-            })
-        },
+
         activated: function () {
             this.crud.doLayout(this, this.$refs.crudRole)
         },
@@ -168,6 +161,23 @@
                     this.onLoad();
                 }
             },
+            // 行编辑
+            updRow(row, type) {
+                this.rowData = row;
+                switch (type) {
+                    case 1:
+                        // 编辑弹层
+                        this.updDialogVisible = true;
+                        break;
+                    case 2:
+                        // 资源分配
+                        this.updAuthDialogVisible = true;
+                        break;
+                    default:
+                        this.$message.error('操作类型错误');
+                        break;
+                }
+            },
             // 行删除
             rowDel(row, index) {
                 this.crud.delRow(this, this.uri.info, row.id, index);
@@ -185,10 +195,6 @@
                     this.crud.put(this.uri.updRoleAuthAll);
                 })
 
-            },
-            // 点击保存行数据(供行操作的任意地方获取数据)
-            handleRowClick(row) {
-                this.rowData = row;
             },
             // 自动配置,单元格样式数字，对指定列设置字体颜色,大小，粗细等
             cellStyle({row, column}) {

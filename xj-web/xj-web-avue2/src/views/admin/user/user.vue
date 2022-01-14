@@ -9,33 +9,45 @@
                    :cell-style="cellStyle"
                    @on-load="onLoad"
                    @refresh-change="onLoad"
-                   @search-change="searchChange"
-                   @row-click="handleRowClick">
-            <template slot-scope="scope" slot="menuLeft">
+                   @search-change="searchChange">
+            <template slot-scope="{row}" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
             </template>
-            <template slot-scope="{scope,row,index,type,size}" slot="disable">
+            <template slot-scope="{row,index,type,size}" slot="disable">
                 <el-switch v-model="row.disable" @change="updDisable(row)"
                            active-color="#13ce66" inactive-color="#ff4949"
                            :active-value=0 :inactive-value=1
                            active-text="" inactive-text="">
                 </el-switch>
             </template>
-            <template slot-scope="{row,index,type,size}" slot="menu">
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updPwdDialogVisible = true">重置密码</el-button>
-                <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
-            </template>
             <template slot-scope="{row,index,type,size}" slot="head">
                 <el-avatar :src="row.head"></el-avatar>
             </template>
+            <template slot-scope="{row,index,type,size}" slot="menu">
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,2)">重置密码</el-button>
+                <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
+            </template>
         </avue-crud>
-        <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" top="6vh" :width="dialogWidth" @close="closeDialog">
-            <Add :closeDialog="closeDialog" :uri="uri" :organs="organs" :roles="roles"></Add>
+        <el-dialog title="新增"
+                   v-dialogDrag
+                   v-if="addDialogVisible"
+                   :visible.sync="addDialogVisible"
+                   :width="dialogWidth"
+                   top="6vh"
+                   @close="closeDialog">
+            <Add :closeDialog="closeDialog" :uri="uri"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" top="6vh" :width="dialogWidth" @close="closeDialog">
-            <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData" :organs="organs" :roles="roles"></Upd>
+
+        <el-dialog title="编辑"
+                   v-dialogDrag
+                   v-if="updDialogVisible"
+                   :visible.sync="updDialogVisible"
+                   :width="dialogWidth"
+                   top="6vh"
+                   @close="closeDialog">
+            <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
 
@@ -72,22 +84,22 @@
                 },
                 loading: true,
                 dialogWidth: "60%",
-                updPwdDialogVisible: false,   // 重置密码弹层开关状态
-                addDialogVisible: false,      // 添加弹层开关状态
-                updDialogVisible: false,      // 添加弹层开关状态
+                addDialogVisible: false,        // 添加弹层开关状态
+                updDialogVisible: false,        // 编辑弹层开关状态
+                updPwdDialogVisible: false,     // 重置密码弹层开关状态
                 page: this.website.pageParams,  // 分页参数
-                search: {                       // 搜索参数
+                data: [],                       // 列表数据
+                rowData: {},                    // 当前选中行数据
+                option: {},
+                // 搜索参数
+                search: {
                     terminal: 2
                 },
-                data: [],                  // 列表数据
-                organs: [],                // 部门数据
-                roles: [],                 // 角色数据
-                rowData: {},               // 当前选中行数据
-                rowPassword: {             // 重置密码数据保存
+                // 重置密码数据保存
+                rowPassword: {
                     info: "123456",
                     default: "123456",
                 },
-                option: {},
             }
         },
         activated: function () {
@@ -154,21 +166,6 @@
                 }
             ]
         },
-        created() {
-            // 部门数据(弹层数据)
-            this.crud.get(this.uri.organInfo, {disable: 0, isTree: true}).then((res) => {
-                this.organs = res.data.data;
-            });
-            // 角色数据(弹层数据)
-            this.crud.get(this.uri.roleInfo, {disable: 0}).then((res) => {
-                console.debug(res)
-                this.roles = res.data.data.records;
-                for (const role of this.roles) {
-                    role.value = role.id;
-                    role.label = role.name;
-                }
-            })
-        },
         methods: {
             /**
              * 直接触发：  首次自动加载 / 点击分页 / 切换分页 / 跳转也 / 点击刷新
@@ -179,7 +176,6 @@
                 this.crud.list(this, true);
                 this.crud.doLayout(this, this.$refs.crudUser);
             },
-
             // 搜索,并重置页数为1
             searchChange(params, done) {
                 this.page.currentPage = 1;
@@ -195,6 +191,23 @@
                     this.onLoad();
                 }
             },
+            // 行编辑
+            updRow(row, type) {
+                this.rowData = row;
+                switch (type) {
+                    case 1:
+                        // 编辑弹层
+                        this.updDialogVisible = true;
+                        break;
+                    case 2:
+                        // 修改密码弹层
+                        this.updPwdDialogVisible = true;
+                        break;
+                    default:
+                        this.$message.error('操作类型错误');
+                        break;
+                }
+            },
             // 行删除
             rowDel(row, index) {
                 this.crud.delRow(this, this.uri.info, row.id, index);
@@ -203,14 +216,11 @@
             updDisable(row) {
                 this.crud.put(this.uri.info + "/" + row.id, {disable: row.disable});
             },
+            // 修改密码
             updPwd() {
                 this.crud.put(this.uri.resetPassword.replace("{id}", this.rowData.id), null, {password: this.rowPassword.info});
-                this.updPwdDialogVisible = false
+                this.updPwdDialogVisible = false;
                 this.rowPassword.info = this.rowPassword.default
-            },
-            // 点击保存行数据(供行操作的任意地方获取数据)
-            handleRowClick(row) {
-                this.rowData = row;
             },
             // 自动配置,单元格样式数字，对指定列设置字体颜色,大小，粗细等
             cellStyle({row, column}) {

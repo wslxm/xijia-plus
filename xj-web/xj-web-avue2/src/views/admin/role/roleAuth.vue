@@ -42,27 +42,18 @@
             uri: {},                 // 添加接口
             rowData: {},             // 当前行数据
         },
-        // 监听数据的变化,更新当前行数据
-        watch: {
-            rowData: function (newRowData, oldRowData) {
-                console.log("原:", oldRowData.id, "  -->新:", newRowData.id)
-                if (newRowData != null && newRowData.id != null) {
-                    this.init(newRowData);
-                }
-            }
-        },
         mounted() {
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
-            this.option.menu = false
-            this.option.index = false
-            this.option.refreshBtn = false
-            this.option.height = 600
+            this.option.menu = false;
+            this.option.index = false;
+            this.option.refreshBtn = false;
+            this.option.height = 600;
             // 开启数结构
-            this.option.defaultExpandAll = true
-            this.option.rowKey = "id"
+            this.option.defaultExpandAll = true;
+            this.option.rowKey = "id";
             this.option.treeProps = {
                 children: 'authoritys'
-            }
+            };
             // 开启多选//this.option.selectOnIndeterminate = false; // 关闭全选
             this.option.selection = true;
             this.option.reserveSelection = true;
@@ -92,6 +83,7 @@
             ]
         },
         created() {
+            this.init(this.rowData);
         },
         methods: {
             init(rowData) {
@@ -132,9 +124,9 @@
              * @version 1.0.0
              */
             selectAll() {//selection
-                console.log("勾选全选")
+                console.log("勾选全选");
                 // 判断是否有选中, 有取消全部选中，没有选择全部
-                let isChecked = true
+                let isChecked = true;
                 for (let i = 0; i < this.data.length; i++) {
                     if (this.data[i].isChecked) {
                         isChecked = false;

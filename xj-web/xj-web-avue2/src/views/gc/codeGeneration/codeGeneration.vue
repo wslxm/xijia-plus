@@ -275,7 +275,7 @@
                     tableName: this.search.tableName,
                     dataSourceId: "",
                     data: JSON.stringify(this.data)
-                }
+                };
                 this.crud.download(this.uri.generateCodeVue, data);
             }
         }

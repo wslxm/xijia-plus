@@ -52,27 +52,6 @@
             uri: {},
             rowData: {},
         },
-        watch: {
-            rowData: function (newRowData, oldRowData) {
-                console.log("原:", oldRowData.id, "  -->新:", newRowData.id)
-                if (this.isIdFind) {
-                    this.findId(newRowData);
-                } else {
-                    this.obj = newRowData;
-                    // 处理图片回显
-                    if (newRowData.type == 1) {
-                        let urls = newRowData.content.split(",");
-                        for (let i = 0; i < urls.length; i++) {
-                            let urlItem = {
-                                name: urls[i].substring(urls[i].lastIndexOf("/") + 1),
-                                url: urls[i]
-                            };
-                            this.fileList.push(urlItem);
-                        }
-                    }
-                }
-            }
-        },
         computed: {
             option() {
                 return {
@@ -150,16 +129,31 @@
                 }
             }
         },
+        created() {
+            if (this.isIdFind) {
+                this.findId(this.rowData);
+            } else {
+                this.obj = this.rowData;
+                // 处理图片回显
+                if (this.rowData.type == 1) {
+                    let urls = this.rowData.content.split(",");
+                    for (let i = 0; i < urls.length; i++) {
+                        let urlItem = {
+                            name: urls[i].substring(urls[i].lastIndexOf("/") + 1),
+                            url: urls[i]
+                        };
+                        this.fileList.push(urlItem);
+                    }
+                }
+            }
+        },
         methods: {
             emptytChange() {
                 this.closeDialog(false);
             },
             submit(form, done) {
                 this.crud.put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
-                    console.debug(res);
-                    if (res.data.code == 200) {
-                        this.closeDialog(true);
-                    }
+                   this.closeDialog(true);
                     done(form);
                 }).catch(err => {
                     console.error(err);

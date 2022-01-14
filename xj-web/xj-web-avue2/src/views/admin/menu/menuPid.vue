@@ -41,22 +41,14 @@
             uri: {},                   // 接口数据
             rowData: {},               // 当前行数据
         },
-        // 监听数据的变化,更新当前行数据
-        watch: {
-            rowData: function (newRowData, oldRowData) {
-                console.debug("原:", oldRowData.id, "  -->新:", newRowData.id)
-                if (newRowData != null && newRowData.id != null) {
-                    this.obj = this.rowData;
-                    let infoPidList = this.uri.infoPidList.replace("{root}", newRowData.root - 1);
-                    this.crud.get(infoPidList).then((res) => {
-                        console.debug(res)
-                        this.menuData = res.data.data;
-                        this.menuDefaultCheckedKeys[0] = newRowData.pid;
-                    })
-                }
-            }
+        created() {
+            this.obj = this.rowData;
+            let infoPidList = this.uri.infoPidList.replace("{root}", this.rowData.root - 1);
+            this.crud.get(infoPidList).then((res) => {
+                this.menuData = res.data.data;
+                this.menuDefaultCheckedKeys[0] = this.rowData.pid;
+            })
         },
-        computed: {},
         methods: {
             emptytChange() {
                 this.closeDialog(false);
@@ -66,11 +58,8 @@
                 let pid = this.obj.pid;
                 let terminal = this.obj.terminal;
                 this.crud.put(this.uri.info + "/" + this.obj.id, {pid: pid, terminal: terminal}).then((res) => {
-                    console.debug(res);
                     // 添加成功关闭弹层
-                    if (res.data.code == 200) {
-                        this.closeDialog(true);
-                    }
+                    this.closeDialog(true);
                     done(form);
                 }).catch(err => {
                     console.debug(err);
@@ -81,7 +70,7 @@
             // 依次为：传递给 data 属性的数组中该节点所对应的对象、
             // 树目前的选中状态对象，包含 checkedNodes、checkedKeys、halfCheckedNodes、halfCheckedKeys 四个属性
             menusCheck(data, nodes) {
-                console.debug(data.id, nodes)
+                console.debug(data.id, nodes);
                 this.obj.pid = data.id;
                 this.obj.terminal = data.terminal;
                 this.$refs.reftree.setCheckedKeys([data.id]);

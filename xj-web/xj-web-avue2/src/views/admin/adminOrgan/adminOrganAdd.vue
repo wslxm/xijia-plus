@@ -30,15 +30,6 @@
             uri: {},
             rowData: {},
         },
-        watch: {
-            rowData: function (newRowData, oldRowData) {
-                console.log("原:", oldRowData.id, "  -->新:", newRowData.id)
-                if (newRowData != null && newRowData.id != null) {
-                    this.obj.pid = newRowData.id;
-                    this.obj.root = newRowData.root + 1;
-                }
-            }
-        },
         computed: {
             option() {
                 return {
@@ -99,8 +90,12 @@
                 }
             }
         },
-        mounted() {
-            this.obj = this.defaultData
+        created() {
+            this.obj = this.defaultData;
+            if (this.rowData !== null && JSON.stringify(this.rowData) !== '{}') {
+                this.obj.pid = this.rowData.id;
+                this.obj.root = this.rowData.root + 1;
+            }
         },
         methods: {
             emptytChange() {
@@ -108,10 +103,7 @@
             },
             submit(form, done) {
                 this.crud.post(this.uri.info, this.obj).then((res) => {
-                    console.debug(res);
-                    if (res.data.code == 200) {
-                        this.closeDialog(true);
-                    }
+                    this.closeDialog(true);
                     done(form);
                 }).catch((err) => {
                     console.error(err);

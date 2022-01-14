@@ -10,10 +10,10 @@ let baseWebSocketUrl = 'ws://xijia.plus/websocket/{userId}/{fullName}/{head}';
 let iconfontVersion = ['567566_82imxaft0by'];
 let iconfontUrl = `//at.alicdn.com/t/font_$key.css`;
 // 未知
-let codeUrl = `${baseUrl}/code`
+let codeUrl = `${baseUrl}/code`;
 
 
-const env = process.env
+const env = process.env;
 // if (env.NODE_ENV == 'development') {
 //   //baseUrl = `/api`;  // 开发环境地址
 // } else if (env.NODE_ENV == 'production') {

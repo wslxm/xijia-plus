@@ -30,15 +30,11 @@
             uri: {},                   // 接口数据
             rowData: {},               // 当前行数据
         },
-        watch: {
-            rowData: function (newRowData, oldRowData) {
-                console.debug("原:", oldRowData.id, "  -->新:", newRowData.id)
-                if (newRowData != null && newRowData.id != null) {
-                    this.init(newRowData);
-                }
-            }
-        },
         created() {
+            if (this.rowData !== null && JSON.stringify(this.rowData) !== '{}') {
+                this.init(this.rowData);
+            }
+
             // 添加配置
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.refreshBtn = false;
@@ -74,7 +70,7 @@
                 this.crud.get(this.uri.updPidInfoList).then((res) => {
                     this.data = res.data.data;
                     // 找到当前选中数据的父级
-                    this.checkedRow = this.getPidDictNext(this.data, newRowData)
+                    this.checkedRow = this.getPidDictNext(this.data, newRowData);
                     // 默认选中
                     this.$refs.crudDictPid.toggleSelection([this.checkedRow]);
                 })

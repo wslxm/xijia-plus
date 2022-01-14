@@ -24,8 +24,7 @@
                    :cell-style="cellStyle"
                    @on-load="onLoad"
                    @refresh-change="onLoad"
-                   @search-change="searchChange"
-                   @row-click="handleRowClick">
+                   @search-change="searchChange">
             <!-- 启用/禁用插槽(默认提供,按需使用) -->
             <template slot-scope="{scope,row,index,type,size}" slot="disable">
                 <el-switch v-if="row.method && row.url.indexOf('/api/admin/authority') == -1"
@@ -62,8 +61,8 @@
 <script>
     export default {
         components: {
-            Add: () => import('./adminAuthorityAdd'),
-            Upd: () => import('./adminAuthorityUpd')
+            // Add: () => import('./adminAuthorityAdd'),
+            // Upd: () => import('./adminAuthorityUpd')
         },
         data() {
             return {
@@ -184,10 +183,6 @@
             updState(row) {
                 this.crud.put(this.uri.info + "/" + row.id, {state: row.state});
             },
-            handleRowClick(row) {
-                this.rowData = row;
-            },
-
             cellStyle({row, column}) {
                 if (column.property == "disable") {
                     // fontWeight: 'bold',fontSize: '20'

@@ -146,8 +146,8 @@
                 }
             }
         },
-        mounted() {
-            this.obj = this.defaultData
+        created(){
+            this.obj = this.defaultData;
         },
         methods: {
             emptytChange() {

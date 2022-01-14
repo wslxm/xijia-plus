@@ -30,16 +30,15 @@
                     roles: null,
                     disable: 0,
                 },
-                // 当前数据
-                obj: {},
+                obj: {},           // 当前数据
+                organs: [],        // 部门
+                roles: []          // 角色
             }
         },
         // 接收值父组件传递值
         props: {
             closeDialog: [],    // 关闭弹层方法
             uri: {},            // 接口信息
-            organs: [],         // 部门
-            roles: []           // 角色
         },
         computed: {
             option() {
@@ -219,8 +218,21 @@
                 }
             }
         },
-        mounted() {
-            this.obj = this.defaultData
+        created() {
+            this.obj = this.defaultData;
+            // 部门数据(弹层数据)
+            this.crud.get(this.uri.organInfo, {disable: 0, isTree: true}).then((res) => {
+                this.organs = res.data.data;
+            });
+            // 角色数据(弹层数据)
+            this.crud.get(this.uri.roleInfo, {disable: 0}).then((res) => {
+                console.debug(res);
+                this.roles = res.data.data.records;
+                for (const role of this.roles) {
+                    role.value = role.id;
+                    role.label = role.name;
+                }
+            })
         },
         methods: {
             emptytChange() {

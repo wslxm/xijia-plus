@@ -132,7 +132,7 @@
                 }
             }
         },
-        mounted() {
+        created() {
             this.obj = this.defaultData
         },
         methods: {
@@ -141,10 +141,7 @@
             },
             submit(form, done) {
                 this.crud.post(this.uri.info, this.obj).then((res) => {
-                    console.debug(res);
-                    if (res.data.code == 200) {
-                        this.closeDialog(true);
-                    }
+                    this.closeDialog(true);
                     done(form);
                 }).catch((err) => {
                     console.error(err);

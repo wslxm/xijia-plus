@@ -88,7 +88,7 @@
                 }
             }
         },
-        mounted() {
+        created() {
             this.obj = this.defaultData
         },
         methods: {

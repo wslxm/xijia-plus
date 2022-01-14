@@ -39,25 +39,6 @@
             uri: {},            // 接口信息
             rowData: {},        // 行数据
         },
-        // 监听数据的变化,更新当前行数据
-        watch: {
-            rowData: function (newRowData, oldRowData) {
-                console.debug("原:", oldRowData.id, "  -->新:", newRowData.id)
-                if (newRowData != null && newRowData.id != null) {
-                    // 根据选择行设置相关默认值
-                    this.obj.terminal = newRowData.terminal;
-                    this.obj.root = newRowData.nextRoot;
-                    this.obj.pid = newRowData.id;
-                    // 修改为不可选
-                    this.defaults.terminal.disabled = true;
-                    // 添加页面时需展示路由字段
-                    if (this.obj.root == 3) {
-                        this.defaults.url.display = true;
-                    }
-                    console.debug("===" + this.obj)
-                }
-            }
-        },
         computed: {
             option() {
                 return {
@@ -77,7 +58,7 @@
                             label: '终端',
                             prop: 'terminal',
                             span: 20,
-                            //disabled: true,
+                            disabled: (this.rowData !== null && JSON.stringify(this.rowData) !== '{}'),
                             type: "radio",
                             dicData: this.dict.get(this.website.Dict.Admin.Terminal),
                         },
@@ -98,7 +79,7 @@
                             label: '路由',
                             prop: 'url',
                             span: 20,
-                            display: false
+                            display: this.obj.root === 3
                         },
 
                         {
@@ -115,8 +96,14 @@
                 }
             }
         },
-        mounted() {
-            this.obj = this.defaultData
+        created() {
+            this.obj = this.defaultData;
+            // 根据选择行设置相关默认值
+            if (this.rowData !== null && JSON.stringify(this.rowData) !== '{}') {
+                this.obj.terminal = this.rowData.terminal;
+                this.obj.root = this.rowData.nextRoot;
+                this.obj.pid = this.rowData.id;
+            }
         },
         methods: {
             emptytChange() {

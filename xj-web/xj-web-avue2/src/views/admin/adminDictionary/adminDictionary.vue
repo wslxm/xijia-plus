@@ -50,25 +50,24 @@
                    @search-change="searchChange"
                    @row-click="handleRowClick">
             <!-- 启用/禁用插槽(默认提供,按需使用) -->
-            <template slot-scope="{scope,row,index,type,size}" slot="disable">
+            <template slot-scope="{row,index,type,size}" slot="disable">
                 <el-switch v-model="row.disable" @change="updDisable(row)"
                            active-color="#13ce66" inactive-color="#ff4949"
                            :active-value=0 :inactive-value=1
                            active-text="" inactive-text="">
                 </el-switch>
             </template>
-            <!-- 添加子类别 type=2 -->
-            <template slot-scope="{row,index,type,size}" slot="addDict">
-                <el-button type="primary" plain icon="el-icon-plus" v-show="!checkNumber(row.code)" size="mini" @click="addDialogVisible = true">子类别
-                </el-button>
-            </template>
-            <template slot-scope="scope" slot="menuLeft">
-                <!-- 新增父类 type=1 -->
+            <!-- 新增父类  -->
+            <template slot-scope="" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增父类</el-button>
             </template>
+            <!-- 添加子类别  -->
+            <template slot-scope="{row,index,type,size}" slot="addDict">
+                <el-button type="primary" plain icon="el-icon-plus" v-show="!checkNumber(row.code)" size="mini" @click="updRow(row,2)">子类别</el-button>
+            </template>
             <template slot-scope="{row,index,type,size}" slot="menu">
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button> <!--row.type=3,-->
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updPidDialogVisible = true">变更父级</el-button> <!--row.type=3,-->
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,3) ">变更父级</el-button>
                 <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
             </template>
         </avue-crud>
@@ -240,6 +239,26 @@
                 this.rowData = {};
                 if (isRefresh != null && isRefresh) {
                     this.onLoad();
+                }
+            },
+            // 行编辑
+            updRow(row, type) {
+                this.rowData = row;
+                switch (type) {
+                    case 1:
+                        // 编辑
+                        this.updDialogVisible = true;
+                        break;
+                    case 2:
+                        // +子类
+                        this.addDialogVisible = true;
+                        break;
+                    case 3:
+                        this.updPidDialogVisible = true;
+                        break;
+                    default:
+                        this.$message.error('操作类型错误');
+                        break;
                 }
             },
             rowDel(row, index) {

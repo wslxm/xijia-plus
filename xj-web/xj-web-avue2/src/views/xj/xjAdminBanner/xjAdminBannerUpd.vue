@@ -10,6 +10,7 @@
 <script>
 
     import {baseUploadUrl} from "@/config/env";
+
     export default {
         data() {
             return {
@@ -22,16 +23,6 @@
             uri: {},
             rowData: {},
         },
-        watch: {
-            rowData: function (newRowData, oldRowData) {
-                console.log("原:", oldRowData.id, "  -->新:", newRowData.id)
-                if (this.isIdFind) {
-                    this.findId(newRowData);
-                } else {
-                    this.obj = newRowData;
-                }
-            }
-        },
         computed: {
             option() {
                 return {
@@ -43,7 +34,7 @@
                         {
                             label: '位置',
                             prop: 'position',
-                            labelWidth:'100',
+                            labelWidth: '100',
                             type: 'radio',
                             dicData: this.dict.get(this.website.Dict.Admin.BannerPosition),
                             span: 20,
@@ -56,7 +47,7 @@
                         {
                             label: 'banner标题',
                             prop: 'name',
-                            labelWidth:'100',
+                            labelWidth: '100',
                             maxlength: 128,
                             showWordLimit: true,
                             span: 20,
@@ -69,7 +60,7 @@
                         {
                             label: 'banner描叙',
                             prop: 'desc',
-                            labelWidth:'100',
+                            labelWidth: '100',
                             maxlength: 256,
                             showWordLimit: true,
                             span: 20,
@@ -82,7 +73,7 @@
                         {
                             label: 'banner图片',
                             prop: 'imgUrl',
-                            labelWidth:'100',
+                            labelWidth: '100',
                             dataType: 'string', // 字符串模式
                             type: 'upload',
                             listType: 'picture-img',                // 单图-[picture-img] 多图-[picture-card] 缩略图-[picture](不定义=附件)
@@ -109,7 +100,7 @@
                         {
                             label: 'banner排序',
                             prop: 'sort',
-                            labelWidth:'100',
+                            labelWidth: '100',
                             type: 'number',
                             minRows: 0,
                             maxRows: 99999999,
@@ -124,7 +115,7 @@
                         {
                             label: '是否跳转',
                             prop: 'isSkip',
-                            labelWidth:'100',
+                            labelWidth: '100',
                             type: 'radio',
                             dicData: this.dict.get(this.website.Dict.Base.BannerIsSkip),
                             span: 20,
@@ -137,7 +128,7 @@
                         {
                             label: '跳转地址url',
                             prop: 'skipUrl',
-                            labelWidth:'100',
+                            labelWidth: '100',
                             maxlength: 256,
                             showWordLimit: true,
                             span: 20,
@@ -147,16 +138,20 @@
                 }
             }
         },
+        created() {
+            if (this.isIdFind) {
+                this.findId(this.rowData);
+            } else {
+                this.obj = this.rowData;
+            }
+        },
         methods: {
             emptytChange() {
                 this.closeDialog(false);
             },
             submit(form, done) {
                 this.crud.put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
-                    console.debug(res);
-                    if (res.data.code == 200) {
-                        this.closeDialog(true);
-                    }
+                    this.closeDialog(true);
                     done(form);
                 }).catch(err => {
                     console.error(err);
@@ -166,10 +161,10 @@
             findId(newRowData) {
                 if (newRowData != null && newRowData.id != null) {
                     this.crud.get(this.uri.info + "/" + newRowData.id).then((res) => {
-                         this.obj = res.data.data;
+                        this.obj = res.data.data;
                     })
                 }
-             }
+            }
         }
     }
 </script>

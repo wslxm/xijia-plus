@@ -66,16 +66,16 @@ mybatis-plus:
 gc:
   # 代码生成后每个类上的描叙信息
   describe: ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655
-  author: ws                              # 作者
-  email: 1720696548@qq.com                # 邮箱
-  projectName: xj-base/xj-base-admin      # 项目名/路径，如：xj-server/xj-test-server
-  packPath: io.github.wslxm               # 包路径(如: io.github.wslxm)
-  rootModule: manage                      # 根模块(固定为：manage (管理端), 用户端为：client)
-  moduleName: admin                       # 子模块(如用户管理,订单管理模块拆分，也可以统一一个名称放在一起,但不建议)
-  tablePrefixDefault: t_                  # 表前缀 (生成的类名会过滤掉前缀)
-  fieldPrefixDefault:                     # 字段前缀 (生成的字段名会过滤掉前缀)
-  entitySwagger: false                    # 实体类是否使用swagger注释 (false情况下使用doc注释)
-  fatherPath:                             # 生成路径(不填默认当前项目跟目录,可指定绝对路径)
+  author: ws                                 # 作者
+  email: 1720696548@qq.com                   # 邮箱
+  projectName: xj-base/xj-base-admin         # 项目名/路径，如：xj-server/xj-test-server
+  packPath: com.test.springbootplus2         # 包路径(如: io.github.wslxm)
+  rootModule: manage                         # 根模块(固定为：manage (管理端), 用户端为：client)
+  moduleName: admin                          # 子模块(如用户管理,订单管理模块拆分，也可以统一一个名称放在一起,但不建议)
+  tablePrefixDefault: t_                     # 表前缀 (生成的类名会过滤掉前缀)
+  fieldPrefixDefault:                        # 字段前缀 (生成的字段名会过滤掉前缀)
+  entitySwagger: false                       # 实体类是否使用swagger注释 (false情况下使用doc注释)
+  fatherPath:                                # 生成路径(不填默认当前项目跟目录,可指定绝对路径)
   # 数据库通用字段配置
   basefields: id,create_user,update_user,create_time,update_time,deleted,version
   # 数据库关键字,标注后会在实体类 @TableField 注解上自动加引号

@@ -4,18 +4,18 @@
 
             <!-- 菜单树 -->
             <template slot-scope="scope" slot="menuIds">
-                    <!--<div slot="header" class="clearfix">
-                        <span>选择菜单</span>
-                    </div>-->
-                    <el-tree
-                            :data="menuData"
-                            show-checkbox
-                            node-key="id"
-                            @check="menusCheck"
-                            :default-expand-all=true
-                            :default-checked-keys="menuDefaultCheckedKeys"
-                            :props="menusProps">
-                    </el-tree>
+                <!--<div slot="header" class="clearfix">
+                    <span>选择菜单</span>
+                </div>-->
+                <el-tree
+                        :data="menuData"
+                        show-checkbox
+                        node-key="id"
+                        @check="menusCheck"
+                        :default-expand-all=true
+                        :default-checked-keys="menuDefaultCheckedKeys"
+                        :props="menusProps">
+                </el-tree>
             </template>
         </avue-form>
     </div>
@@ -34,7 +34,7 @@
                 menusProps: {
                     children: 'menus',
                     label: 'name'
-                }
+                },
             }
         },
         // 接收值父组件传递值
@@ -42,27 +42,7 @@
             closeDialog: [],         // 关闭弹层方法
             uri: {},                 // 添加接口
             rowData: {},             // 当前行数据
-            menus: [],               // 数
-        },
-        // 监听数据的变化,更新当前行数据
-        watch: {
-            rowData: function (newRowData, oldRowData) {
-                console.log("原:", oldRowData.id, "  -->新:", newRowData.id)
-                if (newRowData != null && newRowData.id != null) {
-                    console.log("=====", this.menus)
-                    this.obj = newRowData;
-                    // 获取菜单数据(弹层数据)
-                    this.crud.get(this.uri.menuList.replace("{roleId}", newRowData.id)).then((res) => {
-                        // 获取选中菜单
-                        this.menuData = res.data.data
-                        this.obj.menuIds = [];
-                        this.menuDefaultCheckedKeys = [];
-                        this.nextMenuIds(res.data.data, this.obj.menuIds, this.menuDefaultCheckedKeys)
-                        console.log("总值=", this.obj.menuIds)
-                        console.log("需回显值=", this.menuDefaultCheckedKeys)
-                    })
-                }
-            }
+
         },
         computed: {
             option() {
@@ -128,6 +108,21 @@
                 }
             }
         },
+        created() {
+            // 获取菜单选中数据
+            this.obj = this.rowData;
+            // 获取菜单数据(弹层数据)
+            this.crud.get(this.uri.menuList.replace("{roleId}", this.rowData.id)).then((res) => {
+                // 获取选中菜单
+                this.menuData = res.data.data;
+                this.obj.menuIds = [];
+                this.menuDefaultCheckedKeys = [];
+                this.nextMenuIds(res.data.data, this.obj.menuIds, this.menuDefaultCheckedKeys);
+                console.log("总值=", this.obj.menuIds);
+                console.log("需回显值=", this.menuDefaultCheckedKeys)
+            })
+        },
+
         /**
          * 请求方法
          * @author wangsong
@@ -159,8 +154,8 @@
             // 树目前的选中状态对象，包含 checkedNodes、checkedKeys、halfCheckedNodes、halfCheckedKeys 四个属性
             menusCheck(data, nodes) {
                 this.obj.menuIds = [];
-                this.obj.menuIds.push.apply(this.obj.menuIds, nodes.checkedKeys)
-                this.obj.menuIds.push.apply(this.obj.menuIds, nodes.halfCheckedKeys)
+                this.obj.menuIds.push.apply(this.obj.menuIds, nodes.checkedKeys);
+                this.obj.menuIds.push.apply(this.obj.menuIds, nodes.halfCheckedKeys);
                 console.debug("menuIds=", this.obj.menuIds)
             },
 

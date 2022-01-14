@@ -27,17 +27,6 @@
             organs: [],                // 部门数据
             roles: [],                 // 角色数据
         },
-        // 监听数据的变化,更新当前行数据
-        watch: {
-            rowData: function (newRowData, oldRowData) {
-                console.debug("原:", oldRowData.id, "  -->新:", newRowData.id)
-                if (newRowData != null && newRowData.id != null) {
-                    this.crud.get(this.uri.info + "/" + newRowData.id).then((res) => {
-                        this.obj = res.data.data;
-                    })
-                }
-            }
-        },
         computed: {
             option() {
                 return {
@@ -206,17 +195,34 @@
                 }
             }
         },
+        // 打开弹层立即执行
+        created() {
+            // 部门数据(弹层数据)
+            this.crud.get(this.uri.organInfo, {disable: 0, isTree: true}).then((res) => {
+                this.organs = res.data.data;
+            });
+            // 角色数据(弹层数据)
+            this.crud.get(this.uri.roleInfo, {disable: 0}).then((res) => {
+                console.debug(res);
+                this.roles = res.data.data.records;
+                for (const role of this.roles) {
+                    role.value = role.id;
+                    role.label = role.name;
+                }
+            });
+            // id 查询用户信息
+            this.crud.get(this.uri.info + "/" + this.rowData.id).then((res) => {
+                this.obj = res.data.data;
+            })
+        },
         methods: {
             emptytChange() {
                 this.closeDialog(false);
             },
             submit(form, done) {
                 this.crud.put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
-                    console.debug(res);
                     // 添加成功关闭弹层
-                    if (res.data.code == 200) {
-                        this.closeDialog(true);
-                    }
+                    this.closeDialog(true);
                     done(form);
                 }).catch(err => {
                     console.error(err);

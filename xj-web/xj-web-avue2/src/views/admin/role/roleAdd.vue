@@ -3,18 +3,18 @@
         <avue-form ref="form" v-model="obj" :option="option" @reset-change="emptytChange" @submit="submit">
             <!-- 菜单树 -->
             <template slot-scope="scope" slot="menuIds">
-                    <!-- <div slot="header" class="clearfix">
-                        <span>选择菜单</span>
-                    </div> -->
-                    <el-tree
-                            :data="menuData"
-                            show-checkbox
-                            node-key="id"
-                            @check="menusCheck"
-                            :default-expand-all=true
-                            :default-checked-keys="menuDefaultCheckedKeys"
-                            :props="menusProps">
-                    </el-tree>
+                <!-- <div slot="header" class="clearfix">
+                    <span>选择菜单</span>
+                </div> -->
+                <el-tree
+                        :data="menuData"
+                        show-checkbox
+                        node-key="id"
+                        @check="menusCheck"
+                        :default-expand-all=true
+                        :default-checked-keys="menuDefaultCheckedKeys"
+                        :props="menusProps">
+                </el-tree>
             </template>
         </avue-form>
     </div>
@@ -41,14 +41,13 @@
                 menusProps: {
                     children: 'menus',
                     label: 'name'
-                }
+                },
             }
         },
         // 接收值父组件传递值
         props: {
             closeDialog: [],    // 关闭弹层方法
             uri: {},             // 接口信息
-            menus: [],           // 树
         },
         computed: {
             option() {
@@ -120,6 +119,12 @@
                 }
             }
         },
+        created() {
+            // 获取菜单数据
+            this.crud.get(this.uri.menuList.replace("{roleId}", "")).then((res) => {
+                this.menuData = res.data.data;
+            })
+        },
         mounted() {
             this.obj = this.defaultData
         },
@@ -146,8 +151,8 @@
             // 树目前的选中状态对象，包含 checkedNodes、checkedKeys、halfCheckedNodes、halfCheckedKeys 四个属性
             menusCheck(data, nodes) {
                 this.obj.menuIds = [];
-                this.obj.menuIds.push.apply(this.obj.menuIds, nodes.checkedKeys)
-                this.obj.menuIds.push.apply(this.obj.menuIds, nodes.halfCheckedKeys)
+                this.obj.menuIds.push.apply(this.obj.menuIds, nodes.checkedKeys);
+                this.obj.menuIds.push.apply(this.obj.menuIds, nodes.halfCheckedKeys);
                 console.log("menuIds=", this.obj.menuIds)
             },
         }

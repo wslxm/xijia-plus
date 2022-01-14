@@ -109,8 +109,8 @@
                 }
             }
         },
-        mounted() {
-            this.obj = this.defaultData
+        created() {
+            this.obj = this.defaultData;
             // 查询系统用户数据
             this.crud.get(this.uri.userList).then((res) => {
                 this.userList = res.data.data;
@@ -122,13 +122,9 @@
             },
             submit(form, done) {
                 this.crud.post(this.uri.info, this.obj).then((res) => {
-                    console.debug(res);
-                    if (res.data.code == 200) {
-                        this.closeDialog(true);
-                    }
+                    this.closeDialog(true);
                     done(form);
                 }).catch((err) => {
-                    console.error(err);
                     done(form);
                 })
             },

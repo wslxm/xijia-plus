@@ -10,6 +10,7 @@
 
 <script>
     import icon from "@/util/icon";
+
     export default {
         data() {
             return {
@@ -22,16 +23,6 @@
             closeDialog: [],           // 关闭弹层方法
             uri: {},                   // 接口数据
             rowData: {},               // 当前行数据
-        },
-        // 监听数据的变化,更新当前行数据
-        watch: {
-            rowData: function (newRowData, oldRowData) {
-                console.debug("原:", oldRowData.id, "  -->新:", newRowData.id)
-                if (newRowData != null && newRowData.id != null) {
-                    this.obj = this.rowData;
-
-                }
-            }
         },
         computed: {
             option() {
@@ -68,6 +59,7 @@
                             label: '路由',
                             prop: 'url',
                             span: 20,
+                            display: this.obj.root === 3
                         },
 
                         {
@@ -85,17 +77,17 @@
                 }
             }
         },
+        created() {
+            this.obj = this.rowData;
+        },
         methods: {
             emptytChange() {
                 this.closeDialog(false);
             },
             submit(form, done) {
                 this.crud.put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
-                    console.debug(res);
                     // 添加成功关闭弹层
-                    if (res.data.code == 200) {
-                        this.closeDialog(true);
-                    }
+                    this.closeDialog(true);
                     done(form);
                 }).catch(err => {
                     console.error(err);

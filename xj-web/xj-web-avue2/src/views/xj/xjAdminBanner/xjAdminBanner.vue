@@ -9,21 +9,20 @@
                    :cell-style="cellStyle"
                    @on-load="onLoad"
                    @refresh-change="onLoad"
-                   @search-change="searchChange"
-                   @row-click="handleRowClick">
+                   @search-change="searchChange">
             <!-- 启用/禁用插槽(默认提供,按需使用) -->
-            <template slot-scope="{scope,row,index,type,size}" slot="disable">
+            <template slot-scope="{row,index,type,size}" slot="disable">
                 <el-switch v-model="row.disable" @change="updDisable(row)"
                            active-color="#13ce66" inactive-color="#ff4949"
                            :active-value=0 :inactive-value=1
                            active-text="" inactive-text="">
                 </el-switch>
             </template>
-            <template slot-scope="scope" slot="menuLeft">
+            <template slot-scope="" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
             </template>
             <template slot-scope="{row,index,type,size}" slot="menu">
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
+                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
                 <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
             </template>
         </avue-crud>
@@ -142,7 +141,7 @@
                 this.crud.doLayout(this, this.$refs.crudxjAdminBanner)
             },
             searchChange(params, done) {
-                console.debug(params)
+                console.debug(params);
                 this.page.currentPage = 1;
                 this.onLoad();
                 done();
@@ -155,15 +154,25 @@
                     this.onLoad();
                 }
             },
+            // 行编辑
+            updRow(row, type) {
+                this.rowData = row;
+                switch (type) {
+                    case 1:
+                        // 编辑
+                        this.updDialogVisible = true;
+                        break;
+                    default:
+                        this.$message.error('操作类型错误');
+                        break;
+                }
+            },
             rowDel(row, index) {
                 this.crud.delRow(this, this.uri.info, row.id, index);
             },
             // 启用/禁用
             updDisable(row) {
                 this.crud.put(this.uri.info + "/" + row.id, {disable: row.disable});
-            },
-            handleRowClick(row) {
-                this.rowData = row;
             },
             cellStyle({row, column}) {
                 if (column.property == "disable") {
