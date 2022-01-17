@@ -39,17 +39,23 @@ NProgress.configure({
 axios.interceptors.request.use(config => {
     NProgress.start();  // start progress bar
     const meta = (config.meta || {});
+
+    // 请求中添加token
     const isToken = meta.isToken === false;
     if (getToken() && !isToken) {
         // 让每个请求携带token--['Authorization']为自定义key 请根据实际情况自行修改
         config.headers[website.Authorization] = getToken()
     }
-    // headers中配置serialize为true开启序列化
+
+    //  headers中配置serialize为true开启序列化
     if (config.method === 'post' && meta.isSerialize === true) {
         config.data = serialize(config.data);
     }
 
-    // 加签
+    // 处理终端
+    addTerminal(config.url, config.params, config.data);
+
+    // 参数加签
     let timestamp = new Date().getTime();
     let sign = signQuery(config.url, config.params, timestamp);
     sign = sign != null ? sign : signBody(config.data, timestamp);
@@ -60,6 +66,31 @@ axios.interceptors.request.use(config => {
 }, error => {
     return Promise.reject(error)
 });
+
+
+/**
+ * 终端处理（判断当前是主系统还是子系统来查询不同的 菜单/用户/角色 数据）
+ * @author wangsong
+ * @date 2022/1/17 13:59
+ * @return
+ */
+function addTerminal(url, params, data) {
+    // 终端处理
+    if (params != null && params.isTerminal !== null && params.isTerminal === true) {
+        params.terminal = website.Terminal;
+    }
+    if (data != null && data.isTerminal !== null && data.isTerminal === true) {
+        data.terminal = website.Terminal;
+    }
+
+    // 是否只查询自己权限及以下的角色/用户/菜单数据 处理
+    if (params != null && params.isOwnData !== null && params.isOwnData === true) {
+        params.isLoginUser = website.isLoginUser;
+    }
+    if (data != null && data.isOwnData !== null && data.isOwnData === true) {
+        data.isLoginUser = website.isLoginUser;
+    }
+}
 
 
 //HTTP response拦截

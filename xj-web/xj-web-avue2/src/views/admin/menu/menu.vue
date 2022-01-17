@@ -82,7 +82,7 @@
                 updPidDialogVisible: false,      // 变更父级开关状态
                 page: this.website.pageParams,   // 分页参数
                 search: {                        // 搜索参数
-                    terminal: 2
+                    terminal: this.website.Terminal
                 },
                 data: [],                     // 列表数据
                 rowData: {},                  // 当前选中行数据
@@ -110,7 +110,7 @@
                         label: '终端',
                         prop: 'terminal',
                         dicData: this.dict.get(this.website.Dict.Admin.Terminal, true, false, true),
-                        search: true,
+                        search: this.website.isTerminalSearch,
                         searchValue: this.search.terminal,
                         searchSpan: 5,
                         type: "select",
@@ -167,6 +167,9 @@
              * @author wangsong
              */
             onLoad() {
+                // 是否只查询自己权限及以下的数据
+                this.search.isOwnData = true;
+                // 查询
                 this.crud.list(this, false);
                 this.crud.doLayout(this, this.$refs.crudMenu)
             },

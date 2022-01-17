@@ -31,7 +31,7 @@
                     code: null,
                     desc: '-',
                     disable: 0,
-                    terminal: 1
+                    terminal: this.website.Terminal,
                 },
                 obj: {},
                 sizeValue: 'small',
@@ -63,7 +63,8 @@
                         {
                             label: "终端",
                             prop: "terminal",
-                            type: "select",
+                            type: "radio",
+                            disabled: !this.website.isTerminalSearch,
                             dicData: this.dict.get(this.website.Dict.Admin.Terminal),
                             span: 20,
                             rules: [{
@@ -121,7 +122,7 @@
         },
         created() {
             // 获取菜单数据
-            this.crud.get(this.uri.menuList.replace("{roleId}", "")).then((res) => {
+            this.crud.get(this.uri.menuList.replace("{roleId}", ""), {isOwnData: true}).then((res) => {
                 this.menuData = res.data.data;
             })
         },

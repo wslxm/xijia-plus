@@ -83,7 +83,7 @@
             <img class="top-bar__img" :src="userInfo.head">
             <!-- 下拉菜单  -->
             <el-dropdown>
-                 <span class="el-dropdown-link">  {{userInfo.username}}
+                 <span class="el-dropdown-link">  {{userInfo.fullName}}
                      <i class="el-icon-arrow-down el-icon--right"></i>
                  </span>
                 <el-dropdown-menu slot="dropdown">

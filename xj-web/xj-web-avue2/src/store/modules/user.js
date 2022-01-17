@@ -132,18 +132,26 @@ const user = {
                 //item != null ? item.id : null
                 getMenu().then((res) => {
                     let menus = res.data.data;
+                    if (menus == null || menus.length === 0) {
+                        // 缓存左菜单
+                        commit('SET_MENUALL', []);
+                        commit('SET_MENU', []);
+                        resolve([]);
+                        return;
+                    }
+                    //
                     let newMenus = deepClone(menus);
                     newMenus.forEach(ele => formatPath(ele, true));
                     // 缓存所有菜单数据
                     //setStore({name: 'xj-menus', content: newMenus})
                     if (item != null && item.id) {
                         for (let i = 0; i < newMenus.length; i++) {
-                            if (newMenus[i].id == item.id) {
+                            if (newMenus[i].id === item.id) {
                                 // 缓存左菜单
                                 commit('SET_MENUALL', newMenus[i].menus);
                                 commit('SET_MENU', newMenus[i].menus);
-                                resolve(newMenus[i].menus)
-                                break
+                                resolve(newMenus[i].menus);
+                                break;
                             }
                         }
                     } else {

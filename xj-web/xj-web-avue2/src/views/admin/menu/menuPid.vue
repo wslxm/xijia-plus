@@ -44,7 +44,7 @@
         created() {
             this.obj = this.rowData;
             let infoPidList = this.uri.infoPidList.replace("{root}", this.rowData.root - 1);
-            this.crud.get(infoPidList).then((res) => {
+            this.crud.get(infoPidList,{isOwnData: true}).then((res) => {
                 this.menuData = res.data.data;
                 this.menuDefaultCheckedKeys[0] = this.rowData.pid;
             })

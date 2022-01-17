@@ -12,7 +12,9 @@
                    @search-change="searchChange">
             <template slot-scope="scope" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
-                <el-button type="primary" size="small" plain @click="updRoleAuthAll()">所有角色分配所有权限</el-button>
+                <el-button type="primary" size="small" plain
+                           v-if="website.isTerminalSearch"
+                           @click="updRoleAuthAll()">所有角色分配所有权限</el-button>
             </template>
             <template slot-scope="{row,index,type,size}" slot="disable">
                 <el-switch v-model="row.disable" @change="updDisable(row,index,row.disable)"
@@ -73,7 +75,7 @@
                 data: [],                        // 列表数据
                 option: {},                      // 列表配置( mounted() 方法中配置)
                 search: {                        // 搜索参数
-                    terminal: 2
+                    terminal: this.website.Terminal
                 },
             }
         },
@@ -108,7 +110,8 @@
                     label: '终端',
                     prop: 'terminal',
                     dicData: this.dict.get(this.website.Dict.Admin.Terminal, true, false, true),
-                    search: true,
+                    hide: true,
+                    search: this.website.isTerminalSearch,
                     searchValue: this.search.terminal,
                     searchOrder: 1,
                     searchSpan: 5,
@@ -142,6 +145,9 @@
              * @author wangsong
              */
             onLoad() {
+                // 是否只查询自己权限及以下的数据
+                this.search.isOwnData = true;
+                // 查询
                 this.crud.list(this, true);
                 this.crud.doLayout(this, this.$refs.crudRole)
             },

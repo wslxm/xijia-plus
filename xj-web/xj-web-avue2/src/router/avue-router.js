@@ -11,7 +11,7 @@ let RouterPlugin = function () {
 RouterPlugin.install = function (option = {}) {
     this.$router = option.router;
     this.$store = option.store;
-    let i18n = option.i18n
+    let i18n = option.i18n;
     this.$router.$avueRouter = {
         safe: this,
         // 设置标题l
@@ -104,8 +104,9 @@ export const formatPath = (ele, first) => {
     const propsDefault = website.menu;
 
     // 空path处理，path=随机时间戳 2022-1-14 新增
-    if (ele[propsDefault.path] == null || ele[propsDefault.path] === "") {
-        ele[propsDefault.path] =  ele.id;
+    if (ele[propsDefault.path] == null || ele[propsDefault.path] === "null" || ele[propsDefault.path] === "") {
+        ele[propsDefault.path] = ele.id;
+        console.log("=========路由")
     }
 
     const icon = ele[propsDefault.icon];

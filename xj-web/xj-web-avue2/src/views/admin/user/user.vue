@@ -93,7 +93,7 @@
                 option: {},
                 // 搜索参数
                 search: {
-                    terminal: 2
+                    terminal: this.website.Terminal
                 },
                 // 重置密码数据保存
                 rowPassword: {
@@ -130,15 +130,15 @@
                     search: true,
                     searchSpan: 5,
                 },
-                {
-                    label: '年龄',
-                    prop: 'age',
-                },
-                {
-                    label: '性别',
-                    prop: 'gender',
-                    dicData: this.dict.get(this.website.Dict.Base.Gender),
-                },
+                // {
+                //     label: '年龄',
+                //     prop: 'age',
+                // },
+                // {
+                //     label: '性别',
+                //     prop: 'gender',
+                //     dicData: this.dict.get(this.website.Dict.Base.Gender),
+                // },
                 {
                     label: '注册时间',
                     prop: 'regTime',
@@ -147,7 +147,8 @@
                     label: '终端',
                     prop: 'terminal',
                     type: "select",
-                    search: true,
+                    hide: true,
+                    search: this.website.isTerminalSearch,
                     searchSpan: 5,
                     searchValue: this.search.terminal,
                     searchOrder: 1,
@@ -173,6 +174,9 @@
              * @author wangsong
              */
             onLoad() {
+                // 是否只查询自己权限及以下的数据
+                this.search.isOwnData = true;
+                // 查询
                 this.crud.list(this, true);
                 this.crud.doLayout(this, this.$refs.crudUser);
             },

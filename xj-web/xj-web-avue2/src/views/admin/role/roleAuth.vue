@@ -87,7 +87,7 @@
         },
         methods: {
             init(rowData) {
-                this.crud.get(this.uri.authListByRole.replace("{roleId}", rowData.id)).then((res) => {
+                this.crud.get(this.uri.authListByRole.replace("{roleId}", rowData.id),{isOwnData:true}).then((res) => {
                     this.data = res.data.data;
                     //解决表格错位
                     this.$nextTick(() => {

@@ -42,6 +42,7 @@
                             prop: 'terminal',
                             span: 20,
                             type: "radio",
+                            disabled: !this.website.isTerminalSearch,
                             dicData: this.dict.get(this.website.Dict.Admin.Terminal),
                             rules: [{
                                 required: true,
@@ -202,7 +203,7 @@
                 this.organs = res.data.data;
             });
             // 角色数据(弹层数据)
-            this.crud.get(this.uri.roleInfo, {disable: 0}).then((res) => {
+            this.crud.get(this.uri.roleInfo, {disable: 0,isOwnData:true}).then((res) => {
                 console.debug(res);
                 this.roles = res.data.data.records;
                 for (const role of this.roles) {
