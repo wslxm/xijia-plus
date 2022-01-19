@@ -1,6 +1,13 @@
 # spring-boot-plus2
 
-QQ群：1037211892
+- QQ群：1037211892
+- 微信群: 1720696548 (先加个人号-备注：spring-boot-plus2 或 码云, 在拉入群)
+- 加 qq群 或 微信群 免费获取该如下所示全套视频教程(42课->实36课) - (近 7 小时时长)
+
+<div align="center">
+<img src="https://images.gitee.com/uploads/images/2022/0119/085201_dda7bbb1_2208600.png"  width="300" height="350">
+<img src="https://images.gitee.com/uploads/images/2022/0119/085218_14a67385_2208600.png"  width="300" height="350">
+</div>
 
 ### 一、项目简述
 
@@ -128,6 +135,8 @@ v-0.0.9 后开始记录版本大调整, 当前最新为 2.x 模块
 - 2、创建数据库[spring-boot-plus2] 编码：**utf8mb4**  排序规则：**utf8mb4_general_ci**
 - 3、导入跟目录下的 help/sql 目录下对应的最新版本 sql
 - 4、启动demo项目(spring-boot-plus2-demo/ --> SpringBootPlus2DemoServer 或  xj-base/xj-base-admin/ -->  XjBaseAdminServer)
+
+- 修改超管密码: 祥见 Md5Util 工具类的 main 参数方法
 
 #### 启动前端
 - 1、在 xj-web/xj-web-avue2 目录下执行` npm install` 或` npm install --registry=https://registry.npm.taobao.org`
