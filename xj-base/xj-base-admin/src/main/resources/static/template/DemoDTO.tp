@@ -5,13 +5,15 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import {packPath}.core.base.model.BaseDto;
+import io.github.wslxm.springbootplus2.core.base.model.BaseDto;
 
 /**
  * {tableComment} DTO
