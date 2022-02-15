@@ -1,11 +1,9 @@
 package io.github.wslxm.springbootplus2.core.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jsqlparser.expression.operators.relational.Between;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -374,9 +372,6 @@ public class LocalDateTimeUtil {
         return time.with(TemporalAdjusters.next(DayOfWeek.MONDAY)).
                 minusDays(1).withHour(23).withMinute(59).withSecond(59);
     }
-
-
-
 
 
     /**

@@ -1,6 +1,5 @@
 <template>
     <div>
-        {{ this.obj.pid}}
         <avue-form ref="form" v-model="obj" :option="option"
                    @reset-change="emptytChange"
                    @submit="submit">

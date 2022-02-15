@@ -118,12 +118,12 @@ public class WxMpH5AuthUtil {
         userInfoVO.setOpenid(accessToken.getOpenId());
         if (userInfo != null) {
             userInfoVO.setNickname(userInfo.getNickname());
-            userInfoVO.setSex(userInfo.getSex() + "");
-            userInfoVO.setProvince(userInfo.getProvince());
-            userInfoVO.setCity(userInfo.getCity());
-            userInfoVO.setCountry(userInfo.getCountry());
+//            userInfoVO.setSex(userInfo.getSex() + "");
+//            userInfoVO.setProvince(userInfo.getProvince());
+//            userInfoVO.setCity(userInfo.getCity());
+//            userInfoVO.setCountry(userInfo.getCountry());
             userInfoVO.setHeadimgurl(userInfo.getHeadImgUrl());
-            userInfoVO.setPrivilege(userInfo.getProvince());
+            // userInfoVO.setPrivilege(userInfo.getProvince());
             userInfoVO.setUnionid(userInfo.getUnionId());
         }
         return R.success(userInfoVO);

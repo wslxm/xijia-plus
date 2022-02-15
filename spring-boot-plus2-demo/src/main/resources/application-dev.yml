@@ -21,6 +21,20 @@ aliyun:
     bucketName: xijia-sz
     bucket: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
 
+### QQ互联
+qq:
+  appId: 101954125
+  appSecret: ff6122d10fb0739fd1cf14c98c1f6830
+  redirectUrl: http://xijia.plus/page/client_user_login
+
+
+baidu:
+  # 百度文字识别
+  text:
+    appId: "23624003"
+    apiKey: "Y8yMV28vTw4FHuYGNbb4oyS9"
+    secretKey: "xTKv7EHNPrQ1LOnfOIGKjnXlOCIqIMoX"
+
 # 日志配置,日志存放地址(logback-spring.xml 读取), methods 记录那些请求持久化到数据到数据库
 logging:
   filePath: logs
