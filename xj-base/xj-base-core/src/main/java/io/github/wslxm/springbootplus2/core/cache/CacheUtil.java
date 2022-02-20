@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.core.cache;
 
 import io.github.wslxm.springbootplus2.core.cache.jvm.JvmCache;
 import io.github.wslxm.springbootplus2.core.cache.redis.RedisCache;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +30,9 @@ public class CacheUtil {
      * @return
      */
     public static <T> T get(String key, Class<T> t) {
+        if(StringUtils.isBlank(key)){
+            return null;
+        }
         Object obj;
         if (RedisCache.isRedis()) {
             obj = RedisCache.get(key);
@@ -40,6 +44,9 @@ public class CacheUtil {
     }
 
     public static <T> List<T> getList(String key, Class<T> t) {
+        if(StringUtils.isBlank(key)){
+            return null;
+        }
         Object obj;
         if (RedisCache.isRedis()) {
             obj = RedisCache.get(key);
@@ -51,6 +58,9 @@ public class CacheUtil {
 
 
     public static <T> Map<String, T> getMap(String key, Class<T> t) {
+        if(StringUtils.isBlank(key)){
+            return null;
+        }
         Object obj;
         if (RedisCache.isRedis()) {
             obj = RedisCache.get(key);
@@ -65,6 +75,9 @@ public class CacheUtil {
      * 判断指定key 是否 存在缓存数据
      */
     public static boolean containsKey(String key) {
+        if(StringUtils.isBlank(key)){
+            return false;
+        }
         boolean b;
         if (RedisCache.isRedis()) {
             b = RedisCache.hasKey(key);
