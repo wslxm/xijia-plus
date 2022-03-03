@@ -5,6 +5,7 @@ import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
+import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -59,7 +60,7 @@ public class XjGenerationVueAdd extends BaseGcImpl implements XjGcSevice {
         GenerateConfig.VUE_ADD_COLUMNS_DEFAULT = vueAddColumnsDefault.toString();
         GenerateConfig.VUE_ADD_COLUMNS = vueAddColumns.toString();
         // 开始生成文件并进行数据替换
-        GenerateDataProcessing.replacBrBwWritee(brBwPath);
+        TemplateParamsReplace.replacBrBwWritee(brBwPath);
         // url保存
         XjGenerationSeviceImpl.pathMap.put("vueMainAdd", brBwPath.get("path").toString());
     }

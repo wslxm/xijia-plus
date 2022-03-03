@@ -7,6 +7,7 @@ import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.template.*;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
+import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -155,7 +156,7 @@ public class XjGenerationHtmlUpd extends BaseIServiceImpl implements XjGcSevice 
         GenerateConfig.ADD_UPD_JS = js.toString();
         GenerateConfig.ADD_UPD_SUBMIT_JS = submitjs.toString();
         // 开始生成文件并进行数据替换
-        GenerateDataProcessing.replacBrBwWritee(brBwPath);
+        TemplateParamsReplace.replacBrBwWritee(brBwPath);
         XjGenerationSeviceImpl.pathMap.put("mainUpd", brBwPath.get("path").toString());
     }
 }

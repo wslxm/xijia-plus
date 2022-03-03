@@ -5,6 +5,7 @@ import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
+import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class XjGenerationService extends BaseIServiceImpl implements XjGcSevice 
     public void run(List<DbFieldPO> data, String path) {
         Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "Service");
         // 开始生成文件并进行数据替换
-        GenerateDataProcessing.replacBrBwWritee(brBwPath);
+        TemplateParamsReplace.replacBrBwWritee(brBwPath);
         // 文件url记录
         XjGenerationSeviceImpl.pathMap.put("service", brBwPath.get("path").toString());
     }

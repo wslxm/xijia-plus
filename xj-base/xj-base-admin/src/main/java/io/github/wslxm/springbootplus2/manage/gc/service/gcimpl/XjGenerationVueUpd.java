@@ -5,6 +5,7 @@ import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
+import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -48,7 +49,7 @@ public class XjGenerationVueUpd extends BaseGcImpl implements XjGcSevice {
         // 数据保存
         GenerateConfig.VUE_UPD_COLUMNS = vueUpdColumns.toString();
         // 开始生成文件并进行数据替换
-        GenerateDataProcessing.replacBrBwWritee(brBwPath);
+        TemplateParamsReplace.replacBrBwWritee(brBwPath);
         XjGenerationSeviceImpl.pathMap.put("vueMainUpd", brBwPath.get("path").toString());
     }
 }

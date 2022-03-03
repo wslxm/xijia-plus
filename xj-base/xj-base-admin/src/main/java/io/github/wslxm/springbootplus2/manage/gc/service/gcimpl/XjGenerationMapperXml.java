@@ -6,6 +6,7 @@ import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
+import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
         GenerateConfig.XML_INSERT = insertXml(data);
         GenerateConfig.XML_UPD = updateXml(data);
         // 开始生成文件并进行数据替换
-        GenerateDataProcessing.replacBrBwWritee(brBwPath);
+        TemplateParamsReplace.replacBrBwWritee(brBwPath);
         // 文件url记录
         XjGenerationSeviceImpl.pathMap.put("mapperXml",  brBwPath.get("path").toString());
     }

@@ -8,6 +8,7 @@ import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSevice
 import io.github.wslxm.springbootplus2.manage.gc.template.LayuiMainTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.template.LayuiSearchTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
+import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -110,7 +111,7 @@ public class XjGenerationHtmlMain extends BaseIServiceImpl implements XjGcSevice
         GenerateConfig.LAYUI_SEARCH_JS_STR = searchJsStr.toString();
 
         // 开始生成文件并进行数据替换
-        GenerateDataProcessing.replacBrBwWritee(brBwPath);
+        TemplateParamsReplace.replacBrBwWritee(brBwPath);
         // 文件url记录
         XjGenerationSeviceImpl.pathMap.put("main",brBwPath.get("path").toString());
     }

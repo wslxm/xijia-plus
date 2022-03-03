@@ -5,6 +5,7 @@ import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
+import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class XjGenerationDTO extends BaseGcImpl implements XjGcSevice {
         //数据拼接(所有字段)
         this.generateParameters(data);
         // 数据保存到替换对象类,使模板中可以读取
-        GenerateDataProcessing.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
+        TemplateParamsReplace.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
         XjGenerationSeviceImpl.pathMap.put("DTO",  brBwPath.get("path").toString());
     }
 

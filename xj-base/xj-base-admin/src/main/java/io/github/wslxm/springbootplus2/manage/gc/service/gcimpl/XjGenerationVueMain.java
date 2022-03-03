@@ -7,6 +7,7 @@ import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.template.VueMainTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
+import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -82,7 +83,7 @@ public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
         // 数据保存
         GenerateConfig.VUE_INFO_COLUMNS = vueInfoColumns.toString();
         // 开始生成文件并进行数据替换
-        GenerateDataProcessing.replacBrBwWritee(brBwPath);
+        TemplateParamsReplace.replacBrBwWritee(brBwPath);
         // 文件url记录
         XjGenerationSeviceImpl.pathMap.put("vueMain", brBwPath.get("path").toString());
     }
