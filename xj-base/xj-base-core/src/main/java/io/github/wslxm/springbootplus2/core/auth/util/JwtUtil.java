@@ -122,12 +122,17 @@ public class JwtUtil {
      * @return
      */
     public static R<JwtUser> getJwtUserR(HttpServletRequest request, HttpServletResponse response) {
-        String snowflakeId = request.getHeader(TOKEN);
-        String jwtToken = CacheUtil.get(snowflakeId, String.class);
+        // 判断是否传递tokne
+        String token = request.getHeader(TOKEN);
+        if (token == null || token == "") {
+            return R.error(RType.AUTHORITY_NO_TOKEN);
+        }
+        // 判断缓存中token是否存在
+        String jwtToken = CacheUtil.get(token, String.class);
+        if (jwtToken == null || jwtToken == "") {
+            return R.error(RType.AUTHORITY_LOGIN_EXPIRED);
+        }
         try {
-            if (jwtToken == null || jwtToken == "") {
-                return R.error(RType.AUTHORITY_NO_TOKEN);
-            }
             Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(jwtToken).getBody();
             return R.success(getClaimsJwtUser(claims));
         } catch (ExpiredJwtException ex) {
