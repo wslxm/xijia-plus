@@ -6,6 +6,7 @@ import com.google.common.base.CaseFormat;
 import io.github.wslxm.springbootplus2.core.utils.LocalDateTimeUtil;
 import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.core.utils.json.JsonUtil;
+import io.github.wslxm.springbootplus2.manage.gc.config.GcPathConfig;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import lombok.extern.slf4j.Slf4j;
@@ -138,49 +139,26 @@ public class GenerateDataProcessing {
      * @mail 1720696548@qq.com
      * @date 2020/2/9 0009 21:37
      */
-    public static Map<String, Object> getBrBwPath(String path, String name) {
-        Map<String, Object> brBw = new HashMap<>();
-        // 生成路径=[路径 + 类名 + name + 后缀]
-        String upPath = null;
-        if (name.indexOf("Html") != -1) {
-            /**
-             * 生成 html
-             */
-            upPath = path + GenerateConfig.TABLE_NAME_LOWER + name.replace("Html", "") + GenerateConfig.SUFFIX_HTML_PT;
-        } else if (name.indexOf("Vue") != -1) {
-            /**
-             * 生成 vue 代码
-             */
-            upPath = path + GenerateConfig.TABLE_NAME_LOWER + name.replace("Vue", "") + GenerateConfig.SUFFIX_VUE_PT;
-        } else if (name.indexOf("Xml") != -1) {
-            /**
-             * 生成xml,  xml文件 去除文件名上的 Xml
-             */
-            String newName = name.substring(0, name.length() - 3);
-            upPath = path + GenerateConfig.TABLE_NAME_UP + newName + GenerateConfig.SUFFIX_XML_PT;
-        } else {
-            /**
-             * 生成 java 文件
-             */
-            upPath = path + GenerateConfig.TABLE_NAME_UP + name + GenerateConfig.SUFFIX_JAVA_PT;
-        }
+    public static Map<String, Object> getBrBwPath(String templatesPath, String path, String suffix) {
         // 检查目录,不存在添加
-        mkdirFile(path);
+        path = replacParamsPath(path);
+        int index = path.lastIndexOf("/");
+        String pathFile = path.substring(0,index);
+        mkdirFile(pathFile);
+        Map<String, Object> brBw = new HashMap<>();
         try {
-            // 服务器模板路径（url+ 文件路径）+ 模板名称
-            BufferedReader br = getUrlDetail(GenerateConfig.PATH_TP + "/Demo" + name + ".tp");
-            BufferedWriter bw = new BufferedWriter(new FileWriter(upPath));
+            // 获取模板文件
+            BufferedReader br = getUrlDetail(templatesPath);
+            // 生成代码生成需要的文件
+            BufferedWriter bw = new BufferedWriter(new FileWriter(path));
             brBw.put("br", br);
             brBw.put("bw", bw);
-            brBw.put("path", upPath);
-            // 打印参数区分
-            brBw.put("name", name);
+            brBw.put("path", path);
         } catch (Exception e) {
             log.debug(e.toString());
         }
         return brBw;
     }
-
 
     /**
      * 通过url 获取文件流
@@ -315,5 +293,18 @@ public class GenerateDataProcessing {
             log.debug(e.toString());
         }
         log.debug(brBwPath.get("name") + " --> " + brBwPath.get("path").toString());
+    }
+
+
+    /**
+     * 参数替换
+     *
+     * @param path
+     */
+    public static String replacParamsPath(String path) {
+        for (String key : TemplateParamsReplace.PARAM_REPLAC.keySet()) {
+            path = path.replace(key, TemplateParamsReplace.PARAM_REPLAC.get(key));
+        }
+        return path;
     }
 }

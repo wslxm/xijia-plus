@@ -3,6 +3,7 @@ package io.github.wslxm.springbootplus2.manage.gc.config;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
+import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -46,16 +47,16 @@ public class GenerateConfig {
     public static String FIELD_PREFIX = null;             // 字段前缀：FIELD_PREFIX(实际)
     public static String FATHER_PATH = "";                // 生成路径,相对路径：value=""当前项目目录下, 绝对路径: 指定磁盘绝对目录
     //
-    // 预览的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
-    public static String BASE_PATH_HTML_TXT_YL = null;
-    public static String BASE_PATH_VUE_TXT_YL = null;
-    public static String BASE_PATH_JAVA_YL = null;
-    public static String BASE_PATH_XML_YL = null;
-    // 生成的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
-    public static String BASE_PATH_HTML = null;
-    public static String BASE_PATH_VUE = null;
-    public static String BASE_PATH_JAVA = null;
-    public static String BASE_PATH_XML = null;
+//    // 预览的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
+//    public static String BASE_PATH_HTML_TXT_YL = null;
+//    public static String BASE_PATH_VUE_TXT_YL = null;
+//    public static String BASE_PATH_JAVA_YL = null;
+//    public static String BASE_PATH_XML_YL = null;
+//    // 生成的 html + java代码生成路径拼接 --> 父工程绝对路径 + 包路径 + 包的下一级路径+ 模块名
+//    public static String BASE_PATH_HTML = null;
+//    public static String BASE_PATH_VUE = null;
+//    public static String BASE_PATH_JAVA = null;
+//    public static String BASE_PATH_XML = null;
 
 
     public GenerateConfig(GenerateProperties generateProperties) {
@@ -76,58 +77,58 @@ public class GenerateConfig {
         FIELD_PREFIX = TABLE_PREFIX;
         FATHER_PATH = generateProperties.fatherPath;
         // 代码生成位置
-        BASE_PATH_HTML_TXT_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/txt/";
-        BASE_PATH_VUE_TXT_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/txtVue/";
-        BASE_PATH_JAVA_YL = "File/" + PROJECT_NAME + "/code/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + MODULE_NAME + "/";
-        BASE_PATH_XML_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/mapper/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
-        if (PROJECT_NAME == null || "".equals(PROJECT_NAME)) {
-            BASE_PATH_VUE = PROJECT_NAME + "src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
-            BASE_PATH_HTML = PROJECT_NAME + "src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
-            BASE_PATH_JAVA = PROJECT_NAME + "src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + MODULE_NAME.replace(".", "/") + "/";
-            BASE_PATH_XML = PROJECT_NAME + "src/main/resources/mapper/" + MODULE_NAME + "/";
-        } else {
-            BASE_PATH_VUE = PROJECT_NAME + "/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
-            BASE_PATH_HTML = PROJECT_NAME + "/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
-            BASE_PATH_JAVA = PROJECT_NAME + "/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + MODULE_NAME.replace(".", "/") + "/";
-            BASE_PATH_XML = PROJECT_NAME + "/src/main/resources/mapper/" + MODULE_NAME + "/";
-        }
+//        BASE_PATH_HTML_TXT_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/txt/";
+//        BASE_PATH_VUE_TXT_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/txtVue/";
+//        BASE_PATH_JAVA_YL = "File/" + PROJECT_NAME + "/code/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + MODULE_NAME + "/";
+//        BASE_PATH_XML_YL = "File/" + PROJECT_NAME + "/code/src/main/resources/mapper/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
+//        if (PROJECT_NAME == null || "".equals(PROJECT_NAME)) {
+//            BASE_PATH_VUE = PROJECT_NAME + "src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
+//            BASE_PATH_HTML = PROJECT_NAME + "src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
+//            BASE_PATH_JAVA = PROJECT_NAME + "src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + MODULE_NAME.replace(".", "/") + "/";
+//            BASE_PATH_XML = PROJECT_NAME + "src/main/resources/mapper/" + MODULE_NAME + "/";
+//        } else {
+//            BASE_PATH_VUE = PROJECT_NAME + "/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
+//            BASE_PATH_HTML = PROJECT_NAME + "/src/main/resources/templates/" + ROOT_MODULE + "/" + MODULE_NAME + "/";
+//            BASE_PATH_JAVA = PROJECT_NAME + "/src/main/java/" + (PACK_PATH + "." + ROOT_MODULE).replace(".", "/") + "/" + MODULE_NAME.replace(".", "/") + "/";
+//            BASE_PATH_XML = PROJECT_NAME + "/src/main/resources/mapper/" + MODULE_NAME + "/";
+//        }
         log.info("===============代码生成配置已加载=================");
     }
 
 
-    //=======================================================================================================
-    //=======================================================================================================
-    //======================================= 下方为固定参数  =================================================
-    //=======================================================================================================
-    //=======================================================================================================
-    /**
-     * 代码生成位置 --> 子路径
-     */
-    public final static String PATH_ENTITY = "model/entity/";
-    public final static String PATH_VO = "model/vo/";
-    public final static String PATH_DTO = "model/dto/";
-    public final static String PATH_Query = "model/query/";
-    public final static String PATH_CONTROLLER = "controller/";
-    public final static String PATH_SERVICE = "service/";
-    public final static String PATH_SERVICE_IMPL = "service/impl/";
-    public final static String PATH_MAPPER = "mapper/";
-    // 这里 xml 会过滤 Xml,主要用于区分
-    public final static String PATH_MAPPER_XML = "mapperXml/";
-    /**
-     * 此处内容一般都是不会修改的，特殊情况除外
-     */
-    public final static String PATH_TEMPLATE = "/template";   // 代码模版读取位置（目录 resources/template下）
-    public static String SUFFIX_JAVA = ".java";               // 实际 java 后缀名
-    public static String SUFFIX_XML = ".xml";                 // 实际 xml 后缀名
-    public static String SUFFIX_HTML = ".html";               // 实际 html 后缀名
-    public static String SUFFIX_VUE = ".vue";                 // 实际 vue 后缀名
-    //
-    public static String SUFFIX_TXT = ".txt";                 // 预览文件后缀名
-    //
-    public static String SUFFIX_JAVA_PT = ".txt";             // 最后生成html 后缀名
-    public static String SUFFIX_HTML_PT = ".txt";             // 最后生成的html 后缀名
-    public static String SUFFIX_XML_PT = ".txt";              // 最后生成的html 后缀名
-    public static String SUFFIX_VUE_PT = ".txt";              // 最后生成的vue 后缀名
+//    //=======================================================================================================
+//    //=======================================================================================================
+//    //======================================= 下方为固定参数  =================================================
+//    //=======================================================================================================
+//    //=======================================================================================================
+//    /**
+//     * 代码生成位置 --> 子路径
+//     */
+//    public final static String PATH_ENTITY = "model/entity/";
+//    public final static String PATH_VO = "model/vo/";
+//    public final static String PATH_DTO = "model/dto/";
+//    public final static String PATH_Query = "model/query/";
+//    public final static String PATH_CONTROLLER = "controller/";
+//    public final static String PATH_SERVICE = "service/";
+//    public final static String PATH_SERVICE_IMPL = "service/impl/";
+//    public final static String PATH_MAPPER = "mapper/";
+//    // 这里 xml 会过滤 Xml,主要用于区分
+//    public final static String PATH_MAPPER_XML = "mapperXml/";
+//    /**
+//     * 此处内容一般都是不会修改的，特殊情况除外
+//     */
+//    public final static String PATH_TEMPLATE = "/template";   // 代码模版读取位置（目录 resources/template下）
+//    public static String SUFFIX_JAVA = ".java";               // 实际 java 后缀名
+//    public static String SUFFIX_XML = ".xml";                 // 实际 xml 后缀名
+//    public static String SUFFIX_HTML = ".html";               // 实际 html 后缀名
+//    public static String SUFFIX_VUE = ".vue";                 // 实际 vue 后缀名
+//    //
+//    public static String SUFFIX_TXT = ".txt";                 // 预览文件后缀名
+//    //
+//    public static String SUFFIX_JAVA_PT = ".txt";             // 最后生成html 后缀名
+//    public static String SUFFIX_HTML_PT = ".txt";             // 最后生成的html 后缀名
+//    public static String SUFFIX_XML_PT = ".txt";              // 最后生成的html 后缀名
+//    public static String SUFFIX_VUE_PT = ".txt";              // 最后生成的vue 后缀名
 
 
     //=======================================================================================================
@@ -208,6 +209,18 @@ public class GenerateConfig {
             // test_data --> testData
             TABLE_NAME_LOWER = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, tableName);
         }
+
+
+        String packFilePath = GenerateConfig.PACK_PATH.replaceAll("\\.", "\\/");
+        // 处理数据
+        TemplateParamsReplace.PARAM_REPLAC.put("{projectName}", GenerateConfig.PROJECT_NAME);
+        TemplateParamsReplace.PARAM_REPLAC.put("{packPath}", GenerateConfig.PACK_PATH);
+        TemplateParamsReplace.PARAM_REPLAC.put("{packFilePath}",packFilePath);
+        TemplateParamsReplace.PARAM_REPLAC.put("{rootModule}", GenerateConfig.ROOT_MODULE);
+        TemplateParamsReplace.PARAM_REPLAC.put("{moduleName}", GenerateConfig.MODULE_NAME);
+        TemplateParamsReplace.PARAM_REPLAC.put("{tableNameUp}", GenerateConfig.TABLE_NAME_UP);
+        TemplateParamsReplace.PARAM_REPLAC.put("{tableName}", GenerateConfig.TABLE_NAME);
+        TemplateParamsReplace.PARAM_REPLAC.put("{tableNameLower}", GenerateConfig.TABLE_NAME_LOWER);
     }
 
 

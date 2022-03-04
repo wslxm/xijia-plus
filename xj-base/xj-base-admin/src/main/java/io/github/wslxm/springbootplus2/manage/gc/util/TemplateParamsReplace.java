@@ -27,6 +27,8 @@ public class TemplateParamsReplace {
 	// 参数替换对象
 	public static Map<String, String> PARAM_REPLAC = new ConcurrentHashMap<String, String>();
 
+
+
 	/**
 	 * ================================ 代码生成所有替换字段 ===========================================
 	 * =================================注释信息

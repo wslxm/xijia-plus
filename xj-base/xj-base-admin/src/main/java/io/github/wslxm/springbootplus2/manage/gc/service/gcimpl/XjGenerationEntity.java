@@ -18,9 +18,9 @@ public class XjGenerationEntity extends BaseGcImpl implements XjGcSevice {
 
 
     @Override
-    public void run(List<DbFieldPO> data, String path) {
-        // 获取文件内容
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "");
+    public void run(List<DbFieldPO> data,String templatesPath, String path,String suffix) {
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(templatesPath,path,suffix);
+
         // 处理参数
         this.generateParameters(data);
         // 开始生成文件并进行数据替换

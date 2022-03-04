@@ -28,12 +28,13 @@ public class XjGenerationVueUpd extends BaseGcImpl implements XjGcSevice {
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(List<DbFieldPO> dataList, String path) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "VueUpd");
+    public void run(List<DbFieldPO> data,String templatesPath, String path,String suffix) {
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(templatesPath,path,suffix);
+
         BufferedReader br = (BufferedReader) brBwPath.get("br");
         BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
         StringBuffer vueUpdColumns = new StringBuffer("");
-        for (DbFieldPO fieldMap : dataList) {
+        for (DbFieldPO fieldMap : data) {
             // 未勾选的字段过滤
             if (!isChecked(fieldMap)) {
                 continue;

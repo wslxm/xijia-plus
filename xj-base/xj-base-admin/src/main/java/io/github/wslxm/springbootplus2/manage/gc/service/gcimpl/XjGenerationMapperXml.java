@@ -34,8 +34,9 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(List<DbFieldPO> data, String path) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "MapperXml");
+    public void run(List<DbFieldPO> data,String templatesPath, String path,String suffix) {
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(templatesPath,path,suffix);
+
         GenerateConfig.RESULT_MAP = resultXml(data);
         GenerateConfig.COLUMN_LIST = columnXml(data);
         GenerateConfig.XML_INSERT = insertXml(data);

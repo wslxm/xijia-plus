@@ -1,10 +1,10 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.PropUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.config.GcPathConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.dto.XjGenerateDto;
 import io.github.wslxm.springbootplus2.manage.gc.model.entity.XjAdminDatasource;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
@@ -12,6 +12,7 @@ import io.github.wslxm.springbootplus2.manage.gc.service.XjAdminDatasourceServic
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGenerationSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.gcimpl.*;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
+import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
 import io.github.wslxm.springbootplus2.starter.aliyun.oss.util.FileDownloadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,46 +54,37 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
     @Autowired
     private XjGenerationController xjGenerationController;
     @Autowired
-    private XjGenerationHtmlMain xjGenerationHtmlMain;
-    @Autowired
-    private XjGenerationHtmlAdd xjGenerationHtmlAdd;
-    @Autowired
-    private XjGenerationHtmlUpd xjGenerationHtmlUpd;
-    @Autowired
     private XjGenerationVueMain xjGenerationVueMain;
     @Autowired
     private XjGenerationVueAdd xjGenerationVueAdd;
     @Autowired
     private XjGenerationVueUpd xjGenerationVueUpd;
 
+    @Autowired
+    private GenerateConfig generateConfig;
+
     @Override
     public Map<String, String> preview(XjGenerateDto generateDto) {
+        String baseUrl = request.getRequestURL().toString().replace(request.getServletPath(), "");
+        GenerateConfig.dsField(generateDto.getTableName(),generateDto.getTableComment(), GenerateConfig.PACK_PATH,baseUrl + GcPathConfig.T_BASE_TEMPLATE);
         pathMap = new HashMap<>(16);
         // 处理数据
         List<DbFieldPO> dataList = getProcessingData(generateDto);
-        // 预览生成的文件为txt格式,方便预览
-        GenerateConfig.SUFFIX_JAVA_PT = GenerateConfig.SUFFIX_TXT;
-        GenerateConfig.SUFFIX_HTML_PT = GenerateConfig.SUFFIX_TXT;
-        GenerateConfig.SUFFIX_VUE_PT = GenerateConfig.SUFFIX_TXT;
-        GenerateConfig.SUFFIX_XML_PT = GenerateConfig.SUFFIX_TXT;
         // 预览文件生成(服务器可访问文件)，同时生成把生成的文件url路径保存到generationServiceImplImp.lpathMap 参数
-        xjGenerationEntity.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_ENTITY);
-        xjGenerationVO.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_VO);
-        xjGenerationDTO.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_DTO);
-        xjGenerationQuery.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_Query);
-        xjGenerationController.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_CONTROLLER);
-        xjGenerationService.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_SERVICE);
-        xjGenerationServiceImpl.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_SERVICE_IMPL);
-        xjGenerationMapper.run(dataList, GenerateConfig.BASE_PATH_JAVA_YL + GenerateConfig.PATH_MAPPER);
-        xjGenerationMapperXml.run(dataList, GenerateConfig.BASE_PATH_XML_YL);
-        // html, 生成的预览 html为txt 文件，html文件会被渲染成页面
-        xjGenerationHtmlMain.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
-        xjGenerationHtmlAdd.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
-        xjGenerationHtmlUpd.run(dataList, GenerateConfig.BASE_PATH_HTML_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+        String previewFile = "File/";
+        xjGenerationEntity.run(dataList, baseUrl + GcPathConfig.T_ENTITY, previewFile + GcPathConfig.P_ENTITY, GcPathConfig.SUFFIX_TXT);
+        xjGenerationVO.run(dataList, baseUrl + GcPathConfig.T_VO, previewFile + GcPathConfig.P_VO, GcPathConfig.SUFFIX_TXT);
+        xjGenerationDTO.run(dataList,baseUrl +  GcPathConfig.T_DTO, previewFile + GcPathConfig.P_DTO, GcPathConfig.SUFFIX_TXT);
+        xjGenerationQuery.run(dataList,baseUrl + GcPathConfig.T_QUERY, previewFile + GcPathConfig.P_QUERY, GcPathConfig.SUFFIX_TXT);
+        xjGenerationController.run(dataList, baseUrl + GcPathConfig.T_CONTROLLER, previewFile + GcPathConfig.P_CONTROLLER, GcPathConfig.SUFFIX_TXT);
+        xjGenerationService.run(dataList, baseUrl + GcPathConfig.T_SERVICE, previewFile + GcPathConfig.P_SERVICE, GcPathConfig.SUFFIX_TXT);
+        xjGenerationServiceImpl.run(dataList, baseUrl + GcPathConfig.T_SERVICEIMPL, previewFile + GcPathConfig.P_SERVICE_IMPL, GcPathConfig.SUFFIX_TXT);
+        xjGenerationMapper.run(dataList, baseUrl + GcPathConfig.T_MAPPER, previewFile + GcPathConfig.P_MAPPER, GcPathConfig.SUFFIX_TXT);
+        xjGenerationMapperXml.run(dataList, baseUrl + GcPathConfig.T_MAPPER_XML, previewFile + GcPathConfig.P_MAPPER_XML, GcPathConfig.SUFFIX_TXT);
         // vue 生成的预览
-        xjGenerationVueMain.run(dataList, GenerateConfig.BASE_PATH_VUE_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
-        xjGenerationVueAdd.run(dataList, GenerateConfig.BASE_PATH_VUE_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
-        xjGenerationVueUpd.run(dataList, GenerateConfig.BASE_PATH_VUE_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+        xjGenerationVueMain.run(dataList,baseUrl +  GcPathConfig.T_VUE, previewFile + GcPathConfig.P_VUE, GcPathConfig.SUFFIX_TXT);
+        xjGenerationVueAdd.run(dataList, baseUrl + GcPathConfig.T_VUE_ADD, previewFile + GcPathConfig.P_VUE_ADD, GcPathConfig.SUFFIX_TXT);
+        xjGenerationVueUpd.run(dataList,baseUrl +  GcPathConfig.T_VUE_UPD, previewFile + GcPathConfig.P_VUE_UPD, GcPathConfig.SUFFIX_TXT);
         System.err.println("预览代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/"
                 + GenerateConfig.ROOT_MODULE + "_"
                 //+ GenerateConfig.PACK_PATH_ZP + "_"
@@ -105,28 +97,27 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
 
     @Override
     public Map<String, String> generateCode(XjGenerateDto generateDto) {
+        String baseUrl = request.getRequestURL().toString().replace(request.getServletPath(), "");
+        GenerateConfig.dsField(generateDto.getTableName(),generateDto.getTableComment(), GenerateConfig.PACK_PATH,baseUrl + GcPathConfig.T_BASE_TEMPLATE);
         pathMap = new HashMap<>(16);
         // 处理数据
         List<DbFieldPO> dataList = getProcessingData(generateDto);
-        // 生成的文件为对应代码格式,直接生成到目录
-        GenerateConfig.SUFFIX_JAVA_PT = GenerateConfig.SUFFIX_JAVA;
-        GenerateConfig.SUFFIX_VUE_PT = GenerateConfig.SUFFIX_VUE;
-        GenerateConfig.SUFFIX_HTML_PT = GenerateConfig.SUFFIX_HTML;
-        GenerateConfig.SUFFIX_XML_PT = GenerateConfig.SUFFIX_XML;
+
         // 文件生成，同时生成把生成的文件url路径保存到generationServiceImplImp.lpathMap 参数
-        xjGenerationEntity.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_ENTITY);
-        xjGenerationVO.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_VO);
-        xjGenerationDTO.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_DTO);
-        xjGenerationQuery.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_Query);
-        xjGenerationController.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_CONTROLLER);
-        xjGenerationService.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE);
-        xjGenerationServiceImpl.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE_IMPL);
-        xjGenerationMapper.run(dataList, GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_MAPPER);
-        xjGenerationMapperXml.run(dataList, GenerateConfig.BASE_PATH_XML);
-        // html
-        xjGenerationHtmlMain.run(dataList, GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/");
-        xjGenerationHtmlAdd.run(dataList, GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/");
-        xjGenerationHtmlUpd.run(dataList, GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/");
+        // 预览文件生成(服务器可访问文件)，同时生成把生成的文件url路径保存到generationServiceImplImp.lpathMap 参数
+        xjGenerationEntity.run(dataList, GcPathConfig.T_ENTITY, GcPathConfig.P_ENTITY, GcPathConfig.SUFFIX_JAVA);
+        xjGenerationVO.run(dataList, GcPathConfig.T_VO, GcPathConfig.P_VO, GcPathConfig.SUFFIX_JAVA);
+        xjGenerationDTO.run(dataList, GcPathConfig.T_DTO, GcPathConfig.P_DTO, GcPathConfig.SUFFIX_JAVA);
+        xjGenerationQuery.run(dataList, GcPathConfig.T_QUERY, GcPathConfig.P_QUERY, GcPathConfig.SUFFIX_JAVA);
+        xjGenerationController.run(dataList, GcPathConfig.T_CONTROLLER, GcPathConfig.P_CONTROLLER, GcPathConfig.SUFFIX_JAVA);
+        xjGenerationService.run(dataList, GcPathConfig.T_SERVICE, GcPathConfig.P_SERVICE, GcPathConfig.SUFFIX_JAVA);
+        xjGenerationServiceImpl.run(dataList, GcPathConfig.T_SERVICEIMPL, GcPathConfig.P_SERVICE_IMPL, GcPathConfig.SUFFIX_JAVA);
+        xjGenerationMapper.run(dataList, GcPathConfig.T_MAPPER, GcPathConfig.P_MAPPER, GcPathConfig.SUFFIX_JAVA);
+        xjGenerationMapperXml.run(dataList, GcPathConfig.T_MAPPER_XML, GcPathConfig.P_MAPPER_XML, GcPathConfig.SUFFIX_XML);
+        // vue 生成的预览
+        xjGenerationVueMain.run(dataList, GcPathConfig.T_VUE, GcPathConfig.P_VUE, GcPathConfig.SUFFIX_VUE);
+        xjGenerationVueAdd.run(dataList, GcPathConfig.T_VUE_ADD, GcPathConfig.P_VUE_ADD, GcPathConfig.SUFFIX_VUE);
+        xjGenerationVueUpd.run(dataList, GcPathConfig.T_VUE_UPD, GcPathConfig.P_VUE_UPD, GcPathConfig.SUFFIX_VUE);
         System.err.println("代码成功生成到File/code/目录下,请查看, 菜单路径: + /page/"
                 + GenerateConfig.ROOT_MODULE + "_"
                 // + GenerateConfig.PACK_PATH_ZP + "_"
@@ -142,11 +133,10 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         pathMap = new HashMap<>(16);
         // 处理数据
         List<DbFieldPO> dataList = getProcessingData(generateDto);
-        GenerateConfig.SUFFIX_VUE_PT = GenerateConfig.SUFFIX_VUE;
         // vue 生成的预览
-        xjGenerationVueMain.run(dataList, GenerateConfig.BASE_PATH_VUE_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
-        xjGenerationVueAdd.run(dataList, GenerateConfig.BASE_PATH_VUE_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
-        xjGenerationVueUpd.run(dataList, GenerateConfig.BASE_PATH_VUE_TXT_YL + GenerateConfig.TABLE_NAME_LOWER + "/");
+        xjGenerationVueMain.run(dataList, GcPathConfig.T_VUE, GcPathConfig.P_VUE, GcPathConfig.SUFFIX_VUE);
+        xjGenerationVueAdd.run(dataList, GcPathConfig.T_VUE_ADD, GcPathConfig.P_VUE_ADD, GcPathConfig.SUFFIX_VUE);
+        xjGenerationVueUpd.run(dataList, GcPathConfig.T_VUE_UPD, GcPathConfig.P_VUE_UPD, GcPathConfig.SUFFIX_VUE);
         // 开始下载
         List<String> paths = new ArrayList<>();
         pathMap.forEach((k, v) -> paths.add("http://127.0.0.1:" + PropUtil.findByKey("server.port") + "/" + v));
@@ -166,26 +156,17 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         // 1、包路径
         // 2、数据库的表名称
         // 3、代码模板位置,resources,
-        GenerateConfig.dsField(tableName, null, GenerateConfig.PACK_PATH, baseUrl + GenerateConfig.PATH_TEMPLATE);
+        GenerateConfig.dsField(tableName, null, GenerateConfig.PACK_PATH,baseUrl + GcPathConfig.T_BASE_TEMPLATE);
         Map<String, String> mapPath = new HashMap<>(16);
-        mapPath.put("entity", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_ENTITY + GenerateConfig.TABLE_NAME_UP + ".java");
-        mapPath.put("vo", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_VO + GenerateConfig.TABLE_NAME_UP + "VO.java");
-        mapPath.put("dto", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_DTO + GenerateConfig.TABLE_NAME_UP + "DTO.java");
-        mapPath.put("query", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_DTO + GenerateConfig.TABLE_NAME_UP + "Query.java");
-        mapPath.put("controller", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_CONTROLLER + GenerateConfig.TABLE_NAME_UP + "Controller.java");
-        mapPath.put("service", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE + GenerateConfig.TABLE_NAME_UP + "Service.java");
-        mapPath.put("serviceImpl", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_SERVICE_IMPL + GenerateConfig.TABLE_NAME_UP + "ServiceImpl.java");
-        mapPath.put("mapper", GenerateConfig.BASE_PATH_JAVA + GenerateConfig.PATH_MAPPER + GenerateConfig.TABLE_NAME_UP + "Mapper.java");
-        mapPath.put("mapperXml", GenerateConfig.BASE_PATH_XML + GenerateConfig.TABLE_NAME_UP + "Mapper.xml");
-        mapPath.put("htmlMain", GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/" + GenerateConfig.TABLE_NAME_LOWER + "Main.html");
-        mapPath.put("htmlAdd", GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/" + GenerateConfig.TABLE_NAME_LOWER + "Add.html");
-        mapPath.put("htmlUpd", GenerateConfig.BASE_PATH_HTML + GenerateConfig.TABLE_NAME_LOWER + "/" + GenerateConfig.TABLE_NAME_LOWER + "Upd.html");
-        mapPath.put("index", "/page/"
-                + GenerateConfig.ROOT_MODULE + "_"
-                // + GenerateConfig.PACK_PATH_ZP + "_"
-                + GenerateConfig.MODULE_NAME + "_"
-                + GenerateConfig.TABLE_NAME_LOWER + "_"
-                + GenerateConfig.TABLE_NAME_LOWER);
+        mapPath.put("entity", GenerateDataProcessing.replacParamsPath(GcPathConfig.P_ENTITY));
+        mapPath.put("vo", GenerateDataProcessing.replacParamsPath(GcPathConfig.P_VO));
+        mapPath.put("dto", GenerateDataProcessing.replacParamsPath(GcPathConfig.P_DTO));
+        mapPath.put("query", GenerateDataProcessing.replacParamsPath(GcPathConfig.P_QUERY));
+        mapPath.put("controller", GenerateDataProcessing.replacParamsPath(GcPathConfig.P_CONTROLLER));
+        mapPath.put("service", GenerateDataProcessing.replacParamsPath(GcPathConfig.P_SERVICE));
+        mapPath.put("serviceImpl", GenerateDataProcessing.replacParamsPath(GcPathConfig.P_SERVICE_IMPL));
+        mapPath.put("mapper", GenerateDataProcessing.replacParamsPath(GcPathConfig.P_MAPPER));
+        mapPath.put("mapperXml", GenerateDataProcessing.replacParamsPath(GcPathConfig.P_MAPPER_XML));
         mapPath.put("vueIndex", "/views/"
                 + GenerateConfig.ROOT_MODULE + "/"
                 + GenerateConfig.MODULE_NAME + "/"
@@ -218,7 +199,9 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         // 获取地址,用于读取模板位置 (请求地址，去除接口名）
         String baseUrl = request.getRequestURL().toString().replace(request.getServletPath(), "");
         // 初始化代码生成相关通用数据,如： 1、包路径 2、数据库的表名称 3、代码模板位置,resources,
-        GenerateConfig.dsField(generateDto.getTableName(), generateDto.getTableComment(), GenerateConfig.PACK_PATH, baseUrl + GenerateConfig.PATH_TEMPLATE);
+        GenerateConfig.dsField(generateDto.getTableName(), generateDto.getTableComment(), GenerateConfig.PACK_PATH, baseUrl + GcPathConfig.T_BASE_TEMPLATE);
         return dataList;
     }
+
+
 }

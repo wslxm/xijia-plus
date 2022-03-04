@@ -17,8 +17,8 @@ public class XjGenerationDTO extends BaseGcImpl implements XjGcSevice {
 
 
     @Override
-    public void run(List<DbFieldPO> data, String path) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "DTO");
+    public void run(List<DbFieldPO> data,String templatesPath, String path,String suffix) {
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(templatesPath,path,suffix);
         //数据拼接(所有字段)
         this.generateParameters(data);
         // 数据保存到替换对象类,使模板中可以读取

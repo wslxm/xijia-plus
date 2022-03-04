@@ -17,8 +17,9 @@ public class XjGenerationQuery extends BaseGcImpl implements XjGcSevice {
 
 
     @Override
-    public void run(List<DbFieldPO> data, String path) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "Query");
+    public void run(List<DbFieldPO> data,String templatesPath, String path,String suffix) {
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(templatesPath,path,suffix);
+
         this.generateParameters(data);
         TemplateParamsReplace.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
         XjGenerationSeviceImpl.pathMap.put("Query",brBwPath.get("path").toString());

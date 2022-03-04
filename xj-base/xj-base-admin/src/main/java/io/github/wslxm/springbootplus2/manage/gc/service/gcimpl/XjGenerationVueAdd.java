@@ -27,16 +27,16 @@ public class XjGenerationVueAdd extends BaseGcImpl implements XjGcSevice {
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(List<DbFieldPO> dataList, String path) {
+    public void run(List<DbFieldPO> data,String templatesPath, String path,String suffix) {
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(templatesPath,path,suffix);
 
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "VueAdd");
         BufferedReader br = (BufferedReader) brBwPath.get("br");
         BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
         //
         StringBuffer vueAddColumnsDefault = new StringBuffer("");
         StringBuffer vueAddColumns = new StringBuffer("");
         //
-        for (DbFieldPO fieldMap : dataList) {
+        for (DbFieldPO fieldMap : data) {
             // 未勾选的字段过滤
             if (!isChecked(fieldMap)) {
                 continue;

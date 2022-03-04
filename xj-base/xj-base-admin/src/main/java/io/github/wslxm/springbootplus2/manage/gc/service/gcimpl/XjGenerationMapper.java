@@ -26,8 +26,9 @@ public class XjGenerationMapper extends BaseIServiceImpl implements XjGcSevice {
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(List<DbFieldPO> data, String path) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(path, "Mapper");
+    public void run(List<DbFieldPO> data,String templatesPath, String path,String suffix) {
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(templatesPath,path,suffix);
+
         // 开始生成文件并进行数据替换
         TemplateParamsReplace.replacBrBwWritee(brBwPath);
         // 文件url记录
