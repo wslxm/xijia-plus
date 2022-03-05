@@ -1,13 +1,15 @@
 package io.github.wslxm.springbootplus2.manage.gc.util;
 
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
 import io.github.wslxm.springbootplus2.core.utils.LocalDateTimeUtil;
 import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.core.utils.json.JsonUtil;
+import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcPathConfig;
-import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.config.model.GcFilePath;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -56,14 +58,17 @@ public class GenerateDataProcessing {
      * @return
      * @date 2019/11/20 19:22
      */
-    public static String getFieldName(String field) {
+    public static String getFieldName(GcConfig gcConfig, String field) {
+
+        String fieldPrefix = gcConfig.getDefaultTemplateParam("fieldPrefix");
+
         // 如果需要，去除字段前缀
-        if (StringUtils.isNotBlank(GenerateConfig.FIELD_PREFIX)) {
+        if (StringUtils.isNotBlank(fieldPrefix)) {
             // 获取前缀
-            String prefix = field.substring(0, GenerateConfig.FIELD_PREFIX.length());
+            String prefix = field.substring(0, fieldPrefix.length());
             String newField = field;
-            if (GenerateConfig.FIELD_PREFIX.equals(prefix)) {
-                newField = field.substring(GenerateConfig.FIELD_PREFIX.length());
+            if (fieldPrefix.equals(prefix)) {
+                newField = field.substring(fieldPrefix.length());
             }
             // 转小写处理为驼峰
             String lowerNewField = newField.toLowerCase();
@@ -139,26 +144,39 @@ public class GenerateDataProcessing {
      * @mail 1720696548@qq.com
      * @date 2020/2/9 0009 21:37
      */
-    public static Map<String, Object> getBrBwPath(String templatesPath, String path, String suffix) {
-        // 检查目录,不存在添加
-        path = replacParamsPath(path);
-        int index = path.lastIndexOf("/");
-        String pathFile = path.substring(0,index);
+    public static Map<String, Object> getBrBwPath(GcConfig gcConfig, String key) {
+        // 获取指定对象的配置
+        GcFilePath gcFilePath = gcConfig.getTemplatePathMap().get(key);
+        //
+        String path = gcFilePath.getPath();
+        String templatePath = gcFilePath.getTemplatePath();
+        String fileName = gcFilePath.getName();
+        // 判断是否为生成预览文件, 预览文件替换后缀
+        if (path.substring(0, GcPathConfig.PREVIEW_FILE_PATH.length()).indexOf(GcPathConfig.PREVIEW_FILE_PATH) != -1) {
+            path = path.substring(0, path.lastIndexOf("."));
+            path += GcPathConfig.PREVIEW_SUFFIX;
+        }
+        // 对路径上的参数进行取参
+        path = replacParamsPath(gcConfig, path);
+        // 获取路径并创建目录
+        String pathFile = path.substring(0, path.lastIndexOf("/"));
         mkdirFile(pathFile);
         Map<String, Object> brBw = new HashMap<>();
         try {
-            // 获取模板文件
-            BufferedReader br = getUrlDetail(templatesPath);
-            // 生成代码生成需要的文件
+            // 获取代码模版文件
+            BufferedReader br = getUrlDetail(templatePath);
+            // 生成保存生成后的代码文件
             BufferedWriter bw = new BufferedWriter(new FileWriter(path));
             brBw.put("br", br);
             brBw.put("bw", bw);
-            brBw.put("path", path);
+            // 保存生成后文件访问地址
+            gcConfig.addVisitPath(fileName, path);
         } catch (Exception e) {
             log.debug(e.toString());
         }
         return brBw;
     }
+
 
     /**
      * 通过url 获取文件流
@@ -181,129 +199,20 @@ public class GenerateDataProcessing {
     }
 
 
-    /**
-     * ================================ 代码生成所有替换字段 ===========================================
-     * =================================注释信息
-     *  {author} ：      作者
-     *  {email} ：       邮箱 || 联系方式
-     *  {date} :         时间
-     *  =================================原始数据
-     *  {Demo} ：         类名/文件名大小（驼峰模式）
-     *  {demo} ：         类名/文件名小写开头（驼峰模式）
-     *  {htmlNameLower} ：html文件名称
-     *  {packName} ：     生成代码的包名/路径 （从java 目录开始，如当前: io.github.wslxm.baseadmin）
-     *  {tableName} ：    数据库表的实际名称
-     *  {entryName} ：    项目名实际名称
-     *  {entryNameUp} ：  项目名称-处理下划线(驼峰模式全大写开头)
-     *  {entryNameSmall}: 项目名称-处理下划线(全转小写)
-     *  {entryNameLast}:  项目名称 (下化线分隔，除第一个，拼接后面的全部单词,全小写,如只存在一个，则使用第一个)
-     *  =================================代码生成方法内获得的处理数据
-     *  {entitys} ：        entity 实体类所有字段数据
-     *  {primary-key-type} ： 主键id 数据类型
-     *  {layui-fields} ：   html主页layui数据表格所有字段数据
-     *  {add-htmls} ：      html添加页，表单所有添加字段数据
-     *  {upd-htmls} ：      html修改页，表单所有添加字段数据(无Id)
-     *  {upd-id} ：         html修改页，添加表单id赋值
-     *  {upd-backfill} ：   html修改页，打开提交回填数据赋值
-     *
-     */
-    /**
-     * 代码生成所有文件数据替换工具类
-     *
-     * @param brBwPath
-     * @param DsField
-     * @return void
-     * @author ws
-     * @mail 1720696548@qq.com
-     * @date 2020/2/23 0023 8:12
-     */
-    public static void replacBrBwWritee(Map<String, Object> brBwPath) {
-        // 获取到getBrBwPath 方法拼装的数据
-        BufferedReader br = (BufferedReader) brBwPath.get("br");
-        BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
-        String line = null;
-        String newLine = null;
-        try {
-            while ((line = br.readLine()) != null) {
-                //注释信息
-                newLine = line.replace("{author}", GenerateConfig.AUTHOR)
-                        .replace("{email}", GenerateConfig.EMAIL)
-                        .replace("{describe}", GenerateConfig.DESCRIBE)
-                        // 模块根目录
-                        .replace("{rootModule}", GenerateConfig.ROOT_MODULE)
-                        // 模块一级目录
-                        .replace("{moduleName}", GenerateConfig.MODULE_NAME)
-                        // 模块子目录
-                        //.replace("{packPathZp}", GenerateConfig.PACK_PATH_ZP)
-                        .replace("{date}", LocalDateTimeUtil.parse(LocalDateTimeUtil.now()));
-
-                //原始数据
-                newLine = newLine
-                        // 表名
-                        .replace("{tableName}", GenerateConfig.TABLE_NAME)
-                        // 表名大写开头驼峰
-                        .replace("{tableNameUp}", GenerateConfig.TABLE_NAME_UP)
-                        // 表名小写开头驼峰
-                        .replace("{tableNameLower}", GenerateConfig.TABLE_NAME_LOWER)
-                        // 表名小写开头驼峰
-                        // .replace("{htmlNameLower}", DsField.TABLE_NAME_LOWER)
-                        // 包路径
-                        .replace("{packPath}", GenerateConfig.PACK_PATH)
-                        //.replace("{entryName}", DsField.entryName)
-                        // 数据表的注释
-                        .replace("{tableComment}", GenerateConfig.TABLE_COMMENT);
-
-                // 后端代码(替换数据)
-                newLine = newLine.replace("{entitys}", GenerateConfig.FIELD_ENTITYS)
-                        .replace("{findPageMybatisPlus}", GenerateConfig.FIND_PAGE_MYBATIS_PLUS)
-                        //.replace("{swaggerRemark}", GenerateConfig.SWAGGER_REMARK)
-                        //.replace("{findPageParam}", GenerateConfig.FIND_PAGE_PARAM)
-                        // mapper - xml
-                        .replace("{resultMap}", GenerateConfig.RESULT_MAP)
-                        .replace("{columnList}", GenerateConfig.COLUMN_LIST)
-                        .replace("{xmlInsert}", GenerateConfig.XML_INSERT)
-                        .replace("{xmlUpd}", GenerateConfig.XML_UPD)
-                        // entity/vo/dto的 serialVersionUID生成(雪花算法)
-                        .replace("{serialVersionUID}", IdUtil.snowflakeId());
-
-                // 前端 layui html(替换数据)
-                newLine = newLine.replace("{layui-fields}", GenerateConfig.LAYUI_FIELDS)
-                        .replace("{layui-search-pt-str}", GenerateConfig.LAYUI_SEARCH_PT_STR)
-                        .replace("{layui-search-params-str}", GenerateConfig.LAYUI_SEARCH_PARAMS_STR)
-                        .replace("{layui-search-js-str}", GenerateConfig.LAYUI_SEARCH_JS_STR)
-                        // html add/upd code
-                        .replace("{add-upd-introduce}", GenerateConfig.ADD_UPD_INTRODUCE)
-                        .replace("{add-upd-htmls}", GenerateConfig.ADD_UPD_HTMLS)
-                        .replace("{add-upd-js}", GenerateConfig.ADD_UPD_JS)
-                        .replace("{add-upd-submit-js}", GenerateConfig.ADD_UPD_SUBMIT_JS);
-
-                // 前端 vue (替换数据)
-                newLine = newLine
-                        .replace("{vue-info-columns}", GenerateConfig.VUE_INFO_COLUMNS)
-                        .replace("{vue-add-columns}", GenerateConfig.VUE_ADD_COLUMNS)
-                        .replace("{vue-add-columns-default}", GenerateConfig.VUE_ADD_COLUMNS_DEFAULT)
-                        .replace("{vue-upd-columns}", GenerateConfig.VUE_UPD_COLUMNS)
-                ;
-                // 替换行
-                bw.write(newLine);
-                bw.newLine();
-                bw.flush();
-            }
-        } catch (IOException e) {
-            log.debug(e.toString());
-        }
-        log.debug(brBwPath.get("name") + " --> " + brBwPath.get("path").toString());
-    }
-
 
     /**
      * 参数替换
      *
      * @param path
      */
-    public static String replacParamsPath(String path) {
-        for (String key : TemplateParamsReplace.PARAM_REPLAC.keySet()) {
-            path = path.replace(key, TemplateParamsReplace.PARAM_REPLAC.get(key));
+    public static String replacParamsPath(GcConfig gcConfig, String path) {
+        Map<String, String> defaultTemplateParam = gcConfig.getDefaultTemplateParam();
+        for (String key : defaultTemplateParam.keySet()) {
+            path = path.replace(key, defaultTemplateParam.get(key));
+        }
+        Map<String, String> templateParam = gcConfig.getTemplateParam();
+        for (String key : templateParam.keySet()) {
+            path = path.replace(key, templateParam.get(key));
         }
         return path;
     }

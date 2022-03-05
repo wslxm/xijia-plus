@@ -1,12 +1,11 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
-import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
-import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,17 +26,17 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(List<DbFieldPO> data,String templatesPath, String path,String suffix) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(templatesPath,path,suffix);
-        this.generateParameters(data);
+    public void run(GcConfig gcConfig, String keyName) {
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(gcConfig, keyName);
+        List<DbFieldPO> dbFields = gcConfig.getDbFields();
+        this.generateParameters(gcConfig, dbFields);
         // 开始生成文件并进行数据替换
         TemplateParamsReplace.replacBrBwWritee(brBwPath);
-        // 文件url记录
-        XjGenerationSeviceImpl.pathMap.put("serviceImpl", brBwPath.get("path").toString());
+
     }
 
 
-    private void generateParameters(List<DbFieldPO> data) {
+    private void generateParameters(GcConfig gcConfig, List<DbFieldPO> data) {
         // MybatisPlus搜索条件数据拼接
         StringBuffer findPageMybatisPlus = new StringBuffer("");
         // 处理参数
@@ -50,25 +49,29 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
                 continue;
             }
             // 字段映射成驼峰模式,在首字母大写
-            fieldName = GenerateDataProcessing.getFieldName(fieldName);
+            fieldName = GenerateDataProcessing.getFieldName(gcConfig, fieldName);
             fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+
+            String tableNameUp = gcConfig.getDefaultTemplateParam("tableNameUp");
+
             //字段  // !=null StringUtils.isNotBlank(account)
             findPageMybatisPlus.append("                ");
             if (type.equals("int") || type.equals("bigint") || type.equals("tinyint")) {
                 // 整数 int/long/tinyint
-                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + GenerateConfig.TABLE_NAME_UP + "::get" + fieldName + ", query.get" + fieldName + "())");
+                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "())");
             } else if (type.equals("double") || type.equals("float") || type.equals("decimal")) {
                 // 单精度小数 Float / 双精度小数 Double / decimal等
-                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + GenerateConfig.TABLE_NAME_UP + "::get" + fieldName + ", query.get" + fieldName + "())");
+                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "())");
             } else if (type.equals("varchar") || type.equals("char") || type.equals("text") || type.equals("longtext")) {
                 // 字符串 / 大文本、超大文本
-                findPageMybatisPlus.append(".eq(StringUtils.isNotBlank(query.get" + fieldName + "()), " + GenerateConfig.TABLE_NAME_UP + "::get" + fieldName + ", query.get" + fieldName + "())");
+                findPageMybatisPlus.append(".eq(StringUtils.isNotBlank(query.get" + fieldName + "()), " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "())");
             } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
                 // 时间
-                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + GenerateConfig.TABLE_NAME_UP + "::get" + fieldName + ", query.get" + fieldName + "())");
+                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "())");
             }
             findPageMybatisPlus.append("\r\n");
         }
-        GenerateConfig.FIND_PAGE_MYBATIS_PLUS = findPageMybatisPlus.toString();
+
+        gcConfig.setTemplateParam("findPageMybatisPlus", findPageMybatisPlus.toString());
     }
 }

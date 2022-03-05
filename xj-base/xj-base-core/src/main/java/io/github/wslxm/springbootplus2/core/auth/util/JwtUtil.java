@@ -78,10 +78,11 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, APPSECRET_KEY).compact();
 
         // jwt 信息放入缓存
-        String snowflakeId = IdUtil.snowflakeId();
-        CacheUtil.set(snowflakeId, jwtToken);
-        // 放入 Header
-        response.setHeader(TOKEN, snowflakeId);
+//        String snowflakeId = IdUtil.snowflakeId();
+//        CacheUtil.set(snowflakeId, jwtToken);
+//        // 放入 Header
+//        response.setHeader(TOKEN, snowflakeId);
+        response.setHeader(TOKEN, jwtToken);
         return jwtToken;
     }
 
@@ -123,15 +124,16 @@ public class JwtUtil {
      */
     public static R<JwtUser> getJwtUserR(HttpServletRequest request, HttpServletResponse response) {
         // 判断是否传递tokne
-        String token = request.getHeader(TOKEN);
-        if (token == null || token == "") {
-            return R.error(RType.AUTHORITY_NO_TOKEN);
-        }
-        // 判断缓存中token是否存在
-        String jwtToken = CacheUtil.get(token, String.class);
-        if (jwtToken == null || jwtToken == "") {
-            return R.error(RType.AUTHORITY_LOGIN_EXPIRED);
-        }
+//        String token = request.getHeader(TOKEN);
+//        if (token == null || token == "") {
+//            return R.error(RType.AUTHORITY_NO_TOKEN);
+//        }
+//        // 判断缓存中token是否存在
+//        String jwtToken = CacheUtil.get(token, String.class);
+//        if (jwtToken == null || jwtToken == "") {
+//            return R.error(RType.AUTHORITY_LOGIN_EXPIRED);
+//        }
+        String jwtToken = request.getHeader(TOKEN);
         try {
             Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(jwtToken).getBody();
             return R.success(getClaimsJwtUser(claims));

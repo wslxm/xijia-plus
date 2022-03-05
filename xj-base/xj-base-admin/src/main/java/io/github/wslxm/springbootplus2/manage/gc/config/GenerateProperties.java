@@ -23,7 +23,6 @@ public class GenerateProperties {
     public String projectName;          // 项目名/路径，如：xj-server/xj-test-server
     public String packPath;             // 包路径
     public String rootModule;           // 根模块(固定为：modules(管理端), 用户端为：client)
-    //public String packPathZp;           // 业务分类模块(sys 系统代码  yw 业务代码)
     public String moduleName;           // 子模块(业务分类,如用户管理,订单管理模块拆分，也可以统一一个名称放在一起)
     public String tablePrefixDefault;   // 表前缀
     public String fieldPrefixDefault;   // 字段前缀

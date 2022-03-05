@@ -1,14 +1,18 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
-import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import com.alibaba.fastjson.JSON;
+import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
+import io.github.wslxm.springbootplus2.manage.gc.config.GenerateProperties;
 import io.github.wslxm.springbootplus2.manage.gc.constant.FieldTypeConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
 import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -17,20 +21,23 @@ import java.util.Map;
 public class XjGenerationEntity extends BaseGcImpl implements XjGcSevice {
 
 
-    @Override
-    public void run(List<DbFieldPO> data,String templatesPath, String path,String suffix) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(templatesPath,path,suffix);
+    @Autowired
+    private GenerateProperties generateProperties;
 
-        // 处理参数
-        this.generateParameters(data);
+
+    @Override
+    public void run(GcConfig gcConfig, String keyName) {
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(gcConfig, keyName);
+        List<DbFieldPO> dbFields = gcConfig.getDbFields();
+        //数据拼接(所有字段)
+        this.generateParameters(gcConfig, dbFields);
         // 开始生成文件并进行数据替换
         TemplateParamsReplace.replacBrBwWritee(brBwPath);
-        // 返回路径
-        XjGenerationSeviceImpl.pathMap.put("entity", brBwPath.get("path").toString());
     }
 
 
-    private void generateParameters(List<DbFieldPO> data) {
+    private void generateParameters(GcConfig gcConfig, List<DbFieldPO> data) {
+
         //数据拼接(所有字段)
         StringBuffer fields = new StringBuffer();
         int position = 0;
@@ -50,9 +57,9 @@ public class XjGenerationEntity extends BaseGcImpl implements XjGcSevice {
             String desc = fieldMap.getDesc();
             String fieldName = fieldMap.getName();
             String typeDetail = fieldMap.getTypeDetail();
-
             // 1、生成注释
-            if (GenerateConfig.entitySwagger) {
+            Boolean entitySwagger = Boolean.valueOf(gcConfig.getDefaultTemplateParam("entitySwagger"));
+            if (entitySwagger) {
                 // 字段注释信息-->  Swagger2 模式
                 fields.append("\r\n    @ApiModelProperty(notes = \"" + desc + "\" ,position = " + position++ + ")");
             } else {
@@ -70,9 +77,9 @@ public class XjGenerationEntity extends BaseGcImpl implements XjGcSevice {
                     fields.append("\r\n    @TableId(type = IdType.ASSIGN_ID) //雪花算法");
                 }
             }
-
+            List<String> keywordArray = JSON.parseObject(gcConfig.getDefaultTemplateParam("keywordArray"), List.class);
             // 3、字段对应数据库字段 ==> 处理 添加mysql 关键字映射，mysql关键字配置: GenerateConfig.KEYWORD_ARRAY
-            if (GenerateConfig.KEYWORD_ARRAY.contains(fieldName)) {
+            if (keywordArray.contains(fieldName)) {
                 fields.append("\r\n    @TableField(value = \"`" + fieldName + "`\")");
             } else {
                 fields.append("\r\n    @TableField(value = \"" + fieldName + "\")");
@@ -82,7 +89,7 @@ public class XjGenerationEntity extends BaseGcImpl implements XjGcSevice {
             fields.append("\r\n    " + super.jxModel(fieldName, type) + "\r\n");
         }
         // 数据保存到替换对象类,使模板中可以读取
-        GenerateConfig.FIELD_ENTITYS = fields.toString();
+        gcConfig.setTemplateParam("fieldEntitys", fields.toString());
     }
 
 }

@@ -1,27 +1,17 @@
-package {packPath}.{rootModule}.{moduleName}.mapper;
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="{packPath}.{rootModule}.{moduleName}.mapper.{tableNameUp}Mapper">
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import {packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp};
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="{packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp}">
+{resultMap}
+    </resultMap>
 
-/**
- * {tableComment}
- * <p>
- * {describe}
- * </p>
- * {author}
- * {email}
- * {date}
- */
-public interface {tableNameUp}Mapper extends BaseMapper<{tableNameUp}> {
+    <!-- 通用查询结果列: <include refid="Base_Column_List"></include> -->
+    <sql id="Base_Column_List">
+{columnList}
+    </sql>
 
-      {tableNameUp} findIdB(String id);
 
-      List<{tableNameUp}> findListB();
-
-      int insertB({tableNameUp} {tableNameLower});
-
-      int updateB({tableNameUp} {tableNameLower});
-
-      int deleteB(String id);
-}
+</mapper>
 

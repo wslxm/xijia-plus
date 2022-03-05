@@ -1,7 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.config;
 
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -30,18 +29,20 @@ public class GcPathConfig {
 	public static String T_SERVICEIMPL = T_BASE_TEMPLATE + "/DemoServiceImpl.tp";
 	public static String T_MAPPER = T_BASE_TEMPLATE + "/DemoMapper.tp";
 	// xml 及 vue代码
-	public static String T_MAPPER_XML = T_BASE_TEMPLATE + "/DemoMapper.tp";
+	public static String T_MAPPER_XML = T_BASE_TEMPLATE + "/xml/DemoMapper.tp";
 	public static String T_VUE = T_BASE_TEMPLATE + "/vue/DemoVue.tp";
 	public static String T_VUE_ADD = T_BASE_TEMPLATE + "/vue/DemoVueAdd.tp";
 	public static String T_VUE_UPD = T_BASE_TEMPLATE + "/vue/DemoVueUpd.tp";
 
 	/**
 	 * 代码生成 路径
-	 * {projectName}
-	 * {packPath}
-	 * {rootModule}
-	 * {moduleName}
-	 * {tableNameUp}
+	 * <P>
+	 *  {projectName}
+	 *  {packPath}
+	 *  {rootModule}
+	 *  {moduleName}
+	 *  {tableNameUp}
+	 * </P>
 	 */
 	// java 文件默认生成到 指定包录 + 模块路径 + 下方指定的路径下
 	private static String BASE_PATH_JAVA = "{projectName}/src/main/java/{packFilePath}/{rootModule}/{moduleName}";
@@ -63,12 +64,12 @@ public class GcPathConfig {
 	public static String P_VUE_ADD = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameUp}Add.vue";
 	public static String P_VUE_UPD = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameUp}Upd.vue";
 
+
 	/**
-	 * 文件格式,生成时指定
+	 *  预览文件配置
+	 *   - 预览文件生成路径
+	 *   - 预览文件生成后缀格式
 	 */
-	public static String SUFFIX_JAVA = ".java";
-	public static String SUFFIX_XML = ".xml";
-	public static String SUFFIX_HTML = ".html";
-	public static String SUFFIX_VUE = ".vue";
-	public static String SUFFIX_TXT = ".txt";
+	public static String PREVIEW_FILE_PATH = "File/";
+	public static String PREVIEW_SUFFIX = ".txt";
 }

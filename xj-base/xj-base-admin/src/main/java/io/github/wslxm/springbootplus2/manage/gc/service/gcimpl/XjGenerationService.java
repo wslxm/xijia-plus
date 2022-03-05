@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
@@ -26,12 +27,10 @@ public class XjGenerationService extends BaseIServiceImpl implements XjGcSevice 
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(List<DbFieldPO> data,String templatesPath, String path,String suffix) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(templatesPath,path,suffix);
+    public void run(GcConfig gcConfig, String keyName){
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath( gcConfig,  keyName);
 
         // 开始生成文件并进行数据替换
         TemplateParamsReplace.replacBrBwWritee(brBwPath);
-        // 文件url记录
-        XjGenerationSeviceImpl.pathMap.put("service", brBwPath.get("path").toString());
     }
 }

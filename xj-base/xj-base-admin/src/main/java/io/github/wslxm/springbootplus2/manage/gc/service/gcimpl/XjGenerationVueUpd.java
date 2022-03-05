@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
-import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
@@ -28,13 +28,14 @@ public class XjGenerationVueUpd extends BaseGcImpl implements XjGcSevice {
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(List<DbFieldPO> data,String templatesPath, String path,String suffix) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(templatesPath,path,suffix);
+    public void run(GcConfig gcConfig, String keyName) {
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(gcConfig, keyName);
 
         BufferedReader br = (BufferedReader) brBwPath.get("br");
         BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
         StringBuffer vueUpdColumns = new StringBuffer("");
-        for (DbFieldPO fieldMap : data) {
+        List<DbFieldPO> dbFields = gcConfig.getDbFields();
+        for (DbFieldPO fieldMap : dbFields) {
             // 未勾选的字段过滤
             if (!isChecked(fieldMap)) {
                 continue;
@@ -48,9 +49,8 @@ public class XjGenerationVueUpd extends BaseGcImpl implements XjGcSevice {
             vueUpdColumns.append(vueColumn);
         }
         // 数据保存
-        GenerateConfig.VUE_UPD_COLUMNS = vueUpdColumns.toString();
+        gcConfig.setTemplateParam("vueUpdColumns", vueUpdColumns.toString());
         // 开始生成文件并进行数据替换
         TemplateParamsReplace.replacBrBwWritee(brBwPath);
-        XjGenerationSeviceImpl.pathMap.put("vueMainUpd", brBwPath.get("path").toString());
     }
 }

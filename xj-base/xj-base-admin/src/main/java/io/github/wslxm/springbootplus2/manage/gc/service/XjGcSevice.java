@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.service;
 
+import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 
 import javax.xml.transform.Templates;
@@ -16,6 +17,6 @@ public interface XjGcSevice {
      * @date 2019/11/20 19:18
      * @return void
      */
-    public void run(List<DbFieldPO> data, String templatesPath, String path,String suffix);
+    public void run(GcConfig gcConfig, String keyName);
 
 }

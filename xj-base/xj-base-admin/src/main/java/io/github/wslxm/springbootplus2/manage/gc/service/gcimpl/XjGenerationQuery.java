@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
-import io.github.wslxm.springbootplus2.manage.gc.config.GenerateConfig;
+import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
@@ -17,16 +17,16 @@ public class XjGenerationQuery extends BaseGcImpl implements XjGcSevice {
 
 
     @Override
-    public void run(List<DbFieldPO> data,String templatesPath, String path,String suffix) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(templatesPath,path,suffix);
-
-        this.generateParameters(data);
-        TemplateParamsReplace.replacBrBwWritee(brBwPath);    // 开始生成文件并进行数据替换
-        XjGenerationSeviceImpl.pathMap.put("Query",brBwPath.get("path").toString());
+    public void run(GcConfig gcConfig, String keyName) {
+        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(gcConfig, keyName);
+        List<DbFieldPO> dbFields = gcConfig.getDbFields();
+        this.generateParameters(gcConfig, dbFields);
+        // 开始生成文件并进行数据替换
+        TemplateParamsReplace.replacBrBwWritee(brBwPath);
     }
 
 
-    private void generateParameters(List<DbFieldPO> data) {
+    private void generateParameters(GcConfig gcConfig, List<DbFieldPO> data) {
         //数据拼接(所有字段)
         StringBuffer fields = new StringBuffer();
         int position = 0;
@@ -54,6 +54,6 @@ public class XjGenerationQuery extends BaseGcImpl implements XjGcSevice {
             fields.append("\r\n    " + super.jxModel(fieldName, type)+"\r\n");
         }
         // 数据保存到替换对象类,使模板中可以读取
-        GenerateConfig.FIELD_ENTITYS = fields.toString();
+        gcConfig.setTemplateParam("fieldEntitys", fields.toString());
     }
 }
