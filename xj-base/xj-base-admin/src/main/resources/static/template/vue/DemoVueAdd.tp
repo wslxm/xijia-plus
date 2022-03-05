@@ -15,7 +15,7 @@
             return {
                 obj: {},
                 defaultData: {
-{vue-add-columns-default}
+{vueAddColumnsDefault}
                 },
             }
         },
@@ -31,7 +31,7 @@
                     submitText: '提交',
                     emptyText: "关闭",
                     column: [
-{vue-add-columns}
+{vueAddColumns}
                     ]
                 }
             }

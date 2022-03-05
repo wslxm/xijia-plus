@@ -2,14 +2,10 @@ package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
-import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
-import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
-import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
-import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
+import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("all")
@@ -28,8 +24,7 @@ public class XjGenerationController extends BaseIServiceImpl implements XjGcSevi
      */
     @Override
     public void run(GcConfig gcConfig, String keyName){
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath( gcConfig,  keyName);
         // 开始生成文件并进行数据替换
-        GenerateDataProcessing.replacParamsPath();
+        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
     }
 }

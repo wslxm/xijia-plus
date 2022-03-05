@@ -4,8 +4,8 @@ import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
-import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
-import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
+import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
+import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -34,13 +34,13 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
      */
     @Override
     public void run(GcConfig gcConfig, String keyName) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(gcConfig, keyName);
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         gcConfig.setTemplateParam("resultMap", resultXml(gcConfig, dbFields));
         gcConfig.setTemplateParam("columnList", columnXml(dbFields));
         gcConfig.setTemplateParam("xmlInsert", insertXml(gcConfig, dbFields));
         gcConfig.setTemplateParam("xmlUpd", updateXml(gcConfig, dbFields));
-
+        // 开始生成文件并进行数据替换
+        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
     }
 
 
@@ -61,7 +61,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
         for (int i = 0; i < data.size(); i++) {
             DbFieldPO fieldMap = data.get(i);
             String type = fieldMap.getType();                                               // 字段类型
-            String fieldNameHump = GenerateDataProcessing.getFieldName(gcConfig, fieldMap.getName());  // 字段名驼峰
+            String fieldNameHump = GcDataUtil.getFieldName(gcConfig, fieldMap.getName());  // 字段名驼峰
             // 拼接--动态添加sql
             if (type.equals("varchar") || type.equals("text")) {
                 insertList.append("\r\n                <if test=\"" + fieldNameHump + " != null and " + fieldNameHump + "  != ''\">");
@@ -81,7 +81,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
             DbFieldPO fieldMap = data.get(i);
             // 字段类型日
             String type = fieldMap.getType();
-            String fieldNameHump = GenerateDataProcessing.getFieldName(gcConfig, fieldMap.getName());
+            String fieldNameHump = GcDataUtil.getFieldName(gcConfig, fieldMap.getName());
             // 拼接--动态添加sql
             if (type.equals("varchar") || type.equals("text")) {
                 insertList.append("\r\n                <if test=\"" + fieldNameHump + " != null and " + fieldNameHump + " != ''\">");
@@ -115,7 +115,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
             // 字段名
             String fieldName = fieldMap.getName();
             // 驼峰字段名
-            String fieldNameHump = GenerateDataProcessing.getFieldName(gcConfig, fieldName);
+            String fieldNameHump = GcDataUtil.getFieldName(gcConfig, fieldName);
             // 字段类型日
             String type = fieldMap.getType();
             if (!fieldName.toLowerCase().equals("id")) {
@@ -151,7 +151,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
             //字段名
             String fieldName = fieldMap.getName();
             //驼峰字段名
-            String fieldNameHump = GenerateDataProcessing.getFieldName(gcConfig, fieldName);
+            String fieldNameHump = GcDataUtil.getFieldName(gcConfig, fieldName);
             if ("id".equals(fieldName)) {
                 resultMap.append("\r\n        <id column=\"" + fieldName + "\" property=\"" + fieldNameHump + "\"/>");
             } else {

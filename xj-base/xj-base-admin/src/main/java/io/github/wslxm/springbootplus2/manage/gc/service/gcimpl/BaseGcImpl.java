@@ -2,11 +2,12 @@ package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.enums.Base;
+import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.constant.BracketConstant;
 import io.github.wslxm.springbootplus2.manage.gc.constant.FieldTypeConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.template.VueAddUpdTemplate;
-import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
+import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
 
 import java.math.BigDecimal;
 
@@ -30,9 +31,9 @@ public class BaseGcImpl extends BaseIServiceImpl {
      * @param fieldName 1
      * @param type 1
      */
-    protected String jxModel(String fieldName, String type) {
+    protected String jxModel (GcConfig gcConfig, String fieldName, String type) {
         // 转驼峰模式
-        fieldName = GenerateDataProcessing.getFieldName(fieldName);
+        fieldName = GcDataUtil.getFieldName( gcConfig ,fieldName);
         String field = "";
         // 字段
         if (type.equals(FieldTypeConstant.INT)) {
@@ -180,7 +181,7 @@ public class BaseGcImpl extends BaseIServiceImpl {
      * @param vueFieldType
      * @return
      */
-    protected String jxVueColumns(String name, String type, String typeDetail, String newDesc, Integer vueFieldType) {
+    protected String jxVueColumns(GcConfig gcConfig, String name, String type, String typeDetail, String newDesc, Integer vueFieldType) {
         // 生成表单时获取数据库的字段的长度来控制输入
         long maxlength = 0L;
         if (type.equals(FieldTypeConstant.INT) || type.equals(FieldTypeConstant.BIGINT)) {
@@ -219,7 +220,7 @@ public class BaseGcImpl extends BaseIServiceImpl {
         }
         // 处理字段
         String columnStr = null;
-        name = GenerateDataProcessing.getFieldName(name);
+        name = GcDataUtil.getFieldName(gcConfig,name);
         if (Base.VueFieldType.V1.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.INPUT
                     .replaceAll("\\{label}", newDesc)

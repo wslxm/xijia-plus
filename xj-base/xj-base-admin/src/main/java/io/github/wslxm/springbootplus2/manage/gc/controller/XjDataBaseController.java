@@ -37,7 +37,7 @@ public class XjDataBaseController extends BaseController<XjDataBaseService> {
     }
 
 
-    @ApiOperation("查询指定表下使用字段内容")
+    @ApiOperation("查询指定表下所有字段内容")
     @GetMapping(value = "/table/field")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tableName", value = "表名", required = false, paramType = "query"),

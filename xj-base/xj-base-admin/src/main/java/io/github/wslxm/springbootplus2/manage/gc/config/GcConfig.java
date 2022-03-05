@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,7 +44,7 @@ public class GcConfig {
 	/**
 	 * 模板生成后的访问链接（代码生成完成后存在的数据）
 	 */
-	private Map<String, String> visitPathMap = new HashMap<>();
+	private Map<String, String> visitPathMap = new LinkedHashMap<>();
 
 
 	/**
@@ -92,7 +93,7 @@ public class GcConfig {
 	 * @param key
 	 */
 	public String getDefaultTemplateParam(String key) {
-		return templateParam.get("{" + key + "}");
+		return defaultTemplateParam.get("{" + key + "}");
 	}
 
 	/**

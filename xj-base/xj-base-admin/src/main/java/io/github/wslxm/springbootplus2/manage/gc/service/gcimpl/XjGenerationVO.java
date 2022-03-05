@@ -1,15 +1,13 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
+import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
-import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
-import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
-import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
+import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("all")
 @Component
@@ -18,12 +16,11 @@ public class XjGenerationVO extends BaseGcImpl implements XjGcSevice {
 
     @Override
     public void run(GcConfig gcConfig, String keyName){
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath( gcConfig,  keyName);
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         //数据拼接(所有字段)
         this.generateParameters(gcConfig,dbFields);
         // 开始生成文件并进行数据替换
-        TemplateParamsReplace.replacBrBwWritee(brBwPath);
+        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
 
     }
 
@@ -49,9 +46,10 @@ public class XjGenerationVO extends BaseGcImpl implements XjGcSevice {
             // 1、生成swagger注解
             fields.append("\r\n    @ApiModelProperty(value = \"" + desc + "\", position = " + (position++) + ")");
             // 3、生成字段
-            fields.append("\r\n    " + super.jxModel(fieldName, type) + "\r\n");
+            fields.append("\r\n    " + super.jxModel( gcConfig,fieldName, type) + "\r\n");
         }
 
-        gcConfig.setTemplateParam("fieldEntitys",fields.toString());
+        gcConfig.setTemplateParam("entitys",fields.toString());
+        gcConfig.setTemplateParam("serialVersionUID", IdUtil.snowflakeId());
     }
 }

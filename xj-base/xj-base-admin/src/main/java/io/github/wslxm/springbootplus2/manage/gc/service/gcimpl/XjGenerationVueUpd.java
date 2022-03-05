@@ -3,9 +3,8 @@ package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
-import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
-import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
-import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
+import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
+import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -29,10 +28,6 @@ public class XjGenerationVueUpd extends BaseGcImpl implements XjGcSevice {
      */
     @Override
     public void run(GcConfig gcConfig, String keyName) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(gcConfig, keyName);
-
-        BufferedReader br = (BufferedReader) brBwPath.get("br");
-        BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
         StringBuffer vueUpdColumns = new StringBuffer("");
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         for (DbFieldPO fieldMap : dbFields) {
@@ -41,7 +36,9 @@ public class XjGenerationVueUpd extends BaseGcImpl implements XjGcSevice {
                 continue;
             }
             // 生成字段
-            String vueColumn = jxVueColumns(fieldMap.getName(),
+            String vueColumn = jxVueColumns(
+                    gcConfig,
+                    fieldMap.getName(),
                     fieldMap.getType(),
                     fieldMap.getTypeDetail(),
                     getDesc(fieldMap.getDesc()),
@@ -51,6 +48,6 @@ public class XjGenerationVueUpd extends BaseGcImpl implements XjGcSevice {
         // 数据保存
         gcConfig.setTemplateParam("vueUpdColumns", vueUpdColumns.toString());
         // 开始生成文件并进行数据替换
-        TemplateParamsReplace.replacBrBwWritee(brBwPath);
+        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
     }
 }

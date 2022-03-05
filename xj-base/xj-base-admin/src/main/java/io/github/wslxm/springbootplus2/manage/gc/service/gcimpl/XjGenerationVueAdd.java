@@ -3,9 +3,8 @@ package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
-import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
-import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
-import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
+import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
+import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -28,11 +27,6 @@ public class XjGenerationVueAdd extends BaseGcImpl implements XjGcSevice {
      */
     @Override
     public void run(GcConfig gcConfig, String keyName){
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath( gcConfig,  keyName);
-
-        BufferedReader br = (BufferedReader) brBwPath.get("br");
-        BufferedWriter bw = (BufferedWriter) brBwPath.get("bw");
-        //
         StringBuffer vueAddColumnsDefault = new StringBuffer("");
         StringBuffer vueAddColumns = new StringBuffer("");
         //
@@ -47,10 +41,12 @@ public class XjGenerationVueAdd extends BaseGcImpl implements XjGcSevice {
                 continue;
             }
             // 生成字段默认值
-            String name = GenerateDataProcessing.getFieldName(fieldMap.getName());
+            String name = GcDataUtil.getFieldName(gcConfig, fieldMap.getName());
             vueAddColumnsDefault.append("                    " + name + ": " + null + ",\n");
             // 生成字段
-            String vueColumn = jxVueColumns(fieldMap.getName(),
+            String vueColumn = jxVueColumns(
+                    gcConfig,
+                    fieldMap.getName(),
                     fieldMap.getType() ,
                     fieldMap.getTypeDetail(),
                     getDesc(fieldMap.getDesc()),
@@ -60,8 +56,7 @@ public class XjGenerationVueAdd extends BaseGcImpl implements XjGcSevice {
         // 数据保存
         gcConfig.setTemplateParam("vueAddColumnsDefault",vueAddColumnsDefault.toString());
         gcConfig.setTemplateParam("vueAddColumns",vueAddColumns.toString());
-
         // 开始生成文件并进行数据替换
-        TemplateParamsReplace.replacBrBwWritee(brBwPath);
+        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
     }
 }

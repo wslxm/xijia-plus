@@ -30,7 +30,7 @@
                     submitText: '提交',
                     emptyText: "关闭",
                     column: [
-{vue-upd-columns}
+{vueUpdColumns}
                     ]
                 }
             }

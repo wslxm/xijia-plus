@@ -2,7 +2,7 @@ package io.github.wslxm.springbootplus2.manage.gc.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
-import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
+import io.github.wslxm.springbootplus2.manage.gc.config.GenerateProperties;
 import io.github.wslxm.springbootplus2.manage.gc.mapper.XjDataBaseMapper;
 import io.github.wslxm.springbootplus2.manage.gc.model.entity.XjAdminDatasource;
 import io.github.wslxm.springbootplus2.manage.gc.model.vo.XjTableFieldVO;
@@ -47,6 +47,8 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
 
     @Autowired
     private XjAdminDatasourceService adminDatasourceService;
+    @Autowired
+    private GenerateProperties generateProperties;
 
     @Override
     public List<XjTableVO> findTable(String dataSourceId) {
@@ -61,8 +63,8 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
      * @date 2019/11/20 10:41
      */
     @Override
-    public List<XjTableFieldVO> findTableField(GcConfig gcConfig, String table, String dataSourceId) {
-        return this.findJdbcTableField(gcConfig,table, dataSourceId);
+    public List<XjTableFieldVO> findTableField(String table, String dataSourceId) {
+        return this.findJdbcTableField(table, dataSourceId);
         // return dataBaseMapper.findTableField(getDbName());
     }
 
@@ -122,7 +124,7 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
      * @return java.util.List<java.lang.String>
      * @date 2019/11/20 10:41
      */
-    private List<XjTableFieldVO> findJdbcTableField(GcConfig gcConfig, String table, String dataSourceId) {
+    private List<XjTableFieldVO> findJdbcTableField(String table, String dataSourceId) {
         XjAdminDatasource datasource = adminDatasourceService.getById(dataSourceId);
         // 1、判断使用默认数据源还是动态数据源来获取数据库名称
         String dbName = "";
@@ -191,11 +193,14 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
                 }
             }
         } else {
+            // 获取通用字段
+            String basefields = generateProperties.getBasefields();
+            List<String> basefieldsList = Arrays.asList(basefields.split(","));
+
             // 使用默认通用字段
             for (XjTableFieldVO tableFieldVO : vos) {
                 // 判断是否为通用字段
-                String baseFields = gcConfig.getDefaultTemplateParam("baseFields");
-                if (baseFields.contains(tableFieldVO.getName())) {
+                if (basefieldsList.contains(tableFieldVO.getName())) {
                     tableFieldVO.setIsChecked(false);
                 } else {
                     tableFieldVO.setIsChecked(true);

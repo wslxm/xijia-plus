@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.gc.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.vo.XjTableFieldVO;
 import io.github.wslxm.springbootplus2.manage.gc.model.vo.XjTableVO;
 
@@ -23,7 +24,7 @@ public interface XjDataBaseService extends IService {
      * @return java.util.List<io.github.wslxm.springbootplus2.manage.gc.model.vo.XjTableVO>
      * @version 1.0.0
      */
-    List<XjTableVO> findTable(String dataSourceId);
+    List<XjTableVO> findTable( String dataSourceId);
 
 
     /**

@@ -1,20 +1,17 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import com.alibaba.fastjson.JSON;
+import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateProperties;
 import io.github.wslxm.springbootplus2.manage.gc.constant.FieldTypeConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
-import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
-import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
-import io.github.wslxm.springbootplus2.manage.gc.util.TemplateParamsReplace;
+import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("all")
 @Component
@@ -27,12 +24,11 @@ public class XjGenerationEntity extends BaseGcImpl implements XjGcSevice {
 
     @Override
     public void run(GcConfig gcConfig, String keyName) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(gcConfig, keyName);
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         //数据拼接(所有字段)
         this.generateParameters(gcConfig, dbFields);
         // 开始生成文件并进行数据替换
-        TemplateParamsReplace.replacBrBwWritee(brBwPath);
+        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
     }
 
 
@@ -86,10 +82,11 @@ public class XjGenerationEntity extends BaseGcImpl implements XjGcSevice {
             }
 
             // 4、生成字段
-            fields.append("\r\n    " + super.jxModel(fieldName, type) + "\r\n");
+            fields.append("\r\n    " + super.jxModel(gcConfig,fieldName, type) + "\r\n");
         }
         // 数据保存到替换对象类,使模板中可以读取
-        gcConfig.setTemplateParam("fieldEntitys", fields.toString());
+        gcConfig.setTemplateParam("entitys", fields.toString());
+        gcConfig.setTemplateParam("serialVersionUID", IdUtil.snowflakeId());
     }
 
 }

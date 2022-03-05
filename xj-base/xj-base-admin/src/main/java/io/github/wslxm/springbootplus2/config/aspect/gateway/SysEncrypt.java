@@ -173,6 +173,9 @@ public class SysEncrypt {
      * @version 1.0.1
      */
     public Object encrypt(Object obj) {
+        if(obj == null){
+            return null;
+        }
         if (!isEncrypt) {
             return obj;
         }

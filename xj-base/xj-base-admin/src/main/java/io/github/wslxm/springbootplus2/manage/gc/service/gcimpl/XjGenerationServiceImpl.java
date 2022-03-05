@@ -4,8 +4,8 @@ import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
-import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
-import io.github.wslxm.springbootplus2.manage.gc.util.GenerateDataProcessing;
+import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
+import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,12 +27,10 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
      */
     @Override
     public void run(GcConfig gcConfig, String keyName) {
-        Map<String, Object> brBwPath = GenerateDataProcessing.getBrBwPath(gcConfig, keyName);
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         this.generateParameters(gcConfig, dbFields);
         // 开始生成文件并进行数据替换
-        TemplateParamsReplace.replacBrBwWritee(brBwPath);
-
+        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
     }
 
 
@@ -49,7 +47,7 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
                 continue;
             }
             // 字段映射成驼峰模式,在首字母大写
-            fieldName = GenerateDataProcessing.getFieldName(gcConfig, fieldName);
+            fieldName = GcDataUtil.getFieldName(gcConfig, fieldName);
             fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
 
             String tableNameUp = gcConfig.getDefaultTemplateParam("tableNameUp");
