@@ -37,11 +37,12 @@ public class GcTPConfig {
     /**
      * 代码生成 路径
      * <P>
-     *  {projectName}
-     *  {packPath}
-     *  {rootModule}
-     *  {moduleName}
-     *  {tableNameUp}
+     *  {projectName}   项目名称
+     *  {packFilePath}  对应包的文件路径
+     *  {rootModule}    模快名（区分管理端/用户端）
+     *  {moduleName}    模板名 (当前模块- 用户模块/ 商品模块 / 会员模块)
+     *  {tableNameUp}     对应数据库表名的 大写开头的驼峰模式
+     *  {tableNameLower}  对应数据库表名的 小写开头的驼峰模式
      * </P>
      */
     // java 文件默认生成到 指定包录 + 模块路径 + 下方指定的路径下
@@ -58,13 +59,13 @@ public class GcTPConfig {
     public static String P_SERVICE_IMPL = BASE_PATH_JAVA + "/service/impl/{tableNameUp}serviceImpl.java";
     public static String P_MAPPER = BASE_PATH_JAVA + "/mapper/{tableNameUp}mapper.java";
     // 以下默认生成到 resources 目录
-    public static String P_MAPPER_XML = BASE_PATH_XML + "/mapper/{moduleName}/{tableNameUp}.xml";
+    public static String P_MAPPER_XML = BASE_PATH_XML + "/mapper/{moduleName}/{tableNameUp}Mapper.xml";
     // vue
-    public static String P_VUE = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameUp}/{tableNameUp}.vue";
-    public static String P_VUE_ADD = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameUp}/{tableNameUp}Add.vue";
-    public static String P_VUE_UPD = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameUp}/{tableNameUp}Upd.vue";
+    public static String P_VUE = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}.vue";
+    public static String P_VUE_ADD = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}Add.vue";
+    public static String P_VUE_UPD = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}Upd.vue";
     // 预览菜单路径(参考)
-    public static String P_VUE_MEUN = "/views/{rootModule}/{moduleName}/{tableNameUp}/{tableNameUp}.vue";
+    public static String P_VUE_MEUN = "/views/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}.vue";
 
 
     /**

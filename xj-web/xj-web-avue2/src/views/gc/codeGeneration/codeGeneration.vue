@@ -22,13 +22,22 @@
                     <template slot-scope="scope" slot="menuLeft">
                         <el-button type="primary" size="small" plain @click="finDGenerateGetPath()">查看生成路径</el-button>
                         <el-button type="primary" size="small" plain @click="findGeneratePreview()">生成预览代码(在线查看)</el-button>
-                        <el-button type="primary" size="small" plain @click="generateCodeJava()">生成后端代码</el-button>
-                        <el-button type="primary" size="small" plain @click="generateCodeVueFun()">生成vue代码</el-button>
+                        <el-button type="primary" size="small" plain @click="generateCodeJava()">生成代码</el-button>
+                        <el-button type="primary" size="small" plain @click="generateCodeVueFun()">生成并下载vue代码</el-button>
                     </template>
                     <!-- 数据类型 -->
                     <template slot-scope="{scope,row,index,type,size}" slot="vueFieldType">
                         <!--<el-col :span="6">-->
-                        <avue-select v-model="row.vueFieldType" placeholder="请选择内容" type="tree" :dic="vueFieldTypeDic"></avue-select>
+                      <!--  <avue-select v-model="row.vueFieldType" placeholder="请选择内容" type="tree" :dic="vueFieldTypeDic"></avue-select>-->
+
+                        <el-select v-model="row.vueFieldType" filterable placeholder="请选择">
+                            <el-option
+                                    v-for="item in vueFieldTypeDic"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
                         <!-- </el-col>-->
                     </template>
                     <!-- 是否是搜索参数 -->
@@ -135,7 +144,7 @@
                     label: '字段名',
                     prop: 'name',
                     align: 'left',
-                   // width: 200,
+                    // width: 200,
                 },
                 {
                     label: '字段类型(长度)',

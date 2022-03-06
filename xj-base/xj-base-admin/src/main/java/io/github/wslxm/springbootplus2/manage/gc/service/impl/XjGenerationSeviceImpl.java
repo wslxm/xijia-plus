@@ -8,6 +8,7 @@ import io.github.wslxm.springbootplus2.core.utils.PropUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcTPConfig;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateProperties;
+import io.github.wslxm.springbootplus2.manage.gc.config.model.GcFilePath;
 import io.github.wslxm.springbootplus2.manage.gc.model.dto.XjGenerateDto;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjAdminDatasourceService;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGenerationSevice;
@@ -161,6 +162,14 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         // 获取预览地址(判断是否生成预览，如果是预览文件将默认使用  GcTPConfig.PREVIEW_SUFFIX 为后缀的文件)
         String previewFile = isPreview ? GcTPConfig.PREVIEW_FILE_PATH : "";
 
+        // 处理数据相关
+        if (generateDto.getData() != null) {
+            // 处理请求的表指定数据
+            gcConfig.setDbFields(GcDataUtil.getDataAnalysis(generateDto.getData()));
+        }
+        // 获取模板参数
+        gcConfig.setDefaultTemplateParam(getDefaultTemplateParam(gcConfig, generateDto.getTableName(), generateDto.getTableComment()));
+
         // 处理模板地址和代码生成的地址配置
         gcConfig.addTemplate("X-Entity", baseUrl + GcTPConfig.T_ENTITY, previewFile + GcTPConfig.P_ENTITY);
         gcConfig.addTemplate("X-VO", baseUrl + GcTPConfig.T_VO, previewFile + GcTPConfig.P_VO);
@@ -174,14 +183,10 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         gcConfig.addTemplate("X-Vue", baseUrl + GcTPConfig.T_VUE, previewFile + GcTPConfig.P_VUE);
         gcConfig.addTemplate("X-VueAdd", baseUrl + GcTPConfig.T_VUE_ADD, previewFile + GcTPConfig.P_VUE_ADD);
         gcConfig.addTemplate("X-VueUpd", baseUrl + GcTPConfig.T_VUE_UPD, previewFile + GcTPConfig.P_VUE_UPD);
-
-        // 处理数据相关
-        if (generateDto.getData() != null) {
-            // 处理请求的表指定数据
-            gcConfig.setDbFields(GcDataUtil.getDataAnalysis(generateDto.getData()));
+        // 对生成后的文件路径上的参数进行参数替换
+        for (GcFilePath gcFilePath : gcConfig.getTemplatePathMap().values()) {
+            gcFilePath.setPath(GcReplacUtil.replacParams(gcConfig, gcFilePath.getPath()));
         }
-        // 获取模板参数
-        gcConfig.setDefaultTemplateParam(getDefaultTemplateParam(gcConfig, generateDto.getTableName(), generateDto.getTableComment()));
         // 返回配置对象
         return gcConfig;
     }

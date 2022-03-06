@@ -42,8 +42,6 @@ public class GcFileUtil {
             path = path.substring(0, path.lastIndexOf("."));
             path += GcTPConfig.PREVIEW_SUFFIX;
         }
-        // 对路径上的参数进行参数替换
-        path = GcReplacUtil.replacParams(gcConfig, path);
         // 获取路径并创建目录
         String pathFile = path.substring(0, path.lastIndexOf("/"));
         GcFileUtil.mkdirFile(pathFile);

@@ -4,14 +4,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
-import io.github.wslxm.springbootplus2.core.result.R;
-import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
-import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
 import io.github.wslxm.springbootplus2.manage.test.model.dto.GcTestDTO;
 import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
 import io.github.wslxm.springbootplus2.manage.test.service.GcTestService;
-
+import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
+import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
+import io.github.wslxm.springbootplus2.core.result.R;
 
 /**
  * 代码生成测试表 前端控制器
@@ -22,12 +21,12 @@ import io.github.wslxm.springbootplus2.manage.test.service.GcTestService;
  *
  * @author ws
  * @email 1720696548@qq.com
- * @date 2021-12-28 11:39:46
+ * @date {date}
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN + "/test/gcTest")
-@Api(value = "GcTestController",tags = "代码生成测试表")
-public class GcTestController extends BaseController<GcTestService>  {
+@Api(value = "GcTestController", tags = "代码生成测试表")
+public class GcTestController extends BaseController<GcTestService> {
 
     @GetMapping(value = "/list")
     @ApiOperation(value = "列表查询")
