@@ -11,7 +11,19 @@ spring:
     url: jdbc:mysql://rm-8vbkpoec225c821d8vo.mysql.zhangbei.rds.aliyuncs.com/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
     username: wangsong
     password: XJspringbootplus@#
-
+  # redis 配置(下方配置为内网，如果不想使用redis，可以注释该配置，默认使用jvm缓存)
+#  redis:
+#    host: 172.30.140.178
+#    port: 6379
+#    password: 123456
+#    database: 1
+#    timeout: 1000s  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
+#    jedis:
+#      pool:
+#        max-idle: 500
+#        min-idle: 50
+#        max-wait: -1
+#        max-active: -1
 aliyun:
   ## 对象存储服务，个人账号,拉取此代码调试后请修改为自己的,如发现滥用,将关停
   oss:
