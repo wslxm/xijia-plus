@@ -37,7 +37,7 @@ public class JdbcPool {
             conn = DriverManager.getConnection(newUrl, newUsername, newPassword);
         } catch (Exception e) {
             log.info("");
-            //log.debug(e.toString()); //CommunicationsException ip错误  | SQLNonTransientConnectionException 连接超时
+            //log.error(e.toString()); //CommunicationsException ip错误  | SQLNonTransientConnectionException 连接超时
             throw new ErrorException(RType.GENERATE_CODE_JDBC_ERROR);
         }
         return conn;
@@ -57,7 +57,7 @@ public class JdbcPool {
         try {
             pstmt = conn.prepareStatement(sql);
         } catch (SQLException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
         return pstmt;
     }
@@ -78,7 +78,7 @@ public class JdbcPool {
                     conn.close();
                 }
             } catch (SQLException e) {
-                log.debug(e.toString());
+                log.error(e.toString());
             }
         }
 
@@ -105,7 +105,7 @@ public class JdbcPool {
                     }
                 }
             } catch (SQLException e) {
-                log.debug(e.toString());
+                log.error(e.toString());
             }
         }
     }

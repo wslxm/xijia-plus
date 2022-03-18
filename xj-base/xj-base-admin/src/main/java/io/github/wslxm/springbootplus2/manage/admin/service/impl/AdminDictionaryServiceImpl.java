@@ -242,8 +242,8 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         map.put("java", enumsJava);
         // 枚举字典key，直接通过key获取
         map.put("js", enumsJs);
-        log.debug(enumsJava);
-        log.debug(enumsJs);
+        log.info(enumsJava);
+        log.info(enumsJs);
         return map;
     }
 

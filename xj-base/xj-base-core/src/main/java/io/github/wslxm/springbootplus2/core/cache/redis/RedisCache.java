@@ -59,7 +59,7 @@ public class RedisCache {
             ((RedisTemplate<String, Object>) SpringContextUtil.getBean("redisTemplate")).opsForValue().set(key, value);
             return true;
         } catch (Exception e) {
-            log.debug(e.toString());
+            log.error(e.toString());
             return false;
         }
     }
@@ -102,7 +102,7 @@ public class RedisCache {
         try {
             return ((RedisTemplate<String, Object>) SpringContextUtil.getBean("redisTemplate")).hasKey(key);
         } catch (Exception e) {
-            log.debug(e.toString());
+            log.error(e.toString());
             return false;
         }
     }
@@ -125,7 +125,7 @@ public class RedisCache {
 //            }
 //            return true;
 //        } catch (Exception e) {
-//            log.debug(e.toString());
+//            log.error(e.toString());
 //            return false;
 //        }
 //    }

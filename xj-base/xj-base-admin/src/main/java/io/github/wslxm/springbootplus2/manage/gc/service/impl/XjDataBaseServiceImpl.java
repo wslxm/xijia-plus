@@ -110,7 +110,7 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
                 vos.add(vo);
             }
         } catch (SQLException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         } finally {
             JdbcPool.closeQueryRes(rs);
         }
@@ -172,7 +172,7 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
                 vos.add(vo);
             }
         } catch (SQLException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         } finally {
             JdbcPool.closeQueryRes(rs);
         }

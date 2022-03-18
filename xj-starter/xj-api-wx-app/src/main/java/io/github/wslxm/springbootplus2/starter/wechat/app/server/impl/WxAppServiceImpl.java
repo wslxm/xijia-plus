@@ -55,7 +55,7 @@ public class WxAppServiceImpl implements WxAppService {
             // 返回base64
             return R.success(Base64ImgUtils.file2Base64(file));
         } catch (Exception e) {
-            log.debug(e.toString());
+            log.info(e.toString());
         }
         return null;
     }
@@ -94,7 +94,7 @@ public class WxAppServiceImpl implements WxAppService {
             msg.sendSubscribeMsg(subscribeMessage);
             return R.success("ok");
         } catch (WxErrorException e) {
-            log.debug(e.toString());
+            log.info(e.toString());
             return R.success("error");
         }
 
@@ -119,7 +119,7 @@ public class WxAppServiceImpl implements WxAppService {
             vo.setUnionid(session.getUnionid());
             return R.success(vo);
         } catch (WxErrorException e) {
-            log.debug(e.toString());
+            log.info(e.toString());
             throw new ErrorException(WxAppRType.WX_APP_ERROR.getValue(), e.getError().getErrorCode() + ":" + e.getError().getErrorMsg());
         }
     }

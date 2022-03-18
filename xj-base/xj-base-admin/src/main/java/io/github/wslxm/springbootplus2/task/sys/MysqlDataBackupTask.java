@@ -146,7 +146,7 @@
 //                log.info("【备份数据库】SUCCESS，SQL文件：{}", pathFileName);
 //            }
 //        } catch (Exception e) {
-//            log.debug(e.toString());
+//            log.error(e.toString());
 //            log.info("【备份数据库】FAILURE");
 //        } finally {
 //            try {
@@ -154,7 +154,7 @@
 //                    bufferedReader.close();
 //                }
 //            } catch (IOException e) {
-//                log.debug(e.toString());
+//                log.error(e.toString());
 //            }
 //        }
 //        log.info("【备份数据库】--END");
@@ -178,7 +178,7 @@
 //                    log.info("创建文件: {} 失败", file.getName());
 //                }
 //            } catch (IOException e) {
-//                log.debug(e.toString());
+//                log.error(e.toString());
 //            }
 //        }
 //        return false;
@@ -233,7 +233,7 @@
 //                        }
 //                    }
 //                } catch (IOException e) {
-//                    log.debug(e.toString());
+//                    log.error(e.toString());
 //                }
 //            }
 //        }

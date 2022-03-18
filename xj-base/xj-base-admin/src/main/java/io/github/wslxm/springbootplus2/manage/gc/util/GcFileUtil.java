@@ -56,7 +56,7 @@ public class GcFileUtil {
             // 保存生成后文件访问地址
             gcConfig.addVisitPath(fileName, path);
         } catch (Exception e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
         return brBw;
     }
@@ -87,7 +87,7 @@ public class GcFileUtil {
                 bw.flush();
             }
         } catch (IOException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
     }
 

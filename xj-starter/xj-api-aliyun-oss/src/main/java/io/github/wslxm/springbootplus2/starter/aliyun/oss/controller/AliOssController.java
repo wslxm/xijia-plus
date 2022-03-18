@@ -136,7 +136,7 @@ public class AliOssController {
 //                String path = ossUtil.upload(filePath, fileName, inputStream);
 //                pathList.add(path);
 //            } catch (Exception e) {
-//                log.debug(e.toString());
+//                log.error(e.toString());
 //                return R.error(RType.FILE_UPLOAD_FAILED);
 //            }
 //        }

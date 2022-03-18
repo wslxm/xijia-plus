@@ -16,7 +16,7 @@ import org.gavaghan.geodesy.GlobalCoordinates;
 public class DistanceUtil {
 
     public static void main(String[] args) {
-        log.debug("经纬度距离计算结果：{} 米", getDistance(104.087421, 30.542043, 104.147618, 30.635065));
+        log.info("经纬度距离计算结果：{} 米", getDistance(104.087421, 30.542043, 104.147618, 30.635065));
     }
 
 

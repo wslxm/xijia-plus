@@ -48,7 +48,7 @@ public class IdUtil {
     public static void main(String[] args) {
         // 自增id
 //        for (int i = 0; i < 90000; i++) {
-//            log.debug(getNo());
+//            log.info(getNo());
 //        }
     }
 }

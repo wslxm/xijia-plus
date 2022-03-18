@@ -759,58 +759,58 @@ public class LocalDateTimeUtil {
     }
 
     private static void test() {
-        log.debug("当前时间 ==> " + LocalDateTime.now());
-        log.debug("当前时间秒数 ==> " + parseSecond(LocalDateTime.now()));
-        log.debug("当前时间毫秒数 ==> " + parseMillisecond(LocalDateTime.now()));
-        log.debug("今天是几号：" + parseDayInt());
-        log.debug("===========================================================");
-        log.debug("今天开始时间 ==> " + getDayStart(LocalDateTime.now()));
-        log.debug("今天结束时间 ==> " + getDayEnd(LocalDateTime.now()));
-        log.debug("构建自定义时间 ==> " + of(2020, 1, 1, 12, 00, 00, 999999999));
-        log.debug("指定格式 ==>  " + parse(LocalDateTime.now(), "yyyy-MM-dd HH:mm:ss:SSS"));
+        log.info("当前时间 ==> " + LocalDateTime.now());
+        log.info("当前时间秒数 ==> " + parseSecond(LocalDateTime.now()));
+        log.info("当前时间毫秒数 ==> " + parseMillisecond(LocalDateTime.now()));
+        log.info("今天是几号：" + parseDayInt());
+        log.info("===========================================================");
+        log.info("今天开始时间 ==> " + getDayStart(LocalDateTime.now()));
+        log.info("今天结束时间 ==> " + getDayEnd(LocalDateTime.now()));
+        log.info("构建自定义时间 ==> " + of(2020, 1, 1, 12, 00, 00, 999999999));
+        log.info("指定格式 ==>  " + parse(LocalDateTime.now(), "yyyy-MM-dd HH:mm:ss:SSS"));
 
 
     }
 
     private static void test1() {
-        log.debug("=========================" + LocalDateTime.now() + " 之前 ==================================");
-        log.debug("10秒前 ==> " + subtract(LocalDateTime.now(), 10, ChronoUnit.SECONDS));
-        log.debug("10分前 ==> " + subtract(LocalDateTime.now(), 10, ChronoUnit.MINUTES));
-        log.debug("一小时前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.HOURS));
-        log.debug("半天前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.HALF_DAYS));
-        log.debug("一天前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.DAYS));
-        log.debug("一月前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.MONTHS));
-        log.debug("一年前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.YEARS));
-        log.debug("==========================" + LocalDateTime.now() + " 之后 ===================================");
-        log.debug("10秒后 ==> " + plus(LocalDateTime.now(), 10, ChronoUnit.SECONDS));
-        log.debug("10分后 ==> " + plus(LocalDateTime.now(), 10, ChronoUnit.MINUTES));
-        log.debug("一小时后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.HOURS));
-        log.debug("半天后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.HALF_DAYS));
-        log.debug("一天后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.DAYS));
-        log.debug("一月后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.MONTHS));
-        log.debug("一年后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.YEARS));
-        log.debug("================================= 时间差 =====================================");
+        log.info("=========================" + LocalDateTime.now() + " 之前 ==================================");
+        log.info("10秒前 ==> " + subtract(LocalDateTime.now(), 10, ChronoUnit.SECONDS));
+        log.info("10分前 ==> " + subtract(LocalDateTime.now(), 10, ChronoUnit.MINUTES));
+        log.info("一小时前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.HOURS));
+        log.info("半天前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.HALF_DAYS));
+        log.info("一天前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.DAYS));
+        log.info("一月前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.MONTHS));
+        log.info("一年前 ==> " + subtract(LocalDateTime.now(), 1, ChronoUnit.YEARS));
+        log.info("==========================" + LocalDateTime.now() + " 之后 ===================================");
+        log.info("10秒后 ==> " + plus(LocalDateTime.now(), 10, ChronoUnit.SECONDS));
+        log.info("10分后 ==> " + plus(LocalDateTime.now(), 10, ChronoUnit.MINUTES));
+        log.info("一小时后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.HOURS));
+        log.info("半天后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.HALF_DAYS));
+        log.info("一天后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.DAYS));
+        log.info("一月后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.MONTHS));
+        log.info("一年后 ==> " + plus(LocalDateTime.now(), 1, ChronoUnit.YEARS));
+        log.info("================================= 时间差 =====================================");
         //  输出 ====>
         LocalDateTime start = LocalDateTime.of(2019, 10, 13, 11, 11);
         LocalDateTime end = LocalDateTime.of(2020, 11, 13, 13, 13);
-        log.debug("输出:" + parse(start, "yyyy-MM-dd HH:mm:ss") + " -到- " + parse(end, "yyyy-MM-dd HH:mm:ss") + "的时间差");
-        log.debug("年:" + betweenTwoTime(start, end, ChronoUnit.YEARS));
-        log.debug("月:" + betweenTwoTime(start, end, ChronoUnit.MONTHS));
-        log.debug("日:" + betweenTwoTime(start, end, ChronoUnit.DAYS));
-        log.debug("半日:" + betweenTwoTime(start, end, ChronoUnit.HALF_DAYS));
-        log.debug("小时:" + betweenTwoTime(start, end, ChronoUnit.HOURS));
-        log.debug("分钟:" + betweenTwoTime(start, end, ChronoUnit.MINUTES));
-        log.debug("秒:" + betweenTwoTime(start, end, ChronoUnit.SECONDS));
-        log.debug("毫秒:" + betweenTwoTime(start, end, ChronoUnit.MILLIS));
-        log.debug("================================== 时间大小 ===================================");
+        log.info("输出:" + parse(start, "yyyy-MM-dd HH:mm:ss") + " -到- " + parse(end, "yyyy-MM-dd HH:mm:ss") + "的时间差");
+        log.info("年:" + betweenTwoTime(start, end, ChronoUnit.YEARS));
+        log.info("月:" + betweenTwoTime(start, end, ChronoUnit.MONTHS));
+        log.info("日:" + betweenTwoTime(start, end, ChronoUnit.DAYS));
+        log.info("半日:" + betweenTwoTime(start, end, ChronoUnit.HALF_DAYS));
+        log.info("小时:" + betweenTwoTime(start, end, ChronoUnit.HOURS));
+        log.info("分钟:" + betweenTwoTime(start, end, ChronoUnit.MINUTES));
+        log.info("秒:" + betweenTwoTime(start, end, ChronoUnit.SECONDS));
+        log.info("毫秒:" + betweenTwoTime(start, end, ChronoUnit.MILLIS));
+        log.info("================================== 时间大小 ===================================");
         //t1 < t2 = true
-        log.debug("2019-10-13 11:11:00 < 2020-11-13 13:13:00 = " + isBefore(start, end));
+        log.info("2019-10-13 11:11:00 < 2020-11-13 13:13:00 = " + isBefore(start, end));
         //t1 > t2 = true
-        log.debug("2019-10-13 11:11:00 > 2020-11-13 13:13:00 = " + isAfter(start, end));
+        log.info("2019-10-13 11:11:00 > 2020-11-13 13:13:00 = " + isAfter(start, end));
     }
 
     private static void test2() {
-        log.debug("================================== 周几 ===================================");
+        log.info("================================== 周几 ===================================");
         LocalDateTime of1 = LocalDateTime.of(2020, 4, 20, 0, 0);
         LocalDateTime of2 = LocalDateTime.of(2020, 4, 21, 0, 0);
         LocalDateTime of3 = LocalDateTime.of(2020, 4, 22, 0, 0);
@@ -818,69 +818,69 @@ public class LocalDateTimeUtil {
         LocalDateTime of5 = LocalDateTime.of(2020, 4, 24, 0, 0);
         LocalDateTime of6 = LocalDateTime.of(2020, 4, 25, 0, 0);
         LocalDateTime of7 = LocalDateTime.of(2020, 4, 26, 0, 0);
-        log.debug(parse(of1, "yyyy-MM-dd") + " 是周 " + week(of1));
-        log.debug(parse(of2, "yyyy-MM-dd") + " 是周 " + week(of2));
-        log.debug(parse(of3, "yyyy-MM-dd") + " 是周 " + week(of3));
-        log.debug(parse(of4, "yyyy-MM-dd") + " 是周 " + week(of4));
-        log.debug(parse(of5, "yyyy-MM-dd") + " 是周 " + week(of5));
-        log.debug(parse(of6, "yyyy-MM-dd") + " 是周 " + week(of6));
-        log.debug(parse(of7, "yyyy-MM-dd") + " 是周 " + week(of7));
-        log.debug("=========================== 周开头和结束 ===============================");
-        log.debug(" 上周的周一是 " + weekFirst(-1));
-        log.debug(" 上周的周末是 " + weekLast(-1));
-        log.debug(" 本周的周一是 " + weekFirst(0));
-        log.debug(" 本周的周末是 " + weekLast(0));
-        log.debug(" 下周的周一是 " + weekFirst(1));
-        log.debug(" 下周的周末是 " + weekLast(1));
-        log.debug("=========================== 月开头和结束 ===============================");
-        log.debug(" 上月的月初是 " + monthFirst(-1));
-        log.debug(" 上月的月位是 " + monthLast(-1));
-        log.debug(" 本月的月初是 " + monthFirst(0));
-        log.debug(" 本月的月位是 " + monthLast(0));
-        log.debug(" 下月的月初是 " + monthFirst(1));
-        log.debug(" 下月的月位是 " + monthLast(1));
-        log.debug("==================== 当前月1好到下N月底的每天数据 =========================");
-        log.debug(" 前N月|后N月 -- 前N月|后N月所有时间 " + LocalDateTimeUtil.getDateDaysUpList(0, 2).toString());
-        log.debug(" 前N月|后N月 -- 前N月|后N月所有时间 " + LocalDateTimeUtil.getDateDaysUpList(2, 2).toString());
+        log.info(parse(of1, "yyyy-MM-dd") + " 是周 " + week(of1));
+        log.info(parse(of2, "yyyy-MM-dd") + " 是周 " + week(of2));
+        log.info(parse(of3, "yyyy-MM-dd") + " 是周 " + week(of3));
+        log.info(parse(of4, "yyyy-MM-dd") + " 是周 " + week(of4));
+        log.info(parse(of5, "yyyy-MM-dd") + " 是周 " + week(of5));
+        log.info(parse(of6, "yyyy-MM-dd") + " 是周 " + week(of6));
+        log.info(parse(of7, "yyyy-MM-dd") + " 是周 " + week(of7));
+        log.info("=========================== 周开头和结束 ===============================");
+        log.info(" 上周的周一是 " + weekFirst(-1));
+        log.info(" 上周的周末是 " + weekLast(-1));
+        log.info(" 本周的周一是 " + weekFirst(0));
+        log.info(" 本周的周末是 " + weekLast(0));
+        log.info(" 下周的周一是 " + weekFirst(1));
+        log.info(" 下周的周末是 " + weekLast(1));
+        log.info("=========================== 月开头和结束 ===============================");
+        log.info(" 上月的月初是 " + monthFirst(-1));
+        log.info(" 上月的月位是 " + monthLast(-1));
+        log.info(" 本月的月初是 " + monthFirst(0));
+        log.info(" 本月的月位是 " + monthLast(0));
+        log.info(" 下月的月初是 " + monthFirst(1));
+        log.info(" 下月的月位是 " + monthLast(1));
+        log.info("==================== 当前月1好到下N月底的每天数据 =========================");
+        log.info(" 前N月|后N月 -- 前N月|后N月所有时间 " + LocalDateTimeUtil.getDateDaysUpList(0, 2).toString());
+        log.info(" 前N月|后N月 -- 前N月|后N月所有时间 " + LocalDateTimeUtil.getDateDaysUpList(2, 2).toString());
 
     }
 
 
     private static void test3() {
-        log.debug("==================获取指定开始时间和结束时间内的所有时间 ====================");
+        log.info("==================获取指定开始时间和结束时间内的所有时间 ====================");
         LocalDateTime startTime = LocalDateTime.of(2020, 4, 20, 0, 0);
         LocalDateTime endTime = LocalDateTime.of(2020, 4, 25, 0, 0);
-        log.debug("1-包含开始和结束时间" + getBetweenList(startTime, endTime, 1));
-        log.debug("2-包含结束-不包含开始时间" + getBetweenList(startTime, endTime, 2));
-        log.debug("3-包含开始-不包含结束时间" + getBetweenList(startTime, endTime, 3));
-        log.debug("4-不包含开始和结束时间" + getBetweenList(startTime, endTime, 4));
-        log.debug("================== LocalDateTime与String日期互相转换 ====================");
-        log.debug(parse("2020-01-20 17:07:05").toString());
-        log.debug(parse(LocalDateTime.now()));
-        log.debug("================== 时间特殊格式方法转换 ==================");
-        log.debug(parse(LocalDateTime.now(), YYYY));
-        log.debug(parse(LocalDateTime.now(), YYYY_MM));
-        log.debug(parse(LocalDateTime.now(), YYYY_MM_DD));
-        log.debug(parse(LocalDateTime.now(), YYYY_MM_DD_HH));
-        log.debug(parse(LocalDateTime.now(), YYYY_MM_DD_HH_MM));
-        log.debug(parse(LocalDateTime.now(), YYYY_MM_DD_HH_MM_SS));
-        log.debug(parse(LocalDateTime.now(), YYYY_MM_DD_HH_MM_SS_SSS));
-        log.debug(parse(new Date(), YYYY_MM_DD));
-        log.debug(parse("2020", YYYY).toString());
-        log.debug(parse("2020-06", YYYY_MM).toString());
-        log.debug(parse("2020-06-06", YYYY_MM_DD).toString());
-        log.debug(parse("2020-06-06 00", YYYY_MM_DD_HH).toString());
-        log.debug(parse("2020-06-06 00:00", YYYY_MM_DD_HH_MM).toString());
-        log.debug(parse(LocalDateTime.now(), YYYY_MM));
-        log.debug("==================获取整时时间,舍弃分秒为0 ==================");
-        log.debug(parse(getTheHour(LocalDateTime.now())));
-        log.debug("==================获取整分时间,舍弃秒为0");
-        log.debug(parse(getTheMinute(LocalDateTime.now())));
-        log.debug(parse(getTheMinute(LocalDateTime.of(2020, 1, 1, 12, 50))));
-        log.debug("==================获取指定时间内的每月");
-        log.debug(getMonths(subtract(LocalDateTime.now(), 1, ChronoUnit.YEARS), LocalDateTime.now()).toString());
-        log.debug("==================获取指定天的24小时");
+        log.info("1-包含开始和结束时间" + getBetweenList(startTime, endTime, 1));
+        log.info("2-包含结束-不包含开始时间" + getBetweenList(startTime, endTime, 2));
+        log.info("3-包含开始-不包含结束时间" + getBetweenList(startTime, endTime, 3));
+        log.info("4-不包含开始和结束时间" + getBetweenList(startTime, endTime, 4));
+        log.info("================== LocalDateTime与String日期互相转换 ====================");
+        log.info(parse("2020-01-20 17:07:05").toString());
+        log.info(parse(LocalDateTime.now()));
+        log.info("================== 时间特殊格式方法转换 ==================");
+        log.info(parse(LocalDateTime.now(), YYYY));
+        log.info(parse(LocalDateTime.now(), YYYY_MM));
+        log.info(parse(LocalDateTime.now(), YYYY_MM_DD));
+        log.info(parse(LocalDateTime.now(), YYYY_MM_DD_HH));
+        log.info(parse(LocalDateTime.now(), YYYY_MM_DD_HH_MM));
+        log.info(parse(LocalDateTime.now(), YYYY_MM_DD_HH_MM_SS));
+        log.info(parse(LocalDateTime.now(), YYYY_MM_DD_HH_MM_SS_SSS));
+        log.info(parse(new Date(), YYYY_MM_DD));
+        log.info(parse("2020", YYYY).toString());
+        log.info(parse("2020-06", YYYY_MM).toString());
+        log.info(parse("2020-06-06", YYYY_MM_DD).toString());
+        log.info(parse("2020-06-06 00", YYYY_MM_DD_HH).toString());
+        log.info(parse("2020-06-06 00:00", YYYY_MM_DD_HH_MM).toString());
+        log.info(parse(LocalDateTime.now(), YYYY_MM));
+        log.info("==================获取整时时间,舍弃分秒为0 ==================");
+        log.info(parse(getTheHour(LocalDateTime.now())));
+        log.info("==================获取整分时间,舍弃秒为0");
+        log.info(parse(getTheMinute(LocalDateTime.now())));
+        log.info(parse(getTheMinute(LocalDateTime.of(2020, 1, 1, 12, 50))));
+        log.info("==================获取指定时间内的每月");
+        log.info(getMonths(subtract(LocalDateTime.now(), 1, ChronoUnit.YEARS), LocalDateTime.now()).toString());
+        log.info("==================获取指定天的24小时");
         List<String> day24Hour = getDay24Hour(LocalDateTime.now());
-        log.debug(day24Hour.toString());
+        log.info(day24Hour.toString());
     }
 }

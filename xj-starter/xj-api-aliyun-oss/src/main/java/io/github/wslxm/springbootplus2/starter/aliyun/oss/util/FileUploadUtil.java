@@ -74,7 +74,7 @@ public class FileUploadUtil {
         //    fileName = URLEncoder.encode(fileName, "utf-8");
         //    fileName = fileName.replaceAll("\\+", "%20").replaceAll("%", "");
         //} catch (UnsupportedEncodingException e) {
-        //    log.debug(e.toString());
+        //    log.error(e.toString());
         // }
         fileName = fileName.replaceAll("\\+", "")
                 .replaceAll(" ", "")
@@ -150,7 +150,7 @@ public class FileUploadUtil {
                         count = inputStream.available();
                     }
                 } catch (IOException e) {
-                    log.debug(e.toString());
+                    log.error(e.toString());
                 }
                 // 小于n 值不压缩
                 if (count < imgMinReduce) {
@@ -174,7 +174,7 @@ public class FileUploadUtil {
         try {
             Thread.sleep(1);
         } catch (InterruptedException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
         String timeStamp = new SimpleDateFormat("ssSSS").format(new Date());
         Random random = new Random();

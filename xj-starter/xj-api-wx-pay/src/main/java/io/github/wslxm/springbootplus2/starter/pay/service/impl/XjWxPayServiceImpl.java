@@ -93,7 +93,7 @@ public class XjWxPayServiceImpl implements XjWxPayService {
             }
             return R.success(vo);
         } catch (WxPayException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
             return R.error(WxPayRType.WX_PAY_FAILURE.getValue(), WxPayRType.WX_PAY_FAILURE.getMsg()
                     + ":" + e.getReturnMsg()
                     + ":" + e.getErrCodeDes()
@@ -125,7 +125,7 @@ public class XjWxPayServiceImpl implements XjWxPayService {
             BeanUtils.copyProperties(refund, vo);
             return R.success(vo);
         } catch (WxPayException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
             return R.error(WxPayRType.WX_PAY_FAILURE.getValue(),
                     WxPayRType.WX_PAY_FAILURE.getMsg()
                             + ":" + e.getReturnMsg()

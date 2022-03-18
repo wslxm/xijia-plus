@@ -289,12 +289,12 @@ public class BaiDuWeiZiApiUtil {
 //        // 参数为本地图片路径
 //        String image = "test.jpg";
 //        JSONObject res = client.tableRecognitionAsync(image, options);
-//        log.debug(res.toString(2));
+//        log.info(res.toString(2));
 //
 //        // 参数为本地图片二进制数组
 //        byte[] file = readImageFile(image);
 //        res = client.tableRecognitionAsync(file, options);
-//        log.debug(res.toString(2));
+//        log.info(res.toString(2));
 //        return R.success(JSON.toJSONString(res));
 //    }
 
@@ -313,7 +313,7 @@ public class BaiDuWeiZiApiUtil {
 //
 //        // 表格识别结果
 //        JSONObject res = client.tableResultGet(requestId, options);
-//        log.debug(res.toString(2));
+//        log.info(res.toString(2));
 //        return R.success(JSON.toJSONString(res));
 //    }
 
@@ -327,10 +327,10 @@ public class BaiDuWeiZiApiUtil {
 //
 //        //使用封装的同步轮询接口
 //        JSONObject jsonres = client.tableRecognizeToJson(file, 20000);
-//        log.debug(jsonres.toString(2));
+//        log.info(jsonres.toString(2));
 //
 //        JSONObject excelres = client.tableRecognizeToExcelUrl(file, 20000);
-//        log.debug(excelres.toString(2));
+//        log.info(excelres.toString(2));
 //        return R.success(JSON.toJSONString(res));
 //    }
 
@@ -380,7 +380,7 @@ public class BaiDuWeiZiApiUtil {
      * // 参数为本地图片二进制数组
      * byte[] fileByte = readImageFile(in);
      * JSONObject res = client.idcard(fileByte, idCardSide, options);
-     * log.debug(res.toString(2));
+     * log.info(res.toString(2));
      * </P>
      *
      * @param in
@@ -398,7 +398,7 @@ public class BaiDuWeiZiApiUtil {
                 out.write(buffer, 0, n);
             }
         } catch (Exception e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
         return out.toByteArray();
     }

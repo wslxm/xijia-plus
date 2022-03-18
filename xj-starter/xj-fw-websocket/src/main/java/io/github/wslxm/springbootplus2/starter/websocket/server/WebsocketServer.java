@@ -174,7 +174,7 @@ public class WebsocketServer {
                 clients.get(userId).getSession().getBasicRemote().sendText(JSON.toJSONString(sendMsg));
                 return true;
             } catch (IOException e) {
-                log.debug(e.toString());
+                log.error(e.toString());
                 log.info(userId, sendMsg.getUsername() + "上线的时候通知所有人发生了错误");
                 return false;
             }

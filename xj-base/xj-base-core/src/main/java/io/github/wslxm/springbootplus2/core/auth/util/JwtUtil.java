@@ -79,10 +79,10 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, APPSECRET_KEY).compact();
 
         // jwt 信息放入缓存
-        String snowflakeId = IdUtil.snowflakeId();
-        CacheUtil.set(snowflakeId, jwtToken);
+        String token = jwtUser.getUserId() + jwtUser.getType() + jwtUser.getTerminal();
+        CacheUtil.set(token, jwtToken);
         // 放入 Header
-        response.setHeader(TOKEN, snowflakeId);
+        response.setHeader(TOKEN, token);
         return jwtToken;
     }
 

@@ -43,7 +43,7 @@ public class GcDataUtil {
         List<DbFieldPO> tableList = new ArrayList<>();
         List<Object> dataObjs = JsonUtil.parseList(data, null);
         dataObjs.forEach(item -> tableList.add(JsonUtil.parseObject(item.toString(), DbFieldPO.class)));
-        // log.debug(tableList.toString());
+        // log.info(tableList.toString());
         return tableList;
     }
 

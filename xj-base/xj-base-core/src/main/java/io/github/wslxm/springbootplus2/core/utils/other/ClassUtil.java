@@ -87,19 +87,19 @@ public class ClassUtil {
                                             // 添加到classes
                                             classes.add(Class.forName(packageName + '.' + className));
                                         } catch (ClassNotFoundException e) {
-                                            log.debug(e.toString());
+                                            log.error(e.toString());
                                         }
                                     }
                                 }
                             }
                         }
                     } catch (IOException e) {
-                        log.debug(e.toString());
+                        log.error(e.toString());
                     }
                 }
             }
         } catch (IOException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
         return classes;
     }
@@ -141,7 +141,7 @@ public class ClassUtil {
                     // 添加到集合中去
                     classes.add(Class.forName(packageName + '.' + className));
                 } catch (ClassNotFoundException e) {
-                    log.debug(e.toString());
+                    log.error(e.toString());
                 }
             }
         }

@@ -185,14 +185,14 @@ public class SnowflakeIdWorker {
      * 测试
      */
     public static void main(String[] args) {
-        log.debug(System.currentTimeMillis() + "");
+        log.info(System.currentTimeMillis() + "");
         SnowflakeIdWorker idWorker = new SnowflakeIdWorker(31, 31);
         long startTime = System.nanoTime();
         for (int i = 0; i < 50000; i++) {
             long id = idWorker.nextId();
-            log.debug(id + "");
+            log.info(id + "");
         }
-        log.debug((System.nanoTime() - startTime) / 1000000 + "ms");
+        log.info((System.nanoTime() - startTime) / 1000000 + "ms");
     }
 }
 

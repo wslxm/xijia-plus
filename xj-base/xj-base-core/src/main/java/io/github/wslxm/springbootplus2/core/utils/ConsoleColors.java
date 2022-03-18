@@ -3,7 +3,7 @@ package io.github.wslxm.springbootplus2.core.utils;
 import lombok.extern.slf4j.Slf4j;
 
 /***
- * log.debug 和log 输出颜色
+ * log.error 和log 输出颜色
  * @author 王松
  * @mail 1720696548@qq.com
  * @date 2020/7/7 0007 9:00
@@ -28,7 +28,7 @@ public class ConsoleColors {
      *  启动成功-紫色
      */
     public static void getSuccessPurple() {
-        log.debug(ConsoleColors.PURPLE + "\r\n" +
+        log.info(ConsoleColors.PURPLE + "\r\n" +
                 "         ####                #             #  ##               ##  \n" +
                 "     #########        ##### ##             #               #   ##  \n" +
                 "      ##   ##        ####   #####          ####        ######  # ##\n" +

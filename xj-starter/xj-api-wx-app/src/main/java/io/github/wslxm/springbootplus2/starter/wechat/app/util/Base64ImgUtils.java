@@ -28,7 +28,7 @@ public class Base64ImgUtils {
 //            }
 //            buffer = baos.toByteArray();
 //        } catch (IOException e) {
-//            log.debug(e.toString());
+//            log.error(e.toString());
 //        }
 //        // 加密
 //        BASE64Encoder encoder = new BASE64Encoder();
@@ -70,7 +70,7 @@ public class Base64ImgUtils {
 //            out.write(b);
 //            out.flush();
 //        } catch (IOException e) {
-//            log.debug(e.toString());
+//            log.error(e.toString());
 //        }
 //        return true;
 //    }
@@ -99,7 +99,7 @@ public class Base64ImgUtils {
             byte[] buffer = baos.toByteArray();
             base64 = Base64.encode(buffer);
         } catch (IOException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
         return base64;
     }
@@ -122,12 +122,12 @@ public class Base64ImgUtils {
         try {
             file = File.createTempFile("tmp", null);
         } catch (IOException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
         try (FileOutputStream fout = new FileOutputStream(file)) {
             fout.write(buff);
         } catch (IOException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
         return file;
     }

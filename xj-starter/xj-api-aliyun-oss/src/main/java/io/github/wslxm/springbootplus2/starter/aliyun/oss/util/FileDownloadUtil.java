@@ -68,11 +68,11 @@ public class FileDownloadUtil {
             response.addHeader("Content-Length", i + "");
             //最后的内容
             outputStream.write(buffer);
-            //响应返回字节长度-无效:response.addHeader("Content-Length", "" + i);//  log.debug(i);
+            //响应返回字节长度-无效:response.addHeader("Content-Length", "" + i);//  log.error(i);
             outputStream.flush();
             outputStream.close();
         } catch (IOException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
     }
 
@@ -126,7 +126,7 @@ public class FileDownloadUtil {
             out.flush();//释放缓存
             out.close();//关闭输出流
         } catch (IOException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
     }
 
@@ -170,13 +170,13 @@ public class FileDownloadUtil {
                 bis.close();
             } catch (ZipException | UnsupportedEncodingException | MalformedURLException e) {
                 if (e.getMessage().indexOf("duplicate entry:") != -1) {
-                    log.debug("文件重复：" + filePath);
+                    log.error("文件重复：" + filePath);
                 } else {
-                    log.debug("文件下载失败：" + filePath);
-                    log.debug(e.toString());
+                    log.error("文件下载失败：" + filePath);
+                    log.error(e.toString());
                 }
             } catch (IOException e) {
-                log.debug(e.toString());
+                log.error(e.toString());
             }
         }
         return null;

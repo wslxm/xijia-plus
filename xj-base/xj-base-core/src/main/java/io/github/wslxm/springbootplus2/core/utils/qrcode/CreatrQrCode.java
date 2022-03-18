@@ -126,9 +126,9 @@ public class CreatrQrCode {
             // 开始画二维码
             MatrixToImageWriter.writeToFile(bitMatrix, FILE_TYPE, qrcFile);
         } catch (WriterException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         } catch (IOException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
         return qrcFile;
     }
@@ -165,7 +165,7 @@ public class CreatrQrCode {
             g.drawRect(x, y, widthLogo, heightLogo);
             ImageIO.write(image, FILE_TYPE, file);
         } catch (Exception e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
         return file;
     }
@@ -209,9 +209,9 @@ public class CreatrQrCode {
             FileOutputStream out = new FileOutputStream(outfile);
             ImageIO.write(image, "JPEG", out);
             out.close();
-            log.debug("image press success");
+            log.error("image press success");
         } catch (Exception e) {
-            log.debug("error:{}. e:{}", "image press fail", e);
+            log.error("error:{}. e:{}", "image press fail", e);
         }
 
         return outfile;
@@ -229,12 +229,12 @@ public class CreatrQrCode {
         if (!file.exists()) {
             try {
                 if(file.createNewFile()){
-                    log.debug("upd success");
+                    log.error("upd success");
                 }else{
-                    log.debug("upd fail");
+                    log.error("upd fail");
                 }
             } catch (IOException e) {
-                log.debug(e.toString());
+                log.error(e.toString());
             }
         }
     }
@@ -255,7 +255,7 @@ public class CreatrQrCode {
                 os.write(car, 0, len);
             }
         } catch (Exception e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
     }
 
@@ -280,7 +280,7 @@ public class CreatrQrCode {
         // 3、生成代logo+文字的二维码-> 二维码中的文字(左下)
         File file3 = generateQRCode(content, ImageIO.read(new File("D:/ceshi/3.jpg")), "id:156465514");
 
-        log.debug("生成成功");
+        log.info("生成成功");
         // 保存到本地文件夹查看
         addFile(file1, "E:/test/file1.jpg");
         addFile(file2, "E:/test/file2.jpg");

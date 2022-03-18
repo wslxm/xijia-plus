@@ -40,7 +40,7 @@ public class ImgUtils {
             bytes = compressPic(bufferedImage);
             return bytes;
         } catch (IOException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
         return new byte[]{};
     }
@@ -123,7 +123,7 @@ public class ImgUtils {
             byteArrayOutputStream.flush();
             bytes = byteArrayOutputStream.toByteArray();
         } catch (IOException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
         return bytes;
     }

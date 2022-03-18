@@ -84,7 +84,7 @@ public class WxMpH5AuthUtil {
             wxAccessTokenVO.setScope(accessToken.getScope());
             return R.success(wxAccessTokenVO);
         } catch (WxErrorException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
             return R.error(e.getError().getErrorCode(), e.getError().getErrorMsg());
         }
     }
@@ -105,14 +105,14 @@ public class WxMpH5AuthUtil {
         try {
             accessToken = wxMpService.getOAuth2Service().getAccessToken(code);
         } catch (WxErrorException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
             return R.error(e.getError().getErrorCode(), e.getError().getErrorMsg());
         }
         WxOAuth2UserInfo userInfo = null;
         try {
             userInfo = wxMpService.getOAuth2Service().getUserInfo(accessToken, null);
         } catch (WxErrorException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
         }
         WxMpUserInfoVO userInfoVO = new WxMpUserInfoVO();
         userInfoVO.setOpenid(accessToken.getOpenId());

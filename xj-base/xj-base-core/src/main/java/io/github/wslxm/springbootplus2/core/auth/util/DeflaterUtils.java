@@ -83,7 +83,7 @@ public class DeflaterUtils {
                 outputStream.write(bytes, 0, length);
             }
         } catch (DataFormatException e) {
-            log.debug(e.toString());
+            log.error(e.toString());
             return null;
         } finally {
             //关闭解压缩器并丢弃任何未处理的输入。

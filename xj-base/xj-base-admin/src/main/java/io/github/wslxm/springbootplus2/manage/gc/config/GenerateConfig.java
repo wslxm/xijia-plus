@@ -226,12 +226,12 @@
 //
 //    // TEST
 //    public static void main(String[] args) {
-//        log.debug(CaseFormat.LOWER_HYPHEN.to(CaseFormat.LOWER_CAMEL, "t_test-data"));            // testData
-//        log.debug(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, "t_test_data"));        // testData
-//        log.debug(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, "t_test_data_test"));   // TestData
-//        log.debug(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, "t_test_data"));        // TestData
-//        log.debug(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "testdata"));           // testdata
-//        log.debug(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "TestData"));           // test_data
-//        log.debug(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, "testData"));               // test-data
+//        log.error(CaseFormat.LOWER_HYPHEN.to(CaseFormat.LOWER_CAMEL, "t_test-data"));            // testData
+//        log.error(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, "t_test_data"));        // testData
+//        log.error(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, "t_test_data_test"));   // TestData
+//        log.error(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, "t_test_data"));        // TestData
+//        log.error(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "testdata"));           // testdata
+//        log.error(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "TestData"));           // test_data
+//        log.error(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, "testData"));               // test-data
 //    }
 //}

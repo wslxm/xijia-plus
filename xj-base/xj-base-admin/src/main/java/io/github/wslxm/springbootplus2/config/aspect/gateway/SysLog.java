@@ -178,7 +178,7 @@ public class SysLog {
                 } else {
                     log.info("note logging failed logs null request uri " + uri);
                 }
-                // log.debug(logs.getClassDesc() + logs.getUrl() + "  --> " + data);
+                // log.info(logs.getClassDesc() + logs.getUrl() + "  --> " + data);
                 break;
             }
         }
