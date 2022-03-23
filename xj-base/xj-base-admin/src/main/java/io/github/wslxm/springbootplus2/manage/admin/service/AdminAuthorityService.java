@@ -7,6 +7,7 @@ import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminAuthorityQu
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminAuthorityVO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Url权限
@@ -54,10 +55,19 @@ public interface AdminAuthorityService extends IService<AdminAuthority> {
     Boolean refreshAuthDb();
 
     /**
-     * 刷新缓存中的接口接口信息 (用于url授权, 在项目启动时调用和，权限数据更新时调用)
+     * 刷新接口信息 (用于url授权, 在项目启动时调用和，权限数据更新时调用)
      *
      * @return void
      * @date 2019/11/25 0025 11:55
      */
     void refreshAuthCache();
+
+
+    /**
+     * 查询接口信息 (用于url授权, 在项目启动时调用和，权限数据更新时调用)
+     *
+     * @return void
+     * @date 2019/11/25 0025 11:55
+     */
+    Map<String, AdminAuthority> findListAllToMap();
 }

@@ -7,9 +7,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.github.wslxm.springbootplus2.starter.redis.util.RedisPropUtil;
+import io.github.wslxm.springbootplus2.starter.redis.util.RedisSpringContextUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -39,64 +44,106 @@ import java.time.Duration;
  */
 @Configuration
 @EnableCaching
+@Slf4j
 public class RedisConfig extends CachingConfigurerSupport {
 
     private Duration timeToLive = Duration.ZERO;
 
-    @Bean(name = "redisTemplate")
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(redisConnectionFactory);
-        // 使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        /// om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance,
-                ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
 
-        // 解决jackson2无法反序列化LocalDateTime的问题
-        om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        om.registerModule(new JavaTimeModule());
+	/**
+	 * 缓存对象 bean 配置
+	 *
+	 * @param redisConnectionFactory
+	 * @return
+	 */
+	@Bean(name = "redisTemplate")
+	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+		RedisTemplate<String, Object> template = new RedisTemplate<>();
+		template.setConnectionFactory(redisConnectionFactory);
+		// 使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
+		Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+		ObjectMapper om = new ObjectMapper();
+		om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+		/// om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+		om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance,
+				ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
 
-        jackson2JsonRedisSerializer.setObjectMapper(om);
-        template.setValueSerializer(jackson2JsonRedisSerializer);
+		// 解决jackson2无法反序列化LocalDateTime的问题
+		om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		om.registerModule(new JavaTimeModule());
 
-        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
-        //使用StringRedisSerializer来序列化和反序列化redis的key值
-        template.setKeySerializer(stringRedisSerializer);
-        template.setKeySerializer(stringRedisSerializer);
-        // hash的key也采用String的序列化方式
-        template.setHashKeySerializer(stringRedisSerializer);
-        // value序列化方式采用jackson
-        template.setValueSerializer(jackson2JsonRedisSerializer);
-        // hash的value序列化方式采用jackson
-        template.setHashValueSerializer(jackson2JsonRedisSerializer);
-        template.afterPropertiesSet();
-        return template;
-    }
+		jackson2JsonRedisSerializer.setObjectMapper(om);
+		template.setValueSerializer(jackson2JsonRedisSerializer);
 
-    @Bean
-    public CacheManager cacheManager(RedisConnectionFactory factory) {
-        RedisSerializer<String> redisSerializer = new StringRedisSerializer();
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+		StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+		//使用StringRedisSerializer来序列化和反序列化redis的key值
+		template.setKeySerializer(stringRedisSerializer);
+		template.setKeySerializer(stringRedisSerializer);
+		// hash的key也采用String的序列化方式
+		template.setHashKeySerializer(stringRedisSerializer);
+		// value序列化方式采用jackson
+		template.setValueSerializer(jackson2JsonRedisSerializer);
+		// hash的value序列化方式采用jackson
+		template.setHashValueSerializer(jackson2JsonRedisSerializer);
+		template.afterPropertiesSet();
+		return template;
+	}
 
-        //解决查询缓存转换异常的问题
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        /// om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance,
-                ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
-        jackson2JsonRedisSerializer.setObjectMapper(om);
 
-        // 配置序列化（解决乱码的问题）
-        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(timeToLive)
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
-                .disableCachingNullValues();
-        return RedisCacheManager.builder(factory)
-                .cacheDefaults(config)
-                .build();
-    }
+	/**
+	 * 缓存管理器配置
+	 *
+	 * @param factory
+	 * @return
+	 */
+	@Bean
+	public CacheManager cacheManager(RedisConnectionFactory factory) {
+		if (!isRedis()) {
+			// 缓存注解 使用 spring 缓存
+			log.info("已启用 spring 本地缓存");
+			return new ConcurrentMapCacheManager();
+		} else {
+			// 缓存注解 使用 redis 缓存
+			RedisSerializer<String> redisSerializer = new StringRedisSerializer();
+			Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+
+			//解决查询缓存转换异常的问题
+			ObjectMapper om = new ObjectMapper();
+			om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+			/// om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+			om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance,
+					ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+			jackson2JsonRedisSerializer.setObjectMapper(om);
+
+			// 配置序列化（解决乱码的问题）
+			RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
+					.entryTtl(timeToLive)
+					.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer))
+					.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
+					.disableCachingNullValues();
+			log.info("已启用 redis 分布式缓存");
+			return RedisCacheManager.builder(factory)
+					.cacheDefaults(config)
+					.build();
+		}
+	}
+
+
+	/**
+	 * 判断是否启用redis
+	 *
+	 * @return
+	 */
+	public static Boolean isRedis() {
+		if (RedisSpringContextUtil.getBean("redisTemplate") == null) {
+			return false;
+		}
+		// 获取yml 的redis 配置
+		Object redisHost = RedisPropUtil.findByKey("spring.redis.host");
+		if (redisHost == null || "".equals(redisHost.toString())) {
+			return false;
+		}
+		return true;
+	}
+
 }

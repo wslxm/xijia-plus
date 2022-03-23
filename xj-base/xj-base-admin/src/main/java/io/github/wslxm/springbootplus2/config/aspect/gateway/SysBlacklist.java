@@ -1,25 +1,17 @@
 package io.github.wslxm.springbootplus2.config.aspect.gateway;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import io.github.wslxm.springbootplus2.manage.xj.model.entity.XjAdminBlacklist;
-import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminBlacklistVO;
+import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminBlacklistService;
-import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
-import io.github.wslxm.springbootplus2.core.cache.CacheUtil;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
-import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 黑名单/白名单验证
@@ -41,16 +33,6 @@ public class SysBlacklist {
 
 
     /**
-     * 黑名单/白名单配置信息( key=1(白名单)  key=2(黑名单)) 黑名单优先级高于白名单, list为 ip集合
-     */
-//    private Map<Integer, List<String>> blacklistCache = new HashMap<>();
-//
-//    public void delBlacklistCache() {
-//        blacklistCache = new HashMap<>();
-//    }
-
-
-    /**
      * 黑名单/白名单验证
      * <p>
      * 认证顺序 ,   黑名单指定ip --> 白名单(*)  --> 黑名单(*)   --> 白名单指定ip
@@ -68,42 +50,42 @@ public class SysBlacklist {
      */
     @SuppressWarnings("all")
     public R<Void> blacklistAuth() {
+        // 获取用户ip
+        String ip = getIpAddress(request);
 
         // 本地启用不处理黑名单/白名单
-        // if ("127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)) {
-        //     return R.success();
-        // }
-        // 获取用户ip 和 黑/白名单配置
-        String ip = getIpAddress(request);
-        Map<String, List> blacklistCache = findBlacklist();
-        // 1、没有配置黑/白名单，直接放行
-        if (blacklistCache.isEmpty()) {
+        if ("127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)) {
+            return R.success();
+        }
+
+        // 获取 黑/白名单配置
+        List<String> baiIps = XjCacheUtil2.listByType(Base.BlacklistType.V1.getValue());
+        List<String> heiIps = XjCacheUtil2.listByType(Base.BlacklistType.V2.getValue());
+        // 1、没有配置黑+白名单，直接放行
+        if (baiIps.isEmpty() && heiIps.isEmpty()) {
             return R.success();
         }
         // 2、没有配置黑名单，直接放行
-        if (!blacklistCache.containsKey(Base.BlacklistType.V2.getValue() + "")) {
+        if (heiIps == null || heiIps.isEmpty()) {
             return R.success();
         }
         // 3、检查黑名单，如果被列进的指定ip的黑名单，直接拦截
-        if (blacklistCache.containsKey(Base.BlacklistType.V2.getValue() + "")) {
-            List<String> heiIps = blacklistCache.get(Base.BlacklistType.V2.getValue() + "");
+        if (!heiIps.isEmpty()) {
             if (heiIps.contains(ip)) {
                 return R.error(RType.AUTHORITY_BLACK_LIST_IP.getValue(), "[" + ip + "] " + RType.AUTHORITY_BLACK_LIST_IP.getMsg());
             }
         }
 
         // 4、如果配置了白名单( * )直接放行除了黑名单的所有ip
-        if (blacklistCache.containsKey(Base.BlacklistType.V1.getValue() + "")) {
-            List<String> baiIps = blacklistCache.get(Base.BlacklistType.V1.getValue() + "");
+        if (!baiIps.isEmpty()) {
             if (baiIps.contains("*")) {
                 return R.success();
             }
         }
+
         // 5、如果配置了黑名单( * )拦截除了白名单外的所有ip
-        if (blacklistCache.containsKey(Base.BlacklistType.V2.getValue() + "")) {
-            List<String> heiIps = blacklistCache.get(Base.BlacklistType.V2.getValue() + "");
+        if (!baiIps.isEmpty()) {
             if (heiIps.contains("*")) {
-                List<String> baiIps = blacklistCache.get(Base.BlacklistType.V1.getValue() + "");
                 if (baiIps == null || !baiIps.contains(ip)) {
                     return R.error(RType.AUTHORITY_WHITE_LIST_NO_IP.getValue(), "[" + ip + "] " + RType.AUTHORITY_WHITE_LIST_NO_IP.getMsg());
                 }
@@ -123,31 +105,29 @@ public class SysBlacklist {
      * @return java.util.Map<java.lang.String, java.util.List < java.lang.String>>
      * @version 1.0.1
      */
-    private Map<String, List> findBlacklist() {
-        // 如果没有缓存，就去数据库获取
-        if (!CacheUtil.containsKey(CacheKey.BLACK_LIST.getKey())) {
-            // 如果数据库没有配置，缓存设置默认对象，让其不为空，防止无限制查询数据库
-            Map<String, List<String>> blacklistCache = new HashMap<>(16);
-            List<XjAdminBlacklist> blacklist = xjAdminBlacklistService.list(new LambdaQueryWrapper<XjAdminBlacklist>().eq(XjAdminBlacklist::getDisable, Base.Disable.V0));
-            if (!blacklist.isEmpty()) {
-                // key=1(白名单)  key=2(黑名单)) 黑名单优先级高于白名单, list为 ip集合
-                List<XjAdminBlacklistVO> adminBlacklistVos = BeanDtoVoUtil.listVo(blacklist, XjAdminBlacklistVO.class);
-                Map<Integer, List<XjAdminBlacklistVO>> blacklistGroupByType = adminBlacklistVos.stream().collect(Collectors.groupingBy(XjAdminBlacklistVO::getType));
-                List<XjAdminBlacklistVO> baiMd = blacklistGroupByType.get(Base.BlacklistType.V1.getValue());
-                List<XjAdminBlacklistVO> heiMd = blacklistGroupByType.get(Base.BlacklistType.V2.getValue());
-                if (baiMd != null) {
-                    List<String> baiIps = baiMd.stream().map(XjAdminBlacklistVO::getIp).collect(Collectors.toList());
-                    blacklistCache.put(Base.BlacklistType.V1.getValue() + "", baiIps);
-                }
-                if (heiMd != null) {
-                    List<String> heiIps = heiMd.stream().map(XjAdminBlacklistVO::getIp).collect(Collectors.toList());
-                    blacklistCache.put(Base.BlacklistType.V2.getValue() + "", heiIps);
-                }
-            }
-            CacheUtil.set(CacheKey.BLACK_LIST.getKey(), blacklistCache);
-        }
-        return CacheUtil.getMap(CacheKey.BLACK_LIST.getKey(), List.class);
-    }
+//    private Map<String, List> findBlacklist() {
+//        // 如果没有缓存，就去数据库获取
+//
+//
+//        if (!blacklist.isEmpty()) {
+//                // key=1(白名单)  key=2(黑名单)) 黑名单优先级高于白名单, list为 ip集合
+//                List<XjAdminBlacklistVO> adminBlacklistVos = BeanDtoVoUtil.listVo(blacklist, XjAdminBlacklistVO.class);
+//                Map<Integer, List<XjAdminBlacklistVO>> blacklistGroupByType = adminBlacklistVos.stream().collect(Collectors.groupingBy(XjAdminBlacklistVO::getType));
+//                List<XjAdminBlacklistVO> baiMd = blacklistGroupByType.get(Base.BlacklistType.V1.getValue());
+//                List<XjAdminBlacklistVO> heiMd = blacklistGroupByType.get(Base.BlacklistType.V2.getValue());
+//                if (baiMd != null) {
+//                    List<String> baiIps = baiMd.stream().map(XjAdminBlacklistVO::getIp).collect(Collectors.toList());
+//                    blacklistCache.put(Base.BlacklistType.V1.getValue() + "", baiIps);
+//                }
+//                if (heiMd != null) {
+//                    List<String> heiIps = heiMd.stream().map(XjAdminBlacklistVO::getIp).collect(Collectors.toList());
+//                    blacklistCache.put(Base.BlacklistType.V2.getValue() + "", heiIps);
+//                }
+//            }
+//            XjCacheUtil.set(CacheKey.BLACK_LIST.getKey(), blacklistCache);
+//        }
+//        return XjCacheUtil.getMap(CacheKey.BLACK_LIST.getKey(), List.class);
+//    }
 
 
     /**

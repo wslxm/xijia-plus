@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.core.auth.util;
+package io.github.wslxm.springbootplus2.common.auth.util;
 
 
 import lombok.extern.slf4j.Slf4j;

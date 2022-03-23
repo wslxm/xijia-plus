@@ -9,6 +9,8 @@ import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminBlacklistVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 /**
  * 黑名单
  * <p>
@@ -22,13 +24,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface XjAdminBlacklistService extends IService<XjAdminBlacklist> {
 
     /**
-     * 列表查询
+     * 分页查询
      *
      * @param query query
      * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminBlacklistVO>
      * @version 1.0.0
      */
     IPage<XjAdminBlacklistVO> list(XjAdminBlacklistQuery query);
+
+
+    /**
+     * 列表查询
+     *
+     * @return
+     */
+    List<XjAdminBlacklistVO> listByType(Integer type);
 
     /**
      * 添加

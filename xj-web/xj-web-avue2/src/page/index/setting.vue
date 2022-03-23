@@ -1,10 +1,10 @@
 <template>
   <div class="setting">
-    <el-button class="setting"
-               type="primary"
-               :class="{'setting--show':show}"
-               @click="show=!show"
-               :icon="show?'el-icon-close':'el-icon-s-tools'"></el-button>
+<!--    <el-button class="setting"-->
+<!--               type="primary"-->
+<!--               :class="{'setting&#45;&#45;show':show}"-->
+<!--               @click="show=!show"-->
+<!--               :icon="show?'el-icon-close':'el-icon-s-tools'"></el-button>-->
     <el-drawer append-to-body
                class="setting-panel"
                :with-header="false"
@@ -66,6 +66,7 @@
   export default {
     data () {
       return {
+        // 设置
         show: false,
         list1: [{
           label: '导航标签',

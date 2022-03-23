@@ -42,7 +42,7 @@ public class SwaggerFilter implements Filter {
         String uri = request.getRequestURI();
         if (uri.contains(SWAGGER_UI)) {
             // 默认展示,配置为false不展示
-            XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode((ConfigCacheKey.IS_SWAGGER));
+            XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.IS_SWAGGER );
             if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
                 R<Void> r = R.error(RType.SYS_ERROR_CODE_403);
                 servletResponse.setContentType("application/json;charset=utf-8");

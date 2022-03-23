@@ -29,6 +29,7 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
      */
     List<AdminDictionaryVO> list(AdminDictionaryQuery query);
 
+
     /**
      * 添加
      *
@@ -62,7 +63,7 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
     Boolean del(String id);
 
     /**
-     * 分组查询-key-value数据 (前端尽量缓存该数据)
+     * 分组查询-key-value数据 (前端尽量缓存该数据) ----  缓存获取
      * <p>
      * key-value 形式，因为所有添加下层数据是引用。每一个key下的value 数据依然有所有的层级关系数据
      * </p>
@@ -76,7 +77,7 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
 
 
     /**
-     * 查询字典类别(级联数据)
+     * 查询字典类别(级联数据) ----  缓存获取
      *
      * @param code 父级code, 不传默认为顶层
      * @return java.util.List<io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminDictionaryVO>
@@ -97,4 +98,13 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
      * @version 1.0.0
      */
     Map<String, String> generateEnum(String enumName);
+
+
+    /**
+     * 获取所有字典数据 （查询缓存）
+     *
+     * @return
+     */
+    List<AdminDictionaryVO> findListALL();
+
 }

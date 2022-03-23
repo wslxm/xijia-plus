@@ -3,9 +3,11 @@ package io.github.wslxm.springbootplus2.manage.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
+import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
+import io.github.wslxm.springbootplus2.core.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
-import io.github.wslxm.springbootplus2.core.cache.CacheUtil;
+import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey2;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.RType;
@@ -19,6 +21,8 @@ import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminDictionaryCode
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminDictionaryVO;
 import io.github.wslxm.springbootplus2.manage.admin.service.AdminDictionaryService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -65,7 +69,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         }
 
         //2、获取所有字典数据
-        List<AdminDictionaryVO> dictListVO = this.findList(isDisable);
+        List<AdminDictionaryVO> dictListVO = XjCacheUtil2.findListALL(isDisable);
 
         if (dictListVO.isEmpty()) {
             return dictListVO;
@@ -115,6 +119,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
 
     @Override
+    @CacheEvict(value = CacheKey2.DICT_LIST_ALL, allEntries = true)
     public String insert(AdminDictionaryDTO dto) {
         if (StringUtils.isBlank(dto.getCode().trim())) {
             throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + ":code");
@@ -126,13 +131,12 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         }
         AdminDictionary entity = dto.convert(AdminDictionary.class);
         boolean b = this.save(entity);
-        //清除缓存
-        CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
         return entity.getId();
     }
 
 
     @Override
+    @CacheEvict(value = CacheKey2.DICT_LIST_ALL, allEntries = true)
     public Boolean upd(String id, AdminDictionaryDTO dto) {
         // 因为Code不能重复, 编辑了Code 需单独处理数据
         if (dto.getCode() != null) {
@@ -148,25 +152,20 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         }
         AdminDictionary entity = dto.convert(AdminDictionary.class);
         entity.setId(id);
-        boolean res = this.updateById(entity);
-        //清除缓存
-        CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
-        return res;
+        return this.updateById(entity);
     }
 
     @Override
+    @CacheEvict(value = CacheKey2.DICT_LIST_ALL, allEntries = true)
     public Boolean del(String id) {
         List<String> ids = this.findByIdFetchIds(id);
-        boolean res = this.removeByIds(ids);
-        //清除缓存
-        CacheUtil.del(CacheKey.DICT_LIST_KEY.getKey());
-        return res;
+        return this.removeByIds(ids);
     }
 
 
     @Override
     public Map<String, AdminDictionaryCodeGroup> findCodeGroup() {
-        List<AdminDictionaryVO> dictList = findList(false);
+        List<AdminDictionaryVO> dictList = XjCacheUtil2.findListALL(false);
         List<AdminDictionaryCodeGroup> dictionaryCodeGroupList = BeanDtoVoUtil.listVo(dictList, AdminDictionaryCodeGroup.class);
         Map<String, AdminDictionaryCodeGroup> dictGroupMap = new HashMap<>(dictList.size(), 1);
         // return -按添加顺序排序
@@ -196,7 +195,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     @Override
     public List<AdminDictionaryVO> findDictCategory(String code) {
         String newPid = PID;
-        List<AdminDictionaryVO> dictList = this.findList(true);
+        List<AdminDictionaryVO> dictList = XjCacheUtil2.findListALL(true);
         if (StringUtils.isNotBlank(code)) {
             for (AdminDictionaryVO adminDictionaryVO : dictList) {
                 if (code.equals(adminDictionaryVO.getCode())) {
@@ -414,7 +413,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         List<String> ids = new ArrayList<>();
         ids.add(id);
         // 查询所有
-        List<AdminDictionaryVO> dictList = this.findList(true);
+        List<AdminDictionaryVO> dictList = XjCacheUtil2.findListALL(true);
         List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(dictList, AdminDictionaryVO.class);
         for (AdminDictionaryVO adminDictionaryVO : dictVoList) {
             if (id.equals(adminDictionaryVO.getId())) {
@@ -427,34 +426,17 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
 
     /**
-     * 查询所有（缓存到jvm）
-     *
-     * @param isDisable 是否查询禁用数据 =true 查询*默认   =false 不查询
+     * 查询所有
      * @return list
      */
-    private List<AdminDictionaryVO> findList(Boolean isDisable) {
-        if (!CacheUtil.containsKey(CacheKey.DICT_LIST_KEY.getKey())) {
-            // 查询所有字典数据
-            List<AdminDictionary> adminDictionaries = baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
-                    .orderByAsc(AdminDictionary::getSort)
-                    .orderByAsc(AdminDictionary::getCode)
-            );
-            List<AdminDictionaryVO> dictList = BeanDtoVoUtil.listVo(adminDictionaries, AdminDictionaryVO.class);
-            CacheUtil.set(CacheKey.DICT_LIST_KEY.getKey(), dictList);
-        }
-        List<AdminDictionaryVO> listVO = CacheUtil.getList(CacheKey.DICT_LIST_KEY.getKey(), AdminDictionaryVO.class);
-        /**
-         * 是否获取禁用数据
-         */
-        // 为了让数据不改变缓存数据,不使用引用,使用深拷贝
-        List<AdminDictionaryVO> adminDictionaryVos = BeanDtoVoUtil.listVo(listVO, AdminDictionaryVO.class);
-        if (isDisable) {
-            return adminDictionaryVos;
-        } else {
-            //排除禁用数据(.stream() 后的数据依旧是引用数据)
-            return adminDictionaryVos.stream().filter(i -> i.getDisable().equals(Base.Disable.V0.getValue())).collect(Collectors.toList());
-        }
+    @Override
+    @Cacheable(value = CacheKey2.DICT_LIST_ALL)
+    public List<AdminDictionaryVO> findListALL() {
+        List<AdminDictionary> adminDictionaries = baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
+                .orderByAsc(AdminDictionary::getSort)
+                .orderByAsc(AdminDictionary::getCode)
+        );
+        return BeanDtoVoUtil.listVo(adminDictionaries, AdminDictionaryVO.class);
     }
-
 }
 

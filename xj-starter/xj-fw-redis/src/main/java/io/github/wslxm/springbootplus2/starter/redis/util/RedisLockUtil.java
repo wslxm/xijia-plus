@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.starter.redis.lock.util;
+package io.github.wslxm.springbootplus2.starter.redis.util;
 
 import io.github.wslxm.springbootplus2.starter.redis.error.RedisErrorException;
 import org.springframework.data.redis.core.RedisCallback;

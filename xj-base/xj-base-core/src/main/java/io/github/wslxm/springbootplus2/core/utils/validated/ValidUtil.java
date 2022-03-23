@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * 参数校检并返回错误信息给用户端
  * @author wangsong
- * @param null
  * @date 2021/9/30 0030 9:13
  * @return
  * @version 1.0.1

@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.wslxm.springbootplus2.core.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
-import io.github.wslxm.springbootplus2.core.cache.CacheUtil;
+import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey2;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
@@ -16,6 +17,9 @@ import io.github.wslxm.springbootplus2.manage.xj.model.entity.XjAdminConfig;
 import io.github.wslxm.springbootplus2.manage.xj.model.query.XjAdminConfigQuery;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,11 +62,11 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
         }
         XjAdminConfig entity = dto.convert(XjAdminConfig.class);
         boolean b = this.save(entity);
-        CacheUtil.del(CacheKey.CONFIG_MAP_KEY.getKey());
         return entity.getId();
     }
 
     @Override
+    @CacheEvict(value = CacheKey2.CONFIG_BY_CODE, allEntries = true)
     public boolean upd(String id,XjAdminConfigDTO dto) {
         XjAdminConfig config = this.getById(id);
         if (!config.getCode().equals(dto.getCode())) {
@@ -72,21 +76,14 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
         }
         XjAdminConfig entity = dto.convert(XjAdminConfig.class);
         entity.setId(id);
-        boolean b = this.updateById(entity);
-        CacheUtil.del(CacheKey.CONFIG_MAP_KEY.getKey());
-        return b;
+        return this.updateById(entity);
     }
 
+
     @Override
+    @Cacheable(value = CacheKey2.CONFIG_BY_CODE, key = "#code")
     public XjAdminConfigVO findByCode(String code) {
-        if (!CacheUtil.containsKey(CacheKey.CONFIG_MAP_KEY.getKey())) {
-            List<XjAdminConfig> list = this.list();
-            if (!list.isEmpty()) {
-                Map<String, XjAdminConfig> xjAdminConfigMap = list.stream().collect(Collectors.toMap(XjAdminConfig::getCode, p -> p));
-                CacheUtil.set(CacheKey.CONFIG_MAP_KEY.getKey(), xjAdminConfigMap);
-            }
-        }
-        XjAdminConfig xjAdminConfig = CacheUtil.getMap(CacheKey.CONFIG_MAP_KEY.getKey(), XjAdminConfig.class).get(code);
+        XjAdminConfig xjAdminConfig = this.getOne(new LambdaQueryWrapper<XjAdminConfig>().eq(XjAdminConfig::getCode, code));
         return BeanDtoVoUtil.convert(xjAdminConfig,XjAdminConfigVO.class);
     }
 }

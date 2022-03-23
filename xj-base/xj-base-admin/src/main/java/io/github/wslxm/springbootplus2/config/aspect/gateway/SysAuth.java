@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.config.aspect.gateway;
 
 
+import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
 import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
@@ -8,9 +9,9 @@ import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
 import io.github.wslxm.springbootplus2.core.cache.cache.AuthCacheKeyUtil;
 import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.cache.cache.ConfigCacheKey;
-import io.github.wslxm.springbootplus2.core.auth.entity.JwtUser;
-import io.github.wslxm.springbootplus2.core.auth.util.JwtUtil;
-import io.github.wslxm.springbootplus2.core.cache.CacheUtil;
+import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
+import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
+import io.github.wslxm.springbootplus2.core.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
@@ -82,7 +83,7 @@ public class SysAuth {
             return R.success(null);
         }
         // 2、是否被权限管理, 没有直接放行
-        Map<String, AdminAuthority> authMap = CacheUtil.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
+        Map<String, AdminAuthority> authMap = XjCacheUtil2.findListAllToMap();
         String cacheKey = AuthCacheKeyUtil.getAuthCacheKey(request.getMethod(), request.getRequestURI());
         if (!authMap.containsKey(cacheKey)) {
             return R.success(null);
@@ -125,7 +126,7 @@ public class SysAuth {
             }
             JwtUser jwtUser = result.getData();
             // 判断权限
-            XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.IS_AUTH );
+            XjAdminConfigVO xjAdminConfig = XjCacheUtil2.getConfigByCode(ConfigCacheKey.IS_AUTH);
             if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
                 return R.success(jwtUser);
             }

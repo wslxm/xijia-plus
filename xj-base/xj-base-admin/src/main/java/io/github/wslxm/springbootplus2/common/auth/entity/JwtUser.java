@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.core.auth.entity;
+package io.github.wslxm.springbootplus2.common.auth.entity;
 
 import lombok.Data;
 import lombok.ToString;

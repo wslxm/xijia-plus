@@ -4,7 +4,7 @@ package io.github.wslxm.springbootplus2.starter.redis.lock.aspect;
 import io.github.wslxm.springbootplus2.starter.redis.error.RedisErrorException;
 import io.github.wslxm.springbootplus2.starter.redis.lock.annotation.SynchronizedLock;
 import io.github.wslxm.springbootplus2.starter.redis.lock.annotation.TaskLock;
-import io.github.wslxm.springbootplus2.starter.redis.lock.util.RedisLockUtil;
+import io.github.wslxm.springbootplus2.starter.redis.util.RedisLockUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

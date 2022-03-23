@@ -20,7 +20,7 @@ import java.util.Map;
  * @return
  * @version 1.0.1
  */
-public class CacheUtil {
+public class XjCacheUtil {
 
 
     /**

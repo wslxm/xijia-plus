@@ -53,10 +53,6 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
     private XjGenerationVueAdd xjGenerationVueAdd;
     @Autowired
     private XjGenerationVueUpd xjGenerationVueUpd;
-
-    // @Autowired
-    // private GenerateConfig generateConfig;
-
     @Autowired
     private GenerateProperties generateProperties;
 

@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.starter.redis.lock.util;
+package io.github.wslxm.springbootplus2.starter.redis.util;
 
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * 读取配置文件
+ * 读取配置文件 (无法正常读取 -Dspring.profiles.active=pro 测试配置)
  * <P>
  *     不区分 yml / properties,都可以读取， 不区分启动环境(自动读取 如：application.yml + application-dev.yml 配置, -dev 为当前启动的环境测试)
  *     1、先读取 application.yml
@@ -24,6 +24,7 @@ public class RedisPropUtil {
 
 
     public static Object findByKey(String key) {
+        // 获取当前环境
         String env = RedisSpringContextUtil.getActiveProfile();
         //  Object env = findYmlByKey("spring.profiles.active", null, ".yml");
         //  if (env == null) {
@@ -50,7 +51,7 @@ public class RedisPropUtil {
      * @param env
      * @return
      */
-    public static Object findPropertiesByKey(String key, String env, String suffix) {
+    private static Object findPropertiesByKey(String key, String env, String suffix) {
         String fileName = "application" + (env == null ? "" : "-" + env) + suffix;
         InputStream in = RedisPropUtil.class.getClassLoader().getResourceAsStream(fileName);
         Properties prop = new Properties();
@@ -71,7 +72,7 @@ public class RedisPropUtil {
      * @param env
      * @return
      */
-    public static Object findYmlByKey(String key, String env, String suffix) {
+    private static Object findYmlByKey(String key, String env, String suffix) {
         String fileName = "application" + (env == null ? "" : "-" + env) + suffix;
         Resource resource = new ClassPathResource(fileName);
         Properties properties = null;

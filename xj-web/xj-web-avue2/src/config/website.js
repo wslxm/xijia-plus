@@ -14,7 +14,7 @@ export default {
     // 标签是否可关闭
     isFirstPage: false,
     // 系统端及权限配置(子系统), 当Terminal != 1 时, 建议 isLoginUser=true, isTerminalSearch=false
-    Terminal: 1,              // 终端 (1=主系统 2-扩展系统1) （接口参数中添加 isTerminal:true 进行动态扩展）
+    Terminal: 1,               // 终端 (1=主系统 2-扩展系统1) （接口参数中添加 isTerminal:true 进行动态扩展）
     isLoginUser: false,        // 只查询自己权限及以下的用户/角色/菜单数据 （接口参数中添加 isOwnData:true 进行动态扩展）
     isTerminalSearch: true,    // 用户/角色/菜单列表 是否开启终端搜索和编辑
     // 普通导航主题

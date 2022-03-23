@@ -2,9 +2,10 @@ package io.github.wslxm.springbootplus2.config.aspect.gateway;
 
 
 import com.alibaba.fastjson.JSON;
-import io.github.wslxm.springbootplus2.core.auth.entity.JwtUser;
-import io.github.wslxm.springbootplus2.core.auth.util.JwtUtil;
-import io.github.wslxm.springbootplus2.core.cache.CacheUtil;
+import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
+import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
+import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
+import io.github.wslxm.springbootplus2.core.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
@@ -181,6 +182,12 @@ public class SysLog {
                 // log.info(logs.getClassDesc() + logs.getUrl() + "  --> " + data);
                 break;
             }
+            // 防止cpu飚搞, 5毫秒循环一次
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -209,7 +216,7 @@ public class SysLog {
             log.setFullName("╥﹏╥");
             log.setUserId("0");
 
-            Map<String, AdminAuthority> authMap = CacheUtil.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
+            Map<String, AdminAuthority> authMap = XjCacheUtil2.findListAllToMap();
             AdminAuthority adminAuthority = authMap.get(uri);
             // AdminAuthority adminAuthority = CacheUtil.getAuthMap().get(uri);
             if (adminAuthority != null) {

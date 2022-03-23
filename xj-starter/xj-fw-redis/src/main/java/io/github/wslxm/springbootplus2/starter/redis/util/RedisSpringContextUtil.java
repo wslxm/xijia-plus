@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.starter.redis.lock.util;
+package io.github.wslxm.springbootplus2.starter.redis.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,4 +77,5 @@ public class RedisSpringContextUtil implements ApplicationContextAware {
         }
         return activeProfiles[0];
     }
+
 }

@@ -1,23 +1,23 @@
-package io.github.wslxm.springbootplus2.core.auth.util;
+package io.github.wslxm.springbootplus2.common.auth.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import io.github.wslxm.springbootplus2.core.cache.CacheUtil;
+import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
+import io.github.wslxm.springbootplus2.core.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
-import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.core.utils.json.JsonUtil;
-import io.github.wslxm.springbootplus2.core.auth.entity.JwtUser;
+import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.core.cache.cache.ConfigCacheKey;
+import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /***
@@ -80,7 +80,7 @@ public class JwtUtil {
 
         // jwt 信息放入缓存
         String token = jwtUser.getUserId() + jwtUser.getType() + jwtUser.getTerminal();
-        CacheUtil.set(token, jwtToken);
+        XjCacheUtil.set(token, jwtToken);
         // 放入 Header
         response.setHeader(TOKEN, token);
         return jwtToken;
@@ -129,7 +129,7 @@ public class JwtUtil {
             return R.error(RType.AUTHORITY_NO_TOKEN);
         }
         // 判断缓存中token是否存在
-        String jwtToken = CacheUtil.get(token, String.class);
+        String jwtToken = XjCacheUtil.get(token, String.class);
         if (jwtToken == null || jwtToken == "") {
             return R.error(RType.AUTHORITY_LOGIN_EXPIRED);
         }
@@ -153,15 +153,8 @@ public class JwtUtil {
             }
             // 管理端获取每次刷新获取新的刷新时间,如果没有设值，使用登录设置的默认时间
             if (jwtUser.getType().equals(userType[0])) {
-                // 这里不能调系统admin服务,使用缓存一层一层的获取
-                Map<String, Object> map = CacheUtil.getMap(CacheKey.CONFIG_MAP_KEY.getKey(), Object.class);
-                JSONObject jsonObject = JSON.parseObject(JSONObject.toJSONString(map));
-                // 获取指定配置
-                Object obj = jsonObject.get(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
-                if (obj != null) {
-                    String content = JSON.parseObject(JSONObject.toJSONString(obj)).get("content").toString();
-                    jwtUser.setExpiration(Integer.parseInt(content));
-                }
+                XjAdminConfigVO configByCode = XjCacheUtil2.getConfigByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
+                jwtUser.setExpiration(Integer.parseInt(configByCode.getContent()));
             }
             createToken(jwtUser, response);
             log.info("token 已刷新");

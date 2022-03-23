@@ -4,8 +4,10 @@ package io.github.wslxm.springbootplus2.config.filter.sing;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
 import io.github.wslxm.springbootplus2.config.filter.sing.util.RequestWrapper;
 import io.github.wslxm.springbootplus2.config.filter.sing.util.SignUtil;
+import io.github.wslxm.springbootplus2.core.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
@@ -13,7 +15,6 @@ import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
 import io.github.wslxm.springbootplus2.core.cache.cache.AuthCacheKeyUtil;
 import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.cache.cache.ConfigCacheKey;
-import io.github.wslxm.springbootplus2.core.cache.CacheUtil;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +53,7 @@ public class SysSingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         // 是否需要验签(总开关)
-        XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.IS_SIGN);
+        XjAdminConfigVO xjAdminConfig = XjCacheUtil2.getConfigByCode(ConfigCacheKey.IS_SIGN);
         if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
@@ -64,7 +65,7 @@ public class SysSingFilter implements Filter {
         // 1.1、判断接口是否被管理,没有被管理直接放行
         String uri = request.getRequestURI();
 
-        Map<String, AdminAuthority> authMap = CacheUtil.getMap(CacheKey.AUTH_MAP_KEY.getKey(), AdminAuthority.class);
+        Map<String, AdminAuthority> authMap = XjCacheUtil2.findListAllToMap();
         String cacheKey = AuthCacheKeyUtil.getAuthCacheKey(request.getMethod(), request.getRequestURI());
         if (!authMap.containsKey(cacheKey)) {
             filterChain.doFilter(servletRequest, servletResponse);

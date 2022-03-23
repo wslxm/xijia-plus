@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.manage.admin.service.*;
-import io.github.wslxm.springbootplus2.core.auth.entity.JwtUser;
-import io.github.wslxm.springbootplus2.core.auth.util.JwtUtil;
-import io.github.wslxm.springbootplus2.core.auth.util.Md5Util;
+import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
+import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
+import io.github.wslxm.springbootplus2.common.auth.util.Md5Util;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.cache.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
@@ -178,8 +178,8 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // 4、获取权限列表,保存权限-未禁用,管理端(登录+认证的)
         List<String> authList = adminAuthorityService.findByUserIdAuthority(user.getId());
         // 获取token 默认设置的有效期
-        XjAdminConfigVO configVO = xjAdminConfigService.findByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
-        Integer expiration = configVO != null ? Integer.parseInt(configVO.getContent()) : 60;
+        XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION );
+        Integer expiration = xjAdminConfig != null ? Integer.parseInt(xjAdminConfig.getContent()) : 60;
 
         // 5、生成jwt
         JwtUser jwtUser = new JwtUser();

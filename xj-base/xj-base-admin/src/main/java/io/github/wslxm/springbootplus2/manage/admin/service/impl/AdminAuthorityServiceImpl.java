@@ -2,11 +2,13 @@ package io.github.wslxm.springbootplus2.manage.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
 import io.github.wslxm.springbootplus2.core.cache.cache.AuthCacheKeyUtil;
 import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
-import io.github.wslxm.springbootplus2.core.auth.util.JwtUtil;
+import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
-import io.github.wslxm.springbootplus2.core.cache.CacheUtil;
+import io.github.wslxm.springbootplus2.core.cache.XjCacheUtil;
+import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey2;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
@@ -27,6 +29,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -387,24 +391,15 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     @Override
+    @CacheEvict(value = CacheKey2.AUTH_MAP_ALL)
     public void refreshAuthCache() {
-        // 查询权限表中所有接口
-        List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
-                .orderByDesc(AdminAuthority::getType)
-                .orderByDesc(AdminAuthority::getMethod)
-        );
-        // 缓存所有接口数据到 jvm
-        Map<String, AdminAuthority> authMap = authorityList.stream().collect(Collectors.toMap(p -> AuthCacheKeyUtil.getCacheKey(p.getMethod(), p.getUrl()), auth -> auth));
-
-        //
-        CacheUtil.set(CacheKey.AUTH_MAP_KEY.getKey(), authMap);
-
+        Map<String, AdminAuthority> listAllToMap = XjCacheUtil2.findListAllToMap();
         // 数据统计
         int authorityCount = 0;
         int authorityCountState2 = 0;
         int authorityCountState1 = 0;
         int authorityCountState0 = 0;
-        for (AdminAuthority auth : authorityList) {
+        for (AdminAuthority auth : listAllToMap.values()) {
             // 所有被管理的权限,管理端，需登录/授权的接口数量
             if (StringUtils.isNotBlank(auth.getPid()) && auth.getState().equals(Base.AuthorityState.V2.getValue())) {
                 authorityCountState2++;
@@ -426,6 +421,21 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         log.info("权限数据加载成功, 当前 [只需登录] 的接口数量为:    {}", authorityCountState1);
         log.info("权限数据加载成功, 当前 [需登录/授权] 的接口数量为: {}", authorityCountState2);
         log.info("权限数据加载成功, 当前 [所有接口] 的接口数量为:    {}", authorityCount);
+    }
+
+
+    /**
+     * 查询所有
+     */
+    @Override
+    @Cacheable(value = CacheKey2.AUTH_MAP_ALL)
+    public Map<String, AdminAuthority> findListAllToMap() {
+        // 查询权限表中所有接口
+        List<AdminAuthority> authorityList = this.list(new LambdaQueryWrapper<AdminAuthority>()
+                .orderByDesc(AdminAuthority::getType)
+                .orderByDesc(AdminAuthority::getMethod)
+        );
+        return authorityList.stream().collect(Collectors.toMap(p -> AuthCacheKeyUtil.getCacheKey(p.getMethod(), p.getUrl()), auth -> auth));
     }
 }
 

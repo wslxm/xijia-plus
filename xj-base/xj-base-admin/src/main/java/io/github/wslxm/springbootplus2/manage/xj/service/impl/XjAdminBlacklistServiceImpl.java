@@ -3,9 +3,11 @@ package io.github.wslxm.springbootplus2.manage.xj.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.wslxm.springbootplus2.core.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
-import io.github.wslxm.springbootplus2.core.cache.CacheUtil;
+import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey2;
+import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.xj.mapper.XjAdminBlacklistMapper;
 import io.github.wslxm.springbootplus2.manage.xj.model.dto.XjAdminBlacklistDTO;
@@ -13,7 +15,11 @@ import io.github.wslxm.springbootplus2.manage.xj.model.entity.XjAdminBlacklist;
 import io.github.wslxm.springbootplus2.manage.xj.model.query.XjAdminBlacklistQuery;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminBlacklistVO;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminBlacklistService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 黑名单
@@ -41,30 +47,35 @@ public class XjAdminBlacklistServiceImpl extends BaseIServiceImpl<XjAdminBlackli
         }
     }
 
+
     @Override
+    @Cacheable(value = CacheKey2.BLACK_LIST_BY_TYPE, key = "#type")
+    public List<XjAdminBlacklistVO> listByType(Integer type) {
+        List<XjAdminBlacklist> list = this.list(new LambdaQueryWrapper<XjAdminBlacklist>()
+                .orderByDesc(XjAdminBlacklist::getCreateTime)
+                .eq(XjAdminBlacklist::getDisable, Base.Disable.V0.getValue()));
+        return BeanDtoVoUtil.listVo(list, XjAdminBlacklistVO.class);
+    }
+
+    @Override
+    @CacheEvict(value = CacheKey2.BLACK_LIST_BY_TYPE, key = "#dto.type")
     public String insert(XjAdminBlacklistDTO dto) {
         XjAdminBlacklist entity = dto.convert(XjAdminBlacklist.class);
         boolean b = this.save(entity);
-        // 置空缓存
-        CacheUtil.del(CacheKey.BLACK_LIST.getKey());
         return entity.getId();
     }
 
     @Override
+    @CacheEvict(value = CacheKey2.BLACK_LIST_BY_TYPE, allEntries = true)
     public Boolean upd(String id, XjAdminBlacklistDTO dto) {
         XjAdminBlacklist entity = dto.convert(XjAdminBlacklist.class);
         entity.setId(id);
-        boolean b = this.updateById(entity);
-        // 置空缓存
-        CacheUtil.del(CacheKey.BLACK_LIST.getKey());
-        return b;
+        return this.updateById(entity);
     }
 
     @Override
+    @CacheEvict(value = CacheKey2.BLACK_LIST_BY_TYPE, allEntries = true)
     public Boolean del(String id) {
-        boolean b = this.removeById(id);
-        // 置空缓存
-        CacheUtil.del(CacheKey.BLACK_LIST.getKey());
-        return b;
+        return this.removeById(id);
     }
 }

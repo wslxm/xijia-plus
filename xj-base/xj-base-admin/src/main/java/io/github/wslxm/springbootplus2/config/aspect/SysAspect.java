@@ -2,7 +2,7 @@ package io.github.wslxm.springbootplus2.config.aspect;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.wslxm.springbootplus2.config.aspect.gateway.*;
-import io.github.wslxm.springbootplus2.core.auth.entity.JwtUser;
+import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.core.config.error.GlobalExceptionHandler;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;

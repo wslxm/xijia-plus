@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.basepay.manage.model.entity.PayWalletFlow;
 import io.github.wslxm.springbootplus2.basepay.manage.model.vo.PayWalletFlowVO;
 import io.github.wslxm.springbootplus2.basepay.manage.service.PayWalletFlowService;
-import io.github.wslxm.springbootplus2.core.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
@@ -35,17 +34,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class UPayWalletFlowController extends BaseController<PayWalletFlowService> {
 
 
-    @RequestMapping(value = "/findPage", method = RequestMethod.GET)
-    @ApiOperation(value = "我的缴费记录-分页查询")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
-            @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),
-    })
-    public R<IPage<PayWalletFlowVO>> findPage() {
-        Page<PayWalletFlow> page = baseService.page(this.getPage(), new LambdaQueryWrapper<PayWalletFlow>()
-                .orderByDesc(PayWalletFlow::getCreateTime)
-                .eq( PayWalletFlow::getUserId, JwtUtil.getJwtUser(request).getUserId())
-        );
-        return R.successFind(BeanDtoVoUtil.pageVo(page, PayWalletFlowVO.class));
-    }
+//    @RequestMapping(value = "/findPage", method = RequestMethod.GET)
+//    @ApiOperation(value = "我的缴费记录-分页查询")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "current", value = "页数", required = true, paramType = "query", example = "1"),
+//            @ApiImplicitParam(name = "size", value = "记录数", required = true, paramType = "query", example = "20"),
+//    })
+//    public R<IPage<PayWalletFlowVO>> findPage() {
+//        Page<PayWalletFlow> page = baseService.page(this.getPage(), new LambdaQueryWrapper<PayWalletFlow>()
+//                .orderByDesc(PayWalletFlow::getCreateTime)
+//                .eq( PayWalletFlow::getUserId, JwtUtil.getJwtUser(request).getUserId())
+//        );
+//        return R.successFind(BeanDtoVoUtil.pageVo(page, PayWalletFlowVO.class));
+//    }
 }
