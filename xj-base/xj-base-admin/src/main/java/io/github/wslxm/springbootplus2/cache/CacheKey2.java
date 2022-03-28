@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.core.cache.cache;
+package io.github.wslxm.springbootplus2.cache;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,28 +13,25 @@ import lombok.Getter;
  * @date 2021/7/30 0030 18:18
  */
 public interface CacheKey2 {
-	//    // 字典
-//    DICT_LIST_KEY("dict-list-key"),
-//    // 接口权限
-//    AUTH_MAP_KEY("auth-map-key"),
-//    // 全局配置
-//	CONFIG_MAP_KEY("config-map-key"),
-//    // 登录人信息
-//    LOGIN_ADMIN_USER("login-admin-user"),
 
 	/**
-	 * 接口权限数据
+	 * 登录人接口权限 (根据 用户ID 缓存)
+	 */
+	String LOGIN_AUTH_USER_ID = "LOGIN_AUTH_USER_ID";
+	/**
+	 * 接口权限数据 (全部)
 	 */
 	String AUTH_MAP_ALL = "AUTH_MAP_ALL";
 	/**
-	 * 字典 ALL
+	 * 字典 ALL (全部)
 	 */
 	String DICT_LIST_ALL = "DICT_LIST_ALL";
 
 	/**
-	 * 全局配置 (根据 code 缓存)
+	 * 全局配置 （根据code 缓存)
 	 */
-	String CONFIG_BY_CODE = "CONFIG_BY_CODE";
+	String CONFIG_LIST_BY_CODE = "CONFIG_LIST_BY_CODE";
+
 	/**
 	 * 系统黑/白名单(根据 type 缓存)
 	 */

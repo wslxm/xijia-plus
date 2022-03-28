@@ -5,8 +5,6 @@ import com.alibaba.fastjson.JSON;
 import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
-import io.github.wslxm.springbootplus2.core.cache.XjCacheUtil;
-import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
@@ -182,7 +180,7 @@ public class SysLog {
                 // log.info(logs.getClassDesc() + logs.getUrl() + "  --> " + data);
                 break;
             }
-            // 防止cpu飚搞, 5毫秒循环一次
+            // 防止cpu飚高, 5毫秒循环一次
             try {
                 Thread.sleep(5);
             } catch (InterruptedException e) {

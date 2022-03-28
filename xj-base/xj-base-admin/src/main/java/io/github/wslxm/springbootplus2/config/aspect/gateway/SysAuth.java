@@ -6,12 +6,10 @@ import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
-import io.github.wslxm.springbootplus2.core.cache.cache.AuthCacheKeyUtil;
-import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
-import io.github.wslxm.springbootplus2.core.cache.cache.ConfigCacheKey;
+import io.github.wslxm.springbootplus2.cache.AuthCacheKeyUtil;
+import io.github.wslxm.springbootplus2.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
-import io.github.wslxm.springbootplus2.core.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
@@ -125,12 +123,14 @@ public class SysAuth {
                 return result;
             }
             JwtUser jwtUser = result.getData();
-            // 判断权限
+            // 判断是否验证权限
             XjAdminConfigVO xjAdminConfig = XjCacheUtil2.getConfigByCode(ConfigCacheKey.IS_AUTH);
             if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
                 return R.success(jwtUser);
             }
-            if (jwtUser.getAuthList() == null || !jwtUser.getAuthList().contains(cacheKey)) {
+            // 验证权限
+            List<String> authList = XjCacheUtil2.findByUserIdAuthority(jwtUser.getUserId());
+            if (authList == null || !authList.contains(cacheKey)) {
                 return R.error(RType.AUTHORITY_NO_PERMISSION);
             }
             return R.success(jwtUser);

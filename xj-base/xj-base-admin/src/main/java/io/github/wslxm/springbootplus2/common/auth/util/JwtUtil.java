@@ -1,16 +1,12 @@
 package io.github.wslxm.springbootplus2.common.auth.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
-import io.github.wslxm.springbootplus2.core.cache.XjCacheUtil;
-import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.json.JsonUtil;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
-import io.github.wslxm.springbootplus2.core.cache.cache.ConfigCacheKey;
+import io.github.wslxm.springbootplus2.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.Map;
 
 /***
  *   jwt 工具类
@@ -59,7 +54,8 @@ public class JwtUtil {
      */
     public static String createToken(JwtUser jwtUser, HttpServletResponse response) {
         // 压缩数据
-        String deflaterJwtUser = DeflaterUtils.zipString(JsonUtil.toJSONStringNoNull(jwtUser));
+        // String deflaterJwtUser = DeflaterUtils.zipString(JsonUtil.toJSONStringNoNull(jwtUser));
+        String deflaterJwtUser = JsonUtil.toJSONStringNoNull(jwtUser);
         // token每次刷新时长
         long refreshTime = (long) (1000L * 60 * (Double.parseDouble(jwtUser.getExpiration() + "") / 10));
         // 生成jwt
@@ -79,10 +75,10 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, APPSECRET_KEY).compact();
 
         // jwt 信息放入缓存
-        String token = jwtUser.getUserId() + jwtUser.getType() + jwtUser.getTerminal();
-        XjCacheUtil.set(token, jwtToken);
+        // String token = jwtUser.getUserId() + jwtUser.getType() + jwtUser.getTerminal();
+        // XjCacheUtil.set(token, jwtToken);
         // 放入 Header
-        response.setHeader(TOKEN, token);
+        response.setHeader(TOKEN, jwtToken);
         return jwtToken;
     }
 
@@ -124,15 +120,15 @@ public class JwtUtil {
      */
     public static R<JwtUser> getJwtUserR(HttpServletRequest request, HttpServletResponse response) {
         // 判断是否传递tokne
-        String token = request.getHeader(TOKEN);
-        if (token == null || token == "") {
+        String jwtToken = request.getHeader(TOKEN);
+        if (jwtToken == null || jwtToken == "") {
             return R.error(RType.AUTHORITY_NO_TOKEN);
         }
-        // 判断缓存中token是否存在
-        String jwtToken = XjCacheUtil.get(token, String.class);
-        if (jwtToken == null || jwtToken == "") {
-            return R.error(RType.AUTHORITY_LOGIN_EXPIRED);
-        }
+//        // 判断缓存中token是否存在
+//        String jwtToken = XjCacheUtil.get(token, String.class);
+//        if (jwtToken == null || jwtToken == "") {
+//            return R.error(RType.AUTHORITY_LOGIN_EXPIRED);
+//        }
         try {
             Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(jwtToken).getBody();
             return R.success(getClaimsJwtUser(claims));
@@ -151,7 +147,7 @@ public class JwtUtil {
             if (System.currentTimeMillis() > expiredTime) {
                 return R.error(RType.AUTHORITY_LOGIN_EXPIRED);
             }
-            // 管理端获取每次刷新获取新的刷新时间,如果没有设值，使用登录设置的默认时间
+            // 管理端获取每次刷新获取新的刷新时间, 如果没有设值，使用登录设置的默认时间
             if (jwtUser.getType().equals(userType[0])) {
                 XjAdminConfigVO configByCode = XjCacheUtil2.getConfigByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
                 jwtUser.setExpiration(Integer.parseInt(configByCode.getContent()));
@@ -182,7 +178,8 @@ public class JwtUtil {
     private static JwtUser getClaimsJwtUser(Claims claims) {
         // user 信息
         String deflaterJwtUser = claims.get(AUTH_USER).toString();
-        JwtUser jwtUser = JsonUtil.parseEntity(DeflaterUtils.unzipString(deflaterJwtUser), JwtUser.class);
+        //JwtUser jwtUser = JsonUtil.parseEntity(DeflaterUtils.unzipString(deflaterJwtUser), JwtUser.class);
+        JwtUser jwtUser = JsonUtil.parseEntity(deflaterJwtUser, JwtUser.class);
         return jwtUser;
     }
 }

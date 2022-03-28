@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.core.cache.cache;
+package io.github.wslxm.springbootplus2.cache;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.github.wslxm.springbootplus2.core.utils.paramverification.StringUtil;

@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSON;
 import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
-import io.github.wslxm.springbootplus2.core.cache.cache.ConfigCacheKey;
+import io.github.wslxm.springbootplus2.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import lombok.extern.slf4j.Slf4j;

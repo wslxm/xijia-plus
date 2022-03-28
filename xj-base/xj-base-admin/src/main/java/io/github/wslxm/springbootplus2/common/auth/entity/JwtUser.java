@@ -46,9 +46,11 @@ public class JwtUser implements Serializable {
     private Integer expiration;
 
     //================== 管理端专属字段 ==================
+
     /**
      * 用户权限(用户可以访问那些url,如果在使用中权限数据被修改，需要重新登录)
+     * (已移动至缓存处理)
      */
-    private List<String> authList;
+    // private List<String> authList;
 
 }

@@ -24,7 +24,7 @@ public enum RType implements IEnum {
     SYS_SUCCESS_INSERT(200, "添加成功"),
     SYS_SUCCESS_UPDATE(200, "编辑成功"),
     SYS_ERROR_CODE_403(403, "403-无权限访问"),
-    SYS_ERROR_CODE_404(404, "403-无权限访问"),
+    SYS_ERROR_CODE_404(404, "404-找不到请求地址"),
     SYS_ERROR_CODE_500(500, "服务器错误"),
 
     // 参数错误 [9901-9999]

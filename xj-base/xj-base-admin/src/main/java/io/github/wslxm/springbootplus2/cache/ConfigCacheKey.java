@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.core.cache.cache;
+package io.github.wslxm.springbootplus2.cache;
 
 /***
  * 全局配置key

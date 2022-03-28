@@ -93,7 +93,11 @@ public class SysAspect {
      *    * {@code maximumPoolSize <corePoolSize} * @如果抛出{ @code workQueue} *或{@code threadFactory}或{@code handler}为空
      *
      */
-    ExecutorService executorService = new ThreadPoolExecutor(3, 10, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>()
+    ExecutorService executorService = new ThreadPoolExecutor(3,
+            10,
+            0L,
+            TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<Runnable>()
             , new ThreadFactoryBuilder().setNameFormat("thread-call-runner-%d").build());
 
 
@@ -172,6 +176,9 @@ public class SysAspect {
         long startTime1 = System.currentTimeMillis();
         // 获取请求参数
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (sra == null) {
+            return R.error(RType.SYS_ERROR_CODE_500.getValue(), "ThreadLocal 获取当前线程数据失败");
+        }
         HttpServletRequest request = sra.getRequest();
         String uri = request.getRequestURI();
         String method = request.getMethod();

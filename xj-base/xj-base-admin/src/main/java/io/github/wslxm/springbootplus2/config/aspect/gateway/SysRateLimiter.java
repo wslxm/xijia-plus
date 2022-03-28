@@ -3,7 +3,7 @@ package io.github.wslxm.springbootplus2.config.aspect.gateway;
 
 import com.google.common.util.concurrent.RateLimiter;
 import io.github.wslxm.springbootplus2.config.aspect.annotation.XjCurrentLimit;
-import io.github.wslxm.springbootplus2.core.cache.cache.AuthCacheKeyUtil;
+import io.github.wslxm.springbootplus2.cache.AuthCacheKeyUtil;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;

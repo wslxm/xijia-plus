@@ -3,12 +3,10 @@ package io.github.wslxm.springbootplus2.manage.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
-import io.github.wslxm.springbootplus2.core.cache.cache.AuthCacheKeyUtil;
-import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey;
+import io.github.wslxm.springbootplus2.cache.AuthCacheKeyUtil;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
-import io.github.wslxm.springbootplus2.core.cache.XjCacheUtil;
-import io.github.wslxm.springbootplus2.core.cache.cache.CacheKey2;
+import io.github.wslxm.springbootplus2.cache.CacheKey2;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
@@ -31,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -133,6 +132,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      * @date 2019/11/25 0025 11:55
      */
     @Override
+    @Cacheable(value = CacheKey2.LOGIN_AUTH_USER_ID, key = "#userId")
     public List<String> findByUserIdAuthority(String userId) {
         List<AdminAuthority> auth = baseMapper.findByUserIdAuthority(
                 userId,
@@ -391,7 +391,10 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     @Override
-    @CacheEvict(value = CacheKey2.AUTH_MAP_ALL)
+    @Caching(evict = {
+            @CacheEvict(value = CacheKey2.AUTH_MAP_ALL),
+            @CacheEvict(value = CacheKey2.LOGIN_AUTH_USER_ID, allEntries = true)
+    })
     public void refreshAuthCache() {
         Map<String, AdminAuthority> listAllToMap = XjCacheUtil2.findListAllToMap();
         // 数据统计

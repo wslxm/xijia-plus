@@ -10,7 +10,7 @@ import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.common.auth.util.Md5Util;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
-import io.github.wslxm.springbootplus2.core.cache.cache.ConfigCacheKey;
+import io.github.wslxm.springbootplus2.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Admin;
 import io.github.wslxm.springbootplus2.core.enums.Base;
@@ -175,8 +175,6 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     public Boolean login(String username, String password, Integer terminal) {
         AdminUser user = loginUsernameOrPhone(username, password, terminal);
         // 登录成功
-        // 4、获取权限列表,保存权限-未禁用,管理端(登录+认证的)
-        List<String> authList = adminAuthorityService.findByUserIdAuthority(user.getId());
         // 获取token 默认设置的有效期
         XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION );
         Integer expiration = xjAdminConfig != null ? Integer.parseInt(xjAdminConfig.getContent()) : 60;
@@ -189,8 +187,6 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         jwtUser.setType(JwtUtil.userType[0]);
         // 设置token有效期(分)
         jwtUser.setExpiration(expiration);
-        // 添加权限 和 权限数据版本号,当权限发生改变时，直接刷新token信息
-        jwtUser.setAuthList(authList);
         JwtUtil.createToken(jwtUser, response);
         // 6、刷新最后登录时间
         AdminUser updAdminUser = new AdminUser();
