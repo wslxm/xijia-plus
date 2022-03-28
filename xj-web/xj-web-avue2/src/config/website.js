@@ -101,6 +101,29 @@ export default {
         delBtn: false,            // 操作栏是否需要删除按钮(开启操作栏生效，行编辑功能开启时不展示删除按钮)
     },
     /**
+     * 左边树通用配置
+     */
+    treeOption: {
+        elAsideWidth: "250px",     // 宽度
+        //title:'标题',                // 新增编辑弹层标题
+        //dialogWidth:'50%',           // 新增编辑弹层宽度
+        filterText: "搜索关键字",     // 搜索提示
+        defaultExpandAll: true,     // 是否展开节点
+        filter: true,               // 是否显示搜索
+        addBtn: false,              // 是否展示新增按钮
+        editBtn: false,             // 是否展示删除按钮
+        delBtn: false,              // 是否展示编辑按钮
+        menu: false,                // 菜单开关
+        // 字段配置(页面重配置)
+        // this.website.treeOption.props.label = "name";
+        // this.website.treeOption.props.children = "menus";
+        props: {
+            labelText: '标题',     // 添加弹窗标题
+            label: 'name',        // 标题字段
+            children: 'menus'     // 层级字段
+        }
+    },
+    /**
      * 字典key, 根据后台数据字典配置更新即可
      */
     Dict: {
