@@ -152,7 +152,7 @@
                     {
                         label: '图标',
                         prop: 'icon',
-                        width: 100,
+                       // width: 100,
                     },
                     {
                         label: '路由',
@@ -164,7 +164,7 @@
                     {
                         label: '排序',
                         prop: 'sort',
-                        width: 150,
+                        //width: 150,
                     },
 
                     // {
