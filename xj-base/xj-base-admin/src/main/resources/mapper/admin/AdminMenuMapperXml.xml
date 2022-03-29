@@ -45,15 +45,20 @@
         select
         m.*
         from t_admin_menu m
-        left join t_admin_role_menu rm on rm.menu_id = m.id
-        left join t_admin_role_user ru on ru.role_id = rm.role_id
-        left join t_admin_user u on u.id = ru.user_id
+        <if test="loginUserId != null">
+            left join t_admin_role_menu rm on rm.menu_id = m.id
+            left join t_admin_role_user ru on ru.role_id = rm.role_id
+            left join t_admin_user u on u.id = ru.user_id
+        </if>
         where m.deleted = 0
+        <if test="loginUserId != null">
+            and u.id = #{loginUserId}
+        </if>
         <if test="terminal != null">
             and m.terminal = #{terminal}
         </if>
-        <if test="loginUserId != null">
-            and u.id = #{loginUserId}
+        <if test="disable != null">
+            and m.`disable` = #{disable}
         </if>
         group by m.id
         order by m.sort asc,m.create_time desc

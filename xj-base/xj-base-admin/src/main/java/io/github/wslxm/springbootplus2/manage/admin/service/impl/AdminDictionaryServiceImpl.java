@@ -48,6 +48,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         Boolean isBottomLayer = query.getIsBottomLayer();
         Boolean isTree = query.getIsTree();
         String code = query.getCode();
+        Boolean isNextAll = query.getIsNextAll();
         // 默认参数
         if (isDisable == null) {
             isDisable = true;
@@ -57,6 +58,9 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         }
         if (isTree == null) {
             isTree = true;
+        }
+        if (isNextAll == null) {
+            isNextAll = true;
         }
         // 1、判断 code , 不能传递字符串数字来查询
         if (StringUtils.isNotBlank(code)) {
@@ -103,7 +107,12 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         // 开始递归
         for (AdminDictionaryVO pDictVO : pDictListVO) {
             diceIds.add(pDictVO.getId());
-            this.nextLowerNode(dictListVO, pDictVO, diceIds);
+            if (isNextAll) {
+                this.nextLowerNode(dictListVO, pDictVO, diceIds, null);
+            } else {
+                this.nextLowerNode(dictListVO, pDictVO, diceIds, 1);
+            }
+
         }
 
         // 6、判断返回 tree 还是 / list(list前端自行解析list展示)
@@ -250,8 +259,16 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * @param dictVoList 所有节点
      * @param pDict      上级节点
      * @param ids        收集指定code下所有字典数据 id
+     * @param recursiveHierarchy   递归层级 1-获取下一级 2-获取下2级 ....以此类推
      */
-    private void nextLowerNode(List<AdminDictionaryVO> dictVoList, AdminDictionaryVO pDict, List<String> ids) {
+    private void nextLowerNode(List<AdminDictionaryVO> dictVoList, AdminDictionaryVO pDict, List<String> ids, Integer recursiveHierarchy) {
+        // 递归层级控制
+        if (recursiveHierarchy != null) {
+            if (recursiveHierarchy == 0) {
+                return;
+            }
+            recursiveHierarchy--;
+        }
         for (AdminDictionaryVO zDict : dictVoList) {
             // 当前层级类还没有子层级对象就创建/有就追加
             if (zDict.getPid().equals(pDict.getId())) {
@@ -265,9 +282,10 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
                 // 获取ids
                 ids.add(zDict.getId());
                 // 继续添加下级,无限级
-                nextLowerNode(dictVoList, zDict, ids);
+                nextLowerNode(dictVoList, zDict, ids, recursiveHierarchy);
             }
         }
+
     }
 
 
@@ -415,7 +433,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         for (AdminDictionaryVO adminDictionaryVO : dictVoList) {
             if (id.equals(adminDictionaryVO.getId())) {
                 // 递归添加下级数据
-                nextLowerNode(dictVoList, adminDictionaryVO, ids);
+                nextLowerNode(dictVoList, adminDictionaryVO, ids, null);
             }
         }
         return ids;

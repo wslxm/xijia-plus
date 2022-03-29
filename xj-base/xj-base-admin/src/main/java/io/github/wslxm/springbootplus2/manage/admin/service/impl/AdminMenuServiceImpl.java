@@ -63,9 +63,10 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
         Boolean isTree = query.getIsTree();
         Boolean isBottomLayer = query.getIsBottomLayer();
         Integer root = query.getRoot();
+        Integer disable = query.getDisable();
 
         // 1、查询菜单
-        List<AdminMenuVO> menuVOList = baseMapper.list(terminal, loginUserId);
+        List<AdminMenuVO> menuVOList = baseMapper.list(terminal, loginUserId,disable);
 
         // 2、获取角色拥有的菜单id(没有角色id或没有 角色对应的菜单数据,创建空roleMenuIdList对象)
         List<AdminRoleMenu> userRoleMenus = roleId != null ? adminRoleMenuMapper.findRoleId(roleId) : new ArrayList<>();

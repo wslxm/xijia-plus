@@ -21,7 +21,7 @@ public class AdminMenuQuery extends Convert {
     @ApiModelProperty(value = "终端--非必传,(不传查所有)", position = 1)
     private Integer terminal;
 
-    @ApiModelProperty(value = "父id--非必传,没有获取所有", position = 2)
+    @ApiModelProperty(value = "父id--非必传,没有获取所有,传递了只查询指定层级的下一级数据", position = 2)
     private String pid;
 
     @ApiModelProperty(value = "角色id--非必传, 不传返回的isChecked = false, 传了根据权限标记true/false", position = 3)

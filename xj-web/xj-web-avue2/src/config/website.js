@@ -77,6 +77,7 @@ export default {
     optionConfig: {
         card: true,              // 是否开启卡片模式
         searchMenuSpan: 2,       // 搜索按钮于搜索框的间隙
+        searchBtnText: "搜索",       // 搜索按钮于搜索框的间隙
         border: true,            // 是否开启列分割线
         // align: 'center',      // 内容是否居中(默认左对齐)
         // menuAlign:'center',   // 菜单是否居中(开启了行编辑无效)
@@ -108,13 +109,13 @@ export default {
         //title:'标题',                // 新增编辑弹层标题
         //dialogWidth:'50%',           // 新增编辑弹层宽度
         filterText: "搜索关键字",     // 搜索提示
-        defaultExpandAll: true,     // 是否展开节点
+        defaultExpandAll: false,     // 是否展开节点
         filter: true,               // 是否显示搜索
         addBtn: false,              // 是否展示新增按钮
         editBtn: false,             // 是否展示删除按钮
         delBtn: false,              // 是否展示编辑按钮
         menu: false,                // 菜单开关
-        // 字段配置(页面重配置)
+        // 字段配置 (页面重配置)
         // this.website.treeOption.props.label = "name";
         // this.website.treeOption.props.children = "menus";
         props: {

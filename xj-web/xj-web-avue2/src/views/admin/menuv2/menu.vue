@@ -58,7 +58,8 @@
             </el-main>
         </el-container>
 
-        <el-dialog :title="'新增 -- '+  rowTreeData.name" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" @close="closeDialog">
+        <el-dialog :title="rowData.name?'新增 - ['+ rowData.name + '] - 子菜单/页面':'新增顶级目录'"
+                   v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" @close="closeDialog">
             <Add :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Add>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
@@ -125,6 +126,7 @@
             //this.option.cellBtnt = true
             this.option.rowKey = "id";
             this.option.height = 600;
+            this.option.searchBtnText =  "搜索并重载左侧";
             // 字段配置
             this.option.treeProps = {
                 children: 'menus'
@@ -137,7 +139,7 @@
                         dicData: this.dict.get(this.website.Dict.Admin.Terminal, true, false, true),
                         search: this.website.isTerminalSearch,
                         searchValue: this.search.terminal,
-                        searchSpan: 5,
+                        searchSpan: 6,
                         type: "select",
                         hide: true,
                     },
@@ -200,7 +202,7 @@
                 this.search.isTree = true;
                 // 查询
                 this.crud.list(this, false);
-                this.crud.doLayout(this, this.$refs.crudMenu)
+                this.crud.doLayout(this, this.$refs.crudMenu);
             },
             // 搜索,并重置页数为1
             searchChange(params, done) {
