@@ -51,7 +51,9 @@ public class XjAdminBlacklistServiceImpl extends BaseIServiceImpl<XjAdminBlackli
     public List<XjAdminBlacklistVO> listByType(Integer type) {
         List<XjAdminBlacklist> list = this.list(new LambdaQueryWrapper<XjAdminBlacklist>()
                 .orderByDesc(XjAdminBlacklist::getCreateTime)
-                .eq(XjAdminBlacklist::getDisable, Base.Disable.V0.getValue()));
+                .eq(XjAdminBlacklist::getType, type)
+                .eq(XjAdminBlacklist::getDisable, Base.Disable.V0.getValue())
+        );
         return BeanDtoVoUtil.listVo(list, XjAdminBlacklistVO.class);
     }
 

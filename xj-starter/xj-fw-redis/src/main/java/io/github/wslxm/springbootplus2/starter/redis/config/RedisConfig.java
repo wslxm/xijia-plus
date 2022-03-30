@@ -10,6 +10,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.github.wslxm.springbootplus2.starter.redis.util.RedisPropUtil;
 import io.github.wslxm.springbootplus2.starter.redis.util.RedisSpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -115,6 +116,10 @@ public class RedisConfig extends CachingConfigurerSupport {
 					ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
 			jackson2JsonRedisSerializer.setObjectMapper(om);
 
+			// 解决jackson2无法反序列化LocalDateTime的问题
+			om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+			om.registerModule(new JavaTimeModule());
+
 			// 配置序列化（解决乱码的问题）
 			RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
 					.entryTtl(timeToLive)
@@ -122,9 +127,16 @@ public class RedisConfig extends CachingConfigurerSupport {
 					.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
 					.disableCachingNullValues();
 			log.info("已启用 redis 分布式缓存");
-			return RedisCacheManager.builder(factory)
+
+			return RedisCacheManager
+					.builder(factory)
 					.cacheDefaults(config)
 					.build();
+
+			//return new CustomizedRedisCacheManager(this.applicationName, this.nacosDataSource, this.container)
+
+//			@Value("${spring.application.name}")
+//			private String applicationName;
 		}
 	}
 
