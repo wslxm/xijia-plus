@@ -139,7 +139,7 @@
                         dicData: this.dict.get(this.website.Dict.Admin.Terminal, true, false, true),
                         search: this.website.isTerminalSearch,
                         searchValue: this.search.terminal,
-                        searchSpan: 6,
+                        searchSpan: 7,
                         type: "select",
                         hide: true,
                     },

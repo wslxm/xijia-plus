@@ -88,7 +88,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             }
         }
         // 3、resurt，返回list
-        if (!query.getIsTree()) {
+        if (!query.getIsTree() || adminAuthorityVOList.size() <= 1) {
             return adminAuthorityVOList;
         }
         // 4、resurt，返回tree
