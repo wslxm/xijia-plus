@@ -45,7 +45,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         log.error("error 错误日志已正常输出");
         log.warn("warn 警告日志已正常输出");
         log.info("info 普通日志已正常输出");
-        log.error("debug 调试日志已正常输出");
+        log.debug("debug 调试日志已正常输出");
     }
 
 
