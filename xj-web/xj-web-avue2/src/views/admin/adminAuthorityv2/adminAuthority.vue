@@ -74,7 +74,7 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/authority/list?isTree=true",
+                    infoList: "/api/admin/authority/list",
                     info: "/api/admin/authority",
                 },
                 treeOption: JSON.parse(JSON.stringify(this.website.treeOption)),
@@ -171,6 +171,7 @@
         methods: {
             onLoad() {
                 this.search.pid = this.rowTreeData.id;
+                this.search.isTree = true;
                 this.crud.list(this, false);
                 this.crud.doLayout(this, this.$refs.crudAuth)
             },

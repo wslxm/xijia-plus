@@ -31,10 +31,10 @@ module.exports = {
         }
     },
     chainWebpack: (config) => {
-        const entry = config.entry('app')
+        const entry = config.entry('app');
         entry
             .add('babel-polyfill')
-            .end()
+            .end();
         entry
             .add('classlist-polyfill')
             .end()
