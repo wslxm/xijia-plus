@@ -3,7 +3,7 @@ package io.github.wslxm.springbootplus2.manage.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
-import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
+import io.github.wslxm.springbootplus2.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.cache.CacheKey2;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
@@ -70,7 +70,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         }
 
         //2、获取所有字典数据
-        List<AdminDictionaryVO> dictListVO = XjCacheUtil2.findListALL(isDisable);
+        List<AdminDictionaryVO> dictListVO = XjCacheUtil.findListALL(isDisable);
 
         if (dictListVO.isEmpty()) {
             return dictListVO;
@@ -171,7 +171,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     @Override
     public Map<String, AdminDictionaryCodeGroup> findCodeGroup() {
-        List<AdminDictionaryVO> dictList = XjCacheUtil2.findListALL(false);
+        List<AdminDictionaryVO> dictList = XjCacheUtil.findListALL(false);
         List<AdminDictionaryCodeGroup> dictionaryCodeGroupList = BeanDtoVoUtil.listVo(dictList, AdminDictionaryCodeGroup.class);
         Map<String, AdminDictionaryCodeGroup> dictGroupMap = new HashMap<>(dictList.size(), 1);
         // return -按添加顺序排序
@@ -201,7 +201,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     @Override
     public List<AdminDictionaryVO> findDictCategory(String code) {
         String newPid = PID;
-        List<AdminDictionaryVO> dictList = XjCacheUtil2.findListALL(true);
+        List<AdminDictionaryVO> dictList = XjCacheUtil.findListALL(true);
         if (StringUtils.isNotBlank(code)) {
             for (AdminDictionaryVO adminDictionaryVO : dictList) {
                 if (code.equals(adminDictionaryVO.getCode())) {
@@ -428,7 +428,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         List<String> ids = new ArrayList<>();
         ids.add(id);
         // 查询所有
-        List<AdminDictionaryVO> dictList = XjCacheUtil2.findListALL(true);
+        List<AdminDictionaryVO> dictList = XjCacheUtil.findListALL(true);
         List<AdminDictionaryVO> dictVoList = BeanDtoVoUtil.listVo(dictList, AdminDictionaryVO.class);
         for (AdminDictionaryVO adminDictionaryVO : dictVoList) {
             if (id.equals(adminDictionaryVO.getId())) {

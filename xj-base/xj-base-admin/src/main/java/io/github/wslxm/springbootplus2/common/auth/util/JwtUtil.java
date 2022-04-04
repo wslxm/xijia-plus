@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.common.auth.util;
 
-import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
+import io.github.wslxm.springbootplus2.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
@@ -149,7 +149,7 @@ public class JwtUtil {
             }
             // 管理端获取每次刷新获取新的刷新时间, 如果没有设值，使用登录设置的默认时间
             if (jwtUser.getType().equals(userType[0])) {
-                XjAdminConfigVO configByCode = XjCacheUtil2.getConfigByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
+                XjAdminConfigVO configByCode = XjCacheUtil.getConfigByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
                 jwtUser.setExpiration(Integer.parseInt(configByCode.getContent()));
             }
             createToken(jwtUser, response);

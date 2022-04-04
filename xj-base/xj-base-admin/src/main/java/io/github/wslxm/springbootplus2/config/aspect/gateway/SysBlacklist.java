@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.config.aspect.gateway;
 
 
-import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
+import io.github.wslxm.springbootplus2.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminBlacklistService;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
@@ -59,8 +59,8 @@ public class SysBlacklist {
         }
 
         // 获取 黑/白名单配置
-        List<String> baiIps = XjCacheUtil2.listByType(Base.BlacklistType.V1.getValue());
-        List<String> heiIps = XjCacheUtil2.listByType(Base.BlacklistType.V2.getValue());
+        List<String> baiIps = XjCacheUtil.listByType(Base.BlacklistType.V1.getValue());
+        List<String> heiIps = XjCacheUtil.listByType(Base.BlacklistType.V2.getValue());
         // 1、没有配置黑+白名单，直接放行
         if (baiIps.isEmpty() && heiIps.isEmpty()) {
             return R.success();

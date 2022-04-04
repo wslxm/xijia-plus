@@ -4,7 +4,7 @@ package io.github.wslxm.springbootplus2.config.filter.sing;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
+import io.github.wslxm.springbootplus2.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.config.filter.sing.util.RequestWrapper;
 import io.github.wslxm.springbootplus2.config.filter.sing.util.SignUtil;
 import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
@@ -51,7 +51,7 @@ public class SysSingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         // 是否需要验签(总开关)
-        XjAdminConfigVO xjAdminConfig = XjCacheUtil2.getConfigByCode(ConfigCacheKey.IS_SIGN);
+        XjAdminConfigVO xjAdminConfig = XjCacheUtil.getConfigByCode(ConfigCacheKey.IS_SIGN);
         if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
@@ -63,7 +63,7 @@ public class SysSingFilter implements Filter {
         // 1.1、判断接口是否被管理,没有被管理直接放行
         String uri = request.getRequestURI();
 
-        Map<String, AdminAuthority> authMap = XjCacheUtil2.findListAllToMap();
+        Map<String, AdminAuthority> authMap = XjCacheUtil.findListAllToMap();
         String cacheKey = AuthCacheKeyUtil.getAuthCacheKey(request.getMethod(), request.getRequestURI());
         if (!authMap.containsKey(cacheKey)) {
             filterChain.doFilter(servletRequest, servletResponse);

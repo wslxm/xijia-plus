@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * @email 1720696548@qq.com
  * @date 2022/3/23 14:36
  */
-public class XjCacheUtil2 {
+public class XjCacheUtil {
 
 	/**
 	 * 获取黑名单白名单 IP集 （通过type获取）
@@ -118,11 +118,11 @@ public class XjCacheUtil2 {
 	 * @email 1720696548@qq.com
 	 * @date 2022/3/23 15:21
 	 */
-	private static String toLowerCaseFirstOne(String s) {
-		if (Character.isLowerCase(s.charAt(0))) {
-			return s;
+	private static String toLowerCaseFirstOne(String str) {
+		if (Character.isLowerCase(str.charAt(0))) {
+			return str;
 		} else {
-			return Character.toLowerCase(s.charAt(0)) + s.substring(1);
+			return Character.toLowerCase(str.charAt(0)) + str.substring(1);
 		}
 	}
 }

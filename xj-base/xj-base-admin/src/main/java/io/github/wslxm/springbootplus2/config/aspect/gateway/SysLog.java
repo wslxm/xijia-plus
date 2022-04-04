@@ -2,7 +2,7 @@ package io.github.wslxm.springbootplus2.config.aspect.gateway;
 
 
 import com.alibaba.fastjson.JSON;
-import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
+import io.github.wslxm.springbootplus2.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.result.R;
@@ -214,7 +214,7 @@ public class SysLog {
             log.setFullName("╥﹏╥");
             log.setUserId("0");
 
-            Map<String, AdminAuthority> authMap = XjCacheUtil2.findListAllToMap();
+            Map<String, AdminAuthority> authMap = XjCacheUtil.findListAllToMap();
             AdminAuthority adminAuthority = authMap.get(uri);
             // AdminAuthority adminAuthority = CacheUtil.getAuthMap().get(uri);
             if (adminAuthority != null) {

@@ -2,7 +2,7 @@ package io.github.wslxm.springbootplus2.manage.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
+import io.github.wslxm.springbootplus2.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.cache.AuthCacheKeyUtil;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
@@ -396,7 +396,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             @CacheEvict(value = CacheKey2.LOGIN_AUTH_USER_ID, allEntries = true)
     })
     public void refreshAuthCache() {
-        Map<String, AdminAuthority> listAllToMap = XjCacheUtil2.findListAllToMap();
+        Map<String, AdminAuthority> listAllToMap = XjCacheUtil.findListAllToMap();
         // 数据统计
         int authorityCount = 0;
         int authorityCountState2 = 0;

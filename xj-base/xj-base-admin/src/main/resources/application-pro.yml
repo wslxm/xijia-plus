@@ -12,7 +12,7 @@ spring:
     username: wangsong
     password: XJspringbootplus@#
 
-  # redis 配置(下方配置为内网，如果不想使用redis，可以注释该配置，默认使用jvm缓存)
+  # redis 配置(下方配置为内网,请改为自己的，如果不想使用redis，可以注释该配置，默认使用jvm缓存)
 #  redis:
 #    host: 172.30.140.178
 #    port: 6379

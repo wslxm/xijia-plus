@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.config.aspect.gateway;
 
 
-import io.github.wslxm.springbootplus2.cache.XjCacheUtil2;
+import io.github.wslxm.springbootplus2.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
@@ -81,7 +81,7 @@ public class SysAuth {
             return R.success(null);
         }
         // 2、是否被权限管理, 没有直接放行
-        Map<String, AdminAuthority> authMap = XjCacheUtil2.findListAllToMap();
+        Map<String, AdminAuthority> authMap = XjCacheUtil.findListAllToMap();
         String cacheKey = AuthCacheKeyUtil.getAuthCacheKey(request.getMethod(), request.getRequestURI());
         if (!authMap.containsKey(cacheKey)) {
             return R.success(null);
@@ -124,12 +124,12 @@ public class SysAuth {
             }
             JwtUser jwtUser = result.getData();
             // 判断是否验证权限
-            XjAdminConfigVO xjAdminConfig = XjCacheUtil2.getConfigByCode(ConfigCacheKey.IS_AUTH);
+            XjAdminConfigVO xjAdminConfig = XjCacheUtil.getConfigByCode(ConfigCacheKey.IS_AUTH);
             if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
                 return R.success(jwtUser);
             }
             // 验证权限
-            List<String> authList = XjCacheUtil2.findByUserIdAuthority(jwtUser.getUserId());
+            List<String> authList = XjCacheUtil.findByUserIdAuthority(jwtUser.getUserId());
             if (authList == null || !authList.contains(cacheKey)) {
                 return R.error(RType.AUTHORITY_NO_PERMISSION);
             }
