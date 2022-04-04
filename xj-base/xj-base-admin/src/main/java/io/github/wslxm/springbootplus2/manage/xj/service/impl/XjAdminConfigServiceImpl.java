@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.wslxm.springbootplus2.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
-import io.github.wslxm.springbootplus2.cache.CacheKey2;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
@@ -59,7 +59,7 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
     }
 
     @Override
-    @CacheEvict(value = CacheKey2.CONFIG_LIST_BY_CODE, allEntries = true)
+    @CacheEvict(value = CacheKey.CONFIG_LIST_BY_CODE, allEntries = true)
     public boolean upd(String id,XjAdminConfigDTO dto) {
         XjAdminConfig config = this.getById(id);
         if (!config.getCode().equals(dto.getCode())) {
@@ -74,7 +74,7 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
 
 
     @Override
-    @Cacheable(value = CacheKey2.CONFIG_LIST_BY_CODE, key = "#code")
+    @Cacheable(value = CacheKey.CONFIG_LIST_BY_CODE, key = "#code")
     public XjAdminConfigVO findByCode(String code) {
         XjAdminConfig xjAdminConfig = this.getOne(new LambdaQueryWrapper<XjAdminConfig>().eq(XjAdminConfig::getCode, code));
         return BeanDtoVoUtil.convert(xjAdminConfig,XjAdminConfigVO.class);

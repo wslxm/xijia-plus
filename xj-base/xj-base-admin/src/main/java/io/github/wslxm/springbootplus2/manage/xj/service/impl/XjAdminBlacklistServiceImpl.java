@@ -3,8 +3,8 @@ package io.github.wslxm.springbootplus2.manage.xj.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.wslxm.springbootplus2.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
-import io.github.wslxm.springbootplus2.cache.CacheKey2;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.xj.mapper.XjAdminBlacklistMapper;
@@ -47,7 +47,7 @@ public class XjAdminBlacklistServiceImpl extends BaseIServiceImpl<XjAdminBlackli
 
 
     @Override
-    @Cacheable(value = CacheKey2.BLACK_LIST_BY_TYPE, key = "#type")
+    @Cacheable(value = CacheKey.BLACK_LIST_BY_TYPE, key = "#type")
     public List<XjAdminBlacklistVO> listByType(Integer type) {
         List<XjAdminBlacklist> list = this.list(new LambdaQueryWrapper<XjAdminBlacklist>()
                 .orderByDesc(XjAdminBlacklist::getCreateTime)
@@ -58,7 +58,7 @@ public class XjAdminBlacklistServiceImpl extends BaseIServiceImpl<XjAdminBlackli
     }
 
     @Override
-    @CacheEvict(value = CacheKey2.BLACK_LIST_BY_TYPE, key = "#dto.type")
+    @CacheEvict(value = CacheKey.BLACK_LIST_BY_TYPE, key = "#dto.type")
     public String insert(XjAdminBlacklistDTO dto) {
         XjAdminBlacklist entity = dto.convert(XjAdminBlacklist.class);
         boolean b = this.save(entity);
@@ -66,7 +66,7 @@ public class XjAdminBlacklistServiceImpl extends BaseIServiceImpl<XjAdminBlackli
     }
 
     @Override
-    @CacheEvict(value = CacheKey2.BLACK_LIST_BY_TYPE, allEntries = true)
+    @CacheEvict(value = CacheKey.BLACK_LIST_BY_TYPE, allEntries = true)
     public Boolean upd(String id, XjAdminBlacklistDTO dto) {
         XjAdminBlacklist entity = dto.convert(XjAdminBlacklist.class);
         entity.setId(id);
@@ -74,7 +74,7 @@ public class XjAdminBlacklistServiceImpl extends BaseIServiceImpl<XjAdminBlackli
     }
 
     @Override
-    @CacheEvict(value = CacheKey2.BLACK_LIST_BY_TYPE, allEntries = true)
+    @CacheEvict(value = CacheKey.BLACK_LIST_BY_TYPE, allEntries = true)
     public Boolean del(String id) {
         return this.removeById(id);
     }

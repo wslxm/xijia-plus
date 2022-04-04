@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 /**
  * 系统 缓存缓存对象获取 类
  * <P>
- *     系统缓存对象 --  缓存key  CacheKey2
+ *     系统缓存对象 --  缓存key  CacheKey
  * </P>
  *
  * @author wangsong

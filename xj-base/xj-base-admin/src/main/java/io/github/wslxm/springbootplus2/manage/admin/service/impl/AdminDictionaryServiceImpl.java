@@ -3,9 +3,9 @@ package io.github.wslxm.springbootplus2.manage.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
+import io.github.wslxm.springbootplus2.cache.CacheKey;
 import io.github.wslxm.springbootplus2.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
-import io.github.wslxm.springbootplus2.cache.CacheKey2;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
@@ -125,7 +125,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
 
     @Override
-    @CacheEvict(value = CacheKey2.DICT_LIST_ALL, allEntries = true)
+    @CacheEvict(value = CacheKey.DICT_LIST_ALL, allEntries = true)
     public String insert(AdminDictionaryDTO dto) {
         if (StringUtils.isBlank(dto.getCode().trim())) {
             throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + ":code");
@@ -142,7 +142,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
 
     @Override
-    @CacheEvict(value = CacheKey2.DICT_LIST_ALL, allEntries = true)
+    @CacheEvict(value = CacheKey.DICT_LIST_ALL, allEntries = true)
     public Boolean upd(String id, AdminDictionaryDTO dto) {
         // 因为Code不能重复, 编辑了Code 需单独处理数据
         if (dto.getCode() != null) {
@@ -162,7 +162,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
     }
 
     @Override
-    @CacheEvict(value = CacheKey2.DICT_LIST_ALL, allEntries = true)
+    @CacheEvict(value = CacheKey.DICT_LIST_ALL, allEntries = true)
     public Boolean del(String id) {
         List<String> ids = this.findByIdFetchIds(id);
         return this.removeByIds(ids);
@@ -445,7 +445,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * @return list
      */
     @Override
-    @Cacheable(value = CacheKey2.DICT_LIST_ALL)
+    @Cacheable(value = CacheKey.DICT_LIST_ALL)
     public List<AdminDictionaryVO> findListALL() {
         List<AdminDictionary> adminDictionaries = baseMapper.selectList(new LambdaQueryWrapper<AdminDictionary>()
                 .orderByAsc(AdminDictionary::getSort)

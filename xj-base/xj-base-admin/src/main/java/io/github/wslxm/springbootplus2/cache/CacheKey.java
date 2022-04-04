@@ -12,7 +12,7 @@ import lombok.Getter;
  * @mail 1720696548@qq.com
  * @date 2021/7/30 0030 18:18
  */
-public interface CacheKey2 {
+public interface CacheKey {
 
 	/**
 	 * 登录人接口权限 (根据 用户ID 缓存)
