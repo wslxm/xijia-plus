@@ -20,6 +20,24 @@ public class RedisUtil {
     private RedisTemplate<String, Object> redisTemplate;
 
 
+
+    /**
+     * 判断是否启用redis
+     *
+     * @return
+     */
+    public static Boolean isRedis() {
+        if (RedisSpringContextUtil.getBean("redisTemplate") == null) {
+            return false;
+        }
+        // 获取yml 的redis 配置
+        Object redisHost = RedisPropUtil.findByKey("spring.redis.host");
+        if (redisHost == null || "".equals(redisHost.toString())) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * 指定缓存失效时间
      *
