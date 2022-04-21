@@ -227,7 +227,7 @@ public class LocalDateTimeUtil {
     public static LocalDateTime yearFirst(LocalDateTime time) {
         int year = time.getYear();
         // 年 月  天 时 分 秒 毫秒（这里精确到9位数）
-        return LocalDateTime.of(1, 1, 0, 0, 0, 0);
+        return LocalDateTime.of(year, 1, 0, 0, 0, 0);
     }
 
     /**
