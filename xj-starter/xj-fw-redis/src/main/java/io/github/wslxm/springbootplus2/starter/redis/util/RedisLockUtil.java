@@ -19,18 +19,6 @@ public class RedisLockUtil {
     private RedisTemplate<String, Object> redisTemplate;
 
 
-    /**
-     * 判断redis 是否启用
-     * @return true 是 flase 否
-     */
-    public static Boolean isRedis() {
-        // 获取yml 的redis 配置
-        Object redisHost = RedisPropUtil.findByKey("spring.redis.host");
-        if (redisHost == null || "".equals(redisHost)) {
-            return false;
-        }
-        return true;
-    }
 
 
     /**
@@ -48,7 +36,7 @@ public class RedisLockUtil {
      */
     @SuppressWarnings("all")
     public boolean lock(String lockKey, long lockExpireMils) {
-        if (!isRedis()) {
+        if (!RedisUtil.isRedis()) {
             throw new RedisErrorException(10009, "获取分布式锁[" + lockKey + "]失败");
         }
         return (Boolean) redisTemplate.execute((RedisCallback) connection -> {

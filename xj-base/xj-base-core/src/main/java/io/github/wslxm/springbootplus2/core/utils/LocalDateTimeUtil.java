@@ -227,7 +227,7 @@ public class LocalDateTimeUtil {
     public static LocalDateTime yearFirst(LocalDateTime time) {
         int year = time.getYear();
         // 年 月  天 时 分 秒 毫秒（这里精确到9位数）
-        return LocalDateTime.of(1, 1, 0, 0, 0, 0);
+        return LocalDateTime.of(year, 1, 1, 0, 0, 0);
     }
 
     /**
@@ -359,7 +359,7 @@ public class LocalDateTimeUtil {
      */
     public static LocalDateTime getWeekOfFirst(LocalDateTime time) {
         return time.with(TemporalAdjusters.previous(DayOfWeek.SUNDAY)).
-                plusDays(1).withHour(0).withMinute(0).withSecond(0);
+                plusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
     }
 
 
@@ -370,7 +370,7 @@ public class LocalDateTimeUtil {
      */
     public static LocalDateTime getWeekOfLast(LocalDateTime time) {
         return time.with(TemporalAdjusters.next(DayOfWeek.MONDAY)).
-                minusDays(1).withHour(23).withMinute(59).withSecond(59);
+                minusDays(1).withHour(23).withMinute(59).withSecond(59).withNano(999999);
     }
 
 

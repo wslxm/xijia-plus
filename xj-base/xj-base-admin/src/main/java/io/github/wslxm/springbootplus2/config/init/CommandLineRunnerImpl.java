@@ -1,12 +1,13 @@
 package io.github.wslxm.springbootplus2.config.init;
 
+import io.github.wslxm.springbootplus2.manage.admin.service.AdminAuthorityService;
 import io.github.wslxm.springbootplus2.core.utils.PropUtil;
 import io.github.wslxm.springbootplus2.core.utils.bean.SpringContextUtil;
-import io.github.wslxm.springbootplus2.manage.admin.service.AdminAuthorityService;
 import io.github.wslxm.springbootplus2.starter.redis.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.stereotype.Component;
 
 /**
