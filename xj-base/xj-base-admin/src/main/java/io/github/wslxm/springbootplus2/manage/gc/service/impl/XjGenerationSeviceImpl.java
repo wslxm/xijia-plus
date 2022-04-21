@@ -121,7 +121,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         XjGenerateDto generateDto = new XjGenerateDto();
         generateDto.setTableName(tableName);
         generateDto.setTableComment("预览生成路径");
-        GcConfig gcConfig = getGcConfig(generateDto, true);
+        GcConfig gcConfig = getGcConfig(generateDto, false);
         // 获取路径
         Map<String, String> mapPath = new LinkedHashMap<>(16);
         mapPath.put("X-Vue-Menu", GcReplacUtil.replacParams(gcConfig, GcTPConfig.P_VUE_MEUN));

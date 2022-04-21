@@ -39,8 +39,12 @@ public class GcFileUtil {
         String fileName = gcFilePath.getName();
         // 判断是否为生成预览文件, 预览文件替换后缀
         if (path.substring(0, GcTPConfig.PREVIEW_FILE_PATH.length()).indexOf(GcTPConfig.PREVIEW_FILE_PATH) != -1) {
+            String suffixName = path.substring(path.lastIndexOf("."));
+            // 排除后缀
+            // if (!suffixName.equals(".vue")) {
             path = path.substring(0, path.lastIndexOf("."));
             path += GcTPConfig.PREVIEW_SUFFIX;
+            // }
         }
         // 获取路径并创建目录
         String pathFile = path.substring(0, path.lastIndexOf("/"));

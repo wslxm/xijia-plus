@@ -7,15 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.github.wslxm.springbootplus2.starter.redis.util.RedisPropUtil;
-import io.github.wslxm.springbootplus2.starter.redis.util.RedisSpringContextUtil;
+import io.github.wslxm.springbootplus2.starter.redis.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -99,7 +96,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 	 */
 	@Bean
 	public CacheManager cacheManager(RedisConnectionFactory factory) {
-		if (!isRedis()) {
+		if (!RedisUtil.isRedis()) {
 			// 缓存注解 使用 spring 缓存
 			log.info("已启用 spring 本地缓存");
 			return new ConcurrentMapCacheManager();
@@ -138,24 +135,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 //			@Value("${spring.application.name}")
 //			private String applicationName;
 		}
-	}
-
-
-	/**
-	 * 判断是否启用redis
-	 *
-	 * @return
-	 */
-	public static Boolean isRedis() {
-		if (RedisSpringContextUtil.getBean("redisTemplate") == null) {
-			return false;
-		}
-		// 获取yml 的redis 配置
-		Object redisHost = RedisPropUtil.findByKey("spring.redis.host");
-		if (redisHost == null || "".equals(redisHost.toString())) {
-			return false;
-		}
-		return true;
 	}
 
 }
