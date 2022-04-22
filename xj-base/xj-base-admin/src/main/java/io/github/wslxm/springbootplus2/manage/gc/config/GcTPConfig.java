@@ -19,20 +19,20 @@ public class GcTPConfig {
      * 代码模板 路径
      */
     // java代码
-    public static String T_BASE_TEMPLATE = "/template";
-    public static String T_ENTITY = T_BASE_TEMPLATE + "/model/Demo.tp";
-    public static String T_VO = T_BASE_TEMPLATE + "/model/DemoVO.tp";
-    public static String T_DTO = T_BASE_TEMPLATE + "/model/DemoDTO.tp";
-    public static String T_QUERY = T_BASE_TEMPLATE + "/model/DemoQuery.tp";
-    public static String T_CONTROLLER = T_BASE_TEMPLATE + "/DemoController.tp";
-    public static String T_SERVICE = T_BASE_TEMPLATE + "/DemoService.tp";
-    public static String T_SERVICEIMPL = T_BASE_TEMPLATE + "/DemoServiceImpl.tp";
-    public static String T_MAPPER = T_BASE_TEMPLATE + "/DemoMapper.tp";
+    public final static String T_BASE_TEMPLATE = "/template";
+    public final static String T_ENTITY = T_BASE_TEMPLATE + "/model/Demo.tp";
+    public final static String T_VO = T_BASE_TEMPLATE + "/model/DemoVO.tp";
+    public final static String T_DTO = T_BASE_TEMPLATE + "/model/DemoDTO.tp";
+    public final static String T_QUERY = T_BASE_TEMPLATE + "/model/DemoQuery.tp";
+    public final static String T_CONTROLLER = T_BASE_TEMPLATE + "/DemoController.tp";
+    public final static String T_SERVICE = T_BASE_TEMPLATE + "/DemoService.tp";
+    public final static String T_SERVICEIMPL = T_BASE_TEMPLATE + "/DemoServiceImpl.tp";
+    public final static String T_MAPPER = T_BASE_TEMPLATE + "/DemoMapper.tp";
     // xml 及 vue代码
-    public static String T_MAPPER_XML = T_BASE_TEMPLATE + "/xml/DemoMapper.tp";
-    public static String T_VUE = T_BASE_TEMPLATE + "/vue/DemoVue.tp";
-    public static String T_VUE_ADD = T_BASE_TEMPLATE + "/vue/DemoVueAdd.tp";
-    public static String T_VUE_UPD = T_BASE_TEMPLATE + "/vue/DemoVueUpd.tp";
+    public final static String T_MAPPER_XML = T_BASE_TEMPLATE + "/xml/DemoMapper.tp";
+    public final static String T_VUE = T_BASE_TEMPLATE + "/vue/DemoVue.tp";
+    public final static String T_VUE_ADD = T_BASE_TEMPLATE + "/vue/DemoVueAdd.tp";
+    public final static String T_VUE_UPD = T_BASE_TEMPLATE + "/vue/DemoVueUpd.tp";
 
     /**
      * 代码生成 路径
@@ -46,26 +46,26 @@ public class GcTPConfig {
      * </P>
      */
     // java 文件默认生成到 指定包录 + 模块路径 + 下方指定的路径下
-    private static String BASE_PATH_JAVA = "{projectName}/src/main/java/{packFilePath}/{rootModule}/{moduleName}";
-    private static String BASE_PATH_XML = "{projectName}/src/main/resources";
-    private static String BASE_PATH_VUE = "{projectName}/src/main/resources";
+    private final static String BASE_PATH_JAVA = "{projectName}/src/main/java/{packFilePath}/{rootModule}/{moduleName}";
+    private final static String BASE_PATH_XML = "{projectName}/src/main/resources";
+    private final static String BASE_PATH_VUE = "{projectName}/src/main/resources";
     //
-    public static String P_ENTITY = BASE_PATH_JAVA + "/model/entity/{tableNameUp}.java";
-    public static String P_VO = BASE_PATH_JAVA + "/model/vo/{tableNameUp}VO.java";
-    public static String P_DTO = BASE_PATH_JAVA + "/model/dto/{tableNameUp}DTO.java";
-    public static String P_QUERY = BASE_PATH_JAVA + "/model/query/{tableNameUp}Query.java";
-    public static String P_CONTROLLER = BASE_PATH_JAVA + "/controller/{tableNameUp}Controller.java";
-    public static String P_SERVICE = BASE_PATH_JAVA + "/service/{tableNameUp}Service.java";
-    public static String P_SERVICE_IMPL = BASE_PATH_JAVA + "/service/impl/{tableNameUp}serviceImpl.java";
-    public static String P_MAPPER = BASE_PATH_JAVA + "/mapper/{tableNameUp}mapper.java";
+    public final static String P_ENTITY = BASE_PATH_JAVA + "/model/entity/{tableNameUp}.java";
+    public final static String P_VO = BASE_PATH_JAVA + "/model/vo/{tableNameUp}VO.java";
+    public final static String P_DTO = BASE_PATH_JAVA + "/model/dto/{tableNameUp}DTO.java";
+    public final static String P_QUERY = BASE_PATH_JAVA + "/model/query/{tableNameUp}Query.java";
+    public final static String P_CONTROLLER = BASE_PATH_JAVA + "/controller/{tableNameUp}Controller.java";
+    public final static String P_SERVICE = BASE_PATH_JAVA + "/service/{tableNameUp}Service.java";
+    public final static String P_SERVICE_IMPL = BASE_PATH_JAVA + "/service/impl/{tableNameUp}ServiceImpl.java";
+    public final static String P_MAPPER = BASE_PATH_JAVA + "/mapper/{tableNameUp}Mapper.java";
     // 以下默认生成到 resources 目录
-    public static String P_MAPPER_XML = BASE_PATH_XML + "/mapper/{moduleName}/{tableNameUp}Mapper.xml";
+    public final static String P_MAPPER_XML = BASE_PATH_XML + "/mapper/{moduleName}/{tableNameUp}Mapper.xml";
     // vue
-    public static String P_VUE = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}.vue";
-    public static String P_VUE_ADD = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}Add.vue";
-    public static String P_VUE_UPD = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}Upd.vue";
+    public final static String P_VUE = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}.vue";
+    public final static String P_VUE_ADD = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}Add.vue";
+    public final static String P_VUE_UPD = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}Upd.vue";
     // 预览菜单路径(参考)
-    public static String P_VUE_MEUN = "/views/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}.vue";
+    public final static String P_VUE_MEUN = "/views/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}.vue";
 
 
     /**
@@ -73,6 +73,6 @@ public class GcTPConfig {
      *   - 预览文件生成路径
      *   - 预览文件生成后缀格式
      */
-    public static String PREVIEW_FILE_PATH = "File/";
-    public static String PREVIEW_SUFFIX = ".txt";
+    public final static String PREVIEW_FILE_PATH = "File/";
+    public final static String PREVIEW_SUFFIX = ".txt";
 }

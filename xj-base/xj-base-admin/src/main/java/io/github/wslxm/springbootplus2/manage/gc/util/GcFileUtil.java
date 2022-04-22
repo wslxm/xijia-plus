@@ -25,7 +25,6 @@ public class GcFileUtil {
      * 获得BufferedReader（根据url读取模版文档），BufferedWriter （写入文件流），path生成的件路径
      *
      * @param gcConfig = 代码生成的相关配置信息
-     * @param path    = 代码模板key
      * @author ws
      * @mail 1720696548@qq.com
      * @date 2020/2/9 0009 21:37
@@ -37,15 +36,6 @@ public class GcFileUtil {
         String path = gcFilePath.getPath();
         String templatePath = gcFilePath.getTemplatePath();
         String fileName = gcFilePath.getName();
-        // 判断是否为生成预览文件, 预览文件替换后缀
-        if (path.substring(0, GcTPConfig.PREVIEW_FILE_PATH.length()).indexOf(GcTPConfig.PREVIEW_FILE_PATH) != -1) {
-            String suffixName = path.substring(path.lastIndexOf("."));
-            // 排除后缀
-            // if (!suffixName.equals(".vue")) {
-            path = path.substring(0, path.lastIndexOf("."));
-            path += GcTPConfig.PREVIEW_SUFFIX;
-            // }
-        }
         // 获取路径并创建目录
         String pathFile = path.substring(0, path.lastIndexOf("/"));
         GcFileUtil.mkdirFile(pathFile);
@@ -85,7 +75,7 @@ public class GcFileUtil {
             String line = null;
             while ((line = br.readLine()) != null) {
                 // 内容替换
-                newLine = GcReplacUtil.replacParams(gcConfig, line);
+                newLine = GcReplacUtil.replaceParams(gcConfig.getDefaultTemplateParam(), gcConfig.getTemplateParam(), line);
                 bw.write(newLine);
                 bw.newLine();
                 bw.flush();
@@ -100,7 +90,6 @@ public class GcFileUtil {
      * 通过url 获取文件流
      *
      * @param urlStr
-     * @param withSep
      * @return java.lang.String
      * @author ws
      * @mail 1720696548@qq.com

@@ -30,7 +30,7 @@ public class GcConfig {
 	 */
 	private List<DbFieldPO> dbFields;
 	/**
-	 * 默认处理的模板参数
+	 * 默认模板参数
 	 */
 	private Map<String, String> defaultTemplateParam = new ConcurrentHashMap<>();
 	/**
@@ -42,7 +42,7 @@ public class GcConfig {
 	 */
 	private Map<String, GcFilePath> templatePathMap = new HashMap<>();
 	/**
-	 * 模板生成后的访问链接（代码生成完成后存在的数据）
+	 * 模板生成后的访问链接（代码生成后，自动填充该数据）
 	 */
 	private Map<String, String> visitPathMap = new LinkedHashMap<>();
 
