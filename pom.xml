@@ -24,49 +24,6 @@
     <packaging>pom</packaging>
     <description>Demo project for Spring Boot</description>
 
-
-    <!-- ============================ 打包到中央仓库配置 start ================================  -->
-    <!-- =================== 发布命令：mvn clean deploy  ===============================  -->
-    <!-- =================== 使用管理员身份打开 cmd 执行发布命令 ==========================  -->
-    <!-- 中央仓库配置 -->
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-
-    <!-- 许可证 -->
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <!-- 源码信息 -->
-    <scm>
-        <url>https://github.com/wslxm/spring-boot-plus2</url>
-        <connection>scm:https://github.com/wslxm/spring-boot-plus2.git</connection>
-        <developerConnection>scm:https://github.com/wslxm/spring-boot-plus2.git</developerConnection>
-    </scm>
-
-    <!-- 个人信息,对应 gpg 配置 -->
-    <developers>
-        <developer>
-            <name>wangsong</name>
-            <email>1720696548@qq.com</email>
-            <timezone>+8</timezone>
-        </developer>
-    </developers>
-
-
-    <!-- ========================== 打包到中央仓库配置 end ==========================  -->
     <properties>
         <!--
              架构版本 RELEASE=正式版 SNAPSHOT=开发版(实时刷新jar依赖),
@@ -300,66 +257,110 @@
     </dependencyManagement>
 
 
-    <!-- 多环境配置 -->
-    <!--    <profiles>-->
-    <!--        <profile>-->
-    <!--            <id>release</id>-->
 
-    <!-- 打包配置到中央仓库的统一配置,如果使用该源码开发，请移除 -->
-    <!--    <build>-->
-    <!--        <finalName>${artifactId}-${revision}</finalName>-->
-    <!--        <plugins>-->
-    <!--            &lt;!&ndash; java-doc配置 &ndash;&gt;-->
-    <!--            <plugin>-->
-    <!--                <groupId>org.apache.maven.plugins</groupId>-->
-    <!--                <artifactId>maven-javadoc-plugin</artifactId>-->
-    <!--                <version>2.10.4</version>-->
-    <!--                <configuration>-->
-    <!--                    <aggregate>true</aggregate>-->
-    <!--                </configuration>-->
-    <!--                <executions>-->
-    <!--                    <execution>-->
-    <!--                        <id>attach-javadocs</id>-->
-    <!--                        <goals>-->
-    <!--                            <goal>jar</goal>-->
-    <!--                        </goals>-->
-    <!--                        <configuration>&lt;!&ndash; add this to disable checking &ndash;&gt;-->
-    <!--                            <additionalparam>-Xdoclint:none</additionalparam>-->
-    <!--                        </configuration>-->
-    <!--                    </execution>-->
-    <!--                </executions>-->
-    <!--            </plugin>-->
-    <!--            &lt;!&ndash;使用source 进行jar打包&ndash;&gt;-->
-    <!--            <plugin>-->
-    <!--                <groupId>org.apache.maven.plugins</groupId>-->
-    <!--                <artifactId>maven-source-plugin</artifactId>-->
-    <!--                <version>3.0.1</version>-->
-    <!--                <executions>-->
-    <!--                    <execution>-->
-    <!--                        <id>attach-sources</id>-->
-    <!--                        <goals>-->
-    <!--                            <goal>jar-no-fork</goal>-->
-    <!--                        </goals>-->
-    <!--                    </execution>-->
-    <!--                </executions>-->
-    <!--            </plugin>-->
-    <!--            &lt;!&ndash; gpg 配置 &ndash;&gt;-->
-    <!--            <plugin>-->
-    <!--                <groupId>org.apache.maven.plugins</groupId>-->
-    <!--                <artifactId>maven-gpg-plugin</artifactId>-->
-    <!--                <version>1.6</version>-->
-    <!--                <executions>-->
-    <!--                    <execution>-->
-    <!--                        <id>sign-artifacts</id>-->
-    <!--                        <phase>verify</phase>-->
-    <!--                        <goals>-->
-    <!--                            <goal>sign</goal>-->
-    <!--                        </goals>-->
-    <!--                    </execution>-->
-    <!--                </executions>-->
-    <!--            </plugin>-->
-    <!--        </plugins>-->
-    <!--    </build>-->
-    <!--        </profile>-->
-    <!--    </profiles>-->
+
+    <!-- ============================ 打包到中央仓库配置 start ================================  -->
+    <!-- =================== 发布命令：mvn clean deploy -P release   =========================   -->
+    <!-- =================== 使用管理员身份打开 cmd 执行发布命令        ==========================   -->
+    <!-- =================== 弹出GunPG 停止运行不管，直接点回车关闭程序  ==========================  -->
+    <!-- 中央仓库配置 -->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <!-- 许可证 -->
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <!-- 源码信息 -->
+    <scm>
+        <url>https://github.com/wslxm/spring-boot-plus2</url>
+        <connection>scm:https://github.com/wslxm/spring-boot-plus2.git</connection>
+        <developerConnection>scm:https://github.com/wslxm/spring-boot-plus2.git</developerConnection>
+    </scm>
+
+    <!-- 个人信息,对应 gpg 配置 -->
+    <developers>
+        <developer>
+            <name>wangsong</name>
+            <email>1720696548@qq.com</email>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
+    <!-- 多环境配置, 发布jar到中央仓库环境配置, 发布时选择 release 环境 -->
+    <profiles>
+        <profile>
+            <id>release</id>
+
+            <!--打包配置到中央仓库的统一配置,如果使用该源码开发，请移除-->
+            <build>
+                <finalName>${artifactId}-${revision}</finalName>
+                <plugins>
+                    <!-- java-doc配置 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.10.4</version>
+                        <configuration>
+                            <aggregate>true</aggregate>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration><!-- add this to disable checking -->
+                                    <additionalparam>-Xdoclint:none</additionalparam>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!--使用source 进行jar打包-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- gpg 配置 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <!-- ========================== 打包到中央仓库配置 end ==========================  -->
 </project>
