@@ -2,9 +2,9 @@ package io.github.wslxm.springbootplus2.manage.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import io.github.wslxm.springbootplus2.cache.AuthCacheKeyUtil;
 import io.github.wslxm.springbootplus2.cache.CacheKey;
 import io.github.wslxm.springbootplus2.cache.XjCacheUtil;
-import io.github.wslxm.springbootplus2.cache.AuthCacheKeyUtil;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
@@ -113,12 +113,17 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Caching(evict = {
+            @CacheEvict(value = CacheKey.AUTH_MAP_ALL, allEntries = true),
+            @CacheEvict(value = CacheKey.LOGIN_AUTH_USER_ID, allEntries = true)
+    })
     public Boolean upd(String id, AdminAuthorityDTO dto) {
         // 更新
         AdminAuthority entity = dto.convert(AdminAuthority.class);
         entity.setId(id);
         boolean b = this.updateById(entity);
         // 刷新缓存
+        //AdminAuthorityServiceImpl bean = (AdminAuthorityServiceImpl) SpringContextUtil.getBean("adminAuthorityServiceImpl");
         this.refreshAuthCache();
         return b;
     }
@@ -391,10 +396,6 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
 
     @Override
-    @Caching(evict = {
-            @CacheEvict(value = CacheKey.AUTH_MAP_ALL),
-            @CacheEvict(value = CacheKey.LOGIN_AUTH_USER_ID, allEntries = true)
-    })
     public void refreshAuthCache() {
         Map<String, AdminAuthority> listAllToMap = XjCacheUtil.findListAllToMap();
         // 数据统计
