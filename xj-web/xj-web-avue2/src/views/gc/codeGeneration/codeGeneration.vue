@@ -28,17 +28,17 @@
                     <!-- 数据类型 -->
                     <template slot-scope="{scope,row,index,type,size}" slot="vueFieldType">
                         <!--<el-col :span="6">-->
-                        <avue-select v-model="row.vueFieldType" placeholder="请选择内容" type="tree" :dic="vueFieldTypeDic"></avue-select>
+                        <!--<avue-select v-model="row.vueFieldType" placeholder="请选择内容" type="tree" :dic="vueFieldTypeDic"></avue-select>-->
 
-                        <!--    <el-select v-model="row.vueFieldType" filterable placeholder="请选择" @change="$forceUpdate()">-->
-                        <!--        <el-option-->
-                        <!--                v-for="item in vueFieldTypeDic"-->
-                        <!--                :key="item.value"-->
-                        <!--                :label="item.label"-->
-                        <!--                :value="item.value">-->
-                        <!--        </el-option>-->
-                        <!--    </el-select>-->
-                        <!-- </el-col>-->
+                        <el-select v-model="row.vueFieldType" filterable placeholder="请选择" @change="vueFieldTypeChange(row.vueFieldType)">
+                            <el-option
+                                    v-for="item in vueFieldTypeDic"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                        <!--  </el-col>-->
                     </template>
                     <!-- 是否是搜索参数 -->
                     <template slot-scope="{scope,row,index,type,size}" slot="search">
@@ -107,7 +107,7 @@
                 option: {},
                 generatePaths: {},         // 代码生成路径数据
                 generateCodePreviews: {},  // 预览代码数据
-                vueFieldTypeDic: this.dict.get(this.website.Dict.Base.VueFieldType),  // 字段类型选择数据
+                vueFieldTypeDic: this.dict.get(this.website.Dict.Base.VueFieldType,true,true,true),  // 字段类型选择数据
                 // 数据表
                 treeRowData: {name: "t_basic", comment: "系统通用字段表"},
                 treeData: [],
@@ -192,14 +192,23 @@
             onLoad() {
                 this.loading = true;
                 this.crud.get(this.uri.infoFieldList, {tableName: this.search.tableName}).then((res) => {
-                    this.data = res.data.data;
-                    res.data.data.forEach((item) => {
-                        item.vueFieldType = 1;
-                    })
+                    let resData = res.data.data;
+                    for (let i = 0; i < resData.length; i++) {
+                        resData[i].vueFieldType = 1;
+                    }
+                    this.data = resData;
                     this.checkeds();
                     this.loading = false;
                 })
             },
+
+            vueFieldTypeChange(val) {
+
+               //console.log(val)
+               //console.log(this.vueFieldTypeDic)
+            },
+
+
             searchChange(params, done) {
                 this.page.currentPage = 1;
                 this.onLoad();
