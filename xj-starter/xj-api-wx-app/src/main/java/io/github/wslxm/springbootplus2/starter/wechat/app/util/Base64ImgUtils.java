@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.starter.wechat.app.util;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import cn.hutool.core.codec.Base64;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;

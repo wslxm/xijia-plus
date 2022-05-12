@@ -7,7 +7,7 @@ export default {
     key: 'avue',  // 配置主键,目前用于存储
     indexTitle: 'spring-boot-plus2',
     lockPage: '/lock',
-    tokenTime: 60 * 60 * 24 * 15, //token过期时间(秒)
+    tokenTime: 60 * 60 * 24 * 15, //token过期时间(秒) 前端过期 不代表后端服务过期时间
     Authorization: 'TOKEN',
     // http的status默认放行不才用统一处理的
     statusWhiteList: [400],
@@ -68,7 +68,7 @@ export default {
         pageSizes: [10, 15, 20],
     },
     /**
-     * 数据列表基础配置 统一配置
+     * 数据列表 基础配置 统一配置
      * @author wangsong
      * @mail  1720696548@qq.com
      * @date  2021/10/16 0016 10:14
@@ -102,14 +102,14 @@ export default {
         delBtn: false,            // 操作栏是否需要删除按钮(开启操作栏生效，行编辑功能开启时不展示删除按钮)
     },
     /**
-     * 左边树通用配置
+     * 左边树 通用配置
      */
     treeOption: {
-        elAsideWidth: "250px",     // 宽度
-        //title:'标题',                // 新增编辑弹层标题
-        //dialogWidth:'50%',           // 新增编辑弹层宽度
-        filterText: "搜索关键字",     // 搜索提示
-        defaultExpandAll: false,     // 是否展开节点
+        elAsideWidth: "250px",         // 宽度
+        //title:'标题',                 // 新增编辑弹层标题
+        //dialogWidth:'50%',            // 新增编辑弹层宽度
+        filterText: "搜索关键字",        // 搜索提示
+        defaultExpandAll: false,       // 是否展开节点
         filter: true,               // 是否显示搜索
         addBtn: false,              // 是否展示新增按钮
         editBtn: false,             // 是否展示删除按钮
@@ -124,6 +124,7 @@ export default {
             children: 'menus'     // 层级字段
         }
     },
+
     /**
      * 字典key, 根据后台数据字典配置更新即可
      */

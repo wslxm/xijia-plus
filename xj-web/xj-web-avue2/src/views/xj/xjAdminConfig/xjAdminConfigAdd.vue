@@ -31,6 +31,9 @@
                               inactive-value="false">
                      </el-switch>
                 </span>
+                <span v-if="obj.type == 3">
+                      <TinymceEditor/>
+                </span>
             </template>
         </avue-form>
     </div>
@@ -38,7 +41,13 @@
 
 <script>
 
+    import TinymceEditor from '@/components/tinymce-vue/App';
+
+    //引入组件
     export default {
+        components: {
+            TinymceEditor: TinymceEditor,
+        },
         data() {
             return {
                 obj: {},
@@ -49,6 +58,14 @@
                     sort: null,
                     type: 0,
                 },
+                // init: {
+                //     // 组件
+                //     plugins: ' lists image colorpicker textcolor wordcount contextmenu autoresize',
+                //     // 工具栏
+                //     toolbar: 'bold italic underline strikethrough | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent  | undo redo | link unlink image  | removeformat ',
+                //     branding: false,
+                //     min_height: 300
+                // }
             }
         },
         props: {
@@ -161,7 +178,18 @@
                 } else {
                     this.obj.content += "," + res.data.url
                 }
-            }
+            },
         }
     }
 </script>
+<style>
+    #app  {
+          font-family:  Avenir,  Helvetica,  Arial,  sans-serif;
+          -webkit-font-smoothing:  antialiased;
+          -moz-osx-font-smoothing:  grayscale;
+          text-align:  center;
+          color:   #2c3e50;
+          margin-top:  60px;
+    }
+</style>
+

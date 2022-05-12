@@ -1,3 +1,6 @@
+
+
+<!-- 参考文档: https://blog.csdn.net/weixin_42623929/article/details/122864736-->
 <template>
     <div>
         <avue-form ref="form" v-model="obj" :option="option"
@@ -31,6 +34,9 @@
                               active-value="true"
                               inactive-value="false">
                      </el-switch>
+                </span>
+                <span v-if="obj.type == 3">
+                      <!-- <xjQuillEditor v-model="obj.content" :editorContent="obj.content" editorRef="editorRef"/>-->
                 </span>
             </template>
         </avue-form>

@@ -1,7 +1,14 @@
 // 基础路径 注意发布之前要先修改这里
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const webpack = require('webpack')
 
 module.exports = {
+    chainWebpack(config) {
+        config.plugin('provide').use(webpack.ProvidePlugin, [{
+            'window.Quill': 'quill/dist/quill.js',
+            'Quill': 'quill/dist/quill.js'
+        }])
+    },
     lintOnSave: true,
     productionSourceMap: false,
     // configureWebpack: config => {
@@ -20,8 +27,8 @@ module.exports = {
         port: 9000,
         proxy: {
             '/api': {
-                target: "http://127.0.0.1:9049/", //API服务器的地址
-                //target: "http://xijia.plus/",  //API服务器的地址
+                //target: "http://127.0.0.1:9049/", //API服务器的地址
+                target: "http://xijia.plus/",  //API服务器的地址
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
