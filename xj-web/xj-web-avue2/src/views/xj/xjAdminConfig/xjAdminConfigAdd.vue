@@ -6,12 +6,12 @@
 
             <template slot-scope="scope" slot="content">
                 <span v-if="obj.type == 0">
-                        <el-input
-                                type="textarea"
-                                :rows="3"
-                                placeholder="请输入内容"
-                                v-model="obj.content">
-                       </el-input>
+                      <el-input
+                              type="textarea"
+                              :rows="3"
+                              placeholder="请输入内容"
+                              v-model="obj.content">
+                      </el-input>
                 </span>
                 <span v-if="obj.type == 1">
                      <el-upload
@@ -32,7 +32,7 @@
                      </el-switch>
                 </span>
                 <span v-if="obj.type == 3">
-                      <TinymceEditor/>
+                      <TinymceEditor :content.sync="obj.content"/>
                 </span>
             </template>
         </avue-form>
@@ -41,13 +41,9 @@
 
 <script>
 
-    import TinymceEditor from '@/components/tinymce-vue/App';
 
     //引入组件
     export default {
-        components: {
-            TinymceEditor: TinymceEditor,
-        },
         data() {
             return {
                 obj: {},
@@ -58,14 +54,6 @@
                     sort: null,
                     type: 0,
                 },
-                // init: {
-                //     // 组件
-                //     plugins: ' lists image colorpicker textcolor wordcount contextmenu autoresize',
-                //     // 工具栏
-                //     toolbar: 'bold italic underline strikethrough | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent  | undo redo | link unlink image  | removeformat ',
-                //     branding: false,
-                //     min_height: 300
-                // }
             }
         },
         props: {

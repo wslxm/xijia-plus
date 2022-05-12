@@ -1,5 +1,3 @@
-
-
 <!-- 参考文档: https://blog.csdn.net/weixin_42623929/article/details/122864736-->
 <template>
     <div>
@@ -36,7 +34,7 @@
                      </el-switch>
                 </span>
                 <span v-if="obj.type == 3">
-                      <!-- <xjQuillEditor v-model="obj.content" :editorContent="obj.content" editorRef="editorRef"/>-->
+                      <TinymceEditor :content.sync="obj.content"/>
                 </span>
             </template>
         </avue-form>
@@ -159,7 +157,7 @@
             },
             submit(form, done) {
                 this.crud.put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
-                   this.closeDialog(true);
+                    this.closeDialog(true);
                     done(form);
                 }).catch(err => {
                     console.error(err);

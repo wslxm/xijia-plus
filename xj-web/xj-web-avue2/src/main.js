@@ -31,32 +31,14 @@ import dict from '@/util/dict'
 // base64 工具(其他地方可直接使用Base64方法)
 const Base64 = require('js-base64').Base64;
 
-
-
-
-
-// 富文本 css
-// 一定要引入这三个css，不然文本编辑器会出现不规则黑白几何图形
-// 这三个css可以在main.js中引入，也可以在具体使用的.vue文件中引入，建议在main.js中引用。因为在添加quill-image-resize时发现在组件中引用报错，暂时没有发现问题出现在哪里
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-
-// 富文本 组件注册
-import VueQuillEditor from 'vue-quill-editor'
-Vue.use(VueQuillEditor);
-
-// 富文本 组件二次封装注册
-import xjQuillEditor from '@/components/vue-quill-editor/index';
-Vue.component('xjQuillEditor', xjQuillEditor);
-
-
+/* 富文本*/
 import tinymce from 'tinymce'
 import VueTinymce from '@packy-tang/vue-tinymce'
-
 Vue.prototype.$tinymce = tinymce;
 Vue.use(VueTinymce);
-
+/* 二次封装  */
+import vueTinymceEditor from '@/components/vue-tinymce/index';
+Vue.component('TinymceEditor', vueTinymceEditor);
 
 
 window.$crudCommon = crudCommon;

@@ -1,10 +1,13 @@
 <template>
     <div id="app">
         <router-view/>
+        <!--<TinymceEditor/>-->
     </div>
 </template>
 
 <script>
+
+    //引入组件
     export default {
         name: "app",
         data() {
