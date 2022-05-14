@@ -79,10 +79,11 @@ export default {
         }, {
           name: "beautiful主题",
           value: "theme-beautiful"
-        }, {
-          name: "mac OS主题",
-          value: "mac-os"
-        }
+        },
+        // {
+        //   name: "mac OS主题",
+        //   value: "mac-os"
+        // }
       ]
     };
   },

@@ -10,7 +10,8 @@
                 <img class="img"
                      src="/img/logo.png"
                      alt="">
-                <p class="title">{{ $t('login.info') }}</p>
+                <!-- <p class="title">{{ $t('login.info') }}</p>-->
+                <p class="title">{{entryName}}</p>
             </div>
 
             <div class="login-border">
@@ -60,7 +61,9 @@
         data() {
             return {
                 time: "",
-                activeName: "user"
+                activeName: "user",
+                /* 项目名称 */
+                entryName: "xx管理后台"
             };
         },
         watch: {
@@ -86,6 +89,12 @@
             setInterval(() => {
                 this.getTime();
             }, 1000);
+
+            //console.log("获取项目名称")
+            this.crud.get("/api/admin/xj/config/findByCode", {code: "entry_name"}).then(res => {
+                this.entryName = res.data.data.content;
+                this.website.indexTitle = this.entryName;
+            })
         },
         mounted() {
         },

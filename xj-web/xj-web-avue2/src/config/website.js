@@ -5,6 +5,7 @@ export default {
     title: "",    // 登录页项目名
     logo: "A",
     key: 'avue',  // 配置主键,目前用于存储
+    // 项目名，在登录页会获取全局配置更新该值
     indexTitle: 'spring-boot-plus2',
     lockPage: '/lock',
     tokenTime: 60 * 60 * 24 * 15, //token过期时间(秒) 前端过期 不代表后端服务过期时间

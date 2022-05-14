@@ -2,105 +2,105 @@
 <html>
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="format-detection" content="telephone=no">
-  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-  <link rel="stylesheet" href="<%= BASE_URL %>cdn/animate/3.5.2/animate.css">
-  <script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
+    <link rel="stylesheet" href="<%= BASE_URL %>cdn/animate/3.5.2/animate.css">
+    <script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
 
-  <!--axios-->
-  <script src="https://cdn.staticfile.org/axios/0.19.0-beta.1/axios.js"></script>
+    <!--axios-->
+    <script src="https://cdn.staticfile.org/axios/0.19.0-beta.1/axios.js"></script>
 
-  <!-- tinymce -->
-  <script src="/tinymce/tinymce.min.js"></script>
-  <!-- 添加svg图标库 -->
- <!-- <script src="//at.alicdn.com/t/font_2621503_zcbiqy2g1i.js"></script>-->
-  <title>spring-boot-plus2 通用管理 系统快速开发框架</title>
-  <style>
-    html,
-    body,
-    #app {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
+    <!-- tinymce -->
+    <script src="/tinymce/tinymce.min.js"></script>
+    <!-- 添加svg图标库 -->
+    <!-- <script src="//at.alicdn.com/t/font_2621503_zcbiqy2g1i.js"></script>-->
+    <title>spring-boot-plus2 通用管理 系统快速开发框架</title>
+    <style>
+        html,
+        body,
+        #app {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-    .avue-home {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
+        .avue-home {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .avue-home__main {
-      user-select: none;
-      width: 100%;
-      flex-grow: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
+        .avue-home__main {
+            user-select: none;
+            width: 100%;
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
 
-    .avue-home__footer {
-      width: 100%;
-      flex-grow: 0;
-      text-align: center;
-      padding: 1em 0;
-    }
+        .avue-home__footer {
+            width: 100%;
+            flex-grow: 0;
+            text-align: center;
+            padding: 1em 0;
+        }
 
-    .avue-home__footer>a {
-      font-size: 12px;
-      color: #333;
-      text-decoration: none;
-    }
+        .avue-home__footer > a {
+            font-size: 12px;
+            color: #333;
+            text-decoration: none;
+        }
 
-    .avue-home__loading {
-      height: 32px;
-      width: 32px;
-      margin-bottom: 20px;
-    }
+        .avue-home__loading {
+            height: 32px;
+            width: 32px;
+            margin-bottom: 20px;
+        }
 
-    .avue-home__title {
-      color: #333;
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
+        .avue-home__title {
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
 
-    .avue-home__sub-title {
-      color: #333;
-      font-size: 12px;
-    }
-  </style>
+        .avue-home__sub-title {
+            color: #333;
+            font-size: 12px;
+        }
+    </style>
 </head>
 
 <body>
-  <noscript>
+<noscript>
     <strong>
-      很抱歉，如果没有 JavaScript 支持，Avue-cli 将不能正常工作。请启用浏览器的 JavaScript 然后继续。
+        很抱歉，如果没有 JavaScript 支持，Avue-cli 将不能正常工作。请启用浏览器的 JavaScript 然后继续。
     </strong>
-  </noscript>
-  <div id="app">
+</noscript>
+<div id="app">
     <div class="avue-home">
-      <div class="avue-home__main">
-        <img class="avue-home__loading" src="/svg/loading-spin.svg" alt="loading">
-        <div class="avue-home__title">
-          正在加载资源
+        <div class="avue-home__main">
+            <img class="avue-home__loading" src="/svg/loading-spin.svg" alt="loading">
+            <div class="avue-home__title">
+                正在加载资源
+            </div>
+            <div class="avue-home__sub-title">
+                初次加载资源可能需要较多时间 请耐心等待
+            </div>
         </div>
-        <div class="avue-home__sub-title">
-          初次加载资源可能需要较多时间 请耐心等待
+        <div class="avue-home__footer">
+            <a href="https://gitee.com/wslxm/spring-boot-plus2" target="_blank">
+                https://gitee.com/wslxm/spring-boot-plus2 </a>
         </div>
-      </div>
-      <div class="avue-home__footer">
-        <a href="https://gitee.com/wslxm/spring-boot-plus2" target="_blank">
-          https://gitee.com/wslxm/spring-boot-plus2 </a>
-      </div>
     </div>
-  </div>
-  <!-- built files will be auto injected -->
+</div>
+<!-- built files will be auto injected -->
 </body>
 
 </html>
