@@ -1,8 +1,8 @@
 package io.github.wslxm.springbootplus2.config.aspect.gateway;
 
 
-import io.github.wslxm.springbootplus2.config.filter.sing.annotation.XjSecret;
 import io.github.wslxm.springbootplus2.config.aspect.util.Base64Util;
+import io.github.wslxm.springbootplus2.config.filter.sing.annotation.XjSecret;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import lombok.extern.slf4j.Slf4j;
@@ -173,7 +173,7 @@ public class SysEncrypt {
      * @version 1.0.1
      */
     public Object encrypt(Object obj) {
-        if(obj == null){
+        if (obj == null) {
             return null;
         }
         if (!isEncrypt) {
@@ -185,8 +185,7 @@ public class SysEncrypt {
         } catch (Exception e) {
             return obj;
         }
-        R<Object> objectR = decryptOrEncryptEntity(r.getData(), 1);
-        objectR.setMsg(r.getMsg());
-        return objectR;
+        this.decryptOrEncryptEntity(r.getData(), 1);
+        return obj;
     }
 }

@@ -57,6 +57,12 @@ export default {
 
     /**
      * 文件上传, 可提过 column 中的信息进行各种验证
+     * @param  thih 当前页
+     * @param  file 文件
+     * @param  column 参数
+     *     --  column.path 上传路径
+     *     --  column.prop 返回参数对象
+     *
      * @author wangsong
      * @mail  1720696548@qq.com
      * @date  2021/10/16 0016 12:58
