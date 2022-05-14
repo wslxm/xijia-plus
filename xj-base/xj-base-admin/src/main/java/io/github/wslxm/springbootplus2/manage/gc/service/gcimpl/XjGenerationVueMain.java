@@ -40,7 +40,7 @@ public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
             String name = GcDataUtil.getFieldName( gcConfig,fieldMap.getName());
             String newDesc = getDesc(fieldMap.getDesc());
             // 判断是否需要生成查询
-            boolean searchBoolean = fieldMap.getSearch() != null ? fieldMap.getSearch() : false;
+            boolean searchBoolean = fieldMap.getIsSearch() != null ? fieldMap.getIsSearch() : false;
             Object vueFieldType = fieldMap.getVueFieldType();
             Integer vueFieldTypeInt = (vueFieldType != null) ? Integer.parseInt(vueFieldType.toString()) : -1;
             if (vueFieldTypeInt.equals(Base.VueFieldType.V4.getValue())

@@ -3,6 +3,7 @@
         <avue-form ref="form" v-model="obj" :option="option"
                    @reset-change="emptytChange"
                    @submit="submit">
+{vueAddColumnSlots}
         </avue-form>
     </div>
 </template>

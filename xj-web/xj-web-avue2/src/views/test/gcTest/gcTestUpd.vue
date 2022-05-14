@@ -3,6 +3,9 @@
         <avue-form ref="form" v-model="obj" :option="option"
                    @reset-change="emptytChange"
                    @submit="submit">
+            <template slot-scope="{row}" slot="textTwo">
+                <TinymceEditor :content.sync="obj.textTwo"/>
+            </template>
         </avue-form>
     </div>
 </template>
@@ -149,6 +152,18 @@
                             prop: 'text',
                             type: 'textarea',
                             maxlength: 128,
+                            showWordLimit: true,
+                            span: 20,
+                            rules: [{
+                                required: true,
+                                message: "请输入 更多信息",
+                                trigger: "blur"
+                            }]
+                        },
+                        {
+                            label: '更多信息',
+                            prop: 'textTwo',
+                            maxlength: 0,
                             showWordLimit: true,
                             span: 20,
                             rules: [{

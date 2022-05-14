@@ -42,7 +42,7 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
             String fieldName = fieldMap.getName();
             String type = fieldMap.getType();
             String desc = fieldMap.getDesc();
-            Object search = fieldMap.getSearch();
+            Object search = fieldMap.getIsSearch();
             if (search == null || !Boolean.parseBoolean(search.toString())) {
                 continue;
             }

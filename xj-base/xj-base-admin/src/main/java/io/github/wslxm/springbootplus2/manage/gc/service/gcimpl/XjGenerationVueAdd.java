@@ -7,10 +7,7 @@ import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("all")
 @Component
@@ -26,36 +23,41 @@ public class XjGenerationVueAdd extends BaseGcImpl implements XjGcSevice {
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(GcConfig gcConfig, String keyName){
+    public void run(GcConfig gcConfig, String keyName) {
         StringBuffer vueAddColumnsDefault = new StringBuffer("");
         StringBuffer vueAddColumns = new StringBuffer("");
+        StringBuffer vueAddColumnSlots = new StringBuffer("");
         //
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
-        for (DbFieldPO fieldMap : dbFields) {
+        for (DbFieldPO dbField : dbFields) {
             // 未勾选的字段过滤
-            if (!isChecked(fieldMap)) {
+            if (!isChecked(dbField)) {
                 continue;
             }
             // 不生成id
-            if ("id".equals(fieldMap.getName())) {
+            if ("id".equals(dbField.getName())) {
                 continue;
             }
             // 生成字段默认值
-            String name = GcDataUtil.getFieldName(gcConfig, fieldMap.getName());
+            String name = GcDataUtil.getFieldName(gcConfig, dbField.getName());
             vueAddColumnsDefault.append("                    " + name + ": " + null + ",\n");
             // 生成字段
             String vueColumn = jxVueColumns(
                     gcConfig,
-                    fieldMap.getName(),
-                    fieldMap.getType() ,
-                    fieldMap.getTypeDetail(),
-                    getDesc(fieldMap.getDesc()),
-                    fieldMap.getVueFieldType());
+                    dbField.getName(),
+                    dbField.getType(),
+                    dbField.getTypeDetail(),
+                    getDesc(dbField.getDesc()),
+                    dbField.getVueFieldType());
             vueAddColumns.append(vueColumn);
+            // 生成字段 插槽
+            String vueAddColumnSlot = jxVueColumnsSlot(gcConfig,dbField.getVueFieldType(), dbField.getName());
+            vueAddColumnSlots.append(vueAddColumnSlot);
         }
         // 数据保存
-        gcConfig.setTemplateParam("vueAddColumnsDefault",vueAddColumnsDefault.toString());
-        gcConfig.setTemplateParam("vueAddColumns",vueAddColumns.toString());
+        gcConfig.setTemplateParam("vueAddColumnsDefault", vueAddColumnsDefault.toString());
+        gcConfig.setTemplateParam("vueAddColumns", vueAddColumns.toString());
+        gcConfig.setTemplateParam("vueAddColumnSlots", vueAddColumnSlots.toString());
         // 开始生成文件并进行数据替换
         GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
     }

@@ -17,14 +17,14 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseVo;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date {date}
+ * @date 2022-05-14 23:53:03
  */
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "GcTestVO 对象", description = "代码生成测试表")
 public class GcTestVO extends BaseVo {
 
-    private static final long serialVersionUID = -660258952239517696L;
+    private static final long serialVersionUID = -685483378337779712L;
     
     @ApiModelProperty(value = "名称 (文本)", position = 0)
     private String name;
@@ -50,8 +50,11 @@ public class GcTestVO extends BaseVo {
     @ApiModelProperty(value = "时间", position = 7)
     private LocalDateTime time;
 
-    @ApiModelProperty(value = "更多信息", position = 8)
+    @ApiModelProperty(value = "更多信息(大文本)", position = 8)
     private String text;
+
+    @ApiModelProperty(value = "更多信息(富文本)", position = 9)
+    private String textTwo;
 
 }
 

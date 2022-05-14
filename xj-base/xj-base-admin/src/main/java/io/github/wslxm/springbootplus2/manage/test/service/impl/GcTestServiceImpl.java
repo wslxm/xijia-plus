@@ -27,7 +27,7 @@ import java.util.List;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date {date}
+ * @date 2022-05-14 23:53:03
  */
 @Service
 public class GcTestServiceImpl extends BaseIServiceImpl<GcTestMapper, GcTest> implements GcTestService {
@@ -36,8 +36,6 @@ public class GcTestServiceImpl extends BaseIServiceImpl<GcTestMapper, GcTest> im
     public IPage<GcTestVO> list(GcTestQuery query) {
         LambdaQueryWrapper<GcTest> queryWrapper = new LambdaQueryWrapper<GcTest>()
                 .eq(StringUtils.isNotBlank(query.getName()), GcTest::getName, query.getName())
-                .eq(query.getSex() != null, GcTest::getSex, query.getSex())
-                .eq(query.getCity() != null, GcTest::getCity, query.getCity())
 
                 .orderByDesc(GcTest::getCreateTime);
         if (query.getCurrent() <= 0) {

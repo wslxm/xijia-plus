@@ -22,15 +22,15 @@
                     <template slot-scope="scope" slot="menuLeft">
                         <el-button type="primary" size="small" plain @click="finDGenerateGetPath()">查看生成路径</el-button>
                         <el-button type="primary" size="small" plain @click="findGeneratePreview()">生成预览代码(在线查看)</el-button>
-                        <el-button type="primary" size="small" plain @click="generateCodeJava()">生成代码</el-button>
+                        <el-button type="primary" size="small" plain @click="generateCodeJava()">生成后端代码</el-button>
                         <el-button type="primary" size="small" plain @click="generateCodeVueFun()">生成并下载vue代码</el-button>
                     </template>
                     <!-- 数据类型 -->
                     <template slot-scope="{scope,row,index,type,size}" slot="vueFieldType">
                         <!--<el-col :span="6">-->
-                        <!--<avue-select v-model="row.vueFieldType" placeholder="请选择内容" type="tree" :dic="vueFieldTypeDic"></avue-select>-->
+                        <!--  <avue-select v-model="row.vueFieldType" placeholder="请选择内容" type="tree" :dic="vueFieldTypeDic"></avue-select>-->
 
-                        <el-select v-model="row.vueFieldType" filterable placeholder="请选择" @change="vueFieldTypeChange(row.vueFieldType)">
+                        <el-select v-model="row.vueFieldType" filterable placeholder="请选择">
                             <el-option
                                     v-for="item in vueFieldTypeDic"
                                     :key="item.value"
@@ -38,11 +38,11 @@
                                     :value="item.value">
                             </el-option>
                         </el-select>
-                        <!--  </el-col>-->
+                        <!-- </el-col>-->
                     </template>
                     <!-- 是否是搜索参数 -->
-                    <template slot-scope="{scope,row,index,type,size}" slot="search">
-                        <el-switch v-model="row.search"
+                    <template slot-scope="{scope,row,index,type,size}" slot="isSearch">
+                        <el-switch v-model="row.isSearch"
                                    active-color="#13ce66" inactive-color="#ff4949"
                                    :active-value=true :inactive-value=false
                                    active-text="" inactive-text="">
@@ -107,7 +107,7 @@
                 option: {},
                 generatePaths: {},         // 代码生成路径数据
                 generateCodePreviews: {},  // 预览代码数据
-                vueFieldTypeDic: this.dict.get(this.website.Dict.Base.VueFieldType,true,true,true),  // 字段类型选择数据
+                vueFieldTypeDic: this.dict.get(this.website.Dict.Base.VueFieldType),  // 字段类型选择数据
                 // 数据表
                 treeRowData: {name: "t_basic", comment: "系统通用字段表"},
                 treeData: [],
@@ -145,6 +145,7 @@
                     prop: 'name',
                     align: 'left',
                     // width: 200,
+                    // width: 200,
                 },
                 {
                     label: '字段类型(长度)',
@@ -163,7 +164,7 @@
                 },
                 {
                     label: '是否搜索(eq搜索)',
-                    prop: 'search',
+                    prop: 'isSearch',
                     align: 'left',
                 },
                 {
@@ -192,23 +193,14 @@
             onLoad() {
                 this.loading = true;
                 this.crud.get(this.uri.infoFieldList, {tableName: this.search.tableName}).then((res) => {
-                    let resData = res.data.data;
-                    for (let i = 0; i < resData.length; i++) {
-                        resData[i].vueFieldType = 1;
-                    }
-                    this.data = resData;
+                    res.data.data.forEach((item) => {
+                        item.vueFieldType = 1;
+                    })
+                    this.data = res.data.data;
                     this.checkeds();
                     this.loading = false;
                 })
             },
-
-            vueFieldTypeChange(val) {
-
-               //console.log(val)
-               //console.log(this.vueFieldTypeDic)
-            },
-
-
             searchChange(params, done) {
                 this.page.currentPage = 1;
                 this.onLoad();
@@ -324,3 +316,4 @@
         width: 100%;
     }
 </style>
+

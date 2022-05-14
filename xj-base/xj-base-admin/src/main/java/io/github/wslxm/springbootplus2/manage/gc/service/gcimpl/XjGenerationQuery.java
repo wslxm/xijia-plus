@@ -29,7 +29,7 @@ public class XjGenerationQuery extends BaseGcImpl implements XjGcSevice {
         int position = 0;
         for (DbFieldPO fieldMap : data) {
             // 判断是否需要生成查询
-            Object search = fieldMap.getSearch();
+            Object search = fieldMap.getIsSearch();
             if (search == null || !Boolean.parseBoolean(search.toString())) {
                 continue;
             }

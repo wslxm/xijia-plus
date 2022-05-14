@@ -6,6 +6,7 @@ import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.constant.BracketConstant;
 import io.github.wslxm.springbootplus2.manage.gc.constant.FieldTypeConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
+import io.github.wslxm.springbootplus2.manage.gc.template.VueAddUpdSlotTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.template.VueAddUpdTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
 
@@ -31,9 +32,9 @@ public class BaseGcImpl extends BaseIServiceImpl {
      * @param fieldName 1
      * @param type 1
      */
-    protected String jxModel (GcConfig gcConfig, String fieldName, String type) {
+    protected String jxModel(GcConfig gcConfig, String fieldName, String type) {
         // 转驼峰模式
-        fieldName = GcDataUtil.getFieldName( gcConfig ,fieldName);
+        fieldName = GcDataUtil.getFieldName(gcConfig, fieldName);
         String field = "";
         // 字段
         if (type.equals(FieldTypeConstant.INT)) {
@@ -174,11 +175,12 @@ public class BaseGcImpl extends BaseIServiceImpl {
     /**
      * 获取vue 添加或编辑页的 表单数据
      *
-     * @param name
-     * @param type
-     * @param typeDetail
-     * @param newDesc
-     * @param vueFieldType
+     * @param gcConfig      代码生成配置信息
+     * @param name          字段名
+     * @param type          字段类型
+     * @param typeDetail    类型+长度
+     * @param newDesc       字段中文描述
+     * @param vueFieldType  vue表单字段类型
      * @return
      */
     protected String jxVueColumns(GcConfig gcConfig, String name, String type, String typeDetail, String newDesc, Integer vueFieldType) {
@@ -218,9 +220,10 @@ public class BaseGcImpl extends BaseIServiceImpl {
                 || type.equals(FieldTypeConstant.TIME)
                 || type.equals(FieldTypeConstant.TIMESTAMP)) {
         }
+
         // 处理字段
-        String columnStr = null;
-        name = GcDataUtil.getFieldName(gcConfig,name);
+        String columnStr = "";
+        name = GcDataUtil.getFieldName(gcConfig, name);
         if (Base.VueFieldType.V1.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.INPUT
                     .replaceAll("\\{label}", newDesc)
@@ -229,7 +232,7 @@ public class BaseGcImpl extends BaseIServiceImpl {
         } else if (Base.VueFieldType.V2.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.NUMBER.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else if (Base.VueFieldType.V3.getValue().equals(vueFieldType)) {
-            //
+
         } else if (Base.VueFieldType.V4.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.RADIO.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else if (Base.VueFieldType.V5.getValue().equals(vueFieldType)) {
@@ -237,39 +240,63 @@ public class BaseGcImpl extends BaseIServiceImpl {
         } else if (Base.VueFieldType.V6.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.SELECT.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else if (Base.VueFieldType.V7.getValue().equals(vueFieldType)) {
-            //
+
         } else if (Base.VueFieldType.V8.getValue().equals(vueFieldType)) {
-            //
+
         } else if (Base.VueFieldType.V9.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.SWITCH.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else if (Base.VueFieldType.V10.getValue().equals(vueFieldType)) {
-            //
+
         } else if (Base.VueFieldType.V11.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.DATETIME.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else if (Base.VueFieldType.V12.getValue().equals(vueFieldType)) {
-            //
+
         } else if (Base.VueFieldType.V13.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.UPLOAD.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else if (Base.VueFieldType.V14.getValue().equals(vueFieldType)) {
-            //
+
         } else if (Base.VueFieldType.V15.getValue().equals(vueFieldType)) {
-            //
+
         } else if (Base.VueFieldType.V16.getValue().equals(vueFieldType)) {
-            //
+
         } else if (Base.VueFieldType.V17.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.TEXTAREA
                     .replaceAll("\\{label}", newDesc)
                     .replace("{prop}", name)
                     .replace("{maxlength}", maxlength + "");
-        }
-        // 没有默认 input
-        if (columnStr == null) {
+        } else if (Base.VueFieldType.V18.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.INPUT
                     .replaceAll("\\{label}", newDesc)
                     .replace("{prop}", name)
-                    .replace("{maxlength}", name);
+                    .replace("{maxlength}", maxlength + "");
+        } else {
+            // 没有默认 input
+            columnStr = VueAddUpdTemplate.INPUT
+                    .replaceAll("\\{label}", newDesc)
+                    .replace("{prop}", name)
+                    .replace("{maxlength}", maxlength + "");
         }
         return columnStr;
     }
 
+
+    /**
+     * vue 字段需要定义为插槽的处理
+     *
+     * @param vueFieldType  vue表单字段类型
+     * @param name          字段名
+     * @author wangsong
+     * @mail 1720696548@qq.com
+     * @date 2022/5/14 0014 22:41 
+     * @version 1.0.0
+     */
+    protected String jxVueColumnsSlot(GcConfig gcConfig,Integer vueFieldType, String name) {
+        String vueAddUpdSlot = "";
+        name = GcDataUtil.getFieldName(gcConfig, name);
+        if (Base.VueFieldType.V18.getValue().equals(vueFieldType)) {
+            // 追加定义富文本插槽
+            vueAddUpdSlot = VueAddUpdSlotTemplate.TINYMCE_EDITOR.replace("{field}", name);
+        }
+        return vueAddUpdSlot;
+    }
 }

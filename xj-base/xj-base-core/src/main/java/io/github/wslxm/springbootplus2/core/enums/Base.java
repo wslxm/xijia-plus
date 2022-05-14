@@ -8,6 +8,20 @@ import lombok.Getter;
 @SuppressWarnings("all")
 public interface Base{
 
+
+    // -
+    @Getter
+    @AllArgsConstructor
+    enum ConfigType implements IEnum<Integer> {
+        V0(0, "文本"),    // -
+        V1(1, "图片"),    // -
+        V2(2, "开关"),    // -
+        V3(3, "富文本"),    // -
+        ;
+        private Integer value;
+        private String desc;
+    }
+
     // -
     @Getter
     @AllArgsConstructor
@@ -40,7 +54,8 @@ public interface Base{
         V14(14, "文件上传(多图)"),    // -
         V15(15, "文件上传（缩略图）"),    // -
         V16(16, "文件上传（附件）"),    // -
-        V17(17, "大文本"),    // -
+        V17(17, "大文本(textarea)"),    // -
+        V18(18, "富文本"),    // -
         ;
         private Integer value;
         private String desc;

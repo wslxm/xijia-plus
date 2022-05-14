@@ -29,24 +29,30 @@ public class XjGenerationVueUpd extends BaseGcImpl implements XjGcSevice {
     @Override
     public void run(GcConfig gcConfig, String keyName) {
         StringBuffer vueUpdColumns = new StringBuffer("");
+        StringBuffer vueAddColumnSlots = new StringBuffer("");
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
-        for (DbFieldPO fieldMap : dbFields) {
+        for (DbFieldPO dbField : dbFields) {
             // 未勾选的字段过滤
-            if (!isChecked(fieldMap)) {
+            if (!isChecked(dbField)) {
                 continue;
             }
             // 生成字段
             String vueColumn = jxVueColumns(
                     gcConfig,
-                    fieldMap.getName(),
-                    fieldMap.getType(),
-                    fieldMap.getTypeDetail(),
-                    getDesc(fieldMap.getDesc()),
-                    fieldMap.getVueFieldType());
+                    dbField.getName(),
+                    dbField.getType(),
+                    dbField.getTypeDetail(),
+                    getDesc(dbField.getDesc()),
+                    dbField.getVueFieldType());
             vueUpdColumns.append(vueColumn);
+
+            // 生成字段 插槽
+            String vueAddColumnSlot = jxVueColumnsSlot(gcConfig,dbField.getVueFieldType(), dbField.getName());
+            vueAddColumnSlots.append(vueAddColumnSlot);
         }
         // 数据保存
         gcConfig.setTemplateParam("vueUpdColumns", vueUpdColumns.toString());
+        gcConfig.setTemplateParam("vueUpdColumnSlots", vueAddColumnSlots.toString());
         // 开始生成文件并进行数据替换
         GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
     }

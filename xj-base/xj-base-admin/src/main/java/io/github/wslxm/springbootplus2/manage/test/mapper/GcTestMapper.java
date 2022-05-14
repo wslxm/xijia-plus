@@ -12,7 +12,7 @@ import io.github.wslxm.springbootplus2.manage.test.model.entity.GcTest;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date {date}
+ * @date 2022-05-14 23:53:03
  */
 public interface GcTestMapper extends BaseMapper<GcTest> {
 

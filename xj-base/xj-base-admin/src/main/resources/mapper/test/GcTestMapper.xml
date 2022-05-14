@@ -21,6 +21,7 @@
         <result column="head_url" property="headUrl"/>
         <result column="time" property="time"/>
         <result column="text" property="text"/>
+        <result column="text_two" property="textTwo"/>
     </resultMap>
 
     <!-- 通用查询结果列: <include refid="Base_Column_List"></include> -->
@@ -41,7 +42,8 @@
         disable,
         head_url,
         time,
-        text
+        text,
+        text_two
     </sql>
 
 
