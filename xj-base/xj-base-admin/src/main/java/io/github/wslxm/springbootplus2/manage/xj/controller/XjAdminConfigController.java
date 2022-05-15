@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.manage.xj.model.dto.XjAdminBannerDTO;
 import io.github.wslxm.springbootplus2.manage.xj.model.dto.XjAdminConfigDTO;
 import io.github.wslxm.springbootplus2.manage.xj.model.query.XjAdminConfigQuery;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
@@ -33,6 +34,13 @@ public class XjAdminConfigController extends BaseController<XjAdminConfigService
     @ApiOperation(value = "分页查询")
     public R<IPage<XjAdminConfigVO>> list(@ModelAttribute @Validated XjAdminConfigQuery query) {
         return R.success(baseService.list(query));
+    }
+
+
+    @GetMapping(value = "/{id}")
+    @ApiOperation(value = "ID查询")
+    public R<XjAdminConfigVO> findId(@PathVariable String id) {
+        return R.successUpdate(baseService.findId(id));
     }
 
 

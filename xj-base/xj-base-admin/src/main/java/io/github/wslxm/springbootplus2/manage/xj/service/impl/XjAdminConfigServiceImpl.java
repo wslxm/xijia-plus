@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
+import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.xj.mapper.XjAdminConfigMapper;
@@ -37,14 +38,26 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
                 .orderByAsc(XjAdminConfig::getSort)
                 .orderByDesc(XjAdminConfig::getCreateTime)
                 .eq(StringUtils.isNotBlank(query.getCode()), XjAdminConfig::getCode, query.getCode())
-                .eq(query.getType()!=null, XjAdminConfig::getType, query.getType())
+                .eq(query.getType() != null, XjAdminConfig::getType, query.getType())
                 .like(StringUtils.isNotBlank(query.getName()), XjAdminConfig::getName, query.getName());
+        IPage<XjAdminConfigVO> resPage = null;
         if (query.getCurrent() <= 0) {
-            IPage<XjAdminConfigVO> page = new Page<>();
-            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), XjAdminConfigVO.class));
+            resPage.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), XjAdminConfigVO.class));
         } else {
-            return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminConfigVO.class);
+            resPage = BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminConfigVO.class);
         }
+        // 如果是富文本不返回内容
+        for (XjAdminConfigVO xjAdminConfigVO : resPage.getRecords()) {
+            if (xjAdminConfigVO.getType().equals(Base.ConfigType.V3.getValue())) {
+                xjAdminConfigVO.setContent("富文本内容请点击详情查看");
+            }
+        }
+        return resPage;
+    }
+
+    @Override
+    public XjAdminConfigVO findId(String id) {
+        return BeanDtoVoUtil.convert(this.getById(id), XjAdminConfigVO.class);
     }
 
     @Override
@@ -60,7 +73,7 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
 
     @Override
     @CacheEvict(value = CacheKey.CONFIG_LIST_BY_CODE, allEntries = true)
-    public boolean upd(String id,XjAdminConfigDTO dto) {
+    public boolean upd(String id, XjAdminConfigDTO dto) {
         XjAdminConfig config = this.getById(id);
         if (!config.getCode().equals(dto.getCode())) {
             if (this.count(new LambdaQueryWrapper<XjAdminConfig>().eq(XjAdminConfig::getCode, dto.getCode())) > 0) {
@@ -77,6 +90,6 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
     @Cacheable(value = CacheKey.CONFIG_LIST_BY_CODE, key = "#code")
     public XjAdminConfigVO findByCode(String code) {
         XjAdminConfig xjAdminConfig = this.getOne(new LambdaQueryWrapper<XjAdminConfig>().eq(XjAdminConfig::getCode, code));
-        return BeanDtoVoUtil.convert(xjAdminConfig,XjAdminConfigVO.class);
+        return BeanDtoVoUtil.convert(xjAdminConfig, XjAdminConfigVO.class);
     }
 }

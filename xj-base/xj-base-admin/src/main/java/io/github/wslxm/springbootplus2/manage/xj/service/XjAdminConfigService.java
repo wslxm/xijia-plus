@@ -28,6 +28,18 @@ public interface XjAdminConfigService extends IService<XjAdminConfig> {
      */
     IPage<XjAdminConfigVO> list(XjAdminConfigQuery query);
 
+
+    /**
+     * id查询
+     * @author wangsong
+     * @param id
+     * @date 2022/5/15 0015 11:33
+     * @return io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO
+     * @version 1.0.0
+     */
+    public XjAdminConfigVO findId(String id);
+
+
     /**
      * 添加
      *
