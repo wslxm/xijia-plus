@@ -1,14 +1,27 @@
 // 基础路径 注意发布之前要先修改这里
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-//const webpack = require('webpack')
+
+
+// 请求地址
+let targetPath = "xijia.plus"
+
+// 配置编译环境和线上环境之间的切换
+const env = process.env;
+if (env.NODE_ENV == 'development') {
+    // 开发环境地址
+    targetPath = `127.0.0.1:9048`;
+    console.log("开发环境......" + targetPath)
+} else if (env.NODE_ENV == 'production') {
+    // 生产环境地址
+    targetPath = `xijia.plus`;
+    console.log("生产环境......" + targetPath)
+} else if (env.NODE_ENV == 'test') {
+    // 测试环境地址
+    // baseUrl = ``;
+    console.log("测试环境......" + targetPath)
+}
 
 module.exports = {
-    // chainWebpack(config) {
-    //     config.plugin('provide').use(webpack.ProvidePlugin, [{
-    //         'window.Quill': 'quill/dist/quill.js',
-    //         'Quill': 'quill/dist/quill.js'
-    //     }])
-    // },
     lintOnSave: true,
     productionSourceMap: false,
     // configureWebpack: config => {
@@ -27,8 +40,8 @@ module.exports = {
         port: 9000,
         proxy: {
             '/api': {
-                //target: "http://127.0.0.1:9049/", //API服务器的地址
-                target: "http://xijia.plus/",  //API服务器的地址
+                //API服务器的地址
+                target: "http://" + targetPath + "/",
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {

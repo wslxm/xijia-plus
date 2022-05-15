@@ -1,8 +1,8 @@
 import request from '@/router/axios';
-import {baseUrl} from '@/config/env';
+import {baseProxyPathRewrite} from '@/config/env';
 
 export const loginByUsername = (username, password, code, redomStr) => request({
-    url: baseUrl + '/api/admin/user/login',
+    url: baseProxyPathRewrite + '/api/admin/user/login',
     method: 'post',
     meta: {
         isToken: false
@@ -18,17 +18,17 @@ export const loginByUsername = (username, password, code, redomStr) => request({
 });
 
 export const getUserInfo = () => request({
-    url: baseUrl + '/api/admin/user/findUser',
+    url: baseProxyPathRewrite + '/api/admin/user/findUser',
     method: 'get'
 });
 
 export const refeshToken = () => request({
-    url: baseUrl + '/user/refesh',
+    url: baseProxyPathRewrite + '/user/refesh',
     method: 'post'
 });
 
 export const getMenu = (pid) => request({
-    url: baseUrl + '/api/admin/menu/list',
+    url: baseProxyPathRewrite + '/api/admin/menu/list',
     method: 'get',
     params: {
         pid: pid,
@@ -42,7 +42,7 @@ export const getMenu = (pid) => request({
 });
 
 export const getTopMenu = () => request({
-    url: baseUrl + '/api/admin/menu/list',
+    url: baseProxyPathRewrite + '/api/admin/menu/list',
     method: 'get',
     params: {
         disable: 0,
@@ -56,13 +56,13 @@ export const getTopMenu = () => request({
 });
 
 export const sendLogs = (list) => request({
-    url: baseUrl + '/user/logout',
+    url: baseProxyPathRewrite + '/user/logout',
     method: 'post',
     data: list
 });
 
 export const logout = () => request({
-    url: baseUrl + '/user/logout',
+    url: baseProxyPathRewrite + '/user/logout',
     meta: {
         isToken: false
     },

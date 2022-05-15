@@ -1,11 +1,11 @@
 import request from '@/router/axios';
-import {baseUrl} from '@/config/env';
+import {baseProxyPathRewrite} from '@/config/env';
 
 export default {
     // 获取或更新字典数据到localStorage中
     refreshDict() {
         request({
-            url: baseUrl + "/api/client/dictionary/findCodeGroup",
+            url: baseProxyPathRewrite + "/api/client/dictionary/findCodeGroup",
             method: 'get',
             meta: {
                 isSerialize: true

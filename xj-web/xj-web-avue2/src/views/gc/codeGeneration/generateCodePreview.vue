@@ -2,14 +2,14 @@
     <div>
         <el-tabs style="margin-top: -30px" v-model="activeName">
             <el-tab-pane v-for="(value,key) in obj" :label="key" :name="key">
-                <iframe class="iframe" :src='baseUrl+value'></iframe>
+                <iframe class="iframe" :src='baseProxyPathRewrite+value'></iframe>
             </el-tab-pane>
         </el-tabs>
     </div>
 </template>
 
 <script>
-    import {baseUrl} from '@/config/env';
+    import {baseProxyPathRewrite} from '@/config/env';
 
     export default {
         // name: "RoleAdd",
@@ -19,7 +19,7 @@
                 obj: this.generateCodePreviews,
                 activeName: "X-Entity",
                 // 走代理访问生成的文件
-                baseUrl: baseUrl + "/",
+                baseProxyPathRewrite: baseProxyPathRewrite + "/",
             }
         },
         // 接收值父组件传递值

@@ -99,7 +99,7 @@ axios.interceptors.response.use(res => {
     NProgress.done();
     const status = Number(res.status) || 200;
     const statusWhiteList = website.statusWhiteList || [];
-    const message = res.data.message || '未知错误';
+    const message = res.data.message || '后台服务走丢了,请稍后重试...';
     // 如果在白名单里则自行catch逻辑处理
     if (statusWhiteList.includes(status)) return Promise.reject(res);
     // 如果是401则跳转到登录页面
