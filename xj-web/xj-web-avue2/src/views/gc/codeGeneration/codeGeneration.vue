@@ -30,7 +30,7 @@
                         <!--<el-col :span="6">-->
                         <!--  <avue-select v-model="row.vueFieldType" placeholder="请选择内容" type="tree" :dic="vueFieldTypeDic"></avue-select>-->
 
-                        <el-select v-model="row.vueFieldType" filterable placeholder="请选择">
+                        <el-select v-model="row.vueFieldType" filterable placeholder="请选择" @change="vueFieldTypeChange(row)">
                             <el-option
                                     v-for="item in vueFieldTypeDic"
                                     :key="item.value"
@@ -40,6 +40,28 @@
                         </el-select>
                         <!-- </el-col>-->
                     </template>
+
+                    <!-- 字典
+                          // 单选-(radio)                 4
+                          // 多选-(checkbox)              5
+                          // 下拉选择-(select-单选)        6
+                          // 下拉选择 (select-单选+搜索)    7
+                          // 下拉选择 (select-多选+搜索)    8
+                          // 开关-(switch)                 9
+                    -->
+                    <template slot-scope="{scope,row,index,type,size}" slot="dictCode">
+                        <el-cascader v-if="isVueFieldTypeDict(row)"
+                                     v-model="row.dictCode"
+                                     placeholder="试试搜索：性别"
+                                     filterable
+                                     clearable
+                                     :show-all-levels="false"
+                                     :options="dictCodeOption"
+                                     @change="handleChange"
+                                     :props="dictCodeProps"
+                        ></el-cascader>
+                    </template>
+
                     <!-- 是否是搜索参数 -->
                     <template slot-scope="{scope,row,index,type,size}" slot="isSearch">
                         <el-switch v-model="row.isSearch"
@@ -94,6 +116,7 @@
                     generatePreview: "/api/admin/generate/preview",    // 生成预览代码
                     generateCode: "/api/admin/generate/generateCode",   // 生成代码
                     generateCodeVue: "/api/admin/generate/generateCodeVue", // 只生成vue代码(直接下载)
+                    diceFindList: "/api/admin/dictionary/list?isBottomLayer=false&code=ENUMS", // 获取字典数据
                 },
                 loading: true,
                 dialogWidth: "60%",
@@ -128,13 +151,23 @@
                         children: ''
                     }
                 },
+                // 字段上字典值
+                dictCodeOption: [],
+                dictCodeProps: {
+                    expandTrigger: "hover",   // 点击进入二级还是鼠标移动进入 click / hover
+                    //filterable : true,        // 是否可搜索
+                    // "show-all-levels" : false, // 是否显示完整路径
+                    value: "code",
+                    label: "name",
+                    children: "dictList",
+                }
             }
         },
         mounted() {
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.index = false;
             this.option.menu = false;
-            this.option.rowKey = "id"
+            this.option.rowKey = "id";
             //this.option.height = 200;
             // 开启多选
             this.option.selection = true;
@@ -163,6 +196,12 @@
                     prop: 'vueFieldType',
                 },
                 {
+                    label: '选择字典',
+                    prop: 'dictCode',
+                    align: 'left',
+                    //width: 240,
+                },
+                {
                     label: '是否搜索(eq搜索)',
                     prop: 'isSearch',
                     align: 'left',
@@ -183,6 +222,11 @@
         created() {
             this.crud.get(this.uri.infoTableList).then((res) => {
                 this.treeData = res.data.data;
+            });
+
+            this.crud.get(this.uri.diceFindList).then((res) => {
+                // 直接取 dictList , 不要第一级
+                this.dictCodeOption = res.data.data[0].dictList;
             })
 
         },
@@ -195,7 +239,7 @@
                 this.crud.get(this.uri.infoFieldList, {tableName: this.search.tableName}).then((res) => {
                     res.data.data.forEach((item) => {
                         item.vueFieldType = 1;
-                    })
+                    });
                     this.data = res.data.data;
                     this.checkeds();
                     this.loading = false;
@@ -287,6 +331,42 @@
                     data: JSON.stringify(this.data)
                 };
                 this.crud.download(this.uri.generateCodeVue, data);
+            },
+
+
+            /**
+             * 选择字段类型
+             * @param row
+             */
+            vueFieldTypeChange(row) {
+
+                if (this.isVueFieldTypeDict(row)) {
+                    // 判断是否可用字典，可用且没有选择的话设置默认字典类型
+                    if (row.dictCode == null) {
+                        row.dictCode = ["BASE", "DEFAULT"];
+                    }
+                }else{
+                    // 不可用清除字典数据
+                    row.dictCode = null;
+                }
+            },
+
+            /**
+             * 字典选择监听
+             */
+            handleChange(value) {
+                console.log(value);
+            },
+
+
+            /**
+             * 判断字段是否需要使用字典
+             */
+            isVueFieldTypeDict(row) {
+                if (row.vueFieldType >= 4 && row.vueFieldType <= 9) {
+                    return true;
+                }
+                return false;
             }
         }
     }

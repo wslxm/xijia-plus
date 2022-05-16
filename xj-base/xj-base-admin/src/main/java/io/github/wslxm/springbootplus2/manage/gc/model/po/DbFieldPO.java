@@ -4,6 +4,9 @@ package io.github.wslxm.springbootplus2.manage.gc.model.po;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.ToString;
+
+import java.util.List;
+
 /**
  * @author wangsong
  */
@@ -47,5 +50,9 @@ public class DbFieldPO {
      * 是否必填(NO /YES)
      */
     private String isNull;
+    /**
+     * 选择字典
+     */
+    private List<String> dictCode;
 
 }

@@ -9,10 +9,7 @@ import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("all")
 @Component
@@ -32,16 +29,17 @@ public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
         // 数据表格字段
         StringBuffer vueInfoColumns = new StringBuffer(" ");
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
-        for (DbFieldPO fieldMap : dbFields) {
+        for (DbFieldPO dbFieldPO : dbFields) {
             // 未勾选的字段过滤
-            if (!isChecked(fieldMap)) {
+            if (!isChecked(dbFieldPO)) {
                 continue;
             }
-            String name = GcDataUtil.getFieldName( gcConfig,fieldMap.getName());
-            String newDesc = getDesc(fieldMap.getDesc());
+            String name = GcDataUtil.getFieldName(gcConfig, dbFieldPO.getName());
+            String newDesc = getDesc(dbFieldPO.getDesc());
             // 判断是否需要生成查询
-            boolean searchBoolean = fieldMap.getIsSearch() != null ? fieldMap.getIsSearch() : false;
-            Object vueFieldType = fieldMap.getVueFieldType();
+            boolean searchBoolean = dbFieldPO.getIsSearch() != null ? dbFieldPO.getIsSearch() : false;
+            Object vueFieldType = dbFieldPO.getVueFieldType();
+
             Integer vueFieldTypeInt = (vueFieldType != null) ? Integer.parseInt(vueFieldType.toString()) : -1;
             if (vueFieldTypeInt.equals(Base.VueFieldType.V4.getValue())
                     || vueFieldTypeInt.equals(Base.VueFieldType.V6.getValue())
@@ -52,6 +50,7 @@ public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
                         .replaceAll("\\{label}", newDesc)
                         .replace("{prop}", name)
                         .replace("{search}", searchBoolean + "")
+                        .replace("{dictCode}", getDictCode(dbFieldPO.getDictCode()))
                 );
             } else if (vueFieldTypeInt.equals(Base.VueFieldType.V5.getValue())
                     || vueFieldTypeInt.equals(Base.VueFieldType.V8.getValue())
@@ -60,6 +59,7 @@ public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
                         .replaceAll("\\{label}", newDesc)
                         .replace("{prop}", name)
                         .replace("{search}", searchBoolean + "")
+                        .replace("{dictCode}", getDictCode(dbFieldPO.getDictCode()))
                 );
             } else if (vueFieldTypeInt.equals(Base.VueFieldType.V13.getValue())
                     || vueFieldTypeInt.equals(Base.VueFieldType.V14.getValue())

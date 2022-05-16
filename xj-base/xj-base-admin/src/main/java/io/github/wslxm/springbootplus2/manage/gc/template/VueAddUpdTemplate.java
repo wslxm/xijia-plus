@@ -59,13 +59,13 @@ public interface VueAddUpdTemplate {
             "                        },\n";
 
     /**
-     * 单选 {label}  {prop}
+     * 单选 {label}  {prop} {dictCode}
      */
     String RADIO = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'radio',\n" +
-            "                            dicData: this.dict.get(this.website.Dict.Base.Default),\n" +
+            "                            dicData: this.dict.get({dictCode}),\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
             "                                required: true,\n" +
@@ -75,14 +75,14 @@ public interface VueAddUpdTemplate {
             "                        },\n";
 
     /**
-     * 多选 {label}  {prop}
+     * 多选 {label}  {prop} {dictCode}
      */
     String CHECKBOX = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'checkbox',\n" +
             "                            dataType: 'string', // 字符串模式\n" +
-            "                            dicData: this.dict.get(this.website.Dict.Base.Default),\n" +
+            "                            dicData: this.dict.get({dictCode}),\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
             "                                required: true,\n" +
@@ -92,13 +92,13 @@ public interface VueAddUpdTemplate {
             "                        },\n";
 
     /**
-     * 下拉选 {label}  {prop}
+     * 下拉选 {label}  {prop} {dictCode}
      */
     String SELECT = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'select',\n" +
-            "                            dicData: this.dict.get(this.website.Dict.Base.Default),\n" +
+            "                            dicData: this.dict.get({dictCode}),\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
             "                                required: true,\n" +
@@ -108,13 +108,13 @@ public interface VueAddUpdTemplate {
             "                        },\n";
 
     /**
-     * 开关 {label}  {prop}
+     * 开关 {label}  {prop} {dictCode}
      */
     String SWITCH = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'switch',\n" +
-            "                            dicData: this.dict.get(this.website.Dict.Base.Default),\n" +
+            "                            dicData: this.dict.get({dictCode}),\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
             "                                required: true,\n" +

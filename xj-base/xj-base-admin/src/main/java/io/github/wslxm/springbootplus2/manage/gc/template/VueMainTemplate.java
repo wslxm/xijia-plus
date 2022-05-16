@@ -28,7 +28,7 @@ public interface VueMainTemplate {
             "                    search: {search},\n" +
             "                    searchSpan: 5,\n" +
             "                    overHidden: true,\n" +
-            "                    dicData: this.dict.get(this.website.Dict.Base.Default),\n" +
+            "                    dicData: this.dict.get({dictCode}),\n" +
             "                },\n";
 
 
@@ -43,7 +43,7 @@ public interface VueMainTemplate {
             "                    searchSpan: 5,\n" +
             "                    overHidden: true,\n" +
             "                    dataType: 'string',\n" +
-            "                    dicData: this.dict.get(this.website.Dict.Base.Default),\n" +
+            "                    dicData: this.dict.get({dictCode}),\n" +
             "                },\n";
 
 

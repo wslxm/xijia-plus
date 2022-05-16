@@ -11,6 +11,7 @@ import io.github.wslxm.springbootplus2.manage.gc.template.VueAddUpdTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 通用信息处理
@@ -183,7 +184,7 @@ public class BaseGcImpl extends BaseIServiceImpl {
      * @param vueFieldType  vue表单字段类型
      * @return
      */
-    protected String jxVueColumns(GcConfig gcConfig, String name, String type, String typeDetail, String newDesc, Integer vueFieldType) {
+    protected String jxVueColumns(GcConfig gcConfig, String name, String type, String typeDetail, String newDesc, Integer vueFieldType, List<String> dictCode) {
         // 生成表单时获取数据库的字段的长度来控制输入
         long maxlength = 0L;
         if (type.equals(FieldTypeConstant.INT) || type.equals(FieldTypeConstant.BIGINT)) {
@@ -234,17 +235,33 @@ public class BaseGcImpl extends BaseIServiceImpl {
         } else if (Base.VueFieldType.V3.getValue().equals(vueFieldType)) {
 
         } else if (Base.VueFieldType.V4.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.RADIO.replaceAll("\\{label}", newDesc).replace("{prop}", name);
+            columnStr = VueAddUpdTemplate.RADIO
+                    .replaceAll("\\{label}", newDesc)
+                    .replace("{prop}", name)
+                    .replace("{dictCode}", getDictCode(dictCode))
+            ;
         } else if (Base.VueFieldType.V5.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.CHECKBOX.replaceAll("\\{label}", newDesc).replace("{prop}", name);
+            columnStr = VueAddUpdTemplate.CHECKBOX.
+                    replaceAll("\\{label}", newDesc)
+                    .replace("{prop}", name)
+                    .replace("{dictCode}", getDictCode(dictCode))
+            ;
         } else if (Base.VueFieldType.V6.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.SELECT.replaceAll("\\{label}", newDesc).replace("{prop}", name);
+            columnStr = VueAddUpdTemplate.SELECT
+                    .replaceAll("\\{label}", newDesc)
+                    .replace("{prop}", name)
+                    .replace("{dictCode}", getDictCode(dictCode))
+            ;
         } else if (Base.VueFieldType.V7.getValue().equals(vueFieldType)) {
 
         } else if (Base.VueFieldType.V8.getValue().equals(vueFieldType)) {
 
         } else if (Base.VueFieldType.V9.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.SWITCH.replaceAll("\\{label}", newDesc).replace("{prop}", name);
+            columnStr = VueAddUpdTemplate.SWITCH
+                    .replaceAll("\\{label}", newDesc)
+                    .replace("{prop}", name)
+                    .replace("{dictCode}", getDictCode(dictCode))
+            ;
         } else if (Base.VueFieldType.V10.getValue().equals(vueFieldType)) {
 
         } else if (Base.VueFieldType.V11.getValue().equals(vueFieldType)) {
@@ -298,5 +315,21 @@ public class BaseGcImpl extends BaseIServiceImpl {
             vueAddUpdSlot = VueAddUpdSlotTemplate.TINYMCE_EDITOR.replace("{field}", name);
         }
         return vueAddUpdSlot;
+    }
+
+
+    /**
+     * 获取字典替换值
+     *
+     * @param dictCode
+     * @return
+     */
+    protected String getDictCode(List<String> dictCode) {
+        String dictCodeStr = "this.website.Dict.Base.Default";
+        if (dictCode != null && dictCode.size() > 0) {
+            dictCodeStr = dictCode.get(dictCode.size() - 1);
+            dictCodeStr = "'" + dictCodeStr + "'";
+        }
+        return dictCodeStr;
     }
 }

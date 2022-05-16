@@ -48,7 +48,9 @@ public class XjGenerationVueAdd extends BaseGcImpl implements XjGcSevice {
                     dbField.getType(),
                     dbField.getTypeDetail(),
                     getDesc(dbField.getDesc()),
-                    dbField.getVueFieldType());
+                    dbField.getVueFieldType(),
+                    dbField.getDictCode()
+            );
             vueAddColumns.append(vueColumn);
             // 生成字段 插槽
             String vueAddColumnSlot = jxVueColumnsSlot(gcConfig,dbField.getVueFieldType(), dbField.getName());
