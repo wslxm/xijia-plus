@@ -34,7 +34,7 @@
                      </el-switch>
                 </span>
                 <span v-if="obj.type == 3">
-                      <TinymceEditor :content.sync="obj.content"/>
+                      <TinymceEditor v-if="obj.content" :content.sync="obj.content"/>
                 </span>
             </template>
         </avue-form>
