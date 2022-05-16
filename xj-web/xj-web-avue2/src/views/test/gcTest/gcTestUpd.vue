@@ -48,10 +48,8 @@
                         {
                             label: '年龄 ',
                             prop: 'age',
-                            type: 'number',
-                            minRows: 0,
-                            maxRows: 99999999,
-                            row: true,
+                            maxlength: 9999999999,
+                            showWordLimit: true,
                             span: 20,
                             rules: [{
                                 required: true,
@@ -63,7 +61,7 @@
                             label: '性别 ',
                             prop: 'sex',
                             type: 'radio',
-                            dicData: this.dict.get(this.website.Dict.Base.Default),
+                            dicData: this.dict.get('GENDER'),
                             span: 20,
                             rules: [{
                                 required: true,
@@ -76,7 +74,7 @@
                             prop: 'like',
                             type: 'checkbox',
                             dataType: 'string', // 字符串模式
-                            dicData: this.dict.get(this.website.Dict.Base.Default),
+                            dicData: this.dict.get('MSG_USER_TYPE'),
                             span: 20,
                             rules: [{
                                 required: true,
@@ -88,7 +86,7 @@
                             label: '城市 ',
                             prop: 'city',
                             type: 'select',
-                            dicData: this.dict.get(this.website.Dict.Base.Default),
+                            dicData: this.dict.get('PAY_CHANNEL'),
                             span: 20,
                             rules: [{
                                 required: true,
@@ -100,7 +98,7 @@
                             label: '禁用 ',
                             prop: 'disable',
                             type: 'switch',
-                            dicData: this.dict.get(this.website.Dict.Base.Default),
+                            dicData: this.dict.get('DISABLE'),
                             span: 20,
                             rules: [{
                                 required: true,

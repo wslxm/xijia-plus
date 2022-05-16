@@ -86,7 +86,7 @@
                     search: false,
                     searchSpan: 5,
                     overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Base.Default),
+                    dicData: this.dict.get('GENDER'),
                 },
                 {
                     label: '爱好 ',
@@ -96,7 +96,7 @@
                     searchSpan: 5,
                     overHidden: true,
                     dataType: 'string',
-                    dicData: this.dict.get(this.website.Dict.Base.Default),
+                    dicData: this.dict.get('MSG_USER_TYPE'),
                 },
                 {
                     label: '城市 ',
@@ -105,7 +105,7 @@
                     search: false,
                     searchSpan: 5,
                     overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Base.Default),
+                    dicData: this.dict.get('PAY_CHANNEL'),
                 },
                 {
                     label: '禁用 ',
@@ -114,7 +114,7 @@
                     search: false,
                     searchSpan: 5,
                     overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Base.Default),
+                    dicData: this.dict.get('DISABLE'),
                 },
                 {
                     label: '头像  ',

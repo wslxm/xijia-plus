@@ -1,6 +1,8 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
+import com.alibaba.fastjson.JSON;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
@@ -9,7 +11,6 @@ import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("all")
 @Component
@@ -37,12 +38,31 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
     private void generateParameters(GcConfig gcConfig, List<DbFieldPO> data) {
         // MybatisPlus搜索条件数据拼接
         StringBuffer findPageMybatisPlus = new StringBuffer("");
+
+        // 富文本字段 查询时排除该字段
+        StringBuffer excludeReturn = new StringBuffer("");
         // 处理参数
         for (DbFieldPO fieldMap : data) {
             String fieldName = fieldMap.getName();
             String type = fieldMap.getType();
             String desc = fieldMap.getDesc();
             Object search = fieldMap.getIsSearch();
+            Integer vueFieldType = fieldMap.getVueFieldType();
+            String tableNameUp = gcConfig.getDefaultTemplateParam("tableNameUp");
+
+            // 指定类型字段不生成到列表中，同时排除list接口查询
+            List<String> vueFieldTypeArray = JSON.parseObject(gcConfig.getDefaultTemplateParam("vueFieldTypesArray"), List.class);
+            if (vueFieldTypeArray.contains(vueFieldType+"")) {
+                if (excludeReturn.toString().equals("")) {
+                    excludeReturn.append("                ");
+                    excludeReturn.append(".select("+tableNameUp+".class, info -> !\"" + fieldName + "\".equals(info.getColumn())");
+                } else {
+                    excludeReturn.append("\r\n");
+                    excludeReturn.append("                         ");
+                    excludeReturn.append(" && !\"" + fieldName + "\".equals(info.getColumn())");
+                }
+            }
+
             if (search == null || !Boolean.parseBoolean(search.toString())) {
                 continue;
             }
@@ -50,7 +70,6 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
             fieldName = GcDataUtil.getFieldName(gcConfig, fieldName);
             fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
 
-            String tableNameUp = gcConfig.getDefaultTemplateParam("tableNameUp");
 
             //字段  // !=null StringUtils.isNotBlank(account)
             findPageMybatisPlus.append("                ");
@@ -70,6 +89,6 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
             findPageMybatisPlus.append("\r\n");
         }
 
-        gcConfig.setTemplateParam("findPageMybatisPlus", findPageMybatisPlus.toString());
+        gcConfig.setTemplateParam("findPageMybatisPlus", excludeReturn.toString() + ")\r\n" + findPageMybatisPlus.toString());
     }
 }

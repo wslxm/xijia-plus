@@ -243,6 +243,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
          */
         List<String> basefields = Arrays.asList(generateProperties.getBasefields().split(","));
         List<String> keywordArray = Arrays.asList(generateProperties.getKeywordArray().split(","));
+        List<String> vueFieldTypesArray = Arrays.asList(generateProperties.getVueFieldTypes().split(","));
 
         // 开始放置默认参数
         // 加载yml配置信息 到 默认参数(模板中可直接读取)
@@ -258,6 +259,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         gcConfig.setDefaultTemplateParam("fieldPrefixDefault", generateProperties.getFieldPrefixDefault());
         gcConfig.setDefaultTemplateParam("entitySwagger", generateProperties.getEntitySwagger() + "");
         gcConfig.setDefaultTemplateParam("fatherPath", generateProperties.getFatherPath());
+        gcConfig.setDefaultTemplateParam("vueFieldTypesArray", JSON.toJSONString(vueFieldTypesArray));
         gcConfig.setDefaultTemplateParam("basefields", JSON.toJSONString(basefields));
         gcConfig.setDefaultTemplateParam("keywordArray", JSON.toJSONString(keywordArray));
         // 加载数据库相关参数

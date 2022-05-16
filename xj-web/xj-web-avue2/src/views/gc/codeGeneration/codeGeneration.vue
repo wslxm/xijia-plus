@@ -342,9 +342,9 @@
 
                 if (this.isVueFieldTypeDict(row)) {
                     // 判断是否可用字典，可用且没有选择的话设置默认字典类型
-                    if (row.dictCode == null) {
-                        row.dictCode = ["BASE", "DEFAULT"];
-                    }
+                    // if (row.dictCode == null) {
+                    //     row.dictCode = ["BASE", "DEFAULT"];
+                    // }
                 }else{
                     // 不可用清除字典数据
                     row.dictCode = null;

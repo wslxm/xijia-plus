@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
+import com.alibaba.fastjson.JSON;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
@@ -34,11 +35,19 @@ public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
             if (!isChecked(dbFieldPO)) {
                 continue;
             }
+            Object vueFieldType = dbFieldPO.getVueFieldType();
+
+            // 指定类型字段不生成到列表中，同时排除list接口查询
+            List<Integer> vueFieldTypeArray = JSON.parseObject(gcConfig.getDefaultTemplateParam("vueFieldTypesArray"), List.class);
+            if (vueFieldTypeArray.contains(vueFieldType+"")) {
+                continue;
+            }
+
             String name = GcDataUtil.getFieldName(gcConfig, dbFieldPO.getName());
             String newDesc = getDesc(dbFieldPO.getDesc());
             // 判断是否需要生成查询
             boolean searchBoolean = dbFieldPO.getIsSearch() != null ? dbFieldPO.getIsSearch() : false;
-            Object vueFieldType = dbFieldPO.getVueFieldType();
+
 
             Integer vueFieldTypeInt = (vueFieldType != null) ? Integer.parseInt(vueFieldType.toString()) : -1;
             if (vueFieldTypeInt.equals(Base.VueFieldType.V4.getValue())
