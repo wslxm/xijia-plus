@@ -202,6 +202,7 @@ public class CreatrQrCode {
             g.drawImage(src, 0, 0, imageW, imageH, null);
             g.setColor(color);
             g.setFont(new Font(null, fontStyle, fontSize));
+            log.info("g: {} pressText: {}  startX:{}   startY:{}", g, pressText, startX, startY);
             g.drawString(pressText, startX, startY);
             g.dispose();
 
@@ -228,9 +229,9 @@ public class CreatrQrCode {
         }
         if (!file.exists()) {
             try {
-                if(file.createNewFile()){
+                if (file.createNewFile()) {
                     log.error("upd success");
-                }else{
+                } else {
                     log.error("upd fail");
                 }
             } catch (IOException e) {
