@@ -1,8 +1,8 @@
 package io.github.wslxm.springbootplus2.starter.aliyun.oss.util;
 
 
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.result.AliyunRType;
-import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.result.AliYunOssR;
+import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.result.AliYunOssRType;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -31,6 +31,7 @@ public class FileUploadUtil {
     private final static String PATH_MUSIC = "music";  //  oss/file/music  音频
     private final static String PATH_VIDEO = "video";  //  oss/file/video  视频
     private final static String PATH_DOC = "doc";      //  oss/file/doc    文档(excel/pdf/word 等)
+    private final static String PATH_EXCEL = "excel";  //  oss/file/excel  文档(excel/pdf/word 等)
     private final static String PATH_FILE = "file";    //  oss/file/file   任意文件
 
     /**
@@ -46,13 +47,16 @@ public class FileUploadUtil {
     private static List<String> musicSuffix;           // 音频支持格式后缀
     private static List<String> videoSuffix;           // 视频支持格式后缀
     private static List<String> docSuffix;             // 文档支持格式后缀(excel/pdf/word 等)
+    private static List<String> excelSuffix;           // 文档支持格式后缀(excel/pdf/word 等)
     private static List<String> excludeFileSuffix;     // 任意文件禁止上传的文件格式
 
     static {
-        imageSuffix = Arrays.asList(("bmp,jpg,png,jpeg,gif").split(","));
+        // 浏览器 主要图像文件支持
+        imageSuffix = Arrays.asList(("bmp,jpg,png,jpeg,gif=").split(","));
         musicSuffix = Arrays.asList(("mp3").split(","));
         videoSuffix = Arrays.asList(("mp4").split(","));
-        docSuffix = Arrays.asList(("xlsx,xls,pdf").split(","));
+        docSuffix = Arrays.asList(("pdf,rtf,doc,docx").split(","));
+        excelSuffix = Arrays.asList(("xlsx,xls").split(","));
         excludeFileSuffix = Arrays.asList(("jsp,js,java").split(","));
     }
 
@@ -64,18 +68,11 @@ public class FileUploadUtil {
      * @param fileName 当前上传的文件名称
      * @return fileName
      */
-    public static R<String> getPath(String filePath, String fileName) {
+    public static AliYunOssR<String> getPath(String filePath, String fileName) {
         if (filePath.lastIndexOf("/") != filePath.length() - 1) {
-            return R.error(AliyunRType.FILE_UPLOAD_FAILED.getValue(), "The path must end with [/]");
+            return AliYunOssR.error(AliYunOssRType.FILE_UPLOAD_FAILED.getValue(), "The path must end with [/]");
         }
         // 文件名中对url中不安全的字符处理
-        //try {
-        //    // 使用encode会破坏文件名的中文
-        //    fileName = URLEncoder.encode(fileName, "utf-8");
-        //    fileName = fileName.replaceAll("\\+", "%20").replaceAll("%", "");
-        //} catch (UnsupportedEncodingException e) {
-        //    log.error(e.toString());
-        // }
         fileName = fileName.replaceAll("\\+", "")
                 .replaceAll(" ", "")
                 .replaceAll("/", "")
@@ -101,12 +98,15 @@ public class FileUploadUtil {
         } else if (PATH_DOC.equals(path)) {
             // 文档
             return formatVerification(docSuffix, null, suffixName, fileName);
+        } else if (PATH_EXCEL.equals(path)) {
+            // EXCEL
+            return formatVerification(excelSuffix, null, suffixName, fileName);
         } else if (PATH_FILE.equals(path)) {
             // 任意文件，不做限制,推送文件禁止上传
             return formatVerification(null, excludeFileSuffix, suffixName, fileName);
         } else {
             // 日志错误
-            return R.error(AliyunRType.FILE_UPLOAD_FAILED.getValue(), "Path error");
+            return AliYunOssR.error(AliYunOssRType.FILE_UPLOAD_FAILED.getValue(), "Path error");
         }
     }
 
@@ -117,16 +117,16 @@ public class FileUploadUtil {
      * suffixs    排除集(判断是否存在当前值)
      * suffixName 当前值
      */
-    public static R<String> formatVerification(List<String> suffixs, List<String> excludeFileSuffix, String suffixName, String fileName) {
+    public static AliYunOssR<String> formatVerification(List<String> suffixs, List<String> excludeFileSuffix, String suffixName, String fileName) {
         // 验证格式是否在范围内
         if (suffixs != null && !suffixs.contains(suffixName)) {
-            return R.error(AliyunRType.FILE_UPLOAD_FAILED.getValue(), "格式错误,仅支持:" + suffixs.toString() + ", 当前格式为：" + suffixName);
+            return AliYunOssR.error(AliYunOssRType.FILE_UPLOAD_FAILED.getValue(), "格式错误,仅支持:" + suffixs.toString() + ", 当前格式为：" + suffixName);
         }
         // 验证格式是否禁止上传
         if (excludeFileSuffix != null && excludeFileSuffix.contains(suffixName)) {
-            return R.error(AliyunRType.FILE_UPLOAD_FAILED.getValue(), "禁止上传文件格式:" + excludeFileSuffix.toString());
+            return AliYunOssR.error(AliYunOssRType.FILE_UPLOAD_FAILED.getValue(), "禁止上传文件格式:" + excludeFileSuffix.toString());
         }
-        return R.success(getTimeStr20() + "-" + fileName);
+        return AliYunOssR.success(getTimeStr20() + "-" + fileName);
     }
 
 

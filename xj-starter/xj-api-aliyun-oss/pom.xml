@@ -20,10 +20,10 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-base-core</artifactId>
-        </dependency>
+        <!--  <dependency>-->
+        <!--      <groupId>io.github.wslxm</groupId>  -->
+        <!--      <artifactId>xj-base-core</artifactId>  -->
+        <!--  </dependency>-->
         <!-- 阿里云OSS SDK-->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
@@ -41,6 +41,29 @@
             <artifactId> imageio-tiff</artifactId>
             <version>${imageio-tiff.version}</version>
         </dependency>
+
+        <!-- lombok  生成get/ser  了马达 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!-- spring-mvc -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-api</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.github.wslxm</groupId>
+            <artifactId>xj-doc-swagger2</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
     </dependencies>
 
 </project>

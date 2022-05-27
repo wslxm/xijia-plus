@@ -26,20 +26,5 @@ public class AliYunOssProperties {
     private String accessKeySecret; // 阿里云下oss 的 accessKeySecret (访问密钥，您可以在控制台上创建和查看)
     private String bucketName;      // Bucket 名称
 
-    /**
-     * 打印配置信息
-     */
-//    public void println() {
-//        log.info(ConsoleColors.YELLOW_BRIGHT +
-//                "\r\n" +
-//                "|---      阿里云OSS配置    ---| \r\n" +
-//                "|  bucket: {} \r\n" +
-//                "|  endpoint: {} \r\n" +
-//                "|  accessKeyId: {} \r\n" +
-//                "|  accessKeySecret: {} \r\n" +
-//                "|  bucketName: {} \r\n" +
-//                "| ----------------------------------|"
-//                + ConsoleColors.RESET, bucket, endpoint, accessKeyId, accessKeySecret, bucketName);
-//    }
 }
 

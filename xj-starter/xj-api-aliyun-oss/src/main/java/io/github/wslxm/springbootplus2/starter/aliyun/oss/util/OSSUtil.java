@@ -46,6 +46,8 @@ import com.aliyun.oss.model.ObjectListing;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectRequest;
 import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.AliYunOssProperties;
+import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.error.AliYunOssErrorException;
+import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.result.AliYunOssRType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -101,8 +103,10 @@ public class OSSUtil {
      * @return
      */
     public String upload(String filePath, String fileName, InputStream inputStream) {
+
+        String filePathTwo = getfilePathTwo();
         // 表示上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg。
-        String yourObjectName = FILE_PATH + filePath + fileName;
+        String yourObjectName = FILE_PATH + filePathTwo + filePath + fileName;
         // 创建ossClient
         OSS ossClient = new OSSClientBuilder().build(aliYunOssProperties.getEndpoint(), aliYunOssProperties.getAccessKeyId(), aliYunOssProperties.getAccessKeySecret());
         // 创建PutObjectRequest对象。
@@ -122,6 +126,29 @@ public class OSSUtil {
         ossClient.shutdown();
         // 访问地址= 当前服务器域名 + oss存储路径
         return aliYunOssProperties.getBucket() + "/" + yourObjectName;
+    }
+
+
+    /**
+     * 根据请求页面地址 生成文件保存地址子目录
+     *
+     * @return
+     */
+    private String getfilePathTwo() {
+        // 获取请求来源, 根据请求来源生成目录
+        String referer = request.getHeader("referer");
+        if (referer == null) {
+            throw new AliYunOssErrorException(AliYunOssRType.FILE_NO_SOURCE);
+        }
+        String[] paths = referer.split("/");
+        // 请求地址域名
+        String domainName = paths[1];
+        // 请求地址页面地址
+        String uriFile = "";
+        for (int i = 2; i < paths.length; i++) {
+            uriFile += (i == paths.length - 1) ? paths[i] : paths[i] + "_";
+        }
+        return domainName + "/" + uriFile;
     }
 
 
