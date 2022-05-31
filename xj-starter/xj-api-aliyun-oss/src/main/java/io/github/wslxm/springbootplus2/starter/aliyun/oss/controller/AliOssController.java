@@ -49,6 +49,7 @@ public class AliOssController {
                     "音乐=music/" + "\r\n" +
                     "视频=video/" + "\r\n" +
                     "文档=doc/" + "\r\n" +
+                    "表格=excel/" + "\r\n" +
                     "任意文件=file/" + "\r\n" +
                     ")", required = true),
             @ApiImplicitParam(name = "isReduce", value = "是否压缩(默认 true, 压缩后图片MB大小直线下降, 放大后的清晰度将下降)", required = false),
