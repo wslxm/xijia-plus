@@ -1,12 +1,8 @@
 package io.github.wslxm.springbootplus2.starter.aliyun.oss.controller;
 
 import com.aliyun.oss.model.OSSObjectSummary;
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.error.AliYunOssErrorException;
 import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.result.AliYunOssR;
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.result.AliYunOssRType;
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.util.FileDownloadUtil;
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.util.FileUploadUtil;
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.util.OSSUtil;
+import io.github.wslxm.springbootplus2.starter.aliyun.oss.service.AliOssService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -19,12 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -46,10 +37,7 @@ public class AliOssController {
 
 
     @Autowired
-    private HttpServletResponse response;
-
-    @Autowired
-    private OSSUtil ossUtil;
+    private AliOssService aliOssService;
 
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
@@ -70,28 +58,7 @@ public class AliOssController {
                                      @RequestParam(required = true) String filePath,
                                      @RequestParam(required = false) Integer resType,
                                      @RequestParam(required = false) Boolean isReduce) {
-        // 验证文件格式及路径，并获取文件上传路径, file.getOriginalFilename()=原文件名
-        AliYunOssR<String> rFileName = FileUploadUtil.getPath(filePath, file.getOriginalFilename());
-        if (!rFileName.getCode().equals(AliYunOssRType.SYS_SUCCESS.getValue())) {
-            throw new AliYunOssErrorException(AliYunOssRType.FILE_UPLOAD_FAILED.getValue(), rFileName.getMsg());
-        }
-        String fileName = rFileName.getData();
-        try {
-            // 获得上传的文件流并并对图片进行压缩
-            InputStream inputStream = FileUploadUtil.imgReduce(filePath, isReduce, file.getInputStream());
-            // 上传到OSS,返回访问地址
-            if (resType == null || resType == 1) {
-                return AliYunOssR.success(ossUtil.upload(filePath, fileName, inputStream));
-            } else {
-                String path = ossUtil.upload(filePath, fileName, inputStream);
-                Map<String, String> res = new HashMap<>(2,1);
-                res.put("name", file.getOriginalFilename());
-                res.put("url", path);
-                return AliYunOssR.success(res);
-            }
-        } catch (Exception e) {
-            return AliYunOssR.error(AliYunOssRType.FILE_UPLOAD_FAILED);
-        }
+        return AliYunOssR.success(aliOssService.upload(file, filePath, resType, isReduce));
     }
 
 
@@ -101,7 +68,7 @@ public class AliOssController {
     @ApiOperation("OSS-文件Object列表")
     @RequestMapping(value = "/fileList", method = RequestMethod.GET)
     public AliYunOssR<List<OSSObjectSummary>> fileList() {
-        return AliYunOssR.success( ossUtil.getObjectListing());
+        return AliYunOssR.success(aliOssService.fileList());
     }
 
 
@@ -111,10 +78,8 @@ public class AliOssController {
     @ApiOperation("OSS-文件删除")
     @ApiImplicitParam(name = "filePath", value = "文件保存的完整可访问URL,或OSS相对路径", required = true)
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    public AliYunOssR del(@RequestParam String filePath) {
-        // 去除域名 ,获得oss存储路径
-        ossUtil.deleteObject(filePath);
-        return AliYunOssR.success();
+    public AliYunOssR<Boolean> del(@RequestParam String filePath) {
+        return AliYunOssR.success(aliOssService.del(filePath));
     }
 
     /**
@@ -124,10 +89,7 @@ public class AliOssController {
     @ApiImplicitParam(name = "filePath", value = "文件可访问的完整URL", required = true)
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void downloadNet(@RequestParam String filePath) {
-        // 获取文件名称
-        String fileName = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.length());
-        // 文件下载
-        FileDownloadUtil.download(filePath, fileName, response);
+        aliOssService.downloadNet(filePath);
     }
 
     /**
@@ -140,8 +102,7 @@ public class AliOssController {
     })
     @RequestMapping(value = "/downloadZip", method = RequestMethod.GET)
     public void downloadNet(@RequestParam String filePaths, @RequestParam String zipName) {
-        // 文件打包下载
-        FileDownloadUtil.downloadZip(Arrays.asList(filePaths.split(",")), zipName, response);
+        aliOssService.downloadNet(filePaths, zipName);
     }
 }
 

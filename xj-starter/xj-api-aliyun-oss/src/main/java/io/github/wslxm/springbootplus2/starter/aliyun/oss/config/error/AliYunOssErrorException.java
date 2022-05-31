@@ -44,6 +44,12 @@ public class AliYunOssErrorException extends RuntimeException {
     }
 
 
+    public AliYunOssErrorException(String msg) {
+        this.code = AliYunOssRType.FILE_UPLOAD_FAILED.getValue();
+        this.msg = msg;
+    }
+
+
     /**
      * 枚举传递（建议先定义枚举）
      *

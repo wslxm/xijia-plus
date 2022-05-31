@@ -1,8 +1,7 @@
 package io.github.wslxm.springbootplus2.starter.aliyun.oss.util;
 
 
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.result.AliYunOssR;
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.result.AliYunOssRType;
+import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.error.AliYunOssErrorException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -52,7 +51,7 @@ public class FileUploadUtil {
 
     static {
         // 浏览器 主要图像文件支持
-        imageSuffix = Arrays.asList(("bmp,jpg,png,jpeg,gif=").split(","));
+        imageSuffix = Arrays.asList(("bmp,jpg,png,jpeg,gif").split(","));
         musicSuffix = Arrays.asList(("mp3").split(","));
         videoSuffix = Arrays.asList(("mp4").split(","));
         docSuffix = Arrays.asList(("pdf,rtf,doc,docx").split(","));
@@ -68,10 +67,11 @@ public class FileUploadUtil {
      * @param fileName 当前上传的文件名称
      * @return fileName
      */
-    public static AliYunOssR<String> getPath(String filePath, String fileName) {
+    public static String getPath(String filePath, String fileName) {
         if (filePath.lastIndexOf("/") != filePath.length() - 1) {
-            return AliYunOssR.error(AliYunOssRType.FILE_UPLOAD_FAILED.getValue(), "The path must end with [/]");
+            throw new AliYunOssErrorException("路径必须以 [/] 结束");
         }
+
         // 文件名中对url中不安全的字符处理
         fileName = fileName.replaceAll("\\+", "")
                 .replaceAll(" ", "")
@@ -81,14 +81,16 @@ public class FileUploadUtil {
                 .replaceAll("#", "")
                 .replaceAll("&", "")
                 .replaceAll("=", "");
+
         // 获取上传的跟目录(如：image)
         String path = filePath.split("/")[0];
         // 获取后缀(小写)
         String suffixName = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()).toLowerCase();
+
+        // 文件格式验证, 以及处理文件名, 让其可以传递重复文件
         if (PATH_IMAGE.equals(path)) {
-            // 图片(重命名)
+            // 图片
             return formatVerification(imageSuffix, null, suffixName, fileName);
-            // stringR.getCode().equals(AliyunRType.FILE_UPLOAD_FAILED.getValue()) ? stringR : R.success(getTimeStr20() + "-" + fileName);
         } else if (PATH_MUSIC.equals(path)) {
             // 音频
             return formatVerification(musicSuffix, null, suffixName, fileName);
@@ -102,11 +104,11 @@ public class FileUploadUtil {
             // EXCEL
             return formatVerification(excelSuffix, null, suffixName, fileName);
         } else if (PATH_FILE.equals(path)) {
-            // 任意文件，不做限制,推送文件禁止上传
+            // 任意文件，不做限制, 推送文件禁止上传
             return formatVerification(null, excludeFileSuffix, suffixName, fileName);
         } else {
-            // 日志错误
-            return AliYunOssR.error(AliYunOssRType.FILE_UPLOAD_FAILED.getValue(), "Path error");
+            // 不支持的路径
+            throw new AliYunOssErrorException("filePath参数错误,不支持的保存路径");
         }
     }
 
@@ -117,16 +119,36 @@ public class FileUploadUtil {
      * suffixs    排除集(判断是否存在当前值)
      * suffixName 当前值
      */
-    public static AliYunOssR<String> formatVerification(List<String> suffixs, List<String> excludeFileSuffix, String suffixName, String fileName) {
+    private static String formatVerification(List<String> suffixs, List<String> excludeFileSuffix, String suffixName, String fileName) {
         // 验证格式是否在范围内
         if (suffixs != null && !suffixs.contains(suffixName)) {
-            return AliYunOssR.error(AliYunOssRType.FILE_UPLOAD_FAILED.getValue(), "格式错误,仅支持:" + suffixs.toString() + ", 当前格式为：" + suffixName);
+            throw new AliYunOssErrorException("格式错误,仅支持:" + suffixs.toString() + ", 当前格式为：" + suffixName);
         }
         // 验证格式是否禁止上传
         if (excludeFileSuffix != null && excludeFileSuffix.contains(suffixName)) {
-            return AliYunOssR.error(AliYunOssRType.FILE_UPLOAD_FAILED.getValue(), "禁止上传文件格式:" + excludeFileSuffix.toString());
+            throw new AliYunOssErrorException("禁止上传文件格式:" + excludeFileSuffix.toString());
         }
-        return AliYunOssR.success(getTimeStr20() + "-" + fileName);
+        return getTimeStr20() + "-" + fileName;
+    }
+
+
+    /**
+     * 获取随机串（时间-- 2位秒+3位毫秒+3位随机数 = 8位随机串）
+     *
+     * @return
+     */
+    private static String getTimeStr20() {
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            log.error(e.toString());
+        }
+        String timeStamp = new SimpleDateFormat("ssSSS").format(new Date());
+        Random random = new Random();
+        for (int i = 0; i < 3; i++) {
+            timeStamp += (random.nextInt(10) + "");
+        }
+        return timeStamp;
     }
 
 
@@ -165,22 +187,4 @@ public class FileUploadUtil {
         return inputStream;
     }
 
-
-    /**
-     * 获取随机串（时间-- 2位秒+3位毫秒+3位随机数 = 8位随机串）
-     * @return
-     */
-    private static String getTimeStr20() {
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            log.error(e.toString());
-        }
-        String timeStamp = new SimpleDateFormat("ssSSS").format(new Date());
-        Random random = new Random();
-        for (int i = 0; i < 3; i++) {
-            timeStamp += (random.nextInt(10) + "");
-        }
-        return timeStamp;
-    }
 }

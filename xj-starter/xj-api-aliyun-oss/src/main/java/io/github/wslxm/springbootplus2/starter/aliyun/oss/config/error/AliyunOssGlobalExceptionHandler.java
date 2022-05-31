@@ -27,7 +27,7 @@ public class AliyunOssGlobalExceptionHandler {
 	 */
 	@ExceptionHandler(AliYunOssErrorException.class)
 	public AliYunOssR exceptionHandler(AliYunOssErrorException e) {
-		return AliYunOssR.error(e.getCode(), e.getMessage());
+		return AliYunOssR.error(e.getCode(), e.getMsg());
 	}
 }
 

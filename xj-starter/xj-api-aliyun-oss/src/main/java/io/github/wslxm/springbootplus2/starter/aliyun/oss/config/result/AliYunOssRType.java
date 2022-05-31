@@ -18,8 +18,7 @@ public enum AliYunOssRType {
 
 	// 系统相关 - 服务器内置状态码
 	SYS_SUCCESS(200, "成功"),
-	FILE_UPLOAD_FAILED(100001, "文件上传失败"),
-	FILE_NO_SOURCE(100002, "没有请求来源地址,禁止调用"),
+	FILE_UPLOAD_FAILED(100001, "文件服务错误"),
 	;
 	private Integer value;
 	private String msg;
