@@ -120,7 +120,7 @@ public class SwaggerConfig {
 
 
     /**
-     * 获取模块名称, 自动填充分区号,
+     * 获取模块名称, 如果没有则自动使用分区号填充
      *
      * @param groupNameOrPackage
      * @return
@@ -144,7 +144,7 @@ public class SwaggerConfig {
      */
     private String getPackage(String groupNameOrPackage) {
         String[] split = groupNameOrPackage.split("\\|");
-        // 获取包路径, 如果关闭了swagger, 让其扫码一个不存在的包
+        // 获取包路径, 如果关闭了swagger, 让其扫码一个不存在的包，文档中将看不到没有任何接口
         String basePackage = split[1];
         if (!swaggerProperties.getIsShow()) {
             basePackage = "xxx.xxx";
@@ -179,18 +179,26 @@ public class SwaggerConfig {
      * @version 1.0.1
      */
     private List<Parameter> getGlobalParameter() {
-        ParameterBuilder parameterBuilder = new ParameterBuilder();
-        // 管理端默认账号
-        parameterBuilder.name(swaggerProperties.getDefaultKey())
-                .scalarExample(swaggerProperties.getDefaultValue())
-                .description("请求头参数")
-                .modelRef(new ModelRef("string"))
-                .parameterType("header")
-                .order(-999)
-                .required(false)
-                .build();
+        String[] keys = swaggerProperties.getDefaultKey().split("\\|", -1);
+        String[] values = swaggerProperties.getDefaultValue().split("\\|", -1);
         List<Parameter> parameters = Lists.newArrayList();
-        parameters.add(parameterBuilder.build());
+        for (int i = 0; i < keys.length; i++) {
+            String key = keys[i];
+            String value = "";
+            if (values.length > i) {
+                value = values[i];
+            }
+            // 默认请求头
+            ParameterBuilder parameterBuilder = new ParameterBuilder();
+            parameterBuilder.name(key)
+                    .scalarExample(value)
+                    .description("请求头参数")
+                    .modelRef(new ModelRef("string"))
+                    .parameterType("header")
+                    .order(-999 + i)
+                    .required(false);
+            parameters.add(parameterBuilder.build());
+        }
         return parameters;
     }
 
