@@ -47,7 +47,7 @@ public class AliOssServiceImpl implements AliOssService {
 	public Object upload(MultipartFile file,
 	                     String filePath,
 	                     Integer resType,
-	                     Integer reduceImgSize) {
+	                     Boolean isReduce) {
 
 		// 1、验证文件格式
 		// 2、验证保存路径
@@ -55,7 +55,7 @@ public class AliOssServiceImpl implements AliOssService {
 		String fileName = FileUploadUtil.getPath(filePath, file.getOriginalFilename());
 		try {
 			// 对上传的图片进行压缩
-			InputStream inputStream = FileUploadUtil.imgReduce(filePath, reduceImgSize, file.getInputStream());
+			InputStream inputStream = FileUploadUtil.imgReduce(filePath, isReduce, file.getInputStream());
 			// 上传到OSS,返回访问地址
 			if (resType == null || resType == 1) {
 				return ossUtil.upload(filePath, fileName, inputStream);

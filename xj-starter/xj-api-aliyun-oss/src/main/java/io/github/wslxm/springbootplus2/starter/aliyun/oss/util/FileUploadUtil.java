@@ -34,9 +34,9 @@ public class FileUploadUtil {
     private final static String PATH_FILE = "file";    //  oss/file/file   任意文件
 
     /**
-     * 图片最小体积开始压缩 (图片大于该值进行压缩操作) 1M * 1.5 = 1.5M  -->  只对大于1.5M的图片进行压缩
+     * 图片最小体积开始压缩 (图片大于该值进行压缩操作) 1M * 1.5 = 0.5M  -->  只对大于0.5M的图片进行压缩
      */
-    private final static double imgMinReduce = (1024 * 1024) * 1.5;
+    private final static double imgMinReduce = (1024 * 1024) * 0.5;
 
 
     /**
@@ -159,27 +159,24 @@ public class FileUploadUtil {
      * @param inputStream
      * @return
      */
-    public static InputStream imgReduce(String filePath, Integer reduceImgSize, InputStream inputStream) {
+    public static InputStream imgReduce(String filePath, Boolean isReduce, InputStream inputStream) {
         // 目录开头
         String path = filePath.split("/")[0];
         if (PATH_IMAGE.equals(path)) {
             // 设置期望压缩后大小，默认500内, 如果期望大小小于500，则强制 50 内
-            reduceImgSize = (reduceImgSize == null) ? 500 : reduceImgSize;
-            if (reduceImgSize < 50) {
-                reduceImgSize = 50;
-            }
-            // 转为字节
-            reduceImgSize = reduceImgSize * 1024;
-            // 获取文件大小(字节) 1024字节=1kb  1024000=1MB
-            Integer imgSize = getImgSize(inputStream);
-            // 上次压缩大小
-            Integer oldImgSize = imgSize;
-            // 压缩比例
-            float qality = (float) 0.3;
+            isReduce = isReduce == null ? true : isReduce;
+            if (isReduce) {
+                // 获取文件大小(字节) 1024字节=1kb  1024000=1MB
+                Integer imgSize = getImgSize(inputStream);
+                // 上次压缩大小
+                Integer oldImgSize = imgSize;
+                // 压缩比例
+                float qality = (float) 0.3;
                 // 图片压缩
-            byte[] bytes = ImgUtils.inputstreamToByte(inputStream);
-            bytes = ImgUtils.compressPic(bytes, qality);
-            inputStream = ImgUtils.byteToInputStream(bytes);
+                byte[] bytes = ImgUtils.inputstreamToByte(inputStream);
+                bytes = ImgUtils.compressPic(bytes, qality);
+                inputStream = ImgUtils.byteToInputStream(bytes);
+            }
         }
         return inputStream;
     }

@@ -2,6 +2,13 @@
 server:
   port: 10001
 
+spring:
+  ## 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 1024MB      # 单个文件的最大上限
+      max-request-size: 1024MB   # 单个请求的文件总大小上限
+
 aliyun:
   ## 对象存储服务，个人账号,拉取此代码调试后请修改为自己的,如发现滥用,将关停
   oss:
