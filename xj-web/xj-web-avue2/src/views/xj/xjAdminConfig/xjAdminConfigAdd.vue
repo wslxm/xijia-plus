@@ -14,11 +14,15 @@
                       </el-input>
                 </span>
                 <span v-if="obj.type == 1">
-                     <el-upload
-                             :action="baseUploadUrl + 'image/config/'"
-                             list-type="picture-card"
-                             :on-success="handleSuccess"
-                             :on-remove="handleRemove">
+                        <el-upload
+                                :action="baseUploadUrl + 'image/config/'"
+                                list-type="picture-card"
+                                multiple
+                                drag
+                                limit="10"
+                                :on-exceed="handleExceed"
+                                :on-success="handleSuccess"
+                                :on-remove="handleRemove">
                              <i class="el-icon-plus"></i>
                       </el-upload>
                 </span>
@@ -166,6 +170,9 @@
                 } else {
                     this.obj.content += "," + res.data.url
                 }
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择 10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
         }
     }

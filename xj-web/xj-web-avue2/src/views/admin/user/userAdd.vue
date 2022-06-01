@@ -67,10 +67,20 @@
                             label: '头像',
                             prop: 'head',
                             span: 24,
-                            dataType: 'string', // 字符串模式
+                            rules: [{
+                                required: true,
+                                message: "请上传 头像 ",
+                                trigger: "blur"
+                            }],
+                            dataType: 'string',  // 字符串模式
                             type: 'upload',
-                            listType: 'picture-img',                  // 图片格式, 单图-[picture-img]  多图-[picture-card]  缩略图-[picture]
-                            action: baseUploadUrl + 'image/head/',    // 上传地址 + 文件保存上传地址(详见接口描叙)
+                            listType: 'picture-img',                // 图片格式, 单图-[picture-img]  多图-[picture-card]  缩略图-[picture] 普通文件空
+                            action: baseUploadUrl + 'image/head/',  // 上传地址 + 文件保存上传地址(详见接口描叙)
+                            multiple: false,       // 文件多选
+                            drag: false,            // 拖拽排序
+                            limit: 3,              // 上传数量 1 个
+                            fileSize: 500,         // 上传大小 500 kb内
+                            loadText: '上传中...',  // 上传中文字提示
                             tip: '只能上传jpg/png文件，且不超过500kb',
                             propsHttp: {
                                 res: 'data'
@@ -80,14 +90,17 @@
                                 done(file)
                             },
                             uploadAfter: (res, done) => {
-                                this.$message.success('上传成功')
+                                this.$message.success('上传成功');
                                 done()
                             },
-                            rules: [{
-                                required: true,
-                                message: "请上传 头像 ",
-                                trigger: "blur"
-                            }]
+                            uploadError(error, column) {
+                                // 上传失败
+                                this.$message.error(error);
+                            },
+                            uploadExceed(limit, files, fileList, column){
+                                // 文件数量验证
+                                this.$message.warning(`当前限制文件数量为 ${limit}, 当前共 ${files.length + fileList.length} `);
+                            },
                         },
                         {
                             label: '姓名',

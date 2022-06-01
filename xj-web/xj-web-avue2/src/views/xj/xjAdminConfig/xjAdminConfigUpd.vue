@@ -18,6 +18,10 @@
                      <el-upload
                              :action="baseUploadUrl + 'image/config/'"
                              list-type="picture-card"
+                             multiple
+                             drag
+                             limit="10"
+                             :on-exceed="handleExceed"
                              :file-list="fileList"
                              :on-success="handleSuccess"
                              :on-remove="handleRemove">
@@ -47,7 +51,7 @@
         data() {
             return {
                 obj: {},
-                isIdFind: false,
+                isIdFind: true,
                 fileList: []
             }
         },
@@ -134,13 +138,15 @@
             }
         },
         created() {
+
+
             if (this.isIdFind) {
                 this.findId(this.rowData);
             } else {
                 this.obj = this.rowData;
                 // 处理图片回显
-                if (this.rowData.type == 1) {
-                    let urls = this.rowData.content.split(",");
+                if (this.obj.type == 1) {
+                    let urls = this.obj.content.split(",");
                     for (let i = 0; i < urls.length; i++) {
                         let urlItem = {
                             name: urls[i].substring(urls[i].lastIndexOf("/") + 1),
@@ -168,6 +174,18 @@
                 if (newRowData != null && newRowData.id != null) {
                     this.crud.get(this.uri.info + "/" + newRowData.id).then((res) => {
                         this.obj = res.data.data;
+
+                        // 处理图片回显
+                        if (this.obj.type == 1) {
+                            let urls = this.obj.content.split(",");
+                            for (let i = 0; i < urls.length; i++) {
+                                let urlItem = {
+                                    name: urls[i].substring(urls[i].lastIndexOf("/") + 1),
+                                    url: urls[i]
+                                };
+                                this.fileList.push(urlItem);
+                            }
+                        }
                     })
                 }
             },
@@ -187,7 +205,10 @@
                 } else {
                     this.obj.content += "," + res.data.url
                 }
-            }
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择 10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
         }
     }
 </script>

@@ -85,8 +85,8 @@
                             dataType: 'string', // 字符串模式
                             type: 'upload',
                             listType: 'picture-img',                // 单图-[picture-img] 多图-[picture-card] 缩略图-[picture](不定义=附件)
-                            action: baseUploadUrl + 'file/gc/',     // 上传地址(详见接口描叙,默认允许任意文件)
-                            tip: '只能上传jpg/png文件，且不超过500kb',
+                            action: baseUploadUrl + 'image/gc/',     // 上传地址(详见接口描叙,默认允许任意文件)
+                            tip: '只能上传jpg/png/gif文件',
                             span: 20,
                             rules: [{
                                 required: true,
@@ -101,7 +101,7 @@
                                 done(file)
                             },
                             uploadAfter: (res, done) => {
-                                this.$message.success('上传成功')
+                                this.$message.success('上传成功');
                                 done()
                             }
                         },

@@ -2,7 +2,6 @@ package io.github.wslxm.springbootplus2.starter.aliyun.oss.service.impl;
 
 import com.aliyun.oss.model.OSSObjectSummary;
 import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.error.AliYunOssErrorException;
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.result.AliYunOssR;
 import io.github.wslxm.springbootplus2.starter.aliyun.oss.service.AliOssService;
 import io.github.wslxm.springbootplus2.starter.aliyun.oss.util.FileDownloadUtil;
 import io.github.wslxm.springbootplus2.starter.aliyun.oss.util.FileUploadUtil;
@@ -59,13 +58,13 @@ public class AliOssServiceImpl implements AliOssService {
 			InputStream inputStream = FileUploadUtil.imgReduce(filePath, isReduce, file.getInputStream());
 			// 上传到OSS,返回访问地址
 			if (resType == null || resType == 1) {
-				return AliYunOssR.success(ossUtil.upload(filePath, fileName, inputStream));
+				return ossUtil.upload(filePath, fileName, inputStream);
 			} else {
 				String path = ossUtil.upload(filePath, fileName, inputStream);
 				Map<String, String> res = new HashMap<>(2, 1);
 				res.put("name", file.getOriginalFilename());
 				res.put("url", path);
-				return AliYunOssR.success(res);
+				return res;
 			}
 		} catch (Exception e) {
 			throw new AliYunOssErrorException("上传过程中出现错误");

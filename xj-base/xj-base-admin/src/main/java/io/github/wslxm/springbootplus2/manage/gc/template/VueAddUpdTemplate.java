@@ -148,17 +148,22 @@ public interface VueAddUpdTemplate {
     String UPLOAD = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
-            "                            dataType: 'string', // 字符串模式\n" +
-            "                            type: 'upload',\n" +
-            "                            listType: 'picture-img',                // 单图-[picture-img] 多图-[picture-card] 缩略图-[picture](不定义=附件)\n" +
-            "                            action: baseUploadUrl + 'file/gc/',     // 上传地址(详见接口描叙,默认允许任意文件)\n" +
-            "                            tip: '只能上传jpg/png文件，且不超过500kb',\n" +
-            "                            span: 20,\n" +
+            "                            span: 24,\n" +
             "                            rules: [{\n" +
             "                                required: true,\n" +
-            "                                message: \"请上传 {label}\",\n" +
+            "                                message: \"请上传 {label} \",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }],\n" +
+            "                            dataType: 'string',  // 字符串模式\n" +
+            "                            type: 'upload',\n" +
+            "                            listType: 'picture-img',                // 图片格式, 单图-[picture-img]  多图-[picture-card]  缩略图-[picture] 普通文件空\n" +
+            "                            action: baseUploadUrl + 'image/gc/',    // 上传地址 + 文件保存上传地址(详见接口描叙)\n" +
+            "                            multiple: false,       // 文件多选\n" +
+            "                            drag: true,            // 拖拽排序\n" +
+            "                            limit: 1,              // 上传数量 1 个\n" +
+            "                            //fileSize: 500,         // 上传大小 500 kb内\n" +
+            "                            loadText: '上传中...',  // 上传中文字提示\n" +
+            "                            tip: '只能上传jpg/png/gif文件',\n" +
             "                            propsHttp: {\n" +
             "                                res: 'data'\n" +
             "                            },\n" +
@@ -167,8 +172,16 @@ public interface VueAddUpdTemplate {
             "                                done(file)\n" +
             "                            },\n" +
             "                            uploadAfter: (res, done) => {\n" +
-            "                                this.$message.success('上传成功')\n" +
+            "                                this.$message.success('上传成功');\n" +
             "                                done()\n" +
-            "                            }\n" +
+            "                            },\n" +
+            "                            uploadError(error, column) {\n" +
+            "                                // 上传失败\n" +
+            "                                this.$message.error(error);\n" +
+            "                            },\n" +
+            "                            uploadExceed(limit, files, fileList, column){\n" +
+            "                                // 文件数量验证\n" +
+            "                                this.$message.warning(`当前限制文件数量为 ${limit}, 当前共 ${files.length + fileList.length} `);\n" +
+            "                            },\n" +
             "                        },\n";
 }
