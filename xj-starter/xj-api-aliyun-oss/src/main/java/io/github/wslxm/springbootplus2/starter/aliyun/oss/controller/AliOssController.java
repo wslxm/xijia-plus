@@ -52,14 +52,14 @@ public class AliOssController {
                     "表格=excel/" + "\r\n" +
                     "任意文件=file/" + "\r\n" +
                     ")", required = true),
-            @ApiImplicitParam(name = "isReduce", value = "是否压缩(默认 true, 压缩后图片MB大小直线下降, 放大后的清晰度将下降)", required = false),
+            @ApiImplicitParam(name = "reduceSize", value = "压缩图片到多少kb范围内(默认 > 500kb 触发压缩, 压缩后图片大小直线下降, 但放清晰度将下降)", required = false),
             @ApiImplicitParam(name = "resType", value = "返回类型(1- data=url(默认)  2- data=[name:xxx ,url: xxx])", required = false)
     })
     public AliYunOssR<Object> upload(@RequestParam(required = true) MultipartFile file,
                                      @RequestParam(required = true) String filePath,
                                      @RequestParam(required = false) Integer resType,
-                                     @RequestParam(required = false) Boolean isReduce) {
-        return AliYunOssR.success(aliOssService.upload(file, filePath, resType, isReduce));
+                                     @RequestParam(required = false) Integer reduceSize) {
+        return AliYunOssR.success(aliOssService.upload(file, filePath, resType, reduceSize));
     }
 
 

@@ -29,15 +29,15 @@ public class ImgUtils {
      *
      * 传递byte数据，返回压缩后的 byte 数组
      * @param bytes  压缩前的 byte 数组
-     * @return byte  压缩后的 byte 数组
+     * @return qality  压缩率
      */
-    public static byte[] compressPic(byte[] bytes) {
+    public static byte[] compressPic(byte[] bytes, float qality) {
         BufferedImage bufferedImage = null;
         try {
             //将b作为输入流；
             ByteArrayInputStream in = new ByteArrayInputStream(bytes);
             bufferedImage = ImageIO.read(in);
-            bytes = compressPic(bufferedImage);
+            bytes = compressPic(bufferedImage, qality);
             return bytes;
         } catch (IOException e) {
             log.error(e.toString());
@@ -46,7 +46,7 @@ public class ImgUtils {
     }
 
 
-    public static byte[] compressPic(BufferedImage targetImage) throws IOException {
+    public static byte[] compressPic(BufferedImage targetImage, float qality) throws IOException {
 
         // 指定压缩后图片格式为png(jpg 会失色)
         ImageWriter imgWrier = ImageIO.getImageWritersByFormatName("jpg").next();
@@ -56,7 +56,7 @@ public class ImgUtils {
         imgWriteParams.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
 
         // 这里指定压缩的程度，参数qality是取值0~1范围内，数字越小压缩率越大
-        imgWriteParams.setCompressionQuality((float) 0.3);
+        imgWriteParams.setCompressionQuality((float) qality);
         imgWriteParams.setProgressiveMode(ImageWriteParam.MODE_DISABLED);
 
         // 防止图片变红(设为白底), 创建输出流

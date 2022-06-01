@@ -155,36 +155,48 @@ public class FileUploadUtil {
     /**
      * 判断是否为图片，是图片进行压缩后返回
      * @param filePath
-     * @param isReduce
+     * @param reduceSize 期望压缩后大小
      * @param inputStream
      * @return
      */
-    public static InputStream imgReduce(String filePath, Boolean isReduce, InputStream inputStream) {
+    public static InputStream imgReduce(String filePath, Integer reduceImgSize, InputStream inputStream) {
         // 目录开头
         String path = filePath.split("/")[0];
         if (PATH_IMAGE.equals(path)) {
-            // true压缩(默认null压缩), false不压缩
-            if (isReduce == null || isReduce) {
-                // 图片 ,获取文件大小(字节) 1024字节=1kb  1024000=1MB
-                int count = 0;
-                try {
-                    while (count == 0) {
-                        count = inputStream.available();
-                    }
-                } catch (IOException e) {
-                    log.error(e.toString());
-                }
-                // 小于n 值不压缩
-                if (count < imgMinReduce) {
-                    return inputStream;
-                }
-                // 图片压缩
-                byte[] bytes = ImgUtils.inputstreamToByte(inputStream);
-                bytes = ImgUtils.compressPic(bytes);
-                inputStream = ImgUtils.byteToInputStream(bytes);
+            // 设置期望压缩后大小，默认500内, 如果期望大小小于500，则强制 50 内
+            reduceImgSize = (reduceImgSize == null) ? 500 : reduceImgSize;
+            if (reduceImgSize < 50) {
+                reduceImgSize = 50;
             }
+            // 转为字节
+            reduceImgSize = reduceImgSize * 1024;
+            // 获取文件大小(字节) 1024字节=1kb  1024000=1MB
+            Integer imgSize = getImgSize(inputStream);
+            // 上次压缩大小
+            Integer oldImgSize = imgSize;
+            // 压缩比例
+            float qality = (float) 0.3;
+                // 图片压缩
+            byte[] bytes = ImgUtils.inputstreamToByte(inputStream);
+            bytes = ImgUtils.compressPic(bytes, qality);
+            inputStream = ImgUtils.byteToInputStream(bytes);
         }
         return inputStream;
     }
 
+
+    /**
+     * 获取图片大小
+     */
+    private static Integer getImgSize(InputStream inputStream) {
+        int count = 0;
+        try {
+            while (count == 0) {
+                count = inputStream.available();
+            }
+        } catch (IOException e) {
+            log.error(e.toString());
+        }
+        return count;
+    }
 }

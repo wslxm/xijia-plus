@@ -16,13 +16,13 @@ public interface AliOssService {
 	 * @param file
 	 * @param filePath
 	 * @param resType
-	 * @param isReduce
+	 * @param reduceImgSize
 	 * @return
 	 */
 	public Object upload(@RequestParam(required = true) MultipartFile file,
 	                     @RequestParam(required = true) String filePath,
 	                     @RequestParam(required = false) Integer resType,
-	                     @RequestParam(required = false) Boolean isReduce);
+	                     @RequestParam(required = false) Integer reduceImgSize);
 
 	/**
 	 * oss-文件列表
