@@ -147,7 +147,7 @@
             <!-- redis 服务 -->
             <dependency>
                 <groupId>io.github.wslxm</groupId>
-                <artifactId>xj-fw-redis</artifactId>
+                <artifactId>xj-redis</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- websocket 服务 -->

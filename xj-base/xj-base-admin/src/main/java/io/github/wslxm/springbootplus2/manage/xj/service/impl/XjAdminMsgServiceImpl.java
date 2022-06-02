@@ -67,7 +67,7 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
         entity.setIsRead(Base.IsRead.V0.getValue());
         boolean b = this.save(entity);
         // 发送webSocket消息
-        webSocketService.send("sys-sms", "系统消息", "", dto.getUserId(), JSON.toJSONString(entity), null);
+        webSocketService.send("sys-sms", "系统消息",  dto.getUserId(), JSON.toJSONString(entity),null);
         return entity.getId();
     }
 

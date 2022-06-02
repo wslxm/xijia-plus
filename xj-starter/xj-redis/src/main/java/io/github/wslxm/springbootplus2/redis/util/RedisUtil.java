@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.starter.redis.util;
+package io.github.wslxm.springbootplus2.redis.util;
 
 
 import lombok.extern.slf4j.Slf4j;

@@ -190,8 +190,8 @@ public class SwaggerConfig {
             }
             // 默认请求头
             ParameterBuilder parameterBuilder = new ParameterBuilder();
-            parameterBuilder.name(key)
-                    .scalarExample(value)
+            parameterBuilder.name(key.trim())
+                    .scalarExample(value.trim())
                     .description("请求头参数")
                     .modelRef(new ModelRef("string"))
                     .parameterType("header")

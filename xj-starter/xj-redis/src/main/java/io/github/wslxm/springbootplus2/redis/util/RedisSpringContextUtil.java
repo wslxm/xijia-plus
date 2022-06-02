@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.starter.redis.util;
+package io.github.wslxm.springbootplus2.redis.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;

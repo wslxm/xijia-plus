@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.starter.redis.util;
+package io.github.wslxm.springbootplus2.redis.util;
 
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;

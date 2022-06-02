@@ -25,7 +25,7 @@
         <!-- redis 服务 -->
         <dependency>
             <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-fw-redis</artifactId>
+            <artifactId>xj-redis</artifactId>
         </dependency>
         <!-- lombok  生成get/ser  了马达 -->
         <dependency>

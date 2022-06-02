@@ -1,5 +1,6 @@
-package io.github.wslxm.springbootplus2.starter.redis.error;
+package io.github.wslxm.springbootplus2.redis.config.error;
 
+import io.github.wslxm.springbootplus2.redis.config.result.RedisRType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,6 +28,18 @@ public class RedisErrorException extends RuntimeException {
      */
     public RedisErrorException(Integer code, String msg) {
         this.code = code;
+        this.msg = msg;
+    }
+
+    /**
+     * 直接传递
+     *
+     * @author wangsong
+     * @date 2021/12/27 9:23
+     * @version 1.0.0
+     */
+    public RedisErrorException( String msg) {
+        this.code = RedisRType.SYS_ERROR.getValue();
         this.msg = msg;
     }
 }

@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.starter.redis.config;
+package io.github.wslxm.springbootplus2.redis.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -7,18 +7,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.github.wslxm.springbootplus2.starter.redis.util.RedisPropUtil;
-import io.github.wslxm.springbootplus2.starter.redis.util.RedisSpringContextUtil;
-import io.github.wslxm.springbootplus2.starter.redis.util.RedisUtil;
+import io.github.wslxm.springbootplus2.redis.lock.DistributedLockTemplate;
+import io.github.wslxm.springbootplus2.redis.lock.SingleDistributedLockTemplate;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.redisson.api.RedissonClient;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -100,11 +98,11 @@ public class RedisConfig extends CachingConfigurerSupport {
 	 */
 	@Bean
 	public CacheManager cacheManager(RedisConnectionFactory factory) {
-		if (!RedisUtil.isRedis()) {
-			// 缓存注解 使用 spring 缓存
-			log.info("已启用 spring 本地缓存");
-			return new ConcurrentMapCacheManager();
-		} else {
+//		if (!RedisUtil.isRedis()) {
+//			// 缓存注解 使用 spring 缓存
+//			log.info("已启用 spring 本地缓存");
+//			return new ConcurrentMapCacheManager();
+//		} else {
 			// 缓存注解 使用 redis 缓存
 			RedisSerializer<String> redisSerializer = new StringRedisSerializer();
 			Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
@@ -135,10 +133,49 @@ public class RedisConfig extends CachingConfigurerSupport {
 					.build();
 
 			//return new CustomizedRedisCacheManager(this.applicationName, this.nacosDataSource, this.container)
-
 //			@Value("${spring.application.name}")
 //			private String applicationName;
-		}
+//		}
 	}
 
+
+
+
+//	@Primary
+//	@Bean
+//	@ConditionalOnMissingBean(RedisProperties.class)
+//	public RedisProperties redisProperties() {
+//		Map<Integer, RedisProperties> redisX = dggRedisProperties.getRedis();
+//		RedisProperties p = redisX.get(DggRedisConfiguration.defaultRedis);
+//		Objects.requireNonNull(p, String.format("'dgg.paas.redis' index %d not found", DggRedisConfiguration.defaultRedis));
+//		return p;
+//	}
+
+//	@Bean
+//	public <T> DggRedisTemplateContainer<T> dggRedisTemplateContainer() {
+//		return new DggRedisTemplateContainer<>(dggRedisProperties.getRedis());
+//	}
+
+//	@Bean("redisTemplate")
+//	public RedisTemplate configRedisTemplate() {
+//		return dggRedisTemplateContainer().get(DggRedisConfiguration.defaultRedis);
+//	}
+
+//	@Bean("reactiveRedisTemplate")
+//	public ReactiveRedisTemplate configReactiveRedisTemplate() {
+//		return dggRedisTemplateContainer().getReactive(DggRedisConfiguration.defaultRedis);
+//	}
+//
+//	@Bean("redissonClient")
+//	@Lazy
+//	public RedissonClient configRedissonClient() {
+//		return dggRedisTemplateContainer().getRedisson(DggRedisConfiguration.defaultRedis);
+//	}
+
+	@Bean
+	@Lazy
+	public DistributedLockTemplate distributedLockTemplate(RedissonClient redissonClient) {
+		return new SingleDistributedLockTemplate(redissonClient);
+	}
 }
+

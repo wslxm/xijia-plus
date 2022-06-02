@@ -1,6 +1,6 @@
-package io.github.wslxm.springbootplus2.starter.redis.util;
+package io.github.wslxm.springbootplus2.redis.util;
 
-import io.github.wslxm.springbootplus2.starter.redis.error.RedisErrorException;
+import io.github.wslxm.springbootplus2.redis.config.error.RedisErrorException;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
