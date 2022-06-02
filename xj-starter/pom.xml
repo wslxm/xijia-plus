@@ -14,16 +14,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>xj-api-aliyun-oss</module>
-        <module>xj-api-aliyun-sms</module>
-        <module>xj-api-wx-mp</module>
-        <module>xj-api-wx-app</module>
-        <module>xj-api-wx-pay</module>
-        <module>xj-api-baidu</module>
-        <module>xj-api-qq-open</module>
-        <module>xj-api-wx-open</module>
-        <module>xj-doc-swagger2</module>
-        <module>xj-fw-websocket</module>
-        <module>xj-fw-redis</module>
+        <module>xj-aliyun-oss</module>
+        <module>xj-swagger2</module>
+        <module>xj-websocket</module>
+        <module>xj-redis</module>
     </modules>
 </project>

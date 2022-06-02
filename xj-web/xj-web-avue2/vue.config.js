@@ -3,7 +3,7 @@
 
 
 // 请求地址
-let targetPath = "xijia.plus"
+let targetPath = "xijia.plus";
 
 // 配置编译环境和线上环境之间的切换
 const env = process.env;

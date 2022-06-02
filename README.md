@@ -16,8 +16,43 @@
 甚至前端的 vue 的表格展示，添加，编辑，删除等页面及页面功能操作也自动生成出来，并且根据代码生成的模板自动把接口对好, 是不是很强大呢，那就抓紧时间试一试吧
 
 #### 采用技术:
-- 后端：jdk1.8 + spring-boot2.2.2 + mybatis-plus3.3.1 + druid 1.1.22 + mysql5.7+ + swagger2.9.2 + aly-oss + redis 等
-- 前端：avue2.x (vue2 + element-ui)
+
+|  后端技术|  
+|:--|  
+| jdk1.8  |  
+| spring-boot2.2.2  |  
+| jjwt 0.9.1 |  
+| lombok  (实体生成基础方法) | 
+| log4j 2.15.0 |  
+| cglib 3.2.4 |  
+| mybatis  |  
+| mybatis-plus 3.3.1  |  
+| druid 1.1.22  |  
+| swagger 2.9.2  |  
+| knife4j 2.0.9  |  
+| hutool 5.4.7 |    
+| commons-lang3 3.9 |   
+| poi 3.17 |   
+| fastjson 1.2.61 |   
+
+| 使用服务 |
+|:--|
+| mysql 5.7+  (数据库) |  
+| aly-oss  (文件存储) |  
+| redis    (缓存) |  
+| websocket (及时通信) |  
+
+
+
+
+| 前端 |  
+|:--|  
+| vue2  (需安装 node.js 14 版本)  |  
+| element-ui  |  
+| avue2.x  (vue2 + ement-ui 二次封装框架) |  
+| vue-tinymce  (富文本)|  
+
+
 
 #### 项目宗旨：
    - 只为急速开发而生, 主要针对于中小型的项目快速开发

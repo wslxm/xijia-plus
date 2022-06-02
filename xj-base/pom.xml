@@ -16,6 +16,5 @@
     <modules>
         <module>xj-base-core</module>
         <module>xj-base-admin</module>
-        <module>xj-base-pay</module>
     </modules>
 </project>
