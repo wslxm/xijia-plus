@@ -2,15 +2,10 @@ server:
   port: 10003
 
 spring:
-  redis:
-    redisson:
-      file: classpath:redisson.yml
-#    host: 127.0.0.1
-#    port: 6379
-#    password:
-#    database: 0
-#    timeout: 1000s  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
-
+## redis 配置
+#  redis:
+#    redisson:
+#      file: classpath:redisson.yml
 
 # swagger配置
 swagger:

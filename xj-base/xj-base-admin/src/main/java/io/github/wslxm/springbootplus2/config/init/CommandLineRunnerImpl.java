@@ -3,7 +3,6 @@ package io.github.wslxm.springbootplus2.config.init;
 import io.github.wslxm.springbootplus2.manage.admin.service.AdminAuthorityService;
 import io.github.wslxm.springbootplus2.core.utils.PropUtil;
 import io.github.wslxm.springbootplus2.core.utils.bean.SpringContextUtil;
-import io.github.wslxm.springbootplus2.redis.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -34,8 +33,8 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         // 更新权限缓存数据
         adminAuthorityService.refreshAuthCache();
         // 当前是否启动redis
-        Boolean isRedis = RedisUtil.isRedis();
-        log.info("当前是否启用 redis: {} , {} ", isRedis, !isRedis ? "程序默认使用jvm缓存机制" : "缓存机制将采用redis机制, spring.redis.host = " + PropUtil.findByKey("spring.redis.host"));
+        //Boolean isRedis = RedisUtil.isRedis();
+        //log.info("当前是否启用 redis: {} , {} ", isRedis, !isRedis ? "程序默认使用jvm缓存机制" : "缓存机制将采用redis机制, spring.redis.host = " + PropUtil.findByKey("spring.redis.host"));
         // 当前启动环境
         //System.getProperty("spring.profiles.active")
         log.info("当前启动环境 spring.profiles.active = {}", SpringContextUtil.getActiveProfile());

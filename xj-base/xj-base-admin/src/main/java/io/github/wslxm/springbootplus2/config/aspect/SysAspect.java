@@ -51,11 +51,6 @@ public class SysAspect {
     @Autowired
     private SysAuth sysAuth;
 
-    /**
-     * 幂等验证
-     */
-    @Autowired
-    private SysIdempotent sysIdempotent;
 
     /**
      * 参数加密解密
@@ -202,13 +197,13 @@ public class SysAspect {
             return rateLimiter;
         }
 
-        // 4、幂等验证
-        R apiIdempotentR = sysIdempotent.run(proceed);
-        if (!apiIdempotentR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-            // 7、记录响应结果
-            sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, apiIdempotentR);
-            return apiIdempotentR;
-        }
+//        // 4、幂等验证
+//        R apiIdempotentR = sysIdempotent.run(proceed);
+//        if (!apiIdempotentR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+//            // 7、记录响应结果
+//            sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, apiIdempotentR);
+//            return apiIdempotentR;
+//        }
 
         // 5、黑/白名单认证
         R blacklistR = sysBlacklist.blacklistAuth();

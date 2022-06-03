@@ -81,13 +81,23 @@ export default {
      * 枚举转换工具类 --> 接口返回的状态值(数字)转换字典的Name值
      */
     convert: function (enumKay, code) {
-        //获取到指定key下的枚举对象
-        let dictMap = this.get(enumKay);
-        if (dictMap == null) {
-            return null;
-        } else {
-            return dictMap[code] == null ? "" : dictMap[code].label;
+
+        // 获取所有字典
+        let dictCache = localStorage.getItem('dictCache');
+        if (dictCache == null) {
+            return "";
         }
+        // 获取指定字典
+        let dict = JSON.parse(dictCache)[enumKay];
+        if (dict == null) {
+            return "";
+        }
+        // 获取指定字典下的选项
+        let dictMap = dict.dictMap;
+        if (dictMap == null || dictMap[code] == null) {
+            return "";
+        }
+        return dictMap[code].name;
     },
 }
 

@@ -16,7 +16,7 @@ import io.github.wslxm.springbootplus2.manage.xj.model.query.XjAdminMsgQuery;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminMsgFindAllNumVO;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminMsgVO;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminMsgService;
-import io.github.wslxm.springbootplus2.websocket.service.WebsocketService;
+import io.github.wslxm.springbootplus2.starter.websocket.service.WebsocketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

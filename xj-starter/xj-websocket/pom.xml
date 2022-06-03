@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>xj-fw-websocket</artifactId>
+    <artifactId>xj-websocket</artifactId>
     <version>${revision}</version>
 
     <dependencies>

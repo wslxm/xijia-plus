@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>xj-api-aliyun-oss</artifactId>
+    <artifactId>xj-aliyun-oss</artifactId>
     <version>${revision}</version>
 
     <properties>

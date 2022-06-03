@@ -33,16 +33,7 @@
             <groupId>io.github.wslxm</groupId>
             <artifactId>xj-base-core</artifactId>
         </dependency>
-        <!-- 第三方服务- 阿里云oss -->
-        <dependency>
-            <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-api-aliyun-oss</artifactId>
-        </dependency>
-        <!-- websocket  -->
-        <dependency>
-            <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-fw-websocket</artifactId>
-        </dependency>
+
     </dependencies>
 
 

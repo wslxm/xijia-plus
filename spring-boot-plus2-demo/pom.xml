@@ -21,18 +21,8 @@
         <!-- 第三方服务- 阿里云oss -->
         <dependency>
             <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-api-aliyun-oss</artifactId>
+            <artifactId>xj-aliyun-oss</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-api-qq-open</artifactId>
-        </dependency>
-        <!-- 百度api -->
-        <dependency>
-            <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-api-baidu</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

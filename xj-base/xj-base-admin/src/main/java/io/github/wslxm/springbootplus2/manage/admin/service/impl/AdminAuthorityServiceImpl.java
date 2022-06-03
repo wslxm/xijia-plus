@@ -170,7 +170,6 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean refreshAuthDb() {
-        log.info("  @.@...正在更新接口资源,所有被权限管理的接口将被打印出来…… ^.^ ");
 
         // 获取启动类注解上需要扫描的路径
         Map<String, Object> annotatedBeans = context.getBeansWithAnnotation(SpringBootApplication.class);
@@ -179,11 +178,14 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         String[] packages = annotation.scanBasePackages();
 
         // 获取所有需要被扫描的文件
+        log.info("  @.@...下方扫包错误信息正常现象，无需处理 ");
         List<Class<?>> classByPackageName = new ArrayList<>();
         for (String aPackage : packages) {
             List<Class<?>> classes = ClassUtil.getClasses(aPackage);
             classByPackageName.addAll(classes);
         }
+
+        log.info("  @.@...正在更新接口资源,所有被权限管理的接口将被打印出来…… ^.^ ");
         // 扫描包，获得包下的所有类
         // ClassUtil.getClasses(PACKAGE_NAME);
         // 当前当前数据库已经存在的所有url权限列表--> key=url，value=对象，获取后移除Map中已取出，最后剩下的全部删除

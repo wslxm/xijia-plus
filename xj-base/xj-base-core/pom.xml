@@ -20,12 +20,22 @@
          <!-- 接口文档- swagger2  -->
         <dependency>
             <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-doc-swagger2</artifactId>
+            <artifactId>xj-swagger2</artifactId>
         </dependency>
         <!-- redis 服务 -->
         <dependency>
             <groupId>io.github.wslxm</groupId>
             <artifactId>xj-redis</artifactId>
+        </dependency>
+        <!-- 第三方服务- 阿里云oss -->
+        <dependency>
+            <groupId>io.github.wslxm</groupId>
+            <artifactId>xj-aliyun-oss</artifactId>
+        </dependency>
+        <!-- websocket  -->
+        <dependency>
+            <groupId>io.github.wslxm</groupId>
+            <artifactId>xj-websocket</artifactId>
         </dependency>
         <!-- lombok  生成get/ser  了马达 -->
         <dependency>
