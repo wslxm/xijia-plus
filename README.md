@@ -28,20 +28,20 @@
 | mybatis  |  
 | mybatis-plus 3.3.1  |  
 | druid 1.1.22  |  
-| swagger 2.9.2  |  
-| knife4j 2.0.9  |  
-| hutool 5.4.7 |    
-| commons-lang3 3.9 |   
-| poi 3.17 |   
-| fastjson 1.2.61 |   
+| swagger 2.9.2  (api文档)|  
+| knife4j 2.0.9  (api文档) |  
+| hutool 5.4.7 (工具类)|    
+| commons-lang3 3.9  (工具类)|   
+| poi 3.17  (excel)|   
+| fastjson 1.2.61 |    
+| redisson- 3.13.6 (redis连接工具,)|   
 
 | 使用服务 |
 |:--|
 | mysql 5.7+  (数据库) |  
 | aly-oss  (文件存储) |  
-| redis    (缓存) |  
+| redis    (缓存，使用 redisson 3.13.6 连接，已集成支持分布式锁,缓存,分布式编号生成等) |  
 | websocket (及时通信) |  
-
 
 
 
