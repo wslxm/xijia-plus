@@ -147,7 +147,6 @@
                     // 实例化socket
                     let webSocketUrl = baseWebSocketUrl.replace("{userId}", this.userInfo.id)
                         .replace("{fullName}", this.userInfo.fullName)
-                        .replace("{head}", "untreated")
                     // console.log(webSocketUrl)
                     this.socket = new WebSocket(webSocketUrl);
                     // 监听socket连接

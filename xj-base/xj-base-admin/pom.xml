@@ -23,12 +23,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-        <!--
-             自定义模块 start
-             注释范围的依赖,在需要启动服务的项目按需加载
-             已加载的都是系统必须加载的
-        -->
-        <!-- 核心组件- 通用base层+字典枚举+ 统一返回+常用工具类    -->
+        <!-- 核心组件 -->
         <dependency>
             <groupId>io.github.wslxm</groupId>
             <artifactId>xj-base-core</artifactId>
