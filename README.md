@@ -34,7 +34,7 @@
 | commons-lang3 3.9  (工具类)|   
 | poi 3.17  (excel)|   
 | fastjson 1.2.61 |    
-| redisson- 3.13.6 (redis连接工具,)|   
+| redisson- 3.13.6 (redis连接工具)|   
 
 | 使用服务 |
 |:--|
@@ -169,16 +169,22 @@ v-0.0.9 后开始记录版本大调整, 当前最新为 2.x 模块
 - 1、拉取代码
 - 2、创建数据库[spring-boot-plus2] 编码：**utf8mb4**  排序规则：**utf8mb4_general_ci**
 - 3、导入跟目录下的 help/sql 目录下对应的最新版本 sql
-- 4、启动demo项目(spring-boot-plus2-demo/ --> SpringBootPlus2DemoServer 或  xj-base/xj-base-admin/ -->  XjBaseAdminServer)
+- 4.1、启动 demo 项目 spring-boot-plus2-demo/ --> SpringBootPlus2DemoServer (业务项目, admin项目已jar方式导入了改模块)
+- 4.2、启动 admin 项目 xj-base/xj-base-admin/ -->  XjBaseAdminServer  (架构中的核心业务代码实现)
 
-- 修改超管密码: 祥见 Md5Util 工具类的 main 参数方法
+修改超管密码: 祥见 Md5Util 工具类的 main 参数方法
 
-#### 启动前端
+程序找不到包处理方法：https://blog.csdn.net/weixin_43173021/article/details/108280524
+
+#### 启动前端(vue)
+
 - 1、在 xj-web/xj-web-avue2 目录下执行` npm install` 或` npm install --registry=https://registry.npm.taobao.org`
 - 2、使用 `npm run serve` 启动服务
 
+注意：vue2 需安装 node.js 14版本, 如果安装 > 14 版本的node, 项目将无法正常启动
 
-程序找不到包处理方法：https://blog.csdn.net/weixin_43173021/article/details/108280524
+
+
 
 #### 备注说明：
 - 最新分支的代码与当前项目测试库的是外网连接，拉取最新分支的最新代码在本地可直接使用当前项目的测试服数据库来启动
