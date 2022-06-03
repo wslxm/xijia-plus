@@ -11,19 +11,10 @@ spring:
     url: jdbc:mysql://rm-8vbkpoec225c821d8vo.mysql.zhangbei.rds.aliyuncs.com/spring-boot-plus2?useUnicode=true&characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
     username: wangsong
     password: XJspringbootplus@#
-  # redis 配置(本地, 如果不想使用redis，可以注释该配置，默认使用jvm缓存)
-#  redis:
-#    host: 39.103.135.29
-#    port: 6379
-#    password: 123456
-#    database: 1
-#    timeout: 1000s  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
-#    jedis:
-#      pool:
-#        max-idle: 500
-#        min-idle: 50
-#        max-wait: -1
-#        max-active: -1
+  ## 指定redis 配置文件
+  redis:
+    redisson:
+      file: classpath:redisson-dev.yml
 
 aliyun:
   ## 对象存储服务，个人账号,拉取此代码调试后请修改为自己的,如发现滥用,将关停
@@ -33,20 +24,6 @@ aliyun:
     accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8
     bucketName: xijia-sz
     bucket: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
-
-### QQ互联
-qq:
-  appId: 101954125
-  appSecret: ff6122d10fb0739fd1cf14c98c1f6830
-  redirectUrl: http://xijia.plus/page/client_user_login
-
-
-baidu:
-  # 百度文字识别
-  text:
-    appId: "23624003"
-    apiKey: "Y8yMV28vTw4FHuYGNbb4oyS9"
-    secretKey: "xTKv7EHNPrQ1LOnfOIGKjnXlOCIqIMoX"
 
 # 日志配置,日志存放地址(logback-spring.xml 读取), methods 记录那些请求持久化到数据到数据库
 logging:
@@ -60,13 +37,12 @@ swagger:
     - "架构--系统功能-管理端 | io.github.wslxm.springbootplus2.manage"
     - "架构--系统功能-用户端 | io.github.wslxm.springbootplus2.client"
     - "架构--通用服务-starter | io.github.wslxm.springbootplus2.starter"
-    - "业务--测试demo模块 | com.test.springbootplus2.manage.test.controller"
+    - "架构--redis | io.github.wslxm.springbootplus2.redis"
   author: wangsong                                 # 作者/负责人-姓名
   email: 1270696548@qq.com                         # 作者/负责人-邮箱
   url: https://gitee.com/wslxm/spring-boot-plus2   # 作者/负责人-个人社交地址
   termsOfServiceUrl:                               # 服务条款-访问地址
   version: 2.0.0                                   # 版本号
-  defaultKey: TOKEN                                # 默认请求头key
-  defaultValue: token                              # 默认请求头值-当为token时，可以访问任意接口, 但接口中存在获取token用户信息时,将返回jwt解析错误
+  defaultKey: TOKEN | userId | name                   # 默认请求头key
+  defaultValue: token |0 | 0                        # 默认请求头值-当为token时，可以访问任意接口, 但接口中存在获取token用户信息时,将返回jwt解析错误
   isShow: true                                     # 是否开启文档 true展示 false隐藏
-
