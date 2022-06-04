@@ -22,7 +22,7 @@ let baseProxyPathRewrite = '/api';
 // 文件上传地址统一配置
 let baseUploadUrl = baseProxyPathRewrite + '/api/open/aliOssFile/upload?resType=2&filePath=';
 // websocket 地址统一配置
-let baseWebSocketUrl = "ws://" + targetPath + "/websocket/{userId}/{fullName}/{head}";
+let baseWebSocketUrl = "ws://" + targetPath + "/websocket/{userId}/{fullName}";
 
 // 阿里图标地址配置
 let iconfontVersion = ['567566_82imxaft0by'];

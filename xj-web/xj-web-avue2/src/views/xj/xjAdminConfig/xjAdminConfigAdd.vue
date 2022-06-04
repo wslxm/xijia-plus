@@ -19,7 +19,7 @@
                                 list-type="picture-card"
                                 multiple
                                 drag
-                                limit="10"
+                                :limit="10"
                                 :on-exceed="handleExceed"
                                 :on-success="handleSuccess"
                                 :on-remove="handleRemove">
@@ -54,7 +54,7 @@
                 defaultData: {
                     code: null,
                     name: null,
-                    content: null,
+                    content: "-",
                     sort: null,
                     type: 0,
                 },

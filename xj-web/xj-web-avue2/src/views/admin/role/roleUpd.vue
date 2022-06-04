@@ -69,25 +69,38 @@
                         {
                             label: "角色名称",
                             prop: "name",
+                            // tip: '这是信息提示',
                             span: 20,
+                            maxlength: 32,
+                            showWordLimit: true,
                             rules: [{
                                 required: true,
+                                message: "请输入 角色名称",
+                                trigger: "blur"
                             }],
                         },
                         {
                             label: "code",
                             prop: "code",
                             span: 20,
+                            maxlength: 32,
+                            showWordLimit: true,
                             rules: [{
                                 required: true,
+                                message: "请输入 角色code",
+                                trigger: "blur"
                             }],
                         },
                         {
                             label: "描叙",
                             prop: "desc",
                             span: 20,
+                            maxlength: 256,
+                            showWordLimit: true,
                             rules: [{
                                 required: true,
+                                message: "请输入 角色code",
+                                trigger: "blur"
                             }],
                         },
                         // {

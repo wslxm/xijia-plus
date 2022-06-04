@@ -96,7 +96,7 @@
                             label: '内容',
                             prop: 'content',
                             type: 'textarea',
-                            maxlength: 512,
+                            maxlength: 256,
                             showWordLimit: true,
                             span: 20,
                             rules: [{

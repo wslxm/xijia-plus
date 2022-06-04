@@ -41,6 +41,11 @@
                             disabled: true,
                             type: "radio",
                             dicData: this.dict.get(this.website.Dict.Admin.Terminal),
+                            rules: [{
+                                required: true,
+                                message: "请选择 终端",
+                                trigger: "blur"
+                            }]
                         },
                         {
                             label: '菜单级别',
@@ -49,28 +54,62 @@
                             disabled: true,
                             type: "radio",
                             dicData: this.dict.get(this.website.Dict.Base.MenuRoot),
+                            rules: [{
+                                required: true,
+                                message: "请选择 菜单级别",
+                                trigger: "blur"
+                            }]
                         },
                         {
                             label: '菜单名称',
                             prop: 'name',
                             span: 20,
+                            maxlength: 32,
+                            showWordLimit: true,
+                            rules: [{
+                                required: true,
+                                message: "请输入 菜单名称",
+                                trigger: "blur"
+                            }]
                         },
                         {
                             label: '路由',
                             prop: 'url',
                             span: 20,
-                            display: this.obj.root === 3
+                            display: this.obj.root === 3,
+                            maxlength: 128,
+                            showWordLimit: true,
+                            rules: [{
+                                required: false,
+                                message: "请输入 菜单路由",
+                                trigger: "blur"
+                            }],
                         },
 
                         {
                             label: '图标',
                             prop: 'icon',
                             span: 20,
+                            rules: [{
+                                required: false,
+                                message: "请选择 图标",
+                                trigger: "blur"
+                            }],
                         },
                         {
                             label: '排序',
                             prop: 'sort',
                             span: 20,
+                            type: 'number',
+                            precision: 0, //保留小数位
+                            minRows: 0,
+                            maxRows: 99999999999,
+                            span: 20,
+                            rules: [{
+                                required: false,
+                                message: "请输入 排序",
+                                trigger: "blur"
+                            }]
                         },
 
                     ]

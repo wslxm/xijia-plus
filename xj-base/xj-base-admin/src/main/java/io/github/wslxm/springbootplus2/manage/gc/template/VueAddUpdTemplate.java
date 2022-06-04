@@ -47,6 +47,7 @@ public interface VueAddUpdTemplate {
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'number',\n" +
+            "                            precision: 2,  //保留小数位,\n" +
             "                            minRows: 0,\n" +
             "                            maxRows: 99999999,\n" +
             "                            row: true,\n" +

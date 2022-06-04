@@ -76,8 +76,10 @@
                         {
                             label: '排序',
                             prop: 'sort',
-                            maxlength: 99999999999,
-                            showWordLimit: true,
+                            type: 'number',
+                            precision: 0, //保留小数位
+                            minRows: 0,
+                            maxRows: 99999999999,
                             span: 20,
                             rules: [{
                                 required: true,

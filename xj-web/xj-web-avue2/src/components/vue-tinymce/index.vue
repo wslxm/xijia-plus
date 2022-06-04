@@ -17,7 +17,7 @@
         name: 'vueTinymceEditor',
         data() {
             return {
-                editorVlaue: this.content != null ? this.content : "",
+                editorVlaue: this.content != null ? this.content : "1",
                 setting: {
                     menubar: true,  // 菜单栏
                     //inline: true,   //开启内联模式

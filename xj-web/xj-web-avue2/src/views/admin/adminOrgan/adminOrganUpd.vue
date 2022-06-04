@@ -68,9 +68,12 @@
                         {
                             label: '排序',
                             prop: 'sort',
-                            maxlength: 99999999999,
-                            showWordLimit: true,
                             span: 20,
+                            type: 'number',
+                            precision: 0, //保留小数位
+                            minRows: 0,
+                            maxRows: 99999999999,
+                            row: true,
                             rules: [{
                                 required: true,
                                 message: "请输入 排序",
