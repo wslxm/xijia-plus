@@ -11,9 +11,8 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
-    "tinymce": "^5.6.0",
     "@packy-tang/vue-tinymce": "^1.0.0",
-    "@smallwei/avue": "^2.8.19",
+    "@smallwei/avue": "2.9.4",
     "avue-plugin-ueditor": "^0.0.9",
     "axios": "^0.21.1",
     "babel-polyfill": "^6.26.0",
@@ -23,10 +22,12 @@
     "element-ui": "^2.15.5",
     "js-base64": "^2.6.2",
     "js-cookie": "^2.2.0",
+    "js-pinyin": "^0.1.9",
     "mockjs": "^1.0.1-beta3",
     "nprogress": "^0.2.0",
     "script-loader": "^0.7.2",
     "sortablejs": "^1.10.0-rc2",
+    "tinymce": "^5.6.0",
     "vue": "^2.6.14",
     "vue-axios": "^2.1.2",
     "vue-i18n": "^8.7.0",

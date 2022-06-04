@@ -37,5 +37,17 @@ public class XjAdminConfigVO extends BaseVo {
     @ApiModelProperty(notes = "排序" ,position = 3)
     private Integer sort;
 
+    @ApiModelProperty(notes = "描述", position = 3)
+    private String desc;
+
+    @ApiModelProperty(value = "扩展字段 1", position = 4)
+    private String ext1;
+
+    @ApiModelProperty(value = "扩展字段 2", position = 5)
+    private String ext2;
+
+    @ApiModelProperty(value = "扩展字段 3", position = 6)
+    private String ext3;
+
 }
 

@@ -135,6 +135,52 @@
                                 trigger: "blur"
                             }]
                         },
+                        {
+                            label: '描述',
+                            prop: 'desc',
+                            maxlength: 128,
+                            showWordLimit: true,
+                            span: 20,
+                            rules: [{
+                                required: false,
+                                message: "请输入 描述",
+                                trigger: "blur"
+                            }]
+                        },
+                        {
+                            label: '扩展字段1',
+                            prop: 'ext1',
+                            maxlength: 128,
+                            showWordLimit: true,
+                            span: 20,
+                            rules: [{
+                                required: false,
+                                message: " 扩展字段1",
+                                trigger: "blur"
+                            }]
+                        }, {
+                            label: '扩展字段2',
+                            prop: 'ext2',
+                            maxlength: 128,
+                            showWordLimit: true,
+                            span: 20,
+                            rules: [{
+                                required: false,
+                                message: " 扩展字段2",
+                                trigger: "blur"
+                            }]
+                        }, {
+                            label: '扩展字段3',
+                            prop: 'ext3',
+                            maxlength: 128,
+                            showWordLimit: true,
+                            span: 20,
+                            rules: [{
+                                required: false,
+                                message: " 扩展字段3",
+                                trigger: "blur"
+                            }]
+                        },
 
 
                     ]

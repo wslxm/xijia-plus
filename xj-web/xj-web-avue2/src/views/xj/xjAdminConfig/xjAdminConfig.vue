@@ -94,6 +94,12 @@
                     dicData: this.dict.get(this.website.Dict.Base.ConfigType),
                 },
                 {
+                    label: '描述',
+                    prop: 'desc',
+                    search: false,
+                    overHidden: true,
+                },
+                {
                     label: '排序',
                     prop: 'sort',
                     search: false,

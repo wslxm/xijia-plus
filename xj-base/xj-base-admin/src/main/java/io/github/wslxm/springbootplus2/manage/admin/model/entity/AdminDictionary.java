@@ -51,7 +51,18 @@ public class AdminDictionary extends BaseEntity {
     @TableField(value = "`disable`")
     private Integer disable;
 
-
+    /**
+     * 扩展字段 1
+     */
+    private String ext1;
+    /**
+     * 扩展字段 2
+     */
+    private String ext2;
+    /**
+     * 扩展字段 3
+     */
+    private String ext3;
 
 }
 

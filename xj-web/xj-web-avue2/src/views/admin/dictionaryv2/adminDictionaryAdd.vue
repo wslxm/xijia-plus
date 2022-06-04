@@ -61,7 +61,6 @@
                                 trigger: "blur"
                             }]
                         },
-
                         {
                             label: '描叙',
                             prop: 'desc',
@@ -85,9 +84,55 @@
                                 message: "请输入 排序",
                                 trigger: "blur"
                             }]
+                        }, {
+                            label: '扩展字段1',
+                            prop: 'ext1',
+                            maxlength: 128,
+                            showWordLimit: true,
+                            span: 20,
+                            rules: [{
+                                required: false,
+                                message: " 扩展字段1",
+                                trigger: "blur"
+                            }]
+                        }, {
+                            label: '扩展字段2',
+                            prop: 'ext2',
+                            maxlength: 128,
+                            showWordLimit: true,
+                            span: 20,
+                            rules: [{
+                                required: false,
+                                message: " 扩展字段2",
+                                trigger: "blur"
+                            }]
+                        }, {
+                            label: '扩展字段3',
+                            prop: 'ext3',
+                            maxlength: 128,
+                            showWordLimit: true,
+                            span: 20,
+                            rules: [{
+                                required: false,
+                                message: " 扩展字段3",
+                                trigger: "blur"
+                            }]
                         },
                     ]
                 }
+            }
+        },
+        watch: {
+            //newNum = 新值，旧值
+            "obj.code": function (newNum, oldNum) {
+                console.log("=========" + this.newNum)
+                this.$nextTick(() => {
+                    if (this.checkNumber(this.obj.code)) {
+                        this.obj.sort = this.obj.code;
+                    }else{
+                        this.obj.sort = 0;
+                    }
+                })
             }
         },
         created() {
@@ -109,6 +154,14 @@
                     console.error(err);
                     done(form);
                 })
+            },
+            //验证字符串是否是数字
+            checkNumber(theObj) {
+                var reg = /^[0-9]+.?[0-9]*$/;
+                if (reg.test(theObj)) {
+                    return true;
+                }
+                return false;
             },
         }
     }

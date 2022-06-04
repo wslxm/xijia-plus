@@ -45,5 +45,20 @@ public class XjAdminConfig extends BaseEntity {
     @TableField(value = "`sort`")
     private Integer sort;
 
+    @ApiModelProperty(notes = "描述" ,position = 3)
+    @TableField(value = "`desc`")
+    private String desc;
+    /**
+     * 扩展字段 1
+     */
+    private String ext1;
+    /**
+     * 扩展字段 2
+     */
+    private String ext2;
+    /**
+     * 扩展字段 3
+     */
+    private String ext3;
 }
 

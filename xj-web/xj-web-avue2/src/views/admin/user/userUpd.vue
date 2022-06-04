@@ -11,12 +11,14 @@
 
 <script>
     import {baseUploadUrl} from "@/config/env";
-
+    import pinyin from 'js-pinyin'
     export default {
         // name: "RoleUpd",
         data() {
             return {
                 obj: {},              // 表单数据
+                organs: [],                // 部门数据
+                roles: [],                 // 角色数据
             }
         },
         // 接收值父组件传递值
@@ -24,8 +26,6 @@
             closeDialog: [],           // 关闭弹层方法
             uri: {},                   // 接口数据
             rowData: {},               // 当前行数据
-            organs: [],                // 部门数据
-            roles: [],                 // 角色数据
         },
         computed: {
             option() {
@@ -93,6 +93,8 @@
                             label: '姓名',
                             prop: 'fullName',
                             span: 20,
+                            maxlength: 16,
+                            showWordLimit: true,
                             rules: [{
                                 required: true,
                                 message: "请输入 姓名 ",
@@ -104,22 +106,43 @@
                             label: '账号',
                             prop: 'username',
                             span: 20,
+                            maxlength: 32,
+                            showWordLimit: true,
                             rules: [{
                                 required: true,
                                 message: "请输入 账号 ",
                                 trigger: "blur"
-                            }]
+                            }],
+                            labelTip: '可以使用 账号 登录系统',
                         },
                         {
                             label: '手机号',
                             prop: 'phone',
+                            //type: 'number',
+                            maxlength: 11,
+                            showWordLimit: true,
+                            row: false,
                             span: 20,
                             rules: [{
                                 required: true,
                                 message: "请输入 手机号 ",
                                 trigger: "blur"
-                            }]
+                            }],
+                            labelTip: '可以使用 手机号 登录系统',
                         },
+                        // {
+                        //     label: '密码',
+                        //     prop: 'password',
+                        //     maxlength: 16,
+                        //     showWordLimit: true,
+                        //     span: 20,
+                        //     rules: [{
+                        //         required: true,
+                        //         message: "请输入 密码 ",
+                        //         trigger: "blur"
+                        //     }],
+                        //     labelTip: '登录系统时的密码,密码默认生成规则:【姓名首字母大写+手机号后六位】',
+                        // },
                         {
                             label: '性别',
                             prop: 'gender',
@@ -135,9 +158,14 @@
                         {
                             label: '年龄',
                             prop: 'age',
+                            type: 'number',
                             span: 20,
+                            precision: 0, //保留小数位
+                            minRows: 0,
+                            maxRows: 999,
+                            row: true,
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: "请输入 年龄 ",
                                 trigger: "blur"
                             }]
@@ -146,8 +174,10 @@
                             label: '地址',
                             prop: 'address',
                             span: 20,
+                            maxlength: 64,
+                            showWordLimit: true,
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: "请输入 地址 ",
                                 trigger: "blur"
                             }]
@@ -164,10 +194,11 @@
                                 children: "organs"
                             },
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: "请选择 部门 ",
                                 trigger: "blur"
-                            }]
+                            }],
+                            labelTip: '用于控制业务走向,通过部门+职位组合可满足大多数场景下的业务控制, 如给指定部门的人推送消息',
                         },
                         {
                             label: '职位',
@@ -179,7 +210,8 @@
                                 required: true,
                                 message: "请选择 职位 ",
                                 trigger: "blur"
-                            }]
+                            }],
+                            labelTip: '用于控制业务走向,通过部门+职位组合可满足大多数场景下的业务控制, 如给指定职位的人推送消息',
                         },
                         {
                             label: '角色',
@@ -191,7 +223,8 @@
                                 required: true,
                                 message: "请选择 角色 ",
                                 trigger: "blur"
-                            }]
+                            }],
+                            labelTip: '用于控制菜单以及接口权限',
                         },
                         {
                             label: '启用/禁用',
@@ -209,6 +242,16 @@
                 }
             }
         },
+        // watch: {
+        //     //newNum = 新值，旧值
+        //     "obj.fullName": function (newNum, oldNum) {
+        //         this.$nextTick(() => {
+        //             // 账号等于姓名拼音
+        //             pinyin.setOptions({checkPolyphone: false, charCase: 0})
+        //             //this.obj.username = pinyin.getFullChars(this.obj.fullName).toLowerCase()
+        //         })
+        //     },
+        // },
         // 打开弹层立即执行
         created() {
             // 部门数据(弹层数据)

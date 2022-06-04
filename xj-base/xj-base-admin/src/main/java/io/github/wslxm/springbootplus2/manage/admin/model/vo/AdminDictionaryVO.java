@@ -45,15 +45,20 @@ public class AdminDictionaryVO extends BaseVo {
     @ApiModelProperty(value = "禁用（0-否，1-是）")
     private Integer disable;
 
+    @ApiModelProperty(value = "扩展字段 1")
+    private String ext1;
+
+    @ApiModelProperty(value = "扩展字段 2")
+    private String ext2;
+
+    @ApiModelProperty(value = "扩展字段 3")
+    private String ext3;
+
     @ApiModelProperty(value = "子级")
     List<AdminDictionaryVO> dictList;
 
     @ApiModelProperty(value = "子级,key=code")
     Map<String, AdminDictionaryVO> dictMap;
-
-//    @ApiModelProperty(value = "子级,key=code")
-//    List<LinkedHashMap> dictMap;
-
 
 }
 
