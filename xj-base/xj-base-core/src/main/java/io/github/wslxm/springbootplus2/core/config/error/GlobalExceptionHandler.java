@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
      * @date 2020/2/9 0009 10:06
      */
     @ExceptionHandler(Exception.class)
-    public R<String> exceptionHandler(Exception e) {
+    public R<Object> exceptionHandler(Exception e) {
         // 日志模板
         String logStr = "\n\r### [全局捕获异常] --> 请求URL: " + request.getRequestURL() + " --> 错误原因: ";
         // 错误类名

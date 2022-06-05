@@ -55,7 +55,7 @@ public class AliOssServiceImpl implements AliOssService {
 		String fileName = FileUploadUtil.getPath(filePath, file.getOriginalFilename());
 		try {
 			// 对上传的图片进行压缩
-			InputStream inputStream = FileUploadUtil.imgReduce(filePath, isReduce, file.getInputStream());
+			InputStream inputStream = FileUploadUtil.imgReduce(filePath,fileName, isReduce, file.getInputStream());
 			// 上传到OSS,返回访问地址
 			if (resType == null || resType == 1) {
 				return ossUtil.upload(filePath, fileName, inputStream);

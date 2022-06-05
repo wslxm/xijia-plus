@@ -34,9 +34,9 @@ public class FileUploadUtil {
     private final static String PATH_FILE = "file";    //  oss/file/file   任意文件
 
     /**
-     * 图片最小体积开始压缩 (图片大于该值进行压缩操作) 1M * 1.5 = 0.5M  -->  只对大于0.5M的图片进行压缩
+     * 图片最小体积开始压缩 (图片大于该值进行压缩操作) 1M * 1 = 1M  -->  只对大于1M的图片进行压缩
      */
-    private final static double imgMinReduce = (1024 * 1024) * 0.5;
+    private final static double imgMinReduce = (1024 * 1024) * 1;
 
 
     /**
@@ -159,13 +159,17 @@ public class FileUploadUtil {
      * @param inputStream
      * @return
      */
-    public static InputStream imgReduce(String filePath, Boolean isReduce, InputStream inputStream) {
+    public static InputStream imgReduce(String filePath, String fileName, Boolean isReduce, InputStream inputStream) {
         // 目录开头
         String path = filePath.split("/")[0];
         if (PATH_IMAGE.equals(path)) {
-            // 设置期望压缩后大小，默认500内, 如果期望大小小于500，则强制 50 内
+            // 获取后缀(小写)
+            String suffixName = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()).toLowerCase();
+            // gif 不能压缩
+            boolean isGif = "gif".equals(suffixName);
+            // 是否压缩
             isReduce = isReduce == null ? true : isReduce;
-            if (isReduce) {
+            if (isReduce && !isGif) {
                 // 获取文件大小(字节) 1024字节=1kb  1024000=1MB
                 Integer imgSize = getImgSize(inputStream);
                 // 上次压缩大小

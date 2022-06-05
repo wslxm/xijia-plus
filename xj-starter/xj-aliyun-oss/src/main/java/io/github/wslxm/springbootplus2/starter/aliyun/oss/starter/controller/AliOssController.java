@@ -55,7 +55,7 @@ public class AliOssController {
             @ApiImplicitParam(name = "isReduce", value = "是否压缩(默认 true, 压缩后图片MB大小直线下降, 放大后的清晰度将下降)", required = false),
             @ApiImplicitParam(name = "resType", value = "返回类型(1- data=url(默认)  2- data=[name:xxx ,url: xxx])", required = false)
     })
-    public AliYunOssR<Object> upload(@RequestParam(required = true) MultipartFile file,
+    public Object upload(@RequestParam(required = true) MultipartFile file,
                                      @RequestParam(required = true) String filePath,
                                      @RequestParam(required = false) Integer resType,
                                      @RequestParam(required = false) Boolean isReduce) {
@@ -68,7 +68,7 @@ public class AliOssController {
      */
     @ApiOperation("OSS-文件Object列表")
     @RequestMapping(value = "/fileList", method = RequestMethod.GET)
-    public AliYunOssR<List<OSSObjectSummary>> fileList() {
+    public Object fileList() {
         return AliYunOssR.success(aliOssService.fileList());
     }
 
@@ -79,7 +79,7 @@ public class AliOssController {
     @ApiOperation("OSS-文件删除")
     @ApiImplicitParam(name = "filePath", value = "文件保存的完整可访问URL,或OSS相对路径", required = true)
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    public AliYunOssR<Boolean> del(@RequestParam String filePath) {
+    public Object del(@RequestParam String filePath) {
         return AliYunOssR.success(aliOssService.del(filePath));
     }
 
