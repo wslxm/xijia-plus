@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.wslxm.springbootplus2.cache.CacheKey;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.enums.Base;
@@ -19,6 +20,7 @@ import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminRoleVO;
 import io.github.wslxm.springbootplus2.manage.admin.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -130,9 +132,13 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
         AdminRole role = dto.convert(AdminRole.class);
         role.setId(id);
         boolean b = this.updateById(role);
-        // 给角色分配菜单权限(先删除后添加)
-        adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, role.getId()));
-        adminRoleMenuService.insert(role.getId(), dto.getMenuIds());
+
+        // 编辑入口必传菜单，如果没传可能是在操作启用禁用等操作,不对菜单做处理
+        if (dto.getMenuIds() != null && dto.getMenuIds().size() > 0) {
+            // 给角色分配菜单权限(先删除后添加)
+            adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, role.getId()));
+            adminRoleMenuService.insert(role.getId(), dto.getMenuIds());
+        }
         return b;
     }
 
@@ -210,6 +216,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = CacheKey.LOGIN_AUTH_USER_ID, allEntries = true)
     public boolean roleAuthAll() {
         List<AdminRole> roleList = adminRoleService.list();
         List<AdminAuthority> authList = adminAuthorityService.list(new LambdaQueryWrapper<AdminAuthority>()
@@ -239,6 +246,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = CacheKey.LOGIN_AUTH_USER_ID, allEntries = true)
     public boolean roleUrlAuth(RoleAuthDTO dto) {
         //删除原数据
         boolean result = adminRoleAuthService.remove(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, dto.getRoleId()));
