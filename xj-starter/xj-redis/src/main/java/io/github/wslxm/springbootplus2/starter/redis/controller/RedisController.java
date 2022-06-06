@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * redis 测试类
  *
@@ -37,31 +39,56 @@ public class RedisController {
     static RLock lock = null;
 
 
-    @ApiOperation("redis 分布式锁加锁测试")
-    @GetMapping(value = "/redisson/{key}")
-    public String redissonTest(@PathVariable("key") String lockKey) {
+    @ApiOperation(value = "redis 分布式锁加锁测试", notes = "该锁会一直等待到获取到锁为止")
+    @GetMapping(value = "/redissonDistributedLockTest1/{key}")
+    public String redissonDistributedLockTest1(@PathVariable("key") String lockKey) {
         if (lock == null) {
-            lock = redissonClient.getLock("lockKey");
+            lock = redissonClient.getLock(lockKey);
         }
         System.out.println(lock);
         try {
             lock.lock();
+            log.info("成功获取锁");
             Thread.sleep(500);
-        } catch (Exception e) {
-            return "获取锁失败";
-        } finally {
             lock.unlock();
+            log.info("已释放锁");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return "已解锁";
+        return "执行完成";
+    }
+
+
+    @ApiOperation(value = "redis 分布式锁加锁测试2", notes = "该锁在一定时间内没获取到就自动释放")
+    @GetMapping(value = "/redissonDistributedLockTest2/{key}")
+    public String redissonDistributedLockTest2(@PathVariable("key") String lockKey) {
+        if (lock == null) {
+            lock = redissonClient.getLock(lockKey);
+        }
+        System.out.println(lock);
+        try {
+            boolean isLock = lock.tryLock(1000, 5000, TimeUnit.SECONDS);
+            if (isLock) {
+                log.info("成功获取锁");
+                Thread.sleep(500);
+                lock.unlock();
+                log.info("已释放锁");
+            } else {
+                log.info("获取锁超时");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "执行完成";
     }
 
 
     @ApiOperation(value = "redis 分布式注解锁测试", notes = "" +
             "建议使用工具 Jmeter 进行测试,swagger单线程模式 和 浏览器直接调用狠难模拟 " +
             "\n另外当前锁5秒自动过期, 使用可视化界面查看数据是注意")
-    @GetMapping(value = "/redissonTest2")
+    @GetMapping(value = "/redissonDistributedLockTest3")
     @XjDistributedLock(lockName = "#lockKey", tryLock = true, waitTime = 0L, leaseTime = 5L)
-    public String redissonTest2(String lockKey) {
+    public String redissonDistributedLockTest3(String lockKey) {
         log.info("成功访问到方法");
         try {
             Thread.sleep(500);

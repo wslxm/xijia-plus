@@ -26,6 +26,7 @@ public enum RType implements IEnum {
     SYS_ERROR_CODE_403(403, "403-无权限访问"),
     SYS_ERROR_CODE_404(404, "404-找不到请求地址"),
     SYS_ERROR_CODE_500(500, "服务器错误"),
+    SYR_ERROR(9990, "服务器统一错误"),
 
     // 参数错误 [9901-9999]
     PARAM_MISSING(9998, "缺少请求参数"),

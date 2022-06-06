@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.core.config.error;
 
 
+import com.baomidou.mybatisplus.core.enums.IEnum;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.EnumUtil;
 import lombok.Data;
@@ -32,7 +33,7 @@ public class ErrorException extends RuntimeException {
 
 
     /**
-     * 直接传递
+     * 直接传递错误码和错误信息
      *
      * @param code code
      * @param msg  msg
@@ -42,6 +43,18 @@ public class ErrorException extends RuntimeException {
     public ErrorException(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
+    }
+
+    /**
+     * 只传入错误内容
+     *
+     * @param errorMsg
+     * @return <E>
+     * @version 1.0.0
+     */
+    public <E> ErrorException(String errorMsg) {
+        this.code = RType.SYR_ERROR.getValue();
+        this.msg = errorMsg;
     }
 
 
@@ -57,13 +70,13 @@ public class ErrorException extends RuntimeException {
     }
 
     /**
-     * 任意枚举传递（建议先定义枚举-必须存在值 value, msg）
+     * 任意枚举传递（建议先定义枚举- 枚举必须存在值 value, msg）且继承 IEnum 内
      *
      * @param e e
      * @return <E>
      * @version 1.0.0
      */
-    public <E> ErrorException(E e) {
+    public <E extends IEnum> ErrorException(E e) {
         this.code = EnumUtil.getValue(e);
         this.msg = EnumUtil.getMsg(e);
     }
