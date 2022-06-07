@@ -35,8 +35,8 @@ public class ErrorException extends RuntimeException {
     /**
      * 直接传递错误码和错误信息
      *
-     * @param code code
-     * @param msg  msg
+     * @param code code 错误码
+     * @param msg  msg 错误内容
      * @return
      * @version 1.0.0
      */
@@ -48,13 +48,13 @@ public class ErrorException extends RuntimeException {
     /**
      * 只传入错误内容
      *
-     * @param errorMsg
+     * @param msg 错误内容
      * @return <E>
      * @version 1.0.0
      */
-    public <E> ErrorException(String errorMsg) {
+    public <E> ErrorException(String msg) {
         this.code = RType.SYR_ERROR.getValue();
-        this.msg = errorMsg;
+        this.msg = msg;
     }
 
 

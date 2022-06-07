@@ -16,7 +16,7 @@ public interface Base{
         V0(0, "文本"),    // -
         V1(1, "图片"),    // -
         V2(2, "开关"),    // -
-        V3(3, "富文本"),    // -
+        V3(3, "富文本"),  // -
         ;
         private Integer value;
         private String desc;

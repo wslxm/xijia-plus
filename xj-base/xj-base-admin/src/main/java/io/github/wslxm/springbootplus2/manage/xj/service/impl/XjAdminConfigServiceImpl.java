@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.github.wslxm.springbootplus2.cache.CacheKey;
+import io.github.wslxm.springbootplus2.common.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Base;

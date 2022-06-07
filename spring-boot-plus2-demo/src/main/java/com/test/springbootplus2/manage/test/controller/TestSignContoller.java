@@ -4,7 +4,7 @@ import com.test.springbootplus2.manage.test.model.dto.EncryptDTO;
 import com.test.springbootplus2.manage.test.model.dto.Page;
 import com.test.springbootplus2.manage.test.model.dto.SignDto;
 import com.test.springbootplus2.manage.test.model.vo.EncryptVO;
-import io.github.wslxm.springbootplus2.config.filter.sing.annotation.XjSecret;
+import io.github.wslxm.springbootplus2.common.annotation.XjSecret;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.swagger.annotations.Api;

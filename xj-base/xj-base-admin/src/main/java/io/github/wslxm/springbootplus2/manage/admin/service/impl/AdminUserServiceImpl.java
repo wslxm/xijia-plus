@@ -10,7 +10,7 @@ import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.common.auth.util.Md5Util;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
-import io.github.wslxm.springbootplus2.cache.ConfigCacheKey;
+import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Admin;
 import io.github.wslxm.springbootplus2.core.enums.Base;

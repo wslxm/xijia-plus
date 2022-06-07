@@ -1,6 +1,6 @@
 package com.test.springbootplus2.manage.test.model.dto;
 
-import io.github.wslxm.springbootplus2.config.filter.sing.annotation.XjSecret;
+import io.github.wslxm.springbootplus2.common.annotation.XjSecret;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.ToString;

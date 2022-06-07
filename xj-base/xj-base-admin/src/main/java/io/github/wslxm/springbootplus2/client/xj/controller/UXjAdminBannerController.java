@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.client.xj.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.github.wslxm.springbootplus2.config.aspect.annotation.XjCurrentLimit;
+import io.github.wslxm.springbootplus2.common.annotation.XjCurrentLimit;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;

@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.admin.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.github.wslxm.springbootplus2.config.filter.sing.annotation.XjSecret;
+import io.github.wslxm.springbootplus2.common.annotation.XjSecret;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
