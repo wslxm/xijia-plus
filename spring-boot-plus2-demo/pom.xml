@@ -18,11 +18,6 @@
             <groupId>io.github.wslxm</groupId>
             <artifactId>xj-base-admin</artifactId>
         </dependency>
-        <!-- 第三方服务- 阿里云oss -->
-        <dependency>
-            <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-aliyun-oss</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -39,23 +34,23 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <!--            &lt;!&ndash; maven 打包成 Docker 镜像   &ndash;&gt;-->
-            <!--            <plugin>-->
-            <!--                <groupId>com.spotify</groupId>-->
-            <!--                <artifactId>docker-maven-plugin</artifactId>-->
-            <!--                <version>1.0.0</version>-->
-            <!--                <configuration>-->
-            <!--                    <imageName>${docker.image.prefix}</imageName>-->
-            <!--                    <dockerDirectory>src/main/docker</dockerDirectory>-->
-            <!--                    <resources>-->
-            <!--                        <resource>-->
-            <!--                            <targetPath>/</targetPath>-->
-            <!--                            <directory>${project.build.directory}</directory>-->
-            <!--                            <include>${project.build.finalName}.jar</include>-->
-            <!--                        </resource>-->
-            <!--                    </resources>-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
+            <!--   &lt;!&ndash; maven 打包成 Docker 镜像   &ndash;&gt;-->
+            <!--   <plugin>-->
+            <!--       <groupId>com.spotify</groupId>-->
+            <!--       <artifactId>docker-maven-plugin</artifactId>-->
+            <!--       <version>1.0.0</version>-->
+            <!--       <configuration>-->
+            <!--           <imageName>${docker.image.prefix}</imageName>-->
+            <!--           <dockerDirectory>src/main/docker</dockerDirectory>-->
+            <!--           <resources>-->
+            <!--               <resource>-->
+            <!--                   <targetPath>/</targetPath>-->
+            <!--                   <directory>${project.build.directory}</directory>-->
+            <!--                   <include>${project.build.finalName}.jar</include>-->
+            <!--               </resource>-->
+            <!--           </resources>-->
+            <!--       </configuration>-->
+            <!--   </plugin>-->
         </plugins>
     </build>
 
