@@ -219,7 +219,7 @@ public class XjToolServerImpl implements XjToolServer {
         jvmInformationVO.setProjectPath(SystemUtil.getUserInfo().getCurrentDir());
         LocalDateTime startTime = LocalDateTimeUtil.parseTimestamp(SystemUtil.getRuntimeMXBean().getStartTime());
         jvmInformationVO.setStartTime(LocalDateTimeUtil.parse(startTime));
-        jvmInformationVO.setRunningTime(LocalDateTimeUtil.betweenTwoTime(startTime, LocalDateTimeUtil.now(), ChronoUnit.SECONDS));
+        jvmInformationVO.setRunningTime(LocalDateTimeUtil.betweenTwoTime(startTime, LocalDateTime.now(), ChronoUnit.SECONDS));
         return jvmInformationVO;
     }
 
