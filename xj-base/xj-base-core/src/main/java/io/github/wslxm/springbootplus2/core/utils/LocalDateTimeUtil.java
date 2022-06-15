@@ -124,7 +124,7 @@ public class LocalDateTimeUtil{
 
 
 	/**
-	 * 获取指定某一天的结束时间  23:59:59.999
+	 * 获取指定某一天的结束时间  23:59:59.999999
 	 *
 	 * @author wangsong
 	 */
@@ -167,7 +167,7 @@ public class LocalDateTimeUtil{
 
 
 	/**
-	 * 获取两个日期的差
+	 * 获取两个日期的时间差
 	 *
 	 * @param startTime 开始时间
 	 * @param endTime   计算时间
@@ -197,7 +197,7 @@ public class LocalDateTimeUtil{
 
 
 	/**
-	 * 获取 指定时间之前 或 之后的日期
+	 * 获取指定时间之前的日期
 	 *
 	 * @author wangsong
 	 * <P> 根据field不同减不同值, field 为 ChronoUnit.*
@@ -327,10 +327,10 @@ public class LocalDateTimeUtil{
 	/**
 	 * 获取整分--  把指定时间的 秒设置为0
 	 * <p>
-	 * 如：
-	 * 2020-01-01 12:10  ===>  等于 2020-01-01 12:20
-	 * 2020-01-01 12:11  ===>  等于 2020-01-01 12:20
-	 * 2020-01-01 12:19  ===>  等于 2020-01-01 12:20
+	 //	 * 如：
+	 //	 * 2020-01-01 12:10  ===>  等于 2020-01-01 12:20
+	 //	 * 2020-01-01 12:11  ===>  等于 2020-01-01 12:20
+	 //	 * 2020-01-01 12:19  ===>  等于 2020-01-01 12:20
 	 * </P>
 	 *
 	 * @param time
@@ -357,8 +357,8 @@ public class LocalDateTimeUtil{
 	 *
 	 * @author wangsong
 	 */
-	public static Integer parseDayInt() {
-		return Integer.parseInt(parse(LocalDateTime.now(), "dd"));
+	public static Integer parseDayInt(LocalDateTime time) {
+		return Integer.parseInt(parse(time, "dd"));
 	}
 
 
@@ -617,8 +617,8 @@ public class LocalDateTimeUtil{
 
 
 	/**
-	 * 获取月 (包含开始时间和结束时间的月,返回每一个月的字串， yyyy-MM 格式)
-	 * <p> 包含开始月，不包含结束月 </>
+	 * 获取月 (返回每一个月的字串， yyyy-MM 格式)
+	 * <p> 包含结束月，不包含开始月 </>
 	 *
 	 * @param startTime 开始月
 	 * @param endTime   结束月
@@ -629,14 +629,10 @@ public class LocalDateTimeUtil{
 		if (startTime != null && endTime != null) {
 			// 获取开始月的第一天
 			endTime = monthFirstDay(endTime, 0);
+			times.add(parse(startTime, YYYY_MM));
 			while (isBefore(startTime, endTime)) {
-				LocalDateTime time = plus(startTime, 1, ChronoUnit.MONTHS);
-				if (time != null) {
-					startTime = time;
-					times.add(parse(startTime, YYYY_MM));
-				} else {
-					break;
-				}
+				startTime = plus(startTime, 1, ChronoUnit.MONTHS);
+				times.add(parse(startTime, YYYY_MM));
 			}
 		}
 		return times;
@@ -688,17 +684,24 @@ public class LocalDateTimeUtil{
 	 * @date 2020/4/24 0024 15:54
 	 */
 	public static void main(String[] args) {
-		test();
-		test1();
-		test2();
-		test3();
+//		log.info(getTheHour(LocalDateTime.now()).toString());
+//		log.info(getTheMinute(LocalDateTime.now()).toString());
+
+
+		log.info(subtract(LocalDateTime.now(), 1, ChronoUnit.YEARS).toString());
+		log.info(getBetweenMonthsList(subtract(LocalDateTime.now(), 1, ChronoUnit.YEARS), LocalDateTime.now()).toString());
+
+//		test();
+//		test1();
+//		test2();
+//		test3();
 	}
 
 	private static void test() {
 		log.info("当前时间 ==> " + LocalDateTime.now());
 		log.info("当前时间秒数 ==> " + parseSecond(LocalDateTime.now()));
 		log.info("当前时间毫秒数 ==> " + parseMillisecond(LocalDateTime.now()));
-		log.info("今天是几号：" + parseDayInt());
+		log.info("今天是几号：" + parseDayInt(LocalDateTime.now()));
 		log.info("===========================================================");
 		log.info("今天开始时间 ==> " + getDayStart(LocalDateTime.now()));
 		log.info("今天结束时间 ==> " + getDayEnd(LocalDateTime.now()));
