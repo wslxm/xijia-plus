@@ -25,6 +25,37 @@ aliyun:
     bucketName: xijia-sz
     bucket: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
 
+### QQ互联
+qq:
+  appId: 101954125
+  appSecret: ff6122d10fb0739fd1cf14c98c1f6830
+  redirectUrl: http://xijia.plus/page/client_user_login
+
+
+wx:
+  # 公众号
+  mq:
+    appId: "wxf1a3ae8be54ce213"
+    secret: "aaaaa48196b92ec60d95fca4b904cab3"
+    token: ""   # 非必填
+    aesKey: ""  # 非必填
+
+wechat:
+  open:
+    ## 回调地址-页面
+    callbackUrl: https://portal.clzytech.com/portal/loginback?method=weichat
+    ## 自己的appID和appKey
+    appId: wxa6778e201b26f0c0
+    appSecret: 5624eae2bca46202493bfb1edd41d5b2
+
+
+baidu:
+  # 百度文字识别
+  text:
+    appId: "23624003"
+    apiKey: "Y8yMV28vTw4FHuYGNbb4oyS9"
+    secretKey: "xTKv7EHNPrQ1LOnfOIGKjnXlOCIqIMoX"
+
 # 日志配置,日志存放地址(logback-spring.xml 读取), methods 记录那些请求持久化到数据到数据库
 logging:
   filePath: logs
@@ -37,12 +68,13 @@ swagger:
     - "架构--系统功能-管理端 | io.github.wslxm.springbootplus2.manage"
     - "架构--系统功能-用户端 | io.github.wslxm.springbootplus2.client"
     - "架构--通用服务-starter | io.github.wslxm.springbootplus2.starter"
-    - "架构--redis | io.github.wslxm.springbootplus2.redis"
+    - "业务--测试demo模块 | com.test.springbootplus2.manage.test.controller"
   author: wangsong                                 # 作者/负责人-姓名
   email: 1270696548@qq.com                         # 作者/负责人-邮箱
   url: https://gitee.com/wslxm/spring-boot-plus2   # 作者/负责人-个人社交地址
   termsOfServiceUrl:                               # 服务条款-访问地址
   version: 2.0.0                                   # 版本号
-  defaultKey: TOKEN | userId | name                   # 默认请求头key
-  defaultValue: token |0 | 0                        # 默认请求头值-当为token时，可以访问任意接口, 但接口中存在获取token用户信息时,将返回jwt解析错误
+  defaultKey: TOKEN                                # 默认请求头key
+  defaultValue: token                              # 默认请求头值-当为token时，可以访问任意接口, 但接口中存在获取token用户信息时,将返回jwt解析错误
   isShow: true                                     # 是否开启文档 true展示 false隐藏
+
