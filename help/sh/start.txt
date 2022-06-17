@@ -1,5 +1,6 @@
 
 
+服务器直接部署, 需先安装 jdk 环境, 建议使用docker 部署
 
 ## 当前个人部署服务器路径的启动停止命令
 /usr/local/work/xijia2/start.sh stop     停止
