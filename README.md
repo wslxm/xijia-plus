@@ -166,26 +166,7 @@ v-0.0.9 后开始记录版本大调整, 当前最新为 2.x 模块
 
 ### 九、开始使用
 
-
-#### 前置准备(可跳过)
-- 1、数据库 mysql (当前开发版本为 5.7 )
-- 2、数据库 redis (当前开发版本为5)
-- 3、阿里云 oss 空间 (储存对象)
-- 4、node.js 14 (启动前端vue2 需要, 注意：如果安装 > 14 版本的node, vue项目将无法正常启动)
-
-备注： 拉取的代码中有开发中的配置，演示时可直接使用，开发时修改为自己的相关环境
-
-#### 启动服务端(springboot2.x)
-
-- 1、拉取代码
-- 2、创建数据库[spring-boot-plus2] 编码：**utf8mb4**  排序规则：**utf8mb4_general_ci**
-- 3、导入跟目录下的 help/sql 目录下对应的最新版本 sql
-- 4.1、启动 demo 项目 spring-boot-plus2-demo/ --> SpringBootPlus2DemoServer (业务项目, admin项目已jar方式导入了改模块)
-- 4.2、启动 admin 项目 xj-base/xj-base-admin/ -->  XjBaseAdminServer  (架构中的核心业务代码实现)
-- 5、修改超管密码: 祥见 Md5Util 工具类的 main 参数方法, 填入密码加盐id, 把生成的密码在数据库直接修改即可
-
-
-程序找不到包处理方法：https://blog.csdn.net/weixin_43173021/article/details/108280524
+![祥见启动项目文档](https://gitee.com/wslxm/spring-boot-plus2/wikis/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8/%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE)
 
 #### 启动前端(vue2.x)
 
