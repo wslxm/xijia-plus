@@ -57,11 +57,9 @@ export default {
     },
 
     /**
-     * 文件上传, 可提过 column 中的信息进行各种验证
+     * 文件上传
      * @param  file 文件
      * @param  path 上传文件存放二级地址
-     *     --  column.path 上传路径
-     *     --  column.prop 返回参数对象
      *
      * @author wangsong
      * @mail  1720696548@qq.com

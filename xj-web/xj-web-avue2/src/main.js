@@ -31,44 +31,6 @@ import dict from '@/util/dict'
 // base64 工具(其他地方可直接使用Base64方法)
 const Base64 = require('js-base64').Base64;
 
-/* 富文本*/
-import tinymce from 'tinymce'
-import VueTinymce from '@packy-tang/vue-tinymce'
-Vue.prototype.$tinymce = tinymce;
-Vue.use(VueTinymce);
-/* 富文本二次封装  */
-import vueTinymceEditor from '@/components/vue-tinymce/index';
-Vue.component('TinymceEditor', vueTinymceEditor);
-
-
-/*  =====================================*/
-/*  =====  v-md-editor 编辑器 start  ==== */
-/*  =====================================*/
-import VueMarkdownEditor from '@kangc/v-md-editor';
-import '@kangc/v-md-editor/lib/style/base-editor.css';
-import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
-import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
-import Prism from 'prismjs';
-VueMarkdownEditor.use(vuepressTheme, {
-  Prism,
-});
-
-// v-md-editor 编辑器 代码高亮
-import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
-import '@kangc/v-md-editor/lib/theme/style/github.css';
-// 引入所有语言包
-import hljs from 'highlight.js';
-
-VueMarkdownEditor.use(githubTheme, {
-  Hljs: hljs,
-});
-
-Vue.use(VueMarkdownEditor);
-/*  =====================================*/
-/*  =====  v-md-editor 编辑器 end  ====*/
-/*  =====================================*/
-
-
 window.$crudCommon = crudCommon;
 Vue.prototype.$dayjs = dayjs;
 Vue.prototype.website = website;
@@ -100,4 +62,46 @@ new Vue({
   store,
   i18n,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');
+
+
+
+/* =================  下方是插件配置 ==================== */
+
+/* tinymce 富文本插件 start  */
+/* 1、基础配置  */
+import tinymce from 'tinymce'
+import VueTinymce from '@packy-tang/vue-tinymce'
+Vue.prototype.$tinymce = tinymce;
+Vue.use(VueTinymce);
+/* 2、富文本二次封装  */
+import vueTinymceEditor from '@/components/vue-tinymce/index';
+Vue.component('TinymceEditor', vueTinymceEditor);
+/* tinymce 富文本插件 end  */
+
+
+/* v-md-editor 编辑器 start  */
+/* 1、v-md-editor 基础引用  */
+import VueMarkdownEditor from '@kangc/v-md-editor';
+import '@kangc/v-md-editor/lib/style/base-editor.css';
+import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
+import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+import Prism from 'prismjs';
+VueMarkdownEditor.use(vuepressTheme, {
+  Prism,
+});
+
+/* 2、v-md-editor 代码块关键字高亮  */
+import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
+import '@kangc/v-md-editor/lib/theme/style/github.css';
+// 引入所有语言包
+import hljs from 'highlight.js';
+VueMarkdownEditor.use(githubTheme, {
+  Hljs: hljs,
+});
+Vue.use(VueMarkdownEditor);
+
+/* 3、v-md-editor 二次封装  */
+import mdEditor from '@/components/v-md-editor/index';
+Vue.component('MdEditor', mdEditor);
+/* v-md-editor 编辑器 end  */

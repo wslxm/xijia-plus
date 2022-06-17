@@ -36,36 +36,36 @@
                     images_file_types: 'jpeg,jpg,png,gif,bmp,webp',
                     // 此处为图片上传处理函数 (手动上传)
                     images_upload_handler: (blobInfo, success, failure, progress) => {
-                        console.log('上传处理器：')
+                        console.log('上传处理器：');
                         // 方法1：用base64的图片形式上传图片
                         // const img = 'data:image/jpeg;base64,' + blobInfo.base64()
                         // success(img)
 
                         // 方法2：上传oos
-                        const xhr = new XMLHttpRequest()
-                        xhr.withCredentials = false
-                        xhr.open('POST', baseUploadUrl + 'image/vueTinymce/')
+                        const xhr = new XMLHttpRequest();
+                        xhr.withCredentials = false;
+                        xhr.open('POST', baseUploadUrl + 'image/vueTinymce/');
                         // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8')
                         // xhr.setRequestHeader('x-token', this.$store.getters.token)
                         xhr.upload.onprogress = function (e) {
                             progress(e.loaded / e.total * 100)
-                        }
+                        };
                         // 成功结果
                         xhr.onload = function () {
                             if (xhr.status != 200) {
-                                failure('HTTP Error: ' + xhr.status, {remove: true})
+                                failure('HTTP Error: ' + xhr.status, {remove: true});
                                 return
                             }
-                            const json = JSON.parse(xhr.responseText)
+                            const json = JSON.parse(xhr.responseText);
                             success(json.data.url);
-                        }
+                        };
                         // 失败结果
                         xhr.onerror = function () {
                             failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status)
-                        }
+                        };
                         // 请求数据
                         const formData = new FormData()
-                        formData.append('file', blobInfo.blob(), blobInfo.filename())
+                        formData.append('file', blobInfo.blob(), blobInfo.filename());
                         xhr.send(formData)
                     },
                 }
@@ -76,6 +76,9 @@
             content: String
         }
         ,
+        created() {
+            console.log("--------加载 vue-tinymce 富文本编辑器")
+        },
         watch: {
             editorValue: function (newNum, oldNum) {
                 // 修改调用者传入的值
