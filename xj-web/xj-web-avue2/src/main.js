@@ -36,9 +36,37 @@ import tinymce from 'tinymce'
 import VueTinymce from '@packy-tang/vue-tinymce'
 Vue.prototype.$tinymce = tinymce;
 Vue.use(VueTinymce);
-/* 二次封装  */
+/* 富文本二次封装  */
 import vueTinymceEditor from '@/components/vue-tinymce/index';
 Vue.component('TinymceEditor', vueTinymceEditor);
+
+
+/*  =====================================*/
+/*  =====  v-md-editor 编辑器 start  ==== */
+/*  =====================================*/
+import VueMarkdownEditor from '@kangc/v-md-editor';
+import '@kangc/v-md-editor/lib/style/base-editor.css';
+import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
+import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+import Prism from 'prismjs';
+VueMarkdownEditor.use(vuepressTheme, {
+  Prism,
+});
+
+// v-md-editor 编辑器 代码高亮
+import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
+import '@kangc/v-md-editor/lib/theme/style/github.css';
+// 引入所有语言包
+import hljs from 'highlight.js';
+
+VueMarkdownEditor.use(githubTheme, {
+  Hljs: hljs,
+});
+
+Vue.use(VueMarkdownEditor);
+/*  =====================================*/
+/*  =====  v-md-editor 编辑器 end  ====*/
+/*  =====================================*/
 
 
 window.$crudCommon = crudCommon;

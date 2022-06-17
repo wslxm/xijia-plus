@@ -38,8 +38,11 @@
                      </el-switch>
                 </span>
                 <span v-if="obj.type == 3">
-                      <TinymceEditor v-if="obj.content" :content.sync="obj.content"/>
+                      <TinymceEditor :content.sync="obj.content"/>
                 </span>
+                <span v-if="obj.type == 4">
+                    <v-md-editor v-model="obj.content" :disabled-menus="[]" @upload-image="handleUploadImage" height="400px"></v-md-editor>
+                 </span>
             </template>
         </avue-form>
     </div>
@@ -234,7 +237,7 @@
                     })
                 }
             },
-            // 文件删除时的回调
+            // el-upload 文件删除时的回调
             handleRemove(file, fileList) {
                 if (file.url.indexOf("blob") != -1) {
                     file.url = file.response.data.url;
@@ -243,7 +246,7 @@
                 this.obj.content = this.obj.content.replace(file.url + ",", "");
                 this.obj.content = this.obj.content.replace(file.url, "");
             },
-            // 文件上传完成后的回调
+            // el-upload 文件上传完成后的回调
             handleSuccess(res) {
                 if (!this.obj.content) {
                     this.obj.content = res.data.url;
@@ -253,6 +256,20 @@
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择 10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+
+            // v-md-editor 文件上传
+            handleUploadImage(event, insertImage, files) {
+                // console.log(files);
+                // 上传
+                this.crud.upload(files[0], "image/config/").then(res => {
+                    let data = res.data.data;
+                    // 添加图片到内容
+                    insertImage({
+                        url: data.url,
+                        desc: data.name
+                    });
+                });
             },
         }
     }

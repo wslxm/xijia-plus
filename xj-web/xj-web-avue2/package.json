@@ -11,6 +11,7 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
+    "@kangc/v-md-editor": "^1.7.11",
     "@packy-tang/vue-tinymce": "^1.0.0",
     "@smallwei/avue": "2.9.4",
     "avue-plugin-ueditor": "^0.0.9",

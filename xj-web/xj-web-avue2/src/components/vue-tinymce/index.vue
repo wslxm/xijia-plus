@@ -5,7 +5,7 @@
 <template>
     <div id="vue-tinymce">
         <vue-tinymce
-                v-model="editorVlaue"
+                v-model="editorValue"
                 :setting="setting"/>
     </div>
 </template>
@@ -17,7 +17,7 @@
         name: 'vueTinymceEditor',
         data() {
             return {
-                editorVlaue: this.content != null ? this.content : "1",
+                editorValue: this.content != null ? this.content : "1",
                 setting: {
                     menubar: true,  // 菜单栏
                     //inline: true,   //开启内联模式
@@ -77,7 +77,7 @@
         }
         ,
         watch: {
-            editorVlaue: function (newNum, oldNum) {
+            editorValue: function (newNum, oldNum) {
                 // 修改调用者传入的值
                 this.$emit('update:content', newNum)
             }
