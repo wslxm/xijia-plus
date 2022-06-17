@@ -1,12 +1,12 @@
 ## 停止容器
-docker stop xijia
+docker stop spring-boot-plus2
 ## 删除容器
-docker rm xijia
+docker rm spring-boot-plus2
 ## 删除镜像
-docker rmi xijia:v1
+docker rmi spring-boot-plus2:v2.x
 ## 创建镜像命令
-docker build -t xijia:v1 .
-## 启动命令
-docker run --name xijia -v /docker/xijia:/data -p 9049:9049 -d xijia:v1
+docker build -t spring-boot-plus2:v2.x .
+## 启动命令 (挂载时区 和 目录)
+docker run --name spring-boot-plus2 -v /etc/localtime:/etc/localtime -v /docker/spring-boot-plus2/server:/data -p 9049:9049 -d -it spring-boot-plus2:v2.x /bin/bash
 ## 查看启动状态,输出实时日志
-docker logs -f xijia
+docker logs -f spring-boot-plus2

@@ -38,8 +38,11 @@
                      </el-switch>
                 </span>
                 <span v-if="obj.type == 3">
-                      <TinymceEditor v-if="obj.content" :content.sync="obj.content"/>
+                      <TinymceEditor :content.sync="obj.content"/>
                 </span>
+                <span v-if="obj.type == 4">
+                     <MdEditor :content.sync="obj.content"></MdEditor>
+                 </span>
             </template>
         </avue-form>
     </div>
@@ -234,7 +237,7 @@
                     })
                 }
             },
-            // 文件删除时的回调
+            // el-upload 文件删除时的回调
             handleRemove(file, fileList) {
                 if (file.url.indexOf("blob") != -1) {
                     file.url = file.response.data.url;
@@ -243,7 +246,7 @@
                 this.obj.content = this.obj.content.replace(file.url + ",", "");
                 this.obj.content = this.obj.content.replace(file.url, "");
             },
-            // 文件上传完成后的回调
+            // el-upload 文件上传完成后的回调
             handleSuccess(res) {
                 if (!this.obj.content) {
                     this.obj.content = res.data.url;

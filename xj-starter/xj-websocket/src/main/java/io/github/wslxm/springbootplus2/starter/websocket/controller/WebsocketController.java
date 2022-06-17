@@ -2,7 +2,6 @@ package io.github.wslxm.springbootplus2.starter.websocket.controller;
 
 
 import io.github.wslxm.springbootplus2.starter.websocket.config.result.WebSocketR;
-import io.github.wslxm.springbootplus2.starter.websocket.model.vo.OnlineUserVO;
 import io.github.wslxm.springbootplus2.starter.websocket.service.WebsocketService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -65,7 +63,7 @@ public class WebsocketController {
      */
     @RequestMapping(value = "/getPath", method = RequestMethod.GET)
     @ApiOperation("获取模拟游客登录的 websocket 连接地址")
-    public WebSocketR<Map<String, String>> getPath() {
+    public Object getPath() {
         // 获取地址 127.0.0.1 | localhost | 线上域名
         String serverName = request.getServerName();
         // 随机用户id + 用户名
@@ -106,7 +104,7 @@ public class WebsocketController {
             @ApiImplicitParam(name = "content", value = "发送内容", required = true, example = "我是测试消息"),
             @ApiImplicitParam(name = "extras", value = "附加发送内容", required = true, example = "我是附加内容")
     })
-    public WebSocketR<Void> send(String form, String username, String to, String content, String extras) {
+    public Object send(String form, String username, String to, String content, String extras) {
         websocketService.send(form, username, to, content, extras);
         return WebSocketR.success();
     }
@@ -116,7 +114,7 @@ public class WebsocketController {
      */
     @RequestMapping(value = "/getOnlineCount", method = RequestMethod.GET)
     @ApiOperation("获取在线人数")
-    public WebSocketR<Integer> getOnlineCount() {
+    public Object getOnlineCount() {
         Integer onlineCount = websocketService.getOnlineCount();
         return WebSocketR.success(onlineCount);
     }
@@ -124,7 +122,7 @@ public class WebsocketController {
 
     @RequestMapping(value = "/getOnlineUsersList", method = RequestMethod.GET)
     @ApiOperation("获取当前在线用户列表")
-    public WebSocketR<List<OnlineUserVO>> getOnlineUsersList() {
+    public Object getOnlineUsersList() {
         return WebSocketR.success(websocketService.getOnlineUsersList());
     }
 }

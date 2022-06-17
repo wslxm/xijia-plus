@@ -1,5 +1,6 @@
 import request from '@/router/axios';
 import {baseProxyPathRewrite} from '@/config/env';
+import {baseUploadUrl} from '@/config/env';
 
 export default {
     // 查询
@@ -56,40 +57,31 @@ export default {
     },
 
     /**
-     * 文件上传, 可提过 column 中的信息进行各种验证
-     * @param  thih 当前页
+     * 文件上传
      * @param  file 文件
-     * @param  column 参数
-     *     --  column.path 上传路径
-     *     --  column.prop 返回参数对象
+     * @param  path 上传文件存放二级地址
      *
      * @author wangsong
      * @mail  1720696548@qq.com
      * @date  2021/10/16 0016 12:58
      * @version 1.0.0
      */
-    upload(thih, file, column) {
-        console.debug("upload")
+    upload(file, path) {
+        console.debug("upload");
         // var newFile = new File([file], file.name, {type: file.type});
         // 开始上传
         var formData = new FormData();
         formData.append("file", file);
         return request({
-            url: baseProxyPathRewrite + "/api/open/aliOssFile/upload?filePath=" + column.path,
+            url: baseUploadUrl + path,
             method: 'post',
             headers: {"Content-Type": "multipart/form-data;charset=UTF-8"},
             meta: {
                 isSerialize: false
             },
             data: formData
-        }).then(res => {
-            // 多图逗号分割追加
-            if (thih.obj[column.prop] == null || thih.obj[column.prop] == "") {
-                thih.obj[column.prop] = res.data.data;
-            } else {
-                thih.obj[column.prop] += "," + res.data.data;
-            }
         })
+        //.then(res => { })
     },
 
 

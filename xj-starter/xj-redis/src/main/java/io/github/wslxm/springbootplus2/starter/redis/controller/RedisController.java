@@ -41,7 +41,7 @@ public class RedisController {
 
     @ApiOperation(value = "redis 分布式锁加锁测试", notes = "该锁会一直等待到获取到锁为止")
     @GetMapping(value = "/redissonDistributedLockTest1/{key}")
-    public String redissonDistributedLockTest1(@PathVariable("key") String lockKey) {
+    public Object redissonDistributedLockTest1(@PathVariable("key") String lockKey) {
         if (lock == null) {
             lock = redissonClient.getLock(lockKey);
         }
@@ -55,13 +55,14 @@ public class RedisController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return "执行完成";
     }
 
 
     @ApiOperation(value = "redis 分布式锁加锁测试2", notes = "该锁在一定时间内没获取到就自动释放")
     @GetMapping(value = "/redissonDistributedLockTest2/{key}")
-    public String redissonDistributedLockTest2(@PathVariable("key") String lockKey) {
+    public Object redissonDistributedLockTest2(@PathVariable("key") String lockKey) {
         if (lock == null) {
             lock = redissonClient.getLock(lockKey);
         }
@@ -88,7 +89,7 @@ public class RedisController {
             "\n另外当前锁5秒自动过期, 使用可视化界面查看数据是注意")
     @GetMapping(value = "/redissonDistributedLockTest3")
     @XjDistributedLock(lockName = "#lockKey", tryLock = true, waitTime = 0L, leaseTime = 5L)
-    public String redissonDistributedLockTest3(String lockKey) {
+    public Object redissonDistributedLockTest3(String lockKey) {
         log.info("成功访问到方法");
         try {
             Thread.sleep(500);
@@ -105,7 +106,7 @@ public class RedisController {
             @ApiImplicitParam(name = "noKey", value = "编号(如订单：order)", required = true, example = "order"),
             @ApiImplicitParam(name = "delta", value = "自增开始值", required = true, example = "1"),
     })
-    public String getNo(String noKey, Long delta) {
+    public Object getNo(String noKey, Long delta) {
         System.out.println("请求");
         try {
             Thread.sleep(1000);

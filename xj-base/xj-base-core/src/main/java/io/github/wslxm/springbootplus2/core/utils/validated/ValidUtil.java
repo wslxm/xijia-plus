@@ -13,21 +13,34 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class ValidUtil {
 
+
+    /**
+     * 条件判断
+     * 当判断条件=true, 正常返回
+     * 当判断条件=false时, 抛出错误异常
+     */
+    public static void isTrue(boolean expression, String errorMsg) {
+        if (!expression) {
+            throw new ErrorException(RType.PARAM_ERROR.getValue(), errorMsg);
+        }
+    }
+
+
     /**
      * 判空(任意数据类型)
      */
-    public static void isNotNull(Object obj, String paramName) {
+    public static void isNotNull(Object obj, String errorMsg) {
         if (obj == null) {
-            throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + ":" + paramName);
+            throw new ErrorException(RType.PARAM_MISSING.getValue(), errorMsg);
         }
     }
 
     /**
      * 判空或空字符 (string))
      */
-    public static void isNotBlank(String str, String paramName) {
+    public static void isNotBlank(String str, String errorMsg) {
         if (StringUtils.isBlank(str)) {
-            throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + ":" + paramName);
+            throw new ErrorException(RType.PARAM_MISSING.getValue(), errorMsg);
         }
     }
 
@@ -39,11 +52,11 @@ public class ValidUtil {
      * @date 2021/9/30 0030 9:36
      * @version 1.0.1
      */
-    public static void isStrLen(String str, Integer min, Integer max, String paramName) {
-        isNotBlank(str, paramName);
+    public static void isStrLen(String str, Integer min, Integer max, String errorMsg) {
+        isNotBlank(str, errorMsg);
         boolean reg = (str.length() >= min && str.length() <= max);
         if (!reg) {
-            throw new ErrorException(RType.PARAM_ERROR.getValue(), paramName + "必须在" + min + "-" + max + "位之间");
+            throw new ErrorException(RType.PARAM_ERROR.getValue(), errorMsg);
         }
     }
 
@@ -54,20 +67,20 @@ public class ValidUtil {
     /**
      * 校验手机号
      */
-    public static void isPhone(String mobile, String paramName) {
-        isNotBlank(mobile, paramName);
+    public static void isPhone(String mobile, String errorMsg) {
+        isNotBlank(mobile, errorMsg);
         if (!RegUtil.isPhone(mobile)) {
-            throw new ErrorException(RType.PARAM_ERROR.getValue(), paramName + ":" + RegUtil.PHONE_MSG);
+            throw new ErrorException(RType.PARAM_ERROR.getValue(), errorMsg);
         }
     }
 
     /**
      * 校验邮箱
      */
-    public static void isEmail(String email, String paramName) {
-        isNotBlank(email, paramName);
+    public static void isEmail(String email, String errorMsg) {
+        isNotBlank(email, errorMsg);
         if (!RegUtil.isEmail(email)) {
-            throw new ErrorException(RType.PARAM_ERROR.getValue(), paramName + ":" + RegUtil.EMAIL_MSG);
+            throw new ErrorException(RType.PARAM_ERROR.getValue(), errorMsg);
         }
     }
 
@@ -75,10 +88,10 @@ public class ValidUtil {
     /**
      * 校验身份证
      */
-    public static void isIdCard(String idCard, String paramName) {
-        isNotBlank(idCard, paramName);
+    public static void isIdCard(String idCard, String errorMsg) {
+        isNotBlank(idCard, errorMsg);
         if (!RegUtil.isIDCard(idCard)) {
-            throw new ErrorException(RType.PARAM_ERROR.getValue(), paramName + ":" + RegUtil.ID_CARD_MSG);
+            throw new ErrorException(RType.PARAM_ERROR.getValue(), errorMsg + ":" + RegUtil.ID_CARD_MSG);
         }
     }
 

@@ -54,7 +54,7 @@
                     info: "/api/admin/xj/config",
                 },
                 loading: true,
-                dialogWidth: "60%",
+                dialogWidth: "80%",
                 addDialogVisible: false,
                 updDialogVisible: false,
                 page: this.website.pageParams,
