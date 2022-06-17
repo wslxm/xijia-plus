@@ -166,18 +166,8 @@ v-0.0.9 后开始记录版本大调整, 当前最新为 2.x 模块
 
 ### 九、开始使用
 
-![祥见启动项目文档](https://gitee.com/wslxm/spring-boot-plus2/wikis/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8/%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE)
+祥见启动文档: https://gitee.com/wslxm/spring-boot-plus2/wikis/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8/%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE
 
-#### 启动前端(vue2.x)
-
-- 1、在 xj-web/xj-web-avue2 目录下执行` npm install` 或` npm install --registry=https://registry.npm.taobao.org`
-- 2、使用 `npm run serve` 启动服务
-- 3、启动成功输出访问地址,直接进行访问即可
-
-
-#### 备注说明：
-- 最新分支的代码与当前项目测试库的是外网连接，拉取最新分支的最新代码在本地可直接使用当前项目的测试服数据库来启动
-- 切勿修改测试库数据，否则到时测试地址无法使用，谢谢
 
 ### 十、提交 lssues 
 
