@@ -1,5 +1,6 @@
 import request from '@/router/axios';
 import {baseProxyPathRewrite} from '@/config/env';
+import website from '@/config/website';
 
 export default {
     // 获取或更新字典数据到localStorage中
@@ -11,7 +12,7 @@ export default {
                 isSerialize: true
             },
         }).then(res => {
-            localStorage.setItem('dictCache', JSON.stringify(res.data.data));
+            localStorage.setItem(website.key + '-dictCache', JSON.stringify(res.data.data));
         })
     },
 
