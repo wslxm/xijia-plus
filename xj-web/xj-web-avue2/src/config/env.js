@@ -1,21 +1,9 @@
 
-
-// 请求地址
-let targetPath = ""
-
-// 配置编译环境和线上环境之间的切换
+// development | production | test
 const env = process.env;
-if (env.NODE_ENV == 'development') {
-    // 开发环境地址
-    targetPath = `127.0.0.1:9048`;
-} else if (env.NODE_ENV == 'production') {
-    // 生产环境地址
-    targetPath = `xijia.plus`;
-} else if (env.NODE_ENV == 'test') {
-    // 测试环境地址
-    // baseUrl = ``;
-}
-
+// 请求地址
+let targetPath = env.NODE_ENV === 'development' ? "127.0.0.1:9048" : "api.xijia.plus";
+console.log("当前请求服务器地址: " + targetPath);
 
 // 使用代理模式, 使用 /api 进行转发
 let baseProxyPathRewrite = '/api';
@@ -30,7 +18,7 @@ let iconfontUrl = `//at.alicdn.com/t/font_$key.css`;
 // 未知
 let codeUrl = `${baseProxyPathRewrite}/code`;
 
-export {
+module.exports = {
     targetPath,
     baseProxyPathRewrite,
     baseUploadUrl,
@@ -39,4 +27,4 @@ export {
     iconfontVersion,
     codeUrl,
     env,
-}
+};

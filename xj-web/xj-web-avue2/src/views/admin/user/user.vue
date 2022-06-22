@@ -167,7 +167,38 @@
                 }
             ]
         },
+        watch: {
+            // 监听路由参数变化, 让其支持消息点击跳转，并能携带动态参数进行查询
+            // 携带将与搜索框搜索参数同步
+            $route() {
+                // 设置url 参数到搜索条件中
+                this.setSearchByUrlParams();
+                // 调用查询
+                this.onLoad();
+            },
+        },
+        created() {
+            // 设置url 参数到搜索条件中
+            this.setSearchByUrlParams();
+        },
         methods: {
+
+            /**
+             * 设置url 参数到搜索条件中
+             */
+            setSearchByUrlParams() {
+                // 添加 url 中的参数为查询条件
+                let params = new URLSearchParams(window.location.href.split('?')[1]);
+                // 清除之前的搜索条件
+                for (let searchKey in this.search) {
+                    delete this.search[searchKey];
+                }
+                // 并同步搜索参数
+                params.forEach((value, key) => {
+                    this.search[key] = value;
+                });
+            },
+
             /**
              * 直接触发：  首次自动加载 / 点击分页 / 切换分页 / 跳转也 / 点击刷新
              * 被调用触发：搜索后 /  添加/编辑保存后 / 删除后

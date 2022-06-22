@@ -27,9 +27,9 @@
 
     <!-- 打jar包配置 -->
     <build>
-        <!-- <finalName>spring-boot-plus2-demo-${profiles.active}</finalName>-->
-        <!-- <finalName>xijia-server-${profiles.active}</finalName>-->
-        <finalName>spring-boot-plus2-demo</finalName>
+
+        <!--<finalName>xijia-server-${profiles.active}</finalName>-->
+       <finalName>spring-boot-plus2-demo</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
