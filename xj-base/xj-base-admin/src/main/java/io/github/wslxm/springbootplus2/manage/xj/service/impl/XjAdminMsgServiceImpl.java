@@ -8,6 +8,7 @@ import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
+import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminDictionaryVO;
 import io.github.wslxm.springbootplus2.manage.admin.service.AdminDictionaryService;
 import io.github.wslxm.springbootplus2.manage.xj.mapper.XjAdminMsgMapper;
@@ -68,6 +69,7 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
     public String insert(XjAdminMsgDTO dto) {
         // 根据业务类型获取配置
         AdminDictionaryVO msgTypeDict = adminDictionaryService.findDictCategoryNext("MSG_TYPE", dto.getMsgType() + "");
+        ValidUtil.isTrue(msgTypeDict == null, "没有找到对应的字典配置");
 
         // 获取动态参数
         String paramsStr = null;

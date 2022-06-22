@@ -186,13 +186,16 @@
             /**
              * 设置url 参数到搜索条件中
              */
-            setSearchByUrlParams(){
+            setSearchByUrlParams() {
                 // 添加 url 中的参数为查询条件
                 let params = new URLSearchParams(window.location.href.split('?')[1]);
-                // 同步搜索参数
+                // 清除之前的搜索条件
+                for (let searchKey in this.search) {
+                    delete this.search[searchKey];
+                }
+                // 并同步搜索参数
                 params.forEach((value, key) => {
                     this.search[key] = value;
-                    params.delete(key);
                 });
             },
 

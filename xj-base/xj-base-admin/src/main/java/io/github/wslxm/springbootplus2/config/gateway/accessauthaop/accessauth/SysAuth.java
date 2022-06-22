@@ -1,18 +1,18 @@
 package io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth;
 
 
-import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
-import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
-import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
-import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
-import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
-import io.github.wslxm.springbootplus2.common.cache.AuthCacheKeyUtil;
-import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
+import io.github.wslxm.springbootplus2.common.cache.AuthCacheKeyUtil;
+import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
+import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
+import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
+import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
+import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -93,7 +93,9 @@ public class SysAuth {
             return R.error(RType.AUTHORITY_DISABLE);
         }
         // 请求同TOKEN值当为token 时直接放行
-        if (tokenDefaultValue.equals(request.getHeader(JwtUtil.TOKEN))) {
+        String defaultValues = tokenDefaultValue.split("\\|")[0].trim();
+        String headerTokenDefault = request.getHeader(JwtUtil.TOKEN);
+        if (defaultValues.equals(headerTokenDefault)) {
             return R.success(null);
         }
 
