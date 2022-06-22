@@ -4,8 +4,8 @@ import VueAxios from 'vue-axios';
 import App from './App';
 import router from './router/router';
 import './permission'; // 权限
-import './error'; // 日志
-import './cache'; // 页面缓冲
+import './error';      // 日志
+import './cache';      // 页面缓冲
 import '@/util/dialogdrag'
 
 import store from './store';
@@ -68,7 +68,7 @@ new Vue({
 
 /* =================  下方是插件配置 ==================== */
 
-/* tinymce 富文本插件 start  */
+/* ==================== tinymce 富文本插件 start ================  */
 /* 1、基础配置  */
 import tinymce from 'tinymce'
 import VueTinymce from '@packy-tang/vue-tinymce'
@@ -77,10 +77,9 @@ Vue.use(VueTinymce);
 /* 2、富文本二次封装  */
 import vueTinymceEditor from '@/components/vue-tinymce/index';
 Vue.component('TinymceEditor', vueTinymceEditor);
-/* tinymce 富文本插件 end  */
+/* ==================== tinymce 富文本插件 end ================  */
 
-
-/* v-md-editor 编辑器 start  */
+/* ==================== v-md-editor 编辑器 start ================  */
 /* 1、v-md-editor 基础引用  */
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
@@ -104,4 +103,4 @@ Vue.use(VueMarkdownEditor);
 /* 3、v-md-editor 二次封装  */
 import mdEditor from '@/components/v-md-editor/index';
 Vue.component('MdEditor', mdEditor);
-/* v-md-editor 编辑器 end  */
+/* ==================== v-md-editor 编辑器 end ================  */

@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.Map;
+
 /**
  * 订单-->及时消息通知表
  * <p>
@@ -31,8 +33,14 @@ public class XjAdminMsgDTO extends Convert {
     @ApiModelProperty(notes = "通知终端: 1-用户端信息 2-管理端消息", position = 2)
     private Integer userType;
 
-    @ApiModelProperty(notes = "消息类型(自定义枚举业务类型)", position = 3)
+    @ApiModelProperty(notes = "消息类型 (自定义枚举业务类型)", position = 3)
     private Integer msgType;
+
+    @ApiModelProperty(notes = "路由参数,如该消息需要跳转,点击消息跳转附带的动态参数", position = 5)
+    private Map<String, String> routeParams;
+
+    @ApiModelProperty(notes = "是否同时发送websocket消息(默认不发送)", position = 4)
+    private Boolean isWebsocket;
 
 }
 

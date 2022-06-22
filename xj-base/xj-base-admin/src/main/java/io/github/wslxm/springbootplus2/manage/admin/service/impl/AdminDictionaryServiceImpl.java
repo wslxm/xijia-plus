@@ -214,6 +214,16 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
         return dictList.stream().filter(p -> p.getPid().equals(finalNewPid)).collect(Collectors.toList());
     }
 
+    @Override
+    public AdminDictionaryVO findDictCategoryNext(String code, String nextCode) {
+        List<AdminDictionaryVO> dictCategory = findDictCategory(code);
+        if (dictCategory == null || dictCategory.isEmpty()) {
+            return null;
+        }
+        Map<String, AdminDictionaryVO> dictMap = dictCategory.stream().collect(Collectors.toMap(AdminDictionaryVO::getCode, p -> p));
+        return dictMap.get(nextCode);
+
+    }
 
     @Override
     public Map<String, String> generateEnum(String enumName) {

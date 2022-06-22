@@ -77,7 +77,7 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
 
 
     /**
-     * 查询字典类别(级联数据) ----  缓存获取
+     * 通过字典类别 查询该类别下所有数据 (级联数据) ----  缓存获取
      *
      * @param code 父级code, 不传默认为顶层
      * @return java.util.List<io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminDictionaryVO>
@@ -86,6 +86,19 @@ public interface AdminDictionaryService extends IService<AdminDictionary> {
      * @version 1.0.0
      */
     List<AdminDictionaryVO> findDictCategory(String code);
+
+
+    /**
+     * 通过字典类别 + 值 获取具体的数据 ----  缓存获取
+     *
+     * @param code     父 code, 不传默认为顶层
+     * @param nextCode 子 code
+     * @return java.util.List<io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminDictionaryVO>
+     * @author wangsong
+     * @date 2021/12/27 16:45
+     * @version 1.0.0
+     */
+    AdminDictionaryVO findDictCategoryNext(String code, String nextCode);
 
 
     /**

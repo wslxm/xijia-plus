@@ -3,12 +3,13 @@ package io.github.wslxm.springbootplus2.manage.xj.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
+import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminDictionaryVO;
+import io.github.wslxm.springbootplus2.manage.admin.service.AdminDictionaryService;
 import io.github.wslxm.springbootplus2.manage.xj.mapper.XjAdminMsgMapper;
 import io.github.wslxm.springbootplus2.manage.xj.model.dto.XjAdminMsgDTO;
 import io.github.wslxm.springbootplus2.manage.xj.model.entity.XjAdminMsg;
@@ -17,10 +18,13 @@ import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminMsgFindAllNumVO
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminMsgVO;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminMsgService;
 import io.github.wslxm.springbootplus2.starter.websocket.service.WebsocketService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 订单-->及时消息通知表
@@ -37,6 +41,9 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
 
     @Autowired
     private WebsocketService webSocketService;
+
+    @Autowired
+    private AdminDictionaryService adminDictionaryService;
 
     @Override
     public IPage<XjAdminMsgVO> list(XjAdminMsgQuery query) {
@@ -59,15 +66,59 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
 
     @Override
     public String insert(XjAdminMsgDTO dto) {
+        // 根据业务类型获取配置
+        AdminDictionaryVO msgTypeDict = adminDictionaryService.findDictCategoryNext("MSG_TYPE", dto.getMsgType() + "");
+
+        // 获取动态参数
+        String paramsStr = null;
+        if (dto.getRouteParams() != null && dto.getRouteParams().size() > 0) {
+            StringBuilder params = new StringBuilder("");
+            Map<String, String> routeParams = dto.getRouteParams();
+            for (String key : routeParams.keySet()) {
+                params.append("&").append(key).append("=").append(routeParams.get(key));
+            }
+            paramsStr = params.toString().substring(1);
+        }
+
+        // 拼接路由一
+        StringBuilder routePath = new StringBuilder("");
+        if (StringUtils.isNotEmpty(msgTypeDict.getExt2())) {
+            routePath.append(msgTypeDict.getExt2());
+            routePath.append(routePath.toString().contains("?") ? "&" + paramsStr : "?" + paramsStr);
+        }
+        // 拼接路由二
+        StringBuilder routePathTwo = new StringBuilder("");
+        if (StringUtils.isNotEmpty(msgTypeDict.getExt3())) {
+            routePathTwo.append(msgTypeDict.getExt3());
+            routePathTwo.append(routePath.toString().contains("?") ? "&" + paramsStr : "?" + paramsStr);
+        }
+
+        // 拼接发送json内容
+        Map<String, String> contentMap = new HashMap<>();
+        // 标题
+        contentMap.put("title", msgTypeDict.getExt1());
+        // 消息
+        contentMap.put("message", dto.getContent());
+        // 跳转地址
+        contentMap.put("routePath", routePath.toString());
+        // 第二跳转地址(可让其 用户pc端使用第一路由 + 用户app端使用第二路由)
+        contentMap.put("routePathTwo", routePathTwo.toString());
+
+
+        // 保存消息
         XjAdminMsg entity = new XjAdminMsg();
         entity.setUserId(dto.getUserId());
-        entity.setContent(dto.getContent());
+        entity.setContent(JSON.toJSONString(contentMap));
         entity.setUserType(dto.getUserType());
         entity.setMsgType(dto.getMsgType());
         entity.setIsRead(Base.IsRead.V0.getValue());
         boolean b = this.save(entity);
+
         // 发送webSocket消息
-        webSocketService.send("sys-sms", "系统消息",  dto.getUserId(), JSON.toJSONString(entity),null);
+        boolean isWebsocket = dto.getIsWebsocket() == null ? false : dto.getIsWebsocket();
+        if (isWebsocket) {
+            webSocketService.send("sys-sms", "系统", dto.getUserId(), JSON.toJSONString(entity), null);
+        }
         return entity.getId();
     }
 

@@ -45,6 +45,15 @@ public class AdminDictionaryCodeGroup implements Serializable {
     @ApiModelProperty(value = "排序")
     private Integer sort;
 
+    @ApiModelProperty(value = "扩展字段1")
+    private String ext1;
+
+    @ApiModelProperty(value = "扩展字段2")
+    private String ext2;
+
+    @ApiModelProperty(value = "扩展字段3")
+    private String ext3;
+
     @ApiModelProperty(value = "子级,key=code")
     LinkedHashMap<String, AdminDictionaryCodeGroup> dictMap;
 }

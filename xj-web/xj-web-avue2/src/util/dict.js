@@ -1,5 +1,9 @@
 import request from '@/router/axios';
 import {baseProxyPathRewrite} from '@/config/env';
+import website from '@/config/website';
+
+// 字典缓存key
+const dictKey = website.key + '-dictCache';
 
 export default {
     // 获取或更新字典数据到localStorage中
@@ -11,7 +15,7 @@ export default {
                 isSerialize: true
             },
         }).then(res => {
-            localStorage.setItem('dictCache', JSON.stringify(res.data.data));
+            localStorage.setItem(dictKey, JSON.stringify(res.data.data));
         })
     },
 
@@ -31,14 +35,14 @@ export default {
      * @version 1.0.1
      */
     get(enumKay, sort, all, dataType) {
-        console.log("dictKey=", enumKay)
+        console.log("dictKey=", enumKay);
         // 没有值默认 true
         sort = sort == null ? sort = true : sort;
         all = all == null ? all = true : all;
         dataType = dataType == null ? dataType = true : dataType;
         const dictListVO = [];
         // 获取所有字典
-        let dictCache = localStorage.getItem('dictCache');
+        let dictCache = localStorage.getItem(dictKey);
         if (dictCache == null) {
             return dictListVO;
         }
@@ -78,12 +82,13 @@ export default {
 
 
     /**
+     * 获取指定字典 name 值
      * 枚举转换工具类 --> 接口返回的状态值(数字)转换字典的Name值
      */
     convert: function (enumKay, code) {
 
         // 获取所有字典
-        let dictCache = localStorage.getItem('dictCache');
+        let dictCache = localStorage.getItem(dictKey);
         if (dictCache == null) {
             return "";
         }
@@ -98,6 +103,29 @@ export default {
             return "";
         }
         return dictMap[code].name;
+    },
+
+    /**
+     * 获取指定字典 对象
+     */
+    convertDict: function (enumKay, code) {
+        console.log("=====")
+        // 获取所有字典
+        let dictCache = localStorage.getItem(dictKey);
+        if (dictCache == null) {
+            return "";
+        }
+        // 获取指定字典
+        let dict = JSON.parse(dictCache)[enumKay];
+        if (dict == null) {
+            return "";
+        }
+        // 获取指定字典下的选项
+        let dictMap = dict.dictMap;
+        if (dictMap == null || dictMap[code] == null) {
+            return "";
+        }
+        return dictMap[code];
     },
 }
 
