@@ -15,6 +15,7 @@
         data() {
             return {
                 obj: {},
+                initSuccess: false,
                 defaultData: {
 {vueAddColumnsDefault}
                 },
@@ -38,7 +39,8 @@
             }
         },
         created() {
-            this.obj = this.defaultData
+            this.obj = this.defaultData;
+            this.initSuccess = true;
         },
         methods: {
             emptytChange() {

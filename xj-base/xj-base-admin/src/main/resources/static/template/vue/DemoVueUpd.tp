@@ -16,6 +16,7 @@
             return {
                 obj: {},
                 isIdFind: true,
+                initSuccess: false,
             }
         },
         props: {
@@ -41,6 +42,7 @@
                 this.findId(this.rowData);
             } else {
                 this.obj = this.rowData;
+                this.initSuccess = true;
             }
         },
         methods: {
@@ -63,6 +65,7 @@
                 if (rowData != null && rowData.id != null) {
                     this.crud.get(this.uri.info + "/" + rowData.id).then((res) => {
                          this.obj = res.data.data;
+                         this.initSuccess = true;
                     })
                 }
              }

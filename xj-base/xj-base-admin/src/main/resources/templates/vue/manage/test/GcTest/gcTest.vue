@@ -86,7 +86,7 @@
                     search: false,
                     searchSpan: 5,
                     overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Base.Default),
+                    dicData: this.dict.get('SEX'),
                 },
                 {
                     label: '爱好 ',
@@ -114,7 +114,7 @@
                     search: false,
                     searchSpan: 5,
                     overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Base.Default),
+                    dicData: this.dict.get('DISABLE'),
                 },
                 {
                     label: '头像  ',
@@ -143,13 +143,6 @@
                 {
                     label: '更多信息',
                     prop: 'text',
-                    search: false,
-                    searchSpan: 5,
-                    overHidden: true,
-                },
-                {
-                    label: '更多信息',
-                    prop: 'textTwo',
                     search: false,
                     searchSpan: 5,
                     overHidden: true,

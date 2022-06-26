@@ -8,7 +8,6 @@ import lombok.Getter;
 @SuppressWarnings("all")
 public interface Base{
 
-
     // -
     @Getter
     @AllArgsConstructor
@@ -16,7 +15,8 @@ public interface Base{
         V0(0, "文本"),    // -
         V1(1, "图片"),    // -
         V2(2, "开关"),    // -
-        V3(3, "富文本"),  // -
+        V3(3, "富文本"),    // -
+        V4(4, "markdown 文本"),    // -
         ;
         private Integer value;
         private String desc;
@@ -55,7 +55,8 @@ public interface Base{
         V15(15, "文件上传（缩略图）"),    // -
         V16(16, "文件上传（附件）"),    // -
         V17(17, "大文本(textarea)"),    // -
-        V18(18, "富文本"),    // -
+        V18(18, "富文本(tinymce)"),    // vue-tinymce 富文本插件
+        V19(19, "md 编辑器"),    // -
         ;
         private Integer value;
         private String desc;

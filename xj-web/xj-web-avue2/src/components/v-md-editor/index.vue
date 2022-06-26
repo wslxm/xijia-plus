@@ -16,7 +16,7 @@
         name: 'mdEditor',
         data() {
             return {
-                editorValue: this.content,
+                editorValue: this.content != null ? this.content : "",
             }
         },
         props: {
