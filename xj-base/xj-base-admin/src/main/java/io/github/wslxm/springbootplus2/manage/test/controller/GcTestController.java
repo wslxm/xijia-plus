@@ -21,7 +21,7 @@ import io.github.wslxm.springbootplus2.core.result.R;
  *
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-05-14 23:53:03
+ * @date 2022-06-26 11:27:56
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN + "/test/gcTest")

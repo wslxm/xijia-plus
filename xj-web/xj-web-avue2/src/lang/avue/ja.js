@@ -64,5 +64,4 @@ export default {
     copyBtn: 'コピー',
     delBtn: '削除'
   }
-}
-  ;
+};

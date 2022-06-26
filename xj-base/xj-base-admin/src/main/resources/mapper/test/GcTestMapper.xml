@@ -22,6 +22,7 @@
         <result column="time" property="time"/>
         <result column="text" property="text"/>
         <result column="text_two" property="textTwo"/>
+        <result column="text_three" property="textThree"/>
     </resultMap>
 
     <!-- 通用查询结果列: <include refid="Base_Column_List"></include> -->
@@ -43,7 +44,8 @@
         head_url,
         time,
         text,
-        text_two
+        text_two,
+        text_three
     </sql>
 
 

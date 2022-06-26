@@ -19,14 +19,14 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseQuery;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-05-14 23:53:03
+ * @date 2022-06-26 11:27:56
  */
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "GcTestQuery 对象", description = "代码生成测试表")
 public class GcTestQuery extends BaseQuery {
 
-    private static final long serialVersionUID = -685483378434248704L;
+    private static final long serialVersionUID = -700878541750931456L;
     
     @ApiModelProperty(value = "名称 (文本)", position = 0)
     private String name;

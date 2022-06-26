@@ -83,7 +83,7 @@
                     label: '性别 ',
                     prop: 'sex',
                     type: 'select',
-                    search: true,
+                    search: false,
                     searchSpan: 5,
                     overHidden: true,
                     dicData: this.dict.get('SEX'),
@@ -91,9 +91,12 @@
                 {
                     label: '爱好 ',
                     prop: 'like',
+                    type: 'select',
                     search: false,
                     searchSpan: 5,
                     overHidden: true,
+                    dataType: 'string',
+                    dicData: this.dict.get(this.website.Dict.Base.Default),
                 },
                 {
                     label: '城市 ',

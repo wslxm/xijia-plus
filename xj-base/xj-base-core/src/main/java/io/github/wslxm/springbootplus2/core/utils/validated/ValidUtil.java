@@ -16,11 +16,11 @@ public class ValidUtil {
 
     /**
      * 条件判断
-     * 当判断条件=true, 正常返回
-     * 当判断条件=false时, 抛出错误异常
+     * 当判断条件 expression = true, 跳出程序，返回错误信息 errorMsg
+     * 当判断条件=false时，不处理
      */
     public static void isTrue(boolean expression, String errorMsg) {
-        if (!expression) {
+        if (expression) {
             throw new ErrorException(RType.PARAM_ERROR.getValue(), errorMsg);
         }
     }

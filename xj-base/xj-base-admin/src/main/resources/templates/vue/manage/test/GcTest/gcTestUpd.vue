@@ -4,10 +4,10 @@
                    @reset-change="emptytChange"
                    @submit="submit">
             <template slot-scope="{row}" slot="textTwo">
-                <TinymceEditor v-if="initSuccess" :content.sync="obj.textTwo"/>
+                <TinymceEditor :content.sync="obj.textTwo"/>
             </template>
             <template slot-scope="{row}" slot="textThree">
-                <MdEditor v-if="initSuccess" :content.sync="obj.textThree"/>
+                <MdEditor :content.sync="obj.textThree"/>
             </template>
 
         </avue-form>
@@ -21,26 +21,13 @@
         data() {
             return {
                 obj: {},
-                initSuccess: false,
-                defaultData: {
-                    name: null,
-                    age: null,
-                    sex: null,
-                    like: null,
-                    city: null,
-                    disable: null,
-                    headUrl: null,
-                    time: null,
-                    text: null,
-                    textTwo: null,
-                    textThree: null,
-
-                },
+                isIdFind: true,
             }
         },
         props: {
             closeDialog: [],
             uri: {},
+            rowData: {},
         },
         computed: {
             option() {
@@ -92,12 +79,13 @@
                         {
                             label: '爱好 ',
                             prop: 'like',
-                            maxlength: 64,
-                            showWordLimit: true,
+                            type: 'checkbox',
+                            dataType: 'string', // 字符串模式
+                            dicData: this.dict.get(this.website.Dict.Base.Default),
                             span: 20,
                             rules: [{
                                 required: true,
-                                message: "请输入 爱好 ",
+                                message: "请选择 爱好 ",
                                 trigger: "blur"
                             }]
                         },
@@ -220,25 +208,35 @@
             }
         },
         created() {
-            this.obj = this.defaultData;
-            this.initSuccess = true;
+            if (this.isIdFind) {
+                this.findId(this.rowData);
+            } else {
+                this.obj = this.rowData;
+            }
         },
         methods: {
             emptytChange() {
                 this.closeDialog(false);
             },
             submit(form, done) {
-                this.crud.post(this.uri.info, this.obj).then((res) => {
+                this.crud.put(this.uri.info + "/" + this.obj.id, this.obj).then((res) => {
                     console.debug(res);
                     if (res.data.code == 200) {
-                       this.closeDialog(true);
+                        this.closeDialog(true);
                     }
                     done(form);
-                }).catch((err) => {
+                }).catch(err => {
                     console.error(err);
                     done(form);
                 })
             },
+            findId(rowData) {
+                if (rowData != null && rowData.id != null) {
+                    this.crud.get(this.uri.info + "/" + rowData.id).then((res) => {
+                         this.obj = res.data.data;
+                    })
+                }
+             }
         }
     }
 </script>

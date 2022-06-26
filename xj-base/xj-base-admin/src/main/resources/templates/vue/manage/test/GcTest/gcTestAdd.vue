@@ -4,10 +4,10 @@
                    @reset-change="emptytChange"
                    @submit="submit">
             <template slot-scope="{row}" slot="textTwo">
-                <TinymceEditor v-if="initSuccess" :content.sync="obj.textTwo"/>
+                <TinymceEditor :content.sync="obj.textTwo"/>
             </template>
             <template slot-scope="{row}" slot="textThree">
-                <MdEditor v-if="initSuccess" :content.sync="obj.textThree"/>
+                <MdEditor :content.sync="obj.textThree"/>
             </template>
 
         </avue-form>
@@ -21,7 +21,6 @@
         data() {
             return {
                 obj: {},
-                initSuccess: false,
                 defaultData: {
                     name: null,
                     age: null,
@@ -92,12 +91,13 @@
                         {
                             label: '爱好 ',
                             prop: 'like',
-                            maxlength: 64,
-                            showWordLimit: true,
+                            type: 'checkbox',
+                            dataType: 'string', // 字符串模式
+                            dicData: this.dict.get(this.website.Dict.Base.Default),
                             span: 20,
                             rules: [{
                                 required: true,
-                                message: "请输入 爱好 ",
+                                message: "请选择 爱好 ",
                                 trigger: "blur"
                             }]
                         },
@@ -220,8 +220,7 @@
             }
         },
         created() {
-            this.obj = this.defaultData;
-            this.initSuccess = true;
+            this.obj = this.defaultData
         },
         methods: {
             emptytChange() {

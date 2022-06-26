@@ -314,6 +314,10 @@ public class BaseGcImpl extends BaseIServiceImpl {
             // 追加定义富文本插槽
             vueAddUpdSlot = VueAddUpdSlotTemplate.TINYMCE_EDITOR.replace("{field}", name);
         }
+        if (Base.VueFieldType.V19.getValue().equals(vueFieldType)) {
+            // 追加定义富文本插槽
+            vueAddUpdSlot = VueAddUpdSlotTemplate.MD_EDITOR.replace("{field}", name);
+        }
         return vueAddUpdSlot;
     }
 

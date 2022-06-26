@@ -1,5 +1,4 @@
 package io.github.wslxm.springbootplus2.manage.xj.controller;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;

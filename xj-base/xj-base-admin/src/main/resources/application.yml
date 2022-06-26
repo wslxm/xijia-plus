@@ -77,8 +77,8 @@ gc:
   entitySwagger: false                    # 实体类是否使用swagger注释 (false情况下使用doc注释)
   fatherPath:                             # 生成路径(不填默认当前项目跟目录,可指定绝对路径)
   # vue列表排除展示指定类型字段，同时list接口排除查询（详见字典- VueFieldType）
-  # 18=富文本
-  vueFieldTypes: 18
+  # 18=富文本 19=md编辑器
+  vueFieldTypes: 18,19
   # 数据库通用字段配置
   basefields: id,create_user,update_user,create_time,update_time,deleted,version
   # 数据库关键字,标注后会在实体类 @TableField 注解上自动加引号

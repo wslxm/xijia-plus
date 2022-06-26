@@ -54,6 +54,7 @@
     import {validatenull} from "@/util/validate";
     import index from '@/mixins/index'
     import {baseWebSocketUrl} from "@/config/env";
+    import router from '@/router/router';
 
 
     export default {
@@ -158,7 +159,8 @@
                 }
             },
             onmessage: function (evt) {
-                console.log(evt)
+                // websocket 封装的消息格式
+                console.log(evt);
                 let received_msg = evt.data;           // 接收到的数据(str)
                 let obj = JSON.parse(received_msg);    // 接收到的数据(json)
                 // 解析数据
@@ -171,15 +173,25 @@
                 let createTime = obj.createTime;       // 消息时间
                 // 信息接收通知
                 if (msgType === 4) {
-                    let msgData = JSON.parse(content);
+                    console.log("消息查看:" + content);
+                    // 此层数据同数据库消息表数据
+                    let adminMsgData = JSON.parse(content);
+                    // 具体消息内容
+                    let msgData = JSON.parse(adminMsgData.content);
                     const h = this.$createElement;
+
+                    // 弹出层展示消息内容
                     this.$notify({
-                        title: this.dict.convert(this.website.Dict.Admin.MsgType, msgData.msgType),
-                        message: h('i', {style: 'color: teal'}, msgData.content),
+                        title: msgData.title,
+                        message: h('i', {style: 'color: teal;cursor: pointer;'}, msgData.message),
                         duration: 1000 * 10,
                         onClick: function () {
-                            // 处理其他业务
-                            console.debug("点击了信息")
+                            // 点击弹出层消息, 判断是否需要跳转路由
+                            let routePath = msgData.routePath;
+                            console.log("跳转路由:" + routePath);
+                            if (routePath != null && routePath !== "") {
+                                router.push({path: routePath + "&time=" + new Date().getTime()});
+                            }
                         }
                     });
                     // 播放提示音
@@ -214,5 +226,10 @@
 <style>
     .avue-tags__menu {
         z-index: 1 !important;
+    }
+
+    /* 弹出消息,显示小手 */
+    .el-notification__title{
+        cursor: pointer;
     }
 </style>

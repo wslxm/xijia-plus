@@ -24,14 +24,14 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseDto;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-05-14 23:53:03
+ * @date 2022-06-26 11:27:56
  */
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "GcTestDTO 对象", description = "代码生成测试表")
 public class GcTestDTO extends BaseDto {
 
-    private static final long serialVersionUID = -685483378388111360L;
+    private static final long serialVersionUID = -700878541692211200L;
     
     @ApiModelProperty(value = "名称 (文本)", position = 0)
     private String name;
@@ -62,6 +62,9 @@ public class GcTestDTO extends BaseDto {
 
     @ApiModelProperty(value = "更多信息(富文本)", position = 9)
     private String textTwo;
+
+    @ApiModelProperty(value = "更多信息(md编辑器)", position = 10)
+    private String textThree;
 
 }
 
