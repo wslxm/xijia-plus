@@ -1,7 +1,9 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
+import com.alibaba.fastjson.JSON;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
+import io.github.wslxm.springbootplus2.manage.gc.constant.FieldTypeConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
@@ -9,7 +11,6 @@ import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * mapperXml 生成
@@ -37,6 +38,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         gcConfig.setTemplateParam("resultMap", resultXml(gcConfig, dbFields));
         gcConfig.setTemplateParam("columnList", columnXml(dbFields));
+        gcConfig.setTemplateParam("selectSearchList", selectSearchXml(gcConfig, dbFields));
         gcConfig.setTemplateParam("xmlInsert", insertXml(gcConfig, dbFields));
         gcConfig.setTemplateParam("xmlUpd", updateXml(gcConfig, dbFields));
         // 开始生成文件并进行数据替换
@@ -45,7 +47,63 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
 
 
     /**
-     * 生成添加sql
+     * 生成动态搜索条件的 sql
+     *
+     * @return java.lang.String
+     * @author wangsong
+     * @date 2021/7/13 0013 11:26
+     * @version 1.0.1
+     */
+    private String selectSearchXml(GcConfig gcConfig, List<DbFieldPO> dbFields) {
+        StringBuffer selectSearcListSb = new StringBuffer("");
+        // 拼接字段 key
+        for (int i = 0; i < dbFields.size(); i++) {
+            DbFieldPO fieldMap = dbFields.get(i);
+            String type = fieldMap.getType();
+            Boolean isSearch = fieldMap.getIsSearch() == null ? false : fieldMap.getIsSearch();
+            if (!isSearch) {
+                continue;
+            }
+
+
+            String fieldName = fieldMap.getName();
+            // 字段名驼峰
+            String fieldNameHump = GcDataUtil.getFieldName(gcConfig, fieldName);
+            List<String> keywordArray = JSON.parseObject(gcConfig.getDefaultTemplateParam("keywordArray"), List.class);
+            // mysql关键字处理
+            if (keywordArray.contains(fieldName)) {
+                fieldName = "`" + fieldName + "`";
+            }
+
+            // 拼接--动态添加sql
+            // 字段判空
+            if (type.equals(FieldTypeConstant.VARCHAR) || type.equals(FieldTypeConstant.TEXT)
+                    || type.equals(FieldTypeConstant.CHAR) || type.equals(FieldTypeConstant.LONG_TEXT
+            )) {
+                selectSearcListSb.append("\r\n        <if test=\"query." + fieldNameHump + " != null and query." + fieldNameHump + "  != ''\">");
+            } else {
+                selectSearcListSb.append("\r\n        <if test=\"query." + fieldNameHump + " != null\">");
+            }
+
+            // 搜索条件
+            if (type.equals(FieldTypeConstant.VARCHAR) || type.equals(FieldTypeConstant.TEXT)
+                    || type.equals(FieldTypeConstant.CHAR) || type.equals(FieldTypeConstant.LONG_TEXT
+            )) {
+                // 字符串默认右模糊
+                selectSearcListSb.append("\r\n            and t." + fieldName + " like concat(#{query."+fieldNameHump+"},'%')");
+            } else {
+                // 其他默认eq
+                selectSearcListSb.append("\r\n            and t." + fieldName + " = #{query." + fieldNameHump + "}");
+            }
+            // if 结尾符
+            selectSearcListSb.append("\r\n        </if>");
+        }
+        return selectSearcListSb.toString();
+    }
+
+
+    /**
+     * 生成动态添加sql
      * @author wangsong
      * @date 2021/7/13 0013 11:26
      * @return java.lang.String
@@ -137,7 +195,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
 
 
     /**
-     * 生成通用返回数据
+     * 生成 xml和实体类 映射关系数据
      * @author wangsong
      * @date 2021/7/13 0013 11:26
      * @return java.lang.String
@@ -163,7 +221,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
 
 
     /**
-     * 生成 xml和实体类 映射关系数据
+     * 生成通用返回数据
      * @author wangsong
      * @date 2021/7/13 0013 11:26
      * @return java.lang.String
@@ -172,9 +230,9 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
     private String columnXml(List<DbFieldPO> data) {
         StringBuffer columnList = new StringBuffer();
         for (DbFieldPO fieldMap : data) {
-            //字段名
+            // 字段名
             String fieldName = fieldMap.getName();
-            columnList.append("\r\n        " + fieldName + ",");
+            columnList.append("\r\n        t." + fieldName + ",");
         }
         return columnList.toString().substring(0, columnList.toString().length() - 1);
     }

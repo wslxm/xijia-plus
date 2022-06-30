@@ -13,5 +13,24 @@
     </sql>
 
 
+    <!-- id 查询 -->
+    <select id="findId" resultType="{packPath}.{rootModule}.{moduleName}.model.vo.{tableNameUp}VO">
+        select
+        <include refid="Base_Column_List"></include>
+        from {tableName} t
+        where t.deleted = 0
+        t.id = #{id}
+    </select>
+
+    <!-- 全部查询 -->
+    <select id="list" resultType="{packPath}.{rootModule}.{moduleName}.model.vo.{tableNameUp}VO">
+        select
+        <include refid="Base_Column_List"></include>
+        from {tableName} t
+        where t.deleted = 0
+{selectSearchList}
+        order by t.create_time desc
+    </select>
+
 </mapper>
 

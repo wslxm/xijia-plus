@@ -29,8 +29,8 @@ public class XjGenerationQuery extends BaseGcImpl implements XjGcSevice {
         int position = 0;
         for (DbFieldPO fieldMap : data) {
             // 判断是否需要生成查询
-            Object search = fieldMap.getIsSearch();
-            if (search == null || !Boolean.parseBoolean(search.toString())) {
+            Boolean isSearch = fieldMap.getIsSearch() == null ? false : fieldMap.getIsSearch();
+            if (!isSearch) {
                 continue;
             }
             String type = fieldMap.getType();

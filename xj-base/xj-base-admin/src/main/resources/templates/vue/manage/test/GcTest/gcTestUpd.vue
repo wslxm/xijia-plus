@@ -4,10 +4,10 @@
                    @reset-change="emptytChange"
                    @submit="submit">
             <template slot-scope="{row}" slot="textTwo">
-                <TinymceEditor :content.sync="obj.textTwo"/>
+                <TinymceEditor v-if="initSuccess" :content.sync="obj.textTwo"/>
             </template>
             <template slot-scope="{row}" slot="textThree">
-                <MdEditor :content.sync="obj.textThree"/>
+                <MdEditor v-if="initSuccess" :content.sync="obj.textThree"/>
             </template>
 
         </avue-form>
@@ -22,6 +22,7 @@
             return {
                 obj: {},
                 isIdFind: true,
+                initSuccess: false,
             }
         },
         props: {
@@ -52,11 +53,8 @@
                         {
                             label: '年龄 ',
                             prop: 'age',
-                            type: 'number',
-                            precision: 2,  //保留小数位,
-                            minRows: 0,
-                            maxRows: 99999999,
-                            row: true,
+                            maxlength: 9999999999,
+                            showWordLimit: true,
                             span: 20,
                             rules: [{
                                 required: true,
@@ -67,108 +65,78 @@
                         {
                             label: '性别 ',
                             prop: 'sex',
-                            type: 'radio',
-                            dicData: this.dict.get('SEX'),
+                            maxlength: 9,
+                            showWordLimit: true,
                             span: 20,
                             rules: [{
                                 required: true,
-                                message: "请选择 性别 ",
+                                message: "请输入 性别 ",
                                 trigger: "blur"
                             }]
                         },
                         {
                             label: '爱好 ',
                             prop: 'like',
-                            type: 'checkbox',
-                            dataType: 'string', // 字符串模式
-                            dicData: this.dict.get(this.website.Dict.Base.Default),
+                            maxlength: 64,
+                            showWordLimit: true,
                             span: 20,
                             rules: [{
                                 required: true,
-                                message: "请选择 爱好 ",
+                                message: "请输入 爱好 ",
                                 trigger: "blur"
                             }]
                         },
                         {
                             label: '城市 ',
                             prop: 'city',
-                            type: 'select',
-                            dicData: this.dict.get(this.website.Dict.Base.Default),
+                            maxlength: 9,
+                            showWordLimit: true,
                             span: 20,
                             rules: [{
                                 required: true,
-                                message: "请选择 城市 ",
+                                message: "请输入 城市 ",
                                 trigger: "blur"
                             }]
                         },
                         {
                             label: '禁用 ',
                             prop: 'disable',
-                            type: 'switch',
-                            dicData: this.dict.get('DISABLE'),
+                            maxlength: 9,
+                            showWordLimit: true,
                             span: 20,
                             rules: [{
                                 required: true,
-                                message: "请选择 禁用 ",
+                                message: "请输入 禁用 ",
                                 trigger: "blur"
                             }]
                         },
                         {
                             label: '头像 ',
                             prop: 'headUrl',
-                            span: 24,
+                            maxlength: 1024,
+                            showWordLimit: true,
+                            span: 20,
                             rules: [{
                                 required: true,
-                                message: "请上传 头像  ",
+                                message: "请输入 头像 ",
                                 trigger: "blur"
-                            }],
-                            dataType: 'string',  // 字符串模式
-                            type: 'upload',
-                            listType: 'picture-img',                // 图片格式, 单图-[picture-img]  多图-[picture-card]  缩略图-[picture] 普通文件空
-                            action: baseUploadUrl + 'image/gc/',    // 上传地址 + 文件保存上传地址(详见接口描叙)
-                            multiple: false,       // 文件多选
-                            drag: true,            // 拖拽排序
-                            limit: 1,              // 上传数量 1 个
-                            //fileSize: 500,         // 上传大小 500 kb内
-                            loadText: '上传中...',  // 上传中文字提示
-                            tip: '只能上传jpg/png/gif文件',
-                            propsHttp: {
-                                res: 'data'
-                            },
-                            uploadBefore: (file, done) => {
-                                // 文件上传前处理
-                                done(file)
-                            },
-                            uploadAfter: (res, done) => {
-                                this.$message.success('上传成功');
-                                done()
-                            },
-                            uploadError(error, column) {
-                                // 上传失败
-                                this.$message.error(error);
-                            },
-                            uploadExceed(limit, files, fileList, column){
-                                // 文件数量验证
-                                this.$message.warning(`当前限制文件数量为 ${limit}, 当前共 ${files.length + fileList.length} `);
-                            },
+                            }]
                         },
                         {
                             label: '时间',
                             prop: 'time',
-                            type: 'datetime',
-                            format: 'yyyy-MM-dd hh:mm:ss',
-                            valueFormat: 'yyyy-MM-dd hh:mm:ss',
+                            maxlength: 0,
+                            showWordLimit: true,
                             span: 20,
                             rules: [{
                                 required: true,
-                                message: "请选择 时间",
+                                message: "请输入 时间",
                                 trigger: "blur"
                             }]
                         },
                         {
                             label: '更多信息',
                             prop: 'text',
-                            type: 'textarea',
                             maxlength: 128,
                             showWordLimit: true,
                             span: 20,
@@ -212,6 +180,7 @@
                 this.findId(this.rowData);
             } else {
                 this.obj = this.rowData;
+                this.initSuccess = true;
             }
         },
         methods: {
@@ -234,6 +203,7 @@
                 if (rowData != null && rowData.id != null) {
                     this.crud.get(this.uri.info + "/" + rowData.id).then((res) => {
                          this.obj = res.data.data;
+                         this.initSuccess = true;
                     })
                 }
              }
