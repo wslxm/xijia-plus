@@ -46,7 +46,7 @@ public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
             String name = GcDataUtil.getFieldName(gcConfig, dbFieldPO.getName());
             String newDesc = getDesc(dbFieldPO.getDesc());
             // 判断是否需要生成查询
-            boolean searchBoolean = dbFieldPO.getIsSearch() != null ? dbFieldPO.getIsSearch() : false;
+            boolean isSearch = dbFieldPO.getIsSearch() == null ? false :  dbFieldPO.getIsSearch();
 
 
             Integer vueFieldTypeInt = (vueFieldType != null) ? Integer.parseInt(vueFieldType.toString()) : -1;
@@ -58,7 +58,7 @@ public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
                 vueInfoColumns.append(VueMainTemplate.TEXT_DICT
                         .replaceAll("\\{label}", newDesc)
                         .replace("{prop}", name)
-                        .replace("{search}", searchBoolean + "")
+                        .replace("{search}", isSearch + "")
                         .replace("{dictCode}", getDictCode(dbFieldPO.getDictCode()))
                 );
             } else if (vueFieldTypeInt.equals(Base.VueFieldType.V5.getValue())
@@ -67,7 +67,7 @@ public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
                 vueInfoColumns.append(VueMainTemplate.TEXT_DICT_CHECKBOX
                         .replaceAll("\\{label}", newDesc)
                         .replace("{prop}", name)
-                        .replace("{search}", searchBoolean + "")
+                        .replace("{search}", isSearch + "")
                         .replace("{dictCode}", getDictCode(dbFieldPO.getDictCode()))
                 );
             } else if (vueFieldTypeInt.equals(Base.VueFieldType.V13.getValue())
@@ -82,7 +82,7 @@ public class XjGenerationVueMain extends BaseGcImpl implements XjGcSevice {
                 vueInfoColumns.append(VueMainTemplate.TEXT
                         .replaceAll("\\{label}", newDesc)
                         .replace("{prop}", name)
-                        .replace("{search}", searchBoolean + "")
+                        .replace("{search}", isSearch + "")
                 );
             }
         }

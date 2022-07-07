@@ -75,63 +75,44 @@
                 {
                     label: '年龄 ',
                     prop: 'age',
-                    search: false,
+                    search: true,
                     searchSpan: 5,
                     overHidden: true,
                 },
                 {
                     label: '性别 ',
                     prop: 'sex',
-                    type: 'select',
-                    search: false,
+                    search: true,
                     searchSpan: 5,
                     overHidden: true,
-                    dicData: this.dict.get('SEX'),
                 },
                 {
                     label: '爱好 ',
                     prop: 'like',
-                    type: 'select',
-                    search: false,
+                    search: true,
                     searchSpan: 5,
                     overHidden: true,
-                    dataType: 'string',
-                    dicData: this.dict.get(this.website.Dict.Base.Default),
                 },
                 {
                     label: '城市 ',
                     prop: 'city',
-                    type: 'select',
                     search: false,
                     searchSpan: 5,
                     overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Base.Default),
                 },
                 {
                     label: '禁用 ',
                     prop: 'disable',
-                    type: 'select',
                     search: false,
                     searchSpan: 5,
                     overHidden: true,
-                    dicData: this.dict.get('DISABLE'),
                 },
                 {
-                    label: '头像  ',
+                    label: '头像 ',
                     prop: 'headUrl',
                     search: false,
+                    searchSpan: 5,
                     overHidden: true,
-                    html: true,
-                    formatter: (val) => {
-                        if(val.headUrl == null || val.headUrl == ''){
-                            return "";
-                        }else{
-                            let imgs = val.headUrl.split(",");
-                            let html = ""; 
-                            imgs.forEach(item => html += "<img src='" + item + "'  style='border-radius: 40px;height: 40px;width: 40px;margin-top: 10px'>")
-                            return html;
-                        }
-                    }
                 },
                 {
                     label: '时间',

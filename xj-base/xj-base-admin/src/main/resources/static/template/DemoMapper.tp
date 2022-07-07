@@ -1,7 +1,12 @@
 package {packPath}.{rootModule}.{moduleName}.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import {packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp};
+import {packPath}.{rootModule}.{moduleName}.model.vo.{tableNameUp}VO;
+import {packPath}.{rootModule}.{moduleName}.model.query.{tableNameUp}Query;
+
+import java.util.List;
 
 /**
  * {tableComment} Mapper
@@ -9,13 +14,16 @@ import {packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp};
  * <p>
  * {describe}
  * </p>
-
+ *
  * @author {author}
  * @email {email}
  * @date {date}
  */
 public interface {tableNameUp}Mapper extends BaseMapper<{tableNameUp}> {
 
+    List<{tableNameUp}VO> findId(String id);
+
+    List<{tableNameUp}VO> list(IPage<{tableNameUp}VO> page, {tableNameUp}Query query);
 
 }
 

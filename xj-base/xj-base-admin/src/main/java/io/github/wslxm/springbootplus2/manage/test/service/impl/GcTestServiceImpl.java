@@ -1,21 +1,18 @@
 package io.github.wslxm.springbootplus2.manage.test.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.springframework.stereotype.Service;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.test.mapper.GcTestMapper;
-import io.github.wslxm.springbootplus2.manage.test.service.GcTestService;
-import io.github.wslxm.springbootplus2.manage.test.model.entity.GcTest;
-import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
 import io.github.wslxm.springbootplus2.manage.test.model.dto.GcTestDTO;
+import io.github.wslxm.springbootplus2.manage.test.model.entity.GcTest;
 import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
-import org.apache.commons.lang3.StringUtils;
+import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
+import io.github.wslxm.springbootplus2.manage.test.service.GcTestService;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
-
-
 
 
 /**
@@ -27,28 +24,31 @@ import java.util.List;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-06-26 11:27:56
+ * @date 2022-06-30 11:07:08
  */
 @Service
 public class GcTestServiceImpl extends BaseIServiceImpl<GcTestMapper, GcTest> implements GcTestService {
 
     @Override
     public IPage<GcTestVO> list(GcTestQuery query) {
-        LambdaQueryWrapper<GcTest> queryWrapper = new LambdaQueryWrapper<GcTest>()
-                .select(GcTest.class, info -> !"text_two".equals(info.getColumn())
-                          && !"text_three".equals(info.getColumn()))
-                .eq(StringUtils.isNotBlank(query.getName()), GcTest::getName, query.getName())
+        // mybatis-plus 模式
+//        LambdaQueryWrapper<GcTest> queryWrapper = new LambdaQueryWrapper<GcTest>()
+//                .select(GcTest.class, info -> !"text_two".equals(info.getColumn())
+//                          && !"text_three".equals(info.getColumn()))
+//                .likeRight(StringUtils.isNotBlank(query.getName()), GcTest::getName, query.getName())
+//                .eq(query.getAge() != null, GcTest::getAge, query.getAge())
+//                .eq(query.getSex() != null, GcTest::getSex, query.getSex())
+//                .likeRight(StringUtils.isNotBlank(query.getLike()), GcTest::getLike, query.getLike())
+//
+//                .orderByDesc(GcTest::getCreateTime);
+//        Page<GcTest> page = new Page<>(query.getCurrent(), query.getSize());
+//        page = query.getCurrent() <= 0 ? page.setRecords(this.list(queryWrapper)) : this.page(page, queryWrapper);
+//        return BeanDtoVoUtil.pageVo(page, GcTestVO.class);
 
-                .orderByDesc(GcTest::getCreateTime);
-        if (query.getCurrent() <= 0) {
-            List<GcTest> list = this.list(queryWrapper);
-            IPage<GcTestVO> page = new Page<>();
-            return page.setRecords(BeanDtoVoUtil.listVo(list, GcTestVO.class));
-        } else {
-            Page<GcTest> page = new Page<>(query.getCurrent(), query.getSize());
-            Page<GcTest> resPage = this.page(page, queryWrapper);
-            return BeanDtoVoUtil.pageVo(resPage, GcTestVO.class);
-        }
+        // xml sql 模式
+         IPage<GcTestVO> page = new Page<>(query.getCurrent(), query.getSize());
+         List<GcTestVO> list = baseMapper.list(query.getCurrent() <= 0 ? null : page, query);
+         return page.setRecords(list);
     }
 
     @Override

@@ -28,26 +28,57 @@
     <!-- 通用查询结果列: <include refid="Base_Column_List"></include> -->
     <sql id="Base_Column_List">
 
-        id,
-        create_user,
-        update_user,
-        create_time,
-        update_time,
-        deleted,
-        version,
-        name,
-        age,
-        sex,
-        like,
-        city,
-        disable,
-        head_url,
-        time,
-        text,
-        text_two,
-        text_three
+        t.id,
+        t.create_user,
+        t.update_user,
+        t.create_time,
+        t.update_time,
+        t.deleted,
+        t.version,
+        t.name,
+        t.age,
+        t.sex,
+        t.like,
+        t.city,
+        t.disable,
+        t.head_url,
+        t.time,
+        t.text,
+        t.text_two,
+        t.text_three
     </sql>
 
+
+    <!-- id 查询 -->
+    <select id="findId" resultType="io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO">
+        select
+        <include refid="Base_Column_List"></include>
+        from t_gc_test t
+        where t.deleted = 0
+        t.id = #{id}
+    </select>
+
+    <!-- 全部查询 -->
+    <select id="list" resultType="io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO">
+        select
+        <include refid="Base_Column_List"></include>
+        from t_gc_test t
+        where t.deleted = 0
+
+        <if test="query.name != null and query.name  != ''">
+            and t.`name` like concat(#{query.name},'%')
+        </if>
+        <if test="query.age != null">
+            and t.age = #{query.age}
+        </if>
+        <if test="query.sex != null">
+            and t.sex = #{query.sex}
+        </if>
+        <if test="query.like != null and query.like  != ''">
+            and t.`like` like concat(#{query.like},'%')
+        </if>
+        order by t.create_time desc
+    </select>
 
 </mapper>
 

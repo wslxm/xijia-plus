@@ -2,8 +2,8 @@ package io.github.wslxm.springbootplus2.manage.gc.service.gcimpl;
 
 import com.alibaba.fastjson.JSON;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
-import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
+import io.github.wslxm.springbootplus2.manage.gc.constant.FieldTypeConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
@@ -35,6 +35,13 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
     }
 
 
+    /**
+     * mybatis-plus 搜索条件处理
+     *
+     * @author wangsong
+     * @email 1720696548@qq.com
+     * @date 2022/6/30 9:50
+     */
     private void generateParameters(GcConfig gcConfig, List<DbFieldPO> data) {
         // MybatisPlus搜索条件数据拼接
         StringBuffer findPageMybatisPlus = new StringBuffer("");
@@ -46,7 +53,7 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
             String fieldName = fieldMap.getName();
             String type = fieldMap.getType();
             String desc = fieldMap.getDesc();
-            Object search = fieldMap.getIsSearch();
+            Boolean isSearch = fieldMap.getIsSearch() == null ? false : fieldMap.getIsSearch();
             Integer vueFieldType = fieldMap.getVueFieldType();
             String tableNameUp = gcConfig.getDefaultTemplateParam("tableNameUp");
 
@@ -63,7 +70,7 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
                 }
             }
 
-            if (search == null || !Boolean.parseBoolean(search.toString())) {
+            if (!isSearch) {
                 continue;
             }
             // 字段映射成驼峰模式,在首字母大写
@@ -73,22 +80,37 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
 
             //字段  // !=null StringUtils.isNotBlank(account)
             findPageMybatisPlus.append("                ");
-            if (type.equals("int") || type.equals("bigint") || type.equals("tinyint")) {
-                // 整数 int/long/tinyint
+            if (type.equals(FieldTypeConstant.INT) || type.equals(FieldTypeConstant.BIGINT)
+                    || type.equals(FieldTypeConstant.TINYINT)) {
+                /**
+                 * 整数 int/long/tinyint
+                 */
                 findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "())");
-            } else if (type.equals("double") || type.equals("float") || type.equals("decimal")) {
-                // 单精度小数 Float / 双精度小数 Double / decimal等
+            } else if (type.equals(FieldTypeConstant.DOUBLE) || type.equals(FieldTypeConstant.FLOAT)
+                    || type.equals(FieldTypeConstant.DECIMAL)) {
+                /**
+                 * 单精度小数 Float / 双精度小数 Double / decimal等
+                 */
                 findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "())");
-            } else if (type.equals("varchar") || type.equals("char") || type.equals("text") || type.equals("longtext")) {
-                // 字符串 / 大文本、超大文本
-                findPageMybatisPlus.append(".eq(StringUtils.isNotBlank(query.get" + fieldName + "()), " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "())");
-            } else if (type.equals("datetime") || type.equals("time") || type.equals("timestamp")) {
-                // 时间
+            } else if (type.equals(FieldTypeConstant.VARCHAR) || type.equals(FieldTypeConstant.TEXT)
+                    || type.equals(FieldTypeConstant.CHAR) || type.equals(FieldTypeConstant.LONG_TEXT
+            )) {
+                /**
+                 * 字符串 / 大文本、超大文本
+                 */
+                findPageMybatisPlus.append(".likeRight(StringUtils.isNotBlank(query.get" + fieldName + "()), " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "())");
+            } else if (type.equals(FieldTypeConstant.DATETIME) || type.equals(FieldTypeConstant.TIME)
+                    || type.equals(FieldTypeConstant.TIMESTAMP)) {
+                /**
+                 * 时间
+                 */
                 findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "())");
             }
             findPageMybatisPlus.append("\r\n");
         }
-
-        gcConfig.setTemplateParam("findPageMybatisPlus", excludeReturn.toString() + ")\r\n" + findPageMybatisPlus.toString());
+        // 增加排除字段的最后一个括号
+        excludeReturn = excludeReturn.toString().equals("") ? excludeReturn : excludeReturn.append(")");
+        // 添加到填充内容中
+        gcConfig.setTemplateParam("findPageMybatisPlus", excludeReturn.toString() + "\r\n" + findPageMybatisPlus.toString());
     }
 }

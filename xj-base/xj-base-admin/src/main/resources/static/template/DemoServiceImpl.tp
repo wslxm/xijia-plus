@@ -34,18 +34,18 @@ public class {tableNameUp}ServiceImpl extends BaseIServiceImpl<{tableNameUp}Mapp
 
     @Override
     public IPage<{tableNameUp}VO> list({tableNameUp}Query query) {
+        // mybatis-plus 模式
         LambdaQueryWrapper<{tableNameUp}> queryWrapper = new LambdaQueryWrapper<{tableNameUp}>()
 {findPageMybatisPlus}
                 .orderByDesc({tableNameUp}::getCreateTime);
-        if (query.getCurrent() <= 0) {
-            List<{tableNameUp}> list = this.list(queryWrapper);
-            IPage<{tableNameUp}VO> page = new Page<>();
-            return page.setRecords(BeanDtoVoUtil.listVo(list, {tableNameUp}VO.class));
-        } else {
-            Page<{tableNameUp}> page = new Page<>(query.getCurrent(), query.getSize());
-            Page<{tableNameUp}> resPage = this.page(page, queryWrapper);
-            return BeanDtoVoUtil.pageVo(resPage, {tableNameUp}VO.class);
-        }
+        Page<{tableNameUp}> page = new Page<>(query.getCurrent(), query.getSize());
+        page = query.getCurrent() <= 0 ? page.setRecords(this.list(queryWrapper)) : this.page(page, queryWrapper);
+        return BeanDtoVoUtil.pageVo(page, {tableNameUp}VO.class);
+
+        // xml sql 模式
+        // IPage<{tableNameUp}VO> page = new Page<>(query.getCurrent(), query.getSize());
+        // List<{tableNameUp}VO> list = baseMapper.list(query.getCurrent() <= 0 ? null : page, query);
+        // return page.setRecords(list);
     }
 
     @Override
