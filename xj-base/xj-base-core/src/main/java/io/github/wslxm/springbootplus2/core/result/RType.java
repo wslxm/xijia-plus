@@ -38,7 +38,8 @@ public enum RType implements IEnum {
     // 权限认证,注意，前端需拦截所有为10000的返回重定向到登录页
     AUTHORITY_LOGIN_EXPIRED(10000, "登录过期"),
     AUTHORITY_NO_TOKEN(10001, "没有TOKEN"),
-    AUTHORITY_JWT_PARSING_ERROR(10002, "JWT解析失败,请求TOKEN错误"),
+    //AUTHORITY_JWT_PARSING_ERROR(10002, "JWT解析失败,请求TOKEN错误"),
+    AUTHORITY_JWT_PARSING_ERROR(10002, "没有登录 或 登录信息错误"),
     AUTHORITY_JWT_SIGN_ERROR(10003, "JWT签名与本地计算签名不匹配"),
     AUTHORITY_DISABLE(10004, "账号已被禁用,禁止访问"),
     AUTHORITY_NO_PERMISSION(10005, "该账号没有当前操作权限"),
