@@ -23,6 +23,28 @@
             <template slot-scope="{row,index,type,size}" slot="head">
                 <el-avatar :src="row.head"></el-avatar>
             </template>
+
+
+            <!--            <template slot-scope="{disabled,size}" slot="ageSearch">-->
+            <!--                <el-slider :disabled="disabled" :size="size" v-model="search.age"></el-slider>-->
+            <!--            </template>-->
+            <template slot-scope="{row,index,type,size}" slot="regTimeSearch">
+                <div class="block">
+                    <el-date-picker
+                            v-model="newRegTime"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            type="daterange"
+                            align="right"
+                            unlink-panels
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            :picker-options="pickerOptions">
+                    </el-date-picker>
+                </div>
+            </template>
+
+
             <template slot-scope="{row,index,type,size}" slot="menu">
                 <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
                 <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,2)">重置密码</el-button>
@@ -100,6 +122,35 @@
                     info: "123456",
                     default: "123456",
                 },
+                // 时间搜索
+                pickerOptions: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                newRegTime: '',
             }
         },
         activated: function () {
@@ -123,6 +174,8 @@
                 {
                     label: '手机号',
                     prop: 'phone',
+                    search: true,
+                    searchSpan: 5,
                 },
                 {
                     label: '姓名',
@@ -140,10 +193,6 @@
                 //     dicData: this.dict.get(this.website.Dict.Base.Gender),
                 // },
                 {
-                    label: '注册时间',
-                    prop: 'regTime',
-                },
-                {
                     label: '终端',
                     prop: 'terminal',
                     type: "select",
@@ -154,15 +203,26 @@
                     searchOrder: 1,
                     dicData: this.dict.get(this.website.Dict.Admin.Terminal),
                 },
+
                 {
                     label: '职位',
                     prop: 'position',
+                    type: "switch",
+                    search: true,
+                    searchSpan: 5,
                     dicData: this.dict.get(this.website.Dict.Admin.Position),
+                },
+                {
+                    label: '注册时间',
+                    prop: 'regTime',
+                    search: true,
                 },
                 {
                     label: '禁用/启用',
                     prop: 'disable',
                     type: "switch",
+                    search: true,
+                    searchSpan: 5,
                     dicData: this.dict.get(this.website.Dict.Base.Disable),
                 }
             ]
@@ -205,6 +265,13 @@
              * @author wangsong
              */
             onLoad() {
+                if (this.newRegTime != null && this.newRegTime !== "") {
+                    this.search.regTimeStart = this.newRegTime[0];
+                    this.search.regTimeEnd = this.newRegTime[1];
+                }else{
+                    this.search.regTimeStart = null;
+                    this.search.regTimeEnd = null;
+                }
                 // 是否只查询自己权限及以下的数据
                 this.search.isOwnData = true;
                 // 查询

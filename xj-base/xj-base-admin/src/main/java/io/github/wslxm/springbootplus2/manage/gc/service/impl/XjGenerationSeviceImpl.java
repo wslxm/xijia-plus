@@ -118,6 +118,31 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
 
 
     @Override
+    public void generateCodeJavaAndVue(XjGenerateDto generateDto) {
+        GcConfig gcConfig = getGcConfig(generateDto, true, false);
+
+        xjGenerationEntity.run(gcConfig, "X-Entity");
+        xjGenerationVO.run(gcConfig, "X-VO");
+        xjGenerationDTO.run(gcConfig, "X-DTO");
+        xjGenerationQuery.run(gcConfig, "X-Query");
+        xjGenerationController.run(gcConfig, "X-Controller");
+        xjGenerationService.run(gcConfig, "X-Service");
+        xjGenerationServiceImpl.run(gcConfig, "X-ServiceImpl");
+        xjGenerationMapper.run(gcConfig, "X-Mapper");
+        xjGenerationMapperXml.run(gcConfig, "X-MapperXml");
+        // vue 生成的预览
+        xjGenerationVueMain.run(gcConfig, "X-Vue");
+        xjGenerationVueAdd.run(gcConfig, "X-VueAdd");
+        xjGenerationVueUpd.run(gcConfig, "X-VueUpd");
+        // 开始下载
+        List<String> paths = new ArrayList<>();
+        gcConfig.getVisitPathMap().forEach((k, v) -> paths.add("http://127.0.0.1:" + PropUtil.findByKey("server.port") + "/" + v));
+        String zipName = GcReplacUtil.replaceParams(gcConfig.getDefaultTemplateParam(), gcConfig.getTemplateParam(), GcTPConfig.P_VUE_MEUN);
+        zipName = zipName.replaceAll("/", ".");
+        FileDownloadUtil.downloadZip(paths, zipName, response);
+    }
+
+    @Override
     public Map<String, String> getPath(String tableName) {
         // 获取配置参数
         XjGenerateDto generateDto = new XjGenerateDto();

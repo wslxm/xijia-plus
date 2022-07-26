@@ -90,17 +90,31 @@
                 allNum: {},
             }
         },
-        beforeUpload : function () {
-            this.handleClick();
-        },
+        // beforeUpload : function () {
+        //     this.handleClick();
+        // },
         created() {
             // 首次进入加载数据
-            this.handleClick();
+            // this.handleClick();
+            // 数量查询
             this.crud.get(this.uri.findAllNum).then((res) => {
                 this.allNum = res.data.data;
             })
         },
+        watch: {
+            //newNum = 新值，旧值
+            drawer: function (newDrawer, oldDrawer) {
+                // console.log(newDrawer,oldDrawer);
+                if (newDrawer) {
+                    this.handleClick();
+                }
+            }
+        },
+
         methods: {
+            /**
+             * 查询
+             */
             handleClick() {
                 let isRead = "";
                 if (this.activeName !== "all") {
@@ -112,7 +126,7 @@
                     this.page.size = res.data.data.size;
                     this.page.total = res.data.data.total;
                     this.page.pages = res.data.data.pages;
-                })
+                });
             },
             // 上一页
             prevHandle() {
@@ -135,6 +149,7 @@
                     this.crud.put(this.uri.read.replace("{id}", item.id), {isRead: 1}).then((res) => {
                         // 刷新当前列表
                         this.handleClick();
+                        this.findAllNum();
                     });
                 }
 
@@ -144,7 +159,17 @@
                 if (routePath != null && routePath !== "") {
                     router.push({path: routePath + "&time=" + new Date().getTime()});
                 }
+            },
+            /**
+             * 查询消息数量
+             */
+            findAllNum() {
+                // 更新数量
+                this.crud.get(this.uri.findAllNum).then((res) => {
+                    this.allNum = res.data.data;
+                })
             }
+
         }
     };
 </script>

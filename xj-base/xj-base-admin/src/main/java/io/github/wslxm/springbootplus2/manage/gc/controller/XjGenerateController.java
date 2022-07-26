@@ -66,6 +66,13 @@ public class XjGenerateController extends BaseController {
     }
 
 
+    @ApiOperation("生成java + vue代码(将直接下载)")
+    @RequestMapping(value = "/generateCodeJavaAndVue", method = RequestMethod.POST)
+    public void generateCodeJavaAndVue(@RequestBody XjGenerateDto generateDto) {
+        xjGenerationSeviceImpl.generateCodeJavaAndVue(generateDto);
+    }
+
+
     /**
      * 代码生成路径查询(代码生成时前端确认生成路径无误后再生成代码)
      */

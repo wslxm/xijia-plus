@@ -1,5 +1,14 @@
 <template>
     <div>
+
+        <div style="background-color: #FFFFFF; ">
+            <el-tabs style="padding-left: 2%;" v-model="activeName" @tab-click="handleClick">
+                <el-tab-pane label="全部" name="-1"></el-tab-pane>
+                <el-tab-pane v-for="(item,index) in configTypes" :label="item.label" :name="item.value+''"></el-tab-pane>
+            </el-tabs>
+        </div>
+
+
         <avue-crud ref="crudxjAdminConfig"
                    :data="data"
                    :option="option"
@@ -62,6 +71,8 @@
                 data: [],
                 rowData: {},
                 option: {},
+                activeName: 0,
+                configTypes: []
             }
         },
         mounted() {
@@ -88,7 +99,7 @@
                 {
                     label: '类型',
                     prop: 'type',
-                    search: true,
+                    search: false,
                     type: "select",
                     overHidden: true,
                     dicData: this.dict.get(this.website.Dict.Base.ConfigType),
@@ -109,6 +120,8 @@
             ]
         },
         created() {
+            this.configTypes = this.dict.get(this.website.Dict.Base.ConfigType)
+            console.log("===" + JSON.stringify(this.configTypes))
         },
         activated: function () {
             this.crud.doLayout(this, this.$refs.crudxjAdminConfig)
@@ -163,7 +176,12 @@
                         return {color: '#9932CC'}
                     }
                 }
+            },
+            handleClick(tab, event) {
+                this.search.type = tab.name === "-1" ? "" : tab.name;
+                this.onLoad()
             }
         }
     }
 </script>
+

@@ -59,4 +59,7 @@ public class AdminUserVO extends BaseVo {
     private List<AdminRoleVO> roles;
     @ApiModelProperty(value = "公司/部门信息,存在下级关联数据")
     private AdminOrganVO organ;
+    @ApiModelProperty(value = "部门名称, / 分割层级")
+    private String organName;
+
 }

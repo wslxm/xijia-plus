@@ -106,7 +106,7 @@
                             label: '账号',
                             prop: 'username',
                             span: 20,
-                            maxlength: 32,
+                            maxlength: 20,
                             showWordLimit: true,
                             rules: [{
                                 required: true,

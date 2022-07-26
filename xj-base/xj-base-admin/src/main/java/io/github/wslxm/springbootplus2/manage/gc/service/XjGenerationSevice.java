@@ -41,6 +41,13 @@ public interface XjGenerationSevice {
 
 
     /**
+     * 生成 java + vue 代码(直接下载)
+     *
+     * @param generateDto
+     */
+    void generateCodeJavaAndVue(XjGenerateDto generateDto);
+
+    /**
      * 获取生成路径（服务端+layui）
      *
      * @param tableName tableName

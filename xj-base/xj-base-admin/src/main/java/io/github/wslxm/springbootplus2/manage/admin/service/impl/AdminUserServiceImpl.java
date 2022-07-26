@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
+import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminOrganVO;
 import io.github.wslxm.springbootplus2.manage.admin.service.*;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
@@ -146,7 +147,19 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // 角色id组装便于角色回显
         userVO.setRoleIds(userVO.getRoles() == null ? null : userVO.getRoles().stream().map(AdminRoleVO::getId).collect(Collectors.toList()));
         // 公司/部门信息
-        userVO.setOrgan(adminOrganService.findNextOrgans(userVO.getOrganId()));
+        if (userVO.getOrganId() != null) {
+            String[] organIds = userVO.getOrganId().split(",");
+            AdminOrganVO nextOrgans = adminOrganService.findNextOrgans(organIds[organIds.length - 1]);
+            userVO.setOrgan(nextOrgans);
+            String organsName = "";
+            while (nextOrgans != null) {
+                organsName += nextOrgans.getName() + "/";
+                nextOrgans = nextOrgans.getOrgans() == null ? null : nextOrgans.getOrgans().get(0);
+            }
+            organsName = organsName.equals("") ? null : organsName.substring(0, organsName.length() - 1);
+            userVO.setOrganName(organsName);
+        }
+
         return userVO;
     }
 
