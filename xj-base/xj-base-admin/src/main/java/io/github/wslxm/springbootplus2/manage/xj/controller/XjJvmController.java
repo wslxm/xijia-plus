@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN+ "/xj/jvm")
-@Api(value = "XjJvmController", tags = "base-plus--jvm信息获取")
+@Api(value = "XjJvmController", tags = "base--plus--jvm信息获取")
 public class XjJvmController {
 
 

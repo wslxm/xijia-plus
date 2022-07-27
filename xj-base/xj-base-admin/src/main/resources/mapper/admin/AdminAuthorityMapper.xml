@@ -64,7 +64,12 @@
             and a.type = #{type}
         </if>
         group by a.id
-        order by a.method asc,a.url asc
+        <if test="asc != null and asc != ''">
+            order by a.${asc} asc
+        </if>
+        <if test="(asc == null or asc == '') and (desc != null and desc != '')">
+            order by a.${desc} desc
+        </if>
     </select>
 </mapper>
 

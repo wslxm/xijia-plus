@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN+ "/generate")
-@Api(value = "XjGenerateController", tags = "base-gc--代码生成")
+@Api(value = "XjGenerateController", tags = "base--gc--代码生成")
 public class XjGenerateController extends BaseController {
 
 

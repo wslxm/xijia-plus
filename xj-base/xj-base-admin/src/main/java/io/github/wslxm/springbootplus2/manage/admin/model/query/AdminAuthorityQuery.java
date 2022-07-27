@@ -44,4 +44,11 @@ public class AdminAuthorityQuery extends BaseQuery {
 
     @ApiModelProperty(notes = "控制参数--是否返回Tree结构数据(true=Tree结构数据  false=返回list结构数据(默认))", position = 5)
     private Boolean isTree;
+
+    @ApiModelProperty(notes = "指定字段正序查询 asc (如asc和desc 同时存在,则优先使用 asc)", position = -1)
+    private String asc;
+
+    @ApiModelProperty(notes = "指定字段倒序查询 desc ", position = -1)
+    private String desc;
+
 }

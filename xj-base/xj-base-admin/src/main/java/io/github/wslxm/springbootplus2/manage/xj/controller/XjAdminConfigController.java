@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN+ "/xj/config")
-@Api(value = "XjAdminConfigController", tags = "base-plus--全局配置")
+@Api(value = "XjAdminConfigController", tags = "base--plus--全局配置")
 public class XjAdminConfigController extends BaseController<XjAdminConfigService> {
 
 
