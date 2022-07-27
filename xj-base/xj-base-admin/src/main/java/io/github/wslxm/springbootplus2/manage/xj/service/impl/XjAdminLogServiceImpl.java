@@ -29,11 +29,13 @@ public class XjAdminLogServiceImpl extends BaseIServiceImpl<XjAdminLogMapper, Xj
     public IPage<XjAdminLogVO> list(XjAdminLogQuery query) {
         LambdaQueryWrapper<XjAdminLog> queryWrapper = new LambdaQueryWrapper<XjAdminLog>()
                 .orderByDesc(XjAdminLog::getCreateTime)
-                .like(StringUtils.isNotBlank(query.getFullName()), XjAdminLog::getFullName, query.getFullName())
-                .like(StringUtils.isNotBlank(query.getUri()), XjAdminLog::getUri, query.getUri())
-                .like(StringUtils.isNotBlank(query.getClassDesc()), XjAdminLog::getClassDesc, query.getClassDesc())
-                .like(StringUtils.isNotBlank(query.getMethodDesc()), XjAdminLog::getMethodDesc, query.getMethodDesc())
-                .eq(query.getState() != null, XjAdminLog::getState, query.getState());
+                .likeRight(StringUtils.isNotBlank(query.getFullName()), XjAdminLog::getFullName, query.getFullName())
+                .likeRight(StringUtils.isNotBlank(query.getUri()), XjAdminLog::getUri, query.getUri())
+                .likeRight(StringUtils.isNotBlank(query.getClassDesc()), XjAdminLog::getClassDesc, query.getClassDesc())
+                .likeRight(StringUtils.isNotBlank(query.getMethodDesc()), XjAdminLog::getMethodDesc, query.getMethodDesc())
+                .eq(StringUtils.isNotBlank(query.getMethod()), XjAdminLog::getMethod, query.getMethod())
+                .eq(query.getState() != null, XjAdminLog::getState, query.getState())
+                .between(query.getCreateTimeStart() != null && query.getCreateTimeEnd() != null, XjAdminLog::getCreateTime, query.getCreateTimeStart(), query.getCreateTimeEnd());
         if (query.getCurrent() <= 0) {
             IPage<XjAdminLogVO> page = new Page<>();
             return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), XjAdminLogVO.class));

@@ -91,6 +91,7 @@
                 this.findId(this.rowData);
             } else {
                 this.obj = this.rowData;
+                this.obj.content = JSON.stringify(JSON.parse(this.obj.content), null, 4);
             }
         },
         methods: {

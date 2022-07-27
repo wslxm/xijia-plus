@@ -13,6 +13,7 @@ import io.github.wslxm.springbootplus2.manage.xj.model.entity.XjAdminBlacklist;
 import io.github.wslxm.springbootplus2.manage.xj.model.query.XjAdminBlacklistQuery;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminBlacklistVO;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminBlacklistService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -35,8 +36,9 @@ public class XjAdminBlacklistServiceImpl extends BaseIServiceImpl<XjAdminBlackli
     public IPage<XjAdminBlacklistVO> list(XjAdminBlacklistQuery query) {
         LambdaQueryWrapper<XjAdminBlacklist> queryWrapper = new LambdaQueryWrapper<XjAdminBlacklist>()
                 .orderByDesc(XjAdminBlacklist::getCreateTime)
-                .eq(query.getType() != null, XjAdminBlacklist::getType, query.getType()
-                );
+                .eq(query.getType() != null, XjAdminBlacklist::getType, query.getType())
+                .eq(query.getDisable() != null, XjAdminBlacklist::getDisable, query.getDisable())
+                .eq(StringUtils.isNotBlank(query.getIp()), XjAdminBlacklist::getIp, query.getIp());
         if (query.getCurrent() <= 0) {
             IPage<XjAdminBlacklistVO> page = new Page<>();
             return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), XjAdminBlacklistVO.class));

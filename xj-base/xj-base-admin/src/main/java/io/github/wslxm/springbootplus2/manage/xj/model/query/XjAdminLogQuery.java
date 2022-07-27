@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 /**
  * 操作记录表
@@ -37,5 +40,15 @@ public class XjAdminLogQuery extends BaseQuery {
     @ApiModelProperty(value = "1-请求成功 0-请求失败" ,position = 17)
     private Integer state;
 
+    @ApiModelProperty(value = "请求方式(get-post)", position = 18)
+    private String method;
+
+    @ApiModelProperty(value = "请求时间开始", position = 19)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTimeStart;
+
+    @ApiModelProperty(value = "请求时间结束", position = 20)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTimeEnd;
 }
 

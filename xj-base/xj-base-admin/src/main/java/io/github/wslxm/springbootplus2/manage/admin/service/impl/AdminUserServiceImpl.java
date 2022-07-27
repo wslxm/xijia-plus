@@ -4,27 +4,28 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
-import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminOrganVO;
-import io.github.wslxm.springbootplus2.manage.admin.service.*;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.common.auth.util.Md5Util;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Admin;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
+import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.manage.admin.mapper.AdminUserMapper;
 import io.github.wslxm.springbootplus2.manage.admin.model.dto.AdminUserDTO;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRoleUser;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminUser;
+import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminOrganQuery;
 import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminUserQuery;
+import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminOrganVO;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminRoleVO;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminUserVO;
+import io.github.wslxm.springbootplus2.manage.admin.service.*;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +34,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,15 +68,40 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         }
         // 是否只查询当前登录人创建的用户
         String createUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
+        IPage<AdminUserVO> resPage = null;
         if (query.getCurrent() <= 0) {
             // list
             IPage<AdminUserVO> page = new Page<>();
-            return page.setRecords(baseMapper.list(null, query, createUserId));
+            resPage = page.setRecords(baseMapper.list(null, query, createUserId));
         } else {
             // page
             IPage<AdminUserVO> page = new Page<>(query.getCurrent(), query.getSize());
-            return page.setRecords(baseMapper.list(page, query, createUserId));
+            resPage = page.setRecords(baseMapper.list(page, query, createUserId));
         }
+
+
+        // 公司/部门信息
+        if (resPage.getRecords() != null && resPage.getRecords().size() > 0) {
+            // 获取部门ids
+            List<String> organIds = new ArrayList<>();
+            for (AdminUserVO userVO : resPage.getRecords()) {
+                organIds.addAll(Arrays.asList(userVO.getOrganId().split(",")));
+            }
+
+            // 查询数据
+            AdminOrganQuery organQuery = new AdminOrganQuery();
+            organQuery.setIds(organIds);
+            organQuery.setIsTree(false);
+            List<AdminOrganVO> organs = adminOrganService.list(organQuery);
+
+            // 处理数据
+            for (AdminUserVO userVO : resPage.getRecords()) {
+                if (userVO.getOrganId() != null) {
+                    userVO.setOrgan(adminOrganService.findNextOrgans(organs, userVO.getOrganId()));
+                }
+            }
+        }
+        return resPage;
     }
 
     @Override
@@ -148,16 +176,11 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         userVO.setRoleIds(userVO.getRoles() == null ? null : userVO.getRoles().stream().map(AdminRoleVO::getId).collect(Collectors.toList()));
         // 公司/部门信息
         if (userVO.getOrganId() != null) {
-            String[] organIds = userVO.getOrganId().split(",");
-            AdminOrganVO nextOrgans = adminOrganService.findNextOrgans(organIds[organIds.length - 1]);
-            userVO.setOrgan(nextOrgans);
-            String organsName = "";
-            while (nextOrgans != null) {
-                organsName += nextOrgans.getName() + "/";
-                nextOrgans = nextOrgans.getOrgans() == null ? null : nextOrgans.getOrgans().get(0);
-            }
-            organsName = organsName.equals("") ? null : organsName.substring(0, organsName.length() - 1);
-            userVO.setOrganName(organsName);
+            AdminOrganQuery organQuery = new AdminOrganQuery();
+            organQuery.setIds(Arrays.asList(userVO.getOrganId().split(",")));
+            organQuery.setIsTree(false);
+            List<AdminOrganVO> organs = adminOrganService.list(organQuery);
+            userVO.setOrgan(adminOrganService.findNextOrgans(organs, userVO.getOrganId()));
         }
 
         return userVO;

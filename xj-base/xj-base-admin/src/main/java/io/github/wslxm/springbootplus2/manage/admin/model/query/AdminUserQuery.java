@@ -34,6 +34,8 @@ public class AdminUserQuery extends BaseQuery {
     private String fullName;
     @ApiModelProperty(value = "禁用（0-否，1-是）")
     private Integer disable;
+    @ApiModelProperty(value = "部门ids")
+    private String organIds;
     @ApiModelProperty(value = "职位（字典code）")
     private Integer position;
     @ApiModelProperty(value = "终端（字典code）")

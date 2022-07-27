@@ -9,12 +9,14 @@ import io.github.wslxm.springbootplus2.manage.admin.model.dto.AdminOrganDTO;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminOrgan;
 import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminOrganQuery;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminOrganVO;
+import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminUserOrganVO;
 import io.github.wslxm.springbootplus2.manage.admin.service.AdminOrganService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -30,6 +32,11 @@ import java.util.stream.Collectors;
 @Service
 public class AdminOrganServiceImpl extends BaseIServiceImpl<AdminOrganMapper, AdminOrgan> implements AdminOrganService {
 
+    /**
+     * 顶级父Id 数据Id
+     */
+    private final static String PID = "0";
+
     @Override
     public List<AdminOrganVO> list(AdminOrganQuery query) {
         if (query.getIsTree() == null) {
@@ -38,6 +45,7 @@ public class AdminOrganServiceImpl extends BaseIServiceImpl<AdminOrganMapper, Ad
         LambdaQueryWrapper<AdminOrgan> queryWrapper = new LambdaQueryWrapper<AdminOrgan>()
                 .eq(query.getDisable() != null, AdminOrgan::getDisable, query.getDisable())
                 .eq(StringUtils.isNotBlank(query.getPid()), AdminOrgan::getPid, query.getPid())
+                .in(query.getIds() != null && query.getIds().size() > 0, AdminOrgan::getId, query.getIds())
                 .orderByDesc(AdminOrgan::getCreateTime);
         List<AdminOrganVO> listVo = BeanDtoVoUtil.listVo(this.list(queryWrapper), AdminOrganVO.class);
         if (!query.getIsTree()) {
@@ -45,7 +53,7 @@ public class AdminOrganServiceImpl extends BaseIServiceImpl<AdminOrganMapper, Ad
         } else {
             List<AdminOrganVO> treeList = new ArrayList<>();
             for (AdminOrganVO adminOrganVO : listVo) {
-                if ("0".equals(adminOrganVO.getPid())) {
+                if (PID.equals(adminOrganVO.getPid())) {
                     treeList.add(adminOrganVO);
                     newxOrgan(listVo, adminOrganVO);
                 }
@@ -115,54 +123,44 @@ public class AdminOrganServiceImpl extends BaseIServiceImpl<AdminOrganMapper, Ad
 
 
     @Override
-    public AdminOrganVO findNextOrgans(String id) {
-        // 获取当前数据
-        AdminOrgan adminOrgan = this.getOne(new LambdaQueryWrapper<AdminOrgan>()
-                .select(AdminOrgan::getId, AdminOrgan::getPid, AdminOrgan::getRoot, AdminOrgan::getName, AdminOrgan::getCode)
-                .eq(AdminOrgan::getId, id));
-        if (adminOrgan == null) {
+    public AdminUserOrganVO findNextOrgans(List<AdminOrganVO> organVOs, String organIds) {
+        if (StringUtils.isBlank(organIds)) {
             return null;
         }
-        AdminOrganVO adminOrganVO = BeanDtoVoUtil.convert(adminOrgan, AdminOrganVO.class);
-        //
-        if (adminOrgan.getRoot().equals(Base.OrganRoot.V1.getValue())) {
-            return adminOrganVO;
-        } else if (adminOrgan.getRoot().equals(Base.OrganRoot.V2.getValue())) {
-            // 获取上级
-            AdminOrgan organOne = this.getOne(new LambdaQueryWrapper<AdminOrgan>()
-                    .select(AdminOrgan::getId, AdminOrgan::getPid, AdminOrgan::getRoot, AdminOrgan::getName, AdminOrgan::getCode)
-                    .eq(AdminOrgan::getPid, adminOrgan.getPid()));
-            if (organOne == null) {
-                return adminOrganVO;
-            }
-            AdminOrganVO vo = BeanDtoVoUtil.convert(organOne, AdminOrganVO.class);
-            vo.setOrgans(new ArrayList<AdminOrganVO>());
-            vo.getOrgans().add(adminOrganVO);
-            return adminOrganVO;
-        } else if (adminOrgan.getRoot().equals(Base.OrganRoot.V3.getValue())) {
-            // 获取上级
-            AdminOrgan organTwo = this.getOne(new LambdaQueryWrapper<AdminOrgan>()
-                    .select(AdminOrgan::getId, AdminOrgan::getPid, AdminOrgan::getRoot, AdminOrgan::getName, AdminOrgan::getCode)
-                    .eq(AdminOrgan::getId, adminOrganVO.getPid()));
-            if (organTwo == null) {
-                return adminOrganVO;
-            }
-            AdminOrganVO organTwoVO = BeanDtoVoUtil.convert(organTwo, AdminOrganVO.class);
-            organTwoVO.setOrgans(new ArrayList<>());
-            organTwoVO.getOrgans().add(adminOrganVO);
-
-            // 获取上级的上级
-            AdminOrgan organOne = this.getOne(new LambdaQueryWrapper<AdminOrgan>()
-                    .select(AdminOrgan::getId, AdminOrgan::getRoot, AdminOrgan::getName, AdminOrgan::getCode)
-                    .eq(AdminOrgan::getId, organTwoVO.getPid()));
-            if (organOne == null) {
-                return organTwoVO;
-            }
-            AdminOrganVO vo = BeanDtoVoUtil.convert(organOne, AdminOrganVO.class);
-            vo.setOrgans(new ArrayList<>());
-            vo.getOrgans().add(organTwoVO);
-            return vo;
+        if (organVOs == null || organVOs.size() == 0) {
+            return null;
         }
-        return null;
+        List<AdminUserOrganVO> adminUserOrganVOS = BeanDtoVoUtil.listVo(organVOs, AdminUserOrganVO.class);
+        // 获取当前数据
+        Map<String, AdminUserOrganVO> adminUserOrganVOMaps = adminUserOrganVOS.stream()
+                .collect(Collectors.toMap(AdminUserOrganVO::getId, p -> p));
+        String[] organIdsArray = organIds.split(",");
+        AdminUserOrganVO vo = null;
+        StringBuilder organNames = new StringBuilder("");
+        if (organIdsArray.length > 0) {
+            vo = BeanDtoVoUtil.convert(adminUserOrganVOMaps.get(organIdsArray[0]), AdminUserOrganVO.class);
+            if (vo != null) {
+                organNames.append(vo.getName());
+            }
+        }
+        if (vo != null && organIdsArray.length > 1) {
+            AdminUserOrganVO voTwo = BeanDtoVoUtil.convert(adminUserOrganVOMaps.get(organIdsArray[1]), AdminUserOrganVO.class);
+            vo.setOrgan(voTwo);
+            if (voTwo != null) {
+                organNames.append("/").append(voTwo.getName());
+            }
+        }
+        if (vo != null && vo.getOrgan() != null && organIdsArray.length > 2) {
+            AdminUserOrganVO voThree = BeanDtoVoUtil.convert(adminUserOrganVOMaps.get(organIdsArray[2]), AdminUserOrganVO.class);
+            vo.getOrgan().setOrgan(voThree);
+            if (voThree != null) {
+                organNames.append("/").append(voThree.getName());
+            }
+        }
+        //
+        if (vo != null) {
+            vo.setOrganNames(organNames.toString());
+        }
+        return vo;
     }
 }

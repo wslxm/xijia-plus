@@ -24,10 +24,15 @@
                 <el-avatar :src="row.head"></el-avatar>
             </template>
 
+            <template slot-scope="{row,index,type,size}" slot="organNames">
+                <span>  {{row.organ != null ?row.organ.organNames: '-'}}</span>
+            </template>
 
-            <!--            <template slot-scope="{disabled,size}" slot="ageSearch">-->
-            <!--                <el-slider :disabled="disabled" :size="size" v-model="search.age"></el-slider>-->
-            <!--            </template>-->
+
+            <template slot-scope="{row,index,type,size}" slot="organNamesSearch">
+                <avue-cascader v-model="organIds" :dic="organs" :props="organProps"></avue-cascader>
+            </template>
+
             <template slot-scope="{row,index,type,size}" slot="regTimeSearch">
                 <div class="block">
                     <el-date-picker
@@ -122,6 +127,7 @@
                     info: "123456",
                     default: "123456",
                 },
+
                 // 时间搜索
                 pickerOptions: {
                     shortcuts: [{
@@ -151,6 +157,15 @@
                     }]
                 },
                 newRegTime: '',
+
+                // 部门数据
+                organs: [],
+                organProps: {
+                    value: "id",
+                    label: "name",
+                    children: "organs"
+                },
+                organIds: '',
             }
         },
         activated: function () {
@@ -170,17 +185,20 @@
                     prop: 'username',
                     search: true,
                     searchSpan: 5,
+                    overHidden: true,
                 },
                 {
                     label: '手机号',
                     prop: 'phone',
                     search: true,
                     searchSpan: 5,
+                    overHidden: true,
                 },
                 {
                     label: '姓名',
                     prop: 'fullName',
                     search: true,
+                    overHidden: true,
                     searchSpan: 5,
                 },
                 // {
@@ -203,19 +221,28 @@
                     searchOrder: 1,
                     dicData: this.dict.get(this.website.Dict.Admin.Terminal),
                 },
-
+                {
+                    label: '部门',
+                    prop: 'organNames',
+                    search: true,
+                    overHidden: true,
+                    searchSpan: 5,
+                    // labelTip: '用于控制业务走向,通过部门+职位组合可满足大多数场景下的业务控制, 如给指定部门的人推送消息',
+                },
                 {
                     label: '职位',
                     prop: 'position',
                     type: "switch",
                     search: true,
                     searchSpan: 5,
+                    overHidden: true,
                     dicData: this.dict.get(this.website.Dict.Admin.Position),
                 },
                 {
                     label: '注册时间',
                     prop: 'regTime',
                     search: true,
+                    overHidden: true,
                 },
                 {
                     label: '禁用/启用',
@@ -240,6 +267,13 @@
         created() {
             // 设置url 参数到搜索条件中
             this.setSearchByUrlParams();
+
+            // 部门数据(弹层数据)
+            this.crud.get(this.uri.organInfo, {disable: 0, isTree: true}).then((res) => {
+                this.organs = res.data.data;
+                console.log("获取组织架构" + this.organs)
+            });
+
         },
         methods: {
 
@@ -265,6 +299,7 @@
              * @author wangsong
              */
             onLoad() {
+                // 时间查询处理
                 if (this.newRegTime != null && this.newRegTime !== "") {
                     this.search.regTimeStart = this.newRegTime[0];
                     this.search.regTimeEnd = this.newRegTime[1];
@@ -272,6 +307,13 @@
                     this.search.regTimeStart = null;
                     this.search.regTimeEnd = null;
                 }
+                // 部门查询处理
+                if (this.organIds != null && this.organIds !== "") {
+                    this.search.organIds = this.organIds;
+                } else {
+                    this.search.organIds = null;
+                }
+
                 // 是否只查询自己权限及以下的数据
                 this.search.isOwnData = true;
                 // 查询

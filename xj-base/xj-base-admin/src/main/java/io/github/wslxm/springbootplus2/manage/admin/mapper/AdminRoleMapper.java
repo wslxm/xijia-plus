@@ -19,7 +19,7 @@ public interface AdminRoleMapper extends BaseMapper<AdminRole> {
      *
      * @param page         page
      * @param query        前端查询条件
-     * @param createUserId 当前登录人用户id/角色创建人Id
+     * @param createUserId 当前登录人用户id/角色创建人Id，只查询指定创建人的角色
      * @return java.util.List<io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminRoleVO>
      * @version 1.0.0
      */
