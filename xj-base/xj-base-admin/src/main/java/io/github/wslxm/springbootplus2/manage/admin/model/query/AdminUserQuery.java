@@ -6,6 +6,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 /**
  *   用户
@@ -31,11 +34,19 @@ public class AdminUserQuery extends BaseQuery {
     private String fullName;
     @ApiModelProperty(value = "禁用（0-否，1-是）")
     private Integer disable;
+    @ApiModelProperty(value = "部门ids")
+    private String organIds;
     @ApiModelProperty(value = "职位（字典code）")
     private Integer position;
     @ApiModelProperty(value = "终端（字典code）")
     private Integer terminal;
     @ApiModelProperty(value = "是否只查询当前登录人创建的用户,默认false", notes = "需要多层级的结构权限,在角色列表查询，和用户分配时使用传递true",position = 5)
     private Boolean isLoginUser;
+    @ApiModelProperty(value = "注册开始时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime regTimeStart;
+    @ApiModelProperty(value = "注册结束时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime regTimeEnd;
 
 }

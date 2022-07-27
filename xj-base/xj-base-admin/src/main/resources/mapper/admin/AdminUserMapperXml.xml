@@ -66,13 +66,13 @@
             and u.id = #{query.id}
         </if>
         <if test="query.username != null and query.username != ''">
-            and u.username like concat('%',#{query.username},'%')
+            and u.username like concat(#{query.username},'%')
         </if>
         <if test="query.phone != null and query.phone != ''">
-            and u.phone like concat('%',#{query.phone},'%')
+            and u.phone like concat(#{query.phone},'%')
         </if>
         <if test="query.fullName != null and query.fullName != ''">
-            and u.full_name like concat('%',#{query.fullName},'%')
+            and u.full_name like concat(#{query.fullName},'%')
         </if>
         <if test="query.disable != null">
             and u.disable = #{query.disable}
@@ -85,6 +85,12 @@
         </if>
         <if test="createUserId != null">
             and u.create_user = #{createUserId}
+        </if>
+        <if test="query.organIds != null and query.organIds != ''">
+            and #{query.organIds} = u.organ_id
+        </if>
+          <if test="query.regTimeStart != null and query.regTimeEnd != null">
+            and #{query.regTimeEnd} >= u.reg_time and u.reg_time >= #{query.regTimeStart}
         </if>
         order by u.create_time desc
     </select>

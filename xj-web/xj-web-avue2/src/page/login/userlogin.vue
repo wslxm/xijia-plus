@@ -10,6 +10,7 @@
             <el-input size="small"
                       @keyup.enter.native="handleLogin"
                       v-model="loginForm.username"
+                      maxlength="20"
                       auto-complete="off"
                       :placeholder="$t('login.username')">
                 <i slot="prefix"
@@ -22,6 +23,7 @@
                       @keyup.enter.native="handleLogin"
                       :type="passwordType"
                       v-model="loginForm.password"
+                      maxlength="20"
                       auto-complete="off"
                       :placeholder="$t('login.password')">
                 <i class="el-icon-view el-input__icon"

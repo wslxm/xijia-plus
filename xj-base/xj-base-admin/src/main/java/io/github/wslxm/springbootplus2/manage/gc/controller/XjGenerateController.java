@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN+ "/generate")
-@Api(value = "XjGenerateController", tags = "base-gc--代码生成")
+@Api(value = "XjGenerateController", tags = "base--gc--代码生成")
 public class XjGenerateController extends BaseController {
 
 
@@ -63,6 +63,13 @@ public class XjGenerateController extends BaseController {
     @RequestMapping(value = "/generateCodeVue", method = RequestMethod.POST)
     public void generateCodeVue(@RequestBody XjGenerateDto generateDto) {
         xjGenerationSeviceImpl.generateCodeVue(generateDto);
+    }
+
+
+    @ApiOperation("生成java + vue代码(将直接下载)")
+    @RequestMapping(value = "/generateCodeJavaAndVue", method = RequestMethod.POST)
+    public void generateCodeJavaAndVue(@RequestBody XjGenerateDto generateDto) {
+        xjGenerationSeviceImpl.generateCodeJavaAndVue(generateDto);
     }
 
 

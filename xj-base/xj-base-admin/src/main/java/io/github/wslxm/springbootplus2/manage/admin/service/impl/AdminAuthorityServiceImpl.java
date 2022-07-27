@@ -70,9 +70,20 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         if (query.getIsTree() == null) {
             query.setIsTree(false);
         }
+        if (StringUtils.isBlank(query.getAsc()) && StringUtils.isBlank(query.getDesc())) {
+            query.setAsc("method");
+        }
+
         // 1、查询指定用户 或 所有权限数据, 或指定pid 的数据
         String loginUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
-        List<AdminAuthority> authoritys = adminAuthorityMapper.findByUserIdAuthority(loginUserId, query.getPid(), query.getType(), query.getState(), query.getDisable());
+        List<AdminAuthority> authoritys = adminAuthorityMapper.findByUserIdAuthority(loginUserId,
+                query.getPid(),
+                query.getType(),
+                query.getState(),
+                query.getDisable(),
+                query.getAsc(),
+                query.getDesc()
+        );
         List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authoritys, AdminAuthorityVO.class);
 
         // 2、根据角色控制数据是否有权限状态
@@ -144,7 +155,9 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                 null,
                 null,
                 Base.AuthorityState.V2.getValue(),
-                Base.Disable.V0.getValue()
+                Base.Disable.V0.getValue(),
+                "method",
+                null
         );
         if (auth == null) {
             return new ArrayList<>();

@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.List;
+
 /**
  * 基础表--组织机构
  * <p>
@@ -22,6 +24,9 @@ public class AdminOrganQuery extends Convert {
 
     private static final long serialVersionUID = -603467428491563017L;
 
+    @ApiModelProperty(value = "id集合--非必传,没有获取所有", position = 1)
+    private List<String> ids;
+
     @ApiModelProperty(value = "父id--非必传,没有获取所有",position = 2)
     private String pid;
 
@@ -30,6 +35,7 @@ public class AdminOrganQuery extends Convert {
 
     @ApiModelProperty(value = "是否返回Tree数据,--非必传,  true=-返回tree false-返回list(默认)",position = 5)
     private Boolean isTree ;
+
 
 }
 

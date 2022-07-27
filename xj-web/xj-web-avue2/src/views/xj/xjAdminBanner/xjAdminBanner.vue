@@ -68,25 +68,26 @@
                 {
                     label: '位置',
                     prop: 'position',
-                    search: false,
+                    type: "switch",
+                    search: true,
                     overHidden: true,
                     dicData: this.dict.get(this.website.Dict.Admin.BannerPosition),
                 },
                 {
-                    label: 'banner标题',
+                    label: '标题',
                     prop: 'name',
                     search: true,
                     searchLabelWidth: 90,
                     overHidden: true,
                 },
                 {
-                    label: 'banner描叙',
+                    label: '描叙',
                     prop: 'desc',
                     search: false,
                     overHidden: true,
                 },
                 {
-                    label: 'banner图片 ',
+                    label: '图片 ',
                     prop: 'imgUrl',
                     search: false,
                     overHidden: true,
@@ -103,13 +104,13 @@
                     }
                 },
                 {
-                    label: 'banner排序',
+                    label: '排序',
                     prop: 'sort',
                     search: false,
                     overHidden: true,
                 },
                 {
-                    label: 'banner禁用',
+                    label: '禁用',
                     prop: 'disable',
                     search: false,
                     overHidden: true,

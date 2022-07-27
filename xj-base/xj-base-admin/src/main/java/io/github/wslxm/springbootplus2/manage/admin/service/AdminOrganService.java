@@ -5,6 +5,7 @@ import io.github.wslxm.springbootplus2.manage.admin.model.dto.AdminOrganDTO;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminOrgan;
 import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminOrganQuery;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminOrganVO;
+import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminUserOrganVO;
 
 import java.util.List;
 
@@ -60,12 +61,11 @@ public interface AdminOrganService extends IService<AdminOrgan> {
     /**
      * 通过当前的部门/公司id获取层级数据（上/下当前级部门/公司信息）
      *
-     * @param id id
      * @return boolean
      * @author wangsong
      * @date 2021/10/1 0001 10:33
      * @version 1.0.1
      */
-    AdminOrganVO findNextOrgans(String id);
+    public AdminUserOrganVO findNextOrgans(List<AdminOrganVO>  organVOs, String organIds);
 }
 

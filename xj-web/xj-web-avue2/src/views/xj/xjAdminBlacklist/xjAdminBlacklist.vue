@@ -66,16 +66,17 @@
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.column = [
                 {
-                    label: '1-白名单',
+                    label: '配置类型',
                     prop: 'type',
-                    search: false,
+                    type: "switch",
+                    search: true,
                     overHidden: true,
                     dicData: this.dict.get(this.website.Dict.Base.BlacklistType),
                 },
                 {
-                    label: '白名单ip/黑名单ip',
+                    label: 'ip',
                     prop: 'ip',
-                    search: false,
+                    search: true,
                     overHidden: true,
                 },
                 {
@@ -87,7 +88,8 @@
                 {
                     label: '禁用/启用',
                     prop: 'disable',
-                    search: false,
+                    type: "switch",
+                    search: true,
                     overHidden: true,
                     dicData: this.dict.get(this.website.Dict.Base.Disable),
                 },

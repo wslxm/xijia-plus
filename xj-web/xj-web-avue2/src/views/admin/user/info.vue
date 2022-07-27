@@ -15,8 +15,9 @@
                         <!-- <p class="user-info__desc">{{form.ms}}</p> -->
                         <div class="user-info__detail-desc">
                             <p><i class="el-icon-phone"></i><span>{{data.phone}}</span></p>
-                            <!--<p><i class="el-icon-postcard"></i><span>&lt;!&ndash;{{data.organId}}&ndash;&gt;</span></p>-->
-                            <p><i class="el-icon-location-information"></i><span>{{data.address}}</span></p>
+                            <p><i class="el-icon-location-information"></i><span>{{data.organ !=null?data.address: '-'}}  </span></p>
+                            <p><i class="el-icon-postcard"></i><span> {{data.organ !=null?data.organ.organNames: '-'}}  </span></p>
+                            <p><i class="el-icon-crop"></i><span>  {{this.dict.convert("POSITION",data.position)}} </span></p>
                         </div>
                         <div class="user-info__divider"></div>
                         <h4>角色</h4>

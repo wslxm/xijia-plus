@@ -120,7 +120,7 @@
                             label: '账号',
                             prop: 'username',
                             span: 20,
-                            maxlength: 32,
+                            maxlength: 20,
                             showWordLimit: true,
                             rules: [{
                                 required: true,
@@ -150,7 +150,7 @@
                         {
                             label: '密码',
                             prop: 'password',
-                            maxlength: 16,
+                            maxlength: 20,
                             showWordLimit: true,
                             span: 20,
                             rules: [{
@@ -264,9 +264,9 @@
             "obj.fullName": function (newNum, oldNum) {
                 this.$nextTick(() => {
                     // 账号等于姓名拼音
-                    pinyin.setOptions({checkPolyphone: false, charCase: 0})
+                    pinyin.setOptions({checkPolyphone: false, charCase: 0});
                     this.obj.username = pinyin.getFullChars(this.obj.fullName).toLowerCase()
-                })
+                });
                 this.generateDefaultPassword();
             },
             "obj.phone": function (newNum, oldNum) {

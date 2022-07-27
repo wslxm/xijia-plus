@@ -23,6 +23,33 @@
             <template slot-scope="{row,index,type,size}" slot="head">
                 <el-avatar :src="row.head"></el-avatar>
             </template>
+
+            <template slot-scope="{row,index,type,size}" slot="organNames">
+                <span>  {{row.organ != null ?row.organ.organNames: '-'}}</span>
+            </template>
+
+
+            <template slot-scope="{row,index,type,size}" slot="organNamesSearch">
+                <avue-cascader v-model="organIds" :dic="organs" :props="organProps"></avue-cascader>
+            </template>
+
+            <template slot-scope="{row,index,type,size}" slot="regTimeSearch">
+                <div class="block">
+                    <el-date-picker
+                            v-model="newRegTime"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            type="daterange"
+                            align="right"
+                            unlink-panels
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            :picker-options="pickerOptions">
+                    </el-date-picker>
+                </div>
+            </template>
+
+
             <template slot-scope="{row,index,type,size}" slot="menu">
                 <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
                 <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,2)">重置密码</el-button>
@@ -100,6 +127,45 @@
                     info: "123456",
                     default: "123456",
                 },
+
+                // 时间搜索
+                pickerOptions: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                newRegTime: '',
+
+                // 部门数据
+                organs: [],
+                organProps: {
+                    value: "id",
+                    label: "name",
+                    children: "organs"
+                },
+                organIds: '',
             }
         },
         activated: function () {
@@ -119,15 +185,20 @@
                     prop: 'username',
                     search: true,
                     searchSpan: 5,
+                    overHidden: true,
                 },
                 {
                     label: '手机号',
                     prop: 'phone',
+                    search: true,
+                    searchSpan: 5,
+                    overHidden: true,
                 },
                 {
                     label: '姓名',
                     prop: 'fullName',
                     search: true,
+                    overHidden: true,
                     searchSpan: 5,
                 },
                 // {
@@ -140,10 +211,6 @@
                 //     dicData: this.dict.get(this.website.Dict.Base.Gender),
                 // },
                 {
-                    label: '注册时间',
-                    prop: 'regTime',
-                },
-                {
                     label: '终端',
                     prop: 'terminal',
                     type: "select",
@@ -155,14 +222,34 @@
                     dicData: this.dict.get(this.website.Dict.Admin.Terminal),
                 },
                 {
+                    label: '部门',
+                    prop: 'organNames',
+                    search: true,
+                    overHidden: true,
+                    searchSpan: 5,
+                    // labelTip: '用于控制业务走向,通过部门+职位组合可满足大多数场景下的业务控制, 如给指定部门的人推送消息',
+                },
+                {
                     label: '职位',
                     prop: 'position',
+                    type: "switch",
+                    search: true,
+                    searchSpan: 5,
+                    overHidden: true,
                     dicData: this.dict.get(this.website.Dict.Admin.Position),
+                },
+                {
+                    label: '注册时间',
+                    prop: 'regTime',
+                    search: true,
+                    overHidden: true,
                 },
                 {
                     label: '禁用/启用',
                     prop: 'disable',
                     type: "switch",
+                    search: true,
+                    searchSpan: 5,
                     dicData: this.dict.get(this.website.Dict.Base.Disable),
                 }
             ]
@@ -180,6 +267,13 @@
         created() {
             // 设置url 参数到搜索条件中
             this.setSearchByUrlParams();
+
+            // 部门数据(弹层数据)
+            this.crud.get(this.uri.organInfo, {disable: 0, isTree: true}).then((res) => {
+                this.organs = res.data.data;
+                console.log("获取组织架构" + this.organs)
+            });
+
         },
         methods: {
 
@@ -205,6 +299,21 @@
              * @author wangsong
              */
             onLoad() {
+                // 时间查询处理
+                if (this.newRegTime != null && this.newRegTime !== "") {
+                    this.search.regTimeStart = this.newRegTime[0];
+                    this.search.regTimeEnd = this.newRegTime[1];
+                }else{
+                    this.search.regTimeStart = null;
+                    this.search.regTimeEnd = null;
+                }
+                // 部门查询处理
+                if (this.organIds != null && this.organIds !== "") {
+                    this.search.organIds = this.organIds;
+                } else {
+                    this.search.organIds = null;
+                }
+
                 // 是否只查询自己权限及以下的数据
                 this.search.isOwnData = true;
                 // 查询

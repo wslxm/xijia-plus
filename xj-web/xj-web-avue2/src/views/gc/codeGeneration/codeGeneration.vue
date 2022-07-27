@@ -24,6 +24,7 @@
                         <el-button type="primary" size="small" plain @click="findGeneratePreview()">生成预览代码(在线查看)</el-button>
                         <el-button type="primary" size="small" plain @click="generateCodeJava()">生成后端代码</el-button>
                         <el-button type="primary" size="small" plain @click="generateCodeVueFun()">生成并下载vue代码</el-button>
+                        <el-button type="primary" size="small" plain @click="generateCodeJavaAndVueFun()">生成并下载所有代码</el-button>
                     </template>
                     <!-- 数据类型 -->
                     <template slot-scope="{scope,row,index,type,size}" slot="vueFieldType">
@@ -116,6 +117,7 @@
                     generatePreview: "/api/admin/generate/preview",    // 生成预览代码
                     generateCode: "/api/admin/generate/generateCode",   // 生成代码
                     generateCodeVue: "/api/admin/generate/generateCodeVue", // 只生成vue代码(直接下载)
+                    generateCodeJavaAndVue: "/api/admin/generate/generateCodeJavaAndVue", // 生成java + vue代码(直接下载)
                     diceFindList: "/api/admin/dictionary/list?isBottomLayer=false&code=ENUMS", // 获取字典数据
                 },
                 loading: true,
@@ -274,9 +276,9 @@
             // 选中的复选字段，给所有数据处理当前 isChecked 参数
             selectionChange(list) {
                 this.$nextTick(function () {
-                    let checkednNames = list.map(item => item.name)
+                    let checkednNames = list.map(item => item.name);
                     this.data.forEach(item => {
-                        console.log(item.name, "--", checkednNames.includes(item.name))
+                        console.log(item.name, "--", checkednNames.includes(item.name));
                         item.isChecked = checkednNames.includes(item.name)
                     });
                 })
@@ -295,7 +297,7 @@
                     tableName: this.search.tableName,
                     dataSourceId: "",
                     data: JSON.stringify(this.data)
-                }
+                };
                 this.crud.post(this.uri.generatePreview, data).then((res) => {
                     for (var k in res.data.data) {
                         res.data.data[k] = res.data.data[k] + "?" + Date.now();
@@ -316,7 +318,7 @@
                         tableName: this.search.tableName,
                         dataSourceId: "",
                         data: JSON.stringify(this.data)
-                    }
+                    };
                     this.crud.post(this.uri.generateCode, data).then(() => {
                         this.$message.success("代码生成成功");
                     })
@@ -332,6 +334,17 @@
                 };
                 this.crud.download(this.uri.generateCodeVue, data);
             },
+            // 生成java + vue代码（下载）
+            generateCodeJavaAndVueFun() {
+                let data = {
+                    tableComment: this.treeRowData.comment,
+                    tableName: this.search.tableName,
+                    dataSourceId: "",
+                    data: JSON.stringify(this.data)
+                };
+                this.crud.download(this.uri.generateCodeJavaAndVue, data);
+            },
+
 
 
             /**

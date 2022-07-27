@@ -23,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN+ "/authority")
-@Api(value = "AdminAuthorityController", tags = "base--URL权限管理")
+@Api(value = "AdminAuthorityController", tags = "base--admin--URL权限管理")
 public class AdminAuthorityController extends BaseController<AdminAuthorityService> {
 
 

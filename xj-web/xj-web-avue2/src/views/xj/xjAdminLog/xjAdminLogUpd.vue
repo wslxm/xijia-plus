@@ -28,8 +28,8 @@
                     this.findId(newRowData);
                 } else {
                     this.obj = newRowData;
-                    this.obj.requestData = JSON.stringify(JSON.parse(newRowData.requestData), null, 2);
-                    this.obj.responseData = JSON.stringify(JSON.parse(newRowData.responseData), null, 2);
+                    this.obj.requestData = JSON.stringify(JSON.parse(newRowData.requestData), null, 4);
+                    this.obj.responseData = JSON.stringify(JSON.parse(newRowData.responseData), null, 4);
                 }
             }
         },
@@ -51,10 +51,10 @@
                             span: 12,
                         },
                         {
-                            label: '请求终端',
+                            label: '请求端',
                             prop: 'type',
                             type: 'select',
-                            dicData: this.dict.get(this.website.Dict.Base.Default),
+                            dicData: this.dict.get(this.website.Dict.Base.AuthorityType),
                             span: 12,
                         },
                         {

@@ -12,9 +12,14 @@
                    @search-change="searchChange">
             <template slot-scope="scope" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
-                <el-button type="primary" size="small" plain
-                           v-if="website.isTerminalSearch"
-                           @click="updRoleAuthAll()">所有角色分配所有权限</el-button>
+
+                <el-tooltip class="item" effect="dark" content="给所有角色分配所有接口的访问权限" placement="top-start">
+                    <el-button type="primary" size="small" plain
+                               v-if="website.isTerminalSearch"
+                               @click="updRoleAuthAll()">权限ALL
+                    </el-button>
+                </el-tooltip>
+
             </template>
             <template slot-scope="{row,index,type,size}" slot="disable">
                 <el-switch v-model="row.disable" @change="updDisable(row,index,row.disable)"
@@ -100,7 +105,9 @@
                 },
                 {
                     label: 'code',
-                    prop: 'code'
+                    prop: 'code',
+                    search: true,
+                    searchSpan: 5,
                 },
                 {
                     label: '描叙',
@@ -124,9 +131,11 @@
                 {
                     label: '禁用/启用',
                     prop: 'disable',
-                    // type: "switch",
+                    type: "switch",
+                    search: true,
+                    searchSpan: 5,
                     //cell: true,
-                    // dicData: getDict(Dict.Base.Disable),
+                    dicData: this.dict.get(this.website.Dict.Base.Disable),
                     //html:true,
                     // formatter:(val)=>{
                     //     console.log(val)

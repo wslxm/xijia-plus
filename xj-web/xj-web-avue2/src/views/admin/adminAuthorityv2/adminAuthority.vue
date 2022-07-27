@@ -181,7 +181,11 @@
                 done();
             },
             findLeftTree() {
-                this.crud.get(this.uri.infoList, {type: this.search.type, isTree: true}).then((res) => {
+                this.crud.get(this.uri.infoList, {
+                    type: this.search.type,
+                    isTree: true,
+                    asc: "desc",
+                }).then((res) => {
                     this.treeData = res.data.data;
                     // 默认选中第一条
                     if (this.treeData != null && this.treeData.length > 0) {

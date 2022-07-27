@@ -29,6 +29,12 @@ public class AdminRoleQuery extends BaseQuery {
     @ApiModelProperty(value = "用户id,只查询指定用户存在的角色", position = 3)
     private String userId;
 
+    @ApiModelProperty(value = "角色code", position = 3)
+    private String code;
+
+    @ApiModelProperty(value = "启用/禁用", position = 3)
+    private Integer disable;
+
     @ApiModelProperty(value = "是否踢除userId 查询参数,踢除后用户是否存在角色将改为 isChecked=true/false 来标记, true-踢除 false-不踢除(默认)  ", position = 4)
     private Boolean isUserIdChecked;
 

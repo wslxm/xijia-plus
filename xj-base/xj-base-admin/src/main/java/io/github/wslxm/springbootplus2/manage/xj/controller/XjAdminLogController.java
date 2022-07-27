@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN+"/xj/log")
-@Api(value = "XjAdminLogController", tags = "base-plus--操作记录")
+@Api(value = "XjAdminLogController", tags = "base--plus--操作记录")
 public class XjAdminLogController extends BaseController<XjAdminLogService> {
 
 

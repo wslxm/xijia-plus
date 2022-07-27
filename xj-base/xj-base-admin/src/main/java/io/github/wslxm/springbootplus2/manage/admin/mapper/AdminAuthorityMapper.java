@@ -24,10 +24,14 @@ public interface AdminAuthorityMapper extends BaseMapper<AdminAuthority> {
      * @date 2019/11/25 0025 11:54
      */
     List<AdminAuthority> findByUserIdAuthority(@Param("userId") String userId,
-                                             @Param("pid") String pid ,
-                                             @Param("type") Integer type ,
-                                             @Param("state") Integer state,
-                                             @Param("disable") Integer disable);
+                                               @Param("pid") String pid ,
+                                               @Param("type") Integer type ,
+                                               @Param("state") Integer state,
+                                               @Param("disable") Integer disable,
+                                               @Param("asc") String asc,
+                                               @Param("desc") String desc
+
+    );
 
 
 }

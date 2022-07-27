@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN+ "/datasource")
-@Api(value = "XjAdminDatasourceController", tags = "base-gc--代码生成--数据源维护")
+@Api(value = "XjAdminDatasourceController", tags = "base--gc--代码生成--数据源维护")
 public class XjAdminDatasourceController extends BaseController<XjAdminDatasourceService> {
 
 

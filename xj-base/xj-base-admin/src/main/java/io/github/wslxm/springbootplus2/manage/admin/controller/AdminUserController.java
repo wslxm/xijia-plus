@@ -29,7 +29,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN + "/user")
-@Api(value = "AdminUserController", tags = "base--用户管理")
+@Api(value = "AdminUserController", tags = "base--admin--用户管理")
 public class AdminUserController extends BaseController<AdminUserService> {
 
 

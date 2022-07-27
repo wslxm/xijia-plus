@@ -32,8 +32,8 @@
 
                     <!-- 新增父类  -->
                     <template slot-scope="" slot="menuLeft">
-                        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="updRow({},0)">父类</el-button>
-                        <el-button type="primary" plain icon="el-icon-plus" size="mini" v-show="!checkNumber(rowTreeData.code)" @click="updRow(rowTreeData,2)">子类</el-button>
+                        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="updRow({},0)">顶级</el-button>
+                        <el-button type="primary" plain icon="el-icon-plus" size="mini" v-show="!checkNumber(rowTreeData.code)" @click="updRow(rowTreeData,2)">子级</el-button>
                         <el-button type="primary" plain size="mini" @click="updRow(rowTreeData,3) ">变更父级</el-button>
                         <el-button type="primary" plain size="mini" @click="generateDict()">生成枚举</el-button>
                         <el-button type="primary" plain size="mini" @click="findLeftTree()">重载左侧</el-button>

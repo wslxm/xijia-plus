@@ -42,12 +42,18 @@
         where
         r.deleted = 0
         <if test="query.name != null and query.name != ''">
-            and r.name like concat('%',#{query.name},'%')
+            and r.name like concat(#{query.name},'%')
         </if>
         <if test="query.terminal != null">
             and r.terminal = #{query.terminal}
         </if>
-        <if test="query.userId != null and query.userId !=''">
+        <if test="query.code != null and query.code != ''">
+            and r.code like concat(#{query.code},'%')
+        </if>
+        <if test="query.disable != null ">
+            and r.`disable` = #{query.disable}
+        </if>
+        <if test="query.userId != null and query.userId != ''">
             and u.id = #{query.userId}
         </if>
         <if test="createUserId != null">

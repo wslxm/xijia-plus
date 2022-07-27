@@ -28,5 +28,8 @@ public class XjAdminBlacklistQuery extends BaseQuery {
     @ApiModelProperty(value = "禁用(0-启用 1-禁用)" ,position = 3)
     private Integer disable;
 
+    @ApiModelProperty(value = "ip", position = 3)
+    private String ip;
+
 }
 

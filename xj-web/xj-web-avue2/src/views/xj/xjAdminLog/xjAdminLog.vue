@@ -14,10 +14,29 @@
             <template slot-scope="{row,index,type,size}" slot="menu">
                 <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">查看</el-button>
             </template>
+
+
+            <template slot-scope="{row,index,type,size}" slot="createTimeSearch">
+                <div class="block">
+                    <el-date-picker
+                            v-model="newCreateTime"
+                            format="yyyy-MM-dd HH:mm:ss"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            type="datetimerange"
+                            align="right"
+                            unlink-panels
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            :picker-options="pickerOptions">
+                    </el-date-picker>
+                </div>
+            </template>
+
         </avue-crud>
 
         <el-dialog title="查看" v-dialogDrag v-if="updDialogVisible"  :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog">
-            <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData" :organs="organs" :roles="roles"></Upd>
+            <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
     </div>
@@ -52,13 +71,61 @@
                         label: "失败",
                         value: 0
                     }
-                ]
+                ],
+                methodDict: [
+                    {
+                        label: "GET",
+                        value: "GET"
+                    },
+                    {
+                        label: "POST",
+                        value: "POST"
+                    },
+                    {
+                        label: "PUT",
+                        value: "PUT"
+                    },
+                    {
+                        label: "DELETE",
+                        value: "DELETE"
+                    }
+                ],
+
+                // 时间搜索
+                pickerOptions: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                newCreateTime: '',
             }
         },
         mounted() {
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             //this.option.menu = false
-            this.option.index = false
+            this.option.index = false;
             //this.option.viewBtn =true
             this.option.column = [
                 {
@@ -66,6 +133,7 @@
                     prop: 'fullName',
                     search: true,
                     overHidden: true,
+                    searchSpan: 5,
                 },
                 // {
                 //     label: '请求人Id ',
@@ -73,22 +141,26 @@
                 //     search: false,
                 //     overHidden: true,
                 // },
-                // {
-                //     label: '访问端',
-                //     prop: 'type',
-                //     search: true,
-                //     overHidden: true,
-                //     html: true,
-                //     formatter: (val) => {
-                //         if (val.type == 0) {
-                //             return '<span >管理端</span>'
-                //         } else if (val.type == 1) {
-                //             return '<span >用户端</span>'
-                //         }else{
-                //             return '<span></span>'
-                //         }
-                //     },
-                // },
+                {
+                    label: '请求端',
+                    prop: 'type',
+                    search: true,
+                    overHidden: true,
+                    type: 'select',
+                    searchSpan: 5,
+                    dicData: this.dict.get(this.website.Dict.Base.AuthorityType),
+
+                    // html: true,
+                    // formatter: (val) => {
+                    //     if (val.type === 0) {
+                    //         return '<span >管理端</span>'
+                    //     } else if (val.type == 1) {
+                    //         return '<span >用户端</span>'
+                    //     }else{
+                    //         return '<span></span>'
+                    //     }
+                    // },
+                },
                 // {
                 //     label: '请求来源',
                 //     prop: 'referer',
@@ -105,18 +177,21 @@
                     label: '请求类',
                     prop: 'classDesc',
                     search: true,
+                    searchSpan: 5,
                     overHidden: true,
                 },
                 {
                     label: '请求方法',
                     prop: 'methodDesc',
                     search: true,
+                    searchSpan: 5,
                     overHidden: true,
                 },
                 {
                     label: '请求uri',
                     prop: 'uri',
                     search: true,
+                    searchSpan: 5,
                     overHidden: true,
                 },
                 // {
@@ -135,8 +210,11 @@
                 {
                     label: '请求方式',
                     prop: 'method',
-                    search: false,
+                    type: 'select',
+                    search: true,
+                    searchSpan: 5,
                     overHidden: true,
+                    dicData: this.methodDict
                 },
                 // {
                 //     label: '服务器地址',
@@ -167,6 +245,8 @@
                     label: '请求时间',
                     prop: 'createTime',
                     overHidden: true,
+                    searchSpan: 7,
+                    search: true,
                 },
                 {
                     label: '请求数据',
@@ -191,6 +271,7 @@
                     prop: 'state',
                     type: 'select',
                     search: true,
+                    searchSpan: 4,
                     overHidden: true,
                     html: true,
                     dicData: this.stateDict,
@@ -219,6 +300,15 @@
         },
         methods: {
             onLoad() {
+                // 时间查询处理
+                if (this.newCreateTime != null && this.newCreateTime !== "") {
+                    this.search.createTimeStart = this.newCreateTime[0];
+                    this.search.createTimeEnd = this.newCreateTime[1];
+                }else{
+                    this.search.createTimeStart = null;
+                    this.search.createTimeEnd = null;
+                }
+
                 this.crud.list(this, true);
                 this.crud.doLayout(this, this.$refs.crudxjAdminLog)
             },

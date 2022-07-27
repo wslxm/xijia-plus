@@ -32,10 +32,9 @@
                     msgType: 0,
                     isRead: false,
                 },
-                userList: [
-                    {id: 1, name: "小二"},
-                    {id: 2, name: "小三"}
-                ]
+                // 是否展示用户列表
+                isUserList: true,
+                userList: []
             }
         },
         props: {
@@ -77,8 +76,9 @@
                         {
                             label: '选择系统用户',
                             prop: 'selectUserId',
-                            labelWidth: 110,
-                            span: 7,
+                            labelWidth: 130,
+                            span: 8,
+                            display: this.isUserList
                         },
                         {
                             label: '消息类型',
@@ -109,6 +109,14 @@
                 }
             }
         },
+        watch: {
+            "obj.userType"(newUserType, oldUserType) {
+                // 设置url 参数到搜索条件中
+                this.isUserList = newUserType !== 1;
+            },
+        },
+
+
         created() {
             this.obj = this.defaultData;
             // 查询系统用户数据
@@ -129,7 +137,7 @@
                 })
             },
             /**
-             * 用户选择
+             * 是否打开 选择系统用户选择 (选择发送消息到管理端时打开)
              */
             selectUserIdHandle() {
                 this.obj.userId = this.obj.selectUserId;

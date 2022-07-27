@@ -81,7 +81,7 @@
                     overHidden: true,
                 },
                 {
-                    label: '通知终端',
+                    label: '通知端',
                     prop: 'userType',
                     type: 'select',
                     search: true,

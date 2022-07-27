@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN+ "/organ")
-@Api(value = "AdminOrganController", tags = "base--组织机构")
+@Api(value = "AdminOrganController", tags = "base--admin--组织机构")
 public class AdminOrganController extends BaseController<AdminOrganService> {
 
     @GetMapping(value = "/list")
