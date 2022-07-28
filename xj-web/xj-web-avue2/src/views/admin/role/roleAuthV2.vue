@@ -15,6 +15,7 @@
                 :data="data"
                 show-checkbox
                 node-key="id"
+                :default-expand-all=false
                 :expand-on-click-node="false"
                 :default-checked-keys="defaultCheckedKeys"
                 ref="tree"
@@ -254,7 +255,7 @@
                     "authIds": authIds
                 };
                 this.crud.put(this.uri.updRoleAuth, data).then(() => {
-                    this.$message.success("成功分配[" + data.authIds.length + "]条数据")
+                   // this.$message.success("成功分配[" + data.authIds.length + "]条数据")
                 })
             },
         }

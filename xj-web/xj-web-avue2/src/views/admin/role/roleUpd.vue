@@ -12,7 +12,7 @@
                         show-checkbox
                         node-key="id"
                         @check="menusCheck"
-                        :default-expand-all=true
+                        :default-expand-all=false
                         :default-checked-keys="menuDefaultCheckedKeys"
                         :props="menusProps">
                 </el-tree>
@@ -115,6 +115,8 @@
                             prop: 'menuIds',
                             rules: [{
                                 required: true,
+                                message: "请选择 菜单",
+                                trigger: "blur"
                             }],
                             // formslot: true,
                         }
