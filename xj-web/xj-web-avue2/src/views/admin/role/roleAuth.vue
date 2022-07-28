@@ -49,7 +49,7 @@
             this.option.refreshBtn = false;
             this.option.height = 600;
             // 开启数结构
-            this.option.defaultExpandAll = true;
+            this.option.defaultExpandAll = false;
             this.option.rowKey = "id";
             this.option.treeProps = {
                 children: 'authoritys'
@@ -87,7 +87,10 @@
         },
         methods: {
             init(rowData) {
-                this.crud.get(this.uri.authListByRole.replace("{roleId}", rowData.id),{isOwnData:true}).then((res) => {
+                this.crud.get(this.uri.authListByRole.replace("{roleId}", rowData.id), {
+                    isOwnData: true,
+                    asc: "desc"
+                }).then((res) => {
                     this.data = res.data.data;
                     //解决表格错位
                     this.$nextTick(() => {

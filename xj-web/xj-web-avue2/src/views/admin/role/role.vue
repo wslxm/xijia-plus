@@ -44,7 +44,7 @@
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
         <el-dialog :title="'资源分配-'+this.rowData.name" v-dialogDrag v-if="updAuthDialogVisible" :visible.sync="updAuthDialogVisible" width="60%" top="6vh" @close="closeDialog">
-            <RoleAuth :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></RoleAuth>
+            <RoleAuthV2 :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></RoleAuthV2>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
     </div>
@@ -58,6 +58,7 @@
             Add: () => import('./roleAdd'),
             Upd: () => import('./roleUpd'),
             RoleAuth: () => import('./roleAuth'),
+            RoleAuthV2: () => import('./roleAuthV2'),
         },
         data() {
             return {
