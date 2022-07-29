@@ -177,22 +177,22 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
             JdbcPool.closeQueryRes(rs);
         }
         //
-        if (datasource != null && StringUtils.isNotBlank(datasource.getDbGeneralField())) {
-            // 使用数据源配置的通用字段 (当使用了其他数据源和配置了通用字段时使用)
-            List<String> fields = Arrays.asList(datasource.getDbGeneralField().split(","));
-            for (XjTableFieldVO tableFieldVO : vos) {
-                // 判断是否为通用字段
-                if (fields.contains(tableFieldVO.getName())) {
-                    tableFieldVO.setIsChecked(false);
-                } else {
-                    tableFieldVO.setIsChecked(true);
-                }
-                // 判断空串
-                if ("CURRend_timeSTAMP".equals(tableFieldVO.getDefaultVal())) {
-                    tableFieldVO.setDefaultVal("当前时间");
-                }
-            }
-        } else {
+//        if (datasource != null && StringUtils.isNotBlank(datasource.getDbGeneralField())) {
+//            // 使用数据源配置的通用字段 (当使用了其他数据源和配置了通用字段时使用)
+//            List<String> fields = Arrays.asList(datasource.getDbGeneralField().split(","));
+//            for (XjTableFieldVO tableFieldVO : vos) {
+//                // 判断是否为通用字段
+//                if (fields.contains(tableFieldVO.getName())) {
+//                    tableFieldVO.setIsChecked(false);
+//                } else {
+//                    tableFieldVO.setIsChecked(true);
+//                }
+//                // 判断空串
+//                if ("CURRend_timeSTAMP".equals(tableFieldVO.getDefaultVal())) {
+//                    tableFieldVO.setDefaultVal("当前时间");
+//                }
+//            }
+//        } else {
             // 获取通用字段
             String basefields = generateProperties.getBasefields();
             List<String> basefieldsList = Arrays.asList(basefields.split(","));
@@ -210,7 +210,6 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
                     tableFieldVO.setDefaultVal("当前时间");
                 }
             }
-        }
         return vos;
     }
 }

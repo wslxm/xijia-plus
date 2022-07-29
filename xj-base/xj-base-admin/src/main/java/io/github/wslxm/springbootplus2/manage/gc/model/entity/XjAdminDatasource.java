@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
@@ -24,50 +23,126 @@ import lombok.ToString;
 public class XjAdminDatasource extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
-    
-    @ApiModelProperty(notes = "数据库标题" ,position = 0)
+
+    /**
+     * db -标题
+     */
     @TableField(value = "db_title")
     private String dbTitle;
 
-    @ApiModelProperty(notes = "数据库名" ,position = 1)
+    /**
+     * db 库名
+     */
     @TableField(value = "db_name")
     private String dbName;
 
-    @ApiModelProperty(notes = "数据库连接" ,position = 2)
+    /**
+     * db 连接地址
+     */
     @TableField(value = "db_url")
     private String dbUrl;
 
-    @ApiModelProperty(notes = "数据库账号" ,position = 3)
+    /**
+     * db 账号
+     */
     @TableField(value = "db_username")
     private String dbUsername;
 
-    @ApiModelProperty(notes = "数据库密码" ,position = 4)
+    /**
+     * db 密码
+     */
     @TableField(value = "db_password")
     private String dbPassword;
 
-    @ApiModelProperty(notes = "数据表前缀" ,position = 5)
-    @TableField(value = "db_prefix")
-    private String dbPrefix;
+    /**
+     * 作者
+     */
+    @TableField(value = "author")
+    private String author;
 
-    @ApiModelProperty(notes = "数据字段前缀" ,position = 5)
-    @TableField(value = "db_field_prefix")
-    private String  dbFieldPrefix;
+    /**
+     * 邮箱
+     */
+    @TableField(value = "email")
+    private String email;
 
-    @ApiModelProperty(notes = "数据库通用字段,逗号分隔" ,position = 6)
-    @TableField(value = "db_general_field")
-    private String dbGeneralField;
+    /**
+     * 描述信息
+     */
+    @TableField(value = "`describe`")
+    private String describe;
 
-    @ApiModelProperty(notes = "包根路径" ,position = 7)
+    /**
+     * 项目名/路径，如：xj-server/xj-test-server
+     */
+    @TableField(value = "project_name")
+    private String projectName;
+
+    /**
+     * 包路径 (如: io.github.wslxm)
+     */
     @TableField(value = "pack_path")
     private String packPath;
 
-    @ApiModelProperty(notes = "父模块名" ,position = 8)
-    @TableField(value = "modules")
-    private String modules;
+    /**
+     * 根模块 (固定为：modules(管理端), 用户端为：client)
+     */
+    @TableField(value = "root_module")
+    private String rootModule;
 
-    @ApiModelProperty(notes = "子模块名" ,position = 9)
+    /**
+     * 子模块 (业务分类,如用户管理,订单管理模块拆分，也可以统一一个名称放在一起)
+     */
     @TableField(value = "modules_name")
     private String modulesName;
+
+    /**
+     * db 通用字段,逗号分隔
+     */
+    @TableField(value = "db_general_field")
+    private String dbGeneralField;
+
+    /**
+     * db 表前缀 (生成的类名会过滤掉前缀)
+     */
+    @TableField(value = "db_table_prefix")
+    private String dbTablePrefix;
+
+    /**
+     * db 字段前缀 (生成的字段名会过滤掉前缀)
+     */
+    @TableField(value = "db_field_prefix")
+    private String dbFieldPrefix;
+
+    /**
+     * 实体类是否使用swagger注释 (false情况下使用doc注释)
+     */
+    @TableField(value = "entity_swagger")
+    private Boolean entitySwagger;
+
+    /**
+     * 生成路径(不填默认当前项目跟目录,可指定绝对路径)
+     */
+    @TableField(value = "father_path")
+    private String fatherPath;
+
+    /**
+     * 排除vue字段类型 (字典code值，参考字典生成字段类型，如: 18=富文本 19=md编辑器 )
+     */
+    @TableField(value = "vue_field_types")
+    private String vueFieldTypes;
+
+    /**
+     * 数据库通用字段
+     */
+    @TableField(value = "base_fields")
+    private String baseFields;
+
+    /**
+     * 数据库关键字
+     */
+    @TableField(value = "keyword_array")
+    private String keywordArray;
 
 }
 
