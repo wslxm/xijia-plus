@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.model.dto;
 
+import io.github.wslxm.springbootplus2.core.base.model.BaseDto;
 import io.github.wslxm.springbootplus2.core.base.model.Convert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,7 +20,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "XjAdminDatasourceDTO 对象", description = "代码生成数据源维护表")
-public class XjAdminDatasourceDTO extends Convert {
+public class XjAdminDatasourceDTO extends BaseDto {
 
     private static final long serialVersionUID = 0L;
     @ApiModelProperty(value = "db -标题", position = 0)

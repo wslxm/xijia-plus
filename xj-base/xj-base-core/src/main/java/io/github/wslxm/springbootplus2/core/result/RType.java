@@ -57,7 +57,7 @@ public enum RType implements IEnum {
 
     // 内部业务层 [8000-9000]
     // gc 模块[8001-8099]
-    GENERATE_CODE_JDBC_ERROR(8001, "数据源连接信息错误"),
+    GENERATE_CODE_JDBC_ERROR(8001, "数据源连接信息或账号密码错误"),
     // admin 模块[8101-8199]
     // 登录注册及用户相关
     LOGIN_ERROR_USER_PASSWORD(8101, "密码错误"),

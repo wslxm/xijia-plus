@@ -41,4 +41,10 @@ public class XjAdminDatasourceServiceImpl extends BaseIServiceImpl<XjAdminDataso
             return  BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminDatasourceVO.class);
         }
     }
+
+
+    @Override
+    public XjAdminDatasourceVO findId(String id) {
+        return BeanDtoVoUtil.convert(this.getById(id),XjAdminDatasourceVO.class);
+    }
 }

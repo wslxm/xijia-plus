@@ -27,5 +27,13 @@ public interface XjAdminDatasourceService extends IService<XjAdminDatasource> {
      */
     IPage<XjAdminDatasourceVO> list(XjAdminDatasourceQuery query);
 
+    /**
+     * id查询
+     *
+     * @param id id
+     * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.gc.model.vo.XjAdminDatasourceVO>
+     * @version 1.0.0
+     */
+    XjAdminDatasourceVO findId(String id);
 }
 
