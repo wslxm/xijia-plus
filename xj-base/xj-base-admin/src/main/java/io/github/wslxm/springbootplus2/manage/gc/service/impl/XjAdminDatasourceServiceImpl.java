@@ -11,6 +11,7 @@ import io.github.wslxm.springbootplus2.manage.gc.model.entity.XjAdminDatasource;
 import io.github.wslxm.springbootplus2.manage.gc.model.query.XjAdminDatasourceQuery;
 import io.github.wslxm.springbootplus2.manage.gc.model.vo.XjAdminDatasourceVO;
 import io.github.wslxm.springbootplus2.manage.gc.service.XjAdminDatasourceService;
+import io.github.wslxm.springbootplus2.manage.test.model.entity.GcTest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,6 +31,7 @@ public class XjAdminDatasourceServiceImpl extends BaseIServiceImpl<XjAdminDataso
     public IPage<XjAdminDatasourceVO> list(XjAdminDatasourceQuery query) {
         LambdaQueryWrapper<XjAdminDatasource> queryWrapper = new LambdaQueryWrapper<XjAdminDatasource>()
                 .orderByDesc(XjAdminDatasource::getCreateTime)
+                .select(XjAdminDatasource.class, info -> !"db_password".equals(info.getColumn()))
                 .like(StringUtils.isNotBlank(query.getDbTitle()), XjAdminDatasource::getDbTitle, query.getDbTitle())
                 .like(StringUtils.isNotBlank(query.getDbName()), XjAdminDatasource::getDbName, query.getDbName());
         if (query.getCurrent() <= 0) {
@@ -45,6 +47,8 @@ public class XjAdminDatasourceServiceImpl extends BaseIServiceImpl<XjAdminDataso
 
     @Override
     public XjAdminDatasourceVO findId(String id) {
-        return BeanDtoVoUtil.convert(this.getById(id),XjAdminDatasourceVO.class);
+        XjAdminDatasourceVO vo = BeanDtoVoUtil.convert(this.getById(id), XjAdminDatasourceVO.class);
+        vo.setDbPassword(null);
+        return vo;
     }
 }

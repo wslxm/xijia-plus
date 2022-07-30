@@ -99,8 +99,8 @@ public class XjAdminDatasource extends BaseEntity {
     /**
      * db 通用字段,逗号分隔
      */
-    @TableField(value = "db_general_field")
-    private String dbGeneralField;
+//    @TableField(value = "db_general_field")
+//    private String dbGeneralField;
 
     /**
      * db 表前缀 (生成的类名会过滤掉前缀)

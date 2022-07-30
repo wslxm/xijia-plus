@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.manage.gc.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.utils.Base64Util;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateProperties;
 import io.github.wslxm.springbootplus2.manage.gc.mapper.XjDataBaseMapper;
 import io.github.wslxm.springbootplus2.manage.gc.model.entity.XjAdminDatasource;
@@ -94,7 +95,10 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
         if (StringUtils.isBlank(dataSourceId)) {
             pstmt = JdbcPool.getPstmt(dbUrl.substring(0, dbUrl.indexOf("?")), dbUserName, dbPassWord, sql);
         } else {
-            pstmt = JdbcPool.getPstmt(datasource.getDbUrl(), datasource.getDbUsername(), datasource.getDbPassword(), sql);
+            pstmt = JdbcPool.getPstmt(datasource.getDbUrl(),
+                    datasource.getDbUsername(),
+                    Base64Util.decrypt(datasource.getDbPassword()) ,
+                    sql);
         }
         // 4、处理返回sql
         ResultSet rs = null;
@@ -153,7 +157,10 @@ public class XjDataBaseServiceImpl extends BaseIServiceImpl implements XjDataBas
         if (StringUtils.isBlank(dataSourceId)) {
             pstmt = JdbcPool.getPstmt(dbUrl.substring(0, dbUrl.indexOf("?")), dbUserName, dbPassWord, sql);
         } else {
-            pstmt = JdbcPool.getPstmt(datasource.getDbUrl(), datasource.getDbUsername(), datasource.getDbPassword(), sql);
+            pstmt = JdbcPool.getPstmt(datasource.getDbUrl(),
+                    datasource.getDbUsername(),
+                    Base64Util.decrypt(datasource.getDbPassword()),
+                    sql);
         }
         ResultSet rs = null;
         List<XjTableFieldVO> vos = new ArrayList<>();

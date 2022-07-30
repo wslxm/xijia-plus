@@ -1,11 +1,25 @@
 <template>
     <div>
         <el-container>
-            <el-aside style="padding-left: 10px;padding-top: 2.5px" width="220px">
-                <span>数据表选择</span>
-                <avue-tree :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
+            <el-aside style="padding-left: 10px;padding-top: 2.5px" width="260px">
+                <!--<span>选择数据源</span>-->
+                <el-select style="width: 240px" v-model="dataSourceId" :clearable="true" filterable placeholder="选择数据源, 默认当前服务" @change="datasourceChange()">
+                    <el-option
+                            v-for="item in datasourceDic"
+
+                            :key="item.id"
+                            :label="item.dbTitle"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+                <!-- 数据表 -->
+                <div style="height: 700px;margin-top: 4%;">
+                    <avue-tree :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
+                </div>
             </el-aside>
+
             <el-main>
+                <!--  当前数据源: <font color="#ff69b4"> {{datasource.dbName}} - {{datasource.dbTitle}}</font> -->
                 当前表: <font color="#ff69b4"> {{treeRowData.name}} - {{treeRowData.comment}}</font>
                 <!-- crud -->
                 <avue-crud ref="crudField"
@@ -119,6 +133,7 @@
                     generateCodeVue: "/api/admin/generate/generateCodeVue", // 只生成vue代码(直接下载)
                     generateCodeJavaAndVue: "/api/admin/generate/generateCodeJavaAndVue", // 生成java + vue代码(直接下载)
                     diceFindList: "/api/admin/dictionary/list?isBottomLayer=false&code=ENUMS", // 获取字典数据
+                    datasourceInfoList: "/api/admin/datasource/list",   // 查询数据源
                 },
                 loading: true,
                 dialogWidth: "60%",
@@ -133,19 +148,17 @@
                 generatePaths: {},         // 代码生成路径数据
                 generateCodePreviews: {},  // 预览代码数据
                 vueFieldTypeDic: this.dict.get(this.website.Dict.Base.VueFieldType),  // 字段类型选择数据
+
+                // 数据源
+                datasourceDic: [],
+                dataSourceId: null,
                 // 数据表
                 treeRowData: {name: "t_basic", comment: "系统通用字段表"},
                 treeData: [],
                 treeOption: {
                     defaultExpandAll: false,
-                    filter: false,
-                    formOption: {
-                        labelWidth: 100,
-                        column: [{
-                            label: '搜索',
-                            prop: 'name'
-                        }],
-                    },
+                    filter: true,
+                    addBtn: false,
                     props: {
                         labelText: '数据表',
                         label: 'name',
@@ -170,7 +183,7 @@
             this.option.index = false;
             this.option.menu = false;
             this.option.rowKey = "id";
-            //this.option.height = 200;
+            this.option.maxHeight = 600;
             // 开启多选
             this.option.selection = true;
             this.option.reserveSelection = true;
@@ -222,15 +235,21 @@
             ]
         },
         created() {
-            this.crud.get(this.uri.infoTableList).then((res) => {
-                this.treeData = res.data.data;
-            });
 
+
+            // vue 需要使用到字典的字段拉出字典选择
             this.crud.get(this.uri.diceFindList).then((res) => {
                 // 直接取 dictList , 不要第一级
                 this.dictCodeOption = res.data.data[0].dictList;
             })
 
+            // 查询数据源
+            this.crud.get(this.uri.datasourceInfoList).then((res) => {
+                this.datasourceDic = res.data.data.records;
+            });
+
+            // 查询数据表
+            this.findTableList();
         },
         activated: function () {
             this.crud.doLayout(this, this.$refs.crudField)
@@ -238,7 +257,10 @@
         methods: {
             onLoad() {
                 this.loading = true;
-                this.crud.get(this.uri.infoFieldList, {tableName: this.search.tableName}).then((res) => {
+                this.crud.get(this.uri.infoFieldList, {
+                    tableName: this.search.tableName,
+                    dataSourceId: this.dataSourceId
+                }).then((res) => {
                     res.data.data.forEach((item) => {
                         item.vueFieldType = 1;
                     });
@@ -247,6 +269,18 @@
                     this.loading = false;
                 })
             },
+
+
+            /**
+             * 查询数据表
+             */
+            findTableList() {
+                // 查询数据表
+                this.crud.get(this.uri.infoTableList, {dataSourceId: this.dataSourceId}).then((res) => {
+                    this.treeData = res.data.data;
+                });
+            },
+
             searchChange(params, done) {
                 this.page.currentPage = 1;
                 this.onLoad();
@@ -266,6 +300,7 @@
                     }
                 }
             },
+
             // 选择数据表  查询刷新字段表数据
             nodeClick(data) {
                 this.treeRowData = data;
@@ -285,7 +320,10 @@
             },
             // 获取代码生成路径
             finDGenerateGetPath() {
-                this.crud.get(this.uri.generateGetPath, {tableName: this.search.tableName}).then((res) => {
+                this.crud.get(this.uri.generateGetPath, {
+                    tableName: this.search.tableName,
+                    dataSourceId: this.dataSourceId,
+                } ).then((res) => {
                     this.generatePaths = res.data.data;
                     this.findPageDialogVisible = true;
                 })
@@ -295,7 +333,7 @@
                 let data = {
                     tableComment: this.treeRowData.comment,
                     tableName: this.search.tableName,
-                    dataSourceId: "",
+                    dataSourceId: this.dataSourceId,
                     data: JSON.stringify(this.data)
                 };
                 this.crud.post(this.uri.generatePreview, data).then((res) => {
@@ -316,7 +354,7 @@
                     let data = {
                         tableComment: this.treeRowData.comment,
                         tableName: this.search.tableName,
-                        dataSourceId: "",
+                        dataSourceId: this.dataSourceId,
                         data: JSON.stringify(this.data)
                     };
                     this.crud.post(this.uri.generateCode, data).then(() => {
@@ -329,7 +367,7 @@
                 let data = {
                     tableComment: this.treeRowData.comment,
                     tableName: this.search.tableName,
-                    dataSourceId: "",
+                    dataSourceId: this.dataSourceId,
                     data: JSON.stringify(this.data)
                 };
                 this.crud.download(this.uri.generateCodeVue, data);
@@ -339,12 +377,11 @@
                 let data = {
                     tableComment: this.treeRowData.comment,
                     tableName: this.search.tableName,
-                    dataSourceId: "",
+                    dataSourceId: this.dataSourceId,
                     data: JSON.stringify(this.data)
                 };
                 this.crud.download(this.uri.generateCodeJavaAndVue, data);
             },
-
 
 
             /**
@@ -358,7 +395,7 @@
                     // if (row.dictCode == null) {
                     //     row.dictCode = ["BASE", "DEFAULT"];
                     // }
-                }else{
+                } else {
                     // 不可用清除字典数据
                     row.dictCode = null;
                 }
@@ -380,7 +417,16 @@
                     return true;
                 }
                 return false;
+            },
+
+            /**
+             * 数据源选择
+             */
+            datasourceChange() {
+                console.log("切换数据源:" + this.dataSourceId)
+                this.findTableList();
             }
+
         }
     }
 </script>

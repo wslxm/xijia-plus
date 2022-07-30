@@ -78,7 +78,7 @@ public class XjGenerateController extends BaseController {
      */
     @ApiOperation("代码生成路径")
     @RequestMapping(value = "/getPath", method = RequestMethod.GET)
-    public R<Map<String, String>> getPath(String tableName) {
-        return R.success(xjGenerationSeviceImpl.getPath(tableName));
+    public R<Map<String, String>> getPath(String tableName, String dataSourceId) {
+        return R.success(xjGenerationSeviceImpl.getPath(tableName,dataSourceId));
     }
 }

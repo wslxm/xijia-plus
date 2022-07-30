@@ -88,8 +88,8 @@ public class XjAdminDatasourceController extends BaseController<XjAdminDatasourc
     public R<Boolean> dataSourceTest(@PathVariable(required = false) String id, @RequestBody @Validated XjAdminDatasourceDTO dto) {
         String dbPassword = dto.getDbPassword();
         if (StringUtils.isNotBlank(id) && !id.equals("0")) {
-            XjAdminDatasourceVO vo = baseService.findId(id);
-            dbPassword = Base64Util.decrypt(vo.getDbPassword());
+            XjAdminDatasource xjAdminDatasource = baseService.getById(id);
+            dbPassword = Base64Util.decrypt(xjAdminDatasource.getDbPassword());
         }
         // 主要没报错, 表示连接成功
         JdbcPool.getConn(dto.getDbUrl(), dto.getDbUsername(), dbPassword);

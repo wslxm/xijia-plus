@@ -54,6 +54,6 @@ public interface XjGenerationSevice {
      * @return java.util.Map<java.lang.String, java.lang.String>
      * @version 1.0.0
      */
-    Map<String, String> getPath(String tableName);
+    Map<String, String> getPath(String tableName, String dataSourceId);
 
 }
