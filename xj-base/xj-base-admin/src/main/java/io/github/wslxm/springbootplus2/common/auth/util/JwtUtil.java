@@ -119,17 +119,12 @@ public class JwtUtil {
      * @return
      */
     public static R<JwtUser> getJwtUserR(HttpServletRequest request, HttpServletResponse response) {
-        // 判断是否传递tokne
-        String jwtToken = request.getHeader(TOKEN);
-        if (jwtToken == null || jwtToken == "") {
-            return R.error(RType.AUTHORITY_NO_TOKEN);
-        }
-        // // 判断缓存中token是否存在
-        // String jwtToken = XjCacheUtil.get(token, String.class);
-        // if (jwtToken == null || jwtToken == "") {
-        //     return R.error(RType.AUTHORITY_LOGIN_EXPIRED);
-        // }
         try {
+            // 判断是否传递tokne
+            String jwtToken = request.getHeader(TOKEN);
+            if (jwtToken == null || jwtToken == "") {
+                return R.error(RType.AUTHORITY_NO_TOKEN);
+            }
             Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(jwtToken).getBody();
             return R.success(getClaimsJwtUser(claims));
         } catch (ExpiredJwtException ex) {

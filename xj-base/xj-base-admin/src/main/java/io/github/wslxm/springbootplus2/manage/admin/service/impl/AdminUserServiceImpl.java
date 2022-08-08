@@ -157,7 +157,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     @Override
     public Boolean del(String userId) {
-        adminRoleUserService.remove(new LambdaUpdateWrapper<AdminRoleUser>().eq(AdminRoleUser::getUserId, userId));
+        adminRoleUserService.remove(new LambdaQueryWrapper<AdminRoleUser>().eq(AdminRoleUser::getUserId, userId));
         return this.removeById(userId);
     }
 
@@ -234,7 +234,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     @Override
     public Boolean updResetPassword(String id, String password) {
-        return this.update(new LambdaUpdateWrapper<AdminUser>()
+        return this.update(new AdminUser(),new LambdaUpdateWrapper<AdminUser>()
                 .set(AdminUser::getPassword, Md5Util.encode(password, id))
                 .eq(AdminUser::getId, id));
     }
@@ -311,7 +311,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         if (StringUtils.isNotBlank(username)) {
             // 判重账号
             if (!username.equals(oldUserName) || !terminal.equals(oldTerminal)) {
-                if (this.count(new LambdaUpdateWrapper<AdminUser>()
+                if (this.count(new LambdaQueryWrapper<AdminUser>()
                         .eq(AdminUser::getUsername, username)
                         .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
                         .eq(terminal != null, AdminUser::getTerminal, terminal)
@@ -339,7 +339,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         if (StringUtils.isNotBlank(phone)) {
             // 判重电话
             if (!phone.equals(oldPhone) || !terminal.equals(oldTerminal)) {
-                if (this.count(new LambdaUpdateWrapper<AdminUser>()
+                if (this.count(new LambdaQueryWrapper<AdminUser>()
                         .eq(AdminUser::getPhone, phone)
                         .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
                         .eq(terminal != null, AdminUser::getTerminal, terminal)

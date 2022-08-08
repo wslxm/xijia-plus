@@ -133,7 +133,7 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
     }
 
     @Override
-    public Integer findUnreadNum() {
+    public Long findUnreadNum() {
         return this.count(new LambdaQueryWrapper<XjAdminMsg>()
                 .eq(XjAdminMsg::getIsRead, Base.IsRead.V0.getValue())
                 .eq(XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())

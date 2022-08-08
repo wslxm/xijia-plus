@@ -52,7 +52,7 @@ public class XjAdminMsgController extends BaseController<XjAdminMsgService> {
 
     @ApiOperation(value = "查询未读数量(当前登录用户)")
     @GetMapping(value = "/findUnreadNum")
-    public R<Integer> findUnreadNum() {
+    public R<Long> findUnreadNum() {
         return R.successFind(baseService.findUnreadNum());
     }
 

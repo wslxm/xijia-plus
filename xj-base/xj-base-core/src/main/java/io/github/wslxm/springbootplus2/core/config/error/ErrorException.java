@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.core.config.error;
 
 
-import com.baomidou.mybatisplus.core.enums.IEnum;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.EnumUtil;
 import lombok.Data;

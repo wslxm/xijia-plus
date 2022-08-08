@@ -147,7 +147,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
     public Boolean upd(String id, AdminMenuDTO dto) {
         // 判断是否修改了终端, 修改了终端同时, 同时更新下级所有数据的终端
         if (dto.getTerminal() != null) {
-            int count = this.count(new LambdaQueryWrapper<AdminMenu>().eq(AdminMenu::getId, id).eq(AdminMenu::getTerminal, dto.getTerminal()));
+            long count = this.count(new LambdaQueryWrapper<AdminMenu>().eq(AdminMenu::getId, id).eq(AdminMenu::getTerminal, dto.getTerminal()));
             if (count < 1) {
                 // 查询所有下级数据
                 AdminMenuQuery query = new AdminMenuQuery();
@@ -191,7 +191,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
             if (!menuIds.isEmpty()) {
                 this.removeByIds(menuIds);
                 // 生成角色菜单关联数据
-                adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().in(AdminRoleMenu::getMenuId, menuIds));
+                adminRoleMenuService.remove(new LambdaQueryWrapper<AdminRoleMenu>().in(AdminRoleMenu::getMenuId, menuIds));
             }
             return menuIds;
         }

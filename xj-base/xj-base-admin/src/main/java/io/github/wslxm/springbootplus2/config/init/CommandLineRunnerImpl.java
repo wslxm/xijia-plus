@@ -32,11 +32,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         adminAuthorityService.refreshAuthDb();
         // 更新权限缓存数据
         adminAuthorityService.refreshAuthCache();
-        // 当前是否启动redis
-        //Boolean isRedis = RedisUtil.isRedis();
-        //log.info("当前是否启用 redis: {} , {} ", isRedis, !isRedis ? "程序默认使用jvm缓存机制" : "缓存机制将采用redis机制, spring.redis.host = " + PropUtil.findByKey("spring.redis.host"));
         // 当前启动环境
-        //System.getProperty("spring.profiles.active")
         log.info("当前启动环境 spring.profiles.active = {}", SpringContextUtil.getActiveProfile());
         log.info("当前启动端口 server.port = {}", PropUtil.findByKey("server.port"));
         // 日志测试

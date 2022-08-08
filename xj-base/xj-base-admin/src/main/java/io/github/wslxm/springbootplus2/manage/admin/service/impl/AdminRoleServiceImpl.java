@@ -2,11 +2,10 @@ package io.github.wslxm.springbootplus2.manage.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.github.wslxm.springbootplus2.common.cache.CacheKey;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
+import io.github.wslxm.springbootplus2.common.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.manage.admin.mapper.AdminRoleMapper;
@@ -136,7 +135,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
         // 编辑入口必传菜单，如果没传可能是在操作启用禁用等操作,不对菜单做处理
         if (dto.getMenuIds() != null && dto.getMenuIds().size() > 0) {
             // 给角色分配菜单权限(先删除后添加)
-            adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, role.getId()));
+            adminRoleMenuService.remove(new LambdaQueryWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, role.getId()));
             adminRoleMenuService.insert(role.getId(), dto.getMenuIds());
         }
         return b;
@@ -272,9 +271,9 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
     @Transactional(rollbackFor = Exception.class)
     public boolean del(String roleId) {
         // 删除角色和角色相关的关系表
-        roleUserAdminService.remove(new LambdaUpdateWrapper<AdminRoleUser>().eq(AdminRoleUser::getRoleId, roleId));
-        adminRoleMenuService.remove(new LambdaUpdateWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, roleId));
-        adminRoleAuthService.remove(new LambdaUpdateWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, roleId));
+        roleUserAdminService.remove(new LambdaQueryWrapper<AdminRoleUser>().eq(AdminRoleUser::getRoleId, roleId));
+        adminRoleMenuService.remove(new LambdaQueryWrapper<AdminRoleMenu>().eq(AdminRoleMenu::getRoleId, roleId));
+        adminRoleAuthService.remove(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, roleId));
         return this.removeById(roleId);
     }
 }

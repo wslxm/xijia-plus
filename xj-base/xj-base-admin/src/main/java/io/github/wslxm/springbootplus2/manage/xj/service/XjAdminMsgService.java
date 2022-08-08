@@ -55,7 +55,7 @@ public interface XjAdminMsgService extends IService<XjAdminMsg> {
      * @return java.lang.Integer
      * @version 1.0.0
      */
-    Integer findUnreadNum();
+    Long findUnreadNum();
 
 
     /**
