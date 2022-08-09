@@ -322,6 +322,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         gcConfig.setDefaultTemplateParam("tablePrefixDefault", generateProperties.getTablePrefixDefault());
         gcConfig.setDefaultTemplateParam("fieldPrefixDefault", generateProperties.getFieldPrefixDefault());
         gcConfig.setDefaultTemplateParam("entitySwagger", generateProperties.getEntitySwagger() + "");
+        gcConfig.setDefaultTemplateParam("filterCrud", generateProperties.getFilterCrud() + "");
         gcConfig.setDefaultTemplateParam("fatherPath", generateProperties.getFatherPath());
         gcConfig.setDefaultTemplateParam("vueFieldTypesArray", JSON.toJSONString(vueFieldTypesArray));
         gcConfig.setDefaultTemplateParam("basefields", JSON.toJSONString(basefields));
@@ -356,6 +357,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             generateProperties.setTablePrefixDefault(dbDatasource.getDbTablePrefix());
             generateProperties.setFieldPrefixDefault(dbDatasource.getDbFieldPrefix());
             generateProperties.setEntitySwagger(dbDatasource.getEntitySwagger());
+            generateProperties.setFilterCrud(dbDatasource.getFilterCrud());
             generateProperties.setFatherPath(dbDatasource.getFatherPath());
             generateProperties.setVueFieldTypes(dbDatasource.getVueFieldTypes());
             generateProperties.setBasefields(dbDatasource.getBaseFields());

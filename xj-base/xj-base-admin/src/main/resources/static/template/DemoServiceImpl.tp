@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Service
 public class {tableNameUp}ServiceImpl extends BaseIServiceImpl<{tableNameUp}Mapper, {tableNameUp}> implements {tableNameUp}Service {
-
+{filterCrud}
     @Override
     public IPage<{tableNameUp}VO> list({tableNameUp}Query query) {
         LambdaQueryWrapper<{tableNameUp}> queryWrapper = new LambdaQueryWrapper<{tableNameUp}>()
@@ -64,4 +64,5 @@ public class {tableNameUp}ServiceImpl extends BaseIServiceImpl<{tableNameUp}Mapp
     public boolean del(String id) {
         return this.removeById(id);
     }
+{filterCrud}
 }

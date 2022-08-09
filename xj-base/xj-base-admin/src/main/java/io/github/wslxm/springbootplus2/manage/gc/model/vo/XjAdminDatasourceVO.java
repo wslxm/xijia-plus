@@ -58,9 +58,6 @@ public class XjAdminDatasourceVO extends BaseVo {
     @ApiModelProperty(value = "子模块 (业务分类,如用户管理,订单管理模块拆分，也可以统一一个名称放在一起)", position = 11)
     private String modulesName;
 //
-//    @ApiModelProperty(value = "db 通用字段,逗号分隔", position = 12)
-//    private String dbGeneralField;
-
     @ApiModelProperty(value = "db 表前缀 (生成的类名会过滤掉前缀)", position = 13)
     private String dbTablePrefix;
 
@@ -69,6 +66,9 @@ public class XjAdminDatasourceVO extends BaseVo {
 
     @ApiModelProperty(value = "实体类是否使用swagger注释 (false情况下使用doc注释)", position = 15)
     private Boolean entitySwagger;
+
+    @ApiModelProperty(value = "是否过滤crud方法- 默认生成 (controller/service/mapper/xml)", position = 15)
+    private Boolean filterCrud;
 
     @ApiModelProperty(value = "生成路径(不填默认当前项目跟目录,可指定绝对路径)", position = 16)
     private String fatherPath;

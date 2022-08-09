@@ -72,11 +72,26 @@ public class GcFileUtil {
         try {
             String newLine = "";
             String line = null;
+            // 碰到第一个 filterCrud  到下一个 filterCrud 之间的数据进行过滤,不生成到文件中
+            boolean filterCrud = false;
+            // 获取是否生成crud 方法配置
+            String filterCrudConfig = gcConfig.getDefaultTemplateParam("filterCrud");
             while ((line = br.readLine()) != null) {
-                // 内容替换
-                newLine = GcReplacUtil.replaceParams(gcConfig.getDefaultTemplateParam(), gcConfig.getTemplateParam(), line);
-                bw.write(newLine);
-                bw.newLine();
+                // 过滤写入的文件内容
+                if ("{filterCrud}".equals(line)) {
+                    if ("true".equals(filterCrudConfig)) {
+                        filterCrud = !filterCrud;
+                        bw.newLine();
+                    }
+                }
+
+                // 只生成不属于过滤行的模板数据
+                if (!"{filterCrud}".equals(line) && !filterCrud) {
+                    // 内容替换并写入
+                    newLine = GcReplacUtil.replaceParams(gcConfig.getDefaultTemplateParam(), gcConfig.getTemplateParam(), line);
+                    bw.write(newLine);
+                    bw.newLine();
+                }
                 bw.flush();
             }
             bw.close();

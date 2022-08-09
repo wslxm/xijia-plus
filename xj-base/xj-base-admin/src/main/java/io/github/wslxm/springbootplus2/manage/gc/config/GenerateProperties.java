@@ -28,6 +28,7 @@ public class GenerateProperties {
     public String fieldPrefixDefault;   // 字段前缀
     public Boolean entitySwagger;       // 实体类是否开启swagger注释
     public String fatherPath;           // 生成路径(为空默认当前项目跟目录)
+    public Boolean filterCrud;          // 是否过滤crud方法
     public String vueFieldTypes;        // vue列表排除展示类型字段
     public String basefields;           // 数据表通用字段配置
     public String keywordArray;         // 数据库关键字配置

@@ -27,7 +27,7 @@ import io.github.wslxm.springbootplus2.core.result.R;
 @RequestMapping(BaseConstant.Uri.API_ADMIN + "/{moduleName}/{tableNameLower}")
 @Api(value = "{tableNameUp}Controller", tags = "{tableComment}")
 public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service> {
-
+{filterCrud}
     @GetMapping(value = "/list")
     @ApiOperation(value = "列表查询")
     public R<IPage<{tableNameUp}VO>> list(@ModelAttribute @Validated {tableNameUp}Query query) {
@@ -57,4 +57,5 @@ public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service
     public R<Boolean> del(@PathVariable String id) {
         return R.successDelete(baseService.del(id));
     }
+{filterCrud}
 }

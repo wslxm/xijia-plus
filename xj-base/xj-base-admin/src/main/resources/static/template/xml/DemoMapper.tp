@@ -12,7 +12,7 @@
 {columnList}
     </sql>
 
-
+{filterCrud}
     <!-- id 查询 -->
     <select id="findId" resultType="{packPath}.{rootModule}.{moduleName}.model.vo.{tableNameUp}VO">
         select
@@ -31,6 +31,6 @@
 {selectSearchList}
         order by t.create_time desc
     </select>
-
+{filterCrud}
 </mapper>
 

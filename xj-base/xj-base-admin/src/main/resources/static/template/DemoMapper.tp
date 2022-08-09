@@ -20,7 +20,7 @@ import java.util.List;
  * @date {date}
  */
 public interface {tableNameUp}Mapper extends BaseMapper<{tableNameUp}> {
-
+{filterCrud}
     /**
      * id 查询
      *
@@ -37,6 +37,6 @@ public interface {tableNameUp}Mapper extends BaseMapper<{tableNameUp}> {
      * @return java.util.List<{tableNameUp}>
      */
     List<{tableNameUp}VO> list(IPage<{tableNameUp}VO> page, {tableNameUp}Query query);
-
+{filterCrud}
 }
 

@@ -19,7 +19,7 @@ import {packPath}.{rootModule}.{moduleName}.model.query.{tableNameUp}Query;
  * @date {date}
  */
 public interface {tableNameUp}Service extends IService<{tableNameUp}> {
-
+{filterCrud}
     /**
      * 列表查询
      *
@@ -60,5 +60,6 @@ public interface {tableNameUp}Service extends IService<{tableNameUp}> {
      * @return boolean
      */
     boolean del(String id);
+{filterCrud}
 }
 
