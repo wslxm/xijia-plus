@@ -66,6 +66,8 @@ public class GcTPConfig {
     public final static String P_VUE_UPD = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}Upd.vue";
     // 预览菜单路径(参考)
     public final static String P_VUE_MEUN = "/views/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}.vue";
+    // 代码生成下载的文件夹名
+    public final static String P_ZIP_NAME = BASE_PATH_JAVA + "/{tableNameLower}";
 
 
     /**

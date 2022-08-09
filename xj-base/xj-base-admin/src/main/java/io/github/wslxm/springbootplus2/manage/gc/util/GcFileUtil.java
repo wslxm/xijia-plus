@@ -1,7 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.util;
 
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
-import io.github.wslxm.springbootplus2.manage.gc.config.GcTPConfig;
 import io.github.wslxm.springbootplus2.manage.gc.config.model.GcFilePath;
 import lombok.extern.slf4j.Slf4j;
 
@@ -80,6 +79,7 @@ public class GcFileUtil {
                 bw.newLine();
                 bw.flush();
             }
+            bw.close();
         } catch (IOException e) {
             log.error(e.toString());
         }

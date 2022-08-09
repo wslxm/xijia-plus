@@ -21,8 +21,20 @@ import java.util.List;
  */
 public interface GcTestMapper extends BaseMapper<GcTest> {
 
-    List<GcTestVO> findId(String id);
+    /**
+     * id 查询
+     *
+     * @param id
+     * @return GcTestVO
+     */
+    GcTestVO findId(String id);
 
+    /**
+     *
+     * @param page
+     * @param query
+     * @return java.util.List<GcTestVO>
+     */
     List<GcTestVO> list(IPage<GcTestVO> page, GcTestQuery query);
 
 }

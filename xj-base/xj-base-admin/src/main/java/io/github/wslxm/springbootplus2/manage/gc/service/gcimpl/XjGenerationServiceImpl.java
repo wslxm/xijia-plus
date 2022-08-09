@@ -110,7 +110,12 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
         }
         // 增加排除字段的最后一个括号
         excludeReturn = excludeReturn.toString().equals("") ? excludeReturn : excludeReturn.append(")");
+
         // 添加到填充内容中
-        gcConfig.setTemplateParam("findPageMybatisPlus", excludeReturn.toString() + "\r\n" + findPageMybatisPlus.toString());
+        String excludeReturnStr = excludeReturn.toString().equals("") ? "" : excludeReturn.toString() + "\r\n";
+        // 去掉最后一个 \r\n
+        String findPageMybatisPlusStr = findPageMybatisPlus.toString().equals("") ?
+                "" : findPageMybatisPlus.toString().substring(0, findPageMybatisPlus.toString().length() - 2);
+        gcConfig.setTemplateParam("findPageMybatisPlus", excludeReturnStr + findPageMybatisPlusStr);
     }
 }

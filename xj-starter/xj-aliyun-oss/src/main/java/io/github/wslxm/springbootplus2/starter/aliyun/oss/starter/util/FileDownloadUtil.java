@@ -28,6 +28,51 @@ public class FileDownloadUtil {
 
 
     /**
+     * 下载指定文件
+     *
+     * @param file     下载文件
+     * @param fileName 下载后的文件名
+     * @param response
+     * @return void
+     * @author wangsong
+     * @date 2022/8/9 9:15
+     */
+    public static void download(File file, String fileName, HttpServletResponse response) {
+        // 下载指定文件
+        try {
+            //文件流
+            InputStream in = new BufferedInputStream(new FileInputStream(file));
+            // 设置response的Header
+            response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+            response.setContentType("application/octet-stream");
+            response.setHeader("content-type", "application/octet-stream");
+            response.addHeader("Content-Length", file.length() + ""); //文件长度
+            BufferedOutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+            // 放入outputStream流
+            // byte[] buffer = new byte[in.available()];
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            int i = 0;
+            // in.read(buffer);
+            while ((len = in.read(buffer)) != -1) {
+                i = i + len;
+                outputStream.write(buffer, 0, len);
+            }
+            response.addHeader("Content-Length", i + "");
+            //最后的内容
+            outputStream.write(buffer);
+            //响应返回字节长度-无效:
+            // response.addHeader("Content-Length", "" + i);//  log.error(i);
+            outputStream.flush();
+            outputStream.close();
+            in.close();
+        } catch (IOException e) {
+            log.error(e.toString());
+        }
+    }
+
+
+    /**
      * url可访问的单文件下载
      * @author wangsong
      * @param response
@@ -71,6 +116,7 @@ public class FileDownloadUtil {
             //响应返回字节长度-无效:response.addHeader("Content-Length", "" + i);//  log.error(i);
             outputStream.flush();
             outputStream.close();
+            in.close();
         } catch (IOException e) {
             log.error(e.toString());
         }

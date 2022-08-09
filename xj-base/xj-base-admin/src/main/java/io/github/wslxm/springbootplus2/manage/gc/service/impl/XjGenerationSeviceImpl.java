@@ -1,5 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.impl;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.ZipUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
@@ -22,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -138,11 +141,19 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         xjGenerationVueAdd.run(gcConfig, "X-VueAdd");
         xjGenerationVueUpd.run(gcConfig, "X-VueUpd");
         // 开始下载
-        List<String> paths = new ArrayList<>();
-        gcConfig.getVisitPathMap().forEach((k, v) -> paths.add("http://127.0.0.1:" + PropUtil.findByKey("server.port") + "/" + v));
-        String zipName = GcReplacUtil.replaceParams(gcConfig.getDefaultTemplateParam(), gcConfig.getTemplateParam(), GcTPConfig.P_VUE_MEUN);
-        zipName = zipName.replaceAll("/", ".");
-        FileDownloadUtil.downloadZip(paths, zipName, response);
+        // 1、获取需要被压缩的文件
+        // 代码生成路径
+        String projectName = gcConfig.getDefaultTemplateParam("projectName");
+        String gcPath = "File/" + projectName;
+        File srcFile = new File(gcPath);
+        // 2、获取压缩后保存文件
+        File zipFile = new File("File/gc/zipFile.zip");
+        // 3、压缩
+        File gcFile = ZipUtil.zip(zipFile, false, srcFile);
+        // 4、下载
+        String zipName = GcReplacUtil.replaceParams(gcConfig.getDefaultTemplateParam(), gcConfig.getTemplateParam(), GcTPConfig.P_ZIP_NAME);
+        zipName = zipName.replaceAll("/", ".") + ".zip";
+        FileDownloadUtil.download(gcFile, zipName, response);
     }
 
     @Override
@@ -183,6 +194,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
      * @date 2022/3/5 16:30
      */
     private GcConfig getGcConfig(XjGenerateDto generateDto, boolean isPreview, boolean isPreviewSuffix) {
+
         // 配置数据容器
         GcConfig gcConfig = new GcConfig();
         // 获取当前服务器地址
@@ -234,6 +246,17 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
             }
 
             gcFilePath.setPath(path);
+        }
+
+
+        // 每次生成前 清空该生成模块下原文件,不处理非改模块的其他代码
+        try {
+            String projectName = gcConfig.getDefaultTemplateParam("projectName");
+            String gcPath = "File/" + projectName;
+            File srcFile = new File(gcPath);
+            FileUtil.del(srcFile);
+        } catch (Exception e) {
+//
         }
 
         // 返回配置对象

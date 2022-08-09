@@ -37,8 +37,15 @@ public class XjGenerationQuery extends BaseGcImpl implements XjGcSevice {
             String desc = fieldMap.getDesc();
             String fieldName = fieldMap.getName();
             String typeDetail = fieldMap.getTypeDetail();
-            // 1、生成swagger注解
-            fields.append("\r\n    @ApiModelProperty(value = \"" + desc + "\", position = " + (position++) + ")");
+            // 1、生成注释
+            Boolean entitySwagger = Boolean.valueOf(gcConfig.getDefaultTemplateParam("entitySwagger"));
+            if (entitySwagger) {
+                // 字段注释信息-->  Swagger2 模式
+                fields.append("\r\n    @ApiModelProperty(value = \"" + desc + "\" ,position = " + position++ + ")");
+            } else {
+                // 字段注释信息-->  doc 注释
+                fields.append("\r\n    /** \r\n     * " + desc + " \r\n     */");
+            }
             // 2、生成必填参数jsr验证(先判断是否为必填参数)
             String isNull = fieldMap.getIsNull();
             if (("NO").equals(isNull)) {
