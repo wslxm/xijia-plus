@@ -14,6 +14,12 @@ import java.util.List;
 public class XjGenerationVueAdd extends BaseGcImpl implements XjGcSevice {
 
     /**
+     * 模板key
+     */
+    public static final String KEY_NAME = "X-VueAdd";
+
+
+    /**
      * 生成Html-Add 添加页
      *
      * @param data    数据
@@ -23,7 +29,7 @@ public class XjGenerationVueAdd extends BaseGcImpl implements XjGcSevice {
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(GcConfig gcConfig, String keyName) {
+    public void run(GcConfig gcConfig) {
         StringBuffer vueAddColumnsDefault = new StringBuffer("");
         StringBuffer vueAddColumns = new StringBuffer("");
         StringBuffer vueAddColumnSlots = new StringBuffer("");
@@ -61,6 +67,6 @@ public class XjGenerationVueAdd extends BaseGcImpl implements XjGcSevice {
         gcConfig.setTemplateParam("vueAddColumns", vueAddColumns.toString());
         gcConfig.setTemplateParam("vueAddColumnSlots", vueAddColumnSlots.toString());
         // 开始生成文件并进行数据替换
-        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
+        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, KEY_NAME));
     }
 }

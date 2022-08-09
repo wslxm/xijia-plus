@@ -16,6 +16,10 @@ import java.util.List;
 @Component
 public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSevice {
 
+    /**
+     * 模板key
+     */
+    public static final String KEY_NAME = "X-ServiceImpl";
 
     /**
      * 生成ServiceImpl
@@ -27,11 +31,11 @@ public class XjGenerationServiceImpl extends BaseIServiceImpl implements XjGcSev
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(GcConfig gcConfig, String keyName) {
+    public void run(GcConfig gcConfig) {
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         this.generateParameters(gcConfig, dbFields);
         // 开始生成文件并进行数据替换
-        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
+        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, KEY_NAME));
     }
 
 

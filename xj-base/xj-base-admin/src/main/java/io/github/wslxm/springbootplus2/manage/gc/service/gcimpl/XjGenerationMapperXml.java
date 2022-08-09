@@ -23,7 +23,10 @@ import java.util.List;
 @Component
 public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevice {
 
-
+    /**
+     * 模板key
+     */
+    public static final String KEY_NAME = "X-MapperXml";
     /**
      * 生成Dao 对应的xml
      *
@@ -34,7 +37,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(GcConfig gcConfig, String keyName) {
+    public void run(GcConfig gcConfig) {
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         gcConfig.setTemplateParam("resultMap", resultXml(gcConfig, dbFields));
         gcConfig.setTemplateParam("columnList", columnXml(dbFields));
@@ -42,7 +45,7 @@ public class XjGenerationMapperXml extends BaseIServiceImpl implements XjGcSevic
         gcConfig.setTemplateParam("xmlInsert", insertXml(gcConfig, dbFields));
         gcConfig.setTemplateParam("xmlUpd", updateXml(gcConfig, dbFields));
         // 开始生成文件并进行数据替换
-        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
+        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, KEY_NAME));
     }
 
 

@@ -1,10 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.service;
 
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
-import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
-
-import javax.xml.transform.Templates;
-import java.util.List;
 
 @SuppressWarnings("all")
 public interface XjGcSevice {
@@ -17,6 +13,6 @@ public interface XjGcSevice {
      * @date 2019/11/20 19:18
      * @return void
      */
-    public void run(GcConfig gcConfig, String keyName);
+    public void run(GcConfig gcConfig);
 
 }

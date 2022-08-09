@@ -13,14 +13,19 @@ import java.util.List;
 @Component
 public class XjGenerationVO extends BaseGcImpl implements XjGcSevice {
 
+    /**
+     * 模板key
+     */
+    public static final String KEY_NAME = "X-VO";
+
 
     @Override
-    public void run(GcConfig gcConfig, String keyName){
+    public void run(GcConfig gcConfig){
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         //数据拼接(所有字段)
         this.generateParameters(gcConfig,dbFields);
         // 开始生成文件并进行数据替换
-        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
+        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, KEY_NAME));
 
     }
 

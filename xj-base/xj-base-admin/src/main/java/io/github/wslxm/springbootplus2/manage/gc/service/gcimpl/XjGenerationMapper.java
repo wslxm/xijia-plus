@@ -6,13 +6,14 @@ import io.github.wslxm.springbootplus2.manage.gc.service.XjGcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-
 @SuppressWarnings("all")
 @Component
 public class XjGenerationMapper extends BaseIServiceImpl implements XjGcSevice {
 
-
+    /**
+     * 模板key
+     */
+    public static final String KEY_NAME = "X-Mapper";
     /**
      * 生成Dao
      *
@@ -23,8 +24,8 @@ public class XjGenerationMapper extends BaseIServiceImpl implements XjGcSevice {
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(GcConfig gcConfig, String keyName){
+    public void run(GcConfig gcConfig){
         // 开始生成文件并进行数据替换
-        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
+        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, KEY_NAME));
     }
 }

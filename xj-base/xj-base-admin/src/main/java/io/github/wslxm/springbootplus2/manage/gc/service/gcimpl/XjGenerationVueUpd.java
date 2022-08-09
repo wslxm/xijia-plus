@@ -12,6 +12,11 @@ import java.util.List;
 @Component
 public class XjGenerationVueUpd extends BaseGcImpl implements XjGcSevice {
 
+    /**
+     * 模板key
+     */
+    public static final String KEY_NAME = "X-VueUpd";
+
 
     /**
      * 生成Html-Upd 修改页
@@ -23,7 +28,7 @@ public class XjGenerationVueUpd extends BaseGcImpl implements XjGcSevice {
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(GcConfig gcConfig, String keyName) {
+    public void run(GcConfig gcConfig) {
         StringBuffer vueUpdColumns = new StringBuffer("");
         StringBuffer vueAddColumnSlots = new StringBuffer("");
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
@@ -52,6 +57,6 @@ public class XjGenerationVueUpd extends BaseGcImpl implements XjGcSevice {
         gcConfig.setTemplateParam("vueUpdColumns", vueUpdColumns.toString());
         gcConfig.setTemplateParam("vueUpdColumnSlots", vueAddColumnSlots.toString());
         // 开始生成文件并进行数据替换
-        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, keyName));
+        GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, KEY_NAME));
     }
 }
