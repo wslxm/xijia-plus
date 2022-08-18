@@ -26,7 +26,7 @@ public interface {tableNameUp}Service extends IService<{tableNameUp}> {
      * @param query query
      * @return 分页列表数据
      */
-    IPage<{tableNameUp}VO> list({tableNameUp}Query query);
+    IPage<{tableNameUp}VO> findPage({tableNameUp}Query query);
 
     /**
      * id 查询

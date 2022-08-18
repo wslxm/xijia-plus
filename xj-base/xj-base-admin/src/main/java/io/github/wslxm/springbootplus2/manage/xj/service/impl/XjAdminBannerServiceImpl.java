@@ -27,19 +27,14 @@ import org.springframework.stereotype.Service;
 public class XjAdminBannerServiceImpl extends BaseIServiceImpl<XjAdminBannerMapper, XjAdminBanner> implements XjAdminBannerService {
 
     @Override
-    public IPage<XjAdminBannerVO> list(XjAdminBannerQuery query) {
+    public IPage<XjAdminBannerVO> findPage(XjAdminBannerQuery query) {
         LambdaQueryWrapper<XjAdminBanner> queryWrapper = new LambdaQueryWrapper<XjAdminBanner>()
                 .orderByAsc(XjAdminBanner::getPosition)
                 .orderByAsc(XjAdminBanner::getSort)
                 .orderByDesc(XjAdminBanner::getCreateTime)
                 .eq(query.getPosition() != null, XjAdminBanner::getPosition, query.getPosition())
                 .eq(StringUtils.isNotBlank(query.getName()), XjAdminBanner::getName, query.getName());
-        if (query.getCurrent() <= 0) {
-            IPage<XjAdminBannerVO> page = new Page<>();
-            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), XjAdminBannerVO.class));
-        } else {
-            return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminBannerVO.class);
-        }
+        return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminBannerVO.class);
     }
 
     @Override

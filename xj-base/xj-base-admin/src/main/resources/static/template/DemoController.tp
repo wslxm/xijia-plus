@@ -28,10 +28,10 @@ import io.github.wslxm.springbootplus2.core.result.R;
 @Api(value = "{tableNameUp}Controller", tags = "{tableComment}")
 public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service> {
 {filterCrud}
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public R<IPage<{tableNameUp}VO>> list(@ModelAttribute @Validated {tableNameUp}Query query) {
-        return R.success(baseService.list(query));
+    public R<IPage<{tableNameUp}VO>> findPage(@ModelAttribute @Validated {tableNameUp}Query query) {
+        return R.success(baseService.findPage(query));
     }
 
     @GetMapping(value = "/{id}")

@@ -135,7 +135,7 @@
                     generateCodeVue: "/api/admin/generate/generateCodeVue", // 只生成vue代码(直接下载)
                     generateCodeJavaAndVue: "/api/admin/generate/generateCodeJavaAndVue", // 生成java + vue代码(直接下载)
                     diceFindList: "/api/admin/dictionary/list?isBottomLayer=false&code=ENUMS", // 获取字典数据
-                    datasourceInfoList: "/api/admin/datasource/list",   // 查询数据源
+                    datasourceInfoList: "/api/admin/datasource/findPage?size=10000",   // 查询数据源
                 },
                 loading: true,
                 dialogWidth: "60%",
@@ -391,7 +391,7 @@
              * @return
              */
             dbDatasource() {
-                router.push({path: "/views/gc/db/xjAdminDatasource"});
+                router.push({path: "/gc/db"});
             },
 
             /**

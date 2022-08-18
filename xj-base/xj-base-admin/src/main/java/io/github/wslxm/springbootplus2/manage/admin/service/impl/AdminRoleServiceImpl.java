@@ -49,7 +49,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
 
 
     @Override
-    public IPage<AdminRoleVO> list(AdminRoleQuery query) {
+    public IPage<AdminRoleVO> findPage(AdminRoleQuery query) {
 
         // 是否只查询当前登录人创建的角色
         String loginUserId = ObjectUtil.defaultIfNull(query.getIsLoginUser(), () -> JwtUtil.getJwtUser(request).getUserId(), null);
@@ -68,7 +68,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
         }
 
         // 处理指定用户当前拥有的角色
-        if (query.getIsUserIdChecked() && StringUtils.isNotBlank(userId)) {
+        if (isUserIdChecked && StringUtils.isNotBlank(userId)) {
             List<AdminRoleUser> roleUsers = roleUserAdminService.list(new LambdaQueryWrapper<AdminRoleUser>().eq(AdminRoleUser::getUserId, userId));
             if (roleUsers != null && roleUsers.size() > 0) {
                 List<String> userRoleIds = roleUsers.stream().map(AdminRoleUser::getRoleId).collect(Collectors.toList());

@@ -48,7 +48,7 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/xj/banner/list",
+                    infoList: "/api/admin/xj/banner/findPage",
                     info: "/api/admin/xj/banner",
                 },
                 loading: true,

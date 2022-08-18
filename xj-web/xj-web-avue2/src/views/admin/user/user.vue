@@ -103,10 +103,10 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/user/list",
+                    infoList: "/api/admin/user/findPage",
                     info: "/api/admin/user",
                     organInfo: "/api/admin/organ/list",
-                    roleInfo: "/api/admin/role/list",
+                    roleInfo: "/api/admin/role/findPage",
                     resetPassword: "/api/admin/user/{id}/resetPassword"
                 },
                 loading: true,

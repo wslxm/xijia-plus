@@ -33,10 +33,10 @@ import org.springframework.web.bind.annotation.*;
 public class XjAdminDatasourceController extends BaseController<XjAdminDatasourceService> {
 
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public R<IPage<XjAdminDatasourceVO>> list(@ModelAttribute @Validated XjAdminDatasourceQuery query) {
-        return R.successFind(baseService.list(query));
+    public R<IPage<XjAdminDatasourceVO>> findPage(@ModelAttribute @Validated XjAdminDatasourceQuery query) {
+        return R.successFind(baseService.findPage(query));
     }
 
 

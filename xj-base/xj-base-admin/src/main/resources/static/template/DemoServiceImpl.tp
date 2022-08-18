@@ -33,7 +33,7 @@ import java.util.List;
 public class {tableNameUp}ServiceImpl extends BaseIServiceImpl<{tableNameUp}Mapper, {tableNameUp}> implements {tableNameUp}Service {
 {filterCrud}
     @Override
-    public IPage<{tableNameUp}VO> list({tableNameUp}Query query) {
+    public IPage<{tableNameUp}VO> findPage({tableNameUp}Query query) {
         LambdaQueryWrapper<{tableNameUp}> queryWrapper = new LambdaQueryWrapper<{tableNameUp}>()
 {findPageMybatisPlus}
                 .orderByDesc({tableNameUp}::getCreateTime);

@@ -46,13 +46,7 @@ import java.util.stream.Collectors;
 public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, AdminUser> implements AdminUserService {
 
     @Autowired
-    private AdminRoleService adminRoleService;
-
-    @Autowired
     private AdminRoleUserService adminRoleUserService;
-
-    @Autowired
-    private AdminAuthorityService adminAuthorityService;
 
     @Autowired
     private XjAdminConfigService xjAdminConfigService;
@@ -60,31 +54,21 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     @Autowired
     private AdminOrganService adminOrganService;
 
-
     @Override
-    public IPage<AdminUserVO> list(AdminUserQuery query) {
+    public IPage<AdminUserVO> findPage(AdminUserQuery query) {
         if (query.getIsLoginUser() == null) {
             query.setIsLoginUser(false);
         }
         // 是否只查询当前登录人创建的用户
         String createUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
-        IPage<AdminUserVO> resPage = null;
-        if (query.getCurrent() <= 0) {
-            // list
-            IPage<AdminUserVO> page = new Page<>();
-            resPage = page.setRecords(baseMapper.list(null, query, createUserId));
-        } else {
-            // page
-            IPage<AdminUserVO> page = new Page<>(query.getCurrent(), query.getSize());
-            resPage = page.setRecords(baseMapper.list(page, query, createUserId));
-        }
-
+        IPage<AdminUserVO> page = new Page<>(query.getCurrent(), query.getSize());
+        page = page.setRecords(baseMapper.list(page, query, createUserId));
 
         // 公司/部门信息
-        if (resPage.getRecords() != null && resPage.getRecords().size() > 0) {
+        if (page.getRecords() != null && page.getRecords().size() > 0) {
             // 获取部门ids
             List<String> organIds = new ArrayList<>();
-            for (AdminUserVO userVO : resPage.getRecords()) {
+            for (AdminUserVO userVO : page.getRecords()) {
                 organIds.addAll(Arrays.asList(userVO.getOrganId().split(",")));
             }
 
@@ -95,13 +79,13 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
             List<AdminOrganVO> organs = adminOrganService.list(organQuery);
 
             // 处理数据
-            for (AdminUserVO userVO : resPage.getRecords()) {
+            for (AdminUserVO userVO : page.getRecords()) {
                 if (userVO.getOrganId() != null) {
                     userVO.setOrgan(adminOrganService.findNextOrgans(organs, userVO.getOrganId()));
                 }
             }
         }
-        return resPage;
+        return page;
     }
 
     @Override
@@ -168,7 +152,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // id查询数据
         AdminUserQuery query = new AdminUserQuery();
         query.setId(id);
-        IPage<AdminUserVO> list = this.list(query);
+        IPage<AdminUserVO> list = this.findPage(query);
         if (list.getRecords().size() == 0) {
             throw new ErrorException(RType.PARAM_ERROR.getValue(), RType.PARAM_ERROR.getMsg() + ":id");
         }

@@ -48,7 +48,7 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/xj/blacklist/list",
+                    infoList: "/api/admin/xj/blacklist/findPage",
                     info: "/api/admin/xj/blacklist",
                 },
                 loading: true,

@@ -28,10 +28,10 @@ import org.springframework.web.bind.annotation.*;
 public class XjAdminLogController extends BaseController<XjAdminLogService> {
 
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/findPage")
     @ApiOperation(value = "分页查询")
-    public R<IPage<XjAdminLogVO>> list(@ModelAttribute @Validated XjAdminLogQuery query) {
-        return R.success(baseService.list(query));
+    public R<IPage<XjAdminLogVO>> findPage(@ModelAttribute @Validated XjAdminLogQuery query) {
+        return R.success(baseService.findPage(query));
     }
 
 }

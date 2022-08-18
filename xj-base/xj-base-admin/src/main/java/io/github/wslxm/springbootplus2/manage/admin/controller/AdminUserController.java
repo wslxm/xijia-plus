@@ -33,10 +33,10 @@ import java.util.List;
 public class AdminUserController extends BaseController<AdminUserService> {
 
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public R<IPage<AdminUserVO>> list(@ModelAttribute @Validated AdminUserQuery query) {
-        return R.successFind(baseService.list(query));
+    public R<IPage<AdminUserVO>> findPage(@ModelAttribute @Validated AdminUserQuery query) {
+        return R.successFind(baseService.findPage(query));
     }
 
 

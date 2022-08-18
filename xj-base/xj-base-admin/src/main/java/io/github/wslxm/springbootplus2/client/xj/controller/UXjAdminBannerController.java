@@ -1,6 +1,5 @@
 package io.github.wslxm.springbootplus2.client.xj.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.github.wslxm.springbootplus2.common.annotation.XjCurrentLimit;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 /**
@@ -35,9 +36,9 @@ public class UXjAdminBannerController extends BaseController<XjAdminBannerServic
     @ApiOperation(value = "列表-位置查询")
     @ApiImplicitParam(name = "position", value = "位置(字典code)", required = true, paramType = "path", example = "")
     @XjCurrentLimit(qbs = 200)
-    public R<IPage<XjAdminBannerVO>> list(@PathVariable Integer position) {
+    public R<List<XjAdminBannerVO>> list(@PathVariable Integer position) {
         XjAdminBannerQuery query = new XjAdminBannerQuery();
         query.setPosition(position);
-        return R.successFind(baseService.list(query));
+        return R.successFind(baseService.findPage(query).getRecords());
     }
 }

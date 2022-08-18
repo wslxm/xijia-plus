@@ -51,7 +51,7 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/xj/log/list",
+                    infoList: "/api/admin/xj/log/findPage",
                 },
                 loading: true,
                 dialogWidth: "80%",

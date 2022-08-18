@@ -59,7 +59,7 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/xj/config/list",
+                    infoList: "/api/admin/xj/config/findPage",
                     info: "/api/admin/xj/config",
                 },
                 loading: true,

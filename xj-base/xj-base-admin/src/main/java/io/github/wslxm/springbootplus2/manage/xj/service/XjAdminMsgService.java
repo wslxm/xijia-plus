@@ -27,7 +27,7 @@ public interface XjAdminMsgService extends IService<XjAdminMsg> {
      * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminMsgVO>
      * @version 1.0.0
      */
-    IPage<XjAdminMsgVO> list(XjAdminMsgQuery query);
+    IPage<XjAdminMsgVO> findPage(XjAdminMsgQuery query);
 
 
     /**

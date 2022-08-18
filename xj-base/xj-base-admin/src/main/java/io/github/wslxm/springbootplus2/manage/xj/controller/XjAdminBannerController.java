@@ -28,10 +28,10 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "XjAdminBannerController", tags = "base--plus--banner")
 public class XjAdminBannerController extends BaseController<XjAdminBannerService> {
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public R<IPage<XjAdminBannerVO>> list(@ModelAttribute @Validated XjAdminBannerQuery query) {
-        return R.success(baseService.list(query));
+    public R<IPage<XjAdminBannerVO>> findPage(@ModelAttribute @Validated XjAdminBannerQuery query) {
+        return R.success(baseService.findPage(query));
     }
 
     @PostMapping

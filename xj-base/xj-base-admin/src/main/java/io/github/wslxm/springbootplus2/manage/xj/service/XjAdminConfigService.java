@@ -26,7 +26,7 @@ public interface XjAdminConfigService extends IService<XjAdminConfig> {
      * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO>
      * @version 1.0.0
      */
-    IPage<XjAdminConfigVO> list(XjAdminConfigQuery query);
+    IPage<XjAdminConfigVO> findPage(XjAdminConfigQuery query);
 
 
     /**

@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.*;
 public class AdminRoleController extends BaseController<AdminRoleService> {
 
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public R<IPage<AdminRoleVO>> list(@ModelAttribute AdminRoleQuery query) {
-        return R.success(baseService.list(query));
+    public R<IPage<AdminRoleVO>> findPage(@ModelAttribute AdminRoleQuery query) {
+        return R.success(baseService.findPage(query));
     }
 
 

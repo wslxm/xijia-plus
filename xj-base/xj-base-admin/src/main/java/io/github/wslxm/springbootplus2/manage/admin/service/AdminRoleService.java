@@ -26,7 +26,7 @@ public interface AdminRoleService extends IService<AdminRole> {
      * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminRoleVO>
      * @version 1.0.0
      */
-    IPage<AdminRoleVO> list(AdminRoleQuery query);
+    IPage<AdminRoleVO> findPage(AdminRoleQuery query);
 
 
     /**

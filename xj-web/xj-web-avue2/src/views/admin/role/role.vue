@@ -63,7 +63,7 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/role/list",
+                    infoList: "/api/admin/role/findPage",
                     info: "/api/admin/role",
                     updRoleAuthAll: "/api/admin/role/updRoleAuthAll",  // 使用角色拥有所有权限
                     menuList: "/api/admin/menu/list?disable=0&isTree=true&roleId={roleId}", // 分配菜单查询信息

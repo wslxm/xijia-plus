@@ -33,18 +33,13 @@ import java.util.List;
 public class XjAdminBlacklistServiceImpl extends BaseIServiceImpl<XjAdminBlacklistMapper, XjAdminBlacklist> implements XjAdminBlacklistService {
 
     @Override
-    public IPage<XjAdminBlacklistVO> list(XjAdminBlacklistQuery query) {
+    public IPage<XjAdminBlacklistVO> findPage(XjAdminBlacklistQuery query) {
         LambdaQueryWrapper<XjAdminBlacklist> queryWrapper = new LambdaQueryWrapper<XjAdminBlacklist>()
                 .orderByDesc(XjAdminBlacklist::getCreateTime)
                 .eq(query.getType() != null, XjAdminBlacklist::getType, query.getType())
                 .eq(query.getDisable() != null, XjAdminBlacklist::getDisable, query.getDisable())
                 .eq(StringUtils.isNotBlank(query.getIp()), XjAdminBlacklist::getIp, query.getIp());
-        if (query.getCurrent() <= 0) {
-            IPage<XjAdminBlacklistVO> page = new Page<>();
-            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), XjAdminBlacklistVO.class));
-        } else {
-            return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminBlacklistVO.class);
-        }
+        return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminBlacklistVO.class);
     }
 
 
