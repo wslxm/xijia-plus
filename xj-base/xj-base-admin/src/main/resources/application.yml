@@ -75,7 +75,7 @@ gc:
   tablePrefixDefault: t_                  # 表前缀 (生成的类名会过滤掉前缀)
   fieldPrefixDefault:                     # 字段前缀 (生成的字段名会过滤掉前缀)
   entitySwagger: false                    # 实体类是否使用swagger注释 (false情况下使用doc注释)
-  fatherPath:                             # 生成路径(不填默认当前项目跟目录,可指定绝对路径)
+  fatherPath:                             # 生成路径(不填默认当前项目跟目录,可指定绝对路径,本地启动时生效)
   ## 是否过滤crud方法- 默认生成 (controller/service/mapper/xml)
   filterCrud: false
   ## 18=富文本 19=md编辑器

@@ -5,13 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.wslxm.springbootplus2.manage.admin.model.dto.AdminRoleDTO;
 import io.github.wslxm.springbootplus2.manage.admin.model.dto.role.RoleAuthDTO;
-import io.github.wslxm.springbootplus2.manage.admin.model.dto.role.RoleMenuDTO;
-import io.github.wslxm.springbootplus2.manage.admin.model.dto.role.UserRoleDTO;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRole;
 import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminRoleQuery;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminRoleVO;
-
-import java.util.List;
 
 /**
  * 角色
@@ -62,37 +58,6 @@ public interface AdminRoleService extends IService<AdminRole> {
      * @version 1.0.0
      */
     boolean del(String roleId);
-
-
-    /**
-     * 修改用户角色
-     *
-     * @param userId  userId
-     * @param roleIds roleIds
-     * @return boolean
-     * @version 1.0.0
-     */
-    boolean updUserRole(String userId, List<String> roleIds);
-
-
-    /**
-     * 分配用户角色
-     *
-     * @param dto dto
-     * @return boolean
-     * @version 1.0.0
-     */
-    boolean updUserRole(UserRoleDTO dto);
-
-
-    /**
-     * 分配角色菜单权限
-     *
-     * @param dto dto
-     * @return boolean
-     * @version 1.0.0
-     */
-    boolean roleMenuAuth(RoleMenuDTO dto);
 
 
     /**

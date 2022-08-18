@@ -1,11 +1,12 @@
 package io.github.wslxm.springbootplus2.manage.admin.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.common.cache.AuthCacheKeyUtil;
 import io.github.wslxm.springbootplus2.common.cache.CacheKey;
 import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
-import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.enums.Base;
@@ -18,6 +19,7 @@ import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRole;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRoleAuth;
 import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminAuthorityQuery;
+import io.github.wslxm.springbootplus2.manage.admin.model.query.AuthorityByUserIdQuery;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminAuthorityVO;
 import io.github.wslxm.springbootplus2.manage.admin.service.AdminAuthorityService;
 import io.github.wslxm.springbootplus2.manage.admin.service.AdminRoleAuthService;
@@ -55,6 +57,11 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     @Autowired
     private AdminAuthorityMapper adminAuthorityMapper;
 
+    /**
+     * 顶级父id
+     */
+    private static final String PID = "0";
+
 
     /**
      * 查询所有权限数据, 根据不同的端的枚举code 拼接最顶级的目录，顶级目录ID = -1
@@ -64,26 +71,19 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      */
     @Override
     public List<AdminAuthorityVO> list(AdminAuthorityQuery query) {
-        if (query.getIsLoginUser() == null) {
-            query.setIsLoginUser(false);
-        }
-        if (query.getIsTree() == null) {
-            query.setIsTree(false);
-        }
-        if (StringUtils.isBlank(query.getAsc()) && StringUtils.isBlank(query.getDesc())) {
-            query.setAsc("method");
-        }
+        String loginUserId = ObjectUtil.defaultIfNull(query.getIsLoginUser(), () -> JwtUtil.getJwtUser(request).getUserId(), null);
+        boolean isTree = ObjectUtil.defaultIfNull(query.getIsTree(), false);
 
-        // 1、查询指定用户 或 所有权限数据, 或指定pid 的数据
-        String loginUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
-        List<AdminAuthority> authoritys = adminAuthorityMapper.findByUserIdAuthority(loginUserId,
-                query.getPid(),
-                query.getType(),
-                query.getState(),
-                query.getDisable(),
-                query.getAsc(),
-                query.getDesc()
-        );
+        // 查询权限
+        AuthorityByUserIdQuery authorityByUserIdQuery = new AuthorityByUserIdQuery();
+        authorityByUserIdQuery.setUserId(loginUserId);
+        authorityByUserIdQuery.setPid(query.getPid());
+        authorityByUserIdQuery.setType(query.getType());
+        authorityByUserIdQuery.setState(query.getState());
+        authorityByUserIdQuery.setDisable(query.getDisable());
+        authorityByUserIdQuery.setAsc(query.getAsc());
+        authorityByUserIdQuery.setDesc(query.getDesc());
+        List<AdminAuthority> authoritys = adminAuthorityMapper.findByUserIdAuthority(authorityByUserIdQuery);
         List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authoritys, AdminAuthorityVO.class);
 
         // 2、根据角色控制数据是否有权限状态
@@ -99,14 +99,14 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             }
         }
         // 3、resurt，返回list
-        if (!query.getIsTree() || adminAuthorityVOList.size() <= 1) {
+        if (!isTree || adminAuthorityVOList.size() <= 1) {
             return adminAuthorityVOList;
         }
-        // 4、resurt，返回tree
+        // 4、result，返回tree
         List<AdminAuthorityVO> adminAuthorityVoTree = new ArrayList<>();
         // 循环处理数据,获取第一级类数据
         for (AdminAuthorityVO authVO : adminAuthorityVOList) {
-            if ("".equals(authVO.getPid()) || "0".equals(authVO.getPid())) {
+            if ("".equals(authVO.getPid()) || PID.equals(authVO.getPid())) {
                 // 循环处理数据,获取第二级方法数据
                 List<AdminAuthorityVO> nextAdminAuthorityVoTree = new ArrayList<>();
                 for (AdminAuthorityVO authTwoVO : adminAuthorityVOList) {
@@ -150,19 +150,18 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     @Override
     @Cacheable(value = CacheKey.LOGIN_AUTH_USER_ID, key = "#userId")
     public List<String> findByUserIdAuthority(String userId) {
-        List<AdminAuthority> auth = baseMapper.findByUserIdAuthority(
-                userId,
-                null,
-                null,
-                Base.AuthorityState.V2.getValue(),
-                Base.Disable.V0.getValue(),
-                "method",
-                null
-        );
+        // 查询 需要登录+授权的url 并且启用的url
+        AuthorityByUserIdQuery query = new AuthorityByUserIdQuery();
+        query.setUserId(userId);
+        query.setState(Base.AuthorityState.V2.getValue());
+        query.setDisable(Base.Disable.V0.getValue());
+        List<AdminAuthority> auth = baseMapper.findByUserIdAuthority(query);
         if (auth == null) {
             return new ArrayList<>();
         } else {
-            return auth.stream().map(p -> AuthCacheKeyUtil.getCacheKey(p.getMethod(), p.getUrl())).collect(Collectors.toList());
+            // 处理接口UrlKeys返回
+            return auth.stream().map(p -> AuthCacheKeyUtil.getCacheKey(p.getMethod(), p.getUrl()))
+                    .collect(Collectors.toList());
         }
     }
 
@@ -259,7 +258,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                     // 存在修改
                     AdminAuthority updAuthority = authorityMap.get(AuthCacheKeyUtil.getAuthKey("", url));
                     updAuthority.setUrl(url);
-                    updAuthority.setPid("0");
+                    updAuthority.setPid(PID);
                     updAuthority.setDesc(classDesc);
                     updAuthority.setType(uriType);
                     updAuthority.setState(state);
@@ -272,7 +271,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
                     // 不存在新添加
                     AdminAuthority addAuthority = new AdminAuthority();
                     addAuthority.setId(IdUtil.snowflakeId());
-                    addAuthority.setPid("0");
+                    addAuthority.setPid(PID);
                     addAuthority.setMethod("");
                     addAuthority.setUrl(url);
                     addAuthority.setDesc(classDesc);
@@ -355,22 +354,22 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             GetMapping getMapping = method.getAnnotation(GetMapping.class);
             if (url == null && getMapping != null) {
                 url = authority.getUrl() + (getMapping.value().length > 0 ? getMapping.value()[0] : "");
-                requestMethod = "GET";
+                requestMethod = RequestMethod.GET.name();
             }
             PostMapping postMapping = method.getAnnotation(PostMapping.class);
             if (url == null && postMapping != null) {
                 url = authority.getUrl() + (postMapping.value().length > 0 ? postMapping.value()[0] : "");
-                requestMethod = "POST";
+                requestMethod = RequestMethod.POST.name();
             }
             PutMapping putMapping = method.getAnnotation(PutMapping.class);
             if (url == null && putMapping != null) {
                 url = authority.getUrl() + (putMapping.value().length > 0 ? putMapping.value()[0] : "");
-                requestMethod = "PUT";
+                requestMethod = RequestMethod.PUT.name();
             }
             DeleteMapping deleteMapping = method.getAnnotation(DeleteMapping.class);
             if (url == null && deleteMapping != null) {
                 url = authority.getUrl() + (deleteMapping.value().length > 0 ? deleteMapping.value()[0] : "");
-                requestMethod = "DELETE";
+                requestMethod = RequestMethod.DELETE.name();
             }
             if (url == null) {
                 continue;

@@ -20,10 +20,10 @@ public class AdminDictionaryQuery extends Convert {
 
     private static final long serialVersionUID = 0L;
 
-    @ApiModelProperty(value = "父级code (与pid 二选一) 没有获取所有, 传递了只查询指定code下数据")
+    @ApiModelProperty(value = "父级code,没有获取所有, 传递了只查询指定code下数据")
     private String code;
 
-    @ApiModelProperty(value = "父级code是否查询所有层级数据 true=是")
+    @ApiModelProperty(value = "父级code 查询是否获取所有层级数据 true-是(所有下级-默认) false-否(下一级)")
     private Boolean isNextAll;
 
     @ApiModelProperty(value = "是否查询禁用数据 true-查询*默认  false-不查询")

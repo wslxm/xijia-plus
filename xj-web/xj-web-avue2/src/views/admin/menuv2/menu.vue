@@ -196,9 +196,11 @@
              * @author wangsong
              */
             onLoad() {
+                // 列表默认查询顶级数据
                 if (this.search.pid == null) {
                     this.search.root = 1;
                 }
+                this.search.isNextAll = false;
                 this.search.isTree = true;
                 // 查询
                 this.crud.list(this, false);

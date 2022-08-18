@@ -16,9 +16,9 @@ import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
+import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.github.wslxm.springbootplus2.manage.admin.mapper.AdminUserMapper;
 import io.github.wslxm.springbootplus2.manage.admin.model.dto.AdminUserDTO;
-import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRoleUser;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminUser;
 import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminOrganQuery;
 import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminUserQuery;
@@ -109,7 +109,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     public String insert(AdminUserDTO dto) {
         // 判重账号/判重电话
         this.verifyRepeatUsername(dto.getUsername(), null, dto.getTerminal(), null);
-        this.verifyRepeatePhone(dto.getPhone(), null, dto.getTerminal(), null);
+        this.verifyRepeatPhone(dto.getPhone(), null, dto.getTerminal(), null);
         //
         AdminUser adminUser = dto.convert(AdminUser.class);
         adminUser.setId(IdUtil.snowflakeId());
@@ -128,8 +128,8 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         }
         this.save(adminUser);
         if (dto.getRoleIds() != null) {
-            //分配角色
-            adminRoleService.updUserRole(adminUser.getId(), dto.getRoleIds());
+            // 用户角色分配
+            adminRoleUserService.updUserRole(adminUser.getId(), dto.getRoleIds());
         }
         return adminUser.getId();
     }
@@ -140,24 +140,26 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         AdminUser adminUser = this.getOne(new LambdaQueryWrapper<AdminUser>()
                 .select(AdminUser::getUsername, AdminUser::getPhone, AdminUser::getTerminal)
                 .eq(AdminUser::getId, id));
+        ValidUtil.isTrue(adminUser == null, "没有找到数据");
 
         // 判重账号/判重电话
         this.verifyRepeatUsername(dto.getUsername(), adminUser.getUsername(), dto.getTerminal(), adminUser.getTerminal());
-        this.verifyRepeatePhone(dto.getPhone(), adminUser.getPhone(), dto.getTerminal(), adminUser.getTerminal());
+        this.verifyRepeatPhone(dto.getPhone(), adminUser.getPhone(), dto.getTerminal(), adminUser.getTerminal());
         //
         AdminUser entity = dto.convert(AdminUser.class);
         entity.setId(id);
         this.updateById(entity);
-        // 角色信息重分配
         if (dto.getRoleIds() != null && dto.getRoleIds().size() > 0) {
-            adminRoleService.updUserRole(id, dto.getRoleIds());
+            // 用户角色分配
+            adminRoleUserService.updUserRole(id, dto.getRoleIds());
         }
         return true;
     }
 
     @Override
     public Boolean del(String userId) {
-        adminRoleUserService.remove(new LambdaQueryWrapper<AdminRoleUser>().eq(AdminRoleUser::getUserId, userId));
+        // 删除用户角色
+        adminRoleUserService.delByUserId(userId);
         return this.removeById(userId);
     }
 
@@ -335,7 +337,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
      * @date 2021/9/30 0030 14:11
      * @version 1.0.1
      */
-    private void verifyRepeatePhone(String phone, String oldPhone, Integer terminal, Integer oldTerminal) {
+    private void verifyRepeatPhone(String phone, String oldPhone, Integer terminal, Integer oldTerminal) {
         if (StringUtils.isNotBlank(phone)) {
             // 判重电话
             if (!phone.equals(oldPhone) || !terminal.equals(oldTerminal)) {

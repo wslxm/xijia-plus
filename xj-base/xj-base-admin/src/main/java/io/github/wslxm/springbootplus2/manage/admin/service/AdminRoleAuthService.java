@@ -13,5 +13,14 @@ import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRoleAuth;
  */
 public interface AdminRoleAuthService extends IService<AdminRoleAuth> {
 
+	/**
+	 * 删除指定角色 关联的权限
+	 *
+	 * @param roleId
+	 * @return boolean
+	 * @author wangsong
+	 * @date 2022/8/18 14:31
+	 */
+	boolean delByRoleId(String roleId);
 
 }

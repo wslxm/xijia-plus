@@ -3,6 +3,7 @@ package io.github.wslxm.springbootplus2.manage.admin.model.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -15,6 +16,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @TableName(value = "t_admin_role_user")
+@NoArgsConstructor
 public class AdminRoleUser extends BaseEntity {
 
 
@@ -32,10 +34,6 @@ public class AdminRoleUser extends BaseEntity {
      * 角色id
      */
     private String roleId;
-
-
-    public AdminRoleUser() {
-    }
 
     public AdminRoleUser(String roleId, String userId) {
         this.userId = userId;

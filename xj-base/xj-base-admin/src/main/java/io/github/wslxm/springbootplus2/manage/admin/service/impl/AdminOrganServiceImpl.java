@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.admin.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.enums.Base;
@@ -39,23 +40,21 @@ public class AdminOrganServiceImpl extends BaseIServiceImpl<AdminOrganMapper, Ad
 
     @Override
     public List<AdminOrganVO> list(AdminOrganQuery query) {
-        if (query.getIsTree() == null) {
-            query.setIsTree(false);
-        }
+        Boolean isTree = ObjectUtil.defaultIfNull(query.getIsTree(), false);
         LambdaQueryWrapper<AdminOrgan> queryWrapper = new LambdaQueryWrapper<AdminOrgan>()
                 .eq(query.getDisable() != null, AdminOrgan::getDisable, query.getDisable())
                 .eq(StringUtils.isNotBlank(query.getPid()), AdminOrgan::getPid, query.getPid())
                 .in(query.getIds() != null && query.getIds().size() > 0, AdminOrgan::getId, query.getIds())
                 .orderByDesc(AdminOrgan::getCreateTime);
         List<AdminOrganVO> listVo = BeanDtoVoUtil.listVo(this.list(queryWrapper), AdminOrganVO.class);
-        if (!query.getIsTree()) {
+        if (!isTree) {
             return listVo;
         } else {
             List<AdminOrganVO> treeList = new ArrayList<>();
             for (AdminOrganVO adminOrganVO : listVo) {
                 if (PID.equals(adminOrganVO.getPid())) {
                     treeList.add(adminOrganVO);
-                    newxOrgan(listVo, adminOrganVO);
+                    nextOrgan(listVo, adminOrganVO);
                 }
             }
             return treeList;
@@ -73,7 +72,7 @@ public class AdminOrganServiceImpl extends BaseIServiceImpl<AdminOrganMapper, Ad
      * @date 2021/9/30 0030 17:17
      * @version 1.0.1
      */
-    private void newxOrgan(List<AdminOrganVO> listVo, AdminOrganVO adminOrganVO) {
+    private void nextOrgan(List<AdminOrganVO> listVo, AdminOrganVO adminOrganVO) {
         if (adminOrganVO.getRoot().equals(Base.OrganRoot.V3.getValue())) {
             return;
         }
@@ -86,7 +85,7 @@ public class AdminOrganServiceImpl extends BaseIServiceImpl<AdminOrganMapper, Ad
                 } else {
                     adminOrganVO.getOrgans().add(nextAdminOrganVO);
                 }
-                newxOrgan(listVo, nextAdminOrganVO);
+                nextOrgan(listVo, nextAdminOrganVO);
             }
         }
     }

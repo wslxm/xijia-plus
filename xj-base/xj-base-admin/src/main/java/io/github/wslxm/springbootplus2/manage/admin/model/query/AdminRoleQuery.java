@@ -26,19 +26,19 @@ public class AdminRoleQuery extends BaseQuery {
     @ApiModelProperty(value = "终端 (多平台,每个平台对应一个终端)", position = 2)
     private Integer terminal;
 
-    @ApiModelProperty(value = "用户id,只查询指定用户存在的角色", position = 3)
-    private String userId;
-
     @ApiModelProperty(value = "角色code", position = 3)
     private String code;
 
     @ApiModelProperty(value = "启用/禁用", position = 3)
     private Integer disable;
 
-    @ApiModelProperty(value = "是否踢除userId 查询参数,踢除后用户是否存在角色将改为 isChecked=true/false 来标记, true-踢除 false-不踢除(默认)  ", position = 4)
+    @ApiModelProperty(value = "用户id, 查询指定用户存在的角色", position = 3)
+    private String userId;
+
+    @ApiModelProperty(value = "用户id 查询模式, true-返回所有数据使用isChecked 标记用户是否存在角色  false-只查询出该用户存在的角色数据(默认)  ", position = 4)
     private Boolean isUserIdChecked;
 
-    @ApiModelProperty(value = "是否只查询当前登录人创建的角色, true-是 false-否(默认),需要多层级的结构权限,在角色列表查询，和用户分配时使用传递true ", position = 5)
+    @ApiModelProperty(value = "是否只查询当前登录人创建的角色, true-是 false-否(默认)", position = 5)
     private Boolean isLoginUser;
 
 }
