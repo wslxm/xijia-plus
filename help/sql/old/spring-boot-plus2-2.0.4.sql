@@ -133,11 +133,11 @@ INSERT INTO `t_admin_authority` VALUES ('595094558677798912', NULL, NULL, '2021-
 INSERT INTO `t_admin_authority` VALUES ('595094558686187520', NULL, NULL, '2021-09-29 21:40:08', '2021-09-29 21:40:08', 0, 624, '0', '', '/api/admin/xj/jvm', 'base-plus--jvm信息获取', 0, 0, 2, 0);
 INSERT INTO `t_admin_authority` VALUES ('595094558686187521', NULL, NULL, '2021-09-29 21:40:08', '2021-10-08 06:22:19', 0, 624, '595094558686187520', 'GET', '/api/admin/xj/jvm/jvmInfo', '3、系统的jvm信息', 0, 0, 2, 1);
 INSERT INTO `t_admin_authority` VALUES ('598128304653996032', NULL, NULL, '2021-10-08 06:35:13', '2021-10-08 06:36:06', 0, 613, '590395518954377221', 'GET', '/api/admin/xj/config/findByCode', 'CODE查询', 0, 0, 0, 1);
-INSERT INTO `t_admin_authority` VALUES ('606303420856537088', NULL, NULL, '2021-10-30 20:00:10', '2021-10-30 20:00:10', 0, 523, '0', '', '/api/admin/organ', 'base--组织机构', 0, 0, 2, 0);
-INSERT INTO `t_admin_authority` VALUES ('606303420856537089', NULL, NULL, '2021-10-30 20:00:10', '2022-01-09 14:06:15', 0, 523, '606303420856537088', 'GET', '/api/admin/organ/list', '列表查询', 0, 0, 2, 1);
-INSERT INTO `t_admin_authority` VALUES ('606303420856537090', NULL, NULL, '2021-10-30 20:00:10', '2022-01-09 14:06:15', 0, 523, '606303420856537088', 'POST', '/api/admin/organ', '添加', 0, 0, 2, 1);
-INSERT INTO `t_admin_authority` VALUES ('606303420856537091', NULL, NULL, '2021-10-30 20:00:10', '2022-01-09 14:06:14', 0, 523, '606303420856537088', 'DELETE', '/api/admin/organ/{id}', 'ID删除(并删除子数据)', 0, 0, 2, 1);
-INSERT INTO `t_admin_authority` VALUES ('606303420856537092', NULL, NULL, '2021-10-30 20:00:10', '2022-01-09 14:06:16', 0, 523, '606303420856537088', 'PUT', '/api/admin/organ/{id}', 'ID编辑', 0, 0, 2, 1);
+INSERT INTO `t_admin_authority` VALUES ('606303420856537088', NULL, NULL, '2021-10-30 20:00:10', '2021-10-30 20:00:10', 0, 523, '0', '', '/api/admin/dep', 'base--组织机构', 0, 0, 2, 0);
+INSERT INTO `t_admin_authority` VALUES ('606303420856537089', NULL, NULL, '2021-10-30 20:00:10', '2022-01-09 14:06:15', 0, 523, '606303420856537088', 'GET', '/api/admin/dep/list', '列表查询', 0, 0, 2, 1);
+INSERT INTO `t_admin_authority` VALUES ('606303420856537090', NULL, NULL, '2021-10-30 20:00:10', '2022-01-09 14:06:15', 0, 523, '606303420856537088', 'POST', '/api/admin/dep', '添加', 0, 0, 2, 1);
+INSERT INTO `t_admin_authority` VALUES ('606303420856537091', NULL, NULL, '2021-10-30 20:00:10', '2022-01-09 14:06:14', 0, 523, '606303420856537088', 'DELETE', '/api/admin/dep/{id}', 'ID删除(并删除子数据)', 0, 0, 2, 1);
+INSERT INTO `t_admin_authority` VALUES ('606303420856537092', NULL, NULL, '2021-10-30 20:00:10', '2022-01-09 14:06:16', 0, 523, '606303420856537088', 'PUT', '/api/admin/dep/{id}', 'ID编辑', 0, 0, 2, 1);
 INSERT INTO `t_admin_authority` VALUES ('613640045747900416', NULL, NULL, '2021-11-20 01:53:18', '2022-01-19 06:15:22', 0, 446, '590081231815839745', 'POST', '/api/admin/generate/generateCodeVue', '生成Vue代码(将直接下载)', 0, 0, 2, 1);
 INSERT INTO `t_admin_authority` VALUES ('620065229904154624', NULL, NULL, '2021-12-07 19:24:40', '2022-05-11 10:41:31', 0, 388, '594756761932664835', 'GET', '/api/client/xj/banner/list/{position}', '列表-位置查询', 0, 1, 0, 1);
 INSERT INTO `t_admin_authority` VALUES ('691539110942347264', NULL, NULL, '2022-06-04 16:56:21', '2022-06-04 16:56:21', 0, 124, '590395518954377221', 'GET', '/api/admin/xj/config/{id}', 'ID查询', 0, 0, 2, 0);
@@ -344,7 +344,7 @@ INSERT INTO `t_admin_menu` VALUES ('1457369967249879042', '1', '-1', '2021-11-07
 INSERT INTO `t_admin_menu` VALUES ('1457370029065531394', '1', '-1', '2021-11-07 23:31:06', '2022-05-15 10:44:52', 0, 0, '1457369967249879042', '系统管理', NULL, NULL, 'el-icon-document-remove', 0, 2, 0, 2);
 INSERT INTO `t_admin_menu` VALUES ('1457370075530031105', '1', '-1', '2021-11-07 23:31:17', '2022-05-15 10:44:52', 0, 0, '1457370029065531394', '角色管理', NULL, '/views/admin/role/role', 'el-icon-document-remove', 0, 3, 0, 2);
 INSERT INTO `t_admin_menu` VALUES ('1457372083897004033', '1', '-1', '2021-11-07 23:39:16', '2022-05-15 10:44:52', 0, 0, '1457370029065531394', '员工管理', NULL, '/views/admin/user/user', 'el-icon-document-remove', 0, 3, 0, 2);
-INSERT INTO `t_admin_menu` VALUES ('1459712656557576194', '1', '-1', '2021-11-14 10:39:51', '2022-05-15 10:44:52', 0, 0, '1440255602914869250', '组织机构', NULL, '/views/admin/adminOrgan/adminOrgan', 'el-icon-document-remove', 10002, 3, 0, 1);
+INSERT INTO `t_admin_menu` VALUES ('1459712656557576194', '1', '-1', '2021-11-14 10:39:51', '2022-05-15 10:44:52', 0, 0, '1440255602914869250', '组织机构', NULL, '/views/admin/adminDep/adminDep', 'el-icon-document-remove', 10002, 3, 0, 1);
 INSERT INTO `t_admin_menu` VALUES ('1459850402525622274', '1', '-1', '2021-11-14 19:47:12', '2022-05-15 10:44:53', 0, 0, '1449764190750285826', '全局配置', NULL, '/views/xj/xjAdminConfig/xjAdminConfig', 'el-icon-document-remove', 20001, 3, 0, 1);
 INSERT INTO `t_admin_menu` VALUES ('1461987433667141634', '1', '-1', '2021-11-20 17:19:01', '2022-05-15 10:44:53', 0, 0, '1440255471893200897', '首页', NULL, '/wel/jvmInfo', 'el-icon-menu', 0, 3, 0, 1);
 INSERT INTO `t_admin_menu` VALUES ('1462256665587916801', '1', '-1', '2021-11-21 11:08:51', '2022-05-15 10:44:53', 0, 0, '1449764190750285826', '黑/白名单', NULL, '/views/xj/xjAdminBlacklist/xjAdminBlacklist', 'el-icon-document-remove', 20002, 3, 0, 1);
@@ -361,10 +361,10 @@ INSERT INTO `t_admin_menu` VALUES ('1516699798743289857', '1', '-1', '2022-04-20
 INSERT INTO `t_admin_menu` VALUES ('1516699922710138882', '1', '-1', '2022-04-20 16:46:55', '2022-05-15 10:44:55', 0, 0, '1440255602914869250', '接口管理v2', NULL, '/views/admin/adminAuthorityv2/adminAuthority', 'el-icon-document-remove', 0, 3, 0, 1);
 
 -- ----------------------------
--- Table structure for t_admin_organ
+-- Table structure for t_admin_dep
 -- ----------------------------
-DROP TABLE IF EXISTS `t_admin_organ`;
-CREATE TABLE `t_admin_organ`  (
+DROP TABLE IF EXISTS `t_admin_dep`;
+CREATE TABLE `t_admin_dep`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键id',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
@@ -383,16 +383,16 @@ CREATE TABLE `t_admin_organ`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '基础表--组织机构' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of t_admin_organ
+-- Records of t_admin_dep
 -- ----------------------------
-INSERT INTO `t_admin_organ` VALUES ('1443501889504210946', NULL, '-1', '2021-09-30 17:04:03', '2022-01-11 10:16:20', 0, 0, '0', 'zgs', '成都总公司', '-', 0, 0, 1);
-INSERT INTO `t_admin_organ` VALUES ('1443502090977603585', NULL, '-1', '2021-09-30 17:04:51', '2021-10-08 16:24:00', 0, 0, '1443501889504210946', 'zgsa', '子公司a', '-', 0, 0, 2);
-INSERT INTO `t_admin_organ` VALUES ('1443502157943861250', NULL, '-1', '2021-09-30 17:05:07', '2022-02-23 15:13:43', 0, 0, '1443501889504210946', 'zgsb', '子公司b', '-', 0, 0, 2);
-INSERT INTO `t_admin_organ` VALUES ('1443502302433439746', NULL, '-1', '2021-09-30 17:05:42', '2021-10-08 16:24:00', 0, 0, '1443502090977603585', 'csb', '测试部', '-', 0, 0, 3);
-INSERT INTO `t_admin_organ` VALUES ('1443502428644241409', NULL, '-1', '2021-09-30 17:06:12', '2021-11-29 19:50:02', 0, 0, '1443502157943861250', 'yyb', '运营部', '-', 0, 0, 3);
-INSERT INTO `t_admin_organ` VALUES ('1468426496627490818', NULL, '-1', '2021-12-08 11:45:33', '2022-05-15 10:45:21', 0, 0, '1443501889504210946', 'zb', '公司总部', '-', 0, 0, 2);
-INSERT INTO `t_admin_organ` VALUES ('1481913168983756802', NULL, '-1', '2022-01-14 16:56:46', '2022-05-15 10:45:21', 0, 0, '1481913127925714945', 'xx-dep', 'xx部门', '-', 0, 0, 3);
-INSERT INTO `t_admin_organ` VALUES ('1481913213086863362', NULL, '-1', '2022-01-14 16:56:57', '2022-05-15 10:45:21', 0, 0, '1481913127925714945', 'xx-dep2', 'xx部门2', '-', 0, 0, 3);
+INSERT INTO `t_admin_dep` VALUES ('1443501889504210946', NULL, '-1', '2021-09-30 17:04:03', '2022-01-11 10:16:20', 0, 0, '0', 'zgs', '成都总公司', '-', 0, 0, 1);
+INSERT INTO `t_admin_dep` VALUES ('1443502090977603585', NULL, '-1', '2021-09-30 17:04:51', '2021-10-08 16:24:00', 0, 0, '1443501889504210946', 'zgsa', '子公司a', '-', 0, 0, 2);
+INSERT INTO `t_admin_dep` VALUES ('1443502157943861250', NULL, '-1', '2021-09-30 17:05:07', '2022-02-23 15:13:43', 0, 0, '1443501889504210946', 'zgsb', '子公司b', '-', 0, 0, 2);
+INSERT INTO `t_admin_dep` VALUES ('1443502302433439746', NULL, '-1', '2021-09-30 17:05:42', '2021-10-08 16:24:00', 0, 0, '1443502090977603585', 'csb', '测试部', '-', 0, 0, 3);
+INSERT INTO `t_admin_dep` VALUES ('1443502428644241409', NULL, '-1', '2021-09-30 17:06:12', '2021-11-29 19:50:02', 0, 0, '1443502157943861250', 'yyb', '运营部', '-', 0, 0, 3);
+INSERT INTO `t_admin_dep` VALUES ('1468426496627490818', NULL, '-1', '2021-12-08 11:45:33', '2022-05-15 10:45:21', 0, 0, '1443501889504210946', 'zb', '公司总部', '-', 0, 0, 2);
+INSERT INTO `t_admin_dep` VALUES ('1481913168983756802', NULL, '-1', '2022-01-14 16:56:46', '2022-05-15 10:45:21', 0, 0, '1481913127925714945', 'xx-dep', 'xx部门', '-', 0, 0, 3);
+INSERT INTO `t_admin_dep` VALUES ('1481913213086863362', NULL, '-1', '2022-01-14 16:56:57', '2022-05-15 10:45:21', 0, 0, '1481913127925714945', 'xx-dep2', 'xx部门2', '-', 0, 0, 3);
 
 -- ----------------------------
 -- Table structure for t_admin_role
@@ -1166,7 +1166,7 @@ CREATE TABLE `t_admin_user`  (
   `password` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
   `gender` int(1) NOT NULL DEFAULT 0 COMMENT '性别 (0-未知 1-男 2-女)',
   `disable` int(1) NOT NULL DEFAULT 0 COMMENT '是否禁用 (0-否，1-是)',
-  `organ_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '公司/部门id,多层级前端自行分割数据',
+  `dep_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '公司/部门id,多层级前端自行分割数据',
   `position` int(1) NOT NULL DEFAULT 0 COMMENT '职位 (字典code)',
   `terminal` int(1) NOT NULL DEFAULT 1 COMMENT '终端 (字段code)',
   `head` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '头像',
@@ -1626,7 +1626,7 @@ INSERT INTO `t_xj_admin_log` VALUES ('1537450189898387457', NULL, NULL, '2022-06
 INSERT INTO `t_xj_admin_log` VALUES ('1537450229203210242', NULL, NULL, '2022-06-16 23:01:13', '2022-06-16 23:01:13', 0, 0, '╥﹏╥', '0', -1, 'http://vue.xijia.plus/login', 'http://172.19.7.216:9049/api/admin/user/login', '/api/admin/user/login', '172.17.0.1', '172.17.0.1', 'POST', '172.19.7.216', '54310', 'io.github.wslxm.springbootplus2.manage.admin.controller', 'io.github.wslxm.springbootplus2.manage.admin.controller.AdminUserController', 'base--用户管理', '用户登录', '[\"hexin\",\"123456\",1]', '{\"code\":200,\"data\":true,\"msg\":\"成功\"}', 1, 382, 258);
 INSERT INTO `t_xj_admin_log` VALUES ('1537450703797096449', NULL, NULL, '2022-06-16 23:03:06', '2022-06-16 23:03:06', 0, 0, '╥﹏╥', '0', -1, 'http://vue.xijia.plus/login', 'http://172.19.7.216:9049/api/admin/user/login', '/api/admin/user/login', '172.17.0.1', '172.17.0.1', 'POST', '172.19.7.216', '54330', 'io.github.wslxm.springbootplus2.manage.admin.controller', 'io.github.wslxm.springbootplus2.manage.admin.controller.AdminUserController', 'base--用户管理', '用户登录', '[\"hexin\",\"123456\",1]', '{\"code\":200,\"data\":true,\"msg\":\"成功\"}', 1, 453, 322);
 INSERT INTO `t_xj_admin_log` VALUES ('1537454677124190209', NULL, NULL, '2022-06-16 23:18:54', '2022-06-16 23:18:54', 0, 0, '╥﹏╥', '0', -1, 'http://vue.xijia.plus/views/admin/user/user', 'http://172.19.7.216:9049/api/open/aliOssFile/upload', '/api/open/aliOssFile/upload', '172.17.0.1', '172.17.0.1', 'POST', '172.19.7.216', '54860', 'io.github.wslxm.springbootplus2.starter.aliyun.oss.starter.controller', 'io.github.wslxm.springbootplus2.starter.aliyun.oss.starter.controller.AliOssController', 'AliYun --> OSS文件管理', 'OSS-文件上传,可在指定路径后追加子路径,以/结尾，返回完整可访问当前服务内网访问OSS的完整URL', 'the request data cannot be parsed', '{\"code\":200,\"data\":{\"name\":\"4.png\",\"url\":\"http://xijia-sz.oss-cn-shenzhen.aliyuncs.com/oss/file/image/head/53206946-4.png\"},\"msg\":\"成功\"}', 1, 1010, 996);
-INSERT INTO `t_xj_admin_log` VALUES ('1537454690340442113', NULL, NULL, '2022-06-16 23:18:57', '2022-06-16 23:18:57', 0, 0, '平台主账号', '1', 0, 'http://vue.xijia.plus/views/admin/user/user', 'http://172.19.7.216:9049/api/admin/user/1', '/api/admin/user/1', '172.17.0.1', '172.17.0.1', 'PUT', '172.19.7.216', '54870', 'io.github.wslxm.springbootplus2.manage.admin.controller', 'io.github.wslxm.springbootplus2.manage.admin.controller.AdminUserController', 'base--用户管理', 'ID编辑', '[\"1\",{\"address\":\"四川成都\",\"age\":22,\"disable\":0,\"fullName\":\"平台主账号\",\"gender\":1,\"head\":\"http://xijia-sz.oss-cn-shenzhen.aliyuncs.com/oss/file/image/head/53206946-4.png\",\"organId\":\"1443501889504210946,1443502090977603585,1443502249136418817\",\"phone\":\"10000\",\"position\":0,\"roleIds\":[\"1443467633444806658\"],\"terminal\":1,\"username\":\"admin\"}]', '{\"code\":200,\"data\":true,\"msg\":\"编辑成功\"}', 1, 743, 722);
+INSERT INTO `t_xj_admin_log` VALUES ('1537454690340442113', NULL, NULL, '2022-06-16 23:18:57', '2022-06-16 23:18:57', 0, 0, '平台主账号', '1', 0, 'http://vue.xijia.plus/views/admin/user/user', 'http://172.19.7.216:9049/api/admin/user/1', '/api/admin/user/1', '172.17.0.1', '172.17.0.1', 'PUT', '172.19.7.216', '54870', 'io.github.wslxm.springbootplus2.manage.admin.controller', 'io.github.wslxm.springbootplus2.manage.admin.controller.AdminUserController', 'base--用户管理', 'ID编辑', '[\"1\",{\"address\":\"四川成都\",\"age\":22,\"disable\":0,\"fullName\":\"平台主账号\",\"gender\":1,\"head\":\"http://xijia-sz.oss-cn-shenzhen.aliyuncs.com/oss/file/image/head/53206946-4.png\",\"depId\":\"1443501889504210946,1443502090977603585,1443502249136418817\",\"phone\":\"10000\",\"position\":0,\"roleIds\":[\"1443467633444806658\"],\"terminal\":1,\"username\":\"admin\"}]', '{\"code\":200,\"data\":true,\"msg\":\"编辑成功\"}', 1, 743, 722);
 INSERT INTO `t_xj_admin_log` VALUES ('1537454804903661569', NULL, NULL, '2022-06-16 23:19:24', '2022-06-16 23:19:24', 0, 0, '╥﹏╥', '0', -1, 'http://vue.xijia.plus/login', 'http://172.19.7.216:9049/api/admin/user/login', '/api/admin/user/login', '172.17.0.1', '172.17.0.1', 'POST', '172.19.7.216', '54932', 'io.github.wslxm.springbootplus2.manage.admin.controller', 'io.github.wslxm.springbootplus2.manage.admin.controller.AdminUserController', 'base--用户管理', '用户登录', '[\"hexin\",\"MTIzNDU2\",1]', '{\"code\":200,\"data\":true,\"msg\":\"成功\"}', 1, 226, 223);
 INSERT INTO `t_xj_admin_log` VALUES ('1537454916304375810', NULL, NULL, '2022-06-16 23:19:51', '2022-06-16 23:19:51', 0, 0, '平台主账号', '1', 0, 'http://vue.xijia.plus/views/xj/xjAdminMsg/xjAdminMsg', 'http://172.19.7.216:9049/api/admin/xj/msg', '/api/admin/xj/msg', '172.17.0.1', '172.17.0.1', 'POST', '172.19.7.216', '55060', 'io.github.wslxm.springbootplus2.manage.xj.controller', 'io.github.wslxm.springbootplus2.manage.xj.controller.XjAdminMsgController', 'base-plus--消息通知', '添加/发送消息', '[{\"content\":\"测试消息\",\"msgType\":0,\"userId\":\"1\",\"userType\":2}]', '{\"code\":200,\"data\":\"1537454915771699202\",\"msg\":\"成功\"}', 1, 129, 122);
 INSERT INTO `t_xj_admin_log` VALUES ('1537674811235373058', NULL, NULL, '2022-06-17 13:53:38', '2022-06-17 13:53:38', 0, 0, '╥﹏╥', '0', -1, 'http://vue.xijia.plus/login', 'http://172.19.7.216:9049/api/admin/user/login', '/api/admin/user/login', '172.17.0.1', '172.17.0.1', 'POST', '172.19.7.216', '33766', 'io.github.wslxm.springbootplus2.manage.admin.controller', 'io.github.wslxm.springbootplus2.manage.admin.controller.AdminUserController', 'base--用户管理', '用户登录', '[\"admin\",\"MTIzNDU2\",1]', '{\"code\":8101,\"msg\":\"密码错误\"}', 1, 171, 167);

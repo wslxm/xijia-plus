@@ -20,9 +20,9 @@ import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.github.wslxm.springbootplus2.manage.admin.mapper.AdminUserMapper;
 import io.github.wslxm.springbootplus2.manage.admin.model.dto.AdminUserDTO;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminUser;
-import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminOrganQuery;
+import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminDepQuery;
 import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminUserQuery;
-import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminOrganVO;
+import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminDepVO;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminRoleVO;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminUserVO;
 import io.github.wslxm.springbootplus2.manage.admin.service.*;
@@ -52,7 +52,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     private XjAdminConfigService xjAdminConfigService;
 
     @Autowired
-    private AdminOrganService adminOrganService;
+    private AdminDepService adminDepService;
 
     @Override
     public IPage<AdminUserVO> findPage(AdminUserQuery query) {
@@ -67,21 +67,21 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // 公司/部门信息
         if (page.getRecords() != null && page.getRecords().size() > 0) {
             // 获取部门ids
-            List<String> organIds = new ArrayList<>();
+            List<String> depIds = new ArrayList<>();
             for (AdminUserVO userVO : page.getRecords()) {
-                organIds.addAll(Arrays.asList(userVO.getOrganId().split(",")));
+                depIds.addAll(Arrays.asList(userVO.getDepIds().split(",")));
             }
 
             // 查询数据
-            AdminOrganQuery organQuery = new AdminOrganQuery();
-            organQuery.setIds(organIds);
-            organQuery.setIsTree(false);
-            List<AdminOrganVO> organs = adminOrganService.list(organQuery);
+            AdminDepQuery depQuery = new AdminDepQuery();
+            depQuery.setIds(depIds);
+            depQuery.setIsTree(false);
+            List<AdminDepVO> deps = adminDepService.list(depQuery);
 
             // 处理数据
             for (AdminUserVO userVO : page.getRecords()) {
-                if (userVO.getOrganId() != null) {
-                    userVO.setOrgan(adminOrganService.findNextOrgans(organs, userVO.getOrganId()));
+                if (userVO.getDepIds() != null) {
+                    userVO.setDep(adminDepService.findNextDeps(deps, userVO.getDepIds()));
                 }
             }
         }
@@ -161,12 +161,12 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // 角色id组装便于角色回显
         userVO.setRoleIds(userVO.getRoles() == null ? null : userVO.getRoles().stream().map(AdminRoleVO::getId).collect(Collectors.toList()));
         // 公司/部门信息
-        if (userVO.getOrganId() != null) {
-            AdminOrganQuery organQuery = new AdminOrganQuery();
-            organQuery.setIds(Arrays.asList(userVO.getOrganId().split(",")));
-            organQuery.setIsTree(false);
-            List<AdminOrganVO> organs = adminOrganService.list(organQuery);
-            userVO.setOrgan(adminOrganService.findNextOrgans(organs, userVO.getOrganId()));
+        if (userVO.getDepIds() != null) {
+            AdminDepQuery depQuery = new AdminDepQuery();
+            depQuery.setIds(Arrays.asList(userVO.getDepIds().split(",")));
+            depQuery.setIsTree(false);
+            List<AdminDepVO> deps = adminDepService.list(depQuery);
+            userVO.setDep(adminDepService.findNextDeps(deps, userVO.getDepIds()));
         }
 
         return userVO;

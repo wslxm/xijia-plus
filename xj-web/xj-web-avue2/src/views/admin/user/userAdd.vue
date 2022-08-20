@@ -16,12 +16,12 @@
         data() {
             return {
                 obj: {},           // 当前数据
-                organs: [],        // 部门
+                deps: [],        // 部门
                 roles: [],        // 角色
                 // 默认数据
                 defaultData: {
                     terminal: this.website.Terminal,
-                    head: null,
+                    headPic: null,
                     fullName: null,
                     username: null,
                     password: null,
@@ -29,7 +29,7 @@
                     gender: 0,
                     age: null,
                     address: null,
-                    organId: "",
+                    depIds: "",
                     position: 0,
                     roles: null,
                     disable: 0,
@@ -66,7 +66,7 @@
                         },
                         {
                             label: '头像',
-                            prop: 'head',
+                            prop: 'headPic',
                             span: 24,
                             rules: [{
                                 required: true,
@@ -201,14 +201,14 @@
                         },
                         {
                             label: '部门',
-                            prop: 'organId',
+                            prop: 'depIds',
                             span: 20,
                             type: "cascader",
-                            dicData: this.organs,
+                            dicData: this.deps,
                             props: {
                                 value: "id",
                                 label: "name",
-                                children: "organs"
+                                children: "deps"
                             },
                             rules: [{
                                 required: false,
@@ -276,8 +276,8 @@
         created() {
             this.obj = this.defaultData;
             // 部门数据(弹层数据)
-            this.crud.get(this.uri.organInfo, {disable: 0, isTree: true}).then((res) => {
-                this.organs = res.data.data;
+            this.crud.get(this.uri.depInfo, {disable: 0, isTree: true}).then((res) => {
+                this.deps = res.data.data;
             });
             // 角色数据(弹层数据)
             this.crud.get(this.uri.roleInfo, {disable: 0, isOwnData: true}).then((res) => {

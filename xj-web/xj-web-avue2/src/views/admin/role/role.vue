@@ -13,12 +13,12 @@
             <template slot-scope="scope" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
 
-                <el-tooltip class="item" effect="dark" content="给所有角色分配所有接口的访问权限" placement="top-start">
-                    <el-button type="primary" size="small" plain
-                               v-if="website.isTerminalSearch"
-                               @click="updRoleAuthAll()">权限ALL
-                    </el-button>
-                </el-tooltip>
+<!--                <el-tooltip class="item" effect="dark" content="给所有角色分配所有接口的访问权限" placement="top-start">-->
+<!--                    <el-button type="primary" size="small" plain-->
+<!--                               v-if="website.isTerminalSearch"-->
+<!--                               @click="updRoleAuthAll()">权限ALL-->
+<!--                    </el-button>-->
+<!--                </el-tooltip>-->
 
             </template>
             <template slot-scope="{row,index,type,size}" slot="disable">
@@ -30,7 +30,7 @@
             </template>
             <template slot-scope="{row,index,type,size}" slot="menu">
                 <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,2)">资源分配</el-button>
+<!--                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,2)">资源分配</el-button>-->
                 <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
             </template>
         </avue-crud>

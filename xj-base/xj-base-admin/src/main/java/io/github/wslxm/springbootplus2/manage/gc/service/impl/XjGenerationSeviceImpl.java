@@ -20,7 +20,7 @@ import io.github.wslxm.springbootplus2.manage.gc.service.XjGenerationSevice;
 import io.github.wslxm.springbootplus2.manage.gc.service.gcimpl.*;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcReplacUtil;
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.starter.util.FileDownloadUtil;
+import io.github.wslxm.springbootplus2.starter.aliyun.oss.util.FileDownloadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

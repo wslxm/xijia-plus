@@ -37,24 +37,17 @@
     </sql>
 
 
-    <select id="findByUserIdAuthority" resultType="io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority">
+    <select id="list" resultType="io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority">
         SELECT
         a.*
         FROM t_admin_authority a
-        left join t_admin_role_auth ra on ra.auth_id = a.id
-        left join t_admin_role_user ru on ru.role_id = ra.role_id
-        left join t_admin_role r on r.id = ra.role_id
         where a.deleted = 0
-        <if test="query.userId != null">
-            and ru.user_id = #{query.userId}
-        </if>
         <if test="query.pid != null and query.pid != ''">
             and(
             a.pid = #{query.pid} or a.id = #{query.pid}
             )
         </if>
         <if test="query.disable != null">
-            and r.disable = #{query.disable}
             and a.disable = #{query.disable}
         </if>
         <if test="query.state != null">

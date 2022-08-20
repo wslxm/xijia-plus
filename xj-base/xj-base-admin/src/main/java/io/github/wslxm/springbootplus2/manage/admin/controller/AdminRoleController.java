@@ -57,15 +57,15 @@ public class AdminRoleController extends BaseController<AdminRoleService> {
     //=========================================================================
     //=========================================================================
 
-    @PutMapping(value = "/updRoleAuth")
-    @ApiOperation(value = "角色的URL权限分配")
-    public R<Boolean> updRoleAuth(@RequestBody RoleAuthDTO dto) {
-        return R.successUpdate(baseService.roleUrlAuth(dto));
-    }
+//    @PutMapping(value = "/updRoleAuth")
+//    @ApiOperation(value = "角色的URL权限分配")
+//    public R<Boolean> updRoleAuth(@RequestBody RoleAuthDTO dto) {
+//        return R.successUpdate(baseService.roleUrlAuth(dto));
+//    }
 
-    @PutMapping(value = "/updRoleAuthAll")
-    @ApiOperation(value = "所有角色拥有所有权限")
-    public R<Boolean> updRoleAuthAll() {
-        return R.successUpdate(baseService.roleAuthAll());
-    }
+//    @PutMapping(value = "/updRoleAuthAll")
+//    @ApiOperation(value = "所有角色拥有所有权限")
+//    public R<Boolean> updRoleAuthAll() {
+//        return R.successUpdate(baseService.roleAuthAll());
+//    }
 }

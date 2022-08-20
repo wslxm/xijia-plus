@@ -60,23 +60,23 @@ public interface AdminRoleService extends IService<AdminRole> {
     boolean del(String roleId);
 
 
-    /**
-     * 分配所有角色拥有所有权限
-     *
-     * @return boolean
-     * @version 1.0.0
-     */
-    boolean roleAuthAll();
+//    /**
+//     * 分配所有角色拥有所有权限
+//     *
+//     * @return boolean
+//     * @version 1.0.0
+//     */
+//    boolean roleAuthAll();
 
 
-    /**
-     * 分配角色url权限
-     *
-     * @param dto dto
-     * @return boolean
-     * @version 1.0.0
-     */
-    boolean roleUrlAuth(RoleAuthDTO dto);
+//    /**
+//     * 分配角色url权限
+//     *
+//     * @param dto dto
+//     * @return boolean
+//     * @version 1.0.0
+//     */
+//    boolean roleUrlAuth(RoleAuthDTO dto);
 
 
     /**

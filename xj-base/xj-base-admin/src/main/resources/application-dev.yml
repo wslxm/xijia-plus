@@ -37,7 +37,6 @@ swagger:
     - "架构--系统功能-管理端 | io.github.wslxm.springbootplus2.manage"
     - "架构--系统功能-用户端 | io.github.wslxm.springbootplus2.client"
     - "架构--通用服务-starter | io.github.wslxm.springbootplus2.starter"
-    - "架构--redis | io.github.wslxm.springbootplus2.redis"
   author: wangsong                                 # 作者/负责人-姓名
   email: 1270696548@qq.com                         # 作者/负责人-邮箱
   url: https://gitee.com/wslxm/spring-boot-plus2   # 作者/负责人-个人社交地址

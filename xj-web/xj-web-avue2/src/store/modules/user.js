@@ -175,6 +175,7 @@ const user = {
         },
         SET_USERIFNO: (state, userInfo) => {
             state.userInfo = userInfo;
+            setStore({name: 'userInfo', content: userInfo})
         },
         SET_MENUALL: (state, menuAll) => {
             let menu = state.menuAll;

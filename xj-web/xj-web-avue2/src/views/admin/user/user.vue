@@ -20,17 +20,17 @@
                            active-text="" inactive-text="">
                 </el-switch>
             </template>
-            <template slot-scope="{row,index,type,size}" slot="head">
-                <el-avatar :src="row.head"></el-avatar>
+            <template slot-scope="{row,index,type,size}" slot="headPic">
+                <el-avatar :src="row.headPic"></el-avatar>
             </template>
 
-            <template slot-scope="{row,index,type,size}" slot="organNames">
-                <span>  {{row.organ != null ?row.organ.organNames: '-'}}</span>
+            <template slot-scope="{row,index,type,size}" slot="depNames">
+                <span>  {{row.dep != null ?row.dep.depNames: '-'}}</span>
             </template>
 
 
-            <template slot-scope="{row,index,type,size}" slot="organNamesSearch">
-                <avue-cascader v-model="organIds" :dic="organs" :props="organProps"></avue-cascader>
+            <template slot-scope="{row,index,type,size}" slot="depNamesSearch">
+                <avue-cascader v-model="depIds" :dic="deps" :props="depProps"></avue-cascader>
             </template>
 
             <template slot-scope="{row,index,type,size}" slot="regTimeSearch">
@@ -105,7 +105,7 @@
                 uri: {
                     infoList: "/api/admin/user/findPage",
                     info: "/api/admin/user",
-                    organInfo: "/api/admin/organ/list",
+                    depInfo: "/api/admin/dep/list",
                     roleInfo: "/api/admin/role/findPage",
                     resetPassword: "/api/admin/user/{id}/resetPassword"
                 },
@@ -159,13 +159,13 @@
                 newRegTime: '',
 
                 // 部门数据
-                organs: [],
-                organProps: {
+                deps: [],
+                depProps: {
                     value: "id",
                     label: "name",
-                    children: "organs"
+                    children: "deps"
                 },
-                organIds: '',
+                depIds: '',
             }
         },
         activated: function () {
@@ -178,7 +178,7 @@
             this.option.column = [
                 {
                     label: '头像',
-                    prop: 'head',
+                    prop: 'headPic',
                 },
                 {
                     label: '账号',
@@ -223,7 +223,7 @@
                 },
                 {
                     label: '部门',
-                    prop: 'organNames',
+                    prop: 'depNames',
                     search: true,
                     overHidden: true,
                     searchSpan: 5,
@@ -269,9 +269,9 @@
             this.setSearchByUrlParams();
 
             // 部门数据(弹层数据)
-            this.crud.get(this.uri.organInfo, {disable: 0, isTree: true}).then((res) => {
-                this.organs = res.data.data;
-                console.log("获取组织架构" + this.organs)
+            this.crud.get(this.uri.depInfo, {disable: 0, isTree: true}).then((res) => {
+                this.deps = res.data.data;
+                console.log("获取组织架构" + this.deps)
             });
 
         },
@@ -308,10 +308,10 @@
                     this.search.regTimeEnd = null;
                 }
                 // 部门查询处理
-                if (this.organIds != null && this.organIds !== "") {
-                    this.search.organIds = this.organIds;
+                if (this.depIds != null && this.depIds !== "") {
+                    this.search.depIds = this.depIds;
                 } else {
-                    this.search.organIds = null;
+                    this.search.depIds = null;
                 }
 
                 // 是否只查询自己权限及以下的数据

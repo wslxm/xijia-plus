@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.core.config.error;
 
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.starter.config.error.AliYunOssErrorException;
+import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.error.AliYunOssErrorException;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.starter.redis.config.error.RedisErrorException;

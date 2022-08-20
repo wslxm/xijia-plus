@@ -10,10 +10,10 @@
         <!-- <result column="password" property="password"/> -->
         <result column="gender" property="gender"/>
         <result column="disable" property="disable"/>
-        <result column="organ_id" property="organId"/>
+        <result column="dep_ids" property="depIds"/>
         <result column="position" property="position"/>
         <result column="terminal" property="terminal"/>
-        <result column="head" property="head"/>
+        <result column="head_pic" property="headPic"/>
         <result column="phone" property="phone"/>
         <result column="full_name" property="fullName"/>
         <result column="address" property="address"/>
@@ -40,7 +40,7 @@
                update_time,
                deleted,
                version,
-               head,
+               head_pic,
                username,
                full_name,
                password,
@@ -86,8 +86,8 @@
         <if test="createUserId != null">
             and u.create_user = #{createUserId}
         </if>
-        <if test="query.organIds != null and query.organIds != ''">
-            and #{query.organIds} = u.organ_id
+        <if test="query.depIds != null and query.depIds != ''">
+            and #{query.depIds} = u.dep_ids
         </if>
           <if test="query.regTimeStart != null and query.regTimeEnd != null">
             and #{query.regTimeEnd} >= u.reg_time and u.reg_time >= #{query.regTimeStart}

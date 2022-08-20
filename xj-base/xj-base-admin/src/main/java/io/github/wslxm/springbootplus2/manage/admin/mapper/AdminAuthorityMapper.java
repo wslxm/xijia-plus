@@ -19,7 +19,7 @@ public interface AdminAuthorityMapper extends BaseMapper<AdminAuthority> {
      * @return java.util.List<io.github.wslxm.adminconsole.entity.AdminRoleAuth>
      * @date 2019/11/25 0025 11:54
      */
-    List<AdminAuthority> findByUserIdAuthority(@Param("query") AuthorityByUserIdQuery query);
+    List<AdminAuthority> list(@Param("query") AuthorityByUserIdQuery query);
 
 
 }

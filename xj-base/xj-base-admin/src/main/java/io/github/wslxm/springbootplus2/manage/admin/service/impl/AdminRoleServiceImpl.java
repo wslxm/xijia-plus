@@ -5,23 +5,22 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
-import io.github.wslxm.springbootplus2.common.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
-import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.manage.admin.mapper.AdminRoleMapper;
 import io.github.wslxm.springbootplus2.manage.admin.model.dto.AdminRoleDTO;
-import io.github.wslxm.springbootplus2.manage.admin.model.dto.role.RoleAuthDTO;
-import io.github.wslxm.springbootplus2.manage.admin.model.entity.*;
+import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRole;
+import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRoleUser;
 import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminRoleQuery;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminRoleVO;
-import io.github.wslxm.springbootplus2.manage.admin.service.*;
+import io.github.wslxm.springbootplus2.manage.admin.service.AdminAuthorityService;
+import io.github.wslxm.springbootplus2.manage.admin.service.AdminRoleMenuService;
+import io.github.wslxm.springbootplus2.manage.admin.service.AdminRoleService;
+import io.github.wslxm.springbootplus2.manage.admin.service.AdminRoleUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,8 +43,8 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
     private AdminRoleUserService roleUserAdminService;
     @Autowired
     private AdminRoleMenuService adminRoleMenuService;
-    @Autowired
-    private AdminRoleAuthService adminRoleAuthService;
+//    @Autowired
+//    private AdminRoleAuthService adminRoleAuthService;
 
 
     @Override
@@ -98,12 +97,12 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
         adminRoleMenuService.updRoleMenus(role.getId(), dto.getMenuIds());
 
         // 默认有所有url权限
-        List<AdminAuthority> authorityList = adminAuthorityService.list(new LambdaQueryWrapper<AdminAuthority>().select(AdminAuthority::getId));
-        List<AdminRoleAuth> roleAuthList = new ArrayList<>();
-        for (AdminAuthority authority : authorityList) {
-            roleAuthList.add(new AdminRoleAuth(authority.getId(), role.getId()));
-        }
-        boolean b = adminRoleAuthService.saveBatch(roleAuthList);
+//        List<AdminAuthority> authorityList = adminAuthorityService.list(new LambdaQueryWrapper<AdminAuthority>().select(AdminAuthority::getId));
+//        List<AdminRoleAuth> roleAuthList = new ArrayList<>();
+//        for (AdminAuthority authority : authorityList) {
+//            roleAuthList.add(new AdminRoleAuth(authority.getId(), role.getId()));
+//        }
+//        boolean b = adminRoleAuthService.saveBatch(roleAuthList);
         return role.getId();
     }
 
@@ -130,27 +129,27 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      * @date 2020/10/9 0009 15:50
      * @version 1.0.1
      */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = CacheKey.LOGIN_AUTH_USER_ID, allEntries = true)
-    public boolean roleAuthAll() {
-        List<AdminRole> roleList = adminRoleService.list();
-        List<AdminAuthority> authList = adminAuthorityService.list(new LambdaQueryWrapper<AdminAuthority>()
-                .select(AdminAuthority::getId)
-                .eq(AdminAuthority::getType, Base.AuthorityType.V0.getValue())
-        );
-        //
-        List<AdminRoleAuth> addRoleAuthList = new ArrayList<>();
-        for (AdminRole role : roleList) {
-            for (AdminAuthority auth : authList) {
-                addRoleAuthList.add(new AdminRoleAuth(auth.getId(), role.getId()));
-            }
-        }
-        //删除所有
-        adminRoleAuthService.remove(null);
-        //更新权限
-        return adminRoleAuthService.saveBatch(addRoleAuthList, 1024);
-    }
+//    @Override
+//    @Transactional(rollbackFor = Exception.class)
+//    @CacheEvict(value = CacheKey.LOGIN_AUTH_USER_ID, allEntries = true)
+//    public boolean roleAuthAll() {
+//        List<AdminRole> roleList = adminRoleService.list();
+//        List<AdminAuthority> authList = adminAuthorityService.list(new LambdaQueryWrapper<AdminAuthority>()
+//                .select(AdminAuthority::getId)
+//                .eq(AdminAuthority::getType, Base.AuthorityType.V0.getValue())
+//        );
+//        //
+//        List<AdminRoleAuth> addRoleAuthList = new ArrayList<>();
+//        for (AdminRole role : roleList) {
+//            for (AdminAuthority auth : authList) {
+//                addRoleAuthList.add(new AdminRoleAuth(auth.getId(), role.getId()));
+//            }
+//        }
+//        //删除所有
+//        adminRoleAuthService.remove(null);
+//        //更新权限
+//        return adminRoleAuthService.saveBatch(addRoleAuthList, 1024);
+//    }
 
     /**
      * 分配角色url权限
@@ -160,23 +159,21 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
      * @mail 1720696548@qq.com
      * @date 2020/4/6 0006 17:47
      */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = CacheKey.LOGIN_AUTH_USER_ID, allEntries = true)
-    public boolean roleUrlAuth(RoleAuthDTO dto) {
-        //删除原数据
-        boolean result = adminRoleAuthService.remove(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, dto.getRoleId()));
-        if (dto.getAuthIds() == null || dto.getAuthIds().size() <= 0) {
-            return true;
-        }
-        List<AdminRoleAuth> roleAuthList = new ArrayList<>();
-        for (int i = 0; i < dto.getAuthIds().size(); i++) {
-            roleAuthList.add(new AdminRoleAuth(dto.getAuthIds().get(i), dto.getRoleId()));
-        }
-        return adminRoleAuthService.saveBatch(roleAuthList, 1024);
-    }
-
-
+//    @Override
+//    @Transactional(rollbackFor = Exception.class)
+//    @CacheEvict(value = CacheKey.LOGIN_AUTH_USER_ID, allEntries = true)
+//    public boolean roleUrlAuth(RoleAuthDTO dto) {
+//        //删除原数据
+//        boolean result = adminRoleAuthService.remove(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, dto.getRoleId()));
+//        if (dto.getAuthIds() == null || dto.getAuthIds().size() <= 0) {
+//            return true;
+//        }
+//        List<AdminRoleAuth> roleAuthList = new ArrayList<>();
+//        for (int i = 0; i < dto.getAuthIds().size(); i++) {
+//            roleAuthList.add(new AdminRoleAuth(dto.getAuthIds().get(i), dto.getRoleId()));
+//        }
+//        return adminRoleAuthService.saveBatch(roleAuthList, 1024);
+//    }
     @Override
     public AdminRole findSysRole() {
         return this.getOne(new LambdaQueryWrapper<AdminRole>().eq(AdminRole::getCode, ROLE_SYS));
@@ -188,7 +185,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
         // 删除角色和角色相关的关系表
         roleUserAdminService.delByRoleId(roleId);
         adminRoleMenuService.delByRoleId(roleId);
-        adminRoleAuthService.delByRoleId(roleId);
+        // adminRoleAuthService.delByRoleId(roleId);
         return this.removeById(roleId);
     }
 }

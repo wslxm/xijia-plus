@@ -12,7 +12,6 @@ import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
-import io.github.wslxm.springbootplus2.core.utils.other.ClassUtil;
 import io.github.wslxm.springbootplus2.manage.admin.mapper.AdminAuthorityMapper;
 import io.github.wslxm.springbootplus2.manage.admin.model.dto.AdminAuthorityDTO;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
@@ -22,7 +21,6 @@ import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminAuthorityQu
 import io.github.wslxm.springbootplus2.manage.admin.model.query.AuthorityByUserIdQuery;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminAuthorityVO;
 import io.github.wslxm.springbootplus2.manage.admin.service.AdminAuthorityService;
-import io.github.wslxm.springbootplus2.manage.admin.service.AdminRoleAuthService;
 import io.github.wslxm.springbootplus2.manage.admin.service.AdminRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -50,8 +48,8 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
     @Autowired
     private ApplicationContext context;
-    @Autowired
-    private AdminRoleAuthService adminRoleAuthService;
+//    @Autowired
+//    private AdminRoleAuthService adminRoleAuthService;
     @Autowired
     private AdminRoleService adminRoleService;
     @Autowired
@@ -83,21 +81,22 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
         authorityByUserIdQuery.setDisable(query.getDisable());
         authorityByUserIdQuery.setAsc(query.getAsc());
         authorityByUserIdQuery.setDesc(query.getDesc());
-        List<AdminAuthority> authoritys = adminAuthorityMapper.findByUserIdAuthority(authorityByUserIdQuery);
+
+        List<AdminAuthority> authoritys = adminAuthorityMapper.list(authorityByUserIdQuery);
         List<AdminAuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authoritys, AdminAuthorityVO.class);
 
         // 2、根据角色控制数据是否有权限状态
-        if (StringUtils.isNotBlank(query.getRoleId())) {
-            List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>()
-                    .select(AdminRoleAuth::getRoleId, AdminRoleAuth::getAuthId, AdminRoleAuth::getId)
-                    .eq(AdminRoleAuth::getRoleId, query.getRoleId())
-            );
-            List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
-            // 赋值true/false
-            for (AdminAuthorityVO adminAuthorityVO : adminAuthorityVOList) {
-                adminAuthorityVO.setIsChecked(roleAuthIds.contains(adminAuthorityVO.getId()));
-            }
-        }
+//        if (StringUtils.isNotBlank(query.getRoleId())) {
+//            List<AdminRoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<AdminRoleAuth>()
+//                    .select(AdminRoleAuth::getRoleId, AdminRoleAuth::getAuthId, AdminRoleAuth::getId)
+//                    .eq(AdminRoleAuth::getRoleId, query.getRoleId())
+//            );
+//            List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(AdminRoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
+//            // 赋值true/false
+//            for (AdminAuthorityVO adminAuthorityVO : adminAuthorityVOList) {
+//                adminAuthorityVO.setIsChecked(roleAuthIds.contains(adminAuthorityVO.getId()));
+//            }
+//        }
         // 3、resurt，返回list
         if (!isTree || adminAuthorityVOList.size() <= 1) {
             return adminAuthorityVOList;
@@ -126,7 +125,7 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
     @Transactional(rollbackFor = Exception.class)
     @Caching(evict = {
             @CacheEvict(value = CacheKey.AUTH_MAP_ALL, allEntries = true),
-            @CacheEvict(value = CacheKey.LOGIN_AUTH_USER_ID, allEntries = true)
+            // @CacheEvict(value = CacheKey.LOGIN_AUTH_USER_ID, allEntries = true)
     })
     public Boolean upd(String id, AdminAuthorityDTO dto) {
         // 更新
@@ -147,23 +146,23 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    @Override
-    @Cacheable(value = CacheKey.LOGIN_AUTH_USER_ID, key = "#userId")
-    public List<String> findByUserIdAuthority(String userId) {
-        // 查询 需要登录+授权的url 并且启用的url
-        AuthorityByUserIdQuery query = new AuthorityByUserIdQuery();
-        query.setUserId(userId);
-        query.setState(Base.AuthorityState.V2.getValue());
-        query.setDisable(Base.Disable.V0.getValue());
-        List<AdminAuthority> auth = baseMapper.findByUserIdAuthority(query);
-        if (auth == null) {
-            return new ArrayList<>();
-        } else {
-            // 处理接口UrlKeys返回
-            return auth.stream().map(p -> AuthCacheKeyUtil.getCacheKey(p.getMethod(), p.getUrl()))
-                    .collect(Collectors.toList());
-        }
-    }
+//    @Override
+//    @Cacheable(value = CacheKey.LOGIN_AUTH_USER_ID, key = "#userId")
+//    public List<String> findByUserIdAuthority(String userId) {
+//        // 查询 需要登录+授权的url 并且启用的url
+//        AuthorityByUserIdQuery query = new AuthorityByUserIdQuery();
+//        query.setUserId(userId);
+//        query.setState(Base.AuthorityState.V2.getValue());
+//        query.setDisable(Base.Disable.V0.getValue());
+//        List<AdminAuthority> auth = baseMapper.findByUserIdAuthority(query);
+//        if (auth == null) {
+//            return new ArrayList<>();
+//        } else {
+//            // 处理接口UrlKeys返回
+//            return auth.stream().map(p -> AuthCacheKeyUtil.getCacheKey(p.getMethod(), p.getUrl()))
+//                    .collect(Collectors.toList());
+//        }
+//    }
 
 
     /**
@@ -191,9 +190,9 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
 
         // 获取所有需要被扫描的文件
         log.info("  @.@...下方扫包错误信息正常现象，无需处理 ");
-        List<Class<?>> classByPackageName = new ArrayList<>();
+        Set<Class<?>> classByPackageName = new HashSet<>();
         for (String aPackage : packages) {
-            List<Class<?>> classes = ClassUtil.getClasses(aPackage);
+            Set<Class<?>> classes = cn.hutool.core.util.ClassUtil.scanPackage(aPackage);
             classByPackageName.addAll(classes);
         }
 
@@ -231,9 +230,9 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             }
             String url = requestMappingClass.value()[0];
             if (url.indexOf(BaseConstant.Uri.API_ADMIN) != -1) {
-                // 管理端 | 默认需登录+授权
+                // 管理端 | 默认需登录
                 uriType = Base.AuthorityType.V0.getValue();
-                state = Base.AuthorityState.V2.getValue();
+                state = Base.AuthorityState.V1.getValue();
             } else if (url.indexOf(BaseConstant.Uri.API_CLIENT) != -1) {
                 // 用户端 | 默认需登录
                 uriType = Base.AuthorityType.V1.getValue();
@@ -306,17 +305,17 @@ public class AdminAuthorityServiceImpl extends BaseIServiceImpl<AdminAuthorityMa
             // 添加权限
             this.saveBatch(addAuth, 1024);
             // 给所有角色分配新接口的权限
-            List<AdminRole> roles = adminRoleService.list();
-            if (roles.size() > 0) {
-                List<AdminRoleAuth> addRoleAuth = new LinkedList<>();
-                for (AdminRole role : roles) {
-                    for (AdminAuthority adminAuthority : addAuth) {
-                        addRoleAuth.add(new AdminRoleAuth(adminAuthority.getId(), role.getId()));
-                    }
-                }
-                // 更新
-                adminRoleAuthService.saveBatch(addRoleAuth, 1024);
-            }
+//            List<AdminRole> roles = adminRoleService.list();
+//            if (roles.size() > 0) {
+//                List<AdminRoleAuth> addRoleAuth = new LinkedList<>();
+//                for (AdminRole role : roles) {
+//                    for (AdminAuthority adminAuthority : addAuth) {
+//                        addRoleAuth.add(new AdminRoleAuth(adminAuthority.getId(), role.getId()));
+//                    }
+//                }
+//                // 更新
+//                adminRoleAuthService.saveBatch(addRoleAuth, 1024);
+//            }
         }
         // 删除
         if (authorityMap.size() > 0) {

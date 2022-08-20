@@ -23,7 +23,7 @@ import java.util.Map;
  * @date 2020/2/9 0009 20:33
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/generate")
+@RequestMapping(BaseConstant.Uri.API_ADMIN + "/generate")
 @Api(value = "XjGenerateController", tags = "base--gc--代码生成")
 public class XjGenerateController extends BaseController {
 
@@ -79,6 +79,6 @@ public class XjGenerateController extends BaseController {
     @ApiOperation("代码生成路径")
     @RequestMapping(value = "/getPath", method = RequestMethod.GET)
     public R<Map<String, String>> getPath(String tableName, String dataSourceId) {
-        return R.success(xjGenerationSeviceImpl.getPath(tableName,dataSourceId));
+        return R.success(xjGenerationSeviceImpl.getPath(tableName, dataSourceId));
     }
 }

@@ -36,8 +36,8 @@ public class AdminAuthorityQuery extends BaseQuery {
     @ApiModelProperty(notes = "查询参数--禁用状态(字典code, 如 0-启用 1-禁用)", position = 2)
     private Integer disable;
 
-    @ApiModelProperty(notes = "权限参数--角色Id,查询指定角色拥有的权限 (isChecked=true 角色没有权限：isChecked=false)", position = 3)
-    private String roleId;
+//    @ApiModelProperty(notes = "权限参数--角色Id,查询指定角色拥有的权限 (isChecked=true 角色没有权限：isChecked=false)", position = 3)
+//    private String roleId;
 
     @ApiModelProperty(notes = "控制参数--是否只查询当前用户登录存在的权限(默认false)", position = 4)
     private Boolean isLoginUser;
