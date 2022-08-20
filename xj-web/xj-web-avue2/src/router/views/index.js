@@ -81,7 +81,8 @@ export default [
             component: () =>
                 import( /* webpackChunkName: "views" */ '@/views/util/params')
         }]
-    }, {
+    },
+    {
         path: '/test',
         redirect: '/test/index',
         component: Layout,
@@ -93,6 +94,22 @@ export default [
             path: 'index',
             component: () =>
                 import( /* webpackChunkName: "views" */ '@/views/util/test')
-        }]
-
-    }]
+        }
+        ]
+    }
+    , {
+        path: '/gc',
+        component: Layout,
+        children: [
+            {
+                path: 'db',
+                name: '数据源管理',
+                component: () => import('@/views/gc/db/xjAdminDatasource'),
+                meta: {
+                    menu: true,  // 是否加载左菜单
+                    isTab: true, // 是否加载tab
+                }
+            },
+        ]
+    }
+]

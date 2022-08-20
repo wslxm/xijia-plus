@@ -95,20 +95,20 @@ public class XjCacheUtil {
 		return bean.findListAllToMap();
 	}
 
-
-	/**
-	 * 获取 登录用户 有权限的 Uri 接口列表
-	 *
-	 * @param userId
-	 * @return
-	 */
-	public static List<String> findAuthByUserId(String userId) {
-		// 获取bean
-		String beanName = toLowerCaseFirstOne(AdminAuthorityServiceImpl.class.getSimpleName());
-		AdminAuthorityServiceImpl bean = (AdminAuthorityServiceImpl) SpringContextUtil.getBean(beanName);
-		// 调用方法处理数据
-		return bean.findByUserIdAuthority(userId);
-	}
+//
+//	/**
+//	 * 获取 登录用户 有权限的 Uri 接口列表
+//	 *
+//	 * @param userId
+//	 * @return
+//	 */
+//	public static List<String> findAuthByUserId(String userId) {
+//		// 获取bean
+//		String beanName = toLowerCaseFirstOne(AdminAuthorityServiceImpl.class.getSimpleName());
+//		AdminAuthorityServiceImpl bean = (AdminAuthorityServiceImpl) SpringContextUtil.getBean(beanName);
+//		// 调用方法处理数据
+//		return bean.findByUserIdAuthority(userId);
+//	}
 
 
 	/**

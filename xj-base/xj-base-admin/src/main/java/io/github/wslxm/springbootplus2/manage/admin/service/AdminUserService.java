@@ -26,7 +26,7 @@ public interface AdminUserService extends IService<AdminUser> {
      * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminUserVO>
      * @version 1.0.0
      */
-    IPage<AdminUserVO> list(AdminUserQuery query);
+    IPage<AdminUserVO> findPage(AdminUserQuery query);
 
     /**
      * 添加

@@ -23,13 +23,13 @@ public class XjAdminMsgFindAllNumVO extends BaseVo {
     private static final long serialVersionUID = 0L;
 
     @ApiModelProperty(notes = "已读数量", position = 0)
-    private Integer haveReadNum;
+    private Long haveReadNum;
 
     @ApiModelProperty(notes = "未读数量", position = 1)
-    private Integer unreadNum;
+    private Long unreadNum;
 
     @ApiModelProperty(notes = "全部", position = 2)
-    private Integer allNum;
+    private Long allNum;
 
 }
 

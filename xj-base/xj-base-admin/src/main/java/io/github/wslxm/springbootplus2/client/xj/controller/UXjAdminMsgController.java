@@ -28,10 +28,10 @@ import org.springframework.web.bind.annotation.*;
 public class UXjAdminMsgController extends BaseController<XjAdminMsgService> {
 
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/findPage")
     @ApiOperation(value = "分页查询")
-    public R<IPage<XjAdminMsgVO>> list(@ModelAttribute @Validated XjAdminMsgQuery query) {
-        return R.successFind(baseService.list(query));
+    public R<IPage<XjAdminMsgVO>> findPage(@ModelAttribute @Validated XjAdminMsgQuery query) {
+        return R.successFind(baseService.findPage(query));
     }
 
 
@@ -44,7 +44,7 @@ public class UXjAdminMsgController extends BaseController<XjAdminMsgService> {
 
     @ApiOperation(value = "查询未读数量(当前登录用户)")
     @GetMapping(value = "/findUnreadNum")
-    public R<Integer> findUnreadNum() {
+    public R<Long> findUnreadNum() {
         return R.successFind(baseService.findUnreadNum());
     }
 }

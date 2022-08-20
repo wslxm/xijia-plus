@@ -24,7 +24,7 @@ public class AdminAuthority extends BaseEntity {
      */
     private Integer deleted;
     /**
-     * 权限类Id（方法与类/层级关系展示)
+     * 权限类Id（方法与类/层级关系展示  类的pid默认为0)
      */
     private String pid;
     /**

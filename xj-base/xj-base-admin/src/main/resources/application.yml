@@ -75,9 +75,11 @@ gc:
   tablePrefixDefault: t_                  # 表前缀 (生成的类名会过滤掉前缀)
   fieldPrefixDefault:                     # 字段前缀 (生成的字段名会过滤掉前缀)
   entitySwagger: false                    # 实体类是否使用swagger注释 (false情况下使用doc注释)
-  fatherPath:                             # 生成路径(不填默认当前项目跟目录,可指定绝对路径)
-  # vue列表排除展示指定类型字段, 同时list接口 mybatis-plus 查询模式不查询该类型字段值 （详见字典- VueFieldType）
+  fatherPath:                             # 生成路径(不填默认当前项目跟目录,可指定绝对路径,本地启动时生效)
+  ## 是否过滤crud方法- 默认生成 (controller/service/mapper/xml)
+  filterCrud: false
   ## 18=富文本 19=md编辑器
+  # vue列表排除展示指定类型字段, 同时list接口 mybatis-plus 查询模式不查询该类型字段值 （详见字典- VueFieldType）
   vueFieldTypes: 18,19
   # 数据库通用字段配置
   basefields: id,create_user,update_user,create_time,update_time,deleted,version

@@ -37,39 +37,43 @@
     </sql>
 
 
-    <select id="findByUserIdAuthority" resultType="io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority">
+    <select id="list" resultType="io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority">
         SELECT
         a.*
         FROM t_admin_authority a
-        left join t_admin_role_auth ra on ra.auth_id = a.id
-        left join t_admin_role_user ru on ru.role_id = ra.role_id
-        left join t_admin_role r on r.id = ra.role_id
         where a.deleted = 0
-        <if test="userId != null">
-           and ru.user_id = #{userId}
-        </if>
-        <if test=" pid != null and pid != ''">
+        <if test="query.pid != null and query.pid != ''">
             and(
-            a.pid = #{pid} or a.id = #{pid}
+            a.pid = #{query.pid} or a.id = #{query.pid}
             )
         </if>
-        <if test="disable != null">
-            and r.disable = #{disable}
-            and a.disable = #{disable}
+        <if test="query.disable != null">
+            and a.disable = #{query.disable}
         </if>
-        <if test="state != null">
-            and a.state = #{state}
+        <if test="query.state != null">
+            and a.state = #{query.state}
         </if>
-        <if test="type != null">
-            and a.type = #{type}
+        <if test="query.type != null">
+            and a.type = #{query.type}
         </if>
         group by a.id
-        <if test="asc != null and asc != ''">
-            order by a.${asc} asc
-        </if>
-        <if test="(asc == null or asc == '') and (desc != null and desc != '')">
-            order by a.${desc} desc
-        </if>
+        /**
+        * 排序
+        * 优先使用正序排序参数 asc (存在 asc 参数)
+        * 否则使用倒序排序参数 desc (不存在 asc参数, 存在 desc 参数)
+        * 否则默认 method 正序 (不存在 asc + desc 参数)
+        */
+        <choose>
+            <when test="query.asc != null and query.asc != ''">
+                order by a.${query.asc} asc
+            </when>
+            <when test="(query.desc != null and query.desc != '')">
+                order by a.${query.desc} desc
+            </when>
+            <otherwise>
+                order by a.method asc
+            </otherwise>
+        </choose>
     </select>
 </mapper>
 

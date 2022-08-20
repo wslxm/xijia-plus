@@ -30,10 +30,10 @@ import org.springframework.web.bind.annotation.*;
 public class XjAdminConfigController extends BaseController<XjAdminConfigService> {
 
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/findPage")
     @ApiOperation(value = "分页查询")
-    public R<IPage<XjAdminConfigVO>> list(@ModelAttribute @Validated XjAdminConfigQuery query) {
-        return R.success(baseService.list(query));
+    public R<IPage<XjAdminConfigVO>> findPage(@ModelAttribute @Validated XjAdminConfigQuery query) {
+        return R.success(baseService.findPage(query));
     }
 
 

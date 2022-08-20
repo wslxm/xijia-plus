@@ -24,7 +24,7 @@ public class AdminUserVO extends BaseVo {
 
     private static final long serialVersionUID = 4934650100711613453L;
     @ApiModelProperty(value = "头像")
-    private String head;
+    private String headPic;
     @ApiModelProperty(value = "账号/用户名")
     private String username;
     @ApiModelProperty(value = "手机号/第二账号")
@@ -44,7 +44,7 @@ public class AdminUserVO extends BaseVo {
     @ApiModelProperty(value = "最后登录时间")
     private LocalDateTime endTime;
     @ApiModelProperty(value = "公司/部门Id")
-    private String organId;
+    private String depIds;
     @ApiModelProperty(value = "职位（字典code）")
     private Integer position;
     @ApiModelProperty(value = "终端 (字段code)")
@@ -58,5 +58,5 @@ public class AdminUserVO extends BaseVo {
     @ApiModelProperty(value = "用户角色信息,id 查询存在/列表查询都返回(只返回id/name)")
     private List<AdminRoleVO> roles;
     @ApiModelProperty(value = "公司/部门信息,存在下级关联数据")
-    private AdminUserOrganVO organ;
+    private AdminUserDepVO dep;
 }

@@ -16,13 +16,13 @@ import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
+import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.github.wslxm.springbootplus2.manage.admin.mapper.AdminUserMapper;
 import io.github.wslxm.springbootplus2.manage.admin.model.dto.AdminUserDTO;
-import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRoleUser;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminUser;
-import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminOrganQuery;
+import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminDepQuery;
 import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminUserQuery;
-import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminOrganVO;
+import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminDepVO;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminRoleVO;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminUserVO;
 import io.github.wslxm.springbootplus2.manage.admin.service.*;
@@ -46,62 +46,46 @@ import java.util.stream.Collectors;
 public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, AdminUser> implements AdminUserService {
 
     @Autowired
-    private AdminRoleService adminRoleService;
-
-    @Autowired
     private AdminRoleUserService adminRoleUserService;
-
-    @Autowired
-    private AdminAuthorityService adminAuthorityService;
 
     @Autowired
     private XjAdminConfigService xjAdminConfigService;
 
     @Autowired
-    private AdminOrganService adminOrganService;
-
+    private AdminDepService adminDepService;
 
     @Override
-    public IPage<AdminUserVO> list(AdminUserQuery query) {
+    public IPage<AdminUserVO> findPage(AdminUserQuery query) {
         if (query.getIsLoginUser() == null) {
             query.setIsLoginUser(false);
         }
         // 是否只查询当前登录人创建的用户
         String createUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
-        IPage<AdminUserVO> resPage = null;
-        if (query.getCurrent() <= 0) {
-            // list
-            IPage<AdminUserVO> page = new Page<>();
-            resPage = page.setRecords(baseMapper.list(null, query, createUserId));
-        } else {
-            // page
-            IPage<AdminUserVO> page = new Page<>(query.getCurrent(), query.getSize());
-            resPage = page.setRecords(baseMapper.list(page, query, createUserId));
-        }
-
+        IPage<AdminUserVO> page = new Page<>(query.getCurrent(), query.getSize());
+        page = page.setRecords(baseMapper.list(page, query, createUserId));
 
         // 公司/部门信息
-        if (resPage.getRecords() != null && resPage.getRecords().size() > 0) {
+        if (page.getRecords() != null && page.getRecords().size() > 0) {
             // 获取部门ids
-            List<String> organIds = new ArrayList<>();
-            for (AdminUserVO userVO : resPage.getRecords()) {
-                organIds.addAll(Arrays.asList(userVO.getOrganId().split(",")));
+            List<String> depIds = new ArrayList<>();
+            for (AdminUserVO userVO : page.getRecords()) {
+                depIds.addAll(Arrays.asList(userVO.getDepIds().split(",")));
             }
 
             // 查询数据
-            AdminOrganQuery organQuery = new AdminOrganQuery();
-            organQuery.setIds(organIds);
-            organQuery.setIsTree(false);
-            List<AdminOrganVO> organs = adminOrganService.list(organQuery);
+            AdminDepQuery depQuery = new AdminDepQuery();
+            depQuery.setIds(depIds);
+            depQuery.setIsTree(false);
+            List<AdminDepVO> deps = adminDepService.list(depQuery);
 
             // 处理数据
-            for (AdminUserVO userVO : resPage.getRecords()) {
-                if (userVO.getOrganId() != null) {
-                    userVO.setOrgan(adminOrganService.findNextOrgans(organs, userVO.getOrganId()));
+            for (AdminUserVO userVO : page.getRecords()) {
+                if (userVO.getDepIds() != null) {
+                    userVO.setDep(adminDepService.findNextDeps(deps, userVO.getDepIds()));
                 }
             }
         }
-        return resPage;
+        return page;
     }
 
     @Override
@@ -109,7 +93,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     public String insert(AdminUserDTO dto) {
         // 判重账号/判重电话
         this.verifyRepeatUsername(dto.getUsername(), null, dto.getTerminal(), null);
-        this.verifyRepeatePhone(dto.getPhone(), null, dto.getTerminal(), null);
+        this.verifyRepeatPhone(dto.getPhone(), null, dto.getTerminal(), null);
         //
         AdminUser adminUser = dto.convert(AdminUser.class);
         adminUser.setId(IdUtil.snowflakeId());
@@ -128,8 +112,8 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         }
         this.save(adminUser);
         if (dto.getRoleIds() != null) {
-            //分配角色
-            adminRoleService.updUserRole(adminUser.getId(), dto.getRoleIds());
+            // 用户角色分配
+            adminRoleUserService.updUserRole(adminUser.getId(), dto.getRoleIds());
         }
         return adminUser.getId();
     }
@@ -140,24 +124,26 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         AdminUser adminUser = this.getOne(new LambdaQueryWrapper<AdminUser>()
                 .select(AdminUser::getUsername, AdminUser::getPhone, AdminUser::getTerminal)
                 .eq(AdminUser::getId, id));
+        ValidUtil.isTrue(adminUser == null, "没有找到数据");
 
         // 判重账号/判重电话
         this.verifyRepeatUsername(dto.getUsername(), adminUser.getUsername(), dto.getTerminal(), adminUser.getTerminal());
-        this.verifyRepeatePhone(dto.getPhone(), adminUser.getPhone(), dto.getTerminal(), adminUser.getTerminal());
+        this.verifyRepeatPhone(dto.getPhone(), adminUser.getPhone(), dto.getTerminal(), adminUser.getTerminal());
         //
         AdminUser entity = dto.convert(AdminUser.class);
         entity.setId(id);
         this.updateById(entity);
-        // 角色信息重分配
         if (dto.getRoleIds() != null && dto.getRoleIds().size() > 0) {
-            adminRoleService.updUserRole(id, dto.getRoleIds());
+            // 用户角色分配
+            adminRoleUserService.updUserRole(id, dto.getRoleIds());
         }
         return true;
     }
 
     @Override
     public Boolean del(String userId) {
-        adminRoleUserService.remove(new LambdaUpdateWrapper<AdminRoleUser>().eq(AdminRoleUser::getUserId, userId));
+        // 删除用户角色
+        adminRoleUserService.delByUserId(userId);
         return this.removeById(userId);
     }
 
@@ -166,7 +152,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // id查询数据
         AdminUserQuery query = new AdminUserQuery();
         query.setId(id);
-        IPage<AdminUserVO> list = this.list(query);
+        IPage<AdminUserVO> list = this.findPage(query);
         if (list.getRecords().size() == 0) {
             throw new ErrorException(RType.PARAM_ERROR.getValue(), RType.PARAM_ERROR.getMsg() + ":id");
         }
@@ -175,12 +161,12 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         // 角色id组装便于角色回显
         userVO.setRoleIds(userVO.getRoles() == null ? null : userVO.getRoles().stream().map(AdminRoleVO::getId).collect(Collectors.toList()));
         // 公司/部门信息
-        if (userVO.getOrganId() != null) {
-            AdminOrganQuery organQuery = new AdminOrganQuery();
-            organQuery.setIds(Arrays.asList(userVO.getOrganId().split(",")));
-            organQuery.setIsTree(false);
-            List<AdminOrganVO> organs = adminOrganService.list(organQuery);
-            userVO.setOrgan(adminOrganService.findNextOrgans(organs, userVO.getOrganId()));
+        if (userVO.getDepIds() != null) {
+            AdminDepQuery depQuery = new AdminDepQuery();
+            depQuery.setIds(Arrays.asList(userVO.getDepIds().split(",")));
+            depQuery.setIsTree(false);
+            List<AdminDepVO> deps = adminDepService.list(depQuery);
+            userVO.setDep(adminDepService.findNextDeps(deps, userVO.getDepIds()));
         }
 
         return userVO;
@@ -234,7 +220,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     @Override
     public Boolean updResetPassword(String id, String password) {
-        return this.update(new LambdaUpdateWrapper<AdminUser>()
+        return this.update(new AdminUser(),new LambdaUpdateWrapper<AdminUser>()
                 .set(AdminUser::getPassword, Md5Util.encode(password, id))
                 .eq(AdminUser::getId, id));
     }
@@ -311,7 +297,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         if (StringUtils.isNotBlank(username)) {
             // 判重账号
             if (!username.equals(oldUserName) || !terminal.equals(oldTerminal)) {
-                if (this.count(new LambdaUpdateWrapper<AdminUser>()
+                if (this.count(new LambdaQueryWrapper<AdminUser>()
                         .eq(AdminUser::getUsername, username)
                         .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
                         .eq(terminal != null, AdminUser::getTerminal, terminal)
@@ -335,11 +321,11 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
      * @date 2021/9/30 0030 14:11
      * @version 1.0.1
      */
-    private void verifyRepeatePhone(String phone, String oldPhone, Integer terminal, Integer oldTerminal) {
+    private void verifyRepeatPhone(String phone, String oldPhone, Integer terminal, Integer oldTerminal) {
         if (StringUtils.isNotBlank(phone)) {
             // 判重电话
             if (!phone.equals(oldPhone) || !terminal.equals(oldTerminal)) {
-                if (this.count(new LambdaUpdateWrapper<AdminUser>()
+                if (this.count(new LambdaQueryWrapper<AdminUser>()
                         .eq(AdminUser::getPhone, phone)
                         .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
                         .eq(terminal != null, AdminUser::getTerminal, terminal)

@@ -30,7 +30,7 @@ public interface XjAdminBlacklistService extends IService<XjAdminBlacklist> {
      * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminBlacklistVO>
      * @version 1.0.0
      */
-    IPage<XjAdminBlacklistVO> list(XjAdminBlacklistQuery query);
+    IPage<XjAdminBlacklistVO> findPage(XjAdminBlacklistQuery query);
 
 
     /**

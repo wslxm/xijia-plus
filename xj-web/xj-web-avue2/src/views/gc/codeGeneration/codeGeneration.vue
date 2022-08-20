@@ -34,11 +34,12 @@
                            @search-change="searchChange"
                            @row-click="handleRowClick">
                     <template slot-scope="scope" slot="menuLeft">
+                        <el-button type="primary" size="small" plain @click="dbDatasource()">数据源管理</el-button>
                         <el-button type="primary" size="small" plain @click="finDGenerateGetPath()">查看生成路径</el-button>
-                        <el-button type="primary" size="small" plain @click="findGeneratePreview()">生成预览代码(在线查看)</el-button>
+                        <el-button type="primary" size="small" plain @click="findGeneratePreview()">生成预览代码 (在线查看)</el-button>
                         <el-button type="primary" size="small" plain @click="generateCodeJava()">生成后端代码</el-button>
-                        <el-button type="primary" size="small" plain @click="generateCodeVueFun()">生成并下载vue代码</el-button>
-                        <el-button type="primary" size="small" plain @click="generateCodeJavaAndVueFun()">生成并下载所有代码</el-button>
+                        <el-button type="primary" size="small" plain @click="generateCodeVueFun()">生成并下载 (vue)</el-button>
+                        <el-button type="primary" size="small" plain @click="generateCodeJavaAndVueFun()">生成并下载 (all)</el-button>
                     </template>
                     <!-- 数据类型 -->
                     <template slot-scope="{scope,row,index,type,size}" slot="vueFieldType">
@@ -117,6 +118,7 @@
 
 <script>
 
+    import router from '@/router/router'
     export default {
         components: {
             Paths: () => import('./generatePaths'),
@@ -133,7 +135,7 @@
                     generateCodeVue: "/api/admin/generate/generateCodeVue", // 只生成vue代码(直接下载)
                     generateCodeJavaAndVue: "/api/admin/generate/generateCodeJavaAndVue", // 生成java + vue代码(直接下载)
                     diceFindList: "/api/admin/dictionary/list?isBottomLayer=false&code=ENUMS", // 获取字典数据
-                    datasourceInfoList: "/api/admin/datasource/list",   // 查询数据源
+                    datasourceInfoList: "/api/admin/datasource/findPage?size=10000",   // 查询数据源
                 },
                 loading: true,
                 dialogWidth: "60%",
@@ -241,7 +243,7 @@
             this.crud.get(this.uri.diceFindList).then((res) => {
                 // 直接取 dictList , 不要第一级
                 this.dictCodeOption = res.data.data[0].dictList;
-            })
+            });
 
             // 查询数据源
             this.crud.get(this.uri.datasourceInfoList).then((res) => {
@@ -382,7 +384,15 @@
                 };
                 this.crud.download(this.uri.generateCodeJavaAndVue, data);
             },
-
+            /**
+             * 打开数据源管理
+             * @author wangsong
+             * @date 2022/8/9 13:42
+             * @return
+             */
+            dbDatasource() {
+                router.push({path: "/gc/db"});
+            },
 
             /**
              * 选择字段类型
@@ -423,7 +433,7 @@
              * 数据源选择
              */
             datasourceChange() {
-                console.log("切换数据源:" + this.dataSourceId)
+                console.log("切换数据源:" + this.dataSourceId);
                 this.findTableList();
             }
 

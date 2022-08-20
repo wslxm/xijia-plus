@@ -29,10 +29,10 @@ import org.springframework.web.bind.annotation.*;
 public class XjAdminBlacklistController extends BaseController<XjAdminBlacklistService> {
 
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public R<IPage<XjAdminBlacklistVO>> list(@ModelAttribute @Validated XjAdminBlacklistQuery query) {
-        return R.success(baseService.list(query));
+    public R<IPage<XjAdminBlacklistVO>> findPage(@ModelAttribute @Validated XjAdminBlacklistQuery query) {
+        return R.success(baseService.findPage(query));
     }
 
 

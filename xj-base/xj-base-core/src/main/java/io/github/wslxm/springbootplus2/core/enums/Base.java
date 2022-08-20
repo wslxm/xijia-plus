@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.core.enums;
 
 
-import com.baomidou.mybatisplus.core.enums.IEnum;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -25,7 +25,7 @@ public interface Base{
     // -
     @Getter
     @AllArgsConstructor
-    enum OrganRoot implements IEnum<Integer> {
+    enum DepRoot implements IEnum<Integer> {
         V1(1, "一级"),    // -
         V2(2, "二级"),    // -
         V3(3, "三级"),    // -

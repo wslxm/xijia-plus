@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 public class XjAdminLogServiceImpl extends BaseIServiceImpl<XjAdminLogMapper, XjAdminLog> implements XjAdminLogService {
 
     @Override
-    public IPage<XjAdminLogVO> list(XjAdminLogQuery query) {
+    public IPage<XjAdminLogVO> findPage(XjAdminLogQuery query) {
         LambdaQueryWrapper<XjAdminLog> queryWrapper = new LambdaQueryWrapper<XjAdminLog>()
                 .orderByDesc(XjAdminLog::getCreateTime)
                 .likeRight(StringUtils.isNotBlank(query.getFullName()), XjAdminLog::getFullName, query.getFullName())
@@ -36,11 +36,6 @@ public class XjAdminLogServiceImpl extends BaseIServiceImpl<XjAdminLogMapper, Xj
                 .eq(StringUtils.isNotBlank(query.getMethod()), XjAdminLog::getMethod, query.getMethod())
                 .eq(query.getState() != null, XjAdminLog::getState, query.getState())
                 .between(query.getCreateTimeStart() != null && query.getCreateTimeEnd() != null, XjAdminLog::getCreateTime, query.getCreateTimeStart(), query.getCreateTimeEnd());
-        if (query.getCurrent() <= 0) {
-            IPage<XjAdminLogVO> page = new Page<>();
-            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), XjAdminLogVO.class));
-        } else {
-            return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminLogVO.class);
-        }
+        return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminLogVO.class);
     }
 }

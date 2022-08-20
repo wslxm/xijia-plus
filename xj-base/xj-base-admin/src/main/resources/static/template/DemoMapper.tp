@@ -20,10 +20,23 @@ import java.util.List;
  * @date {date}
  */
 public interface {tableNameUp}Mapper extends BaseMapper<{tableNameUp}> {
+{filterCrud}
+    /**
+     * id 查询
+     *
+     * @param id
+     * @return List<{tableNameUp}>
+     */
+    {tableNameUp}VO findId(String id);
 
-    List<{tableNameUp}VO> findId(String id);
-
+    /**
+     * 列表查询/分页查询
+     *
+     * @param page
+     * @param query
+     * @return java.util.List<{tableNameUp}>
+     */
     List<{tableNameUp}VO> list(IPage<{tableNameUp}VO> page, {tableNameUp}Query query);
-
+{filterCrud}
 }
 

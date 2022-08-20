@@ -61,7 +61,7 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/datasource/list",
+                    infoList: "/api/admin/datasource/findPage",
                     info: "/api/admin/datasource",
                     dbTest: "/api/admin/datasource/dataSourceTest",
                     updPwd: "/api/admin/datasource/{id}/updPwd",

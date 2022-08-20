@@ -7,7 +7,7 @@
                 <basic-container>
                     <div class="user-info__content">
                         <img class="user-info__img"
-                             :src="data.head"
+                             :src="data.headPic"
                              alt=""/>
                         <p class="user-info__name">{{data.username}}</p>
                         <p class="user-info__name">{{data.fullName}}</p>
@@ -15,8 +15,8 @@
                         <!-- <p class="user-info__desc">{{form.ms}}</p> -->
                         <div class="user-info__detail-desc">
                             <p><i class="el-icon-phone"></i><span>{{data.phone}}</span></p>
-                            <p><i class="el-icon-location-information"></i><span>{{data.organ !=null?data.address: '-'}}  </span></p>
-                            <p><i class="el-icon-postcard"></i><span> {{data.organ !=null?data.organ.organNames: '-'}}  </span></p>
+                            <p><i class="el-icon-location-information"></i><span>{{data.dep !=null?data.address: '-'}}  </span></p>
+                            <p><i class="el-icon-postcard"></i><span> {{data.dep !=null?data.dep.depNames: '-'}}  </span></p>
                             <p><i class="el-icon-crop"></i><span>  {{this.dict.convert("POSITION",data.position)}} </span></p>
                         </div>
                         <div class="user-info__divider"></div>
@@ -67,7 +67,7 @@
                         column: [
                             {
                                 label: '头像',
-                                prop: 'head',
+                                prop: 'headPic',
                                 span: 24,
                                 dataType: 'string', // 字符串模式
                                 type: 'upload',
@@ -118,7 +118,7 @@
                                 prop: 'age',
                                 span: 20,
                                 rules: [{
-                                    required: true,
+                                    required: false,
                                     message: "请输入 年龄 ",
                                     trigger: "blur"
                                 }]
@@ -128,7 +128,7 @@
                                 prop: 'address',
                                 span: 20,
                                 rules: [{
-                                    required: true,
+                                    required: false,
                                     message: "请输入 地址 ",
                                     trigger: "blur"
                                 }]
@@ -175,14 +175,17 @@
                 this.form.age = this.data.age;
                 this.form.gender = this.data.gender;
                 this.form.fullName = this.data.fullName;
-                this.form.head = this.data.head;
+                this.form.headPic = this.data.headPic;
             }).catch(err => {
                 console.error(err);
             })
         },
         methods: {
             handleSubmit(form, done) {
-                if (form.oldPassword !== null || form.password !== null || form.passwordTwo !== null) {
+                if ((form.oldPassword !== null && form.oldPassword !== "")
+                    || (form.password !== null && form.password !== "")
+                    || (form.passwordTwo !== null && form.passwordTwo !== "")
+                ) {
                     // 判断是否输入完整
                     if (form.oldPassword === null || form.oldPassword === "") {
                         this.$message.error('请输入 原密码');

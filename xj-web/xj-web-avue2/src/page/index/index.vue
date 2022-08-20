@@ -130,7 +130,7 @@
                                 itemActive = this.menu[childItemActive].menus[childItemActive];
                             }
                         }
-                        console.debug("3")
+                        console.debug("=======3")
                         this.$store.commit('SET_MENUID', item);
                         this.$router.push({
                             path: itemActive.path

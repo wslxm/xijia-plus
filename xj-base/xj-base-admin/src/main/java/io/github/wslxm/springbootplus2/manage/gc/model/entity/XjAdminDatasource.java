@@ -96,11 +96,6 @@ public class XjAdminDatasource extends BaseEntity {
     @TableField(value = "modules_name")
     private String modulesName;
 
-    /**
-     * db 通用字段,逗号分隔
-     */
-//    @TableField(value = "db_general_field")
-//    private String dbGeneralField;
 
     /**
      * db 表前缀 (生成的类名会过滤掉前缀)
@@ -119,6 +114,12 @@ public class XjAdminDatasource extends BaseEntity {
      */
     @TableField(value = "entity_swagger")
     private Boolean entitySwagger;
+
+    /**
+     * 是否过滤crud方法- 默认生成 (controller/service/mapper/xml)
+     */
+    @TableField(value = "filter_crud")
+    private Boolean filterCrud;
 
     /**
      * 生成路径(不填默认当前项目跟目录,可指定绝对路径)

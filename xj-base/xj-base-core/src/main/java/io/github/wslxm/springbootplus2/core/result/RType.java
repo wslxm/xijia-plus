@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.core.result;
 
-import com.baomidou.mybatisplus.core.enums.IEnum;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

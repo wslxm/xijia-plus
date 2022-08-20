@@ -17,7 +17,7 @@
         data() {
             return {
                 obj: {},              // 表单数据
-                organs: [],                // 部门数据
+                deps: [],                // 部门数据
                 roles: [],                 // 角色数据
             }
         },
@@ -52,7 +52,7 @@
                         },
                         {
                             label: '头像',
-                            prop: 'head',
+                            prop: 'headPic',
                             span: 24,
                             rules: [{
                                 required: true,
@@ -184,14 +184,14 @@
                         },
                         {
                             label: '部门',
-                            prop: 'organId',
+                            prop: 'depIds',
                             span: 20,
                             type: "cascader",
-                            dicData: this.organs,
+                            dicData: this.deps,
                             props: {
                                 value: "id",
                                 label: "name",
-                                children: "organs"
+                                children: "deps"
                             },
                             rules: [{
                                 required: false,
@@ -255,8 +255,8 @@
         // 打开弹层立即执行
         created() {
             // 部门数据(弹层数据)
-            this.crud.get(this.uri.organInfo, {disable: 0, isTree: true}).then((res) => {
-                this.organs = res.data.data;
+            this.crud.get(this.uri.depInfo, {disable: 0, isTree: true}).then((res) => {
+                this.deps = res.data.data;
             });
             // 角色数据(弹层数据)
             this.crud.get(this.uri.roleInfo, {disable: 0,isOwnData:true}).then((res) => {

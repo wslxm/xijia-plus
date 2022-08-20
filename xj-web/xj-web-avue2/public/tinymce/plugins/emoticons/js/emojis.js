@@ -5623,7 +5623,7 @@ window.tinymce.Resource.add("tinymce.plugins.emoticons", {
     category: "objects"
   },
   file_cabinet: {
-    keywords: [ "filing", "organizing" ],
+    keywords: [ "filing", "depizing" ],
     "char": "\ud83d\uddc4",
     fitzpatrick_scale: false,
     category: "objects"
@@ -5653,7 +5653,7 @@ window.tinymce.Resource.add("tinymce.plugins.emoticons", {
     category: "objects"
   },
   card_index_dividers: {
-    keywords: [ "organizing", "business", "stationery" ],
+    keywords: [ "depizing", "business", "stationery" ],
     "char": "\ud83d\uddc2",
     fitzpatrick_scale: false,
     category: "objects"

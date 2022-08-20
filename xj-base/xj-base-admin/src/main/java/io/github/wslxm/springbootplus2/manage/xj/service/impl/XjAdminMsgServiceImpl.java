@@ -47,7 +47,7 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
     private AdminDictionaryService adminDictionaryService;
 
     @Override
-    public IPage<XjAdminMsgVO> list(XjAdminMsgQuery query) {
+    public IPage<XjAdminMsgVO> findPage(XjAdminMsgQuery query) {
         if (query.getIsLoginUser() == null) {
             query.setIsLoginUser(true);
         }
@@ -57,12 +57,7 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
                 .eq(query.getIsLoginUser(), XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())
                 .in(StringUtils.isNotBlank(query.getMsgTypes()), XjAdminMsg::getMsgType, StringUtils.isNotBlank(query.getMsgTypes()) ? Arrays.asList(query.getMsgTypes().split(",")) : null)
                 .notIn(StringUtils.isNotBlank(query.getNoMsgTypes()), XjAdminMsg::getMsgType, StringUtils.isNotBlank(query.getNoMsgTypes()) ? Arrays.asList(query.getNoMsgTypes().split(",")) : null);
-        if (query.getCurrent() <= 0) {
-            IPage<XjAdminMsgVO> page = new Page<>();
-            return page.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), XjAdminMsgVO.class));
-        } else {
-            return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminMsgVO.class);
-        }
+        return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminMsgVO.class);
     }
 
     @Override
@@ -133,7 +128,7 @@ public class XjAdminMsgServiceImpl extends BaseIServiceImpl<XjAdminMsgMapper, Xj
     }
 
     @Override
-    public Integer findUnreadNum() {
+    public Long findUnreadNum() {
         return this.count(new LambdaQueryWrapper<XjAdminMsg>()
                 .eq(XjAdminMsg::getIsRead, Base.IsRead.V0.getValue())
                 .eq(XjAdminMsg::getUserId, JwtUtil.getJwtUser(request).getUserId())

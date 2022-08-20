@@ -26,7 +26,7 @@ public interface XjAdminBannerService extends IService<XjAdminBanner> {
      * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminBannerVO>
      * @version 1.0.0
      */
-    IPage<XjAdminBannerVO> list(XjAdminBannerQuery query);
+    IPage<XjAdminBannerVO> findPage(XjAdminBannerQuery query);
 
     /**
      * 添加

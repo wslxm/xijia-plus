@@ -19,8 +19,28 @@ public interface AdminRoleMenuService extends IService<AdminRoleMenu> {
     /**
      * 分配角色菜单
      * @param roleId
-     * @param menuId
-     * @return
+     * @param menuIds
+     * @return boolean
      */
-    boolean insert(String roleId, List<String> menuId);
+    boolean updRoleMenus(String roleId, List<String> menuIds);
+
+
+    /**
+     * 删除菜单 关联的角色 (批量)
+     *
+     * @param menuIds
+     * @return boolean
+     */
+    boolean delBatchByMenuIds(List<String> menuIds);
+
+
+    /**
+     * 删除角色 关联的菜单
+     *
+     * @param roleId
+     * @return boolean
+     */
+    boolean delByRoleId(String roleId);
+
+
 }

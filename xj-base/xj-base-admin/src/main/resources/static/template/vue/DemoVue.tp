@@ -48,7 +48,7 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/{moduleName}/{tableNameLower}/list",
+                    infoList: "/api/admin/{moduleName}/{tableNameLower}/findPage",
                     info: "/api/admin/{moduleName}/{tableNameLower}",
                 },
                 loading: true,

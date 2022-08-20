@@ -19,14 +19,14 @@ import {packPath}.{rootModule}.{moduleName}.model.query.{tableNameUp}Query;
  * @date {date}
  */
 public interface {tableNameUp}Service extends IService<{tableNameUp}> {
-
+{filterCrud}
     /**
      * 列表查询
      *
      * @param query query
      * @return 分页列表数据
      */
-    IPage<{tableNameUp}VO> list({tableNameUp}Query query);
+    IPage<{tableNameUp}VO> findPage({tableNameUp}Query query);
 
     /**
      * id 查询
@@ -60,5 +60,6 @@ public interface {tableNameUp}Service extends IService<{tableNameUp}> {
      * @return boolean
      */
     boolean del(String id);
+{filterCrud}
 }
 

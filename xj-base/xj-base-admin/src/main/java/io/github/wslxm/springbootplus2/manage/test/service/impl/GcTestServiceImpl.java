@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.test.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
@@ -11,8 +12,6 @@ import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
 import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
 import io.github.wslxm.springbootplus2.manage.test.service.GcTestService;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 /**
@@ -31,24 +30,12 @@ public class GcTestServiceImpl extends BaseIServiceImpl<GcTestMapper, GcTest> im
 
     @Override
     public IPage<GcTestVO> list(GcTestQuery query) {
-        // mybatis-plus 模式
-//        LambdaQueryWrapper<GcTest> queryWrapper = new LambdaQueryWrapper<GcTest>()
-//                .select(GcTest.class, info -> !"text_two".equals(info.getColumn())
-//                          && !"text_three".equals(info.getColumn()))
-//                .likeRight(StringUtils.isNotBlank(query.getName()), GcTest::getName, query.getName())
-//                .eq(query.getAge() != null, GcTest::getAge, query.getAge())
-//                .eq(query.getSex() != null, GcTest::getSex, query.getSex())
-//                .likeRight(StringUtils.isNotBlank(query.getLike()), GcTest::getLike, query.getLike())
-//
-//                .orderByDesc(GcTest::getCreateTime);
-//        Page<GcTest> page = new Page<>(query.getCurrent(), query.getSize());
-//        page = query.getCurrent() <= 0 ? page.setRecords(this.list(queryWrapper)) : this.page(page, queryWrapper);
-//        return BeanDtoVoUtil.pageVo(page, GcTestVO.class);
+        LambdaQueryWrapper<GcTest> queryWrapper = new LambdaQueryWrapper<GcTest>()
 
-        // xml sql 模式
-         IPage<GcTestVO> page = new Page<>(query.getCurrent(), query.getSize());
-         List<GcTestVO> list = baseMapper.list(query.getCurrent() <= 0 ? null : page, query);
-         return page.setRecords(list);
+
+                .orderByDesc(GcTest::getCreateTime);
+        Page<GcTest> page = this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper);
+        return BeanDtoVoUtil.pageVo(page, GcTestVO.class);
     }
 
     @Override

@@ -15,7 +15,7 @@ package io.github.wslxm.springbootplus2.common.cache;
 @SuppressWarnings("all")
 public class ConfigCacheKey {
 
-    public static final String IS_AUTH = "is_auth";  // 是否开启接口权限控制
+    //public static final String IS_AUTH = "is_auth";  // 是否开启接口权限控制
     public static final String IS_SIGN = "is_sign";  // 是否开启接口验签
     public static final String IS_SWAGGER = "is_swagger";  // 是否开启/关闭swagger文档
     public static final String MANAGE_LOGIN_EXPIRATION = "login_expiration_manage";  // 管理端登录有效期|单位分

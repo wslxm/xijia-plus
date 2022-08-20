@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.admin.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
@@ -10,6 +11,7 @@ import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.paramverification.StringUtil;
+import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.github.wslxm.springbootplus2.manage.admin.mapper.AdminDictionaryMapper;
 import io.github.wslxm.springbootplus2.manage.admin.model.dto.AdminDictionaryDTO;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminDictionary;
@@ -44,41 +46,26 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
 
     @Override
     public List<AdminDictionaryVO> list(AdminDictionaryQuery query) {
-        Boolean isDisable = query.getIsDisable();
-        Boolean isBottomLayer = query.getIsBottomLayer();
-        Boolean isTree = query.getIsTree();
+        boolean isDisable = ObjectUtil.defaultIfNull( query.getIsDisable() , true);
+        boolean isBottomLayer =ObjectUtil.defaultIfNull( query.getIsBottomLayer() , true);
+        boolean isTree = ObjectUtil.defaultIfNull(query.getIsTree() , true);
+        boolean isNextAll =ObjectUtil.defaultIfNull(query.getIsNextAll() , true);
         String code = query.getCode();
-        Boolean isNextAll = query.getIsNextAll();
-        // 默认参数
-        if (isDisable == null) {
-            isDisable = true;
-        }
-        if (isBottomLayer == null) {
-            isBottomLayer = true;
-        }
-        if (isTree == null) {
-            isTree = true;
-        }
-        if (isNextAll == null) {
-            isNextAll = true;
-        }
+
         // 1、判断 code , 不能传递字符串数字来查询
         if (StringUtils.isNotBlank(code)) {
-            if (StringUtil.isInteger(code)) {
-                throw new ErrorException(RType.PARAM_ERROR.getValue(), RType.PARAM_ERROR.getMsg() + ":code");
-            }
+            ValidUtil.isTrue(StringUtil.isInteger(code), "code 参数不能传递数字");
         }
-
         //2、获取所有字典数据
         List<AdminDictionaryVO> dictListVO = XjCacheUtil.findListALL(isDisable);
-
-        if (dictListVO.isEmpty()) {
+        if (dictListVO == null || dictListVO.size() == 0) {
             return dictListVO;
         }
 
-        // 3、是否根据code查询, 找到父级code数据（只有一条）, 如果没有, 设置为父级字典数据为顶级code=0的数据(可能多条)
+        // 3、是否根据code查询, 获取父级字典数据
         List<AdminDictionaryVO> pDictListVO = new ArrayList<>();
         if (StringUtils.isNotBlank(code)) {
+            //  3.1、找到父级code数据(只有一条)
             for (AdminDictionaryVO p : dictListVO) {
                 if (p.getCode().equals(code)) {
                     pDictListVO.add(p);
@@ -86,14 +73,15 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
                 }
             }
         } else {
+            // 3.2、如果没有, 设置为父级字典数据为顶级pid=0的数据 (可能多条)
             for (AdminDictionaryVO p : dictListVO) {
                 if (PID.equals(p.getPid())) {
                     pDictListVO.add(p);
                 }
             }
         }
+        // 没有找顶级code数据或没有字典数据,返回空
         if (pDictListVO.isEmpty()) {
-            // 没有顶级code数据
             return pDictListVO;
         }
 
@@ -102,7 +90,8 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
             dictListVO = dictListVO.stream().filter(i -> !StringUtil.isInteger(i.getCode())).collect(Collectors.toList());
         }
 
-        // 5、递归添加下级数据, pDictListVO 为tree数据, diceIds 为指定code层级下所有字典id收集
+
+        // 5、递归获取 子级数据, pDictListVO 为tree数据(tree),  diceIds为指定code层级下所有字典id收集(返回 list 需要)
         List<String> diceIds = new ArrayList<>();
         // 开始递归
         for (AdminDictionaryVO pDictVO : pDictListVO) {
@@ -112,10 +101,9 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
             } else {
                 this.nextLowerNode(dictListVO, pDictVO, diceIds, 1);
             }
-
         }
 
-        // 6、判断返回 tree 还是 / list(list前端自行解析list展示)
+        // 6、判断返回 tree | list
         if (isTree) {
             return pDictListVO;
         } else {
@@ -269,7 +257,7 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
      * @param dictVoList 所有节点
      * @param pDict      上级节点
      * @param ids        收集指定code下所有字典数据 id
-     * @param recursiveHierarchy   递归层级 1-获取下一级 2-获取下2级 ....以此类推
+     * @param recursiveHierarchy   递归层级 1-获取下一级 2-获取下2级 ....以此类推, null不限层级直到没有下级
      */
     private void nextLowerNode(List<AdminDictionaryVO> dictVoList, AdminDictionaryVO pDict, List<String> ids, Integer recursiveHierarchy) {
         // 递归层级控制
@@ -295,7 +283,6 @@ public class AdminDictionaryServiceImpl extends BaseIServiceImpl<AdminDictionary
                 nextLowerNode(dictVoList, zDict, ids, recursiveHierarchy);
             }
         }
-
     }
 
 

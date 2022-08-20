@@ -25,7 +25,7 @@ public interface XjAdminLogService extends IService<XjAdminLog> {
      * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminLogVO>
      * @version 1.0.0
      */
-    IPage<XjAdminLogVO> list(XjAdminLogQuery query);
+    IPage<XjAdminLogVO> findPage(XjAdminLogQuery query);
 
 }
 

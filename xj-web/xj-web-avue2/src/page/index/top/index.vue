@@ -80,7 +80,7 @@
                 </div>
             </el-tooltip>
             <!-- 头像-->
-            <img class="top-bar__img" :src="userInfo.head">
+            <img class="top-bar__img" :src="userInfo.headPic">
             <!-- 下拉菜单  -->
             <el-dropdown>
                  <span class="el-dropdown-link">  {{userInfo.fullName}}

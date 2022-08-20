@@ -2,7 +2,9 @@ package io.github.wslxm.springbootplus2.manage.admin.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -15,6 +17,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @TableName(value = "t_admin_role_menu")
+@NoArgsConstructor
 public class AdminRoleMenu extends BaseEntity {
 
     private static final long serialVersionUID = 7936919715202241575L;
@@ -32,8 +35,6 @@ public class AdminRoleMenu extends BaseEntity {
      */
     private String roleId;
 
-    public AdminRoleMenu() {
-    }
 
     public AdminRoleMenu(String roleId, String menuId) {
         this.menuId = menuId;

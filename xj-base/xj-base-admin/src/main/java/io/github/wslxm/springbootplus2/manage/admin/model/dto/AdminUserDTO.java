@@ -24,7 +24,7 @@ public class AdminUserDTO extends Convert {
     private static final long serialVersionUID = 4934650100711613453L;
 
     @ApiModelProperty(value = "头像")
-    private String head;
+    private String headPic;
     @ApiModelProperty(value = "账号/用户名")
     private String username;
     @ApiModelProperty(value = "手机号/第二账号")
@@ -47,8 +47,8 @@ public class AdminUserDTO extends Convert {
     private Integer terminal;
     @ApiModelProperty(value = "备注")
     private String remarks;
-    @ApiModelProperty(value = "角色Id")
+    @ApiModelProperty(value = "角色Id, 必须存在一条数据才能触发重分配,没有数据时数据无变化")
     private List<String> roleIds;
-    @ApiModelProperty(value = "公司/部门id(选择的最后一级)")
-    private String organId;
+    @ApiModelProperty(value = "公司/部门 ids")
+    private String depIds;
 }

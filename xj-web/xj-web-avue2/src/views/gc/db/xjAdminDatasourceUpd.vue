@@ -286,21 +286,31 @@
                                     labelTip: "实体类是否使用swagger注释 (false情况下使用doc注释)",
                                     labelWidth: 160,
                                 },
-
                                 {
-                                    label: '排除vue字段类型',
-                                    prop: 'vueFieldTypes',
-                                    maxlength: 256,
+                                    label: '过滤Crud方法 ',
+                                    prop: 'filterCrud',
+                                    maxlength: 0,
                                     showWordLimit: true,
                                     span: 10,
+                                    type: "switch",
+                                    dicData: [
+                                        {
+                                            label: "否",
+                                            value: false
+                                        },{
+                                            label: "是",
+                                            value: true
+                                        }
+                                    ],
                                     rules: [{
-                                        required: false,
-                                        message: "请输入 排除vue字段类型 ",
+                                        required: true,
+                                        message: "请输入 是否过滤Crud方法 ",
                                         trigger: "blur"
                                     }],
-                                    labelTip: "排除vue字段类型 (字典code值，参考字典生成字段类型，如: 18=富文本 19=md编辑器 ), vue列表排除展示指定类型字段, 同时list接口 mybatis-plus 查询模式不查询该类型字段值 （详见字典- VueFieldType）",
-                                    labelWidth: 150,
+                                    labelTip: "是否过滤crud方法- 默认生成 (controller/service/mapper/xml)",
+                                    labelWidth: 160,
                                 },
+
                                 {
                                     label: 'db 表前缀 ',
                                     prop: 'dbTablePrefix',
@@ -340,6 +350,20 @@
                                     }],
                                     labelTip: "通用字段默认不生成到Entity/Dto/Vo中,在BaseEntity 等中已定义",
                                     labelWidth: this.labelWidth,
+                                },
+                                {
+                                    label: '排除vue字段类型',
+                                    prop: 'vueFieldTypes',
+                                    maxlength: 256,
+                                    showWordLimit: true,
+                                    span: 20,
+                                    rules: [{
+                                        required: false,
+                                        message: "请输入 排除vue字段类型 ",
+                                        trigger: "blur"
+                                    }],
+                                    labelTip: "排除vue字段类型 (字典code值，参考字典生成字段类型，如: 18=富文本 19=md编辑器 ), vue列表排除展示指定类型字段, 同时list接口 mybatis-plus 查询模式不查询该类型字段值 （详见字典- VueFieldType）",
+                                    labelWidth: 150,
                                 },
                                 {
                                     label: '数据库关键字',

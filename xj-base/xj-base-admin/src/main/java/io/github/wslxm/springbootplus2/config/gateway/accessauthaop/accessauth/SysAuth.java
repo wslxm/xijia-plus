@@ -4,14 +4,11 @@ package io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.common.cache.AuthCacheKeyUtil;
-import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
-import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
-import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,30 +112,30 @@ public class SysAuth {
                 return result;
             }
             return R.success(result.getData());
-        } else if (adminAuthority.getState().equals(Base.AuthorityState.V2.getValue())) {
-            /**
-             *  2- 需登录+授权 (100% 管理端才会进入, 验证用户信息的权限列表中是否存在当前接口，存在放行，不存在拦截返回无权限访问)
-             */
-            R<JwtUser> result = JwtUtil.getJwtUserR(request, response);
-            if (!result.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-                // error
-                return result;
-            }
-            JwtUser jwtUser = result.getData();
-            // 判断是否验证权限
-            XjAdminConfigVO xjAdminConfig = XjCacheUtil.findConfigByCode(ConfigCacheKey.IS_AUTH);
-            if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
-                return R.success(jwtUser);
-            }
-            // 验证权限
-            List<String> authList = XjCacheUtil.findAuthByUserId(jwtUser.getUserId());
-            if (authList == null || !authList.contains(cacheKey)) {
-                return R.error(RType.AUTHORITY_NO_PERMISSION);
-            }
-            return R.success(jwtUser);
         }
+        // 不做任何处理
         return R.success(null);
+//        else if (adminAuthority.getState().equals(Base.AuthorityState.V2.getValue())) {
+//            /**
+//             *  2- 需登录+授权 (100% 管理端才会进入, 验证用户信息的权限列表中是否存在当前接口，存在放行，不存在拦截返回无权限访问)
+//             */
+//            R<JwtUser> result = JwtUtil.getJwtUserR(request, response);
+//            if (!result.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+//                // error
+//                return result;
+//            }
+//            JwtUser jwtUser = result.getData();
+//            // 判断是否验证权限
+//            XjAdminConfigVO xjAdminConfig = XjCacheUtil.findConfigByCode(ConfigCacheKey.IS_AUTH);
+//            if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
+//                return R.success(jwtUser);
+//            }
+//            // 验证权限
+//            List<String> authList = XjCacheUtil.findAuthByUserId(jwtUser.getUserId());
+//            if (authList == null || !authList.contains(cacheKey)) {
+//                return R.error(RType.AUTHORITY_NO_PERMISSION);
+//            }
+//            return R.success(jwtUser);
+//        }
     }
-
-
 }

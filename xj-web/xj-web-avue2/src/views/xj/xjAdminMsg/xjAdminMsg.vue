@@ -48,7 +48,7 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/xj/msg/list",
+                    infoList: "/api/admin/xj/msg/findPage",
                     info: "/api/admin/xj/msg",
                     userList: "/api/admin/user/list/keyData",
                 },

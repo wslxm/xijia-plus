@@ -144,11 +144,11 @@ INSERT INTO `t_admin_authority` VALUES ('595094558677798912', NULL, NULL, '2021-
 INSERT INTO `t_admin_authority` VALUES ('595094558686187520', NULL, NULL, '2021-09-19 21:40:08', '2021-09-19 21:40:08', 0, 285, '0', '', '/api/admin/xj/jvm', 'base-plus--jvm信息获取', 0, 0, 2, 0);
 INSERT INTO `t_admin_authority` VALUES ('595094558686187521', NULL, NULL, '2021-09-19 21:40:08', '2021-09-28 06:22:19', 0, 285, '595094558686187520', 'GET', '/api/admin/xj/jvm/jvmInfo', '3、系统的jvm信息', 0, 0, 2, 1);
 INSERT INTO `t_admin_authority` VALUES ('598128304653996032', NULL, NULL, '2021-09-28 06:35:13', '2021-09-28 06:36:06', 0, 274, '590395518954377221', 'GET', '/api/admin/xj/config/findByCode', 'CODE查询', 0, 0, 0, 1);
-INSERT INTO `t_admin_authority` VALUES ('606303420856537088', NULL, NULL, '2021-10-20 20:00:10', '2021-10-20 20:00:10', 0, 184, '0', '', '/api/admin/organ', 'base--组织机构', 0, 0, 2, 0);
-INSERT INTO `t_admin_authority` VALUES ('606303420856537089', NULL, NULL, '2021-10-20 20:00:10', '2021-10-20 20:00:10', 0, 184, '606303420856537088', 'GET', '/api/admin/organ/list', '列表查询', 0, 0, 2, 0);
-INSERT INTO `t_admin_authority` VALUES ('606303420856537090', NULL, NULL, '2021-10-20 20:00:10', '2021-10-20 20:00:10', 0, 184, '606303420856537088', 'POST', '/api/admin/organ', '添加', 0, 0, 2, 0);
-INSERT INTO `t_admin_authority` VALUES ('606303420856537091', NULL, NULL, '2021-10-20 20:00:10', '2021-10-20 20:00:10', 0, 184, '606303420856537088', 'DELETE', '/api/admin/organ/{id}', 'ID删除(并删除子数据)', 0, 0, 2, 0);
-INSERT INTO `t_admin_authority` VALUES ('606303420856537092', NULL, NULL, '2021-10-20 20:00:10', '2021-10-20 20:00:10', 0, 184, '606303420856537088', 'PUT', '/api/admin/organ/{id}', 'ID编辑', 0, 0, 2, 0);
+INSERT INTO `t_admin_authority` VALUES ('606303420856537088', NULL, NULL, '2021-10-20 20:00:10', '2021-10-20 20:00:10', 0, 184, '0', '', '/api/admin/dep', 'base--组织机构', 0, 0, 2, 0);
+INSERT INTO `t_admin_authority` VALUES ('606303420856537089', NULL, NULL, '2021-10-20 20:00:10', '2021-10-20 20:00:10', 0, 184, '606303420856537088', 'GET', '/api/admin/dep/list', '列表查询', 0, 0, 2, 0);
+INSERT INTO `t_admin_authority` VALUES ('606303420856537090', NULL, NULL, '2021-10-20 20:00:10', '2021-10-20 20:00:10', 0, 184, '606303420856537088', 'POST', '/api/admin/dep', '添加', 0, 0, 2, 0);
+INSERT INTO `t_admin_authority` VALUES ('606303420856537091', NULL, NULL, '2021-10-20 20:00:10', '2021-10-20 20:00:10', 0, 184, '606303420856537088', 'DELETE', '/api/admin/dep/{id}', 'ID删除(并删除子数据)', 0, 0, 2, 0);
+INSERT INTO `t_admin_authority` VALUES ('606303420856537092', NULL, NULL, '2021-10-20 20:00:10', '2021-10-20 20:00:10', 0, 184, '606303420856537088', 'PUT', '/api/admin/dep/{id}', 'ID编辑', 0, 0, 2, 0);
 INSERT INTO `t_admin_authority` VALUES ('613640045747900416', NULL, NULL, '2021-11-10 01:53:18', '2021-11-26 10:49:07', 0, 107, '590081231815839745', 'POST', '/api/admin/generate/generateCodeVue', '生成Vue代码(将直接下载)', 0, 0, 2, 0);
 INSERT INTO `t_admin_authority` VALUES ('616033178368479232', NULL, NULL, '2021-11-16 16:22:45', '2021-11-16 16:22:45', 0, 92, '0', '', '/api/admin/test/gcTest', '代码生成测试表', 0, 0, 2, 0);
 INSERT INTO `t_admin_authority` VALUES ('616033178368479233', NULL, NULL, '2021-11-16 16:22:45', '2021-11-16 16:22:45', 0, 92, '616033178368479232', 'GET', '/api/admin/test/gcTest/list', '列表查询', 0, 0, 2, 0);
@@ -350,7 +350,7 @@ INSERT INTO `t_admin_menu` VALUES ('1440271162033684482', '1', '-1', '2021-09-21
 INSERT INTO `t_admin_menu` VALUES ('1442156484086480897', '1', '-1', '2021-09-26 23:57:54', '2021-11-14 11:03:51', 0, 0, '1440255602914869250', '角色管理', '', '/views/admin/role/role', 'el-icon-document-remove', 20003, 3, 0, 2);
 INSERT INTO `t_admin_menu` VALUES ('1442156557235142657', '1', '-1', '2021-09-26 23:58:11', '2021-11-20 19:16:45', 0, 0, '1440255602914869250', '字典管理', '', '/views/admin/adminDictionary/adminDictionary', 'el-icon-document-remove', 20005, 3, 0, 2);
 INSERT INTO `t_admin_menu` VALUES ('1442156599396286466', '1', '-1', '2021-09-26 23:58:21', '2021-11-20 19:16:47', 0, 0, '1440255602914869250', '接口管理', '', '/views/admin/adminAuthority/adminAuthority', 'el-icon-document-remove', 20006, 3, 0, 2);
-INSERT INTO `t_admin_menu` VALUES ('1443489804154060802', '1', '-1', '2021-09-30 16:16:02', '2021-10-20 18:16:10', 0, 0, '4', '组织机构', '', '/page/manage_admin_organ_organ', 'layui-icon-file-b', 2, 3, 0, 1);
+INSERT INTO `t_admin_menu` VALUES ('1443489804154060802', '1', '-1', '2021-09-30 16:16:02', '2021-10-20 18:16:10', 0, 0, '4', '组织机构', '', '/page/manage_admin_dep_dep', 'layui-icon-file-b', 2, 3, 0, 1);
 INSERT INTO `t_admin_menu` VALUES ('1449698334917865473', '1', NULL, '2021-10-17 19:26:30', '2021-10-20 19:44:40', 0, 0, '1449698274373087233', '页面-5级', NULL, '', 'el-icon-document-remove', 0, 3, 0, 2);
 INSERT INTO `t_admin_menu` VALUES ('1449764190750285826', '1', NULL, '2021-10-17 23:48:11', '2021-12-04 11:24:44', 0, 0, '1440255471893200897', '增强功能', '', '/views/xj', 'el-icon-copy-document', 200, 2, 0, 2);
 INSERT INTO `t_admin_menu` VALUES ('1449764248052867074', '1', NULL, '2021-10-17 23:48:25', '2021-10-24 02:30:04', 1, 0, '1449764190750285826', '怕怕', NULL, '', 'el-icon-document-remove', 10001, 2, 0, 2);
@@ -363,7 +363,7 @@ INSERT INTO `t_admin_menu` VALUES ('1457369967249879042', '1', NULL, '2021-11-07
 INSERT INTO `t_admin_menu` VALUES ('1457370029065531394', '1', NULL, '2021-11-07 23:31:06', '2021-11-07 23:31:06', 0, 0, '1457369967249879042', '测试', NULL, NULL, 'el-icon-document-remove', 0, 2, 0, 3);
 INSERT INTO `t_admin_menu` VALUES ('1457370075530031105', '1', NULL, '2021-11-07 23:31:17', '2021-11-07 23:31:17', 0, 0, '1457370029065531394', '啦啦', NULL, '/aaaa', 'el-icon-document-remove', 0, 3, 0, 3);
 INSERT INTO `t_admin_menu` VALUES ('1457372083897004033', '1', NULL, '2021-11-07 23:39:16', '2021-11-07 23:39:16', 0, 0, '1457370029065531394', 'aaa', NULL, 'bbb', 'el-icon-document-remove', 0, 3, 0, 3);
-INSERT INTO `t_admin_menu` VALUES ('1459712656557576194', '1', NULL, '2021-11-14 10:39:51', '2021-11-20 19:16:35', 0, 0, '1440255602914869250', '组织机构', NULL, '/views/admin/adminOrgan/adminOrgan', 'el-icon-document-remove', 20002, 3, 0, 2);
+INSERT INTO `t_admin_menu` VALUES ('1459712656557576194', '1', NULL, '2021-11-14 10:39:51', '2021-11-20 19:16:35', 0, 0, '1440255602914869250', '组织机构', NULL, '/views/admin/adminDep/adminDep', 'el-icon-document-remove', 20002, 3, 0, 2);
 INSERT INTO `t_admin_menu` VALUES ('1459850402525622274', '1', NULL, '2021-11-14 19:47:12', '2021-11-14 19:47:24', 0, 0, '1449764190750285826', '全局配置', NULL, '/views/xj/xjAdminConfig/xjAdminConfig', 'el-icon-document-remove', 0, 3, 0, 2);
 INSERT INTO `t_admin_menu` VALUES ('1460481331314073602', '1', NULL, '2021-11-16 13:34:18', '2021-11-20 17:18:52', 1, 0, '1440255471893200897', '首页', NULL, '/views/wel/jvmInfo', 'el-icon-document-remove', 0, 2, 0, 2);
 INSERT INTO `t_admin_menu` VALUES ('1461987433667141634', '1', NULL, '2021-11-20 17:19:01', '2021-12-04 11:23:31', 0, 0, '1440255471893200897', '首页', NULL, '/wel/jvmInfo', 'el-icon-menu', 0, 3, 0, 2);
@@ -378,10 +378,10 @@ INSERT INTO `t_admin_menu` VALUES ('4', '1', '-1', '2020-07-25 09:29:38', '2021-
 INSERT INTO `t_admin_menu` VALUES ('7', '1', '-1', '2020-07-25 09:29:38', '2021-09-30 14:53:33', 0, 0, '4', '菜单管理', '', '/page/manage_admin_menu_menu', 'layui-icon-file-b', 1, 3, 0, 1);
 
 -- ----------------------------
--- Table structure for t_admin_organ
+-- Table structure for t_admin_dep
 -- ----------------------------
-DROP TABLE IF EXISTS `t_admin_organ`;
-CREATE TABLE `t_admin_organ`  (
+DROP TABLE IF EXISTS `t_admin_dep`;
+CREATE TABLE `t_admin_dep`  (
   `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键id',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建账户id',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新账户id',
@@ -400,19 +400,19 @@ CREATE TABLE `t_admin_organ`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '基础表--组织机构' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of t_admin_organ
+-- Records of t_admin_dep
 -- ----------------------------
-INSERT INTO `t_admin_organ` VALUES ('1443501889504210946', NULL, '-1', '2021-09-30 17:04:03', '2021-10-08 16:23:59', 0, 0, '0', 'zgs', '成都总公司', '-', 0, 0, 1);
-INSERT INTO `t_admin_organ` VALUES ('1443502090977603585', NULL, '-1', '2021-09-30 17:04:51', '2021-10-08 16:24:00', 0, 0, '1443501889504210946', 'zgsa', '子公司a', '-', 0, 0, 2);
-INSERT INTO `t_admin_organ` VALUES ('1443502157943861250', NULL, '-1', '2021-09-30 17:05:07', '2021-11-14 10:48:34', 0, 0, '1443501889504210946', 'zgsb', '子公司b', '-', 0, 0, 2);
-INSERT INTO `t_admin_organ` VALUES ('1443502249136418817', NULL, '-1', '2021-09-30 17:05:29', '2021-10-08 16:32:42', 0, 0, '1443502090977603585', 'kfb', '开发部', '-', 0, 0, 3);
-INSERT INTO `t_admin_organ` VALUES ('1443502302433439746', NULL, '-1', '2021-09-30 17:05:42', '2021-10-08 16:24:00', 0, 0, '1443502090977603585', 'csb', '测试部', '-', 0, 0, 3);
-INSERT INTO `t_admin_organ` VALUES ('1443502428644241409', NULL, '-1', '2021-09-30 17:06:12', '2021-11-29 19:50:02', 0, 0, '1443502157943861250', 'yyb', '运营部', '-', 0, 0, 3);
-INSERT INTO `t_admin_organ` VALUES ('1459717628875608065', NULL, NULL, '2021-11-14 10:59:36', '2021-11-28 21:27:45', 1, 0, '0', '111', '测试11', '-', 0, 0, 1);
-INSERT INTO `t_admin_organ` VALUES ('1459717651424186369', NULL, NULL, '2021-11-14 10:59:42', '2021-11-28 21:27:42', 1, 0, '1459717628875608065', '121', '121', '-', 0, 0, 2);
-INSERT INTO `t_admin_organ` VALUES ('1459717674845179906', NULL, NULL, '2021-11-14 10:59:47', '2021-11-28 21:27:42', 1, 0, '1459717651424186369', '11', '测试', '-', 0, 0, 3);
-INSERT INTO `t_admin_organ` VALUES ('1459717751051489281', NULL, NULL, '2021-11-14 11:00:05', '2021-11-28 21:27:42', 1, 0, '1459717651424186369', 'test3', '11', '-', 0, 0, 3);
-INSERT INTO `t_admin_organ` VALUES ('1468426496627490818', NULL, NULL, '2021-12-08 11:45:33', '2021-12-08 11:45:33', 0, 0, '1443501889504210946', 'zb', '公司总部', '-', 0, 0, 2);
+INSERT INTO `t_admin_dep` VALUES ('1443501889504210946', NULL, '-1', '2021-09-30 17:04:03', '2021-10-08 16:23:59', 0, 0, '0', 'zgs', '成都总公司', '-', 0, 0, 1);
+INSERT INTO `t_admin_dep` VALUES ('1443502090977603585', NULL, '-1', '2021-09-30 17:04:51', '2021-10-08 16:24:00', 0, 0, '1443501889504210946', 'zgsa', '子公司a', '-', 0, 0, 2);
+INSERT INTO `t_admin_dep` VALUES ('1443502157943861250', NULL, '-1', '2021-09-30 17:05:07', '2021-11-14 10:48:34', 0, 0, '1443501889504210946', 'zgsb', '子公司b', '-', 0, 0, 2);
+INSERT INTO `t_admin_dep` VALUES ('1443502249136418817', NULL, '-1', '2021-09-30 17:05:29', '2021-10-08 16:32:42', 0, 0, '1443502090977603585', 'kfb', '开发部', '-', 0, 0, 3);
+INSERT INTO `t_admin_dep` VALUES ('1443502302433439746', NULL, '-1', '2021-09-30 17:05:42', '2021-10-08 16:24:00', 0, 0, '1443502090977603585', 'csb', '测试部', '-', 0, 0, 3);
+INSERT INTO `t_admin_dep` VALUES ('1443502428644241409', NULL, '-1', '2021-09-30 17:06:12', '2021-11-29 19:50:02', 0, 0, '1443502157943861250', 'yyb', '运营部', '-', 0, 0, 3);
+INSERT INTO `t_admin_dep` VALUES ('1459717628875608065', NULL, NULL, '2021-11-14 10:59:36', '2021-11-28 21:27:45', 1, 0, '0', '111', '测试11', '-', 0, 0, 1);
+INSERT INTO `t_admin_dep` VALUES ('1459717651424186369', NULL, NULL, '2021-11-14 10:59:42', '2021-11-28 21:27:42', 1, 0, '1459717628875608065', '121', '121', '-', 0, 0, 2);
+INSERT INTO `t_admin_dep` VALUES ('1459717674845179906', NULL, NULL, '2021-11-14 10:59:47', '2021-11-28 21:27:42', 1, 0, '1459717651424186369', '11', '测试', '-', 0, 0, 3);
+INSERT INTO `t_admin_dep` VALUES ('1459717751051489281', NULL, NULL, '2021-11-14 11:00:05', '2021-11-28 21:27:42', 1, 0, '1459717651424186369', 'test3', '11', '-', 0, 0, 3);
+INSERT INTO `t_admin_dep` VALUES ('1468426496627490818', NULL, NULL, '2021-12-08 11:45:33', '2021-12-08 11:45:33', 0, 0, '1443501889504210946', 'zb', '公司总部', '-', 0, 0, 2);
 
 -- ----------------------------
 -- Table structure for t_admin_role
@@ -712,7 +712,7 @@ CREATE TABLE `t_admin_user`  (
   `password` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
   `gender` int(1) NOT NULL DEFAULT 0 COMMENT '性别 (0-未知 1-男 2-女)',
   `disable` int(1) NOT NULL DEFAULT 0 COMMENT '是否禁用 (0-否，1-是)',
-  `organ_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '公司/部门id,多层级前端自行分割数据',
+  `dep_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '公司/部门id,多层级前端自行分割数据',
   `position` int(1) NOT NULL DEFAULT 0 COMMENT '职位 (字典code)',
   `terminal` int(1) NOT NULL DEFAULT 1 COMMENT '终端 (字段code)',
   `head` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '头像',

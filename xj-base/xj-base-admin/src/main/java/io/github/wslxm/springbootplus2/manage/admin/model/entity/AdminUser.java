@@ -46,7 +46,7 @@ public class AdminUser extends BaseEntity {
     /**
      * 头像
      */
-    private String head;
+    private String headPic;
 
     /**
      * 年龄
@@ -80,7 +80,7 @@ public class AdminUser extends BaseEntity {
     /**
      * 公司/部门
      */
-    private String organId;
+    private String depIds;
 
     /**
      * 职位 职位(字典code)

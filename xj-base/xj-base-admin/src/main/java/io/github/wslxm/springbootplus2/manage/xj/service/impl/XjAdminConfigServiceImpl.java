@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service;
 public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapper, XjAdminConfig> implements XjAdminConfigService {
 
     @Override
-    public IPage<XjAdminConfigVO> list(XjAdminConfigQuery query) {
+    public IPage<XjAdminConfigVO> findPage(XjAdminConfigQuery query) {
         LambdaQueryWrapper<XjAdminConfig> queryWrapper = new LambdaQueryWrapper<XjAdminConfig>()
                 .orderByAsc(XjAdminConfig::getSort)
                 .orderByDesc(XjAdminConfig::getCreateTime)
@@ -41,11 +41,7 @@ public class XjAdminConfigServiceImpl extends BaseIServiceImpl<XjAdminConfigMapp
                 .eq(query.getType() != null, XjAdminConfig::getType, query.getType())
                 .likeRight(StringUtils.isNotBlank(query.getName()), XjAdminConfig::getName, query.getName());
         IPage<XjAdminConfigVO> resPage = null;
-        if (query.getCurrent() <= 0) {
-            resPage.setRecords(BeanDtoVoUtil.listVo(this.list(queryWrapper), XjAdminConfigVO.class));
-        } else {
-            resPage = BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminConfigVO.class);
-        }
+        resPage = BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), XjAdminConfigVO.class);
         // 如果是富文本不返回内容
         for (XjAdminConfigVO xjAdminConfigVO : resPage.getRecords()) {
             if (xjAdminConfigVO.getType().equals(Base.ConfigType.V3.getValue())) {
