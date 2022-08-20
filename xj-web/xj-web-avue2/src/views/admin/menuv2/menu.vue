@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-container>
-            <el-aside style="margin-left: 1%" :width="treeOption.elAsideWidth">
+            <el-aside style="margin-left: 1%;margin-top: 7.5px" :width="treeOption.elAsideWidth">
                 <avue-tree :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
             </el-aside>
             <el-main>
@@ -98,7 +98,6 @@
                 updPidDialogVisible: false,      // 变更父级开关状态
                 page: this.website.pageParams,   // 分页参数
                 search: {                        // 搜索参数
-                    terminal: this.website.Terminal
                 },
                 treeData: [],                 // 左侧菜单数据
                 rowTreeData: [],              // 当前选中左侧菜单行数据
@@ -133,16 +132,6 @@
             };
             this.option.column =
                 [
-                    {
-                        label: '终端',
-                        prop: 'terminal',
-                        dicData: this.dict.get(this.website.Dict.Admin.Terminal, true, false, true),
-                        search: this.website.isTerminalSearch,
-                        searchValue: this.search.terminal,
-                        searchSpan: 7,
-                        type: "select",
-                        hide: true,
-                    },
                     {
                         label: '菜单名称',
                         prop: 'name',

@@ -47,9 +47,7 @@ public class AdminUserVO extends BaseVo {
     private String depIds;
     @ApiModelProperty(value = "职位（字典code）")
     private Integer position;
-    @ApiModelProperty(value = "终端 (字段code)")
-    private Integer terminal;
-    @ApiModelProperty(value = "终端 (字段code)")
+    @ApiModelProperty(value = "微信OpenId")
     private Integer wxOpenId;
     @ApiModelProperty(value = "备注")
     private String remarks;

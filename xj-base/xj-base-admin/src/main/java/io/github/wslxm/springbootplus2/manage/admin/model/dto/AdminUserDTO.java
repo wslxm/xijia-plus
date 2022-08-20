@@ -43,8 +43,6 @@ public class AdminUserDTO extends Convert {
     private Integer disable;
     @ApiModelProperty(value = "职位（字典code）")
     private Integer position;
-    @ApiModelProperty(value = "终端 (字段code)")
-    private Integer terminal;
     @ApiModelProperty(value = "备注")
     private String remarks;
     @ApiModelProperty(value = "角色Id, 必须存在一条数据才能触发重分配,没有数据时数据无变化")

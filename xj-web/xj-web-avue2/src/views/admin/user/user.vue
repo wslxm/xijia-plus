@@ -120,7 +120,6 @@
                 option: {},
                 // 搜索参数
                 search: {
-                    terminal: this.website.Terminal
                 },
                 // 重置密码数据保存
                 rowPassword: {
@@ -210,17 +209,6 @@
                 //     prop: 'gender',
                 //     dicData: this.dict.get(this.website.Dict.Base.Gender),
                 // },
-                {
-                    label: '终端',
-                    prop: 'terminal',
-                    type: "select",
-                    hide: true,
-                    search: this.website.isTerminalSearch,
-                    searchSpan: 5,
-                    searchValue: this.search.terminal,
-                    searchOrder: 1,
-                    dicData: this.dict.get(this.website.Dict.Admin.Terminal),
-                },
                 {
                     label: '部门',
                     prop: 'depNames',

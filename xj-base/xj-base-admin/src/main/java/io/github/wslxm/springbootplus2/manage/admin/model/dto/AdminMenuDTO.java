@@ -35,6 +35,4 @@ public class AdminMenuDTO extends Convert {
     private Integer sort;
     @ApiModelProperty(value = "禁用（0-否，1-是）")
     private Integer disable;
-    @ApiModelProperty(value = "终端 (字段code)")
-    private Integer terminal;
 }

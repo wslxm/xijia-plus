@@ -23,9 +23,6 @@ public class AdminRoleQuery extends BaseQuery {
     @ApiModelProperty(value = "角色名-模糊查询", position = 1)
     private String name;
 
-    @ApiModelProperty(value = "终端 (多平台,每个平台对应一个终端)", position = 2)
-    private Integer terminal;
-
     @ApiModelProperty(value = "角色code", position = 3)
     private String code;
 

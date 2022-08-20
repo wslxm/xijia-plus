@@ -43,8 +43,6 @@ public class AdminMenuVO extends BaseVo {
     private Integer disable;
     @ApiModelProperty(value = "当前页面权限id")
     private Integer authority;
-    @ApiModelProperty(value = "终端 (字段code)")
-    private Integer terminal;
     @ApiModelProperty(value = "当前节点的子节点，获取菜单树数据使用")
     private List<AdminMenuVO> menus;
     @ApiModelProperty(value = "是否选中（是否有权限，前台复选框默认选中需要值）")

@@ -29,8 +29,6 @@ public class AdminRoleDTO extends Convert {
     private String code;
     @ApiModelProperty(value = "禁用（0-否，1-是）")
     private Integer disable;
-    @ApiModelProperty(value = "终端 (字典code)")
-    private Integer terminal;
     @ApiModelProperty(value = "角色的菜单列表ids, 存在数据才分配,不存在数据不做任何处理")
     private List<String> menuIds;
 }

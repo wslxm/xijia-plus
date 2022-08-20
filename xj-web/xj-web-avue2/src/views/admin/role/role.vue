@@ -81,7 +81,6 @@
                 data: [],                        // 列表数据
                 option: {},                      // 列表配置( mounted() 方法中配置)
                 search: {                        // 搜索参数
-                    terminal: this.website.Terminal
                 },
             }
         },
@@ -113,21 +112,6 @@
                 {
                     label: '描叙',
                     prop: 'desc'
-                },
-                {
-                    label: '终端',
-                    prop: 'terminal',
-                    dicData: this.dict.get(this.website.Dict.Admin.Terminal, true, false, true),
-                    hide: true,
-                    search: this.website.isTerminalSearch,
-                    searchValue: this.search.terminal,
-                    searchOrder: 1,
-                    searchSpan: 5,
-                    type: "select",
-                    searchRules: [{
-                        required: false,
-                        // trigger: "blur"
-                    }],
                 },
                 {
                     label: '禁用/启用',

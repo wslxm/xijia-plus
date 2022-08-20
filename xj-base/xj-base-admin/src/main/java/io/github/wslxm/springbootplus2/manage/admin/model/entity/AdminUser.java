@@ -90,10 +90,7 @@ public class AdminUser extends BaseEntity {
      * 微信openId
      */
     private String wxOpenId;
-    /**
-     * 终端 (字段code)
-     */
-    private Integer terminal;
+
     /**
      * 备注
      */

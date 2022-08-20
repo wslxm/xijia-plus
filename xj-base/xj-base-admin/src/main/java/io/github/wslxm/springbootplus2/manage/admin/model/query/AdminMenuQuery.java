@@ -18,8 +18,6 @@ import lombok.ToString;
 @ApiModel(value = "AdminMenuQuery", description = "菜单")
 public class AdminMenuQuery extends Convert {
 
-    @ApiModelProperty(value = "终端--非必传,(不传查所有)", position = 1)
-    private Integer terminal;
 
     @ApiModelProperty(value = "父id--非必传,没有获取所有,传递了只查询指定层级的下一级数据", position = 2)
     private String pid;

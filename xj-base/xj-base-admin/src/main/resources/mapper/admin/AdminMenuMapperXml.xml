@@ -54,9 +54,6 @@
         <if test="loginUserId != null">
             and u.id = #{loginUserId}
         </if>
-        <if test="terminal != null">
-            and m.terminal = #{terminal}
-        </if>
         <if test="disable != null">
             and m.`disable` = #{disable}
         </if>

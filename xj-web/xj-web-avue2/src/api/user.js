@@ -12,8 +12,6 @@ export const loginByUsername = (username, password, code, redomStr) => request({
         password: password,
         code: code,
         redomStr: redomStr,
-        // 是否动态增加 终端配置字段 terminal
-        isTerminal: true
     }
 });
 
@@ -35,9 +33,6 @@ export const getMenu = (pid) => request({
         disable: 0,
         isTree: true,
         isLoginUser: true,
-        //terminal: 3,
-        // 是否动态增加 终端配置字段 terminal
-        isTerminal: true
     }
 });
 
@@ -49,9 +44,6 @@ export const getTopMenu = () => request({
         isTree: true,
         isLoginUser: true,
         isBottomLayer: false,
-        //terminal: 3,
-        // 是否动态增加 终端配置字段 terminal
-        isTerminal: true
     }
 });
 

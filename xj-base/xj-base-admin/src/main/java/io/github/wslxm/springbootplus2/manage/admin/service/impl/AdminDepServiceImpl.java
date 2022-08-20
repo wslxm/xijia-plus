@@ -3,6 +3,7 @@ package io.github.wslxm.springbootplus2.manage.admin.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.admin.mapper.AdminDepMapper;
@@ -93,6 +94,7 @@ public class AdminDepServiceImpl extends BaseIServiceImpl<AdminDepMapper, AdminD
 
     @Override
     public String insert(AdminDepDTO dto) {
+        this.isCodeRepeat(dto.getCode(), null);
         AdminDep entity = dto.convert(AdminDep.class);
         boolean b = this.save(entity);
         return entity.getId();
@@ -100,6 +102,7 @@ public class AdminDepServiceImpl extends BaseIServiceImpl<AdminDepMapper, AdminD
 
     @Override
     public boolean upd(String id, AdminDepDTO dto) {
+        this.isCodeRepeat(dto.getCode(), id);
         AdminDep entity = dto.convert(AdminDep.class);
         entity.setId(id);
         return this.updateById(entity);
@@ -161,5 +164,23 @@ public class AdminDepServiceImpl extends BaseIServiceImpl<AdminDepMapper, AdminD
             vo.setDepNames(depNames.toString());
         }
         return vo;
+    }
+
+
+    /**
+     * 角色code重复验证
+     * @author wangsong
+     * @mail 1720696548@qq.com
+     * @date 2022/8/20 0020 14:33
+     * @version 1.0.0
+     */
+    private void isCodeRepeat(String code, String excludeId) {
+        long count = this.count(new LambdaQueryWrapper<AdminDep>()
+                .eq(AdminDep::getCode, code)
+                .ne(AdminDep::getId, excludeId)
+        );
+        if (count > 0) {
+            throw new ErrorException("角色code已存在");
+        }
     }
 }

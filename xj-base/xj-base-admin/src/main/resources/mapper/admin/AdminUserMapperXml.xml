@@ -12,7 +12,6 @@
         <result column="disable" property="disable"/>
         <result column="dep_ids" property="depIds"/>
         <result column="position" property="position"/>
-        <result column="terminal" property="terminal"/>
         <result column="head_pic" property="headPic"/>
         <result column="phone" property="phone"/>
         <result column="full_name" property="fullName"/>
@@ -79,9 +78,6 @@
         </if>
         <if test="query.position != null">
             and u.position = #{query.position}
-        </if>
-        <if test="query.terminal != null">
-            and u.terminal = #{query.terminal}
         </if>
         <if test="createUserId != null">
             and u.create_user = #{createUserId}

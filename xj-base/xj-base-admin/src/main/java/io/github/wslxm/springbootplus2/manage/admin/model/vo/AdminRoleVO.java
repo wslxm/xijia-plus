@@ -30,8 +30,6 @@ public class AdminRoleVO extends BaseVo {
     private Integer disable;
     @ApiModelProperty(value = "查询code")
     private String code;
-    @ApiModelProperty(value = "终端 (字段code)")
-    private Integer terminal;
     @ApiModelProperty(value = "角色分配, 当前用户拥有角色为true")
     private Boolean isChecked;
 

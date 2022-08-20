@@ -35,19 +35,6 @@
                     printBtn: false,   // 打印按钮
                     column: [
                         {
-                            label: '终端',
-                            prop: 'terminal',
-                            span: 20,
-                            disabled: true,
-                            type: "radio",
-                            dicData: this.dict.get(this.website.Dict.Admin.Terminal),
-                            rules: [{
-                                required: true,
-                                message: "请选择 终端",
-                                trigger: "blur"
-                            }]
-                        },
-                        {
                             label: '菜单级别',
                             prop: 'root',
                             span: 20,

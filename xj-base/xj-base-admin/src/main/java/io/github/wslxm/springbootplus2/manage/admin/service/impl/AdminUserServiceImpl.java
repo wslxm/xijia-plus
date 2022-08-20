@@ -10,7 +10,6 @@ import io.github.wslxm.springbootplus2.common.auth.util.Md5Util;
 import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
-import io.github.wslxm.springbootplus2.core.enums.Admin;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
@@ -25,7 +24,9 @@ import io.github.wslxm.springbootplus2.manage.admin.model.query.AdminUserQuery;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminDepVO;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminRoleVO;
 import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminUserVO;
-import io.github.wslxm.springbootplus2.manage.admin.service.*;
+import io.github.wslxm.springbootplus2.manage.admin.service.AdminDepService;
+import io.github.wslxm.springbootplus2.manage.admin.service.AdminRoleUserService;
+import io.github.wslxm.springbootplus2.manage.admin.service.AdminUserService;
 import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
 import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
 import org.apache.commons.lang3.StringUtils;
@@ -92,8 +93,8 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     @Transactional(rollbackFor = Exception.class)
     public String insert(AdminUserDTO dto) {
         // 判重账号/判重电话
-        this.verifyRepeatUsername(dto.getUsername(), null, dto.getTerminal(), null);
-        this.verifyRepeatPhone(dto.getPhone(), null, dto.getTerminal(), null);
+        this.verifyRepeatUsername(dto.getUsername(), null);
+        this.verifyRepeatPhone(dto.getPhone(), null);
         //
         AdminUser adminUser = dto.convert(AdminUser.class);
         adminUser.setId(IdUtil.snowflakeId());
@@ -102,13 +103,6 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
         if (dto.getDisable() == null) {
             // 如果未设置状态,默认启用状态
             adminUser.setDisable(Base.Disable.V0.getValue());
-        }
-        // 判断当前是否登录(登录了添加创建人)
-        R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, response);
-        boolean isLogin = jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue());
-        if (isLogin) {
-            String userId = jwtUserR.getData().getUserId();
-            adminUser.setCreateUser(userId);
         }
         this.save(adminUser);
         if (dto.getRoleIds() != null) {
@@ -122,13 +116,13 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
     @Transactional(rollbackFor = Exception.class)
     public Boolean upd(String id, AdminUserDTO dto) {
         AdminUser adminUser = this.getOne(new LambdaQueryWrapper<AdminUser>()
-                .select(AdminUser::getUsername, AdminUser::getPhone, AdminUser::getTerminal)
+                .select(AdminUser::getUsername, AdminUser::getPhone)
                 .eq(AdminUser::getId, id));
         ValidUtil.isTrue(adminUser == null, "没有找到数据");
 
         // 判重账号/判重电话
-        this.verifyRepeatUsername(dto.getUsername(), adminUser.getUsername(), dto.getTerminal(), adminUser.getTerminal());
-        this.verifyRepeatPhone(dto.getPhone(), adminUser.getPhone(), dto.getTerminal(), adminUser.getTerminal());
+        this.verifyRepeatUsername(dto.getUsername(), adminUser.getUsername());
+        this.verifyRepeatPhone(dto.getPhone(), adminUser.getPhone());
         //
         AdminUser entity = dto.convert(AdminUser.class);
         entity.setId(id);
@@ -179,10 +173,9 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
 
     @Override
-    public List<AdminUserVO> listKeyData(String searchName, String terminal) {
+    public List<AdminUserVO> listKeyData(String searchName) {
         List<AdminUser> list = this.list(new LambdaQueryWrapper<AdminUser>()
                 .select(AdminUser::getUsername, AdminUser::getFullName, AdminUser::getPhone, AdminUser::getId)
-                .eq(terminal != null, AdminUser::getTerminal, terminal)
                 .orderByDesc(AdminUser::getCreateTime)
                 .and(com.baomidou.mybatisplus.core.toolkit.StringUtils.isNotBlank(searchName),
                         i -> i.like(AdminUser::getFullName, searchName)
@@ -194,18 +187,17 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
 
     @Override
-    public Boolean login(String username, String password, Integer terminal) {
-        AdminUser user = loginUsernameOrPhone(username, password, terminal);
+    public Boolean login(String username, String password) {
+        AdminUser user = loginUsernameOrPhone(username, password);
         // 登录成功
         // 获取token 默认设置的有效期
-        XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION );
+        XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
         Integer expiration = xjAdminConfig != null ? Integer.parseInt(xjAdminConfig.getContent()) : 60;
 
         // 5、生成jwt
         JwtUser jwtUser = new JwtUser();
         jwtUser.setUserId(user.getId());
         jwtUser.setFullName(user.getFullName());
-        jwtUser.setTerminal(user.getTerminal());
         jwtUser.setType(JwtUtil.userType[0]);
         // 设置token有效期(分)
         jwtUser.setExpiration(expiration);
@@ -220,7 +212,7 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
 
     @Override
     public Boolean updResetPassword(String id, String password) {
-        return this.update(new AdminUser(),new LambdaUpdateWrapper<AdminUser>()
+        return this.update(new AdminUser(), new LambdaUpdateWrapper<AdminUser>()
                 .set(AdminUser::getPassword, Md5Util.encode(password, id))
                 .eq(AdminUser::getId, id));
     }
@@ -242,35 +234,24 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
      *
      * @param username 账号
      * @param password 密码
-     * @param terminal 终端, 如果没有传递终端, 可以导致查出不同端的多条账号数据
      * @return boolean
      * @author wangsong
      * @date 2021/9/30 0030 14:18
      * @version 1.0.1
      */
-    private AdminUser loginUsernameOrPhone(String username, String password, Integer terminal) {
+    private AdminUser loginUsernameOrPhone(String username, String password) {
         // 1、判断账号
         List<AdminUser> users = this.list(new LambdaQueryWrapper<AdminUser>()
                 .and(i -> i.eq(AdminUser::getUsername, username)
                         .or().eq(AdminUser::getPhone, username))
-                .eq(terminal != null, AdminUser::getTerminal, terminal)
         );
 
         if (users.isEmpty()) {
             throw new ErrorException(RType.LOGIN_IS_NO_ACCOUNT);
         }
         AdminUser user = users.get(0);
-        // 如果没有传递终端,且获取到多条账号数据,默认为总管理端平台账号
-        if (users.size() > 1) {
-            for (AdminUser adminUser : users) {
-                if (adminUser.getTerminal().equals(Admin.Terminal.V1.getValue())) {
-                    user = adminUser;
-                    break;
-                }
-            }
-        }
         // 2、判断密码
-        if (!user.getPassword().equals(Md5Util.encode(password,user.getId()))) {
+        if (!user.getPassword().equals(Md5Util.encode(password, user.getId()))) {
             throw new ErrorException(RType.LOGIN_ERROR_USER_PASSWORD);
         }
         // 3、判断禁用
@@ -285,22 +266,18 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
      * 验证账号是否重复
      *
      * @param username    新手机号
-     * @param oldUserName 原手机号(注册可不填)
-     * @param terminal    终端
-     * @param oldTerminal 原终端(注册可不填)
      * @return void
      * @author wangsong
      * @date 2021/9/30 0030 14:12
      * @version 1.0.1
      */
-    private void verifyRepeatUsername(String username, String oldUserName, Integer terminal, Integer oldTerminal) {
+    private void verifyRepeatUsername(String username, String oldUserName) {
         if (StringUtils.isNotBlank(username)) {
             // 判重账号
-            if (!username.equals(oldUserName) || !terminal.equals(oldTerminal)) {
+            if (!username.equals(oldUserName)) {
                 if (this.count(new LambdaQueryWrapper<AdminUser>()
                         .eq(AdminUser::getUsername, username)
                         .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
-                        .eq(terminal != null, AdminUser::getTerminal, terminal)
                 ) > 0) {
                     throw new ErrorException(RType.USER_ACCOUNT_IS_DUPLICATE);
                 }
@@ -314,21 +291,18 @@ public class AdminUserServiceImpl extends BaseIServiceImpl<AdminUserMapper, Admi
      *
      * @param phone       新手机号
      * @param oldPhone    原手机号(注册可不填)
-     * @param terminal    终端
-     * @param oldTerminal 原终端(注册可不填)
      * @return void
      * @author wangsong
      * @date 2021/9/30 0030 14:11
      * @version 1.0.1
      */
-    private void verifyRepeatPhone(String phone, String oldPhone, Integer terminal, Integer oldTerminal) {
+    private void verifyRepeatPhone(String phone, String oldPhone) {
         if (StringUtils.isNotBlank(phone)) {
             // 判重电话
-            if (!phone.equals(oldPhone) || !terminal.equals(oldTerminal)) {
+            if (!phone.equals(oldPhone)) {
                 if (this.count(new LambdaQueryWrapper<AdminUser>()
                         .eq(AdminUser::getPhone, phone)
                         .eq(AdminUser::getDeleted, Base.Deleted.V0.getValue())
-                        .eq(terminal != null, AdminUser::getTerminal, terminal)
                 ) > 0) {
                     throw new ErrorException(RType.USER_PHONE_IS_DUPLICATE);
                 }

@@ -53,7 +53,7 @@ axios.interceptors.request.use(config => {
     }
 
     // 处理终端
-    addTerminal(config.url, config.params, config.data);
+    // addTerminal(config.url, config.params, config.data);
 
     // 参数加签
     let timestamp = new Date().getTime();
@@ -74,23 +74,23 @@ axios.interceptors.request.use(config => {
  * @date 2022/1/17 13:59
  * @return
  */
-function addTerminal(url, params, data) {
-    // 终端处理
-    if (params != null && params.isTerminal !== null && params.isTerminal === true) {
-        params.terminal = website.Terminal;
-    }
-    if (data != null && data.isTerminal !== null && data.isTerminal === true) {
-        data.terminal = website.Terminal;
-    }
-
-    // 是否只查询自己权限及以下的角色/用户/菜单数据 处理
-    if (params != null && params.isOwnData !== null && params.isOwnData === true) {
-        params.isLoginUser = website.isLoginUser;
-    }
-    if (data != null && data.isOwnData !== null && data.isOwnData === true) {
-        data.isLoginUser = website.isLoginUser;
-    }
-}
+// function addTerminal(url, params, data) {
+//     // 终端处理
+//     if (params != null && params.isTerminal !== null && params.isTerminal === true) {
+//         params.terminal = website.Terminal;
+//     }
+//     if (data != null && data.isTerminal !== null && data.isTerminal === true) {
+//         data.terminal = website.Terminal;
+//     }
+//
+//     // 是否只查询自己权限及以下的角色/用户/菜单数据 处理
+//     if (params != null && params.isOwnData !== null && params.isOwnData === true) {
+//         params.isLoginUser = website.isLoginUser;
+//     }
+//     if (data != null && data.isOwnData !== null && data.isOwnData === true) {
+//         data.isLoginUser = website.isLoginUser;
+//     }
+// }
 
 
 //HTTP response拦截

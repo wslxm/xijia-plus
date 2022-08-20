@@ -44,9 +44,6 @@
         <if test="query.name != null and query.name != ''">
             and r.name like concat(#{query.name},'%')
         </if>
-        <if test="query.terminal != null">
-            and r.terminal = #{query.terminal}
-        </if>
         <if test="query.code != null and query.code != ''">
             and r.code like concat(#{query.code},'%')
         </if>

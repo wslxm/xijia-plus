@@ -51,7 +51,6 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
         boolean isTree = ObjectUtil.defaultIfNull(query.getIsTree(), false);
         boolean isBottomLayer = ObjectUtil.defaultIfNull(query.getIsBottomLayer(), true);
         boolean isNextAll = ObjectUtil.defaultIfNull(query.getIsNextAll(), true);
-        Integer terminal = query.getTerminal();
         String pId = query.getPid();
         String roleId = query.getRoleId();
         Integer root = query.getRoot();
@@ -60,7 +59,7 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
         String loginUserId = ObjectUtil.defaultIfNull(query.getIsLoginUser(), () -> JwtUtil.getJwtUser(request).getUserId(), null);
 
         // 1、查询菜单
-        List<AdminMenuVO> menuVOList = baseMapper.list(terminal, loginUserId,disable);
+        List<AdminMenuVO> menuVOList = baseMapper.list( loginUserId,disable);
 
         // 2、获取角色拥有的菜单id(没有角色id或没有 角色对应的菜单数据,创建空roleMenuIdList对象)
         List<AdminRoleMenu> userRoleMenus = roleId != null ? adminRoleMenuMapper.findRoleId(roleId) : new ArrayList<>();
@@ -149,31 +148,6 @@ public class AdminMenuServiceImpl extends BaseIServiceImpl<AdminMenuMapper, Admi
 
     @Override
     public Boolean upd(String id, AdminMenuDTO dto) {
-        // 判断是否修改了终端, 修改了终端同时, 同时更新下级所有数据的终端
-        if (dto.getTerminal() != null) {
-            long count = this.count(new LambdaQueryWrapper<AdminMenu>().eq(AdminMenu::getId, id).eq(AdminMenu::getTerminal, dto.getTerminal()));
-            if (count < 1) {
-                // 查询所有下级数据
-                AdminMenuQuery query = new AdminMenuQuery();
-                query.setTerminal(null);
-                query.setPid(id);
-                query.setRoleId(null);
-                query.setIsTree(false);
-                query.setIsBottomLayer(null);
-                List<AdminMenuVO> menus = this.list(query);
-                if (!menus.isEmpty()) {
-                    List<String> menuIds = menus.stream().map(BaseVo::getId).collect(Collectors.toList());
-                    List<AdminMenu> updList = new ArrayList<>();
-                    for (String menuId : menuIds) {
-                        AdminMenu updAdminMenu = new AdminMenu();
-                        updAdminMenu.setId(menuId);
-                        updAdminMenu.setTerminal(dto.getTerminal());
-                        updList.add(updAdminMenu);
-                    }
-                    this.updateBatchById(updList);
-                }
-            }
-        }
         // 修改当前数据
         AdminMenu entity = dto.convert(AdminMenu.class);
         entity.setId(id);

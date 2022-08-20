@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.manage.admin.mapper.AdminRoleMapper;
 import io.github.wslxm.springbootplus2.manage.admin.model.dto.AdminRoleDTO;
 import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminRole;
@@ -90,25 +91,20 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
     @Override
     @Transactional(rollbackFor = Exception.class)
     public String insert(AdminRoleDTO dto) {
+        this.isCodeRepeat(dto.getCode(),null);
+
         AdminRole role = dto.convert(AdminRole.class);
-        role.setCreateUser(JwtUtil.getJwtUser(request).getUserId());
         this.save(role);
         // 给角色分配菜单权限
         adminRoleMenuService.updRoleMenus(role.getId(), dto.getMenuIds());
-
-        // 默认有所有url权限
-//        List<AdminAuthority> authorityList = adminAuthorityService.list(new LambdaQueryWrapper<AdminAuthority>().select(AdminAuthority::getId));
-//        List<AdminRoleAuth> roleAuthList = new ArrayList<>();
-//        for (AdminAuthority authority : authorityList) {
-//            roleAuthList.add(new AdminRoleAuth(authority.getId(), role.getId()));
-//        }
-//        boolean b = adminRoleAuthService.saveBatch(roleAuthList);
         return role.getId();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean upd(String id, AdminRoleDTO dto) {
+        this.isCodeRepeat(dto.getCode(),id);
+
         AdminRole role = dto.convert(AdminRole.class);
         role.setId(id);
         boolean b = this.updateById(role);
@@ -121,59 +117,7 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
         return b;
     }
 
-    /**
-     * 所有角色拥有所有权限
-     *
-     * @return boolean
-     * @author wangsong
-     * @date 2020/10/9 0009 15:50
-     * @version 1.0.1
-     */
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    @CacheEvict(value = CacheKey.LOGIN_AUTH_USER_ID, allEntries = true)
-//    public boolean roleAuthAll() {
-//        List<AdminRole> roleList = adminRoleService.list();
-//        List<AdminAuthority> authList = adminAuthorityService.list(new LambdaQueryWrapper<AdminAuthority>()
-//                .select(AdminAuthority::getId)
-//                .eq(AdminAuthority::getType, Base.AuthorityType.V0.getValue())
-//        );
-//        //
-//        List<AdminRoleAuth> addRoleAuthList = new ArrayList<>();
-//        for (AdminRole role : roleList) {
-//            for (AdminAuthority auth : authList) {
-//                addRoleAuthList.add(new AdminRoleAuth(auth.getId(), role.getId()));
-//            }
-//        }
-//        //删除所有
-//        adminRoleAuthService.remove(null);
-//        //更新权限
-//        return adminRoleAuthService.saveBatch(addRoleAuthList, 1024);
-//    }
 
-    /**
-     * 分配角色url权限
-     *
-     * @return void
-     * @author ws
-     * @mail 1720696548@qq.com
-     * @date 2020/4/6 0006 17:47
-     */
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    @CacheEvict(value = CacheKey.LOGIN_AUTH_USER_ID, allEntries = true)
-//    public boolean roleUrlAuth(RoleAuthDTO dto) {
-//        //删除原数据
-//        boolean result = adminRoleAuthService.remove(new LambdaQueryWrapper<AdminRoleAuth>().eq(AdminRoleAuth::getRoleId, dto.getRoleId()));
-//        if (dto.getAuthIds() == null || dto.getAuthIds().size() <= 0) {
-//            return true;
-//        }
-//        List<AdminRoleAuth> roleAuthList = new ArrayList<>();
-//        for (int i = 0; i < dto.getAuthIds().size(); i++) {
-//            roleAuthList.add(new AdminRoleAuth(dto.getAuthIds().get(i), dto.getRoleId()));
-//        }
-//        return adminRoleAuthService.saveBatch(roleAuthList, 1024);
-//    }
     @Override
     public AdminRole findSysRole() {
         return this.getOne(new LambdaQueryWrapper<AdminRole>().eq(AdminRole::getCode, ROLE_SYS));
@@ -187,5 +131,23 @@ public class AdminRoleServiceImpl extends BaseIServiceImpl<AdminRoleMapper, Admi
         adminRoleMenuService.delByRoleId(roleId);
         // adminRoleAuthService.delByRoleId(roleId);
         return this.removeById(roleId);
+    }
+
+
+    /**
+     * 角色code重复验证
+     * @author wangsong
+     * @mail 1720696548@qq.com
+     * @date 2022/8/20 0020 14:33
+     * @version 1.0.0
+     */
+    private void isCodeRepeat(String code, String excludeId) {
+        long count = this.count(new LambdaQueryWrapper<AdminRole>()
+                .eq(AdminRole::getCode, code)
+                .ne(AdminRole::getId, excludeId)
+        );
+        if (count > 0) {
+            throw new ErrorException("角色code已存在");
+        }
     }
 }

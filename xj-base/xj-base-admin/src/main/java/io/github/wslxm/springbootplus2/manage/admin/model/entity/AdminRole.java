@@ -41,9 +41,5 @@ public class AdminRole extends BaseEntity {
      */
     private String code;
 
-    /**
-     * 终端 (字段code)
-     */
-    private Integer terminal;
 }
 

@@ -56,17 +56,6 @@
                     printBtn: false,   // 打印按钮
                     column: [
                         {
-                            label: "终端",
-                            prop: "terminal",
-                            type: "radio",
-                            disabled: !this.website.isTerminalSearch,
-                            dicData: this.dict.get(this.website.Dict.Admin.Terminal),
-                            span: 20,
-                            rules: [{
-                                required: true,
-                            }],
-                        },
-                        {
                             label: "角色名称",
                             prop: "name",
                             // tip: '这是信息提示',

@@ -20,7 +20,6 @@
                 roles: [],        // 角色
                 // 默认数据
                 defaultData: {
-                    terminal: this.website.Terminal,
                     headPic: null,
                     fullName: null,
                     username: null,
@@ -51,19 +50,6 @@
                     mockBtn: false,    // 模拟按钮
                     printBtn: false,   // 打印按钮
                     column: [
-                        {
-                            label: '终端',
-                            prop: 'terminal',
-                            span: 20,
-                            type: "radio",
-                            disabled: !this.website.isTerminalSearch,
-                            dicData: this.dict.get(this.website.Dict.Admin.Terminal),
-                            rules: [{
-                                required: true,
-                                message: "请选择 终端 ",
-                                trigger: "blur"
-                            }]
-                        },
                         {
                             label: '头像',
                             prop: 'headPic',

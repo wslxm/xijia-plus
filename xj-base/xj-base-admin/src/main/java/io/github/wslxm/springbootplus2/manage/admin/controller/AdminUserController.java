@@ -88,10 +88,9 @@ public class AdminUserController extends BaseController<AdminUserService> {
     @ApiOperation(value = "查询所有-只返回关键数据(姓名/昵称/电话/id)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "searchName", value = "姓名or用户名", required = false, paramType = "query", example = ""),
-            @ApiImplicitParam(name = "terminal", value = "终端(不传查所有)", required = false, paramType = "query", example = "")
     })
-    public R<List<AdminUserVO>> listKeyData(@RequestParam(required = false) String searchName, @RequestParam(required = false) String terminal) {
-        return R.success(baseService.listKeyData(searchName, terminal));
+    public R<List<AdminUserVO>> listKeyData(@RequestParam(required = false) String searchName) {
+        return R.success(baseService.listKeyData(searchName));
     }
 
 
@@ -100,10 +99,9 @@ public class AdminUserController extends BaseController<AdminUserService> {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "账号/手机号", required = true, paramType = "query"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "terminal", value = "终端", required = false, paramType = "query"),
     })
-    public R<Boolean> login(@RequestParam String username, @XjSecret @RequestParam String password, Integer terminal) {
-        return R.success(baseService.login(username, password, terminal));
+    public R<Boolean> login(@RequestParam String username, @XjSecret @RequestParam String password) {
+        return R.success(baseService.login(username, password));
     }
 
 

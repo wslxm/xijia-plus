@@ -82,22 +82,20 @@ public interface AdminUserService extends IService<AdminUser> {
      * 查询关键数据(id/姓名/昵称/电话)
      *
      * @param searchName 昵称/姓名
-     * @param terminal   终端
      * @return java.util.List<io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminUserVO>
      * @version 1.0.0
      */
-    List<AdminUserVO> listKeyData(String searchName, String terminal);
+    List<AdminUserVO> listKeyData(String searchName);
 
     /**
      * 登录
      *
      * @param username 手机号或者账号
      * @param password 密码
-     * @param terminal 终端
      * @return java.lang.Boolean
      * @version 1.0.0
      */
-    Boolean login(String username, String password, Integer terminal);
+    Boolean login(String username, String password);
 
     /**
      * 重置用户密码
