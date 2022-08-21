@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2022/6/10 14:49
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.API_OPEN + "/xj/transaction")
+@RequestMapping(BaseConstant.Uri.API_OPEN + "/test/transaction")
 @Api(value = "TransactionTestController", tags = "事务执行后执行")
 @Slf4j
 public class TransactionTestController {

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2022/6/10 14:49
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.API_OPEN + "/xj/thread")
+@RequestMapping(BaseConstant.Uri.API_OPEN + "/test/thread")
 @Api(value = "ThreadTestController", tags = "异步测试")
 public class ThreadTestController {
 

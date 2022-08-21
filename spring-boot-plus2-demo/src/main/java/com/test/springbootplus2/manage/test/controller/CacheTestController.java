@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2022/3/22 16:35
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.API_OPEN + "/xj/cache")
+@RequestMapping(BaseConstant.Uri.API_OPEN + "/test/cache")
 @Api(value = "CacheTestController", tags = "缓存测试")
 public class CacheTestController {
 

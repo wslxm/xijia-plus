@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author wangsong
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.API_OPEN + "/xj/valid")
+@RequestMapping(BaseConstant.Uri.API_OPEN + "/test/valid")
 @Api(value = "TestValidContoller", tags = "参数验证测试")
 public class TestValidContoller {
 
