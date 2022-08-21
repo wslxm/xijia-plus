@@ -49,4 +49,10 @@ public class UserDTO extends Convert {
     private List<String> roleIds;
     @ApiModelProperty(value = "公司/部门 ids")
     private String depIds;
+    @ApiModelProperty(value = "扩展字段 1")
+    private String ext1;
+    @ApiModelProperty(value = "扩展字段 2")
+    private String ext2;
+    @ApiModelProperty(value = "扩展字段 3")
+    private String ext3;
 }

@@ -3,6 +3,7 @@ package io.github.wslxm.springbootplus2.manage.sys.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import io.github.wslxm.springbootplus2.manage.sys.model.dto.LoginDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.UserDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.User;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.UserQuery;
@@ -95,7 +96,7 @@ public interface UserService extends IService<User> {
      * @return java.lang.Boolean
      * @version 1.0.0
      */
-    Boolean login(String username, String password);
+    Boolean login(LoginDTO dto);
 
     /**
      * 重置用户密码

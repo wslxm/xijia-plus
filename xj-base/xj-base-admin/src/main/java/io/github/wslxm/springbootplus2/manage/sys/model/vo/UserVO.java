@@ -57,4 +57,10 @@ public class UserVO extends BaseVo {
     private List<RoleVO> roles;
     @ApiModelProperty(value = "公司/部门信息,存在下级关联数据")
     private UserDepVO dep;
+    @ApiModelProperty(value = "扩展字段 1")
+    private String ext1;
+    @ApiModelProperty(value = "扩展字段 2")
+    private String ext2;
+    @ApiModelProperty(value = "扩展字段 3")
+    private String ext3;
 }

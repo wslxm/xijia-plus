@@ -7,7 +7,7 @@ export const loginByUsername = (username, password, code, redomStr) => request({
     meta: {
         isToken: false
     },
-    params: {
+    data: {
         username: username,
         password: password,
         code: code,

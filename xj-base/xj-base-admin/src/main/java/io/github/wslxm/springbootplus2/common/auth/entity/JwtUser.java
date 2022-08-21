@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 通过jwt 解析处理的用户信息（不区分用户账号端还是管理账号端登录，统一解析到此）
@@ -39,13 +38,5 @@ public class JwtUser implements Serializable {
      * jwt-token有效期  (单位-分)
      */
     private Integer expiration;
-
-    //================== 管理端专属字段 ==================
-
-    /**
-     * 用户权限(用户可以访问那些url,如果在使用中权限数据被修改，需要重新登录)
-     * (已移动至缓存处理)
-     */
-    // private List<String> authList;
 
 }

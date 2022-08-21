@@ -1,12 +1,12 @@
 package io.github.wslxm.springbootplus2.manage.sys.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.github.wslxm.springbootplus2.common.annotation.XjSecret;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
+import io.github.wslxm.springbootplus2.manage.sys.model.dto.LoginDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.UserDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.UserQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.UserVO;
@@ -100,8 +100,8 @@ public class UserController extends BaseController<UserService> {
             @ApiImplicitParam(name = "username", value = "账号/手机号", required = true, paramType = "query"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query"),
     })
-    public R<Boolean> login(@RequestParam String username, @XjSecret @RequestParam String password) {
-        return R.success(baseService.login(username, password));
+    public R<Boolean> login(@RequestBody @Validated LoginDTO dto) {
+        return R.success(baseService.login(dto));
     }
 
 
@@ -125,10 +125,4 @@ public class UserController extends BaseController<UserService> {
         return R.successUpdate(baseService.updResetPassword(id, password));
     }
 
-
-    //   @PostMapping(value = "/bindWeChatMq")
-    //   @ApiOperation(value = "微信公众号openId绑定")
-    //   public R<Boolean> bindWeChatMq(@RequestParam String username, @RequestParam String password, @RequestParam String openId) {
-    //       return R.success(baseService.bindWeChatMq(username, password, openId));
-    //   }
 }

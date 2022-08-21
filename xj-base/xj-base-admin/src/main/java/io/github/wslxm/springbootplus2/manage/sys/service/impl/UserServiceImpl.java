@@ -16,18 +16,19 @@ import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.UserMapper;
+import io.github.wslxm.springbootplus2.manage.sys.model.dto.LoginDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.UserDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.User;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.DepQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.UserQuery;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DepVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.RoleVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.UserVO;
+import io.github.wslxm.springbootplus2.manage.sys.service.ConfigService;
 import io.github.wslxm.springbootplus2.manage.sys.service.DepService;
 import io.github.wslxm.springbootplus2.manage.sys.service.RoleUserService;
 import io.github.wslxm.springbootplus2.manage.sys.service.UserService;
-import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
-import io.github.wslxm.springbootplus2.manage.sys.service.ConfigService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -186,8 +187,8 @@ public class UserServiceImpl extends BaseIServiceImpl<UserMapper, User> implemen
 
 
     @Override
-    public Boolean login(String username, String password) {
-        User user = loginUsernameOrPhone(username, password);
+    public Boolean login(LoginDTO dto) {
+        User user = loginUsernameOrPhone(dto.getUsername(), dto.getPassword());
         // 登录成功
         // 获取token 默认设置的有效期
         ConfigVO xjConfig = xjConfigService.findByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);

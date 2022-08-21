@@ -26,9 +26,11 @@ public enum RType implements IEnum {
     SYS_ERROR_CODE_403(403, "403-无权限访问"),
     SYS_ERROR_CODE_404(404, "404-找不到请求地址"),
     SYS_ERROR_CODE_500(500, "服务器错误"),
-    SYR_ERROR(9990, "服务器统一错误"),
 
-    // 参数错误 [9901-9999]
+    //
+    SYR_ERROR(9001, "系统统一错误码"),
+
+    // 参数错误 [9901-9999] 统一错误码
     PARAM_MISSING(9998, "缺少请求参数"),
     PARAM_ERROR(9999, "请求参数错误"),
     PARAM_ANALYSIS_ERROR(9001, "参数解析错误"),
@@ -36,10 +38,12 @@ public enum RType implements IEnum {
     // 网关层 [10000-10999]
     // 访问验证相关 [10000-10009]
     // 权限认证,注意，前端需拦截所有为10000的返回重定向到登录页
+    // 登录相关特殊错误码
     AUTHORITY_LOGIN_EXPIRED(10000, "登录过期"),
     AUTHORITY_NO_TOKEN(10001, "没有登录"),
-    //AUTHORITY_JWT_PARSING_ERROR(10002, "JWT解析失败,请求TOKEN错误"),
     AUTHORITY_JWT_PARSING_ERROR(10002, "登录信息不合法"),
+
+
     AUTHORITY_JWT_SIGN_ERROR(10003, "JWT签名与本地计算签名不匹配"),
     AUTHORITY_DISABLE(10004, "账号已被禁用,禁止访问"),
     AUTHORITY_NO_PERMISSION(10005, "该账号没有当前操作权限"),

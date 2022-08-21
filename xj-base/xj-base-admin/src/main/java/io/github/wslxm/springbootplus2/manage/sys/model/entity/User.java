@@ -86,13 +86,22 @@ public class User extends BaseEntity {
      * 职位 职位(字典code)
      */
     private Integer position;
-    /**
-     * 微信openId
-     */
-    private String wxOpenId;
 
     /**
      * 备注
      */
     private Integer remarks;
+
+    /**
+     * 扩展字段 1
+     */
+    private String ext1;
+    /**
+     * 扩展字段 2
+     */
+    private String ext2;
+    /**
+     * 扩展字段 3
+     */
+    private String ext3;
 }
