@@ -13,11 +13,12 @@ import io.github.wslxm.springbootplus2.manage.gc.config.GcTPConfig;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateProperties;
 import io.github.wslxm.springbootplus2.manage.gc.config.model.GcFilePath;
 import io.github.wslxm.springbootplus2.manage.gc.constant.TpParamConstant;
-import io.github.wslxm.springbootplus2.manage.gc.model.dto.XjGenerateDto;
-import io.github.wslxm.springbootplus2.manage.gc.model.vo.XjAdminDatasourceVO;
-import io.github.wslxm.springbootplus2.manage.gc.service.XjAdminDatasourceService;
-import io.github.wslxm.springbootplus2.manage.gc.service.XjGenerationSevice;
-import io.github.wslxm.springbootplus2.manage.gc.service.gcimpl.*;
+import io.github.wslxm.springbootplus2.manage.gc.model.dto.GenerateDto;
+import io.github.wslxm.springbootplus2.manage.gc.model.vo.DatasourceVO;
+import io.github.wslxm.springbootplus2.manage.gc.service.DatasourceService;
+import io.github.wslxm.springbootplus2.manage.gc.service.GenerationSevice;
+import io.github.wslxm.springbootplus2.manage.gc.service.gc.gcimpl.*;
+import io.github.wslxm.springbootplus2.manage.gc.service.gc.pattern.GcIteratorPattern;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcReplacUtil;
 import io.github.wslxm.springbootplus2.starter.aliyun.oss.util.FileDownloadUtil;
@@ -34,10 +35,10 @@ import java.util.*;
  */
 @Service
 @Slf4j
-public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenerationSevice {
+public class XjGenerationSeviceImpl extends BaseIServiceImpl implements GenerationSevice {
 
     @Autowired
-    private XjAdminDatasourceService adminDatasourceService;
+    private DatasourceService adminDatasourceService;
     @Autowired
     private GenerateProperties generateProperties;
     @Autowired
@@ -45,7 +46,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
 
 
     @Override
-    public Map<String, String> preview(XjGenerateDto generateDto) {
+    public Map<String, String> preview(GenerateDto generateDto) {
         GcConfig gcConfig = getGcConfig(generateDto, true, true);
         // 预览文件生成(服务器可访问文件)，同时生成把生成的文件url路径保存到generationServiceImplImp.pathMap 参数
         gcIteratorPattern.run(gcConfig);
@@ -54,7 +55,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
 
 
     @Override
-    public Map<String, String> generateCode(XjGenerateDto generateDto) {
+    public Map<String, String> generateCode(GenerateDto generateDto) {
         GcConfig gcConfig = getGcConfig(generateDto, false, false);
         gcIteratorPattern.run(gcConfig);
         return gcConfig.getVisitPathMap();
@@ -62,16 +63,16 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
 
 
     @Override
-    public void generateCodeVue(XjGenerateDto generateDto) {
+    public void generateCodeVue(GenerateDto generateDto) {
         GcConfig gcConfig = getGcConfig(generateDto, true, false);
         // 生成vue文件
         gcIteratorPattern.run(gcConfig);
         // 开始下载
         String basePath = "http://127.0.0.1:" + PropUtil.findByKey("server.port") + "/";
         List<String> paths = new ArrayList<>();
-        paths.add(basePath + gcConfig.getVisitPathMap().get(XjGenerationVueMain.KEY_NAME));
-        paths.add(basePath + gcConfig.getVisitPathMap().get(XjGenerationVueAdd.KEY_NAME));
-        paths.add(basePath + gcConfig.getVisitPathMap().get(XjGenerationVueUpd.KEY_NAME));
+        paths.add(basePath + gcConfig.getVisitPathMap().get(GcVueMain.KEY_NAME));
+        paths.add(basePath + gcConfig.getVisitPathMap().get(GcVueAdd.KEY_NAME));
+        paths.add(basePath + gcConfig.getVisitPathMap().get(GcVueUpd.KEY_NAME));
         // 下载后的名字
         String zipName = GcReplacUtil.replaceParams(gcConfig.getDefaultTemplateParam(), gcConfig.getTemplateParam(), GcTPConfig.P_VUE_MEUN);
         zipName = zipName.replaceAll("/", ".");
@@ -81,7 +82,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
 
 
     @Override
-    public void generateCodeJavaAndVue(XjGenerateDto generateDto) {
+    public void generateCodeJavaAndVue(GenerateDto generateDto) {
         GcConfig gcConfig = getGcConfig(generateDto, true, false);
         // 生成vue+java文件
         gcIteratorPattern.run(gcConfig);
@@ -104,7 +105,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
     @Override
     public Map<String, String> getPath(String tableName, String dataSourceId) {
         // 获取配置参数
-        XjGenerateDto generateDto = new XjGenerateDto();
+        GenerateDto generateDto = new GenerateDto();
         generateDto.setTableName(tableName);
         generateDto.setDataSourceId(dataSourceId);
         generateDto.setTableComment("预览生成路径");
@@ -112,18 +113,18 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         // 获取路径
         Map<String, String> mapPath = new LinkedHashMap<>(16);
         mapPath.put("X-Vue-Menu", GcReplacUtil.replaceParams(gcConfig.getDefaultTemplateParam(), gcConfig.getTemplateParam(), GcTPConfig.P_VUE_MEUN));
-        mapPath.put(XjGenerationEntity.KEY_NAME, gcConfig.getTemplatePathMap().get(XjGenerationEntity.KEY_NAME).getPath());
-        mapPath.put(XjGenerationVO.KEY_NAME, gcConfig.getTemplatePathMap().get(XjGenerationVO.KEY_NAME).getPath());
-        mapPath.put(XjGenerationDTO.KEY_NAME, gcConfig.getTemplatePathMap().get(XjGenerationDTO.KEY_NAME).getPath());
-        mapPath.put(XjGenerationQuery.KEY_NAME, gcConfig.getTemplatePathMap().get(XjGenerationQuery.KEY_NAME).getPath());
-        mapPath.put(XjGenerationController.KEY_NAME, gcConfig.getTemplatePathMap().get(XjGenerationController.KEY_NAME).getPath());
-        mapPath.put(XjGenerationService.KEY_NAME, gcConfig.getTemplatePathMap().get(XjGenerationService.KEY_NAME).getPath());
-        mapPath.put(XjGenerationServiceImpl.KEY_NAME, gcConfig.getTemplatePathMap().get(XjGenerationServiceImpl.KEY_NAME).getPath());
-        mapPath.put(XjGenerationMapper.KEY_NAME, gcConfig.getTemplatePathMap().get(XjGenerationMapper.KEY_NAME).getPath());
-        mapPath.put(XjGenerationMapperXml.KEY_NAME, gcConfig.getTemplatePathMap().get(XjGenerationMapperXml.KEY_NAME).getPath());
-        mapPath.put(XjGenerationVueMain.KEY_NAME, gcConfig.getTemplatePathMap().get(XjGenerationVueMain.KEY_NAME).getPath());
-        mapPath.put(XjGenerationVueAdd.KEY_NAME, gcConfig.getTemplatePathMap().get(XjGenerationVueAdd.KEY_NAME).getPath());
-        mapPath.put(XjGenerationVueUpd.KEY_NAME, gcConfig.getTemplatePathMap().get(XjGenerationVueUpd.KEY_NAME).getPath());
+        mapPath.put(GcEntity.KEY_NAME, gcConfig.getTemplatePathMap().get(GcEntity.KEY_NAME).getPath());
+        mapPath.put(GcVO.KEY_NAME, gcConfig.getTemplatePathMap().get(GcVO.KEY_NAME).getPath());
+        mapPath.put(GcDTO.KEY_NAME, gcConfig.getTemplatePathMap().get(GcDTO.KEY_NAME).getPath());
+        mapPath.put(GcQuery.KEY_NAME, gcConfig.getTemplatePathMap().get(GcQuery.KEY_NAME).getPath());
+        mapPath.put(GcController.KEY_NAME, gcConfig.getTemplatePathMap().get(GcController.KEY_NAME).getPath());
+        mapPath.put(GcService.KEY_NAME, gcConfig.getTemplatePathMap().get(GcService.KEY_NAME).getPath());
+        mapPath.put(GcServiceImpl.KEY_NAME, gcConfig.getTemplatePathMap().get(GcServiceImpl.KEY_NAME).getPath());
+        mapPath.put(GcMapper.KEY_NAME, gcConfig.getTemplatePathMap().get(GcMapper.KEY_NAME).getPath());
+        mapPath.put(GcMapperXml.KEY_NAME, gcConfig.getTemplatePathMap().get(GcMapperXml.KEY_NAME).getPath());
+        mapPath.put(GcVueMain.KEY_NAME, gcConfig.getTemplatePathMap().get(GcVueMain.KEY_NAME).getPath());
+        mapPath.put(GcVueAdd.KEY_NAME, gcConfig.getTemplatePathMap().get(GcVueAdd.KEY_NAME).getPath());
+        mapPath.put(GcVueUpd.KEY_NAME, gcConfig.getTemplatePathMap().get(GcVueUpd.KEY_NAME).getPath());
         return mapPath;
     }
 
@@ -138,7 +139,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
      * @email 1720696548@qq.com
      * @date 2022/3/5 16:30
      */
-    private GcConfig getGcConfig(XjGenerateDto generateDto, boolean isPreview, boolean isPreviewSuffix) {
+    private GcConfig getGcConfig(GenerateDto generateDto, boolean isPreview, boolean isPreviewSuffix) {
 
         // 配置数据容器
         GcConfig gcConfig = new GcConfig();
@@ -156,25 +157,28 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
         gcConfig.setDefaultTemplateParam(defaultTemplateParam);
 
         // 生成位置
+        // 获取绝对生成路径,没有为空
+        String fatherPath = gcConfig.getDefaultTemplateParam(TpParamConstant.FATHER_PATH);
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(fatherPath)) {
+            fatherPath += "/";
+        }
         // 判断是否生成预览，如果是预览文件将生成到指定目录下,
         // 判断是否生成预览，如果不是, 判断是否配置绝对生成路径，没有生成到当前项目下，配置了生成到指定磁盘目录
-        String fatherPath = gcConfig.getDefaultTemplateParam(TpParamConstant.FATHER_PATH);
-        String previewFile = isPreview ? GcTPConfig.PREVIEW_FILE_PATH : fatherPath + "/";
-
+        String previewFile = isPreview ? GcTPConfig.PREVIEW_FILE_PATH : fatherPath;
 
         // 处理模板地址和代码生成的地址配置 (模板名+模板地址+生成后的文件地址)
-        gcConfig.addTemplate(XjGenerationEntity.KEY_NAME, baseUrl + GcTPConfig.T_ENTITY, previewFile + GcTPConfig.P_ENTITY);
-        gcConfig.addTemplate(XjGenerationVO.KEY_NAME, baseUrl + GcTPConfig.T_VO, previewFile + GcTPConfig.P_VO);
-        gcConfig.addTemplate(XjGenerationDTO.KEY_NAME, baseUrl + GcTPConfig.T_DTO, previewFile + GcTPConfig.P_DTO);
-        gcConfig.addTemplate(XjGenerationQuery.KEY_NAME, baseUrl + GcTPConfig.T_QUERY, previewFile + GcTPConfig.P_QUERY);
-        gcConfig.addTemplate(XjGenerationController.KEY_NAME, baseUrl + GcTPConfig.T_CONTROLLER, previewFile + GcTPConfig.P_CONTROLLER);
-        gcConfig.addTemplate(XjGenerationService.KEY_NAME, baseUrl + GcTPConfig.T_SERVICE, previewFile + GcTPConfig.P_SERVICE);
-        gcConfig.addTemplate(XjGenerationServiceImpl.KEY_NAME, baseUrl + GcTPConfig.T_SERVICEIMPL, previewFile + GcTPConfig.P_SERVICE_IMPL);
-        gcConfig.addTemplate(XjGenerationMapper.KEY_NAME, baseUrl + GcTPConfig.T_MAPPER, previewFile + GcTPConfig.P_MAPPER);
-        gcConfig.addTemplate(XjGenerationMapperXml.KEY_NAME, baseUrl + GcTPConfig.T_MAPPER_XML, previewFile + GcTPConfig.P_MAPPER_XML);
-        gcConfig.addTemplate(XjGenerationVueMain.KEY_NAME, baseUrl + GcTPConfig.T_VUE, previewFile + GcTPConfig.P_VUE);
-        gcConfig.addTemplate(XjGenerationVueAdd.KEY_NAME, baseUrl + GcTPConfig.T_VUE_ADD, previewFile + GcTPConfig.P_VUE_ADD);
-        gcConfig.addTemplate(XjGenerationVueUpd.KEY_NAME, baseUrl + GcTPConfig.T_VUE_UPD, previewFile + GcTPConfig.P_VUE_UPD);
+        gcConfig.addTemplate(GcEntity.KEY_NAME, baseUrl + GcTPConfig.T_ENTITY, previewFile + GcTPConfig.P_ENTITY);
+        gcConfig.addTemplate(GcVO.KEY_NAME, baseUrl + GcTPConfig.T_VO, previewFile + GcTPConfig.P_VO);
+        gcConfig.addTemplate(GcDTO.KEY_NAME, baseUrl + GcTPConfig.T_DTO, previewFile + GcTPConfig.P_DTO);
+        gcConfig.addTemplate(GcQuery.KEY_NAME, baseUrl + GcTPConfig.T_QUERY, previewFile + GcTPConfig.P_QUERY);
+        gcConfig.addTemplate(GcController.KEY_NAME, baseUrl + GcTPConfig.T_CONTROLLER, previewFile + GcTPConfig.P_CONTROLLER);
+        gcConfig.addTemplate(GcService.KEY_NAME, baseUrl + GcTPConfig.T_SERVICE, previewFile + GcTPConfig.P_SERVICE);
+        gcConfig.addTemplate(GcServiceImpl.KEY_NAME, baseUrl + GcTPConfig.T_SERVICEIMPL, previewFile + GcTPConfig.P_SERVICE_IMPL);
+        gcConfig.addTemplate(GcMapper.KEY_NAME, baseUrl + GcTPConfig.T_MAPPER, previewFile + GcTPConfig.P_MAPPER);
+        gcConfig.addTemplate(GcMapperXml.KEY_NAME, baseUrl + GcTPConfig.T_MAPPER_XML, previewFile + GcTPConfig.P_MAPPER_XML);
+        gcConfig.addTemplate(GcVueMain.KEY_NAME, baseUrl + GcTPConfig.T_VUE, previewFile + GcTPConfig.P_VUE);
+        gcConfig.addTemplate(GcVueAdd.KEY_NAME, baseUrl + GcTPConfig.T_VUE_ADD, previewFile + GcTPConfig.P_VUE_ADD);
+        gcConfig.addTemplate(GcVueUpd.KEY_NAME, baseUrl + GcTPConfig.T_VUE_UPD, previewFile + GcTPConfig.P_VUE_UPD);
 
         // 生成地址 文件路径上的动态参数 和 文件后缀 进行处理
         for (GcFilePath gcFilePath : gcConfig.getTemplatePathMap().values()) {
@@ -216,7 +220,7 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements XjGenera
     private Map<String, String> getDefaultTemplateParam(GcConfig gcConfig, String dataSourceId, String tableName, String tableComment) {
         // 加载配置信息
         if (org.apache.commons.lang3.StringUtils.isNotBlank(dataSourceId)) {
-            XjAdminDatasourceVO dbConfig = adminDatasourceService.findId(dataSourceId);
+            DatasourceVO dbConfig = adminDatasourceService.findId(dataSourceId);
             gcConfig.setDbDatasource(dbConfig);
             log.info(gcConfig.getDbDatasource().toString());
             // 数据数据库配置

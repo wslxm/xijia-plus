@@ -2,7 +2,7 @@ import request from '@/router/axios';
 import {baseProxyPathRewrite} from '@/config/env';
 
 export const loginByUsername = (username, password, code, redomStr) => request({
-    url: baseProxyPathRewrite + '/api/admin/user/login',
+    url: baseProxyPathRewrite + '/api/admin/sys/user/login',
     method: 'post',
     meta: {
         isToken: false
@@ -16,7 +16,7 @@ export const loginByUsername = (username, password, code, redomStr) => request({
 });
 
 export const getUserInfo = () => request({
-    url: baseProxyPathRewrite + '/api/admin/user/findUser',
+    url: baseProxyPathRewrite + '/api/admin/sys/user/findUser',
     method: 'get'
 });
 
@@ -26,7 +26,7 @@ export const refeshToken = () => request({
 });
 
 export const getMenu = (pid) => request({
-    url: baseProxyPathRewrite + '/api/admin/menu/list',
+    url: baseProxyPathRewrite + '/api/admin/sys/menu/list',
     method: 'get',
     params: {
         pid: pid,
@@ -37,7 +37,7 @@ export const getMenu = (pid) => request({
 });
 
 export const getTopMenu = () => request({
-    url: baseProxyPathRewrite + '/api/admin/menu/list',
+    url: baseProxyPathRewrite + '/api/admin/sys/menu/list',
     method: 'get',
     params: {
         disable: 0,

@@ -8,8 +8,8 @@ import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
-import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
-import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
+import io.github.wslxm.springbootplus2.manage.sys.model.entity.Authority;
+import io.github.wslxm.springbootplus2.manage.sys.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +36,7 @@ public class SysAuth {
     private HttpServletResponse response;
 
     @Autowired
-    private XjAdminConfigService xjAdminConfigService;
+    private ConfigService xjConfigService;
 
     /**
      * 默认放行token, 让swagger可以访问接口
@@ -52,9 +52,7 @@ public class SysAuth {
 
     public SysAuth() {
         // 管理端登录接口
-        URIS.add("/api/admin/user/login");
-        // 给所有角色分配所有权限
-        URIS.add("/api/admin/role/updRoleAuthAll");
+        URIS.add("/api/admin/sys/user/login");
     }
 
 
@@ -78,13 +76,13 @@ public class SysAuth {
             return R.success(null);
         }
         // 2、是否被权限管理, 没有直接放行
-        Map<String, AdminAuthority> authMap = XjCacheUtil.findAuthAllToMap();
+        Map<String, Authority> authMap = XjCacheUtil.findAuthAllToMap();
         String cacheKey = AuthCacheKeyUtil.getAuthCacheKey(request.getMethod(), request.getRequestURI());
         if (!authMap.containsKey(cacheKey)) {
             return R.success(null);
         }
         // 3、接口是否禁用，是直接返回禁用信息
-        AdminAuthority adminAuthority = authMap.get(cacheKey);
+        Authority adminAuthority = authMap.get(cacheKey);
         if (adminAuthority.getDisable().equals(Base.Disable.V1.getValue())) {
             //禁用
             return R.error(RType.AUTHORITY_DISABLE);
@@ -126,8 +124,8 @@ public class SysAuth {
 //            }
 //            JwtUser jwtUser = result.getData();
 //            // 判断是否验证权限
-//            XjAdminConfigVO xjAdminConfig = XjCacheUtil.findConfigByCode(ConfigCacheKey.IS_AUTH);
-//            if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
+//            ConfigVO xjConfig = XjCacheUtil.findConfigByCode(ConfigCacheKey.IS_AUTH);
+//            if (xjConfig != null && BooleanConstant.FALSE.equals(xjConfig.getContent())) {
 //                return R.success(jwtUser);
 //            }
 //            // 验证权限

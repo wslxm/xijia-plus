@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.wslxm.springbootplus2.manage.sys.mapper.AuthorityMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="io.github.wslxm.springbootplus2.manage.sys.model.entity.Authority">
+
+        <result column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="version" property="version"/>
+        <result column="pid" property="pid"/>
+        <result column="method" property="method"/>
+        <result column="url" property="url"/>
+        <result column="desc" property="desc"/>
+        <result column="disable" property="disable"/>
+    </resultMap>
+
+    <!-- 通用查询结果列: <include refid="Base_Column_List"></include>  -->
+    <sql id="Base_Column_List">
+
+               id,
+               create_user,
+               update_user,
+               create_time,
+               update_time,
+               deleted,
+               version,
+               pid,
+               method,
+               url,
+               desc,
+               disable
+    </sql>
+
+
+    <select id="list" resultType="io.github.wslxm.springbootplus2.manage.sys.model.entity.Authority">
+        SELECT
+        a.*
+        FROM t_sys_authority a
+        where a.deleted = 0
+        <if test="query.pid != null and query.pid != ''">
+            and(
+            a.pid = #{query.pid} or a.id = #{query.pid}
+            )
+        </if>
+        <if test="query.disable != null">
+            and a.disable = #{query.disable}
+        </if>
+        <if test="query.state != null">
+            and a.state = #{query.state}
+        </if>
+        <if test="query.type != null">
+            and a.type = #{query.type}
+        </if>
+        group by a.id
+        /**
+        * 排序
+        * 优先使用正序排序参数 asc (存在 asc 参数)
+        * 否则使用倒序排序参数 desc (不存在 asc参数, 存在 desc 参数)
+        * 否则默认 method 正序 (不存在 asc + desc 参数)
+        */
+        <choose>
+            <when test="query.asc != null and query.asc != ''">
+                order by a.${query.asc} asc
+            </when>
+            <when test="(query.desc != null and query.desc != '')">
+                order by a.${query.desc} desc
+            </when>
+            <otherwise>
+                order by a.method asc
+            </otherwise>
+        </choose>
+    </select>
+</mapper>
+

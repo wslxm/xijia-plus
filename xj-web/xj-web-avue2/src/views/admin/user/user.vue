@@ -103,11 +103,11 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/user/findPage",
-                    info: "/api/admin/user",
-                    depInfo: "/api/admin/dep/list",
-                    roleInfo: "/api/admin/role/findPage",
-                    resetPassword: "/api/admin/user/{id}/resetPassword"
+                    infoList: "/api/admin/sys/user/findPage",
+                    info: "/api/admin/sys/user",
+                    depInfo: "/api/admin/sys/dep/list",
+                    roleInfo: "/api/admin/sys/role/findPage",
+                    resetPassword: "/api/admin/sys/user/{id}/resetPassword"
                 },
                 loading: true,
                 dialogWidth: "60%",
@@ -302,8 +302,6 @@
                     this.search.depIds = null;
                 }
 
-                // 是否只查询自己权限及以下的数据
-                this.search.isOwnData = true;
                 // 查询
                 this.crud.list(this, true);
                 this.crud.doLayout(this, this.$refs.crudUser);

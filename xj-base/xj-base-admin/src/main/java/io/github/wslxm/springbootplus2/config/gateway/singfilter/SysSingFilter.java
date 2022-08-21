@@ -12,8 +12,8 @@ import io.github.wslxm.springbootplus2.config.gateway.singfilter.util.SignUtil;
 import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
-import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
-import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
+import io.github.wslxm.springbootplus2.manage.sys.model.entity.Authority;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -45,8 +45,8 @@ public class SysSingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         // 是否需要验签(总开关)
-        XjAdminConfigVO xjAdminConfig = XjCacheUtil.findConfigByCode(ConfigCacheKey.IS_SIGN);
-        if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
+        ConfigVO xjConfig = XjCacheUtil.findConfigByCode(ConfigCacheKey.IS_SIGN);
+        if (xjConfig != null && BooleanConstant.FALSE.equals(xjConfig.getContent())) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
@@ -57,7 +57,7 @@ public class SysSingFilter implements Filter {
         // 1.1、判断接口是否被管理,没有被管理直接放行
         String uri = request.getRequestURI();
 
-        Map<String, AdminAuthority> authMap = XjCacheUtil.findAuthAllToMap();
+        Map<String, Authority> authMap = XjCacheUtil.findAuthAllToMap();
         String cacheKey = AuthCacheKeyUtil.getAuthCacheKey(request.getMethod(), request.getRequestURI());
         if (!authMap.containsKey(cacheKey)) {
             filterChain.doFilter(servletRequest, servletResponse);

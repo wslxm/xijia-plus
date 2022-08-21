@@ -91,7 +91,7 @@
             }, 1000);
 
             //console.log("获取项目名称")
-            this.crud.get("/api/admin/xj/config/findByCode", {code: "entry_name"}).then(res => {
+            this.crud.get("/api/admin/sys/config/findByCode", {code: "entry_name"}).then(res => {
                 this.entryName = res.data.data.content;
                 this.website.indexTitle = this.entryName;
             })

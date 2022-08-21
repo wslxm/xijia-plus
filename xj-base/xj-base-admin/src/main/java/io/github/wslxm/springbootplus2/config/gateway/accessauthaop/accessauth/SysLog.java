@@ -2,14 +2,14 @@ package io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth;
 
 
 import com.alibaba.fastjson.JSON;
-import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
+import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
-import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
-import io.github.wslxm.springbootplus2.manage.xj.model.entity.XjAdminLog;
-import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminLogService;
+import io.github.wslxm.springbootplus2.manage.sys.model.entity.Authority;
+import io.github.wslxm.springbootplus2.manage.sys.model.entity.Log;
+import io.github.wslxm.springbootplus2.manage.sys.service.LogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class SysLog {
 
 
     @Autowired
-    private XjAdminLogService adminLogService;
+    private LogService adminLogService;
 
 
     /**
@@ -59,7 +59,7 @@ public class SysLog {
      * @date 2020/10/28 0028 15:04
      * @version 1.0.1
      */
-    public XjAdminLog requestLogCollectAndPrint(ProceedingJoinPoint proceed, HttpServletRequest request) {
+    public Log requestLogCollectAndPrint(ProceedingJoinPoint proceed, HttpServletRequest request) {
         String serverName = request.getServerName();         // 获取域名(服务器路径)
         String referer = request.getHeader("referer");     // 请求来源(发起者当前页面路径)
         String ip = getIpAddress(request);                   // 获取用户真实ip(发起者)
@@ -89,7 +89,7 @@ public class SysLog {
         Object[] args = proceed.getArgs();
 
         // 记录日志信息
-        XjAdminLog log = new XjAdminLog();
+        Log log = new Log();
         log = setJwtUser(log, request);
         log.setReferer(referer);
         log.setUrl(url);
@@ -138,7 +138,7 @@ public class SysLog {
      * @date 2020/10/28 0028 20:03
      * @version 1.0.1
      */
-    public void responseLogAndSave(Future<XjAdminLog> future, Integer state, Long executeTime, Long businessTime, String method, String uri, Object obj) {
+    public void responseLogAndSave(Future<Log> future, Integer state, Long executeTime, Long businessTime, String method, String uri, Object obj) {
         // 判断是否记录到数据库,根据请求方式区分
         if (methods.indexOf(method) == -1) {
             return;
@@ -153,7 +153,7 @@ public class SysLog {
             }
             // 判断记录请求日志是否记录完成(true=完成)
             if (future.isDone()) {
-                XjAdminLog logs = null;
+                Log logs = null;
                 String data = "";
                 try {
                     logs = future.get();
@@ -198,7 +198,7 @@ public class SysLog {
      * <p/>
      * @return
      */
-    private XjAdminLog setJwtUser(XjAdminLog log, HttpServletRequest request) {
+    private Log setJwtUser(Log log, HttpServletRequest request) {
         String uri = request.getRequestURI();
         // 获取登录用户信息
         R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, null);
@@ -214,9 +214,9 @@ public class SysLog {
             log.setFullName("╥﹏╥");
             log.setUserId("0");
 
-            Map<String, AdminAuthority> authMap = XjCacheUtil.findAuthAllToMap();
-            AdminAuthority adminAuthority = authMap.get(uri);
-            // AdminAuthority adminAuthority = CacheUtil.getAuthMap().get(uri);
+            Map<String, Authority> authMap = XjCacheUtil.findAuthAllToMap();
+            Authority adminAuthority = authMap.get(uri);
+            // Authority adminAuthority = CacheUtil.getAuthMap().get(uri);
             if (adminAuthority != null) {
                 log.setType(adminAuthority.getType());
             } else {
@@ -235,7 +235,7 @@ public class SysLog {
      * @return void
      * @version 1.0.1
      */
-    private void printLog(XjAdminLog adminlog) {
+    private void printLog(Log adminlog) {
         // 控制台打印
         log.info("" +
                         "\r\n|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|" +

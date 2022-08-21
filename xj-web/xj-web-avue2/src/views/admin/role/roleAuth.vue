@@ -88,7 +88,6 @@
         methods: {
             init(rowData) {
                 this.crud.get(this.uri.authListByRole.replace("{roleId}", rowData.id), {
-                    isOwnData: true,
                     asc: "desc"
                 }).then((res) => {
                     this.data = res.data.data;

@@ -3,8 +3,8 @@ import java.time.LocalDateTime;
 
 import com.alibaba.fastjson.JSON;
 import com.test.springbootplus2.SpringBootPlus2DemoServer;
-import io.github.wslxm.springbootplus2.manage.xj.model.entity.XjAdminConfig;
-import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
+import io.github.wslxm.springbootplus2.manage.xj.model.entity.Config;
+import io.github.wslxm.springbootplus2.manage.xj.service.ConfigService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,12 +24,12 @@ import java.util.List;
 public class SwTest {
 
 	@Autowired
-	private XjAdminConfigService xjAdminConfigService;
+	private ConfigService xjAdminConfigService;
 
 	@Test
 	public void test() {
 
-		XjAdminConfig config = new XjAdminConfig();
+		Config config = new Config();
 		config.setCode("测试");
 		config.setName("测试");
 		config.setType(0);
@@ -38,7 +38,7 @@ public class SwTest {
 		xjAdminConfigService.save(config);
 
 		//
-		XjAdminConfig xjAdminConfig = xjAdminConfigService.getById(config.getId());
+		Config xjAdminConfig = xjAdminConfigService.getById(config.getId());
 		System.out.println(JSON.toJSONString(xjAdminConfig));
 
 	}

@@ -122,7 +122,7 @@
         },
         created() {
             // 获取菜单数据
-            this.crud.get(this.uri.menuList.replace("{roleId}", ""), {isOwnData: true}).then((res) => {
+            this.crud.get(this.uri.menuList.replace("{roleId}", "")).then((res) => {
                 this.menuData = res.data.data;
             })
         },

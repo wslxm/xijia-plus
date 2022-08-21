@@ -3,15 +3,15 @@ package io.github.wslxm.springbootplus2.common.cache;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.bean.SpringContextUtil;
-import io.github.wslxm.springbootplus2.manage.admin.model.entity.AdminAuthority;
-import io.github.wslxm.springbootplus2.manage.admin.model.vo.AdminDictionaryVO;
-import io.github.wslxm.springbootplus2.manage.admin.service.impl.AdminAuthorityServiceImpl;
-import io.github.wslxm.springbootplus2.manage.admin.service.impl.AdminDictionaryServiceImpl;
-import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminBlacklistVO;
-import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
-import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminBlacklistService;
-import io.github.wslxm.springbootplus2.manage.xj.service.impl.XjAdminBlacklistServiceImpl;
-import io.github.wslxm.springbootplus2.manage.xj.service.impl.XjAdminConfigServiceImpl;
+import io.github.wslxm.springbootplus2.manage.sys.model.entity.Authority;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.DictionaryVO;
+import io.github.wslxm.springbootplus2.manage.sys.service.impl.AuthorityServiceImpl;
+import io.github.wslxm.springbootplus2.manage.sys.service.impl.DictionaryServiceImpl;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.BlacklistVO;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
+import io.github.wslxm.springbootplus2.manage.sys.service.BlacklistService;
+import io.github.wslxm.springbootplus2.manage.sys.service.impl.BlacklistServiceImpl;
+import io.github.wslxm.springbootplus2.manage.sys.service.impl.ConfigServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +38,12 @@ public class XjCacheUtil {
 	 */
 	public static List<String> findBlacklistByType(Integer type) {
 		// 获取bean
-		String beanName = toLowerCaseFirstOne(XjAdminBlacklistServiceImpl.class.getSimpleName());
-		XjAdminBlacklistService bean = (XjAdminBlacklistService) SpringContextUtil.getBean(beanName);
+		String beanName = toLowerCaseFirstOne(BlacklistServiceImpl.class.getSimpleName());
+		BlacklistService bean = (BlacklistService) SpringContextUtil.getBean(beanName);
 		// 调用方法处理数据
-		List<XjAdminBlacklistVO> xjAdminBlacklistVOS = bean.listByType(type);
-		if (!xjAdminBlacklistVOS.isEmpty()) {
-			return xjAdminBlacklistVOS.stream().map(XjAdminBlacklistVO::getIp).collect(Collectors.toList());
+		List<BlacklistVO> xjBlacklistVOS = bean.listByType(type);
+		if (!xjBlacklistVOS.isEmpty()) {
+			return xjBlacklistVOS.stream().map(BlacklistVO::getIp).collect(Collectors.toList());
 		}
 		return new ArrayList<>(0);
 	}
@@ -54,10 +54,10 @@ public class XjCacheUtil {
 	 * @param code
 	 * @return
 	 */
-	public static XjAdminConfigVO findConfigByCode(String code) {
+	public static ConfigVO findConfigByCode(String code) {
 		// 获取bean
-		String beanName = toLowerCaseFirstOne(XjAdminConfigServiceImpl.class.getSimpleName());
-		XjAdminConfigServiceImpl bean = (XjAdminConfigServiceImpl) SpringContextUtil.getBean(beanName);
+		String beanName = toLowerCaseFirstOne(ConfigServiceImpl.class.getSimpleName());
+		ConfigServiceImpl bean = (ConfigServiceImpl) SpringContextUtil.getBean(beanName);
 		// 调用方法处理数据
 		return bean.findByCode(code);
 	}
@@ -69,13 +69,13 @@ public class XjCacheUtil {
 	 *
 	 * @return
 	 */
-	public static List<AdminDictionaryVO> findListALL(Boolean isDisable) {
-		String beanName = toLowerCaseFirstOne(AdminDictionaryServiceImpl.class.getSimpleName());
-		AdminDictionaryServiceImpl bean = (AdminDictionaryServiceImpl) SpringContextUtil.getBean(beanName);
+	public static List<DictionaryVO> findListALL(Boolean isDisable) {
+		String beanName = toLowerCaseFirstOne(DictionaryServiceImpl.class.getSimpleName());
+		DictionaryServiceImpl bean = (DictionaryServiceImpl) SpringContextUtil.getBean(beanName);
 		// 查询并处理数据
-		List<AdminDictionaryVO> list = bean.findListALL();
+		List<DictionaryVO> list = bean.findListALL();
 		// 复制一份数据，防止原数据被改动
-		List<AdminDictionaryVO> copyList = BeanDtoVoUtil.listVo(list, AdminDictionaryVO.class);
+		List<DictionaryVO> copyList = BeanDtoVoUtil.listVo(list, DictionaryVO.class);
 		isDisable = isDisable == null ? true : isDisable;
 		if (!isDisable) {
 			copyList = copyList.stream().filter(p -> p.getDisable().equals(Base.Disable.V0.getValue())).collect(Collectors.toList());
@@ -89,9 +89,9 @@ public class XjCacheUtil {
 	 *
 	 * @return
 	 */
-	public static Map<String, AdminAuthority> findAuthAllToMap() {
-		String beanName = toLowerCaseFirstOne(AdminAuthorityServiceImpl.class.getSimpleName());
-		AdminAuthorityServiceImpl bean = (AdminAuthorityServiceImpl) SpringContextUtil.getBean(beanName);
+	public static Map<String, Authority> findAuthAllToMap() {
+		String beanName = toLowerCaseFirstOne(AuthorityServiceImpl.class.getSimpleName());
+		AuthorityServiceImpl bean = (AuthorityServiceImpl) SpringContextUtil.getBean(beanName);
 		return bean.findListAllToMap();
 	}
 
@@ -104,8 +104,8 @@ public class XjCacheUtil {
 //	 */
 //	public static List<String> findAuthByUserId(String userId) {
 //		// 获取bean
-//		String beanName = toLowerCaseFirstOne(AdminAuthorityServiceImpl.class.getSimpleName());
-//		AdminAuthorityServiceImpl bean = (AdminAuthorityServiceImpl) SpringContextUtil.getBean(beanName);
+//		String beanName = toLowerCaseFirstOne(AuthorityServiceImpl.class.getSimpleName());
+//		AuthorityServiceImpl bean = (AuthorityServiceImpl) SpringContextUtil.getBean(beanName);
 //		// 调用方法处理数据
 //		return bean.findByUserIdAuthority(userId);
 //	}

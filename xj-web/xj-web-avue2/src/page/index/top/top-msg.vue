@@ -74,9 +74,9 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/xj/msg/findPage",
-                    findAllNum: "/api/admin/xj/msg/findAllNum", //查询已读/未读/使用数量
-                    read: "/api/admin/xj/msg/{id}/read", //修改为已读
+                    infoList: "/api/admin/sys/msg/findPage",
+                    findAllNum: "/api/admin/sys/msg/findAllNum", //查询已读/未读/使用数量
+                    read: "/api/admin/sys/msg/{id}/read", //修改为已读
                 },
                 page: {
                     current: 1, //当前页

@@ -53,9 +53,9 @@
         data() {
             return {
                 uri: {
-                    findUser: "/api/admin/user/findUser",               // 查询当前登录人的信息
-                    updByPassword: "/api/admin/user/updByPassword",     // 修改当前代登录人的密码
-                    updUser: "/api/admin/user/updUser",                 // 修改当前登录人的信息
+                    findUser: "/api/admin/sys/user/findUser",               // 查询当前登录人的信息
+                    updByPassword: "/api/admin/sys/user/updByPassword",     // 修改当前代登录人的密码
+                    updUser: "/api/admin/sys/user/updUser",                 // 修改当前登录人的信息
                 },
                 type: "info",
                 // option: option,

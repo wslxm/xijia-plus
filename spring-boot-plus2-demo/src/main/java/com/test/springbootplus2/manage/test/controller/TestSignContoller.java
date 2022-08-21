@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_OPEN + "/xj/sign")
-@Api(value = "XjAdminBannerController", tags = "body参数验签测试")
+@Api(value = "BannerController", tags = "body参数验签测试")
 public class TestSignContoller {
 
 

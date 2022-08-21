@@ -161,7 +161,7 @@
         data() {
             return {
                 uri: {
-                    jvmInfo: "/api/admin/xj/jvm/jvmInfo"
+                    jvmInfo: "/api/admin/sys/jvm/jvmInfo"
                 },
                 obj: {
                     fileInfo: {},

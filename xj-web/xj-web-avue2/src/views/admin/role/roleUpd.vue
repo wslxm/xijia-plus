@@ -117,7 +117,7 @@
             // 获取菜单选中数据
             this.obj = this.rowData;
             // 获取菜单数据(弹层数据)
-            this.crud.get(this.uri.menuList.replace("{roleId}", this.rowData.id), {isOwnData: true}).then((res) => {
+            this.crud.get(this.uri.menuList.replace("{roleId}", this.rowData.id)).then((res) => {
                 // 获取选中菜单
                 this.menuData = res.data.data;
                 this.obj.menuIds = [];

@@ -87,8 +87,8 @@
             return {
                 treeOption: JSON.parse(JSON.stringify(this.website.treeOption)),
                 uri: {
-                    infoList: "/api/admin/menu/list",
-                    info: "/api/admin/menu",
+                    infoList: "/api/admin/sys/menu/list",
+                    info: "/api/admin/sys/menu",
                     //infoPidList: "/api/admin/menu/list?disable=0&isTree=true&root={root}",
                 },
                 loading: true,
