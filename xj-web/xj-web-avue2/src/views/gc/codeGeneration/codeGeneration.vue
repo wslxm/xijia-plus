@@ -127,15 +127,15 @@
         data() {
             return {
                 uri: {
-                    infoFieldList: "/api/admin/dataBase/table/field",  // 根据字段查询表字段
-                    infoTableList: "/api/admin/dataBase/table/list",   // 所有表
-                    generateGetPath: "/api/admin/generate/getPath",    // 代码生成路径
-                    generatePreview: "/api/admin/generate/preview",    // 生成预览代码
-                    generateCode: "/api/admin/generate/generateCode",   // 生成代码
-                    generateCodeVue: "/api/admin/generate/generateCodeVue", // 只生成vue代码(直接下载)
-                    generateCodeJavaAndVue: "/api/admin/generate/generateCodeJavaAndVue", // 生成java + vue代码(直接下载)
-                    diceFindList: "/api/admin/dictionary/list?isBottomLayer=false&code=ENUMS", // 获取字典数据
-                    datasourceInfoList: "/api/admin/datasource/findPage?size=10000",   // 查询数据源
+                    infoFieldList: "/api/admin/gc/dataBase/table/field",  // 根据字段查询表字段
+                    infoTableList: "/api/admin/gc/dataBase/table/list",   // 所有表
+                    generateGetPath: "/api/admin/gc/generate/getPath",    // 代码生成路径
+                    generatePreview: "/api/admin/gc/generate/preview",    // 生成预览代码
+                    generateCode: "/api/admin/gc/generate/generateCode",   // 生成代码
+                    generateCodeVue: "/api/admin/gc/generate/generateCodeVue", // 只生成vue代码(直接下载)
+                    generateCodeJavaAndVue: "/api/admin/gc/generate/generateCodeJavaAndVue", // 生成java + vue代码(直接下载)
+                    diceFindList: "/api/admin/sys/dictionary/list?isBottomLayer=false&code=ENUMS", // 获取字典数据
+                    datasourceInfoList: "/api/admin/gc/datasource/findPage?size=10000",   // 查询数据源
                 },
                 loading: true,
                 dialogWidth: "60%",

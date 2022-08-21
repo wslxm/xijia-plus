@@ -2,7 +2,7 @@ package io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth;
 
 
 import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
-import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminBlacklistService;
+import io.github.wslxm.springbootplus2.manage.sys.service.BlacklistService;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.enums.Base;
@@ -26,7 +26,7 @@ public class SysBlacklist {
 
 
     @Autowired
-    private XjAdminBlacklistService xjAdminBlacklistService;
+    private BlacklistService xjAdminBlacklistService;
 
     @Autowired
     private HttpServletRequest request;
@@ -111,16 +111,16 @@ public class SysBlacklist {
 //
 //        if (!blacklist.isEmpty()) {
 //                // key=1(白名单)  key=2(黑名单)) 黑名单优先级高于白名单, list为 ip集合
-//                List<XjAdminBlacklistVO> adminBlacklistVos = BeanDtoVoUtil.listVo(blacklist, XjAdminBlacklistVO.class);
-//                Map<Integer, List<XjAdminBlacklistVO>> blacklistGroupByType = adminBlacklistVos.stream().collect(Collectors.groupingBy(XjAdminBlacklistVO::getType));
-//                List<XjAdminBlacklistVO> baiMd = blacklistGroupByType.get(Base.BlacklistType.V1.getValue());
-//                List<XjAdminBlacklistVO> heiMd = blacklistGroupByType.get(Base.BlacklistType.V2.getValue());
+//                List<BlacklistVO> adminBlacklistVos = BeanDtoVoUtil.listVo(blacklist, BlacklistVO.class);
+//                Map<Integer, List<BlacklistVO>> blacklistGroupByType = adminBlacklistVos.stream().collect(Collectors.groupingBy(BlacklistVO::getType));
+//                List<BlacklistVO> baiMd = blacklistGroupByType.get(Base.BlacklistType.V1.getValue());
+//                List<BlacklistVO> heiMd = blacklistGroupByType.get(Base.BlacklistType.V2.getValue());
 //                if (baiMd != null) {
-//                    List<String> baiIps = baiMd.stream().map(XjAdminBlacklistVO::getIp).collect(Collectors.toList());
+//                    List<String> baiIps = baiMd.stream().map(BlacklistVO::getIp).collect(Collectors.toList());
 //                    blacklistCache.put(Base.BlacklistType.V1.getValue() + "", baiIps);
 //                }
 //                if (heiMd != null) {
-//                    List<String> heiIps = heiMd.stream().map(XjAdminBlacklistVO::getIp).collect(Collectors.toList());
+//                    List<String> heiIps = heiMd.stream().map(BlacklistVO::getIp).collect(Collectors.toList());
 //                    blacklistCache.put(Base.BlacklistType.V2.getValue() + "", heiIps);
 //                }
 //            }

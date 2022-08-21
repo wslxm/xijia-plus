@@ -55,19 +55,6 @@
                             display: false
                         },
                         {
-                            label: '终端',
-                            prop: 'terminal',
-                            span: 20,
-                            disabled: (this.rowData !== null && JSON.stringify(this.rowData) !== '{}'),
-                            type: "radio",
-                            dicData: this.dict.get(this.website.Dict.Admin.Terminal),
-                            rules: [{
-                                required: true,
-                                message: "请选择 终端",
-                                trigger: "blur"
-                            }]
-                        },
-                        {
                             label: '菜单级别',
                             prop: 'root',
                             span: 20,

@@ -104,7 +104,7 @@ export default [
             {
                 path: 'db',
                 name: '数据源管理',
-                component: () => import('@/views/gc/db/xjAdminDatasource'),
+                component: () => import('@/views/gc/db/datasource'),
                 meta: {
                     menu: true,  // 是否加载左菜单
                     isTab: true, // 是否加载tab

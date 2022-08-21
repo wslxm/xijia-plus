@@ -6,7 +6,7 @@ import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.core.config.error.GlobalExceptionHandler;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
-import io.github.wslxm.springbootplus2.manage.xj.model.entity.XjAdminLog;
+import io.github.wslxm.springbootplus2.manage.sys.model.entity.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -187,7 +187,7 @@ public class SysAspect {
         }
         // 验签, 已被移动到 SysSingFilter 过滤器中进行, 验证失败不会进入到aop
         // 2、记录请求日志, 将异步执行(与业务代码并行处理),不影响程序响应, future 为线程的返回值，用于后面异步执行响应结果
-        Future<XjAdminLog> future = executorService.submit(() -> sysLog.requestLogCollectAndPrint(proceed, request));
+        Future<Log> future = executorService.submit(() -> sysLog.requestLogCollectAndPrint(proceed, request));
 
         // 3、限流
         R rateLimiter = sysRateLimiter.run(proceed);

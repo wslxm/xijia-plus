@@ -103,11 +103,11 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/user/findPage",
-                    info: "/api/admin/user",
-                    depInfo: "/api/admin/dep/list",
-                    roleInfo: "/api/admin/role/findPage",
-                    resetPassword: "/api/admin/user/{id}/resetPassword"
+                    infoList: "/api/admin/sys/user/findPage",
+                    info: "/api/admin/sys/user",
+                    depInfo: "/api/admin/sys/dep/list",
+                    roleInfo: "/api/admin/sys/role/findPage",
+                    resetPassword: "/api/admin/sys/user/{id}/resetPassword"
                 },
                 loading: true,
                 dialogWidth: "60%",
@@ -120,7 +120,6 @@
                 option: {},
                 // 搜索参数
                 search: {
-                    terminal: this.website.Terminal
                 },
                 // 重置密码数据保存
                 rowPassword: {
@@ -210,17 +209,6 @@
                 //     prop: 'gender',
                 //     dicData: this.dict.get(this.website.Dict.Base.Gender),
                 // },
-                {
-                    label: '终端',
-                    prop: 'terminal',
-                    type: "select",
-                    hide: true,
-                    search: this.website.isTerminalSearch,
-                    searchSpan: 5,
-                    searchValue: this.search.terminal,
-                    searchOrder: 1,
-                    dicData: this.dict.get(this.website.Dict.Admin.Terminal),
-                },
                 {
                     label: '部门',
                     prop: 'depNames',
@@ -314,8 +302,6 @@
                     this.search.depIds = null;
                 }
 
-                // 是否只查询自己权限及以下的数据
-                this.search.isOwnData = true;
                 // 查询
                 this.crud.list(this, true);
                 this.crud.doLayout(this, this.$refs.crudUser);

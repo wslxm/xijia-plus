@@ -9,7 +9,7 @@ export default {
     // 获取或更新字典数据到localStorage中
     refreshDict() {
         request({
-            url: baseProxyPathRewrite + "/api/client/dictionary/findCodeGroup",
+            url: baseProxyPathRewrite + "/api/client/sys/dictionary/findCodeGroup",
             method: 'get',
             meta: {
                 isSerialize: true

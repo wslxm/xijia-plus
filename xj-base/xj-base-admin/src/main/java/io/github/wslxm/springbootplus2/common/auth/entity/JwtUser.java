@@ -32,11 +32,6 @@ public class JwtUser implements Serializable {
     private String userId;
 
     /**
-     * 终端(后台分多端时-登录传递,对应字典code)
-     */
-    private Integer terminal;
-
-    /**
      * 真实姓名/昵称
      */
     private String fullName;

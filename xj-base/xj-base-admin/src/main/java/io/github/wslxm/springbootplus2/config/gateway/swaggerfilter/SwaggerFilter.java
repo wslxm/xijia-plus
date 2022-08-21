@@ -3,8 +3,8 @@ package io.github.wslxm.springbootplus2.config.gateway.swaggerfilter;
 
 import com.alibaba.fastjson.JSON;
 import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
-import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
-import io.github.wslxm.springbootplus2.manage.xj.service.XjAdminConfigService;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
+import io.github.wslxm.springbootplus2.manage.sys.service.ConfigService;
 import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.result.RType;
@@ -32,7 +32,7 @@ public class SwaggerFilter implements Filter {
 
 
     @Autowired
-    private XjAdminConfigService xjAdminConfigService;
+    private ConfigService xjAdminConfigService;
 
     private final static String SWAGGER_UI = "swagger-ui.html";
 
@@ -42,7 +42,7 @@ public class SwaggerFilter implements Filter {
         String uri = request.getRequestURI();
         if (uri.contains(SWAGGER_UI)) {
             // 默认展示,配置为false不展示
-            XjAdminConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.IS_SWAGGER );
+            ConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.IS_SWAGGER );
             if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
                 R<Void> r = R.error(RType.SYS_ERROR_CODE_403);
                 servletResponse.setContentType("application/json;charset=utf-8");

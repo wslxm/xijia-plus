@@ -3,7 +3,7 @@ package io.github.wslxm.springbootplus2.manage.gc.config;
 
 import io.github.wslxm.springbootplus2.manage.gc.config.model.GcFilePath;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
-import io.github.wslxm.springbootplus2.manage.gc.model.vo.XjAdminDatasourceVO;
+import io.github.wslxm.springbootplus2.manage.gc.model.vo.DatasourceVO;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +33,7 @@ public class GcConfig {
     /**
      * 选择的数据源 (为空表示未当前服务连接的数据源)
      */
-    private XjAdminDatasourceVO dbDatasource;
+    private DatasourceVO dbDatasource;
     /**
      * 默认模板参数
      */

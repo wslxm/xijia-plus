@@ -7,7 +7,7 @@ import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.json.JsonUtil;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
-import io.github.wslxm.springbootplus2.manage.xj.model.vo.XjAdminConfigVO;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -144,7 +144,7 @@ public class JwtUtil {
             }
             // 管理端获取每次刷新获取新的刷新时间, 如果没有设值，使用登录设置的默认时间
             if (jwtUser.getType().equals(userType[0])) {
-                XjAdminConfigVO configByCode = XjCacheUtil.findConfigByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
+                ConfigVO configByCode = XjCacheUtil.findConfigByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
                 jwtUser.setExpiration(Integer.parseInt(configByCode.getContent()));
             }
             createToken(jwtUser, response);

@@ -20,7 +20,6 @@
                 roles: [],        // 角色
                 // 默认数据
                 defaultData: {
-                    terminal: this.website.Terminal,
                     headPic: null,
                     fullName: null,
                     username: null,
@@ -51,19 +50,6 @@
                     mockBtn: false,    // 模拟按钮
                     printBtn: false,   // 打印按钮
                     column: [
-                        {
-                            label: '终端',
-                            prop: 'terminal',
-                            span: 20,
-                            type: "radio",
-                            disabled: !this.website.isTerminalSearch,
-                            dicData: this.dict.get(this.website.Dict.Admin.Terminal),
-                            rules: [{
-                                required: true,
-                                message: "请选择 终端 ",
-                                trigger: "blur"
-                            }]
-                        },
                         {
                             label: '头像',
                             prop: 'headPic',
@@ -280,7 +266,7 @@
                 this.deps = res.data.data;
             });
             // 角色数据(弹层数据)
-            this.crud.get(this.uri.roleInfo, {disable: 0, isOwnData: true}).then((res) => {
+            this.crud.get(this.uri.roleInfo, {disable: 0}).then((res) => {
                 console.debug(res);
                 this.roles = res.data.data.records;
                 for (const role of this.roles) {

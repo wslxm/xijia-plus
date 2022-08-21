@@ -25,7 +25,7 @@ import java.util.Map;
  * @author wangsong
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.API_OPEN + "/xj/excel")
+@RequestMapping(BaseConstant.Uri.API_OPEN + "/test/excel")
 @Api(value = "ExcelTestController", tags = "excel测试")
 public class ExcelTestController extends BaseController {
 

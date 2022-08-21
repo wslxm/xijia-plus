@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.config.init;
 
-import io.github.wslxm.springbootplus2.manage.admin.service.AdminAuthorityService;
+import io.github.wslxm.springbootplus2.manage.sys.service.AuthorityService;
 import io.github.wslxm.springbootplus2.core.utils.PropUtil;
 import io.github.wslxm.springbootplus2.core.utils.bean.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 public class CommandLineRunnerImpl implements CommandLineRunner {
 
     @Autowired
-    private AdminAuthorityService adminAuthorityService;
+    private AuthorityService adminAuthorityService;
 
     @Override
     public void run(String... args) {

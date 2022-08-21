@@ -63,12 +63,12 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/role/findPage",
-                    info: "/api/admin/role",
-                    updRoleAuthAll: "/api/admin/role/updRoleAuthAll",  // 使用角色拥有所有权限
-                    menuList: "/api/admin/menu/list?disable=0&isTree=true&roleId={roleId}", // 分配菜单查询信息
-                    authListByRole: "/api/admin/authority/list?type=0&isTree=true&roleId={roleId}",  // 分配资源查询信息
-                    updRoleAuth: "/api/admin/role/updRoleAuth",   // 角色-分配资源
+                    infoList: "/api/admin/sys/role/findPage",
+                    info: "/api/admin/sys/role",
+                    updRoleAuthAll: "/api/admin/sys/role/updRoleAuthAll",  // 使用角色拥有所有权限
+                    menuList: "/api/admin/sys/menu/list?disable=0&isTree=true&roleId={roleId}", // 分配菜单查询信息
+                    authListByRole: "/api/admin/sys/authority/list?type=0&isTree=true&roleId={roleId}",  // 分配资源查询信息
+                    updRoleAuth: "/api/admin/sys/role/updRoleAuth",   // 角色-分配资源
                 },
                 loading: true,
                 dialogWidth: "40%",
@@ -81,7 +81,6 @@
                 data: [],                        // 列表数据
                 option: {},                      // 列表配置( mounted() 方法中配置)
                 search: {                        // 搜索参数
-                    terminal: this.website.Terminal
                 },
             }
         },
@@ -115,21 +114,6 @@
                     prop: 'desc'
                 },
                 {
-                    label: '终端',
-                    prop: 'terminal',
-                    dicData: this.dict.get(this.website.Dict.Admin.Terminal, true, false, true),
-                    hide: true,
-                    search: this.website.isTerminalSearch,
-                    searchValue: this.search.terminal,
-                    searchOrder: 1,
-                    searchSpan: 5,
-                    type: "select",
-                    searchRules: [{
-                        required: false,
-                        // trigger: "blur"
-                    }],
-                },
-                {
                     label: '禁用/启用',
                     prop: 'disable',
                     type: "switch",
@@ -155,8 +139,6 @@
              * @author wangsong
              */
             onLoad() {
-                // 是否只查询自己权限及以下的数据
-                this.search.isOwnData = true;
                 // 查询
                 this.crud.list(this, true);
                 this.crud.doLayout(this, this.$refs.crudRole)

@@ -56,17 +56,6 @@
                     printBtn: false,   // 打印按钮
                     column: [
                         {
-                            label: "终端",
-                            prop: "terminal",
-                            type: "radio",
-                            disabled: !this.website.isTerminalSearch,
-                            dicData: this.dict.get(this.website.Dict.Admin.Terminal),
-                            span: 20,
-                            rules: [{
-                                required: true,
-                            }],
-                        },
-                        {
                             label: "角色名称",
                             prop: "name",
                             // tip: '这是信息提示',
@@ -128,7 +117,7 @@
             // 获取菜单选中数据
             this.obj = this.rowData;
             // 获取菜单数据(弹层数据)
-            this.crud.get(this.uri.menuList.replace("{roleId}", this.rowData.id), {isOwnData: true}).then((res) => {
+            this.crud.get(this.uri.menuList.replace("{roleId}", this.rowData.id)).then((res) => {
                 // 获取选中菜单
                 this.menuData = res.data.data;
                 this.obj.menuIds = [];
