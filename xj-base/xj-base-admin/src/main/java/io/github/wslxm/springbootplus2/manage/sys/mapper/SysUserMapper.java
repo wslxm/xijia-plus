@@ -2,16 +2,16 @@ package io.github.wslxm.springbootplus2.manage.sys.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.github.wslxm.springbootplus2.manage.sys.model.entity.User;
-import io.github.wslxm.springbootplus2.manage.sys.model.query.UserQuery;
-import io.github.wslxm.springbootplus2.manage.sys.model.vo.UserVO;
+import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
+import io.github.wslxm.springbootplus2.manage.sys.model.query.SysUserQuery;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 /**
  * @author wangsong
  */
-public interface UserMapper extends BaseMapper<User> {
+public interface SysUserMapper extends BaseMapper<SysUser> {
 
     /**
      * 列表查询
@@ -21,10 +21,10 @@ public interface UserMapper extends BaseMapper<User> {
      * @param page         page
      * @param query        query
      * @param createUserId createUserId
-     * @return java.util.List<io.github.wslxm.springbootplus2.manage.admin.model.vo.UserVO>
+     * @return java.util.List<io.github.wslxm.springbootplus2.manage.admin.model.vo.SysUserVO>
      * @version 1.0.0
      */
-    List<UserVO> list(IPage<UserVO> page, UserQuery query, String createUserId);
+    List<SysUserVO> list(IPage<SysUserVO> page, SysUserQuery query, String createUserId);
 
     /**
      * 根据角色Id查询指定用户信息
@@ -35,6 +35,6 @@ public interface UserMapper extends BaseMapper<User> {
      * @date 2020/8/9 0009 10:17
      * @version 1.0.1
      */
-    List<User> findByRoleId(@Param("roleId") String roleId);
+    List<SysUser> findByRoleId(@Param("roleId") String roleId);
 
 }

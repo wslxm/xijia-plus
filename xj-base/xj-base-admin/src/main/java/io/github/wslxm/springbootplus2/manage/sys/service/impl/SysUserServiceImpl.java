@@ -15,20 +15,20 @@ import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
-import io.github.wslxm.springbootplus2.manage.sys.mapper.UserMapper;
+import io.github.wslxm.springbootplus2.manage.sys.mapper.SysUserMapper;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.LoginDTO;
-import io.github.wslxm.springbootplus2.manage.sys.model.dto.UserDTO;
-import io.github.wslxm.springbootplus2.manage.sys.model.entity.User;
+import io.github.wslxm.springbootplus2.manage.sys.model.dto.SysUserDTO;
+import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.DepQuery;
-import io.github.wslxm.springbootplus2.manage.sys.model.query.UserQuery;
+import io.github.wslxm.springbootplus2.manage.sys.model.query.SysUserQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DepVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.RoleVO;
-import io.github.wslxm.springbootplus2.manage.sys.model.vo.UserVO;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.ConfigService;
 import io.github.wslxm.springbootplus2.manage.sys.service.DepService;
 import io.github.wslxm.springbootplus2.manage.sys.service.RoleUserService;
-import io.github.wslxm.springbootplus2.manage.sys.service.UserService;
+import io.github.wslxm.springbootplus2.manage.sys.service.SysUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,32 +44,32 @@ import java.util.stream.Collectors;
  * @author wangsong
  */
 @Service
-public class UserServiceImpl extends BaseIServiceImpl<UserMapper, User> implements UserService {
+public class SysUserServiceImpl extends BaseIServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     @Autowired
-    private RoleUserService adminRoleUserService;
+    private RoleUserService roleUserService;
 
     @Autowired
-    private ConfigService xjConfigService;
+    private ConfigService configService;
 
     @Autowired
-    private DepService adminDepService;
+    private DepService depService;
 
     @Override
-    public IPage<UserVO> findPage(UserQuery query) {
+    public IPage<SysUserVO> findPage(SysUserQuery query) {
         if (query.getIsLoginUser() == null) {
             query.setIsLoginUser(false);
         }
         // 是否只查询当前登录人创建的用户
         String createUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
-        IPage<UserVO> page = new Page<>(query.getCurrent(), query.getSize());
+        IPage<SysUserVO> page = new Page<>(query.getCurrent(), query.getSize());
         page = page.setRecords(baseMapper.list(page, query, createUserId));
 
         // 公司/部门信息
         if (page.getRecords() != null && page.getRecords().size() > 0) {
             // 获取部门ids
             List<String> depIds = new ArrayList<>();
-            for (UserVO userVO : page.getRecords()) {
+            for (SysUserVO userVO : page.getRecords()) {
                 depIds.addAll(Arrays.asList(userVO.getDepIds().split(",")));
             }
 
@@ -77,12 +77,12 @@ public class UserServiceImpl extends BaseIServiceImpl<UserMapper, User> implemen
             DepQuery depQuery = new DepQuery();
             depQuery.setIds(depIds);
             depQuery.setIsTree(false);
-            List<DepVO> deps = adminDepService.list(depQuery);
+            List<DepVO> deps = depService.list(depQuery);
 
             // 处理数据
-            for (UserVO userVO : page.getRecords()) {
+            for (SysUserVO userVO : page.getRecords()) {
                 if (userVO.getDepIds() != null) {
-                    userVO.setDep(adminDepService.findNextDeps(deps, userVO.getDepIds()));
+                    userVO.setDep(depService.findNextDeps(deps, userVO.getDepIds()));
                 }
             }
         }
@@ -91,12 +91,12 @@ public class UserServiceImpl extends BaseIServiceImpl<UserMapper, User> implemen
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String insert(UserDTO dto) {
+    public String insert(SysUserDTO dto) {
         // 判重账号/判重电话
         this.verifyRepeatUsername(dto.getUsername(), null);
         this.verifyRepeatPhone(dto.getPhone(), null);
         //
-        User adminUser = dto.convert(User.class);
+        SysUser adminUser = dto.convert(SysUser.class);
         adminUser.setId(IdUtil.snowflakeId());
         adminUser.setPassword(Md5Util.encode(adminUser.getPassword(), adminUser.getId()));
         adminUser.setRegTime(LocalDateTime.now());
@@ -107,29 +107,29 @@ public class UserServiceImpl extends BaseIServiceImpl<UserMapper, User> implemen
         this.save(adminUser);
         if (dto.getRoleIds() != null) {
             // 用户角色分配
-            adminRoleUserService.updUserRole(adminUser.getId(), dto.getRoleIds());
+            roleUserService.updUserRole(adminUser.getId(), dto.getRoleIds());
         }
         return adminUser.getId();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean upd(String id, UserDTO dto) {
-        User adminUser = this.getOne(new LambdaQueryWrapper<User>()
-                .select(User::getUsername, User::getPhone)
-                .eq(User::getId, id));
+    public Boolean upd(String id, SysUserDTO dto) {
+        SysUser adminUser = this.getOne(new LambdaQueryWrapper<SysUser>()
+                .select(SysUser::getUsername, SysUser::getPhone)
+                .eq(SysUser::getId, id));
         ValidUtil.isTrue(adminUser == null, "没有找到数据");
 
         // 判重账号/判重电话
         this.verifyRepeatUsername(dto.getUsername(), adminUser.getUsername());
         this.verifyRepeatPhone(dto.getPhone(), adminUser.getPhone());
         //
-        User entity = dto.convert(User.class);
+        SysUser entity = dto.convert(SysUser.class);
         entity.setId(id);
         this.updateById(entity);
         if (dto.getRoleIds() != null && dto.getRoleIds().size() > 0) {
             // 用户角色分配
-            adminRoleUserService.updUserRole(id, dto.getRoleIds());
+            roleUserService.updUserRole(id, dto.getRoleIds());
         }
         return true;
     }
@@ -137,20 +137,20 @@ public class UserServiceImpl extends BaseIServiceImpl<UserMapper, User> implemen
     @Override
     public Boolean del(String userId) {
         // 删除用户角色
-        adminRoleUserService.delByUserId(userId);
+        roleUserService.delByUserId(userId);
         return this.removeById(userId);
     }
 
     @Override
-    public UserVO findId(String id) {
+    public SysUserVO findId(String id) {
         // id查询数据
-        UserQuery query = new UserQuery();
+        SysUserQuery query = new SysUserQuery();
         query.setId(id);
-        IPage<UserVO> list = this.findPage(query);
+        IPage<SysUserVO> list = this.findPage(query);
         if (list.getRecords().size() == 0) {
             throw new ErrorException(RType.PARAM_ERROR.getValue(), RType.PARAM_ERROR.getMsg() + ":id");
         }
-        UserVO userVO = list.getRecords().get(0);
+        SysUserVO userVO = list.getRecords().get(0);
 
         // 角色id组装便于角色回显
         userVO.setRoleIds(userVO.getRoles() == null ? null : userVO.getRoles().stream().map(RoleVO::getId).collect(Collectors.toList()));
@@ -159,39 +159,39 @@ public class UserServiceImpl extends BaseIServiceImpl<UserMapper, User> implemen
             DepQuery depQuery = new DepQuery();
             depQuery.setIds(Arrays.asList(userVO.getDepIds().split(",")));
             depQuery.setIsTree(false);
-            List<DepVO> deps = adminDepService.list(depQuery);
-            userVO.setDep(adminDepService.findNextDeps(deps, userVO.getDepIds()));
+            List<DepVO> deps = depService.list(depQuery);
+            userVO.setDep(depService.findNextDeps(deps, userVO.getDepIds()));
         }
 
         return userVO;
     }
 
     @Override
-    public List<User> findByRoleId(String roleId) {
+    public List<SysUser> findByRoleId(String roleId) {
         return baseMapper.findByRoleId(roleId);
     }
 
 
     @Override
-    public List<UserVO> listKeyData(String searchName) {
-        List<User> list = this.list(new LambdaQueryWrapper<User>()
-                .select(User::getUsername, User::getFullName, User::getPhone, User::getId)
-                .orderByDesc(User::getCreateTime)
+    public List<SysUserVO> listKeyData(String searchName) {
+        List<SysUser> list = this.list(new LambdaQueryWrapper<SysUser>()
+                .select(SysUser::getUsername, SysUser::getFullName, SysUser::getPhone, SysUser::getId)
+                .orderByDesc(SysUser::getCreateTime)
                 .and(com.baomidou.mybatisplus.core.toolkit.StringUtils.isNotBlank(searchName),
-                        i -> i.like(User::getFullName, searchName)
-                                .or().like(User::getUsername, searchName)
+                        i -> i.like(SysUser::getFullName, searchName)
+                                .or().like(SysUser::getUsername, searchName)
                 )
         );
-        return BeanDtoVoUtil.listVo(list, UserVO.class);
+        return BeanDtoVoUtil.listVo(list, SysUserVO.class);
     }
 
 
     @Override
     public Boolean login(LoginDTO dto) {
-        User user = loginUsernameOrPhone(dto.getUsername(), dto.getPassword());
+        SysUser user = loginUsernameOrPhone(dto.getUsername(), dto.getPassword());
         // 登录成功
         // 获取token 默认设置的有效期
-        ConfigVO xjConfig = xjConfigService.findByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
+        ConfigVO xjConfig = configService.findByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
         Integer expiration = xjConfig != null ? Integer.parseInt(xjConfig.getContent()) : 60;
 
         // 5、生成jwt
@@ -203,7 +203,7 @@ public class UserServiceImpl extends BaseIServiceImpl<UserMapper, User> implemen
         jwtUser.setExpiration(expiration);
         JwtUtil.createToken(jwtUser, response);
         // 6、刷新最后登录时间
-        User updUser = new User();
+        SysUser updUser = new SysUser();
         updUser.setId(user.getId());
         updUser.setEndTime(LocalDateTime.now());
         return this.updateById(updUser);
@@ -212,15 +212,15 @@ public class UserServiceImpl extends BaseIServiceImpl<UserMapper, User> implemen
 
     @Override
     public Boolean updResetPassword(String id, String password) {
-        return this.update(new User(), new LambdaUpdateWrapper<User>()
-                .set(User::getPassword, Md5Util.encode(password, id))
-                .eq(User::getId, id));
+        return this.update(new SysUser(), new LambdaUpdateWrapper<SysUser>()
+                .set(SysUser::getPassword, Md5Util.encode(password, id))
+                .eq(SysUser::getId, id));
     }
 
 
     @Override
     public Boolean updByPassword(String oldPassword, String password) {
-        User adminUser = this.getById(JwtUtil.getJwtUser(request).getUserId());
+        SysUser adminUser = this.getById(JwtUtil.getJwtUser(request).getUserId());
         if (!adminUser.getPassword().equals(Md5Util.encode(oldPassword, adminUser.getId()))) {
             throw new ErrorException(RType.USER_PASSWORD_ERROR);
         }
@@ -239,17 +239,17 @@ public class UserServiceImpl extends BaseIServiceImpl<UserMapper, User> implemen
      * @date 2021/9/30 0030 14:18
      * @version 1.0.1
      */
-    private User loginUsernameOrPhone(String username, String password) {
+    private SysUser loginUsernameOrPhone(String username, String password) {
         // 1、判断账号
-        List<User> users = this.list(new LambdaQueryWrapper<User>()
-                .and(i -> i.eq(User::getUsername, username)
-                        .or().eq(User::getPhone, username))
+        List<SysUser> users = this.list(new LambdaQueryWrapper<SysUser>()
+                .and(i -> i.eq(SysUser::getUsername, username)
+                        .or().eq(SysUser::getPhone, username))
         );
 
         if (users.isEmpty()) {
             throw new ErrorException(RType.LOGIN_IS_NO_ACCOUNT);
         }
-        User user = users.get(0);
+        SysUser user = users.get(0);
         // 2、判断密码
         if (!user.getPassword().equals(Md5Util.encode(password, user.getId()))) {
             throw new ErrorException(RType.LOGIN_ERROR_USER_PASSWORD);
@@ -275,9 +275,9 @@ public class UserServiceImpl extends BaseIServiceImpl<UserMapper, User> implemen
         if (StringUtils.isNotBlank(username)) {
             // 判重账号
             if (!username.equals(oldUserName)) {
-                if (this.count(new LambdaQueryWrapper<User>()
-                        .eq(User::getUsername, username)
-                        .eq(User::getDeleted, Base.Deleted.V0.getValue())
+                if (this.count(new LambdaQueryWrapper<SysUser>()
+                        .eq(SysUser::getUsername, username)
+                        .eq(SysUser::getDeleted, Base.Deleted.V0.getValue())
                 ) > 0) {
                     throw new ErrorException(RType.USER_ACCOUNT_IS_DUPLICATE);
                 }
@@ -300,9 +300,9 @@ public class UserServiceImpl extends BaseIServiceImpl<UserMapper, User> implemen
         if (StringUtils.isNotBlank(phone)) {
             // 判重电话
             if (!phone.equals(oldPhone)) {
-                if (this.count(new LambdaQueryWrapper<User>()
-                        .eq(User::getPhone, phone)
-                        .eq(User::getDeleted, Base.Deleted.V0.getValue())
+                if (this.count(new LambdaQueryWrapper<SysUser>()
+                        .eq(SysUser::getPhone, phone)
+                        .eq(SysUser::getDeleted, Base.Deleted.V0.getValue())
                 ) > 0) {
                     throw new ErrorException(RType.USER_PHONE_IS_DUPLICATE);
                 }

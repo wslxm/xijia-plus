@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "UserQuery", description = "用户表")
-public class UserQuery extends BaseQuery {
+@ApiModel(value = "SysUserQuery", description = "用户表")
+public class SysUserQuery extends BaseQuery {
 
     private static final long serialVersionUID = 4934650100711613453L;
 

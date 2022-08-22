@@ -7,10 +7,10 @@ import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.LoginDTO;
-import io.github.wslxm.springbootplus2.manage.sys.model.dto.UserDTO;
-import io.github.wslxm.springbootplus2.manage.sys.model.query.UserQuery;
-import io.github.wslxm.springbootplus2.manage.sys.model.vo.UserVO;
-import io.github.wslxm.springbootplus2.manage.sys.service.UserService;
+import io.github.wslxm.springbootplus2.manage.sys.model.dto.SysUserDTO;
+import io.github.wslxm.springbootplus2.manage.sys.model.query.SysUserQuery;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserVO;
+import io.github.wslxm.springbootplus2.manage.sys.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -29,34 +29,34 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN + "/sys/user")
-@Api(value = "UserController", tags = "base--sys--用户管理")
-public class UserController extends BaseController<UserService> {
+@Api(value = " SysUserController", tags = "base--sys--用户管理")
+public class SysUserController extends BaseController<SysUserService> {
 
 
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public R<IPage<UserVO>> findPage(@ModelAttribute @Validated UserQuery query) {
+    public R<IPage<SysUserVO>> findPage(@ModelAttribute @Validated SysUserQuery query) {
         return R.successFind(baseService.findPage(query));
     }
 
 
     @GetMapping(value = "/{id}")
     @ApiOperation(value = "ID查询")
-    public R<UserVO> findId(@PathVariable String id) {
+    public R<SysUserVO> findId(@PathVariable String id) {
         return R.success(baseService.findId(id));
     }
 
 
     @PostMapping
     @ApiOperation(value = "添加")
-    public R<String> insert(@RequestBody @Validated UserDTO dto) {
+    public R<String> insert(@RequestBody @Validated SysUserDTO dto) {
         return R.successInsert(baseService.insert(dto));
     }
 
 
     @PutMapping(value = "/{id}")
     @ApiOperation("ID编辑")
-    public R<Boolean> upd(@PathVariable String id, @RequestBody UserDTO dto) {
+    public R<Boolean> upd(@PathVariable String id, @RequestBody SysUserDTO dto) {
         dto.setPassword(null);
         return R.successUpdate(baseService.upd(id, dto));
     }
@@ -71,16 +71,16 @@ public class UserController extends BaseController<UserService> {
 
     @GetMapping(value = "/findUser")
     @ApiOperation("查询当前登录人的个人信息")
-    public R<UserVO> findUser() {
-        return R.successFind(BeanDtoVoUtil.convert(baseService.findId(JwtUtil.getJwtUser(request).getUserId()), UserVO.class));
+    public R<SysUserVO> findUser() {
+        return R.successFind(BeanDtoVoUtil.convert(baseService.findId(JwtUtil.getJwtUser(request).getUserId()), SysUserVO.class));
     }
 
 
     @GetMapping(value = "/findByRoleId")
     @ApiOperation(value = "获取指定角色的用户列表", notes = "查询所有用户")
     @ApiImplicitParam(name = "roleId", value = "角色Id", required = false, paramType = "query")
-    public R<List<UserVO>> findByRoleId(@RequestParam String roleId) {
-        return R.success(BeanDtoVoUtil.listVo(baseService.findByRoleId(roleId), UserVO.class));
+    public R<List<SysUserVO>> findByRoleId(@RequestParam String roleId) {
+        return R.success(BeanDtoVoUtil.listVo(baseService.findByRoleId(roleId), SysUserVO.class));
     }
 
 
@@ -89,7 +89,7 @@ public class UserController extends BaseController<UserService> {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "searchName", value = "姓名or用户名", required = false, paramType = "query", example = ""),
     })
-    public R<List<UserVO>> listKeyData(@RequestParam(required = false) String searchName) {
+    public R<List<SysUserVO>> listKeyData(@RequestParam(required = false) String searchName) {
         return R.success(baseService.listKeyData(searchName));
     }
 
@@ -107,7 +107,7 @@ public class UserController extends BaseController<UserService> {
 
     @PutMapping(value = "/updUser")
     @ApiOperation(value = "修改当前登录人的信息")
-    public R<Boolean> updUser(@RequestBody UserDTO dto) {
+    public R<Boolean> updUser(@RequestBody SysUserDTO dto) {
         return R.successUpdate(baseService.upd(JwtUtil.getJwtUser(request).getUserId(), dto));
     }
 

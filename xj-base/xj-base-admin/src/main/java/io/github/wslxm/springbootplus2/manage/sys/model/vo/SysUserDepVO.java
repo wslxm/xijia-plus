@@ -18,8 +18,8 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "UserDepVO 对象", description = "基础表--用户组织机构")
-public class UserDepVO extends BaseVo {
+@ApiModel(value = "SysUserDepVO 对象", description = "基础表--用户组织机构")
+public class SysUserDepVO extends BaseVo {
 
 	private static final long serialVersionUID = -603467428327985153L;
 
@@ -45,7 +45,7 @@ public class UserDepVO extends BaseVo {
 	private Integer root;
 
 	@ApiModelProperty(value = "下级数据", position = 5)
-	private UserDepVO dep;
+	private SysUserDepVO dep;
 
 	@ApiModelProperty(value = "部门名称S, 只在第一级vo中存在值, 包含下级+下下级", position = 7)
 	private String depNames;

@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Data
 @ToString(callSuper = true)
 @TableName(value = "t_sys_user")
-public class User extends BaseEntity {
+public class SysUser extends BaseEntity {
 
     private static final long serialVersionUID = 4934650100711613453L;
 

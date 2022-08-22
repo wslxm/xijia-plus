@@ -11,7 +11,7 @@ import io.github.wslxm.springbootplus2.manage.sys.model.dto.DepDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Dep;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.DepQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DepVO;
-import io.github.wslxm.springbootplus2.manage.sys.model.vo.UserDepVO;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserDepVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.DepService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -125,35 +125,35 @@ public class DepServiceImpl extends BaseIServiceImpl<DepMapper, Dep> implements 
 
 
     @Override
-    public UserDepVO findNextDeps(List<DepVO> depVOs, String depIds) {
+    public SysUserDepVO findNextDeps(List<DepVO> depVOs, String depIds) {
         if (StringUtils.isBlank(depIds)) {
             return null;
         }
         if (depVOs == null || depVOs.size() == 0) {
             return null;
         }
-        List<UserDepVO> adminUserDepVOS = BeanDtoVoUtil.listVo(depVOs, UserDepVO.class);
+        List<SysUserDepVO> adminSysUserDepVOS = BeanDtoVoUtil.listVo(depVOs, SysUserDepVO.class);
         // 获取当前数据
-        Map<String, UserDepVO> adminUserDepVOMaps = adminUserDepVOS.stream()
-                .collect(Collectors.toMap(UserDepVO::getId, p -> p));
+        Map<String, SysUserDepVO> adminSysUserDepVOMaps = adminSysUserDepVOS.stream()
+                .collect(Collectors.toMap(SysUserDepVO::getId, p -> p));
         String[] depIdsArray = depIds.split(",");
-        UserDepVO vo = null;
+        SysUserDepVO vo = null;
         StringBuilder depNames = new StringBuilder("");
         if (depIdsArray.length > 0) {
-            vo = BeanDtoVoUtil.convert(adminUserDepVOMaps.get(depIdsArray[0]), UserDepVO.class);
+            vo = BeanDtoVoUtil.convert(adminSysUserDepVOMaps.get(depIdsArray[0]), SysUserDepVO.class);
             if (vo != null) {
                 depNames.append(vo.getName());
             }
         }
         if (vo != null && depIdsArray.length > 1) {
-            UserDepVO voTwo = BeanDtoVoUtil.convert(adminUserDepVOMaps.get(depIdsArray[1]), UserDepVO.class);
+            SysUserDepVO voTwo = BeanDtoVoUtil.convert(adminSysUserDepVOMaps.get(depIdsArray[1]), SysUserDepVO.class);
             vo.setDep(voTwo);
             if (voTwo != null) {
                 depNames.append("/").append(voTwo.getName());
             }
         }
         if (vo != null && vo.getDep() != null && depIdsArray.length > 2) {
-            UserDepVO voThree = BeanDtoVoUtil.convert(adminUserDepVOMaps.get(depIdsArray[2]), UserDepVO.class);
+            SysUserDepVO voThree = BeanDtoVoUtil.convert(adminSysUserDepVOMaps.get(depIdsArray[2]), SysUserDepVO.class);
             vo.getDep().setDep(voThree);
             if (voThree != null) {
                 depNames.append("/").append(voThree.getName());

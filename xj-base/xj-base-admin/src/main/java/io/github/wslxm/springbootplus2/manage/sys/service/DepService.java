@@ -5,7 +5,7 @@ import io.github.wslxm.springbootplus2.manage.sys.model.dto.DepDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Dep;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.DepQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DepVO;
-import io.github.wslxm.springbootplus2.manage.sys.model.vo.UserDepVO;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserDepVO;
 
 import java.util.List;
 
@@ -66,6 +66,6 @@ public interface DepService extends IService<Dep> {
      * @date 2021/10/1 0001 10:33
      * @version 1.0.1
      */
-    public UserDepVO findNextDeps(List<DepVO>  depVOs, String depIds);
+    public SysUserDepVO findNextDeps(List<DepVO>  depVOs, String depIds);
 }
 

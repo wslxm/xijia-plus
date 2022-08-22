@@ -35,17 +35,10 @@ public class RoleServiceImpl extends BaseIServiceImpl<RoleMapper, Role> implemen
      * 超级管理员角色 code（勿修改）
      */
     private final static String ROLE_SYS = "SYS";
-
-    @Autowired
-    private AuthorityService adminAuthorityService;
-    @Autowired
-    private RoleService adminRoleService;
     @Autowired
     private RoleUserService roleUserService;
     @Autowired
-    private RoleMenuService adminRoleMenuService;
-//    @Autowired
-//    private RoleAuthService adminRoleAuthService;
+    private RoleMenuService roleMenuService;
 
 
     @Override
@@ -96,7 +89,7 @@ public class RoleServiceImpl extends BaseIServiceImpl<RoleMapper, Role> implemen
         Role role = dto.convert(Role.class);
         this.save(role);
         // 给角色分配菜单权限
-        adminRoleMenuService.updRoleMenus(role.getId(), dto.getMenuIds());
+        roleMenuService.updRoleMenus(role.getId(), dto.getMenuIds());
         return role.getId();
     }
 
@@ -112,7 +105,7 @@ public class RoleServiceImpl extends BaseIServiceImpl<RoleMapper, Role> implemen
         // 编辑入口必传菜单，如果没传可能是在操作启用禁用等操作,不对菜单做处理
         if (dto.getMenuIds() != null && dto.getMenuIds().size() > 0) {
             // 给角色分配菜单权限(先删除后添加)
-            adminRoleMenuService.updRoleMenus(role.getId(), dto.getMenuIds());
+            roleMenuService.updRoleMenus(role.getId(), dto.getMenuIds());
         }
         return b;
     }
@@ -128,7 +121,7 @@ public class RoleServiceImpl extends BaseIServiceImpl<RoleMapper, Role> implemen
     public boolean del(String roleId) {
         // 删除角色和角色相关的关系表
         roleUserService.delByRoleId(roleId);
-        adminRoleMenuService.delByRoleId(roleId);
+        roleMenuService.delByRoleId(roleId);
         // adminRoleAuthService.delByRoleId(roleId);
         return this.removeById(roleId);
     }

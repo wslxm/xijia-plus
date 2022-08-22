@@ -39,11 +39,11 @@ import java.util.stream.Collectors;
 public class MenuServiceImpl extends BaseIServiceImpl<MenuMapper, Menu> implements MenuService {
 
     @Autowired
-    private RoleMenuMapper adminRoleMenuMapper;
+    private RoleMenuMapper roleMenuMapper;
     @Autowired
-    private RoleService adminRoleService;
+    private RoleService roleService;
     @Autowired
-    private RoleMenuService adminRoleMenuService;
+    private RoleMenuService roleMenuService;
 
 
     @Override
@@ -62,7 +62,7 @@ public class MenuServiceImpl extends BaseIServiceImpl<MenuMapper, Menu> implemen
         List<MenuVO> menuVOList = baseMapper.list( loginUserId,disable);
 
         // 2、获取角色拥有的菜单id(没有角色id或没有 角色对应的菜单数据,创建空roleMenuIdList对象)
-        List<RoleMenu> userRoleMenus = roleId != null ? adminRoleMenuMapper.findRoleId(roleId) : new ArrayList<>();
+        List<RoleMenu> userRoleMenus = roleId != null ? roleMenuMapper.findRoleId(roleId) : new ArrayList<>();
         List<String> roleMenuIdList = !userRoleMenus.isEmpty() ? userRoleMenus.stream().map(RoleMenu::getMenuId).collect(Collectors.toList()) : new ArrayList<>();
 
         // 3、是否需要最后一级数据,false 不需要, 过滤最后一级数据
@@ -140,8 +140,8 @@ public class MenuServiceImpl extends BaseIServiceImpl<MenuMapper, Menu> implemen
         this.save(adminMenu);
 
         // 添加菜单给超管默认分配该菜单
-        Role sysRole = adminRoleService.findSysRole();
-        adminRoleMenuService.updRoleMenus(sysRole.getId(), CollUtil.newArrayList(adminMenu.getId()));
+        Role sysRole = roleService.findSysRole();
+        roleMenuService.updRoleMenus(sysRole.getId(), CollUtil.newArrayList(adminMenu.getId()));
         return adminMenu.getId();
     }
 
@@ -167,14 +167,14 @@ public class MenuServiceImpl extends BaseIServiceImpl<MenuMapper, Menu> implemen
         List<String> menuIds = menus.stream().map(BaseVo::getId).collect(Collectors.toList());
         this.removeByIds(menuIds);
         // 删除角色菜单关联数据
-        adminRoleMenuService.delBatchByMenuIds(menuIds);
+        roleMenuService.delBatchByMenuIds(menuIds);
         return menuIds;
     }
 
 
     @Override
     public List<MenuVO> findTree() {
-        List<RoleMenu> userRoleMenus = adminRoleMenuMapper.findByUserIdAndDisableFetchMenu(JwtUtil.getJwtUser(request).getUserId(), Base.Disable.V0.getValue());
+        List<RoleMenu> userRoleMenus = roleMenuMapper.findByUserIdAndDisableFetchMenu(JwtUtil.getJwtUser(request).getUserId(), Base.Disable.V0.getValue());
         if (userRoleMenus == null || userRoleMenus.isEmpty()) {
             throw new ErrorException(RType.USER_NO_MENU);
         }

@@ -36,7 +36,7 @@ public class SysAuth {
     private HttpServletResponse response;
 
     @Autowired
-    private ConfigService xjConfigService;
+    private ConfigService configService;
 
     /**
      * 默认放行token, 让swagger可以访问接口

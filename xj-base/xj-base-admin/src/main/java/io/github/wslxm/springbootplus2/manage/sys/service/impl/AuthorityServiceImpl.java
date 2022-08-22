@@ -49,9 +49,9 @@ public class AuthorityServiceImpl extends BaseIServiceImpl<AuthorityMapper, Auth
 //    @Autowired
 //    private RoleAuthService adminRoleAuthService;
     @Autowired
-    private RoleService adminRoleService;
+    private RoleService roleService;
     @Autowired
-    private AuthorityMapper adminAuthorityMapper;
+    private AuthorityMapper authorityMapper;
 
     /**
      * 顶级父id
@@ -80,7 +80,7 @@ public class AuthorityServiceImpl extends BaseIServiceImpl<AuthorityMapper, Auth
         authorityByUserIdQuery.setAsc(query.getAsc());
         authorityByUserIdQuery.setDesc(query.getDesc());
 
-        List<Authority> authoritys = adminAuthorityMapper.list(authorityByUserIdQuery);
+        List<Authority> authoritys = authorityMapper.list(authorityByUserIdQuery);
         List<AuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authoritys, AuthorityVO.class);
 
         // 2、根据角色控制数据是否有权限状态
@@ -303,7 +303,7 @@ public class AuthorityServiceImpl extends BaseIServiceImpl<AuthorityMapper, Auth
             // 添加权限
             this.saveBatch(addAuth, 1024);
             // 给所有角色分配新接口的权限
-//            List<Role> roles = adminRoleService.list();
+//            List<Role> roles = roleService.list();
 //            if (roles.size() > 0) {
 //                List<RoleAuth> addRoleAuth = new LinkedList<>();
 //                for (Role role : roles) {

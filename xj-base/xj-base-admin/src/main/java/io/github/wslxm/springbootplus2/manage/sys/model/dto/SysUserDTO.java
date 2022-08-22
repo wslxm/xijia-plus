@@ -18,8 +18,8 @@ import java.util.List;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "UserDTO", description = "用户表")
-public class UserDTO extends Convert {
+@ApiModel(value = "SysUserDTO", description = "用户表")
+public class SysUserDTO extends Convert {
 
     private static final long serialVersionUID = 4934650100711613453L;
 

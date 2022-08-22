@@ -19,8 +19,8 @@ import java.util.List;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "UserVO", description = "用户表")
-public class UserVO extends BaseVo {
+@ApiModel(value = "SysUserVO", description = "用户表")
+public class SysUserVO extends BaseVo {
 
     private static final long serialVersionUID = 4934650100711613453L;
     @ApiModelProperty(value = "头像")
@@ -56,7 +56,7 @@ public class UserVO extends BaseVo {
     @ApiModelProperty(value = "用户角色信息,id 查询存在/列表查询都返回(只返回id/name)")
     private List<RoleVO> roles;
     @ApiModelProperty(value = "公司/部门信息,存在下级关联数据")
-    private UserDepVO dep;
+    private SysUserDepVO dep;
     @ApiModelProperty(value = "扩展字段 1")
     private String ext1;
     @ApiModelProperty(value = "扩展字段 2")

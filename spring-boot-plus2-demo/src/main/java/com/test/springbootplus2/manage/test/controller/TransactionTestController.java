@@ -4,8 +4,8 @@ import io.github.wslxm.springbootplus2.core.config.threadpool.XjThreadUtil;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.core.utils.XjTransactionUtil;
-import io.github.wslxm.springbootplus2.manage.sys.model.entity.User;
-import io.github.wslxm.springbootplus2.manage.sys.service.UserService;
+import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
+import io.github.wslxm.springbootplus2.manage.sys.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ import java.util.List;
 public class TransactionTestController {
 
 	@Autowired
-	private UserService userService;
+	private SysUserService sysUserService;
 
 
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
@@ -42,7 +42,7 @@ public class TransactionTestController {
 		log.info("1、进入方法");
 
 		// 查询数据模拟
-		List<User> list = userService.list();
+		List<SysUser> list = sysUserService.list();
 
 		XjTransactionUtil.runOfAfterCommit(() -> {
 			log.info("3、我开始执行了");
