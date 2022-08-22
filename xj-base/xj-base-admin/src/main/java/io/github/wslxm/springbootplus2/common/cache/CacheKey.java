@@ -15,10 +15,6 @@ package io.github.wslxm.springbootplus2.common.cache;
 public interface CacheKey {
 
 	/**
-	 * 登录人接口权限 (根据 用户ID 缓存)
-	 */
-	// String LOGIN_AUTH_USER_ID = "LOGIN_AUTH_USER_ID";
-	/**
 	 * 接口权限数据 (全部)
 	 */
 	String AUTH_MAP_ALL = "AUTH_MAP_ALL";

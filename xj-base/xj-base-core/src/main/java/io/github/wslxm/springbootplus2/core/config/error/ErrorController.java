@@ -33,7 +33,6 @@ public class ErrorController {
     @ResponseBody
     public R<String> error(@PathVariable int code) {
         /// 根据状态值查询对应的枚举
-        // RType byCode = EnumUtil.getByCode(code, RType.class);
         return R.error(code, code + " error");
     }
 }

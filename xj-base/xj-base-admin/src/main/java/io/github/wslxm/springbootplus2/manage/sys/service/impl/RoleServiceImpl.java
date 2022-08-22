@@ -122,7 +122,6 @@ public class RoleServiceImpl extends BaseIServiceImpl<RoleMapper, Role> implemen
         // 删除角色和角色相关的关系表
         roleUserService.delByRoleId(roleId);
         roleMenuService.delByRoleId(roleId);
-        // adminRoleAuthService.delByRoleId(roleId);
         return this.removeById(roleId);
     }
 

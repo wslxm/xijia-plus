@@ -113,27 +113,5 @@ public class SysAuth {
         }
         // 不做任何处理
         return R.success(null);
-//        else if (adminAuthority.getState().equals(Base.AuthorityState.V2.getValue())) {
-//            /**
-//             *  2- 需登录+授权 (100% 管理端才会进入, 验证用户信息的权限列表中是否存在当前接口，存在放行，不存在拦截返回无权限访问)
-//             */
-//            R<JwtUser> result = JwtUtil.getJwtUserR(request, response);
-//            if (!result.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-//                // error
-//                return result;
-//            }
-//            JwtUser jwtUser = result.getData();
-//            // 判断是否验证权限
-//            ConfigVO xjConfig = XjCacheUtil.findConfigByCode(ConfigCacheKey.IS_AUTH);
-//            if (xjConfig != null && BooleanConstant.FALSE.equals(xjConfig.getContent())) {
-//                return R.success(jwtUser);
-//            }
-//            // 验证权限
-//            List<String> authList = XjCacheUtil.findAuthByUserId(jwtUser.getUserId());
-//            if (authList == null || !authList.contains(cacheKey)) {
-//                return R.error(RType.AUTHORITY_NO_PERMISSION);
-//            }
-//            return R.success(jwtUser);
-//        }
     }
 }
