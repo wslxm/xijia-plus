@@ -3,8 +3,8 @@ package io.github.wslxm.springbootplus2.manage.test.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.github.wslxm.springbootplus2.manage.test.model.entity.GcTest;
-import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
 import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
+import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public interface GcTestMapper extends BaseMapper<GcTest> {
     GcTestVO findId(String id);
 
     /**
-     *
+     * 列表查询
      * @param page
      * @param query
      * @return java.util.List<GcTestVO>

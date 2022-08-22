@@ -2,7 +2,7 @@ package com.test.springbootplus2.manage.test.controller;
 
 import com.test.springbootplus2.manage.test.model.dto.ValidDTO;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,7 +21,7 @@ public class TestValidContoller {
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
     @ApiOperation(value = "参数验签")
-    public R<Boolean> test(@RequestBody ValidDTO dto) {
+    public Result<Boolean> test(@RequestBody ValidDTO dto) {
 
         // 字符串判断
         ValidUtil.isNotNull(dto.getPhone(), "用户电话");
@@ -33,6 +33,6 @@ public class TestValidContoller {
         ValidUtil.isEmail(dto.getEmail(), "商家邮箱");
         ValidUtil.isIdCard(dto.getIdCard(), "商家身份证");
         ValidUtil.isChinese(dto.getName(), "商家名称");
-        return R.success(true);
+        return Result.success(true);
     }
 }

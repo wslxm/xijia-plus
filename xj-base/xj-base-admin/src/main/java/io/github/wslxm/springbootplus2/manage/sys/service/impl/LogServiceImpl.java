@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.LogMapper;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Log;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
  * @date 2020-10-28 20:44:32
  */
 @Service
-public class LogServiceImpl extends BaseIServiceImpl<LogMapper, Log> implements LogService {
+public class LogServiceImpl extends BaseServiceImpl<LogMapper, Log> implements LogService {
 
     @Override
     public IPage<LogVO> findPage(LogQuery query) {

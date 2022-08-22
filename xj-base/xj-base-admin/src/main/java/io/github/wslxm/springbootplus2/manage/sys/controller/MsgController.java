@@ -2,7 +2,7 @@ package io.github.wslxm.springbootplus2.manage.sys.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.MsgDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.MsgQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.MsgFindAllNumVO;
@@ -31,35 +31,35 @@ public class MsgController extends BaseController<MsgService> {
 
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public R<IPage<MsgVO>> findPage(@ModelAttribute @Validated MsgQuery query) {
-        return R.success(baseService.findPage(query));
+    public Result<IPage<MsgVO>> findPage(@ModelAttribute @Validated MsgQuery query) {
+        return Result.success(baseService.findPage(query));
     }
 
 
     @PostMapping
     @ApiOperation(value = "添加/发送消息")
-    public R<String> insert(@RequestBody @Validated MsgDTO dto) {
-        return R.success(baseService.insert(dto));
+    public Result<String> insert(@RequestBody @Validated MsgDTO dto) {
+        return Result.success(baseService.insert(dto));
     }
 
 
     @PutMapping(value = "/{id}/read")
     @ApiOperation(value = "消息修改为已读")
-    public R<Boolean> updRead(@PathVariable String id) {
-        return R.successUpdate(baseService.updRead(id));
+    public Result<Boolean> updRead(@PathVariable String id) {
+        return Result.successUpdate(baseService.updRead(id));
     }
 
 
     @ApiOperation(value = "查询未读数量(当前登录用户)")
     @GetMapping(value = "/findUnreadNum")
-    public R<Long> findUnreadNum() {
-        return R.successFind(baseService.findUnreadNum());
+    public Result<Long> findUnreadNum() {
+        return Result.successFind(baseService.findUnreadNum());
     }
 
 
     @ApiOperation(value = "查询全部/已读/未读数量(当前登录用户)")
     @GetMapping(value = "/findAllNum")
-    public R<MsgFindAllNumVO> findAllNum() {
-        return R.successFind(baseService.findAllNum());
+    public Result<MsgFindAllNumVO> findAllNum() {
+        return Result.successFind(baseService.findAllNum());
     }
 }

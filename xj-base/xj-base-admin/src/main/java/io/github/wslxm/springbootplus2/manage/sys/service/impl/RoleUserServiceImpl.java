@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.RoleUserMapper;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.RoleUser;
 import io.github.wslxm.springbootplus2.manage.sys.service.RoleUserService;
@@ -15,7 +15,7 @@ import java.util.List;
  * @author wangsong
  */
 @Service
-public class RoleUserServiceImpl extends BaseIServiceImpl<RoleUserMapper, RoleUser> implements RoleUserService {
+public class RoleUserServiceImpl extends BaseServiceImpl<RoleUserMapper, RoleUser> implements RoleUserService {
 
 
 	@Override

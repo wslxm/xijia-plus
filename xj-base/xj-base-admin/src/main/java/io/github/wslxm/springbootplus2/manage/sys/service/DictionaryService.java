@@ -118,6 +118,6 @@ public interface DictionaryService extends IService<Dictionary> {
      *
      * @return
      */
-    List<DictionaryVO> findListALL();
+    List<DictionaryVO> findListAll();
 
 }

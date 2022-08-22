@@ -2,7 +2,7 @@ package com.test.springbootplus2.manage.test.controller;
 
 import io.github.wslxm.springbootplus2.core.config.threadpool.XjThreadUtil;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.utils.XjTransactionUtil;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
 import io.github.wslxm.springbootplus2.manage.sys.service.SysUserService;
@@ -36,9 +36,8 @@ public class TransactionTestController {
 
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	@ApiOperation(value = "事务执行后执行测试")
-	// 添加事务注解
 	@Transactional(rollbackFor = Exception.class)
-	public R<Boolean> test() {
+	public Result<Boolean> test() {
 		log.info("1、进入方法");
 
 		// 查询数据模拟
@@ -51,6 +50,6 @@ public class TransactionTestController {
 		// 延时3秒
 		XjThreadUtil.sleep(3000);
 		log.info("2、方法执行完毕");
-		return R.success(true);
+		return Result.success(true);
 	}
 }

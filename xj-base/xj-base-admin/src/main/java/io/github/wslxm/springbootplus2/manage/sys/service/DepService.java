@@ -60,12 +60,13 @@ public interface DepService extends IService<Dep> {
 
     /**
      * 通过当前的部门/公司id获取层级数据（上/下当前级部门/公司信息）
-     *
-     * @return boolean
      * @author wangsong
-     * @date 2021/10/1 0001 10:33
-     * @version 1.0.1
+     * @param depVos
+     * @param depIds
+     * @date  2021/10/1 0001 10:33
+     * @return io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserDepVO
+     * @version 1.0.0
      */
-    public SysUserDepVO findNextDeps(List<DepVO>  depVOs, String depIds);
+    public SysUserDepVO findNextDeps(List<DepVO>  depVos, String depIds);
 }
 

@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2019/10/31 21:12
  */
 @Slf4j
-public class BaseIServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
+public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
 
     /**
      * 当前继承this类传递的Mapper 类 (提供Api操作，及Mapper.xml自定义sql)

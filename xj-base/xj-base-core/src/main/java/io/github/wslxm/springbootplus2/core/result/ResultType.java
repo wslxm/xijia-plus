@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public enum RType implements IEnum {
+public enum ResultType implements IEnum {
 
     // 系统相关 - 服务器内置状态码
     SYS_SUCCESS(200, "成功"),
@@ -80,7 +80,7 @@ public enum RType implements IEnum {
     private Integer value;
     private String msg;
 
-    RType(Integer value, String msg) {
+    ResultType(Integer value, String msg) {
         this.value = value;
         this.msg = msg;
     }

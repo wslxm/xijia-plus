@@ -2,9 +2,9 @@ package io.github.wslxm.springbootplus2.manage.gc.controller;
 
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.manage.gc.model.dto.GenerateDto;
-import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImpl;
+import io.github.wslxm.springbootplus2.manage.gc.service.impl.XjGenerationSeviceImplI;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class GenerateController extends BaseController {
 
 
     @Autowired
-    private XjGenerationSeviceImpl xjGenerationSeviceImpl;
+    private XjGenerationSeviceImplI xjGenerationSeviceImpl;
 
     /**
      * 预览代码生成 (查询预览代码，预览代码存放于File/code/src.... 目录下，前端可直接访问)
@@ -40,8 +40,8 @@ public class GenerateController extends BaseController {
      */
     @ApiOperation("生成预览代码")
     @RequestMapping(value = "/preview", method = RequestMethod.POST)
-    public R<Map<String, String>> preview(@RequestBody GenerateDto generateDto) {
-        return R.success(xjGenerationSeviceImpl.preview(generateDto));
+    public Result<Map<String, String>> preview(@RequestBody GenerateDto generateDto) {
+        return Result.success(xjGenerationSeviceImpl.preview(generateDto));
     }
 
 
@@ -54,8 +54,8 @@ public class GenerateController extends BaseController {
      */
     @ApiOperation("生成代码")
     @RequestMapping(value = "/generateCode", method = RequestMethod.POST)
-    public R<Map<String, String>> generateCode(@RequestBody GenerateDto generateDto) {
-        return R.success(xjGenerationSeviceImpl.generateCode(generateDto));
+    public Result<Map<String, String>> generateCode(@RequestBody GenerateDto generateDto) {
+        return Result.success(xjGenerationSeviceImpl.generateCode(generateDto));
     }
 
 
@@ -78,7 +78,7 @@ public class GenerateController extends BaseController {
      */
     @ApiOperation("代码生成路径")
     @RequestMapping(value = "/getPath", method = RequestMethod.GET)
-    public R<Map<String, String>> getPath(String tableName, String dataSourceId) {
-        return R.success(xjGenerationSeviceImpl.getPath(tableName, dataSourceId));
+    public Result<Map<String, String>> getPath(String tableName, String dataSourceId) {
+        return Result.success(xjGenerationSeviceImpl.getPath(tableName, dataSourceId));
     }
 }

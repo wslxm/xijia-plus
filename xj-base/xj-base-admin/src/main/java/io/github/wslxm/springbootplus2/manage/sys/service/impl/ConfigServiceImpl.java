@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.common.cache.CacheKey;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Base;
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.ConfigMapper;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.ConfigDTO;
@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
  * @date 2020-08-31 18:31:44
  */
 @Service
-public class ConfigServiceImpl extends BaseIServiceImpl<ConfigMapper, Config> implements ConfigService {
+public class ConfigServiceImpl extends BaseServiceImpl<ConfigMapper, Config> implements ConfigService {
 
     @Override
     public IPage<ConfigVO> findPage(ConfigQuery query) {
@@ -60,7 +60,7 @@ public class ConfigServiceImpl extends BaseIServiceImpl<ConfigMapper, Config> im
     public String insert(ConfigDTO dto) {
         // 判code重复
         if (this.count(new LambdaQueryWrapper<Config>().eq(Config::getCode, dto.getCode())) > 0) {
-            throw new ErrorException(RType.DICT_DUPLICATE);
+            throw new ErrorException(ResultType.DICT_DUPLICATE);
         }
         Config entity = dto.convert(Config.class);
         boolean b = this.save(entity);
@@ -73,7 +73,7 @@ public class ConfigServiceImpl extends BaseIServiceImpl<ConfigMapper, Config> im
         Config config = this.getById(id);
         if (!config.getCode().equals(dto.getCode())) {
             if (this.count(new LambdaQueryWrapper<Config>().eq(Config::getCode, dto.getCode())) > 0) {
-                throw new ErrorException(RType.DICT_DUPLICATE);
+                throw new ErrorException(ResultType.DICT_DUPLICATE);
             }
         }
         Config entity = dto.convert(Config.class);

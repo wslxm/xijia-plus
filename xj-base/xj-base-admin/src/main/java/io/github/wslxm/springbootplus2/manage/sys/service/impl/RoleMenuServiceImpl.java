@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.RoleMenuMapper;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.RoleMenu;
 import io.github.wslxm.springbootplus2.manage.sys.service.RoleMenuService;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author wangsong
  */
 @Service
-public class RoleMenuServiceImpl extends BaseIServiceImpl<RoleMenuMapper, RoleMenu> implements RoleMenuService {
+public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenuMapper, RoleMenu> implements RoleMenuService {
 
 
     @Override

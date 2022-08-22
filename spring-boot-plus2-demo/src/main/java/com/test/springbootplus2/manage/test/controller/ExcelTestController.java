@@ -4,8 +4,9 @@ import com.test.springbootplus2.manage.test.model.vo.ExcelTestVO;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.constant.NumberConstant;
+import io.github.wslxm.springbootplus2.core.result.Result;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.excel.ExcelUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,12 +31,12 @@ public class ExcelTestController extends BaseController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ApiOperation("解析excel数据")
-    public R<Object> upload(@RequestParam MultipartFile file) {
+    public Result<Object> upload(@RequestParam MultipartFile file) {
         try {
             List<Map<String, String>> maps = ExcelUtil.readExcel(file);
-            return R.success(maps);
+            return Result.success(maps);
         } catch (Exception e) {
-            throw new ErrorException(RType.PARAM_ANALYSIS_ERROR);
+            throw new ErrorException(ResultType.PARAM_ANALYSIS_ERROR);
         }
     }
 
@@ -43,18 +44,18 @@ public class ExcelTestController extends BaseController {
     @RequestMapping(value = "/exportExcelDownload", method = RequestMethod.GET)
     @ApiOperation("excel 导出")
     public void exportExcelDownload() {
-        List<ExcelTestVO> excelTestVOS = new ArrayList<>();
+        List<ExcelTestVO> excelTestVos = new ArrayList<>();
         ExcelTestVO vo = null;
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < NumberConstant.HUNDRED; i++) {
             vo = new ExcelTestVO();
             vo.setUserNo("xj-" + i);
             vo.setUsername("小-" + i);
             vo.setUserPhone("1762868" + i);
-            excelTestVOS.add(vo);
+            excelTestVos.add(vo);
         }
 
-        ExcelUtil.exportExcelDownload(excelTestVOS, response);
-        ExcelUtil.exportExcelDownload(excelTestVOS, 40, 25, false, false, true, response);
+        ExcelUtil.exportExcelDownload(excelTestVos, response);
+        ExcelUtil.exportExcelDownload(excelTestVos, 40, 25, false, false, true, response);
 
 
 

@@ -1,10 +1,10 @@
 package io.github.wslxm.springbootplus2.manage.sys.controller;
 
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.DepDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DepVO;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.DepQuery;
 import io.github.wslxm.springbootplus2.manage.sys.service.DepService;
 import io.swagger.annotations.Api;
@@ -31,25 +31,25 @@ public class DepController extends BaseController<DepService> {
 
     @GetMapping(value = "/list")
     @ApiOperation(value = "列表查询")
-    public R<List<DepVO>> list(@ModelAttribute @Validated DepQuery query) {
-        return R.success(baseService.list(query));
+    public Result<List<DepVO>> list(@ModelAttribute @Validated DepQuery query) {
+        return Result.success(baseService.list(query));
     }
 
     @PostMapping
     @ApiOperation(value = "添加")
-    public R<String> insert(@RequestBody @Validated DepDTO dto) {
-        return R.successInsert(baseService.insert(dto));
+    public Result<String> insert(@RequestBody @Validated DepDTO dto) {
+        return Result.successInsert(baseService.insert(dto));
     }
 
     @PutMapping(value = "/{id}")
     @ApiOperation(value = "ID编辑")
-    public R<Boolean> upd(@PathVariable String id, @RequestBody @Validated DepDTO dto) {
-        return R.successUpdate(baseService.upd(id, dto));
+    public Result<Boolean> upd(@PathVariable String id, @RequestBody @Validated DepDTO dto) {
+        return Result.successUpdate(baseService.upd(id, dto));
     }
 
     @DeleteMapping(value = "/{id}")
     @ApiOperation(value = "ID删除(并删除子数据)")
-    public R<Boolean> del(@PathVariable String id) {
-        return R.successDelete(baseService.del(id));
+    public Result<Boolean> del(@PathVariable String id) {
+        return Result.successDelete(baseService.del(id));
     }
 }

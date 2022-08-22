@@ -6,9 +6,16 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+/**
+  * excel测试对象
+  * @author wangsong
+  * @mail  1720696548@qq.com
+  * @date  2022/8/22 0022 20:52
+  * @version 1.0.0
+  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "ExcelTestVO ", description = "用户信息")
+@ApiModel(value = "ExcelTestVO ", description = "excel测试对象")
 public class ExcelTestVO {
 
     @ApiModelProperty(notes = "用户编号" ,position = 0)

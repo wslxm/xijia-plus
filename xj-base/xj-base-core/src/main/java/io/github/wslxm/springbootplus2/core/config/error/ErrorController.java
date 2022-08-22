@@ -1,8 +1,6 @@
 package io.github.wslxm.springbootplus2.core.config.error;
 
-import io.github.wslxm.springbootplus2.core.result.R;
-import io.github.wslxm.springbootplus2.core.result.RType;
-import io.github.wslxm.springbootplus2.core.utils.EnumUtil;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,8 +29,8 @@ public class ErrorController {
      */
     @RequestMapping(value = "/error/{code}")
     @ResponseBody
-    public R<String> error(@PathVariable int code) {
+    public Result<String> error(@PathVariable int code) {
         /// 根据状态值查询对应的枚举
-        return R.error(code, code + " error");
+        return Result.error(code, code + " error");
     }
 }

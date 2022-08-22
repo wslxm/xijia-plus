@@ -1,12 +1,12 @@
 package io.github.wslxm.springbootplus2.client.sys.controller;
 
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.DictionaryQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DictionaryCodeGroup;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DictionaryVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.DictionaryService;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -29,8 +29,8 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_CLIENT+ "/sys/dictionary")
-@Api(value = "UDictionaryController", tags = "yh--base--字典管理")
-public class UDictionaryController extends BaseController<DictionaryService> {
+@Api(value = "UdictionaryController", tags = "yh--base--字典管理")
+public class UdictionaryController extends BaseController<DictionaryService> {
 
 
     @RequestMapping(value = "/findCodeGroup", method = RequestMethod.GET)
@@ -41,8 +41,8 @@ public class UDictionaryController extends BaseController<DictionaryService> {
             "\r\n 5、不包括禁用数据" +
             "\r\n 建议: 打开首页时调用此方法,刷新缓存数据, 刷新首页时在此刷新缓存"
     )
-    public R<Map<String, DictionaryCodeGroup>> findCodeGroup() {
-        return R.successFind(baseService.findCodeGroup());
+    public Result<Map<String, DictionaryCodeGroup>> findCodeGroup() {
+        return Result.successFind(baseService.findCodeGroup());
     }
 
 
@@ -52,7 +52,7 @@ public class UDictionaryController extends BaseController<DictionaryService> {
             @ApiImplicitParam(name = "code", value = "父级code, 不传查询code，传递了只查询指定code下数据", required = false, paramType = "query"),
             @ApiImplicitParam(name = "isTree", value = "isTree 是否返回树结构数据 tree 是 false 否(返回过滤后的 list列表)", required = false, paramType = "query"),
     })
-    public R<List<DictionaryVO>> findByCode(@RequestParam(required = false) String code,
+    public Result<List<DictionaryVO>> findByCode(@RequestParam(required = false) String code,
                                                  @RequestParam(required = false) Boolean isTree) {
         DictionaryQuery query = new DictionaryQuery();
         query.setCode(code);
@@ -60,6 +60,6 @@ public class UDictionaryController extends BaseController<DictionaryService> {
         query.setIsDisable(false);
         query.setIsBottomLayer(false);
         List<DictionaryVO> dictVO = baseService.list(query);
-        return R.success(dictVO);
+        return Result.success(dictVO);
     }
 }

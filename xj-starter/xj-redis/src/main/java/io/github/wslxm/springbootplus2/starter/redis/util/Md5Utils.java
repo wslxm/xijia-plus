@@ -6,8 +6,12 @@ import org.slf4j.LoggerFactory;
 import java.security.MessageDigest;
 
 /**
- * Md5加密方法
- */
+  * Md5加密方法
+  * @author wangsong
+  * @mail  1720696548@qq.com
+  * @date  2022/8/22 0022 20:52
+  * @version 1.0.0
+  */
 public class Md5Utils
 {
 	private static final Logger log = LoggerFactory.getLogger(Md5Utils.class);

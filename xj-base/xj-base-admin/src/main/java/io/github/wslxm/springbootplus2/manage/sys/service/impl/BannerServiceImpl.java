@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.BannerMapper;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.BannerDTO;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
  * @date 2020-08-23 23:14:01
  */
 @Service
-public class BannerServiceImpl extends BaseIServiceImpl<BannerMapper, Banner> implements BannerService {
+public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, Banner> implements BannerService {
 
     @Override
     public IPage<BannerVO> findPage(BannerQuery query) {

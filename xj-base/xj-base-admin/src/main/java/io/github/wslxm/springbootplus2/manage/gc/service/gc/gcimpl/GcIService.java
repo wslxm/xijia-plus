@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gc.gcimpl;
 
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.service.gc.GcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @SuppressWarnings("all")
 @Component
-public class GcService extends BaseIServiceImpl implements GcSevice {
+public class GcIService extends BaseServiceImpl implements GcSevice {
 
     /**
      * 模板key

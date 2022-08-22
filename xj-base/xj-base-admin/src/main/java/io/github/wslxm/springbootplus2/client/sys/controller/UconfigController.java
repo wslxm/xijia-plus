@@ -4,7 +4,7 @@ import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.ConfigService;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,13 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_CLIENT+ "/sys/config")
-@Api(value = "ConfigController", tags = "yh--base-plus--全局配置")
-public class UConfigController extends BaseController<ConfigService> {
+@Api(value = "UconfigController", tags = "yh--base-plus--全局配置")
+public class UconfigController extends BaseController<ConfigService> {
 
 
     @GetMapping(value = "/findByCode")
     @ApiOperation(value = "CODE查询")
-    public R<ConfigVO> findByCode(@RequestParam String code) {
-        return R.successFind(baseService.findByCode(code));
+    public Result<ConfigVO> findByCode(@RequestParam String code) {
+        return Result.successFind(baseService.findByCode(code));
     }
 }

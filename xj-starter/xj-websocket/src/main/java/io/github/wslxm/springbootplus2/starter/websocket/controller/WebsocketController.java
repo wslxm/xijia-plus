@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  *  websocket类
@@ -42,6 +40,17 @@ public class WebsocketController {
 
     @Autowired
     private WebsocketService websocketService;
+
+
+    private final static String HTTPS = "https";
+    private static List<String> LOCALHOSTS = null;
+
+    public WebsocketController() {
+        LOCALHOSTS = new ArrayList<>();
+        LOCALHOSTS.add("127.0.0.1");
+        LOCALHOSTS.add("localhost");
+    }
+
 
     /**
      * websocket 端口号
@@ -73,17 +82,17 @@ public class WebsocketController {
         // 判断是https请求还是http,对应使用 ws 或 wss
         String serverPrefix = "ws://";
         String referer = request.getHeader("referer");
-        if (referer != null && !"".equals(referer) && "https".equals(referer.substring(0, 5))) {
+        if (referer != null && !"".equals(referer) && HTTPS.equals(referer.substring(0, HTTPS.length()))) {
             serverPrefix = "wss://";
         }
         // 如果是线上 (域名+socket地址+id+用户名)
         String path = serverPrefix + serverName + INTERFACE_NAME + "/" + userId + "/" + username;
         // 如果是本地 (ip + 端口 + socket地址 + id +用户名)
-        if ("127.0.0.1".equals(serverName) || "localhost".equals(serverName)) {
+        if (LOCALHOSTS.contains(serverName)) {
             path = serverPrefix + serverName + ":" + port + INTERFACE_NAME + "/" + userId + "/" + username;
         }
         // 返回参数
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(4);
         map.put("path", path);
         map.put("userId", userId);
         map.put("username", username);

@@ -41,7 +41,7 @@ public class GcFileUtil {
         // 获取路径并创建目录
         String pathFile = path.substring(0, path.lastIndexOf("/"));
         GcFileUtil.mkdirFile(pathFile);
-        Map<String, Object> brBw = new HashMap<>();
+        Map<String, Object> brBw = new HashMap<>(2);
         try {
             // 获取代码模版文件
             BufferedReader br = GcFileUtil.getUrlDetail(templatePath);

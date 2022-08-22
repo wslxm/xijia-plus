@@ -3,7 +3,7 @@ package io.github.wslxm.springbootplus2.manage.sys.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.RoleDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.RoleQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.RoleVO;
@@ -26,29 +26,29 @@ public class RoleController extends BaseController<RoleService> {
 
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public R<IPage<RoleVO>> findPage(@ModelAttribute RoleQuery query) {
-        return R.success(baseService.findPage(query));
+    public Result<IPage<RoleVO>> findPage(@ModelAttribute RoleQuery query) {
+        return Result.success(baseService.findPage(query));
     }
 
 
     @PostMapping
     @ApiOperation(value = "添加")
-    public R<String> insert(@RequestBody RoleDTO dto) {
-        return R.successInsert(baseService.insert(dto));
+    public Result<String> insert(@RequestBody RoleDTO dto) {
+        return Result.successInsert(baseService.insert(dto));
     }
 
 
     @PutMapping(value = "/{id}")
     @ApiOperation(value = "ID编辑")
-    public R<Boolean> upd(@PathVariable String id, @RequestBody RoleDTO dto) {
-        return R.successUpdate(baseService.upd(id, dto));
+    public Result<Boolean> upd(@PathVariable String id, @RequestBody RoleDTO dto) {
+        return Result.successUpdate(baseService.upd(id, dto));
     }
 
 
     @DeleteMapping(value = "/{id}")
     @ApiOperation(value = "ID删除")
-    public R<Boolean> del(@PathVariable String id) {
-        return R.successDelete(baseService.del(id));
+    public Result<Boolean> del(@PathVariable String id) {
+        return Result.successDelete(baseService.del(id));
     }
 
     //=========================================================================
@@ -58,13 +58,13 @@ public class RoleController extends BaseController<RoleService> {
 
 //    @PutMapping(value = "/updRoleAuth")
 //    @ApiOperation(value = "角色的URL权限分配")
-//    public R<Boolean> updRoleAuth(@RequestBody RoleAuthDTO dto) {
-//        return R.successUpdate(baseService.roleUrlAuth(dto));
+//    public Result<Boolean> updRoleAuth(@RequestBody RoleAuthDTO dto) {
+//        return Result.successUpdate(baseService.roleUrlAuth(dto));
 //    }
 
 //    @PutMapping(value = "/updRoleAuthAll")
 //    @ApiOperation(value = "所有角色拥有所有权限")
-//    public R<Boolean> updRoleAuthAll() {
-//        return R.successUpdate(baseService.roleAuthAll());
+//    public Result<Boolean> updRoleAuthAll() {
+//        return Result.successUpdate(baseService.roleAuthAll());
 //    }
 }

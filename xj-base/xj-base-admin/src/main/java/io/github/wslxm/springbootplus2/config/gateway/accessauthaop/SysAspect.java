@@ -4,8 +4,8 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth.*;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.core.config.error.GlobalExceptionHandler;
-import io.github.wslxm.springbootplus2.core.result.R;
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.result.Result;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -172,7 +172,7 @@ public class SysAspect {
         // 获取请求参数
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (sra == null) {
-            return R.error(RType.SYS_ERROR_CODE_500.getValue(), "ThreadLocal 获取当前线程数据失败");
+            return Result.error(ResultType.SYS_ERROR_CODE_500.getValue(), "ThreadLocal 获取当前线程数据失败");
         }
         HttpServletRequest request = sra.getRequest();
         String uri = request.getRequestURI();
@@ -190,32 +190,25 @@ public class SysAspect {
         Future<Log> future = executorService.submit(() -> sysLog.requestLogCollectAndPrint(proceed, request));
 
         // 3、限流
-        R rateLimiter = sysRateLimiter.run(proceed);
-        if (!rateLimiter.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+        Result rateLimiter = sysRateLimiter.run(proceed);
+        if (!rateLimiter.getCode().equals(ResultType.SYS_SUCCESS.getValue())) {
             // 7、记录响应结果
             sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, rateLimiter);
             return rateLimiter;
         }
 
-//        // 4、幂等验证
-//        R apiIdempotentR = sysIdempotent.run(proceed);
-//        if (!apiIdempotentR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-//            // 7、记录响应结果
-//            sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, apiIdempotentR);
-//            return apiIdempotentR;
-//        }
-
+        // 4、幂等验证
         // 5、黑/白名单认证
-        R blacklistR = sysBlacklist.blacklistAuth();
-        if (!blacklistR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+        Result blacklistR = sysBlacklist.blacklistAuth();
+        if (!blacklistR.getCode().equals(ResultType.SYS_SUCCESS.getValue())) {
             // 7、记录响应结果
             sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, blacklistR);
             return blacklistR;
         }
 
         // 6、登录授权认证
-        R<JwtUser> jwtUserR = sysAuth.loginAuth();
-        if (!jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+        Result<JwtUser> jwtUserR = sysAuth.loginAuth();
+        if (!jwtUserR.getCode().equals(ResultType.SYS_SUCCESS.getValue())) {
             // 7、记录响应结果
             sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, jwtUserR);
             return jwtUserR;
@@ -226,7 +219,7 @@ public class SysAspect {
         Object obj = null;
         try {
             // 6.1、请求核心参数解密
-            R<Object[]> rArgs = sysEncrypt.decrypt(proceed);
+            Result<Object[]> rArgs = sysEncrypt.decrypt(proceed);
             // 6.2、请求接口
             obj = proceed.proceed(rArgs.getData());
             // 6.3、响应核心参数加密

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 /**
- * SFunction
+ * Sfunction
  *
  * @author wangsong
  * @version 1.0.0
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @date 2019-09-25 12:57
  */
 @FunctionalInterface
-public interface SFunction<T> extends Serializable {
+public interface Sfunction<T> extends Serializable {
     /**
      * 获取 参数
      *

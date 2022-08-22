@@ -1,7 +1,7 @@
 //package io.github.wslxm.modules.third.base;
 //
-//import io.github.wslxm.common.result.R;
-//import io.github.wslxm.common.result.RType;
+//import io.github.wslxm.common.result.Result;
+//import io.github.wslxm.common.result.ResultType;
 //import io.github.wslxm.common.utils.FileUploadUtil;
 //import io.github.wslxm.enums.BaseConstant;
 //import io.github.wslxm.modules.sys.base.controller.BaseController;
@@ -44,7 +44,7 @@
 //     * @param file
 //     * @param filePath
 //     * @date 2020/12/24 0024 17:42
-//     * @return io.github.wslxm.common.result.R
+//     * @return io.github.wslxm.common.result.Result
 //     * @version 1.0.1
 //     */
 //    @RequestMapping(value = "/upload", method = RequestMethod.POST)//consumes = "multipart/*", headers = "content-type=multipart/form-data"
@@ -60,7 +60,7 @@
 //                    "任意文件=file/" + "\r\n" +
 //                    ")", required = true, example = "image/")
 //    })
-//    public R uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("filePath") String filePath) {
+//    public Result uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("filePath") String filePath) {
 //        // 接口名
 //        String interfaceName = request.getServletPath();
 //        // 文件名
@@ -88,9 +88,9 @@
 //            Files.copy(inputStream, directory.resolve(fileName));
 //            // 绝对路径
 //            String path = baseUrl + "/" + FILE_PATH + filePath + fileName;
-//            return R.success(path);
+//            return Result.success(path);
 //        } catch (Exception e) {
-//            return R.error(RType.FILE_UPLOAD_FAILED);
+//            return Result.error(ResultType.FILE_UPLOAD_FAILED);
 //        }
 //    }
 //
@@ -98,7 +98,7 @@
 //    @ApiOperation("单文件删除")
 //    @RequestMapping(value = "/deleteFile", method = RequestMethod.DELETE)
 //    @ApiImplicitParam(name = "filePath", value = "文件路径(相对路径||绝对路径), 如: File/image/1.jpg", required = true)
-//    public R deleteFile(String fileName) {
+//    public Result deleteFile(String fileName) {
 //        File file = new File(fileName);
 //        // 判断目录或文件是否存在
 //        boolean result = file.exists();
@@ -110,7 +110,7 @@
 //                file.delete();
 //            }
 //        }
-//        return R.success();
+//        return Result.success();
 //    }
 //
 //}

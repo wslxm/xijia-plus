@@ -3,7 +3,7 @@ package io.github.wslxm.springbootplus2.config.mybatisplus;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
-import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -50,8 +50,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 	 */
 	@Override
 	public void insertFill(MetaObject metaObject) {
-		R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, response);
-		if (jwtUserR.getCode().equals(R.success().getCode())) {
+		Result<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, response);
+		if (jwtUserR.getCode().equals(Result.success().getCode())) {
 			JwtUser jwtUser = jwtUserR.getData();
 			this.strictInsertFill(metaObject, "createUser", String.class, jwtUser.getUserId());
 			this.strictInsertFill(metaObject, "updateUser", String.class, jwtUser.getUserId());
@@ -69,8 +69,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 	 */
 	@Override
 	public void updateFill(MetaObject metaObject) {
-		R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, response);
-		if (jwtUserR.getCode().equals(R.success().getCode())) {
+		Result<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, response);
+		if (jwtUserR.getCode().equals(Result.success().getCode())) {
 			JwtUser jwtUser = jwtUserR.getData();
 			this.strictUpdateFill(metaObject, "updateUser", String.class, jwtUser.getUserId());
 		} else {

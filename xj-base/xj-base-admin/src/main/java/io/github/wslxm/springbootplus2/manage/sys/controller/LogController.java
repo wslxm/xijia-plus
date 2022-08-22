@@ -3,7 +3,7 @@ package io.github.wslxm.springbootplus2.manage.sys.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.LogQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.LogVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.LogService;
@@ -30,8 +30,8 @@ public class LogController extends BaseController<LogService> {
 
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "分页查询")
-    public R<IPage<LogVO>> findPage(@ModelAttribute @Validated LogQuery query) {
-        return R.success(baseService.findPage(query));
+    public Result<IPage<LogVO>> findPage(@ModelAttribute @Validated LogQuery query) {
+        return Result.success(baseService.findPage(query));
     }
 
 }

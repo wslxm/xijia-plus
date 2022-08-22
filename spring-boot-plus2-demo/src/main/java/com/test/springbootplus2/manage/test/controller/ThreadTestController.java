@@ -2,7 +2,8 @@ package com.test.springbootplus2.manage.test.controller;
 
 import io.github.wslxm.springbootplus2.core.config.threadpool.XjThreadUtil;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.constant.NumberConstant;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +25,13 @@ public class ThreadTestController {
 
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	@ApiOperation(value = "异步测试")
-	public R<Boolean> test() {
+	public Result<Boolean> test() {
 		XjThreadUtil.asyncExecute(() -> {
-			for (int i = 0; i < 100; i++) {
+			for (int i = 0; i < NumberConstant.HUNDRED; i++) {
 				XjThreadUtil.sleep(100L);
 				System.out.println("让我飞一会儿-" + i + 1);
 			}
 		});
-		return R.success(true);
+		return Result.success(true);
 	}
 }

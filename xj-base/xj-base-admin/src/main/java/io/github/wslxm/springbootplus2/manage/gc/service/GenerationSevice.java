@@ -53,8 +53,9 @@ public interface GenerationSevice {
     void generateCodeJavaAndVue(GenerateDto generateDto);
 
     /**
-     * 获取生成路径（服务端+layui）
+     * 获取生成路径（服务端+前端）
      *
+     * @param dataSourceId 数据源配置id
      * @param tableName tableName
      * @return java.util.Map<java.lang.String, java.lang.String>
      * @version 1.0.0

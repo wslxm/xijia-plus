@@ -2,8 +2,9 @@ package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
+import io.github.wslxm.springbootplus2.core.constant.NumberConstant;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.DepMapper;
@@ -32,7 +33,7 @@ import java.util.stream.Collectors;
  * @date 2021-09-30 16:10:57
  */
 @Service
-public class DepServiceImpl extends BaseIServiceImpl<DepMapper, Dep> implements DepService {
+public class DepServiceImpl extends BaseServiceImpl<DepMapper, Dep> implements DepService {
 
     /**
      * 顶级父Id 数据Id
@@ -125,35 +126,35 @@ public class DepServiceImpl extends BaseIServiceImpl<DepMapper, Dep> implements 
 
 
     @Override
-    public SysUserDepVO findNextDeps(List<DepVO> depVOs, String depIds) {
+    public SysUserDepVO findNextDeps(List<DepVO> depVos, String depIds) {
         if (StringUtils.isBlank(depIds)) {
             return null;
         }
-        if (depVOs == null || depVOs.size() == 0) {
+        if (depVos == null || depVos.size() == 0) {
             return null;
         }
-        List<SysUserDepVO> adminSysUserDepVOS = BeanDtoVoUtil.listVo(depVOs, SysUserDepVO.class);
+        List<SysUserDepVO> adminSysUserDepVos = BeanDtoVoUtil.listVo(depVos, SysUserDepVO.class);
         // 获取当前数据
-        Map<String, SysUserDepVO> adminSysUserDepVOMaps = adminSysUserDepVOS.stream()
+        Map<String, SysUserDepVO> adminSysUserDepVoMaps = adminSysUserDepVos.stream()
                 .collect(Collectors.toMap(SysUserDepVO::getId, p -> p));
         String[] depIdsArray = depIds.split(",");
         SysUserDepVO vo = null;
         StringBuilder depNames = new StringBuilder("");
         if (depIdsArray.length > 0) {
-            vo = BeanDtoVoUtil.convert(adminSysUserDepVOMaps.get(depIdsArray[0]), SysUserDepVO.class);
+            vo = BeanDtoVoUtil.convert(adminSysUserDepVoMaps.get(depIdsArray[0]), SysUserDepVO.class);
             if (vo != null) {
                 depNames.append(vo.getName());
             }
         }
         if (vo != null && depIdsArray.length > 1) {
-            SysUserDepVO voTwo = BeanDtoVoUtil.convert(adminSysUserDepVOMaps.get(depIdsArray[1]), SysUserDepVO.class);
+            SysUserDepVO voTwo = BeanDtoVoUtil.convert(adminSysUserDepVoMaps.get(depIdsArray[1]), SysUserDepVO.class);
             vo.setDep(voTwo);
             if (voTwo != null) {
                 depNames.append("/").append(voTwo.getName());
             }
         }
-        if (vo != null && vo.getDep() != null && depIdsArray.length > 2) {
-            SysUserDepVO voThree = BeanDtoVoUtil.convert(adminSysUserDepVOMaps.get(depIdsArray[2]), SysUserDepVO.class);
+        if (vo != null && vo.getDep() != null && depIdsArray.length > NumberConstant.TWO) {
+            SysUserDepVO voThree = BeanDtoVoUtil.convert(adminSysUserDepVoMaps.get(depIdsArray[2]), SysUserDepVO.class);
             vo.getDep().setDep(voThree);
             if (voThree != null) {
                 depNames.append("/").append(voThree.getName());

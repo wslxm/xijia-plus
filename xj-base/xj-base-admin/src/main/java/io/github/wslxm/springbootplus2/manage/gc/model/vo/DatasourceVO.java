@@ -57,7 +57,7 @@ public class DatasourceVO extends BaseVo {
 
     @ApiModelProperty(value = "子模块 (业务分类,如用户管理,订单管理模块拆分，也可以统一一个名称放在一起)", position = 11)
     private String modulesName;
-//
+
     @ApiModelProperty(value = "db 表前缀 (生成的类名会过滤掉前缀)", position = 13)
     private String dbTablePrefix;
 

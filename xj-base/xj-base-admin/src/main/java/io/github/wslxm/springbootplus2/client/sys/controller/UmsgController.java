@@ -1,12 +1,12 @@
 package io.github.wslxm.springbootplus2.client.sys.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.MsgQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.MsgVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.MsgService;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -24,27 +24,27 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_CLIENT+ "/sys/msg")
-@Api(value = "UMsgController", tags = "yh--base-plus--消息通知")
-public class UMsgController extends BaseController<MsgService> {
+@Api(value = "UmsgController", tags = "yh--base-plus--消息通知")
+public class UmsgController extends BaseController<MsgService> {
 
 
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "分页查询")
-    public R<IPage<MsgVO>> findPage(@ModelAttribute @Validated MsgQuery query) {
-        return R.successFind(baseService.findPage(query));
+    public Result<IPage<MsgVO>> findPage(@ModelAttribute @Validated MsgQuery query) {
+        return Result.successFind(baseService.findPage(query));
     }
 
 
     @PutMapping(value = "/{id}/read")
     @ApiOperation(value = "消息修改为已读")
-    public R<Boolean> updRead(@PathVariable String id) {
-        return R.successUpdate(baseService.updRead(id));
+    public Result<Boolean> updRead(@PathVariable String id) {
+        return Result.successUpdate(baseService.updRead(id));
     }
 
 
     @ApiOperation(value = "查询未读数量(当前登录用户)")
     @GetMapping(value = "/findUnreadNum")
-    public R<Long> findUnreadNum() {
-        return R.successFind(baseService.findUnreadNum());
+    public Result<Long> findUnreadNum() {
+        return Result.successFind(baseService.findUnreadNum());
     }
 }
