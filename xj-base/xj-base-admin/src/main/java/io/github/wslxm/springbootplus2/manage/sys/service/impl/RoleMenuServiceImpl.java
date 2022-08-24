@@ -16,6 +16,10 @@ import java.util.List;
 @Service
 public class RoleMenuServiceImpl extends BaseIServiceImpl<RoleMenuMapper, RoleMenu> implements RoleMenuService {
 
+    @Override
+    public boolean addRoleMenu(String roleId, String menuId) {
+        return this.save(new RoleMenu(roleId, menuId));
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)

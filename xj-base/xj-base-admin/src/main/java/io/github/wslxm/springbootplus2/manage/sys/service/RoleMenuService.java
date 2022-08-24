@@ -15,6 +15,14 @@ import java.util.List;
  */
 public interface RoleMenuService extends IService<RoleMenu> {
 
+    /**
+     * 增加角色的菜单
+     *
+     * @param roleId
+     * @param menuId
+     * @return boolean
+     */
+    boolean addRoleMenu(String roleId, String menuId);
 
     /**
      * 分配角色菜单
