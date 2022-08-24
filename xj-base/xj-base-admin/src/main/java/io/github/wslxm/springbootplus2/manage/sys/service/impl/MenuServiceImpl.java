@@ -1,6 +1,5 @@
 package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
@@ -141,7 +140,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implement
 
         // 添加菜单给超管默认分配该菜单
         Role sysRole = roleService.findSysRole();
-        roleMenuService.updRoleMenus(sysRole.getId(), CollUtil.newArrayList(adminMenu.getId()));
+        roleMenuService.addRoleMenu(sysRole.getId(), adminMenu.getId());
         return adminMenu.getId();
     }
 
