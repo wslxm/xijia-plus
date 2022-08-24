@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gc.gcimpl;
 
 import com.alibaba.fastjson.JSON;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.constant.FieldTypeConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @SuppressWarnings("all")
 @Component
-public class GcServiceImpl extends BaseIServiceImpl implements GcSevice {
+public class GcIServiceImpl extends BaseServiceImpl implements GcSevice {
 
     /**
      * 模板key

@@ -4,6 +4,13 @@ import io.github.wslxm.springbootplus2.starter.redis.lock.XjDistributedLock;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+/**
+ * redis 分布式锁 测试
+ * @author wangsong
+ * @mail 1720696548@qq.com
+ * @date 2022/8/22 0022 20:56
+ * @version 1.0.0
+ */
 @Service
 public class RedisService {
 

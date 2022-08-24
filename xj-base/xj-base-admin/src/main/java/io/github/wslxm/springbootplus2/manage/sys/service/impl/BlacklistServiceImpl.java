@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.common.cache.CacheKey;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.BlacklistMapper;
@@ -30,7 +30,7 @@ import java.util.List;
  * @date 2020-11-27 22:44:49
  */
 @Service
-public class BlacklistServiceImpl extends BaseIServiceImpl<BlacklistMapper, Blacklist> implements BlacklistService {
+public class BlacklistServiceImpl extends BaseServiceImpl<BlacklistMapper, Blacklist> implements BlacklistService {
 
     @Override
     public IPage<BlacklistVO> findPage(BlacklistQuery query) {

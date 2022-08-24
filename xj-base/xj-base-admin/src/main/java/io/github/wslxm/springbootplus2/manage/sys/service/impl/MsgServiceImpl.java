@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
@@ -38,7 +38,7 @@ import java.util.Map;
  * @date 2020-09-23 10:40:23
  */
 @Service
-public class MsgServiceImpl extends BaseIServiceImpl<MsgMapper, Msg> implements MsgService {
+public class MsgServiceImpl extends BaseServiceImpl<MsgMapper, Msg> implements MsgService {
 
     @Autowired
     private WebsocketService webSocketService;
@@ -91,7 +91,7 @@ public class MsgServiceImpl extends BaseIServiceImpl<MsgMapper, Msg> implements 
         }
 
         // 拼接发送json内容
-        Map<String, String> contentMap = new HashMap<>();
+        Map<String, String> contentMap = new HashMap<>(4);
         // 标题
         contentMap.put("title", msgTypeDict.getExt1());
         // 消息

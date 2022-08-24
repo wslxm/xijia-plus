@@ -2,8 +2,8 @@ package io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth;
 
 
 import io.github.wslxm.springbootplus2.common.annotation.XjSecret;
-import io.github.wslxm.springbootplus2.core.result.R;
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.result.Result;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.Base64Util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
@@ -42,16 +42,16 @@ public class SysEncrypt {
      * @return args
      * @throws Throwable
      */
-    public R<Object[]> decrypt(ProceedingJoinPoint pjp) {
+    public Result<Object[]> decrypt(ProceedingJoinPoint pjp) {
         // 是否开启解密
         if (!isEncrypt) {
-            return R.success(pjp.getArgs());
+            return Result.success(pjp.getArgs());
         }
         // 获取请求参数
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Object[] args = pjp.getArgs();
         if (args == null || args.length == 0 || args[0] == null) {
-            return R.success(args);
+            return Result.success(args);
         }
         // 获取方法上所有参数注解：返回的是一个二维数组Annotation[][],
         // 每个参数上可能有多个注解,是一个一维数组,多个参数又是一维数组,就组成了二维数组,所有我们在遍历的时候,第一次遍历拿到的数组下标就是方法参数的下标
@@ -71,7 +71,7 @@ public class SysEncrypt {
                 }
             }
         }
-        return R.success(args);
+        return Result.success(args);
     }
 
 
@@ -111,9 +111,9 @@ public class SysEncrypt {
      * @param type 1=加密 2=解密
      * @return
      */
-    public R<Object> decryptOrEncryptEntity(Object obj, Integer type) {
+    public Result<Object> decryptOrEncryptEntity(Object obj, Integer type) {
         if (obj == null) {
-            return R.success(obj);
+            return Result.success(obj);
         }
         Class<?> aClass = obj.getClass();
         Field[] declaredFields = aClass.getDeclaredFields();
@@ -142,7 +142,7 @@ public class SysEncrypt {
                         }
                     } catch (Exception e) {
                         log.error(name + ": 参数" + logMsg + "失败");
-                        return R.error(RType.PARAM_DECRYPTION_ERROR.getValue(), RType.PARAM_DECRYPTION_ERROR.getMsg(), obj, name + logMsg + ": 失败");
+                        return Result.error(ResultType.PARAM_DECRYPTION_ERROR.getValue(), ResultType.PARAM_DECRYPTION_ERROR.getMsg(), obj, name + logMsg + ": 失败");
                         /// e.printStackTrace();
                     }
                 } else {
@@ -155,13 +155,13 @@ public class SysEncrypt {
                         }
                     } catch (Exception e) {
                         log.error(name + ": 参数" + logMsg + "失败");
-                        return R.error(RType.PARAM_DECRYPTION_ERROR.getValue(), RType.PARAM_DECRYPTION_ERROR.getMsg(), obj, name + logMsg + ": 失败");
+                        return Result.error(ResultType.PARAM_DECRYPTION_ERROR.getValue(), ResultType.PARAM_DECRYPTION_ERROR.getMsg(), obj, name + logMsg + ": 失败");
                         /// e.printStackTrace();
                     }
                 }
             }
         }
-        return R.success(obj);
+        return Result.success(obj);
     }
 
 
@@ -179,13 +179,13 @@ public class SysEncrypt {
         if (!isEncrypt) {
             return obj;
         }
-        R<Object> r = null;
+        Result<Object> r = null;
         try {
-            r = (R<Object>) obj;
+            r = (Result<Object>) obj;
         } catch (Exception e) {
             return obj;
         }
-        R<Object> objectR = decryptOrEncryptEntity(r.getData(), 1);
+        Result<Object> objectR = decryptOrEncryptEntity(r.getData(), 1);
         objectR.setMsg(r.getMsg());
         return objectR;
     }

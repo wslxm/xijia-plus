@@ -2,7 +2,7 @@ package io.github.wslxm.springbootplus2.manage.sys.controller;
 
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.DictionaryDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.DictionaryQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DictionaryCodeGroup;
@@ -31,28 +31,28 @@ public class DictionaryController extends BaseController<DictionaryService> {
 
     @GetMapping(value = "/list")
     @ApiOperation(value = "列表查询 (默认返回Tree数据,可指定Tree或List)", notes = "不能传递字符串数字Code查询")
-    public R<List<DictionaryVO>> list(@ModelAttribute DictionaryQuery query) {
-        return R.success(baseService.list(query));
+    public Result<List<DictionaryVO>> list(@ModelAttribute DictionaryQuery query) {
+        return Result.success(baseService.list(query));
     }
 
     @PostMapping
     @ApiOperation(value = "添加", notes = "字符串类型的 Code不能重复,  数字类型的Code可以重复")
-    public R<String> insert(@RequestBody DictionaryDTO dto) {
-        return R.successInsert(baseService.insert(dto));
+    public Result<String> insert(@RequestBody DictionaryDTO dto) {
+        return Result.successInsert(baseService.insert(dto));
     }
 
 
     @PutMapping(value = "/{id}")
     @ApiOperation(value = "编辑", notes = "编辑后当前字典的字符串Code不能与其他字典的字符串Code重复， 不编辑Code时 + 编辑数字类型的Code时 不受影响")
-    public R<Boolean> upd(@PathVariable String id, @RequestBody DictionaryDTO dto) {
-        return R.successUpdate(baseService.upd(id, dto));
+    public Result<Boolean> upd(@PathVariable String id, @RequestBody DictionaryDTO dto) {
+        return Result.successUpdate(baseService.upd(id, dto));
     }
 
 
     @DeleteMapping(value = "/{id}")
     @ApiOperation(value = "ID删除", notes = "删除当前ID数据以及该ID下的所有子层级数据")
-    public R<Boolean> del(@PathVariable String id) {
-        return R.successDelete(baseService.del(id));
+    public Result<Boolean> del(@PathVariable String id) {
+        return Result.successDelete(baseService.del(id));
     }
 
 
@@ -63,15 +63,15 @@ public class DictionaryController extends BaseController<DictionaryService> {
             "\r\n 4、不包括禁用数据" +
             "\r\n 建议: 打开首页时调用此方法,刷新缓存数据, 刷新首页时在此刷新缓存"
     )
-    public R<Map<String, DictionaryCodeGroup>> findCodeGroup() {
-        return R.successFind(baseService.findCodeGroup());
+    public Result<Map<String, DictionaryCodeGroup>> findCodeGroup() {
+        return Result.successFind(baseService.findCodeGroup());
     }
 
 
     @GetMapping(value = "/list/category")
     @ApiOperation(value = "获取类别(级联数据)", notes = "不传查顶级数据, 传了code查指定code的下一级数据")
-    public R<List<DictionaryVO>> listCategory(@RequestParam(required = false) String code) {
-        return R.success(baseService.findDictCategory(code));
+    public Result<List<DictionaryVO>> listCategory(@RequestParam(required = false) String code) {
+        return Result.success(baseService.findDictCategory(code));
     }
 
 
@@ -81,7 +81,7 @@ public class DictionaryController extends BaseController<DictionaryService> {
             "2、排序数字越小,越靠前\r\n" +
             "3、返回参数Map<String, String> ==>  map.java = 完整的java枚举字段  map.js = 代码枚举字典key,  前端直接通过key获取对应值\r\n" +
             "")
-    public R<Map<String, String>> generateEnum(String enumsKey) {
-        return R.success(baseService.generateEnum(enumsKey));
+    public Result<Map<String, String>> generateEnum(String enumsKey) {
+        return Result.success(baseService.generateEnum(enumsKey));
     }
 }

@@ -8,10 +8,10 @@ import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.common.auth.util.Md5Util;
 import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Base;
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
  * @author wangsong
  */
 @Service
-public class SysUserServiceImpl extends BaseIServiceImpl<SysUserMapper, SysUser> implements SysUserService {
+public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     @Autowired
     private RoleUserService roleUserService;
@@ -148,7 +148,7 @@ public class SysUserServiceImpl extends BaseIServiceImpl<SysUserMapper, SysUser>
         query.setId(id);
         IPage<SysUserVO> list = this.findPage(query);
         if (list.getRecords().size() == 0) {
-            throw new ErrorException(RType.PARAM_ERROR.getValue(), RType.PARAM_ERROR.getMsg() + ":id");
+            throw new ErrorException(ResultType.PARAM_ERROR.getValue(), ResultType.PARAM_ERROR.getMsg() + ":id");
         }
         SysUserVO userVO = list.getRecords().get(0);
 
@@ -222,7 +222,7 @@ public class SysUserServiceImpl extends BaseIServiceImpl<SysUserMapper, SysUser>
     public Boolean updByPassword(String oldPassword, String password) {
         SysUser adminUser = this.getById(JwtUtil.getJwtUser(request).getUserId());
         if (!adminUser.getPassword().equals(Md5Util.encode(oldPassword, adminUser.getId()))) {
-            throw new ErrorException(RType.USER_PASSWORD_ERROR);
+            throw new ErrorException(ResultType.USER_PASSWORD_ERROR);
         }
         adminUser.setPassword(Md5Util.encode(password, adminUser.getId()));
         return this.updateById(adminUser);
@@ -247,16 +247,16 @@ public class SysUserServiceImpl extends BaseIServiceImpl<SysUserMapper, SysUser>
         );
 
         if (users.isEmpty()) {
-            throw new ErrorException(RType.LOGIN_IS_NO_ACCOUNT);
+            throw new ErrorException(ResultType.LOGIN_IS_NO_ACCOUNT);
         }
         SysUser user = users.get(0);
         // 2、判断密码
         if (!user.getPassword().equals(Md5Util.encode(password, user.getId()))) {
-            throw new ErrorException(RType.LOGIN_ERROR_USER_PASSWORD);
+            throw new ErrorException(ResultType.LOGIN_ERROR_USER_PASSWORD);
         }
         // 3、判断禁用
         if (!user.getDisable().equals(Base.Disable.V0.getValue())) {
-            throw new ErrorException(RType.LOGIN_IS_NO_DISABLE);
+            throw new ErrorException(ResultType.LOGIN_IS_NO_DISABLE);
         }
         return user;
     }
@@ -279,7 +279,7 @@ public class SysUserServiceImpl extends BaseIServiceImpl<SysUserMapper, SysUser>
                         .eq(SysUser::getUsername, username)
                         .eq(SysUser::getDeleted, Base.Deleted.V0.getValue())
                 ) > 0) {
-                    throw new ErrorException(RType.USER_ACCOUNT_IS_DUPLICATE);
+                    throw new ErrorException(ResultType.USER_ACCOUNT_IS_DUPLICATE);
                 }
             }
         }
@@ -304,7 +304,7 @@ public class SysUserServiceImpl extends BaseIServiceImpl<SysUserMapper, SysUser>
                         .eq(SysUser::getPhone, phone)
                         .eq(SysUser::getDeleted, Base.Deleted.V0.getValue())
                 ) > 0) {
-                    throw new ErrorException(RType.USER_PHONE_IS_DUPLICATE);
+                    throw new ErrorException(ResultType.USER_PHONE_IS_DUPLICATE);
                 }
             }
         }

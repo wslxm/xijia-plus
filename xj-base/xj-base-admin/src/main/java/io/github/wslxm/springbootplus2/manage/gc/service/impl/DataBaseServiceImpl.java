@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.Base64Util;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateProperties;
 import io.github.wslxm.springbootplus2.manage.gc.mapper.DataBaseMapper;
@@ -32,7 +32,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class DataBaseServiceImpl extends BaseIServiceImpl implements DataBaseService {
+public class DataBaseServiceImpl extends BaseServiceImpl implements DataBaseService {
 
     @Value("${spring.datasource.url}")
     private String dbUrl;

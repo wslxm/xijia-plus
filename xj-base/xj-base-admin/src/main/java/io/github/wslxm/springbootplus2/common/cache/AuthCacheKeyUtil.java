@@ -17,7 +17,7 @@ public class AuthCacheKeyUtil {
 
 
     /**
-     * 获取缓存key（缓存数据库数据）
+     * 获取缓存key（接口扫码缓存数据库数据）
      * <P>
      *     项目启动或更新url权限时, 需要把url 当key进行缓存,用于权限认证, 由于path参数是动态参数, 把所有 path 的参数转为 $ 符号在进行缓存
      * </P>
@@ -28,11 +28,11 @@ public class AuthCacheKeyUtil {
      * @return java.lang.String
      * @version 1.0.1
      */
-    public static String getCacheKey(String method, String url) {
-        String[] urlArr = url.split("/");
+    public static String getCacheKey(String method, String uri) {
+        String[] uriArr = uri.split("/");
         StringBuffer urlStr = new StringBuffer();
-        for (int i = 0; i < urlArr.length; i++) {
-            String urlParam = urlArr[i];
+        for (int i = 0; i < uriArr.length; i++) {
+            String urlParam = uriArr[i];
             if (StringUtils.isNotBlank(urlParam)) {
                 urlStr.append("{".equals(urlParam.substring(0, 1)) ? "/$" : "/" + urlParam);
             }
@@ -53,11 +53,11 @@ public class AuthCacheKeyUtil {
      * @return java.lang.String
      * @version 1.0.1
      */
-    public static String getAuthCacheKey(String method, String url) {
-        String[] urlArr = url.split("/");
+    public static String getAuthCacheKey(String method, String uri) {
+        String[] uriArr = uri.split("/");
         StringBuffer urlStr = new StringBuffer();
-        for (int i = 0; i < urlArr.length; i++) {
-            String urlParam = urlArr[i];
+        for (int i = 0; i < uriArr.length; i++) {
+            String urlParam = uriArr[i];
             if (StringUtils.isNotBlank(urlParam)) {
                 urlStr.append(StringUtil.isInteger(urlParam) ? "/$" : "/" + urlParam);
             }

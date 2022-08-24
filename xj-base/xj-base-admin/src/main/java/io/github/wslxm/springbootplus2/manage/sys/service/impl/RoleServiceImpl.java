@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.RoleMapper;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.RoleDTO;
@@ -13,7 +13,6 @@ import io.github.wslxm.springbootplus2.manage.sys.model.entity.Role;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.RoleUser;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.RoleQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.RoleVO;
-import io.github.wslxm.springbootplus2.manage.sys.service.AuthorityService;
 import io.github.wslxm.springbootplus2.manage.sys.service.RoleMenuService;
 import io.github.wslxm.springbootplus2.manage.sys.service.RoleService;
 import io.github.wslxm.springbootplus2.manage.sys.service.RoleUserService;
@@ -29,7 +28,7 @@ import java.util.stream.Collectors;
  * @author wangsong
  */
 @Service
-public class RoleServiceImpl extends BaseIServiceImpl<RoleMapper, Role> implements RoleService {
+public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implements RoleService {
 
     /**
      * 超级管理员角色 code（勿修改）
@@ -122,7 +121,6 @@ public class RoleServiceImpl extends BaseIServiceImpl<RoleMapper, Role> implemen
         // 删除角色和角色相关的关系表
         roleUserService.delByRoleId(roleId);
         roleMenuService.delByRoleId(roleId);
-        // adminRoleAuthService.delByRoleId(roleId);
         return this.removeById(roleId);
     }
 

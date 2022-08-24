@@ -51,7 +51,9 @@ public class SpelUtil {
 
     private static final String REACTIVE_APPLICATION_CONTEXT_CLASS = "org.springframework.boot.web.reactive.context.ReactiveWebApplicationContext";
 
-    // 参数分割
+    /**
+     * 参数分割
+     */
     private static final String CACHE_KEY_SEPARATOR_COLON = ":";
 
     static WebApplicationType deduceFromClasspath() {

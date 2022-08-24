@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.core.utils.validated;
 
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -21,7 +21,7 @@ public class ValidUtil {
      */
     public static void isTrue(boolean expression, String errorMsg) {
         if (expression) {
-            throw new ErrorException(RType.PARAM_ERROR.getValue(), errorMsg);
+            throw new ErrorException(ResultType.PARAM_ERROR.getValue(), errorMsg);
         }
     }
 
@@ -31,7 +31,7 @@ public class ValidUtil {
      */
     public static void isNotNull(Object obj, String errorMsg) {
         if (obj == null) {
-            throw new ErrorException(RType.PARAM_MISSING.getValue(), errorMsg);
+            throw new ErrorException(ResultType.PARAM_MISSING.getValue(), errorMsg);
         }
     }
 
@@ -40,7 +40,7 @@ public class ValidUtil {
      */
     public static void isNotBlank(String str, String errorMsg) {
         if (StringUtils.isBlank(str)) {
-            throw new ErrorException(RType.PARAM_MISSING.getValue(), errorMsg);
+            throw new ErrorException(ResultType.PARAM_MISSING.getValue(), errorMsg);
         }
     }
 
@@ -56,7 +56,7 @@ public class ValidUtil {
         isNotBlank(str, errorMsg);
         boolean reg = (str.length() >= min && str.length() <= max);
         if (!reg) {
-            throw new ErrorException(RType.PARAM_ERROR.getValue(), errorMsg);
+            throw new ErrorException(ResultType.PARAM_ERROR.getValue(), errorMsg);
         }
     }
 
@@ -70,7 +70,7 @@ public class ValidUtil {
     public static void isPhone(String mobile, String errorMsg) {
         isNotBlank(mobile, errorMsg);
         if (!RegUtil.isPhone(mobile)) {
-            throw new ErrorException(RType.PARAM_ERROR.getValue(), errorMsg);
+            throw new ErrorException(ResultType.PARAM_ERROR.getValue(), errorMsg);
         }
     }
 
@@ -80,7 +80,7 @@ public class ValidUtil {
     public static void isEmail(String email, String errorMsg) {
         isNotBlank(email, errorMsg);
         if (!RegUtil.isEmail(email)) {
-            throw new ErrorException(RType.PARAM_ERROR.getValue(), errorMsg);
+            throw new ErrorException(ResultType.PARAM_ERROR.getValue(), errorMsg);
         }
     }
 
@@ -91,7 +91,7 @@ public class ValidUtil {
     public static void isIdCard(String idCard, String errorMsg) {
         isNotBlank(idCard, errorMsg);
         if (!RegUtil.isIDCard(idCard)) {
-            throw new ErrorException(RType.PARAM_ERROR.getValue(), errorMsg + ":" + RegUtil.ID_CARD_MSG);
+            throw new ErrorException(ResultType.PARAM_ERROR.getValue(), errorMsg + ":" + RegUtil.ID_CARD_MSG);
         }
     }
 
@@ -108,7 +108,7 @@ public class ValidUtil {
     public static void isChinese(String chinese, String paramName) {
         isNotBlank(chinese, paramName);
         if (!RegUtil.isChinese(chinese)) {
-            throw new ErrorException(RType.PARAM_ERROR.getValue(), paramName + RegUtil.CHINESE_MSG);
+            throw new ErrorException(ResultType.PARAM_ERROR.getValue(), paramName + RegUtil.CHINESE_MSG);
         }
     }
 }

@@ -6,8 +6,8 @@ import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.common.cache.AuthCacheKeyUtil;
 import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.enums.Base;
-import io.github.wslxm.springbootplus2.core.result.R;
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.result.Result;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Authority;
 import io.github.wslxm.springbootplus2.manage.sys.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
@@ -69,29 +69,29 @@ public class SysAuth {
      *       - 如果登录过期或无接口权限,返回对应的错误信息，会直接返回到前端
      * </>
      */
-    public R<JwtUser> loginAuth() {
+    public Result<JwtUser> loginAuth() {
         // 1、是否为绝对放行接口,是直接放行
         String uri = request.getRequestURI();
         if (URIS.contains(uri)) {
-            return R.success(null);
+            return Result.success(null);
         }
         // 2、是否被权限管理, 没有直接放行
         Map<String, Authority> authMap = XjCacheUtil.findAuthAllToMap();
         String cacheKey = AuthCacheKeyUtil.getAuthCacheKey(request.getMethod(), request.getRequestURI());
         if (!authMap.containsKey(cacheKey)) {
-            return R.success(null);
+            return Result.success(null);
         }
         // 3、接口是否禁用，是直接返回禁用信息
         Authority adminAuthority = authMap.get(cacheKey);
         if (adminAuthority.getDisable().equals(Base.Disable.V1.getValue())) {
             //禁用
-            return R.error(RType.AUTHORITY_DISABLE);
+            return Result.error(ResultType.AUTHORITY_DISABLE);
         }
         // 请求同TOKEN值当为token 时直接放行
         String defaultValues = tokenDefaultValue.split("\\|")[0].trim();
         String headerTokenDefault = request.getHeader(JwtUtil.TOKEN);
         if (defaultValues.equals(headerTokenDefault)) {
-            return R.success(null);
+            return Result.success(null);
         }
 
         // 4、登录/授权验证
@@ -99,41 +99,19 @@ public class SysAuth {
             /**
              *  0- 无需登录 (不做任何处理)
              */
-            return R.success(null);
+            return Result.success(null);
         } else if (adminAuthority.getState().equals(Base.AuthorityState.V1.getValue())) {
             /**
              *  1- 需登录 (能获取用户信息jwtUser 即成功)
              */
-            R<JwtUser> result = JwtUtil.getJwtUserR(request, response);
-            if (!result.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+            Result<JwtUser> result = JwtUtil.getJwtUserR(request, response);
+            if (!result.getCode().equals(ResultType.SYS_SUCCESS.getValue())) {
                 // error
                 return result;
             }
-            return R.success(result.getData());
+            return Result.success(result.getData());
         }
         // 不做任何处理
-        return R.success(null);
-//        else if (adminAuthority.getState().equals(Base.AuthorityState.V2.getValue())) {
-//            /**
-//             *  2- 需登录+授权 (100% 管理端才会进入, 验证用户信息的权限列表中是否存在当前接口，存在放行，不存在拦截返回无权限访问)
-//             */
-//            R<JwtUser> result = JwtUtil.getJwtUserR(request, response);
-//            if (!result.getCode().equals(RType.SYS_SUCCESS.getValue())) {
-//                // error
-//                return result;
-//            }
-//            JwtUser jwtUser = result.getData();
-//            // 判断是否验证权限
-//            ConfigVO xjConfig = XjCacheUtil.findConfigByCode(ConfigCacheKey.IS_AUTH);
-//            if (xjConfig != null && BooleanConstant.FALSE.equals(xjConfig.getContent())) {
-//                return R.success(jwtUser);
-//            }
-//            // 验证权限
-//            List<String> authList = XjCacheUtil.findAuthByUserId(jwtUser.getUserId());
-//            if (authList == null || !authList.contains(cacheKey)) {
-//                return R.error(RType.AUTHORITY_NO_PERMISSION);
-//            }
-//            return R.success(jwtUser);
-//        }
+        return Result.success(null);
     }
 }

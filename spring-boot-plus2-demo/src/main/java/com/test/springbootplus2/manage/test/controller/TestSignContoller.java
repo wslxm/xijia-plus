@@ -6,7 +6,7 @@ import com.test.springbootplus2.manage.test.model.dto.SignDto;
 import com.test.springbootplus2.manage.test.model.vo.EncryptVO;
 import io.github.wslxm.springbootplus2.common.annotation.XjSecret;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +25,9 @@ public class TestSignContoller {
 
     @RequestMapping(value = "/test8", method = RequestMethod.POST)
     @ApiOperation(value = "参数验签")
-    public R<Boolean> test8(@RequestBody Page<SignDto> dto) {
+    public Result<Boolean> test8(@RequestBody Page<SignDto> dto) {
         System.out.println("成功执行");
-        return R.success(true);
+        return Result.success(true);
     }
 
 
@@ -39,9 +39,9 @@ public class TestSignContoller {
      */
     @RequestMapping(value = "/test1", method = RequestMethod.POST)
     @ApiOperation(value = "参数验签")
-    public R<Boolean> test1(@RequestBody(required = false) List<SignDto> dto) {
+    public Result<Boolean> test1(@RequestBody(required = false) List<SignDto> dto) {
         System.out.println("成功执行");
-        return R.success(true);
+        return Result.success(true);
     }
 
 
@@ -53,7 +53,7 @@ public class TestSignContoller {
      */
     @RequestMapping(value = "/test2", method = RequestMethod.POST)
     @ApiOperation(value = "参数加密")
-    public R<EncryptVO> test2(@RequestBody @Valid EncryptDTO dto) {
+    public Result<EncryptVO> test2(@RequestBody @Valid EncryptDTO dto) {
         System.out.println("获取参数" + dto.toString());
         //二级对象
         EncryptVO nextEncryptVO = new EncryptVO();
@@ -70,7 +70,7 @@ public class TestSignContoller {
         //加入二级数据
         encryptVO.setEncrypt(nextEncryptVO);
         encryptVO.setEncrypts(nextEncryptListVO);
-        return R.success(encryptVO);
+        return Result.success(encryptVO);
     }
 
     /**
@@ -81,8 +81,8 @@ public class TestSignContoller {
      */
     @RequestMapping(value = "/test3/{a}", method = RequestMethod.POST)
     @ApiOperation(value = "参数加密")
-    public R<Boolean> test3(@PathVariable @XjSecret String a, @RequestHeader @XjSecret String b) {
+    public Result<Boolean> test3(@PathVariable @XjSecret String a, @RequestHeader @XjSecret String b) {
         System.out.println("成功执行");
-        return R.success(true);
+        return Result.success(true);
     }
 }

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.gc.mapper.DatasourceMapper;
 import io.github.wslxm.springbootplus2.manage.gc.model.entity.Datasource;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
  * @date  2020-11-04 20:11:08
  */
 @Service
-public class DatasourceServiceImpl extends BaseIServiceImpl<DatasourceMapper, Datasource> implements DatasourceService {
+public class DatasourceServiceImpl extends BaseServiceImpl<DatasourceMapper, Datasource> implements DatasourceService {
 
 
     @Override

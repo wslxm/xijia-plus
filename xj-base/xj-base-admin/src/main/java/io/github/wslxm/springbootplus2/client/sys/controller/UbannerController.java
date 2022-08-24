@@ -3,7 +3,7 @@ package io.github.wslxm.springbootplus2.client.sys.controller;
 import io.github.wslxm.springbootplus2.common.annotation.XjCurrentLimit;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.BannerQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.BannerVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.BannerService;
@@ -29,16 +29,16 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_CLIENT+ "/sys/banner")
-@Api(value = "UBannerController", tags = "yh--base-plus--banner")
-public class UBannerController extends BaseController<BannerService> {
+@Api(value = "UbannerController", tags = "yh--base-plus--banner")
+public class UbannerController extends BaseController<BannerService> {
 
     @GetMapping(value = "/list/{position}")
     @ApiOperation(value = "列表-位置查询")
     @ApiImplicitParam(name = "position", value = "位置(字典code)", required = true, paramType = "path", example = "")
     @XjCurrentLimit(qbs = 200)
-    public R<List<BannerVO>> list(@PathVariable Integer position) {
+    public Result<List<BannerVO>> list(@PathVariable Integer position) {
         BannerQuery query = new BannerQuery();
         query.setPosition(position);
-        return R.successFind(baseService.findPage(query).getRecords());
+        return Result.successFind(baseService.findPage(query).getRecords());
     }
 }

@@ -98,11 +98,6 @@ public class RedisConfig extends CachingConfigurerSupport {
      */
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
-//		if (!RedisUtil.isRedis()) {
-//			// 缓存注解 使用 spring 缓存
-//			log.info("已启用 spring 本地缓存");
-//			return new ConcurrentMapCacheManager();
-//		} else {
         // 缓存注解 使用 redis 缓存
         RedisSerializer<String> redisSerializer = new StringRedisSerializer();
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
@@ -131,11 +126,6 @@ public class RedisConfig extends CachingConfigurerSupport {
                 .builder(factory)
                 .cacheDefaults(config)
                 .build();
-
-        //return new CustomizedRedisCacheManager(this.applicationName, this.nacosDataSource, this.container)
-        // 	@Value("${spring.application.name}")
-        // 	private String applicationName;
-        // }
     }
 
 

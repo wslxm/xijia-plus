@@ -3,7 +3,7 @@ package io.github.wslxm.springbootplus2.manage.test.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.test.mapper.GcTestMapper;
 import io.github.wslxm.springbootplus2.manage.test.model.dto.GcTestDTO;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
  * @date 2022-06-30 11:07:08
  */
 @Service
-public class GcTestServiceImpl extends BaseIServiceImpl<GcTestMapper, GcTest> implements GcTestService {
+public class GcTestServiceImpl extends BaseServiceImpl<GcTestMapper, GcTest> implements GcTestService {
 
     @Override
     public IPage<GcTestVO> list(GcTestQuery query) {

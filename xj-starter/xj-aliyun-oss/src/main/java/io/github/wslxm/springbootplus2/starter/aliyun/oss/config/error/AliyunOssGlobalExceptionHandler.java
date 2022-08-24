@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 /**
- * 异常处理类/ 全局异常 /自定义异常
- */
+  * 异常处理类/ 全局异常 /自定义异常
+  * @author wangsong
+  * @mail  1720696548@qq.com
+  * @date  2022/8/22 0022 20:51
+  * @version 1.0.0
+  */
 @RestControllerAdvice
 @Slf4j
 public class AliyunOssGlobalExceptionHandler {

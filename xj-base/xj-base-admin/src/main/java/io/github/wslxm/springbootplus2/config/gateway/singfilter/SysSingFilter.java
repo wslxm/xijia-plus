@@ -10,8 +10,8 @@ import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.config.gateway.singfilter.util.RequestWrapper;
 import io.github.wslxm.springbootplus2.config.gateway.singfilter.util.SignUtil;
 import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.result.Result;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Authority;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
 import lombok.extern.slf4j.Slf4j;
@@ -81,7 +81,7 @@ public class SysSingFilter implements Filter {
 
         // 3、验签, 判断是query参数还是body参数, 不同参数进行不同的验证方式，
         // -- body参数验签处理 Wrapper 为处理body只能获取一次参数的问题
-        R<Boolean> sing = null;
+        Result<Boolean> sing = null;
         RequestWrapper requestWrapper = null;
         Map<String, String[]> parameterMap = request.getParameterMap();
         if (!parameterMap.isEmpty()) {
@@ -94,7 +94,7 @@ public class SysSingFilter implements Filter {
         }
         log.info("接口：{} 验签结果：{} , 耗时: {}", uri, sing.getMsg(), System.currentTimeMillis() - startTime);
         // 4、result
-        if (sing.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+        if (sing.getCode().equals(ResultType.SYS_SUCCESS.getValue())) {
             filterChain.doFilter(requestWrapper == null ? servletRequest : requestWrapper, servletResponse);
         } else {
             servletResponse.setContentType("application/json;charset=utf-8");
@@ -108,28 +108,28 @@ public class SysSingFilter implements Filter {
      *
      * @param body         body 参数
      * @param parameterMap query参数
-     * @return io.github.wslxm.common.result.R<java.lang.Boolean>
+     * @return io.github.wslxm.common.result.Result<java.lang.Boolean>
      * @author wangsong
      * @date 2021/4/1 0001 19:50
      * @version 1.0.1
      */
-    public R<Boolean> isSing(String body, Map<String, String[]> parameterMap, HttpServletRequest request) {
+    public Result<Boolean> isSing(String body, Map<String, String[]> parameterMap, HttpServletRequest request) {
         // 判断是否传递参数
         boolean isBody = StringUtils.isBlank(body);
         boolean isQuery = parameterMap == null || parameterMap.isEmpty();
         if (isBody && isQuery) {
-            return R.success(true);
+            return Result.success(true);
         }
 
         // 1、获取签名和时间戳
         Object sign = request.getHeader(SignUtil.SIGN);
         Object timestamp = request.getHeader(SignUtil.TIMESTAMP);
         if (sign == null || timestamp == null) {
-            return R.error(RType.PARAM_IS_NO_SIGN);
+            return Result.error(ResultType.PARAM_IS_NO_SIGN);
         }
         // 2、判断请求是否超时
         if (!SignUtil.isTimeVerify(Long.parseLong(timestamp.toString()))) {
-            return R.error(RType.PARAM_TIME_OUT);
+            return Result.error(ResultType.PARAM_TIME_OUT);
         }
         boolean isSing = true;
         Map<String, String> verifyMap = null;
@@ -159,9 +159,9 @@ public class SysSingFilter implements Filter {
             isSing = SignUtil.verify(verifyMap);
         }
         if (isSing) {
-            return R.success(true);
+            return Result.success(true);
         } else {
-            return R.error(RType.PARAM_SIGN_ERROR);
+            return Result.error(ResultType.PARAM_SIGN_ERROR);
         }
     }
 }

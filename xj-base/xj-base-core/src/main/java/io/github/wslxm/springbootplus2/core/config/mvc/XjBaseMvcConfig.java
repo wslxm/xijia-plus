@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @date 2020/1/13 0013 20:20
  */
 @Configuration
-public class XjBaseAdminMvcConfig implements WebMvcConfigurer {
+public class XjBaseMvcConfig implements WebMvcConfigurer {
 
     /**
      * 静态资源访问路径映射

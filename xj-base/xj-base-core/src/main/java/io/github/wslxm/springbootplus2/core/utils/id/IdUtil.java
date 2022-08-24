@@ -22,33 +22,4 @@ public class IdUtil {
         return SnowflakeIdUtil.nextId().toString();
     }
 
-
-    /**
-     * 2、获取 14位时间戳 +  6位自增长值-如果位数不到,使用0代替（000001）
-     * <p>
-     *    可作用于订单号, 退款号生成等
-     *    synchronized, 单服务运行下时间戳+自增值 永不重复， 如果为集群建议使用redis 自增api [redisTemplate.opsForValue().increment(newKey, delta)]
-     *    increment >= 999999, 一但自增值大于999999, 重置为0, 表示每秒支持生成999999 个号，一但记录到 999999 或服务器重置时, 重置为0重新开始递增
-     * </p>
-     *
-     */
-    private static AtomicLong noIncrement = new AtomicLong(1);
-
-    public synchronized static String getNo() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-        long increment = noIncrement.getAndIncrement();
-        int incrementMax = 999999;
-        if (increment >= incrementMax) {
-            noIncrement.set(1);
-        }
-        return format.format(new Date()) + String.format("%06d", increment);
-    }
-
-
-    public static void main(String[] args) {
-        // 自增id
-//        for (int i = 0; i < 90000; i++) {
-//            log.info(getNo());
-//        }
-    }
 }

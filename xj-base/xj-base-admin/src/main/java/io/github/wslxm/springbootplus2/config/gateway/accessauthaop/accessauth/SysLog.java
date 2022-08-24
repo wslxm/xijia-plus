@@ -5,8 +5,8 @@ import com.alibaba.fastjson.JSON;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
-import io.github.wslxm.springbootplus2.core.result.R;
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.result.Result;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Authority;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Log;
 import io.github.wslxm.springbootplus2.manage.sys.service.LogService;
@@ -201,9 +201,9 @@ public class SysLog {
     private Log setJwtUser(Log log, HttpServletRequest request) {
         String uri = request.getRequestURI();
         // 获取登录用户信息
-        R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, null);
+        Result<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, null);
         // 记录日志时不管token是否过期等，是否有效等, 能获取到用户信息表示已登录,否则表示未登录
-        if (jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+        if (jwtUserR.getCode().equals(ResultType.SYS_SUCCESS.getValue())) {
             // 已登录
             JwtUser jwtUser = jwtUserR.getData();
             log.setFullName(jwtUser.getFullName());

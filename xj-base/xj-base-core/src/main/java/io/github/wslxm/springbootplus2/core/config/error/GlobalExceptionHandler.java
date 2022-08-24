@@ -1,8 +1,8 @@
 package io.github.wslxm.springbootplus2.core.config.error;
 
+import io.github.wslxm.springbootplus2.core.result.Result;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.error.AliYunOssErrorException;
-import io.github.wslxm.springbootplus2.core.result.R;
-import io.github.wslxm.springbootplus2.core.result.RType;
 import io.github.wslxm.springbootplus2.starter.redis.config.error.RedisErrorException;
 import io.github.wslxm.springbootplus2.starter.websocket.config.error.WebSocketErrorException;
 import lombok.extern.slf4j.Slf4j;
@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
      * @date 2020/2/9 0009 10:06
      */
     @ExceptionHandler(Exception.class)
-    public R<Object> exceptionHandler(Exception e) {
+    public Result<Object> exceptionHandler(Exception e) {
         // 日志模板
         String logStr = "\n\r### [全局捕获异常] --> 请求URL: " + request.getRequestURL() + " --> 错误原因: ";
         // 错误类名
@@ -88,35 +88,35 @@ public class GlobalExceptionHandler {
              * 程序错误 - mapException 中所有异常类（打印及返回完整错误信息）
              */
             log.error(logStr + mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
-            return R.error(RType.SYS_ERROR_CODE_500, mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
+            return Result.error(ResultType.SYS_ERROR_CODE_500, mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
         } else if (e instanceof WebSocketErrorException) {
             /**
              * 自定义异常-> websocket 组件
              */
             WebSocketErrorException error = (WebSocketErrorException) e;
             log.error(logStr + error.toString());
-            return R.error(error.getCode(), error.getMsg(), e.getMessage());
+            return Result.error(error.getCode(), error.getMsg(), e.getMessage());
         } else if (e instanceof AliYunOssErrorException) {
             /**
              * 自定义异常-> 阿里云oss 组件
              */
             AliYunOssErrorException error = (AliYunOssErrorException) e;
             log.error(logStr + error.toString());
-            return R.error(error.getCode(), error.getMsg(), e.getMessage());
+            return Result.error(error.getCode(), error.getMsg(), e.getMessage());
         } else if (e instanceof RedisErrorException) {
             /**
              *  自定义异常-> redis 组件
              */
             RedisErrorException error = (RedisErrorException) e;
             log.error(logStr + error.toString());
-            return R.error(error.getCode(), error.getMsg(), e.getMessage());
+            return Result.error(error.getCode(), error.getMsg(), e.getMessage());
         } else if (e instanceof ErrorException) {
             /**
              * 自定义异常-> 全局异常类 ErrorException
              */
             ErrorException error = (ErrorException) e;
             log.error(logStr + error.toString());
-            return R.error(error.getCode(), error.getMsg(), e.getMessage());
+            return Result.error(error.getCode(), error.getMsg(), e.getMessage());
         } else if (e instanceof HttpMessageNotReadableException) {
             /**
              * 传递参数错误 - 枚举参数|json参数错误, 请检查json是否完整，序列化失败（只打印核心错误内容）
@@ -124,7 +124,7 @@ public class GlobalExceptionHandler {
             HttpMessageNotReadableException error = (HttpMessageNotReadableException) e;
             String errorMsg = "  --> 【可能出现的情况如下：1、传递的JSON参数格式或参数错误 2、时间参数格式错误  \r\n 3、枚举参数错误】  --->  \r\n 详细错误信息：" + e.getMessage();
             log.error(logStr + errorMsg);
-            return R.error(RType.PARAM_ERROR, errorMsg);
+            return Result.error(ResultType.PARAM_ERROR, errorMsg);
         } else if (e instanceof MethodArgumentNotValidException) {
             /**
              * body JSR 303 为参数验证错误（只打印核心错误内容）
@@ -132,9 +132,9 @@ public class GlobalExceptionHandler {
             List<FieldError> fieldErrors = ((MethodArgumentNotValidException) e).getBindingResult().getFieldErrors();
             String field = fieldErrors.get(0).getField();   // 错误字段，多个错误，取第一个
             String msg = fieldErrors.get(0).getDefaultMessage(); //错误 message，多个错误，取第一个
-            String errorMsg = RType.PARAM_ERROR.getMsg() + "  --> JSR 【字段=" + field + " --> 提示用户的错误信息=" + msg + "】    -->    完整的栈错误信息：" + e.getMessage();
+            String errorMsg = ResultType.PARAM_ERROR.getMsg() + "  --> JSR 【字段=" + field + " --> 提示用户的错误信息=" + msg + "】    -->    完整的栈错误信息：" + e.getMessage();
             log.error(logStr + errorMsg);
-            return R.error(RType.PARAM_ERROR.getValue(), msg, errorMsg);
+            return Result.error(ResultType.PARAM_ERROR.getValue(), msg, errorMsg);
         } else if (e instanceof BindException) {
             /**
              * query JSR 303 为参数验证错误（只打印核心错误内容）
@@ -142,19 +142,19 @@ public class GlobalExceptionHandler {
             List<FieldError> fieldErrors = ((BindException) e).getBindingResult().getFieldErrors();
             String field = fieldErrors.get(0).getField();   // 错误字段，多个错误，取第一个
             String msg = fieldErrors.get(0).getDefaultMessage(); //错误 message，多个错误，取第一个
-            String errorMsg = RType.PARAM_ERROR.getMsg() + "  --> JSR 【字段=" + field + " --> 提示用户的错误信息=" + msg + "】    -->    完整的栈错误信息：" + e.getMessage();
+            String errorMsg = ResultType.PARAM_ERROR.getMsg() + "  --> JSR 【字段=" + field + " --> 提示用户的错误信息=" + msg + "】    -->    完整的栈错误信息：" + e.getMessage();
             log.error(logStr + errorMsg);
-            return R.error(RType.PARAM_ERROR.getValue(), msg, errorMsg);
+            return Result.error(ResultType.PARAM_ERROR.getValue(), msg, errorMsg);
         } else if (e instanceof MissingServletRequestParameterException) {
             /**
              * 未传递 Parameter 参数验证错误, 一般为 @Parameter 指定参数未传递（只打印核心错误内容）
              */
             String parameterName = ((MissingServletRequestParameterException) e).getParameterName();
             String parameterType = ((MissingServletRequestParameterException) e).getParameterType();
-            String errorMsg = RType.PARAM_MISSING.getMsg() + "  --> 【 " + parameterName + ":" + parameterType + "】  --->  详细错误信息:" + e.getMessage();
+            String errorMsg = ResultType.PARAM_MISSING.getMsg() + "  --> 【 " + parameterName + ":" + parameterType + "】  --->  详细错误信息:" + e.getMessage();
             log.error(logStr + errorMsg);
             //  返回前端提示name参数:类型 类型参数未传递
-            return R.error(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + "-> " + parameterName + " : " + parameterType, errorMsg);
+            return Result.error(ResultType.PARAM_MISSING.getValue(), ResultType.PARAM_MISSING.getMsg() + "-> " + parameterName + " : " + parameterType, errorMsg);
         } else if (e instanceof MethodArgumentTypeMismatchException) {
             /**
              * 方法参数类型不匹配 mvc
@@ -162,10 +162,10 @@ public class GlobalExceptionHandler {
             MethodParameter parameter = ((MethodArgumentTypeMismatchException) e).getParameter();
             String name = ((MethodArgumentTypeMismatchException) e).getName();
             Class<?> requiredType = ((MethodArgumentTypeMismatchException) e).getRequiredType();
-            String errorMsg = RType.PARAM_ERROR.getMsg() + " 类型不匹配 --> 【 " + name + " : " + requiredType + "】  --->  详细错误信息:" + e.getMessage();
+            String errorMsg = ResultType.PARAM_ERROR.getMsg() + " 类型不匹配 --> 【 " + name + " : " + requiredType + "】  --->  详细错误信息:" + e.getMessage();
             log.error(logStr + errorMsg);
             //  返回前端提示name参数:类型 参数不匹配
-            return R.error(RType.PARAM_ERROR.getValue(), name + ":" + requiredType + RType.PARAM_ERROR.getMsg() + ":类型不匹配", errorMsg);
+            return Result.error(ResultType.PARAM_ERROR.getValue(), name + ":" + requiredType + ResultType.PARAM_ERROR.getMsg() + ":类型不匹配", errorMsg);
         } else if (e instanceof DataIntegrityViolationException) {
             /**
              * 保存到数据库DB相关错误
@@ -181,31 +181,31 @@ public class GlobalExceptionHandler {
                 int indexStart = message.indexOf("'");
                 int indexEnd = message.indexOf("'", indexStart + 1);
                 String name = message.substring(indexStart + 1, indexEnd);
-                String errorMsg = RType.PARAM_SAVE_TO_DB_MISSING.getMsg() + "  --> 【 " + name + " : " + name + "】  --->  详细错误信息:" + e.getMessage();
+                String errorMsg = ResultType.PARAM_SAVE_TO_DB_MISSING.getMsg() + "  --> 【 " + name + " : " + name + "】  --->  详细错误信息:" + e.getMessage();
                 log.error(logStr + errorMsg);
                 // 返回前端提示 name参数不存在
-                return R.error(RType.PARAM_SAVE_TO_DB_MISSING.getValue(), name + RType.PARAM_SAVE_TO_DB_MISSING.getMsg(), errorMsg);
+                return Result.error(ResultType.PARAM_SAVE_TO_DB_MISSING.getValue(), name + ResultType.PARAM_SAVE_TO_DB_MISSING.getMsg(), errorMsg);
             } else if (message.indexOf("for key 'PRIMARY'") != -1) {
                 /**
                  * 主键ID重复
                  * ### Cause: java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'string' for key 'PRIMARY'
                  */
-                String errorMsg = RType.PARAM_SAVE_TO_DB_ID_REPEAT.getMsg();
+                String errorMsg = ResultType.PARAM_SAVE_TO_DB_ID_REPEAT.getMsg();
                 log.error(logStr + message);
-                return R.error(RType.PARAM_SAVE_TO_DB_ID_REPEAT, message);
+                return Result.error(ResultType.PARAM_SAVE_TO_DB_ID_REPEAT, message);
             } else {
                 /**
                  * 执行sql时的其他错误
                  */
                 log.error(logStr + message);
-                return R.error(RType.DB_EXECUTE_SQL_ERROR, message);
+                return Result.error(ResultType.DB_EXECUTE_SQL_ERROR, message);
             }
         } else {
             /**
              *  未解析到的错误（打印及返回完整错误信息）
              */
             log.error(logStr + e.getMessage() + errorDesc.toString());
-            return R.error(RType.SYS_ERROR_CODE_500, e.getMessage() + errorDesc.toString());
+            return Result.error(ResultType.SYS_ERROR_CODE_500, e.getMessage() + errorDesc.toString());
         }
     }
 }

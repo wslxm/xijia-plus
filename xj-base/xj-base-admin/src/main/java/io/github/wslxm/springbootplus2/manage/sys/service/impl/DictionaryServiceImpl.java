@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
 import io.github.wslxm.springbootplus2.common.cache.CacheKey;
 import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.paramverification.StringUtil;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class DictionaryServiceImpl extends BaseIServiceImpl<DictionaryMapper, Dictionary> implements DictionaryService {
+public class DictionaryServiceImpl extends BaseServiceImpl<DictionaryMapper, Dictionary> implements DictionaryService {
 
     /**
      * 父级pid
@@ -116,12 +116,12 @@ public class DictionaryServiceImpl extends BaseIServiceImpl<DictionaryMapper, Di
     @CacheEvict(value = CacheKey.DICT_LIST_ALL, allEntries = true)
     public String insert(DictionaryDTO dto) {
         if (StringUtils.isBlank(dto.getCode().trim())) {
-            throw new ErrorException(RType.PARAM_MISSING.getValue(), RType.PARAM_MISSING.getMsg() + ":code");
+            throw new ErrorException(ResultType.PARAM_MISSING.getValue(), ResultType.PARAM_MISSING.getMsg() + ":code");
         }
         dto.setCode(dto.getCode().trim());
         if (!StringUtil.isInteger(dto.getCode()) && this.count(new LambdaQueryWrapper<Dictionary>().eq(Dictionary::getCode, dto.getCode())) > 0) {
             // 字符串code 为 string时不能重复, 为Integer时可以重复
-            throw new ErrorException(RType.DICT_DUPLICATE);
+            throw new ErrorException(ResultType.DICT_DUPLICATE);
         }
         Dictionary entity = dto.convert(Dictionary.class);
         boolean b = this.save(entity);
@@ -140,7 +140,7 @@ public class DictionaryServiceImpl extends BaseIServiceImpl<DictionaryMapper, Di
             //  原数据code != new Code, 判断数据库是否存在修改后的code值 ， code为Integer时不处理
             if (!dict.getCode().equals(dto.getCode().trim())) {
                 if (!StringUtil.isInteger(dto.getCode()) && this.count(new LambdaQueryWrapper<Dictionary>().eq(Dictionary::getCode, dto.getCode())) > 0) {
-                    throw new ErrorException(RType.DICT_DUPLICATE);
+                    throw new ErrorException(ResultType.DICT_DUPLICATE);
                 }
             }
         }
@@ -443,7 +443,7 @@ public class DictionaryServiceImpl extends BaseIServiceImpl<DictionaryMapper, Di
      */
     @Override
     @Cacheable(value = CacheKey.DICT_LIST_ALL)
-    public List<DictionaryVO> findListALL() {
+    public List<DictionaryVO> findListAll() {
         List<Dictionary> adminDictionaries = baseMapper.selectList(new LambdaQueryWrapper<Dictionary>()
                 .orderByAsc(Dictionary::getSort)
                 .orderByAsc(Dictionary::getCode)

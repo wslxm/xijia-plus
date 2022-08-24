@@ -37,14 +37,6 @@ public interface AuthorityService extends IService<Authority> {
      */
     Boolean upd(String id, AuthorityDTO dto);
 
-//    /**
-//     * 获取用户的url权限列表，只返回未禁用的 url
-//     *
-//     * @param userId 用户id
-//     * @return void
-//     * @date 2019/11/25 0025 11:55
-//     */
-//    List<String> findByUserIdAuthority(String userId);
 
     /**
      * 扫描接口, 加入权限管理中（用于url授权, 在项目启动时调用进行自动执行, 初始化相关权限接口）

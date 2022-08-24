@@ -2,8 +2,8 @@ package io.github.wslxm.springbootplus2.common.auth.util;
 
 import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
-import io.github.wslxm.springbootplus2.core.result.R;
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.result.Result;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.json.JsonUtil;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
@@ -93,8 +93,8 @@ public class JwtUtil {
      * @return
      */
     public static JwtUser getJwtUser(HttpServletRequest request) {
-        R<JwtUser> jwtUser2 = getJwtUserR(request, null);
-        if (!jwtUser2.getCode().equals(RType.SYS_SUCCESS.getValue())) {
+        Result<JwtUser> jwtUser2 = getJwtUserR(request, null);
+        if (!jwtUser2.getCode().equals(ResultType.SYS_SUCCESS.getValue())) {
             throw new ErrorException(jwtUser2.getCode(), jwtUser2.getMsg());
         }
         return jwtUser2.getData();
@@ -104,11 +104,11 @@ public class JwtUtil {
     /**
      * 获取登录信息，如过 token无效过期等，会进入对应的异常信息中返回
      * <p>
-     * 1、此方法用于权限验证, aop中，日志中获取用户信息, 注意返回的 R，如果出现异常,过期等信息不会直接抛出, 将返回到R 中
-     * 2、此方法可在业务代码中判断当前是否登录( R.getCode == 200 表示登录/ 其他情况表示未登录)
+     * 1、此方法用于权限验证, aop中，日志中获取用户信息, 注意返回的 Result，如果出现异常,过期等信息不会直接抛出, 将返回到R 中
+     * 2、此方法可在业务代码中判断当前是否登录( Result.getCode == 200 表示登录/ 其他情况表示未登录)
      * 示例代码：
-     * R<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, response);
-     * Boolean isLogin = jwtUserR.getCode().equals(RType.SYS_SUCCESS.getValue()) ? true : false;
+     * Result<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, response);
+     * Boolean isLogin = jwtUserR.getCode().equals(ResultType.SYS_SUCCESS.getValue()) ? true : false;
      * if (isLogin) {
      * String userId = jwtUserR.getData().getUserId();
      * }
@@ -118,15 +118,15 @@ public class JwtUtil {
      * @param response
      * @return
      */
-    public static R<JwtUser> getJwtUserR(HttpServletRequest request, HttpServletResponse response) {
+    public static Result<JwtUser> getJwtUserR(HttpServletRequest request, HttpServletResponse response) {
         try {
             // 判断是否传递tokne
             String jwtToken = request.getHeader(TOKEN);
             if (jwtToken == null || jwtToken == "") {
-                return R.error(RType.AUTHORITY_NO_TOKEN);
+                return Result.error(ResultType.AUTHORITY_NO_TOKEN);
             }
             Claims claims = Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(jwtToken).getBody();
-            return R.success(getClaimsJwtUser(claims));
+            return Result.success(getClaimsJwtUser(claims));
         } catch (ExpiredJwtException ex) {
             /**
              * jwt-token (expiration) 过期处理方法(1-超过总有效期未登录过,token过期 2-在总有效期内,刷新jwt-tokne 延长总有效期--需前端更新token)
@@ -135,12 +135,12 @@ public class JwtUtil {
             JwtUser jwtUser = getClaimsJwtUser(claims);
             // 只获取用户信息，直接返回
             if (response == null) {
-                return R.success(jwtUser);
+                return Result.success(jwtUser);
             }
             // 如果不是只获取用户信息, 判断token是否在真实有效期内,超过了返回token过期提示
             long expiredTime = Long.parseLong(claims.get(EXPIRED_TIME).toString());
             if (System.currentTimeMillis() > expiredTime) {
-                return R.error(RType.AUTHORITY_LOGIN_EXPIRED);
+                return Result.error(ResultType.AUTHORITY_LOGIN_EXPIRED);
             }
             // 管理端获取每次刷新获取新的刷新时间, 如果没有设值，使用登录设置的默认时间
             if (jwtUser.getType().equals(userType[0])) {
@@ -149,17 +149,17 @@ public class JwtUtil {
             }
             createToken(jwtUser, response);
             log.info("token 已刷新");
-            return R.success(jwtUser);
+            return Result.success(jwtUser);
         } catch (SignatureException ex) {
             /**
              * JWT签名与本地计算签名不匹配
              */
-            return R.error(RType.AUTHORITY_JWT_SIGN_ERROR);
+            return Result.error(ResultType.AUTHORITY_JWT_SIGN_ERROR);
         } catch (Exception e) {
             /**
              * JWT解析错误
              */
-            return R.error(RType.AUTHORITY_JWT_PARSING_ERROR);
+            return Result.error(ResultType.AUTHORITY_JWT_PARSING_ERROR);
         }
     }
 

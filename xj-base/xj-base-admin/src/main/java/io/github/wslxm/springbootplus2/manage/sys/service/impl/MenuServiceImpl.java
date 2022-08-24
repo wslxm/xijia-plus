@@ -4,10 +4,10 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.model.BaseVo;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Base;
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.MenuMapper;
@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
  * @author wangsong
  */
 @Service
-public class MenuServiceImpl extends BaseIServiceImpl<MenuMapper, Menu> implements MenuService {
+public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implements MenuService {
 
     @Autowired
     private RoleMenuMapper roleMenuMapper;
@@ -175,7 +175,7 @@ public class MenuServiceImpl extends BaseIServiceImpl<MenuMapper, Menu> implemen
     public List<MenuVO> findTree() {
         List<RoleMenu> userRoleMenus = roleMenuMapper.findByUserIdAndDisableFetchMenu(JwtUtil.getJwtUser(request).getUserId(), Base.Disable.V0.getValue());
         if (userRoleMenus == null || userRoleMenus.isEmpty()) {
-            throw new ErrorException(RType.USER_NO_MENU);
+            throw new ErrorException(ResultType.USER_NO_MENU);
         }
         List<String> roleMenuIdList = userRoleMenus.stream().map(RoleMenu::getMenuId).collect(Collectors.toList());
         List<Menu> adminMenuList = this.list(new LambdaQueryWrapper<Menu>()
@@ -184,7 +184,7 @@ public class MenuServiceImpl extends BaseIServiceImpl<MenuMapper, Menu> implemen
                 .in(Menu::getId, roleMenuIdList)
         );
         if (adminMenuList == null || adminMenuList.isEmpty()) {
-            throw new ErrorException(RType.USER_NO_MENU);
+            throw new ErrorException(ResultType.USER_NO_MENU);
         }
         List<MenuVO> menuVos = BeanDtoVoUtil.listVoStream(adminMenuList, MenuVO.class);
         // return

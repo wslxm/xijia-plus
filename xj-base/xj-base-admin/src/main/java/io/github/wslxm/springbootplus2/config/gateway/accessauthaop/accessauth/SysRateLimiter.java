@@ -5,8 +5,8 @@ import com.google.common.util.concurrent.RateLimiter;
 import io.github.wslxm.springbootplus2.common.annotation.XjCurrentLimit;
 import io.github.wslxm.springbootplus2.common.cache.AuthCacheKeyUtil;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
-import io.github.wslxm.springbootplus2.core.result.R;
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.result.Result;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -43,12 +43,12 @@ public class SysRateLimiter {
       * @date  2021/11/28 0028 11:28
       * @version 1.0.0      
       */
-    public R run(ProceedingJoinPoint proceed) {
+    public Result run(ProceedingJoinPoint proceed) {
         // 获取请求参数
         MethodSignature signature = (MethodSignature) proceed.getSignature();
         XjCurrentLimit xjCurrentLimit = signature.getMethod().getAnnotation(XjCurrentLimit.class);
         if (xjCurrentLimit == null) {
-            return R.success();
+            return Result.success();
         }
         // 获取请求url， 充当限流 name（name = cacheKey）
         String cacheKey = AuthCacheKeyUtil.getAuthCacheKey(request.getMethod(), request.getRequestURI());
@@ -62,8 +62,8 @@ public class SysRateLimiter {
         // 开始限流
         boolean result = rateLimiter.tryAcquire();
         if (!result) {
-            throw new ErrorException(RType.SYS_CURRENT_LIMIT.getValue(),errorMsg);
+            throw new ErrorException(ResultType.SYS_CURRENT_LIMIT.getValue(),errorMsg);
         }
-        return R.success();
+        return Result.success();
     }
 }

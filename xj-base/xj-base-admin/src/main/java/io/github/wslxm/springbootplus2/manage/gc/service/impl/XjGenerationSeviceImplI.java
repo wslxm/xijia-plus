@@ -5,7 +5,7 @@ import cn.hutool.core.util.ZipUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.LocalDateTimeUtil;
 import io.github.wslxm.springbootplus2.core.utils.PropUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
@@ -35,7 +35,7 @@ import java.util.*;
  */
 @Service
 @Slf4j
-public class XjGenerationSeviceImpl extends BaseIServiceImpl implements GenerationSevice {
+public class XjGenerationSeviceImplI extends BaseServiceImpl implements GenerationSevice {
 
     @Autowired
     private DatasourceService adminDatasourceService;
@@ -118,8 +118,8 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements Generati
         mapPath.put(GcDTO.KEY_NAME, gcConfig.getTemplatePathMap().get(GcDTO.KEY_NAME).getPath());
         mapPath.put(GcQuery.KEY_NAME, gcConfig.getTemplatePathMap().get(GcQuery.KEY_NAME).getPath());
         mapPath.put(GcController.KEY_NAME, gcConfig.getTemplatePathMap().get(GcController.KEY_NAME).getPath());
-        mapPath.put(GcService.KEY_NAME, gcConfig.getTemplatePathMap().get(GcService.KEY_NAME).getPath());
-        mapPath.put(GcServiceImpl.KEY_NAME, gcConfig.getTemplatePathMap().get(GcServiceImpl.KEY_NAME).getPath());
+        mapPath.put(GcIService.KEY_NAME, gcConfig.getTemplatePathMap().get(GcIService.KEY_NAME).getPath());
+        mapPath.put(GcIServiceImpl.KEY_NAME, gcConfig.getTemplatePathMap().get(GcIServiceImpl.KEY_NAME).getPath());
         mapPath.put(GcMapper.KEY_NAME, gcConfig.getTemplatePathMap().get(GcMapper.KEY_NAME).getPath());
         mapPath.put(GcMapperXml.KEY_NAME, gcConfig.getTemplatePathMap().get(GcMapperXml.KEY_NAME).getPath());
         mapPath.put(GcVueMain.KEY_NAME, gcConfig.getTemplatePathMap().get(GcVueMain.KEY_NAME).getPath());
@@ -172,8 +172,8 @@ public class XjGenerationSeviceImpl extends BaseIServiceImpl implements Generati
         gcConfig.addTemplate(GcDTO.KEY_NAME, baseUrl + GcTPConfig.T_DTO, previewFile + GcTPConfig.P_DTO);
         gcConfig.addTemplate(GcQuery.KEY_NAME, baseUrl + GcTPConfig.T_QUERY, previewFile + GcTPConfig.P_QUERY);
         gcConfig.addTemplate(GcController.KEY_NAME, baseUrl + GcTPConfig.T_CONTROLLER, previewFile + GcTPConfig.P_CONTROLLER);
-        gcConfig.addTemplate(GcService.KEY_NAME, baseUrl + GcTPConfig.T_SERVICE, previewFile + GcTPConfig.P_SERVICE);
-        gcConfig.addTemplate(GcServiceImpl.KEY_NAME, baseUrl + GcTPConfig.T_SERVICEIMPL, previewFile + GcTPConfig.P_SERVICE_IMPL);
+        gcConfig.addTemplate(GcIService.KEY_NAME, baseUrl + GcTPConfig.T_SERVICE, previewFile + GcTPConfig.P_SERVICE);
+        gcConfig.addTemplate(GcIServiceImpl.KEY_NAME, baseUrl + GcTPConfig.T_SERVICEIMPL, previewFile + GcTPConfig.P_SERVICE_IMPL);
         gcConfig.addTemplate(GcMapper.KEY_NAME, baseUrl + GcTPConfig.T_MAPPER, previewFile + GcTPConfig.P_MAPPER);
         gcConfig.addTemplate(GcMapperXml.KEY_NAME, baseUrl + GcTPConfig.T_MAPPER_XML, previewFile + GcTPConfig.P_MAPPER_XML);
         gcConfig.addTemplate(GcVueMain.KEY_NAME, baseUrl + GcTPConfig.T_VUE, previewFile + GcTPConfig.P_VUE);

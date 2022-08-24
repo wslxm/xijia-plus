@@ -35,8 +35,11 @@ public interface BlacklistService extends IService<Blacklist> {
 
     /**
      * 列表查询
-     *
-     * @return
+     * @author wangsong
+     * @param type
+     * @date 2022/8/22 0022 20:42
+     * @return java.util.List<io.github.wslxm.springbootplus2.manage.sys.model.vo.BlacklistVO>
+     * @version 1.0.0
      */
     List<BlacklistVO> listByType(Integer type);
 

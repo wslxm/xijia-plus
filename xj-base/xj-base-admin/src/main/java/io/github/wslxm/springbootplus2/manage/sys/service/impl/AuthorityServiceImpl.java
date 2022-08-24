@@ -7,7 +7,7 @@ import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.common.cache.AuthCacheKeyUtil;
 import io.github.wslxm.springbootplus2.common.cache.CacheKey;
 import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
@@ -42,12 +42,10 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class AuthorityServiceImpl extends BaseIServiceImpl<AuthorityMapper, Authority> implements AuthorityService {
+public class AuthorityServiceImpl extends BaseServiceImpl<AuthorityMapper, Authority> implements AuthorityService {
 
     @Autowired
     private ApplicationContext context;
-//    @Autowired
-//    private RoleAuthService adminRoleAuthService;
     @Autowired
     private RoleService roleService;
     @Autowired
@@ -83,18 +81,6 @@ public class AuthorityServiceImpl extends BaseIServiceImpl<AuthorityMapper, Auth
         List<Authority> authoritys = authorityMapper.list(authorityByUserIdQuery);
         List<AuthorityVO> adminAuthorityVOList = BeanDtoVoUtil.listVo(authoritys, AuthorityVO.class);
 
-        // 2、根据角色控制数据是否有权限状态
-//        if (StringUtils.isNotBlank(query.getRoleId())) {
-//            List<RoleAuth> roleIds = adminRoleAuthService.list(new LambdaQueryWrapper<RoleAuth>()
-//                    .select(RoleAuth::getRoleId, RoleAuth::getAuthId, RoleAuth::getId)
-//                    .eq(RoleAuth::getRoleId, query.getRoleId())
-//            );
-//            List<String> roleAuthIds = roleIds != null ? roleIds.stream().map(RoleAuth::getAuthId).collect(Collectors.toList()) : new ArrayList<>();
-//            // 赋值true/false
-//            for (AuthorityVO adminAuthorityVO : adminAuthorityVOList) {
-//                adminAuthorityVO.setIsChecked(roleAuthIds.contains(adminAuthorityVO.getId()));
-//            }
-//        }
         // 3、resurt，返回list
         if (!isTree || adminAuthorityVOList.size() <= 1) {
             return adminAuthorityVOList;
@@ -123,44 +109,16 @@ public class AuthorityServiceImpl extends BaseIServiceImpl<AuthorityMapper, Auth
     @Transactional(rollbackFor = Exception.class)
     @Caching(evict = {
             @CacheEvict(value = CacheKey.AUTH_MAP_ALL, allEntries = true),
-            // @CacheEvict(value = CacheKey.LOGIN_AUTH_USER_ID, allEntries = true)
     })
     public Boolean upd(String id, AuthorityDTO dto) {
         // 更新
         Authority entity = dto.convert(Authority.class);
         entity.setId(id);
         boolean b = this.updateById(entity);
-        // 刷新缓存
-        //AuthorityServiceImpl bean = (AuthorityServiceImpl) SpringContextUtil.getBean("adminAuthorityServiceImpl");
         this.refreshAuthCache();
         return b;
     }
 
-
-    /**
-     * 获取用户的url权限列表，只返回未禁用的 需要登录+授权的url
-     *
-     * @param userId 用户id
-     * @return void
-     * @date 2019/11/25 0025 11:55
-     */
-//    @Override
-//    @Cacheable(value = CacheKey.LOGIN_AUTH_USER_ID, key = "#userId")
-//    public List<String> findByUserIdAuthority(String userId) {
-//        // 查询 需要登录+授权的url 并且启用的url
-//        AuthorityByUserIdQuery query = new AuthorityByUserIdQuery();
-//        query.setUserId(userId);
-//        query.setState(Base.AuthorityState.V2.getValue());
-//        query.setDisable(Base.Disable.V0.getValue());
-//        List<Authority> auth = baseMapper.findByUserIdAuthority(query);
-//        if (auth == null) {
-//            return new ArrayList<>();
-//        } else {
-//            // 处理接口UrlKeys返回
-//            return auth.stream().map(p -> AuthCacheKeyUtil.getCacheKey(p.getMethod(), p.getUrl()))
-//                    .collect(Collectors.toList());
-//        }
-//    }
 
 
     /**
@@ -302,18 +260,6 @@ public class AuthorityServiceImpl extends BaseIServiceImpl<AuthorityMapper, Auth
             }
             // 添加权限
             this.saveBatch(addAuth, 1024);
-            // 给所有角色分配新接口的权限
-//            List<Role> roles = roleService.list();
-//            if (roles.size() > 0) {
-//                List<RoleAuth> addRoleAuth = new LinkedList<>();
-//                for (Role role : roles) {
-//                    for (Authority adminAuthority : addAuth) {
-//                        addRoleAuth.add(new RoleAuth(adminAuthority.getId(), role.getId()));
-//                    }
-//                }
-//                // 更新
-//                adminRoleAuthService.saveBatch(addRoleAuth, 1024);
-//            }
         }
         // 删除
         if (authorityMap.size() > 0) {

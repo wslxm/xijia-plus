@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.gc.util;
 
 
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,7 +38,7 @@ public class JdbcPool {
         } catch (Exception e) {
             log.info("");
             //log.error(e.toString()); //CommunicationsException ip错误  | SQLNonTransientConnectionException 连接超时
-            throw new ErrorException(RType.GENERATE_CODE_JDBC_ERROR);
+            throw new ErrorException(ResultType.GENERATE_CODE_JDBC_ERROR);
         }
         return conn;
     }

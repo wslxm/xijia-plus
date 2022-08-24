@@ -2,7 +2,7 @@ package io.github.wslxm.springbootplus2.core.config.error;
 
 
 import com.baomidou.mybatisplus.annotation.IEnum;
-import io.github.wslxm.springbootplus2.core.result.RType;
+import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.EnumUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -53,7 +53,7 @@ public class ErrorException extends RuntimeException {
      * @version 1.0.0
      */
     public <E> ErrorException(String msg) {
-        this.code = RType.SYR_ERROR.getValue();
+        this.code = ResultType.SYR_ERROR.getValue();
         this.msg = msg;
     }
 
@@ -64,7 +64,7 @@ public class ErrorException extends RuntimeException {
      * @param rType rType
      * @version 1.0.0
      */
-    public ErrorException(RType rType) {
+    public ErrorException(ResultType rType) {
         this.code = rType.getValue();
         this.msg = rType.getMsg();
     }

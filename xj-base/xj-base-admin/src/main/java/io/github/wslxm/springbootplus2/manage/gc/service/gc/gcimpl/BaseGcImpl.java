@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gc.gcimpl;
 
-import io.github.wslxm.springbootplus2.core.base.service.impl.BaseIServiceImpl;
+import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.constant.BracketConstant;
@@ -21,7 +21,7 @@ import java.util.List;
  * @mail 1720696548@qq.com
  * @date 2021/8/27 0027 17:28
  */
-public class BaseGcImpl extends BaseIServiceImpl {
+public class BaseGcImpl extends BaseServiceImpl {
 
 
     /**
@@ -190,108 +190,62 @@ public class BaseGcImpl extends BaseIServiceImpl {
         if (type.equals(FieldTypeConstant.INT) || type.equals(FieldTypeConstant.BIGINT)) {
             // int(11), 判断是否有长度,存在长度获取指定长度的最大值, 转为long添加到注解中
             if (typeDetail.contains(BracketConstant.LEFT_BRACKET)) {
-                int len = Integer.parseInt(typeDetail.substring(typeDetail.indexOf(BracketConstant.LEFT_BRACKET) + 1,
-                        typeDetail.indexOf(BracketConstant.RIGHT_BRACKET)));
+                int len = Integer.parseInt(typeDetail.substring(typeDetail.indexOf(BracketConstant.LEFT_BRACKET) + 1, typeDetail.indexOf(BracketConstant.RIGHT_BRACKET)));
                 double max = (Math.pow(10, len) - 1);
                 maxlength = new BigDecimal(max + "").longValue();
             }
-        } else if (type.equals(FieldTypeConstant.DOUBLE)
-                || type.equals(FieldTypeConstant.FLOAT)
-                || type.equals(FieldTypeConstant.DECIMAL)) {
+        } else if (type.equals(FieldTypeConstant.DOUBLE) || type.equals(FieldTypeConstant.FLOAT) || type.equals(FieldTypeConstant.DECIMAL)) {
             //  小数
             //  判断是否有长度,存在长度获取指定长度的最大值, 转为long添加到注解中 decimal(10,2)，取10, 2不处理
             if (typeDetail.contains(BracketConstant.LEFT_BRACKET)) {
-                String typeDetailStr = typeDetail.substring(typeDetail.indexOf(BracketConstant.LEFT_BRACKET) + 1,
-                        typeDetail.indexOf(BracketConstant.RIGHT_BRACKET));
+                String typeDetailStr = typeDetail.substring(typeDetail.indexOf(BracketConstant.LEFT_BRACKET) + 1, typeDetail.indexOf(BracketConstant.RIGHT_BRACKET));
                 int len = Integer.parseInt(typeDetailStr.split(",")[0]);
                 double max = (Math.pow(10, len) - 1);
                 maxlength = new BigDecimal(max + "").longValue();
             }
-        } else if (type.equals(FieldTypeConstant.VARCHAR)
-                || type.equals(FieldTypeConstant.CHAR)
-                || type.equals(FieldTypeConstant.TEXT)
-                || type.equals(FieldTypeConstant.LONG_TEXT)) {
+        } else if (type.equals(FieldTypeConstant.VARCHAR) || type.equals(FieldTypeConstant.CHAR)
+                || type.equals(FieldTypeConstant.TEXT) || type.equals(FieldTypeConstant.LONG_TEXT)) {
             // 字符串
             if (typeDetail.contains(BracketConstant.LEFT_BRACKET)) {
-                String max = typeDetail.substring(typeDetail.indexOf(BracketConstant.LEFT_BRACKET) + 1,
-                        typeDetail.indexOf(BracketConstant.RIGHT_BRACKET));
+                String max = typeDetail.substring(typeDetail.indexOf(BracketConstant.LEFT_BRACKET) + 1, typeDetail.indexOf(BracketConstant.RIGHT_BRACKET));
                 maxlength = Long.parseLong(max);
             }
-        } else if (type.equals(FieldTypeConstant.DATETIME)
-                || type.equals(FieldTypeConstant.TIME)
-                || type.equals(FieldTypeConstant.TIMESTAMP)) {
+        } else if (type.equals(FieldTypeConstant.DATETIME) || type.equals(FieldTypeConstant.TIME) || type.equals(FieldTypeConstant.TIMESTAMP)) {
         }
-
         // 处理字段
         String columnStr = "";
         name = GcDataUtil.getFieldName(gcConfig, name);
         if (Base.VueFieldType.V1.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.INPUT
-                    .replaceAll("\\{label}", newDesc)
-                    .replace("{prop}", name)
-                    .replace("{maxlength}", maxlength + "");
+            columnStr = VueAddUpdTemplate.INPUT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
         } else if (Base.VueFieldType.V2.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.NUMBER.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else if (Base.VueFieldType.V3.getValue().equals(vueFieldType)) {
-
         } else if (Base.VueFieldType.V4.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.RADIO
-                    .replaceAll("\\{label}", newDesc)
-                    .replace("{prop}", name)
-                    .replace("{dictCode}", getDictCode(dictCode))
-            ;
+            columnStr = VueAddUpdTemplate.RADIO.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{dictCode}", getDictCode(dictCode));
         } else if (Base.VueFieldType.V5.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.CHECKBOX.
-                    replaceAll("\\{label}", newDesc)
-                    .replace("{prop}", name)
-                    .replace("{dictCode}", getDictCode(dictCode))
-            ;
+            columnStr = VueAddUpdTemplate.CHECKBOX.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{dictCode}", getDictCode(dictCode));
         } else if (Base.VueFieldType.V6.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.SELECT
-                    .replaceAll("\\{label}", newDesc)
-                    .replace("{prop}", name)
-                    .replace("{dictCode}", getDictCode(dictCode))
-            ;
+            columnStr = VueAddUpdTemplate.SELECT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{dictCode}", getDictCode(dictCode));
         } else if (Base.VueFieldType.V7.getValue().equals(vueFieldType)) {
-
         } else if (Base.VueFieldType.V8.getValue().equals(vueFieldType)) {
-
         } else if (Base.VueFieldType.V9.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.SWITCH
-                    .replaceAll("\\{label}", newDesc)
-                    .replace("{prop}", name)
-                    .replace("{dictCode}", getDictCode(dictCode))
-            ;
+            columnStr = VueAddUpdTemplate.SWITCH.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{dictCode}", getDictCode(dictCode));
         } else if (Base.VueFieldType.V10.getValue().equals(vueFieldType)) {
-
         } else if (Base.VueFieldType.V11.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.DATETIME.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else if (Base.VueFieldType.V12.getValue().equals(vueFieldType)) {
-
         } else if (Base.VueFieldType.V13.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.UPLOAD.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else if (Base.VueFieldType.V14.getValue().equals(vueFieldType)) {
-
         } else if (Base.VueFieldType.V15.getValue().equals(vueFieldType)) {
-
         } else if (Base.VueFieldType.V16.getValue().equals(vueFieldType)) {
-
         } else if (Base.VueFieldType.V17.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.TEXTAREA
-                    .replaceAll("\\{label}", newDesc)
-                    .replace("{prop}", name)
-                    .replace("{maxlength}", maxlength + "");
+            columnStr = VueAddUpdTemplate.TEXTAREA.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
         } else if (Base.VueFieldType.V18.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.INPUT
-                    .replaceAll("\\{label}", newDesc)
-                    .replace("{prop}", name)
-                    .replace("{maxlength}", maxlength + "");
+            columnStr = VueAddUpdTemplate.INPUT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
         } else {
             // 没有默认 input
-            columnStr = VueAddUpdTemplate.INPUT
-                    .replaceAll("\\{label}", newDesc)
-                    .replace("{prop}", name)
-                    .replace("{maxlength}", maxlength + "");
+            columnStr = VueAddUpdTemplate.INPUT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
         }
         return columnStr;
     }
@@ -307,7 +261,7 @@ public class BaseGcImpl extends BaseIServiceImpl {
      * @date 2022/5/14 0014 22:41 
      * @version 1.0.0
      */
-    protected String jxVueColumnsSlot(GcConfig gcConfig,Integer vueFieldType, String name) {
+    protected String jxVueColumnsSlot(GcConfig gcConfig, Integer vueFieldType, String name) {
         String vueAddUpdSlot = "";
         name = GcDataUtil.getFieldName(gcConfig, name);
         if (Base.VueFieldType.V18.getValue().equals(vueFieldType)) {

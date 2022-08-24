@@ -3,7 +3,8 @@ package io.github.wslxm.springbootplus2.manage.gc.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.result.R;
+import io.github.wslxm.springbootplus2.core.constant.NumberConstant;
+import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.utils.Base64Util;
 import io.github.wslxm.springbootplus2.manage.gc.model.dto.DatasourceDTO;
 import io.github.wslxm.springbootplus2.manage.gc.model.entity.Datasource;
@@ -35,64 +36,64 @@ public class DatasourceController extends BaseController<DatasourceService> {
 
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public R<IPage<DatasourceVO>> findPage(@ModelAttribute @Validated DatasourceQuery query) {
-        return R.successFind(baseService.findPage(query));
+    public Result<IPage<DatasourceVO>> findPage(@ModelAttribute @Validated DatasourceQuery query) {
+        return Result.successFind(baseService.findPage(query));
     }
 
 
     @GetMapping(value = "/{id}")
     @ApiOperation(value = "id查询")
-    public R<DatasourceVO> findId(@PathVariable String id) {
-        return R.successFind(baseService.findId(id));
+    public Result<DatasourceVO> findId(@PathVariable String id) {
+        return Result.successFind(baseService.findId(id));
     }
 
 
     @PostMapping
     @ApiOperation(value = "添加")
-    public R<String> insert(@RequestBody @Validated DatasourceDTO dto) {
+    public Result<String> insert(@RequestBody @Validated DatasourceDTO dto) {
         Datasource xjDatasource = dto.convert(Datasource.class);
         xjDatasource.setDbPassword(Base64Util.encode(xjDatasource.getDbPassword()));
         boolean b = baseService.save(xjDatasource);
-        return R.successInsert(xjDatasource.getId());
+        return Result.successInsert(xjDatasource.getId());
     }
 
 
     @PutMapping(value = "/{id}")
     @ApiOperation(value = "ID编辑")
-    public R<Boolean> upd(@PathVariable String id,@RequestBody @Validated DatasourceDTO dto) {
+    public Result<Boolean> upd(@PathVariable String id, @RequestBody @Validated DatasourceDTO dto) {
         Datasource entity = dto.convert(Datasource.class);
         entity.setId(id);
-        return R.successUpdate(baseService.updateById(entity));
+        return Result.successUpdate(baseService.updateById(entity));
     }
 
 
     @DeleteMapping(value = "/{id}")
     @ApiOperation(value = "ID删除")
-    public R<Boolean> del(@PathVariable String id) {
-        return R.successDelete(baseService.removeById(id));
+    public Result<Boolean> del(@PathVariable String id) {
+        return Result.successDelete(baseService.removeById(id));
     }
 
 
     @PutMapping(value = "/{id}/updPwd")
     @ApiOperation(value = "修改/重置密码")
-    public R<Boolean> updDbPwd(@PathVariable String id, @RequestParam String password) {
+    public Result<Boolean> updDbPwd(@PathVariable String id, @RequestParam String password) {
         Datasource entity = new Datasource();
         entity.setId(id);
         entity.setDbPassword(Base64Util.encode(password));
-        return R.successUpdate(baseService.updateById(entity));
+        return Result.successUpdate(baseService.updateById(entity));
     }
 
 
     @PostMapping(value = "/dataSourceTest/{id}")
     @ApiOperation("数据源连接测试")
-    public R<Boolean> dataSourceTest(@PathVariable(required = false) String id, @RequestBody @Validated DatasourceDTO dto) {
+    public Result<Boolean> dataSourceTest(@PathVariable(required = false) String id, @RequestBody @Validated DatasourceDTO dto) {
         String dbPassword = dto.getDbPassword();
-        if (StringUtils.isNotBlank(id) && !id.equals("0")) {
+        if (StringUtils.isNotBlank(id) && !id.equals(NumberConstant.ZERO)) {
             Datasource xjAdminDatasource = baseService.getById(id);
             dbPassword = Base64Util.decrypt(xjAdminDatasource.getDbPassword());
         }
         // 主要没报错, 表示连接成功
         JdbcPool.getConn(dto.getDbUrl(), dto.getDbUsername(), dbPassword);
-        return R.success(true);
+        return Result.success(true);
     }
 }
