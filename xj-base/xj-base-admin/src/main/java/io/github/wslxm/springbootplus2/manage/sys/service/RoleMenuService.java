@@ -18,8 +18,8 @@ public interface RoleMenuService extends IService<RoleMenu> {
     /**
      * 增加角色的菜单
      *
-     * @param roleId
-     * @param menuId
+     * @param roleId 角色id
+     * @param menuId 菜单id
      * @return boolean
      */
     boolean addRoleMenu(String roleId, String menuId);
