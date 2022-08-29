@@ -33,4 +33,5 @@ public class UconfigController extends BaseController<ConfigService> {
     public Result<ConfigVO> findByCode(@RequestParam String code) {
         return Result.successFind(baseService.findByCode(code));
     }
+
 }

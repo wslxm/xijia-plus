@@ -57,7 +57,7 @@ public class DictionaryServiceImpl extends BaseServiceImpl<DictionaryMapper, Dic
             ValidUtil.isTrue(StringUtil.isInteger(code), "code 参数不能传递数字");
         }
         //2、获取所有字典数据
-        List<DictionaryVO> dictListVO = XjCacheUtil.findListALL(isDisable);
+        List<DictionaryVO> dictListVO = XjCacheUtil.findListAll(isDisable);
         if (dictListVO == null || dictListVO.size() == 0) {
             return dictListVO;
         }
@@ -159,7 +159,7 @@ public class DictionaryServiceImpl extends BaseServiceImpl<DictionaryMapper, Dic
 
     @Override
     public Map<String, DictionaryCodeGroup> findCodeGroup() {
-        List<DictionaryVO> dictList = XjCacheUtil.findListALL(false);
+        List<DictionaryVO> dictList = XjCacheUtil.findListAll(false);
         List<DictionaryCodeGroup> dictionaryCodeGroupList = BeanDtoVoUtil.listVo(dictList, DictionaryCodeGroup.class);
         Map<String, DictionaryCodeGroup> dictGroupMap = new HashMap<>(dictList.size(), 1);
         // return -按添加顺序排序
@@ -189,7 +189,7 @@ public class DictionaryServiceImpl extends BaseServiceImpl<DictionaryMapper, Dic
     @Override
     public List<DictionaryVO> findDictCategory(String code) {
         String newPid = PID;
-        List<DictionaryVO> dictList = XjCacheUtil.findListALL(true);
+        List<DictionaryVO> dictList = XjCacheUtil.findListAll(true);
         if (StringUtils.isNotBlank(code)) {
             for (DictionaryVO adminDictionaryVO : dictList) {
                 if (code.equals(adminDictionaryVO.getCode())) {
@@ -425,7 +425,7 @@ public class DictionaryServiceImpl extends BaseServiceImpl<DictionaryMapper, Dic
         List<String> ids = new ArrayList<>();
         ids.add(id);
         // 查询所有
-        List<DictionaryVO> dictList = XjCacheUtil.findListALL(true);
+        List<DictionaryVO> dictList = XjCacheUtil.findListAll(true);
         List<DictionaryVO> dictVoList = BeanDtoVoUtil.listVo(dictList, DictionaryVO.class);
         for (DictionaryVO adminDictionaryVO : dictVoList) {
             if (id.equals(adminDictionaryVO.getId())) {

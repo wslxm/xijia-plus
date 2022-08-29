@@ -136,7 +136,7 @@ public class AuthorityServiceImpl extends BaseServiceImpl<AuthorityMapper, Autho
     @SuppressWarnings("all")
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean refreshAuthDb() {
+    public synchronized Boolean refreshAuthDb() {
 
         // 获取启动类注解上需要扫描的路径
         Map<String, Object> annotatedBeans = context.getBeansWithAnnotation(SpringBootApplication.class);
@@ -206,40 +206,38 @@ public class AuthorityServiceImpl extends BaseServiceImpl<AuthorityMapper, Autho
                 uriType = Base.AuthorityType.V2.getValue();
                 state = Base.AuthorityState.V0.getValue();
             }
-            if (uriType != null) {
-                String classLog = "  接口类：--------------@.@[" + classDesc + "-" + className + "]--";
-                log.info(String.format("%-100s", classLog).replace(" ", "-"));
-                if (authorityMap.containsKey(AuthCacheKeyUtil.getAuthKey("", url))) {
-                    // 存在修改
-                    Authority updAuthority = authorityMap.get(AuthCacheKeyUtil.getAuthKey("", url));
-                    updAuthority.setUrl(url);
-                    updAuthority.setPid(PID);
-                    updAuthority.setDesc(classDesc);
-                    updAuthority.setType(uriType);
-                    updAuthority.setState(state);
-                    // 添加/处理方法上的权限
-                    this.putMethods(classInfo, authorityMap, updAuthority, updAuth, addAuth);
-                    updAuth.add(updAuthority);
-                    // 移除Map中已取出的数据
-                    authorityMap.remove(AuthCacheKeyUtil.getAuthKey("", url));
-                } else {
-                    // 不存在新添加
-                    Authority addAuthority = new Authority();
-                    addAuthority.setId(IdUtil.snowflakeId());
-                    addAuthority.setPid(PID);
-                    addAuthority.setMethod("");
-                    addAuthority.setUrl(url);
-                    addAuthority.setDesc(classDesc);
-                    addAuthority.setType(uriType);
-                    addAuthority.setState(state);
-                    addAuthority.setDisable(Base.Disable.V0.getValue());
-                    // 添加/处理方法上的权限
-                    this.putMethods(classInfo, authorityMap, addAuthority, updAuth, addAuth);
-                    addAuth.add(addAuthority);
-                }
-                //被管理的类数量
-                classNum++;
+            String classLog = "  接口类：--------------@.@[" + classDesc + "-" + className + "]--";
+            log.info(String.format("%-100s", classLog).replace(" ", "-"));
+            if (authorityMap.containsKey(AuthCacheKeyUtil.getAuthKey("", url))) {
+                // 存在修改
+                Authority updAuthority = authorityMap.get(AuthCacheKeyUtil.getAuthKey("", url));
+                updAuthority.setUrl(url);
+                updAuthority.setPid(PID);
+                updAuthority.setDesc(classDesc);
+                updAuthority.setType(uriType);
+                updAuthority.setState(state);
+                // 添加/处理方法上的权限
+                this.putMethods(classInfo, authorityMap, updAuthority, updAuth, addAuth);
+                updAuth.add(updAuthority);
+                // 移除Map中已取出的数据
+                authorityMap.remove(AuthCacheKeyUtil.getAuthKey("", url));
+            } else {
+                // 不存在新添加
+                Authority addAuthority = new Authority();
+                addAuthority.setId(IdUtil.snowflakeId());
+                addAuthority.setPid(PID);
+                addAuthority.setMethod("");
+                addAuthority.setUrl(url);
+                addAuthority.setDesc(classDesc);
+                addAuthority.setType(uriType);
+                addAuthority.setState(state);
+                addAuthority.setDisable(Base.Disable.V0.getValue());
+                // 添加/处理方法上的权限
+                this.putMethods(classInfo, authorityMap, addAuthority, updAuth, addAuth);
+                addAuth.add(addAuthority);
             }
+            //被管理的类数量
+            classNum++;
         }
         //
         log.info("  本次刷新接口+类 总数量为:{} ,如接口 [备注信息] 或 [请求方式] 或 [终端] 发送改变,则已被刷新", updAuth.size());
