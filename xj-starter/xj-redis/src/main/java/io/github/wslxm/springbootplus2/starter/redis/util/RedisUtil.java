@@ -339,7 +339,9 @@ public class RedisUtil {
     public long sAdd(String key, long time, Object... values) {
         try {
             Long count = redisTemplate.opsForSet().add(key, values);
-            if (time > 0) expire(key, time);
+            if (time > 0) {
+                expire(key, time);
+            }
             return count;
         } catch (Exception e) {
             log.error(e.toString());
@@ -459,7 +461,9 @@ public class RedisUtil {
     public boolean lRightPush(String key, Object value, long time) {
         try {
             redisTemplate.opsForList().rightPush(key, value);
-            if (time > 0) expire(key, time);
+            if (time > 0) {
+                expire(key, time);
+            }
             return true;
         } catch (Exception e) {
             log.error(e.toString());
@@ -496,7 +500,9 @@ public class RedisUtil {
     public boolean lRightPushAll(String key, List<Object> value, long time) {
         try {
             redisTemplate.opsForList().rightPushAll(key, value);
-            if (time > 0) expire(key, time);
+            if (time > 0) {
+                expire(key, time);
+            }
             return true;
         } catch (Exception e) {
             log.error(e.toString());
@@ -541,16 +547,44 @@ public class RedisUtil {
     }
 
 
-
-    // ====================== 生成分布式唯一编号 ====================================
-
     /**
-     * 获取唯一编号（20位），目前只适用于个 redis, 不适用于 redis 集群
-     * <P>
-     *    分布式架构获取唯一编号（基于redis）--> 订单号，交易号，退款号等等，如果redis 集群,需设置自增歩长,请使用命令设置或所有其他方法规避
+     * 生成分布式 各类编号
+     * <p>
+     * 获取20位的各类订单号, 【yyyyMMddHHmmss + 6位秒级自增值 (同一个key最高支持1秒生成999999个订单编号)】
      * </P>
      *
-     * @param key   key前缀--  实际key等于前缀+每秒时间戳(同一秒delta 自增，下一秒根据时间戳生成新的key,delta重新计算)
+     * @param key
+     * @return
+     */
+    public String getOrderNo(String redisKey) {
+        return this.getNo(redisKey, "", "yyyyMMddHHmmss", 6, 1L);
+    }
+
+    /**
+     * 生成分布式 各类数据编号
+     * <p>
+     * 获取自定义前缀 + 6位的各类数据编号, 【日+秒 + 2位秒级自增值 (同一个key最高1秒支持99个数据编号,允许超过,超过后编号位数将增加)】
+     * </P>
+     *
+     * @param key
+     * @return
+     */
+    public String getDataNo(String redisKey, String noPrefix) {
+        return this.getNo(redisKey, noPrefix, "ddss", 2, 1L);
+    }
+
+
+    /**
+     * 获取唯一编号（20位）
+     * <P>
+     *    分布式架构获取唯一编号（基于redis）--> 订单号，交易号，退款号等等
+     *    如果需要 redis 集群,需设置自增歩长,请使用命令设置或使用其他方法规避
+     * </P>
+     *
+     * @param redisKey   redis-缓存key前缀 实际key等于前缀+每秒时间戳 (同一秒delta 自增，下一秒根据时间戳生成新的key,delta重新计算)
+     * @param noPrefix  编号前缀 实际编号开头
+     * @param incrementLen   自增值位数
+     * @param incrementLen   时间格式: 格式 yyyyMMddHHmmssSSS,必须存在ss秒的单位,否则可能会生成重复的编号
      * @param delta 默认初始自增值
      *              *** 2019-10-20 12:00:01 000001 --> 20191020120001000001,20191020120001000002,20191020120001000003......
      *              *** 2019-10-20 12:00:02 000001 --> 20191020120002000001,20191020120002000002,20191020120002000003......
@@ -559,31 +593,17 @@ public class RedisUtil {
      * @mail 1720696548@qq.com
      * @date 2020/2/20 0020 15:59
      */
-    public String getNo(String key, Long delta) {
-        try {
-            // delta为空默认值1
-            if (null == delta) {
-                delta = 1L;
-            }
-            // 生成14位的时间戳(每秒使用新的时间戳当key)
-            String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-            // 获得redis-key
-            String newKey = key + ":" + timeStamp;
-            // 获取自增值（时间戳+自定义key）
-            Long increment = redisTemplate.opsForValue().increment(newKey, delta);
-            // 设置时间戳生成的key的有效期为2秒,删除已无用的key
-            redisTemplate.expire(newKey, 2, TimeUnit.SECONDS);
-            // 获取订单号，时间戳 + 唯一自增Id( 6位数,不过前方补0)
-            return timeStamp + String.format("%06d", increment);
-        } catch (Exception e) {
-            // redis 宕机时采用时间戳加随机数
-            String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-            Random random = new Random();
-            //14位时间戳到 + 6位随机数
-            for (int i = 0; i < 6; i++) {
-                timeStamp += random.nextInt(10) + "";
-            }
-            return timeStamp;
-        }
+    public String getNo(String redisKey, String noPrefix, String format, Integer incrementLen, Long delta) {
+        // 生成14位的时间戳(每秒使用新的时间戳当key)
+        String timeStamp = new SimpleDateFormat(format).format(new Date());
+        // 获得redis-key
+        String newKey = redisKey + ":" + timeStamp;
+        // 获取自增值(时间戳+自定义key)
+        Long increment = redisTemplate.opsForValue().increment(newKey, delta);
+        // 设置时间戳生成的key的有效期为2秒, 删除已无用的key
+        redisTemplate.expire(newKey, 2, TimeUnit.SECONDS);
+        // 获取订单号，时间戳 + 唯一自增Id(6位数,不过前方补0)
+        return noPrefix + timeStamp + String.format("%0" + incrementLen + "d", increment);
     }
+
 }

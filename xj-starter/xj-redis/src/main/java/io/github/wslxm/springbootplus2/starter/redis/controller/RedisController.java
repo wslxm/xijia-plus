@@ -100,18 +100,23 @@ public class RedisController {
     }
 
 
-    @ApiOperation("获取分布式唯一编号")
-    @GetMapping(value = "/getNo")
+    @ApiOperation("获取分布式唯一订单号")
+    @GetMapping(value = "/getOrderNo")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "noKey", value = "编号(如订单：order)", required = true, example = "order"),
-            @ApiImplicitParam(name = "delta", value = "自增开始值", required = true, example = "1"),
+            @ApiImplicitParam(name = "redisKey", value = "编号(如订单：order)", required = true, example = "xj-order-no"),
     })
-    public Object getNo(String noKey, Long delta) {
-        System.out.println("请求");
-        try {
-            Thread.sleep(1000);
-        } catch (Exception e) {
-        }
-        return redisUtil.getNo(noKey, delta);
+    public Object getOrderNo(String redisKey) {
+        return redisUtil.getOrderNo(redisKey);
+    }
+
+
+    @ApiOperation("获取分布式唯一数据编号")
+    @GetMapping(value = "/getDataNo")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "redisKey", value = "编号(如订单：order)", required = true, example = "xj-data-no-user"),
+            @ApiImplicitParam(name = "noPrefix", value = "编号前缀(如订单：XJ)", required = true, example = "XJ"),
+    })
+    public Object getDataNo(String redisKey, String noPrefix) {
+        return redisUtil.getDataNo(redisKey,noPrefix);
     }
 }
