@@ -548,12 +548,12 @@ public class RedisUtil {
 
 
     /**
-     * 生成分布式 各类编号
+     * 生成分布式 各类订单号
      * <p>
      * 获取20位的各类订单号, 【yyyyMMddHHmmss + 6位秒级自增值 (同一个key最高支持1秒生成999999个订单编号)】
      * </P>
      *
-     * @param key
+     * @param redisKey redis唯一编号的缓存key, 用于实现编号自增长, 不同的订单号使用不同redisKey, 如商品订单号为【goods-order-no】,支付订单号为【pay-order-no】
      * @return
      */
     public String getOrderNo(String redisKey) {
@@ -563,10 +563,11 @@ public class RedisUtil {
     /**
      * 生成分布式 各类数据编号
      * <p>
-     * 获取自定义前缀 + 6位的各类数据编号, 【日+秒 + 2位秒级自增值 (同一个key最高1秒支持99个数据编号,允许超过,超过后编号位数将增加)】
+     * 获取自定义前缀 + 6位的各类数据编号, 【日（01-31）+秒(00-59) + 2位秒级自增值】 (同一个key最高1秒支持99个不重复数据编号,允许超过,超过后编号位数将增加（秒级,下一秒的编号恢复正常位数))
      * </P>
      *
-     * @param key
+     * @param redisKey  redis唯一编号的缓存key, 用于实现编号自增长, 不同的数据号使用不同redisKey, 如用户为【uset-data-no】,部门为【dep-data-no】
+     * @param noPrefix  生成后的编号前缀： 如：用户唯一编号使用前缀【YB】-生成后编号格式为【YB012401】
      * @return
      */
     public String getDataNo(String redisKey, String noPrefix) {
@@ -575,7 +576,7 @@ public class RedisUtil {
 
 
     /**
-     * 获取唯一编号（20位）
+     * 获取唯一编号
      * <P>
      *    分布式架构获取唯一编号（基于redis）--> 订单号，交易号，退款号等等
      *    如果需要 redis 集群,需设置自增歩长,请使用命令设置或使用其他方法规避
@@ -584,7 +585,7 @@ public class RedisUtil {
      * @param redisKey   redis-缓存key前缀 实际key等于前缀+每秒时间戳 (同一秒delta 自增，下一秒根据时间戳生成新的key,delta重新计算)
      * @param noPrefix  编号前缀 实际编号开头
      * @param incrementLen   自增值位数
-     * @param incrementLen   时间格式: 格式 yyyyMMddHHmmssSSS,必须存在ss秒的单位,否则可能会生成重复的编号
+     * @param format   时间格式: 格式 yyyyMMddHHmmssSSS,必须存在ss秒的单位,否则可能会生成重复的编号
      * @param delta 默认初始自增值
      *              *** 2019-10-20 12:00:01 000001 --> 20191020120001000001,20191020120001000002,20191020120001000003......
      *              *** 2019-10-20 12:00:02 000001 --> 20191020120002000001,20191020120002000002,20191020120002000003......
