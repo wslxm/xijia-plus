@@ -46,28 +46,24 @@ public class AliOssServiceImpl implements AliOssService {
 	@Override
 	public Object upload(MultipartFile file,
 	                     String filePath,
-	                     Integer resType,
-	                     Boolean isReduce) {
-
-		// 1、验证文件格式
-		// 2、验证保存路径
-		// 3、获取处理后的文件名, file.getOriginalFilename()=原文件名
+	                     Integer resType) {
+		// 1、验证文件格式 2、验证保存路径  3、获取处理后的文件名, file.getOriginalFilename()=原文件名
 		String fileName = FileUploadUtil.getPath(filePath, file.getOriginalFilename());
+		String url = null;
 		try {
-			// 对上传的图片进行压缩
-			InputStream inputStream = FileUploadUtil.imgReduce(filePath,fileName, isReduce, file.getInputStream());
-			// 上传到OSS,返回访问地址
-			if (resType == null || resType == 1) {
-				return ossUtil.upload(filePath, fileName, inputStream);
-			} else {
-				String path = ossUtil.upload(filePath, fileName, inputStream);
-				Map<String, String> res = new HashMap<>(2, 1);
-				res.put("name", file.getOriginalFilename());
-				res.put("url", path);
-				return res;
-			}
+			InputStream inputStream = file.getInputStream();
+			url = ossUtil.upload(filePath, fileName, inputStream);
 		} catch (Exception e) {
 			throw new AliYunOssErrorException("上传过程中出现错误");
+		}
+		// 返回数据处理
+		if (resType == null || resType == 1) {
+			return url;
+		} else {
+			Map<String, String> res = new HashMap<>(2, 1);
+			res.put("name", file.getOriginalFilename());
+			res.put("url", url);
+			return res;
 		}
 	}
 

@@ -22,13 +22,11 @@ public interface AliOssService {
      * @param file
      * @param filePath
      * @param resType
-     * @param isReduce
      * @return
      */
     public Object upload(@RequestParam(required = true) MultipartFile file,
                          @RequestParam(required = true) String filePath,
-                         @RequestParam(required = false) Integer resType,
-                         @RequestParam(required = false) Boolean isReduce);
+                         @RequestParam(required = false) Integer resType);
 
 
     /**

@@ -33,11 +33,6 @@ public class FileUploadUtil {
     private final static String PATH_EXCEL = "excel";  //  oss/file/excel  文档(excel/pdf/word 等)
     private final static String PATH_FILE = "file";    //  oss/file/file   任意文件
 
-    /**
-     * 图片最小体积开始压缩 (图片大于该值进行压缩操作) 1M * 1 = 1M  -->  只对大于1M的图片进行压缩
-     */
-    private final static double imgMinReduce = (1024 * 1024) * 1;
-
 
     /**
      * 文件格式验证
@@ -128,7 +123,7 @@ public class FileUploadUtil {
         if (excludeFileSuffix != null && excludeFileSuffix.contains(suffixName)) {
             throw new AliYunOssErrorException("禁止上传文件格式:" + excludeFileSuffix.toString());
         }
-        return getTimeStr20() + "-" + fileName;
+        return getTimeStr8() + "-" + fileName;
     }
 
 
@@ -137,7 +132,7 @@ public class FileUploadUtil {
      *
      * @return
      */
-    private static String getTimeStr20() {
+    private static String getTimeStr8() {
         try {
             Thread.sleep(1);
         } catch (InterruptedException e) {
@@ -149,40 +144,6 @@ public class FileUploadUtil {
             timeStamp += (random.nextInt(10) + "");
         }
         return timeStamp;
-    }
-
-
-    /**
-     * 判断是否为图片，是图片进行压缩后返回
-     * @param filePath
-     * @param reduceSize 期望压缩后大小
-     * @param inputStream
-     * @return
-     */
-    public static InputStream imgReduce(String filePath, String fileName, Boolean isReduce, InputStream inputStream) {
-        // 目录开头
-        String path = filePath.split("/")[0];
-        if (PATH_IMAGE.equals(path)) {
-            // 获取后缀(小写)
-            String suffixName = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()).toLowerCase();
-            // gif 不能压缩
-            boolean isGif = "gif".equals(suffixName);
-            // 是否压缩
-            isReduce = isReduce == null ? true : isReduce;
-            if (isReduce && !isGif) {
-                // 获取文件大小(字节) 1024字节=1kb  1024000=1MB
-                Integer imgSize = getImgSize(inputStream);
-                // 上次压缩大小
-                Integer oldImgSize = imgSize;
-                // 压缩比例
-                float qality = (float) 0.3;
-                // 图片压缩
-                byte[] bytes = ImgUtils.inputstreamToByte(inputStream);
-                bytes = ImgUtils.compressPic(bytes, qality);
-                inputStream = ImgUtils.byteToInputStream(bytes);
-            }
-        }
-        return inputStream;
     }
 
 

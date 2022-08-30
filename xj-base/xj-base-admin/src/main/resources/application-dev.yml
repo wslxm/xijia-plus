@@ -28,7 +28,8 @@ aliyun:
 # 日志配置,日志存放地址(logback-spring.xml 读取), methods 记录那些请求持久化到数据到数据库
 logging:
   filePath: logs
-  methods: POST,PUT,DELETE
+  #methods: POST,PUT,DELETE
+  methods:
 
 # swagger配置
 swagger:

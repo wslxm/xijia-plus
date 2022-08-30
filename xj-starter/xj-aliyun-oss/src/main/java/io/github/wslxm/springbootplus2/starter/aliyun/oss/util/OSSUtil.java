@@ -85,9 +85,24 @@ public class OSSUtil {
     @Autowired
     private HttpServletRequest request;
 
-
     @Autowired
     private AliYunOssProperties aliYunOssProperties;
+
+    /**
+     * 文件客户端对象
+     */
+    private OSS ossClient = null;
+
+
+    /**
+     * 初始化对象
+     */
+    private void init() {
+        // 创建ossClient
+        if (ossClient == null) {
+            ossClient = new OSSClientBuilder().build(aliYunOssProperties.getEndpoint(), aliYunOssProperties.getAccessKeyId(), aliYunOssProperties.getAccessKeySecret());
+        }
+    }
 
     /**
      * 上传文件到oss/file 目录下
@@ -101,10 +116,9 @@ public class OSSUtil {
      * @return
      */
     public String upload(String filePath, String fileName, InputStream inputStream) {
+        this.init();
         // 表示上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg。
         String yourObjectName = FILE_PATH + filePath + fileName;
-        // 创建ossClient
-        OSS ossClient = new OSSClientBuilder().build(aliYunOssProperties.getEndpoint(), aliYunOssProperties.getAccessKeyId(), aliYunOssProperties.getAccessKeySecret());
         // 创建PutObjectRequest对象。
         PutObjectRequest putObjectRequest = new PutObjectRequest(aliYunOssProperties.getBucketName(), yourObjectName, inputStream);
         // 设置 ContentType 类型 ,防止图片等资源无法使用url直接访问，没有对应格式时,不处理，使用文件对应的默认格式
@@ -119,49 +133,23 @@ public class OSSUtil {
         ossClient.putObject(putObjectRequest);
         log.info("上传-" + yourObjectName + " 成功");
         // 关闭OSSClient。
-        ossClient.shutdown();
+        // ossClient.shutdown();
         // 访问地址= 当前服务器域名 + oss存储路径
         return aliYunOssProperties.getBucket() + "/" + yourObjectName;
     }
 
 
-    /**
-     * 根据请求页面地址 生成文件保存地址子目录
-     *
-     * @return
-     */
-//    private String getfilePathTwo() {
-//        // 获取请求来源, 根据请求来源生成目录
-//        String referer = request.getHeader("referer");
-//        if (referer == null) {
-//            throw new AliYunOssErrorException(AliYunOssRType.FILE_NO_SOURCE);
-//        }
-//        // 去除 https:// 或 http://  后的地址
-//        String excludePath = referer.split("//")[1];
-//
-//        // 分割地址
-//        String[] paths = excludePath.split("/");
-//        // 请求地址域名或ip+端口
-//        String domainName = paths[0];
-//        // 请求地址页面地址
-//        String uriFile = "";
-//        for (int i = 1; i < paths.length; i++) {
-//            uriFile += (i == paths.length - 1) ? paths[i] : paths[i] + "_";
-//        }
-//        return domainName + "/" + uriFile;
-//    }
 
 
     /**
      * 获取OSS 文件列表
      */
     public List<OSSObjectSummary> getObjectListing() {
-        // 创建ossClient
-        OSS ossClient = new OSSClientBuilder().build(aliYunOssProperties.getEndpoint(), aliYunOssProperties.getAccessKeyId(), aliYunOssProperties.getAccessKeySecret());
+        this.init();
         ObjectListing objectListing = ossClient.listObjects(aliYunOssProperties.getBucketName());
         List<OSSObjectSummary> objectSummary = objectListing.getObjectSummaries();
         // 关闭OSSClient。
-        ossClient.shutdown();
+        // ossClient.shutdown();
         return objectSummary;
     }
 
@@ -170,13 +158,12 @@ public class OSSUtil {
      * 删除, 删除文件夹 --> 如: file/
      */
     public boolean deleteObject(String firstKey) {
-        // 创建ossClient
-        OSS ossClient = new OSSClientBuilder().build(aliYunOssProperties.getEndpoint(), aliYunOssProperties.getAccessKeyId(), aliYunOssProperties.getAccessKeySecret());
+        this.init();
         // 创建PutObjectRequest对象。
         ossClient.deleteObject(aliYunOssProperties.getBucketName(), firstKey);
         log.info("删除Object：" + firstKey + "成功。");
         // 关闭OSSClient。
-        ossClient.shutdown();
+        // ossClient.shutdown();
         return true;
     }
 
