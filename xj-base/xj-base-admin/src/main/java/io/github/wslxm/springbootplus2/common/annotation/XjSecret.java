@@ -23,5 +23,20 @@ public @interface XjSecret {
      */
     boolean isNext() default false;
 
+    /**
+     * 类型
+     * 1-请求参数使用base64解密，响应参数使用base64加密
+     * 2-只对请求参数使用base64解密
+     * 3-只对响应参数使用base64加密
+     * 4-数据脱敏(需指定, 脱敏索引位置)
+     */
+    int type() default 1;
+
+
+    /**
+     * 脱敏索引 (默认为3-7, 标准的隐藏手机号中间4位)
+     */
+    int[] desensitizedIndex() default {3, 7};
+
 }
 

@@ -1,5 +1,6 @@
 package com.test.springbootplus2.manage.test.model.vo;
 
+import io.github.wslxm.springbootplus2.common.annotation.XjSecret;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.ToString;
@@ -17,10 +18,12 @@ public class EncryptVO implements Serializable {
 
     private String a;
 
+    @XjSecret(type = 1)
     private String b;
 
-
+    @XjSecret(isNext = true)
     private EncryptVO encrypt;
 
+    @XjSecret(isNext = true)
     private List<EncryptVO> encrypts;
 }

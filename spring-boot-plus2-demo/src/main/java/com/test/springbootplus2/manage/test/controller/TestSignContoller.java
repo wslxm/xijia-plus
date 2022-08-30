@@ -3,6 +3,7 @@ package com.test.springbootplus2.manage.test.controller;
 import com.test.springbootplus2.manage.test.model.dto.EncryptDTO;
 import com.test.springbootplus2.manage.test.model.dto.Page;
 import com.test.springbootplus2.manage.test.model.dto.SignDto;
+import com.test.springbootplus2.manage.test.model.vo.Encrypt2VO;
 import com.test.springbootplus2.manage.test.model.vo.EncryptVO;
 import io.github.wslxm.springbootplus2.common.annotation.XjSecret;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
@@ -52,7 +53,7 @@ public class TestSignContoller {
      * @return
      */
     @RequestMapping(value = "/test2", method = RequestMethod.POST)
-    @ApiOperation(value = "参数加密")
+    @ApiOperation(value = "请求参数解密,响应参数加密")
     public Result<EncryptVO> test2(@RequestBody @Valid EncryptDTO dto) {
         System.out.println("获取参数" + dto.toString());
         //二级对象
@@ -80,9 +81,33 @@ public class TestSignContoller {
      * @return
      */
     @RequestMapping(value = "/test3/{a}", method = RequestMethod.POST)
-    @ApiOperation(value = "参数加密")
+    @ApiOperation(value = "请求参数解密")
     public Result<Boolean> test3(@PathVariable @XjSecret String a, @RequestHeader @XjSecret String b) {
         System.out.println("成功执行");
         return Result.success(true);
+    }
+
+
+
+    @RequestMapping(value = "/test4/{a}", method = RequestMethod.POST)
+    @ApiOperation(value = "响应参数脱敏")
+    public Result<Encrypt2VO> test4() {
+        //二级对象
+        Encrypt2VO nextEncryptVO = new Encrypt2VO();
+        nextEncryptVO.setA("123");
+        nextEncryptVO.setPhone("17628680001");
+        //二级集合
+        List<Encrypt2VO> nextEncryptListVO = new ArrayList<>();
+        nextEncryptListVO.add(nextEncryptVO);
+        nextEncryptListVO.add(nextEncryptVO);
+        //一级数据
+        Encrypt2VO encryptVO = new Encrypt2VO();
+        encryptVO.setA("a");
+        encryptVO.setPhone("17628680002");
+        //加入二级数据
+        encryptVO.setEncrypt(nextEncryptVO);
+        encryptVO.setEncrypts(nextEncryptListVO);
+
+        return Result.success(encryptVO);
     }
 }

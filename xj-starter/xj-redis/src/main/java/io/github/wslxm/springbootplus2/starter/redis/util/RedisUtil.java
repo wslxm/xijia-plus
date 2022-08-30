@@ -8,7 +8,10 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("all")
@@ -606,5 +609,4 @@ public class RedisUtil {
         // 获取订单号，时间戳 + 唯一自增Id(6位数,不过前方补0)
         return noPrefix + timeStamp + String.format("%0" + incrementLen + "d", increment);
     }
-
 }

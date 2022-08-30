@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth;
 
 
+import cn.hutool.core.util.StrUtil;
 import io.github.wslxm.springbootplus2.common.annotation.XjSecret;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
@@ -108,7 +109,7 @@ public class SysEncrypt {
      *  4、获取到需要解密or加密的的参数 (默认参数为obj类型)
      *  5、对需要解密or加密的参数 进行 base64解密or加密 (默认参数为obj类型)
      * @param obj 参数 args参数
-     * @param type 1=加密 2=解密
+     * @param type 1=响应（加密或脱敏） 2=请求(解密)
      * @return
      */
     public Result<Object> decryptOrEncryptEntity(Object obj, Integer type) {
@@ -121,10 +122,10 @@ public class SysEncrypt {
         for (Field field : declaredFields) {
             String name = field.getName();
             field.setAccessible(true);
-            XjSecret xjEncrypt = field.getAnnotation(XjSecret.class);
+	        XjSecret xjSecret = field.getAnnotation(XjSecret.class);
             // 判断是否为子对象或子list集合，是的话进行递归解密
-            if (xjEncrypt != null) {
-                if (xjEncrypt.isNext()) {
+	        if (xjSecret != null) {
+		        if (xjSecret.isNext()) {
                     try {
                         Object fieldVal = field.get(obj);
                         if (fieldVal == null) {
@@ -143,20 +144,30 @@ public class SysEncrypt {
                     } catch (Exception e) {
                         log.error(name + ": 参数" + logMsg + "失败");
                         return Result.error(ResultType.PARAM_DECRYPTION_ERROR.getValue(), ResultType.PARAM_DECRYPTION_ERROR.getMsg(), obj, name + logMsg + ": 失败");
-                        /// e.printStackTrace();
                     }
                 } else {
                     try {
+	                    int xjSecretType = xjSecret.type();
                         String fieldVal = (String) field.get(obj);
                         if (type == 1) {
-                            field.set(obj, Base64Util.encode(fieldVal));
+	                        // 响应
+	                        if (xjSecretType == 1 || xjSecretType == 3) {
+		                        // 加密
+		                        field.set(obj, Base64Util.encode(fieldVal));
+	                        } else if (xjSecretType == 4) {
+		                        // 脱敏
+		                        int[] ints = xjSecret.desensitizedIndex();
+		                        field.set(obj, StrUtil.hide(fieldVal, ints[0], ints[1]));
+	                        }
                         } else if (type == 2) {
-                            field.set(obj, Base64Util.decrypt(fieldVal));
+	                        // 请求
+	                        if (xjSecretType == 1 || xjSecretType == 2) {
+		                        field.set(obj, Base64Util.decrypt(fieldVal));
+	                        }
                         }
                     } catch (Exception e) {
                         log.error(name + ": 参数" + logMsg + "失败");
                         return Result.error(ResultType.PARAM_DECRYPTION_ERROR.getValue(), ResultType.PARAM_DECRYPTION_ERROR.getMsg(), obj, name + logMsg + ": 失败");
-                        /// e.printStackTrace();
                     }
                 }
             }
@@ -189,4 +200,9 @@ public class SysEncrypt {
         objectR.setMsg(r.getMsg());
         return objectR;
     }
+
+
+	public static void main(String[] args) {
+		System.out.println(StrUtil.hide(null, 3, 7));
+	}
 }
