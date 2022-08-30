@@ -16,6 +16,7 @@ import io.github.wslxm.springbootplus2.manage.sys.model.vo.RoleVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.RoleMenuService;
 import io.github.wslxm.springbootplus2.manage.sys.service.RoleService;
 import io.github.wslxm.springbootplus2.manage.sys.service.RoleUserService;
+import io.github.wslxm.springbootplus2.starter.redis.lock.XjDistributedLock;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,6 +83,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @XjDistributedLock(lockName = "'xj-sys-role_'+#dto.code", waitTime = 5L)
     public String insert(RoleDTO dto) {
         this.isCodeRepeat(dto.getCode(),null);
 
@@ -94,6 +96,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @XjDistributedLock(lockName = "'xj-sys-role_'+#dto.code", waitTime = 5L)
     public Boolean upd(String id, RoleDTO dto) {
         this.isCodeRepeat(dto.getCode(),id);
 

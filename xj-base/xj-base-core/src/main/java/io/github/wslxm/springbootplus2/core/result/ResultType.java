@@ -76,6 +76,7 @@ public enum ResultType implements IEnum {
     USER_PHONE_IS_DUPLICATE(8110, "该手机号已绑定其他账号"),
     //字典
     DICT_DUPLICATE(8021, "字典Code重复"),
+    CONFIG_DUPLICATE(8021, "全局配置Code重复"),
     ;
     private Integer value;
     private String msg;

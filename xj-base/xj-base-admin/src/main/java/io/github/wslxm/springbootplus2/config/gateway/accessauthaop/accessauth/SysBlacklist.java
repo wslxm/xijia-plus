@@ -26,9 +26,6 @@ public class SysBlacklist {
 
 
     @Autowired
-    private BlacklistService xjAdminBlacklistService;
-
-    @Autowired
     private HttpServletRequest request;
 
 

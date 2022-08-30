@@ -16,6 +16,7 @@ import io.github.wslxm.springbootplus2.manage.sys.model.entity.Config;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.ConfigQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.ConfigService;
+import io.github.wslxm.springbootplus2.starter.redis.lock.XjDistributedLock;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -57,10 +58,11 @@ public class ConfigServiceImpl extends BaseServiceImpl<ConfigMapper, Config> imp
     }
 
     @Override
+    @XjDistributedLock(lockName = "'xj-sys-config_'+#dto.code", waitTime = 5L)
     public String insert(ConfigDTO dto) {
         // 判code重复
         if (this.count(new LambdaQueryWrapper<Config>().eq(Config::getCode, dto.getCode())) > 0) {
-            throw new ErrorException(ResultType.DICT_DUPLICATE);
+            throw new ErrorException(ResultType.CONFIG_DUPLICATE);
         }
         Config entity = dto.convert(Config.class);
         boolean b = this.save(entity);
@@ -69,11 +71,12 @@ public class ConfigServiceImpl extends BaseServiceImpl<ConfigMapper, Config> imp
 
     @Override
     @CacheEvict(value = CacheKey.CONFIG_LIST_BY_CODE, allEntries = true)
+    @XjDistributedLock(lockName = "'xj-sys-config_'+#dto.code", waitTime = 5L)
     public boolean upd(String id, ConfigDTO dto) {
         Config config = this.getById(id);
         if (!config.getCode().equals(dto.getCode())) {
             if (this.count(new LambdaQueryWrapper<Config>().eq(Config::getCode, dto.getCode())) > 0) {
-                throw new ErrorException(ResultType.DICT_DUPLICATE);
+                throw new ErrorException(ResultType.CONFIG_DUPLICATE);
             }
         }
         Config entity = dto.convert(Config.class);

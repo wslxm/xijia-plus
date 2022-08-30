@@ -29,6 +29,7 @@ import io.github.wslxm.springbootplus2.manage.sys.service.ConfigService;
 import io.github.wslxm.springbootplus2.manage.sys.service.DepService;
 import io.github.wslxm.springbootplus2.manage.sys.service.RoleUserService;
 import io.github.wslxm.springbootplus2.manage.sys.service.SysUserService;
+import io.github.wslxm.springbootplus2.starter.redis.lock.XjDistributedLock;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,6 +92,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @XjDistributedLock(lockName = "'xj-sys-user_'+ #dto.username +'_' + #dto.phone",waitTime = 5L)
     public String insert(SysUserDTO dto) {
         // 判重账号/判重电话
         this.verifyRepeatUsername(dto.getUsername(), null);
@@ -114,6 +116,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @XjDistributedLock(lockName = "'xj-sys-user_'+ #dto.username +'_' + #dto.phone",waitTime = 5L)
     public Boolean upd(String id, SysUserDTO dto) {
         SysUser adminUser = this.getOne(new LambdaQueryWrapper<SysUser>()
                 .select(SysUser::getUsername, SysUser::getPhone)

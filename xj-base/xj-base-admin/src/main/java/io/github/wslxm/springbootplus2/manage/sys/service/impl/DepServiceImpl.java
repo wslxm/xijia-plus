@@ -14,6 +14,7 @@ import io.github.wslxm.springbootplus2.manage.sys.model.query.DepQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DepVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserDepVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.DepService;
+import io.github.wslxm.springbootplus2.starter.redis.lock.XjDistributedLock;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -94,6 +95,7 @@ public class DepServiceImpl extends BaseServiceImpl<DepMapper, Dep> implements D
 
 
     @Override
+    @XjDistributedLock(lockName = "'xj-sys-dep_'+#dto.code", waitTime = 5L)
     public String insert(DepDTO dto) {
         this.isCodeRepeat(dto.getCode(), null);
         Dep entity = dto.convert(Dep.class);
@@ -102,6 +104,7 @@ public class DepServiceImpl extends BaseServiceImpl<DepMapper, Dep> implements D
     }
 
     @Override
+    @XjDistributedLock(lockName = "'xj-sys-dep_'+#dto.code", waitTime = 5L)
     public boolean upd(String id, DepDTO dto) {
         this.isCodeRepeat(dto.getCode(), id);
         Dep entity = dto.convert(Dep.class);

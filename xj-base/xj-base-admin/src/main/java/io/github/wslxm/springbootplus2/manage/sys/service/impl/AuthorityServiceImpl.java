@@ -15,11 +15,11 @@ import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.AuthorityMapper;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.AuthorityDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Authority;
-import io.github.wslxm.springbootplus2.manage.sys.model.query.AuthorityQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.AuthorityByUserIdQuery;
+import io.github.wslxm.springbootplus2.manage.sys.model.query.AuthorityQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.AuthorityVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.AuthorityService;
-import io.github.wslxm.springbootplus2.manage.sys.service.RoleService;
+import io.github.wslxm.springbootplus2.starter.redis.lock.XjDistributedLock;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -46,8 +46,6 @@ public class AuthorityServiceImpl extends BaseServiceImpl<AuthorityMapper, Autho
 
     @Autowired
     private ApplicationContext context;
-    @Autowired
-    private RoleService roleService;
     @Autowired
     private AuthorityMapper authorityMapper;
 
@@ -133,10 +131,10 @@ public class AuthorityServiceImpl extends BaseServiceImpl<AuthorityMapper, Autho
      * @return void
      * @date 2019/11/25 0025 9:02
      */
-    @SuppressWarnings("all")
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public synchronized Boolean refreshAuthDb() {
+    @XjDistributedLock(waitTime = 0, leaseTime = 10L)
+    public Boolean refreshAuthDb() {
 
         // 获取启动类注解上需要扫描的路径
         Map<String, Object> annotatedBeans = context.getBeansWithAnnotation(SpringBootApplication.class);

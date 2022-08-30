@@ -19,6 +19,7 @@ import io.github.wslxm.springbootplus2.manage.sys.model.query.DictionaryQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DictionaryCodeGroup;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DictionaryVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.DictionaryService;
+import io.github.wslxm.springbootplus2.starter.redis.lock.XjDistributedLock;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -114,6 +115,7 @@ public class DictionaryServiceImpl extends BaseServiceImpl<DictionaryMapper, Dic
 
     @Override
     @CacheEvict(value = CacheKey.DICT_LIST_ALL, allEntries = true)
+    @XjDistributedLock(lockName = "'xj-sys-dict_'+#dto.code", waitTime = 5L)
     public String insert(DictionaryDTO dto) {
         if (StringUtils.isBlank(dto.getCode().trim())) {
             throw new ErrorException(ResultType.PARAM_MISSING.getValue(), ResultType.PARAM_MISSING.getMsg() + ":code");
@@ -131,6 +133,7 @@ public class DictionaryServiceImpl extends BaseServiceImpl<DictionaryMapper, Dic
 
     @Override
     @CacheEvict(value = CacheKey.DICT_LIST_ALL, allEntries = true)
+    @XjDistributedLock(lockName = "'xj-sys-dict_'+#dto.code", waitTime = 5L)
     public Boolean upd(String id, DictionaryDTO dto) {
         // 因为Code不能重复, 编辑了Code 需单独处理数据
         if (dto.getCode() != null) {
