@@ -117,19 +117,6 @@
                             }],
                             labelTip: '可以使用 手机号 登录系统',
                         },
-                        // {
-                        //     label: '密码',
-                        //     prop: 'password',
-                        //     maxlength: 16,
-                        //     showWordLimit: true,
-                        //     span: 20,
-                        //     rules: [{
-                        //         required: true,
-                        //         message: "请输入 密码 ",
-                        //         trigger: "blur"
-                        //     }],
-                        //     labelTip: '登录系统时的密码,密码默认生成规则:【姓名首字母大写+手机号后六位】',
-                        // },
                         {
                             label: '性别',
                             prop: 'gender',
@@ -174,6 +161,7 @@
                             prop: 'depIds',
                             span: 20,
                             type: "cascader",
+                            dataType: 'string',
                             dicData: this.deps,
                             props: {
                                 value: "id",

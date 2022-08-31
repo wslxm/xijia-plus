@@ -24,19 +24,14 @@
                 <el-avatar :src="row.headPic"></el-avatar>
             </template>
 
-            <template slot-scope="{row,index,type,size}" slot="depNames">
-                <span>  {{row.dep != null ?row.dep.depNames: '-'}}</span>
-            </template>
-
-
-            <template slot-scope="{row,index,type,size}" slot="depNamesSearch">
-                <avue-cascader v-model="depIds" :dic="deps" :props="depProps"></avue-cascader>
+            <template slot-scope="{row,index,type,size}" slot="depIdsSearch">
+                <avue-cascader v-model="search.depIds" :dic="dep.data" :props="dep.props" :filterable="true" placeholder="请选择"></avue-cascader>
             </template>
 
             <template slot-scope="{row,index,type,size}" slot="regTimeSearch">
                 <div class="block">
                     <el-date-picker
-                            v-model="newRegTime"
+                            v-model="regTime.data"
                             value-format="yyyy-MM-dd HH:mm:ss"
                             type="daterange"
                             align="right"
@@ -44,7 +39,7 @@
                             range-separator="至"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
-                            :picker-options="pickerOptions">
+                            :picker-options="regTime.pickerOptions">
                     </el-date-picker>
                 </div>
             </template>
@@ -126,45 +121,46 @@
                     info: "123456",
                     default: "123456",
                 },
-
-                // 时间搜索
-                pickerOptions: {
-                    shortcuts: [{
-                        text: '最近一周',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }, {
-                        text: '最近一个月',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }, {
-                        text: '最近三个月',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }]
+                // 时间
+                regTime: {
+                    data: '',
+                    pickerOptions: {
+                        shortcuts: [{
+                            text: '最近一周',
+                            onClick(picker) {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                                picker.$emit('pick', [start, end]);
+                            }
+                        }, {
+                            text: '最近一个月',
+                            onClick(picker) {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                                picker.$emit('pick', [start, end]);
+                            }
+                        }, {
+                            text: '最近三个月',
+                            onClick(picker) {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                                picker.$emit('pick', [start, end]);
+                            }
+                        }]
+                    }
                 },
-                newRegTime: '',
-
-                // 部门数据
-                deps: [],
-                depProps: {
-                    value: "id",
-                    label: "name",
-                    children: "deps"
-                },
-                depIds: '',
+                // 部门
+                dep: {
+                    data: [],
+                    props: {
+                        value: "id",
+                        label: "name",
+                        children: "deps"
+                    },
+                }
             }
         },
         activated: function () {
@@ -211,10 +207,13 @@
                 // },
                 {
                     label: '部门',
-                    prop: 'depNames',
+                    prop: 'depIds',
                     search: true,
                     overHidden: true,
                     searchSpan: 5,
+                    formatter(row) {
+                        return row.dep != null ? row.dep.depNames : '-';
+                    }
                     // labelTip: '用于控制业务走向,通过部门+职位组合可满足大多数场景下的业务控制, 如给指定部门的人推送消息',
                 },
                 {
@@ -258,10 +257,9 @@
 
             // 部门数据(弹层数据)
             this.crud.get(this.uri.depInfo, {disable: 0, isTree: true}).then((res) => {
-                this.deps = res.data.data;
+                this.dep.data = res.data.data;
                 console.log("获取组织架构" + this.deps)
             });
-
         },
         methods: {
 
@@ -288,20 +286,13 @@
              */
             onLoad() {
                 // 时间查询处理
-                if (this.newRegTime != null && this.newRegTime !== "") {
-                    this.search.regTimeStart = this.newRegTime[0];
-                    this.search.regTimeEnd = this.newRegTime[1];
+                if (this.regTime.data != null && this.regTime.data !== "") {
+                    this.search.regTimeStart = this.regTime.data[0];
+                    this.search.regTimeEnd = this.regTime.data[1];
                 }else{
                     this.search.regTimeStart = null;
                     this.search.regTimeEnd = null;
                 }
-                // 部门查询处理
-                if (this.depIds != null && this.depIds !== "") {
-                    this.search.depIds = this.depIds;
-                } else {
-                    this.search.depIds = null;
-                }
-
                 // 查询
                 this.crud.list(this, true);
                 this.crud.doLayout(this, this.$refs.crudUser);

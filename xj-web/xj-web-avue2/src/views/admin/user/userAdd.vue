@@ -190,6 +190,7 @@
                             prop: 'depIds',
                             span: 20,
                             type: "cascader",
+                            dataType: 'string',
                             dicData: this.deps,
                             props: {
                                 value: "id",

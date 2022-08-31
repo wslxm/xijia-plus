@@ -102,8 +102,12 @@ export default {
         editBtn: false,           // 操作栏是否需要编辑按钮(开启操作栏生效)
         delBtn: false,            // 操作栏是否需要删除按钮(开启操作栏生效，行编辑功能开启时不展示删除按钮)
     },
+
     /**
-     * 左边树 通用配置
+     * 左边树 基础配置 统一配置
+     * @param null
+     * @date 2022/8/31 15:21
+     * @return
      */
     treeOption: {
         elAsideWidth: "250px",         // 宽度
