@@ -168,7 +168,6 @@ const user = {
         SET_TOKEN: (state, token) => {
             setToken(token);
             state.token = token;
-            // setStore({name: 'token', content: state.token})
         },
         SET_MENUID(state, menuId) {
             state.menuId = menuId;
@@ -209,32 +208,5 @@ const user = {
         }
     }
 };
-
-
-/**
- * 左菜单/处理返回数据成avue格式数据
- * @returns {*}
- * @constructor
- */
-// function nextMenu(menus) {
-//     // 一级菜单
-//     for (let i = 0; i < menus.length; i++) {
-//         const menu = menus[i]
-//         menu.label = menu.name;
-//         menu.icon = menu.icon
-//         menu.component = menu.url
-//         menu.iconBgColor = "#8B694B";
-//         //menu.meta = {i18n: 'cache', keepAlive: false};
-//         // 根据路径删除访问路径
-//         menu.path = ""
-//         if (menu.url != null && menu.url != '') {
-//             menu.path = menu.url
-//         }
-//         menu.children = menu.menus;
-//         if (menu.children != null && menu.children.length > 0) {
-//             nextMenu(menu.children);
-//         }
-//     }
-// }
 
 export default user

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import color from "@/mixins/color";
+import color from "@/util/color";
 export default {
   name: "topColor",
   mixins: [color()],

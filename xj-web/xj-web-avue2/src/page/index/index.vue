@@ -52,10 +52,8 @@
     import sidebar from "./sidebar/";
     import admin from "@/util/admin";
     import {validatenull} from "@/util/validate";
-    import index from '@/mixins/index'
     import {baseWebSocketUrl} from "@/config/env";
     import router from '@/router/router';
-
 
     export default {
         components: {
@@ -68,7 +66,6 @@
             screenshot
         },
         name: "index",
-        mixins: [index],
         provide() {
             return {
                 index: this

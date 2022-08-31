@@ -1,37 +1,36 @@
+// vue
 import Vue from 'vue';
 import axios from './router/axios';
 import VueAxios from 'vue-axios';
 import App from './App';
 import router from './router/router';
-import './permission'; // 权限
-import './error';      // 日志
-import './cache';      // 页面缓冲
-import '@/util/dialogdrag'
-
 import store from './store';
-import { loadStyle } from './util/util'
-import * as urls from '@/config/env';
-import Element from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-import AVUE from '@smallwei/avue'
-import '@smallwei/avue/lib/index.css'
-
-import { iconfontUrl, iconfontVersion } from '@/config/env';
-import i18n from './lang' // Internationalization
-import './styles/common.scss';
-import basicBlock from './components/basic-block/main'
-import basicContainer from './components/basic-container/main'
-import crudCommon from '@/mixins/crud.js'
 import dayjs from 'dayjs'
-import website from '@/config/website'
-// 通用crud/文件下载等方法
-import crud from '@/util/crud'
-// 字典
-import dict from '@/util/dict'
-// base64 工具(其他地方可直接使用Base64方法)
-const Base64 = require('js-base64').Base64;
+// avue
+import basicContainer from './components/basic-container/main'; // base容器
+import basicBlock from './components/basic-block/main'          // base块
+import website from '@/config/website' ;                        // 当前系统配置数据
+import {iconfontUrl, iconfontVersion} from '@/config/env';      // 阿里图标
+import {loadStyle} from './util/util';                          // 动态插入css方法
+import * as urls from '@/config/env';                           // 暂用处不明
+import './permission';                      // 权限
+import './error';                           // 日志
+import './cache';                           // 页面缓冲
+import i18n from './lang'                   // 国际化
+// 自定义
+import '@/util/dialogdrag';                 // 弹出层拖拽插件
+import crud from '@/util/crud'              // 通用crud/文件下载等方法
+import dict from '@/util/dict'              // 字典
+import './styles/common.scss';              // 通用css
+const Base64 = require('js-base64').Base64; // base64工具(其他地方可直接使用Base64方法)
 
-window.$crudCommon = crudCommon;
+// avue + element-ui
+import 'element-ui/lib/theme-chalk/index.css';
+import '@smallwei/avue/lib/index.css'
+import Element from 'element-ui';
+import AVUE from '@smallwei/avue'
+
+// 注入
 Vue.prototype.$dayjs = dayjs;
 Vue.prototype.website = website;
 Vue.prototype.crud = crud;
@@ -65,22 +64,15 @@ new Vue({
 }).$mount('#app');
 
 
-
-/* =================  下方是插件配置 ==================== */
-
-/* ==================== tinymce 富文本插件 start ================  */
-/* 1、基础配置  */
+// tinymce 富文本插件， vueTinymceEditor为当前项目二次封装
 import tinymce from 'tinymce'
 import VueTinymce from '@packy-tang/vue-tinymce'
 Vue.prototype.$tinymce = tinymce;
 Vue.use(VueTinymce);
-/* 2、富文本二次封装  */
 import vueTinymceEditor from '@/components/vue-tinymce/index';
 Vue.component('TinymceEditor', vueTinymceEditor);
-/* ==================== tinymce 富文本插件 end ================  */
 
-/* ==================== v-md-editor 编辑器 start ================  */
-/* 1、v-md-editor 基础引用  */
+// v-md-editor 插件
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
@@ -90,7 +82,7 @@ VueMarkdownEditor.use(vuepressTheme, {
   Prism,
 });
 
-/* 2、v-md-editor 代码块关键字高亮  */
+// v-md-editor 插件代码块关键字高亮
 import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
 import '@kangc/v-md-editor/lib/theme/style/github.css';
 // 引入所有语言包
@@ -100,7 +92,6 @@ VueMarkdownEditor.use(githubTheme, {
 });
 Vue.use(VueMarkdownEditor);
 
-/* 3、v-md-editor 二次封装  */
+// v-md-editor 插件二次封装
 import mdEditor from '@/components/v-md-editor/index';
 Vue.component('MdEditor', mdEditor);
-/* ==================== v-md-editor 编辑器 end ================  */
