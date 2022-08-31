@@ -12,6 +12,15 @@
 - 完善的基础功能, 已经历历时3年的优化改进, 让其更简洁易懂易操作及美观 
 - 完善的代码生成功能, 提供管理端接口+页面自动生成, 生成后的页面crud功能将直接可以正常使用
 
+----------
+- [预览地址：http://vue.xijia.plus/](http://vue.xijia.plus/)    账号: `test`  密码: `123456`
+- [项目文档](https://gitee.com/wslxm/spring-boot-plus2/wikis/pages)
+- [项目文档-启动项目](https://gitee.com/wslxm/spring-boot-plus2/wikis/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8/%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE)
+- [更新日志](https://gitee.com/wslxm/spring-boot-plus2/blob/master/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md) 
+- [目录结构](https://gitee.com/wslxm/spring-boot-plus2/blob/master/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/2.x%20%E7%89%88%E6%9C%AC%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.md) 
+
+----------
+
 #### 项目宗旨：
  - 只为急速开发而生, 主要针对于中小型的项目快速开发
  - 1、快速 (提供基础crud生成, 包括前端页面生成且与接口进行自动匹配)
@@ -29,13 +38,6 @@
 - 技术集成: 阿里云oss, websocket, redis
 - 部署方案：提供linux传统方式部署, docket部署相关文档
 - 其他更多
-
-----------
-- [预览地址：http://vue.xijia.plus/](http://vue.xijia.plus/)    账号: `test`  密码: `123456`
-- [项目文档](https://gitee.com/wslxm/spring-boot-plus2/wikis/pages)
-- [项目文档-启动项目](https://gitee.com/wslxm/spring-boot-plus2/wikis/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8/%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE)
-- [更新日志](https://gitee.com/wslxm/spring-boot-plus2/blob/master/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md) 
-- [目录结构](https://gitee.com/wslxm/spring-boot-plus2/blob/master/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/2.x%20%E7%89%88%E6%9C%AC%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.md) 
 
 
 ### 二、分支说明
