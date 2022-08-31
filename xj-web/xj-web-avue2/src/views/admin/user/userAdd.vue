@@ -97,7 +97,7 @@
                             showWordLimit: true,
                             rules: [{
                                 required: true,
-                                message: "请输入 姓名 ",
+                                message: "请输入 姓名",
                                 trigger: "blur"
                             }]
 

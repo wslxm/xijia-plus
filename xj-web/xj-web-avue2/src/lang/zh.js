@@ -1,5 +1,5 @@
 export default {
-  tip: '提示',
+  //tip: '提示',
   title: 'spring-boot-plus2',
   logoutTip: '退出系统, 是否继续?',
   submitText: '确定',
@@ -112,5 +112,22 @@ export default {
     menu: '更多',
     closeOthers: '关闭其它',
     closeAll: '关闭所有'
+  },
+  tip: {
+    input: '请输入',
+    select: '请选择',
+  },
+  form: {
+    submitBtn: '提交',
+    emptyBtn: '清空'
+  },
+  crud: {
+    addBtn: '新增',
+    menu: '操作',
+    emptyBtn: '清空'
+  },
+  date: {
+    start: '开始时间',
+    end: '结束时间',
   }
 }

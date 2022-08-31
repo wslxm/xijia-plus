@@ -176,7 +176,7 @@
 
 <style lang="scss" scoped>
     /* 设置弹层标题和内容的间隔 */
-    /deep/ .el-drawer__header {
+    .el-drawer__header {
         margin-bottom: 5px;
     }
 

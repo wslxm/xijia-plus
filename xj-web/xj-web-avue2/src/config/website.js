@@ -78,7 +78,7 @@ export default {
     optionConfig: {
         card: true,              // 是否开启卡片模式
         searchMenuSpan: 2,       // 搜索按钮于搜索框的间隙
-        searchBtnText: "搜索",       // 搜索按钮于搜索框的间隙
+        searchBtnText: "搜索",    // 搜索按钮于搜索框的间隙
         border: true,            // 是否开启列分割线
         // align: 'center',      // 内容是否居中(默认左对齐)
         // menuAlign:'center',   // 菜单是否居中(开启了行编辑无效)
