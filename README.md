@@ -1,4 +1,4 @@
-# spring-boot-plus2
+# xijia-plus
 
 - QQ群：1037211892 （xijia-plus 基础架构群）
 - 微信群: 1720696548 （加作者微信邀请加入）
