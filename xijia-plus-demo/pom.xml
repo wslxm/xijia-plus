@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>io.github.wslxm</groupId>
-        <artifactId>spring-boot-plus2</artifactId>
+        <artifactId>xijia-plus</artifactId>
         <version>2.1.1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring-boot-plus2-demo</artifactId>
+    <artifactId>xijia-plus-demo</artifactId>
     <version>2.1.1</version>
 
     <dependencies>
@@ -28,30 +28,13 @@
     <!-- 打jar包配置 -->
     <build>
 
-        <!--<finalName>xijia-server-${profiles.active}</finalName>-->
-       <finalName>spring-boot-plus2-demo</finalName>
+
+       <finalName>xijia-plus-demo</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <!--   &lt;!&ndash; maven 打包成 Docker 镜像   &ndash;&gt;-->
-            <!--   <plugin>-->
-            <!--       <groupId>com.spotify</groupId>-->
-            <!--       <artifactId>docker-maven-plugin</artifactId>-->
-            <!--       <version>1.0.0</version>-->
-            <!--       <configuration>-->
-            <!--           <imageName>${docker.image.prefix}</imageName>-->
-            <!--           <dockerDirectory>src/main/docker</dockerDirectory>-->
-            <!--           <resources>-->
-            <!--               <resource>-->
-            <!--                   <targetPath>/</targetPath>-->
-            <!--                   <directory>${project.build.directory}</directory>-->
-            <!--                   <include>${project.build.finalName}.jar</include>-->
-            <!--               </resource>-->
-            <!--           </resources>-->
-            <!--       </configuration>-->
-            <!--   </plugin>-->
         </plugins>
     </build>
 
