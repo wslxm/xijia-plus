@@ -6,7 +6,7 @@ export default {
     logo: "A",
     key: 'avue',  // 配置主键,目前用于存储
     // 项目名，在登录页会获取全局配置更新该值
-    indexTitle: 'spring-boot-plus2',
+    indexTitle: '兮家 plus',
     lockPage: '/lock',
     tokenTime: 60 * 60 * 24 * 15, //token过期时间(秒) 前端过期 不代表后端服务过期时间
     Authorization: 'TOKEN',
@@ -14,10 +14,6 @@ export default {
     statusWhiteList: [400],
     // 标签是否可关闭
     isFirstPage: false,
-    // 系统端及权限配置(子系统), 当Terminal != 1 时, 建议 isLoginUser=true, isTerminalSearch=false
-    //Terminal: 1,               // 终端 (1=主系统 2-扩展系统1) （接口参数中添加 isTerminal:true 进行动态扩展）
-    //isLoginUser: false,        // 只查询自己权限及以下的用户/角色/菜单数据 （接口参数中添加 isOwnData:true 进行动态扩展）
-    //isTerminalSearch: true,    // 用户/角色/菜单列表 是否开启终端搜索和编辑
     // 普通导航主题
     setting: {
         sidebar: 'vertical',    // 选项-- vertical -正常左菜单|  horizontal -左菜单在顶部横向展示

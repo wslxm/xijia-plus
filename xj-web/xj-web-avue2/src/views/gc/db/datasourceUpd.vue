@@ -82,7 +82,7 @@
                                         message: "请输入 db 库名",
                                         trigger: "blur"
                                     }],
-                                    labelTip: "数据库的库名称,如：spring-boot-plus2",
+                                    labelTip: "数据库的库名称,如：xijia-plus",
                                     labelWidth: this.labelWidth,
                                 },
                                 {

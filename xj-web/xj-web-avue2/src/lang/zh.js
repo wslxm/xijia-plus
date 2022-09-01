@@ -1,6 +1,6 @@
 export default {
   //tip: '提示',
-  title: 'spring-boot-plus2',
+  title: 'xijia-plus',
   logoutTip: '退出系统, 是否继续?',
   submitText: '确定',
   cancelText: '取消',
@@ -77,7 +77,7 @@ export default {
   },
   login: {
     title: '登录 ',
-    info: 'spring-boot-plus2',
+    info: 'xijia-plus',
     username: '请输入账号',
     password: '请输入密码',
     wechat: '微信',
@@ -124,7 +124,9 @@ export default {
   crud: {
     addBtn: '新增',
     menu: '操作',
-    emptyBtn: '清空'
+    emptyBtn: '清空',
+    tipStartTitle: '当前选中',
+    tipEndTitle: '',
   },
   date: {
     start: '开始时间',

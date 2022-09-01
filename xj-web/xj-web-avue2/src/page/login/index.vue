@@ -63,7 +63,7 @@
                 time: "",
                 activeName: "user",
                 /* 项目名称 */
-                entryName: "xx管理后台"
+                entryName: this.website.indexTitle
             };
         },
         watch: {
@@ -89,12 +89,11 @@
             setInterval(() => {
                 this.getTime();
             }, 1000);
-
             //console.log("获取项目名称")
-            this.crud.get("/api/admin/sys/config/findByCode", {code: "entry_name"}).then(res => {
-                this.entryName = res.data.data.content;
-                this.website.indexTitle = this.entryName;
-            })
+            // this.crud.get("/api/admin/sys/config/findByCode", {code: "entry_name"}).then(res => {
+            //     this.entryName = res.data.data.content;
+            //     this.website.indexTitle = this.entryName;
+            // })
         },
         mounted() {
         },

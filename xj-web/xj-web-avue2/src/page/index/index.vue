@@ -31,7 +31,7 @@
                                  v-if="!$route.meta.keepAlive && isRefresh"/>
                 </div>
                 <!--  <div class="avue-footer">-->
-                <!--      <p class="copyright">© 2019-2021 spring-boot-plus2</p>-->
+                <!--      <p class="copyright">© 2019-2021 xijia-plus</p>-->
                 <!--  </div>-->
             </div>
 
