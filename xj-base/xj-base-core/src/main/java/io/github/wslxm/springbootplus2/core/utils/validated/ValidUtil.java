@@ -18,10 +18,32 @@ public class ValidUtil {
      * 条件判断
      * 当判断条件 expression = true, 跳出程序，返回错误信息 errorMsg
      * 当判断条件=false时，不处理
+     * @param expression 判断条件结果
+     * @param resultType 判断条件为true时返回的错误信息
      */
     public static void isTrue(boolean expression, String errorMsg) {
         if (expression) {
             throw new ErrorException(ResultType.PARAM_ERROR.getValue(), errorMsg);
+        }
+    }
+
+
+    /**
+     * 条件判断
+     * <P>
+     *    当判断条件 expression = true, 跳出程序，返回错误枚举 resultType
+     *    当判断条件=false时，不处理
+     * </P>
+     * @author wangsong
+     * @param expression 判断条件结果
+     * @param resultType 判断条件为true时返回的错误信息
+     * @date 2022/9/7 0007 10:41
+     * @return void
+     * @version 1.0.0
+     */
+    public static void isTrue(boolean expression, ResultType resultType) {
+        if (expression) {
+            throw new ErrorException(resultType);
         }
     }
 

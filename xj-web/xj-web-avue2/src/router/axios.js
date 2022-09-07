@@ -12,7 +12,7 @@ import {serialize} from '@/util/util'
 import {getToken, setToken} from '@/util/auth'
 import {setStore} from '@/util/store'
 import {Message} from 'element-ui'
-import {signQuery, signBody} from '@/util/SignUtil'
+import {signAll} from '@/util/SignUtil'
 import website from '@/config/website';
 import NProgress from 'nprogress'  // progress bar
 import 'nprogress/nprogress.css'
@@ -52,45 +52,16 @@ axios.interceptors.request.use(config => {
         config.data = serialize(config.data);
     }
 
-    // 处理终端
-    // addTerminal(config.url, config.params, config.data);
-
     // 参数加签
     let timestamp = new Date().getTime();
-    let sign = signQuery(config.url, config.params, timestamp);
-    sign = sign != null ? sign : signBody(config.data, timestamp);
+    let sign = signAll(config.url,  config.params, config.data, timestamp)
     config.headers['timestamp'] = `${timestamp}`;
     config.headers['sign'] = `${sign}`;
-
     return config;
 }, error => {
     return Promise.reject(error)
 });
 
-
-/**
- * 终端处理（判断当前是主系统还是子系统来查询不同的 菜单/用户/角色 数据）
- * @author wangsong
- * @date 2022/1/17 13:59
- * @return
- */
-// function addTerminal(url, params, data) {
-//     // 终端处理
-//     if (params != null && params.isTerminal !== null && params.isTerminal === true) {
-//         params.terminal = website.Terminal;
-//     }
-//     if (data != null && data.isTerminal !== null && data.isTerminal === true) {
-//         data.terminal = website.Terminal;
-//     }
-//
-//     // 是否只查询自己权限及以下的角色/用户/菜单数据 处理
-//     if (params != null && params.isOwnData !== null && params.isOwnData === true) {
-//         params.isLoginUser = website.isLoginUser;
-//     }
-//     if (data != null && data.isOwnData !== null && data.isOwnData === true) {
-//         data.isLoginUser = website.isLoginUser;
-//     }
-// }
 
 
 //HTTP response拦截

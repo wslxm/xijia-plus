@@ -52,7 +52,7 @@ public enum ResultType implements IEnum {
     SYS_CURRENT_LIMIT(10008, "当前服务人数过多,请稍后重试!"),
     // 验签[10010-10019]
     PARAM_IS_NO_SIGN(10010, "验签失败: 缺少sign或timestamp参数"),
-    PARAM_SIGN_ERROR(10011, "验签失败: 请求参数异常或格式错误"),
+    PARAM_SIGN_ERROR(10011, "验签失败: 请检查验签参数sign以及请求参数格式"),
     PARAM_TIME_OUT(10012, "验签失败: 请求超时"),
     // sql [10020-10029]
     DB_EXECUTE_SQL_ERROR(10020, "DB-执行sql时出错"),

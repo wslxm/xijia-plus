@@ -3,7 +3,7 @@ package io.github.wslxm.springbootplus2.manage.gc.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.constant.NumberConstant;
+import io.github.wslxm.springbootplus2.core.constant.NumberConst;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.utils.Base64Util;
 import io.github.wslxm.springbootplus2.manage.gc.model.dto.DatasourceDTO;
@@ -88,7 +88,7 @@ public class DatasourceController extends BaseController<DatasourceService> {
     @ApiOperation("数据源连接测试")
     public Result<Boolean> dataSourceTest(@PathVariable(required = false) String id, @RequestBody @Validated DatasourceDTO dto) {
         String dbPassword = dto.getDbPassword();
-        if (StringUtils.isNotBlank(id) && !id.equals(NumberConstant.ZERO)) {
+        if (StringUtils.isNotBlank(id) && !id.equals(NumberConst.ZERO)) {
             Datasource xjAdminDatasource = baseService.getById(id);
             dbPassword = Base64Util.decrypt(xjAdminDatasource.getDbPassword());
         }

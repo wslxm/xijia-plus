@@ -2,7 +2,7 @@ package com.test.springbootplus2.manage.test.controller;
 
 import io.github.wslxm.springbootplus2.core.config.threadpool.XjThreadUtil;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.constant.NumberConstant;
+import io.github.wslxm.springbootplus2.core.constant.NumberConst;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +27,7 @@ public class ThreadTestController {
 	@ApiOperation(value = "异步测试")
 	public Result<Boolean> test() {
 		XjThreadUtil.asyncExecute(() -> {
-			for (int i = 0; i < NumberConstant.HUNDRED; i++) {
+			for (int i = 0; i < NumberConst.HUNDRED; i++) {
 				XjThreadUtil.sleep(100L);
 				System.out.println("让我飞一会儿-" + i + 1);
 			}

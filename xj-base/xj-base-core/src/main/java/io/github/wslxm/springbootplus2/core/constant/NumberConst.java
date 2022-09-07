@@ -7,7 +7,7 @@ package io.github.wslxm.springbootplus2.core.constant;
  * @date 2022/8/22 0022 20:32
  * @version 1.0.0
  */
-public interface NumberConstant {
+public interface NumberConst {
 
     /**
      * 数字 1到10，百千万， 其他数字 自行使用加减乘除获取

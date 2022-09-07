@@ -4,7 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
-import io.github.wslxm.springbootplus2.core.constant.NumberConstant;
+import io.github.wslxm.springbootplus2.core.constant.NumberConst;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.DepMapper;
@@ -156,7 +156,7 @@ public class DepServiceImpl extends BaseServiceImpl<DepMapper, Dep> implements D
                 depNames.append("/").append(voTwo.getName());
             }
         }
-        if (vo != null && vo.getDep() != null && depIdsArray.length > NumberConstant.TWO) {
+        if (vo != null && vo.getDep() != null && depIdsArray.length > NumberConst.TWO) {
             SysUserDepVO voThree = BeanDtoVoUtil.convert(adminSysUserDepVoMaps.get(depIdsArray[2]), SysUserDepVO.class);
             vo.getDep().setDep(voThree);
             if (voThree != null) {

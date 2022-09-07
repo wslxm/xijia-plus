@@ -9,11 +9,9 @@ import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.config.gateway.singfilter.util.RequestWrapper;
 import io.github.wslxm.springbootplus2.config.gateway.singfilter.util.SignUtil;
-import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Authority;
-import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -44,19 +42,17 @@ public class SysSingFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        // 是否需要验签(总开关)
-        ConfigVO xjConfig = XjCacheUtil.findConfigByCode(ConfigCacheKey.IS_SIGN);
-        if (xjConfig != null && BooleanConstant.FALSE.equals(xjConfig.getContent())) {
-            filterChain.doFilter(servletRequest, servletResponse);
-            return;
-        }
-        //
         long startTime = System.currentTimeMillis();
         HttpServletRequest request = (HttpServletRequest) servletRequest;
 
-        // 1.1、判断接口是否被管理,没有被管理直接放行
-        String uri = request.getRequestURI();
+        // 是否需要验签(总开关)
+        boolean isSignAll = XjCacheUtil.findConfigBooleanByCode(ConfigCacheKey.IS_SIGN);
+        if (!isSignAll) {
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
 
+        // 1.1、判断接口是否被管理,没有被管理直接放行
         Map<String, Authority> authMap = XjCacheUtil.findAuthAllToMap();
         String cacheKey = AuthCacheKeyUtil.getAuthCacheKey(request.getMethod(), request.getRequestURI());
         if (!authMap.containsKey(cacheKey)) {
@@ -65,8 +61,8 @@ public class SysSingFilter implements Filter {
         }
 
         // 1.2、判断接口是否需要验签
-        Boolean isSign = authMap.get(cacheKey).getIsSign();
-        if (!isSign) {
+        Boolean isSignInterface = authMap.get(cacheKey).getIsSign();
+        if (!isSignInterface) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
@@ -79,26 +75,25 @@ public class SysSingFilter implements Filter {
             return;
         }
 
-        // 3、验签, 判断是query参数还是body参数, 不同参数进行不同的验证方式，
-        // -- body参数验签处理 Wrapper 为处理body只能获取一次参数的问题
-        Result<Boolean> sing = null;
+        // 3、验签, 判断是query参数还是body参数, 不同参数进行不同的验证方式, body参数验签处理 Wrapper 为处理body只能获取一次参数的问题
+        Result<Boolean> singResult = null;
         RequestWrapper requestWrapper = null;
         Map<String, String[]> parameterMap = request.getParameterMap();
         if (!parameterMap.isEmpty()) {
-            sing = isSing(null, parameterMap, request);
+            // query 参数
+            singResult = this.isSing(null, parameterMap, request);
         } else {
-            // body
+            // body 参数或无参数
             requestWrapper = new RequestWrapper(request);
-            String body = requestWrapper.getBody();
-            sing = isSing(body, null, request);
+            singResult = this.isSing(requestWrapper.getBody(), null, request);
         }
-        log.info("接口：{} 验签结果：{} , 耗时: {}", uri, sing.getMsg(), System.currentTimeMillis() - startTime);
+        log.info("接口：{} 验签结果：{} , 耗时: {}", request.getRequestURI(), singResult.getMsg(), System.currentTimeMillis() - startTime);
         // 4、result
-        if (sing.getCode().equals(ResultType.SYS_SUCCESS.getValue())) {
+        if (singResult.getCode().equals(ResultType.SYS_SUCCESS.getValue())) {
             filterChain.doFilter(requestWrapper == null ? servletRequest : requestWrapper, servletResponse);
         } else {
             servletResponse.setContentType("application/json;charset=utf-8");
-            servletResponse.getWriter().write(JSON.toJSONString(sing));
+            servletResponse.getWriter().write(JSON.toJSONString(singResult));
         }
     }
 
@@ -114,54 +109,46 @@ public class SysSingFilter implements Filter {
      * @version 1.0.1
      */
     public Result<Boolean> isSing(String body, Map<String, String[]> parameterMap, HttpServletRequest request) {
-        // 判断是否传递参数
-        boolean isBody = StringUtils.isBlank(body);
-        boolean isQuery = parameterMap == null || parameterMap.isEmpty();
-        if (isBody && isQuery) {
-            return Result.success(true);
-        }
-
-        // 1、获取签名和时间戳
+        // 验证签名和时间戳参数以及接口是否超时
         Object sign = request.getHeader(SignUtil.SIGN);
         Object timestamp = request.getHeader(SignUtil.TIMESTAMP);
         if (sign == null || timestamp == null) {
             return Result.error(ResultType.PARAM_IS_NO_SIGN);
         }
-        // 2、判断请求是否超时
         if (!SignUtil.isTimeVerify(Long.parseLong(timestamp.toString()))) {
             return Result.error(ResultType.PARAM_TIME_OUT);
         }
-        boolean isSing = true;
-        Map<String, String> verifyMap = null;
 
-        // 处理query 参数
-        if (parameterMap != null && !parameterMap.isEmpty()) {
-            // 3、获取加签参数， 需要注意
-            verifyMap = SignUtil.toVerifyMap(parameterMap, false);
+        // 判断是否传递参数
+        boolean isBody = StringUtils.isNotBlank(body);
+        boolean isQuery = parameterMap != null && !parameterMap.isEmpty();
+
+        // 验签结果(true-验签成功-放行)
+        Boolean isSing = null;
+        if (isQuery) {
+            // 获取query参数加签，在验证前后端加签结果是否一致
+            Map<String, String> verifyMap = SignUtil.toVerifyMap(parameterMap, false);
             verifyMap.put(SignUtil.SIGN, sign.toString());
             verifyMap.put(SignUtil.TIMESTAMP, timestamp.toString());
-            // 4、验证前端的加签和后端的是否一致
             isSing = SignUtil.verify(verifyMap);
-        }
-
-        // 处理body 参数,如果没有query参数,验证body参数
-        if (StringUtils.isNotBlank(body)) {
-            // 3、获取请求的body 参数,注意前后端时间格式要统一，排序,处理时间格式
-            Object obj = JSON.parseObject(body, Object.class);
-            body = JSONObject.toJSONString(obj, SerializerFeature.MapSortField);
-            /// String newBody = JSON.toJSONStringWithDateFormat(jsonObject, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-            // 4、获取加签参数
-            verifyMap = new HashMap<>(3,1);
-            verifyMap.put(SignUtil.BODY, body);
+        } else if (isBody) {
+            // 获取body 参数加签，在验证前后端加签结果是否一致 (使用json自带排序,参数根据字母大小写排序,注意前后端时间格式要统一)
+            String verifyBody = JSONObject.toJSONString(JSON.parseObject(body, Object.class), SerializerFeature.MapSortField);
+            Map<String, String> verifyMap = new HashMap<>(4, 1);
+            verifyMap.put(SignUtil.BODY, verifyBody);
             verifyMap.put(SignUtil.SIGN, sign.toString());
             verifyMap.put(SignUtil.TIMESTAMP, timestamp.toString());
-            // 5、验证参数
             isSing = SignUtil.verify(verifyMap);
-        }
-        if (isSing) {
-            return Result.success(true);
         } else {
+            // 没有请求参数 (默认使用时间戳参数进行加签验证)
+            Map<String, String> verifyMap = new HashMap<>(4, 1);
+            verifyMap.put(SignUtil.SIGN, sign.toString());
+            verifyMap.put(SignUtil.TIMESTAMP, timestamp.toString());
+            isSing = SignUtil.verify(verifyMap);
+        }
+        if (!isSing) {
             return Result.error(ResultType.PARAM_SIGN_ERROR);
         }
+        return Result.success(true);
     }
 }

@@ -4,7 +4,7 @@ import com.test.springbootplus2.manage.test.model.vo.ExcelTestVO;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.github.wslxm.springbootplus2.core.constant.NumberConstant;
+import io.github.wslxm.springbootplus2.core.constant.NumberConst;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.excel.ExcelUtil;
@@ -46,7 +46,7 @@ public class ExcelTestController extends BaseController {
     public void exportExcelDownload() {
         List<ExcelTestVO> excelTestVos = new ArrayList<>();
         ExcelTestVO vo = null;
-        for (int i = 0; i < NumberConstant.HUNDRED; i++) {
+        for (int i = 0; i < NumberConst.HUNDRED; i++) {
             vo = new ExcelTestVO();
             vo.setUserNo("xj-" + i);
             vo.setUsername("小-" + i);

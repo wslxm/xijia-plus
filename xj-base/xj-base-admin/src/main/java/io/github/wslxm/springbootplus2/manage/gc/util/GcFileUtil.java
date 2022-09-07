@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.util;
 
-import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
+import io.github.wslxm.springbootplus2.core.constant.BooleanConst;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.config.model.GcFilePath;
 import io.github.wslxm.springbootplus2.manage.gc.constant.TpParamConstant;
@@ -82,7 +82,7 @@ public class GcFileUtil {
             while ((line = br.readLine()) != null) {
                 // 过滤写入的文件内容
                 if (("{" + TpParamConstant.FILTER_CRUD + "}").equals(line)) {
-                    if (BooleanConstant.TRUE.equals(filterCrudConfig)) {
+                    if (BooleanConst.TRUE.equals(filterCrudConfig)) {
                         filterCrud = !filterCrud;
                     }
                     bw.write("");

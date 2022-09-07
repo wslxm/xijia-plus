@@ -22,6 +22,30 @@ const signConfig = {
     secretKey: "xijia@qwer",
 };
 
+
+/**
+ * 接口加签方法
+ * @author wangsong
+ * @mail  1720696548@qq.com
+ * @date  2022/9/7 0007 11:21
+ * @version 1.0.0
+ */
+export function signAll(url, params, data, timestamp) {
+    // 优先存在query参数加签
+    let sign = signQuery(url, params, timestamp);
+    // 其次使用body参数(不存在query参数时)
+    if (sign == null) {
+        sign = signBody(data, timestamp);
+    }
+    // 没有query参数+body参数, 直接加签
+    if (sign == null) {
+        let theRequest = {};
+        sign = addSing(theRequest, timestamp);
+    }
+    return sign;
+}
+
+
 /**
  * 1、query 参数加签
  * <p>
@@ -41,8 +65,6 @@ const signConfig = {
  * @param timestamp 时间戳
  * @returns {string|null}
  */
-
-
 export function signQuery(url, params, timestamp) {
     if (params == null && url.indexOf("?") === -1) {
         return null;
@@ -132,62 +154,59 @@ function addSing(theRequest, timestamp) {
  * @returns {*}
  */
 function bodyDataSort(data) {
-    // 数组长度小于2 或 没有指定排序字段 或 不是json格式数据
-    // 判断是数组还是对象
     if (data instanceof Array) {
         /**
          * 数组
          */
         if (data[0] instanceof Object || data[0] instanceof Array) {
-            // 数组的下级是对象或者是数组
-            let arrays = data;
             let newArrays = [];
-            for (let i = 0; i < arrays.length; i++) {
-                // 获取每一个下级->  a:{a,b,c}
-                let dataTwo = arrays[i];
-                // 根据 key 类型排序
-                let keysTwo = Object.keys(dataTwo).sort();
-                let newDataTwo = {};
-                // 遍历 key/value
-                for (let keyTwo of keysTwo) {
-                    // 下级是对象, 继续递归排序
-                    if (dataTwo[keyTwo] instanceof Object) {
-                        newDataTwo[keyTwo] = bodyDataSort(dataTwo[keyTwo]);
-                    } else {
-                        if ((dataTwo[keyTwo] != null)) {
-                            newDataTwo[keyTwo] = dataTwo[keyTwo];
-                        }
-                    }
-                }
-                newArrays.push(newDataTwo);
+            for (let i = 0; i < data.length; i++) {
+                newArrays.push(bodyDataSortNext(data[i]));
             }
             return newArrays;
         } else {
-            // 不处理: [0,1,2,3] 数组数据
+            // 不对参数直接是数组 [0,1,2,3] 数据进行排序, data[0]=0 ,下级不是Object也不是Array
             return data;
         }
     } else if (data instanceof Object) {
         /**
          *  对象
          */
-            // 根据 key 类型排序
-        let keys = Object.keys(data).sort();
-        let newData = {};
-        // 遍历 key/value
-        for (let key of keys) {
-            if (data[key] instanceof Object) {
-                // 下级是对象, 继续递归排序
-                newData[key] = bodyDataSort(data[key]);
-            } else {
-                if (data[key] != null) {
-                    newData[key] = data[key];
-                }
-            }
-        }
-        return newData;
+        return bodyDataSortNext(data);
     } else {
+        /**
+         * 普通参数,直接返回
+         */
         return data;
     }
+}
+
+
+/**
+ * 4.1、body 参数排序子方法，对象参数排序
+ * <P>
+ *   // 获取每一个下级->  (对象 {a:'1',b:'2'}  |  a:{a,b,c}  数组：[0,1,2,3] )
+ *  </P>
+ * @param data 必须是对象参数 //
+ * @returns {*}
+ */
+function bodyDataSortNext(data) {
+    // 根据 key 类型排序
+    let keys = Object.keys(data).sort();
+    // 根据key排序后的数据保存
+    let newData = {};
+    // 遍历 key/value
+    for (let key of keys) {
+        // 下级是对象或数组, 继续递归排序，是普通参数,直接放入
+        if (data[key] instanceof Object || data[key] instanceof Array) {
+            newData[key] = bodyDataSort(data[key]);
+        } else {
+            if ((data[key] != null)) {
+                newData[key] = data[key];
+            }
+        }
+    }
+    return newData;
 }
 
 

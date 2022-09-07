@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.common.auth.util;
 
-import io.github.wslxm.springbootplus2.core.constant.NumberConstant;
+import io.github.wslxm.springbootplus2.core.constant.NumberConst;
 import lombok.extern.slf4j.Slf4j;
 
 import java.security.MessageDigest;
@@ -34,7 +34,7 @@ public class Md5Util {
         // 对密码进行加盐 start ---
         StringBuilder sb = new StringBuilder(FIXED_SALT);
         sb.append(password);
-        for (int i = 0; i < NumberConstant.THREE; i++) {
+        for (int i = 0; i < NumberConst.THREE; i++) {
             sb.append(salt);
         }
         password = sb.toString();

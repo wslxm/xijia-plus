@@ -2,7 +2,7 @@ package io.github.wslxm.springbootplus2.config.gateway.swaggerfilter;
 
 
 import com.alibaba.fastjson.JSON;
-import io.github.wslxm.springbootplus2.core.constant.BooleanConstant;
+import io.github.wslxm.springbootplus2.core.constant.BooleanConst;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.ConfigService;
@@ -43,7 +43,7 @@ public class SwaggerFilter implements Filter {
         if (uri.contains(SWAGGER_UI)) {
             // 默认展示,配置为false不展示
             ConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.IS_SWAGGER );
-            if (xjAdminConfig != null && BooleanConstant.FALSE.equals(xjAdminConfig.getContent())) {
+            if (xjAdminConfig != null && BooleanConst.FALSE.equals(xjAdminConfig.getContent())) {
                 Result<Void> r = Result.error(ResultType.SYS_ERROR_CODE_403);
                 servletResponse.setContentType("application/json;charset=utf-8");
                 servletResponse.getWriter().write(JSON.toJSONString(r));
