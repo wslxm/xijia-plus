@@ -3,6 +3,7 @@ package io.github.wslxm.springbootplus2.manage.gc.service.gc.gcimpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.gc.GcSevice;
+import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +39,7 @@ public class GcVueUpd extends BaseGcImpl implements GcSevice {
                 continue;
             }
             // 生成字段
-            String vueColumn = jxVueColumns(
+            vueUpdColumns.append(super.jxVueColumns(
                     gcConfig,
                     dbField.getName(),
                     dbField.getType(),
@@ -46,12 +47,11 @@ public class GcVueUpd extends BaseGcImpl implements GcSevice {
                     getDesc(dbField.getDesc()),
                     dbField.getVueFieldType(),
                     dbField.getDictCode()
-            );
-            vueUpdColumns.append(vueColumn);
+            ));
 
             // 生成字段 插槽
-            String vueAddColumnSlot = jxVueColumnsSlot(gcConfig,dbField.getVueFieldType(), dbField.getName());
-            vueAddColumnSlots.append(vueAddColumnSlot);
+            String name = GcDataUtil.getFieldName(gcConfig, dbField.getName());
+            vueAddColumnSlots.append(super.jxVueColumnsSlot( dbField.getVueFieldType(), name));
         }
         // 数据保存
         gcConfig.setTemplateParam("vueUpdColumns", vueUpdColumns.toString());

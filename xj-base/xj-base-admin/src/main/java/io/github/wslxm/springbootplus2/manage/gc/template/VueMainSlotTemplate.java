@@ -20,4 +20,29 @@ public interface VueMainSlotTemplate {
 //            "            </template>";
 
 
+    /**
+     * 时间范围选择
+     *  {prop}
+     * @author wangsong
+     * @mail 1720696548@qq.com
+     * @date 2022/9/9 0009 0:23
+     * @version 1.0.0
+     */
+    String DATE_PICKER = "           <template slot-scope=\"{row,index,type,size}\" slot=\"{prop}Search\">\n" +
+            "                <div class=\"block\">\n" +
+            "                    <el-date-picker\n" +
+            "                            v-model=\"search.{prop}\"\n" +
+            "                            value-format=\"yyyy-MM-dd HH:mm:ss\"\n" +
+            "                            type=\"datetimerange\"\n" +
+            "                            align=\"right\"\n" +
+            "                            unlink-panels\n" +
+            "                            range-separator=\"至\"\n" +
+            "                            start-placeholder=\"开始日期\"\n" +
+            "                            end-placeholder=\"结束日期\"\n" +
+            "                            :picker-options=\"defaultDic.timeOptions\">\n" +
+            "                    </el-date-picker>\n" +
+            "                </div>\n" +
+            "            </template>";
+
+
 }

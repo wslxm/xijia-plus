@@ -85,8 +85,10 @@
         <if test="query.depIds != null and query.depIds != ''">
             and #{query.depIds} = u.dep_ids
         </if>
-          <if test="query.regTimeStart != null and query.regTimeEnd != null">
-            and #{query.regTimeEnd} >= u.reg_time and u.reg_time >= #{query.regTimeStart}
+        <if test="query.regTime != null and query.regTime != ''">
+            <foreach item="regTime" collection="query.regTime.split(',')" open="and u.reg_time >= " separator=" and " close=" >= u.reg_time">
+                #{regTime}
+            </foreach>
         </if>
         order by u.create_time desc
     </select>

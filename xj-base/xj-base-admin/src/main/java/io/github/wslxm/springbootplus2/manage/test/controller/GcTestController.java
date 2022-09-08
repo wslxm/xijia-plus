@@ -1,7 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.test.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.github.wslxm.springbootplus2.core.result.Result;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
@@ -11,6 +10,7 @@ import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
 import io.github.wslxm.springbootplus2.manage.test.service.GcTestService;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
+import io.github.wslxm.springbootplus2.core.result.Result;
 
 /**
  * 代码生成测试表 前端控制器
@@ -21,17 +21,17 @@ import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
  *
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-06-30 11:07:08
+ * @date 2022-09-09 01:40:19
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN + "/test/gcTest")
 @Api(value = "GcTestController", tags = "代码生成测试表")
 public class GcTestController extends BaseController<GcTestService> {
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public Result<IPage<GcTestVO>> list(@ModelAttribute @Validated GcTestQuery query) {
-        return Result.success(baseService.list(query));
+    public Result<IPage<GcTestVO>> findPage(@ModelAttribute @Validated GcTestQuery query) {
+        return Result.success(baseService.findPage(query));
     }
 
     @GetMapping(value = "/{id}")
@@ -57,4 +57,5 @@ public class GcTestController extends BaseController<GcTestService> {
     public Result<Boolean> del(@PathVariable String id) {
         return Result.successDelete(baseService.del(id));
     }
+
 }

@@ -3,8 +3,8 @@ package io.github.wslxm.springbootplus2.manage.test.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.github.wslxm.springbootplus2.manage.test.model.entity.GcTest;
-import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
 import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
+import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-06-30 11:07:08
+ * @date 2022-09-09 01:40:19
  */
 public interface GcTestMapper extends BaseMapper<GcTest> {
 
@@ -25,15 +25,16 @@ public interface GcTestMapper extends BaseMapper<GcTest> {
      * id 查询
      *
      * @param id
-     * @return GcTestVO
+     * @return List<GcTest>
      */
     GcTestVO findId(String id);
 
     /**
-     * 列表查询
+     * 列表查询/分页查询
+     *
      * @param page
      * @param query
-     * @return java.util.List<GcTestVO>
+     * @return java.util.List<GcTest>
      */
     List<GcTestVO> list(IPage<GcTestVO> page, GcTestQuery query);
 

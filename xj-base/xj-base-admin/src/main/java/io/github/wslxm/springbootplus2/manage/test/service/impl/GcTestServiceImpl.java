@@ -3,15 +3,20 @@ package io.github.wslxm.springbootplus2.manage.test.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.wslxm.springbootplus2.core.constant.SymbolConst;
+import org.springframework.stereotype.Service;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.test.mapper.GcTestMapper;
-import io.github.wslxm.springbootplus2.manage.test.model.dto.GcTestDTO;
-import io.github.wslxm.springbootplus2.manage.test.model.entity.GcTest;
-import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
-import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
 import io.github.wslxm.springbootplus2.manage.test.service.GcTestService;
-import org.springframework.stereotype.Service;
+import io.github.wslxm.springbootplus2.manage.test.model.entity.GcTest;
+import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
+import io.github.wslxm.springbootplus2.manage.test.model.dto.GcTestDTO;
+import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
+import org.apache.commons.lang3.StringUtils;
+import java.util.List;
+
+
 
 
 /**
@@ -23,17 +28,21 @@ import org.springframework.stereotype.Service;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-06-30 11:07:08
+ * @date 2022-09-09 01:40:19
  */
 @Service
 public class GcTestServiceImpl extends BaseServiceImpl<GcTestMapper, GcTest> implements GcTestService {
 
     @Override
-    public IPage<GcTestVO> list(GcTestQuery query) {
-        LambdaQueryWrapper<GcTest> queryWrapper = new LambdaQueryWrapper<GcTest>()
-
-
-                .orderByDesc(GcTest::getCreateTime);
+    public IPage<GcTestVO> findPage(GcTestQuery query) {
+        LambdaQueryWrapper<GcTest> queryWrapper = new LambdaQueryWrapper<GcTest>().orderByDesc(GcTest::getCreateTime);
+        queryWrapper.select(GcTest.class, info -> !"text".equals(info.getColumn())
+                  && !"text_two".equals(info.getColumn()));
+        if (StringUtils.isNotBlank(query.getTime()) && query.getTime().split(SymbolConst.COMMA).length >= 1) {
+            queryWrapper.between(GcTest::getTime, query.getTime().split(",")[0], query.getTime().split(",")[1]);
+        }
+        queryWrapper.likeRight(StringUtils.isNotBlank(query.getTimeTwo()), GcTest::getTimeTwo, query.getTimeTwo());
+        queryWrapper.likeRight(StringUtils.isNotBlank(query.getCascader()), GcTest::getCascader, query.getCascader());
         Page<GcTest> page = this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper);
         return BeanDtoVoUtil.pageVo(page, GcTestVO.class);
     }
@@ -61,4 +70,5 @@ public class GcTestServiceImpl extends BaseServiceImpl<GcTestMapper, GcTest> imp
     public boolean del(String id) {
         return this.removeById(id);
     }
+
 }

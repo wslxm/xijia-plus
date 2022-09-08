@@ -11,19 +11,19 @@ public interface VueAddUpdSlotTemplate {
 
     /**
      * 富文本  TinymceEditor（vue自定义组件）
-     * {field} 字段
+     * {prop} 字段
      */
-    String TINYMCE_EDITOR = "            <template slot-scope=\"{row}\" slot=\"{field}\">\n" +
-            "                <TinymceEditor v-if=\"initSuccess\" :content.sync=\"obj.{field}\"/>\n" +
+    String TINYMCE_EDITOR = "            <template slot-scope=\"{row}\" slot=\"{prop}\">\n" +
+            "                <TinymceEditor v-if=\"initSuccess\" :content.sync=\"obj.{prop}\"/>\n" +
             "            </template>\n";
 
 
     /**
      * md 编辑器  TinymceEditor（vue自定义组件）
-     * {field} 字段
+     * {prop} 字段
      */
-    String MD_EDITOR = "            <template slot-scope=\"{row}\" slot=\"{field}\">\n" +
-            "                <MdEditor v-if=\"initSuccess\" :content.sync=\"obj.{field}\"/>\n" +
+    String MD_EDITOR = "            <template slot-scope=\"{row}\" slot=\"{prop}\">\n" +
+            "                <MdEditor v-if=\"initSuccess\" :content.sync=\"obj.{prop}\"/>\n" +
             "            </template>\n";
 
 

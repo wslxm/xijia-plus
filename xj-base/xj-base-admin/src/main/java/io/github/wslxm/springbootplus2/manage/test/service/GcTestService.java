@@ -16,7 +16,7 @@ import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-06-30 11:07:08
+ * @date 2022-09-09 01:40:19
  */
 public interface GcTestService extends IService<GcTest> {
 
@@ -26,7 +26,7 @@ public interface GcTestService extends IService<GcTest> {
      * @param query query
      * @return 分页列表数据
      */
-    IPage<GcTestVO> list(GcTestQuery query);
+    IPage<GcTestVO> findPage(GcTestQuery query);
 
     /**
      * id 查询
@@ -60,5 +60,6 @@ public interface GcTestService extends IService<GcTest> {
      * @return boolean
      */
     boolean del(String id);
+
 }
 

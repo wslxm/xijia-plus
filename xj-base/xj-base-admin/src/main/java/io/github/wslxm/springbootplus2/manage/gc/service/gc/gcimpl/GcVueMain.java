@@ -36,6 +36,7 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
     public void run(GcConfig gcConfig) {
         // 数据表格字段
         StringBuffer vueInfoColumns = new StringBuffer(" ");
+        StringBuffer vueInfoColumnSlots = new StringBuffer(" ");
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         for (DbFieldPO dbFieldPO : dbFields) {
             // 未勾选的字段过滤
@@ -51,10 +52,9 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
             }
 
             String name = GcDataUtil.getFieldName(gcConfig, dbFieldPO.getName());
-            String newDesc = getDesc(dbFieldPO.getDesc());
+            String newDesc = super.getDesc(dbFieldPO.getDesc());
             // 判断是否需要生成查询
             boolean isSearch = dbFieldPO.getIsSearch() == null ? false : dbFieldPO.getIsSearch();
-
 
             Integer vueFieldTypeInt = (vueFieldType != null) ? Integer.parseInt(vueFieldType.toString()) : -1;
             if (vueFieldTypeInt.equals(Base.VueFieldType.V4.getValue())
@@ -69,37 +69,38 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
                 );
             } else if (vueFieldTypeInt.equals(Base.VueFieldType.V5.getValue())
                     || vueFieldTypeInt.equals(Base.VueFieldType.V8.getValue())) {
+                // 字典
                 vueInfoColumns.append(VueMainTemplate.TEXT_DICT_CHECKBOX
-                        .replaceAll("\\{label}", newDesc)
-                        .replace("{prop}", name)
-                        .replace("{search}", isSearch + "")
-                        .replace("{dictCode}", getDictCode(dbFieldPO.getDictCode()))
-                );
-            } else if (vueFieldTypeInt.equals(Base.VueFieldType.V13.getValue())
-                    || vueFieldTypeInt.equals(Base.VueFieldType.V14.getValue())) {
+                        .replaceAll("\\{label}", newDesc).replace("{prop}", name)
+                        .replace("{search}", isSearch + "").replace("{dictCode}", getDictCode(dbFieldPO.getDictCode())));
+            } else if (vueFieldTypeInt.equals(Base.VueFieldType.V11.getValue())) {
+                // 时间
+                vueInfoColumns.append(VueMainTemplate.TEXT.replaceAll("\\{label}", newDesc).replace("{prop}", name)
+                        .replace("{searchSpan}", "7").replace("{search}", isSearch + ""));
+            } else if (vueFieldTypeInt.equals(Base.VueFieldType.V12.getValue())) {
+                // 时间-小时选择
+                vueInfoColumns.append(VueMainTemplate.TIME.replaceAll("\\{label}", newDesc)
+                        .replace("{prop}", name).replace("{search}", isSearch + ""));
+            } else if (vueFieldTypeInt.equals(Base.VueFieldType.V13.getValue()) || vueFieldTypeInt.equals(Base.VueFieldType.V14.getValue())) {
                 // 图片
-                vueInfoColumns.append(VueMainTemplate.IMG
-                        .replaceAll("\\{label}", newDesc)
-                        .replace("{prop}", name)
-                );
+                vueInfoColumns.append(VueMainTemplate.IMG.replaceAll("\\{label}", newDesc).replace("{prop}", name));
             } else if (vueFieldTypeInt.equals(Base.VueFieldType.V20.getValue())) {
                 // 级联选择器
-                vueInfoColumns.append(VueMainTemplate.CASCADER
-                        .replace("{label}", newDesc)
-                        .replace("{prop}", name)
+                vueInfoColumns.append(VueMainTemplate.CASCADER.replace("{label}", newDesc).replace("{prop}", name)
                         .replace("{search}", isSearch + "")
                 );
             } else {
                 // 默认普通文本
-                vueInfoColumns.append(VueMainTemplate.TEXT
-                        .replaceAll("\\{label}", newDesc)
-                        .replace("{prop}", name)
-                        .replace("{search}", isSearch + "")
-                );
+                vueInfoColumns.append(VueMainTemplate.TEXT.replaceAll("\\{label}", newDesc).replace("{prop}", name)
+                        .replace("{searchSpan}", "5").replace("{search}", isSearch + ""));
             }
+            // 插槽字段处理
+            vueInfoColumnSlots.append(super.jxVueInfoColumnsSlot(vueFieldTypeInt, name, isSearch));
         }
+
         // 数据保存
         gcConfig.setTemplateParam("vueInfoColumns", vueInfoColumns.toString());
+        gcConfig.setTemplateParam("vueInfoColumnSlots", vueInfoColumnSlots.toString());
         // 开始生成文件并进行数据替换
         GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, KEY_NAME));
     }

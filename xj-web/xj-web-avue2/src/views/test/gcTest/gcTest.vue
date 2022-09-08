@@ -19,6 +19,22 @@
                 </el-switch>
             </template>
 
+            <template slot-scope="{row,index,type,size}" slot="timeSearch">
+                <div class="block">
+                    <el-date-picker
+                            v-model="search.time"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            type="datetimerange"
+                            align="right"
+                            unlink-panels
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            :picker-options="defaultDic.timeOptions">
+                    </el-date-picker>
+                </div>
+            </template>
+
             <template slot-scope="{}" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
             </template>
@@ -49,11 +65,10 @@
         data() {
             return {
                 uri: {
-                    infoList: "/api/admin/test/gcTest/list",
+                    infoList: "/api/admin/test/gcTest/findPage",
                     info: "/api/admin/test/gcTest",
                 },
                 loading: true,
-                initSuccess: false,
                 dialogWidth: "60%",
                 addDialogVisible: false,
                 updDialogVisible: false,
@@ -64,9 +79,29 @@
                 option: {},
             }
         },
-        mounted() {
+        async mounted() {
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.column = [
+                 {
+                    label: '时间 ',
+                    prop: 'time',
+                    search: true,
+                    searchSpan: 7,
+                    overHidden: true,
+                },
+                {
+                    label: '时间-小时 ',
+                    prop: 'timeTwo',
+                    search: true,
+                    searchSpan: 5,
+                    overHidden: true,
+                    type: "time",
+                    pickerOptions:{
+                        start: '08:30',
+                        step: '00:15',
+                        end: '18:30'
+                    }
+                },
                 {
                     label: '级联选择器  ',
                     prop: 'cascader',
@@ -74,9 +109,9 @@
                     search: true,
                     type: "cascader",
                     dataType: 'string',
-                    filterable: true,
-                    // 自行替换字典数据，在 mounted 事件加载字段前使用 let res = await this.crud.get() 同步获取数据
-                    dicData: this.defaultDic.dicData,
+                    filterable: true, 
+                    // 自行替换字典数据，在 mounted 事件加载字段前使用 let res = await this.crud.get() 同步获取数据 
+                    dicData: this.defaultDic.dicData, 
                     props: {
                         value: "id",
                         label: "name",
@@ -84,81 +119,8 @@
                     }
                 },
                 {
-                    label: '名称 ',
-                    prop: 'name',
-                    search: true,
-                    searchSpan: 5,
-                    overHidden: true,
-                },
-                {
-                    label: '年龄 ',
-                    prop: 'age',
-                    search: false,
-                    searchSpan: 5,
-                    overHidden: true,
-                },
-                {
-                    label: '性别 ',
-                    prop: 'sex',
-                    type: 'select',
-                    search: true,
-                    filterable: true,
-                    searchSpan: 5,
-                    overHidden: true,
-                    dicData: this.dict.get('SEX'),
-                },
-                {
-                    label: '爱好 ',
-                    prop: 'like',
-                    search: true,
-                    searchSpan: 5,
-                    overHidden: true,
-                },
-                {
-                    label: '城市 ',
-                    prop: 'city',
-                    type: 'select',
-                    search: false,
-                    searchSpan: 5,
-                    overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Base.Default),
-                },
-                {
-                    label: '禁用 ',
-                    prop: 'disable',
-                    type: 'select',
-                    search: false,
-                    searchSpan: 5,
-                    overHidden: true,
-                    dicData: this.dict.get('DISABLE'),
-                },
-                {
-                    label: '头像  ',
-                    prop: 'headUrl',
-                    search: false,
-                    overHidden: true,
-                    html: true,
-                    formatter: (val) => {
-                        if (val.headUrl == null || val.headUrl == '') {
-                            return "";
-                        } else {
-                            let imgs = val.headUrl.split(",");
-                            let html = "";
-                            imgs.forEach(item => html += "<img src='" + item + "'  style='border-radius: 40px;height: 40px;width: 40px;margin-top: 10px'>")
-                            return html;
-                        }
-                    }
-                },
-                {
-                    label: '时间',
-                    prop: 'time',
-                    search: false,
-                    searchSpan: 5,
-                    overHidden: true,
-                },
-                {
-                    label: '更多信息',
-                    prop: 'text',
+                    label: '地址选择器',
+                    prop: 'map',
                     search: false,
                     searchSpan: 5,
                     overHidden: true,
@@ -173,10 +135,10 @@
         },
         methods: {
             onLoad() {
-                this.crud.list(this, true);
+                this.crud.list(this,true);
                 this.crud.doLayout(this, this.$refs.crudgcTest)
             },
-            searchChange(params, done) {
+            searchChange(params,done) {
                 console.debug(params)
                 this.page.currentPage = 1;
                 this.onLoad();
@@ -209,10 +171,10 @@
                 this.crud.put(this.uri.info + "/" + row.id, {disable: row.disable});
             },
             cellStyle({row, column}) {
-                if (column.property == "disable") {
-                    // fontWeight: 'bold',fontSize: '20'
-                    return row.disable == 0 ? {color: 'green'} : {color: 'red'}
-                }
+                 if (column.property == "disable") {
+                     // fontWeight: 'bold',fontSize: '20'
+                     return row.disable == 0 ? {color: 'green'} : {color: 'red'}
+                 }
             }
         }
     }

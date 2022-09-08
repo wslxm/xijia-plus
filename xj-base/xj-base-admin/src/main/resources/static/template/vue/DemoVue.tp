@@ -18,6 +18,9 @@
                            active-text="" inactive-text="">
                 </el-switch>
             </template>
+
+{vueInfoColumnSlots}
+
             <template slot-scope="{}" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
             </template>

@@ -59,7 +59,7 @@ public class GcVueAdd extends BaseGcImpl implements GcSevice {
             );
             vueAddColumns.append(vueColumn);
             // 生成字段 插槽
-            String vueAddColumnSlot = jxVueColumnsSlot(gcConfig,dbField.getVueFieldType(), dbField.getName());
+            String vueAddColumnSlot = jxVueColumnsSlot(dbField.getVueFieldType(), name);
             vueAddColumnSlots.append(vueAddColumnSlot);
         }
         // 数据保存

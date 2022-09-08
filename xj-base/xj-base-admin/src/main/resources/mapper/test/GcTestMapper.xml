@@ -19,10 +19,19 @@
         <result column="city" property="city"/>
         <result column="disable" property="disable"/>
         <result column="head_url" property="headUrl"/>
+        <result column="head_files" property="headFiles"/>
+        <result column="video_files" property="videoFiles"/>
+        <result column="files" property="files"/>
         <result column="time" property="time"/>
+        <result column="time_two" property="timeTwo"/>
         <result column="text" property="text"/>
         <result column="text_two" property="textTwo"/>
         <result column="text_three" property="textThree"/>
+        <result column="cascader" property="cascader"/>
+        <result column="array" property="array"/>
+        <result column="icon" property="icon"/>
+        <result column="color" property="color"/>
+        <result column="map" property="map"/>
     </resultMap>
 
     <!-- 通用查询结果列: <include refid="Base_Column_List"></include> -->
@@ -42,10 +51,19 @@
         t.city,
         t.disable,
         t.head_url,
+        t.head_files,
+        t.video_files,
+        t.files,
         t.time,
+        t.time_two,
         t.text,
         t.text_two,
-        t.text_three
+        t.text_three,
+        t.cascader,
+        t.array,
+        t.icon,
+        t.color,
+        t.map
     </sql>
 
 
@@ -65,17 +83,16 @@
         from t_gc_test t
         where t.deleted = 0
 
-        <if test="query.name != null and query.name  != ''">
-            and t.`name` like concat(#{query.name},'%')
+        <if test="query.time != null and query.time != ''">
+            <foreach item="time" collection="query.time.split(',')" open="and t.`time` >= " separator=" and " close=" >= t.`time`">
+                #{time}
+            </foreach>
         </if>
-        <if test="query.age != null">
-            and t.age = #{query.age}
+        <if test="query.timeTwo != null and query.timeTwo  != ''">
+            and t.time_two like concat(#{query.timeTwo},'%')
         </if>
-        <if test="query.sex != null">
-            and t.sex = #{query.sex}
-        </if>
-        <if test="query.like != null and query.like  != ''">
-            and t.`like` like concat(#{query.like},'%')
+        <if test="query.cascader != null and query.cascader  != ''">
+            and t.cascader like concat(#{query.cascader},'%')
         </if>
         order by t.create_time desc
     </select>

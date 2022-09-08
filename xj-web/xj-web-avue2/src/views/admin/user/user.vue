@@ -27,15 +27,15 @@
             <template slot-scope="{row,index,type,size}" slot="regTimeSearch">
                 <div class="block">
                     <el-date-picker
-                            v-model="regTime.data"
+                            v-model="search.regTime"
                             value-format="yyyy-MM-dd HH:mm:ss"
-                            type="daterange"
+                            type="datetimerange"
                             align="right"
                             unlink-panels
                             range-separator="至"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
-                            :picker-options="regTime.pickerOptions">
+                            :picker-options="defaultDic.timeOptions">
                     </el-date-picker>
                 </div>
             </template>
@@ -119,37 +119,36 @@
                 // 部门
                 deps: [],
                 // 时间
-                regTime: {
-                    data: '',
-                    pickerOptions: {
-                        shortcuts: [{
-                            text: '最近一周',
-                            onClick(picker) {
-                                const end = new Date();
-                                const start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                                picker.$emit('pick', [start, end]);
-                            }
-                        }, {
-                            text: '最近一个月',
-                            onClick(picker) {
-                                const end = new Date();
-                                const start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                                picker.$emit('pick', [start, end]);
-                            }
-                        }, {
-                            text: '最近三个月',
-                            onClick(picker) {
-                                const end = new Date();
-                                const start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                                picker.$emit('pick', [start, end]);
-                            }
-                        }]
-                    }
-                },
-
+                //regTime: {
+                    //data: '',
+                    //{
+                    // shortcuts: [{
+                    //     text: '最近一周',
+                    //     onClick(picker) {
+                    //         const end = new Date();
+                    //         const start = new Date();
+                    //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                    //         picker.$emit('pick', [start, end]);
+                    //     }
+                    // }, {
+                    //     text: '最近一个月',
+                    //     onClick(picker) {
+                    //         const end = new Date();
+                    //         const start = new Date();
+                    //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                    //         picker.$emit('pick', [start, end]);
+                    //     }
+                    // }, {
+                    //     text: '最近三个月',
+                    //     onClick(picker) {
+                    //         const end = new Date();
+                    //         const start = new Date();
+                    //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                    //         picker.$emit('pick', [start, end]);
+                    //     }
+                    // }]
+                    // }
+                //},
             }
         },
         activated: function () {
@@ -227,6 +226,8 @@
                 {
                     label: '注册时间',
                     prop: 'regTime',
+                    //dataType: 'string',
+                    searchSpan: 7,
                     search: true,
                     overHidden: true,
                 },
@@ -278,14 +279,6 @@
              * @author wangsong
              */
             onLoad() {
-                // 时间查询处理
-                if (this.regTime.data != null && this.regTime.data !== "") {
-                    this.search.regTimeStart = this.regTime.data[0];
-                    this.search.regTimeEnd = this.regTime.data[1];
-                } else {
-                    this.search.regTimeStart = null;
-                    this.search.regTimeEnd = null;
-                }
                 // 查询
                 this.crud.list(this, true);
                 this.crud.doLayout(this, this.$refs.crudUser);

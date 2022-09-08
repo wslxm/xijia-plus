@@ -27,6 +27,7 @@ public class GcMapperXml extends BaseServiceImpl implements GcSevice {
      * 模板key
      */
     public static final String KEY_NAME = "X-MapperXml";
+
     /**
      * 生成Dao 对应的xml
      *
@@ -68,7 +69,7 @@ public class GcMapperXml extends BaseServiceImpl implements GcSevice {
                 continue;
             }
 
-
+            // 数据库字段
             String fieldName = fieldMap.getName();
             // 字段名驼峰
             String fieldNameHump = GcDataUtil.getFieldName(gcConfig, fieldName);
@@ -83,23 +84,23 @@ public class GcMapperXml extends BaseServiceImpl implements GcSevice {
             if (type.equals(FieldTypeConstant.VARCHAR) || type.equals(FieldTypeConstant.TEXT)
                     || type.equals(FieldTypeConstant.CHAR) || type.equals(FieldTypeConstant.LONG_TEXT
             )) {
-                selectSearcListSb.append("\r\n        <if test=\"query." + fieldNameHump + " != null and query." + fieldNameHump + "  != ''\">");
-            } else {
-                selectSearcListSb.append("\r\n        <if test=\"query." + fieldNameHump + " != null\">");
-            }
-
-            // 搜索条件
-            if (type.equals(FieldTypeConstant.VARCHAR) || type.equals(FieldTypeConstant.TEXT)
-                    || type.equals(FieldTypeConstant.CHAR) || type.equals(FieldTypeConstant.LONG_TEXT
-            )) {
                 // 字符串默认右模糊
-                selectSearcListSb.append("\r\n            and t." + fieldName + " like concat(#{query."+fieldNameHump+"},'%')");
+                selectSearcListSb.append("\r\n        <if test=\"query." + fieldNameHump + " != null and query." + fieldNameHump + "  != ''\">");
+                selectSearcListSb.append("\r\n            and t." + fieldName + " like concat(#{query." + fieldNameHump + "},'%')");
+                selectSearcListSb.append("\r\n        </if>");
+            } else if (type.equals(FieldTypeConstant.DATETIME)) {
+                // 时间默认时间范围搜索(传入字符串分割的开始时间+结束时间)
+                selectSearcListSb.append("\r\n        <if test=\"query." + fieldNameHump + " != null and query." + fieldNameHump + " != ''\">" +
+                        "\r\n            <foreach item=\"" + fieldNameHump + "\" collection=\"query." + fieldNameHump + ".split(',')\" open=\"and t." + fieldName + " >= \" separator=\" and \" close=\" >= t." + fieldName + "\">" +
+                        "\r\n                #{" + fieldNameHump + "}" +
+                        "\r\n            </foreach>" +
+                        "\r\n        </if>");
             } else {
                 // 其他默认eq
+                selectSearcListSb.append("\r\n        <if test=\"query." + fieldNameHump + " != null\">");
                 selectSearcListSb.append("\r\n            and t." + fieldName + " = #{query." + fieldNameHump + "}");
+                selectSearcListSb.append("\r\n        </if>");
             }
-            // if 结尾符
-            selectSearcListSb.append("\r\n        </if>");
         }
         return selectSearcListSb.toString();
     }

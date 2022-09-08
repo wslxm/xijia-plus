@@ -143,6 +143,28 @@ public interface VueAddUpdTemplate {
             "                            }]\n" +
             "                        },\n";
 
+    /**
+     * 时间-小时选择器 {label}  {prop}
+     * 09:00 | 09:30 | 10:00
+     *
+     */
+    String TIME = "                        {\n" +
+            "                            label: \"{label}\",\n" +
+            "                            prop: \"{prop}\",\n" +
+            "                            type: \"time\",\n" +
+            "                            span: 20,\n" +
+            "                            pickerOptions: {\n" +
+            "                                start: '06:00',\n" +
+            "                                step: '00:30',\n" +
+            "                                end: '23:00'\n" +
+            "                            },\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请输入 {label} \",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }]\n" +
+            "                        },\n";
+
 
     /**
      * 级联选择器 {label}  {prop}
@@ -153,7 +175,7 @@ public interface VueAddUpdTemplate {
             "                            span: 20,\n" +
             "                            type: \"cascader\",\n" +
             "                            dataType: 'string',\n" +
-            "                            filterable: true, \n " +
+            "                            filterable: true, \n" +
             "                            dicData: this.defaultDic.dicData,   // 自行替换字典数据  \n" +
             "                            props: {\n" +
             "                                value: \"id\",\n" +

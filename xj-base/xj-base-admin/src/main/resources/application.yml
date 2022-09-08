@@ -71,7 +71,7 @@ gc:
   projectName: xj-base/xj-base-admin      # 项目名/路径，如：xj-server/xj-test-server
   packPath: io.github.wslxm.springbootplus2 # 包路径(如: io.github.wslxm)
   rootModule: manage                      # 根模块(固定为：manage (管理端), 用户端为：client)
-  moduleName: test2                        # 子模块(如用户管理,订单管理模块拆分，也可以统一一个名称放在一起,但不建议)
+  moduleName: test                        # 子模块(如用户管理,订单管理模块拆分，也可以统一一个名称放在一起,但不建议)
   tablePrefixDefault: t_                  # 表前缀 (生成的类名会过滤掉前缀)
   fieldPrefixDefault:                     # 字段前缀 (生成的字段名会过滤掉前缀)
   entitySwagger: true                     # 实体类是否使用swagger注释 (false情况下使用doc注释)

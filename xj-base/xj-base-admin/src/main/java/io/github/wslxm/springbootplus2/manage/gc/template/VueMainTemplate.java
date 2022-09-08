@@ -8,13 +8,13 @@ public interface VueMainTemplate {
 
 
     /**
-     * 文本  {label}  {prop} {search}
+     * 文本  {label}  {prop} {search} {searchSpan}
      */
     String TEXT = "                {\n" +
             "                    label: '{label}',\n" +
             "                    prop: '{prop}',\n" +
             "                    search: {search},\n" +
-            "                    searchSpan: 5,\n" +
+            "                    searchSpan: {searchSpan},\n" +
             "                    overHidden: true,\n" +
             "                },\n";
 
@@ -34,7 +34,7 @@ public interface VueMainTemplate {
 
 
     /**
-     * 字典（多选） {label}  {prop} {search} ,
+     * 字典（多选） {label}  {prop} {search}
      */
     String TEXT_DICT_CHECKBOX = "                {\n" +
             "                    label: '{label}',\n" +
@@ -45,6 +45,24 @@ public interface VueMainTemplate {
             "                    overHidden: true,\n" +
             "                    dataType: 'string',\n" +
             "                    dicData: this.dict.get({dictCode}),\n" +
+            "                },\n";
+
+
+    /**
+     * 时间-小时选择 {label}  {prop} {search}
+     */
+    String TIME = "                {\n" +
+            "                    label: '{label}',\n" +
+            "                    prop: '{prop}',\n" +
+            "                    search: {search},\n" +
+            "                    searchSpan: 5,\n" +
+            "                    overHidden: true,\n" +
+            "                    type: \"time\",\n" +
+            "                    pickerOptions:{\n" +
+            "                        start: '06:00',\n" +
+            "                        step: '00:30',\n" +
+            "                        end: '23:00'\n" +
+            "                    }\n" +
             "                },\n";
 
 

@@ -58,7 +58,7 @@ public class GcVO extends BaseGcImpl implements GcSevice {
                 fields.append("\r\n    /** \r\n     * " + desc + " \r\n     */");
             }
             // 3、生成字段
-            fields.append("\r\n    " + super.jxModel( gcConfig,fieldName, type) + "\r\n");
+            fields.append("\r\n    " + super.jxModel( gcConfig,fieldName, type,false) + "\r\n");
         }
 
         gcConfig.setTemplateParam("entitys",fields.toString());

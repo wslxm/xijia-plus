@@ -3,7 +3,7 @@ import {baseProxyPathRewrite, baseUploadUrl} from '@/config/env';
 
 export default {
     // 查询
-    async  get(uri, params) {
+    async get(uri, params) {
         console.debug("get => uri:", uri, "  params:", params)
         return await request({
             url: baseProxyPathRewrite + uri,
@@ -30,7 +30,7 @@ export default {
     },
 
     // 编辑
-    async  put(uri, data, params) {
+    async put(uri, data, params) {
         console.debug("put => uri:", uri, "  data:", data, "  params:", params)
         return await request({
             url: baseProxyPathRewrite + uri,
@@ -152,11 +152,22 @@ export default {
         isPage = isPage == null ? true : isPage
         isCallback = isCallback == null ? false : isCallback
         // 查询参数
-        let params = thih.search != null ? thih.search : {};
+        let params = {};
+        // 处理参数，如果存在数组查询参数，转为逗号分割的参数进行查询
+        if(thih.search != null){
+            for (let k in thih.search) {
+                let v = thih.search[k];
+                if (v instanceof Array) {
+                    params[k] = v.join(",");
+                }else{
+                    params[k] = v;
+                }
+            }
+        }
         // 分页参数
         params.current = thih.page != null ? thih.page.currentPage : 0;
         params.size = thih.page != null ? thih.page.pageSize : 0;
-        console.debug("list => " +
+        console.debug("列表查询list => " +
             "  uri:", thih.uri.infoList,
             "  isPage:", isPage,
             "  isCallback -> onLoadCallback(res):", isCallback,
@@ -175,7 +186,7 @@ export default {
             // for (let i = 0; i < thih.data.length; i++) {
             //     thih.data[i].$cellEdit = false
             // }
-            console.debug(thih.data)
+            console.debug("列表查询list返回 => " + thih.data)
             if (isCallback) {
                 // 回调
                 thih.onLoadCallback(res);

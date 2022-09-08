@@ -63,13 +63,13 @@ public class GcIServiceImpl extends BaseServiceImpl implements GcSevice {
 
             // 指定类型字段不生成到列表中，同时排除list接口查询
             List<String> vueFieldTypeArray = JSON.parseObject(gcConfig.getDefaultTemplateParam("vueFieldTypesArray"), List.class);
-            if (vueFieldTypeArray.contains(vueFieldType+"")) {
+            if (vueFieldTypeArray.contains(vueFieldType + "")) {
                 if (excludeReturn.toString().equals("")) {
-                    excludeReturn.append("                ");
-                    excludeReturn.append(".select("+tableNameUp+".class, info -> !\"" + fieldName + "\".equals(info.getColumn())");
+                    excludeReturn.append("        ");
+                    excludeReturn.append("queryWrapper.select(" + tableNameUp + ".class, info -> !\"" + fieldName + "\".equals(info.getColumn())");
                 } else {
                     excludeReturn.append("\r\n");
-                    excludeReturn.append("                         ");
+                    excludeReturn.append("                 ");
                     excludeReturn.append(" && !\"" + fieldName + "\".equals(info.getColumn())");
                 }
             }
@@ -83,43 +83,49 @@ public class GcIServiceImpl extends BaseServiceImpl implements GcSevice {
 
 
             //字段  // !=null StringUtils.isNotBlank(account)
-            findPageMybatisPlus.append("                ");
+            findPageMybatisPlus.append("        ");
             if (type.equals(FieldTypeConstant.INT) || type.equals(FieldTypeConstant.BIGINT)
                     || type.equals(FieldTypeConstant.TINYINT)) {
                 /**
                  * 整数 int/long/tinyint
                  */
-                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "())");
+                findPageMybatisPlus.append("queryWrapper.eq(query.get" + fieldName + "() != null, " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "());");
             } else if (type.equals(FieldTypeConstant.DOUBLE) || type.equals(FieldTypeConstant.FLOAT)
                     || type.equals(FieldTypeConstant.DECIMAL)) {
                 /**
                  * 单精度小数 Float / 双精度小数 Double / decimal等
                  */
-                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "())");
+                findPageMybatisPlus.append("queryWrapper.eq(query.get" + fieldName + "() != null, " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "());");
             } else if (type.equals(FieldTypeConstant.VARCHAR) || type.equals(FieldTypeConstant.TEXT)
                     || type.equals(FieldTypeConstant.CHAR) || type.equals(FieldTypeConstant.LONG_TEXT
             )) {
                 /**
                  * 字符串 / 大文本、超大文本
                  */
-                findPageMybatisPlus.append(".likeRight(StringUtils.isNotBlank(query.get" + fieldName + "()), " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "())");
+                findPageMybatisPlus.append("queryWrapper.likeRight(StringUtils.isNotBlank(query.get" + fieldName + "()), " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "());");
             } else if (type.equals(FieldTypeConstant.DATETIME) || type.equals(FieldTypeConstant.TIME)
                     || type.equals(FieldTypeConstant.TIMESTAMP)) {
                 /**
                  * 时间
                  */
-                findPageMybatisPlus.append(".eq(query.get" + fieldName + "() != null, " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "())");
+                if (type.equals(FieldTypeConstant.DATETIME)) {
+                    String hql = "if (StringUtils.isNotBlank(query.get{prop}()) && query.get{prop}().split(SymbolConst.COMMA).length >= 1) {\n" +
+                            "            queryWrapper.between(GcTest::get{prop}, query.get{prop}().split(\",\")[0], query.get{prop}().split(\",\")[1]);\n" +
+                            "        }";
+                    findPageMybatisPlus.append(hql.replaceAll("\\{prop}",fieldName));
+                } else {
+                    findPageMybatisPlus.append("queryWrapper.eq(query.get" + fieldName + "() != null, " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "());");
+                }
             }
             findPageMybatisPlus.append("\r\n");
         }
-        // 增加排除字段的最后一个括号
-        excludeReturn = excludeReturn.toString().equals("") ? excludeReturn : excludeReturn.append(")");
-
-        // 添加到填充内容中
+        // 增加排除字段的最后一个括号，添加到填充内容中
+        excludeReturn = excludeReturn.toString().equals("") ? excludeReturn : excludeReturn.append(");");
         String excludeReturnStr = excludeReturn.toString().equals("") ? "" : excludeReturn.toString() + "\r\n";
-        // 去掉最后一个 \r\n
+        // 去掉搜索条件的最后一个 \r\n
         String findPageMybatisPlusStr = findPageMybatisPlus.toString().equals("") ?
                 "" : findPageMybatisPlus.toString().substring(0, findPageMybatisPlus.toString().length() - 2);
+
         gcConfig.setTemplateParam("findPageMybatisPlus", excludeReturnStr + findPageMybatisPlusStr);
     }
 }

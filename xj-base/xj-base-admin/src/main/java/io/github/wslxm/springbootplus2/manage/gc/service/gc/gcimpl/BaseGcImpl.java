@@ -8,6 +8,7 @@ import io.github.wslxm.springbootplus2.manage.gc.constant.FieldTypeConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.template.VueAddUpdSlotTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.template.VueAddUpdTemplate;
+import io.github.wslxm.springbootplus2.manage.gc.template.VueMainSlotTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
 
 import java.math.BigDecimal;
@@ -32,8 +33,10 @@ public class BaseGcImpl extends BaseServiceImpl {
      *
      * @param fieldName 1
      * @param type 1
+     * @param isTimeStr 时间是否使用字符串,只处理 datetime 字段类型（特殊处理, 满足query范围查询的代码自动生成）
      */
-    protected String jxModel(GcConfig gcConfig, String fieldName, String type) {
+    protected String jxModel(GcConfig gcConfig, String fieldName, String type, Boolean isTimeStr) {
+        isTimeStr = isTimeStr == null ? false : isTimeStr;
         // 转驼峰模式
         fieldName = GcDataUtil.getFieldName(gcConfig, fieldName);
         String field = "";
@@ -53,7 +56,11 @@ public class BaseGcImpl extends BaseServiceImpl {
         } else if (type.equals(FieldTypeConstant.DATETIME) || type.equals(FieldTypeConstant.TIME)
                 || type.equals(FieldTypeConstant.TIMESTAMP)) {
             // 时间
-            field = "private LocalDateTime " + fieldName + ";";
+            if (type.equals(FieldTypeConstant.DATETIME) && isTimeStr) {
+                field = "private String " + fieldName + ";";
+            } else {
+                field = "private LocalDateTime " + fieldName + ";";
+            }
         } else if (type.equals(FieldTypeConstant.DOUBLE)) {
             // 双精度小数 Double
             field = "private Double " + fieldName + ";";
@@ -234,35 +241,33 @@ public class BaseGcImpl extends BaseServiceImpl {
         } else if (Base.VueFieldType.V11.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.DATETIME.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else if (Base.VueFieldType.V12.getValue().equals(vueFieldType)) {
+            columnStr = VueAddUpdTemplate.TIME.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else if (Base.VueFieldType.V13.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.UPLOAD
                     .replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{listType}", "picture-img")
                     .replace("{limit}", "1").replace("{fileType}", "img")
-                    .replace("{accept}", "'image/png, image/jpeg, image/jpg, image/gif'")
-                    .replace("{tip}", "只能上传 jpg/png/gif 格式的图片");
+                    .replace("{accept}", "'image/png, image/jpeg, image/jpg, image/gif'").replace("{tip}", "只能上传 jpg/png/gif 格式的图片");
         } else if (Base.VueFieldType.V14.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.UPLOAD
                     .replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{listType}", "picture-card")
                     .replace("{limit}", "10").replace("{fileType}", "img")
-                    .replace("{accept}", "'image/png, image/jpeg, image/jpg, image/gif'")
-                    .replace("{tip}", "只能上传10张 jpg/png/gif 格式的图片");
+                    .replace("{accept}", "'image/png, image/jpeg, image/jpg, image/gif'").replace("{tip}", "只能上传10张 jpg/png/gif 格式的图片");
         } else if (Base.VueFieldType.V15.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.UPLOAD
                     .replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{listType}", "picture-img")
                     .replace("{limit}", "1").replace("{fileType}", "video")
-                    .replace("{accept}", "'video/mp4'")
-                    .replace("{tip}", "只能上传mp4格式的视频");
+                    .replace("{accept}", "'video/mp4'").replace("{tip}", "只能上传mp4格式的视频");
         } else if (Base.VueFieldType.V16.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.UPLOAD
                     .replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{listType}", "")
                     .replace("{limit}", "10").replace("{fileType}", "all")
-                    .replace("{accept}", "null")
-                    .replace("{tip}", "");
+                    .replace("{accept}", "null").replace("{tip}", "");
         } else if (Base.VueFieldType.V17.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.TEXTAREA.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
         } else if (Base.VueFieldType.V18.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.INPUT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
         } else if (Base.VueFieldType.V19.getValue().equals(vueFieldType)) {
+            columnStr = VueAddUpdTemplate.INPUT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
         } else if (Base.VueFieldType.V20.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.CASCADER.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else {
@@ -274,7 +279,7 @@ public class BaseGcImpl extends BaseServiceImpl {
 
 
     /**
-     * vue 字段需要定义为插槽的处理
+     * vue 字段需要定义为插槽的处理 (添加和编辑页)
      *
      * @param vueFieldType  vue表单字段类型
      * @param name          字段名
@@ -283,16 +288,38 @@ public class BaseGcImpl extends BaseServiceImpl {
      * @date 2022/5/14 0014 22:41 
      * @version 1.0.0
      */
-    protected String jxVueColumnsSlot(GcConfig gcConfig, Integer vueFieldType, String name) {
+    protected String jxVueColumnsSlot(Integer vueFieldType, String name) {
         String vueAddUpdSlot = "";
-        name = GcDataUtil.getFieldName(gcConfig, name);
+        // name = GcDataUtil.getFieldName(gcConfig, name);
         if (Base.VueFieldType.V18.getValue().equals(vueFieldType)) {
             // 追加定义富文本插槽
-            vueAddUpdSlot = VueAddUpdSlotTemplate.TINYMCE_EDITOR.replace("{field}", name);
+            vueAddUpdSlot = VueAddUpdSlotTemplate.TINYMCE_EDITOR.replace("{prop}", name);
         }
         if (Base.VueFieldType.V19.getValue().equals(vueFieldType)) {
-            // 追加定义富文本插槽
-            vueAddUpdSlot = VueAddUpdSlotTemplate.MD_EDITOR.replace("{field}", name);
+            // 追加定义md编辑器插槽
+            vueAddUpdSlot = VueAddUpdSlotTemplate.MD_EDITOR.replace("{prop}", name);
+        }
+        return vueAddUpdSlot;
+    }
+
+
+    /**
+     * vue 字段需要定义为插槽的处理 (列表页，搜索插槽 或 特殊字段展示的插槽)
+     *
+     * @param vueFieldType  vue表单字段类型
+     * @param name          字段名
+     * @param isSearch      是否搜索
+     * @author wangsong
+     * @mail 1720696548@qq.com
+     * @date 2022/5/14 0014 22:41
+     * @version 1.0.0
+     */
+    protected String jxVueInfoColumnsSlot( Integer vueFieldType, String name, boolean isSearch) {
+        String vueAddUpdSlot = "";
+        // name = GcDataUtil.getFieldName(gcConfig, name);
+        if (Base.VueFieldType.V11.getValue().equals(vueFieldType)) {
+            // 时间范围搜索插槽
+            vueAddUpdSlot = VueMainSlotTemplate.DATE_PICKER.replace("{prop}", name);
         }
         return vueAddUpdSlot;
     }

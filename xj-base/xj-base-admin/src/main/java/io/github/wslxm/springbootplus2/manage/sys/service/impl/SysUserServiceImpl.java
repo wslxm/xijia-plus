@@ -61,6 +61,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         if (query.getIsLoginUser() == null) {
             query.setIsLoginUser(false);
         }
+
+
         // 是否只查询当前登录人创建的用户
         String createUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
         IPage<SysUserVO> page = new Page<>(query.getCurrent(), query.getSize());

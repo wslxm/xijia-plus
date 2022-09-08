@@ -21,7 +21,7 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-06-30 11:07:08
+ * @date 2022-09-09 01:40:19
  */
 @Data
 @ToString(callSuper = true)
@@ -29,74 +29,31 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
 @ApiModel(value = "GcTest 对象", description = "代码生成测试表")
 public class GcTest extends BaseEntity {
 
-    private static final long serialVersionUID = -702322858457698304L;
+    private static final long serialVersionUID = -727909752511795200L;
     
-    /** 
-     * 名称 (文本) 
-     */
-    @TableField(value = "`name`")
-    private String name;
-
-    /** 
-     * 年龄 (数字) 
-     */
-    @TableField(value = "age")
-    private Double age;
-
-    /** 
-     * 性别 (单选--字典) 
-     */
-    @TableField(value = "sex")
-    private Integer sex;
-
-    /** 
-     * 爱好 (多选--字典) 
-     */
-    @TableField(value = "`like`")
-    private String like;
-
-    /** 
-     * 城市 (下拉选--字典) 
-     */
-    @TableField(value = "city")
-    private Integer city;
-
-    /** 
-     * 禁用 (开关--字典) 
-     */
-    @TableField(value = "`disable`")
-    private Integer disable;
-
-    /** 
-     * 头像 (文件上传) 
-     */
-    @TableField(value = "head_url")
-    private String headUrl;
-
-    /** 
-     * 时间 
-     */
+    @ApiModelProperty(notes = "时间 (默认 yyyy-MM-dd hh:mm:ss 格式)" ,position = 0)
     @TableField(value = "`time`")
     private LocalDateTime time;
 
-    /** 
-     * 更多信息(大文本) 
-     */
+    @ApiModelProperty(notes = "时间-小时 (默认 hh:mm 字串)" ,position = 1)
+    @TableField(value = "time_two")
+    private String timeTwo;
+
+    @ApiModelProperty(notes = "更多信息-text (大文本)" ,position = 2)
     @TableField(value = "text")
     private String text;
 
-    /** 
-     * 更多信息(富文本) 
-     */
+    @ApiModelProperty(notes = "更多信息-fwb (富文本)" ,position = 3)
     @TableField(value = "text_two")
     private String textTwo;
 
-    /** 
-     * 更多信息(md编辑器) 
-     */
-    @TableField(value = "text_three")
-    private String textThree;
-
+    @ApiModelProperty(notes = "级联选择器  (字符串分割存储)" ,position = 4)
+    @TableField(value = "cascader")
     private String cascader;
+
+    @ApiModelProperty(notes = "地址选择器" ,position = 5)
+    @TableField(value = "map")
+    private String map;
+
 }
 

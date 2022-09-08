@@ -86,7 +86,7 @@ public class GcEntity extends BaseGcImpl implements GcSevice {
             }
 
             // 4、生成字段
-            fields.append("\r\n    " + super.jxModel(gcConfig,fieldName, type) + "\r\n");
+            fields.append("\r\n    " + super.jxModel(gcConfig,fieldName, type,false) + "\r\n");
         }
         // 数据保存到替换对象类,使模板中可以读取
         gcConfig.setTemplateParam("entitys", fields.toString());
