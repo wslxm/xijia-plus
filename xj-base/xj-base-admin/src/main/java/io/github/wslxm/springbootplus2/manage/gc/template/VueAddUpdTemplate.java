@@ -99,6 +99,7 @@ public interface VueAddUpdTemplate {
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'select',\n" +
+            "                            filterable:true,\n" +
             "                            dicData: this.dict.get({dictCode}),\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
@@ -144,7 +145,38 @@ public interface VueAddUpdTemplate {
 
 
     /**
-     * 文件上传 {label}  {prop}
+     * 级联选择器 {label}  {prop}
+     */
+    String CASCADER = "                        {\n" +
+            "                            label: '{label}',\n" +
+            "                            prop: '{prop}',\n" +
+            "                            span: 20,\n" +
+            "                            type: \"cascader\",\n" +
+            "                            dataType: 'string',\n" +
+            "                            filterable: true, \n " +
+            "                            dicData: this.defaultDic.dicData,   // 自行替换字典数据  \n" +
+            "                            props: {\n" +
+            "                                value: \"id\",\n" +
+            "                                label: \"name\",\n" +
+            "                                children: \"children\"\n" +
+            "                            },\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请选择 {label} \",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }]\n" +
+            "                        },\n";
+
+
+    /**
+     * 文件上传
+     * {label}
+     * {prop}
+     * {listType} ==> 单图/视频-[picture-img] |  多图/视频-[picture-card] |  缩略图-[picture] | 任意文件空
+     * {limit} ==> 上传数量
+     * {accept} ==> 文件上传格式 -> 图片默认: image/png, image/jpeg, image/jpg, image/gif  | 视频默认: video/mp4 | 任意文件不限制
+     * {tip} ==> 文件上传提示  -> 【图片: 只能上传 jpg/png/gif 格式的图片】 【视频：只能上传mp4格式的视频】【任意文件：无】
+     * {fileType} ==> 文件类型, 分类图片/视频/任意文件的存储路径
      */
     String UPLOAD = "                        {\n" +
             "                            label: '{label}',\n" +
@@ -155,16 +187,17 @@ public interface VueAddUpdTemplate {
             "                                message: \"请上传 {label} \",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }],\n" +
-            "                            dataType: 'string',  // 字符串模式\n" +
+            "                            dataType: 'string', \n" +
+            "                            accept: {accept},  \n" +
             "                            type: 'upload',\n" +
-            "                            listType: 'picture-img',                // 图片格式, 单图-[picture-img]  多图-[picture-card]  缩略图-[picture] 普通文件空\n" +
-            "                            action: baseUploadUrl + 'image/gc/',    // 上传地址 + 文件保存上传地址(详见接口描叙)\n" +
-            "                            multiple: false,       // 文件多选\n" +
-            "                            drag: true,            // 拖拽排序\n" +
-            "                            limit: 1,              // 上传数量 1 个\n" +
+            "                            listType: '{listType}', \n" +
+            "                            action: baseUploadUrl + 'file/gc/{fileType}/',   // 上传地址 + 文件保存上传地址(详见接口描叙)\n" +
+            "                            multiple: true,          // 文件多选\n" +
+            "                            drag: true,              // 拖拽排序\n" +
+            "                            limit: {limit},                // 上传数量 1 个\n" +
             "                            //fileSize: 500,         // 上传大小 500 kb内\n" +
-            "                            loadText: '上传中...',  // 上传中文字提示\n" +
-            "                            tip: '只能上传jpg/png/gif文件',\n" +
+            "                            tip: '{tip}',\n" +
+            "                            loadText: '上传中...',   \n" +
             "                            propsHttp: {\n" +
             "                                res: 'data'\n" +
             "                            },\n" +

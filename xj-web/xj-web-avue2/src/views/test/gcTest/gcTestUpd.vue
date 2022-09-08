@@ -202,7 +202,25 @@
                                 trigger: "blur"
                             }]
                         },
-
+                        {
+                            label: '级联选择器  ',
+                            prop: 'cascader',
+                            span: 20,
+                            type: "cascader",
+                            dataType: 'string',
+                            filterable: true,
+                            dicData: this.defaultDic.dicData,   // 自行替换字典数据
+                            props: {
+                                value: "id",
+                                label: "name",
+                                children: "children"
+                            },
+                            rules: [{
+                                required: true,
+                                message: "请选择 级联选择器   ",
+                                trigger: "blur"
+                            }]
+                        },
                     ]
                 }
             }

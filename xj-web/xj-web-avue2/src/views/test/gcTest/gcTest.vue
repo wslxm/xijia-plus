@@ -18,6 +18,7 @@
                            active-text="" inactive-text="">
                 </el-switch>
             </template>
+
             <template slot-scope="{}" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
             </template>
@@ -52,6 +53,7 @@
                     info: "/api/admin/test/gcTest",
                 },
                 loading: true,
+                initSuccess: false,
                 dialogWidth: "60%",
                 addDialogVisible: false,
                 updDialogVisible: false,
@@ -65,7 +67,23 @@
         mounted() {
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.column = [
-                 {
+                {
+                    label: '级联选择器  ',
+                    prop: 'cascader',
+                    span: 20,
+                    search: true,
+                    type: "cascader",
+                    dataType: 'string',
+                    filterable: true,
+                    // 自行替换字典数据，在 mounted 事件加载字段前使用 let res = await this.crud.get() 同步获取数据
+                    dicData: this.defaultDic.dicData,
+                    props: {
+                        value: "id",
+                        label: "name",
+                        children: "children"
+                    }
+                },
+                {
                     label: '名称 ',
                     prop: 'name',
                     search: true,
@@ -84,6 +102,7 @@
                     prop: 'sex',
                     type: 'select',
                     search: true,
+                    filterable: true,
                     searchSpan: 5,
                     overHidden: true,
                     dicData: this.dict.get('SEX'),
@@ -91,7 +110,7 @@
                 {
                     label: '爱好 ',
                     prop: 'like',
-                    search: false,
+                    search: true,
                     searchSpan: 5,
                     overHidden: true,
                 },
@@ -120,11 +139,11 @@
                     overHidden: true,
                     html: true,
                     formatter: (val) => {
-                        if(val.headUrl == null || val.headUrl == ''){
+                        if (val.headUrl == null || val.headUrl == '') {
                             return "";
-                        }else{
+                        } else {
                             let imgs = val.headUrl.split(",");
-                            let html = ""; 
+                            let html = "";
                             imgs.forEach(item => html += "<img src='" + item + "'  style='border-radius: 40px;height: 40px;width: 40px;margin-top: 10px'>")
                             return html;
                         }
@@ -154,10 +173,10 @@
         },
         methods: {
             onLoad() {
-                this.crud.list(this,true);
+                this.crud.list(this, true);
                 this.crud.doLayout(this, this.$refs.crudgcTest)
             },
-            searchChange(params,done) {
+            searchChange(params, done) {
                 console.debug(params)
                 this.page.currentPage = 1;
                 this.onLoad();
@@ -190,10 +209,10 @@
                 this.crud.put(this.uri.info + "/" + row.id, {disable: row.disable});
             },
             cellStyle({row, column}) {
-                 if (column.property == "disable") {
-                     // fontWeight: 'bold',fontSize: '20'
-                     return row.disable == 0 ? {color: 'green'} : {color: 'red'}
-                 }
+                if (column.property == "disable") {
+                    // fontWeight: 'bold',fontSize: '20'
+                    return row.disable == 0 ? {color: 'green'} : {color: 'red'}
+                }
             }
         }
     }

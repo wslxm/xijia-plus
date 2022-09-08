@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @SuppressWarnings("all")
-public interface Base{
+public interface Base {
 
     // -
     @Getter
@@ -25,7 +25,7 @@ public interface Base{
     // -
     @Getter
     @AllArgsConstructor
-    enum DepRoot implements IEnum<Integer> {
+    enum OrganRoot implements IEnum<Integer> {
         V1(1, "一级"),    // -
         V2(2, "二级"),    // -
         V3(3, "三级"),    // -
@@ -52,11 +52,12 @@ public interface Base{
         V12(12, "时间-(time)"),    // -
         V13(13, "文件上传(默认单图)"),    // -
         V14(14, "文件上传(多图)"),    // -
-        V15(15, "文件上传（缩略图）"),    // -
-        V16(16, "文件上传（附件）"),    // -
+        V15(15, "文件上传（视频）"),    // -
+        V16(16, "文件上传（任意文件）"),    // -
         V17(17, "大文本(textarea)"),    // -
         V18(18, "富文本(tinymce)"),    // vue-tinymce 富文本插件
-        V19(19, "md 编辑器"),    // -
+        V19(19, "md编辑器 (v-md-editor)"),    // v-md-editor 插件
+        V20(20, "级联选择器 (cascader)"),    // 需自行替换级联选择数据
         ;
         private Integer value;
         private String desc;
@@ -114,7 +115,7 @@ public interface Base{
     enum AuthorityState implements IEnum<Integer> {
         V0(0, "无"),    // -
         V1(1, "需登录"),    // -
-        V2(2, "需登录+授权"),    // -
+        V2(2, "需登录+授权"),    // -已移除角色关联url, 菜单即权限
         V3(3, "需Oauth2 授权"),    // -
         ;
         private Integer value;

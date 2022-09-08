@@ -17,6 +17,7 @@
 <script>
 
     import {baseUploadUrl} from "@/config/env";
+
     export default {
         data() {
             return {
@@ -34,6 +35,7 @@
                     text: null,
                     textTwo: null,
                     textThree: null,
+                    cascader: null,
 
                 },
             }
@@ -105,6 +107,7 @@
                             label: '城市 ',
                             prop: 'city',
                             type: 'select',
+                            filterable: true,
                             dicData: this.dict.get(this.website.Dict.Base.Default),
                             span: 20,
                             rules: [{
@@ -126,24 +129,25 @@
                             }]
                         },
                         {
-                            label: '头像 ',
+                            label: '单图文件',
                             prop: 'headUrl',
                             span: 24,
                             rules: [{
                                 required: true,
-                                message: "请上传 头像  ",
+                                message: "请上传 单图文件 ",
                                 trigger: "blur"
                             }],
-                            dataType: 'string',  // 字符串模式
+                            dataType: 'string',
+                            accept: 'image/png, image/jpeg, image/jpg, image/gif',
                             type: 'upload',
-                            listType: 'picture-img',                // 图片格式, 单图-[picture-img]  多图-[picture-card]  缩略图-[picture] 普通文件空
-                            action: baseUploadUrl + 'image/gc/',    // 上传地址 + 文件保存上传地址(详见接口描叙)
-                            multiple: false,       // 文件多选
-                            drag: true,            // 拖拽排序
-                            limit: 1,              // 上传数量 1 个
+                            listType: 'picture-img',
+                            action: baseUploadUrl + 'file/gc/img/',   // 上传地址 + 文件保存上传地址(详见接口描叙)
+                            multiple: true,          // 文件多选
+                            drag: true,              // 拖拽排序
+                            limit: 1,                // 上传数量 1 个
                             //fileSize: 500,         // 上传大小 500 kb内
-                            loadText: '上传中...',  // 上传中文字提示
-                            tip: '只能上传jpg/png/gif文件',
+                            tip: '只能上传 jpg/png/gif 格式的图片',
+                            loadText: '上传中...',
                             propsHttp: {
                                 res: 'data'
                             },
@@ -159,9 +163,129 @@
                                 // 上传失败
                                 this.$message.error(error);
                             },
-                            uploadExceed(limit, files, fileList, column){
+                            uploadExceed(limit, files, fileList, column) {
                                 // 文件数量验证
-                                this.$message.warning(`当前限制文件数量为 ${limit}, 当前共 ${files.length + fileList.length} `);
+                                this.$message.warning(`当前限制文件数量为 $1, 当前共 ${files.length + fileList.length} `);
+                            },
+                        },
+                        {
+                            label: '多图文件 ',
+                            prop: 'headFiles',
+                            span: 24,
+                            rules: [{
+                                required: true,
+                                message: "请上传 多图文件  ",
+                                trigger: "blur"
+                            }],
+                            dataType: 'string',
+                            accept: 'image/png, image/jpeg, image/jpg, image/gif',
+                            type: 'upload',
+                            listType: 'picture-card',
+                            action: baseUploadUrl + 'file/gc/img/',   // 上传地址 + 文件保存上传地址(详见接口描叙)
+                            multiple: true,          // 文件多选
+                            drag: true,              // 拖拽排序
+                            limit: 10,                // 上传数量 1 个
+                            //fileSize: 500,         // 上传大小 500 kb内
+                            tip: '只能上传10张 jpg/png/gif 格式的图片',
+                            loadText: '上传中...',
+                            propsHttp: {
+                                res: 'data'
+                            },
+                            uploadBefore: (file, done) => {
+                                // 文件上传前处理
+                                done(file)
+                            },
+                            uploadAfter: (res, done) => {
+                                this.$message.success('上传成功');
+                                done()
+                            },
+                            uploadError(error, column) {
+                                // 上传失败
+                                this.$message.error(error);
+                            },
+                            uploadExceed(limit, files, fileList, column) {
+                                // 文件数量验证
+                                this.$message.warning(`当前限制文件数量为 $10, 当前共 ${files.length + fileList.length} `);
+                            },
+                        },
+                        {
+                            label: '视频文件 ',
+                            prop: 'videoFiles',
+                            span: 24,
+                            rules: [{
+                                required: true,
+                                message: "请上传 视频文件  ",
+                                trigger: "blur"
+                            }],
+                            dataType: 'string',
+                            accept: 'video/mp4',
+                            type: 'upload',
+                            listType: 'picture-img',
+                            action: baseUploadUrl + 'file/gc/video/',   // 上传地址 + 文件保存上传地址(详见接口描叙)
+                            multiple: true,          // 文件多选
+                            drag: true,              // 拖拽排序
+                            limit: 1,                // 上传数量 1 个
+                            //fileSize: 500,         // 上传大小 500 kb内
+                            tip: '只能上传mp4格式的视频',
+                            loadText: '上传中...',
+                            propsHttp: {
+                                res: 'data'
+                            },
+                            uploadBefore: (file, done) => {
+                                // 文件上传前处理
+                                done(file)
+                            },
+                            uploadAfter: (res, done) => {
+                                this.$message.success('上传成功');
+                                done()
+                            },
+                            uploadError(error, column) {
+                                // 上传失败
+                                this.$message.error(error);
+                            },
+                            uploadExceed(limit, files, fileList, column) {
+                                // 文件数量验证
+                                this.$message.warning(`当前限制文件数量为 $1, 当前共 ${files.length + fileList.length} `);
+                            },
+                        },
+                        {
+                            label: '任意文件 ',
+                            prop: 'files',
+                            span: 24,
+                            rules: [{
+                                required: true,
+                                message: "请上传 任意文件  ",
+                                trigger: "blur"
+                            }],
+                            dataType: 'string',
+                            accept: null,
+                            type: 'upload',
+                            listType: '',
+                            action: baseUploadUrl + 'file/gc/all/',   // 上传地址 + 文件保存上传地址(详见接口描叙)
+                            multiple: true,          // 文件多选
+                            drag: true,              // 拖拽排序
+                            limit: 10,                // 上传数量 1 个
+                            //fileSize: 500,         // 上传大小 500 kb内
+                            tip: '',
+                            loadText: '上传中...',
+                            propsHttp: {
+                                res: 'data'
+                            },
+                            uploadBefore: (file, done) => {
+                                // 文件上传前处理
+                                done(file)
+                            },
+                            uploadAfter: (res, done) => {
+                                this.$message.success('上传成功');
+                                done()
+                            },
+                            uploadError(error, column) {
+                                // 上传失败
+                                this.$message.error(error);
+                            },
+                            uploadExceed(limit, files, fileList, column) {
+                                // 文件数量验证
+                                this.$message.warning(`当前限制文件数量为 $10, 当前共 ${files.length + fileList.length} `);
                             },
                         },
                         {
@@ -214,7 +338,25 @@
                                 trigger: "blur"
                             }]
                         },
-
+                        {
+                            label: '级联选择器  ',
+                            prop: 'cascader',
+                            span: 20,
+                            type: "cascader",
+                            dataType: 'string',
+                            filterable: true,
+                            dicData: this.defaultDic.dicData,   // 自行替换字典数据
+                            props: {
+                                value: "id",
+                                label: "name",
+                                children: "children"
+                            },
+                            rules: [{
+                                required: true,
+                                message: "请选择 级联选择器   ",
+                                trigger: "blur"
+                            }]
+                        },
                     ]
                 }
             }
@@ -231,7 +373,7 @@
                 this.crud.post(this.uri.info, this.obj).then((res) => {
                     console.debug(res);
                     if (res.data.code == 200) {
-                       this.closeDialog(true);
+                        this.closeDialog(true);
                     }
                     done(form);
                 }).catch((err) => {

@@ -62,7 +62,7 @@
                 option: {},
             }
         },
-        mounted() {
+        async mounted() {
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.column = [
 {vueInfoColumns}

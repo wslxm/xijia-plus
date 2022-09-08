@@ -76,7 +76,7 @@ public class DepServiceImpl extends BaseServiceImpl<DepMapper, Dep> implements D
      * @version 1.0.1
      */
     private void nextDep(List<DepVO> listVo, DepVO adminDepVO) {
-        if (adminDepVO.getRoot().equals(Base.DepRoot.V3.getValue())) {
+        if (adminDepVO.getRoot().equals(NumberConst.THREE)) {
             return;
         }
         for (DepVO nextDepVO : listVo) {

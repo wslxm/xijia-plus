@@ -59,5 +59,7 @@ public class GcTestVO extends BaseVo {
     @ApiModelProperty(value = "更多信息(md编辑器)", position = 10)
     private String textThree;
 
+    private String cascader;
+
 }
 

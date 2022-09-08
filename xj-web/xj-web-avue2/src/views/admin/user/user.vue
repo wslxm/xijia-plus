@@ -24,10 +24,6 @@
                 <el-avatar :src="row.headPic"></el-avatar>
             </template>
 
-            <template slot-scope="{row,index,type,size}" slot="depIdsSearch">
-                <avue-cascader v-model="search.depIds" :dic="dep.data" :props="dep.props" :filterable="true" placeholder="请选择"></avue-cascader>
-            </template>
-
             <template slot-scope="{row,index,type,size}" slot="regTimeSearch">
                 <div class="block">
                     <el-date-picker
@@ -114,13 +110,14 @@
                 rowData: {},                    // 当前选中行数据
                 option: {},
                 // 搜索参数
-                search: {
-                },
+                search: {},
                 // 重置密码数据保存
                 rowPassword: {
                     info: "123456",
                     default: "123456",
                 },
+                // 部门
+                deps: [],
                 // 时间
                 regTime: {
                     data: '',
@@ -152,21 +149,17 @@
                         }]
                     }
                 },
-                // 部门
-                dep: {
-                    data: [],
-                    props: {
-                        value: "id",
-                        label: "name",
-                        children: "deps"
-                    },
-                }
+
             }
         },
         activated: function () {
             this.crud.doLayout(this, this.$refs.crudUser)
         },
-        mounted() {
+        async mounted() {
+            // 获取部门数据
+            let res = await this.crud.get(this.uri.depInfo, {disable: 0, isTree: true});
+            this.deps = res.data.data;
+
             // 基础配置
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             // 字段配置
@@ -208,13 +201,19 @@
                 {
                     label: '部门',
                     prop: 'depIds',
+                    span: 20,
                     search: true,
-                    overHidden: true,
                     searchSpan: 5,
-                    formatter(row) {
-                        return row.dep != null ? row.dep.depNames : '-';
-                    }
-                    // labelTip: '用于控制业务走向,通过部门+职位组合可满足大多数场景下的业务控制, 如给指定部门的人推送消息',
+                    type: "cascader",
+                    dataType: 'string',
+                    filterable: true,
+                    dicData: this.deps,   // 自行替换字典数据
+                    props: {
+                        value: "id",
+                        label: "name",
+                        children: "deps"
+                    },
+                    labelTip: '用于控制业务走向,通过部门+职位组合可满足大多数场景下的业务控制, 如给指定部门的人推送消息',
                 },
                 {
                     label: '职位',
@@ -240,6 +239,7 @@
                     dicData: this.dict.get(this.website.Dict.Base.Disable),
                 }
             ]
+            console.log("获取组织架构-加载字段结束" + JSON.stringify(this.deps))
         },
         watch: {
             // 监听路由参数变化, 让其支持消息点击跳转，并能携带动态参数进行查询
@@ -254,15 +254,8 @@
         created() {
             // 设置url 参数到搜索条件中
             this.setSearchByUrlParams();
-
-            // 部门数据(弹层数据)
-            this.crud.get(this.uri.depInfo, {disable: 0, isTree: true}).then((res) => {
-                this.dep.data = res.data.data;
-                console.log("获取组织架构" + this.deps)
-            });
         },
         methods: {
-
             /**
              * 设置url 参数到搜索条件中
              */
@@ -289,7 +282,7 @@
                 if (this.regTime.data != null && this.regTime.data !== "") {
                     this.search.regTimeStart = this.regTime.data[0];
                     this.search.regTimeEnd = this.regTime.data[1];
-                }else{
+                } else {
                     this.search.regTimeStart = null;
                     this.search.regTimeEnd = null;
                 }

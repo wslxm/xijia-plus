@@ -1,12 +1,11 @@
 import request from '@/router/axios';
-import {baseProxyPathRewrite} from '@/config/env';
-import {baseUploadUrl} from '@/config/env';
+import {baseProxyPathRewrite, baseUploadUrl} from '@/config/env';
 
 export default {
     // 查询
-    get(uri, params) {
+    async  get(uri, params) {
         console.debug("get => uri:", uri, "  params:", params)
-        return request({
+        return await request({
             url: baseProxyPathRewrite + uri,
             method: 'get',
             meta: {
@@ -17,9 +16,9 @@ export default {
     },
 
     // 添加
-    post(uri, data, params) {
+    async post(uri, data, params) {
         console.debug("post => uri:", uri, "  data:", data, "  params:", params)
-        return request({
+        return await request({
             url: baseProxyPathRewrite + uri,
             method: 'post',
             meta: {
@@ -31,9 +30,9 @@ export default {
     },
 
     // 编辑
-    put(uri, data, params) {
+    async  put(uri, data, params) {
         console.debug("put => uri:", uri, "  data:", data, "  params:", params)
-        return request({
+        return await request({
             url: baseProxyPathRewrite + uri,
             method: 'put',
             meta: {
@@ -45,9 +44,9 @@ export default {
     },
 
     // 删除
-    del(uri, params) {
+    async del(uri, params) {
         console.debug("del => uri:", uri, "  params:", params)
-        return request.delete(baseProxyPathRewrite + uri, {
+        return await request.delete(baseProxyPathRewrite + uri, {
             method: 'delete',
             meta: {
                 isSerialize: false

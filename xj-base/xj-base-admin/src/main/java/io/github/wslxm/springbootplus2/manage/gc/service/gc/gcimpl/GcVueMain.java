@@ -3,6 +3,7 @@ package io.github.wslxm.springbootplus2.manage.gc.service.gc.gcimpl;
 import com.alibaba.fastjson.JSON;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
+import io.github.wslxm.springbootplus2.manage.gc.constant.TpParamConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.gc.GcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.template.VueMainTemplate;
@@ -32,7 +33,7 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
      * @date 2019/11/20 19:18
      */
     @Override
-    public void run(GcConfig gcConfig){
+    public void run(GcConfig gcConfig) {
         // 数据表格字段
         StringBuffer vueInfoColumns = new StringBuffer(" ");
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
@@ -44,23 +45,22 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
             Object vueFieldType = dbFieldPO.getVueFieldType();
 
             // 指定类型字段不生成到列表中，同时排除list接口查询
-            List<Integer> vueFieldTypeArray = JSON.parseObject(gcConfig.getDefaultTemplateParam("vueFieldTypesArray"), List.class);
-            if (vueFieldTypeArray.contains(vueFieldType+"")) {
+            List<Integer> vueFieldTypeArray = JSON.parseObject(gcConfig.getDefaultTemplateParam(TpParamConstant.VUE_FIELD_TYPES_ARRAY), List.class);
+            if (vueFieldTypeArray.contains(vueFieldType + "")) {
                 continue;
             }
 
             String name = GcDataUtil.getFieldName(gcConfig, dbFieldPO.getName());
             String newDesc = getDesc(dbFieldPO.getDesc());
             // 判断是否需要生成查询
-            boolean isSearch = dbFieldPO.getIsSearch() == null ? false :  dbFieldPO.getIsSearch();
+            boolean isSearch = dbFieldPO.getIsSearch() == null ? false : dbFieldPO.getIsSearch();
 
 
             Integer vueFieldTypeInt = (vueFieldType != null) ? Integer.parseInt(vueFieldType.toString()) : -1;
             if (vueFieldTypeInt.equals(Base.VueFieldType.V4.getValue())
                     || vueFieldTypeInt.equals(Base.VueFieldType.V6.getValue())
                     || vueFieldTypeInt.equals(Base.VueFieldType.V7.getValue())
-                    || vueFieldTypeInt.equals(Base.VueFieldType.V9.getValue())
-            ) {
+                    || vueFieldTypeInt.equals(Base.VueFieldType.V9.getValue())) {
                 vueInfoColumns.append(VueMainTemplate.TEXT_DICT
                         .replaceAll("\\{label}", newDesc)
                         .replace("{prop}", name)
@@ -68,8 +68,7 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
                         .replace("{dictCode}", getDictCode(dbFieldPO.getDictCode()))
                 );
             } else if (vueFieldTypeInt.equals(Base.VueFieldType.V5.getValue())
-                    || vueFieldTypeInt.equals(Base.VueFieldType.V8.getValue())
-            ) {
+                    || vueFieldTypeInt.equals(Base.VueFieldType.V8.getValue())) {
                 vueInfoColumns.append(VueMainTemplate.TEXT_DICT_CHECKBOX
                         .replaceAll("\\{label}", newDesc)
                         .replace("{prop}", name)
@@ -77,14 +76,21 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
                         .replace("{dictCode}", getDictCode(dbFieldPO.getDictCode()))
                 );
             } else if (vueFieldTypeInt.equals(Base.VueFieldType.V13.getValue())
-                    || vueFieldTypeInt.equals(Base.VueFieldType.V14.getValue())
-                    || vueFieldTypeInt.equals(Base.VueFieldType.V15.getValue())
-            ) {
+                    || vueFieldTypeInt.equals(Base.VueFieldType.V14.getValue())) {
+                // 图片
                 vueInfoColumns.append(VueMainTemplate.IMG
                         .replaceAll("\\{label}", newDesc)
                         .replace("{prop}", name)
                 );
+            } else if (vueFieldTypeInt.equals(Base.VueFieldType.V20.getValue())) {
+                // 级联选择器
+                vueInfoColumns.append(VueMainTemplate.CASCADER
+                        .replace("{label}", newDesc)
+                        .replace("{prop}", name)
+                        .replace("{search}", isSearch + "")
+                );
             } else {
+                // 默认普通文本
                 vueInfoColumns.append(VueMainTemplate.TEXT
                         .replaceAll("\\{label}", newDesc)
                         .replace("{prop}", name)

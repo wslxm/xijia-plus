@@ -235,14 +235,36 @@ public class BaseGcImpl extends BaseServiceImpl {
             columnStr = VueAddUpdTemplate.DATETIME.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else if (Base.VueFieldType.V12.getValue().equals(vueFieldType)) {
         } else if (Base.VueFieldType.V13.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.UPLOAD.replaceAll("\\{label}", newDesc).replace("{prop}", name);
+            columnStr = VueAddUpdTemplate.UPLOAD
+                    .replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{listType}", "picture-img")
+                    .replace("{limit}", "1").replace("{fileType}", "img")
+                    .replace("{accept}", "'image/png, image/jpeg, image/jpg, image/gif'")
+                    .replace("{tip}", "只能上传 jpg/png/gif 格式的图片");
         } else if (Base.VueFieldType.V14.getValue().equals(vueFieldType)) {
+            columnStr = VueAddUpdTemplate.UPLOAD
+                    .replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{listType}", "picture-card")
+                    .replace("{limit}", "10").replace("{fileType}", "img")
+                    .replace("{accept}", "'image/png, image/jpeg, image/jpg, image/gif'")
+                    .replace("{tip}", "只能上传10张 jpg/png/gif 格式的图片");
         } else if (Base.VueFieldType.V15.getValue().equals(vueFieldType)) {
+            columnStr = VueAddUpdTemplate.UPLOAD
+                    .replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{listType}", "picture-img")
+                    .replace("{limit}", "1").replace("{fileType}", "video")
+                    .replace("{accept}", "'video/mp4'")
+                    .replace("{tip}", "只能上传mp4格式的视频");
         } else if (Base.VueFieldType.V16.getValue().equals(vueFieldType)) {
+            columnStr = VueAddUpdTemplate.UPLOAD
+                    .replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{listType}", "")
+                    .replace("{limit}", "10").replace("{fileType}", "all")
+                    .replace("{accept}", "null")
+                    .replace("{tip}", "");
         } else if (Base.VueFieldType.V17.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.TEXTAREA.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
         } else if (Base.VueFieldType.V18.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.INPUT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
+        } else if (Base.VueFieldType.V19.getValue().equals(vueFieldType)) {
+        } else if (Base.VueFieldType.V20.getValue().equals(vueFieldType)) {
+            columnStr = VueAddUpdTemplate.CASCADER.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else {
             // 没有默认 input
             columnStr = VueAddUpdTemplate.INPUT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");

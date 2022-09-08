@@ -97,5 +97,6 @@ public class GcTest extends BaseEntity {
     @TableField(value = "text_three")
     private String textThree;
 
+    private String cascader;
 }
 
