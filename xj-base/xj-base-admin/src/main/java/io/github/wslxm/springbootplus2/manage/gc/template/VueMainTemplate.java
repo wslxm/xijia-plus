@@ -110,6 +110,7 @@ public interface VueMainTemplate {
             "                    label: '{label}',\n" +
             "                    prop: '{prop}',\n" +
             "                    type: 'color',\n" +
+            "                    overHidden: true,\n" +
             "                    colorFormat: \"hex\",\n" +
             "                    showAlpha: false\n" +
             "                },\n";
@@ -121,6 +122,7 @@ public interface VueMainTemplate {
     String MAP = "                {\n" +
             "                    label: '{label}',\n" +
             "                    prop: '{prop}',\n" +
+            "                    overHidden: true,\n" +
             "                    html: true,\n" +
             "                    formatter: (val) => {\n" +
             "                        if (val.{prop} != null && val.{prop}.split(',').length >= 3) {\n" +
@@ -140,6 +142,7 @@ public interface VueMainTemplate {
             "                    search: {search},\n" +
             "                    type: \"{prop}\",\n" +
             "                    dataType: 'string',\n" +
+            "                    overHidden: true,\n" +
             "                    filterable: true, \n" +
             "                    // 自行替换字典数据，在 mounted 事件加载字段前使用 let res = await this.crud.get() 同步获取数据 \n" +
             "                    dicData: this.defaultDic.dicData, \n" +

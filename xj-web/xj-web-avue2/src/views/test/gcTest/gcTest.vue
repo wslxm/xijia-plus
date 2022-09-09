@@ -19,7 +19,21 @@
                 </el-switch>
             </template>
 
- 
+            <template slot-scope="{row,index,type,size}" slot="timeSearch">
+                <div class="block">
+                    <el-date-picker
+                            v-model="search.time"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            type="datetimerange"
+                            align="right"
+                            unlink-panels
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            :picker-options="defaultDic.timeOptions">
+                    </el-date-picker>
+                </div>
+            </template>
 
             <template slot-scope="{}" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
@@ -69,6 +83,168 @@
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.column = [
                  {
+                    label: '名称 ',
+                    prop: 'name',
+                    search: true,
+                    searchSpan: 5,
+                    overHidden: true,
+                },
+                {
+                    label: '年龄 ',
+                    prop: 'age',
+                    search: false,
+                    searchSpan: 5,
+                    overHidden: true,
+                },
+                {
+                    label: '性别 ',
+                    prop: 'sex',
+                    type: 'select',
+                    search: true,
+                    filterable:true,
+                    searchSpan: 5,
+                    overHidden: true,
+                    dicData: this.dict.get('GENDER'),
+                },
+                {
+                    label: '爱好 ',
+                    prop: 'like',
+                    type: 'select',
+                    search: true,
+                    searchSpan: 5,
+                    overHidden: true,
+                    dataType: 'string',
+                    dicData: this.dict.get(this.website.Dict.Base.Default),
+                },
+                {
+                    label: '城市 ',
+                    prop: 'city',
+                    type: 'select',
+                    search: true,
+                    filterable:true,
+                    searchSpan: 5,
+                    overHidden: true,
+                    dicData: this.dict.get(this.website.Dict.Base.Default),
+                },
+                {
+                    label: '禁用 ',
+                    prop: 'disable',
+                    type: 'select',
+                    search: true,
+                    filterable:true,
+                    searchSpan: 5,
+                    overHidden: true,
+                    dicData: this.dict.get('DISABLE'),
+                },
+                {
+                    label: '单图文件 ',
+                    prop: 'headUrl',
+                    search: false,
+                    overHidden: true,
+                    html: true,
+                    formatter: (val) => {
+                        if(val.headUrl == null || val.headUrl == ''){
+                            return "";
+                        }else{
+                            let imgs = val.headUrl.split(",");
+                            let html = ""; 
+                            imgs.forEach(item => html += "<img src='" + item + "'  style='border-radius: 40px;height: 40px;width: 40px;margin-top: 10px'>")
+                            return html;
+                        }
+                    }
+                },
+                {
+                    label: '多图文件  ',
+                    prop: 'headFiles',
+                    search: false,
+                    overHidden: true,
+                    html: true,
+                    formatter: (val) => {
+                        if(val.headFiles == null || val.headFiles == ''){
+                            return "";
+                        }else{
+                            let imgs = val.headFiles.split(",");
+                            let html = ""; 
+                            imgs.forEach(item => html += "<img src='" + item + "'  style='border-radius: 40px;height: 40px;width: 40px;margin-top: 10px'>")
+                            return html;
+                        }
+                    }
+                },
+                {
+                    label: '视频文件 ',
+                    prop: 'videoFiles',
+                    search: false,
+                    searchSpan: 5,
+                    overHidden: true,
+                },
+                {
+                    label: '任意文件 ',
+                    prop: 'files',
+                    search: false,
+                    searchSpan: 5,
+                    overHidden: true,
+                },
+                {
+                    label: '时间 ',
+                    prop: 'time',
+                    search: true,
+                    searchSpan: 7,
+                    overHidden: true,
+                },
+                {
+                    label: '时间-小时 ',
+                    prop: 'timeTwo',
+                    search: true,
+                    searchSpan: 5,
+                    overHidden: true,
+                    type: "time",
+                    pickerOptions:{
+                        start: '06:00',
+                        step: '00:30',
+                        end: '23:00'
+                    }
+                },
+                {
+                    label: '更多信息-text ',
+                    prop: 'text',
+                    search: false,
+                    searchSpan: 5,
+                    overHidden: true,
+                },
+                {
+                    label: '级联选择器  ',
+                    prop: 'cascader',
+                    search: true,
+                    type: "cascader",
+                    overHidden: true,
+                    dataType: 'string',
+                    filterable: true, 
+                    // 自行替换字典数据，在 mounted 事件加载字段前使用 let res = await this.crud.get() 同步获取数据 
+                    dicData: this.defaultDic.dicData, 
+                    props: {
+                        value: "id",
+                        label: "name",
+                        children: "children"
+                    }
+                },
+                {
+                    label: '数组框 ',
+                    prop: 'array',
+                    search: false,
+                    searchSpan: 5,
+                    overHidden: true,
+                    overHidden: true,
+                },
+                {
+                    label: '图标  ',
+                    prop: 'icon',
+                    // type: 'icon',
+                    html: true,
+                    formatter: (val) => {
+                        return '<i class=' + val.icon + '></i>'
+                    }
+                },
+                {
                     label: '颜色选择器',
                     prop: 'color',
                     type: 'color',
@@ -78,6 +254,7 @@
                 {
                     label: '地址选择器',
                     prop: 'map',
+                    overHidden: true,
                     html: true,
                     formatter: (val) => {
                         if (val.map != null && val.map.split(',').length >= 3) {
@@ -86,6 +263,7 @@
                         return ''
                     }
                 },
+
             ]
         },
         created() {

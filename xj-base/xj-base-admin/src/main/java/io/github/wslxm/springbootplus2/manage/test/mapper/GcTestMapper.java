@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-09-09 18:05:45
+ * @date 2022-09-09 18:26:48
  */
 public interface GcTestMapper extends BaseMapper<GcTest> {
 

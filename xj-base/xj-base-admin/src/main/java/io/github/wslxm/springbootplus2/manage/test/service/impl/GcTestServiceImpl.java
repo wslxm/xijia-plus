@@ -28,7 +28,7 @@ import java.util.List;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-09-09 18:05:45
+ * @date 2022-09-09 18:26:48
  */
 @Service
 public class GcTestServiceImpl extends BaseServiceImpl<GcTestMapper, GcTest> implements GcTestService {
@@ -36,7 +36,18 @@ public class GcTestServiceImpl extends BaseServiceImpl<GcTestMapper, GcTest> imp
     @Override
     public IPage<GcTestVO> findPage(GcTestQuery query) {
         LambdaQueryWrapper<GcTest> queryWrapper = new LambdaQueryWrapper<GcTest>().orderByDesc(GcTest::getCreateTime);
-
+        queryWrapper.select(GcTest.class, info -> !"text_two".equals(info.getColumn())
+                  && !"text_three".equals(info.getColumn()));
+        queryWrapper.likeRight(StringUtils.isNotBlank(query.getName()), GcTest::getName, query.getName());
+        queryWrapper.eq(query.getSex() != null, GcTest::getSex, query.getSex());
+        queryWrapper.likeRight(StringUtils.isNotBlank(query.getLike()), GcTest::getLike, query.getLike());
+        queryWrapper.eq(query.getCity() != null, GcTest::getCity, query.getCity());
+        queryWrapper.eq(query.getDisable() != null, GcTest::getDisable, query.getDisable());
+        if (StringUtils.isNotBlank(query.getTime()) && query.getTime().split(SymbolConst.COMMA).length >= 1) {
+            queryWrapper.between(GcTest::getTime, query.getTime().split(",")[0], query.getTime().split(",")[1]);
+        }
+        queryWrapper.likeRight(StringUtils.isNotBlank(query.getTimeTwo()), GcTest::getTimeTwo, query.getTimeTwo());
+        queryWrapper.likeRight(StringUtils.isNotBlank(query.getCascader()), GcTest::getCascader, query.getCascader());
         Page<GcTest> page = this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper);
         return BeanDtoVoUtil.pageVo(page, GcTestVO.class);
     }
