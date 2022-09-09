@@ -19,21 +19,7 @@
                 </el-switch>
             </template>
 
-            <template slot-scope="{row,index,type,size}" slot="timeSearch">
-                <div class="block">
-                    <el-date-picker
-                            v-model="search.time"
-                            value-format="yyyy-MM-dd HH:mm:ss"
-                            type="datetimerange"
-                            align="right"
-                            unlink-panels
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            :picker-options="defaultDic.timeOptions">
-                    </el-date-picker>
-                </div>
-            </template>
+ 
 
             <template slot-scope="{}" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
@@ -83,47 +69,20 @@
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.column = [
                  {
-                    label: '时间 ',
-                    prop: 'time',
-                    search: true,
-                    searchSpan: 7,
-                    overHidden: true,
-                },
-                {
-                    label: '时间-小时 ',
-                    prop: 'timeTwo',
-                    search: true,
-                    searchSpan: 5,
-                    overHidden: true,
-                    type: "time",
-                    pickerOptions:{
-                        start: '08:30',
-                        step: '00:15',
-                        end: '18:30'
+                    label: '图标  ',
+                    prop: 'icon',
+                    // type: 'icon',
+                    html: true,
+                    formatter: (val) => {
+                        return '<i class=' + val.icon + '></i>'
                     }
                 },
                 {
-                    label: '级联选择器  ',
-                    prop: 'cascader',
-                    span: 20,
-                    search: true,
-                    type: "cascader",
-                    dataType: 'string',
-                    filterable: true, 
-                    // 自行替换字典数据，在 mounted 事件加载字段前使用 let res = await this.crud.get() 同步获取数据 
-                    dicData: this.defaultDic.dicData, 
-                    props: {
-                        value: "id",
-                        label: "name",
-                        children: "children"
-                    }
-                },
-                {
-                    label: '地址选择器',
-                    prop: 'map',
-                    search: false,
-                    searchSpan: 5,
-                    overHidden: true,
+                    label: '颜色选择器',
+                    prop: 'color',
+                    type: 'color',
+                    colorFormat: "hex",
+                    showAlpha: false
                 },
 
             ]

@@ -24,32 +24,20 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseDto;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-09-09 01:40:19
+ * @date 2022-09-09 16:18:55
  */
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "GcTestDTO 对象", description = "代码生成测试表")
 public class GcTestDTO extends BaseDto {
 
-    private static final long serialVersionUID = -727909752583098368L;
+    private static final long serialVersionUID = -728130862402637824L;
     
-    @ApiModelProperty(value = "时间 (默认 yyyy-MM-dd hh:mm:ss 格式)" ,position = 0)
-    private LocalDateTime time;
+    @ApiModelProperty(value = "图标 " ,position = 0)
+    private String icon;
 
-    @ApiModelProperty(value = "时间-小时 (默认 hh:mm 字串)" ,position = 1)
-    private String timeTwo;
-
-    @ApiModelProperty(value = "更多信息-text (大文本)" ,position = 2)
-    private String text;
-
-    @ApiModelProperty(value = "更多信息-fwb (富文本)" ,position = 3)
-    private String textTwo;
-
-    @ApiModelProperty(value = "级联选择器  (字符串分割存储)" ,position = 4)
-    private String cascader;
-
-    @ApiModelProperty(value = "地址选择器" ,position = 5)
-    private String map;
+    @ApiModelProperty(value = "颜色选择器" ,position = 1)
+    private String color;
 
 }
 

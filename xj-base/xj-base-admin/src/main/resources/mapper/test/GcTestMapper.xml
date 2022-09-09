@@ -83,17 +83,6 @@
         from t_gc_test t
         where t.deleted = 0
 
-        <if test="query.time != null and query.time != ''">
-            <foreach item="time" collection="query.time.split(',')" open="and t.`time` >= " separator=" and " close=" >= t.`time`">
-                #{time}
-            </foreach>
-        </if>
-        <if test="query.timeTwo != null and query.timeTwo  != ''">
-            and t.time_two like concat(#{query.timeTwo},'%')
-        </if>
-        <if test="query.cascader != null and query.cascader  != ''">
-            and t.cascader like concat(#{query.cascader},'%')
-        </if>
         order by t.create_time desc
     </select>
 

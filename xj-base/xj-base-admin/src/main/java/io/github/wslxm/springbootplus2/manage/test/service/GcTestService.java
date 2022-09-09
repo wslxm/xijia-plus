@@ -16,7 +16,7 @@ import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-09-09 01:40:19
+ * @date 2022-09-09 16:18:55
  */
 public interface GcTestService extends IService<GcTest> {
 

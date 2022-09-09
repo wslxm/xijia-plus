@@ -164,6 +164,57 @@ public interface VueAddUpdTemplate {
             "                                trigger: \"blur\"\n" +
             "                            }]\n" +
             "                        },\n";
+    /**
+     * 数组框 ， 多内容添加，如标签
+     * {label}  {prop}
+     */
+    String ARRAY = "                        {\n" +
+            "                            label: '{label}',\n" +
+            "                            prop: '{prop}',\n" +
+            "                            type: 'array',\n" +
+            "                            dataType: 'string',\n" +
+            "                            limit: 10,\n" +
+            "                            span: 20,\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请添加 {label}\",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }]\n" +
+            "                        },\n";
+    /**
+     * 图标 选择器
+     * {label}  {prop}
+     */
+    String ICON = "                        {\n" +
+            "                            label: '{label}',\n" +
+            "                            prop: '{prop}',\n" +
+            "                            type: 'icon',\n" +
+            "                            iconList: this.icon.iconList,\n" +
+            "                            span: 20,\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请选择 {label}\",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }],\n" +
+            "                        },\n";
+
+    /**
+     * 颜色 选择器
+     * {label}  {prop}
+     */
+    String COLOR = "                        {\n" +
+            "                            label: '{label}',\n" +
+            "                            prop: '{prop}',\n" +
+            "                            type: 'color',\n" +
+            "                            colorFormat: \"hex\",\n" +
+            "                            showAlpha: false,\n" +
+            "                            span: 20,\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请选择 {label} \",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }],\n" +
+            "                        },\n";
 
 
     /**

@@ -19,23 +19,14 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseQuery;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-09-09 01:40:19
+ * @date 2022-09-09 16:18:55
  */
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "GcTestQuery 对象", description = "代码生成测试表")
 public class GcTestQuery extends BaseQuery {
 
-    private static final long serialVersionUID = -727909752700538880L;
+    private static final long serialVersionUID = -728130862528466944L;
     
-    @ApiModelProperty(value = "时间 (默认 yyyy-MM-dd hh:mm:ss 格式)" ,position = 0)
-    private String time;
-
-    @ApiModelProperty(value = "时间-小时 (默认 hh:mm 字串)" ,position = 1)
-    private String timeTwo;
-
-    @ApiModelProperty(value = "级联选择器  (字符串分割存储)" ,position = 2)
-    private String cascader;
-
 }
 

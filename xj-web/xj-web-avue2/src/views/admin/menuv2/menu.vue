@@ -24,9 +24,9 @@
                     </template>
 
                     <!-- 图标 -->
-                    <template slot-scope="{row,index,type,size}" slot="icon">
-                        <i :class="row.icon"></i>
-                    </template>
+                    <!--                    <template slot-scope="{row,index,type,size}" slot="icon">-->
+                    <!--                        <i :class="row.icon"></i>-->
+                    <!--                    </template>-->
                     <!-- 列表上进行编辑url -->
                     <template slot-scope="{row,index,type,size}" slot="url">
                         <el-input v-model="row.url" @blur="rowUrlBlur(row)" placeholder=""></el-input>
@@ -67,10 +67,10 @@
             <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-           <el-dialog title="变更父级" v-dialogDrag v-if="updPidDialogVisible" :visible.sync="updPidDialogVisible" width="25%" @close="closeDialog">
-               <UpdPid :closeDialog="closeDialog" :uri="uri" :rowData="rowTreeData"></UpdPid>
-               <span slot="footer" class="dialog-footer"></span>
-           </el-dialog>
+        <el-dialog title="变更父级" v-dialogDrag v-if="updPidDialogVisible" :visible.sync="updPidDialogVisible" width="25%" @close="closeDialog">
+            <UpdPid :closeDialog="closeDialog" :uri="uri" :rowData="rowTreeData"></UpdPid>
+            <span slot="footer" class="dialog-footer"></span>
+        </el-dialog>
     </div>
 </template>
 
@@ -125,7 +125,7 @@
             //this.option.cellBtnt = true
             this.option.rowKey = "id";
             this.option.height = 600;
-            this.option.searchBtnText =  "搜索并重载左侧";
+            this.option.searchBtnText = "搜索并重载左侧";
             // 字段配置
             this.option.treeProps = {
                 children: 'menus'
@@ -143,7 +143,11 @@
                     {
                         label: '图标',
                         prop: 'icon',
-                       // width: 100,
+                        // type: 'icon',
+                        html: true,
+                        formatter: (val) => {
+                            return "<i class=\"" + val.icon + "\"></i>"
+                        }
                     },
                     {
                         label: '路由',
@@ -188,7 +192,7 @@
                 // 列表默认查询顶级数据
                 if (this.search.pid == null) {
                     this.search.root = 1;
-                }else{
+                } else {
                     this.search.root = null;
                 }
                 this.search.isNextAll = false;

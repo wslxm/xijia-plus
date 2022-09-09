@@ -270,6 +270,12 @@ public class BaseGcImpl extends BaseServiceImpl {
             columnStr = VueAddUpdTemplate.INPUT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
         } else if (Base.VueFieldType.V20.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.CASCADER.replaceAll("\\{label}", newDesc).replace("{prop}", name);
+        } else if (Base.VueFieldType.V21.getValue().equals(vueFieldType)) {
+            columnStr = VueAddUpdTemplate.ARRAY.replaceAll("\\{label}", newDesc).replace("{prop}", name);
+        } else if (Base.VueFieldType.V22.getValue().equals(vueFieldType)) {
+            columnStr = VueAddUpdTemplate.ICON.replaceAll("\\{label}", newDesc).replaceAll("\\{prop}", name);
+        } else if (Base.VueFieldType.V23.getValue().equals(vueFieldType)) {
+            columnStr = VueAddUpdTemplate.COLOR.replaceAll("\\{label}", newDesc).replaceAll("\\{prop}", name);
         } else {
             // 没有默认 input
             columnStr = VueAddUpdTemplate.INPUT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
@@ -314,7 +320,7 @@ public class BaseGcImpl extends BaseServiceImpl {
      * @date 2022/5/14 0014 22:41
      * @version 1.0.0
      */
-    protected String jxVueInfoColumnsSlot( Integer vueFieldType, String name, boolean isSearch) {
+    protected String jxVueInfoColumnsSlot(Integer vueFieldType, String name, boolean isSearch) {
         String vueAddUpdSlot = "";
         // name = GcDataUtil.getFieldName(gcConfig, name);
         if (Base.VueFieldType.V11.getValue().equals(vueFieldType)) {

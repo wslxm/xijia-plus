@@ -1,21 +1,16 @@
 <template>
     <div>
         <avue-form ref="form" v-model="obj" :option="option" @reset-change="emptytChange" @submit="submit">
-            <template slot="icon">
-                <avue-input-icon v-model="obj.icon" placeholder="请选择图标" :icon-list="iconList"></avue-input-icon>
-            </template>
         </avue-form>
     </div>
 </template>
 
 <script>
-    import icon from "@/util/icon";
 
     export default {
         data() {
             return {
                 obj: {},              // 表单数据
-                iconList: icon.iconList
             }
         },
         // 接收值父组件传递值
@@ -72,10 +67,11 @@
                                 trigger: "blur"
                             }],
                         },
-
                         {
                             label: '图标',
                             prop: 'icon',
+                            type: 'icon',
+                            iconList: this.icon.iconList,
                             span: 20,
                             rules: [{
                                 required: false,

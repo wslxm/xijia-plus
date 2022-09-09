@@ -89,6 +89,12 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
                 vueInfoColumns.append(VueMainTemplate.CASCADER.replace("{label}", newDesc).replace("{prop}", name)
                         .replace("{search}", isSearch + "")
                 );
+            } else if (vueFieldTypeInt.equals(Base.VueFieldType.V22.getValue())) {
+                // 图标选择器
+                vueInfoColumns.append(VueMainTemplate.ICON.replace("{label}", newDesc).replaceAll("\\{prop}", name));
+            } else if (vueFieldTypeInt.equals(Base.VueFieldType.V23.getValue())) {
+                // 颜色选择器
+                vueInfoColumns.append(VueMainTemplate.COLOR.replace("{label}", newDesc).replace("{prop}", name));
             } else {
                 // 默认普通文本
                 vueInfoColumns.append(VueMainTemplate.TEXT.replaceAll("\\{label}", newDesc).replace("{prop}", name)

@@ -1,6 +1,5 @@
 package io.github.wslxm.springbootplus2.core.enums;
 
-
 import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,21 +42,25 @@ public interface Base {
         V3(3, "密码-(password)"),    // -
         V4(4, "单选-(radio)"),    // -
         V5(5, "多选-(checkbox)"),    // -
-        V6(6, "下拉选择-(select-单选)"),    // -
+        V6(6, "下拉选择-(select-单选)"),    // -默认支持搜索
         V7(7, "下拉选择 (select-单选+搜索)"),    // -
         V8(8, "下拉选择 (select-多选+搜索)"),    // -
         V9(9, "开关-(switch)"),    // -
         V10(10, "日期-(data)"),    // yyyy-MM-dd
         V11(11, "日期时间-(datetime)"),    // yyyy-MM-dd hh:mm:ss
-        V12(12, "时间-(time)"),    // -
-        V13(13, "文件上传(默认单图)"),    // -
-        V14(14, "文件上传(多图)"),    // -
-        V15(15, "文件上传（视频）"),    // -
-        V16(16, "文件上传（任意文件）"),    // -
+        V12(12, "时间-小时选择 (time)"),    // 默认 hh:mm 格式，06:00 到 23::00, 步长30分钟,  如： 09::00 | 09:30
+        V13(13, "文件上传 (单图)"),    // 默认限制 jpg/png/gif 格式
+        V14(14, "文件上传 (多图)"),    // 默认限制文件数量10
+        V15(15, "文件上传（单视频）"),    // 默认限制mp4格式
+        V16(16, "文件上传（任意文件）"),    // -默认限制文件数量10
         V17(17, "大文本(textarea)"),    // -
         V18(18, "富文本(tinymce)"),    // vue-tinymce 富文本插件
         V19(19, "md编辑器 (v-md-editor)"),    // v-md-editor 插件
         V20(20, "级联选择器 (cascader)"),    // 需自行替换级联选择数据
+        V21(21, "数组框 (array)"),    // 默认限制长度10, 默认内容为字符串逗号分割
+        V22(22, "图标选择器 (Icon)"),    // -
+        V23(23, "颜色选择器 (color)"),    // -
+        V24(24, "地图坐标选择器 (Map)"),    // -
         ;
         private Integer value;
         private String desc;

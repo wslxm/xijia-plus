@@ -89,12 +89,38 @@ public interface VueMainTemplate {
 
 
     /**
+     * 图标
+     * {label}  {prop}
+     */
+    String ICON = "                {\n" +
+            "                    label: '{label} ',\n" +
+            "                    prop: '{prop}',\n" +
+            "                    // type: 'icon',\n" +
+            "                    html: true,\n" +
+            "                    formatter: (val) => {\n" +
+            "                        return '<i class=' + val.{prop} + '></i>'\n" +
+            "                    }\n" +
+            "                },\n";
+
+    /**
+     * 颜色
+     * {label}  {prop}
+     */
+    String COLOR = "                {\n" +
+            "                    label: '{label}',\n" +
+            "                    prop: '{prop}',\n" +
+            "                    type: 'color',\n" +
+            "                    colorFormat: \"hex\",\n" +
+            "                    showAlpha: false\n" +
+            "                },\n";
+
+
+    /**
      * 级联选择器的搜索   {label}  {prop} {search}
      */
     String CASCADER = "                {\n" +
             "                    label: '{label}',\n" +
             "                    prop: 'cascader',\n" +
-            "                    span: 20,\n" +
             "                    search: {search},\n" +
             "                    type: \"{prop}\",\n" +
             "                    dataType: 'string',\n" +

@@ -3,8 +3,8 @@ package io.github.wslxm.springbootplus2.manage.test.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.github.wslxm.springbootplus2.core.constant.SymbolConst;
 import org.springframework.stereotype.Service;
+import io.github.wslxm.springbootplus2.core.constant.SymbolConst;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.test.mapper.GcTestMapper;
@@ -28,7 +28,7 @@ import java.util.List;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-09-09 01:40:19
+ * @date 2022-09-09 16:18:55
  */
 @Service
 public class GcTestServiceImpl extends BaseServiceImpl<GcTestMapper, GcTest> implements GcTestService {
@@ -36,13 +36,7 @@ public class GcTestServiceImpl extends BaseServiceImpl<GcTestMapper, GcTest> imp
     @Override
     public IPage<GcTestVO> findPage(GcTestQuery query) {
         LambdaQueryWrapper<GcTest> queryWrapper = new LambdaQueryWrapper<GcTest>().orderByDesc(GcTest::getCreateTime);
-        queryWrapper.select(GcTest.class, info -> !"text".equals(info.getColumn())
-                  && !"text_two".equals(info.getColumn()));
-        if (StringUtils.isNotBlank(query.getTime()) && query.getTime().split(SymbolConst.COMMA).length >= 1) {
-            queryWrapper.between(GcTest::getTime, query.getTime().split(",")[0], query.getTime().split(",")[1]);
-        }
-        queryWrapper.likeRight(StringUtils.isNotBlank(query.getTimeTwo()), GcTest::getTimeTwo, query.getTimeTwo());
-        queryWrapper.likeRight(StringUtils.isNotBlank(query.getCascader()), GcTest::getCascader, query.getCascader());
+
         Page<GcTest> page = this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper);
         return BeanDtoVoUtil.pageVo(page, GcTestVO.class);
     }
