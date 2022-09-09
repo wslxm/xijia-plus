@@ -69,22 +69,23 @@
             this.option = JSON.parse(JSON.stringify(this.website.optionConfig));
             this.option.column = [
                  {
-                    label: '图标  ',
-                    prop: 'icon',
-                    // type: 'icon',
-                    html: true,
-                    formatter: (val) => {
-                        return '<i class=' + val.icon + '></i>'
-                    }
-                },
-                {
                     label: '颜色选择器',
                     prop: 'color',
                     type: 'color',
                     colorFormat: "hex",
                     showAlpha: false
                 },
-
+                {
+                    label: '地址选择器',
+                    prop: 'map',
+                    html: true,
+                    formatter: (val) => {
+                        if (val.map != null && val.map.split(',').length >= 3) {
+                            return val.map.split(',')[2];
+                        }
+                        return ''
+                    }
+                },
             ]
         },
         created() {

@@ -95,12 +95,15 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
             } else if (vueFieldTypeInt.equals(Base.VueFieldType.V23.getValue())) {
                 // 颜色选择器
                 vueInfoColumns.append(VueMainTemplate.COLOR.replace("{label}", newDesc).replace("{prop}", name));
+            } else if (vueFieldTypeInt.equals(Base.VueFieldType.V24.getValue())) {
+                // 地图选择器
+                vueInfoColumns.append(VueMainTemplate.MAP.replace("{label}", newDesc).replaceAll("\\{prop}", name));
             } else {
                 // 默认普通文本
                 vueInfoColumns.append(VueMainTemplate.TEXT.replaceAll("\\{label}", newDesc).replace("{prop}", name)
                         .replace("{searchSpan}", "5").replace("{search}", isSearch + ""));
             }
-            // 插槽字段处理
+            // 插槽字段处理(搜索或特殊展示)
             vueInfoColumnSlots.append(super.jxVueInfoColumnsSlot(vueFieldTypeInt, name, isSearch));
         }
 

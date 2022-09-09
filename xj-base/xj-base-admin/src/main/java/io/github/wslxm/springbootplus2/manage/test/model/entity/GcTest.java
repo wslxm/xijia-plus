@@ -21,7 +21,7 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-09-09 16:18:55
+ * @date 2022-09-09 18:05:45
  */
 @Data
 @ToString(callSuper = true)
@@ -29,15 +29,15 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
 @ApiModel(value = "GcTest 对象", description = "代码生成测试表")
 public class GcTest extends BaseEntity {
 
-    private static final long serialVersionUID = -728130862213894144L;
+    private static final long serialVersionUID = -728157747199217664L;
     
-    @ApiModelProperty(notes = "图标 " ,position = 0)
-    @TableField(value = "`icon`")
-    private String icon;
-
-    @ApiModelProperty(notes = "颜色选择器" ,position = 1)
+    @ApiModelProperty(notes = "颜色选择器" ,position = 0)
     @TableField(value = "color")
     private String color;
+
+    @ApiModelProperty(notes = "地址选择器" ,position = 1)
+    @TableField(value = "map")
+    private String map;
 
 }
 

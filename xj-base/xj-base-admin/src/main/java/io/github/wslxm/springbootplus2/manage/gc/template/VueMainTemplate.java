@@ -114,6 +114,22 @@ public interface VueMainTemplate {
             "                    showAlpha: false\n" +
             "                },\n";
 
+    /**
+     * 地图
+     * {label}  {prop}
+     */
+    String MAP = "                {\n" +
+            "                    label: '{label}',\n" +
+            "                    prop: '{prop}',\n" +
+            "                    html: true,\n" +
+            "                    formatter: (val) => {\n" +
+            "                        if (val.{prop} != null && val.{prop}.split(',').length >= 3) {\n" +
+            "                            return val.{prop}.split(',')[2];\n" +
+            "                        }\n" +
+            "                        return ''\n" +
+            "                    }\n" +
+            "                },\n";
+
 
     /**
      * 级联选择器的搜索   {label}  {prop} {search}

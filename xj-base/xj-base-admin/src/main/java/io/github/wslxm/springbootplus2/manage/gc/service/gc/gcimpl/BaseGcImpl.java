@@ -276,6 +276,8 @@ public class BaseGcImpl extends BaseServiceImpl {
             columnStr = VueAddUpdTemplate.ICON.replaceAll("\\{label}", newDesc).replaceAll("\\{prop}", name);
         } else if (Base.VueFieldType.V23.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.COLOR.replaceAll("\\{label}", newDesc).replaceAll("\\{prop}", name);
+        } else if (Base.VueFieldType.V24.getValue().equals(vueFieldType)) {
+            columnStr = VueAddUpdTemplate.MAP.replaceAll("\\{label}", newDesc).replaceAll("\\{prop}", name);
         } else {
             // 没有默认 input
             columnStr = VueAddUpdTemplate.INPUT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");

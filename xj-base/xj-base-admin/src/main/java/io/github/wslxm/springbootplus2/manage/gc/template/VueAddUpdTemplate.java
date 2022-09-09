@@ -208,6 +208,8 @@ public interface VueAddUpdTemplate {
             "                            type: 'color',\n" +
             "                            colorFormat: \"hex\",\n" +
             "                            showAlpha: false,\n" +
+            "                            predefine: [\"#FF8C00\", \"#FFD700\", \"#90EE90\", \"#00CED1\", \"#1E90FF\",\n" +
+            "                                \"#C71585\", \"#FF4500\", \"#FF7800\", \"#FAD400\", \"#00BABD\"],\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
             "                                required: true,\n" +
@@ -238,6 +240,24 @@ public interface VueAddUpdTemplate {
             "                                message: \"请选择 {label} \",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }]\n" +
+            "                        },\n";
+
+    /**
+     * 地图 选择器 {label}  {prop}
+     */
+    String MAP = "                        {\n" +
+            "                            // 需先配置高德js 详见: https://avuejs.com/form/form-input-map/#\n" +
+            "                            // 新增可给定默认地址: 104.06601585298779,30.656922000443107,四川省成都市青羊区西御河街道天府广场今站购物中心\n" +
+            "                            label: '{label}',\n" +
+            "                            prop: '{prop}',\n" +
+            "                            type: 'map',\n" +
+            "                            dataType: 'string',\n" +
+            "                            span: 20,\n" +
+            "                            rules: [{\n" +
+            "                                required: true,\n" +
+            "                                message: \"请选择 {label} \",\n" +
+            "                                trigger: \"blur\"\n" +
+            "                            }],\n" +
             "                        },\n";
 
 

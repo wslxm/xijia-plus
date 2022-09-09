@@ -17,20 +17,20 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseVo;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-09-09 16:18:55
+ * @date 2022-09-09 18:05:45
  */
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "GcTestVO 对象", description = "代码生成测试表")
 public class GcTestVO extends BaseVo {
 
-    private static final long serialVersionUID = -728130862469746688L;
+    private static final long serialVersionUID = -728157747308269568L;
     
-    @ApiModelProperty(value = "图标 " ,position = 0)
-    private String icon;
-
-    @ApiModelProperty(value = "颜色选择器" ,position = 1)
+    @ApiModelProperty(value = "颜色选择器" ,position = 0)
     private String color;
+
+    @ApiModelProperty(value = "地址选择器" ,position = 1)
+    private String map;
 
 }
 
