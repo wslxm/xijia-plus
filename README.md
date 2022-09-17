@@ -15,10 +15,10 @@
 
 ----------
 - [预览地址：http://vue.xijia.plus/](http://vue.xijia.plus/)    账号: `test`  密码: `123456`
-- [项目文档](https://gitee.com/wslxm/spring-boot-plus2/wikis/pages)
-- [项目文档-启动项目](https://gitee.com/wslxm/spring-boot-plus2/wikis/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8/%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE)
-- [更新日志](https://gitee.com/wslxm/spring-boot-plus2/blob/master/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md) 
-- [目录结构](https://gitee.com/wslxm/spring-boot-plus2/blob/master/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/2.x%20%E7%89%88%E6%9C%AC%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.md) 
+- [项目文档](https://gitee.com/wslxm/xijia-plus/wikis/pages)
+- [项目文档-启动项目](https://gitee.com/wslxm/xijia-plus/wikis/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8/%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE)
+- [更新日志](https://gitee.com/wslxm/xijia-plus/blob/2.x/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md) 
+- [目录结构](https://gitee.com/wslxm/xijia-plus/blob/2.x/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/2.x%20%E7%89%88%E6%9C%AC%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.md) 
 
 ----------
 
