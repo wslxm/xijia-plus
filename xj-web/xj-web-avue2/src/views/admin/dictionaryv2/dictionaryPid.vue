@@ -105,6 +105,15 @@
             // 提交修改请求
             updPid() {
                 let pid = this.checkedRow.id;
+                if (pid == this.rowData.id) {
+                    this.$message.error("不能选择当前字典")
+                    throw new Error("不能选择当前字典");
+                }
+                if(pid == this.rowData.pid){
+                    this.$message.error("分配前的父级字典不能和分配后的父级字典相同")
+                    throw new Error("分配前的父级字典不能和分配后的父级字典相同");
+                }
+
                 this.crud.put(this.uri.info + "/" + this.rowData.id, {pid: pid}).then((res) => {
                     this.closeDialog(true);
                 })

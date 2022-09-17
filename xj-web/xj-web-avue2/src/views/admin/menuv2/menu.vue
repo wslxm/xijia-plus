@@ -21,12 +21,13 @@
                         <el-button type="primary" plain icon="el-icon-plus" v-show="rowTreeData.root <= 2" size="mini" @click="updRow(rowTreeData,2)">菜单</el-button>
                         <el-button type="primary" plain icon="el-icon-plus" v-show="rowTreeData.root <= 2" size="mini" @click="updRow(rowTreeData,3)">页面</el-button>
                         <el-button type="primary" plain icon="el-icon-plus" v-show="rowTreeData.root >= 2" size="mini" @click="updRow(rowTreeData,4)">变更父级</el-button>
+                        <el-button type="primary" plain size="mini" @click="findLeftTree()">重载左侧</el-button>
                     </template>
 
                     <!-- 图标 -->
-                    <!--                    <template slot-scope="{row,index,type,size}" slot="icon">-->
-                    <!--                        <i :class="row.icon"></i>-->
-                    <!--                    </template>-->
+                    <!--  <template slot-scope="{row,index,type,size}" slot="icon">-->
+                    <!--      <i :class="row.icon"></i>-->
+                    <!--  </template>-->
                     <!-- 列表上进行编辑url -->
                     <template slot-scope="{row,index,type,size}" slot="url">
                         <el-input v-model="row.url" @blur="rowUrlBlur(row)" placeholder=""></el-input>
@@ -89,7 +90,7 @@
                 uri: {
                     infoList: "/api/admin/sys/menu/list",
                     info: "/api/admin/sys/menu",
-                    //infoPidList: "/api/admin/menu/list?disable=0&isTree=true&root={root}",
+                    updPidInfoList: "/api/admin/sys/menu/list?isTree=true&isBottomLayer=false",
                 },
                 loading: true,
                 dialogWidth: "60%",
