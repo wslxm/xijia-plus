@@ -10,8 +10,9 @@
     </parent>
 
     <modules>
-        <module>xj-base</module>      <!-- 核心模块 -->
-        <module>xj-starter</module>   <!-- 功能集成 -->
+        <module>xj-base</module>          <!-- 核心模块 -->
+        <module>xj-starter</module>       <!-- 功能集成 -->
+        <module>xijia-plus-demo</module>  <!-- 演示demo -->
     </modules>
 
     <groupId>io.github.wslxm</groupId>

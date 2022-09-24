@@ -47,10 +47,10 @@ public class DictionaryServiceImpl extends BaseServiceImpl<DictionaryMapper, Dic
 
     @Override
     public List<DictionaryVO> list(DictionaryQuery query) {
-        boolean isDisable = ObjectUtil.defaultIfNull( query.getIsDisable() , true);
-        boolean isBottomLayer =ObjectUtil.defaultIfNull( query.getIsBottomLayer() , true);
-        boolean isTree = ObjectUtil.defaultIfNull(query.getIsTree() , true);
-        boolean isNextAll =ObjectUtil.defaultIfNull(query.getIsNextAll() , true);
+        boolean isDisable = ObjectUtil.defaultIfNull(query.getIsDisable(), true);
+        boolean isBottomLayer = ObjectUtil.defaultIfNull(query.getIsBottomLayer(), true);
+        boolean isTree = ObjectUtil.defaultIfNull(query.getIsTree(), true);
+        boolean isNextAll = ObjectUtil.defaultIfNull(query.getIsNextAll(), true);
         String code = query.getCode();
 
         // 1、判断 code , 不能传递字符串数字来查询
@@ -171,19 +171,27 @@ public class DictionaryServiceImpl extends BaseServiceImpl<DictionaryMapper, Dic
             if (StringUtil.isInteger(fatherDictVo.getCode())) {
                 continue;
             }
-            dictGroupMap.put(fatherDictVo.getCode(), fatherDictVo);
             // 添加子级
             for (DictionaryCodeGroup dictVo : dictionaryCodeGroupList) {
                 if (dictVo.getPid().equals(fatherDictVo.getId())) {
+                    // BeanDtoVoUtil.convert 深拷贝,防止进行引入下级增加数据量
+                    DictionaryCodeGroup dictionaryCodeGroup = BeanDtoVoUtil.convert(dictVo, DictionaryCodeGroup.class);
+                    dictionaryCodeGroup.setId(null);
+                    dictionaryCodeGroup.setPid(null);
                     if (fatherDictVo.getDictMap() == null) {
                         LinkedHashMap<String, DictionaryCodeGroup> map = new LinkedHashMap<>();
-                        map.put(dictVo.getCode(), dictVo);
+                        map.put(dictVo.getCode(), dictionaryCodeGroup);
                         fatherDictVo.setDictMap(map);
                     } else {
-                        fatherDictVo.getDictMap().put(dictVo.getCode(), dictVo);
+                        fatherDictVo.getDictMap().put(dictVo.getCode(), dictionaryCodeGroup);
                     }
                 }
             }
+            // 保存父级数据
+            DictionaryCodeGroup fatherDictionaryCodeGroup = BeanDtoVoUtil.convert(fatherDictVo, DictionaryCodeGroup.class);
+            fatherDictionaryCodeGroup.setId(null);
+            fatherDictionaryCodeGroup.setPid(null);
+            dictGroupMap.put(fatherDictVo.getCode(), fatherDictionaryCodeGroup);
         }
         return dictGroupMap;
     }
