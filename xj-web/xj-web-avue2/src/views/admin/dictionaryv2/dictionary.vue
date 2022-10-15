@@ -254,14 +254,17 @@
             },
             // 排序
             rowSortBlur(row){
-                this.crud.put(this.uri.info + "/" + row.id, {sort: row.sort});
+                if (this.rowData.sort != row.sort) {
+                    this.crud.put(this.uri.info + "/" + row.id, {sort: row.sort});
+                }
             },
             // 启用/禁用
             updDisable(row) {
                 this.crud.put(this.uri.info + "/" + row.id, {disable: row.disable});
             },
             handleRowClick(row) {
-                this.rowData = row;
+                this.rowData = JSON.parse(JSON.stringify(row));
+                //this.rowData = row;
             },
             cellStyle({row, column}) {
                 if (column.property == "disable") {

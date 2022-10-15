@@ -334,7 +334,7 @@
                 this.crud.put(this.uri.info + "/" + row.id, {disable: row.disable});
             },
             handleRowClick(row) {
-                this.rowData = row;
+                this.rowData = JSON.parse(JSON.stringify(row));
             },
             cellStyle({row, column}) {
                 if (column.property == "disable") {

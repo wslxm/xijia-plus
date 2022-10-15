@@ -289,7 +289,7 @@
                 done();
             },
             handleRowClick(row) {
-                this.rowData = row;
+                this.rowData = JSON.parse(JSON.stringify(row));
             },
             // 加载数据处理复选选中数据处理（调用 toggleSelection 后会自动触发 selectionChange）
             checkeds() {

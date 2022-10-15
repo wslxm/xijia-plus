@@ -18,7 +18,8 @@
                    :cell-style="cellStyle"
                    @on-load="onLoad"
                    @refresh-change="onLoad"
-                   @search-change="searchChange">
+                   @search-change="searchChange"
+                   @row-click="handleRowClick">
             <!-- 启用/禁用插槽(默认提供,按需使用) -->
             <template slot-scope="{scope,row,index,type,size}" slot="disable">
                 <el-switch v-model="row.disable" @change="updDisable(row)"
@@ -26,6 +27,10 @@
                            :active-value=0 :inactive-value=1
                            active-text="" inactive-text="">
                 </el-switch>
+            </template>
+            <!-- 列表上进行编辑sort -->
+            <template slot-scope="{row,index,type,size}" slot="sort">
+                <el-input v-model="row.sort" @blur="rowSortBlur(row)" placeholder=""></el-input>
             </template>
             <template slot-scope="scope" slot="menuLeft">
                 <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
@@ -164,6 +169,15 @@
             // 启用/禁用
             updDisable(row) {
                 this.crud.put(this.uri.info + "/" + row.id, {disable: row.disable});
+            },
+            // 排序
+            rowSortBlur(row) {
+                if (this.rowData.sort != row.sort) {
+                    this.crud.put(this.uri.info + "/" + row.id, {sort: row.sort});
+                }
+            },
+            handleRowClick(row) {
+                this.rowData = JSON.parse(JSON.stringify(row));
             },
             cellStyle({row, column}) {
                 if (column.property == "type") {
