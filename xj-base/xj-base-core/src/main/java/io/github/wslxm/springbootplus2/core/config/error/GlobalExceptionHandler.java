@@ -2,7 +2,6 @@ package io.github.wslxm.springbootplus2.core.config.error;
 
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.error.AliYunOssErrorException;
 import io.github.wslxm.springbootplus2.starter.redis.config.error.RedisErrorException;
 import io.github.wslxm.springbootplus2.starter.websocket.config.error.WebSocketErrorException;
 import lombok.extern.slf4j.Slf4j;
@@ -94,13 +93,6 @@ public class GlobalExceptionHandler {
              * 自定义异常-> websocket 组件
              */
             WebSocketErrorException error = (WebSocketErrorException) e;
-            log.error(logStr + error.toString());
-            return Result.error(error.getCode(), error.getMsg(), e.getMessage());
-        } else if (e instanceof AliYunOssErrorException) {
-            /**
-             * 自定义异常-> 阿里云oss 组件
-             */
-            AliYunOssErrorException error = (AliYunOssErrorException) e;
             log.error(logStr + error.toString());
             return Result.error(error.getCode(), error.getMsg(), e.getMessage());
         } else if (e instanceof RedisErrorException) {

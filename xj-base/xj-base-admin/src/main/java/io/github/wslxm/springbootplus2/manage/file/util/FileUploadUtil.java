@@ -1,8 +1,9 @@
-package io.github.wslxm.springbootplus2.starter.aliyun.oss.util;
+package io.github.wslxm.springbootplus2.manage.file.util;
 
 
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.error.AliYunOssErrorException;
+import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import lombok.extern.slf4j.Slf4j;
+import sun.reflect.generics.tree.ReturnType;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,7 +65,7 @@ public class FileUploadUtil {
      */
     public static String getPath(String filePath, String fileName) {
         if (filePath.lastIndexOf("/") != filePath.length() - 1) {
-            throw new AliYunOssErrorException("路径必须以 [/] 结束");
+            throw new ErrorException("路径必须以 [/] 结束");
         }
 
         // 文件名中对url中不安全的字符处理
@@ -103,7 +104,7 @@ public class FileUploadUtil {
             return formatVerification(null, excludeFileSuffix, suffixName, fileName);
         } else {
             // 不支持的路径
-            throw new AliYunOssErrorException("filePath参数错误,不支持的保存路径");
+            throw new ErrorException("filePath参数错误,不支持的保存路径");
         }
     }
 
@@ -117,11 +118,11 @@ public class FileUploadUtil {
     private static String formatVerification(List<String> suffixs, List<String> excludeFileSuffix, String suffixName, String fileName) {
         // 验证格式是否在范围内
         if (suffixs != null && !suffixs.contains(suffixName)) {
-            throw new AliYunOssErrorException("格式错误,仅支持:" + suffixs.toString() + ", 当前格式为：" + suffixName);
+            throw new ErrorException("格式错误,仅支持:" + suffixs.toString() + ", 当前格式为：" + suffixName);
         }
         // 验证格式是否禁止上传
         if (excludeFileSuffix != null && excludeFileSuffix.contains(suffixName)) {
-            throw new AliYunOssErrorException("禁止上传文件格式:" + excludeFileSuffix.toString());
+            throw new ErrorException("禁止上传文件格式:" + excludeFileSuffix.toString());
         }
         return getTimeStr8() + "-" + fileName;
     }

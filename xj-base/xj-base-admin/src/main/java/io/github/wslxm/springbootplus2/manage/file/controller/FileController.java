@@ -1,7 +1,13 @@
-package io.github.wslxm.springbootplus2.starter.aliyun.oss.controller;
+package io.github.wslxm.springbootplus2.manage.file.controller;
 
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.config.result.AliYunOssR;
-import io.github.wslxm.springbootplus2.starter.aliyun.oss.service.AliOssService;
+import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
+import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
+import io.github.wslxm.springbootplus2.core.result.Result;
+import io.github.wslxm.springbootplus2.manage.file.util.FileDownloadUtil;
+import io.github.wslxm.springbootplus2.manage.file.constant.FileChannel;
+import io.github.wslxm.springbootplus2.manage.file.strategy.FileContext;
+import io.github.wslxm.springbootplus2.manage.file.strategy.FileStrategy;
+import io.github.wslxm.springbootplus2.manage.file.util.FileUploadUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -14,9 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
- * 阿里云OSS 文件上传下载
+ * 文件管理
  * <p>
  * consumes = "multipart/*", headers = "content-type=multipart/form-data"
  * </P>
@@ -27,14 +37,21 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2018/10/20 21:32
  */
 @RestController
-@Api(value = "AliOssController", tags = "AliYun --> OSS文件管理")
-@RequestMapping("/api/open/aliOssFile")
+@Api(value = "FileController", tags = "文件管理")
+@RequestMapping(BaseConstant.Uri.API_OPEN + "/file")
 @Slf4j
-public class AliOssController {
+public class FileController extends BaseController {
 
-
+    /**
+     * 文件访问器
+     */
     @Autowired
-    private AliOssService aliOssService;
+    private FileContext fileContext;
+
+    /**
+     * 文件文件  (TODO 此处可做成 yml 或 全局配置中动态配置)
+     */
+    private final static String FILE_CHANNEL = FileChannel.ALI_YUN_OSS;
 
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
@@ -51,10 +68,24 @@ public class AliOssController {
                     ")", required = true),
             @ApiImplicitParam(name = "resType", value = "返回类型(1- data=url(默认)  2- data=[name:xxx ,url: xxx])", required = false)
     })
-    public Object upload(@RequestParam(required = true) MultipartFile file,
-                         @RequestParam(required = true) String filePath,
-                         @RequestParam(required = false) Integer resType) {
-        return AliYunOssR.success(aliOssService.upload(file, filePath, resType));
+    public Result<Object> upload(@RequestParam(required = true) MultipartFile file,
+                                 @RequestParam(required = true) String filePath,
+                                 @RequestParam(required = false) Integer resType) {
+        // 指定文件处理渠道
+        FileStrategy fileStrategy = fileContext.getChannel(FILE_CHANNEL);
+        // 验证文件格式、保存路径，并处理文件名防止重复
+        String fileName = FileUploadUtil.getPath(filePath, file.getOriginalFilename());
+        // 上传
+        String url = fileStrategy.upload(file, filePath, fileName);
+        // 返回数据处理
+        if (resType == null || resType == 1) {
+            return Result.success(url);
+        } else {
+            Map<String, String> resMap = new HashMap<>(2, 1);
+            resMap.put("name", file.getOriginalFilename());
+            resMap.put("url", url);
+            return Result.success(resMap);
+        }
     }
 
 
@@ -64,7 +95,9 @@ public class AliOssController {
     @ApiOperation("OSS-文件Object列表")
     @RequestMapping(value = "/fileList", method = RequestMethod.GET)
     public Object fileList() {
-        return AliYunOssR.success(aliOssService.fileList());
+        // 指定文件处理渠道
+        FileStrategy fileStrategy = fileContext.getChannel(FILE_CHANNEL);
+        return Result.success(fileStrategy.fileList());
     }
 
 
@@ -75,21 +108,26 @@ public class AliOssController {
     @ApiImplicitParam(name = "filePath", value = "文件保存的完整可访问URL,或OSS相对路径", required = true)
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     public Object del(@RequestParam String filePath) {
-        return AliYunOssR.success(aliOssService.del(filePath));
+        FileStrategy fileStrategy = fileContext.getChannel(FILE_CHANNEL);
+        return Result.success(fileStrategy.del(filePath));
     }
 
+
     /**
-     * 网络文件下载
+     * 网络可直接访问文件 单下载
      */
     @ApiOperation("OSS-文件下载--单文件下载")
     @ApiImplicitParam(name = "filePath", value = "文件可访问的完整URL", required = true)
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void downloadNet(@RequestParam String filePath) {
-        aliOssService.downloadNet(filePath);
+        // 获取文件名称
+        String fileName = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.length());
+        FileDownloadUtil.download(filePath, fileName, response);
     }
 
+
     /**
-     * 网络文件打包下载
+     * 网络可直接访问文件 批量下载(打压缩包)
      */
     @ApiOperation("OSS-文件下载--多文件下载")
     @ApiImplicitParams({
@@ -98,7 +136,7 @@ public class AliOssController {
     })
     @RequestMapping(value = "/downloadZip", method = RequestMethod.GET)
     public void downloadNet(@RequestParam String filePaths, @RequestParam String zipName) {
-        aliOssService.downloadNet(filePaths, zipName);
+        FileDownloadUtil.downloadZip(Arrays.asList(filePaths.split(",")), zipName, response);
     }
 }
 

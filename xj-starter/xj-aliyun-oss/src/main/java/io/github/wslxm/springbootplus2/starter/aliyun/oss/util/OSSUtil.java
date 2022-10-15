@@ -72,15 +72,14 @@ import java.util.List;
  * @return
  * @version 1.0.1
  */
-@SuppressWarnings("ALL")
 @Slf4j
 @Service
 public class OSSUtil {
 
     /**
-     * 文件一级目录, 文件保存到oss的路径(勿修改 oos/  ), file/ 可修改
+     * 文件一级目录, 文件保存到oss的路径,
      */
-    private static final  String FILE_PATH = "oss/file/";
+    private static final String FILE_PATH = "oss/file/";
 
     @Autowired
     private HttpServletRequest request;
@@ -139,8 +138,6 @@ public class OSSUtil {
     }
 
 
-
-
     /**
      * 获取OSS 文件列表
      */
@@ -155,7 +152,7 @@ public class OSSUtil {
 
 
     /**
-     * 删除, 删除文件夹 --> 如: file/
+     * 删除 或 删除文件夹 --> 如: file/
      */
     public boolean deleteObject(String firstKey) {
         this.init();

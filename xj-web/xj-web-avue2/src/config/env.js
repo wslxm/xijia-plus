@@ -8,7 +8,8 @@ console.log("当前请求服务器地址: " + targetPath);
 // 使用代理模式, 使用 /api 进行转发
 let baseProxyPathRewrite = '/api';
 // 文件上传地址统一配置
-let baseUploadUrl = baseProxyPathRewrite + '/api/open/aliOssFile/upload?resType=2&filePath=';
+//let baseUploadUrl = baseProxyPathRewrite + '/api/open/aliOssFile/upload?resType=2&filePath=';
+let baseUploadUrl = baseProxyPathRewrite + '/api/open/file/upload?resType=2&filePath=';
 // websocket 地址统一配置
 let baseWebSocketUrl = "ws://" + targetPath + "/websocket/{userId}/{fullName}";
 

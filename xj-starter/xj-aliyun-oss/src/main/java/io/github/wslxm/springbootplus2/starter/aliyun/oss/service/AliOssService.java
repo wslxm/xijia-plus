@@ -4,6 +4,7 @@ import com.aliyun.oss.model.OSSObjectSummary;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -17,20 +18,20 @@ public interface AliOssService {
 
 
     /**
-     * 文件生成
+     * 文件上传
      *
      * @param file
      * @param filePath
      * @param resType
      * @return
      */
-    public Object upload(@RequestParam(required = true) MultipartFile file,
+    public String upload(@RequestParam(required = true) MultipartFile file,
                          @RequestParam(required = true) String filePath,
-                         @RequestParam(required = false) Integer resType);
+                         @RequestParam(required = true) String fileName) throws IOException;
 
 
     /**
-     * oss-文件列表
+     * oss-文件列表获取
      * @author wangsong
      * @date 2022/8/22 0022 20:50
      * @return java.util.List<com.aliyun.oss.model.OSSObjectSummary>
@@ -48,25 +49,5 @@ public interface AliOssService {
      */
     public Boolean del(String filePath);
 
-    /**
-     * 网络文件下载
-     * @author wangsong
-     * @param filePath
-     * @date 2022/8/22 0022 20:50
-     * @return void
-     * @version 1.0.0
-     */
-    public void downloadNet(String filePath);
-
-    /**
-     * 网络文件打包下载
-     * @author wangsong
-     * @param filePaths
-     * @param zipName
-     * @date 2022/8/22 0022 20:50
-     * @return void
-     * @version 1.0.0
-     */
-    public void downloadNet(String filePaths, String zipName);
 }
 
