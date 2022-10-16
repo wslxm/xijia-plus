@@ -35,11 +35,12 @@ public class AliOssServiceImpl implements AliOssService {
 
 
     @Override
-    public String upload(MultipartFile file,
+    public String upload(String uploadPath,
+                         MultipartFile file,
                          String filePath,
                          String fileName) throws IOException {
         InputStream inputStream = file.getInputStream();
-        return ossUtil.upload(filePath, fileName, inputStream);
+        return ossUtil.upload(uploadPath,filePath, fileName, inputStream);
     }
 
     @Override

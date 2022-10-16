@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.manage.file.strategy;
+package io.github.wslxm.springbootplus2.open.file.strategy;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,17 +28,14 @@ public interface FileStrategy {
 
 
     /**
-     * 文件列表获取
+     * 指定文件 或 指定文件夹以及下级所有数据 删除
+     * <P>
+     *     本地文件已支持删除文件或文件夹
+     *     阿里云oss目前只支持删除文件
+     * </P>
+     * @param filePath 文件/文件夹 路径跟目录到文件的完整路径地址
      * @return
      */
-    public Object fileList();
-
-
-    /**
-     * 文件或文件夹 删除
-     * @param filePath 文件/文件夹 路径
-     * @return
-     */
-    public Object del(String filePath);
+    public Boolean del(String filePath);
 
 }

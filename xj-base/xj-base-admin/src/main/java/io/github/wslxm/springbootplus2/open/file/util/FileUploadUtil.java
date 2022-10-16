@@ -1,9 +1,8 @@
-package io.github.wslxm.springbootplus2.manage.file.util;
+package io.github.wslxm.springbootplus2.open.file.util;
 
 
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import lombok.extern.slf4j.Slf4j;
-import sun.reflect.generics.tree.ReturnType;
 
 import java.io.IOException;
 import java.io.InputStream;

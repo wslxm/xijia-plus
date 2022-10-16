@@ -79,7 +79,7 @@ public class OSSUtil {
     /**
      * 文件一级目录, 文件保存到oss的路径,
      */
-    private static final String FILE_PATH = "oss/file/";
+    //private static final String FILE_PATH = "oss/file/";
 
     @Autowired
     private HttpServletRequest request;
@@ -114,10 +114,10 @@ public class OSSUtil {
      * @param inputStream  文件流
      * @return
      */
-    public String upload(String filePath, String fileName, InputStream inputStream) {
+    public String upload(String uploadPath,String filePath, String fileName, InputStream inputStream) {
         this.init();
         // 表示上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg。
-        String yourObjectName = FILE_PATH + filePath + fileName;
+        String yourObjectName = uploadPath + filePath + fileName;
         // 创建PutObjectRequest对象。
         PutObjectRequest putObjectRequest = new PutObjectRequest(aliYunOssProperties.getBucketName(), yourObjectName, inputStream);
         // 设置 ContentType 类型 ,防止图片等资源无法使用url直接访问，没有对应格式时,不处理，使用文件对应的默认格式

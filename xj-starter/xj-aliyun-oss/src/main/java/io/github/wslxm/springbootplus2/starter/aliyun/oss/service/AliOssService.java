@@ -25,7 +25,8 @@ public interface AliOssService {
      * @param resType
      * @return
      */
-    public String upload(@RequestParam(required = true) MultipartFile file,
+    public String upload(@RequestParam(required = true) String uploadPath,
+                         @RequestParam(required = true) MultipartFile file,
                          @RequestParam(required = true) String filePath,
                          @RequestParam(required = true) String fileName) throws IOException;
 

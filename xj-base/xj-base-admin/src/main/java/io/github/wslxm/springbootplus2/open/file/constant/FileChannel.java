@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.manage.file.constant;
+package io.github.wslxm.springbootplus2.open.file.constant;
 
 /**
  * 文件渠道 常量类

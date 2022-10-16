@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.manage.file.util;
+package io.github.wslxm.springbootplus2.open.file.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ResourceUtils;

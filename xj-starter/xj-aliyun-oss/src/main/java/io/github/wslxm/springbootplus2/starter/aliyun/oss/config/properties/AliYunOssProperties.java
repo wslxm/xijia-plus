@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @SuppressWarnings("all")
 @Configuration
-@ConfigurationProperties(prefix = "aliyun.oss")
+@ConfigurationProperties(prefix = "file.aliyun-oss")
 @Data
 @Slf4j
 public class AliYunOssProperties {
