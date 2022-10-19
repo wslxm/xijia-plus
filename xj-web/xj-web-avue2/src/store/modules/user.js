@@ -94,7 +94,7 @@ const user = {
          */
         GetTopMenu() {
             return new Promise(resolve => {
-                crud.get("/api/admin/sys/menu/list", {
+                crud.get("/api/admin/sys/menu/tree", {
                     disable: 0,
                     isTree: true,
                     isLoginUser: true,
@@ -116,7 +116,7 @@ const user = {
         GetMenu({commit}, item) {
             console.log("菜单获取", item);
             return new Promise(resolve => {
-                crud.get("/api/admin/sys/menu/list", {
+                crud.get("/api/admin/sys/menu/tree", {
                     pid: item.id,
                     disable: 0,
                     isTree: true,

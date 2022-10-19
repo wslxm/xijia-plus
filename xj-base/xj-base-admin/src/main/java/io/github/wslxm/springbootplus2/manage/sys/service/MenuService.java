@@ -26,7 +26,7 @@ public interface MenuService extends IService<Menu> {
      * @return java.util.List<io.github.wslxm.springbootplus2.manage.admin.model.vo.MenuVO>
      * @version 1.0.0
      */
-    List<MenuVO> list(MenuQuery query);
+    List<MenuVO> tree(MenuQuery query);
 
 
     /**

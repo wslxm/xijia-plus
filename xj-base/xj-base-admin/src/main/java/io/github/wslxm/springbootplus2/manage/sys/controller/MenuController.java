@@ -27,10 +27,10 @@ import java.util.List;
 public class MenuController extends BaseController<MenuService> {
 
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/tree")
     @ApiOperation(value = "列表查询(不支持分页)", notes = "根据sort正序排序返回")
-    public Result<List<MenuVO>> list(@ModelAttribute MenuQuery query) {
-        return Result.success(baseService.list(query));
+    public Result<List<MenuVO>> tree(@ModelAttribute MenuQuery query) {
+        return Result.success(baseService.tree(query));
     }
 
 

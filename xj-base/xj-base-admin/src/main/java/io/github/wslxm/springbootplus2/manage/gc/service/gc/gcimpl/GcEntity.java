@@ -5,6 +5,7 @@ import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateProperties;
 import io.github.wslxm.springbootplus2.manage.gc.constant.FieldTypeConstant;
+import io.github.wslxm.springbootplus2.manage.gc.constant.TpParamConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.gc.GcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
@@ -58,7 +59,7 @@ public class GcEntity extends BaseGcImpl implements GcSevice {
             String fieldName = fieldMap.getName();
             String typeDetail = fieldMap.getTypeDetail();
             // 1、生成注释
-            Boolean entitySwagger = Boolean.valueOf(gcConfig.getDefaultTemplateParam("entitySwagger"));
+            Boolean entitySwagger = Boolean.valueOf(gcConfig.getDefaultTemplateParam(TpParamConstant.ENTITY_SWAGGER));
             if (entitySwagger) {
                 // 字段注释信息-->  Swagger2 模式
                 fields.append("\r\n    @ApiModelProperty(notes = \"" + desc + "\" ,position = " + position++ + ")");

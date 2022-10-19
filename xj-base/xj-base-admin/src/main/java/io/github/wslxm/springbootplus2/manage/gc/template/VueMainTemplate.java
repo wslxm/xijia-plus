@@ -138,9 +138,9 @@ public interface VueMainTemplate {
      */
     String CASCADER = "                {\n" +
             "                    label: '{label}',\n" +
-            "                    prop: 'cascader',\n" +
+            "                    prop: '{prop}',\n" +
             "                    search: {search},\n" +
-            "                    type: \"{prop}\",\n" +
+            "                    type: 'cascader',\n" +
             "                    dataType: 'string',\n" +
             "                    overHidden: true,\n" +
             "                    filterable: true, \n" +

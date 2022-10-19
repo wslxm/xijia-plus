@@ -66,7 +66,7 @@
                     infoList: "/api/admin/sys/role/findPage",
                     info: "/api/admin/sys/role",
                     updRoleAuthAll: "/api/admin/sys/role/updRoleAuthAll",  // 使用角色拥有所有权限
-                    menuList: "/api/admin/sys/menu/list?disable=0&isTree=true&roleId={roleId}", // 分配菜单查询信息
+                    menuList: "/api/admin/sys/menu/tree?disable=0&roleId={roleId}", // 分配菜单查询信息
                     authListByRole: "/api/admin/sys/authority/list?type=0&isTree=true&roleId={roleId}",  // 分配资源查询信息
                     updRoleAuth: "/api/admin/sys/role/updRoleAuth",   // 角色-分配资源
                 },

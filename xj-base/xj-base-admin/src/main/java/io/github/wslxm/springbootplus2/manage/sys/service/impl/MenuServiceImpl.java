@@ -3,13 +3,11 @@ package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
-import io.github.wslxm.springbootplus2.core.base.model.BaseVo;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
-import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.MenuMapper;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.RoleMenuMapper;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.MenuDTO;
@@ -46,9 +44,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implement
 
 
     @Override
-    public List<MenuVO> list(MenuQuery query) {
-        boolean isTree = ObjectUtil.defaultIfNull(query.getIsTree(), false);
-        boolean isBottomLayer = ObjectUtil.defaultIfNull(query.getIsBottomLayer(), true);
+    public List<MenuVO> tree(MenuQuery query) {
         boolean isNextAll = ObjectUtil.defaultIfNull(query.getIsNextAll(), true);
         String pId = query.getPid();
         String roleId = query.getRoleId();
@@ -58,21 +54,16 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implement
         String loginUserId = ObjectUtil.defaultIfNull(query.getIsLoginUser(), () -> JwtUtil.getJwtUser(request).getUserId(), null);
 
         // 1、查询菜单
-        List<MenuVO> menuVOList = baseMapper.list( loginUserId,disable);
+        List<MenuVO> menuVOList = baseMapper.list(loginUserId, disable);
 
         // 2、获取角色拥有的菜单id(没有角色id或没有 角色对应的菜单数据,创建空roleMenuIdList对象)
         List<RoleMenu> userRoleMenus = roleId != null ? roleMenuMapper.findRoleId(roleId) : new ArrayList<>();
         List<String> roleMenuIdList = !userRoleMenus.isEmpty() ? userRoleMenus.stream().map(RoleMenu::getMenuId).collect(Collectors.toList()) : new ArrayList<>();
 
-        // 3、是否需要最后一级数据,false 不需要, 过滤最后一级数据
-        if (!isBottomLayer) {
-            menuVOList = menuVOList.stream().filter(p -> (!p.getRoot().equals(Base.MenuRoot.V3.getValue()))).collect(Collectors.toList());
-        }
         // 4、根据级别过滤(1-目录 2-菜单 3-页面)
         if (root != null) {
             menuVOList = menuVOList.stream().filter(p -> (p.getRoot() <= root)).collect(Collectors.toList());
         }
-
 
         // 增加path字段数据(vue路由)
         for (MenuVO menuVo : menuVOList) {
@@ -122,12 +113,8 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implement
             }
         }
 
-        // 7、判断返回 tree | list
-        if (isTree) {
-            return pMenuListVO;
-        } else {
-            return menuVOList.stream().filter(i -> menuIds.contains(i.getId())).collect(Collectors.toList());
-        }
+        // 7、返回
+        return pMenuListVO;
     }
 
 
@@ -157,14 +144,19 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implement
     @Override
     @Transactional(rollbackFor = Exception.class)
     public List<String> del(String id) {
-        // 查询出所有子级菜单数据
-        MenuQuery query = new MenuQuery();
-        query.setPid(id);
-        List<MenuVO> menus = this.list(query);
-        ValidUtil.isTrue(menus.isEmpty(), "没有找到要删除的数据");
+        // 查询
+        List<Menu> list = this.list();
+        List<MenuVO> menuVOS = BeanDtoVoUtil.listVo(list, MenuVO.class);
+        //
+        List<String> menuIds = new ArrayList<>();
+        MenuVO pMenuVo = new MenuVO();
+        pMenuVo.setId(id);
+        this.nextLowerIdNodeTreeChecked(menuVOS, pMenuVo, new ArrayList<>(), menuIds, null);
+
         // 删除菜单
-        List<String> menuIds = menus.stream().map(BaseVo::getId).collect(Collectors.toList());
+        menuIds.add(id);
         this.removeByIds(menuIds);
+
         // 删除角色菜单关联数据
         roleMenuService.delBatchByMenuIds(menuIds);
         return menuIds;
