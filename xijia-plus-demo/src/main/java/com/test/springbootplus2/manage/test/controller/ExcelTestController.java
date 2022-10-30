@@ -7,7 +7,6 @@ import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.constant.NumberConst;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
-import io.github.wslxm.springbootplus2.core.utils.excel.ExcelUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author wangsong
@@ -33,11 +31,12 @@ public class ExcelTestController extends BaseController {
     @ApiOperation("解析excel数据")
     public Result<Object> upload(@RequestParam MultipartFile file) {
         try {
-            List<Map<String, String>> maps = ExcelUtil.readExcel(file);
-            return Result.success(maps);
+            //List<Map<String, String>> maps = ExcelUtil.readExcel(file);
+            //return Result.success(maps);
         } catch (Exception e) {
             throw new ErrorException(ResultType.PARAM_ANALYSIS_ERROR);
         }
+        return null;
     }
 
 
@@ -54,9 +53,8 @@ public class ExcelTestController extends BaseController {
             excelTestVos.add(vo);
         }
 
-        ExcelUtil.exportExcelDownload(excelTestVos, response);
-        ExcelUtil.exportExcelDownload(excelTestVos, 40, 25, false, false, true, response);
-
+        //ExcelUtil.exportExcelDownload(excelTestVos, response);
+        //ExcelUtil.exportExcelDownload(excelTestVos, 40, 25, false, false, true, response);
 
 
     }

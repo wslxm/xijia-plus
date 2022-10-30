@@ -11,7 +11,6 @@
 </template>
 
 <script>
-    import {baseUploadUrl} from "@/config/env";
 
     export default {
         name: 'vueTinymceEditor',
@@ -36,37 +35,30 @@
                     images_file_types: 'jpeg,jpg,png,gif,bmp,webp',
                     // 此处为图片上传处理函数 (手动上传)
                     images_upload_handler: (blobInfo, success, failure, progress) => {
-                        console.log('上传处理器：');
-                        // 方法1：用base64的图片形式上传图片
-                        // const img = 'data:image/jpeg;base64,' + blobInfo.base64()
-                        // success(img)
-
-                        // 方法2：上传oos
-                        const xhr = new XMLHttpRequest();
-                        xhr.withCredentials = false;
-                        xhr.open('POST', baseUploadUrl + 'image/vueTinymce/');
-                        // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8')
-                        // xhr.setRequestHeader('x-token', this.$store.getters.token)
-                        xhr.upload.onprogress = function (e) {
-                            progress(e.loaded / e.total * 100)
-                        };
-                        // 成功结果
-                        xhr.onload = function () {
-                            if (xhr.status != 200) {
-                                failure('HTTP Error: ' + xhr.status, {remove: true});
-                                return
-                            }
-                            const json = JSON.parse(xhr.responseText);
-                            success(json.data.url);
-                        };
-                        // 失败结果
-                        xhr.onerror = function () {
-                            failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status)
-                        };
-                        // 请求数据
-                        const formData = new FormData()
-                        formData.append('file', blobInfo.blob(), blobInfo.filename());
-                        xhr.send(formData)
+                        console.log('上传处理器111：');
+                        // const formData = new FormData()
+                        // formData.append('file', blobInfo.blob(), blobInfo.filename());
+                        let file = new window.File([blobInfo.blob()], blobInfo.filename());
+                        this.crud.upload(file, "image/vueTinymce/").then(res => {
+                            // 获取返回数据
+                            let data = res.data.data;
+                            // 添加图片到内容
+                            success(data.url, data.name)
+                        });
+                    },
+                    file_picker_callback: function(callback, value, meta) {
+                        // Provide file and text for the link dialog
+                        if (meta.filetype == 'file') {
+                            callback('mypage.html', {text: 'My text'});
+                        }
+                        // Provide image and alt text for the image dialog
+                        if (meta.filetype == 'image') {
+                            callback('myimage.jpg', {alt: 'My alt text'});
+                        }
+                        // Provide alternative source and posted for the media dialog
+                        if (meta.filetype == 'media') {
+                            callback('movie.mp4', {source2: 'alt.ogg', poster: 'image.jpg'});
+                        }
                     },
                 }
             }
