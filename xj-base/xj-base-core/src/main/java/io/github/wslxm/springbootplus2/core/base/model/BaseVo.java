@@ -1,6 +1,5 @@
 package io.github.wslxm.springbootplus2.core.base.model;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,9 +15,13 @@ import java.time.LocalDateTime;
 @Data
 public class BaseVo extends Convert {
 
-    @ApiModelProperty(notes = "ID", position = 0)
+    /**
+     * id
+     */
     private String id;
 
-    @ApiModelProperty(value = "创建时间", position = 0)
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 }

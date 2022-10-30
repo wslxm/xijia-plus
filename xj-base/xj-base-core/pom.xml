@@ -13,31 +13,15 @@
     <version>${revision}</version>
 
     <properties>
-
     </properties>
 
     <dependencies>
-         <!-- 接口文档- swagger2  -->
+        <!-- aop -->
         <dependency>
-            <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-swagger2</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-        <!-- redis 服务 -->
-        <dependency>
-            <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-redis</artifactId>
-        </dependency>
-        <!-- 第三方服务- 阿里云oss -->
-        <dependency>
-            <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-aliyun-oss</artifactId>
-        </dependency>
-        <!-- websocket  -->
-        <dependency>
-            <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-websocket</artifactId>
-        </dependency>
-        <!-- lombok  生成get/ser  了马达 -->
+        <!-- lombok  生成get/ser了马达 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -79,7 +63,6 @@
             <artifactId>mysql-connector-java</artifactId>
             <!--<scope>runtime</scope>-->
         </dependency>
-
         <!-- druid 阿里巴巴数据源 -->
         <dependency>
             <groupId>com.alibaba</groupId>

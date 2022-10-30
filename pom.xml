@@ -88,7 +88,7 @@
             <!-- 阿里云oss  -->
             <dependency>
                 <groupId>io.github.wslxm</groupId>
-                <artifactId>xj-aliyun-oss</artifactId>
+                <artifactId>xj-base-file</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- swagger 接口文档  -->

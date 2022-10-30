@@ -8,7 +8,7 @@ import com.google.common.base.CaseFormat;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.LocalDateTimeUtil;
 import io.github.wslxm.springbootplus2.core.utils.PropUtil;
-import io.github.wslxm.springbootplus2.open.file.util.FileDownloadUtil;
+import io.github.wslxm.springbootplus2.file.util.FileDownloadUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcTPConfig;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateProperties;

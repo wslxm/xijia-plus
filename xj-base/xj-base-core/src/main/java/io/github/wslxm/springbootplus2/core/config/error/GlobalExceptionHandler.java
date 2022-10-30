@@ -2,8 +2,6 @@ package io.github.wslxm.springbootplus2.core.config.error;
 
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
-import io.github.wslxm.springbootplus2.starter.redis.config.error.RedisErrorException;
-import io.github.wslxm.springbootplus2.starter.websocket.config.error.WebSocketErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -88,20 +86,6 @@ public class GlobalExceptionHandler {
              */
             log.error(logStr + mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
             return Result.error(ResultType.SYS_ERROR_CODE_500, mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
-        } else if (e instanceof WebSocketErrorException) {
-            /**
-             * 自定义异常-> websocket 组件
-             */
-            WebSocketErrorException error = (WebSocketErrorException) e;
-            log.error(logStr + error.toString());
-            return Result.error(error.getCode(), error.getMsg(), e.getMessage());
-        } else if (e instanceof RedisErrorException) {
-            /**
-             *  自定义异常-> redis 组件
-             */
-            RedisErrorException error = (RedisErrorException) e;
-            log.error(logStr + error.toString());
-            return Result.error(error.getCode(), error.getMsg(), e.getMessage());
         } else if (e instanceof ErrorException) {
             /**
              * 自定义异常-> 全局异常类 ErrorException

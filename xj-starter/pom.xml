@@ -14,7 +14,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>xj-aliyun-oss</module>
         <module>xj-swagger2</module>
         <module>xj-websocket</module>
         <module>xj-redis</module>

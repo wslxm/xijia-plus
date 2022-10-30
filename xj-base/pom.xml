@@ -16,5 +16,6 @@
     <modules>
         <module>xj-base-core</module>
         <module>xj-base-admin</module>
+        <module>xj-base-file</module>
     </modules>
 </project>

@@ -16,17 +16,31 @@
     <properties>
     </properties>
 
-
     <dependencies>
-        <!-- aop -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
         <!-- 核心组件 -->
         <dependency>
             <groupId>io.github.wslxm</groupId>
             <artifactId>xj-base-core</artifactId>
+        </dependency>
+        <!--redis 服务-->
+        <dependency>
+            <groupId>io.github.wslxm</groupId>
+            <artifactId>xj-base-file</artifactId>
+        </dependency>
+        <!-- 接口文档- swagger2-->
+        <dependency>
+            <groupId>io.github.wslxm</groupId>
+            <artifactId>xj-swagger2</artifactId>
+        </dependency>
+        <!--redis 服务-->
+        <dependency>
+            <groupId>io.github.wslxm</groupId>
+            <artifactId>xj-redis</artifactId>
+        </dependency>
+        <!-- websocket-->
+        <dependency>
+            <groupId>io.github.wslxm</groupId>
+            <artifactId>xj-websocket</artifactId>
         </dependency>
         <!-- thymeleaf  -->
         <dependency>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xj-base</artifactId>
+        <groupId>io.github.wslxm</groupId>
+        <version>2.1.3</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>xj-base-file</artifactId>
+    <version>${revision}</version>
+    <description>文件处理模块，目前支持本地存储 + 阿里云oss存储</description>
+
+    <properties>
+        <aliyun-sdk-oss.version>3.8.0</aliyun-sdk-oss.version>
+        <!-- 图片处理 -->
+        <imageio-jpeg.version>3.3</imageio-jpeg.version>
+        <imageio-tiff.version>3.3</imageio-tiff.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.github.wslxm</groupId>
+            <artifactId>xj-base-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.wslxm</groupId>
+            <artifactId>xj-swagger2</artifactId>
+        </dependency>
+
+        <!-- 阿里云OSS SDK-->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>${aliyun-sdk-oss.version}</version>
+        </dependency>
+        <!-- cmyk格式图片转换，解决图片压缩出现 Unsupported Image Type的问题 -->
+        <dependency>
+            <groupId>com.twelvemonkeys.imageio</groupId>
+            <artifactId>imageio-jpeg</artifactId>
+            <version>${imageio-jpeg.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.twelvemonkeys.imageio</groupId>
+            <artifactId>imageio-tiff</artifactId>
+            <version>${imageio-tiff.version}</version>
+        </dependency>
+
+        <!-- lombok  生成get/ser  了马达 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!-- spring-mvc -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-api</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+    </dependencies>
+
+</project>
