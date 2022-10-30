@@ -20,10 +20,10 @@ spring:
 # 默认支持： ALI_YUN_OSS -阿里云oss | LOCAL -本地服务器存储
 file:
   ## 文件存储渠道
-  channel: ALI_YUN_OSS
+  channel: LOCAL
   ## 本地服务器存储：本地文件存储的根目录 | 文件访问地址
   local:
-    path: File/upload
+    path: upload
     baseUrl: http://127.0.0.1:9048
   ## 阿里云oss文件存储
   aliyun-oss:
@@ -48,7 +48,7 @@ swagger:
     - "架构--系统功能-管理端 | io.github.wslxm.springbootplus2.manage"
     - "架构--系统功能-用户端 | io.github.wslxm.springbootplus2.client"
     - "架构--通用服务-starter | io.github.wslxm.springbootplus2.starter"
-    - "架构--文件管理 | io.github.wslxm.springbootplus2.open.file"
+    - "架构--文件管理 | io.github.wslxm.springbootplus2.file"
   author: wangsong                                 # 作者/负责人-姓名
   email: 1270696548@qq.com                         # 作者/负责人-邮箱
   url: https://gitee.com/wslxm/spring-boot-plus2   # 作者/负责人-个人社交地址

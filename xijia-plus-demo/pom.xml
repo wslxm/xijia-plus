@@ -27,9 +27,7 @@
 
     <!-- 打jar包配置 -->
     <build>
-
-
-       <finalName>xijia-plus-demo</finalName>
+        <finalName>xijia-plus-demo</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
