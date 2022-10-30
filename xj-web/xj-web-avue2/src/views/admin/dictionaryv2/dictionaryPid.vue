@@ -23,6 +23,7 @@
                 data: [],
                 option: {},
                 checkedRow: {}, //当前选中行数据
+                noCheckedRowIds: [], //当前选中下级ids
             }
         },
         props: {
@@ -51,6 +52,10 @@
             this.option.treeProps = {
                 children: 'dictList'
             };
+            // 不能选择自己及下级
+            this.option.selectable = (row, index) => {
+                return this.noCheckedRowIds.indexOf(row.id) === -1;
+            };
             this.option.column = [
                 {
                     label: '字典名',
@@ -70,23 +75,37 @@
                 this.crud.get(this.uri.updPidInfoList).then((res) => {
                     this.data = res.data.data;
                     // 找到当前选中数据的父级
-                    this.checkedRow = this.getPidDictNext(this.data, newRowData);
-                    // 默认选中
+                    this.checkedRow = this.getFatherDictNext(this.data, newRowData);
+
+                    // 默认选中当前的父级 this.checkedRow
                     this.$refs.crudDictPid.toggleSelection([this.checkedRow]);
+
+                    // 当前行+下级的ids 禁止选择
+                    this.getDictNextIds([newRowData], this.noCheckedRowIds)
+
                 })
             },
-            // 递归找父级
-            getPidDictNext(dictDatas, dictData) {
+            // 递归找到父级
+            getFatherDictNext(dictDatas, dictData) {
                 for (let i = 0; i < dictDatas.length; i++) {
                     if (dictDatas[i].id === dictData.pid) {
                         return dictDatas[i];
                     } else {
                         if (dictDatas[i].dictList != null && dictDatas[i].dictList.length > 0) {
-                            let newDictData = this.getPidDictNext(dictDatas[i].dictList, dictData)
+                            let newDictData = this.getFatherDictNext(dictDatas[i].dictList, dictData)
                             if (newDictData != null) {
                                 return newDictData;
                             }
                         }
+                    }
+                }
+            },
+            // 递归获取自己 + 自己的下级ids
+            getDictNextIds(dict, dictIds) {
+                for (let i = 0; i < dict.length; i++) {
+                    dictIds.push(dict[i].id)
+                    if (dict[i].dictList !== null) {
+                        this.getDictNextIds(dict[i].dictList, dictIds);
                     }
                 }
             },
@@ -109,7 +128,7 @@
                     this.$message.error("不能选择当前字典")
                     throw new Error("不能选择当前字典");
                 }
-                if(pid == this.rowData.pid){
+                if (pid == this.rowData.pid) {
                     this.$message.error("分配前的父级字典不能和分配后的父级字典相同")
                     throw new Error("分配前的父级字典不能和分配后的父级字典相同");
                 }

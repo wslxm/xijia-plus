@@ -23,6 +23,7 @@
                 data: [],
                 option: {},
                 checkedRow: {}, //当前选中行数据
+                noCheckedRowIds: [], //当前选中下级ids
             }
         },
         props: {
@@ -51,9 +52,13 @@
             this.option.treeProps = {
                 children: 'menus'
             };
+            // 不能选择自己及下级
+            this.option.selectable = (row, index) => {
+                return this.noCheckedRowIds.indexOf(row.id) === -1;
+            };
             this.option.column = [
                 {
-                    label: '字典名',
+                    label: '菜单名称',
                     prop: 'name',
                     align: 'left',
                     width: 300,
@@ -71,8 +76,12 @@
                     this.data = res.data.data;
                     // 找到当前选中数据的父级
                     this.checkedRow = this.getPidNext(this.data, newRowData);
-                    // 默认选中
-                    this.$refs.crudMenuPid.toggleSelection([this.checkedRow]);
+                    // 默认选中父级
+                    this.$refs.crudMenuPid.toggleSelection([ this.checkedRow]);
+                    // 当前行+下级的ids 禁止选择
+                    this.getMenuNextIds([newRowData], this.noCheckedRowIds)
+
+
                 })
             },
             // 递归找父级
@@ -90,6 +99,16 @@
                     }
                 }
             },
+            // 递归获取自己 + 自己的下级ids
+            getMenuNextIds(menu, menuIds) {
+                for (let i = 0; i < menu.length; i++) {
+                    menuIds.push(menu[i].id)
+                    if (menu[i].menus !== null) {
+                        this.getMenuNextIds(menu[i].menus, menuIds);
+                    }
+                }
+            },
+
             /**
              * 勾选 请求方式处理数据
              * @author wangsong
@@ -106,11 +125,11 @@
             updPid() {
 
                 let pid = this.checkedRow.id;
-                if(pid == this.rowData.id){
+                if (pid == this.rowData.id) {
                     this.$message.error("不能选择当前菜单")
                     throw new Error("不能选择当前菜单");
                 }
-                if(pid == this.rowData.pid){
+                if (pid == this.rowData.pid) {
                     this.$message.error("分配前的父级菜单不能和分配后的父级菜单相同")
                     throw new Error("分配前的父级菜单不能和分配后的父级菜单相同");
                 }

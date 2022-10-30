@@ -142,7 +142,7 @@
                         {
                             label: '描述',
                             prop: 'desc',
-                            maxlength: 128,
+                            maxlength: 1024,
                             showWordLimit: true,
                             span: 20,
                             rules: [{
