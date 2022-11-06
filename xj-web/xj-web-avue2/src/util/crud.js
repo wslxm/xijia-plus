@@ -100,8 +100,10 @@ export default {
             elink.style.display = "none";                       // 隐藏标签
             elink.href = window.URL.createObjectURL(blob);      // 配置href
             // 获取名称
-            let filename = res.headers["content-disposition"]
-            elink.download = filename.split(';')[1].split('=')[1]
+            let filename = res.headers["content-disposition"];
+            let newFilename = filename.split(';')[1].split('=')[1];
+            newFilename = decodeURIComponent(newFilename);
+            elink.download = newFilename;
             elink.click();
             URL.revokeObjectURL(elink.href);   // 释放URL 对象
             document.body.removeChild(elink);  // 移除<a>标签

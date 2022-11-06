@@ -83,6 +83,17 @@ public class RedisUtil {
         }
     }
 
+    /**
+     * 删除缓存
+     *
+     * @param key 可以传一个值 或多个
+     */
+    public void delete(Set<String> keys) {
+        if (keys != null && !keys.isEmpty()) {
+            redisTemplate.delete(keys);
+        }
+    }
+
     //============================String=============================
 
     /**
@@ -94,6 +105,17 @@ public class RedisUtil {
     public Object get(String key) {
         return key == null ? null : redisTemplate.opsForValue().get(key);
     }
+
+
+    /**
+     * 根据前缀获取所有的key
+     * 例如：pro_*
+     */
+    public Set<String> getListKey(String prefix) {
+        Set<String> keys = redisTemplate.keys(prefix + "*");
+        return keys;
+    }
+
 
     /**
      * 普通缓存放入

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -51,7 +52,8 @@ public class FileController {
     @Value("${file.channel:LOCAL}")
     private String fileChannel;
 
-
+    @Autowired
+    private HttpServletRequest request;
     @Autowired
     private HttpServletResponse response;
 
@@ -75,6 +77,14 @@ public class FileController {
                                  @RequestParam(required = false) Integer resType) {
         // 指定文件处理渠道
         FileStrategy fileStrategy = fileChannelContext.getChannel(fileChannel);
+
+        // 上传的最后一级目录拼接来源的最后一级地址
+        String referer = request.getHeader("referer");
+        if (referer != null) {
+            String[] refererArray = referer.split("/");
+            filePath += refererArray[refererArray.length - 1] + "/";
+        }
+
         // 验证文件格式、保存路径，并处理文件名防止重复
         String fileName = FileUploadUtil.getPath(filePath, file.getOriginalFilename());
         // 上传

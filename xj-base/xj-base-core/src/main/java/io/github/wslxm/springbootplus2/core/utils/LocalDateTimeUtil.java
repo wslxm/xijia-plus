@@ -291,13 +291,18 @@ public class LocalDateTimeUtil {
 
     /**
      * 获取17位时间戳字符串+3位随机数
-     * <p>  这里增加了线程锁和延时一毫秒，单体项目100%不会重复，可用于生成订单号  </p>
+     * <p>  这里增加了延时一毫秒，单体项目100%不会重复，可用于生成订单号  </p>
      * 20200101125959999  2020-01-01 12:59:59:999
      *
      * @return
      * @author wangsong
      */
-    public static synchronized String getNo() {
+    public static String getNo() {
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
         timeStamp += (random.nextInt(10) + "") + (random.nextInt(10) + "") + (random.nextInt(10) + "");
         return timeStamp;

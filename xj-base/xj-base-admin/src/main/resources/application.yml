@@ -84,6 +84,6 @@ gc:
   # 数据库通用字段配置
   basefields: id,create_user,update_user,create_time,update_time,deleted,version
   # 数据库关键字,标注后会在实体类 @TableField 注解上自动加引号
-  keywordArray: time,desc,name,key,value,mysql,info,form,sort,icon,like,unlock,unLock,comment,disable,force,describe
+  keywordArray: time,desc,name,key,value,mysql,info,form,sort,icon,like,unlock,unLock,comment,disable,force,describe,host,port,from,to
 
 

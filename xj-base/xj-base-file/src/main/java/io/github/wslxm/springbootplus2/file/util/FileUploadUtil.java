@@ -123,7 +123,7 @@ public class FileUploadUtil {
         if (excludeFileSuffix != null && excludeFileSuffix.contains(suffixName)) {
             throw new ErrorException("禁止上传文件格式:" + excludeFileSuffix.toString());
         }
-        return getTimeStr8() + "-" + fileName;
+        return getTimeStr12() + "-" + fileName;
     }
 
 
@@ -141,6 +141,22 @@ public class FileUploadUtil {
         String timeStamp = new SimpleDateFormat("ssSSS").format(new Date());
         Random random = new Random();
         for (int i = 0; i < 3; i++) {
+            timeStamp += (random.nextInt(10) + "");
+        }
+        return timeStamp;
+    }
+
+    /**
+     * // 原 获取随机串（时间-- 2位秒+3位毫秒+3位随机数 = 8位随机串）
+     * 新 获取随机串（时间-- 8位年月日 +3位时间戳= 1位随机数 = 12位可以区分日期的随机串）
+     *
+     * @return
+     */
+    private static String getTimeStr12() {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd-SSS").format(new Date());
+        // String timeStamp = new SimpleDateFormat("yyyyMMddssSSS").format(new Date());
+        Random random = new Random();
+        for (int i = 0; i < 1; i++) {
             timeStamp += (random.nextInt(10) + "");
         }
         return timeStamp;
