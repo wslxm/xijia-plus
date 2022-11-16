@@ -75,6 +75,8 @@ public class LocalFileStrategy implements FileStrategy {
 
     @Override
     public Boolean del(String filePath) {
+        // 去除访问地址
+        filePath = filePath.replace(baseUrl, "");
         File delFile = new File(filePath);
         return FileUtil.del(delFile);
     }
