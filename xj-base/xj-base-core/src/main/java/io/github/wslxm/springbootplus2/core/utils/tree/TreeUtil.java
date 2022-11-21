@@ -10,12 +10,9 @@ import java.util.stream.Collectors;
 
 /**
  * 树结构工具类
+ * 文档：https://gitee.com/wslxm/xijia-plus/wikis/%E5%B7%A5%E5%85%B7%E7%B1%BB/%E6%A0%91%E7%BB%93%E6%9E%84%E5%B7%A5%E5%85%B7%20TreeUtil%20
  *
  * <P>
- *     api列表
- *      1、递归list转tree： nextTree(TreeConfig config, List<T> ts, P pt, Integer hierarchy, List<String> datas)
- *      2、
- *
  *     ts 中的对象需继承 BaseTree 父对象类, 示例 extends BaseTree<MediaCategoryVO,String>
  *     如果你的数据结构是不是 id / pid 进行关联，那么在你的类中需要重BaseTree中的 id / pid 的 set / get 方法读取和设置你的关联key值
  *
