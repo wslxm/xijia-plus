@@ -13,13 +13,12 @@ import org.springframework.context.annotation.Configuration;
  * @return
  * @version 1.0.1
  */
-@SuppressWarnings("all")
-@Configuration
-@ConfigurationProperties(prefix = "file.aliyun-oss")
+@SuppressWarnings("ALL")
 @Data
 @Slf4j
 public class AliYunOssProperties {
 
+    private String path;            // 文件存储路径
     private String bucket;          // Bucket 域名 （访问文件的域名）
     private String endpoint;        // Endpoint地域节点 （上传文件的域名）
     private String accessKeyId;     // 阿里云下oss 的 accessKeyId  (访问密钥，您可以在控制台上创建和查看)
@@ -27,4 +26,3 @@ public class AliYunOssProperties {
     private String bucketName;      // Bucket 名称
 
 }
-

@@ -71,6 +71,8 @@ public class FileUploadUtil {
         fileName = fileName.replaceAll("\\+", "")
                 .replaceAll(" ", "")
                 .replaceAll("/", "")
+                .replaceAll("\\)", "")
+                .replaceAll("\\(", "")
                 .replaceAll("\\?", "")
                 .replaceAll("%", "")
                 .replaceAll("#", "")

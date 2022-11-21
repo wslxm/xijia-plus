@@ -46,6 +46,7 @@ import com.aliyun.oss.model.ObjectListing;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectRequest;
 import io.github.wslxm.springbootplus2.file.config.AliYunOssProperties;
+import io.github.wslxm.springbootplus2.file.config.FileProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,7 +86,7 @@ public class OSSUtil {
     private HttpServletRequest request;
 
     @Autowired
-    private AliYunOssProperties aliYunOssProperties;
+    private FileProperties fileProperties;
 
     /**
      * 文件客户端对象
@@ -99,6 +100,7 @@ public class OSSUtil {
     private void init() {
         // 创建ossClient
         if (ossClient == null) {
+            AliYunOssProperties aliYunOssProperties = fileProperties.getAliyunOss();
             ossClient = new OSSClientBuilder().build(aliYunOssProperties.getEndpoint(), aliYunOssProperties.getAccessKeyId(), aliYunOssProperties.getAccessKeySecret());
         }
     }
@@ -116,9 +118,11 @@ public class OSSUtil {
      */
     public String upload(String uploadPath,String filePath, String fileName, InputStream inputStream) {
         this.init();
+
         // 表示上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg。
         String yourObjectName = uploadPath + filePath + fileName;
         // 创建PutObjectRequest对象。
+        AliYunOssProperties aliYunOssProperties = fileProperties.getAliyunOss();
         PutObjectRequest putObjectRequest = new PutObjectRequest(aliYunOssProperties.getBucketName(), yourObjectName, inputStream);
         // 设置 ContentType 类型 ,防止图片等资源无法使用url直接访问，没有对应格式时,不处理，使用文件对应的默认格式
         ObjectMetadata metadata = new ObjectMetadata();
@@ -143,6 +147,7 @@ public class OSSUtil {
      */
     public List<OSSObjectSummary> getObjectListing() {
         this.init();
+        AliYunOssProperties aliYunOssProperties = fileProperties.getAliyunOss();
         ObjectListing objectListing = ossClient.listObjects(aliYunOssProperties.getBucketName());
         List<OSSObjectSummary> objectSummary = objectListing.getObjectSummaries();
         // 关闭OSSClient。
@@ -157,6 +162,7 @@ public class OSSUtil {
     public boolean deleteObject(String firstKey) {
         this.init();
         // 创建PutObjectRequest对象。
+        AliYunOssProperties aliYunOssProperties = fileProperties.getAliyunOss();
         ossClient.deleteObject(aliYunOssProperties.getBucketName(), firstKey);
         log.info("删除Object：" + firstKey + "成功。");
         // 关闭OSSClient。

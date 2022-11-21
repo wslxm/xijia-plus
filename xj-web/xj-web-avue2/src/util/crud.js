@@ -44,13 +44,14 @@ export default {
     },
 
     // 删除
-    async del(uri, params) {
+    async del(uri, data, params) {
         console.debug("del => uri:", uri, "  params:", params)
         return await request.delete(baseProxyPathRewrite + uri, {
             method: 'delete',
             meta: {
                 isSerialize: false
             },
+            data: data,
             params: params
         })
     },
@@ -156,12 +157,12 @@ export default {
         // 查询参数
         let params = {};
         // 处理参数，如果存在数组查询参数，转为逗号分割的参数进行查询
-        if(thih.search != null){
+        if (thih.search != null) {
             for (let k in thih.search) {
                 let v = thih.search[k];
                 if (v instanceof Array) {
                     params[k] = v.join(",");
-                }else{
+                } else {
                     params[k] = v;
                 }
             }

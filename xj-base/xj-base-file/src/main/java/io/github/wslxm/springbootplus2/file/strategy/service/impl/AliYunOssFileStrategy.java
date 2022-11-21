@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.file.strategy.service.impl;
 
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
+import io.github.wslxm.springbootplus2.file.config.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
 import io.github.wslxm.springbootplus2.file.util.OSSUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +27,19 @@ public class AliYunOssFileStrategy implements FileStrategy {
     private OSSUtil ossUtil;
 
     /**
-     * 上传后保存的跟路径地址
+     * 文件上传配置
      */
-    @Value("${file.aliyun-oss.path}")
-    private String uploadPath;
+    @Autowired
+    private FileProperties fileProperties;
+
 
     @Override
     public String upload(MultipartFile file, String filePath, String fileName) {
         String url = null;
         try {
             InputStream inputStream = file.getInputStream();
-            url = ossUtil.upload(uploadPath, filePath, fileName, inputStream);
+            // 参数1：上传后保存的跟路径地址
+            url = ossUtil.upload(fileProperties.getAliyunOss().getPath(), filePath, fileName, inputStream);
         } catch (IOException e) {
             throw new ErrorException("上传过程中遇到错误");
         }

@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.file.controller;
 
 import io.github.wslxm.springbootplus2.core.result.Result;
+import io.github.wslxm.springbootplus2.file.config.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.context.FileChannelContext;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
 import io.github.wslxm.springbootplus2.file.util.FileDownloadUtil;
@@ -10,7 +11,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,10 +47,10 @@ public class FileController {
     private FileChannelContext fileChannelContext;
 
     /**
-     * 文件渠道
+     * 文件上传配置
      */
-    @Value("${file.channel:LOCAL}")
-    private String fileChannel;
+    @Autowired
+    private FileProperties fileProperties;
 
     @Autowired
     private HttpServletRequest request;
@@ -76,11 +76,12 @@ public class FileController {
                                  @RequestParam(required = true) String filePath,
                                  @RequestParam(required = false) Integer resType) {
         // 指定文件处理渠道
-        FileStrategy fileStrategy = fileChannelContext.getChannel(fileChannel);
+        FileStrategy fileStrategy = fileChannelContext.getChannel(fileProperties.getChannel());
 
         // 上传的最后一级目录拼接来源的最后一级地址
         String referer = request.getHeader("referer");
         if (referer != null) {
+            referer = referer.split("\\?")[0];
             String[] refererArray = referer.split("/");
             filePath += refererArray[refererArray.length - 1] + "/";
         }
@@ -112,7 +113,7 @@ public class FileController {
     @ApiImplicitParam(name = "filePath", value = "文件保存的完整可访问URL,或OSS相对路径", required = true)
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     public Object del(@RequestParam String filePath) {
-        FileStrategy fileStrategy = fileChannelContext.getChannel(fileChannel);
+        FileStrategy fileStrategy = fileChannelContext.getChannel(fileProperties.getChannel());
         return Result.success(fileStrategy.del(filePath));
     }
 
