@@ -12,3 +12,7 @@ ADD xijia-plus-demo.jar /data/xijia-plus-demo.jar
 VOLUME /data
 ## run容器后的执行命令
 ENTRYPOINT ["java","-jar","-Xms256m","-Xmx512m","-Dspring.profiles.active=pro","/data/xijia-plus-demo.jar"]
+## 时区
+ENV TZ=Asia/Shanghai
+
+
