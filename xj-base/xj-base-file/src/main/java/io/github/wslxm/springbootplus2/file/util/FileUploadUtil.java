@@ -69,10 +69,12 @@ public class FileUploadUtil {
 
         // 文件名中对url中不安全的字符处理
         fileName = fileName.replaceAll("\\+", "")
+                .replaceAll("（", "")
+                .replaceAll("）", "")
+                .replaceAll("\\(", "")
+                .replaceAll("\\)", "")
                 .replaceAll(" ", "")
                 .replaceAll("/", "")
-                .replaceAll("\\)", "")
-                .replaceAll("\\(", "")
                 .replaceAll("\\?", "")
                 .replaceAll("%", "")
                 .replaceAll("#", "")

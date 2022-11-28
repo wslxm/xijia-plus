@@ -2,6 +2,8 @@ package io.github.wslxm.springbootplus2.file.strategy.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
+
 /**
  * 文件策略类 （目前支持 上传/删除）
  * <P>
@@ -19,12 +21,12 @@ public interface FileStrategy {
 
     /**
      * 文件上传
-     * @param file     上传的文件
+     * @param inputStream 上传的文件流
      * @param filePath 文件存储路径 (子路径)
      * @param fileName 文件名(已处理防重后的文件名)
      * @return
      */
-    public String upload(MultipartFile file, String filePath, String fileName);
+    public String upload(InputStream inputStream, String filePath, String fileName);
 
 
     /**

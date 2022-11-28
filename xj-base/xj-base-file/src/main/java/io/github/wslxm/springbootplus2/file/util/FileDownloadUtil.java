@@ -82,20 +82,23 @@ public class FileDownloadUtil {
      * @return void
      * @version 1.0.1
      */
-    public static void download(String filePath, String fileName, HttpServletResponse response) {
-        // 下载网络文件
-        int index = filePath.lastIndexOf("/");
-        String newFilePath = filePath.substring(0, index + 1);
-        String newFileName = filePath.substring(index + 1);
+    public static void download(String filePath, HttpServletResponse response) {
+        // 获取文件名称
+        String fileName = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.length());
         try {
+            // 处理文件名编码问题
+            int index = filePath.lastIndexOf("/");
+            String newFilePath = filePath.substring(0, index + 1);
+            String newFileName = filePath.substring(index + 1);
             newFilePath = newFilePath + URLEncoder.encode(fileName, "utf-8");
+            // 下载网络文件
             URL url = new URL(newFilePath);
             //文件流
             URLConnection conn = url.openConnection();
             InputStream in = conn.getInputStream();
             // 设置response的Header
             //response.addHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes()));
-            response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName , "UTF-8"));
+            response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
             response.setContentType("application/octet-stream");
             response.setHeader("content-type", "application/octet-stream");
             response.addHeader("Content-Length", conn.getContentLength() + "");//文件长度

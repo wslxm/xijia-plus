@@ -3,15 +3,15 @@
 </style>
 <template>
     <div>
-        <avue-crud style="margin-top: -13%"
+        <avue-crud style="margin-top: -0%"
                    ref="crudDictPid"
                    :data="data"
                    :option="option"
                    @select="select"
         ></avue-crud>
-        <el-row style="margin-left: 32%">
-            <el-button type="primary" @click="updPid()">提交</el-button>
-            <el-button type="primary" @click="emptytChange()">关闭</el-button>
+        <el-row style="margin-left: 32%;margin-top: 2%">
+            <el-button style="float: right; margin-right: 20px" size="small" @click="updPid()">提交</el-button>
+            <el-button style="float: right; margin-right: 10px" size="small" @click="emptytChange()">关闭</el-button>
         </el-row>
     </div>
 </template>
@@ -61,7 +61,7 @@
                     label: '字典名',
                     prop: 'name',
                     align: 'left',
-                    width: 300,
+                    //width: 300,
                 }
             ]
         },

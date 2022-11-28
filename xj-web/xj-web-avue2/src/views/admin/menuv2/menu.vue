@@ -68,7 +68,7 @@
             <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
-        <el-dialog title="变更父级" v-dialogDrag v-if="updPidDialogVisible" :visible.sync="updPidDialogVisible" width="25%" @close="closeDialog">
+        <el-dialog title="变更父级" v-dialogDrag v-if="updPidDialogVisible" :visible.sync="updPidDialogVisible" width="35%" @close="closeDialog">
             <UpdPid :closeDialog="closeDialog" :uri="uri" :rowData="rowTreeData"></UpdPid>
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>

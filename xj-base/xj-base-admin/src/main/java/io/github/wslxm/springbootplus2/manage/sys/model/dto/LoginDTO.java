@@ -21,7 +21,7 @@ public class LoginDTO {
 
     @ApiModelProperty(value = "密码")
     @XjSecret
-    @Length(min = 1,max = 20,message = "密码必须大于1且小于20位")
+    // @Length(min = 1,max = 20,message = "密码必须大于1且小于20位")
     private String password;
 
 }

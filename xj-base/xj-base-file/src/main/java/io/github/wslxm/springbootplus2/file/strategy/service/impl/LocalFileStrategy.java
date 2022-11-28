@@ -2,10 +2,9 @@ package io.github.wslxm.springbootplus2.file.strategy.service.impl;
 
 import cn.hutool.core.io.FileUtil;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
-import io.github.wslxm.springbootplus2.file.config.FileProperties;
+import io.github.wslxm.springbootplus2.file.properties.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,9 +36,8 @@ public class LocalFileStrategy implements FileStrategy {
     private HttpServletRequest request;
 
     @Override
-    public String upload(MultipartFile file, String filePath, String fileName) {
+    public String upload(InputStream inputStream, String filePath, String fileName) {
         try {
-            InputStream inputStream = file.getInputStream();
             // 目录路径
             String baseUrl = fileProperties.getLocal().getBaseUrl();
             String uploadPath = fileProperties.getLocal().getPath();

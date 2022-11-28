@@ -1,15 +1,11 @@
 package io.github.wslxm.springbootplus2.file.strategy.service.impl;
 
-import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
-import io.github.wslxm.springbootplus2.file.config.FileProperties;
+import io.github.wslxm.springbootplus2.file.properties.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
 import io.github.wslxm.springbootplus2.file.util.OSSUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 
@@ -34,15 +30,9 @@ public class AliYunOssFileStrategy implements FileStrategy {
 
 
     @Override
-    public String upload(MultipartFile file, String filePath, String fileName) {
-        String url = null;
-        try {
-            InputStream inputStream = file.getInputStream();
-            // 参数1：上传后保存的跟路径地址
-            url = ossUtil.upload(fileProperties.getAliyunOss().getPath(), filePath, fileName, inputStream);
-        } catch (IOException e) {
-            throw new ErrorException("上传过程中遇到错误");
-        }
+    public String upload(InputStream inputStream, String filePath, String fileName) {
+        // 参数1：上传后保存的跟路径地址
+        String url = ossUtil.upload(fileProperties.getAliyunOss().getPath(), filePath, fileName, inputStream);
         return url;
     }
 

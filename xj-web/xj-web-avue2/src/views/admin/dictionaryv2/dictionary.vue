@@ -72,7 +72,7 @@
                    adminDictionary.vue
                    v-if="updPidDialogVisible"
                    :visible.sync="updPidDialogVisible"
-                   width="30%"
+                   width="35%"
                    top="6vh"
                    @close="closeDialog">
             <AdminDictionaryPid :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></AdminDictionaryPid>

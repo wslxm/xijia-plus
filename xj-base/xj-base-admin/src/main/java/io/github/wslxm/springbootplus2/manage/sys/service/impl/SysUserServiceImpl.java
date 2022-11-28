@@ -96,6 +96,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     @Transactional(rollbackFor = Exception.class)
     @XjDistributedLock(lockName = "'xj-sys-user_'+ #dto.username +'_' + #dto.phone",waitTime = 5L)
     public String insert(SysUserDTO dto) {
+        ValidUtil.isStrLen(dto.getPassword(),1,20,"密码必须大于1且小于20位");
         // 判重账号/判重电话
         this.verifyRepeatUsername(dto.getUsername(), null);
         this.verifyRepeatPhone(dto.getPhone(), null);
@@ -193,6 +194,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public Boolean login(LoginDTO dto) {
+        ValidUtil.isStrLen(dto.getPassword(),1,20,"密码必须大于1且小于20位");
         SysUser user = loginUsernameOrPhone(dto.getUsername(), dto.getPassword());
         // 登录成功
         // 获取token 默认设置的有效期
@@ -217,6 +219,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public Boolean updResetPassword(String id, String password) {
+        ValidUtil.isStrLen(password,1,20,"密码必须大于1且小于20位");
         return this.update(new SysUser(), new LambdaUpdateWrapper<SysUser>()
                 .set(SysUser::getPassword, Md5Util.encode(password, id))
                 .eq(SysUser::getId, id));
@@ -225,6 +228,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public Boolean updByPassword(String oldPassword, String password) {
+        ValidUtil.isStrLen(password,1,20,"密码必须大于1且小于20位");
         SysUser adminUser = this.getById(JwtUtil.getJwtUser(request).getUserId());
         if (!adminUser.getPassword().equals(Md5Util.encode(oldPassword, adminUser.getId()))) {
             throw new ErrorException(ResultType.USER_PASSWORD_ERROR);

@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.file.controller;
 
 import io.github.wslxm.springbootplus2.core.result.Result;
-import io.github.wslxm.springbootplus2.file.config.FileProperties;
+import io.github.wslxm.springbootplus2.file.properties.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.context.FileChannelContext;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
 import io.github.wslxm.springbootplus2.file.util.FileDownloadUtil;
@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -58,6 +59,7 @@ public class FileController {
     private HttpServletResponse response;
 
 
+    @SneakyThrows
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ApiOperation("文件上传,可在指定路径后追加子路径,以/结尾，上传成功返回完整可访问URL")
     @ApiImplicitParams({
@@ -89,7 +91,7 @@ public class FileController {
         // 验证文件格式、保存路径，并处理文件名防止重复
         String fileName = FileUploadUtil.getPath(filePath, file.getOriginalFilename());
         // 上传
-        String url = fileStrategy.upload(file, filePath, fileName);
+        String url = fileStrategy.upload(file.getInputStream(), filePath, fileName);
         // 返回数据处理
         if (resType == null || resType == 1) {
             return Result.success(url);
@@ -121,9 +123,7 @@ public class FileController {
     @ApiImplicitParam(name = "filePath", value = "文件可访问的完整URL", required = true)
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void downloadNet(@RequestParam String filePath) {
-        // 获取文件名称
-        String fileName = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.length());
-        FileDownloadUtil.download(filePath, fileName, response);
+        FileDownloadUtil.download(filePath, response);
     }
 
     @ApiOperation("文件下载--多文件下载 (批量下载-打压缩包)")
