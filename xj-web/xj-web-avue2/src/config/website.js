@@ -106,7 +106,7 @@ export default {
      * @return
      */
     treeOption: {
-        elAsideWidth: "250px",         // 宽度
+        //elAsideWidth: "250px",         // 宽度
         //title:'标题',                 // 新增编辑弹层标题
         //dialogWidth:'50%',            // 新增编辑弹层宽度
         filterText: "搜索关键字",        // 搜索提示

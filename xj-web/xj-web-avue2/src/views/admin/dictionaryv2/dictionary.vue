@@ -1,51 +1,56 @@
 <template>
     <div>
-        <el-container>
-            <el-aside style="margin-left: 1%;margin-top: 7.5px" :width="treeOption.elAsideWidth">
-                <avue-tree :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
-            </el-aside>
-            <el-main>
-                <avue-crud ref="crudDict"
-                           :data="data"
-                           :option="option"
-                           :page.sync="page"
-                           :search.sync="search"
-                           :table-loading="loading"
-                           :cell-style="cellStyle"
-                           @on-load="onLoad"
-                           @refresh-change="onLoad"
-                           @search-change="searchChange"
-                           @row-click="handleRowClick">
-                    <!-- 启用/禁用插槽(默认提供,按需使用) -->
-                    <template slot-scope="{row,index,type,size}" slot="disable">
-                        <el-switch v-model="row.disable" @change="updDisable(row)"
-                                   active-color="#13ce66" inactive-color="#ff4949"
-                                   :active-value=0 :inactive-value=1
-                                   active-text="" inactive-text="">
-                        </el-switch>
-                    </template>
+        <el-card class="box-card" style="width: 100%;margin-left: 0%">
+            <el-row>
+                <!-- 左边媒体分类树结构数据 -->
+                <el-col :span="5">
+                    <el-card class="box-card" style="width: 98%;">
+                        <avue-tree :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
+                    </el-card>
+                </el-col>
+                <el-col :span="19">
+                    <avue-crud ref="crudDict"
+                               :data="data"
+                               :option="option"
+                               :page.sync="page"
+                               :search.sync="search"
+                               :table-loading="loading"
+                               :cell-style="cellStyle"
+                               @on-load="onLoad"
+                               @refresh-change="onLoad"
+                               @search-change="searchChange"
+                               @row-click="handleRowClick">
+                        <!-- 启用/禁用插槽(默认提供,按需使用) -->
+                        <template slot-scope="{row,index,type,size}" slot="disable">
+                            <el-switch v-model="row.disable" @change="updDisable(row)"
+                                       active-color="#13ce66" inactive-color="#ff4949"
+                                       :active-value=0 :inactive-value=1
+                                       active-text="" inactive-text="">
+                            </el-switch>
+                        </template>
 
-                    <!-- 列表上进行编辑sort -->
-                    <template slot-scope="{row,index,type,size}" slot="sort">
-                        <el-input v-model="row.sort" @blur="rowSortBlur(row)" placeholder=""></el-input>
-                    </template>
+                        <!-- 列表上进行编辑sort -->
+                        <template slot-scope="{row,index,type,size}" slot="sort">
+                            <el-input v-model="row.sort" @blur="rowSortBlur(row)" placeholder=""></el-input>
+                        </template>
 
-                    <!-- 新增父类  -->
-                    <template slot-scope="" slot="menuLeft">
-                        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="updRow({},0)">顶级</el-button>
-                        <el-button type="primary" plain icon="el-icon-plus" size="mini" v-show="!checkNumber(rowTreeData.code)" @click="updRow(rowTreeData,2)">子级</el-button>
-                        <el-button type="primary" plain size="mini" @click="updRow(rowTreeData,3) ">变更父级</el-button>
-                        <el-button type="primary" plain size="mini" @click="generateDict()">生成枚举</el-button>
-                        <el-button type="primary" plain size="mini" @click="findLeftTree()">重载左侧</el-button>
-                    </template>
+                        <!-- 新增父类  -->
+                        <template slot-scope="" slot="menuLeft">
+                            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="updRow({},0)">顶级</el-button>
+                            <el-button type="primary" plain icon="el-icon-plus" size="mini" v-show="!checkNumber(rowTreeData.code)" @click="updRow(rowTreeData,2)">子级</el-button>
+                            <el-button type="primary" plain size="mini" @click="updRow(rowTreeData,3) ">变更父级</el-button>
+                            <el-button type="primary" plain size="mini" @click="generateDict()">生成枚举</el-button>
+                            <el-button type="primary" plain size="mini" @click="findLeftTree()">重载左侧</el-button>
+                        </template>
 
-                    <template slot-scope="{row,index,type,size}" slot="menu">
-                        <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
-                        <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
-                    </template>
-                </avue-crud>
-            </el-main>
-        </el-container>
+                        <template slot-scope="{row,index,type,size}" slot="menu">
+                            <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
+                            <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
+                        </template>
+                    </avue-crud>
+                </el-col>
+            </el-row>
+        </el-card>
 
         <!-- 弹层 -->
         <el-dialog :title="rowData.name?'新增 - ['+ rowData.name + '] - 子类':'新增父类'"
@@ -253,7 +258,7 @@
                 this.crud.delRow(this, this.uri.info, row.id, index);
             },
             // 排序
-            rowSortBlur(row){
+            rowSortBlur(row) {
                 if (this.rowData.sort != row.sort) {
                     this.crud.put(this.uri.info + "/" + row.id, {sort: row.sort});
                 }

@@ -1,64 +1,68 @@
 <template>
     <div>
-        <el-container>
-            <el-aside style="margin-left: 1%;margin-top: 7.5px" :width="treeOption.elAsideWidth">
-                <avue-tree :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
-            </el-aside>
-            <el-main>
-                <avue-crud ref="crudMenu"
-                           :data="data"
-                           :option="option"
-                           :search.sync="search"
-                           :table-loading="loading"
-                           :cell-style="cellStyle"
-                           @on-load="onLoad"
-                           @refresh-change="onLoad"
-                           @search-change="searchChange"
-                           @row-click="handleRowClick">
+        <el-card class="box-card" style="width: 100%;margin-left: 0%">
+            <el-row>
+                <!-- 左边媒体分类树结构数据 -->
+                <el-col :span="5">
+                    <el-card class="box-card" style="width: 98%;">
+                        <avue-tree :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
+                    </el-card>
+                </el-col>
+                <el-col :span="19">
+                    <avue-crud ref="crudMenu"
+                               :data="data"
+                               :option="option"
+                               :search.sync="search"
+                               :table-loading="loading"
+                               :cell-style="cellStyle"
+                               @on-load="onLoad"
+                               @refresh-change="onLoad"
+                               @search-change="searchChange"
+                               @row-click="handleRowClick">
 
-                    <template slot-scope="" slot="menuLeft">
-                        <el-button type="primary" plain icon="el-icon-plus" v-show="rowTreeData.root === 1" size="mini" @click="addDialogVisible = true">目录</el-button>
-                        <el-button type="primary" plain icon="el-icon-plus" v-show="rowTreeData.root <= 2" size="mini" @click="updRow(rowTreeData,2)">菜单</el-button>
-                        <el-button type="primary" plain icon="el-icon-plus" v-show="rowTreeData.root <= 2" size="mini" @click="updRow(rowTreeData,3)">页面</el-button>
-                        <el-button type="primary" plain icon="el-icon-plus" v-show="rowTreeData.root >= 2" size="mini" @click="updRow(rowTreeData,4)">变更父级</el-button>
-                        <el-button type="primary" plain size="mini" @click="findLeftTree()">重载左侧</el-button>
-                    </template>
+                        <template slot-scope="" slot="menuLeft">
+                            <el-button type="primary" plain icon="el-icon-plus" v-show="rowTreeData.root === 1" size="mini" @click="addDialogVisible = true">目录</el-button>
+                            <el-button type="primary" plain icon="el-icon-plus" v-show="rowTreeData.root <= 2" size="mini" @click="updRow(rowTreeData,2)">菜单</el-button>
+                            <el-button type="primary" plain icon="el-icon-plus" v-show="rowTreeData.root <= 2" size="mini" @click="updRow(rowTreeData,3)">页面</el-button>
+                            <el-button type="primary" plain icon="el-icon-plus" v-show="rowTreeData.root >= 2" size="mini" @click="updRow(rowTreeData,4)">变更父级</el-button>
+                            <el-button type="primary" plain size="mini" @click="findLeftTree()">重载左侧</el-button>
+                        </template>
 
-                    <!-- 图标 -->
-                    <!--  <template slot-scope="{row,index,type,size}" slot="icon">-->
-                    <!--      <i :class="row.icon"></i>-->
-                    <!--  </template>-->
-                    <!-- 列表上进行编辑url -->
-                    <template slot-scope="{row,index,type,size}" slot="url">
-                        <el-input v-model="row.url" @blur="rowUrlBlur(row)" placeholder=""></el-input>
-                    </template>
-                    <!-- 列表上进行编辑sort -->
-                    <template slot-scope="{row,index,type,size}" slot="sort">
-                        <el-input v-model="row.sort" @blur="rowSortBlur(row)" placeholder=""></el-input>
-                    </template>
-                    <template slot-scope="{scope,row,index,type,size}" slot="disable">
-                        <el-switch v-model="row.disable" @change="updDisable(row,index,row.disable)"
-                                   active-color="#13ce66" inactive-color="#ff4949"
-                                   :active-value=0 :inactive-value=1
-                                   active-text="" inactive-text="">
-                        </el-switch>
-                    </template>
-                    <!--                    <template slot-scope="{row,index,type,size}" slot="addMenuOrPage">-->
-                    <!--                        <el-button type="primary" plain icon="el-icon-plus" v-show="row.root <= 2" size="mini" @click="updRow(row,2)">菜单</el-button>-->
-                    <!--                        <el-button type="primary" plain icon="el-icon-plus" v-show="row.root <= 2" size="mini" @click="updRow(row,3)">页面</el-button>-->
-                    <!--                    </template>-->
-                    <template slot-scope="{row,index,type,size}" slot="menu">
-                        <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
-                        <!-- <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,4)">变更父级</el-button>-->
-                        <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
-                    </template>
-                    <template slot-scope="{row,index,type,size}" slot="head">
-                        <el-avatar :src="row.head"></el-avatar>
-                    </template>
-                </avue-crud>
-            </el-main>
-        </el-container>
-
+                        <!-- 图标 -->
+                        <!--  <template slot-scope="{row,index,type,size}" slot="icon">-->
+                        <!--      <i :class="row.icon"></i>-->
+                        <!--  </template>-->
+                        <!-- 列表上进行编辑url -->
+                        <template slot-scope="{row,index,type,size}" slot="url">
+                            <el-input v-model="row.url" @blur="rowUrlBlur(row)" placeholder=""></el-input>
+                        </template>
+                        <!-- 列表上进行编辑sort -->
+                        <template slot-scope="{row,index,type,size}" slot="sort">
+                            <el-input v-model="row.sort" @blur="rowSortBlur(row)" placeholder=""></el-input>
+                        </template>
+                        <template slot-scope="{scope,row,index,type,size}" slot="disable">
+                            <el-switch v-model="row.disable" @change="updDisable(row,index,row.disable)"
+                                       active-color="#13ce66" inactive-color="#ff4949"
+                                       :active-value=0 :inactive-value=1
+                                       active-text="" inactive-text="">
+                            </el-switch>
+                        </template>
+                        <!--                    <template slot-scope="{row,index,type,size}" slot="addMenuOrPage">-->
+                        <!--                        <el-button type="primary" plain icon="el-icon-plus" v-show="row.root <= 2" size="mini" @click="updRow(row,2)">菜单</el-button>-->
+                        <!--                        <el-button type="primary" plain icon="el-icon-plus" v-show="row.root <= 2" size="mini" @click="updRow(row,3)">页面</el-button>-->
+                        <!--                    </template>-->
+                        <template slot-scope="{row,index,type,size}" slot="menu">
+                            <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
+                            <!-- <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,4)">变更父级</el-button>-->
+                            <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
+                        </template>
+                        <template slot-scope="{row,index,type,size}" slot="head">
+                            <el-avatar :src="row.head"></el-avatar>
+                        </template>
+                    </avue-crud>
+                </el-col>
+            </el-row>
+        </el-card>
         <el-dialog :title="rowData.name?'新增 - ['+ rowData.name + '] - 子菜单/页面':'新增顶级目录'"
                    v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" @close="closeDialog">
             <Add :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Add>

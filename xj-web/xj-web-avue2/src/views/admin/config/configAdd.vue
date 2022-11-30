@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div  class="xj-layer-box">
         <avue-form ref="form" v-model="obj" :option="option"
                    @reset-change="emptytChange"
                    @submit="submit">

@@ -1,47 +1,49 @@
 <template>
     <div>
-        <avue-crud ref="crudxjAdminBanner"
-                   :data="data"
-                   :option="option"
-                   :page.sync="page"
-                   :search.sync="search"
-                   :table-loading="loading"
-                   :cell-style="cellStyle"
-                   @on-load="onLoad"
-                   @refresh-change="onLoad"
-                   @search-change="searchChange"
-                   @row-click="handleRowClick">
-            <!-- 启用/禁用插槽(默认提供,按需使用) -->
-            <template slot-scope="{row,index,type,size}" slot="disable">
-                <el-switch v-model="row.disable" @change="updDisable(row)"
-                           active-color="#13ce66" inactive-color="#ff4949"
-                           :active-value=0 :inactive-value=1
-                           active-text="" inactive-text="">
-                </el-switch>
-            </template>
+        <el-card>
+            <avue-crud ref="crudxjAdminBanner"
+                       :data="data"
+                       :option="option"
+                       :page.sync="page"
+                       :search.sync="search"
+                       :table-loading="loading"
+                       :cell-style="cellStyle"
+                       @on-load="onLoad"
+                       @refresh-change="onLoad"
+                       @search-change="searchChange"
+                       @row-click="handleRowClick">
+                <!-- 启用/禁用插槽(默认提供,按需使用) -->
+                <template slot-scope="{row,index,type,size}" slot="disable">
+                    <el-switch v-model="row.disable" @change="updDisable(row)"
+                               active-color="#13ce66" inactive-color="#ff4949"
+                               :active-value=0 :inactive-value=1
+                               active-text="" inactive-text="">
+                    </el-switch>
+                </template>
 
-            <!-- 列表上进行编辑sort -->
-            <template slot-scope="{row,index,type,size}" slot="sort">
-                <el-input v-model="row.sort" @blur="rowSortBlur(row)" placeholder=""></el-input>
-            </template>
+                <!-- 列表上进行编辑sort -->
+                <template slot-scope="{row,index,type,size}" slot="sort">
+                    <el-input v-model="row.sort" @blur="rowSortBlur(row)" placeholder=""></el-input>
+                </template>
 
-            <template slot-scope="" slot="menuLeft">
-                <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
-            </template>
-            <template slot-scope="{row,index,type,size}" slot="menu">
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
-                <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
-            </template>
-        </avue-crud>
-        <!-- 弹层 -->
-        <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
-            <Add :closeDialog="closeDialog" :uri="uri"></Add>
-            <span slot="footer" class="dialog-footer"></span>
-        </el-dialog>
-        <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
-            <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
-            <span slot="footer" class="dialog-footer"></span>
-        </el-dialog>
+                <template slot-scope="" slot="menuLeft">
+                    <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
+                </template>
+                <template slot-scope="{row,index,type,size}" slot="menu">
+                    <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
+                    <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
+                </template>
+            </avue-crud>
+            <!-- 弹层 -->
+            <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
+                <Add :closeDialog="closeDialog" :uri="uri"></Add>
+                <span slot="footer" class="dialog-footer"></span>
+            </el-dialog>
+            <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
+                <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
+                <span slot="footer" class="dialog-footer"></span>
+            </el-dialog>
+        </el-card>
     </div>
 </template>
 

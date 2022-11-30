@@ -1,4 +1,12 @@
-// 全局变量
+// xijia 全局变量
+.xj-layer-box {
+  height: 600px;
+  overflow: auto;
+}
+
+
+
+// avue全局变量
 @import './variables.scss';
 a{
   text-decoration: none;

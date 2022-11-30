@@ -1,99 +1,113 @@
 <template>
     <div>
-        <el-container>
-            <el-aside style="padding-left: 10px;padding-top: 2.5px" width="260px">
-                <!--<span>选择数据源</span>-->
-                <el-select style="width: 240px" v-model="dataSourceId" :clearable="true" filterable placeholder="选择数据源, 默认当前服务" @change="datasourceChange()">
-                    <el-option
-                            v-for="item in datasourceDic"
+        <el-row>
+            <el-card class="el-card__body">
+                <el-col :span="24">
+                    <label>数据源: </label>
+                    <!--<span>选择数据源</span>-->
+                    <el-select style="width: 180px" size="small" v-model="dataSourceId" :clearable="true" filterable placeholder="选择数据源, 默认当前服务" @change="datasourceChange()">
+                        <el-option
+                                v-for="item in datasourceDic"
 
-                            :key="item.id"
-                            :label="item.dbTitle"
-                            :value="item.id">
-                    </el-option>
-                </el-select>
-                <!-- 数据表 -->
-                <div style="height: 700px;margin-top: 4%;">
-                    <avue-tree :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
-                </div>
-            </el-aside>
+                                :key="item.id"
+                                :label="item.dbTitle"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                    <span style="margin-left: 20px">
+                       <!--  当前数据源: <font color="#ff69b4"> {{datasource.dbName}} - {{datasource.dbTitle}}</font> -->
+                       当前表: <font color="#ff69b4"> {{treeRowData.name}} - {{treeRowData.comment}}</font>
+                    </span>
+                </el-col>
+            </el-card>
 
-            <el-main>
-                <!--  当前数据源: <font color="#ff69b4"> {{datasource.dbName}} - {{datasource.dbTitle}}</font> -->
-                当前表: <font color="#ff69b4"> {{treeRowData.name}} - {{treeRowData.comment}}</font>
-                <!-- crud -->
-                <avue-crud ref="crudField"
-                           :data="data"
-                           :option="option"
-                           :page.sync="page"
-                           :search.sync="search"
-                           :table-loading="loading"
-                           @on-load="onLoad"
-                           @refresh-change="onLoad"
-                           @selection-change="selectionChange"
-                           @search-change="searchChange"
-                           @row-click="handleRowClick">
-                    <template slot-scope="scope" slot="menuLeft">
-                        <el-button type="primary" size="small" plain @click="dbDatasource()">数据源管理</el-button>
-                        <el-button type="primary" size="small" plain @click="finDGenerateGetPath()">查看生成路径</el-button>
-                        <el-button type="primary" size="small" plain @click="findGeneratePreview()">生成预览代码 (在线查看)</el-button>
-                        <el-button type="primary" size="small" plain @click="generateCodeJava()">生成后端代码</el-button>
-                        <el-button type="primary" size="small" plain @click="generateCodeVueFun()">生成并下载 (vue)</el-button>
-                        <el-button type="primary" size="small" plain @click="generateCodeJavaAndVueFun()">生成并下载 (all)</el-button>
-                    </template>
-                    <!-- 数据类型 -->
-                    <template slot-scope="{scope,row,index,type,size}" slot="vueFieldType">
-                        <!--<el-col :span="6">-->
-                        <!--  <avue-select v-model="row.vueFieldType" placeholder="请选择内容" type="tree" :dic="vueFieldTypeDic"></avue-select>-->
+            <el-card>
+                <!-- 左边媒体分类树结构数据 -->
+                <el-col :span="4">
+                    <el-card class="box-card" style="width: 96%;height:600px;margin-left: 2%;overflow:auto">
+                        <!-- 数据表 -->
+                        <div style="margin-top: 0%;">
+                            <avue-tree :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
+                        </div>
+                    </el-card>
+                </el-col>
 
-                        <el-select v-model="row.vueFieldType" filterable placeholder="请选择" @change="vueFieldTypeChange(row)">
-                            <el-option
-                                    v-for="item in vueFieldTypeDic"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                        <!-- </el-col>-->
-                    </template>
+                <!-- 图片 -->
+                <el-col :span="20">
 
-                    <!-- 字典
-                          // 单选-(radio)                 4
-                          // 多选-(checkbox)              5
-                          // 下拉选择-(select-单选)        6
-                          // 下拉选择 (select-单选+搜索)    7
-                          // 下拉选择 (select-多选+搜索)    8
-                          // 开关-(switch)                 9
-                    -->
-                    <template slot-scope="{scope,row,index,type,size}" slot="dictCode">
-                        <el-cascader v-if="isVueFieldTypeDict(row)"
-                                     v-model="row.dictCode"
-                                     placeholder="试试搜索：性别"
-                                     filterable
-                                     clearable
-                                     :show-all-levels="false"
-                                     :options="dictCodeOption"
-                                     @change="handleChange"
-                                     :props="dictCodeProps"
-                        ></el-cascader>
-                    </template>
+                    <!-- crud -->
+                    <avue-crud ref="crudField"
+                               :data="data"
+                               :option="option"
+                               :page.sync="page"
+                               :search.sync="search"
+                               :table-loading="loading"
+                               @on-load="onLoad"
+                               @refresh-change="onLoad"
+                               @selection-change="selectionChange"
+                               @search-change="searchChange"
+                               @row-click="handleRowClick">
+                        <template slot-scope="scope" slot="menuLeft">
+                            <el-button type="primary" size="small" plain @click="dbDatasource()">数据源管理</el-button>
+                            <el-button type="primary" size="small" plain @click="finDGenerateGetPath()">查看生成路径</el-button>
+                            <el-button type="primary" size="small" plain @click="findGeneratePreview()">生成预览代码 (在线查看)</el-button>
+                            <el-button type="primary" size="small" plain @click="generateCodeJava()">生成后端代码</el-button>
+                            <el-button type="primary" size="small" plain @click="generateCodeVueFun()">生成并下载 (vue)</el-button>
+                            <el-button type="primary" size="small" plain @click="generateCodeJavaAndVueFun()">生成并下载 (all)</el-button>
+                        </template>
+                        <!-- 数据类型 -->
+                        <template slot-scope="{scope,row,index,type,size}" slot="vueFieldType">
+                            <!--<el-col :span="6">-->
+                            <!--  <avue-select v-model="row.vueFieldType" placeholder="请选择内容" type="tree" :dic="vueFieldTypeDic"></avue-select>-->
 
-                    <!-- 是否是搜索参数 -->
-                    <template slot-scope="{scope,row,index,type,size}" slot="isSearch">
-                        <el-switch v-model="row.isSearch"
-                                   active-color="#13ce66" inactive-color="#ff4949"
-                                   :active-value=true :inactive-value=false
-                                   active-text="" inactive-text="">
-                        </el-switch>
-                    </template>
-                    <template slot-scope="{row,index,type,size}" slot="menu">
-                        <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
-                        <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
-                    </template>
-                </avue-crud>
-                <!--crud-->
-            </el-main>
-        </el-container>
+                            <el-select v-model="row.vueFieldType" filterable placeholder="请选择" @change="vueFieldTypeChange(row)">
+                                <el-option
+                                        v-for="item in vueFieldTypeDic"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                            <!-- </el-col>-->
+                        </template>
+
+                        <!-- 字典
+                              // 单选-(radio)                 4
+                              // 多选-(checkbox)              5
+                              // 下拉选择-(select-单选)        6
+                              // 下拉选择 (select-单选+搜索)    7
+                              // 下拉选择 (select-多选+搜索)    8
+                              // 开关-(switch)                 9
+                        -->
+                        <template slot-scope="{scope,row,index,type,size}" slot="dictCode">
+                            <el-cascader v-if="isVueFieldTypeDict(row)"
+                                         v-model="row.dictCode"
+                                         placeholder="试试搜索：性别"
+                                         filterable
+                                         clearable
+                                         :show-all-levels="false"
+                                         :options="dictCodeOption"
+                                         @change="handleChange"
+                                         :props="dictCodeProps"
+                            ></el-cascader>
+                        </template>
+
+                        <!-- 是否是搜索参数 -->
+                        <template slot-scope="{scope,row,index,type,size}" slot="isSearch">
+                            <el-switch v-model="row.isSearch"
+                                       active-color="#13ce66" inactive-color="#ff4949"
+                                       :active-value=true :inactive-value=false
+                                       active-text="" inactive-text="">
+                            </el-switch>
+                        </template>
+                        <template slot-scope="{row,index,type,size}" slot="menu">
+                            <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">编辑</el-button>
+                            <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
+                        </template>
+                    </avue-crud>
+                </el-col>
+            </el-card>
+        </el-row>
 
         <!-- {{generatePaths}}-->
         <el-dialog v-dialogDrag title="查看生成路径" v-if="findPageDialogVisible" :visible.sync="findPageDialogVisible" top="6vh" width="60%">
@@ -119,6 +133,7 @@
 <script>
 
     import router from '@/router/router'
+
     export default {
         components: {
             Paths: () => import('./generatePaths'),
@@ -325,7 +340,7 @@
                 this.crud.get(this.uri.generateGetPath, {
                     tableName: this.search.tableName,
                     dataSourceId: this.dataSourceId,
-                } ).then((res) => {
+                }).then((res) => {
                     this.generatePaths = res.data.data;
                     this.findPageDialogVisible = true;
                 })

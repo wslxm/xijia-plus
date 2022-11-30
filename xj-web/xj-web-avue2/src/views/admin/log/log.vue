@@ -1,44 +1,46 @@
 <template>
     <div>
-        <avue-crud ref="crudxjAdminLog"
-                   :data="data"
-                   :option="option"
-                   :page.sync="page"
-                   :search.sync="search"
-                   :table-loading="loading"
-                   :cell-style="cellStyle"
-                   @on-load="onLoad"
-                   @refresh-change="onLoad"
-                   @search-change="searchChange"
-                   @row-click="handleRowClick">
-            <template slot-scope="{row,index,type,size}" slot="menu">
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">查看</el-button>
-            </template>
+        <el-card>
+            <avue-crud ref="crudxjAdminLog"
+                       :data="data"
+                       :option="option"
+                       :page.sync="page"
+                       :search.sync="search"
+                       :table-loading="loading"
+                       :cell-style="cellStyle"
+                       @on-load="onLoad"
+                       @refresh-change="onLoad"
+                       @search-change="searchChange"
+                       @row-click="handleRowClick">
+                <template slot-scope="{row,index,type,size}" slot="menu">
+                    <el-button icon="el-icon-edit" :size="size" :type="type" @click="updDialogVisible = true">查看</el-button>
+                </template>
 
 
-            <template slot-scope="{row,index,type,size}" slot="createTimeSearch">
-                <div class="block">
-                    <el-date-picker
-                            v-model="newCreateTime"
-                            format="yyyy-MM-dd HH:mm:ss"
-                            value-format="yyyy-MM-dd HH:mm:ss"
-                            type="datetimerange"
-                            align="right"
-                            unlink-panels
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            :picker-options="pickerOptions">
-                    </el-date-picker>
-                </div>
-            </template>
+                <template slot-scope="{row,index,type,size}" slot="createTimeSearch">
+                    <div class="block">
+                        <el-date-picker
+                                v-model="newCreateTime"
+                                format="yyyy-MM-dd HH:mm:ss"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                type="datetimerange"
+                                align="right"
+                                unlink-panels
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                :picker-options="pickerOptions">
+                        </el-date-picker>
+                    </div>
+                </template>
 
-        </avue-crud>
+            </avue-crud>
 
-        <el-dialog title="查看" v-dialogDrag v-if="updDialogVisible"  :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog">
-            <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
-            <span slot="footer" class="dialog-footer"></span>
-        </el-dialog>
+            <el-dialog title="查看" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" @close="closeDialog">
+                <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
+                <span slot="footer" class="dialog-footer"></span>
+            </el-dialog>
+        </el-card>
     </div>
 </template>
 
@@ -304,7 +306,7 @@
                 if (this.newCreateTime != null && this.newCreateTime !== "") {
                     this.search.createTimeStart = this.newCreateTime[0];
                     this.search.createTimeEnd = this.newCreateTime[1];
-                }else{
+                } else {
                     this.search.createTimeStart = null;
                     this.search.createTimeEnd = null;
                 }

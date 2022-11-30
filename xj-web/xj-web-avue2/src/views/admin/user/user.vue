@@ -1,85 +1,87 @@
 <template>
     <div>
-        <avue-crud ref="crudUser"
-                   :data="data"
-                   :option="option"
-                   :page.sync="page"
-                   :search.sync="search"
-                   :table-loading="loading"
-                   :cell-style="cellStyle"
-                   @on-load="onLoad"
-                   @refresh-change="onLoad"
-                   @search-change="searchChange">
-            <template slot-scope="{row}" slot="menuLeft">
-                <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
-            </template>
-            <template slot-scope="{row,index,type,size}" slot="disable">
-                <el-switch v-model="row.disable" @change="updDisable(row)"
-                           active-color="#13ce66" inactive-color="#ff4949"
-                           :active-value=0 :inactive-value=1
-                           active-text="" inactive-text="">
-                </el-switch>
-            </template>
-            <template slot-scope="{row,index,type,size}" slot="headPic">
-                <el-avatar :src="row.headPic"></el-avatar>
-            </template>
+        <el-card>
+            <avue-crud ref="crudUser"
+                       :data="data"
+                       :option="option"
+                       :page.sync="page"
+                       :search.sync="search"
+                       :table-loading="loading"
+                       :cell-style="cellStyle"
+                       @on-load="onLoad"
+                       @refresh-change="onLoad"
+                       @search-change="searchChange">
+                <template slot-scope="{row}" slot="menuLeft">
+                    <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
+                </template>
+                <template slot-scope="{row,index,type,size}" slot="disable">
+                    <el-switch v-model="row.disable" @change="updDisable(row)"
+                               active-color="#13ce66" inactive-color="#ff4949"
+                               :active-value=0 :inactive-value=1
+                               active-text="" inactive-text="">
+                    </el-switch>
+                </template>
+                <template slot-scope="{row,index,type,size}" slot="headPic">
+                    <el-avatar :src="row.headPic"></el-avatar>
+                </template>
 
-            <template slot-scope="{row,index,type,size}" slot="regTimeSearch">
-                <div class="block">
-                    <el-date-picker
-                            v-model="search.regTime"
-                            value-format="yyyy-MM-dd HH:mm:ss"
-                            type="datetimerange"
-                            align="right"
-                            unlink-panels
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            :picker-options="defaultDic.timeOptions">
-                    </el-date-picker>
-                </div>
-            </template>
+                <template slot-scope="{row,index,type,size}" slot="regTimeSearch">
+                    <div class="block">
+                        <el-date-picker
+                                v-model="search.regTime"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                type="datetimerange"
+                                align="right"
+                                unlink-panels
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                :picker-options="defaultDic.timeOptions">
+                        </el-date-picker>
+                    </div>
+                </template>
 
 
-            <template slot-scope="{row,index,type,size}" slot="menu">
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,2)">重置密码</el-button>
-                <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
-            </template>
-        </avue-crud>
-        <el-dialog title="新增"
-                   v-dialogDrag
-                   v-if="addDialogVisible"
-                   :visible.sync="addDialogVisible"
-                   :width="dialogWidth"
-                   top="6vh"
-                   @close="closeDialog">
-            <Add :closeDialog="closeDialog" :uri="uri"></Add>
-            <span slot="footer" class="dialog-footer"></span>
-        </el-dialog>
+                <template slot-scope="{row,index,type,size}" slot="menu">
+                    <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
+                    <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,2)">重置密码</el-button>
+                    <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
+                </template>
+            </avue-crud>
+            <el-dialog title="新增"
+                       v-dialogDrag
+                       v-if="addDialogVisible"
+                       :visible.sync="addDialogVisible"
+                       :width="dialogWidth"
+                       top="6vh"
+                       @close="closeDialog">
+                <Add :closeDialog="closeDialog" :uri="uri"></Add>
+                <span slot="footer" class="dialog-footer"></span>
+            </el-dialog>
 
-        <el-dialog title="编辑"
-                   v-dialogDrag
-                   v-if="updDialogVisible"
-                   :visible.sync="updDialogVisible"
-                   :width="dialogWidth"
-                   top="6vh"
-                   @close="closeDialog">
-            <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
-            <span slot="footer" class="dialog-footer"></span>
-        </el-dialog>
+            <el-dialog title="编辑"
+                       v-dialogDrag
+                       v-if="updDialogVisible"
+                       :visible.sync="updDialogVisible"
+                       :width="dialogWidth"
+                       top="6vh"
+                       @close="closeDialog">
+                <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
+                <span slot="footer" class="dialog-footer"></span>
+            </el-dialog>
 
-        <el-dialog title="重置密码" :visible.sync="updPwdDialogVisible" width="30%">
-            <el-form ref="form" label-width="80px">
-                <el-form-item label="输入密码">
-                    <el-input v-model="rowPassword.info"></el-input>
-                </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
+            <el-dialog title="重置密码" :visible.sync="updPwdDialogVisible" width="30%">
+                <el-form ref="form" label-width="80px">
+                    <el-form-item label="输入密码">
+                        <el-input v-model="rowPassword.info"></el-input>
+                    </el-form-item>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
               <el-button @click="updPwdDialogVisible = false">取 消</el-button>
               <el-button type="primary" @click="updPwd()">确 定</el-button>
             </span>
-        </el-dialog>
+            </el-dialog>
+        </el-card>
     </div>
 </template>
 
@@ -120,34 +122,34 @@
                 deps: [],
                 // 时间
                 //regTime: {
-                    //data: '',
-                    //{
-                    // shortcuts: [{
-                    //     text: '最近一周',
-                    //     onClick(picker) {
-                    //         const end = new Date();
-                    //         const start = new Date();
-                    //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                    //         picker.$emit('pick', [start, end]);
-                    //     }
-                    // }, {
-                    //     text: '最近一个月',
-                    //     onClick(picker) {
-                    //         const end = new Date();
-                    //         const start = new Date();
-                    //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                    //         picker.$emit('pick', [start, end]);
-                    //     }
-                    // }, {
-                    //     text: '最近三个月',
-                    //     onClick(picker) {
-                    //         const end = new Date();
-                    //         const start = new Date();
-                    //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                    //         picker.$emit('pick', [start, end]);
-                    //     }
-                    // }]
-                    // }
+                //data: '',
+                //{
+                // shortcuts: [{
+                //     text: '最近一周',
+                //     onClick(picker) {
+                //         const end = new Date();
+                //         const start = new Date();
+                //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                //         picker.$emit('pick', [start, end]);
+                //     }
+                // }, {
+                //     text: '最近一个月',
+                //     onClick(picker) {
+                //         const end = new Date();
+                //         const start = new Date();
+                //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                //         picker.$emit('pick', [start, end]);
+                //     }
+                // }, {
+                //     text: '最近三个月',
+                //     onClick(picker) {
+                //         const end = new Date();
+                //         const start = new Date();
+                //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                //         picker.$emit('pick', [start, end]);
+                //     }
+                // }]
+                // }
                 //},
             }
         },

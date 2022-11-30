@@ -1,52 +1,54 @@
 <template>
     <div>
-        <avue-crud ref="crudRole"
-                   :data="data"
-                   :option="option"
-                   :page.sync="page"
-                   :search.sync="search"
-                   :table-loading="loading"
-                   :cell-style="cellStyle"
-                   @on-load="onLoad"
-                   @refresh-change="onLoad"
-                   @search-change="searchChange">
-            <template slot-scope="scope" slot="menuLeft">
-                <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
+        <el-card>
+            <avue-crud ref="crudRole"
+                       :data="data"
+                       :option="option"
+                       :page.sync="page"
+                       :search.sync="search"
+                       :table-loading="loading"
+                       :cell-style="cellStyle"
+                       @on-load="onLoad"
+                       @refresh-change="onLoad"
+                       @search-change="searchChange">
+                <template slot-scope="scope" slot="menuLeft">
+                    <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增</el-button>
 
-<!--                <el-tooltip class="item" effect="dark" content="给所有角色分配所有接口的访问权限" placement="top-start">-->
-<!--                    <el-button type="primary" size="small" plain-->
-<!--                               v-if="website.isTerminalSearch"-->
-<!--                               @click="updRoleAuthAll()">权限ALL-->
-<!--                    </el-button>-->
-<!--                </el-tooltip>-->
+                    <!--                <el-tooltip class="item" effect="dark" content="给所有角色分配所有接口的访问权限" placement="top-start">-->
+                    <!--                    <el-button type="primary" size="small" plain-->
+                    <!--                               v-if="website.isTerminalSearch"-->
+                    <!--                               @click="updRoleAuthAll()">权限ALL-->
+                    <!--                    </el-button>-->
+                    <!--                </el-tooltip>-->
 
-            </template>
-            <template slot-scope="{row,index,type,size}" slot="disable">
-                <el-switch v-model="row.disable" @change="updDisable(row,index,row.disable)"
-                           active-color="#13ce66" inactive-color="#ff4949"
-                           :active-value=0 :inactive-value=1
-                           active-text="" inactive-text="">
-                </el-switch>
-            </template>
-            <template slot-scope="{row,index,type,size}" slot="menu">
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
-<!--                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,2)">资源分配</el-button>-->
-                <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
-            </template>
-        </avue-crud>
-        <!-- 弹层 -->
-        <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
-            <Add :closeDialog="closeDialog" :uri="uri"></Add>
-            <span slot="footer" class="dialog-footer"></span>
-        </el-dialog>
-        <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
-            <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
-            <span slot="footer" class="dialog-footer"></span>
-        </el-dialog>
-        <el-dialog :title="'资源分配-'+this.rowData.name" v-dialogDrag v-if="updAuthDialogVisible" :visible.sync="updAuthDialogVisible" width="60%" top="6vh" @close="closeDialog">
-            <RoleAuthV2 :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></RoleAuthV2>
-            <span slot="footer" class="dialog-footer"></span>
-        </el-dialog>
+                </template>
+                <template slot-scope="{row,index,type,size}" slot="disable">
+                    <el-switch v-model="row.disable" @change="updDisable(row,index,row.disable)"
+                               active-color="#13ce66" inactive-color="#ff4949"
+                               :active-value=0 :inactive-value=1
+                               active-text="" inactive-text="">
+                    </el-switch>
+                </template>
+                <template slot-scope="{row,index,type,size}" slot="menu">
+                    <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
+                    <!--                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,2)">资源分配</el-button>-->
+                    <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
+                </template>
+            </avue-crud>
+            <!-- 弹层 -->
+            <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
+                <Add :closeDialog="closeDialog" :uri="uri"></Add>
+                <span slot="footer" class="dialog-footer"></span>
+            </el-dialog>
+            <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
+                <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
+                <span slot="footer" class="dialog-footer"></span>
+            </el-dialog>
+            <el-dialog :title="'资源分配-'+this.rowData.name" v-dialogDrag v-if="updAuthDialogVisible" :visible.sync="updAuthDialogVisible" width="60%" top="6vh" @close="closeDialog">
+                <RoleAuthV2 :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></RoleAuthV2>
+                <span slot="footer" class="dialog-footer"></span>
+            </el-dialog>
+        </el-card>
     </div>
 </template>
 

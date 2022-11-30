@@ -1,7 +1,7 @@
 <!-- 参考文档: https://blog.csdn.net/weixin_42623929/article/details/122864736-->
 <template>
-    <div>
-        <avue-form ref="form" v-model="obj" :option="option"
+    <div class="xj-layer-box">
+        <avue-form v-if="initSuccess" ref="form" v-model="obj" :option="option"
                    @reset-change="emptytChange"
                    @submit="submit">
 
@@ -55,6 +55,7 @@
             return {
                 obj: {},
                 isIdFind: true,
+                initSuccess: false,
                 fileList: []
             }
         },
@@ -222,7 +223,6 @@
                 if (newRowData != null && newRowData.id != null) {
                     this.crud.get(this.uri.info + "/" + newRowData.id).then((res) => {
                         this.obj = res.data.data;
-
                         // 处理图片回显
                         if (this.obj.type == 1) {
                             let urls = this.obj.content.split(",");
@@ -234,6 +234,7 @@
                                 this.fileList.push(urlItem);
                             }
                         }
+                        this.initSuccess = true;
                     })
                 }
             },

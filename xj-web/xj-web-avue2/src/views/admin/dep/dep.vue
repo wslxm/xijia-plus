@@ -1,44 +1,46 @@
 <template>
     <div>
-        <avue-crud ref="crudadminDep"
-                   :data="data"
-                   :option="option"
-                   :page.sync="page"
-                   :search.sync="search"
-                   :table-loading="loading"
-                   :cell-style="cellStyle"
-                   @on-load="onLoad"
-                   @refresh-change="onLoad"
-                   @search-change="searchChange">
-            <!-- 启用/禁用插槽(默认提供,按需使用) -->
-            <template slot-scope="{row,index,type,size}" slot="disable">
-                <el-switch v-model="row.disable" @change="updDisable(row)"
-                           active-color="#13ce66" inactive-color="#ff4949"
-                           :active-value=0 :inactive-value=1
-                           active-text="" inactive-text="">
-                </el-switch>
-            </template>
-            <template slot-scope="scope" slot="menuLeft">
-                <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增公司</el-button>
-            </template>
-            <!-- 添加子类别 type=2 -->
-            <template slot-scope="{row,index,type,size}" slot="addDep">
-                <el-button type="primary" plain icon="el-icon-plus" v-show="row.root < 3" size="mini" @click="updRow(row,2)">子公司/部门</el-button>
-            </template>
-            <template slot-scope="{row,index,type,size}" slot="menu">
-                <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
-                <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
-            </template>
-        </avue-crud>
-        <!-- 弹层 -->
-        <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
-            <Add :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Add>
-            <span slot="footer" class="dialog-footer"></span>
-        </el-dialog>
-        <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
-            <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
-            <span slot="footer" class="dialog-footer"></span>
-        </el-dialog>
+        <el-card>
+            <avue-crud ref="crudadminDep"
+                       :data="data"
+                       :option="option"
+                       :page.sync="page"
+                       :search.sync="search"
+                       :table-loading="loading"
+                       :cell-style="cellStyle"
+                       @on-load="onLoad"
+                       @refresh-change="onLoad"
+                       @search-change="searchChange">
+                <!-- 启用/禁用插槽(默认提供,按需使用) -->
+                <template slot-scope="{row,index,type,size}" slot="disable">
+                    <el-switch v-model="row.disable" @change="updDisable(row)"
+                               active-color="#13ce66" inactive-color="#ff4949"
+                               :active-value=0 :inactive-value=1
+                               active-text="" inactive-text="">
+                    </el-switch>
+                </template>
+                <template slot-scope="scope" slot="menuLeft">
+                    <el-button type="primary" icon="el-icon-plus" size="small" plain @click="addDialogVisible = true">新增公司</el-button>
+                </template>
+                <!-- 添加子类别 type=2 -->
+                <template slot-scope="{row,index,type,size}" slot="addDep">
+                    <el-button type="primary" plain icon="el-icon-plus" v-show="row.root < 3" size="mini" @click="updRow(row,2)">子公司/部门</el-button>
+                </template>
+                <template slot-scope="{row,index,type,size}" slot="menu">
+                    <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,1)">编辑</el-button>
+                    <el-button icon="el-icon-delete" :size="size" :type="type" @click="rowDel(row,index)">删除</el-button>
+                </template>
+            </avue-crud>
+            <!-- 弹层 -->
+            <el-dialog title="新增" v-dialogDrag v-if="addDialogVisible" :visible.sync="addDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
+                <Add :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Add>
+                <span slot="footer" class="dialog-footer"></span>
+            </el-dialog>
+            <el-dialog title="编辑" v-dialogDrag v-if="updDialogVisible" :visible.sync="updDialogVisible" :width="dialogWidth" top="6vh" @close="closeDialog">
+                <Upd :closeDialog="closeDialog" :uri="uri" :rowData="rowData"></Upd>
+                <span slot="footer" class="dialog-footer"></span>
+            </el-dialog>
+        </el-card>
     </div>
 </template>
 

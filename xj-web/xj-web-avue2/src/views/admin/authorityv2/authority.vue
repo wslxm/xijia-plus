@@ -14,53 +14,61 @@
                 </el-select>
             </el-col>
         </el-card>
-        <el-container>
-            <el-aside style="margin-left: 1%;margin-top: 7.5px" :width="treeOption.elAsideWidth">
-                <avue-tree :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
-            </el-aside>
-            <el-main>
-                <avue-crud ref="crudAuth"
-                           :data="data"
-                           :option="option"
-                           :page.sync="page"
-                           :search.sync="search"
-                           :table-loading="loading"
-                           :cell-style="cellStyle"
-                           @refresh-change="onLoad"
-                           @search-change="searchChange">
-                    <!-- @on-load="onLoad"
-                     @refresh-change="onLoad"-->
-                    <!-- 启用/禁用插槽(默认提供,按需使用) -->
-                    <template slot-scope="{scope,row,index,type,size}" slot="disable">
-                        <el-switch v-if="row.method && row.url.indexOf('/api/admin/sys/authority') == -1"
-                                   v-model="row.disable" @change="updDisable(row)"
-                                   active-color="#13ce66" inactive-color="#ff4949"
-                                   :active-value=0 :inactive-value=1
-                                   active-text="" inactive-text="">
-                        </el-switch>
-                    </template>
-                    <!-- 是否验签 -->
-                    <template slot-scope="{scope,row,index,type,size}" slot="isSign">
-                        <el-switch v-if="row.method" v-model="row.isSign" @change="updIsSign(row)"
-                                   active-color="#13ce66" inactive-color="#ff4949"
-                                   :active-value=true :inactive-value=false
-                                   active-text="" inactive-text="">
-                        </el-switch>
-                    </template>
-                    <!-- 权限状态 -->
-                    <template slot-scope="{scope,row,index,type,size}" slot="state">
-                        <el-select v-if="row.method" v-model="row.state" @change="updState(row)" placeholder="请选择">
-                            <el-option
-                                    v-for="item in stateDict"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </template>
-                </avue-crud>
-            </el-main>
-        </el-container>
+
+        <el-card class="box-card" style="width: 100%;margin-left: 0%">
+            <el-row>
+                <!-- 左边媒体分类树结构数据 -->
+                <el-col :span="5">
+                    <el-card class="box-card" style="width: 98%;">
+                        <avue-tree :option="treeOption" :data="treeData" @node-click="nodeClick"></avue-tree>
+                    </el-card>
+                </el-col>
+                <el-col :span="19">
+                    <avue-crud ref="crudAuth"
+                               :data="data"
+                               :option="option"
+                               :page.sync="page"
+                               :search.sync="search"
+                               :table-loading="loading"
+                               :cell-style="cellStyle"
+                               @refresh-change="onLoad"
+                               @search-change="searchChange">
+                        <!-- @on-load="onLoad"
+                         @refresh-change="onLoad"-->
+                        <!-- 启用/禁用插槽(默认提供,按需使用) -->
+                        <template slot-scope="{scope,row,index,type,size}" slot="disable">
+                            <el-switch v-if="row.method && row.url.indexOf('/api/admin/sys/authority') == -1"
+                                       v-model="row.disable" @change="updDisable(row)"
+                                       active-color="#13ce66" inactive-color="#ff4949"
+                                       :active-value=0 :inactive-value=1
+                                       active-text="" inactive-text="">
+                            </el-switch>
+                        </template>
+                        <!-- 是否验签 -->
+                        <template slot-scope="{scope,row,index,type,size}" slot="isSign">
+                            <el-switch v-if="row.method" v-model="row.isSign" @change="updIsSign(row)"
+                                       active-color="#13ce66" inactive-color="#ff4949"
+                                       :active-value=true :inactive-value=false
+                                       active-text="" inactive-text="">
+                            </el-switch>
+                        </template>
+                        <!-- 权限状态 -->
+                        <template slot-scope="{scope,row,index,type,size}" slot="state">
+                            <el-select v-if="row.method" v-model="row.state" @change="updState(row)" placeholder="请选择">
+                                <el-option
+                                        v-for="item in stateDict"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </template>
+                    </avue-crud>
+                </el-col>
+            </el-row>
+        </el-card>
+
+
     </div>
 </template>
 
