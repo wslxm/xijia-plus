@@ -24,4 +24,14 @@ public class BaseQuery extends Convert {
      */
     private Long size = 10L;
 
+    /**
+     * 排序字段
+     */
+    private String sort = "create_time";
+
+    /**
+     * 排序规则 (asc | desc)
+     */
+    private String order = "desc";
+
 }
