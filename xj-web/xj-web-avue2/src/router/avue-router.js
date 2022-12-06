@@ -12,6 +12,7 @@ RouterPlugin.install = function (option = {}) {
     this.$router = option.router;
     this.$store = option.store;
     let i18n = option.i18n;
+    console.log("===========")
     this.$router.$avueRouter = {
         safe: this,
         // 设置标题l

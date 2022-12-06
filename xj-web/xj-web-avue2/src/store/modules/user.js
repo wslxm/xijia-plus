@@ -3,6 +3,7 @@ import {getStore, setStore} from '@/util/store'
 import {deepClone} from '@/util/util'
 import {formatPath} from '@/router/avue-router';
 import crud from '@/util/crud'
+
 const user = {
     state: {
         userInfo: {},
@@ -70,6 +71,8 @@ const user = {
                 commit('DEL_ALL_TAG', []);
                 commit('CLEAR_LOCK');
                 removeToken();
+
+                getStore({name: 'tag'}).label = "登录"
                 resolve()
             })
         },

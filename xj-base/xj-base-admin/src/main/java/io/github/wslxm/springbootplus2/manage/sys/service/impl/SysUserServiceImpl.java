@@ -95,7 +95,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     @Override
     @Transactional(rollbackFor = Exception.class)
     @XjDistributedLock(lockName = "'xj-sys-user_'+ #dto.username +'_' + #dto.phone",waitTime = 5L)
-    public String insert(SysUserDTO dto) {
+    public  String insert(SysUserDTO dto) {
         ValidUtil.isStrLen(dto.getPassword(),1,20,"密码必须大于1且小于20位");
         // 判重账号/判重电话
         this.verifyRepeatUsername(dto.getUsername(), null);

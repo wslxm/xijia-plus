@@ -5,8 +5,8 @@ export default [{
   component: () =>  import('@/page/login/index.vue'),
   meta: {
     keepAlive: true,
-    isTab: false,
-    isAuth: false
+    isTab: true,
+    isAuth: false,
   }
 },
 {
