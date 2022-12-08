@@ -86,7 +86,7 @@ public class ConfigServiceImpl extends BaseServiceImpl<ConfigMapper, Config> imp
 
 
     @Override
-    @Cacheable(value = CacheKey.CONFIG_LIST_BY_CODE, key = "#code")
+    @Cacheable(value = CacheKey.CONFIG_LIST_BY_CODE, key = "#code", unless = "#result == null")
     public ConfigVO findByCode(String code) {
         Config xjAdminConfig = this.getOne(new LambdaQueryWrapper<Config>().eq(Config::getCode, code));
         return BeanDtoVoUtil.convert(xjAdminConfig, ConfigVO.class);

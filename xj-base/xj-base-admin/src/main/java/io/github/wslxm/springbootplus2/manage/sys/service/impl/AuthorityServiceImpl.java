@@ -190,7 +190,7 @@ public class AuthorityServiceImpl extends BaseServiceImpl<AuthorityMapper, Autho
             } else if (url.indexOf(BaseConstant.Uri.API_CLIENT) != -1) {
                 // 用户端 | 默认需登录
                 uriType = Base.AuthorityType.V1.getValue();
-                state = Base.AuthorityState.V1.getValue();
+                state = Base.AuthorityState.V0.getValue();
             } else if (url.indexOf(BaseConstant.Uri.API_OPEN) != -1) {
                 // 通用 | 默认无需登录+无需授权
                 uriType = Base.AuthorityType.V2.getValue();

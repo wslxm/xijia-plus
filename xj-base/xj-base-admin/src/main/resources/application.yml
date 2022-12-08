@@ -10,7 +10,7 @@ spring:
     encoding:
       force: true
       charset: UTF-8
-  ## 关闭thymeleaf缓存 开发时使用,否则没有实时画面
+  ## thymeleaf 配置
   thymeleaf:
     cache: false
     check-template-location: true

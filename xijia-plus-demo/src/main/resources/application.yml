@@ -10,7 +10,7 @@ spring:
     encoding:
       force: true
       charset: UTF-8
-  ## 关闭thymeleaf缓存 开发时使用,否则没有实时画面
+  ## thymeleaf 配置
   thymeleaf:
     cache: false
     check-template-location: true
@@ -29,26 +29,26 @@ spring:
       max-request-size: 1024MB   # 单个请求的文件总大小上限
   ## 数据源的连接的基础配置, 当前为mybatis-plus配置方法
   datasource:
-    ## druid 连接池配置
-    initialSize: 5    # 初始化大小
-    minIdle: 5        # 最小值
-    maxActive: 20     # 最大值
-    maxWait: 60000    # 最大等待时间，配置获取连接等待超时，时间单位都是毫秒ms
-    timeBetweenEvictionRunsMillis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接
-    minEvictableIdleTimeMillis: 300000    # 配置一个连接在池中最小生存的时间
-    validationQuery: SELECT 1 FROM DUAL
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，
-    # 'wall'用于防火墙，SpringBoot中没有log4j，我改成了 slf4j | log4j2
-    filters: stat,wall,slf4j,log4j2
-    #最大PSCache连接
-    maxPoolPreparedStatementPerConnectionSize: 20
-    useGlobalDataSourceStat: true
-    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
-    connectionProperties: druid.stat.mergeSql=true:druid.stat.slowSqlMillis=500
+     ## druid 连接池配置
+     initialSize: 5    # 初始化大小
+     minIdle: 5        # 最小值
+     maxActive: 20     # 最大值
+     maxWait: 60000    # 最大等待时间，配置获取连接等待超时，时间单位都是毫秒ms
+     timeBetweenEvictionRunsMillis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接
+     minEvictableIdleTimeMillis: 300000    # 配置一个连接在池中最小生存的时间
+     validationQuery: SELECT 1 FROM DUAL
+     testWhileIdle: true
+     testOnBorrow: false
+     testOnReturn: false
+     poolPreparedStatements: true
+     # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，
+     # 'wall'用于防火墙，SpringBoot中没有log4j，我改成了 slf4j | log4j2
+     filters: stat,wall,slf4j,log4j2
+     #最大PSCache连接
+     maxPoolPreparedStatementPerConnectionSize: 20
+     useGlobalDataSourceStat: true
+     # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+     connectionProperties: druid.stat.mergeSql=true:druid.stat.slowSqlMillis=500
 
 
 # mybatis-plus相关配置
@@ -84,6 +84,6 @@ gc:
   # 数据库通用字段配置
   basefields: id,create_user,update_user,create_time,update_time,deleted,version
   # 数据库关键字,标注后会在实体类 @TableField 注解上自动加引号
-  keywordArray: time,desc,name,key,value,mysql,info,form,sort,icon,like,unlock,unLock,comment,disable,force,describe
+  keywordArray: time,desc,name,key,value,mysql,info,form,sort,icon,like,unlock,unLock,comment,disable,force,describe,host,port,from,to
 
 
