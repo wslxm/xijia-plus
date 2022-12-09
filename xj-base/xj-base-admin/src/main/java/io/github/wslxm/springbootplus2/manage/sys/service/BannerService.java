@@ -7,6 +7,8 @@ import io.github.wslxm.springbootplus2.manage.sys.model.entity.Banner;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.BannerQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.BannerVO;
 
+import java.util.List;
+
 /**
  * banner表
  * <p>
@@ -27,6 +29,14 @@ public interface BannerService extends IService<Banner> {
      * @version 1.0.0
      */
     IPage<BannerVO> findPage(BannerQuery query);
+
+
+    /**
+     * 根据位置 查询
+     * @param position
+     * @return
+     */
+    List<BannerVO> findByPosition(Integer position);
 
     /**
      * 添加

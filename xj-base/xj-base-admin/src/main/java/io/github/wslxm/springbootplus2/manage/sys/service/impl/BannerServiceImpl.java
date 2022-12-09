@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.wslxm.springbootplus2.common.cache.CacheKey;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.BannerMapper;
@@ -12,7 +13,11 @@ import io.github.wslxm.springbootplus2.manage.sys.model.entity.Banner;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.BannerQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.BannerVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.BannerService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * banner表
@@ -37,6 +42,15 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, Banner> imp
         return BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), BannerVO.class);
     }
 
+
+    @Override
+    @Cacheable(value = CacheKey.BENNER_BY_POSITION, key = "#position", unless = "#result == null")
+    public List<BannerVO> findByPosition(Integer position) {
+        BannerQuery query = new BannerQuery();
+        query.setPosition(position);
+        return this.findPage(query).getRecords();
+    }
+
     @Override
     public String insert(BannerDTO dto) {
         Banner entity = dto.convert(Banner.class);
@@ -45,6 +59,7 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, Banner> imp
     }
 
     @Override
+    @CacheEvict(value = CacheKey.BENNER_BY_POSITION, allEntries = true)
     public boolean upd(String id, BannerDTO dto) {
         Banner entity = dto.convert(Banner.class);
         entity.setId(id);
@@ -52,6 +67,7 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, Banner> imp
     }
 
     @Override
+    @CacheEvict(value = CacheKey.BENNER_BY_POSITION, allEntries = true)
     public boolean del(String id) {
         return this.removeById(id);
     }

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2020-08-31 18:31:44
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/sys/config")
+@RequestMapping(BaseConstant.Uri.API_ADMIN + "/sys/config")
 @Api(value = "ConfigController", tags = "base--sys--全局配置")
 public class ConfigController extends BaseController<ConfigService> {
 
@@ -60,7 +60,7 @@ public class ConfigController extends BaseController<ConfigService> {
     @DeleteMapping(value = "/{id}")
     @ApiOperation(value = "ID删除")
     public Result<Boolean> del(@PathVariable String id) {
-        return Result.successDelete(baseService.removeById(id));
+        return Result.successDelete(baseService.del(id));
     }
 
 

@@ -70,7 +70,7 @@ public class ConfigServiceImpl extends BaseServiceImpl<ConfigMapper, Config> imp
     }
 
     @Override
-    @CacheEvict(value = CacheKey.CONFIG_LIST_BY_CODE, allEntries = true)
+    @CacheEvict(value = CacheKey.CONFIG_BY_CODE, allEntries = true)
     @XjDistributedLock(lockName = "'xj-sys-config_'+#dto.code", waitTime = 5L)
     public boolean upd(String id, ConfigDTO dto) {
         Config config = this.getById(id);
@@ -84,9 +84,14 @@ public class ConfigServiceImpl extends BaseServiceImpl<ConfigMapper, Config> imp
         return this.updateById(entity);
     }
 
+    @Override
+    @CacheEvict(value = CacheKey.CONFIG_BY_CODE, allEntries = true)
+    public boolean del(String id) {
+        return this.removeById(id);
+    }
 
     @Override
-    @Cacheable(value = CacheKey.CONFIG_LIST_BY_CODE, key = "#code", unless = "#result == null")
+    @Cacheable(value = CacheKey.CONFIG_BY_CODE, key = "#code", unless = "#result == null")
     public ConfigVO findByCode(String code) {
         Config xjAdminConfig = this.getOne(new LambdaQueryWrapper<Config>().eq(Config::getCode, code));
         return BeanDtoVoUtil.convert(xjAdminConfig, ConfigVO.class);

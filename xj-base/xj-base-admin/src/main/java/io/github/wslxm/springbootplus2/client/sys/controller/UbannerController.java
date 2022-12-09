@@ -4,7 +4,6 @@ import io.github.wslxm.springbootplus2.common.annotation.XjCurrentLimit;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.Result;
-import io.github.wslxm.springbootplus2.manage.sys.model.query.BannerQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.BannerVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.BannerService;
 import io.swagger.annotations.Api;
@@ -28,7 +27,7 @@ import java.util.List;
  * @date 2020-08-23 23:14:01
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.API_CLIENT+ "/sys/banner")
+@RequestMapping(BaseConstant.Uri.API_CLIENT + "/sys/banner")
 @Api(value = "UbannerController", tags = "yh--base-plus--banner")
 public class UbannerController extends BaseController<BannerService> {
 
@@ -37,8 +36,6 @@ public class UbannerController extends BaseController<BannerService> {
     @ApiImplicitParam(name = "position", value = "位置(字典code)", required = true, paramType = "path", example = "")
     @XjCurrentLimit(qbs = 200)
     public Result<List<BannerVO>> list(@PathVariable Integer position) {
-        BannerQuery query = new BannerQuery();
-        query.setPosition(position);
-        return Result.successFind(baseService.findPage(query).getRecords());
+        return Result.successFind(baseService.findByPosition(position));
     }
 }

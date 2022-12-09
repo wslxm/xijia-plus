@@ -59,6 +59,14 @@ public interface ConfigService extends IService<Config> {
      */
     boolean upd(String id, ConfigDTO dto);
 
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    public boolean del(String id);
+
     /**
      * code 查询
      *
