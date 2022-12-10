@@ -3,8 +3,6 @@ package io.github.wslxm.springbootplus2.manage.sys.model.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
@@ -20,42 +18,59 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @TableName("t_sys_banner")
-@ApiModel(value = "Banner 对象", description = "banner表")
 public class Banner extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
 
-    @ApiModelProperty(notes = "banner位置(字典code) " ,position = 0)
+
+    /**
+     * 位置(字典code)
+     */
     @TableField(value = "position")
     private Integer position;
 
-    @ApiModelProperty(notes = "banner标题" ,position = 0)
+    /**
+     * banner标题
+     */
     @TableField(value = "`name`")
     private String name;
 
-    @ApiModelProperty(notes = "banner描叙" ,position = 1)
+    /**
+     * banner描叙
+     */
     @TableField(value = "`desc`")
     private String desc;
 
-    @ApiModelProperty(notes = "banner图片" ,position = 2)
+    /**
+     * banner图片
+     */
     @TableField(value = "img_url")
     private String imgUrl;
 
-    @ApiModelProperty(notes = "banner排序" ,position = 3)
+    /**
+     * banner排序
+     */
     @TableField(value = "`sort`")
     private Integer sort;
 
-    @ApiModelProperty(notes = "banner禁用(0-启用 1-禁用)" ,position = 4)
+    /**
+     * banner禁用(0-启用 1-禁用)
+     */
     @TableField(value = "`disable`")
     private Integer disable;
 
-    @ApiModelProperty(notes = "是否跳转(0-无  1-内部链接 2-外部链接)" ,position = 5)
+    /**
+     * 是否跳转(0-无  1-内部链接 2-外部链接)
+     */
     @TableField(value = "is_skip")
     private Integer isSkip;
 
-    @ApiModelProperty(notes = "跳转地址url(地址直接添加或字典表配置)" ,position = 6)
+    /**
+     * 跳转地址url(地址直接添加或字典表配置)
+     */
     @TableField(value = "skip_url")
     private String skipUrl;
+
 
 }
 

@@ -6,10 +6,8 @@ import io.github.wslxm.springbootplus2.file.strategy.context.FileChannelContext;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
 import io.github.wslxm.springbootplus2.file.util.FileDownloadUtil;
 import io.github.wslxm.springbootplus2.file.util.FileUploadUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +33,6 @@ import java.util.Map;
  * @date 2018/10/20 21:32
  */
 @RestController
-@Api(value = "FileController", tags = "文件管理")
 @RequestMapping("/api/open/file")
 public class FileController {
 
@@ -59,21 +54,27 @@ public class FileController {
     private HttpServletResponse response;
 
 
+    /**
+     * 文件上传,可在指定路径后追加子路径,以/结尾，上传成功返回完整可访问URL
+     *
+     * @param file     文件
+     * @param filePath 文件路径,必须指定开头目录,可使用二级目录,三级目录等等,如头像上传(" + "\r\n" +
+     *                 "图片=image/" + "\r\n" +
+     *                 "头像=image/head/  (二级目录)" + "\r\n" +
+     *                 "音乐=music/" + "\r\n" +
+     *                 "视频=video/" + "\r\n" +
+     *                 "文档=doc/" + "\r\n" +
+     *                 "表格=excel/" + "\r\n" +
+     *                 "任意文件=file/" + "\r\n" +
+     *                 ")", required = true)
+     * @param resType  返回类型(1- data=url(默认)  2- data=[name:xxx ,url: xxx])
+     * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.Object>
+     * @author wangsong
+     * @date 2022/12/10 0010 13:55
+     * @version 1.0.0
+     */
     @SneakyThrows
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    @ApiOperation("文件上传,可在指定路径后追加子路径,以/结尾，上传成功返回完整可访问URL")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "filePath", value = "文件路径,必须指定开头目录,可使用二级目录,三级目录等等,如头像上传(" + "\r\n" +
-                    "图片=image/" + "\r\n" +
-                    "头像=image/head/  (二级目录)" + "\r\n" +
-                    "音乐=music/" + "\r\n" +
-                    "视频=video/" + "\r\n" +
-                    "文档=doc/" + "\r\n" +
-                    "表格=excel/" + "\r\n" +
-                    "任意文件=file/" + "\r\n" +
-                    ")", required = true),
-            @ApiImplicitParam(name = "resType", value = "返回类型(1- data=url(默认)  2- data=[name:xxx ,url: xxx])", required = false)
-    })
     public Result<Object> upload(@RequestParam(required = true) MultipartFile file,
                                  @RequestParam(required = true) String filePath,
                                  @RequestParam(required = false) Integer resType) {
@@ -111,26 +112,45 @@ public class FileController {
 //        return Result.success(fileStrategy.fileList());
 //    }
 
-    @ApiOperation("文件/文件目录删除")
-    @ApiImplicitParam(name = "filePath", value = "文件保存的完整可访问URL,或OSS相对路径", required = true)
+    /**
+     * 文件/文件目录删除
+     *
+     * @param filePath 文件保存的完整可访问URL,或OSS相对路径
+     * @return java.lang.Object
+     * @author wangsong
+     * @date 2022/12/10 0010 13:56
+     * @version 1.0.0
+     */
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     public Object del(@RequestParam String filePath) {
         FileStrategy fileStrategy = fileChannelContext.getChannel(fileProperties.getChannel());
         return Result.success(fileStrategy.del(filePath));
     }
 
-    @ApiOperation("文件下载--单文件下载")
-    @ApiImplicitParam(name = "filePath", value = "文件可访问的完整URL", required = true)
+    /**
+     * 文件下载--单文件下载
+     *
+     * @param filePath 文件可访问的完整URL
+     * @return void
+     * @author wangsong
+     * @date 2022/12/10 0010 13:56
+     * @version 1.0.0
+     */
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void downloadNet(@RequestParam String filePath) {
         FileDownloadUtil.download(filePath, response);
     }
 
-    @ApiOperation("文件下载--多文件下载 (批量下载-打压缩包)")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "filePaths", value = "文件可访问的完整URL,多个逗号分隔", required = true),
-            @ApiImplicitParam(name = "zipName", value = "下载后的文件名", required = true)
-    })
+    /**
+     * 文件下载--多文件下载 (批量下载-打压缩包)
+     *
+     * @param filePaths 文件可访问的完整URL,多个逗号分隔
+     * @param zipName   下载后的文件名
+     * @return void
+     * @author wangsong
+     * @date 2022/12/10 0010 13:56
+     * @version 1.0.0
+     */
     @RequestMapping(value = "/downloadZip", method = RequestMethod.GET)
     public void downloadNet(@RequestParam String filePaths, @RequestParam String zipName) {
         FileDownloadUtil.downloadZip(Arrays.asList(filePaths.split(",")), zipName, response);

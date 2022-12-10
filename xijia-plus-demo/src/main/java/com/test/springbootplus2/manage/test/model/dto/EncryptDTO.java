@@ -1,19 +1,19 @@
 package com.test.springbootplus2.manage.test.model.dto;
 
 import io.github.wslxm.springbootplus2.common.annotation.XjSecret;
-import io.swagger.annotations.ApiModel;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 /**
+ * 测试请求加密
  * @author wangsong
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "EncryptDTO 对象", description = "测试请求加密")
 public class EncryptDTO implements Serializable {
     private static final long serialVersionUID = -1877788394466788429L;
 

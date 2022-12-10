@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.2.RELEASE</version>
+        <version>3.0.0</version>
         <relativePath/>
     </parent>
 
@@ -17,7 +17,7 @@
 
     <groupId>io.github.wslxm</groupId>
     <artifactId>xijia-plus</artifactId>
-    <version>2.1.5</version><!--1.0.1-SNAPSHOT -->
+    <version>3.0.0</version><!--1.0.1-SNAPSHOT -->
 
 
     <!--对应名称： 如果不定义名称系统默认为  <name>${groupId}:${artifactId}:${revision}</name> -->
@@ -31,28 +31,28 @@
              改版本号修改时请使用全局替换, ${revision} 读取会导致子模块无法单独打包
              spring-boot-plus2/pom.xml + xj-base/pom.xml + xj-server/pom.xml + xj-starter/pom.xml,
          -->
-        <revision>2.1.5</revision>
+        <revision>3.0.0</revision>
         <!-- 文件拷贝时的编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- 编译时的编码 -->
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <!-- jdk 版本-->
-        <java.version>1.8</java.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.compilerVersion>17</maven.compiler.compilerVersion>
         <!-- ================== 编码环境 END ======================= -->
 
         <!-- 数据源相关 -->
-        <mybatis-plus-boot-starter.version>3.5.1</mybatis-plus-boot-starter.version>
+        <mybatis-plus-boot-starter.version>3.5.2.7-SNAPSHOT</mybatis-plus-boot-starter.version>
         <!--<mybatis-plus-generator.version>3.1.0.tmp</mybatis-plus-generator.version>-->
         <mysql-connector-java.version>8.0.16</mysql-connector-java.version>
         <druid-spring-boot-starter.version>1.2.6</druid-spring-boot-starter.version>
         <druid.version>1.1.22</druid.version>
         <jjwt.version>0.9.1</jjwt.version>
         <!-- 第三方工具支持 -->
-        <cglib.version>3.2.4</cglib.version>
+        <cglib.version>3.3.0</cglib.version>
         <hutool-all.version>5.8.5</hutool-all.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <fastjson.version>1.2.61</fastjson.version>
@@ -66,6 +66,21 @@
         <poi-ooxml-schemas.version>3.17</poi-ooxml-schemas.version>
     </properties>
 
+    <repositories>
+        <!-- 下载mybatis-plus SNAPSHOT 版本所需仓库 -->
+        <repository>
+            <id>ossrh</id>
+            <name>OSS Snapshot repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+    </repositories>
 
     <!-- 统一依赖管理  -->
     <dependencyManagement>

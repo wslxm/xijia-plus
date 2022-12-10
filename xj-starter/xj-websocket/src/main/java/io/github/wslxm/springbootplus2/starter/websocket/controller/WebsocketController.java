@@ -3,10 +3,7 @@ package io.github.wslxm.springbootplus2.starter.websocket.controller;
 
 import io.github.wslxm.springbootplus2.starter.websocket.config.result.WebSocketR;
 import io.github.wslxm.springbootplus2.starter.websocket.service.WebsocketService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,21 +11,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- *  websocket类
- *  <p>
- *   @ServerEndpoint: socket链接地址
- *  <p/>
+ * websocket类
+ * <p>
+ *
  * @author wangsong
+ * @version 1.0.1
+ * @ServerEndpoint: socket链接地址
+ * <p/>
  * @mail 1720696548@qq.com
  * @date 2020/9/30 0030 16:33
- * @version 1.0.1
  */
-@Api(value = "WebsocketController", tags = "Websocket  -->  消息通知/即时通讯")
+//@Api(value = "WebsocketController", tags = "Websocket  -->  消息通知/即时通讯")
 @RequestMapping("/api/open/websocket")
 @RestController
 @Slf4j
@@ -71,7 +68,6 @@ public class WebsocketController {
      * 获取用户Id
      */
     @RequestMapping(value = "/getPath", method = RequestMethod.GET)
-    @ApiOperation("获取模拟游客登录的 websocket 连接地址")
     public Object getPath() {
         // 获取地址 127.0.0.1 | localhost | 线上域名
         String serverName = request.getServerName();
@@ -105,24 +101,24 @@ public class WebsocketController {
      * 发送消息
      */
     @RequestMapping(value = "/send", method = RequestMethod.POST)
-    @ApiOperation("发送消息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "form", value = "发送人Id", required = true, example = "1"),
-            @ApiImplicitParam(name = "username", value = "发送人用户名", required = true, example = "系统测试"),
-            @ApiImplicitParam(name = "to", value = "接收人Id, 全部为ALL", required = true, example = "ALL"),
-            @ApiImplicitParam(name = "content", value = "发送内容", required = true, example = "我是测试消息"),
-            @ApiImplicitParam(name = "extras", value = "附加发送内容", required = true, example = "我是附加内容")
-    })
+//    @ApiOperation("发送消息")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "form", value = "发送人Id", required = true, example = "1"),
+//            @ApiImplicitParam(name = "username", value = "发送人用户名", required = true, example = "系统测试"),
+//            @ApiImplicitParam(name = "to", value = "接收人Id, 全部为ALL", required = true, example = "ALL"),
+//            @ApiImplicitParam(name = "content", value = "发送内容", required = true, example = "我是测试消息"),
+//            @ApiImplicitParam(name = "extras", value = "附加发送内容", required = true, example = "我是附加内容")
+//    })
     public Object send(String form, String username, String to, String content, String extras) {
         websocketService.send(form, username, to, content, extras);
         return WebSocketR.success();
     }
 
     /**
-     *  获取当前在线人数
+     * 获取当前在线人数
      */
     @RequestMapping(value = "/getOnlineCount", method = RequestMethod.GET)
-    @ApiOperation("获取在线人数")
+    //@ApiOperation("获取在线人数")
     public Object getOnlineCount() {
         Integer onlineCount = websocketService.getOnlineCount();
         return WebSocketR.success(onlineCount);
@@ -130,7 +126,7 @@ public class WebsocketController {
 
 
     @RequestMapping(value = "/getOnlineUsersList", method = RequestMethod.GET)
-    @ApiOperation("获取当前在线用户列表")
+    //@ApiOperation("获取当前在线用户列表")
     public Object getOnlineUsersList() {
         return WebSocketR.success(websocketService.getOnlineUsersList());
     }

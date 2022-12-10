@@ -1,6 +1,5 @@
 package com.test.springbootplus2;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,14 +11,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * - @MapperScan 为mapper 扫包路径
  * - @EnableAdminServer 为监控Admin中心,访问地址为项目路径+ /bootAdmin, yml中配置
  * - @ServletComponentScan 为开启 Druid 监控平台
+ *
  * @author wangsong
+ * @version 1.0.1
  * @mail 1720696548@qq.com
  * @date 2019/10/31 20:45
- * @version 1.0.1
  */
-@SpringBootApplication(scanBasePackages = {"com.test.springbootplus2", "io.github.wslxm"}, exclude = DruidDataSourceAutoConfigure.class)
+@SpringBootApplication(scanBasePackages = {"com.test.springbootplus2", "io.github.wslxm"})
 @MapperScan({"com.test.springbootplus2.*.*.mapper", "io.github.wslxm.*.*.mapper"})
 public class SpringBootPlus2DemoServer {
+
 
     public static void main(String[] args) {
         SpringApplication.run(SpringBootPlus2DemoServer.class, args);

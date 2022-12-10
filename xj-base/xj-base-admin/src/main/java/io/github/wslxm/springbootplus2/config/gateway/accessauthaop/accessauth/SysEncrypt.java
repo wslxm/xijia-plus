@@ -119,6 +119,7 @@ public class SysEncrypt {
         Class<?> aClass = obj.getClass();
         Field[] declaredFields = aClass.getDeclaredFields();
         String logMsg = (type == 1 ? "加密" : "解密");
+        log.info("当前类：" + aClass.getSimpleName());
         for (Field field : declaredFields) {
             String name = field.getName();
             field.setAccessible(true);

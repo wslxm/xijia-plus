@@ -8,14 +8,12 @@ import io.github.wslxm.springbootplus2.manage.sys.model.dto.ConfigDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.ConfigQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.ConfigService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
 /**
- * 系统全局数据信息配置表
+ * base--sys--全局配置
  * <p>
  *  ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 
  * </p>
@@ -25,47 +23,77 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN + "/sys/config")
-@Api(value = "ConfigController", tags = "base--sys--全局配置")
 public class ConfigController extends BaseController<ConfigService> {
 
 
+    /**
+     * 分页查询
+     * @author wangsong
+     * @param query
+     * @return io.github.wslxm.springbootplus2.core.result.Result<com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO>>
+     */
     @GetMapping(value = "/findPage")
-    @ApiOperation(value = "分页查询")
     public Result<IPage<ConfigVO>> findPage(@ModelAttribute @Validated ConfigQuery query) {
         return Result.success(baseService.findPage(query));
     }
 
 
+    /**
+     * ID查询
+     * @author wangsong
+     * @param id
+     * @return io.github.wslxm.springbootplus2.core.result.Result<io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO>
+     */
     @GetMapping(value = "/{id}")
-    @ApiOperation(value = "ID查询")
     public Result<ConfigVO> findId(@PathVariable String id) {
         return Result.successUpdate(baseService.findId(id));
     }
 
 
+    /**
+     * 添加
+     * @author wangsong
+     * @param dto
+     * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.String>
+     */
     @PostMapping
-    @ApiOperation(value = "添加")
     public Result<String> insert(@RequestBody @Validated ConfigDTO dto) {
         return Result.successInsert(baseService.insert(dto));
     }
 
 
+    /**
+     * ID编辑
+     * @author wangsong
+     * @param id
+     * @param dto
+     * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.Boolean>
+     */
     @PutMapping(value = "/{id}")
-    @ApiOperation(value = "ID编辑")
     public Result<Boolean> upd(@PathVariable String id, @RequestBody @Validated ConfigDTO dto) {
         return Result.successUpdate(baseService.upd(id, dto));
     }
 
 
+    /**
+     * ID删除
+     * @author wangsong
+     * @param id
+     * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.Boolean>
+     */
     @DeleteMapping(value = "/{id}")
-    @ApiOperation(value = "ID删除")
     public Result<Boolean> del(@PathVariable String id) {
         return Result.successDelete(baseService.del(id));
     }
 
 
+    /**
+     * CODE查询
+     * @author wangsong
+     * @param code
+     * @return io.github.wslxm.springbootplus2.core.result.Result<io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO>
+     */
     @RequestMapping(value = "/findByCode", method = RequestMethod.GET)
-    @ApiOperation(value = "CODE查询")
     public Result<ConfigVO> findByCode(@RequestParam String code) {
         return Result.successFind(baseService.findByCode(code));
     }

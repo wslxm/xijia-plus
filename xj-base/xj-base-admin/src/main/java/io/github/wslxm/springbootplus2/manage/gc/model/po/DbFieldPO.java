@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.gc.model.po;
 
 
-import io.swagger.annotations.ApiModel;
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -12,7 +12,6 @@ import java.util.List;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "DbFieldPO 对象", description = "字段数据")
 public class DbFieldPO {
     /**
      * 字段名

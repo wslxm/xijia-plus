@@ -1,16 +1,16 @@
 package {packPath}.{rootModule}.{moduleName}.model.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+
 import lombok.Data;
 import lombok.ToString;
-import org.hibernate.validator.constraints.Range;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
+import jakarta.validatio.constraints.Range;
+import jakarta.validatio.constraints.Length;
+import jakarta.validatio.constraints.*;
+import jakarta.validatio.constraints.NotBlank;
+import jakarta.validatio.constraints.NotNull;
+import jakarta.validatio.constraints.DecimalMax;
+import jakarta.validatio.constraints.DecimalMin;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import io.github.wslxm.springbootplus2.core.base.model.BaseDto;

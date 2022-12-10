@@ -12,44 +12,57 @@ import io.github.wslxm.springbootplus2.manage.gc.model.query.DatasourceQuery;
 import io.github.wslxm.springbootplus2.manage.gc.model.vo.DatasourceVO;
 import io.github.wslxm.springbootplus2.manage.gc.service.DatasourceService;
 import io.github.wslxm.springbootplus2.manage.gc.util.JdbcPool;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
 /**
- * 代码生成数据源维护表
+ * base--gc--代码生成--数据源维护
  * <p>
- *  ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 
+ * ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655
  * </p>
+ *
  * @author wangsong
  * @email 1720696548@qq.com
  * @date 2020-11-04 20:11:08
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN + "/gc/datasource")
-@Api(value = "DatasourceController", tags = "base--gc--代码生成--数据源维护")
 public class DatasourceController extends BaseController<DatasourceService> {
 
 
+    /**
+     * 列表查询
+     *
+     * @param query
+     * @return
+     */
     @GetMapping(value = "/findPage")
-    @ApiOperation(value = "列表查询")
     public Result<IPage<DatasourceVO>> findPage(@ModelAttribute @Validated DatasourceQuery query) {
         return Result.successFind(baseService.findPage(query));
     }
 
 
+    /**
+     * id查询
+     *
+     * @param id
+     * @return
+     */
     @GetMapping(value = "/{id}")
-    @ApiOperation(value = "id查询")
     public Result<DatasourceVO> findId(@PathVariable String id) {
         return Result.successFind(baseService.findId(id));
     }
 
 
+    /**
+     * 添加
+     *
+     * @param dto
+     * @return
+     */
     @PostMapping
-    @ApiOperation(value = "添加")
     public Result<String> insert(@RequestBody @Validated DatasourceDTO dto) {
         Datasource xjDatasource = dto.convert(Datasource.class);
         xjDatasource.setDbPassword(Base64Util.encode(xjDatasource.getDbPassword()));
@@ -58,8 +71,14 @@ public class DatasourceController extends BaseController<DatasourceService> {
     }
 
 
+    /**
+     * ID编辑
+     *
+     * @param id
+     * @param dto
+     * @return
+     */
     @PutMapping(value = "/{id}")
-    @ApiOperation(value = "ID编辑")
     public Result<Boolean> upd(@PathVariable String id, @RequestBody @Validated DatasourceDTO dto) {
         Datasource entity = dto.convert(Datasource.class);
         entity.setId(id);
@@ -67,15 +86,24 @@ public class DatasourceController extends BaseController<DatasourceService> {
     }
 
 
+    /**
+     * ID删除
+     * @param id
+     * @return
+     */
     @DeleteMapping(value = "/{id}")
-    @ApiOperation(value = "ID删除")
     public Result<Boolean> del(@PathVariable String id) {
         return Result.successDelete(baseService.removeById(id));
     }
 
 
+    /**
+     * 修改/重置密码
+     * @param id
+     * @param password
+     * @return
+     */
     @PutMapping(value = "/{id}/updPwd")
-    @ApiOperation(value = "修改/重置密码")
     public Result<Boolean> updDbPwd(@PathVariable String id, @RequestParam String password) {
         Datasource entity = new Datasource();
         entity.setId(id);
@@ -84,8 +112,13 @@ public class DatasourceController extends BaseController<DatasourceService> {
     }
 
 
+    /**
+     * 数据源连接测试
+     * @param id
+     * @param dto
+     * @return
+     */
     @PostMapping(value = "/dataSourceTest/{id}")
-    @ApiOperation("数据源连接测试")
     public Result<Boolean> dataSourceTest(@PathVariable(required = false) String id, @RequestBody @Validated DatasourceDTO dto) {
         String dbPassword = dto.getDbPassword();
         if (StringUtils.isNotBlank(id) && !id.equals(NumberConst.ZERO)) {

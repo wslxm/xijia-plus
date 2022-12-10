@@ -1,8 +1,8 @@
 package io.github.wslxm.springbootplus2.core.config.threadpool;
 
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.concurrent.Executor;
 
 /**

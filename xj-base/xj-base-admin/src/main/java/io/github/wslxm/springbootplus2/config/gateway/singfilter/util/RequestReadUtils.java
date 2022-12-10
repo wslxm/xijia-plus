@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.config.gateway.singfilter.util;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.*;
 
 /**

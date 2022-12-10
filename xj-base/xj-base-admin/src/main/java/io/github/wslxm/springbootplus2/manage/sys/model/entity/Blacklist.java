@@ -3,7 +3,6 @@ package io.github.wslxm.springbootplus2.manage.sys.model.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.ToString;
 
@@ -19,7 +18,6 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @TableName("t_sys_blacklist")
-@ApiModel(value = "Blacklist 对象", description = "黑名单")
 public class Blacklist extends BaseEntity {
 
     private static final long serialVersionUID = 0L;

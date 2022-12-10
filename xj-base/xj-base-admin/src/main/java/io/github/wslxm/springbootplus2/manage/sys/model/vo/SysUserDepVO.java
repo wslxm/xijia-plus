@@ -1,8 +1,8 @@
 package io.github.wslxm.springbootplus2.manage.sys.model.vo;
 
 import io.github.wslxm.springbootplus2.core.base.model.BaseVo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -18,37 +18,54 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "SysUserDepVO 对象", description = "基础表--用户组织机构")
 public class SysUserDepVO extends BaseVo {
 
-	private static final long serialVersionUID = -603467428327985153L;
+    private static final long serialVersionUID = -603467428327985153L;
 
-	@ApiModelProperty(value = "父Id (顶级父id=0)", position = 0)
-	private String pid;
+    /**
+     * 父Id (顶级父id=0)"
+     */
+    private String pid;
 
-	@ApiModelProperty(value = "部门编码 (开始查询使用,不可重复)", position = 1)
-	private String code;
+    /**
+     * 部门编码 (开始查询使用,不可重复)
+     */
+    private String code;
 
-	@ApiModelProperty(value = "部门/公司名称", position = 2)
-	private String name;
+    /**
+     * 部门/公司名称
+     */
+    private String name;
 
-	@ApiModelProperty(value = "部门/公司描叙", position = 3)
-	private String desc;
+    /**
+     * 部门/公司描叙
+     */
+    private String desc;
 
-	@ApiModelProperty(value = "排序", position = 4)
-	private Integer sort;
+    /**
+     * 排序
+     */
+    private Integer sort;
 
-	@ApiModelProperty(value = "禁用(0-否 1-是)", position = 5)
-	private Integer disable;
+    /**
+     * 禁用(0-否 1-是)
+     */
+    private Integer disable;
 
-	@ApiModelProperty(value = "级别(1-一级 2-二级 3-三级)", position = 5)
-	private Integer root;
+    /**
+     * 级别(1-一级 2-二级 3-三级)
+     */
+    private Integer root;
 
-	@ApiModelProperty(value = "下级数据", position = 5)
-	private SysUserDepVO dep;
+    /**
+     * 下级数据
+     */
+    private SysUserDepVO dep;
 
-	@ApiModelProperty(value = "部门名称S, 只在第一级vo中存在值, 包含下级+下下级", position = 7)
-	private String depNames;
+    /**
+     * 部门名称S, 只在第一级vo中存在值, 包含下级+下下级
+     */
+    private String depNames;
 
 }
 

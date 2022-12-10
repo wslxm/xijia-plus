@@ -5,7 +5,7 @@
     <parent>
         <artifactId>xj-base</artifactId>
         <groupId>io.github.wslxm</groupId>
-        <version>2.1.5</version>
+        <version>3.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -25,10 +25,10 @@
             <groupId>io.github.wslxm</groupId>
             <artifactId>xj-base-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-swagger2</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.github.wslxm</groupId>-->
+<!--            <artifactId>xj-swagger2</artifactId>-->
+<!--        </dependency>-->
 
         <!-- 阿里云OSS SDK-->
         <dependency>
@@ -57,12 +57,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j-api</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-            </exclusions>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>log4j-api</artifactId>-->
+<!--                    <groupId>org.apache.logging.log4j</groupId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
 
     </dependencies>

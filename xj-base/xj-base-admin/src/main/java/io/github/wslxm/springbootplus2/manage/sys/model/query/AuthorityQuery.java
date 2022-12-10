@@ -1,8 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.sys.model.query;
 
 import io.github.wslxm.springbootplus2.core.base.model.BaseQuery;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
@@ -19,33 +17,48 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "AuthorityQuery 对象", description = "权限接口表")
 public class AuthorityQuery extends BaseQuery {
 
     private static final long serialVersionUID = 0L;
 
-    @ApiModelProperty(notes = "查询参数--父Id(方法与类/层级关系展示)", position = 1)
+    /**
+     * 查询参数--父Id(方法与类/层级关系展示)
+     */
     private String pid;
 
-    @ApiModelProperty(notes = "查询参数--访问端(字典code, 如 0-管理端 1-用户端)", position = 2)
+    /**
+     * 查询参数--访问端(字典code, 如 0-管理端 1-用户端)
+     */
     private Integer type;
 
-    @ApiModelProperty(notes = "查询参数--查询状态(字典code, 如 0-无权限 1-需登录 2-需登录+授权)", position = 2)
+    /**
+     * 查询参数--查询状态(字典code, 如 0-无权限 1-需登录 2-需登录+授权)
+     */
     private Integer state;
 
-    @ApiModelProperty(notes = "查询参数--禁用状态(字典code, 如 0-启用 1-禁用)", position = 2)
+    /**
+     * 查询参数--禁用状态(字典code, 如 0-启用 1-禁用)
+     */
     private Integer disable;
 
-    @ApiModelProperty(notes = "控制参数--是否只查询当前用户登录存在的权限(默认false)", position = 4)
+    /**
+     * 控制参数--是否只查询当前用户登录存在的权限(默认false)
+     */
     private Boolean isLoginUser;
 
-    @ApiModelProperty(notes = "控制参数--是否返回Tree结构数据(true=Tree结构数据  false=返回list结构数据(默认))", position = 5)
+    /**
+     * 控制参数--是否返回Tree结构数据(true=Tree结构数据  false=返回list结构数据(默认))
+     */
     private Boolean isTree;
 
-    @ApiModelProperty(notes = "指定字段正序查询 asc (如asc和desc 同时存在,则优先使用 asc)", position = -1)
+    /**
+     * 指定字段正序查询 asc (如asc和desc 同时存在,则优先使用 asc)
+     */
     private String asc;
 
-    @ApiModelProperty(notes = "指定字段倒序查询 desc ", position = -1)
+    /**
+     * 指定字段倒序查询 desc
+     */
     private String desc;
 
 }

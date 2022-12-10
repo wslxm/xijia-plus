@@ -26,6 +26,7 @@ import java.time.temporal.ChronoUnit;
 public class ToolServerImpl implements ToolServer {
 
 
+
     @Override
     public ToolJvmInfoVO jvmInfo() {
         ToolJvmInfoVO vo = new ToolJvmInfoVO();
@@ -259,5 +260,12 @@ public class ToolServerImpl implements ToolServer {
         fileInfoVO.setUsable(new BigDecimal(usableFile).setScale(2, RoundingMode.HALF_UP).doubleValue());
         fileInfoVO.setUsedRatio(new BigDecimal(usageRate * 100).setScale(2, RoundingMode.HALF_UP).doubleValue());
         return fileInfoVO;
+    }
+
+
+    public static void main(String[] args) {
+        ToolServerImpl toolServerImpl =  new ToolServerImpl();
+        ToolJvmInfoVO toolJvmInfoVO = toolServerImpl.jvmInfo();
+        System.out.printf("");
     }
 }

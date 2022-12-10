@@ -3,8 +3,6 @@ package io.github.wslxm.springbootplus2.manage.sys.model.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
@@ -20,45 +18,64 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @TableName("t_sys_config")
-@ApiModel(value = "Config 对象", description = "系统全局数据信息配置表")
 public class Config extends BaseEntity {
 
     private static final long serialVersionUID = 0L;
-    
-    @ApiModelProperty(notes = "配置code|搜索值(不能重复)" ,position = 0)
+
+    /**
+     * 配置code|搜索值(不能重复)
+     */
     @TableField(value = "code")
     private String code;
 
-    @ApiModelProperty(notes = "配置名称" ,position = 1)
+    /**
+     * 配置名称
+     */
     @TableField(value = "`name`")
     private String name;
 
-    @ApiModelProperty(notes = "类型(0-文本 1-图片)" ,position = 2)
-    @TableField(value = "type")
-    private Integer type;
-
-    @ApiModelProperty(notes = "配置内容" ,position = 2)
+    /**
+     * 配置内容
+     */
     @TableField(value = "content")
     private String content;
 
-    @ApiModelProperty(notes = "排序" ,position = 3)
+    /**
+     * 排序
+     */
     @TableField(value = "`sort`")
     private Integer sort;
 
-    @ApiModelProperty(notes = "描述" ,position = 3)
+    /**
+     * 类型(0-文本 1-图片 2-开关 3-富文本)
+     */
+    @TableField(value = "type")
+    private Integer type;
+
+    /**
+     * 描述
+     */
     @TableField(value = "`desc`")
     private String desc;
+
     /**
-     * 扩展字段 1
+     * 扩展字段1
      */
+    @TableField(value = "ext1")
     private String ext1;
+
     /**
-     * 扩展字段 2
+     * 扩展字段2
      */
+    @TableField(value = "ext2")
     private String ext2;
+
     /**
-     * 扩展字段 3
+     * 扩展字段3
      */
+    @TableField(value = "ext3")
     private String ext3;
+
+
 }
 

@@ -8,19 +8,21 @@ import org.springframework.web.filter.CorsFilter;
 
 /**
  * 跨域配置
+ *
  * @author wangsong
- * @email 1720696548@qq.com
- * @date 2021/8/16 0016 17:43 
  * @version 1.0.1
+ * @email 1720696548@qq.com
+ * @date 2021/8/16 0016 17:43
  */
 @Configuration
 public class CorsConfig {
 
     /**
      * 跨域处理
+     *
      * @author wangsong
      * @mail 1720696548@qq.com
-     * @date 2020/10/29 0029 19:16 
+     * @date 2020/10/29 0029 19:16
      * @version 1.0.1
      */
     @Bean
@@ -30,7 +32,8 @@ public class CorsConfig {
         // 是否允许请求带有验证信息
         corsConfiguration.setAllowCredentials(true);
         // 允许访问的客户端域名
-        corsConfiguration.addAllowedOrigin("*");
+       // corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedOriginPattern("*");
         // 允许服务端访问的客户端请求头
         corsConfiguration.addAllowedHeader("*");
         // 允许访问的方法名,GET POST等

@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.test.model.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+
 import lombok.Data;
 import lombok.ToString;
 import java.math.BigDecimal;
@@ -21,69 +21,108 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseVo;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "GcTestVO 对象", description = "代码生成测试表")
 public class GcTestVO extends BaseVo {
 
     private static final long serialVersionUID = -728163044571615232L;
     
-    @ApiModelProperty(value = "名称 (文本)" ,position = 0)
+    /**
+ * 名称 (文本)" 
+     */
     private String name;
 
-    @ApiModelProperty(value = "年龄 (数字)" ,position = 1)
+    /**
+ * 年龄 (数字)" 
+     */
     private Double age;
 
-    @ApiModelProperty(value = "性别 (单选--字典)" ,position = 2)
+    /**
+ * 性别 (单选--字典)" 
+     */
     private Integer sex;
 
-    @ApiModelProperty(value = "爱好 (多选--字典)" ,position = 3)
+    /**
+ * 爱好 (多选--字典)" 
+     */
     private String like;
 
-    @ApiModelProperty(value = "城市 (下拉选--字典)" ,position = 4)
+    /**
+ * 城市 (下拉选--字典)" 
+     */
     private Integer city;
 
-    @ApiModelProperty(value = "禁用 (开关--字典)" ,position = 5)
+    /**
+ * 禁用 (开关--字典)" 
+     */
     private Integer disable;
 
-    @ApiModelProperty(value = "单图文件" ,position = 6)
+    /**
+ * 单图文件" 
+     */
     private String headUrl;
 
-    @ApiModelProperty(value = "多图文件 (多图-默认限制10张图片, 字符串分割存储)" ,position = 7)
+    /**
+ * 多图文件 (多图-默认限制10张图片, 字符串分割存储)" 
+     */
     private String headFiles;
 
-    @ApiModelProperty(value = "视频文件 (视频-默认多上传)" ,position = 8)
+    /**
+ * 视频文件 (视频-默认多上传)" 
+     */
     private String videoFiles;
 
-    @ApiModelProperty(value = "任意文件 (任意文件上传-默认多上传)" ,position = 9)
+    /**
+ * 任意文件 (任意文件上传-默认多上传)" 
+     */
     private String files;
 
-    @ApiModelProperty(value = "时间 (默认 yyyy-MM-dd hh:mm:ss 格式)" ,position = 10)
+    /**
+ * 时间 (默认 yyyy-MM-dd hh:mm:ss 格式)" 
+     */
     private LocalDateTime time;
 
-    @ApiModelProperty(value = "时间-小时 (默认 hh:mm 字串)" ,position = 11)
+    /**
+ * 时间-小时 (默认 hh:mm 字串)" 
+     */
     private String timeTwo;
 
-    @ApiModelProperty(value = "更多信息-text (大文本)" ,position = 12)
+    /**
+ * 更多信息-text (大文本)" 
+     */
     private String text;
 
-    @ApiModelProperty(value = "更多信息-fwb (富文本)" ,position = 13)
+    /**
+ * 更多信息-fwb (富文本)" 
+     */
     private String textTwo;
 
-    @ApiModelProperty(value = "更多信息-md (md编辑器)" ,position = 14)
+    /**
+ * 更多信息-md (md编辑器)" 
+     */
     private String textThree;
 
-    @ApiModelProperty(value = "级联选择器  (字符串分割存储)" ,position = 15)
+    /**
+ * 级联选择器  (字符串分割存储)" 
+     */
     private String cascader;
 
-    @ApiModelProperty(value = "数组框 (字符串分割存储)" ,position = 16)
+    /**
+ * 数组框 (字符串分割存储)" 
+     */
     private String array;
 
-    @ApiModelProperty(value = "图标 " ,position = 17)
+    /**
+ * 图标 " 
+     */
     private String icon;
 
-    @ApiModelProperty(value = "颜色选择器" ,position = 18)
+    /**
+ * 颜色选择器" 
+     */
     private String color;
 
-    @ApiModelProperty(value = "地址选择器" ,position = 19)
+    /**
+ * 地址选择器" 
+     */
     private String map;
 
 }

@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth;
 
 
 import com.alibaba.fastjson.JSON;
+import com.google.protobuf.Api;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
@@ -10,8 +11,7 @@ import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Authority;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Log;
 import io.github.wslxm.springbootplus2.manage.sys.service.LogService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -74,17 +73,17 @@ public class SysLog {
         String packageName = proceed.getTarget().getClass().getPackage().getName();
         // 方法swagger描叙
         MethodSignature signature = (MethodSignature) proceed.getSignature();
-        ApiOperation methodAnnotation = signature.getMethod().getAnnotation(ApiOperation.class);
+        //ApiOperation methodAnnotation = signature.getMethod().getAnnotation(ApiOperation.class);
         String methodDesc = null;
-        if (methodAnnotation != null) {
-            methodDesc = methodAnnotation.value();
-        }
+//        if (methodAnnotation != null) {
+//            methodDesc = methodAnnotation.value();
+//        }
         //类swagger描叙
-        Api classAnnotation = proceed.getTarget().getClass().getDeclaredAnnotation(Api.class);
-        String classDesc = null;
-        if (classAnnotation != null) {
-            classDesc = classAnnotation.tags().length > 0 ? classAnnotation.tags()[0] : classAnnotation.value();
-        }
+//        Api classAnnotation = proceed.getTarget().getClass().getDeclaredAnnotation(Api.class);
+//        String classDesc = null;
+//        if (classAnnotation != null) {
+//            classDesc = classAnnotation.tags().length > 0 ? classAnnotation.tags()[0] : classAnnotation.value();
+//        }
         // uri ： 接口  包： packageName,  请求类： 接口+类描叙+接口描叙
         Object[] args = proceed.getArgs();
 
@@ -101,7 +100,7 @@ public class SysLog {
         log.setPort(port + "");
         log.setPackageName(packageName);
         log.setClassName(className);
-        log.setClassDesc(classDesc);
+       // log.setClassDesc(classDesc);
         log.setMethodDesc(methodDesc);
         // 响应数据
         log.setResponseData(null);

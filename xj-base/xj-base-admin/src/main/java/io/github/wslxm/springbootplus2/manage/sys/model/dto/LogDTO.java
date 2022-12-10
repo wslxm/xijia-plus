@@ -1,85 +1,125 @@
 package io.github.wslxm.springbootplus2.manage.sys.model.dto;
 
 import io.github.wslxm.springbootplus2.core.base.model.Convert;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+
 import lombok.Data;
 import lombok.ToString;
 
 /**
  * 操作记录表
  * <p>
- *  ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 
+ * ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655
  * </p>
- * @author  wangsong
- * @email  1720696548@qq.com
- * @date  2020-10-28 20:44:32
+ *
+ * @author wangsong
+ * @email 1720696548@qq.com
+ * @date 2020-10-28 20:44:32
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "LogDTO 对象", description = "操作记录表")
 public class LogDTO extends Convert {
 
     private static final long serialVersionUID = 0L;
-    
-    @ApiModelProperty(notes = "请求人" ,position = 0)
+
+    /**
+     * 请求人"
+     */
     private String fullName;
 
-    @ApiModelProperty(notes = "请求人Id (根据端来区分)" ,position = 1)
+    /**
+     * 请求人Id (根据端来区分)"
+     */
     private String userId;
 
-    @ApiModelProperty(notes = "请求终端(字典code, 如 0-管理端 1-用户端 -1-All)" ,position = 2)
+    /**
+     * 请求终端(字典code, 如 0-管理端 1-用户端 -1-All)"
+     */
     private Integer type;
 
-    @ApiModelProperty(notes = "请求来源" ,position = 3)
+    /**
+     * 请求来源"
+     */
     private String referer;
 
-    @ApiModelProperty(notes = "请求url" ,position = 4)
+    /**
+     * 请求url"
+     */
     private String url;
 
-    @ApiModelProperty(notes = "请求uri" ,position = 5)
+    /**
+     * 请求uri"
+     */
     private String uri;
 
-    @ApiModelProperty(notes = "用户真实Ip" ,position = 6)
+    /**
+     * 用户真实Ip"
+     */
     private String ip;
 
-    @ApiModelProperty(notes = "用户主机名" ,position = 7)
+    /**
+     * 用户主机名"
+     */
     private String host;
 
-    @ApiModelProperty(notes = "请求方式(post-get)" ,position = 8)
+    /**
+     * 请求方式(post-get)"
+     */
     private String method;
 
-    @ApiModelProperty(notes = "服务器地址" ,position = 9)
+    /**
+     * 服务器地址"
+     */
     private String serverName;
 
-    @ApiModelProperty(notes = "服务器端口" ,position = 10)
+    /**
+     * 服务器端口"
+     */
     private String port;
 
-    @ApiModelProperty(notes = "请求包" ,position = 11)
+    /**
+     * 请求包"
+     */
     private String packageName;
 
-    @ApiModelProperty(notes = "请求类" ,position = 12)
+    /**
+     * 请求类"
+     */
     private String className;
 
-    @ApiModelProperty(notes = "请求类--swagger注释" ,position = 13)
+    /**
+     * 请求类--swagger注释"
+     */
     private String classDesc;
 
-    @ApiModelProperty(notes = "请求方法--swagger注释" ,position = 14)
+    /**
+     * 请求方法--swagger注释"
+     */
     private String methodDesc;
 
-    @ApiModelProperty(notes = "请求数据" ,position = 15)
+    /**
+     * 请求数据"
+     */
     private String requestData;
 
-    @ApiModelProperty(notes = "返回数据" ,position = 16)
+    /**
+     * 返回数据"
+     */
     private String responseData;
 
-    @ApiModelProperty(notes = "1-请求成功 0-请求失败" ,position = 17)
+    /**
+     * 1-请求成功 0-请求失败"
+     */
     private Integer state;
 
-    @ApiModelProperty(notes = "程序响应总耗时" ,position = 18)
+    /**
+     * 程序响应总耗时"
+     */
     private Long executeTime;
 
-    @ApiModelProperty(notes = "业务执行总耗时" ,position = 18)
+    /**
+     * 业务执行总耗时"
+     */
     private Long businessTime;
 }
 

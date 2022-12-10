@@ -4,7 +4,7 @@ import lombok.Data;
 
 
 /**
- *  通用Entity
+ * 通用Entity
  *
  * @author 王松
  * @WX-QQ 1720696548
@@ -14,6 +14,7 @@ import lombok.Data;
 @Data
 public class BaseDto extends Convert {
 
-//    @ApiModelProperty(value = "id--> 添加不传，修改必传")
+    /**
+     * id--> 添加不传，修改必传   */
 //    private String id;
 }

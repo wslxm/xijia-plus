@@ -5,7 +5,7 @@
     <parent>
         <artifactId>xj-base</artifactId>
         <groupId>io.github.wslxm</groupId>
-        <version>2.1.5</version>
+        <version>3.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,21 +17,26 @@
     </properties>
 
     <dependencies>
+        <!-- spring-mvc -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <!-- 核心组件 -->
         <dependency>
             <groupId>io.github.wslxm</groupId>
             <artifactId>xj-base-core</artifactId>
         </dependency>
-        <!--redis 服务-->
+        <!--文件 服务-->
         <dependency>
             <groupId>io.github.wslxm</groupId>
             <artifactId>xj-base-file</artifactId>
         </dependency>
         <!-- 接口文档- swagger2-->
-        <dependency>
-            <groupId>io.github.wslxm</groupId>
-            <artifactId>xj-swagger2</artifactId>
-        </dependency>
+<!--        <dependency>-->
+        <!--            <groupId>io.github.wslxm</groupId>-->
+        <!--            <artifactId>xj-swagger2</artifactId>-->
+        <!--        </dependency>-->
         <!--redis 服务-->
         <dependency>
             <groupId>io.github.wslxm</groupId>
@@ -47,6 +52,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 

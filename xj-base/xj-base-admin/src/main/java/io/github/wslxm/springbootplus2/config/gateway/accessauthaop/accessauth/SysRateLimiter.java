@@ -13,7 +13,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -41,7 +41,7 @@ public class SysRateLimiter {
       * @author wangsong
       * @mail  1720696548@qq.com
       * @date  2021/11/28 0028 11:28
-      * @version 1.0.0      
+      * @version 1.0.0
       */
     public Result run(ProceedingJoinPoint proceed) {
         // 获取请求参数

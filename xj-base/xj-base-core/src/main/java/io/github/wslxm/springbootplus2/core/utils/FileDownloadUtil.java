@@ -1,9 +1,9 @@
-package io.github.wslxm.springbootplus2.file.util;
+package io.github.wslxm.springbootplus2.core.utils;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ResourceUtils;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;

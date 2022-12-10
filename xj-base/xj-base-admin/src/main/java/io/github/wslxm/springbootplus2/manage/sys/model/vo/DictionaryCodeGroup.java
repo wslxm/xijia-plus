@@ -1,8 +1,8 @@
 package io.github.wslxm.springbootplus2.manage.sys.model.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -22,38 +22,53 @@ import java.util.LinkedHashMap;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "DictionaryCodeGroup", description = "字典findCodeGroup方法VO数据")
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL )
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class DictionaryCodeGroup implements Serializable {
 
     private static final long serialVersionUID = -3021322187688178780L;
     /**
-     * 全为空，判断下级使用
+     * 字典Id 全为空，判断下级使用
      */
-    @ApiModelProperty(value = "字典Id")
+
     private String id;
 
-    @ApiModelProperty(value = "字典类型")
+    /**
+     * 字典类型
+     */
     private String code;
 
-    @ApiModelProperty(value = "字典名称")
+    /**
+     * 字典名称
+     */
     private String name;
 
-    @ApiModelProperty(value = "父Id")
+    /**
+     * 父Id
+     */
     private String pid;
 
-    @ApiModelProperty(value = "排序")
+    /**
+     * 排序
+     */
     private Integer sort;
 
-    @ApiModelProperty(value = "扩展字段1")
+    /**
+     * 扩展字段1
+     */
     private String ext1;
 
-    @ApiModelProperty(value = "扩展字段2")
+    /**
+     * 扩展字段2
+     */
     private String ext2;
 
-    @ApiModelProperty(value = "扩展字段3")
+    /**
+     * 扩展字段3
+     */
     private String ext3;
 
-    @ApiModelProperty(value = "子级,key=code")
+    /**
+     * 子级,key=code
+     */
     LinkedHashMap<String, DictionaryCodeGroup> dictMap;
 }

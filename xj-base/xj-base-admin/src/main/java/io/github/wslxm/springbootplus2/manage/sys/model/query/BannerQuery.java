@@ -1,8 +1,8 @@
 package io.github.wslxm.springbootplus2.manage.sys.model.query;
 
 import io.github.wslxm.springbootplus2.core.base.model.BaseQuery;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -17,15 +17,18 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "BannerQuery 对象", description = "banner表")
 public class BannerQuery extends BaseQuery {
 
     private static final long serialVersionUID = 0L;
 
-    @ApiModelProperty(value = "banner标题" ,position = 0)
+    /**
+     * banner标题
+     */
     private String name;
 
-    @ApiModelProperty(value = "位置(字典code)" ,position = 0)
+    /**
+     * 位置(字典code)
+     */
     private Integer position;
 
 }

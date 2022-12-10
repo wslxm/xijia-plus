@@ -8,14 +8,12 @@ import io.github.wslxm.springbootplus2.manage.sys.model.dto.BannerDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.BannerQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.BannerVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.BannerService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
 /**
- * banner表
+ * base--sys--banner
  * <p>
  *  ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 
  * </p>
@@ -25,29 +23,48 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN+ "/sys/banner")
-@Api(value = "BannerController", tags = "base--sys--banner")
 public class BannerController extends BaseController<BannerService> {
 
+    /**
+     * 列表查询
+     * @param query
+     * @return
+     */
     @GetMapping(value = "/findPage")
-    @ApiOperation(value = "列表查询")
     public Result<IPage<BannerVO>> findPage(@ModelAttribute @Validated BannerQuery query) {
         return Result.success(baseService.findPage(query));
     }
 
+    /**
+     * 添加
+     * @author wangsong
+     * @param dto
+     * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.String>
+     */
     @PostMapping
-    @ApiOperation(value = "添加")
     public Result<String> insert(@RequestBody @Validated BannerDTO dto) {
         return Result.successInsert(baseService.insert(dto));
     }
 
+    /**
+     * ID编辑
+     * @author wangsong
+     * @param id
+     * @param dto
+     * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.Boolean>
+     */
     @PutMapping(value = "/{id}")
-    @ApiOperation(value = "ID编辑")
     public Result<Boolean> upd(@PathVariable String id, @RequestBody @Validated BannerDTO dto) {
         return Result.successUpdate(baseService.upd(id, dto));
     }
 
+    /**
+     * ID删除
+     * @author wangsong
+     * @param id
+     * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.Boolean>
+     */
     @DeleteMapping(value = "/{id}")
-    @ApiOperation(value = "ID删除")
     public Result<Boolean> del(@PathVariable String id) {
         return Result.successDelete(baseService.del(id));
     }

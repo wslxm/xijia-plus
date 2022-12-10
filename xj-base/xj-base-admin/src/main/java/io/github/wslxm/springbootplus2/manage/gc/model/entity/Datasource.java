@@ -3,7 +3,7 @@ package io.github.wslxm.springbootplus2.manage.gc.model.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
-import io.swagger.annotations.ApiModel;
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -19,7 +19,6 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @TableName("t_gc_datasource")
-@ApiModel(value = "Datasource 对象", description = "代码生成数据源维护表")
 public class Datasource extends BaseEntity {
 
     private static final long serialVersionUID = 0L;

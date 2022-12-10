@@ -2,6 +2,8 @@ package io.github.wslxm.springbootplus2.starter.redis.util;
 
 
 import com.alibaba.fastjson.JSON;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.context.expression.MethodBasedEvaluationContext;
@@ -19,8 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -38,7 +38,7 @@ public class SpelUtil {
 
     private static final WebApplicationType WEB_APPLICATION_TYPE;
 
-    private static final String[] SERVLET_INDICATOR_CLASSES = {"javax.servlet.Servlet",
+    private static final String[] SERVLET_INDICATOR_CLASSES = {"jakarta.servlet.Servlet",
             "org.springframework.web.context.ConfigurableWebApplicationContext"};
 
     private static final String WEBMVC_INDICATOR_CLASS = "org.springframework.web.servlet.DispatcherServlet";

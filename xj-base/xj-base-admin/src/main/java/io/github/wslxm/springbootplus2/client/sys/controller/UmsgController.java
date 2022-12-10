@@ -7,42 +7,63 @@ import io.github.wslxm.springbootplus2.manage.sys.model.vo.MsgVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.MsgService;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
 /**
- * 订单-->及时消息通知表
+ * yh--base-plus--消息通知
  * <p>
- *  ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 
+ * ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655
  * </p>
+ *
  * @author wangsong
  * @email 1720696548@qq.com
  * @date 2020-09-23 10:40:23
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.API_CLIENT+ "/sys/msg")
-@Api(value = "UmsgController", tags = "yh--base-plus--消息通知")
+@RequestMapping(BaseConstant.Uri.API_CLIENT + "/sys/msg")
 public class UmsgController extends BaseController<MsgService> {
 
 
+    /**
+     * 分页查询
+     *
+     * @param query
+     * @return io.github.wslxm.springbootplus2.core.result.Result<com.baomidou.mybatisplus.core.metadata.IPage < io.github.wslxm.springbootplus2.manage.sys.model.vo.MsgVO>>
+     * @author wangsong
+     * @date 2022/12/10 0010 14:08
+     * @version 1.0.0
+     */
     @GetMapping(value = "/findPage")
-    @ApiOperation(value = "分页查询")
     public Result<IPage<MsgVO>> findPage(@ModelAttribute @Validated MsgQuery query) {
         return Result.successFind(baseService.findPage(query));
     }
 
 
+    /**
+     * 消息修改为已读
+     *
+     * @param id
+     * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.Boolean>
+     * @author wangsong
+     * @date 2022/12/10 0010 14:08
+     * @version 1.0.0
+     */
     @PutMapping(value = "/{id}/read")
-    @ApiOperation(value = "消息修改为已读")
     public Result<Boolean> updRead(@PathVariable String id) {
         return Result.successUpdate(baseService.updRead(id));
     }
 
 
-    @ApiOperation(value = "查询未读数量(当前登录用户)")
+    /**
+     * 查询未读数量(当前登录用户)
+     *
+     * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.Long>
+     * @author wangsong
+     * @date 2022/12/10 0010 14:08
+     * @version 1.0.0
+     */
     @GetMapping(value = "/findUnreadNum")
     public Result<Long> findUnreadNum() {
         return Result.successFind(baseService.findUnreadNum());

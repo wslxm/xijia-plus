@@ -1,9 +1,9 @@
 package io.github.wslxm.springbootplus2.starter.websocket.model.entity;
 
+import jakarta.websocket.Session;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.websocket.Session;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

@@ -8,63 +8,71 @@ import io.github.wslxm.springbootplus2.manage.sys.model.dto.RoleDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.RoleQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.RoleVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.RoleService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * base--sys--角色管理
  *
  * @author 王松
  * @WX-QQ 1720696548
  * @date 2019/11/13 13:38
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/sys/role")
-@Api(value = "RoleController", tags = "base--sys--角色管理")
+@RequestMapping(BaseConstant.Uri.API_ADMIN + "/sys/role")
 public class RoleController extends BaseController<RoleService> {
 
 
+    /**
+     * 列表查询
+     *
+     * @param query
+     * @return io.github.wslxm.springbootplus2.core.result.Result<com.baomidou.mybatisplus.core.metadata.IPage < io.github.wslxm.springbootplus2.manage.sys.model.vo.RoleVO>>
+     * @author wangsong
+     */
     @GetMapping(value = "/findPage")
-    @ApiOperation(value = "列表查询")
     public Result<IPage<RoleVO>> findPage(@ModelAttribute RoleQuery query) {
         return Result.success(baseService.findPage(query));
     }
 
 
+    /**
+     * 添加
+     *
+     * @param dto
+     * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.String>
+     * @author wangsong
+     */
     @PostMapping
-    @ApiOperation(value = "添加")
     public Result<String> insert(@RequestBody RoleDTO dto) {
         return Result.successInsert(baseService.insert(dto));
     }
 
 
+    /**
+     * ID编辑
+     *
+     * @param id
+     * @param dto
+     * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.Boolean>
+     * @author wangsong
+     */
     @PutMapping(value = "/{id}")
-    @ApiOperation(value = "ID编辑")
     public Result<Boolean> upd(@PathVariable String id, @RequestBody RoleDTO dto) {
         return Result.successUpdate(baseService.upd(id, dto));
     }
 
 
+    /**
+     * ID删除
+     *
+     * @param id
+     * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.Boolean>
+     * @author wangsong
+     */
     @DeleteMapping(value = "/{id}")
-    @ApiOperation(value = "ID删除")
     public Result<Boolean> del(@PathVariable String id) {
         return Result.successDelete(baseService.del(id));
     }
 
-    //=========================================================================
-    //============================ 增删改查外 ===================================
-    //=========================================================================
-    //=========================================================================
 
-//    @PutMapping(value = "/updRoleAuth")
-//    @ApiOperation(value = "角色的URL权限分配")
-//    public Result<Boolean> updRoleAuth(@RequestBody RoleAuthDTO dto) {
-//        return Result.successUpdate(baseService.roleUrlAuth(dto));
-//    }
-
-//    @PutMapping(value = "/updRoleAuthAll")
-//    @ApiOperation(value = "所有角色拥有所有权限")
-//    public Result<Boolean> updRoleAuthAll() {
-//        return Result.successUpdate(baseService.roleAuthAll());
-//    }
 }

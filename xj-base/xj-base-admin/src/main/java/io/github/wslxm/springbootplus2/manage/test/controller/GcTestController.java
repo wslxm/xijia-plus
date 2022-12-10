@@ -3,7 +3,6 @@ package io.github.wslxm.springbootplus2.manage.test.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.annotations.*;
 import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
 import io.github.wslxm.springbootplus2.manage.test.model.dto.GcTestDTO;
 import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
@@ -25,35 +24,54 @@ import io.github.wslxm.springbootplus2.core.result.Result;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN + "/test/gcTest")
-@Api(value = "GcTestController", tags = "代码生成测试表")
 public class GcTestController extends BaseController<GcTestService> {
 
+    /**
+     * 列表查询
+     * @author wangsong
+     * @param query
+     */
     @GetMapping(value = "/findPage")
-    @ApiOperation(value = "列表查询")
     public Result<IPage<GcTestVO>> findPage(@ModelAttribute @Validated GcTestQuery query) {
         return Result.success(baseService.findPage(query));
     }
 
+    /**
+     * ID查询
+     * @author wangsong
+     * @param query
+     */
     @GetMapping(value = "/{id}")
-    @ApiOperation(value = "ID查询")
     public Result<GcTestVO> findId(@PathVariable String id) {
         return Result.success(baseService.findId(id));
     }
 
+    /**
+     * 添加
+     * @author wangsong
+     * @param query
+     */
     @PostMapping
-    @ApiOperation(value = "添加")
     public Result<String> insert(@RequestBody @Validated GcTestDTO dto) {
         return Result.successInsert(baseService.insert(dto));
     }
 
+    /**
+     * ID编辑
+     * @author wangsong
+     * @param query
+     */
     @PutMapping(value = "/{id}")
-    @ApiOperation(value = "ID编辑")
     public Result<Boolean> upd(@PathVariable String id, @RequestBody @Validated GcTestDTO dto) {
         return Result.successUpdate(baseService.upd(id, dto));
     }
 
+    /**
+     * ID删除
+     * @author wangsong
+     * @param query
+     */
     @DeleteMapping(value = "/{id}")
-    @ApiOperation(value = "ID删除")
     public Result<Boolean> del(@PathVariable String id) {
         return Result.successDelete(baseService.del(id));
     }

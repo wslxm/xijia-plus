@@ -44,7 +44,7 @@ public interface AuthorityService extends IService<Authority> {
      * @return void
      * @date 2019/11/25 0025 11:55
      */
-    Boolean refreshAuthDb();
+  //  Boolean refreshAuthDb();
 
     /**
      * 刷新接口信息 (用于url授权, 在项目启动时调用和，权限数据更新时调用)
