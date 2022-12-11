@@ -57,6 +57,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.github.shaohuizhe</groupId>
+            <artifactId>ast</artifactId>
+            <version>3.0</version>
+        </dependency>
 
     </dependencies>
 

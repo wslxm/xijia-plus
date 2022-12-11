@@ -1,10 +1,11 @@
 package io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth;
 
 
+import cn.hutool.poi.word.DocUtil;
 import com.alibaba.fastjson.JSON;
-import com.google.protobuf.Api;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
+import io.github.wslxm.springbootplus2.common.cache.AuthCacheKeyUtil;
 import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
@@ -18,17 +19,20 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
  * 日志记录
+ *
  * @author wangsong
+ * @version 1.0.1
  * @mail 1720696548@qq.com
  * @date 2021/1/23 0023 9:17
- * @version 1.0.1
  */
 @SuppressWarnings("all")
 @Slf4j
@@ -49,9 +53,10 @@ public class SysLog {
 
     /**
      * 请求日志收集 / 打印日志到控制台
-     * <P>
-     *  如需统一日志收集,在此收集内容到统一日志收集器中
+     * <p>
+     * 如需统一日志收集,在此收集内容到统一日志收集器中
      * </P>
+     *
      * @param request 改方法为异步执行,request 必须调用方传递,也无法在 proceed中获取
      * @author wangsong
      * @mail 1720696548@qq.com
@@ -72,18 +77,18 @@ public class SysLog {
         // 请求的包名
         String packageName = proceed.getTarget().getClass().getPackage().getName();
         // 方法swagger描叙
-        MethodSignature signature = (MethodSignature) proceed.getSignature();
+        //MethodSignature signature = (MethodSignature) proceed.getSignature();
         //ApiOperation methodAnnotation = signature.getMethod().getAnnotation(ApiOperation.class);
-        String methodDesc = null;
-//        if (methodAnnotation != null) {
-//            methodDesc = methodAnnotation.value();
-//        }
-        //类swagger描叙
-//        Api classAnnotation = proceed.getTarget().getClass().getDeclaredAnnotation(Api.class);
-//        String classDesc = null;
-//        if (classAnnotation != null) {
-//            classDesc = classAnnotation.tags().length > 0 ? classAnnotation.tags()[0] : classAnnotation.value();
-//        }
+        String methodDesc = AuthCacheKeyUtil.getAuthCacheKey(method, uri);;
+        //  if (methodAnnotation != null) {
+        //      methodDesc = methodAnnotation.value();
+        //  }
+        // 类swagger描叙
+        //  Api classAnnotation = proceed.getTarget().getClass().getDeclaredAnnotation(Api.class);
+        String classDesc = proceed.getTarget().getClass().getSimpleName();
+        //  if (classAnnotation != null) {
+        //      classDesc = classAnnotation.tags().length > 0 ? classAnnotation.tags()[0] : classAnnotation.value();
+        //  }
         // uri ： 接口  包： packageName,  请求类： 接口+类描叙+接口描叙
         Object[] args = proceed.getArgs();
 
@@ -100,7 +105,7 @@ public class SysLog {
         log.setPort(port + "");
         log.setPackageName(packageName);
         log.setClassName(className);
-       // log.setClassDesc(classDesc);
+        log.setClassDesc(classDesc);
         log.setMethodDesc(methodDesc);
         // 响应数据
         log.setResponseData(null);
@@ -127,11 +132,12 @@ public class SysLog {
 
     /**
      * 响应日志记录 / 添加日志数据持久化到数据库
-     * @param1 future 请求日志记录线程
-     * @param state=0 失败 (默认)  type=1 成功
-     * @param obj 返回数据
-     * @param executeTime aop 执行总耗时
+     *
+     * @param state=0      失败 (默认)  type=1 成功
+     * @param obj          返回数据
+     * @param executeTime  aop 执行总耗时
      * @param businessTime 业务执行总耗时
+     * @param1 future 请求日志记录线程
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2020/10/28 0028 20:03
@@ -192,9 +198,10 @@ public class SysLog {
     /**
      * 日志中记录用户信息
      * <p>
-     *  1、 从 JwtUtil 中获取用户信息
-     *  2、 把用户信息放入log并返回，如果没有用户信息则用户名为： ╥﹏╥ ，用户id为：0
+     * 1、 从 JwtUtil 中获取用户信息
+     * 2、 把用户信息放入log并返回，如果没有用户信息则用户名为： ╥﹏╥ ，用户id为：0
      * <p/>
+     *
      * @return
      */
     private Log setJwtUser(Log log, HttpServletRequest request) {
@@ -228,10 +235,11 @@ public class SysLog {
 
     /**
      * 打印请求信息
-     * @author wangsong
+     *
      * @param adminlog
-     * @date 2020/11/9 0009 16:33
      * @return void
+     * @author wangsong
+     * @date 2020/11/9 0009 16:33
      * @version 1.0.1
      */
     private void printLog(Log adminlog) {
@@ -251,10 +259,11 @@ public class SysLog {
 
     /**
      * 获取请求地址
-     * @author wang-song
+     *
      * @param request
-     * @date 2020/7/14 0014 14:16
      * @return java.lang.String
+     * @author wang-song
+     * @date 2020/7/14 0014 14:16
      * @version 1.0.1
      */
     private String getIpAddress(HttpServletRequest request) {

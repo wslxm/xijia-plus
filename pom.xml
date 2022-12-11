@@ -53,7 +53,7 @@
         <jjwt.version>0.9.1</jjwt.version>
         <!-- 第三方工具支持 -->
         <cglib.version>3.3.0</cglib.version>
-        <hutool-all.version>5.8.5</hutool-all.version>
+        <hutool-all.version>5.8.10</hutool-all.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <fastjson.version>1.2.61</fastjson.version>
         <!-- 二维码工具 -->

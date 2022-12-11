@@ -17,12 +17,13 @@ import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- *  @author wangsong
+ * @author wangsong
  */
 @Component
 @Slf4j
@@ -59,14 +60,14 @@ public class SysAuth {
     /**
      * 登录授权认证
      * <>
-     *     token认证，授权认证，
-     *     没有Token 直接放行, 让请求接入权限认证, 需要授权的接口没有token当然是认证不过的啦
-     *     需要授权的接口, 在token 中获取当前登录用户的权限, 当前用户没有当前请求的接口权限当然也是认证不过的啦
-     *     // ===
-     *     前端接口认证：暂无处理
-     *     返回：
-     *       - 如果需要登录, 返回的jwt存储的用户信息, 用于记录日志, 如果接口不需要登录,返回的 null
-     *       - 如果登录过期或无接口权限,返回对应的错误信息，会直接返回到前端
+     * token认证，授权认证，
+     * 没有Token 直接放行, 让请求接入权限认证, 需要授权的接口没有token当然是认证不过的啦
+     * 需要授权的接口, 在token 中获取当前登录用户的权限, 当前用户没有当前请求的接口权限当然也是认证不过的啦
+     * // ===
+     * 前端接口认证：暂无处理
+     * 返回：
+     * - 如果需要登录, 返回的jwt存储的用户信息, 用于记录日志, 如果接口不需要登录,返回的 null
+     * - 如果登录过期或无接口权限,返回对应的错误信息，会直接返回到前端
      * </>
      */
     public Result<JwtUser> loginAuth() {
