@@ -32,11 +32,6 @@
             <groupId>io.github.wslxm</groupId>
             <artifactId>xj-base-file</artifactId>
         </dependency>
-        <!-- 接口文档- swagger2-->
-<!--        <dependency>-->
-        <!--            <groupId>io.github.wslxm</groupId>-->
-        <!--            <artifactId>xj-swagger2</artifactId>-->
-        <!--        </dependency>-->
         <!--redis 服务-->
         <dependency>
             <groupId>io.github.wslxm</groupId>
@@ -57,12 +52,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>io.github.shaohuizhe</groupId>
-            <artifactId>ast</artifactId>
-            <version>3.0</version>
-        </dependency>
-
+        <!--  <dependency>-->
+        <!--      <groupId>io.github.shaohuizhe</groupId>-->
+        <!--      <artifactId>ast</artifactId>-->
+        <!--      <version>3.0</version>-->
+        <!--  </dependency>-->
     </dependencies>
 
 

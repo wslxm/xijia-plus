@@ -25,12 +25,7 @@
             <groupId>io.github.wslxm</groupId>
             <artifactId>xj-base-core</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.github.wslxm</groupId>-->
-<!--            <artifactId>xj-swagger2</artifactId>-->
-<!--        </dependency>-->
-
-        <!-- 阿里云OSS SDK-->
+        <!-- 阿里云oss-sdk -->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
@@ -47,7 +42,6 @@
             <artifactId>imageio-tiff</artifactId>
             <version>${imageio-tiff.version}</version>
         </dependency>
-
         <!-- lombok  生成get/ser  了马达 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -57,14 +51,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>log4j-api</artifactId>-->
-<!--                    <groupId>org.apache.logging.log4j</groupId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
         </dependency>
-
     </dependencies>
 
 </project>

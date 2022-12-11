@@ -15,20 +15,24 @@ import org.springframework.web.bind.annotation.*;
 /**
  * base--sys--banner
  * <p>
- *  ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 
+ * ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655
  * </p>
+ *
  * @author wangsong
  * @email 1720696548@qq.com
  * @date 2020-08-23 23:14:01
  */
 @RestController
-@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/sys/banner")
+@RequestMapping(BaseConstant.Uri.API_ADMIN + "/sys/banner")
 public class BannerController extends BaseController<BannerService> {
+
 
     /**
      * 列表查询
-     * @param query
-     * @return
+     *
+     * @param query 查询参数
+     * @return BannerVO
+     * @author wangsong
      */
     @GetMapping(value = "/findPage")
     public Result<IPage<BannerVO>> findPage(@ModelAttribute @Validated BannerQuery query) {
@@ -37,9 +41,10 @@ public class BannerController extends BaseController<BannerService> {
 
     /**
      * 添加
-     * @author wangsong
+     *
      * @param dto
      * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.String>
+     * @author wangsong
      */
     @PostMapping
     public Result<String> insert(@RequestBody @Validated BannerDTO dto) {
@@ -48,10 +53,11 @@ public class BannerController extends BaseController<BannerService> {
 
     /**
      * ID编辑
-     * @author wangsong
+     *
      * @param id
      * @param dto
      * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.Boolean>
+     * @author wangsong
      */
     @PutMapping(value = "/{id}")
     public Result<Boolean> upd(@PathVariable String id, @RequestBody @Validated BannerDTO dto) {
@@ -60,9 +66,10 @@ public class BannerController extends BaseController<BannerService> {
 
     /**
      * ID删除
-     * @author wangsong
+     *
      * @param id
      * @return io.github.wslxm.springbootplus2.core.result.Result<java.lang.Boolean>
+     * @author wangsong
      */
     @DeleteMapping(value = "/{id}")
     public Result<Boolean> del(@PathVariable String id) {

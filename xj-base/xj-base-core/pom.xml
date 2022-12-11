@@ -12,7 +12,6 @@
     <artifactId>xj-base-core</artifactId>
     <version>${revision}</version>
 
-
     <dependencies>
         <!-- aop -->
         <dependency>
@@ -33,17 +32,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j-api</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <artifactId>log4j-api</artifactId>
-            <groupId>org.apache.logging.log4j</groupId>
-            <version>2.15.0</version>
         </dependency>
         <!-- 获取数据库异常类 -->
         <dependency>
@@ -55,48 +43,32 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
-        <!-- 代码生成插件 mybatis-plus-generator-->
-        <!--<dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-        </dependency>-->
         <!-- mysql -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <!--<scope>runtime</scope>-->
-        </dependency>
-        <!-- druid 阿里巴巴数据源 -->
-        <!--        <dependency>-->
-        <!--            <groupId>com.alibaba</groupId>-->
-        <!--            <artifactId>druid</artifactId>-->
-        <!--        </dependency>-->
-        <!-- h2 数据源 -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
+        <!--   <dependency>-->
+        <!--       <groupId>com.alibaba</groupId>-->
+        <!--       <artifactId>druid-spring-boot-starter</artifactId>-->
+        <!--   </dependency>-->
         <!-- jwt -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
         </dependency>
+        <!-- google guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>31.1-jre</version>
         </dependency>
-        <!-- Hutool是一个小而全的Java工具类库  -->
+        <!-- Hutool 是一个小而全的Java工具类库  -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
-        <!-- commons-lang3 -->
+        <!-- commons-lang3 工具库 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -131,15 +103,8 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml-schemas</artifactId>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.sun</groupId>-->
-        <!--            <artifactId>tools</artifactId>-->
-        <!--            <version>17</version>-->
-        <!--            <scope>system</scope>-->
-        <!--            <systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>-->
-        <!--        </dependency>-->
 
-        <!-- jdk9后被移除 -->
+        <!-- 以下是jdk9后被移除导致部分代码出错增加，jwt 生成错误-->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
@@ -160,13 +125,5 @@
             <artifactId>activation</artifactId>
             <version>1.1.1</version>
         </dependency>
-<!--        <dependency>-->
-        <!--            <groupId>jdk.tools</groupId>-->
-        <!--            <artifactId>jdk.tools</artifactId>-->
-        <!--            <version>17</version>-->
-        <!--            <scope>system</scope>-->
-        <!--            &lt;!&ndash;            <systemPath>${java.home}/lib/tools.jar</systemPath>&ndash;&gt;-->
-        <!--            <systemPath>${JAVA_HOME}/../lib/tools.jar</systemPath>-->
-        <!--        </dependency>-->
     </dependencies>
 </project>
