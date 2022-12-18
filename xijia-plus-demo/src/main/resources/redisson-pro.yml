@@ -1,7 +1,7 @@
 # 单节点配置
 singleServerConfig:
   # 节点地址 / 密码 / 数据库编号
-  address: redis://0.0.0.0:6379
+  address: redis://127.0.0.1:6379
   password: 123456
   database: 1
   # 连接空闲超时，单位：毫秒
