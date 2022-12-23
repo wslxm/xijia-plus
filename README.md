@@ -14,12 +14,12 @@
 - **完善的代码生成功能**： 提供**管理端接口+页面自动生成**, 生成后的页面crud功能将直接可以正常使用
 
 ----------
-- [预览地址：http://vue.xijia.plus/](http://vue.xijia.plus/)    账号: `test`  密码: `123456`
+- [原预览地址(后续会停掉)：http://vue.xijia.plus/](http://vue.xijia.plus/)    账号: `test`  密码: `123456`
+- [新预览地址：http://v2.xijia.plus/](http://vue.xijia.plus/)    账号: `test`  密码: `123456`
 - [项目文档](https://gitee.com/wslxm/xijia-plus/wikis/pages)
 - [项目文档-启动项目](https://gitee.com/wslxm/xijia-plus/wikis/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8/%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE)
 - [更新日志](https://gitee.com/wslxm/xijia-plus/blob/2.x/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md) 
-- [目录结构](https://gitee.com/wslxm/xijia-plus/blob/2.x/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/2.x%20%E7%89%88%E6%9C%AC%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.md) 
-
+- [目录结构](https://gitee.com/wslxm/xijia-plus/blob/2.x/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/2.x%20%E7%89%88%E6%9C%AC%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.md)
 ----------
 
 #### 项目宗旨：

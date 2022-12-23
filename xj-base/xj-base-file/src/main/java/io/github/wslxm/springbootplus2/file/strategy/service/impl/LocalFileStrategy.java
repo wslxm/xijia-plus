@@ -6,21 +6,19 @@ import io.github.wslxm.springbootplus2.file.properties.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
 /**
  * 本地文件
+ *
  * @author wangsong
- * @mail 1720696548@qq.com
- * @date 2022/10/15 0015 18:19 
  * @version 1.0.0
+ * @mail 1720696548@qq.com
+ * @date 2022/10/15 0015 18:19
  */
 @Service
 public class LocalFileStrategy implements FileStrategy {
@@ -47,7 +45,7 @@ public class LocalFileStrategy implements FileStrategy {
                 Files.createDirectories(directory);
             }
             // 拷贝文件
-            Files.copy(inputStream, directory.resolve(fileName));
+            Files.copy(inputStream, directory.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
             // url路径
             String path = baseUrl + "/" + uploadPath + "/" + filePath + fileName;
             return path;
