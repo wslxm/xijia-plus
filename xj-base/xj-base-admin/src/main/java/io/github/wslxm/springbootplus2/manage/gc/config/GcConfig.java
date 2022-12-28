@@ -26,6 +26,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GcConfig {
 
     /**
+     * 是否生成数据结构
+     */
+    private Boolean isTree;
+
+    /**
      * 表字段的相关数据(前端传递)
      */
     private List<DbFieldPO> dbFields;

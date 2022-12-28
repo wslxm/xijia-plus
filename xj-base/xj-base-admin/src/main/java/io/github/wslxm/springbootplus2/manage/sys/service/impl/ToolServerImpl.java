@@ -2,7 +2,7 @@ package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 
 import cn.hutool.system.SystemUtil;
 import com.sun.management.OperatingSystemMXBean;
-import io.github.wslxm.springbootplus2.core.utils.LocalDateTimeUtil;
+import io.github.wslxm.springbootplus2.core.utils.date.LocalDateTimeUtil;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.ToolJvmInfoVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.ToolServer;
 import lombok.extern.slf4j.Slf4j;

@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
-import io.github.wslxm.springbootplus2.core.utils.LocalDateTimeUtil;
+import io.github.wslxm.springbootplus2.core.utils.date.LocalDateTimeUtil;
 import io.github.wslxm.springbootplus2.core.utils.PropUtil;
 import io.github.wslxm.springbootplus2.file.util.FileDownloadUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 /**
- *  @author wangsong
+ * @author wangsong
  */
 @Service
 @Slf4j
@@ -73,6 +73,7 @@ public class XjGenerationSeviceImplI extends BaseServiceImpl implements Generati
         paths.add(basePath + gcConfig.getVisitPathMap().get(GcVueMain.KEY_NAME));
         paths.add(basePath + gcConfig.getVisitPathMap().get(GcVueAdd.KEY_NAME));
         paths.add(basePath + gcConfig.getVisitPathMap().get(GcVueUpd.KEY_NAME));
+        paths.add(basePath + gcConfig.getVisitPathMap().get(GcVuePid.KEY_NAME));
         // 下载后的名字
         String zipName = GcReplacUtil.replaceParams(gcConfig.getDefaultTemplateParam(), gcConfig.getTemplateParam(), GcTPConfig.P_VUE_MEUN);
         zipName = zipName.replaceAll("/", ".");
@@ -125,6 +126,7 @@ public class XjGenerationSeviceImplI extends BaseServiceImpl implements Generati
         mapPath.put(GcVueMain.KEY_NAME, gcConfig.getTemplatePathMap().get(GcVueMain.KEY_NAME).getPath());
         mapPath.put(GcVueAdd.KEY_NAME, gcConfig.getTemplatePathMap().get(GcVueAdd.KEY_NAME).getPath());
         mapPath.put(GcVueUpd.KEY_NAME, gcConfig.getTemplatePathMap().get(GcVueUpd.KEY_NAME).getPath());
+        mapPath.put(GcVuePid.KEY_NAME, gcConfig.getTemplatePathMap().get(GcVuePid.KEY_NAME).getPath());
         return mapPath;
     }
 
@@ -132,9 +134,9 @@ public class XjGenerationSeviceImplI extends BaseServiceImpl implements Generati
     /**
      * 数据处理
      *
-     * @param generateDto 前端请求数据
-     * @param isPreview   是否为生成预览地址 (如果是 生成的代码将放入 File/ 目录下,如果不是生成到当前对应代码目录或配置的绝对路径中)
-     * @param isPreviewSuffix  是否修改后缀  (如果是 所有生成的文件名后缀将统一修改为 GcTPConfig.PREVIEW_SUFFIX 配置的后缀)
+     * @param generateDto     前端请求数据
+     * @param isPreview       是否为生成预览地址 (如果是 生成的代码将放入 File/ 目录下,如果不是生成到当前对应代码目录或配置的绝对路径中)
+     * @param isPreviewSuffix 是否修改后缀  (如果是 所有生成的文件名后缀将统一修改为 GcTPConfig.PREVIEW_SUFFIX 配置的后缀)
      * @author wangsong
      * @email 1720696548@qq.com
      * @date 2022/3/5 16:30
@@ -143,6 +145,8 @@ public class XjGenerationSeviceImplI extends BaseServiceImpl implements Generati
 
         // 配置数据容器
         GcConfig gcConfig = new GcConfig();
+        gcConfig.setIsTree(generateDto.getIsTree());
+
         // 获取当前服务器地址
         String baseUrl = request.getRequestURL().toString().replace(request.getServletPath(), "");
 
@@ -179,7 +183,16 @@ public class XjGenerationSeviceImplI extends BaseServiceImpl implements Generati
         gcConfig.addTemplate(GcVueMain.KEY_NAME, baseUrl + GcTPConfig.T_VUE, previewFile + GcTPConfig.P_VUE);
         gcConfig.addTemplate(GcVueAdd.KEY_NAME, baseUrl + GcTPConfig.T_VUE_ADD, previewFile + GcTPConfig.P_VUE_ADD);
         gcConfig.addTemplate(GcVueUpd.KEY_NAME, baseUrl + GcTPConfig.T_VUE_UPD, previewFile + GcTPConfig.P_VUE_UPD);
-
+        // 生成树结构时使用的模板 (对部分不同的，使用tree专用模板)
+        if (generateDto.getIsTree()) {
+            gcConfig.addTemplate(GcVO.KEY_NAME, baseUrl + GcTPConfig.T_TREE_VO, previewFile + GcTPConfig.P_VO);
+            gcConfig.addTemplate(GcController.KEY_NAME, baseUrl + GcTPConfig.T_TREE_CONTROLLER, previewFile + GcTPConfig.P_CONTROLLER);
+            gcConfig.addTemplate(GcIService.KEY_NAME, baseUrl + GcTPConfig.T_TREE_SERVICE, previewFile + GcTPConfig.P_SERVICE);
+            gcConfig.addTemplate(GcIServiceImpl.KEY_NAME, baseUrl + GcTPConfig.T_TREE_SERVICEIMPL, previewFile + GcTPConfig.P_SERVICE_IMPL);
+            gcConfig.addTemplate(GcVueMain.KEY_NAME, baseUrl + GcTPConfig.T_TREE_VUE, previewFile + GcTPConfig.P_VUE);
+            gcConfig.addTemplate(GcVueAdd.KEY_NAME, baseUrl + GcTPConfig.T_TREE_VUE_ADD, previewFile + GcTPConfig.P_VUE_ADD);
+            gcConfig.addTemplate(GcVuePid.KEY_NAME, baseUrl + GcTPConfig.T_TREE_VUE_PID, previewFile + GcTPConfig.P_VUE_PID);
+        }
         // 生成地址 文件路径上的动态参数 和 文件后缀 进行处理
         for (GcFilePath gcFilePath : gcConfig.getTemplatePathMap().values()) {
             String path = GcReplacUtil.replaceParams(gcConfig.getDefaultTemplateParam(), gcConfig.getTemplateParam(), gcFilePath.getPath());
@@ -188,7 +201,6 @@ public class XjGenerationSeviceImplI extends BaseServiceImpl implements Generati
                 path = path.substring(0, path.lastIndexOf("."));
                 path += GcTPConfig.PREVIEW_SUFFIX;
             }
-
             gcFilePath.setPath(path);
         }
 

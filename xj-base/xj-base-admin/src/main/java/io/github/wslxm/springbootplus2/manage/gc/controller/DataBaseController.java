@@ -23,7 +23,7 @@ import java.util.List;
  */
 @SuppressWarnings({"all"})
 @RestController
-@RequestMapping(BaseConstant.Uri.API_ADMIN+ "/gc/dataBase")
+@RequestMapping(BaseConstant.Uri.API_ADMIN + "/gc/dataBase")
 @Api(value = "DataBaseController", tags = "base--gc--代码生成--查询表数据")
 public class DataBaseController extends BaseController<DataBaseService> {
 

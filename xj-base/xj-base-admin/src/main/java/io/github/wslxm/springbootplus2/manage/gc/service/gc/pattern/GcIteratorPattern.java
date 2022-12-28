@@ -46,6 +46,7 @@ public class GcIteratorPattern {
             beans.put(GcVueMain.KEY_NAME, new GcVueMain());
             beans.put(GcVueAdd.KEY_NAME, new GcVueAdd());
             beans.put(GcVueUpd.KEY_NAME, new GcVueUpd());
+            beans.put(GcVuePid.KEY_NAME, new GcVuePid());
         }
 
     }

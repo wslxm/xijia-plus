@@ -1,0 +1,65 @@
+<template>
+    <div>
+        <avue-form ref="form" v-model="obj" :option="option"
+                   @reset-change="emptytChange"
+                   @submit="submit">
+{vueAddColumnSlots}
+        </avue-form>
+    </div>
+</template>
+
+<script>
+
+    import {baseUploadUrl} from "@/config/env";
+    export default {
+        data() {
+            return {
+                obj: {},
+                initSuccess: false,
+                defaultData: {
+{vueAddColumnsDefault}
+                },
+            }
+        },
+        props: {
+            closeDialog: [],
+            uri: {},
+            rowData: {},
+        },
+        computed: {
+            option() {
+                return {
+                    submitBtn: true,
+                    emptyBtn: true,
+                    submitText: '提交',
+                    emptyText: "关闭",
+                    column: [
+{vueAddColumns}
+                    ]
+                }
+            }
+        },
+        created() {
+            this.obj = this.defaultData;
+            this.obj.pid = this.rowData.id;
+            this.initSuccess = true;
+        },
+        methods: {
+            emptytChange() {
+                this.closeDialog(false);
+            },
+            submit(form, done) {
+                this.crud.post(this.uri.info, this.obj).then((res) => {
+                    console.debug(res);
+                    if (res.data.code == 200) {
+                       this.closeDialog(true);
+                    }
+                    done(form);
+                }).catch((err) => {
+                    console.error(err);
+                    done(form);
+                })
+            },
+        }
+    }
+</script>

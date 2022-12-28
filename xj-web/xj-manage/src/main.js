@@ -10,7 +10,7 @@ import dayjs from 'dayjs'
 import basicContainer from './components/basic-container/main'; // base容器
 import basicBlock from './components/basic-block/main'          // base块
 import website from '@/config/website' ;                        // 当前系统配置数据
-import defaultDic from '@/config/defaultDic' ;                // 相关默认数据
+import defaultDic from '@/config/defaultDic' ;                  // 相关默认数据
 import {iconfontUrl, iconfontVersion} from '@/config/env';      // 阿里图标地址
 import icon from "@/util/icon";                                 // 系统图标
 import {loadStyle} from './util/util';                          // 动态插入css方法
@@ -42,10 +42,10 @@ Vue.prototype.dict = dict;
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(Element, {
-  i18n: (key, value) => i18n.t(key, value)
+    i18n: (key, value) => i18n.t(key, value)
 });
 Vue.use(AVUE, {
-  i18n: (key, value) => i18n.t(key, value)
+    i18n: (key, value) => i18n.t(key, value)
 });
 //注册全局容器
 Vue.component('basicContainer', basicContainer);
@@ -53,27 +53,29 @@ Vue.component('basicBlock', basicBlock);
 
 // 加载相关url地址
 Object.keys(urls).forEach(key => {
-  Vue.prototype[key] = urls[key];
+    Vue.prototype[key] = urls[key];
 });
 // 动态加载阿里云字体库
 iconfontVersion.forEach(ele => {
-  loadStyle(iconfontUrl.replace('$key', ele));
+    loadStyle(iconfontUrl.replace('$key', ele));
 });
 
 new Vue({
-  router,
-  store,
-  i18n,
-  render: h => h(App)
+    router,
+    store,
+    i18n,
+    render: h => h(App)
 }).$mount('#app');
 
 
 // tinymce 富文本插件， vueTinymceEditor为当前项目二次封装
 import tinymce from 'tinymce'
 import VueTinymce from '@packy-tang/vue-tinymce'
+
 Vue.prototype.$tinymce = tinymce;
 Vue.use(VueTinymce);
 import vueTinymceEditor from '@/components/vue-tinymce/index';
+
 Vue.component('TinymceEditor', vueTinymceEditor);
 
 // v-md-editor 插件
@@ -82,20 +84,32 @@ import '@kangc/v-md-editor/lib/style/base-editor.css';
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 import Prism from 'prismjs';
+
 VueMarkdownEditor.use(vuepressTheme, {
-  Prism,
+    Prism,
 });
 
 // v-md-editor 插件代码块关键字高亮
-import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
-import '@kangc/v-md-editor/lib/theme/style/github.css';
-// 引入所有语言包
-import hljs from 'highlight.js';
-VueMarkdownEditor.use(githubTheme, {
-  Hljs: hljs,
-});
+// github 主题
+// import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
+// // 引入所有语言包
+// import hljs from 'highlight.js';
+// VueMarkdownEditor.use(githubTheme, {
+//   Hljs: hljs,
+// });
 Vue.use(VueMarkdownEditor);
+
+// 代码行号插件 +  内容定位 + 表情
+import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
+import createAlignPlugin from '@kangc/v-md-editor/lib/plugins/align';
+// import createEmojiPlugin from '@kangc/v-md-editor/lib/plugins/emoji/index';
+// import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css';
+VueMarkdownEditor.use(createLineNumbertPlugin());
+VueMarkdownEditor.use(createAlignPlugin());
+// VueMarkdownEditor.use(createEmojiPlugin());
+
 
 // v-md-editor 插件二次封装
 import mdEditor from '@/components/v-md-editor/index';
+
 Vue.component('MdEditor', mdEditor);

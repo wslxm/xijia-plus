@@ -8,6 +8,7 @@ import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.gc.GcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 @SuppressWarnings("all")
 @Component
+@Slf4j
 public class GcMapperXml extends BaseServiceImpl implements GcSevice {
 
     /**
@@ -39,6 +41,7 @@ public class GcMapperXml extends BaseServiceImpl implements GcSevice {
      */
     @Override
     public void run(GcConfig gcConfig) {
+          log.info("开始生成: {}", KEY_NAME);
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         gcConfig.setTemplateParam("resultMap", resultXml(gcConfig, dbFields));
         gcConfig.setTemplateParam("columnList", columnXml(dbFields));

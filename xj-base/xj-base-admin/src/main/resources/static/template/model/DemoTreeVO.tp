@@ -1,0 +1,30 @@
+package {packPath}.{rootModule}.{moduleName}.model.vo;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.ToString;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import io.github.wslxm.springbootplus2.core.base.model.BaseVo;
+
+/**
+ * {tableComment} VO
+ *
+ * <p>
+ * {describe}
+ * </p>
+
+ * @author {author}
+ * @email {email}
+ * @date {date}
+ */
+@Data
+@ToString(callSuper = true)
+@ApiModel(value = "{tableNameUp}VO 对象", description = "{tableComment}")
+public class {tableNameUp}VO extends BaseTree<{tableNameUp}VO,String>  {
+
+    private static final long serialVersionUID = -{serialVersionUID}L;
+    {entitys}
+}
+

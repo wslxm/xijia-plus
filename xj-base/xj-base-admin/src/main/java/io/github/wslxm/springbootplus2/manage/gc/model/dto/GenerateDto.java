@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- *  @author wangsong
+ * @author wangsong
  */
 @Data
 @ApiModel(value = "GenerateDto", description = "代码生成")
@@ -27,4 +27,7 @@ public class GenerateDto extends Convert {
 
     @ApiModelProperty(value = "表注释")
     private String tableComment;
+
+    @ApiModelProperty(value = "是否为树结构")
+    private Boolean isTree = true;
 }

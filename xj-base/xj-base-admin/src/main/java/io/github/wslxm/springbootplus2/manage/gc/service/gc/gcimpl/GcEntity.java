@@ -9,6 +9,7 @@ import io.github.wslxm.springbootplus2.manage.gc.constant.TpParamConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.gc.GcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import java.util.List;
 
 @SuppressWarnings("all")
 @Component
+@Slf4j
 public class GcEntity extends BaseGcImpl implements GcSevice {
 
     /**
@@ -29,6 +31,7 @@ public class GcEntity extends BaseGcImpl implements GcSevice {
 
     @Override
     public void run(GcConfig gcConfig) {
+          log.info("开始生成: {}", KEY_NAME);
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         //数据拼接(所有字段)
         this.generateParameters(gcConfig, dbFields);

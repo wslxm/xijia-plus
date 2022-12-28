@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import io.github.wslxm.springbootplus2.core.constant.SymbolConst;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
+import io.github.wslxm.springbootplus2.core.utils.tree.TreeUtil;
 import {packPath}.{rootModule}.{moduleName}.mapper.{tableNameUp}Mapper;
 import {packPath}.{rootModule}.{moduleName}.service.{tableNameUp}Service;
 import {packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp};
@@ -30,6 +31,16 @@ import java.util.List;
 @Service
 public class {tableNameUp}ServiceImpl extends BaseServiceImpl<{tableNameUp}Mapper, {tableNameUp}> implements {tableNameUp}Service {
 {filterCrud}
+
+    @Override
+    public List<GcMenuVO> tree({tableNameUp}Query query) {
+        LambdaQueryWrapper<{tableNameUp}> queryWrapper = new LambdaQueryWrapper<{tableNameUp}>().orderByDesc({tableNameUp}::getCreateTime);
+        List<{tableNameUp}> list = this.list(queryWrapper);
+        List<{tableNameUp}VO> listVo = BeanDtoVoUtil.listVo(list, {tableNameUp}VO.class);
+        return TreeUtil.nextTree(listVo, "0").getChildren();
+    }
+
+
     @Override
     public IPage<{tableNameUp}VO> findPage({tableNameUp}Query query) {
         LambdaQueryWrapper<{tableNameUp}> queryWrapper = new LambdaQueryWrapper<{tableNameUp}>().orderByDesc({tableNameUp}::getCreateTime);
@@ -59,7 +70,11 @@ public class {tableNameUp}ServiceImpl extends BaseServiceImpl<{tableNameUp}Mappe
 
     @Override
     public boolean del(String id) {
-        return this.removeById(id);
+         List<{tableNameUp}> list = this.list(new LambdaQueryWrapper<{tableNameUp}>().select({tableNameUp}::getId, {tableNameUp}::getPid));
+         List<{tableNameUp}VO> listVos = BeanDtoVoUtil.listVo(list, {tableNameUp}VO.class);
+         List<String> nextIds = TreeUtil.nextIds(listVos, id);
+         nextIds.add(id);
+         return this.removeBatchByIds(nextIds);
     }
 {filterCrud}
 }

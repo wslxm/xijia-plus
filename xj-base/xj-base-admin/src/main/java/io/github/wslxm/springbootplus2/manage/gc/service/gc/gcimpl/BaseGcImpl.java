@@ -10,6 +10,7 @@ import io.github.wslxm.springbootplus2.manage.gc.template.VueAddUpdSlotTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.template.VueAddUpdTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.template.VueMainSlotTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,8 +23,8 @@ import java.util.List;
  * @mail 1720696548@qq.com
  * @date 2021/8/27 0027 17:28
  */
-public class BaseGcImpl extends BaseServiceImpl {
 
+public class BaseGcImpl extends BaseServiceImpl {
 
     /**
      * 数据库类型对应字段生成
@@ -36,6 +37,7 @@ public class BaseGcImpl extends BaseServiceImpl {
      * @param isTimeStr 时间是否使用字符串,只处理 datetime 字段类型（特殊处理, 满足query范围查询的代码自动生成）
      */
     protected String jxModel(GcConfig gcConfig, String fieldName, String type, Boolean isTimeStr) {
+
         isTimeStr = isTimeStr == null ? false : isTimeStr;
         // 转驼峰模式
         fieldName = GcDataUtil.getFieldName(gcConfig, fieldName);

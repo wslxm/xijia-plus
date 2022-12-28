@@ -18,8 +18,8 @@ public class GcTPConfig {
     /**
      * 代码模板 路径
      */
-    // java代码
     public final static String T_BASE_TEMPLATE = "/template";
+    // java代码
     public final static String T_ENTITY = T_BASE_TEMPLATE + "/model/Demo.tp";
     public final static String T_VO = T_BASE_TEMPLATE + "/model/DemoVO.tp";
     public final static String T_DTO = T_BASE_TEMPLATE + "/model/DemoDTO.tp";
@@ -34,15 +34,24 @@ public class GcTPConfig {
     public final static String T_VUE_ADD = T_BASE_TEMPLATE + "/vue/DemoVueAdd.tp";
     public final static String T_VUE_UPD = T_BASE_TEMPLATE + "/vue/DemoVueUpd.tp";
 
+    // 自关联tree结构模板地址
+    public final static String T_TREE_VO = T_BASE_TEMPLATE + "/tree/DemoTreeVO.tp";
+    public final static String T_TREE_CONTROLLER = T_BASE_TEMPLATE + "/tree/TreeDemoController.tp";
+    public final static String T_TREE_SERVICE = T_BASE_TEMPLATE + "/tree/TreeDemoService.tp";
+    public final static String T_TREE_SERVICEIMPL = T_BASE_TEMPLATE + "/tree/TreeDemoServiceImpl.tp";
+    public final static String T_TREE_VUE = T_BASE_TEMPLATE + "/tree/TreeDemoVue.tp";
+    public final static String T_TREE_VUE_ADD = T_BASE_TEMPLATE + "/tree/TreeDemoVueAdd.tp";
+    public final static String T_TREE_VUE_PID = T_BASE_TEMPLATE + "/tree/TreeDemoVuePid.tp";
+
     /**
      * 代码生成 路径
-     * <P>
-     *  {projectName}   项目名称
-     *  {packFilePath}  对应包的文件路径
-     *  {rootModule}    模快名（区分管理端/用户端）
-     *  {moduleName}    模板名 (当前模块- 用户模块/ 商品模块 / 会员模块)
-     *  {tableNameUp}     对应数据库表名的 大写开头的驼峰模式
-     *  {tableNameLower}  对应数据库表名的 小写开头的驼峰模式
+     * <p>
+     * {projectName}   项目名称
+     * {packFilePath}  对应包的文件路径
+     * {rootModule}    模快名（区分管理端/用户端）
+     * {moduleName}    模板名 (当前模块- 用户模块/ 商品模块 / 会员模块)
+     * {tableNameUp}     对应数据库表名的 大写开头的驼峰模式
+     * {tableNameLower}  对应数据库表名的 小写开头的驼峰模式
      * </P>
      */
     // java 文件默认生成到 指定包录 + 模块路径 + 下方指定的路径下
@@ -64,6 +73,7 @@ public class GcTPConfig {
     public final static String P_VUE = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}.vue";
     public final static String P_VUE_ADD = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}Add.vue";
     public final static String P_VUE_UPD = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}Upd.vue";
+    public final static String P_VUE_PID = BASE_PATH_VUE + "/templates/vue/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}Pid.vue";
     // 预览菜单路径(参考)
     public final static String P_VUE_MEUN = "/views/{rootModule}/{moduleName}/{tableNameLower}/{tableNameLower}.vue";
     // 代码生成下载的文件夹名
@@ -71,9 +81,9 @@ public class GcTPConfig {
 
 
     /**
-     *  预览文件配置
-     *   - 预览文件生成路径
-     *   - 预览文件生成后缀格式
+     * 预览文件配置
+     * - 预览文件生成路径
+     * - 预览文件生成后缀格式
      */
     public final static String PREVIEW_FILE_PATH = "File/";
     public final static String PREVIEW_SUFFIX = ".txt";

@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-card>
-            <avue-crud ref="crudxjAdminBanner"
+            <avue-crud ref="crud{tableNameLower}"
                        :data="data"
                        :option="option"
                        :page.sync="page"

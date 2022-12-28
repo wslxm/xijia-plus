@@ -9,12 +9,14 @@ import io.github.wslxm.springbootplus2.manage.gc.service.gc.GcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.template.VueMainTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @SuppressWarnings("all")
 @Component
+@Slf4j
 public class GcVueMain extends BaseGcImpl implements GcSevice {
 
     /**
@@ -34,6 +36,7 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
      */
     @Override
     public void run(GcConfig gcConfig) {
+          log.info("开始生成: {}", KEY_NAME);
         // 数据表格字段
         StringBuffer vueInfoColumns = new StringBuffer(" ");
         StringBuffer vueInfoColumnSlots = new StringBuffer(" ");
@@ -61,6 +64,7 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
                     || vueFieldTypeInt.equals(Base.VueFieldType.V6.getValue())
                     || vueFieldTypeInt.equals(Base.VueFieldType.V7.getValue())
                     || vueFieldTypeInt.equals(Base.VueFieldType.V9.getValue())) {
+                // 字典 - 单选
                 vueInfoColumns.append(VueMainTemplate.TEXT_DICT
                         .replaceAll("\\{label}", newDesc)
                         .replace("{prop}", name)
@@ -69,7 +73,7 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
                 );
             } else if (vueFieldTypeInt.equals(Base.VueFieldType.V5.getValue())
                     || vueFieldTypeInt.equals(Base.VueFieldType.V8.getValue())) {
-                // 字典
+                // 字典 - 多选
                 vueInfoColumns.append(VueMainTemplate.TEXT_DICT_CHECKBOX
                         .replaceAll("\\{label}", newDesc).replace("{prop}", name)
                         .replace("{search}", isSearch + "").replace("{dictCode}", getDictCode(dbFieldPO.getDictCode())));
