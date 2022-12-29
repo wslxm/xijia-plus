@@ -74,7 +74,7 @@ export default {
                 // 找到当前选中数据的父级
                 this.checkedRow = this.getPidNext(this.data, newRowData);
                 // 默认选中父级
-                this.$refs.crudMenuPid.toggleSelection([this.checkedRow]);
+                this.$refs.crudgcMenuPid.toggleSelection([this.checkedRow]);
                 // 当前行+下级的ids 禁止选择
                 this.getMenuNextIds([newRowData], this.noCheckedRowIds)
             })

@@ -98,7 +98,7 @@
                 uri: {
                     infoList: "/api/admin/sys/user/findPage",
                     info: "/api/admin/sys/user",
-                    depInfo: "/api/admin/sys/dep/list",
+                    findDepTree: "/api/admin/sys/dep/tree",
                     roleInfo: "/api/admin/sys/role/findPage",
                     resetPassword: "/api/admin/sys/user/{id}/resetPassword"
                 },
@@ -158,7 +158,7 @@
         },
         async mounted() {
             // 获取部门数据
-            let res = await this.crud.get(this.uri.depInfo, {disable: 0, isTree: true});
+            let res = await this.crud.get(this.uri.findDepTree, {disable: 0, isTree: true});
             this.deps = res.data.data;
 
             // 基础配置
@@ -212,7 +212,7 @@
                     props: {
                         value: "id",
                         label: "name",
-                        children: "deps"
+                        children: "children"
                     },
                     labelTip: '用于控制业务走向,通过部门+职位组合可满足大多数场景下的业务控制, 如给指定部门的人推送消息',
                 },

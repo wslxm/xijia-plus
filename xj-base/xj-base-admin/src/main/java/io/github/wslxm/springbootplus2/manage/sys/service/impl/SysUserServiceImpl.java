@@ -14,12 +14,13 @@ import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
+import io.github.wslxm.springbootplus2.core.utils.tree.TreeUtil;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.SysUserMapper;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.LoginDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.SysUserDTO;
+import io.github.wslxm.springbootplus2.manage.sys.model.entity.Dep;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
-import io.github.wslxm.springbootplus2.manage.sys.model.query.DepQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.SysUserQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DepVO;
@@ -61,42 +62,17 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         if (query.getIsLoginUser() == null) {
             query.setIsLoginUser(false);
         }
-
-
         // 是否只查询当前登录人创建的用户
         String createUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
         IPage<SysUserVO> page = new Page<>(query.getCurrent(), query.getSize());
-        page = page.setRecords(baseMapper.list(page, query, createUserId));
-
-        // 公司/部门信息
-        if (page.getRecords() != null && page.getRecords().size() > 0) {
-            // 获取部门ids
-            List<String> depIds = new ArrayList<>();
-            for (SysUserVO userVO : page.getRecords()) {
-                depIds.addAll(Arrays.asList(userVO.getDepIds().split(",")));
-            }
-
-            // 查询数据
-            DepQuery depQuery = new DepQuery();
-            depQuery.setIds(depIds);
-            depQuery.setIsTree(false);
-            List<DepVO> deps = depService.list(depQuery);
-
-            // 处理数据
-            for (SysUserVO userVO : page.getRecords()) {
-                if (userVO.getDepIds() != null) {
-                    userVO.setDep(depService.findNextDeps(deps, userVO.getDepIds()));
-                }
-            }
-        }
-        return page;
+        return page.setRecords(baseMapper.list(page, query, createUserId));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @XjDistributedLock(lockName = "'xj-sys-user_'+ #dto.username +'_' + #dto.phone",waitTime = 5L)
-    public  String insert(SysUserDTO dto) {
-        ValidUtil.isStrLen(dto.getPassword(),1,20,"密码必须大于1且小于20位");
+    @XjDistributedLock(lockName = "'xj-sys-user_'+ #dto.username +'_' + #dto.phone", waitTime = 5L)
+    public String insert(SysUserDTO dto) {
+        ValidUtil.isStrLen(dto.getPassword(), 1, 20, "密码必须大于1且小于20位");
         // 判重账号/判重电话
         this.verifyRepeatUsername(dto.getUsername(), null);
         this.verifyRepeatPhone(dto.getPhone(), null);
@@ -119,7 +95,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @XjDistributedLock(lockName = "'xj-sys-user_'+ #dto.username +'_' + #dto.phone",waitTime = 5L)
+    @XjDistributedLock(lockName = "'xj-sys-user_'+ #dto.username +'_' + #dto.phone", waitTime = 5L)
     public Boolean upd(String id, SysUserDTO dto) {
         SysUser adminUser = this.getOne(new LambdaQueryWrapper<SysUser>()
                 .select(SysUser::getUsername, SysUser::getPhone)
@@ -161,14 +137,13 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         // 角色id组装便于角色回显
         userVO.setRoleIds(userVO.getRoles() == null ? null : userVO.getRoles().stream().map(RoleVO::getId).collect(Collectors.toList()));
         // 公司/部门信息
-        if (userVO.getDepIds() != null) {
-            DepQuery depQuery = new DepQuery();
-            depQuery.setIds(Arrays.asList(userVO.getDepIds().split(",")));
-            depQuery.setIsTree(false);
-            List<DepVO> deps = depService.list(depQuery);
-            userVO.setDep(depService.findNextDeps(deps, userVO.getDepIds()));
+        if (StringUtils.isNotBlank(userVO.getDepIds())) {
+            String[] depIds = userVO.getDepIds().split(",");
+            List<Dep> deps = depService.list(new LambdaQueryWrapper<Dep>().select(Dep::getId, Dep::getPid, Dep::getName));
+            List<DepVO> depVOS = BeanDtoVoUtil.listVo(deps, DepVO.class);
+            userVO.setDep(TreeUtil.fatherTree(depVOS, depIds[depIds.length - 1]));
+            userVO.setDepNames(TreeUtil.fatherNames(depVOS, depIds[depIds.length - 1]));
         }
-
         return userVO;
     }
 
@@ -194,7 +169,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public Boolean login(LoginDTO dto) {
-        ValidUtil.isStrLen(dto.getPassword(),1,20,"密码必须大于1且小于20位");
+        ValidUtil.isStrLen(dto.getPassword(), 1, 20, "密码必须大于1且小于20位");
         SysUser user = loginUsernameOrPhone(dto.getUsername(), dto.getPassword());
         // 登录成功
         // 获取token 默认设置的有效期
@@ -219,7 +194,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public Boolean updResetPassword(String id, String password) {
-        ValidUtil.isStrLen(password,1,20,"密码必须大于1且小于20位");
+        ValidUtil.isStrLen(password, 1, 20, "密码必须大于1且小于20位");
         return this.update(new SysUser(), new LambdaUpdateWrapper<SysUser>()
                 .set(SysUser::getPassword, Md5Util.encode(password, id))
                 .eq(SysUser::getId, id));
@@ -228,7 +203,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public Boolean updByPassword(String oldPassword, String password) {
-        ValidUtil.isStrLen(password,1,20,"密码必须大于1且小于20位");
+        ValidUtil.isStrLen(password, 1, 20, "密码必须大于1且小于20位");
         SysUser adminUser = this.getById(JwtUtil.getJwtUser(request).getUserId());
         if (!adminUser.getPassword().equals(Md5Util.encode(oldPassword, adminUser.getId()))) {
             throw new ErrorException(ResultType.USER_PASSWORD_ERROR);
@@ -274,7 +249,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     /**
      * 验证账号是否重复
      *
-     * @param username    新手机号
+     * @param username 新手机号
      * @return void
      * @author wangsong
      * @date 2021/9/30 0030 14:12
@@ -298,8 +273,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     /**
      * 验证手机号是否重复
      *
-     * @param phone       新手机号
-     * @param oldPhone    原手机号(注册可不填)
+     * @param phone    新手机号
+     * @param oldPhone 原手机号(注册可不填)
      * @return void
      * @author wangsong
      * @date 2021/9/30 0030 14:11

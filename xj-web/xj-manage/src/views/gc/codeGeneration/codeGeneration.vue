@@ -16,7 +16,7 @@
                     </el-select>
                     <span style="margin-left: 20px">
                        <!--  当前数据源: <font color="#ff69b4"> {{datasource.dbName}} - {{datasource.dbTitle}}</font> -->
-                       当前表: <font color="#ff69b4"> {{ treeRowData.name }} - {{ treeRowData.comment }}</font>
+                       当前表: <font color="#FF5E2C"> {{ treeRowData.name }} - {{ treeRowData.comment }}</font>
                             <span style="padding-left: 20px"> 自关联表:
                             <el-switch
                                 v-model="search.isTree"
@@ -25,7 +25,7 @@
                                 active-text="是"
                                 inactive-text="否">
                                </el-switch>
-                                <font color="#ff69b4" style="font-size: 12px;padding-left: 10px">  如果设置未是自关联表, 将生成 左: 自关联树结构数据 + 右:列表数据 的页面结构</font>
+                                <font color="#FF5E2C" style="font-size: 12px;padding-left: 10px">开启自关联将生成左导航树</font>
                             </span>
                     </span>
                 </el-col>
@@ -169,7 +169,7 @@ export default {
             generateCodePreviewDialogVisible: false,
             updDialogVisible: false,
             page: this.website.pageParams,
-            search: {tableName: "t_basic",isTree:false},
+            search: {tableName: "t_basic", isTree: false},
             data: [],
             rowData: {},
             option: {},

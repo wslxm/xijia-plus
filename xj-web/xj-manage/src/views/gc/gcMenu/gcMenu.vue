@@ -124,7 +124,7 @@ export default {
                             {
                     label: '指定父id',
                     prop: 'pid',
-                    search: false,
+                    search: true,
                     searchSpan: 5,
                     overHidden: true,
                 },
@@ -150,13 +150,11 @@ export default {
                     overHidden: true,
                 },
                 {
-                    label: '图标 ',
+                    label: '图标',
                     prop: 'icon',
-                    // type: 'icon',
-                    html: true,
-                    formatter: (val) => {
-                        return '<i class=' + val.icon + '></i>'
-                    }
+                    search: false,
+                    searchSpan: 5,
+                    overHidden: true,
                 },
                 {
                     label: '排序',
@@ -168,18 +166,15 @@ export default {
                 {
                     label: '目录级别',
                     prop: 'root',
-                    type: 'select',
                     search: false,
-                    filterable:true,
                     searchSpan: 5,
                     overHidden: true,
-                    dicData: this.dict.get(this.website.Dict.Base.Default),
                 },
                 {
                     label: '禁用',
                     prop: 'disable',
                     type: 'select',
-                    search: true,
+                    search: false,
                     filterable:true,
                     searchSpan: 5,
                     overHidden: true,
@@ -196,7 +191,6 @@ export default {
         },
         searchChange(params, done) {
             this.page.currentPage = 1;
-            // this.findLeftTree();
             this.onLoad();
             done();
         },

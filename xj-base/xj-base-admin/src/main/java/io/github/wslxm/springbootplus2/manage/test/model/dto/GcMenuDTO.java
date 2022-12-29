@@ -24,14 +24,14 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseDto;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-12-28 17:38:58
+ * @date 2022-12-28 20:24:04
  */
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "GcMenuDTO 对象", description = "基础表--菜单")
 public class GcMenuDTO extends BaseDto {
 
-    private static final long serialVersionUID = -768013672097386496L;
+    private static final long serialVersionUID = -768055222395342848L;
     
     @ApiModelProperty(value = "指定父id" ,position = 0)
     @Length(min=0, max=32,message = "指定父id 必须>=0 和 <=32位")

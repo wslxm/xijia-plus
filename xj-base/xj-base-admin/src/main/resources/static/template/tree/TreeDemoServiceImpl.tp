@@ -33,7 +33,7 @@ public class {tableNameUp}ServiceImpl extends BaseServiceImpl<{tableNameUp}Mappe
 {filterCrud}
 
     @Override
-    public List<GcMenuVO> tree({tableNameUp}Query query) {
+    public List<{tableNameUp}VO> tree({tableNameUp}Query query) {
         LambdaQueryWrapper<{tableNameUp}> queryWrapper = new LambdaQueryWrapper<{tableNameUp}>().orderByDesc({tableNameUp}::getCreateTime);
         List<{tableNameUp}> list = this.list(queryWrapper);
         List<{tableNameUp}VO> listVo = BeanDtoVoUtil.listVo(list, {tableNameUp}VO.class);

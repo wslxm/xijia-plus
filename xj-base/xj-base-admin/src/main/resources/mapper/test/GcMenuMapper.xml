@@ -65,9 +65,6 @@
         <if test="query.name != null and query.name  != ''">
             and t.`name` like concat(#{query.name},'%')
         </if>
-        <if test="query.disable != null">
-            and t.`disable` = #{query.disable}
-        </if>
         order by t.create_time desc
     </select>
 

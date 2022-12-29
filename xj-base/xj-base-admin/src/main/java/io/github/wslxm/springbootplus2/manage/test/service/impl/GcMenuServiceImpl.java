@@ -26,7 +26,7 @@ import java.util.List;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-12-28 17:38:58
+ * @date 2022-12-28 20:24:04
  */
 @Service
 public class GcMenuServiceImpl extends BaseServiceImpl<GcMenuMapper, GcMenu> implements GcMenuService {
@@ -46,7 +46,6 @@ public class GcMenuServiceImpl extends BaseServiceImpl<GcMenuMapper, GcMenu> imp
         LambdaQueryWrapper<GcMenu> queryWrapper = new LambdaQueryWrapper<GcMenu>().orderByDesc(GcMenu::getCreateTime);
         queryWrapper.likeRight(StringUtils.isNotBlank(query.getPid()), GcMenu::getPid, query.getPid());
         queryWrapper.likeRight(StringUtils.isNotBlank(query.getName()), GcMenu::getName, query.getName());
-        queryWrapper.eq(query.getDisable() != null, GcMenu::getDisable, query.getDisable());
         Page<GcMenu> page = this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper);
         return BeanDtoVoUtil.pageVo(page, GcMenuVO.class);
     }

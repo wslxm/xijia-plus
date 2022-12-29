@@ -22,8 +22,9 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 代码生成数据源维护表
  * <p>
- *  ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655 
+ * ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655
  * </p>
+ *
  * @author wangsong
  * @email 1720696548@qq.com
  * @date 2020-11-04 20:11:08
@@ -88,7 +89,7 @@ public class DatasourceController extends BaseController<DatasourceService> {
     @ApiOperation("数据源连接测试")
     public Result<Boolean> dataSourceTest(@PathVariable(required = false) String id, @RequestBody @Validated DatasourceDTO dto) {
         String dbPassword = dto.getDbPassword();
-        if (StringUtils.isNotBlank(id) && !id.equals(NumberConst.ZERO)) {
+        if (StringUtils.isNotBlank(id) && !id.equals(NumberConst.ZERO + "")) {
             Datasource xjAdminDatasource = baseService.getById(id);
             dbPassword = Base64Util.decrypt(xjAdminDatasource.getDbPassword());
         }

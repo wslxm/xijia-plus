@@ -1,7 +1,7 @@
 <template>
     <div>
         <avue-crud style="margin-top: -0%"
-                   ref="crud{tableNameUp}Pid"
+                   ref="cruddepPid"
                    :data="data"
                    :option="option"
                    @select="select"
@@ -74,7 +74,7 @@ export default {
                 // 找到当前选中数据的父级
                 this.checkedRow = this.getPidNext(this.data, newRowData);
                 // 默认选中父级
-                this.$refs.crud{tableNameUp}Pid.toggleSelection([this.checkedRow]);
+                this.$refs.cruddepPid.toggleSelection([this.checkedRow]);
                 // 当前行+下级的ids 禁止选择
                 this.getMenuNextIds([newRowData], this.noCheckedRowIds)
             })
@@ -106,8 +106,8 @@ export default {
         // 勾选 请求方式处理数据
         select(selection, row) {
             this.checkedRow = row;
-            this.$refs.crud{tableNameUp}Pid.toggleSelection();
-            this.$refs.crud{tableNameUp}Pid.toggleSelection([row]);
+            this.$refs.cruddepPid.toggleSelection();
+            this.$refs.cruddepPid.toggleSelection([row]);
         },
         // 提交修改请求
         updPid() {

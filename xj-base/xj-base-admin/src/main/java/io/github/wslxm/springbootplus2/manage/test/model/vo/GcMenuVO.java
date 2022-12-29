@@ -18,14 +18,14 @@ import io.github.wslxm.springbootplus2.core.utils.tree.BaseTree;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-12-28 17:38:58
+ * @date 2022-12-28 20:24:04
  */
 @Data
 @ToString(callSuper = true)
 @ApiModel(value = "GcMenuVO 对象", description = "基础表--菜单")
 public class GcMenuVO extends BaseTree<GcMenuVO,String>  {
 
-    private static final long serialVersionUID = -768013672130940928L;
+    private static final long serialVersionUID = -768055222454063104L;
     
     @ApiModelProperty(value = "指定父id" ,position = 0)
     private String pid;

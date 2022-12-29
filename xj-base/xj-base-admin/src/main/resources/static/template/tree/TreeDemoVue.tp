@@ -24,7 +24,7 @@
                 </el-col>
                 <!-- 列表 -->
                 <el-col :span="19">
-                    <avue-crud ref="crud{tableNameLower}"
+                    <avue-crud ref="crud{tableNameUp}"
                                :data="data"
                                :option="option"
                                :page.sync="page"
@@ -105,7 +105,7 @@ export default {
     },
     activated:
         function () {
-            this.crud.doLayout(this, this.$refs.crud{tableNameLower})
+            this.crud.doLayout(this, this.$refs.crud{tableNameUp})
         }
     ,
     mounted() {
@@ -128,7 +128,7 @@ export default {
     methods: {
         onLoad() {
             this.crud.list(this, true);
-            this.crud.doLayout(this, this.$refs.crud{tableNameLower});
+            this.crud.doLayout(this, this.$refs.crud{tableNameUp});
         },
         searchChange(params, done) {
             this.page.currentPage = 1;
@@ -213,18 +213,6 @@ export default {
         // 启用/禁用
         updDisable(row, index, disable) {
             this.crud.put(this.uri.info + "/" + row.id, {disable: disable});
-        },
-        // 编辑url
-        rowUrlBlur(row) {
-            if (this.rowData.url != row.url) {
-                this.crud.put(this.uri.info + "/" + row.id, {url: row.url});
-            }
-        },
-        // 编辑排序
-        rowSortBlur(row) {
-            if (this.rowData.sort != row.sort) {
-                this.crud.put(this.uri.info + "/" + row.id, {sort: row.sort});
-            }
         },
         // 点击保存行数据(供行操作的任意地方获取数据)
         handleRowClick(row) {

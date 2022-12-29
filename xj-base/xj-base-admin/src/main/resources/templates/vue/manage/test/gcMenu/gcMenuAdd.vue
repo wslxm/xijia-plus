@@ -93,23 +93,20 @@
                         {
                             label: '图标',
                             prop: 'icon',
-                            type: 'icon',
-                            iconList: this.icon.iconList,
+                            maxlength: 32,
+                            showWordLimit: true,
                             span: 20,
                             rules: [{
                                 required: true,
-                                message: "请选择 图标",
+                                message: "请输入 图标",
                                 trigger: "blur"
-                            }],
+                            }]
                         },
                         {
                             label: '排序',
                             prop: 'sort',
-                            type: 'number',
-                            precision: 2,  //保留小数位,
-                            minRows: 0,
-                            maxRows: 99999999,
-                            row: true,
+                            maxlength: 99999999999,
+                            showWordLimit: true,
                             span: 20,
                             rules: [{
                                 required: true,

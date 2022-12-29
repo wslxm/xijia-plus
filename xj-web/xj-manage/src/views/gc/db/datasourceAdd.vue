@@ -42,7 +42,7 @@
                     fatherPath: "",
                     vueFieldTypes: "18,19",
                     baseFields: "id,create_user,update_user,create_time,update_time,deleted,version",
-                    keywordArray: "time,desc,name,key,value,mysql,info,form,sort,icon,like,unlock,unLock,comment,disable,force,describe",
+                    keywordArray: "time,desc,name,key,value,mysql,info,form,sort,icon,like,unlock,unLock,comment,disable,force,describe,host,port,from,to",
                 },
                 labelWidth: 130,
             }
@@ -71,7 +71,7 @@
                                     prop: 'dbTitle',
                                     maxlength: 64,
                                     showWordLimit: true,
-                                    span: 20,
+                                    span: 22,
                                     rules: [{
                                         required: true,
                                         message: "请输入 db -标题",
@@ -84,8 +84,8 @@
                                     label: 'db 地址',
                                     prop: 'dbUrl',
                                     maxlength: 128,
-                                    showWordLimit: true,
-                                    span: 10,
+                                    // showWordLimit: true,
+                                    span: 12,
                                     rules: [{
                                         required: true,
                                         message: "请输入 db 连接地址",
@@ -98,7 +98,7 @@
                                     label: 'db 库名',
                                     prop: 'dbName',
                                     maxlength: 64,
-                                    showWordLimit: true,
+                                    //showWordLimit: true,
                                     span: 10,
                                     rules: [{
                                         required: true,
@@ -112,8 +112,8 @@
                                     label: 'db 账号',
                                     prop: 'dbUsername',
                                     maxlength: 32,
-                                    showWordLimit: true,
-                                    span: 10,
+                                    //showWordLimit: true,
+                                    span: 12,
                                     rules: [{
                                         required: true,
                                         message: "请输入 db 账号",
@@ -392,6 +392,7 @@
                                 {
                                     label: '数据库关键字',
                                     prop: 'keywordArray',
+                                    type: "textarea",
                                     maxlength: 1024,
                                     showWordLimit: true,
                                     span: 20,

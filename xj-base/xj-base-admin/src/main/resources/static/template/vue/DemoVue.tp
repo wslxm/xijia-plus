@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-card>
-            <avue-crud ref="crud{tableNameLower}"
+            <avue-crud ref="crud{tableNameUp}"
                        :data="data"
                        :option="option"
                        :page.sync="page"
@@ -77,12 +77,12 @@
         created() {
         },
         activated: function () {
-            this.crud.doLayout(this, this.$refs.crud{tableNameLower})
+            this.crud.doLayout(this, this.$refs.crud{tableNameUp})
         },
         methods: {
             onLoad() {
                 this.crud.list(this,true);
-                this.crud.doLayout(this, this.$refs.crud{tableNameLower})
+                this.crud.doLayout(this, this.$refs.crud{tableNameUp})
             },
             searchChange(params,done) {
                 console.debug(params)

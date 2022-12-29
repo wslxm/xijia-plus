@@ -6,10 +6,11 @@ import java.util.List;
 
 /**
  * tree 工具类 父对象
+ *
  * @author wangsong
- * @mail 1720696548@qq.com
- * @date 2022/11/21 0021 9:25 
  * @version 1.0.0
+ * @mail 1720696548@qq.com
+ * @date 2022/11/21 0021 9:25
  */
 @Data
 public class BaseTree<T, S> {
@@ -22,6 +23,10 @@ public class BaseTree<T, S> {
      * 关联父节点值
      */
     private S pid;
+    /**
+     * 节点名称
+     */
+    private String name;
 
     /**
      * 下级tree数据 （处理数据后存放）

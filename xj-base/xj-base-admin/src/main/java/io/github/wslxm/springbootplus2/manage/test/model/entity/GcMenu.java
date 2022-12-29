@@ -21,7 +21,7 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
 
  * @author ws
  * @email 1720696548@qq.com
- * @date 2022-12-28 17:38:58
+ * @date 2022-12-28 20:24:04
  */
 @Data
 @ToString(callSuper = true)
@@ -29,7 +29,7 @@ import io.github.wslxm.springbootplus2.core.base.model.BaseEntity;
 @ApiModel(value = "GcMenu 对象", description = "基础表--菜单")
 public class GcMenu extends BaseEntity {
 
-    private static final long serialVersionUID = -768013672055443456L;
+    private static final long serialVersionUID = -768055222198210560L;
     
     @ApiModelProperty(notes = "指定父id" ,position = 0)
     @TableField(value = "pid")

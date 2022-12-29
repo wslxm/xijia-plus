@@ -166,7 +166,7 @@
                             props: {
                                 value: "id",
                                 label: "name",
-                                children: "deps"
+                                children: "children"
                             },
                             rules: [{
                                 required: false,
@@ -230,7 +230,7 @@
         // 打开弹层立即执行
         created() {
             // 部门数据(弹层数据)
-            this.crud.get(this.uri.depInfo, {disable: 0, isTree: true}).then((res) => {
+            this.crud.get(this.uri.findDepTree, {disable: 0}).then((res) => {
                 this.deps = res.data.data;
             });
             // 角色数据(弹层数据)

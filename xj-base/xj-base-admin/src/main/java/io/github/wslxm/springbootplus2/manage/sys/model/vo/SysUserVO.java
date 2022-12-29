@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- *   用户
+ * 用户
  *
  * @author 王松
  * @WX-QQ 1720696548
@@ -56,7 +56,9 @@ public class SysUserVO extends BaseVo {
     @ApiModelProperty(value = "用户角色信息,id 查询存在/列表查询都返回(只返回id/name)")
     private List<RoleVO> roles;
     @ApiModelProperty(value = "公司/部门信息,存在下级关联数据")
-    private SysUserDepVO dep;
+    private DepVO dep;
+    @ApiModelProperty(value = "公司/部门信息 / 公司/部门信息")
+    private String depNames;
     @ApiModelProperty(value = "扩展字段 1")
     private String ext1;
     @ApiModelProperty(value = "扩展字段 2")
