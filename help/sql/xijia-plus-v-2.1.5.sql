@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 08/12/2022 18:03:20
+ Date: 29/12/2022 11:20:22
 */
 
 SET NAMES utf8mb4;
@@ -69,13 +69,75 @@ CREATE TABLE `t_gc_datasource`  (
   `base_fields` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '数据库通用字段',
   `keyword_array` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '数据库关键字',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统增强表--代码生成动态数据源' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--gc--代码生成动态数据源' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_gc_datasource
 -- ----------------------------
 INSERT INTO `t_gc_datasource` VALUES ('1553023868891852801', '-1', '-1', '2022-07-29 22:25:16', '2022-10-30 16:10:12', 0, 0, 'spring-boot-plus2 (本地)', 'spring-boot-plus2', '127.0.0.1:3306', 'root', 'MTIzNDU2', 'ws', '1720696548@qq.com', '::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655', 'xj-base/xj-base-admin', 'io.github.wslxm.springbootplus2', 'manage', 'account', 't_', NULL, 1, 0, '', '18,19', 'id,create_user,update_user,create_time,update_time,deleted,version', 'time,desc,name,key,value,mysql,info,form,sort,icon,like,unlock,unLock,comment,disable,force,describe');
 INSERT INTO `t_gc_datasource` VALUES ('1553190478550188034', '-1', '-1', '2022-07-30 09:27:21', '2022-10-30 16:10:12', 0, 0, 'xijia-tool-app (pro)', 'xijia-tool-app', 'rm-8vbkpoec225c821d8vo.mysql.zhangbei.rds.aliyuncs.com', 'root', 'WEpyb290MTIzNDU2', 'ws', '1720696548@qq.com', '::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655', 'xj-base/xj-base-admin', 'io.github.wslxm.springbootplus2', 'manage', 'test', 't_', NULL, 0, NULL, 'F://javagc/xijia-tool-app/', '18,19', 'id,create_user,update_user,create_time,update_time,deleted,version', 'time,desc,name,key,value,mysql,info,form,sort,icon,like,unlock,unLock,comment,disable,force,describe');
+INSERT INTO `t_gc_datasource` VALUES ('1608273245390303234', NULL, NULL, '2022-12-29 09:26:35', '2022-12-29 09:54:02', 0, 0, 'xijia-plus (当前远程版)', 'xijia-plus', 'rm-8vbkpoec225c821d8vo.mysql.zhangbei.rds.aliyuncs.com', 'wangsong', 'WEpzcHJpbmdib290cGx1c0Aj', 'ws', '1720696548@qq.com', '::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655', 'xj-base/xj-base-admin', 'io.github.wslxm.springbootplus2', 'manage', 'sys', 't_sys_', NULL, 1, 0, '', '18,19', 'id,create_user,update_user,create_time,update_time,deleted,version', 'time,desc,name,key,value,mysql,info,form,sort,icon,like,unlock,unLock,comment,disable,force,describe,host,port,from,to');
+
+-- ----------------------------
+-- Table structure for t_gc_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `t_gc_menu`;
+CREATE TABLE `t_gc_menu`  (
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键id',
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建账户id',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新账户id',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` int(1) NOT NULL DEFAULT 0 COMMENT '逻辑删除(0：正常 1：删除)',
+  `version` int(11) NOT NULL DEFAULT 0 COMMENT '乐观锁',
+  `pid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '指定父id',
+  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单名',
+  `two_url` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '第二路由 (前后端分离前端使用第二路由)',
+  `url` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单url',
+  `icon` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '图标',
+  `sort` int(11) NOT NULL DEFAULT 0 COMMENT '排序',
+  `root` int(1) NOT NULL DEFAULT 0 COMMENT '目录级别(1-系统, 2-菜单 ，3-页面, 4-按钮)',
+  `disable` int(1) NOT NULL DEFAULT 0 COMMENT '禁用(0-启用 1-禁用)',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--gc--自关联测试表 (模拟菜单)' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of t_gc_menu
+-- ----------------------------
+INSERT INTO `t_gc_menu` VALUES ('1440255471893200897', '-1', '-1', '2021-09-21 18:03:57', '2022-12-08 17:47:59', 0, 0, '0', '系统管理', '', '', 'el-icon-setting', 1, 1, 0);
+INSERT INTO `t_gc_menu` VALUES ('1440255602914869250', '-1', '-1', '2021-09-21 18:04:29', '2022-10-30 16:11:41', 0, 0, '1440255471893200897', '系统管理', '', '', 'el-icon-setting', 100, 2, 0);
+INSERT INTO `t_gc_menu` VALUES ('1440256392576483330', '-1', '-1', '2021-09-21 18:07:37', '2022-12-08 17:47:39', 0, 0, '0', '测试 (test)', '', '', 'layui-icon-file-b', 2, 1, 0);
+INSERT INTO `t_gc_menu` VALUES ('1440256481906769922', '-1', '-1', '2021-09-21 18:07:58', '2022-10-30 16:11:42', 0, 0, '1440256392576483330', '功能测试', '', '', 'layui-icon-file-b', 200, 2, 0);
+INSERT INTO `t_gc_menu` VALUES ('1440271162033684482', '-1', '-1', '2021-09-21 19:06:18', '2022-10-30 16:11:42', 0, 0, '1440255602914869250', '用户管理', '', '/views/admin/user/user', 'el-icon-document-remove', 10004, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1442156484086480897', '-1', '-1', '2021-09-26 23:57:54', '2022-10-30 16:11:42', 0, 0, '1440255602914869250', '角色管理', '', '/views/admin/role/role', 'el-icon-document-remove', 10005, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1449698334917865473', '-1', '-1', '2021-10-17 19:26:30', '2022-10-30 16:11:42', 0, 0, '1449698274373087233', '页面-5级', NULL, '', 'el-icon-document-remove', 0, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1449764190750285826', '-1', '-1', '2021-10-17 23:48:11', '2022-10-30 16:11:43', 0, 0, '1440255471893200897', '增强功能', '', '', 'el-icon-copy-document', 200, 2, 0);
+INSERT INTO `t_gc_menu` VALUES ('1450796419538522114', '-1', '-1', '2021-10-20 20:09:55', '2022-10-30 16:11:43', 0, 0, '1440256481906769922', '测试页1', NULL, '/test1', 'el-icon-document-remove', 0, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1451979503835369474', '-1', '-1', '2021-10-24 02:31:02', '2022-10-30 16:11:43', 0, 0, '1449764190750285826', 'Banner管理', '', '/views/admin/banner/banner', 'el-icon-document-remove', 20003, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1452091447254749186', '-1', '-1', '2021-10-24 09:55:54', '2022-10-30 16:11:43', 0, 0, '1440255471893200897', '代码生成', NULL, '', 'el-icon-edit', 0, 2, 0);
+INSERT INTO `t_gc_menu` VALUES ('1452091513113710594', '-1', '-1', '2021-10-24 09:56:10', '2022-10-30 16:11:43', 0, 0, '1452091447254749186', '数据表', NULL, '/views/gc/codeGeneration/codeGeneration', 'el-icon-document-remove', 2, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1456054437146644481', '-1', '-1', '2021-11-04 08:23:24', '2022-10-30 16:11:44', 0, 0, '1452091447254749186', '生成的代码测试页', NULL, '/views/test/gcTest/gcTest', 'el-icon-document-remove', 3, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1457369967249879042', '-1', '-1', '2021-11-07 23:30:51', '2022-10-30 16:11:44', 0, 0, '0', '商家端', NULL, NULL, 'el-icon-document-remove', 3, 1, 0);
+INSERT INTO `t_gc_menu` VALUES ('1457370029065531394', '-1', '-1', '2021-11-07 23:31:06', '2022-10-30 16:11:44', 0, 0, '1457369967249879042', '系统管理', NULL, NULL, 'el-icon-document-remove', 0, 2, 0);
+INSERT INTO `t_gc_menu` VALUES ('1457370075530031105', '-1', '-1', '2021-11-07 23:31:17', '2022-10-30 16:11:44', 0, 0, '1457370029065531394', '角色管理', NULL, '/views/admin/role/role', 'el-icon-document-remove', 0, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1457372083897004033', '-1', '-1', '2021-11-07 23:39:16', '2022-10-30 16:11:45', 0, 0, '1457370029065531394', '员工管理', NULL, '/views/admin/user/user', 'el-icon-document-remove', 0, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1459712656557576194', '-1', '-1', '2021-11-14 10:39:51', '2022-10-30 16:11:45', 0, 0, '1440255602914869250', '部门管理', NULL, '/views/admin/dep/dep', 'el-icon-document-remove', 10006, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1459850402525622274', '-1', '-1', '2021-11-14 19:47:12', '2022-10-30 16:11:45', 0, 0, '1449764190750285826', '全局配置', NULL, '/views/admin/config/config', 'el-icon-document-remove', 20001, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1461987433667141634', '-1', '-1', '2021-11-20 17:19:01', '2022-10-30 16:11:45', 0, 0, '1440255471893200897', '首页', NULL, '/wel/jvmInfo', 'el-icon-menu', 0, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1462256665587916801', '-1', '-1', '2021-11-21 11:08:51', '2022-10-30 16:11:46', 0, 0, '1449764190750285826', '黑/白名单', NULL, '/views/admin/blacklist/blacklist', 'el-icon-document-remove', 10007, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1462261436877152258', '-1', '-1', '2021-11-21 11:27:48', '2022-10-30 16:11:46', 0, 0, '1449764190750285826', '请求日志', NULL, '/views/admin/log/log', 'el-icon-document-remove', 20005, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1468415037767946242', '-1', '-1', '2021-12-08 11:00:01', '2022-10-30 16:11:46', 0, 0, '1449764190750285826', '消息管理', NULL, '/views/admin/msg/msg', 'el-icon-s-comment', 20004, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1481642095692222465', '-1', '-1', '2022-01-13 22:59:36', '2022-10-30 16:11:46', 0, 0, '1440256481906769922', '测试页2', NULL, '/test2', 'el-icon-document-remove', 0, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1482970741228965889', '-1', '-1', '2022-01-17 14:59:11', '2022-10-30 16:11:46', 0, 0, '1457369967249879042', '业务管理', NULL, NULL, 'el-icon-document-remove', 1, 2, 0);
+INSERT INTO `t_gc_menu` VALUES ('1482970818676789249', '-1', '-1', '2022-01-17 14:59:30', '2022-10-30 16:11:47', 0, 0, '1482970741228965889', '业务功能1', NULL, '/yw1', 'el-icon-document-remove', 1, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1482970868152799234', '-1', '-1', '2022-01-17 14:59:41', '2022-12-28 20:25:24', 0, 0, '1482970741228965889', '业务功能2', NULL, '/yw2', 'el-icon-document-remove', 2, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1482970903854714882', '-1', '-1', '2022-01-17 14:59:50', '2022-12-28 20:25:19', 0, 0, '1482970741228965889', '业务功能3', '-', '/yw3', 'el-icon-document-remove', 3, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1482979903354703874', '-1', '-1', '2022-01-17 15:35:36', '2022-10-30 16:11:47', 0, 0, '1457370029065531394', '菜单管理', NULL, '/views/admin/menu/menu', 'el-icon-document-remove', 0, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1516699625820524545', '-1', '-1', '2022-04-20 16:45:44', '2022-10-30 16:11:47', 0, 0, '1440255602914869250', '菜单管理', NULL, '/views/admin/menuv2/menu', 'el-icon-document-remove', 10003, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1516699798743289857', '-1', '-1', '2022-04-20 16:46:25', '2022-10-30 16:11:48', 0, 0, '1440255602914869250', '字典管理', NULL, '/views/admin/dictionaryv2/dictionary', 'el-icon-document-remove', 10002, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1516699922710138882', '-1', '-1', '2022-04-20 16:46:55', '2022-10-30 16:11:48', 0, 0, '1440255602914869250', '接口管理', NULL, '/views/admin/authorityv2/authority', 'el-icon-document-remove', 10001, 3, 0);
+INSERT INTO `t_gc_menu` VALUES ('1552998827391221761', '-1', '-1', '2022-07-29 20:45:45', '2022-10-30 16:11:48', 0, 0, '1452091447254749186', '数据源', NULL, '/views/gc/db/datasource', 'el-icon-document-remove', 1, 3, 1);
+INSERT INTO `t_gc_menu` VALUES ('1607943038670237697', '1', NULL, '2022-12-28 11:34:28', '2022-12-28 11:34:45', 0, 0, '1452091447254749186', '自关联表', NULL, '/views/gc/gcMenu/gcMenu', 'el-icon-document-remove', 4, 3, 0);
 
 -- ----------------------------
 -- Table structure for t_gc_test
@@ -110,7 +172,7 @@ CREATE TABLE `t_gc_test`  (
   `color` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '颜色选择器',
   `map` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '地址选择器',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成测试表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--gc--代码生成测试表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_gc_test
@@ -139,129 +201,138 @@ CREATE TABLE `t_sys_authority`  (
   `state` int(1) NOT NULL COMMENT '授权状态(字典code  0-无需登录 1-需登录 2-需登录+授权(已废弃) 3-需Oauth2 授权 )',
   `is_sign` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否需要验签(不受限于登录授权)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '基础表--权限接口' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--sys--URL权限管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_sys_authority
 -- ----------------------------
-INSERT INTO `t_sys_authority` VALUES ('697255086296010752', '-1', '0', '2022-06-28 11:29:37', '2022-10-30 16:10:20', 0, 399, '0', '', '/api/open/redis', 'Redis  -->  Redis 测试', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('697398103711551488', '-1', '0', '2022-06-28 12:57:58', '2022-10-30 16:10:21', 0, 397, '697255086296010752', 'GET', '/api/open/redis/redissonDistributedLockTest2/{key}', 'redis 分布式锁加锁测试2', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('697398103711551489', '-1', '0', '2022-06-28 12:57:58', '2022-10-30 16:10:21', 0, 397, '697255086296010752', 'GET', '/api/open/redis/redissonDistributedLockTest1/{key}', 'redis 分布式锁加锁测试', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('697398103711551490', '-1', '0', '2022-06-28 12:57:58', '2022-10-30 16:10:21', 0, 397, '697255086296010752', 'GET', '/api/open/redis/redissonDistributedLockTest3', 'redis 分布式注解锁测试', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('700879734145421312', '-1', '0', '2022-07-06 11:32:41', '2022-10-30 16:10:22', 0, 363, '0', '', '/api/admin/test/gcTest', '代码生成测试表', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('700879734145421314', '-1', '0', '2022-07-06 11:32:41', '2022-10-30 16:10:22', 0, 363, '700879734145421312', 'POST', '/api/admin/test/gcTest', '添加', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('700879734145421315', '-1', '0', '2022-07-06 11:32:41', '2022-10-30 16:10:22', 0, 363, '700879734145421312', 'DELETE', '/api/admin/test/gcTest/{id}', 'ID删除', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('700879734149615616', '-1', '0', '2022-07-06 11:32:41', '2022-10-30 16:10:22', 0, 363, '700879734145421312', 'PUT', '/api/admin/test/gcTest/{id}', 'ID编辑', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('700879734149615617', '-1', '0', '2022-07-06 11:32:41', '2022-10-30 16:10:23', 0, 363, '700879734145421312', 'GET', '/api/admin/test/gcTest/{id}', 'ID查询', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('720779973740335104', '-1', NULL, '2022-08-28 17:29:10', '2022-10-30 16:10:23', 0, 227, '0', '', '/api/open/websocket', 'Websocket  -->  消息通知/即时通讯', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('720779973740335105', '-1', NULL, '2022-08-28 17:29:10', '2022-10-30 16:10:23', 0, 227, '720779973740335104', 'GET', '/api/open/websocket/getPath', '获取模拟游客登录的 websocket 连接地址', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('720779973740335106', '-1', NULL, '2022-08-28 17:29:10', '2022-10-30 16:10:23', 0, 227, '720779973740335104', 'POST', '/api/open/websocket/send', '发送消息', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('720779973740335107', '-1', NULL, '2022-08-28 17:29:10', '2022-10-30 16:10:23', 0, 227, '720779973740335104', 'GET', '/api/open/websocket/getOnlineUsersList', '获取当前在线用户列表', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('720779973740335108', '-1', NULL, '2022-08-28 17:29:10', '2022-10-30 16:10:24', 0, 227, '720779973740335104', 'GET', '/api/open/websocket/getOnlineCount', '获取在线人数', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('721146444106567680', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:24', 0, 205, '0', '', '/api/admin/sys/user', 'base--sys--用户管理', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444106567681', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:24', 0, 205, '721146444106567680', 'POST', '/api/admin/sys/user', '添加', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444106567682', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:24', 0, 205, '721146444106567680', 'GET', '/api/admin/sys/user/{id}', 'ID查询', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444106567683', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:24', 0, 205, '721146444106567680', 'PUT', '/api/admin/sys/user/{id}', 'ID编辑', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444110761984', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:25', 0, 205, '721146444106567680', 'DELETE', '/api/admin/sys/user/{id}', 'ID删除', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444110761985', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:25', 0, 205, '721146444106567680', 'GET', '/api/admin/sys/user/findPage', '列表查询', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444110761986', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:25', 0, 205, '721146444106567680', 'PUT', '/api/admin/sys/user/{id}/resetPassword', '重置任意用户密码', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444110761987', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:25', 0, 205, '721146444106567680', 'PUT', '/api/admin/sys/user/updByPassword', '修改当前登录人的密码', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444110761988', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:25', 0, 205, '721146444106567680', 'GET', '/api/admin/sys/user/findByRoleId', '获取指定角色的用户列表', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444110761989', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:26', 0, 205, '721146444106567680', 'GET', '/api/admin/sys/user/findUser', '查询当前登录人的个人信息', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444110761990', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:26', 0, 205, '721146444106567680', 'PUT', '/api/admin/sys/user/updUser', '修改当前登录人的信息', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444110761991', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:26', 0, 205, '721146444106567680', 'GET', '/api/admin/sys/user/list/keyData', '查询所有-只返回关键数据(姓名/昵称/电话/id)', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444110761992', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:26', 0, 205, '721146444106567680', 'POST', '/api/admin/sys/user/login', '用户登录', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444114956288', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:27', 0, 205, '0', '', '/api/admin/sys/dictionary', 'base--sys--字典管理', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444114956289', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:27', 0, 205, '721146444114956288', 'GET', '/api/admin/sys/dictionary/list', '列表查询 (默认返回Tree数据,可指定Tree或List)', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444114956290', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:27', 0, 205, '721146444114956288', 'POST', '/api/admin/sys/dictionary', '添加', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444114956291', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:27', 0, 205, '721146444114956288', 'PUT', '/api/admin/sys/dictionary/{id}', '编辑', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444114956292', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:27', 0, 205, '721146444114956288', 'DELETE', '/api/admin/sys/dictionary/{id}', 'ID删除', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444114956293', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:28', 0, 205, '721146444114956288', 'GET', '/api/admin/sys/dictionary/findCodeGroup', '查询所有-code分组', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444114956294', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:28', 0, 205, '721146444114956288', 'GET', '/api/admin/sys/dictionary/generateEnum', '生成枚举', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444119150592', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:28', 0, 205, '721146444114956288', 'GET', '/api/admin/sys/dictionary/list/category', '获取类别(级联数据)', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444119150593', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:28', 0, 205, '0', '', '/api/admin/sys/dep', 'base--sys--组织机构', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444119150594', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:29', 0, 205, '721146444119150593', 'GET', '/api/admin/sys/dep/list', '列表查询', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444119150595', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:29', 0, 205, '721146444119150593', 'POST', '/api/admin/sys/dep', '添加', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444119150596', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:29', 0, 205, '721146444119150593', 'PUT', '/api/admin/sys/dep/{id}', 'ID编辑', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444119150597', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:30', 0, 205, '721146444119150593', 'DELETE', '/api/admin/sys/dep/{id}', 'ID删除(并删除子数据)', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444123344899', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:31', 0, 205, '0', '', '/api/admin/sys/menu', 'base--sys--菜单管理', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444123344901', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:31', 0, 205, '721146444123344899', 'POST', '/api/admin/sys/menu', '菜单添加', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444123344902', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:31', 0, 205, '721146444123344899', 'PUT', '/api/admin/sys/menu/{id}', 'ID编辑', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444123344903', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:31', 0, 205, '721146444123344899', 'DELETE', '/api/admin/sys/menu/{id}', 'ID删除', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444123344904', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:31', 0, 205, '721146444123344899', 'GET', '/api/admin/sys/menu/findTree', '左导航菜单', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444131733504', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:31', 0, 205, '0', '', '/api/admin/sys/role', 'base--sys--角色管理', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444131733505', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:32', 0, 205, '721146444131733504', 'POST', '/api/admin/sys/role', '添加', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444131733506', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:32', 0, 205, '721146444131733504', 'PUT', '/api/admin/sys/role/{id}', 'ID编辑', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444131733507', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:32', 0, 205, '721146444131733504', 'DELETE', '/api/admin/sys/role/{id}', 'ID删除', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444131733508', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:33', 0, 205, '721146444131733504', 'GET', '/api/admin/sys/role/findPage', '列表查询', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444135927808', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:33', 0, 205, '0', '', '/api/admin/sys/blacklist', 'base--sys--黑名单', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444135927809', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:33', 0, 205, '721146444135927808', 'POST', '/api/admin/sys/blacklist', '添加', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444135927810', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:33', 0, 205, '721146444135927808', 'PUT', '/api/admin/sys/blacklist/{id}', 'ID编辑', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444135927811', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:33', 0, 205, '721146444135927808', 'DELETE', '/api/admin/sys/blacklist/{id}', 'ID删除', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444135927812', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:34', 0, 205, '721146444135927808', 'GET', '/api/admin/sys/blacklist/findPage', '列表查询', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444140122112', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:34', 0, 205, '0', '', '/api/admin/sys/authority', 'base--sys--URL权限管理', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444140122113', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:34', 0, 205, '721146444140122112', 'GET', '/api/admin/sys/authority/list', '查询所有-接口管理', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444140122114', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:34', 0, 205, '721146444140122112', 'PUT', '/api/admin/sys/authority/{id}', 'ID编辑', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444140122115', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:35', 0, 205, '721146444140122112', 'PUT', '/api/admin/sys/authority/refreshAuthority', '扫描权限', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444144316416', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:35', 0, 205, '0', '', '/api/admin/sys/config', 'base--sys--全局配置', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444144316417', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:35', 0, 205, '721146444144316416', 'POST', '/api/admin/sys/config', '添加', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444144316418', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:35', 0, 205, '721146444144316416', 'GET', '/api/admin/sys/config/{id}', 'ID查询', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444144316419', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:36', 0, 205, '721146444144316416', 'PUT', '/api/admin/sys/config/{id}', 'ID编辑', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444144316420', '-1', NULL, '2022-08-29 17:45:22', '2022-11-29 17:22:53', 0, 205, '721146444144316416', 'DELETE', '/api/admin/sys/config/{id}', 'ID删除', 0, 0, 3, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444144316421', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:36', 0, 205, '721146444144316416', 'GET', '/api/admin/sys/config/findPage', '分页查询', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721146444144316422', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:36', 0, 205, '721146444144316416', 'GET', '/api/admin/sys/config/findByCode', 'CODE查询', 0, 0, 0, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805924446208', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:36', 0, 200, '0', '', '/api/admin/gc/dataBase', 'base--gc--代码生成--查询表数据', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805928640512', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:37', 0, 200, '721151805924446208', 'GET', '/api/admin/gc/dataBase/table/list', '查询所有表名', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805928640513', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:37', 0, 200, '721151805924446208', 'GET', '/api/admin/gc/dataBase/table/field', '查询指定表下所有字段内容', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805932834816', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:37', 0, 200, '0', '', '/api/admin/gc/generate', 'base--gc--代码生成', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805932834817', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:37', 0, 200, '721151805932834816', 'GET', '/api/admin/gc/generate/getPath', '代码生成路径', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805932834818', '-1', NULL, '2022-08-29 18:06:44', '2022-11-21 00:05:45', 0, 200, '721151805932834816', 'POST', '/api/admin/gc/generate/generateCode', '生成代码', 0, 0, 3, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805932834819', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:38', 0, 200, '721151805932834816', 'POST', '/api/admin/gc/generate/preview', '生成预览代码', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805932834820', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:38', 0, 200, '721151805932834816', 'POST', '/api/admin/gc/generate/generateCodeVue', '生成Vue代码(将直接下载)', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805932834821', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:38', 0, 200, '721151805932834816', 'POST', '/api/admin/gc/generate/generateCodeJavaAndVue', '生成java + vue代码(将直接下载)', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805932834822', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:38', 0, 200, '0', '', '/api/admin/gc/datasource', 'base--gc--代码生成--数据源维护', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805937029120', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:39', 0, 200, '721151805932834822', 'POST', '/api/admin/gc/datasource', '添加', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805937029121', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:39', 0, 200, '721151805932834822', 'GET', '/api/admin/gc/datasource/findPage', '列表查询', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805937029122', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:39', 0, 200, '721151805932834822', 'DELETE', '/api/admin/gc/datasource/{id}', 'ID删除', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805937029123', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:39', 0, 200, '721151805932834822', 'PUT', '/api/admin/gc/datasource/{id}/updPwd', '修改/重置密码', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805937029124', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:40', 0, 200, '721151805932834822', 'GET', '/api/admin/gc/datasource/{id}', 'id查询', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805937029125', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:40', 0, 200, '721151805932834822', 'POST', '/api/admin/gc/datasource/dataSourceTest/{id}', '数据源连接测试', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721151805937029126', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:40', 0, 200, '721151805932834822', 'PUT', '/api/admin/gc/datasource/{id}', 'ID编辑', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721158911297720320', '-1', NULL, '2022-08-29 18:34:57', '2022-10-30 16:10:40', 0, 198, '0', '', '/api/admin/sys/jvm', 'base--sys--jvm信息获取', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721158911297720321', '-1', NULL, '2022-08-29 18:34:57', '2022-10-30 16:10:41', 0, 198, '721158911297720320', 'GET', '/api/admin/sys/jvm/jvmInfo', '获取系统的jvm信息', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721158911301914624', '-1', NULL, '2022-08-29 18:34:57', '2022-10-30 16:10:41', 0, 198, '0', '', '/api/admin/sys/log', 'base--sys--操作记录', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721158911301914625', '-1', NULL, '2022-08-29 18:34:57', '2022-10-30 16:10:41', 0, 198, '721158911301914624', 'GET', '/api/admin/sys/log/findPage', '分页查询', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721160918934884352', '-1', NULL, '2022-08-29 18:42:53', '2022-10-30 16:10:43', 0, 195, '0', '', '/api/admin/sys/msg', 'base--sys--消息通知', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721160918934884353', '-1', NULL, '2022-08-29 18:42:53', '2022-11-25 15:14:06', 0, 195, '721160918934884352', 'POST', '/api/admin/sys/msg', '添加/发送消息', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721160918934884354', '-1', NULL, '2022-08-29 18:42:53', '2022-11-14 16:51:15', 0, 195, '721160918934884352', 'GET', '/api/admin/sys/msg/findPage', '列表查询', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721160918934884355', '-1', NULL, '2022-08-29 18:42:53', '2022-10-30 16:10:44', 0, 195, '721160918934884352', 'GET', '/api/admin/sys/msg/findUnreadNum', '查询未读数量(当前登录用户)', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721160918934884356', '-1', NULL, '2022-08-29 18:42:53', '2022-10-30 16:10:44', 0, 195, '721160918934884352', 'PUT', '/api/admin/sys/msg/{id}/read', '消息修改为已读', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721160918934884357', '-1', NULL, '2022-08-29 18:42:53', '2022-10-30 16:10:44', 0, 195, '721160918934884352', 'GET', '/api/admin/sys/msg/findAllNum', '查询全部/已读/未读数量(当前登录用户)', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721162557955641344', '-1', NULL, '2022-08-29 18:49:22', '2022-10-30 16:10:45', 0, 193, '0', '', '/api/admin/sys/banner', 'base--sys--banner', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721162557955641345', '-1', NULL, '2022-08-29 18:49:22', '2022-10-30 16:10:45', 0, 193, '721162557955641344', 'POST', '/api/admin/sys/banner', '添加', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721162557955641346', '-1', NULL, '2022-08-29 18:49:22', '2022-10-30 16:10:45', 0, 193, '721162557955641344', 'GET', '/api/admin/sys/banner/findPage', '列表查询', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721162557955641347', '-1', NULL, '2022-08-29 18:49:22', '2022-10-30 16:10:45', 0, 193, '721162557955641344', 'DELETE', '/api/admin/sys/banner/{id}', 'ID删除', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('721162557955641348', '-1', NULL, '2022-08-29 18:49:22', '2022-10-30 16:10:45', 0, 193, '721162557955641344', 'PUT', '/api/admin/sys/banner/{id}', 'ID编辑', 0, 0, 1, 1);
-INSERT INTO `t_sys_authority` VALUES ('724479128698490880', '-1', NULL, '2022-09-06 22:28:14', '2022-10-30 16:10:46', 0, 177, '697255086296010752', 'GET', '/api/open/redis/getDataNo', '获取分布式唯一数据编号', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('724479128698490881', '-1', NULL, '2022-09-06 22:28:14', '2022-10-30 16:10:46', 0, 177, '697255086296010752', 'GET', '/api/open/redis/getOrderNo', '获取分布式唯一订单号', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('733526914786004992', '-1', NULL, '2022-09-30 21:40:57', '2022-10-30 16:10:46', 0, 84, '700879734145421312', 'GET', '/api/admin/test/gcTest/findPage', '列表查询', 0, 0, 1, 0);
-INSERT INTO `t_sys_authority` VALUES ('741218298418565120', '-1', NULL, '2022-10-15 19:03:48', '2022-10-30 16:10:46', 0, 61, '0', '', '/api/open/file', '文件管理', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('741218298418565122', '-1', NULL, '2022-10-15 19:03:48', '2022-10-30 16:10:46', 0, 61, '741218298418565120', 'GET', '/api/open/file/downloadZip', '文件下载--多文件下载 (批量下载-打压缩包)', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('741218298418565123', '-1', NULL, '2022-10-15 19:03:48', '2022-10-30 16:10:47', 0, 61, '741218298418565120', 'GET', '/api/open/file/download', '文件下载--单文件下载', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('741218298422759424', '-1', NULL, '2022-10-15 19:03:48', '2022-10-30 16:10:47', 0, 61, '741218298418565120', 'POST', '/api/open/file/upload', '文件上传,可在指定路径后追加子路径,以/结尾，上传成功返回完整可访问URL', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('741218298422759425', '-1', NULL, '2022-10-15 19:03:48', '2022-10-30 16:10:47', 0, 61, '741218298418565120', 'DELETE', '/api/open/file/del', '文件/文件目录删除', 0, 2, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('756396041112260608', NULL, NULL, '2022-11-26 16:14:51', '2022-11-26 16:14:51', 0, 13, '721146444123344899', 'GET', '/api/admin/sys/menu/tree', '列表查询(不支持分页)', 0, 0, 1, 0);
-INSERT INTO `t_sys_authority` VALUES ('760767903468490752', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 3, '0', '', '/api/client/sys/config', 'yh--base-plus--全局配置', 0, 1, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('760767903468490753', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 3, '760767903468490752', 'GET', '/api/client/sys/config/findByCode', 'CODE查询', 0, 1, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('760767903476879360', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 3, '0', '', '/api/client/sys/banner', 'yh--base-plus--banner', 0, 1, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('760767903476879361', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 3, '760767903476879360', 'GET', '/api/client/sys/banner/list/{position}', '列表-位置查询', 0, 1, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('760767903485267968', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 3, '0', '', '/api/client/sys/msg', 'yh--base-plus--消息通知', 0, 1, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('760767903485267969', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 3, '760767903485267968', 'GET', '/api/client/sys/msg/findPage', '分页查询', 0, 1, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('760767903485267970', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 3, '760767903485267968', 'GET', '/api/client/sys/msg/findUnreadNum', '查询未读数量(当前登录用户)', 0, 1, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('760767903485267971', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 3, '760767903485267968', 'PUT', '/api/client/sys/msg/{id}/read', '消息修改为已读', 0, 1, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('760767903489462272', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 3, '0', '', '/api/client/sys/dictionary', 'yh--base--字典管理', 0, 1, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('760767903489462273', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 3, '760767903489462272', 'GET', '/api/client/sys/dictionary/findCodeGroup', '查询所有-code分组', 0, 1, 0, 0);
-INSERT INTO `t_sys_authority` VALUES ('760767903489462274', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 3, '760767903489462272', 'GET', '/api/client/sys/dictionary/findByCode', 'Code查询(Tree)', 0, 1, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('697255086296010752', '-1', '0', '2022-06-28 11:29:37', '2022-10-30 16:10:20', 0, 462, '0', '', '/api/open/redis', 'Redis  -->  Redis 测试', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('697398103711551488', '-1', '0', '2022-06-28 12:57:58', '2022-10-30 16:10:21', 0, 460, '697255086296010752', 'GET', '/api/open/redis/redissonDistributedLockTest2/{key}', 'redis 分布式锁加锁测试2', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('697398103711551489', '-1', '0', '2022-06-28 12:57:58', '2022-10-30 16:10:21', 0, 460, '697255086296010752', 'GET', '/api/open/redis/redissonDistributedLockTest1/{key}', 'redis 分布式锁加锁测试', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('697398103711551490', '-1', '0', '2022-06-28 12:57:58', '2022-10-30 16:10:21', 0, 460, '697255086296010752', 'GET', '/api/open/redis/redissonDistributedLockTest3', 'redis 分布式注解锁测试', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('700879734145421312', '-1', '0', '2022-07-06 11:32:41', '2022-10-30 16:10:22', 0, 426, '0', '', '/api/admin/test/gcTest', '代码生成测试表', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('700879734145421314', '-1', '0', '2022-07-06 11:32:41', '2022-10-30 16:10:22', 0, 426, '700879734145421312', 'POST', '/api/admin/test/gcTest', '添加', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('700879734145421315', '-1', '0', '2022-07-06 11:32:41', '2022-10-30 16:10:22', 0, 426, '700879734145421312', 'DELETE', '/api/admin/test/gcTest/{id}', 'ID删除', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('700879734149615616', '-1', '0', '2022-07-06 11:32:41', '2022-10-30 16:10:22', 0, 426, '700879734145421312', 'PUT', '/api/admin/test/gcTest/{id}', 'ID编辑', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('700879734149615617', '-1', '0', '2022-07-06 11:32:41', '2022-10-30 16:10:23', 0, 426, '700879734145421312', 'GET', '/api/admin/test/gcTest/{id}', 'ID查询', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('720779973740335104', '-1', NULL, '2022-08-28 17:29:10', '2022-10-30 16:10:23', 0, 290, '0', '', '/api/open/websocket', 'Websocket  -->  消息通知/即时通讯', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('720779973740335105', '-1', NULL, '2022-08-28 17:29:10', '2022-10-30 16:10:23', 0, 290, '720779973740335104', 'GET', '/api/open/websocket/getPath', '获取模拟游客登录的 websocket 连接地址', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('720779973740335106', '-1', NULL, '2022-08-28 17:29:10', '2022-10-30 16:10:23', 0, 290, '720779973740335104', 'POST', '/api/open/websocket/send', '发送消息', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('720779973740335107', '-1', NULL, '2022-08-28 17:29:10', '2022-10-30 16:10:23', 0, 290, '720779973740335104', 'GET', '/api/open/websocket/getOnlineUsersList', '获取当前在线用户列表', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('720779973740335108', '-1', NULL, '2022-08-28 17:29:10', '2022-10-30 16:10:24', 0, 290, '720779973740335104', 'GET', '/api/open/websocket/getOnlineCount', '获取在线人数', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('721146444106567680', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:24', 0, 268, '0', '', '/api/admin/sys/user', 'base--sys--用户管理', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444106567681', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:24', 0, 268, '721146444106567680', 'POST', '/api/admin/sys/user', '添加', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444106567682', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:24', 0, 268, '721146444106567680', 'GET', '/api/admin/sys/user/{id}', 'ID查询', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444106567683', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:24', 0, 268, '721146444106567680', 'PUT', '/api/admin/sys/user/{id}', 'ID编辑', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444110761984', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:25', 0, 268, '721146444106567680', 'DELETE', '/api/admin/sys/user/{id}', 'ID删除', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444110761985', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:25', 0, 268, '721146444106567680', 'GET', '/api/admin/sys/user/findPage', '列表查询', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444110761986', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:25', 0, 268, '721146444106567680', 'PUT', '/api/admin/sys/user/{id}/resetPassword', '重置任意用户密码', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444110761987', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:25', 0, 268, '721146444106567680', 'PUT', '/api/admin/sys/user/updByPassword', '修改当前登录人的密码', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444110761988', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:25', 0, 268, '721146444106567680', 'GET', '/api/admin/sys/user/findByRoleId', '获取指定角色的用户列表', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444110761989', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:26', 0, 268, '721146444106567680', 'GET', '/api/admin/sys/user/findUser', '查询当前登录人的个人信息', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444110761990', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:26', 0, 268, '721146444106567680', 'PUT', '/api/admin/sys/user/updUser', '修改当前登录人的信息', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444110761991', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:26', 0, 268, '721146444106567680', 'GET', '/api/admin/sys/user/list/keyData', '查询所有-只返回关键数据(姓名/昵称/电话/id)', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444110761992', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:26', 0, 268, '721146444106567680', 'POST', '/api/admin/sys/user/login', '用户登录', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444114956288', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:27', 0, 268, '0', '', '/api/admin/sys/dictionary', 'base--sys--字典管理', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444114956289', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:27', 0, 268, '721146444114956288', 'GET', '/api/admin/sys/dictionary/list', '列表查询 (默认返回Tree数据,可指定Tree或List)', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444114956290', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:27', 0, 268, '721146444114956288', 'POST', '/api/admin/sys/dictionary', '添加', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444114956291', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:27', 0, 268, '721146444114956288', 'PUT', '/api/admin/sys/dictionary/{id}', '编辑', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444114956292', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:27', 0, 268, '721146444114956288', 'DELETE', '/api/admin/sys/dictionary/{id}', 'ID删除', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444114956293', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:28', 0, 268, '721146444114956288', 'GET', '/api/admin/sys/dictionary/findCodeGroup', '查询所有-code分组', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444114956294', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:28', 0, 268, '721146444114956288', 'GET', '/api/admin/sys/dictionary/generateEnum', '生成枚举', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444119150592', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:28', 0, 268, '721146444114956288', 'GET', '/api/admin/sys/dictionary/list/category', '获取类别(级联数据)', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444119150593', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:28', 0, 268, '0', '', '/api/admin/sys/dep', 'base--sys--组织机构', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444119150595', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:29', 0, 268, '721146444119150593', 'POST', '/api/admin/sys/dep', '添加', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444119150596', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:29', 0, 268, '721146444119150593', 'PUT', '/api/admin/sys/dep/{id}', 'ID编辑', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444119150597', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:30', 0, 268, '721146444119150593', 'DELETE', '/api/admin/sys/dep/{id}', 'ID删除', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444123344899', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:31', 0, 268, '0', '', '/api/admin/sys/menu', 'base--sys--菜单管理', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444123344901', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:31', 0, 268, '721146444123344899', 'POST', '/api/admin/sys/menu', '菜单添加', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444123344902', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:31', 0, 268, '721146444123344899', 'PUT', '/api/admin/sys/menu/{id}', 'ID编辑', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444123344903', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:31', 0, 268, '721146444123344899', 'DELETE', '/api/admin/sys/menu/{id}', 'ID删除', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444123344904', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:31', 0, 268, '721146444123344899', 'GET', '/api/admin/sys/menu/findTree', '左导航菜单', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444131733504', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:31', 0, 268, '0', '', '/api/admin/sys/role', 'base--sys--角色管理', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444131733505', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:32', 0, 268, '721146444131733504', 'POST', '/api/admin/sys/role', '添加', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444131733506', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:32', 0, 268, '721146444131733504', 'PUT', '/api/admin/sys/role/{id}', 'ID编辑', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444131733507', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:32', 0, 268, '721146444131733504', 'DELETE', '/api/admin/sys/role/{id}', 'ID删除', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444131733508', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:33', 0, 268, '721146444131733504', 'GET', '/api/admin/sys/role/findPage', '列表查询', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444135927808', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:33', 0, 268, '0', '', '/api/admin/sys/blacklist', 'base--sys--黑名单', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444135927809', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:33', 0, 268, '721146444135927808', 'POST', '/api/admin/sys/blacklist', '添加', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444135927810', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:33', 0, 268, '721146444135927808', 'PUT', '/api/admin/sys/blacklist/{id}', 'ID编辑', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444135927811', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:33', 0, 268, '721146444135927808', 'DELETE', '/api/admin/sys/blacklist/{id}', 'ID删除', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444135927812', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:34', 0, 268, '721146444135927808', 'GET', '/api/admin/sys/blacklist/findPage', '列表查询', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444140122112', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:34', 0, 268, '0', '', '/api/admin/sys/authority', 'base--sys--URL权限管理', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444140122113', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:34', 0, 268, '721146444140122112', 'GET', '/api/admin/sys/authority/list', '查询所有-接口管理', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444140122114', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:34', 0, 268, '721146444140122112', 'PUT', '/api/admin/sys/authority/{id}', 'ID编辑', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444140122115', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:35', 0, 268, '721146444140122112', 'PUT', '/api/admin/sys/authority/refreshAuthority', '扫描权限', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444144316416', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:35', 0, 268, '0', '', '/api/admin/sys/config', 'base--sys--全局配置', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444144316417', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:35', 0, 268, '721146444144316416', 'POST', '/api/admin/sys/config', '添加', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444144316418', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:35', 0, 268, '721146444144316416', 'GET', '/api/admin/sys/config/{id}', 'ID查询', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444144316419', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:36', 0, 268, '721146444144316416', 'PUT', '/api/admin/sys/config/{id}', 'ID编辑', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444144316420', '-1', NULL, '2022-08-29 17:45:22', '2022-11-29 17:22:53', 0, 268, '721146444144316416', 'DELETE', '/api/admin/sys/config/{id}', 'ID删除', 0, 0, 3, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444144316421', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:36', 0, 268, '721146444144316416', 'GET', '/api/admin/sys/config/findPage', '分页查询', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721146444144316422', '-1', NULL, '2022-08-29 17:45:22', '2022-10-30 16:10:36', 0, 268, '721146444144316416', 'GET', '/api/admin/sys/config/findByCode', 'CODE查询', 0, 0, 0, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805924446208', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:36', 0, 263, '0', '', '/api/admin/gc/dataBase', 'base--gc--代码生成--查询表数据', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805928640512', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:37', 0, 263, '721151805924446208', 'GET', '/api/admin/gc/dataBase/table/list', '查询所有表名', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805928640513', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:37', 0, 263, '721151805924446208', 'GET', '/api/admin/gc/dataBase/table/field', '查询指定表下所有字段内容', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805932834816', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:37', 0, 263, '0', '', '/api/admin/gc/generate', 'base--gc--代码生成', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805932834817', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:37', 0, 263, '721151805932834816', 'GET', '/api/admin/gc/generate/getPath', '代码生成路径', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805932834818', '-1', NULL, '2022-08-29 18:06:44', '2022-11-21 00:05:45', 0, 263, '721151805932834816', 'POST', '/api/admin/gc/generate/generateCode', '生成代码', 0, 0, 3, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805932834819', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:38', 0, 263, '721151805932834816', 'POST', '/api/admin/gc/generate/preview', '生成预览代码', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805932834820', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:38', 0, 263, '721151805932834816', 'POST', '/api/admin/gc/generate/generateCodeVue', '生成Vue代码(将直接下载)', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805932834821', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:38', 0, 263, '721151805932834816', 'POST', '/api/admin/gc/generate/generateCodeJavaAndVue', '生成java + vue代码(将直接下载)', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805932834822', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:38', 0, 263, '0', '', '/api/admin/gc/datasource', 'base--gc--代码生成--数据源维护', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805937029120', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:39', 0, 263, '721151805932834822', 'POST', '/api/admin/gc/datasource', '添加', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805937029121', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:39', 0, 263, '721151805932834822', 'GET', '/api/admin/gc/datasource/findPage', '列表查询', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805937029122', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:39', 0, 263, '721151805932834822', 'DELETE', '/api/admin/gc/datasource/{id}', 'ID删除', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805937029123', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:39', 0, 263, '721151805932834822', 'PUT', '/api/admin/gc/datasource/{id}/updPwd', '修改/重置密码', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805937029124', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:40', 0, 263, '721151805932834822', 'GET', '/api/admin/gc/datasource/{id}', 'id查询', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805937029125', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:40', 0, 263, '721151805932834822', 'POST', '/api/admin/gc/datasource/dataSourceTest/{id}', '数据源连接测试', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721151805937029126', '-1', NULL, '2022-08-29 18:06:44', '2022-10-30 16:10:40', 0, 263, '721151805932834822', 'PUT', '/api/admin/gc/datasource/{id}', 'ID编辑', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721158911297720320', '-1', NULL, '2022-08-29 18:34:57', '2022-10-30 16:10:40', 0, 261, '0', '', '/api/admin/sys/jvm', 'base--sys--jvm信息获取', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721158911297720321', '-1', NULL, '2022-08-29 18:34:57', '2022-10-30 16:10:41', 0, 261, '721158911297720320', 'GET', '/api/admin/sys/jvm/jvmInfo', '获取系统的jvm信息', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721158911301914624', '-1', NULL, '2022-08-29 18:34:57', '2022-10-30 16:10:41', 0, 261, '0', '', '/api/admin/sys/log', 'base--sys--操作记录', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721158911301914625', '-1', NULL, '2022-08-29 18:34:57', '2022-10-30 16:10:41', 0, 261, '721158911301914624', 'GET', '/api/admin/sys/log/findPage', '分页查询', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721160918934884352', '-1', NULL, '2022-08-29 18:42:53', '2022-10-30 16:10:43', 0, 258, '0', '', '/api/admin/sys/msg', 'base--sys--消息通知', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721160918934884353', '-1', NULL, '2022-08-29 18:42:53', '2022-11-25 15:14:06', 0, 258, '721160918934884352', 'POST', '/api/admin/sys/msg', '添加/发送消息', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721160918934884354', '-1', NULL, '2022-08-29 18:42:53', '2022-11-14 16:51:15', 0, 258, '721160918934884352', 'GET', '/api/admin/sys/msg/findPage', '列表查询', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721160918934884355', '-1', NULL, '2022-08-29 18:42:53', '2022-10-30 16:10:44', 0, 258, '721160918934884352', 'GET', '/api/admin/sys/msg/findUnreadNum', '查询未读数量(当前登录用户)', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721160918934884356', '-1', NULL, '2022-08-29 18:42:53', '2022-10-30 16:10:44', 0, 258, '721160918934884352', 'PUT', '/api/admin/sys/msg/{id}/read', '消息修改为已读', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721160918934884357', '-1', NULL, '2022-08-29 18:42:53', '2022-10-30 16:10:44', 0, 258, '721160918934884352', 'GET', '/api/admin/sys/msg/findAllNum', '查询全部/已读/未读数量(当前登录用户)', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721162557955641344', '-1', NULL, '2022-08-29 18:49:22', '2022-10-30 16:10:45', 0, 256, '0', '', '/api/admin/sys/banner', 'base--sys--banner', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721162557955641345', '-1', NULL, '2022-08-29 18:49:22', '2022-10-30 16:10:45', 0, 256, '721162557955641344', 'POST', '/api/admin/sys/banner', '添加', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721162557955641346', '-1', NULL, '2022-08-29 18:49:22', '2022-10-30 16:10:45', 0, 256, '721162557955641344', 'GET', '/api/admin/sys/banner/findPage', '列表查询', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721162557955641347', '-1', NULL, '2022-08-29 18:49:22', '2022-10-30 16:10:45', 0, 256, '721162557955641344', 'DELETE', '/api/admin/sys/banner/{id}', 'ID删除', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('721162557955641348', '-1', NULL, '2022-08-29 18:49:22', '2022-10-30 16:10:45', 0, 256, '721162557955641344', 'PUT', '/api/admin/sys/banner/{id}', 'ID编辑', 0, 0, 1, 1);
+INSERT INTO `t_sys_authority` VALUES ('724479128698490880', '-1', NULL, '2022-09-06 22:28:14', '2022-10-30 16:10:46', 0, 240, '697255086296010752', 'GET', '/api/open/redis/getDataNo', '获取分布式唯一数据编号', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('724479128698490881', '-1', NULL, '2022-09-06 22:28:14', '2022-10-30 16:10:46', 0, 240, '697255086296010752', 'GET', '/api/open/redis/getOrderNo', '获取分布式唯一订单号', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('733526914786004992', '-1', NULL, '2022-09-30 21:40:57', '2022-10-30 16:10:46', 0, 147, '700879734145421312', 'GET', '/api/admin/test/gcTest/findPage', '列表查询', 0, 0, 1, 0);
+INSERT INTO `t_sys_authority` VALUES ('741218298418565120', '-1', NULL, '2022-10-15 19:03:48', '2022-10-30 16:10:46', 0, 124, '0', '', '/api/open/file', '文件管理', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('741218298418565122', '-1', NULL, '2022-10-15 19:03:48', '2022-10-30 16:10:46', 0, 124, '741218298418565120', 'GET', '/api/open/file/downloadZip', '文件下载--多文件下载 (批量下载-打压缩包)', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('741218298418565123', '-1', NULL, '2022-10-15 19:03:48', '2022-10-30 16:10:47', 0, 124, '741218298418565120', 'GET', '/api/open/file/download', '文件下载--单文件下载', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('741218298422759424', '-1', NULL, '2022-10-15 19:03:48', '2022-10-30 16:10:47', 0, 124, '741218298418565120', 'POST', '/api/open/file/upload', '文件上传,可在指定路径后追加子路径,以/结尾，上传成功返回完整可访问URL', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('741218298422759425', '-1', NULL, '2022-10-15 19:03:48', '2022-10-30 16:10:47', 0, 124, '741218298418565120', 'DELETE', '/api/open/file/del', '文件/文件目录删除', 0, 2, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('756396041112260608', NULL, NULL, '2022-11-26 16:14:51', '2022-11-26 16:14:51', 0, 76, '721146444123344899', 'GET', '/api/admin/sys/menu/tree', '列表查询(不支持分页)', 0, 0, 1, 0);
+INSERT INTO `t_sys_authority` VALUES ('760767903468490752', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 66, '0', '', '/api/client/sys/config', 'yh--base-plus--全局配置', 0, 1, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('760767903468490753', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 66, '760767903468490752', 'GET', '/api/client/sys/config/findByCode', 'CODE查询', 0, 1, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('760767903476879360', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 66, '0', '', '/api/client/sys/banner', 'yh--base-plus--banner', 0, 1, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('760767903476879361', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 66, '760767903476879360', 'GET', '/api/client/sys/banner/list/{position}', '列表-位置查询', 0, 1, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('760767903485267968', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 66, '0', '', '/api/client/sys/msg', 'yh--base-plus--消息通知', 0, 1, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('760767903485267969', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 66, '760767903485267968', 'GET', '/api/client/sys/msg/findPage', '分页查询', 0, 1, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('760767903485267970', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 66, '760767903485267968', 'GET', '/api/client/sys/msg/findUnreadNum', '查询未读数量(当前登录用户)', 0, 1, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('760767903485267971', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 66, '760767903485267968', 'PUT', '/api/client/sys/msg/{id}/read', '消息修改为已读', 0, 1, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('760767903489462272', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 66, '0', '', '/api/client/sys/dictionary', 'yh--base--字典管理', 0, 1, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('760767903489462273', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 66, '760767903489462272', 'GET', '/api/client/sys/dictionary/findCodeGroup', '查询所有-code分组', 0, 1, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('760767903489462274', NULL, NULL, '2022-12-08 17:46:53', '2022-12-08 17:46:53', 0, 66, '760767903489462272', 'GET', '/api/client/sys/dictionary/findByCode', 'Code查询(Tree)', 0, 1, 0, 0);
+INSERT INTO `t_sys_authority` VALUES ('768270989200068608', NULL, NULL, '2022-12-29 10:41:30', '2022-12-29 10:41:30', 0, 1, '0', '', '/api/admin/test/gcMenu', '基础表--菜单', 0, 0, 1, 0);
+INSERT INTO `t_sys_authority` VALUES ('768270989200068609', NULL, NULL, '2022-12-29 10:41:30', '2022-12-29 10:41:30', 0, 1, '768270989200068608', 'POST', '/api/admin/test/gcMenu', '添加', 0, 0, 1, 0);
+INSERT INTO `t_sys_authority` VALUES ('768270989200068610', NULL, NULL, '2022-12-29 10:41:30', '2022-12-29 10:41:30', 0, 1, '768270989200068608', 'GET', '/api/admin/test/gcMenu/tree', '树结构数据', 0, 0, 1, 0);
+INSERT INTO `t_sys_authority` VALUES ('768270989200068611', NULL, NULL, '2022-12-29 10:41:30', '2022-12-29 10:41:30', 0, 1, '768270989200068608', 'GET', '/api/admin/test/gcMenu/findPage', '列表查询', 0, 0, 1, 0);
+INSERT INTO `t_sys_authority` VALUES ('768270989200068612', NULL, NULL, '2022-12-29 10:41:30', '2022-12-29 10:41:30', 0, 1, '768270989200068608', 'GET', '/api/admin/test/gcMenu/{id}', 'ID查询', 0, 0, 1, 0);
+INSERT INTO `t_sys_authority` VALUES ('768270989200068613', NULL, NULL, '2022-12-29 10:41:30', '2022-12-29 10:41:30', 0, 1, '768270989200068608', 'PUT', '/api/admin/test/gcMenu/{id}', 'ID编辑', 0, 0, 1, 0);
+INSERT INTO `t_sys_authority` VALUES ('768270989200068614', NULL, NULL, '2022-12-29 10:41:30', '2022-12-29 10:41:30', 0, 1, '768270989200068608', 'DELETE', '/api/admin/test/gcMenu/{id}', 'ID删除', 0, 0, 1, 0);
+INSERT INTO `t_sys_authority` VALUES ('768270989216845824', NULL, NULL, '2022-12-29 10:41:30', '2022-12-29 10:41:30', 0, 1, '721146444119150593', 'GET', '/api/admin/sys/dep/tree', '树结构数据', 0, 0, 1, 0);
+INSERT INTO `t_sys_authority` VALUES ('768270989216845825', NULL, NULL, '2022-12-29 10:41:30', '2022-12-29 10:41:30', 0, 1, '721146444119150593', 'GET', '/api/admin/sys/dep/findPage', '列表查询', 0, 0, 1, 0);
+INSERT INTO `t_sys_authority` VALUES ('768270989216845826', NULL, NULL, '2022-12-29 10:41:30', '2022-12-29 10:41:30', 0, 1, '721146444119150593', 'GET', '/api/admin/sys/dep/{id}', 'ID查询', 0, 0, 1, 0);
 
 -- ----------------------------
 -- Table structure for t_sys_banner
@@ -284,7 +355,7 @@ CREATE TABLE `t_sys_banner`  (
   `is_skip` int(1) NOT NULL DEFAULT 0 COMMENT '是否跳转(0-无  1-内部链接 2-外部链接)',
   `skip_url` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '跳转地址url(地址直接添加或字典表配置)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统增强表--banner' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--sys--banner' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_sys_banner
@@ -311,7 +382,7 @@ CREATE TABLE `t_sys_blacklist`  (
   `desc` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '备注',
   `disable` int(1) NOT NULL DEFAULT 0 COMMENT '禁用(0-启用 1-禁用)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统增强表--黑名单' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--sys--黑名单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_sys_blacklist
@@ -343,21 +414,21 @@ CREATE TABLE `t_sys_config`  (
   `ext2` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展字段2',
   `ext3` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展字段3',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统全局配置' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--sys--全局配置' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_sys_config
 -- ----------------------------
-INSERT INTO `t_sys_config` VALUES ('1365182627308433409', NULL, '-1', '2021-02-26 14:11:17', '2022-10-15 17:22:14', 0, 0, 'login_bg_img', '背景图(登录页)', 'http://xijia-sz.oss-cn-shenzhen.aliyuncs.com/oss/file/image/config/20210311113615990505-1.jpg', 4, 1, '暂未使用', NULL, NULL, NULL);
+INSERT INTO `t_sys_config` VALUES ('1365182627308433409', NULL, '-1', '2021-02-26 14:11:17', '2022-12-29 11:17:45', 0, 0, 'img-test', '背景图(登录页)', 'http://xijia-sz.oss-cn-shenzhen.aliyuncs.com/oss/file/image/config/20210311113615990505-1.jpg', 999, 1, '暂未使用', NULL, NULL, NULL);
 INSERT INTO `t_sys_config` VALUES ('1383627414470467586', NULL, '-1', '2021-04-18 11:44:16', '2022-12-08 17:52:23', 0, 0, 'is_sign', '验签开关', 'false', 3, 2, '验签总开关 |  true  需验签(默认)   false=无需验签, 开启后可在接口管理中对单个接口进行配置', NULL, NULL, NULL);
 INSERT INTO `t_sys_config` VALUES ('1383636872395255809', NULL, '-1', '2021-04-18 12:21:51', '2022-10-15 17:21:23', 0, 0, 'is_swagger', 'swagger文档开关', 'true', 2, 2, '动态开关是否可在线查看接口文档，关闭后所有接口将隐藏展示', NULL, NULL, NULL);
 INSERT INTO `t_sys_config` VALUES ('1441701074921598977', NULL, '-1', '2021-09-25 17:48:16', '2022-10-15 17:21:21', 0, 0, 'login_expiration_manage', '登录有效期', '60', 1, 0, '登录状态切对当前系统无如何操作后，当前登录状态保持时长,  防止离开后被别人操作， 单位分 （配置内容针对的是管理端）', NULL, NULL, NULL);
-INSERT INTO `t_sys_config` VALUES ('1564811793453887489', NULL, '-1', '2022-08-31 11:06:19', '2022-10-30 16:06:59', 0, 0, 'test', 'test', '### 123\n![image.png](http://xijia-sz.oss-cn-shenzhen.aliyuncs.com/oss/file/image/vMdEditor/26661516-image.png)\n\n```sql\nselect * from asd', 99, 4, '测试数据', '', '', '');
-INSERT INTO `t_sys_config` VALUES ('1586639328887476226', NULL, NULL, '2022-10-30 16:41:09', '2022-10-30 16:41:09', 0, 0, '1', '1', '<p>1</p>', 0, 3, '', '', '', '');
-INSERT INTO `t_sys_config` VALUES ('1591258898825293825', NULL, NULL, '2022-11-12 10:37:40', '2022-11-12 10:37:40', 0, 0, 'test222', '11', '<video src=\"http://localhost:10006/upload/video/swagger-ui.html/20221109-0315-11%E3%80%81%E6%81%AD%E5%96%9C%E4%BD%A0%E5%8F%91%E7%8E%B0%E5%AE%9D%E8%97%8F%EF%BC%81%EF%BC%81%EF%BC%81.mp4\"></video>', 0, 4, '', '', '', '');
-INSERT INTO `t_sys_config` VALUES ('1597859174027370498', NULL, NULL, '2022-11-30 15:44:47', '2022-11-30 15:44:47', 0, 0, 'tets', '1', '<p>1</p>', 0, 3, '', '', '', '');
-INSERT INTO `t_sys_config` VALUES ('1600043434145034242', NULL, NULL, '2022-12-06 16:24:16', '2022-12-06 16:24:16', 0, 0, 'ff', 's', 's', 0, 0, '', '', '', '');
-INSERT INTO `t_sys_config` VALUES ('1600043498917670914', NULL, NULL, '2022-12-06 16:24:32', '2022-12-06 16:24:32', 0, 0, '11', '1', '1', 0, 0, '', '', '', '');
+INSERT INTO `t_sys_config` VALUES ('1564811793453887489', NULL, '-1', '2022-08-31 11:06:19', '2022-12-29 11:17:00', 1, 0, 'test', 'test', '### 123\n![image.png](http://xijia-sz.oss-cn-shenzhen.aliyuncs.com/oss/file/image/vMdEditor/26661516-image.png)\n\n```sql\nselect * from asd', 99, 4, '测试数据', '', '', '');
+INSERT INTO `t_sys_config` VALUES ('1586639328887476226', NULL, NULL, '2022-10-30 16:41:09', '2022-12-29 11:15:05', 1, 0, '1', '1', '<p>1</p>', 0, 3, '', '', '', '');
+INSERT INTO `t_sys_config` VALUES ('1591258898825293825', NULL, NULL, '2022-11-12 10:37:40', '2022-12-29 11:17:44', 0, 0, 'markdown-test', '11', '\n\n## 提示\n::: tip \n  你可以点击 toolbar 中的 tip 来快速插入\n:::\n\n::: warning\n  这是一段警告\n:::\n\n::: danger\n这是一个危险警告\n:::\n\n::: details\n  这是一个详情块，在 IE / Edge 中不生效\n:::\n\n::: tip 自定义标题\n  你也可以自定义块中的标题\n:::\n\n::: danger STOP\n  危险区域，禁止通行\n:::\n\n## 代码块\n```v\n// v-md-editor 插件\nimport VueMarkdownEditor from \'@kangc/v-md-editor\';\nimport \'@kangc/v-md-editor/lib/style/base-editor.css\';\nimport vuepressTheme from \'@kangc/v-md-editor/lib/theme/vuepress.js\';\nimport \'@kangc/v-md-editor/lib/theme/style/vuepress.css\';\nimport Prism from \'prismjs\';\nVueMarkdownEditor.use(vuepressTheme, {\n  Prism,\n});\n\n```\n\n\n```json\n{\n  \"name\": \"avue-cli\",\n  \"version\": \"2.0.0\",\n  \"private\": true,\n  \"scripts\": {\n    \"serve\": \"vue-cli-service serve\",\n    \"build\": \"vue-cli-service build\",\n    \"lint\": \"vue-cli-service lint\",\n    \"analyz\": \"npm_config_report=true npm run build\",\n    \"test:unit\": \"vue-cli-service test:unit\",\n    \"test:e2e\": \"vue-cli-service test:e2e\"\n  },\n```\n\n## 内容定位\n::: align-left\n  left\n:::\n\n::: align-center\n  center\n:::\n\n::: align-right\n  right\n:::\n\n', 999, 4, '', '', '', '');
+INSERT INTO `t_sys_config` VALUES ('1597859174027370498', NULL, NULL, '2022-11-30 15:44:47', '2022-12-29 11:17:44', 0, 0, 'vue-tinymce-test', '1', '<p>1</p>', 999, 3, '', '', '', '');
+INSERT INTO `t_sys_config` VALUES ('1600043434145034242', NULL, NULL, '2022-12-06 16:24:16', '2022-12-29 11:14:54', 1, 0, 'ff', 's', 's', 0, 0, '', '', '', '');
+INSERT INTO `t_sys_config` VALUES ('1600043498917670914', NULL, NULL, '2022-12-06 16:24:32', '2022-12-29 11:14:51', 1, 0, '11', '1', '1', 0, 0, '', '', '', '');
 
 -- ----------------------------
 -- Table structure for t_sys_dep
@@ -372,29 +443,26 @@ CREATE TABLE `t_sys_dep`  (
   `deleted` int(1) NOT NULL DEFAULT 0 COMMENT '逻辑删除(0：正常 1：删除)',
   `version` int(11) NOT NULL DEFAULT 0 COMMENT '乐观锁',
   `pid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '父Id (顶级父id=0)',
-  `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '部门编码 (开始查询使用,不可重复)',
-  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '部门/公司名称',
-  `desc` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '部门/公司描叙',
+  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '公司/部门名称',
+  `desc` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '公司/部门描叙',
+  `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '公司/部门编码 (便于查询使用,不可重复)',
   `sort` int(11) NOT NULL DEFAULT 0 COMMENT '排序',
   `disable` int(1) NOT NULL DEFAULT 0 COMMENT '禁用(0-否 1-是)',
-  `root` int(1) NULL DEFAULT 1 COMMENT '级别( 1-一级 2-二级 3-三级)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '基础表--组织机构' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--sys--组织机构' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_sys_dep
 -- ----------------------------
-INSERT INTO `t_sys_dep` VALUES ('1443502302433439746', '-1', '-1', '2021-09-30 17:05:42', '2022-10-30 16:10:54', 0, 0, '1443502090977603585', 'csb', '测试部', '-', 0, 0, 3);
-INSERT INTO `t_sys_dep` VALUES ('1443502428644241409', '-1', '-1', '2021-09-30 17:06:12', '2022-10-30 16:10:54', 0, 0, '1443502157943861250', 'yyb', '运营部', '-', 0, 0, 3);
-INSERT INTO `t_sys_dep` VALUES ('1481913168983756802', '-1', '-1', '2022-01-14 16:56:46', '2022-10-30 16:10:55', 0, 0, '1481913127925714945', 'xx-dep', 'xx部门', '-', 0, 0, 3);
-INSERT INTO `t_sys_dep` VALUES ('1481913213086863362', '-1', '-1', '2022-01-14 16:56:57', '2022-10-30 16:10:55', 0, 0, '1481913127925714945', 'xx-dep2', 'xx部门2', '-', 0, 0, 3);
-INSERT INTO `t_sys_dep` VALUES ('1548901388543594498', '-1', '-1', '2022-07-18 13:24:02', '2022-12-02 16:25:05', 0, 0, '0', 'TEST01', '测试公司1', '测试公司1的描述', 0, 0, 1);
-INSERT INTO `t_sys_dep` VALUES ('1548901468621246466', '-1', '-1', '2022-07-18 13:24:22', '2022-10-30 16:10:55', 0, 0, '1548901388543594498', '1', '部门1', '部门1描述', 3, 0, 2);
-INSERT INTO `t_sys_dep` VALUES ('1548901576150618114', '-1', '-1', '2022-07-18 13:24:47', '2022-10-30 16:10:55', 0, 0, '1548901468621246466', '3', '部门1_1', '部门1_1desc', 0, 0, 3);
-INSERT INTO `t_sys_dep` VALUES ('1548901827913715713', '-1', '-1', '2022-07-18 13:25:47', '2022-12-06 10:24:14', 1, 0, '1548901388543594498', '11', '部门2', '部门2desc', 0, 0, 2);
-INSERT INTO `t_sys_dep` VALUES ('1548901950412558337', '-1', '-1', '2022-07-18 13:26:16', '2022-12-06 10:24:14', 1, 0, '1548901827913715713', '11', '部门2_1', '部门2_1', 0, 0, 3);
-INSERT INTO `t_sys_dep` VALUES ('1549253663384408066', '-1', '-1', '2022-07-19 12:43:51', '2022-12-06 10:24:14', 1, 0, '1548901827913715713', '12', '11', '-', 0, 0, 3);
-INSERT INTO `t_sys_dep` VALUES ('1560880103058071554', '-1', '-1', '2022-08-20 14:43:09', '2022-10-30 16:10:57', 0, 0, '1548901468621246466', '2', '2', '-', 0, 0, 3);
+INSERT INTO `t_sys_dep` VALUES ('1443502302433439746', '-1', '-1', '2021-09-30 17:05:42', '2022-10-30 16:10:54', 0, 0, '1443502090977603585', '测试部', '-', 'csb', 0, 0);
+INSERT INTO `t_sys_dep` VALUES ('1443502428644241409', '-1', '-1', '2021-09-30 17:06:12', '2022-10-30 16:10:54', 0, 0, '1443502157943861250', '运营部', '-', 'yyb', 0, 0);
+INSERT INTO `t_sys_dep` VALUES ('1481913168983756802', '-1', '-1', '2022-01-14 16:56:46', '2022-10-30 16:10:55', 0, 0, '1481913127925714945', 'xx部门', '-', 'xx-dep', 0, 0);
+INSERT INTO `t_sys_dep` VALUES ('1481913213086863362', '-1', '-1', '2022-01-14 16:56:57', '2022-10-30 16:10:55', 0, 0, '1481913127925714945', 'xx部门2', '-', 'xx-dep2', 0, 0);
+INSERT INTO `t_sys_dep` VALUES ('1548901388543594498', '-1', '-1', '2022-07-18 13:24:02', '2022-12-29 10:48:22', 0, 0, '0', '测试公司1', '测试公司1的描述', 'TEST01', 1, 0);
+INSERT INTO `t_sys_dep` VALUES ('1548901468621246466', '-1', '-1', '2022-07-18 13:24:22', '2022-10-30 16:10:55', 0, 0, '1548901388543594498', '部门1', '部门1描述', '1', 3, 0);
+INSERT INTO `t_sys_dep` VALUES ('1548901576150618114', '-1', '-1', '2022-07-18 13:24:47', '2022-12-29 09:08:33', 0, 0, '1548901468621246466', '部门1_1', '部门1_1desc', '3', 0, 0);
+INSERT INTO `t_sys_dep` VALUES ('1560880103058071554', '-1', '-1', '2022-08-20 14:43:09', '2022-12-29 10:38:59', 0, 0, '1608290949786574850', '2', '-', '2', 0, 0);
+INSERT INTO `t_sys_dep` VALUES ('1608290949786574850', NULL, NULL, '2022-12-29 10:36:56', '2022-12-29 10:48:23', 0, 0, '0', '公司2', '-', 'code2', 2, 0);
 
 -- ----------------------------
 -- Table structure for t_sys_dictionary
@@ -418,7 +486,7 @@ CREATE TABLE `t_sys_dictionary`  (
   `ext2` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展字段2',
   `ext3` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展字段3',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '基础表--字典' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--sys--字典管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_sys_dictionary
@@ -430,7 +498,7 @@ INSERT INTO `t_sys_dictionary` VALUES ('1290687351005212673', '-1', '-1', '2020-
 INSERT INTO `t_sys_dictionary` VALUES ('1290687461252493314', '-1', '-1', '2020-08-05 00:34:05', '2022-10-30 16:11:04', 0, 0, '2', '菜单', '1290687277911076865', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1290687547940368386', '-1', '-1', '2020-08-05 00:34:25', '2022-10-30 16:11:05', 0, 0, '3', '页面', '1290687277911076865', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1290688121255587841', '-1', '-1', '2020-08-05 00:36:42', '2022-10-30 16:11:05', 0, 0, 'BASE', '系统枚举(固定值)', '1290684671448936449', '-', 2, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1290688660164931586', '-1', '-1', '2020-08-05 00:38:51', '2022-10-30 16:11:05', 0, 0, 'GENDER', '性别', '1290688121255587841', '【固定值】', 700, 0, NULL, NULL, NULL);
+INSERT INTO `t_sys_dictionary` VALUES ('1290688660164931586', '-1', '-1', '2020-08-05 00:38:51', '2022-12-29 11:12:46', 0, 0, 'GENDER', '性别', '1290688121255587841', '【固定值】', 700, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1290688703043301378', '-1', '-1', '2020-08-05 00:39:01', '2022-10-30 16:11:05', 0, 0, '1', '男', '1290688660164931586', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1290688742289403906', '-1', '-1', '2020-08-05 00:39:10', '2022-10-30 16:11:06', 0, 0, '2', '女', '1290688660164931586', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1291341478399897601', '-1', '-1', '2020-08-06 11:52:54', '2022-10-30 16:11:06', 0, 0, '0', '未知', '1290688660164931586', '-', 0, 0, NULL, NULL, NULL);
@@ -448,7 +516,7 @@ INSERT INTO `t_sys_dictionary` VALUES ('1297705363906273282', '-1', '-1', '2020-
 INSERT INTO `t_sys_dictionary` VALUES ('1298191840981327873', '-1', '-1', '2020-08-25 09:33:48', '2022-10-30 16:11:09', 0, 0, 'DELETED', '逻辑删除', '1290688121255587841', '【固定值】', 500, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1298191898313269249', '-1', '-1', '2020-08-25 09:34:02', '2022-10-30 16:11:09', 0, 0, '0', '正常', '1298191840981327873', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1298191981998022658', '-1', '-1', '2020-08-25 09:34:22', '2022-10-30 16:11:09', 0, 0, '1', '已删除', '1298191840981327873', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1298194668697198594', '-1', '-1', '2020-08-25 09:45:02', '2022-10-30 16:11:10', 0, 0, 'BANNER_IS_SKIP', 'banner是否跳转', '1290688121255587841', '【固定值】', 1100, 0, NULL, NULL, NULL);
+INSERT INTO `t_sys_dictionary` VALUES ('1298194668697198594', '-1', '-1', '2020-08-25 09:45:02', '2022-12-29 11:09:28', 0, 0, 'BANNER_IS_SKIP', '是否跳转', '1290688121255587841', '【固定值】', 1100, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1298194722350735361', '-1', '-1', '2020-08-25 09:45:15', '2022-10-30 16:11:10', 0, 0, '0', '否', '1298194668697198594', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1298194801014906881', '-1', '-1', '2020-08-25 09:45:34', '2022-10-30 16:11:10', 0, 0, '1', '内部跳转', '1298194668697198594', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1298194850285395969', '-1', '-1', '2020-08-25 09:45:46', '2022-10-30 16:11:10', 0, 0, '2', '外部跳转', '1298194668697198594', '-', 0, 0, NULL, NULL, NULL);
@@ -464,49 +532,18 @@ INSERT INTO `t_sys_dictionary` VALUES ('1332330105569042434', '-1', '-1', '2020-
 INSERT INTO `t_sys_dictionary` VALUES ('1332330148963311619', '-1', '-1', '2020-11-27 22:27:13', '2022-10-30 16:11:13', 0, 0, '2', '黑名单', '1332329973427494913', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1352826209829978114', '-1', '-1', '2021-01-23 11:51:17', '2022-10-30 16:11:13', 0, 0, '3', 'Oauth2 接口', '1296995475064434690', '接口默认默认需通过 appId，appSecret生成的 accessToken 来进行oauth2 令牌验证可访问', 0, 1, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1352826389480407041', '-1', '-1', '2021-01-23 11:52:00', '2022-10-30 16:11:13', 0, 0, '3', '需Oauth2 授权', '1296995742778470401', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352856400451117058', '-1', '-1', '2021-01-23 13:51:15', '2022-10-30 16:11:13', 0, 0, 'PAY_TYPE', '支付类型', '1290688121255587841', '【固定值】', 1600, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352856492264431617', '-1', '-1', '2021-01-23 13:51:37', '2022-10-30 16:11:14', 0, 0, '1', '支付', '1352856400451117058', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352856528012484610', '-1', '-1', '2021-01-23 13:51:45', '2022-10-30 16:11:14', 0, 0, '2', '充值', '1352856400451117058', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352856603073748994', '-1', '-1', '2021-01-23 13:52:03', '2022-10-30 16:11:14', 0, 0, '3', '退款', '1352856400451117058', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352856663249428482', '-1', '-1', '2021-01-23 13:52:18', '2022-10-30 16:11:14', 0, 0, '4', '商家打款', '1352856400451117058', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352856892170346498', '-1', '-1', '2021-01-23 13:53:12', '2022-10-30 16:11:15', 0, 0, 'PAY_CHANNEL', '支付渠道', '1290688121255587841', '【固定值】', 1400, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352856932938981378', '-1', '-1', '2021-01-23 13:53:22', '2022-10-30 16:11:15', 0, 0, '1', '支付宝', '1352856892170346498', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352856979743219713', '-1', '-1', '2021-01-23 13:53:33', '2022-10-30 16:11:15', 0, 0, '2', '微信', '1352856892170346498', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352857025708597250', '-1', '-1', '2021-01-23 13:53:44', '2022-10-30 16:11:15', 0, 0, '3', '银联', '1352856892170346498', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352857215228223489', '-1', '-1', '2021-01-23 13:54:29', '2022-10-30 16:11:15', 0, 0, 'PAY_STATE', '支付状态', '1290688121255587841', '【固定值】用于记录支付交易请求状态', 1500, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352857264104448001', '-1', '-1', '2021-01-23 13:54:41', '2022-10-30 16:11:16', 0, 0, '0', '已发起', '1352857215228223489', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352857305888104450', '-1', '-1', '2021-01-23 13:54:51', '2022-10-30 16:11:16', 0, 0, '1', '回调成功', '1352857215228223489', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352857349592752130', '-1', '-1', '2021-01-23 13:55:01', '2022-10-30 16:11:16', 0, 0, '2', '交易失败', '1352857215228223489', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352857389069541377', '-1', '-1', '2021-01-23 13:55:11', '2022-10-30 16:11:16', 0, 0, '3', '交易成功', '1352857215228223489', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352857426407235585', '-1', '-1', '2021-01-23 13:55:20', '2022-10-30 16:11:17', 0, 0, '4', '订单异常', '1352857215228223489', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352857793505304577', '-1', '-1', '2021-01-23 13:56:47', '2022-10-30 16:11:17', 0, 0, 'PAY_BUSINESS', '支付业务', '1290686507555844098', '【动态值】当前支付业务', 600, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352857906709569537', '-1', '-1', '2021-01-23 13:57:14', '2022-10-30 16:11:17', 0, 0, '1', '用户下单', '1352857793505304577', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1352858096959004674', '-1', '-1', '2021-01-23 13:57:59', '2022-10-30 16:11:17', 0, 0, '2', 'vip 充值/续费', '1352857793505304577', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1357528050694148097', '-1', '-1', '2021-02-05 11:14:43', '2022-10-30 16:11:17', 0, 0, 'WALLET_TYPE', '流水类型', '1290688121255587841', '【固定值】', 1700, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1357528121372364801', '-1', '-1', '2021-02-05 11:15:00', '2022-10-30 16:11:18', 0, 0, '1', '收入', '1357528050694148097', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1357528154167627779', '-1', '-1', '2021-02-05 11:15:07', '2022-10-30 16:11:18', 0, 0, '2', '支出', '1357528050694148097', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1357612114939858945', '-1', '-1', '2021-02-05 16:48:45', '2022-10-30 16:11:18', 0, 0, 'IS_READ', '是否已读', '1290688121255587841', '【固定值】', 1200, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1357612150536916994', '-1', '-1', '2021-02-05 16:48:54', '2022-10-30 16:11:18', 0, 0, '0', '未读', '1357612114939858945', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1357612182854029315', '-1', '-1', '2021-02-05 16:49:01', '2022-10-30 16:11:18', 0, 0, '1', '已读', '1357612114939858945', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1368739295631798273', '-1', '-1', '2021-03-08 09:44:11', '2022-10-30 16:11:19', 0, 0, 'POSITION', '部门职位', '1290686507555844098', '【动态值】, 如有需要根据业务指定', 200, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1368739394596401154', '-1', '-1', '2021-03-08 09:44:35', '2022-10-30 16:11:19', 0, 0, '0', '系统管理员(老板)', '1368739295631798273', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1384697257961463810', '-1', '-1', '2021-04-21 10:35:27', '2022-10-30 16:11:19', 0, 0, '1', '部门经理', '1368739295631798273', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1399968409441050625', '-1', '-1', '2021-06-02 13:57:32', '2022-10-30 16:11:19', 0, 0, 'DEFAULT', '默认字典(代码生成默认字典)', '1290688121255587841', '【固定值】用于代码生成默认使用的code值', 400, 0, NULL, NULL, NULL);
+INSERT INTO `t_sys_dictionary` VALUES ('1399968409441050625', '-1', '-1', '2021-06-02 13:57:32', '2022-12-29 11:07:40', 0, 0, 'DEFAULT', '默认字典 (代码生成默认字典)', '1290688121255587841', '【固定值】用于代码生成默认使用的code值', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1399968449656037377', '-1', '-1', '2021-06-02 13:57:42', '2022-10-30 16:11:20', 0, 0, '1', '默认值 1', '1399968409441050625', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1399968504043577346', '-1', '-1', '2021-06-02 13:57:55', '2022-10-30 16:11:20', 0, 0, '2', '默认值 2', '1399968409441050625', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1399968544350838786', '-1', '-1', '2021-06-02 13:58:04', '2022-10-30 16:11:20', 0, 0, '3', '默认值 3', '1399968409441050625', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1404005220177985537', '-1', '-1', '2021-06-13 17:18:21', '2022-10-30 16:11:20', 0, 0, '0', '管理端 - 测试消息', '1308585499920769025', '-', 0, 0, '测试消息', NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1427513445955194882', '-1', '-1', '2021-08-17 14:11:42', '2022-10-30 16:11:20', 0, 0, '4', '其他', '1352856892170346498', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1427513925234118658', '-1', '-1', '2021-08-17 14:13:36', '2022-10-30 16:11:21', 0, 0, '3', '月卡购买', '1352857793505304577', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1427513998571524097', '-1', '-1', '2021-08-17 14:13:53', '2022-10-30 16:11:21', 0, 0, '4', '其他', '1352857793505304577', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1432260997380349954', '-1', '-1', '2021-08-30 16:36:49', '2022-10-30 16:11:21', 0, 0, 'TERMINAL', '终端', '1290686507555844098', '【动态值】 如有需要根据业务指定', 100, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1432261183641001986', '-1', '-1', '2021-08-30 16:37:33', '2022-10-30 16:11:22', 0, 0, '1', 'vue 主系统端', '1432260997380349954', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1432261342928084993', '-1', '-1', '2021-08-30 16:38:11', '2022-10-30 16:11:22', 0, 0, '2', '商家端', '1432260997380349954', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1443767289248788481', '-1', '-1', '2021-10-01 10:38:39', '2022-10-30 16:11:22', 0, 0, 'ORGAN_ROOT', '机构组织级别', '1290688121255587841', '-', 200, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1443767335407104002', '-1', '-1', '2021-10-01 10:38:50', '2022-10-30 16:11:22', 0, 0, '1', '一级', '1443767289248788481', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1443767375802445826', '-1', '-1', '2021-10-01 10:39:00', '2022-10-30 16:11:22', 0, 0, '2', '二级', '1443767289248788481', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1443767410984267777', '-1', '-1', '2021-10-01 10:39:08', '2022-10-30 16:11:23', 0, 0, '3', '三级', '1443767289248788481', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1455153732051349505', '-1', '-1', '2021-11-01 20:44:19', '2022-10-30 16:11:23', 0, 0, 'VUE_FIELD_TYPE', 'VUE字段类型', '1290688121255587841', 'vue代码生成使用', 300, 0, NULL, NULL, NULL);
+INSERT INTO `t_sys_dictionary` VALUES ('1455153732051349505', '-1', '-1', '2021-11-01 20:44:19', '2022-12-29 11:08:28', 0, 0, 'VUE_FIELD_TYPE', '字段类型 (代码生成支持表单类型)', '1290688121255587841', 'vue代码生成使用', 100, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1455153814570086402', '-1', '-1', '2021-11-01 20:44:39', '2022-10-30 16:11:23', 0, 0, '1', '文本-(input)', '1455153732051349505', '-', 1, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1455153864008347650', '-1', '-1', '2021-11-01 20:44:51', '2022-10-30 16:11:23', 0, 0, '2', '数字-(number)', '1455153732051349505', '-', 2, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1455154454599905281', '-1', '-1', '2021-11-01 20:47:12', '2022-10-30 16:11:24', 0, 0, '4', '单选-(radio)', '1455153732051349505', '-', 4, 0, NULL, NULL, NULL);
@@ -524,15 +561,15 @@ INSERT INTO `t_sys_dictionary` VALUES ('1455158128055234561', '-1', '-1', '2021-
 INSERT INTO `t_sys_dictionary` VALUES ('1455158254165372929', '-1', '-1', '2021-11-01 21:02:18', '2022-10-30 16:11:26', 0, 0, '15', '文件上传（单视频）', '1455153732051349505', '默认限制mp4格式', 15, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1455160116759310338', '-1', '-1', '2021-11-01 21:09:42', '2022-10-30 16:11:26', 0, 0, '16', '文件上传（任意文件）', '1455153732051349505', '-默认限制文件数量10', 16, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1456761651003920386', '-1', '-1', '2021-11-06 07:13:37', '2022-10-30 16:11:27', 0, 0, '17', '大文本(textarea)', '1455153732051349505', '-', 17, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1459853262768320513', '-1', '-1', '2021-11-14 19:58:34', '2022-10-30 16:11:27', 0, 0, 'CONFIG_TYPE', '全局配置类型', '1290688121255587841', '-', 100, 0, NULL, NULL, NULL);
+INSERT INTO `t_sys_dictionary` VALUES ('1459853262768320513', '-1', '-1', '2021-11-14 19:58:34', '2022-12-29 11:08:32', 0, 0, 'CONFIG_TYPE', '全局配置类型', '1290688121255587841', '-', 200, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1459853371690201089', '-1', '-1', '2021-11-14 19:59:00', '2022-10-30 16:11:27', 0, 0, '0', '文本', '1459853262768320513', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1459853401289404418', '-1', '-1', '2021-11-14 19:59:07', '2022-10-30 16:11:27', 0, 0, '1', '图片', '1459853262768320513', '-', 1, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1459853475214012418', '-1', '-1', '2021-11-14 19:59:25', '2022-10-30 16:11:27', 0, 0, '2', '开关', '1459853262768320513', '-', 2, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1477131575404531714', '-1', '-1', '2022-01-01 12:16:26', '2022-10-30 16:11:28', 0, 0, 'DEMO_TEST', 'demo模块测试', '1290684671448936449', '-', 1, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1477131743994580994', '-1', '-1', '2022-01-01 12:17:06', '2022-10-30 16:11:28', 0, 0, 'SEX', '性别', '1477131575404531714', '-', 100, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1477131857387589634', '-1', '-1', '2022-01-01 12:17:33', '2022-10-30 16:11:28', 0, 0, '0', '女', '1477131743994580994', '-', 0, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1477131918590873601', '-1', '-1', '2022-01-01 12:17:47', '2022-10-30 16:11:29', 0, 0, '1', '男', '1477131743994580994', '-', 1, 0, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1477131953227436034', '-1', '-1', '2022-01-01 12:17:56', '2022-10-30 16:11:29', 0, 0, '2', '未知', '1477131743994580994', '-', 2, 0, '1', '2', '3');
+INSERT INTO `t_sys_dictionary` VALUES ('1477131743994580994', '-1', '-1', '2022-01-01 12:17:06', '2022-12-29 11:10:42', 0, 0, 'TEST', '测试', '1477131575404531714', '-', 100, 0, NULL, NULL, NULL);
+INSERT INTO `t_sys_dictionary` VALUES ('1477131857387589634', '-1', '-1', '2022-01-01 12:17:33', '2022-12-29 11:11:02', 0, 0, '0', '测试0', '1477131743994580994', '-', 0, 0, NULL, NULL, NULL);
+INSERT INTO `t_sys_dictionary` VALUES ('1477131918590873601', '-1', '-1', '2022-01-01 12:17:47', '2022-12-29 11:11:10', 0, 0, '1', '测试1', '1477131743994580994', '-', 1, 0, NULL, NULL, NULL);
+INSERT INTO `t_sys_dictionary` VALUES ('1477131953227436034', '-1', '-1', '2022-01-01 12:17:56', '2022-12-29 11:11:16', 0, 0, '2', '测试2', '1477131743994580994', '-', 2, 0, '1', '2', '3');
 INSERT INTO `t_sys_dictionary` VALUES ('1481632150259240961', '-1', '-1', '2022-01-13 22:20:04', '2022-10-30 16:11:29', 0, 0, '2', '员工', '1368739295631798273', '-', 0, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1524590015236018178', '-1', '-1', '2022-05-12 11:19:19', '2022-10-30 16:11:29', 0, 0, '3', '富文本', '1459853262768320513', '-', 3, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1525481792788762625', '-1', '-1', '2022-05-14 22:22:56', '2022-10-30 16:11:29', 0, 0, '18', '富文本(tinymce)', '1455153732051349505', 'vue-tinymce 富文本插件', 18, 0, NULL, NULL, NULL);
@@ -544,6 +581,7 @@ INSERT INTO `t_sys_dictionary` VALUES ('1568096167659663362', '-1', '-1', '2022-
 INSERT INTO `t_sys_dictionary` VALUES ('1568096550914191362', '-1', '-1', '2022-09-09 12:38:46', '2022-10-30 16:11:31', 0, 0, '22', '图标选择器 (Icon)', '1455153732051349505', '-', 22, 0, '', '', '');
 INSERT INTO `t_sys_dictionary` VALUES ('1568096838635057153', '-1', '-1', '2022-09-09 12:39:55', '2022-10-30 16:11:31', 0, 0, '23', '颜色选择器 (color)', '1455153732051349505', '-', 23, 0, '', '', '');
 INSERT INTO `t_sys_dictionary` VALUES ('1568097061667172353', '-1', '-1', '2022-09-09 12:40:48', '2022-10-30 16:11:31', 0, 0, '24', '地图坐标选择器 (Map)', '1455153732051349505', '-', 24, 0, '', '', '');
+INSERT INTO `t_sys_dictionary` VALUES ('1607671299155460097', NULL, NULL, '2022-12-27 17:34:40', '2022-12-29 11:14:32', 0, 0, '5', 'json 文本', '1459853262768320513', '-基于md 实现', 5, 1, '', '', '');
 
 -- ----------------------------
 -- Table structure for t_sys_log
@@ -578,17 +616,11 @@ CREATE TABLE `t_sys_log`  (
   `execute_time` bigint(20) NULL DEFAULT NULL COMMENT '程序响应总耗时',
   `business_time` bigint(20) NULL DEFAULT NULL COMMENT '业务执行总耗时',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统增强表--请求记录表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--sys--操作记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_sys_log
 -- ----------------------------
-INSERT INTO `t_sys_log` VALUES ('1600788408727298050', NULL, NULL, '2022-12-08 17:44:31', '2022-12-08 17:44:31', 0, 0, '╥﹏╥', '0', -1, 'http://localhost:9000/login', 'http://127.0.0.1:9048/api/admin/sys/user/login', '/api/admin/sys/user/login', '127.0.0.1', '127.0.0.1', 'POST', '127.0.0.1', '61767', 'io.github.wslxm.springbootplus2.manage.sys.controller', 'io.github.wslxm.springbootplus2.manage.sys.controller.SysUserController', 'base--sys--用户管理', '用户登录', '[{\"password\":\"qweasdzxc\",\"username\":\"admin\"}]', '{\"code\":8101,\"msg\":\"密码错误\"}', 1, 144, 143);
-INSERT INTO `t_sys_log` VALUES ('1600788432836157441', NULL, NULL, '2022-12-08 17:44:36', '2022-12-08 17:44:36', 0, 0, '╥﹏╥', '0', -1, 'http://localhost:9000/login', 'http://127.0.0.1:9048/api/admin/sys/user/login', '/api/admin/sys/user/login', '127.0.0.1', '127.0.0.1', 'POST', '127.0.0.1', '61776', 'io.github.wslxm.springbootplus2.manage.sys.controller', 'io.github.wslxm.springbootplus2.manage.sys.controller.SysUserController', 'base--sys--用户管理', '用户登录', '[{\"password\":\"527w10n8c\",\"username\":\"admin\"}]', '{\"code\":200,\"data\":true,\"msg\":\"成功\"}', 1, 173, 173);
-INSERT INTO `t_sys_log` VALUES ('1600789160480862209', NULL, NULL, '2022-12-08 17:47:30', '2022-12-08 17:47:30', 0, 0, '平台主账号', '1', 0, 'http://localhost:9000/views/admin/menuv2/menu', 'http://127.0.0.1:9048/api/admin/sys/menu/1440255471893200897', '/api/admin/sys/menu/1440255471893200897', '127.0.0.1', '127.0.0.1', 'PUT', '127.0.0.1', '62301', 'io.github.wslxm.springbootplus2.manage.sys.controller', 'io.github.wslxm.springbootplus2.manage.sys.controller.MenuController', 'base--sys--菜单管理', 'ID编辑', '[\"1440255471893200897\",{\"disable\":0,\"icon\":\"el-icon-goods\",\"name\":\"系统管理\",\"pid\":\"0\",\"root\":1,\"sort\":1,\"twoUrl\":\"\",\"url\":\"\"}]', '{\"code\":200,\"data\":true,\"msg\":\"编辑成功\"}', 1, 160, 155);
-INSERT INTO `t_sys_log` VALUES ('1600789200964284417', NULL, NULL, '2022-12-08 17:47:40', '2022-12-08 17:47:40', 0, 0, '平台主账号', '1', 0, 'http://localhost:9000/views/admin/menuv2/menu', 'http://127.0.0.1:9048/api/admin/sys/menu/1440256392576483330', '/api/admin/sys/menu/1440256392576483330', '127.0.0.1', '127.0.0.1', 'PUT', '127.0.0.1', '62321', 'io.github.wslxm.springbootplus2.manage.sys.controller', 'io.github.wslxm.springbootplus2.manage.sys.controller.MenuController', 'base--sys--菜单管理', 'ID编辑', '[\"1440256392576483330\",{\"disable\":0,\"icon\":\"layui-icon-file-b\",\"name\":\"测试 (test)\",\"pid\":\"0\",\"root\":1,\"sort\":2,\"twoUrl\":\"\",\"url\":\"\"}]', '{\"code\":200,\"data\":true,\"msg\":\"编辑成功\"}', 1, 102, 93);
-INSERT INTO `t_sys_log` VALUES ('1600789281310371842', NULL, NULL, '2022-12-08 17:47:59', '2022-12-08 17:47:59', 0, 0, '平台主账号', '1', 0, 'http://localhost:9000/views/admin/menuv2/menu', 'http://127.0.0.1:9048/api/admin/sys/menu/1440255471893200897', '/api/admin/sys/menu/1440255471893200897', '127.0.0.1', '127.0.0.1', 'PUT', '127.0.0.1', '62389', 'io.github.wslxm.springbootplus2.manage.sys.controller', 'io.github.wslxm.springbootplus2.manage.sys.controller.MenuController', 'base--sys--菜单管理', 'ID编辑', '[\"1440255471893200897\",{\"disable\":0,\"icon\":\"el-icon-setting\",\"name\":\"系统管理\",\"pid\":\"0\",\"root\":1,\"sort\":1,\"twoUrl\":\"\",\"url\":\"\"}]', '{\"code\":200,\"data\":true,\"msg\":\"编辑成功\"}', 1, 103, 94);
-INSERT INTO `t_sys_log` VALUES ('1600790391794278401', NULL, NULL, '2022-12-08 17:52:23', '2022-12-08 17:52:23', 0, 0, '平台主账号', '1', 0, 'http://localhost:9000/views/admin/config/config', 'http://127.0.0.1:9048/api/admin/sys/config/1383627414470467586', '/api/admin/sys/config/1383627414470467586', '127.0.0.1', '127.0.0.1', 'PUT', '127.0.0.1', '63047', 'io.github.wslxm.springbootplus2.manage.sys.controller', 'io.github.wslxm.springbootplus2.manage.sys.controller.ConfigController', 'base--sys--全局配置', 'ID编辑', '[\"1383627414470467586\",{\"code\":\"is_sign\",\"content\":\"false\",\"desc\":\"验签总开关 |  true  需验签(默认)   false=无需验签, 开启后可在接口管理中对单个接口进行配置\",\"name\":\"验签开关\",\"sort\":3,\"type\":2}]', '{\"code\":200,\"data\":true,\"msg\":\"编辑成功\"}', 1, 194, 188);
 
 -- ----------------------------
 -- Table structure for t_sys_menu
@@ -611,7 +643,7 @@ CREATE TABLE `t_sys_menu`  (
   `root` int(1) NOT NULL DEFAULT 0 COMMENT '目录级别(1-系统, 2-菜单 ，3-页面, 4-按钮)',
   `disable` int(1) NOT NULL DEFAULT 0 COMMENT '禁用(0-启用 1-禁用)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '基础表--菜单' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--sys--菜单管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_sys_menu
@@ -649,6 +681,7 @@ INSERT INTO `t_sys_menu` VALUES ('1516699625820524545', '-1', '-1', '2022-04-20 
 INSERT INTO `t_sys_menu` VALUES ('1516699798743289857', '-1', '-1', '2022-04-20 16:46:25', '2022-10-30 16:11:48', 0, 0, '1440255602914869250', '字典管理', NULL, '/views/admin/dictionaryv2/dictionary', 'el-icon-document-remove', 10002, 3, 0);
 INSERT INTO `t_sys_menu` VALUES ('1516699922710138882', '-1', '-1', '2022-04-20 16:46:55', '2022-10-30 16:11:48', 0, 0, '1440255602914869250', '接口管理', NULL, '/views/admin/authorityv2/authority', 'el-icon-document-remove', 10001, 3, 0);
 INSERT INTO `t_sys_menu` VALUES ('1552998827391221761', '-1', '-1', '2022-07-29 20:45:45', '2022-10-30 16:11:48', 0, 0, '1452091447254749186', '数据源', NULL, '/views/gc/db/datasource', 'el-icon-document-remove', 1, 3, 1);
+INSERT INTO `t_sys_menu` VALUES ('1607943038670237697', '1', NULL, '2022-12-28 11:34:28', '2022-12-28 11:34:45', 0, 0, '1452091447254749186', '自关联表', NULL, '/views/gc/gcMenu/gcMenu', 'el-icon-document-remove', 4, 3, 0);
 
 -- ----------------------------
 -- Table structure for t_sys_msg
@@ -668,7 +701,7 @@ CREATE TABLE `t_sys_msg`  (
   `msg_type` int(11) NOT NULL COMMENT '消息类型:  1-系统通知  2-订单业务通知 ',
   `is_read` int(1) NOT NULL DEFAULT 0 COMMENT '是否已读(0-未读 1-已读)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统增强表--消息通知' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--sys--消息通知' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_sys_msg
@@ -718,7 +751,7 @@ CREATE TABLE `t_sys_role`  (
   `desc` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '描叙',
   `disable` int(1) NOT NULL DEFAULT 0 COMMENT '禁用(0-启用 1-禁用)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '基础表--角色' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--sys--角色管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_sys_role
@@ -741,7 +774,7 @@ CREATE TABLE `t_sys_role_menu`  (
   `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色id',
   `menu_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '基础表--角色/菜单关联' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--sys--角色/菜单关联' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_sys_role_menu
@@ -800,6 +833,7 @@ INSERT INTO `t_sys_role_menu` VALUES ('1599225160243163147', NULL, NULL, '2022-1
 INSERT INTO `t_sys_role_menu` VALUES ('1599225160243163148', NULL, NULL, '2022-12-04 10:12:45', '2022-12-04 10:12:45', 0, 0, '1443467633444806658', '1440256481906769922');
 INSERT INTO `t_sys_role_menu` VALUES ('1599225160243163149', NULL, NULL, '2022-12-04 10:12:45', '2022-12-04 10:12:45', 0, 0, '1443467633444806658', '1481642095692222465');
 INSERT INTO `t_sys_role_menu` VALUES ('1599225160243163150', NULL, NULL, '2022-12-04 10:12:45', '2022-12-04 10:12:45', 0, 0, '1443467633444806658', '1450796419538522114');
+INSERT INTO `t_sys_role_menu` VALUES ('1607943039328743425', NULL, NULL, '2022-12-28 11:34:28', '2022-12-28 11:34:28', 0, 0, '1443467633444806658', '1607943038670237697');
 
 -- ----------------------------
 -- Table structure for t_sys_role_user
@@ -816,15 +850,15 @@ CREATE TABLE `t_sys_role_user`  (
   `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户id',
   `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '基础表--角色/用户关联' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--sys--角色/用户关联' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_sys_role_user
 -- ----------------------------
 INSERT INTO `t_sys_role_user` VALUES ('1476437959124643841', '-1', '-1', '2021-12-30 14:20:14', '2022-10-30 16:09:31', 0, 0, '1476437958340308994', '1447115588580159489');
-INSERT INTO `t_sys_role_user` VALUES ('1560817143874871297', '-1', '-1', '2022-08-20 10:32:58', '2022-10-30 16:09:31', 0, 0, '1', '1443467633444806658');
-INSERT INTO `t_sys_role_user` VALUES ('1580104225988882433', '-1', '-1', '2022-10-12 15:52:59', '2022-10-30 16:09:31', 0, 0, '1460427339745763329', '1447115588580159489');
 INSERT INTO `t_sys_role_user` VALUES ('1599222577390759937', NULL, NULL, '2022-12-04 10:02:29', '2022-12-04 10:02:29', 0, 0, '685453406529261568', '1447115588580159489');
+INSERT INTO `t_sys_role_user` VALUES ('1608284034230669314', NULL, NULL, '2022-12-29 10:09:27', '2022-12-29 10:09:27', 0, 0, '1460427339745763329', '1447115588580159489');
+INSERT INTO `t_sys_role_user` VALUES ('1608290338785533954', NULL, NULL, '2022-12-29 10:34:30', '2022-12-29 10:34:30', 0, 0, '1', '1443467633444806658');
 
 -- ----------------------------
 -- Table structure for t_sys_user
@@ -856,13 +890,13 @@ CREATE TABLE `t_sys_user`  (
   `ext2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展字段2',
   `ext3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展字段3',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '基础表--系统用户' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'base--sys--用户管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_sys_user
 -- ----------------------------
-INSERT INTO `t_sys_user` VALUES ('1', '-1', '0', '2020-08-05 07:11:04', '2022-12-08 17:44:36', 0, 10, 'admin', 'd9880822dd584adce3cde4b024776eef', 1, 0, '1548901388543594498,1548901468621246466,1548901576150618114', 0, 'http://xijia-sz.oss-cn-shenzhen.aliyuncs.com/oss/file/image/head/53206946-4.png', '10000', '平台主账号', '', 11, '2020-08-05 15:11:05', '2022-12-08 17:44:38', NULL, NULL, NULL, NULL);
-INSERT INTO `t_sys_user` VALUES ('1460427339745763329', '-1', '0', '2021-11-17 01:59:45', '2022-12-08 16:18:22', 0, 2, 'test', '992171f4f472ae8360a32663d9529339', 2, 0, '1548901388543594498,1548901827913715713,1548901950412558337', 2, 'http://xijia-sz.oss-cn-shenzhen.aliyuncs.com/oss/file/image/head/22358982-11.jpg', '17600000001', 'Qqq1', '0', 0, '2021-11-17 01:59:46', '2022-12-08 16:18:22', NULL, NULL, NULL, NULL);
+INSERT INTO `t_sys_user` VALUES ('1', '-1', '0', '2020-08-05 07:11:04', '2022-12-29 10:34:30', 0, 10, 'admin', 'd9880822dd584adce3cde4b024776eef', 1, 0, '1548901388543594498,1548901468621246466,1548901576150618114', 0, 'http://xijia-sz.oss-cn-shenzhen.aliyuncs.com/oss/file/image/head/53206946-4.png', '10000', '平台主账号', '成都', 11, '2020-08-05 15:11:05', '2022-12-29 09:08:07', NULL, NULL, NULL, NULL);
+INSERT INTO `t_sys_user` VALUES ('1460427339745763329', '-1', '0', '2021-11-17 01:59:45', '2022-12-29 11:05:20', 0, 2, 'test', '992171f4f472ae8360a32663d9529339', 2, 0, '1548901388543594498,1548901468621246466,1560880103058071554', 2, 'http://xijia-sz.oss-cn-shenzhen.aliyuncs.com/oss/file/image/head/22358982-11.jpg', '17600000001', 'Qqq1', '0', 0, '2021-11-17 01:59:46', '2022-12-29 11:05:21', NULL, NULL, NULL, NULL);
 INSERT INTO `t_sys_user` VALUES ('685453406529261568', '-1', '1', '2022-05-14 21:53:57', '2022-12-04 10:02:29', 0, 0, 'hexin', 'd508eefe214884b363bf33882afb4ed3', 1, 0, '1548901388543594498,1548901468621246466,1548901576150618114', 0, 'http://xijia-sz.oss-cn-shenzhen.aliyuncs.com/oss/file/image/head/25847053-8.jpg', '17600000000', '何鑫2', '1', 11, '2022-05-14 21:53:57', '2022-11-21 13:49:04', NULL, NULL, NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
