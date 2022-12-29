@@ -81,32 +81,32 @@ Vue.component('TinymceEditor', vueTinymceEditor);
 // v-md-editor 插件
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
-import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
-import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
-import Prism from 'prismjs';
 
-VueMarkdownEditor.use(vuepressTheme, {
-    Prism,
-});
-
-// v-md-editor 插件代码块关键字高亮
 // github 主题
-// import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
-// // 引入所有语言包
-// import hljs from 'highlight.js';
-// VueMarkdownEditor.use(githubTheme, {
-//   Hljs: hljs,
-// });
+import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
+import '@kangc/v-md-editor/lib/theme/style/github.css';
+// 代码高亮引入所有语言包
+import hljs from 'highlight.js';
+
+VueMarkdownEditor.use(githubTheme, {
+    Hljs: hljs,
+});
 Vue.use(VueMarkdownEditor);
 
-// 代码行号插件 +  内容定位 + 表情
+// tip 提示插件
+import createTipPlugin from '@kangc/v-md-editor/lib/plugins/tip/index';
+import '@kangc/v-md-editor/lib/plugins/tip/tip.css';
+// 代码行号插件 +  内容定位
 import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
 import createAlignPlugin from '@kangc/v-md-editor/lib/plugins/align';
-// import createEmojiPlugin from '@kangc/v-md-editor/lib/plugins/emoji/index';
-// import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css';
+// 表情
+import createEmojiPlugin from '@kangc/v-md-editor/lib/plugins/emoji/index';
+import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css';
+
+VueMarkdownEditor.use(createTipPlugin());
 VueMarkdownEditor.use(createLineNumbertPlugin());
 VueMarkdownEditor.use(createAlignPlugin());
-// VueMarkdownEditor.use(createEmojiPlugin());
+VueMarkdownEditor.use(createEmojiPlugin());
 
 
 // v-md-editor 插件二次封装
