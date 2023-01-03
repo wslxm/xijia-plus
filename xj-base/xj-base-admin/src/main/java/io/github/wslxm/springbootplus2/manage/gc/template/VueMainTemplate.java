@@ -14,6 +14,7 @@ public interface VueMainTemplate {
             "                    label: '{label}',\n" +
             "                    prop: '{prop}',\n" +
             "                    search: {search},\n" +
+            "                    searchSpan: 5,\n" +
             "                    searchSpan: {searchSpan},\n" +
             "                    overHidden: true,\n" +
             "                },\n";
@@ -26,8 +27,8 @@ public interface VueMainTemplate {
             "                    prop: '{prop}',\n" +
             "                    type: 'select',\n" +
             "                    search: {search},\n" +
-            "                    filterable:true,\n" +
             "                    searchSpan: 5,\n" +
+            "                    filterable:true,\n" +
             "                    overHidden: true,\n" +
             "                    dicData: this.dict.get({dictCode}),\n" +
             "                },\n";
@@ -140,6 +141,7 @@ public interface VueMainTemplate {
             "                    label: '{label}',\n" +
             "                    prop: '{prop}',\n" +
             "                    search: {search},\n" +
+            "                    searchSpan: 5,\n" +
             "                    type: 'cascader',\n" +
             "                    dataType: 'string',\n" +
             "                    overHidden: true,\n" +

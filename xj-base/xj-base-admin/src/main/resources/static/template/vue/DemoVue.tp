@@ -116,6 +116,10 @@
             updDisable(row) {
                 this.crud.put(this.uri.info + "/" + row.id, {disable: row.disable});
             },
+            // 点击保存行数据(供行操作的任意地方获取数据)
+            handleRowClick(row) {
+                this.rowData = JSON.parse(JSON.stringify(row));
+            },
             cellStyle({row, column}) {
                  if (column.property == "disable") {
                      // fontWeight: 'bold',fontSize: '20'

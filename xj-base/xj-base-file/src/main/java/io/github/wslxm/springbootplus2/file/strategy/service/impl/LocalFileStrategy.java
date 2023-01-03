@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.file.properties.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ import java.nio.file.*;
  * @date 2022/10/15 0015 18:19
  */
 @Service
+@Slf4j
 public class LocalFileStrategy implements FileStrategy {
 
     /**
@@ -50,6 +52,7 @@ public class LocalFileStrategy implements FileStrategy {
             String path = baseUrl + "/" + uploadPath + "/" + filePath + fileName;
             return path;
         } catch (Exception e) {
+            log.error(e.getMessage());
             throw new ErrorException("上传过程中遇到错误");
         }
     }
