@@ -23,7 +23,9 @@ public interface NumberConst {
     Integer EIGHT = 8;
     Integer NINE = 9;
     Integer TEN = 10;
+    Integer FIFTY = 50;
     Integer HUNDRED = 100;
+    Integer FIVE_HUNDRED = 500;
     Integer THOUSAND = 1000;
     Integer TEN_TOUSAND = 10000;
 

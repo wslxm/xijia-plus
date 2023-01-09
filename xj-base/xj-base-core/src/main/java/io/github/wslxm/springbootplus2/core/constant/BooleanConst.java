@@ -1,1 +1,1 @@
-package io.github.wslxm.springbootplus2.core.constant;/** * 常量类 * * @author ws * @mail 1720696548@qq.com * @date 2020/4/27 0027 23:12 * @return */public interface BooleanConst {    String FALSE = "false";    String TRUE = "true";}
+package io.github.wslxm.springbootplus2.core.constant;/** * 常量类 * * @author ws * @mail 1720696548@qq.com * @date 2020/4/27 0027 23:12 * @return */public interface BooleanConst {    String FALSE_STR = "false";    String TRUE_STE = "true";    boolean FALSE = false;    boolean TRUE = true;}

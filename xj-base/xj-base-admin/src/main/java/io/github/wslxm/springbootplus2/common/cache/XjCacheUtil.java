@@ -78,7 +78,7 @@ public class XjCacheUtil {
         if (configVO == null) {
             return false;
         }
-        return BooleanConst.TRUE.equals(configVO.getContent());
+        return BooleanConst.TRUE_STE.equals(configVO.getContent());
     }
 
 

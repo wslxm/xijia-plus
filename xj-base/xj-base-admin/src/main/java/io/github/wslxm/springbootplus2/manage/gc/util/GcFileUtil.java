@@ -15,10 +15,11 @@ import java.util.Map;
 
 /**
  * 代码生成文件处理相关
+ *
  * @author wangsong
- * @mail 1720696548@qq.com
- * @date 2022/3/5 0005 20:58 
  * @version 1.0.0
+ * @mail 1720696548@qq.com
+ * @date 2022/3/5 0005 20:58
  */
 @Slf4j
 public class GcFileUtil {
@@ -62,7 +63,7 @@ public class GcFileUtil {
      * 读取文件 br 输入内容到新的文件 bw中
      *
      * @param gcConfig = 代码生成的相关配置信息
-     * @param brBwPath    = 模板文件流 br， 生成后的新文件对象 bw
+     * @param brBwPath = 模板文件流 br， 生成后的新文件对象 bw
      * @return void
      * @author ws
      * @mail 1720696548@qq.com
@@ -82,7 +83,7 @@ public class GcFileUtil {
             while ((line = br.readLine()) != null) {
                 // 过滤写入的文件内容
                 if (("{" + TpParamConstant.FILTER_CRUD + "}").equals(line)) {
-                    if (BooleanConst.TRUE.equals(filterCrudConfig)) {
+                    if (BooleanConst.TRUE_STE.equals(filterCrudConfig)) {
                         filterCrud = !filterCrud;
                     }
                     bw.write("");

@@ -43,7 +43,7 @@ public class SwaggerFilter implements Filter {
         if (uri.contains(SWAGGER_UI)) {
             // 默认展示,配置为false不展示
             ConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.IS_SWAGGER );
-            if (xjAdminConfig != null && BooleanConst.FALSE.equals(xjAdminConfig.getContent())) {
+            if (xjAdminConfig != null && BooleanConst.FALSE_STR.equals(xjAdminConfig.getContent())) {
                 Result<Void> r = Result.error(ResultType.SYS_ERROR_CODE_403);
                 servletResponse.setContentType("application/json;charset=utf-8");
                 servletResponse.getWriter().write(JSON.toJSONString(r));
