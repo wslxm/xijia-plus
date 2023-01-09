@@ -12,7 +12,6 @@
     <modules>
         <module>xj-base</module>          <!-- 核心模块 -->
         <module>xj-starter</module>       <!-- 功能集成 -->
-        <module>xijia-plus-demo</module>  <!-- 演示demo -->
     </modules>
 
     <groupId>io.github.wslxm</groupId>
@@ -231,66 +230,66 @@
     </developers>
 
     <!-- 多环境配置, 发布jar到中央仓库环境配置, 发布时选择 release 环境 -->
-    <!--    <profiles>-->
-    <!--        <profile>-->
-    <!--            <id>release</id>-->
+    <profiles>
+        <profile>
+            <id>release</id>
 
-    <!--            &lt;!&ndash;打包配置到中央仓库的统一配置,如果使用该源码开发，请移除&ndash;&gt;-->
-    <!--            <build>-->
-    <!--                <finalName>${artifactId}-${revision}</finalName>-->
-    <!--                <plugins>-->
-    <!--                    &lt;!&ndash; java-doc配置 &ndash;&gt;-->
-    <!--                    <plugin>-->
-    <!--                        <groupId>org.apache.maven.plugins</groupId>-->
-    <!--                        <artifactId>maven-javadoc-plugin</artifactId>-->
-    <!--                        <version>2.10.4</version>-->
-    <!--                        <configuration>-->
-    <!--                            <aggregate>true</aggregate>-->
-    <!--                        </configuration>-->
-    <!--                        <executions>-->
-    <!--                            <execution>-->
-    <!--                                <id>attach-javadocs</id>-->
-    <!--                                <goals>-->
-    <!--                                    <goal>jar</goal>-->
-    <!--                                </goals>-->
-    <!--                                <configuration>&lt;!&ndash; add this to disable checking &ndash;&gt;-->
-    <!--                                    <additionalparam>-Xdoclint:none</additionalparam>-->
-    <!--                                </configuration>-->
-    <!--                            </execution>-->
-    <!--                        </executions>-->
-    <!--                    </plugin>-->
-    <!--                    &lt;!&ndash;使用source 进行jar打包&ndash;&gt;-->
-    <!--                    <plugin>-->
-    <!--                        <groupId>org.apache.maven.plugins</groupId>-->
-    <!--                        <artifactId>maven-source-plugin</artifactId>-->
-    <!--                        <version>3.0.1</version>-->
-    <!--                        <executions>-->
-    <!--                            <execution>-->
-    <!--                                <id>attach-sources</id>-->
-    <!--                                <goals>-->
-    <!--                                    <goal>jar-no-fork</goal>-->
-    <!--                                </goals>-->
-    <!--                            </execution>-->
-    <!--                        </executions>-->
-    <!--                    </plugin>-->
-    <!--                    &lt;!&ndash; gpg 配置 &ndash;&gt;-->
-    <!--                    <plugin>-->
-    <!--                        <groupId>org.apache.maven.plugins</groupId>-->
-    <!--                        <artifactId>maven-gpg-plugin</artifactId>-->
-    <!--                        <version>1.6</version>-->
-    <!--                        <executions>-->
-    <!--                            <execution>-->
-    <!--                                <id>sign-artifacts</id>-->
-    <!--                                <phase>verify</phase>-->
-    <!--                                <goals>-->
-    <!--                                    <goal>sign</goal>-->
-    <!--                                </goals>-->
-    <!--                            </execution>-->
-    <!--                        </executions>-->
-    <!--                    </plugin>-->
-    <!--                </plugins>-->
-    <!--            </build>-->
-    <!--        </profile>-->
-    <!--    </profiles>-->
+            <!--打包配置到中央仓库的统一配置,如果使用该源码开发，请移除-->
+            <build>
+                <finalName>${artifactId}-${revision}</finalName>
+                <plugins>
+                    <!-- java-doc配置 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.10.4</version>
+                        <configuration>
+                            <aggregate>true</aggregate>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration><!-- add this to disable checking -->
+                                    <additionalparam>-Xdoclint:none</additionalparam>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!--使用source 进行jar打包-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- gpg 配置 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     <!-- ========================== 打包到中央仓库配置 end ==========================  -->
 </project>
