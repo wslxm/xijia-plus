@@ -66,6 +66,6 @@ public class Md5Util {
 
     public static void main(String[] args) {
         // 参数1= 密码   参数2= 用户id
-        log.info(Md5Util.encode("123456", "1"));
+        log.info(Md5Util.encode("$5M!xOdNq1AM49$x", "1"));
     }
 }

@@ -82,14 +82,14 @@ public class FileDownloadUtil {
      * @return void
      * @version 1.0.1
      */
-    public static void download(String filePath, HttpServletResponse response) {
+    public static void download(String filePaths, HttpServletResponse response) {
         // 获取文件名称
-        String fileName = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.length());
+        String fileName = filePaths.substring(filePaths.lastIndexOf("/") + 1, filePaths.length());
         try {
             // 处理文件名编码问题
-            int index = filePath.lastIndexOf("/");
-            String newFilePath = filePath.substring(0, index + 1);
-            String newFileName = filePath.substring(index + 1);
+            int index = filePaths.lastIndexOf("/");
+            String newFilePath = filePaths.substring(0, index + 1);
+            String newFileName = filePaths.substring(index + 1);
             newFilePath = newFilePath + URLEncoder.encode(fileName, "utf-8");
             // 下载网络文件
             URL url = new URL(newFilePath);

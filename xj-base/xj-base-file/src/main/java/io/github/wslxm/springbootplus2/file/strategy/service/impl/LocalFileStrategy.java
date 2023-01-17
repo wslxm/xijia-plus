@@ -31,7 +31,6 @@ public class LocalFileStrategy implements FileStrategy {
     @Autowired
     private FileProperties fileProperties;
 
-
     @Autowired
     private HttpServletRequest request;
 
@@ -57,13 +56,20 @@ public class LocalFileStrategy implements FileStrategy {
         }
     }
 
-
     @Override
     public Boolean del(String filePath) {
         // 去除访问地址
-        String baseUrl = fileProperties.getLocal().getBaseUrl();
-        filePath = filePath.replace(baseUrl + "/", "");
-        File delFile = new File(filePath);
-        return FileUtil.del(delFile);
+        // 去除访问地址
+        if (filePath.indexOf("http://") != -1 || filePath.indexOf("https://") != -1) {
+            filePath = filePath.replace("http://", "").replace("https://", "");
+            int index = filePath.indexOf("/");
+            filePath = filePath.substring(index + 1);
+        }
+        return FileUtil.del(new File(filePath));
+    }
+
+    @Override
+    public Boolean delFolder(String prefix) {
+        return FileUtil.del(new File(prefix));
     }
 }

@@ -111,18 +111,26 @@ public class FileController {
 //        return Result.success(fileStrategy.fileList());
 //    }
 
-    @ApiOperation("文件/文件目录删除")
-    @ApiImplicitParam(name = "filePath", value = "文件保存的完整可访问URL,或OSS相对路径", required = true)
+    @ApiOperation("文件删除")
+    @ApiImplicitParam(name = "filePath", value = "文件存储路径 或 文件可访问的URL ", required = true)
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
     public Object del(@RequestParam String filePath) {
         FileStrategy fileStrategy = fileChannelContext.getChannel(fileProperties.getChannel());
         return Result.success(fileStrategy.del(filePath));
     }
 
+    @ApiOperation("文件目录删除")
+    @ApiImplicitParam(name = "filePath", value = "文件目录路径", required = true)
+    @RequestMapping(value = "/delFolder", method = RequestMethod.DELETE)
+    public Object delFolder(@RequestParam String filePath) {
+        FileStrategy fileStrategy = fileChannelContext.getChannel(fileProperties.getChannel());
+        return Result.success(fileStrategy.delFolder(filePath));
+    }
+
     @ApiOperation("文件下载--单文件下载")
     @ApiImplicitParam(name = "filePath", value = "文件可访问的完整URL", required = true)
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public void downloadNet(@RequestParam String filePath) {
+    public void download(@RequestParam String filePath) {
         FileDownloadUtil.download(filePath, response);
     }
 
@@ -132,7 +140,7 @@ public class FileController {
             @ApiImplicitParam(name = "zipName", value = "下载后的文件名", required = true)
     })
     @RequestMapping(value = "/downloadZip", method = RequestMethod.GET)
-    public void downloadNet(@RequestParam String filePaths, @RequestParam String zipName) {
+    public void downloadZip(@RequestParam String filePaths, @RequestParam String zipName) {
         FileDownloadUtil.downloadZip(Arrays.asList(filePaths.split(",")), zipName, response);
     }
 }

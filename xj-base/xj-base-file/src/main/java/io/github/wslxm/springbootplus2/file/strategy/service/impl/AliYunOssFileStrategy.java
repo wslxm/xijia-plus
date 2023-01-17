@@ -11,10 +11,11 @@ import java.io.InputStream;
 
 /**
  * 阿里云oss 文件上传
+ *
  * @author wangsong
- * @mail 1720696548@qq.com
- * @date 2022/10/15 0015 18:18 
  * @version 1.0.0
+ * @mail 1720696548@qq.com
+ * @date 2022/10/15 0015 18:18
  */
 @Service
 public class AliYunOssFileStrategy implements FileStrategy {
@@ -32,13 +33,23 @@ public class AliYunOssFileStrategy implements FileStrategy {
     @Override
     public String upload(InputStream inputStream, String filePath, String fileName) {
         // 参数1：上传后保存的跟路径地址
-        String url = ossUtil.upload(fileProperties.getAliyunOss().getPath(), filePath, fileName, inputStream);
-        return url;
+        return ossUtil.upload(fileProperties.getAliyunOss().getPath(), filePath, fileName, inputStream);
     }
 
 
     @Override
     public Boolean del(String filePath) {
+        // 去除访问地址
+        if (filePath.indexOf("http://") != -1 || filePath.indexOf("https://") != -1) {
+            filePath = filePath.replace("http://", "").replace("https://", "");
+            int index = filePath.indexOf("/");
+            filePath = filePath.substring(index + 1);
+        }
         return ossUtil.deleteObject(filePath);
+    }
+
+    @Override
+    public Boolean delFolder(String filePath) {
+        return ossUtil.deleteObjectFolde(filePath);
     }
 }
