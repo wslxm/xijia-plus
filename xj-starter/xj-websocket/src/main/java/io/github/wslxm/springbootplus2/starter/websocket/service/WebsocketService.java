@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.starter.websocket.service;
 
+import io.github.wslxm.springbootplus2.starter.websocket.config.result.WebSocketR;
 import io.github.wslxm.springbootplus2.starter.websocket.model.vo.OnlineUserVO;
 
 import java.util.List;
@@ -42,7 +43,18 @@ public interface WebsocketService {
      * @param extras   扩暂发送内容
      * @version 1.0.0
      */
-    void send(String form, String username,  String to, String content, String extras);
+    void send(String form, String username, String to, String content, String extras);
+
+
+    /**
+     * 判断指定用户是否在线
+     *
+     * @author wangsong
+     * @email 1720696548@qq.com
+     * @date 2023/1/17 0017 16:30
+     * @version 1.0.0
+     */
+    Boolean isOnline(String userId);
 }
 
 

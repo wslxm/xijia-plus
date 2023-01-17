@@ -39,6 +39,7 @@ public class MsgController extends BaseController<MsgService> {
     @PostMapping
     @ApiOperation(value = "添加/发送消息")
     public Result<String> insert(@RequestBody @Validated MsgDTO dto) {
+        dto.setIsWebsocket(true);
         return Result.success(baseService.insert(dto));
     }
 

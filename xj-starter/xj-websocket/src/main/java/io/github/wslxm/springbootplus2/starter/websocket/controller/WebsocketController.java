@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,14 +20,15 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- *  websocket类
- *  <p>
- *   @ServerEndpoint: socket链接地址
- *  <p/>
+ * websocket类
+ * <p>
+ *
  * @author wangsong
+ * @version 1.0.1
+ * @ServerEndpoint: socket链接地址
+ * <p/>
  * @mail 1720696548@qq.com
  * @date 2020/9/30 0030 16:33
- * @version 1.0.1
  */
 @Api(value = "WebsocketController", tags = "Websocket  -->  消息通知/即时通讯")
 @RequestMapping("/api/open/websocket")
@@ -119,7 +121,7 @@ public class WebsocketController {
     }
 
     /**
-     *  获取当前在线人数
+     * 获取当前在线人数
      */
     @RequestMapping(value = "/getOnlineCount", method = RequestMethod.GET)
     @ApiOperation("获取在线人数")
@@ -133,5 +135,12 @@ public class WebsocketController {
     @ApiOperation("获取当前在线用户列表")
     public Object getOnlineUsersList() {
         return WebSocketR.success(websocketService.getOnlineUsersList());
+    }
+
+
+    @RequestMapping(value = "/isOnline", method = RequestMethod.GET)
+    @ApiOperation("判断指定用户是否在线")
+    public Object isOnline(@RequestParam String userId) {
+        return WebSocketR.success(websocketService.isOnline(userId));
     }
 }

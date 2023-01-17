@@ -17,13 +17,12 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- *  @author wangsong
+ * @author wangsong
  * Websocket 监听类(连接，断点，消息发送等)
  * <p>
  * /websocket/{userId}/{username}   =  /websocket/用户Id/用户名 来连接websocket，该参数会带到每一个监听方法中
  * 同一个账号重复登录, 会被挤下线
  * </P>
- *
  * @ServerEndpoint: socket链接地址
  */
 @ServerEndpoint("/websocket/{userId}/{username}")
@@ -38,6 +37,16 @@ public class WebsocketServer {
 
     /**
      * 获取在线人数
+     *
+     * @return
+     */
+    public Map<String, OnlineUser> getClients() {
+        return clients;
+    }
+
+    /**
+     * 获取在线人数
+     *
      * @return
      */
     public Integer getClientsSize() {
@@ -58,7 +67,13 @@ public class WebsocketServer {
         // 判断账号是否重复登录
         if (clients.containsKey(userId)) {
             // 被迫下线提示
-            this.send(new SendMsgVO(2, userId, username, userId, "被迫下线提示,您的账号在其他地方登录", null, clients.size()));
+            this.send(new SendMsgVO(2, userId, username, userId, "websocket 被迫下线提示, 您的账号在其他地方登录, 及时消息服务将无法正常使用", null, clients.size()));
+            // 踢下线
+            try {
+                clients.get(userId).getSession().close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             log.info("重复登录,原用户被迫下线！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size());
         } else {
             log.info("有新连接加入！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size() + 1);
@@ -114,12 +129,12 @@ public class WebsocketServer {
      * @param username 用户名
      * @param message  传递的消息内容, json数据( to=接收人用户Id  (目标ID,逗号分隔) || content=内容  || content=消息类型)
      * @param session  当前用户会话
-     * <p>
-     *   // 前端发送内容格式
-     *   ....
-     *   // 拼接参数
-     *   let message = { "content": "测试发送消息", "to": "ALL","type": 2 }
-     *   ....
+     *                 <p>
+     *                 // 前端发送内容格式
+     *                 ....
+     *                 // 拼接参数
+     *                 let message = { "content": "测试发送消息", "to": "ALL","type": 2 }
+     *                 ....
      */
     @OnMessage
     public void onMessage(@PathParam("userId") String userId, @PathParam("username") String username, String message, Session session) {
@@ -164,7 +179,7 @@ public class WebsocketServer {
     /**
      * 消息发送(最后发送, 在send方法中循环用户Id 列表依次发送消息给指定人)
      * <p>
-     *  // 消息发送（同步:getBasicRemote 异步:getAsyncRemote）
+     * // 消息发送（同步:getBasicRemote 异步:getAsyncRemote）
      * </P>
      *
      * @param userId  消息接收人ID , onlineUsers 的 key

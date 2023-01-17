@@ -53,7 +53,7 @@
                 uri: {
                     infoList: "/api/admin/sys/msg/findPage",
                     info: "/api/admin/sys/msg",
-                    userList: "/api/admin/user/list/keyData",
+                    userList: "/api/admin/sys/user/list/keyData",
                 },
                 loading: true,
                 dialogWidth: "60%",
