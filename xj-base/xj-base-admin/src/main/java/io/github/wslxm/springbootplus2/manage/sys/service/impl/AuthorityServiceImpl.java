@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -11,7 +12,6 @@ import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
-import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.AuthorityMapper;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.AuthorityDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Authority;
@@ -222,7 +222,7 @@ public class AuthorityServiceImpl extends BaseServiceImpl<AuthorityMapper, Autho
             } else {
                 // 不存在新添加
                 Authority addAuthority = new Authority();
-                addAuthority.setId(IdUtil.snowflakeId());
+                addAuthority.setId(IdUtil.getSnowflakeNextIdStr());
                 addAuthority.setPid(PID);
                 addAuthority.setMethod("");
                 addAuthority.setUrl(url);
@@ -334,7 +334,7 @@ public class AuthorityServiceImpl extends BaseServiceImpl<AuthorityMapper, Autho
                 authorityMap.remove(AuthCacheKeyUtil.getAuthKey(requestMethod, url));
             } else {
                 Authority addAuthority = new Authority();
-                addAuthority.setId(IdUtil.snowflakeId());
+                addAuthority.setId(IdUtil.getSnowflakeNextIdStr());
                 addAuthority.setPid(authority.getId());
                 addAuthority.setDesc(desc);
                 addAuthority.setUrl(url);

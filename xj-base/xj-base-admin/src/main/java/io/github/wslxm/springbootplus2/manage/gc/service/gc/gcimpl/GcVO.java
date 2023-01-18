@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gc.gcimpl;
 
-import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
+import cn.hutool.core.util.IdUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.constant.TpParamConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
@@ -66,6 +66,6 @@ public class GcVO extends BaseGcImpl implements GcSevice {
         }
 
         gcConfig.setTemplateParam("entitys",fields.toString());
-        gcConfig.setTemplateParam("serialVersionUID", IdUtil.snowflakeId());
+        gcConfig.setTemplateParam("serialVersionUID", IdUtil.getSnowflakeNextIdStr());
     }
 }

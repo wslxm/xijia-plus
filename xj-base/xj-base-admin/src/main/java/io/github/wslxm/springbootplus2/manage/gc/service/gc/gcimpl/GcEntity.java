@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gc.gcimpl;
 
+import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
-import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateProperties;
 import io.github.wslxm.springbootplus2.manage.gc.constant.FieldTypeConstant;
@@ -94,7 +94,7 @@ public class GcEntity extends BaseGcImpl implements GcSevice {
         }
         // 数据保存到替换对象类,使模板中可以读取
         gcConfig.setTemplateParam("entitys", fields.toString());
-        gcConfig.setTemplateParam("serialVersionUID", IdUtil.snowflakeId());
+        gcConfig.setTemplateParam("serialVersionUID", IdUtil.getSnowflakeNextIdStr());
     }
 
 }

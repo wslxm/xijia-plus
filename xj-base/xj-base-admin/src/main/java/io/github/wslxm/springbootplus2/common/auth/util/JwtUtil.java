@@ -1,12 +1,13 @@
 package io.github.wslxm.springbootplus2.common.auth.util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
+import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
-import io.github.wslxm.springbootplus2.core.utils.json.JsonUtil;
-import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
-import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +56,7 @@ public class JwtUtil {
     public static String createToken(JwtUser jwtUser, HttpServletResponse response) {
         // 压缩数据
         // String deflaterJwtUser = DeflaterUtils.zipString(JsonUtil.toJSONStringNoNull(jwtUser));
-        String deflaterJwtUser = JsonUtil.toJSONStringNoNull(jwtUser);
+        String deflaterJwtUser = JSON.toJSONString(jwtUser, SerializerFeature.PrettyFormat);
         // token每次刷新时长
         long refreshTime = (long) (1000L * 60 * (Double.parseDouble(jwtUser.getExpiration() + "") / 10));
         // 生成jwt
@@ -174,7 +175,6 @@ public class JwtUtil {
         // user 信息
         String deflaterJwtUser = claims.get(AUTH_USER).toString();
         //JwtUser jwtUser = JsonUtil.parseEntity(DeflaterUtils.unzipString(deflaterJwtUser), JwtUser.class);
-        JwtUser jwtUser = JsonUtil.parseEntity(deflaterJwtUser, JwtUser.class);
-        return jwtUser;
+        return JSON.parseObject(deflaterJwtUser, JwtUser.class);
     }
 }

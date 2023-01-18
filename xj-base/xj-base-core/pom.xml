@@ -103,10 +103,10 @@
             <artifactId>javase</artifactId>
         </dependency>
         <!-- 地理位置工具 -->
-        <dependency>
-            <groupId>org.gavaghan</groupId>
-            <artifactId>geodesy</artifactId>
-            <version>${geodesy.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.gavaghan</groupId>-->
+<!--            <artifactId>geodesy</artifactId>-->
+<!--            <version>${geodesy.version}</version>-->
+<!--        </dependency>-->
     </dependencies>
 </project>

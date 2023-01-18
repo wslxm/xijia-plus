@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gc.gcimpl;
 
-import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
+import cn.hutool.core.util.IdUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.constant.TpParamConstant;
 import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
@@ -68,6 +68,6 @@ public class GcQuery extends BaseGcImpl implements GcSevice {
         }
         // 数据保存到替换对象类,使模板中可以读取
         gcConfig.setTemplateParam("entitys", fields.toString());
-        gcConfig.setTemplateParam("serialVersionUID", IdUtil.snowflakeId());
+        gcConfig.setTemplateParam("serialVersionUID", IdUtil.getSnowflakeNextIdStr());
     }
 }

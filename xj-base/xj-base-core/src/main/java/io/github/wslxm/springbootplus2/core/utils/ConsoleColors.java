@@ -1,6 +1,9 @@
 package io.github.wslxm.springbootplus2.core.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.Resource;
 
 /***
  * log.error 和log 输出颜色

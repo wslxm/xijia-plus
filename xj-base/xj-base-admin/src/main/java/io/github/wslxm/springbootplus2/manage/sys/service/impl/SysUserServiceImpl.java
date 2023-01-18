@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -13,7 +14,6 @@ import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
-import io.github.wslxm.springbootplus2.core.utils.id.IdUtil;
 import io.github.wslxm.springbootplus2.core.utils.tree.TreeUtil;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.SysUserMapper;
@@ -37,8 +37,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,7 +76,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         this.verifyRepeatPhone(dto.getPhone(), null);
         //
         SysUser adminUser = dto.convert(SysUser.class);
-        adminUser.setId(IdUtil.snowflakeId());
+        adminUser.setId(IdUtil.getSnowflakeNextIdStr());
         adminUser.setPassword(Md5Util.encode(adminUser.getPassword(), adminUser.getId()));
         adminUser.setRegTime(LocalDateTime.now());
         if (dto.getDisable() == null) {

@@ -69,15 +69,15 @@ public class ErrorException extends RuntimeException {
         this.msg = rType.getMsg();
     }
 
-    /**
-     * 任意枚举传递（建议先定义枚举- 枚举必须存在值 value, msg）且继承 IEnum 内
-     *
-     * @param e e
-     * @return <E>
-     * @version 1.0.0
-     */
-    public <E extends IEnum> ErrorException(E e) {
-        this.code = EnumUtil.getValue(e);
-        this.msg = EnumUtil.getMsg(e);
-    }
+//    /**
+//     * 任意枚举传递（建议先定义枚举- 枚举必须存在值 value, msg）且继承 IEnum 内
+//     *
+//     * @param e e
+//     * @return <E>
+//     * @version 1.0.0
+//     */
+//    public <E extends IEnum> ErrorException(E e) {
+//        this.code = EnumUtil.getValue(e);
+//        this.msg = EnumUtil.getMsg(e);
+//    }
 }

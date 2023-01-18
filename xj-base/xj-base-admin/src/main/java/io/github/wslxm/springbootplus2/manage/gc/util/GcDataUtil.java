@@ -1,9 +1,9 @@
 package io.github.wslxm.springbootplus2.manage.gc.util;
 
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.base.CaseFormat;
-import io.github.wslxm.springbootplus2.core.utils.json.JsonUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcTPConfig;
 import io.github.wslxm.springbootplus2.manage.gc.config.model.GcFilePath;
@@ -41,8 +41,8 @@ public class GcDataUtil {
     public static List<DbFieldPO> getDataAnalysis(String data) {
         //所有字段数据处理成 List集 -->  每个字段名称，类型，描叙为 Map集
         List<DbFieldPO> tableList = new ArrayList<>();
-        List<Object> dataObjs = JsonUtil.parseList(data, null);
-        dataObjs.forEach(item -> tableList.add(JsonUtil.parseObject(item.toString(), DbFieldPO.class)));
+        List<Object> dataObjs = JSON.parseObject(data, List.class);
+        dataObjs.forEach(item -> tableList.add(JSON.parseObject(item.toString(), DbFieldPO.class)));
         // log.info(tableList.toString());
         return tableList;
     }

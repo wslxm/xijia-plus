@@ -10,7 +10,7 @@ import java.util.Map;
  * @date 2020/9/14 0014 14:19
  * @version 1.0.1
  */
-public class Java8MapSort {
+public class MapSortUtil {
 
     /**
      * 根据map的key排序
