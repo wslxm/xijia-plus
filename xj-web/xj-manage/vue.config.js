@@ -14,6 +14,7 @@ module.exports = {
         // hotOnly: true, // 是否开启热更新
         port: 9000,
         proxy: {
+            // 请求请求代理
             '/api': {
                 //API服务器的地址
                 target: "http://" + basePath + "/",
@@ -22,8 +23,8 @@ module.exports = {
                 pathRewrite: {
                     '^/api': ''
                 }
-            }
-        }
+            },
+        },
     },
     chainWebpack: (config) => {
         const entry = config.entry('app');

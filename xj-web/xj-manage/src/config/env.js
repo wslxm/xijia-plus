@@ -2,14 +2,12 @@
 // development | production | test
 const env = process.env;
 
-// 请求地址 + websocket 地址统一配置
-// 本地
+// 请求地址 (本地, 部署请使用 nginx 转发)
 let basePath = "127.0.0.1:9048";
-// let basePath = "39.103.135.29:2201";
-let webSocketPath = "ws://" + basePath + "/websocket/{userId}/{fullName}";
-
 // 转发代理地址
 let proxyPath = '/api';
+// websocket 接口地址
+let webSocketPath = proxyPath + "/websocket/{userId}/{fullName}";
 // 文件上传地址统一配置
 let uploadPath = proxyPath + '/api/open/file/upload?resType=2&filePath=';
 
