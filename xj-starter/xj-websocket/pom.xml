@@ -17,6 +17,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
+        <!--redis 服务, 这里使用redis 的发布订阅, 让 websocket 支持集群时不知道用户连接到那个服务的消息处理  -->
+        <dependency>
+            <groupId>io.github.wslxm</groupId>
+            <artifactId>xj-redis</artifactId>
+        </dependency>
         <!-- lombok  生成get/ser  了马达 -->
         <dependency>
             <groupId>org.projectlombok</groupId>

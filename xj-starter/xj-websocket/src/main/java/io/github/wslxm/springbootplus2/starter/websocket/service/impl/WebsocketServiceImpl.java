@@ -1,12 +1,16 @@
 package io.github.wslxm.springbootplus2.starter.websocket.service.impl;
 
-import io.github.wslxm.springbootplus2.starter.websocket.service.WebsocketService;
+import io.github.wslxm.springbootplus2.starter.websocket.model.dto.WebsocketMsgDTO;
 import io.github.wslxm.springbootplus2.starter.websocket.model.vo.OnlineUserVO;
 import io.github.wslxm.springbootplus2.starter.websocket.model.vo.SendMsgVO;
 import io.github.wslxm.springbootplus2.starter.websocket.server.WebsocketServer;
+import io.github.wslxm.springbootplus2.starter.websocket.service.WebsocketService;
+import io.github.wslxm.springbootplus2.starter.websocket.topic.WebsocketMsgPublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -24,6 +28,9 @@ public class WebsocketServiceImpl implements WebsocketService {
 
     @Autowired
     private WebsocketServer websocketServer;
+
+    @Autowired
+    private WebsocketMsgPublisher msgPublisher;
 
     /**
      * 获取当前在线人数
@@ -56,9 +63,19 @@ public class WebsocketServiceImpl implements WebsocketService {
      * @return
      */
     @Override
-    public void send(String form, String username, String to, String content, String extras) {
-        // 发送消息
-        websocketServer.send(new SendMsgVO(4, form, username, to, content, extras, websocketServer.getClientsSize()));
+    public void send(WebsocketMsgDTO dto) {
+        SendMsgVO sendMsgVO = new SendMsgVO();
+        sendMsgVO.setMsgType(4);
+        sendMsgVO.setFrom(dto.getForm());
+        sendMsgVO.setUsername(dto.getUsername());
+        sendMsgVO.setTo(dto.getTo());
+        sendMsgVO.setContent(dto.getContent());
+        sendMsgVO.setExtras(dto.getExtras());
+        sendMsgVO.setOnlineNum(websocketServer.getClientsSize());
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        sendMsgVO.setCreateTime(df.format(LocalDateTime.now()));
+        // 发送 redis 订阅消息
+        msgPublisher.sendMsg(sendMsgVO);
     }
 
 

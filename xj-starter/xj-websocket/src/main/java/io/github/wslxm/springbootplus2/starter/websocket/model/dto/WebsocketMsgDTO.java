@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.starter.websocket.model.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -12,9 +13,19 @@ import java.io.Serializable;
  * @date 2020/6/30 0030 18:24
  */
 @Data
-public class SendMsgDTO implements Serializable {
+@NoArgsConstructor
+public class WebsocketMsgDTO implements Serializable {
 
     private static final long serialVersionUID = 4019037058499751265L;
+
+    /**
+     * 发送人id
+     */
+    private String form;
+    /**
+     * 发送人用户名
+     */
+    private String username;
     /**
      * 接收人用户Id (目标ID,逗号分隔) (所有人使用-ALL)
      */
@@ -24,21 +35,20 @@ public class SendMsgDTO implements Serializable {
      */
     private String content;
     /**
-     * 消息类型(1-心跳检测 2-消息内容(文字,base64图片表情等))
+     *  扩暂发送内容
      */
-    private Integer type;
+    private String extras;
+
 
     /**
+     * 消息
      * @param to      接收人用户Id (目标ID,逗号分隔) (所有人使用-ALL)
      * @param content 发送内容
      * @param type    消息类型
      */
-    public SendMsgDTO(String to, String content, Integer type) {
+    public WebsocketMsgDTO(String to, String content, Integer type) {
         this.to = to;
-        this.type = type;
         this.content = content;
     }
 
-    public SendMsgDTO() {
-    }
 }

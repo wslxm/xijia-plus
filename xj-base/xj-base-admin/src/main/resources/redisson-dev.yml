@@ -2,7 +2,7 @@
 singleServerConfig:
   # 节点地址 / 密码 / 数据库编号
   address: redis://127.0.0.1:6379
-  password:
+#  password:
   database: 1
   # 连接空闲超时，单位：毫秒
   idleConnectionTimeout: 10000
@@ -22,11 +22,11 @@ singleServerConfig:
   # 发布和订阅连接的最小空闲连接数
   subscriptionConnectionMinimumIdleSize: 1
   # 发布和订阅连接池大小
-  subscriptionConnectionPoolSize: 50
+  subscriptionConnectionPoolSize: 5
   # 最小空闲连接数
-  connectionMinimumIdleSize: 32
+  connectionMinimumIdleSize: 4
   # 连接池大小
-  connectionPoolSize: 64
+  connectionPoolSize: 8
   # DNS监测时间间隔，单位：毫秒
   dnsMonitoringInterval: 5000
 # 线程池数量,默认值: 当前处理核数量 * 2

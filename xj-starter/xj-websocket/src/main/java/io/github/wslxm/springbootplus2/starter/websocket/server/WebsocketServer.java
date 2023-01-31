@@ -1,10 +1,12 @@
 package io.github.wslxm.springbootplus2.starter.websocket.server;
 
 import com.alibaba.fastjson.JSON;
-import io.github.wslxm.springbootplus2.starter.websocket.model.dto.SendMsgDTO;
+import io.github.wslxm.springbootplus2.starter.websocket.model.dto.WebsocketMsgDTO;
 import io.github.wslxm.springbootplus2.starter.websocket.model.entity.OnlineUser;
 import io.github.wslxm.springbootplus2.starter.websocket.model.vo.OnlineUserVO;
 import io.github.wslxm.springbootplus2.starter.websocket.model.vo.SendMsgVO;
+import io.github.wslxm.springbootplus2.starter.websocket.topic.WebsocketMsgPublisher;
+import io.github.wslxm.springbootplus2.starter.websocket.util.WebsocketSpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -29,6 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 public class WebsocketServer {
+
 
     /**
      * 所有用户信息(session + userId + username + createTime  --> 以用户的id为key, 通过用户key来获取用户session进行消息发送)
@@ -64,10 +67,13 @@ public class WebsocketServer {
      */
     @OnOpen
     public void onOpen(@PathParam("userId") String userId, @PathParam("username") String username, Session session) {
+        WebsocketMsgPublisher websocketMsgPublisher = WebsocketSpringContextUtil.getBean(WebsocketMsgPublisher.class);
         // 判断账号是否重复登录
         if (clients.containsKey(userId)) {
             // 被迫下线提示
-            this.send(new SendMsgVO(2, userId, username, userId, "websocket 被迫下线提示, 您的账号在其他地方登录, 及时消息服务将无法正常使用", null, clients.size()));
+            String content = "websocket 被迫下线提示, 您的账号在其他地方登录, 及时消息服务将无法正常使用";
+            SendMsgVO sendMsgVO = new SendMsgVO(2, userId, username, userId, content, null, clients.size());
+            websocketMsgPublisher.sendMsg(sendMsgVO);
             // 踢下线
             try {
                 clients.get(userId).getSession().close();
@@ -80,12 +86,17 @@ public class WebsocketServer {
         }
         // 保存新用户id,用户名,session会话,登录时间
         clients.put(userId, new OnlineUser(userId, username, session));
+
         // 告诉所有人,我上线了
-        String content = "系统消息:" + username + " 上线了";
-        this.send(new SendMsgVO(1, userId, username, "ALL", content, null, clients.size()));
+        String content = "系统消息: " + username + " 上线了";
+        SendMsgVO sendMsgVO = new SendMsgVO(1, userId, username, "ALL", content, null, clients.size());
+
+        websocketMsgPublisher.sendMsg(sendMsgVO);
 
         // 给自己发一条消息：告诉自己现在都有谁在线
-        this.send(new SendMsgVO(3, userId, username, userId, JSON.toJSONString(getOnlineUsers()), null, clients.size()));
+        content = JSON.toJSONString(getOnlineUsers());
+        sendMsgVO = new SendMsgVO(3, userId, username, userId, content, null, clients.size());
+        websocketMsgPublisher.sendMsg(sendMsgVO);
     }
 
 
@@ -98,11 +109,14 @@ public class WebsocketServer {
      */
     @OnClose
     public void onClose(@PathParam("userId") String userId, @PathParam("username") String username, Session session) {
+        WebsocketMsgPublisher websocketMsgPublisher = WebsocketSpringContextUtil.getBean(WebsocketMsgPublisher.class);
         // 所有在线用户中去除下线用户
         clients.remove(userId);
         // 告诉所有人(ALL 表示所有人),我下线了
-        String content = "系统消息:" + username + " 下线了";
-        this.send(new SendMsgVO(2, userId, username, "ALL", content, null, clients.size()));
+        String content = "系统消息: " + username + " 下线了";
+        SendMsgVO sendMsgVO = new SendMsgVO(2, userId, username, "ALL", content, null, clients.size());
+        websocketMsgPublisher.sendMsg(sendMsgVO);
+
         // 日志
         log.info(username + ":已离线！ 当前在线人数" + clients.size());
     }
@@ -138,18 +152,23 @@ public class WebsocketServer {
      */
     @OnMessage
     public void onMessage(@PathParam("userId") String userId, @PathParam("username") String username, String message, Session session) {
+        WebsocketMsgPublisher websocketMsgPublisher = WebsocketSpringContextUtil.getBean(WebsocketMsgPublisher.class);
         // 请求参数（接收人+发送内容）
         try {
-            SendMsgDTO sendMsgDTO = JSON.parseObject(message, SendMsgDTO.class);
+            WebsocketMsgDTO sendMsgDTO = JSON.parseObject(message, WebsocketMsgDTO.class);
             log.info("服务器接收到发送消息请求,发送人id={},用户名={}, 接收发送消息={}", userId, username, message);
             // 发送消息
-            this.send(new SendMsgVO(4, userId, username, sendMsgDTO.getTo(), sendMsgDTO.getContent(), null, clients.size()));
+            String content = sendMsgDTO.getContent();
+            SendMsgVO sendMsgVO = new SendMsgVO(4, userId, username, sendMsgDTO.getTo(), content, null, clients.size());
+            websocketMsgPublisher.sendMsg(sendMsgVO);
         } catch (Exception e) {
-            // 给发送人 发送错误信息
+            // 给发送人 通知发送错误信息
             log.error("发送的消息格式错误");
-            this.send(new SendMsgVO(4, userId, username, userId, "发送的消息格式错误", null, clients.size()));
+            // 发送消息
+            String content = "发送的消息格式错误";
+            SendMsgVO sendMsgVO = new SendMsgVO(4, userId, username, userId, content, null, clients.size());
+            websocketMsgPublisher.sendMsg(sendMsgVO);
         }
-
     }
 
 
@@ -167,7 +186,7 @@ public class WebsocketServer {
                 this.sendMsg(userId, sendMsg);
             }
         } else {
-            //发送消息给指定人
+            // 发送消息给指定人
             String[] userIds = sendMsg.getTo().split(",");
             for (String userId : userIds) {
                 this.sendMsg(userId, sendMsg);
@@ -190,11 +209,18 @@ public class WebsocketServer {
         if (clients.containsKey(userId)) {
             try {
                 clients.get(userId).getSession().getBasicRemote().sendText(JSON.toJSONString(sendMsg));
+                if (sendMsg.getMsgType() != 0) {
+                    log.info("websocket用户ID:{} 已连接当前服务: 成功推送信息, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));
+                }
                 return true;
             } catch (IOException e) {
                 log.error(e.toString());
                 log.info(userId, sendMsg.getUsername() + "上线的时候通知所有人发生了错误");
                 return false;
+            }
+        } else {
+            if (sendMsg.getMsgType() != 0) {
+                log.info("websocket用户ID:{} 未连接当前服务: 推送信息失败, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));
             }
         }
         return false;

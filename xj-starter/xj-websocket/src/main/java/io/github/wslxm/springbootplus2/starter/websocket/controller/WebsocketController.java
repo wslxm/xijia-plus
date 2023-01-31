@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.starter.websocket.controller;
 
 
 import io.github.wslxm.springbootplus2.starter.websocket.config.result.WebSocketR;
+import io.github.wslxm.springbootplus2.starter.websocket.model.dto.WebsocketMsgDTO;
 import io.github.wslxm.springbootplus2.starter.websocket.service.WebsocketService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -10,10 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -115,8 +113,8 @@ public class WebsocketController {
             @ApiImplicitParam(name = "content", value = "发送内容", required = true, example = "我是测试消息"),
             @ApiImplicitParam(name = "extras", value = "附加发送内容", required = true, example = "我是附加内容")
     })
-    public Object send(String form, String username, String to, String content, String extras) {
-        websocketService.send(form, username, to, content, extras);
+    public Object send(@RequestBody WebsocketMsgDTO dto) {
+        websocketService.send(dto);
         return WebSocketR.success();
     }
 

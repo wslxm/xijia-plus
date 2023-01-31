@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.starter.websocket.service;
 
-import io.github.wslxm.springbootplus2.starter.websocket.config.result.WebSocketR;
+import io.github.wslxm.springbootplus2.starter.websocket.model.dto.WebsocketMsgDTO;
 import io.github.wslxm.springbootplus2.starter.websocket.model.vo.OnlineUserVO;
 
 import java.util.List;
@@ -36,14 +36,10 @@ public interface WebsocketService {
     /**
      * 发送消息
      *
-     * @param form     发送人id
-     * @param username 发送人用户名
-     * @param to       接收人id（多个逗号分隔）
-     * @param content  发送内容
-     * @param extras   扩暂发送内容
+     * @param dto
      * @version 1.0.0
      */
-    void send(String form, String username, String to, String content, String extras);
+    void send(WebsocketMsgDTO dto);
 
 
     /**

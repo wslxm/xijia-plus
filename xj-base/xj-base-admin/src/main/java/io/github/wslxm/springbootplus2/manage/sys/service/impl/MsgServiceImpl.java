@@ -9,15 +9,16 @@ import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
-import io.github.wslxm.springbootplus2.manage.sys.model.vo.DictionaryVO;
-import io.github.wslxm.springbootplus2.manage.sys.service.DictionaryService;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.MsgMapper;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.MsgDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Msg;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.MsgQuery;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.DictionaryVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.MsgFindAllNumVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.MsgVO;
+import io.github.wslxm.springbootplus2.manage.sys.service.DictionaryService;
 import io.github.wslxm.springbootplus2.manage.sys.service.MsgService;
+import io.github.wslxm.springbootplus2.starter.websocket.model.dto.WebsocketMsgDTO;
 import io.github.wslxm.springbootplus2.starter.websocket.service.WebsocketService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +115,13 @@ public class MsgServiceImpl extends BaseServiceImpl<MsgMapper, Msg> implements M
         // 发送webSocket消息
         boolean isWebsocket = dto.getIsWebsocket() == null ? false : dto.getIsWebsocket();
         if (isWebsocket) {
-            webSocketService.send("sys-sms", "系统", dto.getUserId(), JSON.toJSONString(entity), null);
+            WebsocketMsgDTO websocketMsgDTO = new WebsocketMsgDTO();
+            websocketMsgDTO.setForm("sys");
+            websocketMsgDTO.setUsername("系统");
+            websocketMsgDTO.setTo(dto.getUserId());
+            websocketMsgDTO.setContent(JSON.toJSONString(entity));
+            //websocketMsgDTO.setExtras(null);
+            webSocketService.send(websocketMsgDTO);
         }
         return entity.getId();
     }

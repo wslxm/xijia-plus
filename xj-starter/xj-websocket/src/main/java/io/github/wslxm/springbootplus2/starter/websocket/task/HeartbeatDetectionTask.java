@@ -32,7 +32,7 @@ public class HeartbeatDetectionTask {
 
     /**
      * 每分钟一次 【  0 1/1 * * * ? * 】
-     * 测试 20 秒一次【  0/20 * * * * ? 】
+     * 测试 30 秒一次【  0/30 * * * * ? 】
      */
     @Scheduled(cron = "0/30 * * * * ?")
     private void configureTasks() {
@@ -40,7 +40,6 @@ public class HeartbeatDetectionTask {
         vo.setMsgType(0);
         vo.setFrom("0");
         vo.setUsername("系统");
-        vo.setHeadPic(null);
         vo.setTo("ALL");
         vo.setContent("心跳检测");
         vo.setExtras(null);
