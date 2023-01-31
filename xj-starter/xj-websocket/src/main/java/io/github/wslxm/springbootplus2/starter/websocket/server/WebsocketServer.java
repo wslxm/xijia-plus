@@ -147,7 +147,7 @@ public class WebsocketServer {
      *                 // 前端发送内容格式
      *                 ....
      *                 // 拼接参数
-     *                 let message = { "content": "测试发送消息", "to": "ALL","type": 2 }
+     *                 let message = {"content": "测试发送消息", "to": "ALL"}
      *                 ....
      */
     @OnMessage

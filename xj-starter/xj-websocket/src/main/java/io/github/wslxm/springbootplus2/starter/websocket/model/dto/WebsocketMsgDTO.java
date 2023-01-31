@@ -39,16 +39,4 @@ public class WebsocketMsgDTO implements Serializable {
      */
     private String extras;
 
-
-    /**
-     * 消息
-     * @param to      接收人用户Id (目标ID,逗号分隔) (所有人使用-ALL)
-     * @param content 发送内容
-     * @param type    消息类型
-     */
-    public WebsocketMsgDTO(String to, String content, Integer type) {
-        this.to = to;
-        this.content = content;
-    }
-
 }
