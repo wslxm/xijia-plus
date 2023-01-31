@@ -16,7 +16,7 @@
 
 <script>
 
-    import {baseUploadUrl} from "@/config/env";
+    import {uploadPath} from "@/config/env";
     export default {
         data() {
             return {
@@ -128,7 +128,7 @@
                             accept: 'image/png, image/jpeg, image/jpg, image/gif',  
                             type: 'upload',
                             listType: 'picture-img', 
-                            action: baseUploadUrl + 'file/gc/img/',   // 上传地址 + 文件保存上传地址(详见接口描叙)
+                            action: uploadPath + 'file/gc/img/',   // 上传地址 + 文件保存上传地址(详见接口描叙)
                             multiple: true,          // 文件多选
                             drag: true,              // 拖拽排序
                             limit: 1,                // 上传数量 1 个
@@ -168,7 +168,7 @@
                             accept: 'image/png, image/jpeg, image/jpg, image/gif',  
                             type: 'upload',
                             listType: 'picture-card', 
-                            action: baseUploadUrl + 'file/gc/img/',   // 上传地址 + 文件保存上传地址(详见接口描叙)
+                            action: uploadPath + 'file/gc/img/',   // 上传地址 + 文件保存上传地址(详见接口描叙)
                             multiple: true,          // 文件多选
                             drag: true,              // 拖拽排序
                             limit: 10,                // 上传数量 1 个
@@ -208,7 +208,7 @@
                             accept: 'video/mp4',  
                             type: 'upload',
                             listType: 'picture-img', 
-                            action: baseUploadUrl + 'file/gc/video/',   // 上传地址 + 文件保存上传地址(详见接口描叙)
+                            action: uploadPath + 'file/gc/video/',   // 上传地址 + 文件保存上传地址(详见接口描叙)
                             multiple: true,          // 文件多选
                             drag: true,              // 拖拽排序
                             limit: 1,                // 上传数量 1 个
@@ -248,7 +248,7 @@
                             accept: null,  
                             type: 'upload',
                             listType: '', 
-                            action: baseUploadUrl + 'file/gc/all/',   // 上传地址 + 文件保存上传地址(详见接口描叙)
+                            action: uploadPath + 'file/gc/all/',   // 上传地址 + 文件保存上传地址(详见接口描叙)
                             multiple: true,          // 文件多选
                             drag: true,              // 拖拽排序
                             limit: 10,                // 上传数量 1 个

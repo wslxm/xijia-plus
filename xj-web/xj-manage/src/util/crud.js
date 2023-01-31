@@ -1,12 +1,12 @@
 import request from '@/router/axios';
-import {baseProxyPathRewrite, baseUploadUrl} from '@/config/env';
+import {proxyPath, uploadPath} from '@/config/env';
 
 export default {
     // 查询
     async get(uri, params) {
         console.debug("get => uri:", uri, "  params:", params)
         return await request({
-            url: baseProxyPathRewrite + uri,
+            url: proxyPath + uri,
             method: 'get',
             meta: {
                 isSerialize: false
@@ -19,7 +19,7 @@ export default {
     async post(uri, data, params) {
         console.debug("post => uri:", uri, "  data:", data, "  params:", params)
         return await request({
-            url: baseProxyPathRewrite + uri,
+            url: proxyPath + uri,
             method: 'post',
             meta: {
                 isSerialize: false
@@ -33,7 +33,7 @@ export default {
     async put(uri, data, params) {
         console.debug("put => uri:", uri, "  data:", data, "  params:", params)
         return await request({
-            url: baseProxyPathRewrite + uri,
+            url: proxyPath + uri,
             method: 'put',
             meta: {
                 isSerialize: false
@@ -46,7 +46,7 @@ export default {
     // 删除
     async del(uri, data, params) {
         console.debug("del => uri:", uri, "  params:", params)
-        return await request.delete(baseProxyPathRewrite + uri, {
+        return await request.delete(proxyPath + uri, {
             method: 'delete',
             meta: {
                 isSerialize: false
@@ -73,7 +73,7 @@ export default {
         var formData = new FormData();
         formData.append("file", file);
         return request({
-            url: baseUploadUrl + path,
+            url: uploadPath + path,
             method: 'post',
             headers: {"Content-Type": "multipart/form-data;charset=UTF-8"},
             meta: {
@@ -89,7 +89,7 @@ export default {
     download(uri, data) {
         console.debug("download => uri:", uri, "  data:", data)
         return request({
-            url: baseProxyPathRewrite + uri,
+            url: proxyPath + uri,
             method: 'post',
             data: data,
             // 下载zip文件需要使用的响应格式,这是区别于普通post请求的地方,重点!!!

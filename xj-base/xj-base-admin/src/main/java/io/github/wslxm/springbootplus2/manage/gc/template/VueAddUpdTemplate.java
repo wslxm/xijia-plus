@@ -284,7 +284,7 @@ public interface VueAddUpdTemplate {
             "                            accept: {accept},  \n" +
             "                            type: 'upload',\n" +
             "                            listType: '{listType}', \n" +
-            "                            action: baseUploadUrl + 'file/gc/{fileType}/',   // 上传地址 + 文件保存上传地址(详见接口描叙)\n" +
+            "                            action: uploadPath + 'file/gc/{fileType}/',   // 上传地址 + 文件保存上传地址(详见接口描叙)\n" +
             "                            multiple: true,          // 文件多选\n" +
             "                            drag: true,              // 拖拽排序\n" +
             "                            limit: {limit},                // 上传数量 1 个\n" +

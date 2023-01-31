@@ -29,7 +29,7 @@
                     language: 'zh_CN',
                     height: 350,
                     // 图片上传地址(自动上传)
-                    // images_upload_url: baseUploadUrl + 'image/vueTinymce/',
+                    // images_upload_url: uploadPath + 'image/vueTinymce/',
                     // 允许粘贴图片上传,及格式
                     paste_data_images: true,
                     images_file_types: 'jpeg,jpg,png,gif,bmp,webp',

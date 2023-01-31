@@ -3,7 +3,7 @@
 
 // 获取请求地址
 const env = require('./src/config/env');
-let targetPath = env.targetPath;
+let basePath = env.basePath;
 
 module.exports = {
     lintOnSave: true,
@@ -16,7 +16,7 @@ module.exports = {
         proxy: {
             '/api': {
                 //API服务器的地址
-                target: "http://" + targetPath + "/",
+                target: "http://" + basePath + "/",
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {

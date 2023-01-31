@@ -4,31 +4,33 @@ const env = process.env;
 
 // 请求地址 + websocket 地址统一配置
 // 本地
-let targetPath = "127.0.0.1:9048";
-let baseWebSocketUrl = "ws://" + targetPath + "/websocket/{userId}/{fullName}";
+let basePath = "127.0.0.1:9048";
+// let basePath = "39.103.135.29:2201";
+let webSocketPath = "ws://" + basePath + "/websocket/{userId}/{fullName}";
 
 // 转发代理地址
-let baseProxyPathRewrite = '/api';
+let proxyPath = '/api';
 // 文件上传地址统一配置
-let baseUploadUrl = baseProxyPathRewrite + '/api/open/file/upload?resType=2&filePath=';
+let uploadPath = proxyPath + '/api/open/file/upload?resType=2&filePath=';
 
 // 启动输出
-console.log("当前 请求服务器地址: " + targetPath);
-console.log("当前 websocket请求地址: " + baseWebSocketUrl);
-console.log("当前 转发代理地址: " + baseProxyPathRewrite);
-console.log("当前 文件上传地址: " + baseUploadUrl);
+console.log("当前 请求服务器地址: " + basePath);
+console.log("当前 websocket请求地址: " + webSocketPath);
+console.log("当前 转发代理地址: " + proxyPath);
+console.log("当前 文件上传地址: " + uploadPath);
 
-// 阿里图标地址配置
+// 阿里图标地址配置(暂未使用)
 let iconfontVersion = ['567566_82imxaft0by'];
 let iconfontUrl = `//at.alicdn.com/t/font_$key.css`;
-// 未知
-let codeUrl = `${baseProxyPathRewrite}/code`;
+
+// 验证码
+let codeUrl = `${proxyPath}/code`;
 
 module.exports = {
-    targetPath,
-    baseProxyPathRewrite,
-    baseUploadUrl,
-    baseWebSocketUrl,
+    basePath,
+    proxyPath,
+    uploadPath,
+    webSocketPath,
     iconfontUrl,
     iconfontVersion,
     codeUrl,

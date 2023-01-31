@@ -9,7 +9,7 @@
 
 <script>
 
-    import {baseUploadUrl} from "@/config/env";
+    import {uploadPath} from "@/config/env";
 
     export default {
         data() {

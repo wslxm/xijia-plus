@@ -52,7 +52,7 @@ import top from "./top/";
 import sidebar from "./sidebar/";
 import admin from "@/util/admin";
 import {validatenull} from "@/util/validate";
-import {baseWebSocketUrl} from "@/config/env";
+import {webSocketPath} from "@/config/env";
 import router from '@/router/router';
 
 export default {

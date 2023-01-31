@@ -16,7 +16,7 @@
                 </span>
                 <span v-if="obj.type == 1">
                      <el-upload
-                             :action="baseUploadUrl + 'image/config/'"
+                             :action="uploadPath + 'image/config/'"
                              list-type="picture-card"
                              multiple
                              drag

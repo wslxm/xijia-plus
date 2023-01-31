@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import {baseUploadUrl} from "@/config/env";
+    import {uploadPath} from "@/config/env";
     import pinyin from 'js-pinyin'
     export default {
         // name: "RoleUpd",
@@ -49,7 +49,7 @@
                             dataType: 'string',  // 字符串模式
                             type: 'upload',
                             listType: 'picture-img',                // 图片格式, 单图-[picture-img]  多图-[picture-card]  缩略图-[picture] 普通文件空
-                            action: baseUploadUrl + 'image/head/',  // 上传地址 + 文件保存上传地址(详见接口描叙)
+                            action: uploadPath + 'image/head/',  // 上传地址 + 文件保存上传地址(详见接口描叙)
                             multiple: false,       // 文件多选
                             drag: true,            // 拖拽排序
                             limit: 1,              // 上传数量 1 个

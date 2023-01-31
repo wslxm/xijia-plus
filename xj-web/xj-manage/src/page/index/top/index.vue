@@ -116,7 +116,7 @@ import topColor from "./top-color";
 import topNotice from './top-notice'
 import topMsg from './top-msg'
 import topLang from "./top-lang";
-import {baseWebSocketUrl} from "@/config/env";
+import {webSocketPath} from "@/config/env";
 import router from "@/router/router";
 
 export default {
@@ -185,7 +185,7 @@ export default {
                 alert("您的浏览器不支持socket")
             } else {
                 // 实例化socket
-                let webSocketUrl = baseWebSocketUrl.replace("{userId}", this.userInfo.id)
+                let webSocketUrl = webSocketPath.replace("{userId}", this.userInfo.id)
                     .replace("{fullName}", this.userInfo.fullName)
                 // console.log(webSocketUrl)
                 this.socket = new WebSocket(webSocketUrl);
