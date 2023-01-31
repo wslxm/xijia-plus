@@ -1,10 +1,12 @@
 // 环境
 // development | production | test
 const env = process.env;
-// 请求地址
+
+// 请求地址 + websocket 地址统一配置
+// 本地
 let targetPath = "127.0.0.1:9048";
-// websocket 地址统一配置
-let baseWebSocketUrl = "ws://" + "127.0.0.1:9048" + "/websocket/{userId}/{fullName}";
+let baseWebSocketUrl = "ws://" + targetPath + "/websocket/{userId}/{fullName}";
+
 // 转发代理地址
 let baseProxyPathRewrite = '/api';
 // 文件上传地址统一配置
