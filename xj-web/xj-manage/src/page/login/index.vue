@@ -27,11 +27,11 @@
                     <thirdLogin></thirdLogin>
                     <div class="login-menu">
                         <!-- 账号密码登录 -->
-                        <a href="#" @click.stop="activeName='user'">{{ $t('login.userLogin') }}</a>
+                        <!--  <a href="#" @click.stop="activeName='user'">{{ $t('login.userLogin') }}</a>-->
                         <!-- 手机号登录 -->
-                        <a href="#" @click.stop="activeName='code'">{{ $t('login.phoneLogin') }}</a>
+                        <!-- <a href="#" @click.stop="activeName='code'">{{ $t('login.phoneLogin') }}</a>-->
                         <!-- 刷脸登录 -->
-                        <!-- <a href="#" @click.stop="activeName='face'">{{ $t('login.faceLogin') }}</a>-->
+                        <!--   <a href="#" @click.stop="activeName='face'">{{ $t('login.faceLogin') }}</a>-->
                     </div>
                 </div>
 
@@ -89,11 +89,6 @@
             setInterval(() => {
                 this.getTime();
             }, 1000);
-            //console.log("获取项目名称")
-            // this.crud.get("/api/admin/sys/config/findByCode", {code: "entry_name"}).then(res => {
-            //     this.entryName = res.data.data.content;
-            //     this.website.indexTitle = this.entryName;
-            // })
         },
         mounted() {
         },

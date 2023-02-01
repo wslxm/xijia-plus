@@ -39,7 +39,7 @@ public interface VueMainSlotTemplate {
             "                            range-separator=\"至\"\n" +
             "                            start-placeholder=\"开始日期\"\n" +
             "                            end-placeholder=\"结束日期\"\n" +
-            "                            :picker-options=\"defaultDic.timeOptions\">\n" +
+            "                            :picker-options=\"defaultdata.timeOptions\">\n" +
             "                    </el-date-picker>\n" +
             "                </div>\n" +
             "            </template>";

@@ -10,7 +10,7 @@ import dayjs from 'dayjs'
 import basicContainer from './components/basic-container/main'; // base容器
 import basicBlock from './components/basic-block/main'          // base块
 import website from '@/config/website' ;                        // 当前系统配置数据
-import defaultDic from '@/config/defaultDic' ;                  // 相关默认数据
+import defaultdata from '@/config/defaultdata' ;                  // 相关默认数据
 import {iconfontUrl, iconfontVersion} from '@/config/env';      // 阿里图标地址
 import icon from "@/util/icon";                                 // 系统图标
 import {loadStyle} from './util/util';                          // 动态插入css方法
@@ -36,7 +36,7 @@ import AVUE from '@smallwei/avue'
 Vue.prototype.$dayjs = dayjs;
 Vue.prototype.icon = icon;
 Vue.prototype.website = website;
-Vue.prototype.defaultDic = defaultDic;
+Vue.prototype.defaultdata = defaultdata;
 Vue.prototype.crud = crud;
 Vue.prototype.dict = dict;
 Vue.config.productionTip = false;

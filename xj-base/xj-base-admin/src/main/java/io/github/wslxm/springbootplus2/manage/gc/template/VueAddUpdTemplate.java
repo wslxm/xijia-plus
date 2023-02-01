@@ -229,7 +229,7 @@ public interface VueAddUpdTemplate {
             "                            type: \"cascader\",\n" +
             "                            dataType: 'string',\n" +
             "                            filterable: true, \n" +
-            "                            dicData: this.defaultDic.dicData,   // 自行替换字典数据  \n" +
+            "                            dicData: this.defaultdata.dicData,   // 自行替换字典数据  \n" +
             "                            props: {\n" +
             "                                value: \"id\",\n" +
             "                                label: \"name\",\n" +

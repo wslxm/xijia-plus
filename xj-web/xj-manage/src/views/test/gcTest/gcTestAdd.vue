@@ -369,7 +369,7 @@
                             type: "cascader",
                             dataType: 'string',
                             filterable: true, 
-                            dicData: this.defaultDic.dicData,   // 自行替换字典数据  
+                            dicData: this.defaultdata.dicData,   // 自行替换字典数据
                             props: {
                                 value: "id",
                                 label: "name",

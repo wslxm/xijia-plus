@@ -2,31 +2,31 @@
  * 全局配置文件
  */
 export default {
-    title: "",    // 登录页项目名
-    logo: "A",
-    key: 'avue',  // 配置主键,目前用于存储
+    // title: "",          // 登录页项目名
+    logo: "B",
+    key: 'xijia-plus',  // 配置主键,缓存存储前缀
     // 项目名，在登录页会获取全局配置更新该值
-    indexTitle: '兮家 plus',
+    indexTitle: '兮家 plus1',
     lockPage: '/lock',
     tokenTime: 60 * 60 * 24 * 15, //token过期时间(秒) 前端过期 不代表后端服务过期时间
     Authorization: 'TOKEN',
     // http的status默认放行不才用统一处理的
-    statusWhiteList: [400],
+    // statusWhiteList: [200],
     // 标签是否可关闭
     isFirstPage: false,
     // 普通导航主题
     setting: {
-        sidebar: 'vertical',    // 选项-- vertical -正常左菜单|  horizontal -左菜单在顶部横向展示
-        tag: true,              // 开关--是否开启页面 tag
-        debug: false,           // 开关-- dobug 功能项
-        collapse: true,         // 开关--菜单折叠按钮
-        search: true,           // 开关--搜索
-        lock: true,             // 开关--锁屏
-        screenshot: true,       // 开关--搜索
-        fullscren: false,       // 开关--全屏
-        menu: true,             // 开关--是否开启顶部菜单
-        theme: true,            // 开关--主题
-        color: true,            // 开关--主题色
+        sidebar: 'vertical',       // 选项-- vertical -正常左菜单|  horizontal -左菜单在顶部横向展示
+        tag: true,                 // 开关--是否开启页面 tag
+        debug: true,              // 开关-- dobug 功能项
+        collapse: true,            // 开关--菜单折叠按钮
+        search: true,              // 开关--搜索
+        lock: true,                // 开关--锁屏
+        screenshot: true,          // 开关--搜索
+        fullscren: false,          // 开关--全屏
+        menu: true,                // 开关--是否开启顶部菜单
+        theme: true,               // 开关--主题
+        color: true,               // 开关--主题色
         colorName: "#FF5E2C",      // 默认主题色 setting.colorName
         themeName: "theme-hey",    // 默认主题  setting.themeName
     },
@@ -151,7 +151,7 @@ export default {
         },
         // 系统枚举(动态值)
         Admin: {
-           // Terminal: "TERMINAL",  // 终端
+            // Terminal: "TERMINAL",  // 终端
             Position: "POSITION",  // 部门职位
             BannerPosition: "BANNER_POSITION",  // banner 位置
             MsgType: "MSG_TYPE",  // 及时消息类型

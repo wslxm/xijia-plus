@@ -30,7 +30,7 @@
                             range-separator="至"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
-                            :picker-options="defaultDic.timeOptions">
+                            :picker-options="defaultdata.timeOptions">
                     </el-date-picker>
                 </div>
             </template>
@@ -220,7 +220,7 @@
                     dataType: 'string',
                     filterable: true, 
                     // 自行替换字典数据，在 mounted 事件加载字段前使用 let res = await this.crud.get() 同步获取数据 
-                    dicData: this.defaultDic.dicData, 
+                    dicData: this.defaultdata.dicData,
                     props: {
                         value: "id",
                         label: "name",

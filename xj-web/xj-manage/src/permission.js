@@ -1,6 +1,5 @@
 /**
  * 全站权限配置
- *
  */
 import router from './router/router'
 import store from './store'
@@ -11,22 +10,27 @@ import 'nprogress/nprogress.css' // progress bar style
 import website from '@/config/website'
 
 NProgress.configure({showSpinner: false});
-const lockPage = website.lockPage; //锁屏页
+const lockPage = website.lockPage;  //锁屏页
+
 router.beforeEach((to, from, next) => {
-    //console.debug("====路由跳转=======")
+    // console.debug("====路由跳转=======")
+
+    // 是否加载左菜单
     const meta = to.meta || {};
     const isMenu = meta.menu === undefined ? to.query.menu : meta.menu;
     store.commit('SET_IS_MENU', isMenu === undefined);
 
-    /* 页面 title 修改start  */
+    // 获取 路由地址
     const value = to.path;
-    const query = to.query
-    const label = query.name || to.name;
-    //const meta = to.meta
+    // 获取 路由名称
+    const label = to.query.name || to.name;
+    // 是否新窗口打开
     if (meta.target) {
-        window.open(query.url.replace(/#/g, "&"))
+        window.open(to.query.url.replace(/#/g, "&"))
         return
-    } else if (meta.isTab !== false && !validatenull(value) && !validatenull(label)) {
+    }
+    // 是否添加到 Tab
+    if (!meta.target && meta.isTab !== false && !validatenull(value) && !validatenull(label)) {
         store.commit('ADD_TAG', {
             label: label,
             value: value,
@@ -35,31 +39,27 @@ router.beforeEach((to, from, next) => {
             meta: to.meta
         });
     }
-    /* 页面 title 修改end  */
 
+    /* 判断是否登录 */
     if (getToken()) {
-
-        if (store.getters.isLock && to.path != lockPage) { //如果系统激活锁屏，全部跳转到锁屏页
+        if (store.getters.isLock && to.path != lockPage) {
+            // 如果系统激活锁屏，全部跳转到锁屏页
             next({path: lockPage})
-        } else if (to.path === '/login') { //如果登录成功访问登录页跳转到主页
+        } else if (to.path === '/login') {
+            // 如果是登录成功访问跳转到主页
             next({path: '/'})
         } else {
-            // 如果用户信息为空则获取用户信息，获取用户信息失败，跳转到登录页
-            if (store.getters.roles.length === 0) {
-                store.dispatch('GetUserInfo').then(() => {
-                    next()
-                }).catch(() => {
-                    store.dispatch('FedLogOut').then(() => {
-                        next({path: '/login'})
-                    })
-                })
-            } else {
-
+            // 如果用户信息为空则获取用户信息后正常跳转到点击的页面，如果获取用户信息失败，则跳转到登录页
+            store.dispatch('GetUserInfo').then(() => {
                 next()
-            }
+            }).catch(() => {
+                store.dispatch('FedLogOut').then(() => {
+                    next({path: '/login'})
+                })
+            })
         }
     } else {
-        //判断是否需要认证，没有登录访问去登录页
+        // 判断是否需要登录认证, 需要登录认证没有登录访问去登录页, 不需要正常跳转即可
         if (meta.isAuth === false) {
             next()
         } else {

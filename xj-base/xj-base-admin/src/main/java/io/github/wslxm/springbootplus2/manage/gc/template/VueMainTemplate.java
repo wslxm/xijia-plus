@@ -147,7 +147,7 @@ public interface VueMainTemplate {
             "                    overHidden: true,\n" +
             "                    filterable: true, \n" +
             "                    // 自行替换字典数据，在 mounted 事件加载字段前使用 let res = await this.crud.get() 同步获取数据 \n" +
-            "                    dicData: this.defaultDic.dicData, \n" +
+            "                    dicData: this.defaultdata.dicData, \n" +
             "                    props: {\n" +
             "                        value: \"id\",\n" +
             "                        label: \"name\",\n" +
@@ -161,7 +161,7 @@ public interface VueMainTemplate {
 //     *  {label}  {prop}
 //     */
 //    String CASCADER = "            <template slot-scope=\"{row,index,type,size}\" slot=\"{prop}Search\">\n" +
-//            "                <avue-cascader v-model=\"search.{prop}\" :dic=\"defaultDic.dicData\" :props=\"{value: 'id',  label: 'name', children: 'children'}\" :filterable=\"true\" placeholder=\"请选择{label}\"></avue-cascader>\n" +
+//            "                <avue-cascader v-model=\"search.{prop}\" :dic=\"defaultdata.dicData\" :props=\"{value: 'id',  label: 'name', children: 'children'}\" :filterable=\"true\" placeholder=\"请选择{label}\"></avue-cascader>\n" +
 //            "            </template>";
 
 

@@ -36,7 +36,7 @@
                                 range-separator="至"
                                 start-placeholder="开始日期"
                                 end-placeholder="结束日期"
-                                :picker-options="defaultDic.timeOptions">
+                                :picker-options="defaultdata.timeOptions">
                         </el-date-picker>
                     </div>
                 </template>

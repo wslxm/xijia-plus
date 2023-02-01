@@ -4,7 +4,7 @@
       <div class="animated"
            :class="{'shake':passwdError,'bounceOut':pass}">
         <h3 class="title">{{userInfo.username}}</h3>
-        <el-input placeholder="请输入登录密码"
+        <el-input placeholder="请输入锁屏密码"
                   type="password"
                   class="input-with-select animated"
                   v-model="passwd"
