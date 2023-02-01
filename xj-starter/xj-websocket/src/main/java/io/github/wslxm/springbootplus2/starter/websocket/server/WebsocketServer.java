@@ -199,7 +199,6 @@ public class WebsocketServer {
         // 判断用户是否在线, 在线发送消息推送
         if (clients.containsKey(userId)) {
             try {
-                log.info("websocket用户ID:{} 推送信息, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));
                 Session session = clients.get(userId).getSession();
                 if (session != null) {
                     // 这里因为是提供发布订阅来发送信息, 在线程中存在同一个session发送存在问题，使用异步发送
