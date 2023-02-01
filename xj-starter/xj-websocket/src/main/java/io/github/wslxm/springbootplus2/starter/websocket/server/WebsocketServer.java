@@ -72,9 +72,9 @@ public class WebsocketServer {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            // log.info("重复登录,原用户被迫下线！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size());
+            log.info("重复登录,原用户被迫下线！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size());
         } else {
-            // log.info("有新连接加入！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size() + 1);
+            log.info("有新连接加入！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size() + 1);
         }
         // 保存新用户id,用户名,session会话,登录时间
         clients.put(userId, new OnlineUser(userId, username, session));
@@ -82,7 +82,6 @@ public class WebsocketServer {
         // 告诉所有人,我上线了
         String content = "系统消息: " + username + " 上线了";
         SendMsgVO sendMsgVO = new SendMsgVO(1, userId, username, "ALL", content, null, clients.size());
-
         websocketMsgPublisher.sendMsg(sendMsgVO);
 
         // 给自己发一条消息：告诉自己现在都有谁在线
@@ -201,14 +200,19 @@ public class WebsocketServer {
         if (clients.containsKey(userId)) {
             try {
                 log.info("websocket用户ID:{} 推送信息, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));
-                clients.get(userId).getSession().getBasicRemote().sendText(JSON.toJSONString(sendMsg));
-                if (sendMsg.getMsgType() != 0) {
-                    log.info("websocket用户ID:{} 已连接当前服务: 成功推送信息, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));
+                Session session = clients.get(userId).getSession();
+                if (session != null) {
+                    // 这里因为是提供发布订阅来发送信息, 在线程中存在同一个session发送存在问题，使用异步发送
+                    synchronized (session) {
+                        clients.get(userId).getSession().getBasicRemote().sendText(JSON.toJSONString(sendMsg));
+                    }
+                    if (sendMsg.getMsgType() != 0) {
+                        log.info("websocket用户ID:{} 已连接当前服务: 成功推送信息, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));
+                    }
                 }
                 return true;
             } catch (IOException e) {
                 log.error(e.toString());
-                log.info(userId, sendMsg.getUsername() + "上线的时候通知所有人发生了错误");
                 return false;
             }
         } else {

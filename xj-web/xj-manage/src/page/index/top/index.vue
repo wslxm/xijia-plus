@@ -277,7 +277,7 @@
                 this.$notify({
                     offset: 50,
                     title: "消息",
-                    message: h('i', {style: 'color: teal;cursor: pointer;'}, loginUserName + ",【及时通知系统】已连接"),
+                    message: h('i', {style: 'color: teal;cursor: pointer;'}, loginUserName + "【及时通知系统】已连接"),
                     duration: 1000 * 10,
                 });
                 // console.log("socket连接成功")

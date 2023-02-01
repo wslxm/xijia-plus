@@ -6,7 +6,7 @@ export default {
     logo: "B",
     key: 'xijia-plus',  // 配置主键,缓存存储前缀
     // 项目名，在登录页会获取全局配置更新该值
-    indexTitle: '兮家 plus1',
+    indexTitle: '兮家 plus',
     lockPage: '/lock',
     tokenTime: 60 * 60 * 24 * 15, //token过期时间(秒) 前端过期 不代表后端服务过期时间
     Authorization: 'TOKEN',
