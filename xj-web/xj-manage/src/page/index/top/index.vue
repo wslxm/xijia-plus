@@ -190,7 +190,7 @@
                     // 发起连接
                     this.socket = new WebSocket(webSocketURL);
                     // 监听socket连接
-                    this.socket.onopen = this.onopen
+                    this.socket.onopen = this.onopen()
                     // 监听socket错误信息
                     this.socket.onerror = this.onerror
                     // 监听socket消息
@@ -215,23 +215,32 @@
                 let content = obj.content;             // 内容 (text/json 前后端协商)
                 let extras = obj.extras;               // 扩展内容 (text/json 前后端协商)
                 let createTime = obj.createTime;       // 消息时间
+
+                let loginUserId = this.userInfo.id;
+                console.log("当前用户id: " + loginUserId);
                 if (msgType === 1) {
-                    const h = this.$createElement;
-                    this.$notify({
-                        offset: 50,
-                        title: "消息",
-                        message: h('i', {style: 'color: teal;cursor: pointer;'}, content),
-                        duration: 1000 * 10,
-                    });
+                    // 上线通知, 只接收发给自己的消息
+                    // if (to == loginUserId) {
+                    // const h = this.$createElement;
+                    // this.$notify({
+                    //     offset: 50,
+                    //     title: "消息",
+                    //     message: h('i', {style: 'color: teal;cursor: pointer;'}, content),
+                    //     duration: 1000 * 10,
+                    // });
+                    // }
                 }
                 if (msgType === 2) {
-                    const h = this.$createElement;
-                    this.$notify({
-                        offset: 50,
-                        title: "消息",
-                        message: h('i', {style: 'color: teal;cursor: pointer;'}, content),
-                        duration: 1000 * 10,
-                    });
+                    // 下线通知 (主要接收被迫下线通知), 只接收发给自己的消息
+                    if (to == loginUserId) {
+                        const h = this.$createElement;
+                        this.$notify({
+                            offset: 50,
+                            title: "消息",
+                            message: h('i', {style: 'color: teal;cursor: pointer;'}, content),
+                            duration: 1000 * 10,
+                        });
+                    }
                 }
                 // 信息接收通知
                 if (msgType === 4) {
@@ -263,12 +272,27 @@
                 }
             },
             onopen: function () {
-                console.log("socket连接成功")
+                let loginUserName = this.userInfo.fullName;
+                const h = this.$createElement;
+                this.$notify({
+                    offset: 50,
+                    title: "消息",
+                    message: h('i', {style: 'color: teal;cursor: pointer;'}, loginUserName + ",【及时通知系统】已连接"),
+                    duration: 1000 * 10,
+                });
+                // console.log("socket连接成功")
             },
             onerror: function () {
                 console.log("连接错误")
             },
             onclose: function () {
+                const h = this.$createElement;
+                this.$notify({
+                    offset: 50,
+                    title: "消息",
+                    message: h('i', {style: 'color: teal;cursor: pointer;'}, loginUserName + "【及时通知系统】已离线"),
+                    duration: 1000 * 10,
+                });
                 console.log("socket已经关闭")
             },
             say2(content) {

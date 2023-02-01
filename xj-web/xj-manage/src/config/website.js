@@ -18,7 +18,7 @@ export default {
     setting: {
         sidebar: 'vertical',       // 选项-- vertical -正常左菜单|  horizontal -左菜单在顶部横向展示
         tag: true,                 // 开关--是否开启页面 tag
-        debug: true,              // 开关-- dobug 功能项
+        debug: false,              // 开关-- dobug 功能项
         collapse: true,            // 开关--菜单折叠按钮
         search: true,              // 开关--搜索
         lock: true,                // 开关--锁屏

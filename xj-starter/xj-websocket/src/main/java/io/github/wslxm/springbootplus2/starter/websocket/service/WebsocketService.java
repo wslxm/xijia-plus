@@ -14,16 +14,6 @@ import java.util.List;
  */
 public interface WebsocketService {
 
-
-    /**
-     * 获取当前在线人数
-     *
-     * @return java.lang.Integer
-     * @version 1.0.0
-     */
-    Integer getOnlineCount();
-
-
     /**
      * 获取当前在线用户列表
      *

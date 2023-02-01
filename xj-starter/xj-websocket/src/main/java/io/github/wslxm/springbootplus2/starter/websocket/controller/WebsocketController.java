@@ -124,8 +124,8 @@ public class WebsocketController {
     @RequestMapping(value = "/getOnlineCount", method = RequestMethod.GET)
     @ApiOperation("获取在线人数")
     public Object getOnlineCount() {
-        Integer onlineCount = websocketService.getOnlineCount();
-        return WebSocketR.success(onlineCount);
+        // Integer onlineCount = websocketService.getOnlineCount();
+        return WebSocketR.success(0);
     }
 
 

@@ -47,14 +47,6 @@ public class WebsocketServer {
         return clients;
     }
 
-    /**
-     * 获取在线人数
-     *
-     * @return
-     */
-    public Integer getClientsSize() {
-        return clients.size();
-    }
 
     /**
      * 监听连接（有用户连接，立马到来执行这个方法），session 发生变化
@@ -70,19 +62,19 @@ public class WebsocketServer {
         WebsocketMsgPublisher websocketMsgPublisher = WebsocketSpringContextUtil.getBean(WebsocketMsgPublisher.class);
         // 判断账号是否重复登录
         if (clients.containsKey(userId)) {
-            // 被迫下线提示
-            String content = "websocket 被迫下线提示, 您的账号在其他地方登录, 及时消息服务将无法正常使用";
+            // 被迫下线提示 (同步/同一个账号两次都连接到同一台服务器的情况下) 集群时同一账号允许连接到多台服务器共享
+            String content = "【及时通知系统】被迫下线提示, 您的账号正在其他地方使用";
             SendMsgVO sendMsgVO = new SendMsgVO(2, userId, username, userId, content, null, clients.size());
-            websocketMsgPublisher.sendMsg(sendMsgVO);
+            this.send(sendMsgVO);
             // 踢下线
             try {
                 clients.get(userId).getSession().close();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            log.info("重复登录,原用户被迫下线！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size());
+            // log.info("重复登录,原用户被迫下线！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size());
         } else {
-            log.info("有新连接加入！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size() + 1);
+            // log.info("有新连接加入！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size() + 1);
         }
         // 保存新用户id,用户名,session会话,登录时间
         clients.put(userId, new OnlineUser(userId, username, session));
@@ -208,6 +200,7 @@ public class WebsocketServer {
         // 判断用户是否在线, 在线发送消息推送
         if (clients.containsKey(userId)) {
             try {
+                log.info("websocket用户ID:{} 推送信息, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));
                 clients.get(userId).getSession().getBasicRemote().sendText(JSON.toJSONString(sendMsg));
                 if (sendMsg.getMsgType() != 0) {
                     log.info("websocket用户ID:{} 已连接当前服务: 成功推送信息, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));

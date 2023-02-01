@@ -1,5 +1,5 @@
 export default {
-    //tip: '提示',
+    tip: '提示',
     title: 'xijia-plus',
     logoutTip: '退出系统, 是否继续?',
     submitText: '确定',
@@ -8,76 +8,35 @@ export default {
     menuTip: '没有发现菜单',
     feedback: '意见反馈',
     submit: '提交',
-    wel: {
-        info: '早安，Smallwei，Avue一款超乎你想象的框架！',
-        dept: '我是avue团队下的一个部门-哈皮部门-哈皮职位',
-        team: '团队内排名',
-        project: '项目访问',
-        count: '项目数',
-        data: {
-            subtitle: '实时',
-            column1: '分类统计',
-            column2: '附件统计',
-            column3: '文章统计',
-            key1: '分',
-            key2: '附',
-            key3: '评',
-            text1: '当前分类总记录数',
-            text2: '当前上传的附件数',
-            text3: '评论次数'
-        },
-        data2: {
-            column1: '今日注册',
-            column2: '今日登录',
-            column3: '今日订阅',
-            column4: '今日评论'
-        },
-        data3: {
-            column1: '转化率（日同比 28%）',
-            column2: '签到率（日同比 11%）',
-            column3: '签到率（日同比 11%）'
-        },
-        data4: {
-            column1: '错误日志',
-            column2: '数据展示',
-            column3: '权限管理',
-            column4: '用户管理'
-        },
-        table: {
-            rw: '工作任务',
-            nr: '工作内容',
-            sj: '工作时间'
-        }
-    },
-    route: {
-        setting: '个人设置',
-        detail: '详情页',
-        info: '个人信息',
-        website: '官方网站(内嵌页面)',
-        dashboard: '首页',
-        more: '更多',
-        tags: '标签',
-        store: '本地存储',
-        api: '全局函数(外链页面)',
-        logs: '日志监控',
-        table: '表格',
-        crud: '模板',
-        params: '参数',
-        form: '表单',
-        data: '数据展示',
-        permission: '权限',
-        top: '返回顶部',
-        affix: '图钉',
-        crudForm: '表格表单',
-        cache: '缓冲',
-        error: '异常页面',
-        test: '测试页面',
-        out: '外部页面',
-        about: '关于'
-    },
+    // route: {
+    //     setting: '个人设置',
+    //     detail: '详情页',
+    //     info: '个人信息',
+    //     website: '官方网站(内嵌页面)',
+    //     dashboard: '首页',
+    //     more: '更多',
+    //     tags: '标签',
+    //     store: '本地存储',
+    //     api: '全局函数(外链页面)',
+    //     logs: '日志监控',
+    //     table: '表格',
+    //     crud: '模板',
+    //     params: '参数',
+    //     form: '表单',
+    //     data: '数据展示',
+    //     permission: '权限',
+    //     top: '返回顶部',
+    //     affix: '图钉',
+    //     crudForm: '表格表单',
+    //     cache: '缓冲',
+    //     error: '异常页面',
+    //     test: '测试页面',
+    //     out: '外部页面',
+    //     about: '关于'
+    // },
     login: {
         title: '登录 ',
-        info: 'xijia-plus',
+        info: '通用管理系统快速开发框架',
         username: '请输入账号',
         password: '请输入密码',
         wechat: '微信',
@@ -112,27 +71,5 @@ export default {
         menu: '更多',
         closeOthers: '关闭其它',
         closeAll: '关闭所有'
-    },
-    tip: {
-        input: '请输入',
-        select: '请选择',
-    },
-    form: {
-        submitBtn: '提交',
-        emptyBtn: '清空'
-    },
-    crud: {
-        addBtn: '新增',
-        menu: '操作',
-        emptyBtn: '清空',
-        tipStartTitle: '当前选中',
-        tipEndTitle: '',
-    },
-    date: {
-        start: '开始时间',
-        end: '结束时间',
-    },
-    upload: {
-        upload: "上传"
     }
 }

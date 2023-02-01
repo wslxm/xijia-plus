@@ -32,15 +32,6 @@ public class WebsocketServiceImpl implements WebsocketService {
     @Autowired
     private WebsocketMsgPublisher msgPublisher;
 
-    /**
-     * 获取当前在线人数
-     *
-     * @return
-     */
-    @Override
-    public Integer getOnlineCount() {
-        return websocketServer.getClientsSize();
-    }
 
     /**
      * 获取当前在线用户信息
@@ -71,7 +62,7 @@ public class WebsocketServiceImpl implements WebsocketService {
         sendMsgVO.setTo(dto.getTo());
         sendMsgVO.setContent(dto.getContent());
         sendMsgVO.setExtras(dto.getExtras());
-        sendMsgVO.setOnlineNum(websocketServer.getClientsSize());
+        sendMsgVO.setOnlineNum(0);
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         sendMsgVO.setCreateTime(df.format(LocalDateTime.now()));
         // 发送 redis 订阅消息
