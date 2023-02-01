@@ -1,0 +1,11 @@
+${AnsiColor.BRIGHT_YELLOW}
+___   ___  __         __   __       ___           .______    __       __    __       _______.
+\  \ /  / |  |       |  | |  |     /   \          |   _  \  |  |     |  |  |  |     /       |
+ \  V  /  |  |       |  | |  |    /  ^  \   ______|  |_)  | |  |     |  |  |  |    |   (----`
+  >   <   |  | .--.  |  | |  |   /  /_\  \ |______|   ___/  |  |     |  |  |  |     \   \     Spring Boot Version: ${spring-boot.formatted-version}
+ /  .  \  |  | |  `--'  | |  |  /  _____  \       |  |      |  `----.|  `--'  | .----)   |    xijia-plus Version: ${xijia-plus.version}
+/__/ \__\ |__|  \______/  |__| /__/     \__\      | _|      |_______| \______/  |_______/     xijia-plus 文档中心: ${xijia-plus.doc-addr}
+
+
+:: 启动环境：${spring.profiles.active}  |  启动端口: ${server.port}
+:: 作者CSDN: https://blog.csdn.net/qq_41463655  | 作者联系QQ/WX: 1720696548
