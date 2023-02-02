@@ -193,6 +193,16 @@ public class RedisUtil {
     }
 
     /**
+     * 获取hashKey对应的数据量
+     *
+     * @param key 键
+     * @return 对应的多个键值
+     */
+    public Long hSize(String key) {
+        return redisTemplate.opsForHash().size(key);
+    }
+
+    /**
      * HashSet
      *
      * @param key 键

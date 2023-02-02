@@ -14,15 +14,21 @@ import java.util.Map;
  */
 public interface WebsocketService {
 
-
     /**
-     * 获取当前
+     * 发送消息
      *
-     * @return 用户map列表, ket = Id
+     * @param dto
      * @version 1.0.0
      */
-    Map<Object, OnlineUserVO> getOnlineUsersList();
+    void send(WebsocketMsgDTO dto);
 
+    /**
+     * 获取当前在线列表
+     *
+     * @return 用户map列表, ket = 用户id
+     * @version 1.0.0
+     */
+    Map<Object, OnlineUserVO> getOnlineUsers();
 
     /**
      * 获取在线人数
@@ -35,20 +41,9 @@ public interface WebsocketService {
 
     /**
      * 判断指定用户是否在线
-     *
-     * @author wangsong
-     * @email 1720696548@qq.com
+     * @return true 在线 / false 不在线
      */
-    Boolean isOnline(String userId);
-
-
-    /**
-     * 发送消息
-     *
-     * @param dto
-     * @version 1.0.0
-     */
-    void send(WebsocketMsgDTO dto);
+    boolean isOnline(String userId);
 
 }
 

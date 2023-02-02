@@ -107,17 +107,18 @@ public class WebsocketController {
     }
 
     @RequestMapping(value = "/getOnlineCount", method = RequestMethod.GET)
-    @ApiOperation("获取在线人数")
+    @ApiOperation("获取当前在线人数")
     public Object getOnlineCount() {
         Integer onlineCount = websocketService.getOnlineCount();
         return WebSocketR.success(onlineCount);
     }
 
-    @RequestMapping(value = "/getOnlineUsersList", method = RequestMethod.GET)
+    @RequestMapping(value = "/getOnlineUsers", method = RequestMethod.GET)
     @ApiOperation("获取当前在线用户列表")
     public Object getOnlineUsersList() {
-        return WebSocketR.success(websocketService.getOnlineUsersList());
+        return WebSocketR.success(websocketService.getOnlineUsers());
     }
+
 
     @RequestMapping(value = "/isOnline", method = RequestMethod.GET)
     @ApiOperation("判断指定用户是否在线")

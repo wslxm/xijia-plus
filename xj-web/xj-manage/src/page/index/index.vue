@@ -106,17 +106,10 @@
                     let content = obj.content;             // 内容 (text/json 前后端协商)
                     let extras = obj.extras;               // 扩展内容 (text/json 前后端协商)
                     let createTime = obj.createTime;       // 消息时间
-                    // 当前用户
-                    // let loginUserId = getStore({name: "userInfo"}).id;
-                    // console.log("当前用户id: " + loginUserId);
-                    // 信息接收通知
-                    // console.log("消息查看:" + content);
                     // 具体信息： 此层数据同数据库消息表数据
                     let adminMsgData = JSON.parse(content);
-
                     // 具体消息内容
                     let msgData = JSON.parse(adminMsgData.content);
-
                     // 右上角弹出消息
                     const h = this.$createElement;
                     // 弹出层展示消息内容
