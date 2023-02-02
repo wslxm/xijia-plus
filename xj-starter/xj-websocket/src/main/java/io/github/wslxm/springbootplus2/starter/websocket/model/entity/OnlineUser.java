@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.starter.websocket.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.websocket.Session;
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import java.time.format.DateTimeFormatter;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class OnlineUser implements Serializable {
     private static final long serialVersionUID = 6239537958223115071L;
     /**

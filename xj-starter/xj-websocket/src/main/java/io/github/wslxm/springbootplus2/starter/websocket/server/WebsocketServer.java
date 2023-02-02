@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.starter.websocket.server;
 
 import com.alibaba.fastjson.JSON;
+import io.github.wslxm.springbootplus2.starter.redis.util.RedisUtil;
 import io.github.wslxm.springbootplus2.starter.websocket.model.dto.WebsocketMsgDTO;
 import io.github.wslxm.springbootplus2.starter.websocket.model.entity.OnlineUser;
 import io.github.wslxm.springbootplus2.starter.websocket.model.vo.OnlineUserVO;
@@ -32,21 +33,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class WebsocketServer {
 
+    public final static String WEBSOCKET_CACHE_KEY = "WEBSOCKET";
 
     /**
      * 所有用户信息(session + userId + username + createTime  --> 以用户的id为key, 通过用户key来获取用户session进行消息发送)
      */
     private static Map<String, OnlineUser> clients = new ConcurrentHashMap<>();
-
-    /**
-     * 获取在线人数
-     *
-     * @return
-     */
-    public Map<String, OnlineUser> getClients() {
-        return clients;
-    }
-
 
     /**
      * 监听连接（有用户连接，立马到来执行这个方法），session 发生变化
@@ -60,11 +52,17 @@ public class WebsocketServer {
     @OnOpen
     public void onOpen(@PathParam("userId") String userId, @PathParam("username") String username, Session session) {
         WebsocketMsgPublisher websocketMsgPublisher = WebsocketSpringContextUtil.getBean(WebsocketMsgPublisher.class);
+        RedisUtil redisUtil = WebsocketSpringContextUtil.getBean(RedisUtil.class);
         // 判断账号是否重复登录
         if (clients.containsKey(userId)) {
             // 被迫下线提示 (同步/同一个账号两次都连接到同一台服务器的情况下) 集群时同一账号允许连接到多台服务器共享
-            String content = "【及时通知系统】被迫下线提示, 您的账号正在其他地方使用";
-            SendMsgVO sendMsgVO = new SendMsgVO(2, userId, username, userId, content, null, clients.size());
+            // 组装为前端解析格式的内容
+            Map<String, String> resMsgData = new HashMap<>();
+            Map<String, String> msgData = new HashMap<>();
+            msgData.put("title", "系统消息");
+            msgData.put("message", "【及时通知系统】被迫下线提示, 您的账号正在其他地方使用");
+            resMsgData.put("content", JSON.toJSONString(msgData));
+            SendMsgVO sendMsgVO = new SendMsgVO(userId, username, userId, JSON.toJSONString(resMsgData), null, this.getOnlineNum());
             this.send(sendMsgVO);
             // 踢下线
             try {
@@ -72,22 +70,35 @@ public class WebsocketServer {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            log.info("重复登录,原用户被迫下线！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size());
+            log.info("重复登录,原用户被迫下线！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, this.getOnlineNum());
         } else {
-            log.info("有新连接加入！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, clients.size() + 1);
+            log.info("有新连接加入！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, this.getOnlineNum() + 1);
         }
         // 保存新用户id,用户名,session会话,登录时间
         clients.put(userId, new OnlineUser(userId, username, session));
 
+        // 添加到用户信息到 redis
+        redisUtil.hPut(WEBSOCKET_CACHE_KEY, userId, new OnlineUser(userId, username, null));
+
+        // 给自己发条消息,告诉自己连接成功
+        // 组装为前端解析格式的内容
+        Map<String, String> resMsgData = new HashMap<>();
+        Map<String, String> msgData = new HashMap<>();
+        msgData.put("title", "系统消息");
+        msgData.put("message", "欢迎您: " + username + "");
+        resMsgData.put("content", JSON.toJSONString(msgData));
+        SendMsgVO sendMsgVO = new SendMsgVO(userId, username, userId, JSON.toJSONString(resMsgData), null, this.getOnlineNum());
+        this.send(sendMsgVO);
+
         // 告诉所有人,我上线了
-        String content = "系统消息: " + username + " 上线了";
-        SendMsgVO sendMsgVO = new SendMsgVO(1, userId, username, "ALL", content, null, clients.size());
-        websocketMsgPublisher.sendMsg(sendMsgVO);
+        // String content = "系统消息: " + username + " 上线了";
+        // SendMsgVO sendMsgVO = new SendMsgVO( userId, username, "ALL", content, null, this.getOnlineNum());
+        // websocketMsgPublisher.sendMsg(sendMsgVO);
 
         // 给自己发一条消息：告诉自己现在都有谁在线
-        content = JSON.toJSONString(getOnlineUsers());
-        sendMsgVO = new SendMsgVO(3, userId, username, userId, content, null, clients.size());
-        websocketMsgPublisher.sendMsg(sendMsgVO);
+        // content = JSON.toJSONString(this.getOnlineUsers());
+        // sendMsgVO = new SendMsgVO(userId, username, userId, content, null, this.getOnlineNum());
+        // websocketMsgPublisher.sendMsg(sendMsgVO);
     }
 
 
@@ -101,15 +112,20 @@ public class WebsocketServer {
     @OnClose
     public void onClose(@PathParam("userId") String userId, @PathParam("username") String username, Session session) {
         WebsocketMsgPublisher websocketMsgPublisher = WebsocketSpringContextUtil.getBean(WebsocketMsgPublisher.class);
+        RedisUtil redisUtil = WebsocketSpringContextUtil.getBean(RedisUtil.class);
         // 所有在线用户中去除下线用户
         clients.remove(userId);
+
+        // 从 redis 中移除
+        redisUtil.hDelete(WEBSOCKET_CACHE_KEY, userId);
+
         // 告诉所有人(ALL 表示所有人),我下线了
-        String content = "系统消息: " + username + " 下线了";
-        SendMsgVO sendMsgVO = new SendMsgVO(2, userId, username, "ALL", content, null, clients.size());
-        websocketMsgPublisher.sendMsg(sendMsgVO);
+        //  String content = "系统消息: " + username + " 下线了";
+        //  SendMsgVO sendMsgVO = new SendMsgVO(2, userId, username, "ALL", content, null, this.getOnlineNum());
+        //  websocketMsgPublisher.sendMsg(sendMsgVO);
 
         // 日志
-        log.info(username + ":已离线！ 当前在线人数" + clients.size());
+        log.info(username + ":已离线！ 当前在线人数" + this.getOnlineNum());
     }
 
 
@@ -147,17 +163,18 @@ public class WebsocketServer {
         // 请求参数（接收人+发送内容）
         try {
             WebsocketMsgDTO sendMsgDTO = JSON.parseObject(message, WebsocketMsgDTO.class);
-            log.info("服务器接收到发送消息请求,发送人id={},用户名={}, 接收发送消息={}", userId, username, message);
-            // 发送消息
-            String content = sendMsgDTO.getContent();
-            SendMsgVO sendMsgVO = new SendMsgVO(4, userId, username, sendMsgDTO.getTo(), content, null, clients.size());
+            // 接收到消息
+            log.info("接收消息：id:{}  username:{}", userId, username, message);
+
+            // 发送
+            SendMsgVO sendMsgVO = new SendMsgVO(userId, username, sendMsgDTO.getTo(), sendMsgDTO.getContent(), null, this.getOnlineNum());
             websocketMsgPublisher.sendMsg(sendMsgVO);
         } catch (Exception e) {
             // 给发送人 通知发送错误信息
             log.error("发送的消息格式错误");
             // 发送消息
             String content = "发送的消息格式错误";
-            SendMsgVO sendMsgVO = new SendMsgVO(4, userId, username, userId, content, null, clients.size());
+            SendMsgVO sendMsgVO = new SendMsgVO(userId, username, userId, content, null, this.getOnlineNum());
             websocketMsgPublisher.sendMsg(sendMsgVO);
         }
     }
@@ -204,8 +221,6 @@ public class WebsocketServer {
                     // 这里因为是提供发布订阅来发送信息, 在线程中存在同一个session发送存在问题，使用异步发送
                     synchronized (session) {
                         clients.get(userId).getSession().getBasicRemote().sendText(JSON.toJSONString(sendMsg));
-                    }
-                    if (sendMsg.getMsgType() != 0) {
                         log.info("websocket用户ID:{} 已连接当前服务: 成功推送信息, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));
                     }
                 }
@@ -215,9 +230,7 @@ public class WebsocketServer {
                 return false;
             }
         } else {
-            if (sendMsg.getMsgType() != 0) {
-                log.info("websocket用户ID:{} 未连接当前服务: 推送信息失败, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));
-            }
+            log.info("websocket用户ID:{} 未连接当前服务: 推送信息失败, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));
         }
         return false;
     }
@@ -231,13 +244,40 @@ public class WebsocketServer {
      *
      * @return
      */
-    public synchronized List<OnlineUserVO> getOnlineUsers() {
-        List<OnlineUserVO> onlineUsersVOList = new ArrayList<>();
-        for (OnlineUser onlineUsers : clients.values()) {
+    public synchronized Map<Object, OnlineUserVO> getOnlineUsers() {
+        RedisUtil redisUtil = WebsocketSpringContextUtil.getBean(RedisUtil.class);
+        Map<Object, Object> objectObjectMap = redisUtil.hEntries(WEBSOCKET_CACHE_KEY);
+        Map<Object, OnlineUserVO> map = new HashMap<>();
+        for (Object key : objectObjectMap.keySet()) {
             OnlineUserVO vo = new OnlineUserVO();
-            BeanUtils.copyProperties(onlineUsers, vo);
-            onlineUsersVOList.add(vo);
+            BeanUtils.copyProperties(objectObjectMap.get(key), vo);
+            map.put(key, vo);
         }
-        return onlineUsersVOList;
+        return map;
+    }
+
+
+    /**
+     * 获取当前在线人数
+     * <p>
+     * 获取当前在线列表, 把onlineUsers 转到 OnlineUsersVO返回
+     * </p>
+     *
+     * @return
+     */
+    public int getOnlineNum() {
+        RedisUtil redisUtil = WebsocketSpringContextUtil.getBean(RedisUtil.class);
+        Map<Object, Object> objectObjectMap = redisUtil.hEntries(WEBSOCKET_CACHE_KEY);
+        return objectObjectMap.size();
+    }
+
+
+    /**
+     * 判断指定用户是否在线
+     * @return true 在线 / false 不在线
+     */
+    public boolean isOnline(String userId) {
+        RedisUtil redisUtil = WebsocketSpringContextUtil.getBean(RedisUtil.class);
+        return redisUtil.hHasKey(WEBSOCKET_CACHE_KEY, userId);
     }
 }

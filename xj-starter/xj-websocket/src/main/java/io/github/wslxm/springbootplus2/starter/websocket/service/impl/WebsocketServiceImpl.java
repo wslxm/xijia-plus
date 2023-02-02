@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -24,7 +24,6 @@ import java.util.List;
  */
 @Service
 public class WebsocketServiceImpl implements WebsocketService {
-
 
     @Autowired
     private WebsocketServer websocketServer;
@@ -39,24 +38,23 @@ public class WebsocketServiceImpl implements WebsocketService {
      * @return
      */
     @Override
-    public List<OnlineUserVO> getOnlineUsersList() {
+    public Map<Object, OnlineUserVO> getOnlineUsersList() {
         return websocketServer.getOnlineUsers();
     }
 
-    /**
-     * 发送消息 (单向通知发送，不可回复)
-     *
-     * @param form     发送人id
-     * @param username 发送人用户名
-     * @param to       接收人id（多个逗号分隔）,所有人使用-ALL)
-     * @param content  发送内容
-     * @param content  扩暂发送内容
-     * @return
-     */
+    @Override
+    public Integer getOnlineCount() {
+        return websocketServer.getOnlineNum();
+    }
+
+    @Override
+    public Boolean isOnline(String userId) {
+        return websocketServer.isOnline(userId);
+    }
+
     @Override
     public void send(WebsocketMsgDTO dto) {
         SendMsgVO sendMsgVO = new SendMsgVO();
-        sendMsgVO.setMsgType(4);
         sendMsgVO.setFrom(dto.getForm());
         sendMsgVO.setUsername(dto.getUsername());
         sendMsgVO.setTo(dto.getTo());
@@ -69,9 +67,4 @@ public class WebsocketServiceImpl implements WebsocketService {
         msgPublisher.sendMsg(sendMsgVO);
     }
 
-
-    @Override
-    public Boolean isOnline(String userId) {
-        return websocketServer.getClients().containsKey(userId);
-    }
 }

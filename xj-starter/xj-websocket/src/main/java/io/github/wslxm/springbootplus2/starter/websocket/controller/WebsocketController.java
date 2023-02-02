@@ -5,8 +5,6 @@ import io.github.wslxm.springbootplus2.starter.websocket.config.result.WebSocket
 import io.github.wslxm.springbootplus2.starter.websocket.model.dto.WebsocketMsgDTO;
 import io.github.wslxm.springbootplus2.starter.websocket.service.WebsocketService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,40 +99,25 @@ public class WebsocketController {
     }
 
 
-    /**
-     * 发送消息
-     */
     @RequestMapping(value = "/send", method = RequestMethod.POST)
     @ApiOperation("发送消息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "form", value = "发送人Id", required = true, example = "1"),
-            @ApiImplicitParam(name = "username", value = "发送人用户名", required = true, example = "系统测试"),
-            @ApiImplicitParam(name = "to", value = "接收人Id, 全部为ALL", required = true, example = "ALL"),
-            @ApiImplicitParam(name = "content", value = "发送内容", required = true, example = "我是测试消息"),
-            @ApiImplicitParam(name = "extras", value = "附加发送内容", required = true, example = "我是附加内容")
-    })
     public Object send(@RequestBody WebsocketMsgDTO dto) {
         websocketService.send(dto);
         return WebSocketR.success();
     }
 
-    /**
-     * 获取当前在线人数
-     */
     @RequestMapping(value = "/getOnlineCount", method = RequestMethod.GET)
     @ApiOperation("获取在线人数")
     public Object getOnlineCount() {
-        // Integer onlineCount = websocketService.getOnlineCount();
-        return WebSocketR.success(0);
+        Integer onlineCount = websocketService.getOnlineCount();
+        return WebSocketR.success(onlineCount);
     }
-
 
     @RequestMapping(value = "/getOnlineUsersList", method = RequestMethod.GET)
     @ApiOperation("获取当前在线用户列表")
     public Object getOnlineUsersList() {
         return WebSocketR.success(websocketService.getOnlineUsersList());
     }
-
 
     @RequestMapping(value = "/isOnline", method = RequestMethod.GET)
     @ApiOperation("判断指定用户是否在线")

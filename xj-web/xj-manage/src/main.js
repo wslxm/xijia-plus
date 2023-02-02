@@ -14,7 +14,9 @@ import defaultdata from '@/config/defaultdata' ;                  // 相关默�
 import {iconfontUrl, iconfontVersion} from '@/config/env';      // 阿里图标地址
 import icon from "@/util/icon";                                 // 系统图标
 import {loadStyle} from './util/util';                          // 动态插入css方法
-import * as urls from '@/config/env';                           // 暂用处不明
+import * as urls from '@/config/env';                           // 服务器请求连接地址配置
+
+
 import './permission';                      // 权限
 import './error';                           // 日志
 import './cache';                           // 页面缓冲
@@ -41,6 +43,7 @@ Vue.prototype.crud = crud;
 Vue.prototype.dict = dict;
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
+
 Vue.use(Element, {
     i18n: (key, value) => i18n.t(key, value)
 });
@@ -111,5 +114,4 @@ VueMarkdownEditor.use(createEmojiPlugin());
 
 // v-md-editor 插件二次封装
 import mdEditor from '@/components/v-md-editor/index';
-
 Vue.component('MdEditor', mdEditor);

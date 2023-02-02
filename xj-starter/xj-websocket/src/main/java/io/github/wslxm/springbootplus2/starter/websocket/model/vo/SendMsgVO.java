@@ -19,10 +19,10 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 public class SendMsgVO implements Serializable {
     private static final long serialVersionUID = -9051438901021877148L;
-    /**
-     * 消息类型(0-心跳检测 1-上线通知 2-下线通知 3-在线名单通知 4-代表普通消息通知 )
-     */
-    private Integer msgType;
+//    /**
+//     * 消息类型(0-心跳检测 1-上线通知 2-下线通知 3-在线名单通知 4-代表普通消息通知 )
+//     */
+//    private Integer msgType;
     /**
      * 发送人用户Id(来源Id,上线为上线线人的用户Id)
      */
@@ -63,8 +63,8 @@ public class SendMsgVO implements Serializable {
      * @param content  发送消息内容
      * @param extras   发送消息扩展字段
      */
-    public SendMsgVO(Integer msgType, String from, String username, String to, String content, String extras, Integer onlineNum) {
-        this.msgType = msgType;
+    public SendMsgVO( String from, String username, String to, String content, String extras, Integer onlineNum) {
+        // this.msgType = msgType;
         this.from = from;
         this.username = username;
         this.to = to;

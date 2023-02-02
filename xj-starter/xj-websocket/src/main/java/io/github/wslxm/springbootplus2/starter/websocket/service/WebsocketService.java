@@ -3,7 +3,7 @@ package io.github.wslxm.springbootplus2.starter.websocket.service;
 import io.github.wslxm.springbootplus2.starter.websocket.model.dto.WebsocketMsgDTO;
 import io.github.wslxm.springbootplus2.starter.websocket.model.vo.OnlineUserVO;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author wangsong
@@ -14,13 +14,32 @@ import java.util.List;
  */
 public interface WebsocketService {
 
+
     /**
-     * 获取当前在线用户列表
+     * 获取当前
      *
-     * @return java.util.List<io.github.wslxm.springbootplus2.websocket.model.vo.OnlineUserVO>
+     * @return 用户map列表, ket = Id
      * @version 1.0.0
      */
-    List<OnlineUserVO> getOnlineUsersList();
+    Map<Object, OnlineUserVO> getOnlineUsersList();
+
+
+    /**
+     * 获取在线人数
+     *
+     * @return int
+     * @version 1.0.0
+     */
+    Integer getOnlineCount();
+
+
+    /**
+     * 判断指定用户是否在线
+     *
+     * @author wangsong
+     * @email 1720696548@qq.com
+     */
+    Boolean isOnline(String userId);
 
 
     /**
@@ -31,16 +50,6 @@ public interface WebsocketService {
      */
     void send(WebsocketMsgDTO dto);
 
-
-    /**
-     * 判断指定用户是否在线
-     *
-     * @author wangsong
-     * @email 1720696548@qq.com
-     * @date 2023/1/17 0017 16:30
-     * @version 1.0.0
-     */
-    Boolean isOnline(String userId);
 }
 
 
