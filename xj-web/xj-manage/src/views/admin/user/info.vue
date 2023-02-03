@@ -35,7 +35,8 @@
                 <basic-container>
                     <avue-form :option="option"
                                v-model="form"
-                               @chang="handleChange"
+                               @tab-click="handleTabClick"
+                               @change="handleChange"
                                @submit="handleSubmit">
 
                     </avue-form>
@@ -58,6 +59,7 @@
                     updUser: "/api/admin/sys/user/updUser",                 // 修改当前登录人的信息
                 },
                 type: "info",
+                tabsIndex: 0 ,
                 // option: option,
                 option: {
                     tabs: true,
@@ -149,7 +151,7 @@
                             type: 'password',
                             prop: 'password',
                         }, {
-                            label: '确认密码',
+                            label: '确认新密码',
                             span: 16,
                             row: true,
                             type: 'password',
@@ -182,10 +184,15 @@
         },
         methods: {
             handleSubmit(form, done) {
-                if ((form.oldPassword !== null && form.oldPassword !== "")
-                    || (form.password !== null && form.password !== "")
-                    || (form.passwordTwo !== null && form.passwordTwo !== "")
-                ) {
+                if (this.tabsIndex == 0) {
+                    // 修改个人信息
+                    this.crud.put(this.uri.updUser, form).then(() => {
+                        done(form);
+                    }).catch(err => {
+                        console.error(err);
+                        done(form);
+                    })
+                } else {
                     // 判断是否输入完整
                     if (form.oldPassword === null || form.oldPassword === "") {
                         this.$message.error('请输入 原密码');
@@ -198,7 +205,7 @@
                         throw new Error();
                     }
                     if (form.passwordTwo === null || form.passwordTwo === "") {
-                        this.$message.error('请输入 确认密码');
+                        this.$message.error('请输入 确认新密码');
                         done(form);
                         throw new Error();
                     }
@@ -223,18 +230,15 @@
                         console.error(err);
                         done(form);
                     })
-                } else {
-                    // 修改个人信息
-                    this.crud.put(this.uri.updUser, form).then(() => {
-                        done(form);
-                    }).catch(err => {
-                        console.error(err);
-                        done(form);
-                    })
                 }
             },
             handleChange(item) {
                 this.type = item.prop;
+               // this.$message.success('type:' + this.type)
+            },
+            handleTabClick(tabs, event) {
+                this.tabsIndex = tabs.index;
+               // this.$message.success('序号为:' + tabs.index)
             }
         }
     };

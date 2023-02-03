@@ -1,3 +1,7 @@
+# 当前项目版本
+xijia-plus:
+  version: "@revision@"
+
 spring:
   ## maven面板动态切换dev/pro环境
   profiles:
@@ -50,10 +54,7 @@ spring:
     # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
     connectionProperties: druid.stat.mergeSql=true:druid.stat.slowSqlMillis=500
 
-# 当前项目信息
-xijia-plus:
-  version: "@revision@"
-  doc-addr: http://xijia.plus
+
 
 # mybatis-plus相关配置
 mybatis-plus:
