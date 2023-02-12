@@ -16,9 +16,9 @@
 ----------
 ps: 预览地址部署在内网机器上，访问有点慢
 - [预览地址：http://manage.xijia.plus/](http://manage.xijia.plus/)    | 账号: `test`  密码: `123456`
-- [项目文档: (http://xijia.plus/)](http://xijia.plus/)
-- [项目wikis文档 (已停止维护)](https://gitee.com/wslxm/xijia-plus/wikis/pages)
-- [项目文档-启动项目](http://xijia.plus/xijia-plus/%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.html)
+- [项目文档: (http://xijia.plus/)](http://xijia.plus/)  ----|---- [原当前项目 wikis文档地址 (已停止维护)](https://gitee.com/wslxm/xijia-plus/wikis/pages)
+
+- [项目文档-启动项目](http://xijia.plus/%E6%9C%8D%E5%8A%A1%E7%AB%AF/%E5%BF%AB%E9%80%9F%E4%BD%BF%E7%94%A8.html)
 - [更新日志](https://gitee.com/wslxm/xijia-plus/blob/2.x/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md) 
 - [目录结构](https://gitee.com/wslxm/xijia-plus/blob/2.x/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/2.x%20%E7%89%88%E6%9C%AC%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.md)
 ----------
