@@ -12,7 +12,6 @@ RouterPlugin.install = function (option = {}) {
     this.$router = option.router;
     this.$store = option.store;
     let i18n = option.i18n;
-    console.log("===========")
     this.$router.$avueRouter = {
         safe: this,
         // 设置标题l
@@ -54,9 +53,13 @@ RouterPlugin.install = function (option = {}) {
                 let name = menus[i].name;
                 let icon = menus[i].icon;
                 let root = menus[i].root;
+                // 判断是否为 外部网址
+                // 外部网址 直接使用 component
+                // 内部网址 使用 url 去掉第一个 / 后的地址 (对应文件目录)
+                let component = menus[i].component != null ? menus[i].component : url.substring(1);
                 if (root == 3) {
-                    // 添加页面路由
-                    addRoutes.push(this.addRoute(url, name, icon));
+                    // 添加页面路由 (root=3 表示页面)
+                    addRoutes.push(this.addRoute(url, component, name, icon));
                 }
                 if (menus[i].menus != null && menus[i].menus.length > 0) {
                     // 递归
@@ -70,18 +73,15 @@ RouterPlugin.install = function (option = {}) {
          * @param name
          * @param icon
          */
-        addRoute(url, name, icon) {
-            let component = url;
-            for (let i = 0; i < 5; i++) {
-                component = component.substring(0, 1) === "/" ? component.substring(1) : component;
-            }
-            console.debug("动态路由注册：[" + name + "] [" + component + "][" + icon + "]");
+        addRoute(path, component, name, icon) {
+
+            console.debug("动态路由注册：[" + name + "] [" + path + "] [" + component + "][" + icon + "]");
             let router = {
                 path: "/",
                 component: () => import('@/page/index/index.vue'),
                 // redirect: '/wel/index',
                 children: [{
-                    path: component,
+                    path: path,
                     component(resolve) {
                         require([`../${component}.vue`], resolve)
                     },
@@ -109,7 +109,6 @@ export const formatPath = (ele, first) => {
         ele[propsDefault.path] = ele.id;
         console.log("=========路由")
     }
-
     const icon = ele[propsDefault.icon];
     ele[propsDefault.icon] = !icon ? propsDefault.iconDefault : icon;
     ele.meta = ele.meta || {}
@@ -118,12 +117,20 @@ export const formatPath = (ele, first) => {
         return href.replace(/&/g, "#")
     }
     const isChild = ele[propsDefault.children] && ele[propsDefault.children].length !== 0;
-    if (!isChild && first && !isURL(ele[propsDefault.path])) {
+    if (!isChild) {
         ele[propsDefault.path] = ele[propsDefault.path]
-        if (isURL(ele[propsDefault.href])) {
-            let href = ele[propsDefault.href]
+        if (isURL(ele[propsDefault.path])) {
+            let href = ele[propsDefault.path]
             ele.component = iframeComponent
             ele[propsDefault.query] = {url: iframeSrc(href)}
+            // 重写路由地址 (A: 使用id当路由  B: 感觉 url 地址生成路由) 当前常用 B
+            // A
+            // ele[propsDefault.path] = "/" + ele.id
+            // B
+            let newPath = ele.url.replace("http://", "").replace("https://", "").replaceAll(".", "");
+            let paramIndex = newPath.indexOf("?");
+            newPath = paramIndex != -1 ? newPath.substring(0, paramIndex) : newPath
+            ele[propsDefault.path] = "/" + newPath;
         }
     } else {
         ele[propsDefault.children] && ele[propsDefault.children].forEach(child => {
@@ -132,7 +139,6 @@ export const formatPath = (ele, first) => {
                 child.component = iframeComponent
                 child[propsDefault.query] = {url: iframeSrc(href)}
             }
-            // child[propsDefault.path] = `${ele[propsDefault.path]}/${child[propsDefault.path]}`
             child[propsDefault.path] = `${child[propsDefault.path]}`
             formatPath(child);
         })
