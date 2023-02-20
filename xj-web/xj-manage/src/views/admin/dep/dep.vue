@@ -12,12 +12,12 @@
                            </span>
                             <!-- 右键按钮  -->
                             <template slot-scope="scope" slot="menu">
-                                <div class="avue-tree__item" @click="updRow(scope.node,1)"><i class="el-icon-plus"> 顶级</i></div>
-                                <div class="avue-tree__item" @click="updRow(scope.node,2)"><i class="el-icon-plus"> 子级</i></div>
-                                <div class="avue-tree__item" @click="updRow(scope.node,3)"><i class="el-icon-edit"> 变更父级</i></div>
-                                <div class="avue-tree__item" @click="updRow(scope.node,4)"><i class="el-icon-edit"> 编辑</i></div>
-                                <div class="avue-tree__item" @click="updRow(scope.node,5)"><i class="el-icon-refresh"> 刷新</i></div>
-                                <div class="avue-tree__item" @click="updRow(scope.node,6)"><i class="el-icon-delete"> 删除</i></div>
+                                <div class="avue-tree__item" @click="updRow(scope.node.data,1)"><i class="el-icon-plus"> 顶级</i></div>
+                                <div class="avue-tree__item" @click="updRow(scope.node.data,2)"><i class="el-icon-plus"> 子级</i></div>
+                                <div class="avue-tree__item" @click="updRow(scope.node.data,3)"><i class="el-icon-edit"> 变更父级</i></div>
+                                <div class="avue-tree__item" @click="updRow(scope.node.data,4)"><i class="el-icon-edit"> 编辑</i></div>
+                                <div class="avue-tree__item" @click="updRow(scope.node.data,5)"><i class="el-icon-refresh"> 刷新</i></div>
+                                <div class="avue-tree__item" @click="updRow(scope.node.data,6)"><i class="el-icon-delete"> 删除</i></div>
                             </template>
                         </avue-tree>
                     </el-card>
