@@ -70,7 +70,7 @@ public class ConfigServiceImpl extends BaseServiceImpl<ConfigMapper, Config> imp
     }
 
     @Override
-    @CacheEvict(value = CacheKey.CONFIG_BY_CODE, allEntries = true)
+    @CacheEvict(value = CacheKey.CONFIG_BY_CODE, key ="#dto.code")
     @XjDistributedLock(lockName = "'xj-sys-config_'+#dto.code", waitTime = 5L)
     public boolean upd(String id, ConfigDTO dto) {
         Config config = this.getById(id);

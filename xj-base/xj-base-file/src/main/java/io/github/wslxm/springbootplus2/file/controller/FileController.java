@@ -103,13 +103,13 @@ public class FileController {
         }
     }
 
-//    @ApiOperation("文件列表")
-//    @RequestMapping(value = "/fileList", method = RequestMethod.GET)
-//    public Object fileList() {
-//        // 指定文件处理渠道
-//        FileStrategy fileStrategy = fileContext.getChannel(fileChannel);
-//        return Result.success(fileStrategy.fileList());
-//    }
+    //  @ApiOperation("文件列表")
+    //  @RequestMapping(value = "/fileList", method = RequestMethod.GET)
+    //  public Object fileList() {
+    //      // 指定文件处理渠道
+    //      FileStrategy fileStrategy = fileContext.getChannel(fileChannel);
+    //      return Result.success(fileStrategy.fileList());
+    //  }
 
     @ApiOperation("文件删除")
     @ApiImplicitParam(name = "filePath", value = "文件存储路径 或 文件可访问的URL ", required = true)

@@ -52,6 +52,7 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, Banner> imp
     }
 
     @Override
+    @CacheEvict(value = CacheKey.BENNER_BY_POSITION, key = "#dto.position", allEntries = true)
     public String insert(BannerDTO dto) {
         Banner entity = dto.convert(Banner.class);
         boolean b = this.save(entity);
@@ -59,7 +60,7 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, Banner> imp
     }
 
     @Override
-    @CacheEvict(value = CacheKey.BENNER_BY_POSITION, allEntries = true)
+    @CacheEvict(value = CacheKey.BENNER_BY_POSITION, key = "#dto.position", allEntries = true)
     public boolean upd(String id, BannerDTO dto) {
         Banner entity = dto.convert(Banner.class);
         entity.setId(id);

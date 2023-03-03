@@ -14,7 +14,6 @@ public interface VueMainTemplate {
             "                    label: '{label}',\n" +
             "                    prop: '{prop}',\n" +
             "                    search: {search},\n" +
-            "                    searchSpan: 5,\n" +
             "                    searchSpan: {searchSpan},\n" +
             "                    overHidden: true,\n" +
             "                },\n";
