@@ -9,5 +9,5 @@ package io.github.wslxm.springbootplus2.starter.websocket.constant;
  */
 public interface WebsocketConst {
 
-    public final static String WEBSOCKET_CACHE_KEY = "WEBSOCKET";
+    public final static String WEBSOCKET_CACHE_KEY = "websocket";
 }

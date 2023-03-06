@@ -1,8 +1,7 @@
-# 当前项目版本
-xijia-plus:
-  version: "@revision@"
-
 spring:
+  ## 服务名
+  application:
+    name: "xijia-plus"
   ## maven面板动态切换dev/pro环境
   profiles:
     active: "@profiles.active@"
@@ -53,6 +52,7 @@ spring:
     useGlobalDataSourceStat: true
     # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
     connectionProperties: druid.stat.mergeSql=true:druid.stat.slowSqlMillis=500
+
 
 
 

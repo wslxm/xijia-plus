@@ -198,7 +198,7 @@ public class WebsocketServer {
                     // 这里因为是提供发布订阅来发送信息, 在线程中存在同一个session发送存在问题，使用异步发送
                     synchronized (session) {
                         CLIENTS.get(userId).getSession().getBasicRemote().sendText(JSON.toJSONString(sendMsg));
-                        log.info("websocket用户ID:{} 在线: 成功推送信息, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));
+                        // log.info("websocket用户ID:{} 在线: 成功推送信息, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));
                     }
                 }
                 return true;
