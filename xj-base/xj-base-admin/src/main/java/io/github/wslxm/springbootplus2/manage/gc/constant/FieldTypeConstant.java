@@ -19,6 +19,7 @@ public class FieldTypeConstant {
     public  final static String  VARCHAR = "varchar";
     public  final static String  CHAR = "char";
     public  final static String  TEXT = "text";
+    public  final static String  JSON = "json";
     public  final static String  LONG_TEXT = "longtext";
     public  final static String  DATETIME = "datetime";
     public  final static String  TIME = "time";

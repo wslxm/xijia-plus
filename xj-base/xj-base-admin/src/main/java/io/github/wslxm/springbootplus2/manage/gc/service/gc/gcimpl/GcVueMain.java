@@ -55,7 +55,7 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
             }
 
             String name = GcDataUtil.getFieldName(gcConfig, dbFieldPO.getName());
-            String newDesc = super.getDesc(dbFieldPO.getDesc());
+            String newDesc = super.getDesc(dbFieldPO.getDesc(), dbFieldPO.getName());
             // 判断是否需要生成查询
             boolean isSearch = dbFieldPO.getIsSearch() == null ? false : dbFieldPO.getIsSearch();
 

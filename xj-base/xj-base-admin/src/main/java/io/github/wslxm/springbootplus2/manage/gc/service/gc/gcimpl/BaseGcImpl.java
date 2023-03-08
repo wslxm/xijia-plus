@@ -10,7 +10,7 @@ import io.github.wslxm.springbootplus2.manage.gc.template.VueAddUpdSlotTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.template.VueAddUpdTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.template.VueMainSlotTemplate;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -52,8 +52,8 @@ public class BaseGcImpl extends BaseServiceImpl {
         } else if (type.equals(FieldTypeConstant.VARCHAR) || type.equals(FieldTypeConstant.CHAR)) {
             // 字符串
             field = "private String " + fieldName + ";";
-        } else if (type.equals(FieldTypeConstant.TEXT) || type.equals(FieldTypeConstant.LONG_TEXT)) {
-            // 大文本、超大文本
+        } else if (type.equals(FieldTypeConstant.TEXT) || type.equals(FieldTypeConstant.LONG_TEXT) || type.equals(FieldTypeConstant.JSON)) {
+            // 大文本、超大文本、json
             field = "private String " + fieldName + ";";
         } else if (type.equals(FieldTypeConstant.DATETIME) || type.equals(FieldTypeConstant.TIME)
                 || type.equals(FieldTypeConstant.TIMESTAMP)) {
@@ -94,6 +94,10 @@ public class BaseGcImpl extends BaseServiceImpl {
         // 获取数据库注释,去除括号后的内容
         desc = desc.contains(BracketConstant.LEFT_BRACKET) ? desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET)) : desc;
         desc = desc.contains(BracketConstant.LEFT_BRACKET_TWO) ? desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_TWO)) : desc;
+        desc = desc.contains(BracketConstant.LEFT_BRACKET_THREE) ? desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_THREE)) : desc;
+        desc = desc.contains(BracketConstant.LEFT_BRACKET_FOUR) ? desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_FOUR)) : desc;
+        desc = desc.contains(BracketConstant.LEFT_BRACKET_FIVE) ? desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_FIVE)) : desc;
+        desc = desc.contains(BracketConstant.LEFT_BRACKET_SIX) ? desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_SIX)) : desc;
         String jsr = null;
         //字段
         if (type.equals(FieldTypeConstant.INT) || type.equals(FieldTypeConstant.BIGINT)) {
@@ -169,14 +173,44 @@ public class BaseGcImpl extends BaseServiceImpl {
      * @param desc
      * @return String
      */
-    protected String getDesc(String desc) {
+    protected String getDesc(String desc, String fieldName) {
         if (desc != null) {
             if (desc.contains(BracketConstant.LEFT_BRACKET)) {
                 desc = desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET));
             }
-            if (desc.contains(BracketConstant.LEFT_BRACKET)) {
+            if (desc.contains(BracketConstant.LEFT_BRACKET_TWO)) {
                 desc = desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_TWO));
             }
+            if (desc.contains(BracketConstant.LEFT_BRACKET_THREE)) {
+                desc = desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_THREE));
+            }
+            if (desc.contains(BracketConstant.LEFT_BRACKET_FOUR)) {
+                desc = desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_FOUR));
+            }
+            if (desc.contains(BracketConstant.LEFT_BRACKET_FIVE)) {
+                desc = desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_FIVE));
+            }
+            if (desc.contains(BracketConstant.LEFT_BRACKET_SIX)) {
+                desc = desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_SIX));
+            }
+            desc = removeDescTheNewlineCharacter(desc, fieldName);
+        } else {
+            desc = fieldName;
+        }
+        return desc;
+    }
+
+    /**
+     * 去除换行符号 替换为空格
+     * @param desc
+     * @return
+     */
+    protected String removeDescTheNewlineCharacter(String desc, String fieldName) {
+        if (StringUtils.isNotBlank(desc)) {
+            desc = desc.replaceAll("\r", " ");
+            desc = desc.replaceAll("\n", " ");
+        } else {
+            desc = fieldName;
         }
         return desc;
     }

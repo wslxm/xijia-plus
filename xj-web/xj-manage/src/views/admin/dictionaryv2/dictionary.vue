@@ -12,8 +12,8 @@
                                 <div class="avue-tree__item" @click="updRow(scope.node.data,4)"><i class="el-icon-edit"> 变更父级</i></div>
                                 <div class="avue-tree__item" @click="generateDict(scope.node.data)"><i class="el-icon-eleme"> 生成枚举</i></div>
                                 <div class="avue-tree__item" @click="updRow(scope.node.data,1)"><i class="el-icon-edit"> 编辑</i></div>
-                                <div class="avue-tree__item" @click="findLeftTree()"><i class="el-icon-refresh"> 刷新</i></div>
                                 <div class="avue-tree__item" @click="updRow(scope.node.data,5)"><i class="el-icon-delete"> 删除</i></div>
+                                <div class="avue-tree__item" @click="findLeftTree()"><i class="el-icon-refresh"> 刷新</i></div>
                             </template>
                         </avue-tree>
                     </el-card>

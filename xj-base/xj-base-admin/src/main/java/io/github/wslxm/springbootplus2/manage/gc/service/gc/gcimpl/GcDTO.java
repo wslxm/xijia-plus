@@ -23,7 +23,7 @@ public class GcDTO extends BaseGcImpl implements GcSevice {
 
     @Override
     public void run(GcConfig gcConfig) {
-          log.info("开始生成: {}", KEY_NAME);
+        log.info("开始生成: {}", KEY_NAME);
         // 数据拼接(所有字段)
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         this.generateParameters(gcConfig, dbFields);
@@ -48,8 +48,10 @@ public class GcDTO extends BaseGcImpl implements GcSevice {
                 continue;
             }
             String type = fieldMap.getType();
-            String desc = fieldMap.getDesc();
             String fieldName = fieldMap.getName();
+            String desc = fieldMap.getDesc();
+            desc = super.removeDescTheNewlineCharacter(desc,fieldName);
+
             String typeDetail = fieldMap.getTypeDetail();
             // 1、生成注释
             Boolean entitySwagger = Boolean.valueOf(gcConfig.getDefaultTemplateParam(TpParamConstant.ENTITY_SWAGGER));
@@ -70,7 +72,7 @@ public class GcDTO extends BaseGcImpl implements GcSevice {
                 }
             }
             // 3、生成字段
-            fields.append("\r\n    " + super.jxModel(gcConfig, fieldName, type,false) + "\r\n");
+            fields.append("\r\n    " + super.jxModel(gcConfig, fieldName, type, false) + "\r\n");
         }
         // 数据保存到替换对象类,使模板中可以读取
         gcConfig.setTemplateParam("entitys", fields.toString());

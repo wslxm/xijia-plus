@@ -60,6 +60,7 @@ public class GcEntity extends BaseGcImpl implements GcSevice {
             String type = fieldMap.getType();
             String desc = fieldMap.getDesc();
             String fieldName = fieldMap.getName();
+            desc = super.removeDescTheNewlineCharacter(desc,fieldName);
             String typeDetail = fieldMap.getTypeDetail();
             // 1、生成注释
             Boolean entitySwagger = Boolean.valueOf(gcConfig.getDefaultTemplateParam(TpParamConstant.ENTITY_SWAGGER));
