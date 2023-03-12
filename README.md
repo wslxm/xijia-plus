@@ -20,9 +20,9 @@ xijia-plus 是一套完全开源的快速开发平台，毫无保留给个人及
 - 完善的代码生成功能： 提供管理端接口+页面自动生成, 生成后的页面crud功能将直接可以正常使用
 
 ----------
-ps: 预览地址部署在内网机器上，访问有点慢
-- [预览地址：http://manage.xijia.plus/](http://manage.xijia.plus/)    | 账号: `test`  密码: `123456`
-- [项目文档: (http://xijia.plus/)](http://xijia.plus/)  ----|---- [原当前项目 wikis文档地址 (已停止维护)](https://gitee.com/wslxm/xijia-plus/wikis/pages)
+
+- [预览地址：http://manage.xijia.plus/](http://manage.xijia.plus/)    | 账号: `test`  密码: `123456`  ps: 预览地址部署在内网机器上，访问有点慢
+- [项目文档: (http://xijia.plus/)](http://xijia.plus/)  |  [原文档地址 wikis (已停止维护)](https://gitee.com/wslxm/xijia-plus/wikis/pages)
 
 - [项目文档-启动项目](http://xijia.plus/%E6%9C%8D%E5%8A%A1%E7%AB%AF/%E5%BF%AB%E9%80%9F%E4%BD%BF%E7%94%A8.html)
 - [更新日志](https://gitee.com/wslxm/xijia-plus/blob/2.x/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md) 
