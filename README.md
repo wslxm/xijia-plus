@@ -1,9 +1,10 @@
 <h1 align="center">
    <a href="http://xijia.plus">xijia-plus v2.1.6  </a>
-
-   <a align="center" href='https://gitee.com/wslxm/xijia-plus/stargazers'><img src='https://gitee.com/wslxm/xijia-plus/badge/star.svg?theme=white' alt='star'></img></a>
-   <a align="center" href='https://gitee.com/wslxm/xijia-plus/members'><img src='https://gitee.com/wslxm/xijia-plus/badge/fork.svg?theme=white' alt='fork'></img></a>
 </h1>
+<div align="center">
+   <a  href='https://gitee.com/wslxm/xijia-plus/stargazers'><img src='https://gitee.com/wslxm/xijia-plus/badge/star.svg?theme=white' alt='star'></img></a>
+   <a  href='https://gitee.com/wslxm/xijia-plus/members'><img src='https://gitee.com/wslxm/xijia-plus/badge/fork.svg?theme=white' alt='fork'></img></a>
+</div >
 
 <h4 align="center"> 基于 springboot2 + vue2 前后端分离的 Java 快速开发脚手架 </h4>
 <div align="center"> <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=lmPjMgs3">QQ群：1037211892 </a>  
