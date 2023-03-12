@@ -1,9 +1,14 @@
 <h1 align="center">
-<a href="http://xijia.plus">xijia-plus v2.1.6  </a></h1>
+   <a href="http://xijia.plus">xijia-plus v2.1.6  </a>
+
+   <a href='https://gitee.com/wslxm/xijia-plus/stargazers'><img src='https://gitee.com/wslxm/xijia-plus/badge/star.svg?theme=white' alt='star'></img></a>
+   <a href='https://gitee.com/wslxm/xijia-plus/members'><img src='https://gitee.com/wslxm/xijia-plus/badge/fork.svg?theme=white' alt='fork'></img></a>
+</h1>
 
 <h4 align="center"> 基于 springboot2 + vue2 前后端分离的 Java 快速开发脚手架 </h4>
-<h5 align="center"> <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=lmPjMgs3">QQ群：1037211892 </a>  </h5 >
-<h5 align="center"> 微信群: 1720696548 (加作者微信邀请加入)</h5 >
+<div align="center"> <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=lmPjMgs3">QQ群：1037211892 </a>  
+ &nbsp; 微信群: 1720696548 (加作者微信邀请加入)
+</div >
 
 
 
@@ -35,7 +40,7 @@ xijia-plus 是一套完全开源的快速开发平台，毫无保留给个人及
  - 2、**简洁** (对重复使用率高的工具代码进行封装)
  - 3、**规范** (对接口命名,方法命名等,请求方式等统一规范,让接口对接更简单)
 
-#### 核心功能：
+#### 系统功能：
 - **接口文档**：swagger + knife4j
 - **统一设计**：字典枚举, 全局配置, 全局异常，自定义异常, 统一返回, 统一接口规范
 - **网关验证**：登录认证, 接口授权, 验签, 限流, 黑名单, 核心参数加解密, 日志持久化
@@ -86,12 +91,4 @@ v-0.0.9 后开始记录版本大调整, 当前最新为 2.x 模块
 | 用户管理 <br /> 及 <br />弹出消息通知展示页  | ![输入图片说明](https://images.gitee.com/uploads/images/2021/1208/201902_11d194f7_2208600.png "屏幕截图.png") | 
 | 其他  | 更多自行访问展示地址 | 
 
-
-
-## 六、提交 lssues 
-
-欢迎大家提交各种 lssues, 一定将尽力处理系统的各种问题,让系统运行更加稳定，快捷
-- 1、bug （系统的各种问题修复）
-- 2、优化项 (系统的各种操作体验 和 代码可读性等进行优化)
-- 3、新功能项 (系统的未来更新方向,将系统功能更完善, 注意：一定是通用功能, 该系统基础骨架不做偏向于某一类系统的功能)
 
