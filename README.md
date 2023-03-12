@@ -48,19 +48,19 @@ ps: 预览地址部署在内网机器上，访问有点慢
 - **其他更多**
 
 
-### 二、分支说明
+## 二、分支说明
 - **master**  (主分支, 当前最新版本的代码, 于2.x分支代码同步)
 - **v-1.x**   (原前端为layui 的分支版本(已停止维护))
 - **v-2.x**   (当前v-2.x.x 最新版本的代码)
 - **v-2.x.x**  (每次新开发/优化代码时创建的新分支,完成后同步至v-2.x 以及 master, 该分支可能会删除,删除后可去tab标签中查看之前的版本)
 
-### 三、采用技术:
+## 三、采用技术:
 - `2.x 后端`：springboot2.2.2 + mysql + redis + swagger
 - `2.x 前端`：avue2.9.4 + element-ui  
 - [更多祥见](https://gitee.com/wslxm/spring-boot-plus2/wikis/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8/%E9%87%87%E7%94%A8%E6%8A%80%E6%9C%AF
 ) 
 
-### 四、版本大更新记录
+## 四、版本大更新记录
 
 
 v-0.0.9 后开始记录版本大调整, 当前最新为 2.x 模块
@@ -75,23 +75,20 @@ v-0.0.9 后开始记录版本大调整, 当前最新为 2.x 模块
 
 
 
-### 五、项目展示
+## 五、项目展示
 
 |  页面名 |  页面展示 |
 |---|---|
-| 登录页  | ![输入图片说明](https://images.gitee.com/uploads/images/2021/1208/201521_b4b0a90f_2208600.png "屏幕截图.png")
-  |
-| 首页  | ![输入图片说明](https://images.gitee.com/uploads/images/2021/1208/201610_83f931fa_2208600.png "屏幕截图.png") | 
-| 代码生成页  | ![输入图片说明](https://images.gitee.com/uploads/images/2021/1208/201654_cc2aa4fe_2208600.png "屏幕截图.png")
- | 
-| 菜单页  | ![输入图片说明](https://images.gitee.com/uploads/images/2021/1208/201741_80321125_2208600.png "屏幕截图.png") | 
+| 登录页      | ![输入图片说明](https://images.gitee.com/uploads/images/2021/1208/201521_b4b0a90f_2208600.png "屏幕截图.png") |
+| 首页        | ![输入图片说明](https://images.gitee.com/uploads/images/2021/1208/201610_83f931fa_2208600.png "屏幕截图.png") | 
+| 代码生成页   | ![输入图片说明](https://images.gitee.com/uploads/images/2021/1208/201654_cc2aa4fe_2208600.png "屏幕截图.png") | 
+| 菜单页      | ![输入图片说明](https://images.gitee.com/uploads/images/2021/1208/201741_80321125_2208600.png "屏幕截图.png") | 
 | 用户管理 <br /> 及 <br />弹出消息通知展示页  | ![输入图片说明](https://images.gitee.com/uploads/images/2021/1208/201902_11d194f7_2208600.png "屏幕截图.png") | 
 | 其他  | 更多自行访问展示地址 | 
 
 
 
-
-### 六、提交 lssues 
+## 六、提交 lssues 
 
 欢迎大家提交各种 lssues, 一定将尽力处理系统的各种问题,让系统运行更加稳定，快捷
 - 1、bug （系统的各种问题修复）
