@@ -1,8 +1,8 @@
 <h1 align="center">
    <a href="http://xijia.plus">xijia-plus v2.1.6  </a>
 
-   <a href='https://gitee.com/wslxm/xijia-plus/stargazers'><img src='https://gitee.com/wslxm/xijia-plus/badge/star.svg?theme=white' alt='star'></img></a>
-   <a href='https://gitee.com/wslxm/xijia-plus/members'><img src='https://gitee.com/wslxm/xijia-plus/badge/fork.svg?theme=white' alt='fork'></img></a>
+   <a align="center" href='https://gitee.com/wslxm/xijia-plus/stargazers'><img src='https://gitee.com/wslxm/xijia-plus/badge/star.svg?theme=white' alt='star'></img></a>
+   <a align="center" href='https://gitee.com/wslxm/xijia-plus/members'><img src='https://gitee.com/wslxm/xijia-plus/badge/fork.svg?theme=white' alt='fork'></img></a>
 </h1>
 
 <h4 align="center"> 基于 springboot2 + vue2 前后端分离的 Java 快速开发脚手架 </h4>
@@ -61,9 +61,8 @@ xijia-plus 是一套完全开源的快速开发平台，毫无保留给个人及
 
 ## 三、采用技术:
 - `2.x 后端`：springboot2.2.2 + mysql + redis + swagger
-- `2.x 前端`：avue2.9.4 + element-ui  
-- [更多祥见](https://gitee.com/wslxm/spring-boot-plus2/wikis/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8/%E9%87%87%E7%94%A8%E6%8A%80%E6%9C%AF
-) 
+- `2.x 前端`：vue2 + element-ui +  avue
+- [更多祥见](http://xijia.plus/%E6%9C%8D%E5%8A%A1%E7%AB%AF/%E9%87%87%E7%94%A8%E6%8A%80%E6%9C%AF.html) 
 
 ## 四、版本大更新记录
 
