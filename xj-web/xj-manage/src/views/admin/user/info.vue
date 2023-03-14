@@ -59,10 +59,14 @@
                     updUser: "/api/admin/sys/user/updUser",                 // 修改当前登录人的信息
                 },
                 type: "info",
-                tabsIndex: 0 ,
+                tabsIndex: 0,
                 // option: option,
                 option: {
                     tabs: true,
+                    submitText: '确认修改',
+                    // emptyText: "关闭",
+                    submitBtn: true,   // 提交按钮
+                    emptyBtn: false,    // 清空按钮
                     group: [{
                         label: '个人信息',
                         prop: 'info',
@@ -140,20 +144,19 @@
                         prop: 'password',
                         column: [{
                             label: '原密码',
-                            span: 16,
+                            span: 20,
                             row: true,
                             type: 'password',
                             prop: 'oldPassword',
                         }, {
                             label: '新密码',
-                            span: 16,
+                            span: 20,
                             row: true,
                             type: 'password',
                             prop: 'password',
                         }, {
                             label: '确认新密码',
-                            span: 16,
-                            row: true,
+                            span: 20,
                             type: 'password',
                             prop: 'passwordTwo',
                         }]
@@ -234,11 +237,11 @@
             },
             handleChange(item) {
                 this.type = item.prop;
-               // this.$message.success('type:' + this.type)
+                // this.$message.success('type:' + this.type)
             },
             handleTabClick(tabs, event) {
                 this.tabsIndex = tabs.index;
-               // this.$message.success('序号为:' + tabs.index)
+                // this.$message.success('序号为:' + tabs.index)
             }
         }
     };

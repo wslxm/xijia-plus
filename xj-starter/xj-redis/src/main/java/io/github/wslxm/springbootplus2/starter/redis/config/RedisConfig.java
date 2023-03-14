@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -47,14 +48,11 @@ import java.time.Duration;
 public class RedisConfig extends CachingConfigurerSupport {
 
     /**
-     * redis 前缀
-     * @author wangsong
-     * @mail 1720696548@qq.com
-     * @date 2023/3/6 0006 17:11
-     * @version 1.0.0
+     * 项目名称, 作用于 redis 前缀
      */
     @Value("${spring.application.name:other}")
-    private String prefixKey;
+    protected String prefixKey;
+
 
     /**
      * 缓存对象 bean 配置
@@ -69,9 +67,10 @@ public class RedisConfig extends CachingConfigurerSupport {
 
         // key 的序列化规则
         RedisKeySerializer redisKeySerializer = new RedisKeySerializer(prefixKey);
+//        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         template.setKeySerializer(redisKeySerializer);
         template.setHashKeySerializer(redisKeySerializer);
-//        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+
 
         // value 的序列化规则
         // 使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
@@ -100,10 +99,16 @@ public class RedisConfig extends CachingConfigurerSupport {
      */
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
-        // 缓存注解 使用 redis 缓存
-
         // key 的序列化规则
         RedisKeySerializer redisKeySerializer = new RedisKeySerializer(prefixKey);
+
+        // 初始化一个RedisCacheWriter，处理 @CacheEvict , allEntries = true无效问题 | https://www.jianshu.com/p/96c0a1233a67
+        RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(factory);
+        MiddlewareRedisCacheWriterProxy middlewareRedisCacheWriterProxy = new MiddlewareRedisCacheWriterProxy(redisCacheWriter, redisKeySerializer);
+
+        // 缓存注解 使用 redis 缓存
+        // key 的序列化规则
+        // RedisKeySerializer redisKeySerializer = new RedisKeySerializer(prefixKey);
         // RedisSerializer<String> redisKeySerializer = new StringRedisSerializer();
 
         // vulue 序列化规则
@@ -122,7 +127,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 
         // 配置序列化（解决乱码的问题）
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-
                 // 设置缓存的默认过期时间，也是使用Duration设置
                 .entryTtl(Duration.ofMinutes(0))
                 // .disableCachingNullValues();
@@ -134,7 +138,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         log.info("redis 分布式缓存管理器注册成功, 可以使用缓存注解进行缓存数据");
 
         return RedisCacheManager
-                .builder(factory)
+                .builder(middlewareRedisCacheWriterProxy)
                 .cacheDefaults(config)
                 .build();
     }

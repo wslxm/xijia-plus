@@ -3,8 +3,10 @@ package io.github.wslxm.springbootplus2.manage.sys.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.RoleUser;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserRolesVO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *   角色+用户管理
@@ -47,4 +49,14 @@ public interface RoleUserService extends IService<RoleUser> {
      * @date 2022/8/18 14:31
      */
     boolean delByRoleId(String roleId);
+
+    /**
+     * 查询指定用户的当前角色列表
+     * @param roleId
+     * @return Map<用户id, 用户角色列表>
+     * @author wangsong
+     * @date 2022/8/18 14:31
+     */
+    public Map<String, List<SysUserRolesVO>> findUserRoles(List<String> userIds);
+
 }

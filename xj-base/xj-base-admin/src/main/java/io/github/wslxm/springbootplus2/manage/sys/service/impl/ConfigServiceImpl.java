@@ -17,6 +17,7 @@ import io.github.wslxm.springbootplus2.manage.sys.model.query.ConfigQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.ConfigService;
 import io.github.wslxm.springbootplus2.starter.redis.lock.XjDistributedLock;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -69,8 +70,9 @@ public class ConfigServiceImpl extends BaseServiceImpl<ConfigMapper, Config> imp
         return entity.getId();
     }
 
+
     @Override
-    @CacheEvict(value = CacheKey.CONFIG_BY_CODE, key ="#dto.code")
+    @CacheEvict(value = CacheKey.CONFIG_BY_CODE, key = "#dto.code")
     @XjDistributedLock(lockName = "'xj-sys-config_'+#dto.code", waitTime = 5L)
     public boolean upd(String id, ConfigDTO dto) {
         Config config = this.getById(id);

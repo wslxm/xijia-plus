@@ -29,6 +29,26 @@
                user_id,
                role_id
         </sql>
+    <select id="findUserRoles" resultType="io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserRolesVO">
+           select
+           ru.id,
+           ru.user_id,
+           ru.role_id,
+           r.code,
+           r.name
+           from t_sys_role_user ru
+           left join t_sys_role r on r.id = ru.role_id
+           where ru.deleted = 0
+           and r.`disable` = 0
+           and r.deleted = 0
+           and ru.user_id in
+           <foreach collection="userIds" item="item" index="index" open="(" close=")" separator=",">
+              #{item, jdbcType=VARCHAR}
+           </foreach>
+           order by ru.user_id desc
+
+    </select>
+
 
 </mapper>
 

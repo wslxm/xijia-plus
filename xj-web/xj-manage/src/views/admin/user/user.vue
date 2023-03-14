@@ -200,6 +200,24 @@
                 //     dicData: this.dict.get(this.website.Dict.Base.Gender),
                 // },
                 {
+                    label: '角色',
+                    prop: 'roleNames',
+                    search: true,
+                    searchSpan: 5,
+                    overHidden: true,
+                    formatter: (val) => {
+                        if (val.roles != null && val.roles.length > 0) {
+                            let text = "";
+                            for (let role of val.roles) {
+                                text += role.name + " | "
+                            }
+                            return text.substring(0, text.length - 2)
+                        } else {
+                            return "";
+                        }
+                    }
+                },
+                {
                     label: '部门',
                     prop: 'depIds',
                     span: 20,
@@ -208,6 +226,7 @@
                     type: "cascader",
                     dataType: 'string',
                     filterable: true,
+                    overHidden: true,
                     dicData: this.deps,   // 自行替换字典数据
                     props: {
                         value: "id",
