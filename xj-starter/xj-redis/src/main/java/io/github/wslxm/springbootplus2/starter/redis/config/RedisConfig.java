@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.github.wslxm.springbootplus2.starter.redis.constant.CacheModeConst;
 import io.github.wslxm.springbootplus2.starter.redis.lock.DistributedLockTemplate;
 import io.github.wslxm.springbootplus2.starter.redis.lock.SingleDistributedLockTemplate;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,8 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 
@@ -48,11 +51,20 @@ import java.time.Duration;
 public class RedisConfig extends CachingConfigurerSupport {
 
     /**
-     * 项目名称, 作用于 redis 前缀
+     * 缓存模式
+     * singlenode : 单节点模式, 数据直接挂载到指定的 db 中
+     * multinode :  多节点模式, 数据挂载到指定的 db 下的子模块中, 同下方参数的 moduleName  值
+     *
+     * 默认: 单节点模式， 如果开启 modularity 模块化模式后没有设置 moduleName 值, 那么模块名称默认使用 【no-project-name】
      */
-    @Value("${spring.application.name:other}")
-    protected String prefixKey;
+    @Value("${spring.redis.cacheMode:singlenode}")
+    protected String cacheMode;
 
+    /**
+     * 当前项目模块名称, 作用于 redis 前缀
+     */
+    @Value("${spring.application.name:no-project-name}")
+    protected String moduleName;
 
     /**
      * 缓存对象 bean 配置
@@ -66,8 +78,16 @@ public class RedisConfig extends CachingConfigurerSupport {
         template.setConnectionFactory(redisConnectionFactory);
 
         // key 的序列化规则
-        RedisKeySerializer redisKeySerializer = new RedisKeySerializer(prefixKey);
-//        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+        RedisSerializer redisKeySerializer = null;
+        // 单节点模式
+        if (cacheMode.equals(CacheModeConst.SINGLENODE)) {
+            redisKeySerializer = new StringRedisSerializer();
+
+        }
+        // 多节点模式
+        if (cacheMode.equals(CacheModeConst.MULTINODE)) {
+            redisKeySerializer = new RedisKeySerializer(moduleName);
+        }
         template.setKeySerializer(redisKeySerializer);
         template.setHashKeySerializer(redisKeySerializer);
 
@@ -78,9 +98,8 @@ public class RedisConfig extends CachingConfigurerSupport {
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         /// om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance,
-                ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
-        // 解决 jackson2 无法反序列化LocalDateTime的问题
+        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+        // 解决 jackson2 无法反序列化 LocalDateTime 的问题
         om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         om.registerModule(new JavaTimeModule());
         jackson2JsonRedisSerializer.setObjectMapper(om);
@@ -94,22 +113,27 @@ public class RedisConfig extends CachingConfigurerSupport {
     /**
      * 缓存管理器配置
      *
+     * <P>缓存注解配置</P>
      * @param factory
      * @return
      */
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
         // key 的序列化规则
-        RedisKeySerializer redisKeySerializer = new RedisKeySerializer(prefixKey);
+        RedisSerializer redisKeySerializer = null;
+        // 单节点模式
+        if (cacheMode.equals(CacheModeConst.SINGLENODE)) {
+            redisKeySerializer = new StringRedisSerializer();
 
-        // 初始化一个RedisCacheWriter，处理 @CacheEvict , allEntries = true无效问题 | https://www.jianshu.com/p/96c0a1233a67
+        }
+        // 多节点模式
+        if (cacheMode.equals(CacheModeConst.MULTINODE)) {
+            redisKeySerializer = new RedisKeySerializer(moduleName);
+        }
+
+        // 初始化一个RedisCacheWriter，处理 @CacheEvict , allEntries = true 无效问题 | https://www.jianshu.com/p/96c0a1233a67
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(factory);
         MiddlewareRedisCacheWriterProxy middlewareRedisCacheWriterProxy = new MiddlewareRedisCacheWriterProxy(redisCacheWriter, redisKeySerializer);
-
-        // 缓存注解 使用 redis 缓存
-        // key 的序列化规则
-        // RedisKeySerializer redisKeySerializer = new RedisKeySerializer(prefixKey);
-        // RedisSerializer<String> redisKeySerializer = new StringRedisSerializer();
 
         // vulue 序列化规则
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
@@ -117,26 +141,21 @@ public class RedisConfig extends CachingConfigurerSupport {
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         /// om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance,
-                ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
         jackson2JsonRedisSerializer.setObjectMapper(om);
-
-        // 解决jackson2无法反序列化LocalDateTime的问题
+        // 解决 jackson2 无法反序列化 LocalDateTime 的问题
         om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         om.registerModule(new JavaTimeModule());
 
         // 配置序列化（解决乱码的问题）
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                // 设置缓存的默认过期时间，也是使用Duration设置
+                // 设置缓存的默认过期时间，也是使用Duration设置    // 变双冒号为单冒号 // 允许缓存为 null
                 .entryTtl(Duration.ofMinutes(0))
-                // .disableCachingNullValues();
-                // 变双冒号为单冒号
                 .computePrefixWith(name -> name + ":")
+                // .disableCachingNullValues();
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(redisKeySerializer))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer));
-
         log.info("redis 分布式缓存管理器注册成功, 可以使用缓存注解进行缓存数据");
-
         return RedisCacheManager
                 .builder(middlewareRedisCacheWriterProxy)
                 .cacheDefaults(config)
@@ -144,6 +163,11 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 
 
+    /**
+     * 分布式锁
+     * @author wangsong
+     * @param redissonClient
+     */
     @Bean
     @Lazy
     public DistributedLockTemplate distributedLockTemplate(RedissonClient redissonClient) {

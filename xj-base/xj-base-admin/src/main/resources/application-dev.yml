@@ -11,6 +11,8 @@ spring:
     username: wangsong
     password: XJspringbootplus@#
   redis:
+    ## 缓存模式与节点名称 singlenode / multinode
+    cacheMode: multinode
     redisson:
       file: classpath:redisson-dev.yml
 

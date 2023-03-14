@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.starter.redis.config;
 
 
 import org.springframework.data.redis.cache.RedisCacheWriter;
+import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.time.Duration;
 
@@ -12,11 +13,11 @@ import java.time.Duration;
  **/
 public class MiddlewareRedisCacheWriterProxy implements RedisCacheWriter {
 
-    RedisCacheWriter redisCacheWriter;
+    private RedisCacheWriter redisCacheWriter;
 
-    RedisKeySerializer redisKeySerializer;
+    private RedisSerializer redisKeySerializer;
 
-    public MiddlewareRedisCacheWriterProxy(RedisCacheWriter redisCacheWriter, RedisKeySerializer redisKeySerializer) {
+    public MiddlewareRedisCacheWriterProxy(RedisCacheWriter redisCacheWriter, RedisSerializer redisKeySerializer) {
         this.redisCacheWriter = redisCacheWriter;
         this.redisKeySerializer = redisKeySerializer;
     }
