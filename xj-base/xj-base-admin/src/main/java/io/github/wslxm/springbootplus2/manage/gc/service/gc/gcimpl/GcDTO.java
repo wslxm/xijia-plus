@@ -7,6 +7,7 @@ import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.gc.GcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class GcDTO extends BaseGcImpl implements GcSevice {
             String type = fieldMap.getType();
             String fieldName = fieldMap.getName();
             String desc = fieldMap.getDesc();
-            desc = super.removeDescTheNewlineCharacter(desc,fieldName);
+            desc = super.removeDescTheNewlineCharacter(desc, fieldName);
 
             String typeDetail = fieldMap.getTypeDetail();
             // 1、生成注释
@@ -65,11 +66,9 @@ public class GcDTO extends BaseGcImpl implements GcSevice {
 
             // 2、生成必填参数jsr验证(先判断是否为必填参数)
             String isNull = fieldMap.getIsNull();
-            if (("NO").equals(isNull)) {
-                String jsrModel = super.jsrModel(type, typeDetail, desc);
-                if (jsrModel != null) {
-                    fields.append("\r\n    " + jsrModel);
-                }
+            String jsrModel = super.jsrModel( isNull,type, typeDetail, desc);
+            if (StringUtils.isNotBlank(jsrModel) ) {
+                fields.append("\r\n" + jsrModel);
             }
             // 3、生成字段
             fields.append("\r\n    " + super.jxModel(gcConfig, fieldName, type, false) + "\r\n");

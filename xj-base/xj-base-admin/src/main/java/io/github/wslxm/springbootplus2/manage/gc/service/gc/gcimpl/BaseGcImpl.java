@@ -13,6 +13,8 @@ import io.github.wslxm.springbootplus2.manage.gc.util.GcDataUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -82,13 +84,24 @@ public class BaseGcImpl extends BaseServiceImpl {
 
 
     /**
-     * 必填字段获取 jsr303 验证注解，  NO 代表必填,YES 非必填
+     * 必填字段获取 jsr303 验证注解，
      *
+     * @param isNull     NO 代表必填, YES 非必填
      * @param type       字段类型
      * @param typeDetail 字段类型长度,  如: int(11) 在 mysql8.0.16+ 版本后, 删除了 int /bigint 的长度支持 (自动使用最大值)
      * @param desc       字段备注
      */
-    protected String jsrModel(String type, String typeDetail, String desc) {
+    protected String jsrModel(String isNull, String type, String typeDetail, String desc) {
+        String jsr = "";
+        if (("NO").equals(isNull)) {
+            if (type.equals(FieldTypeConstant.VARCHAR) || type.equals(FieldTypeConstant.CHAR) || type.equals(FieldTypeConstant.TEXT) || type.equals(FieldTypeConstant.LONG_TEXT)) {
+                jsr = "    @NotBlank(message = \"{DESC} 不能为空\")";
+            } else {
+                jsr = "    @NotNull(message = \"{DESC} 不能为空\")";
+            }
+            jsr = jsr.replace("\\{DESC}", desc);
+            jsr += "\n";
+        }
         // 获取数据库注释,去除括号后的内容
         desc = desc.contains(BracketConstant.LEFT_BRACKET) ? desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET)) : desc;
         desc = desc.contains(BracketConstant.LEFT_BRACKET_TWO) ? desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_TWO)) : desc;
@@ -96,7 +109,7 @@ public class BaseGcImpl extends BaseServiceImpl {
         desc = desc.contains(BracketConstant.LEFT_BRACKET_FOUR) ? desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_FOUR)) : desc;
         desc = desc.contains(BracketConstant.LEFT_BRACKET_FIVE) ? desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_FIVE)) : desc;
         desc = desc.contains(BracketConstant.LEFT_BRACKET_SIX) ? desc.substring(0, desc.indexOf(BracketConstant.LEFT_BRACKET_SIX)) : desc;
-        String jsr = null;
+
         //字段
         String maxlength = "";
         if (type.equals(FieldTypeConstant.INT) || type.equals(FieldTypeConstant.BIGINT) || type.equals(FieldTypeConstant.TINYINT)) {
@@ -108,8 +121,8 @@ public class BaseGcImpl extends BaseServiceImpl {
             } else {
                 maxlength = this.getDefaultMaxlength(type);
             }
-            jsr = "@Range(min=0, max={MAX}L,message = \"{DESC} 必须>=0 和 <={MAX}\")";
-            jsr = jsr.replaceAll("\\{MAX}", maxlength+ "").replace("{DESC}", desc);
+            jsr += "    @Range(min=0, max={MAX}L,message = \"{DESC} 必须>=0 和 <={MAX}\")";
+            jsr = jsr.replaceAll("\\{MAX}", maxlength + "").replace("{DESC}", desc);
         } else if (type.equals(FieldTypeConstant.DOUBLE) || type.equals(FieldTypeConstant.FLOAT) || type.equals(FieldTypeConstant.DECIMAL)) {
             //  小数
             //  判断是否有长度,存在长度获取指定长度的最大值, 转为long添加到注解中 decimal(10,2)，取10, 2不处理
@@ -124,7 +137,7 @@ public class BaseGcImpl extends BaseServiceImpl {
             } else {
                 maxlength = this.getDefaultMaxlength(type);
             }
-            jsr = "@DecimalMin(value=\"0\",message=\"{DESC} 必须 >= 0\")";
+            jsr += "    @DecimalMin(value=\"0\",message=\"{DESC} 必须 >= 0\")";
             jsr += "\n    @DecimalMax(value=\"{MAX}\",message=\"{DESC} 必须 <= {MAX}\")";
             jsr = jsr.replaceAll("\\{MAX}", maxlength).replace("{DESC}", desc);
         } else if (type.equals(FieldTypeConstant.VARCHAR) || type.equals(FieldTypeConstant.CHAR) || type.equals(FieldTypeConstant.TEXT) || type.equals(FieldTypeConstant.LONG_TEXT)) {
@@ -134,10 +147,10 @@ public class BaseGcImpl extends BaseServiceImpl {
             } else {
                 maxlength = this.getDefaultMaxlength(type);
             }
-            jsr = "@Length(min=0, max={MAX},message = \"{DESC} 必须>=0 和 <={MAX}位\")";
+            jsr += "    @Length(min=0, max={MAX},message = \"{DESC} 必须>=0 和 <={MAX}位\")";
             jsr = jsr.replaceAll("\\{MAX}", maxlength).replace("{DESC}", desc);
         } else if (type.equals(FieldTypeConstant.DATETIME) || type.equals(FieldTypeConstant.TIME) || type.equals(FieldTypeConstant.TIMESTAMP)) {
-            /// 时间暂无
+            // 时间暂无
             // fields.append("\r\n" + "    @NotNull(message = \"" + desc + " 不能为空\")");
         }
         return jsr;
