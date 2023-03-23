@@ -47,7 +47,7 @@ public class BaseGcImpl extends BaseServiceImpl {
         fieldName = GcDataUtil.getFieldName(gcConfig, fieldName);
         String field = "";
         // 字段
-        if (type.equals(FieldTypeConstant.INT)) {
+        if (type.equals(FieldTypeConstant.INT) || type.equals(FieldTypeConstant.TINYINT)) {
             // 整数int
             field = "private Integer " + fieldName + ";";
         } else if (type.equals(FieldTypeConstant.BIGINT)) {
@@ -75,10 +75,11 @@ public class BaseGcImpl extends BaseServiceImpl {
         } else if (type.equals(FieldTypeConstant.DECIMAL)) {
             // 小数 decimal
             field = "private BigDecimal " + fieldName + ";";
-        } else if (type.equals(FieldTypeConstant.TINYINT)) {
-            // 布尔 tinyint
-            field = "private Boolean " + fieldName + ";";
         }
+       //   else if (type.equals(FieldTypeConstant.TINYINT)) {
+       //       // 布尔 tinyint
+       //       field = "private Boolean " + fieldName + ";";
+       //   }
         return field;
     }
 
