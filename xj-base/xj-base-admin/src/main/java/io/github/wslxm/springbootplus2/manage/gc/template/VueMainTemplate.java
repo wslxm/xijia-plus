@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.gc.template;
 
 /**
- *  @author wangsong
+ * @author wangsong
  * 复选Html 模板配置
  */
 public interface VueMainTemplate {
@@ -95,7 +95,6 @@ public interface VueMainTemplate {
     String ICON = "                {\n" +
             "                    label: '{label} ',\n" +
             "                    prop: '{prop}',\n" +
-            "                    // type: 'icon',\n" +
             "                    html: true,\n" +
             "                    formatter: (val) => {\n" +
             "                        return '<i class=' + val.{prop} + '></i>'\n" +
@@ -145,7 +144,7 @@ public interface VueMainTemplate {
             "                    dataType: 'string',\n" +
             "                    overHidden: true,\n" +
             "                    filterable: true, \n" +
-            "                    // 自行替换字典数据，在 mounted 事件加载字段前使用 let res = await this.crud.get() 同步获取数据 \n" +
+            "                    // 在 mounted 事件使用 let res = await this.crud.get() 同步获取数据替换字典数据 \n" +
             "                    dicData: this.defaultdata.dicData, \n" +
             "                    props: {\n" +
             "                        value: \"id\",\n" +
@@ -153,15 +152,4 @@ public interface VueMainTemplate {
             "                        children: \"children\"\n" +
             "                    }\n" +
             "                },\n";
-
-
-//    /**
-//     * 级联选择器的搜索
-//     *  {label}  {prop}
-//     */
-//    String CASCADER = "            <template slot-scope=\"{row,index,type,size}\" slot=\"{prop}Search\">\n" +
-//            "                <avue-cascader v-model=\"search.{prop}\" :dic=\"defaultdata.dicData\" :props=\"{value: 'id',  label: 'name', children: 'children'}\" :filterable=\"true\" placeholder=\"请选择{label}\"></avue-cascader>\n" +
-//            "            </template>";
-
-
 }

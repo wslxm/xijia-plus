@@ -76,7 +76,7 @@ public class GenerateController extends BaseController {
     /**
      * 代码生成路径查询(代码生成时前端确认生成路径无误后再生成代码)
      */
-    @ApiOperation("代码生成路径")
+    @ApiOperation("代码生成路径查看")
     @RequestMapping(value = "/getPath", method = RequestMethod.GET)
     public Result<Map<String, String>> getPath(String tableName, String dataSourceId) {
         return Result.success(xjGenerationSeviceImpl.getPath(tableName, dataSourceId));

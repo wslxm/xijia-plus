@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.gc.template;
 
 /**
- *  @author wangsong
+ * @author wangsong
  * 复选Html 模板配置
  */
 public interface VueAddUpdTemplate {
@@ -41,15 +41,15 @@ public interface VueAddUpdTemplate {
 
 
     /**
-     * 数字 {label}  {prop}
+     * 数字 {label}  {prop}  {precision} {minRows} {maxRows}
      */
     String NUMBER = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'number',\n" +
-            "                            precision: 2,  //保留小数位,\n" +
+            "                            precision: {precision},  //保留小数位,\n" +
             "                            minRows: 0,\n" +
-            "                            maxRows: 99999999,\n" +
+            "                            maxRows: {maxRows},\n" +
             "                            row: true,\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
@@ -146,7 +146,6 @@ public interface VueAddUpdTemplate {
     /**
      * 时间-小时选择器 {label}  {prop}
      * 09:00 | 09:30 | 10:00
-     *
      */
     String TIME = "                        {\n" +
             "                            label: \"{label}\",\n" +
