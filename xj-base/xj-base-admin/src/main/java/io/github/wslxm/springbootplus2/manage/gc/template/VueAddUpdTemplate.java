@@ -7,33 +7,35 @@ package io.github.wslxm.springbootplus2.manage.gc.template;
 public interface VueAddUpdTemplate {
 
     /**
-     * 文本 {label}  {prop}
+     * 文本 {label}  {prop} {required}
      */
     String INPUT = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
+            "                            labelWidth: 110,\n" +
             "                            maxlength: {maxlength},\n" +
             "                            showWordLimit: true,\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请输入 {label}\",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }]\n" +
             "                        },\n";
 
     /**
-     * 大文本 {label}  {prop}
+     * 大文本 {label}  {prop} {required}
      */
     String TEXTAREA = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'textarea',\n" +
+            "                            labelWidth: 110,\n" +
             "                            maxlength: {maxlength},\n" +
             "                            showWordLimit: true,\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请输入 {label}\",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }]\n" +
@@ -41,85 +43,90 @@ public interface VueAddUpdTemplate {
 
 
     /**
-     * 数字 {label}  {prop}  {precision} {minRows} {maxRows}
+     * 数字 {label}  {prop}  {precision}  {maxRows} {required}
      */
     String NUMBER = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'number',\n" +
+            "                            labelWidth: 110,\n" +
             "                            precision: {precision},  //保留小数位,\n" +
             "                            minRows: 0,\n" +
             "                            maxRows: {maxRows},\n" +
             "                            row: true,\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请输入 {label}\",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }]\n" +
             "                        },\n";
 
     /**
-     * 单选 {label}  {prop} {dictCode}
+     * 单选 {label}  {prop} {dictCode} {required}
      */
     String RADIO = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'radio',\n" +
+            "                            labelWidth: 110,\n" +
             "                            dicData: this.dict.get({dictCode}),\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请选择 {label}\",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }]\n" +
             "                        },\n";
 
     /**
-     * 多选 {label}  {prop} {dictCode}
+     * 多选 {label}  {prop} {dictCode} {required}
      */
     String CHECKBOX = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'checkbox',\n" +
+            "                            labelWidth: 110,\n" +
             "                            dataType: 'string', // 字符串模式\n" +
             "                            dicData: this.dict.get({dictCode}),\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请选择 {label}\",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }]\n" +
             "                        },\n";
 
     /**
-     * 下拉选 {label}  {prop} {dictCode}
+     * 下拉选 {label}  {prop} {dictCode} {required}
      */
     String SELECT = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'select',\n" +
+            "                            labelWidth: 110,\n" +
             "                            filterable:true,\n" +
             "                            dicData: this.dict.get({dictCode}),\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请选择 {label}\",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }]\n" +
             "                        },\n";
 
     /**
-     * 开关 {label}  {prop} {dictCode}
+     * 开关 {label}  {prop} {dictCode} {required}
      */
     String SWITCH = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'switch',\n" +
+            "                            labelWidth: 110,\n" +
             "                            dicData: this.dict.get({dictCode}),\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请选择 {label}\",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }]\n" +
@@ -127,30 +134,32 @@ public interface VueAddUpdTemplate {
 
 
     /**
-     * 时间日期 {label}  {prop}
+     * 时间日期 {label}  {prop} {required}
      */
     String DATETIME = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'datetime',\n" +
+            "                            labelWidth: 110,\n" +
             "                            format: 'yyyy-MM-dd hh:mm:ss',\n" +
             "                            valueFormat: 'yyyy-MM-dd hh:mm:ss',\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请选择 {label}\",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }]\n" +
             "                        },\n";
 
     /**
-     * 时间-小时选择器 {label}  {prop}
+     * 时间-小时选择器 {label}  {prop} {required}
      * 09:00 | 09:30 | 10:00
      */
     String TIME = "                        {\n" +
             "                            label: \"{label}\",\n" +
             "                            prop: \"{prop}\",\n" +
             "                            type: \"time\",\n" +
+            "                            labelWidth: 110,\n" +
             "                            span: 20,\n" +
             "                            pickerOptions: {\n" +
             "                                start: '06:00',\n" +
@@ -158,40 +167,42 @@ public interface VueAddUpdTemplate {
             "                                end: '23:00'\n" +
             "                            },\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请输入 {label} \",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }]\n" +
             "                        },\n";
     /**
      * 数组框 ， 多内容添加，如标签
-     * {label}  {prop}
+     * {label}  {prop} {required}
      */
     String ARRAY = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'array',\n" +
+            "                            labelWidth: 110,\n" +
             "                            dataType: 'string',\n" +
             "                            limit: 10,\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请添加 {label}\",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }]\n" +
             "                        },\n";
     /**
      * 图标 选择器
-     * {label}  {prop}
+     * {label}  {prop} {required}
      */
     String ICON = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'icon',\n" +
+            "                            labelWidth: 110,\n" +
             "                            iconList: this.icon.iconList,\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请选择 {label}\",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }],\n" +
@@ -199,19 +210,20 @@ public interface VueAddUpdTemplate {
 
     /**
      * 颜色 选择器
-     * {label}  {prop}
+     * {label}  {prop} {required}
      */
     String COLOR = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
             "                            type: 'color',\n" +
+            "                            labelWidth: 110,\n" +
             "                            colorFormat: \"hex\",\n" +
             "                            showAlpha: false,\n" +
             "                            predefine: [\"#FF8C00\", \"#FFD700\", \"#90EE90\", \"#00CED1\", \"#1E90FF\",\n" +
             "                                \"#C71585\", \"#FF4500\", \"#FF7800\", \"#FAD400\", \"#00BABD\"],\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请选择 {label} \",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }],\n" +
@@ -219,42 +231,44 @@ public interface VueAddUpdTemplate {
 
 
     /**
-     * 级联选择器 {label}  {prop}
+     * 级联选择器 {label}  {prop} {required}
      */
     String CASCADER = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
-            "                            span: 20,\n" +
             "                            type: \"cascader\",\n" +
+            "                            labelWidth: 110,\n" +
             "                            dataType: 'string',\n" +
             "                            filterable: true, \n" +
             "                            // 自行替换字典数据 \n" +
             "                            dicData: this.defaultdata.dicData,\n" +
+            "                            span: 20,\n" +
             "                            props: {\n" +
             "                                value: \"id\",\n" +
             "                                label: \"name\",\n" +
             "                                children: \"children\"\n" +
             "                            },\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请选择 {label} \",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }]\n" +
             "                        },\n";
 
     /**
-     * 地图 选择器 {label}  {prop}
+     * 地图 选择器 {label}  {prop} {required}
      */
     String MAP = "                        {\n" +
             "                            // 需先配置高德js 详见: https://avuejs.com/form/form-input-map/#\n" +
             "                            // 新增可给定默认地址: 104.06601585298779,30.656922000443107,四川省成都市青羊区西御河街道天府广场今站购物中心\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
+            "                            labelWidth: 110,\n" +
             "                            type: 'map',\n" +
             "                            dataType: 'string',\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请选择 {label} \",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }],\n" +
@@ -270,17 +284,19 @@ public interface VueAddUpdTemplate {
      * {accept} ==> 文件上传格式 -> 图片默认: image/png, image/jpeg, image/jpg, image/gif  | 视频默认: video/mp4 | 任意文件不限制
      * {tip} ==> 文件上传提示  -> 【图片: 只能上传 jpg/png/gif 格式的图片】 【视频：只能上传mp4格式的视频】【任意文件：无】
      * {fileType} ==> 文件类型, 分类图片/视频/任意文件的存储路径
+     * {required}
      */
     String UPLOAD = "                        {\n" +
             "                            label: '{label}',\n" +
             "                            prop: '{prop}',\n" +
-            "                            span: 24,\n" +
+            "                            dataType: 'string', \n" +
+            "                            labelWidth: 110,\n" +
             "                            rules: [{\n" +
-            "                                required: true,\n" +
+            "                                required: {required},\n" +
             "                                message: \"请上传 {label} \",\n" +
             "                                trigger: \"blur\"\n" +
             "                            }],\n" +
-            "                            dataType: 'string', \n" +
+            "                            span: 24,\n" +
             "                            accept: {accept},  \n" +
             "                            type: 'upload',\n" +
             "                            listType: '{listType}', \n" +

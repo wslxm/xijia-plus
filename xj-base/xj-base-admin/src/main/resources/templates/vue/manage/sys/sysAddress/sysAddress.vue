@@ -24,7 +24,7 @@
                 </el-col>
                 <!-- 列表 -->
                 <el-col :span="19">
-                    <avue-crud ref="crud{tableNameUp}"
+                    <avue-crud ref="crudSysAddress"
                                :data="data"
                                :option="option"
                                :page.sync="page"
@@ -47,7 +47,7 @@
                             </el-switch>
                         </template>
 
-{vueInfoColumnSlots}
+ 
 
                         <template slot-scope="{row,index,type,size}" slot="menu">
                             <el-button icon="el-icon-edit" :size="size" :type="type" @click="updRow(row,4)">编辑</el-button>
@@ -78,17 +78,17 @@
 
 export default {
     components: {
-        Add: () => import('./{tableNameLower}Add'),
-        Upd: () => import('./{tableNameLower}Upd'),
-        UpdPid: () => import('./{tableNameLower}Pid')
+        Add: () => import('./sysAddressAdd'),
+        Upd: () => import('./sysAddressUpd'),
+        UpdPid: () => import('./sysAddressPid')
     },
     data() {
         return {
             treeOption: JSON.parse(JSON.stringify(this.website.treeOption)),
             uri: {
-                infoTree: "/api/admin/{moduleName}/{tableNameLower}/tree",
-                infoList: "/api/admin/{moduleName}/{tableNameLower}/findPage",
-                info: "/api/admin/{moduleName}/{tableNameLower}",
+                infoTree: "/api/admin/sys/sysAddress/tree",
+                infoList: "/api/admin/sys/sysAddress/findPage",
+                info: "/api/admin/sys/sysAddress",
             },
             loading: true,
             dialogWidth: "60%",
@@ -105,7 +105,7 @@ export default {
     },
     activated:
         function () {
-            this.crud.doLayout(this, this.$refs.crud{tableNameUp})
+            this.crud.doLayout(this, this.$refs.crudSysAddress)
         }
     ,
     mounted() {
@@ -121,14 +121,49 @@ export default {
         this.option.index = true;
         this.option.cellBtnt = true
         this.option.column = [
-           {vueInfoColumns}
+                            {
+                    label: '父级挂接id',
+                    prop: 'pid',
+                    search: true,
+                    searchSpan: 5,
+                    overHidden: true,
+                },
+                {
+                    label: '区划名称',
+                    prop: 'name',
+                    search: true,
+                    searchSpan: 5,
+                    overHidden: true,
+                },
+                {
+                    label: '区划编码',
+                    prop: 'code',
+                    search: true,
+                    searchSpan: 5,
+                    overHidden: true,
+                },
+                {
+                    label: '备注',
+                    prop: 'remark',
+                    search: false,
+                    searchSpan: 5,
+                    overHidden: true,
+                },
+                {
+                    label: '级次id 0',
+                    prop: 'level',
+                    search: true,
+                    searchSpan: 5,
+                    overHidden: true,
+                },
+
         ]
     },
 
     methods: {
         onLoad() {
             this.crud.list(this, true);
-            this.crud.doLayout(this, this.$refs.crud{tableNameUp});
+            this.crud.doLayout(this, this.$refs.crudSysAddress);
         },
         searchChange(params, done) {
             this.page.currentPage = 1;
@@ -138,7 +173,6 @@ export default {
         findLeftTree() {
             this.crud.get(this.uri.infoTree, {terminal: this.search.terminal}).then((res) => {
                 this.treeData = res.data.data;
-                this.treeData.unshift({id: '', name: '全部'});
             });
         },
         // 点击左左侧数据 重置右列表数据

@@ -76,10 +76,10 @@ public class BaseGcImpl extends BaseServiceImpl {
             // 小数 decimal
             field = "private BigDecimal " + fieldName + ";";
         }
-       //   else if (type.equals(FieldTypeConstant.TINYINT)) {
-       //       // 布尔 tinyint
-       //       field = "private Boolean " + fieldName + ";";
-       //   }
+        //   else if (type.equals(FieldTypeConstant.TINYINT)) {
+        //       // 布尔 tinyint
+        //       field = "private Boolean " + fieldName + ";";
+        //   }
         return field;
     }
 
@@ -91,10 +91,11 @@ public class BaseGcImpl extends BaseServiceImpl {
      * @param type       字段类型
      * @param typeDetail 字段类型长度,  如: int(11) 在 mysql8.0.16+ 版本后, 删除了 int /bigint 的长度支持 (自动使用最大值)
      * @param desc       字段备注
+     * @param isRequired 是否判断必填 true 是 false 否, query 查询中不需要验证必传
      */
-    protected String jsrModel(String isNull, String type, String typeDetail, String desc) {
+    protected String jsrModel(String isNull, String type, String typeDetail, String desc, boolean isRequired) {
         String jsr = "";
-        if (("NO").equals(isNull)) {
+        if (("NO").equals(isNull) && isRequired) {
             if (type.equals(FieldTypeConstant.VARCHAR) || type.equals(FieldTypeConstant.CHAR) || type.equals(FieldTypeConstant.TEXT) || type.equals(FieldTypeConstant.LONG_TEXT)) {
                 jsr = "    @NotBlank(message = \"{DESC} 不能为空\")";
             } else {
@@ -240,9 +241,11 @@ public class BaseGcImpl extends BaseServiceImpl {
      * @param typeDetail   类型+长度
      * @param newDesc      字段中文描述
      * @param vueFieldType vue表单字段类型
+     * @param isNull       是否必填 NO 代表必填, YES 非必填
      * @return
      */
-    protected String jxVueColumns(GcConfig gcConfig, String name, String type, String typeDetail, String newDesc, Integer vueFieldType, List<String> dictCode) {
+    protected String jxVueColumns(GcConfig gcConfig, String name, String type, String typeDetail, String newDesc, Integer vueFieldType, List<String> dictCode, String isNull) {
+        boolean required = isNull.equals("NO");
         // 生成表单时获取数据库的字段的长度来控制输入
         String maxlength = "0";
         // 小数位
@@ -283,54 +286,57 @@ public class BaseGcImpl extends BaseServiceImpl {
         String columnStr = "";
         name = GcDataUtil.getFieldName(gcConfig, name);
         if (Base.VueFieldType.V1.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.INPUT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
+            columnStr = VueAddUpdTemplate.INPUT.replace("{maxlength}", maxlength + "");
         } else if (Base.VueFieldType.V2.getValue().equals(vueFieldType)) {
-            // {precision} {minRows} {maxRows}
-            columnStr = VueAddUpdTemplate.NUMBER.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{precision}", precision + "").replace("{maxRows}", maxlength);
+            columnStr = VueAddUpdTemplate.NUMBER.replace("{precision}", precision + "").replace("{maxRows}", maxlength);
         } else if (Base.VueFieldType.V3.getValue().equals(vueFieldType)) {
         } else if (Base.VueFieldType.V4.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.RADIO.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{dictCode}", getDictCode(dictCode));
+            columnStr = VueAddUpdTemplate.RADIO.replace("{dictCode}", getDictCode(dictCode));
         } else if (Base.VueFieldType.V5.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.CHECKBOX.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{dictCode}", getDictCode(dictCode));
+            columnStr = VueAddUpdTemplate.CHECKBOX.replace("{dictCode}", getDictCode(dictCode));
         } else if (Base.VueFieldType.V6.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.SELECT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{dictCode}", getDictCode(dictCode));
+            columnStr = VueAddUpdTemplate.SELECT.replace("{dictCode}", getDictCode(dictCode));
         } else if (Base.VueFieldType.V7.getValue().equals(vueFieldType)) {
         } else if (Base.VueFieldType.V8.getValue().equals(vueFieldType)) {
         } else if (Base.VueFieldType.V9.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.SWITCH.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{dictCode}", getDictCode(dictCode));
+            columnStr = VueAddUpdTemplate.SWITCH.replace("{dictCode}", getDictCode(dictCode));
         } else if (Base.VueFieldType.V10.getValue().equals(vueFieldType)) {
         } else if (Base.VueFieldType.V11.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.DATETIME.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else if (Base.VueFieldType.V12.getValue().equals(vueFieldType)) {
             columnStr = VueAddUpdTemplate.TIME.replaceAll("\\{label}", newDesc).replace("{prop}", name);
         } else if (Base.VueFieldType.V13.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.UPLOAD.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{listType}", "picture-img").replace("{limit}", "1").replace("{fileType}", "img").replace("{accept}", "'image/png, image/jpeg, image/jpg, image/gif'").replace("{tip}", "只能上传 jpg/png/gif 格式的图片");
+            columnStr = VueAddUpdTemplate.UPLOAD.replace("{listType}", "picture-img").replace("{limit}", "1").replace("{fileType}", "img").replace("{accept}", "'image/png, image/jpeg, image/jpg, image/gif'").replace("{tip}", "只能上传 jpg/png/gif 格式的图片");
         } else if (Base.VueFieldType.V14.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.UPLOAD.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{listType}", "picture-card").replace("{limit}", "10").replace("{fileType}", "img").replace("{accept}", "'image/png, image/jpeg, image/jpg, image/gif'").replace("{tip}", "只能上传10张 jpg/png/gif 格式的图片");
+            columnStr = VueAddUpdTemplate.UPLOAD.replace("{listType}", "picture-card").replace("{limit}", "10").replace("{fileType}", "img").replace("{accept}", "'image/png, image/jpeg, image/jpg, image/gif'").replace("{tip}", "只能上传10张 jpg/png/gif 格式的图片");
         } else if (Base.VueFieldType.V15.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.UPLOAD.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{listType}", "picture-img").replace("{limit}", "1").replace("{fileType}", "video").replace("{accept}", "'video/mp4'").replace("{tip}", "只能上传mp4格式的视频");
+            columnStr = VueAddUpdTemplate.UPLOAD.replace("{listType}", "picture-img").replace("{limit}", "1").replace("{fileType}", "video").replace("{accept}", "'video/mp4'").replace("{tip}", "只能上传mp4格式的视频");
         } else if (Base.VueFieldType.V16.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.UPLOAD.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{listType}", "").replace("{limit}", "10").replace("{fileType}", "all").replace("{accept}", "null").replace("{tip}", "");
+            columnStr = VueAddUpdTemplate.UPLOAD.replace("{listType}", "").replace("{limit}", "10").replace("{fileType}", "all").replace("{accept}", "null").replace("{tip}", "");
         } else if (Base.VueFieldType.V17.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.TEXTAREA.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
+            columnStr = VueAddUpdTemplate.TEXTAREA.replace("{maxlength}", maxlength + "");
         } else if (Base.VueFieldType.V18.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.INPUT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
+            columnStr = VueAddUpdTemplate.INPUT.replace("{maxlength}", maxlength + "");
         } else if (Base.VueFieldType.V19.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.INPUT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
+            columnStr = VueAddUpdTemplate.INPUT.replace("{maxlength}", maxlength + "");
         } else if (Base.VueFieldType.V20.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.CASCADER.replaceAll("\\{label}", newDesc).replace("{prop}", name);
+            columnStr = VueAddUpdTemplate.CASCADER;
         } else if (Base.VueFieldType.V21.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.ARRAY.replaceAll("\\{label}", newDesc).replace("{prop}", name);
+            columnStr = VueAddUpdTemplate.ARRAY;
         } else if (Base.VueFieldType.V22.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.ICON.replaceAll("\\{label}", newDesc).replaceAll("\\{prop}", name);
+            columnStr = VueAddUpdTemplate.ICON;
         } else if (Base.VueFieldType.V23.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.COLOR.replaceAll("\\{label}", newDesc).replaceAll("\\{prop}", name);
+            columnStr = VueAddUpdTemplate.COLOR;
         } else if (Base.VueFieldType.V24.getValue().equals(vueFieldType)) {
-            columnStr = VueAddUpdTemplate.MAP.replaceAll("\\{label}", newDesc).replaceAll("\\{prop}", name);
+            columnStr = VueAddUpdTemplate.MAP;
         } else {
             // 没有默认 input
-            columnStr = VueAddUpdTemplate.INPUT.replaceAll("\\{label}", newDesc).replace("{prop}", name).replace("{maxlength}", maxlength + "");
+            columnStr = VueAddUpdTemplate.INPUT.replace("{maxlength}", maxlength + "");
         }
+        // 基础必填字段
+        columnStr = columnStr.replaceAll("\\{label}", newDesc)
+                .replaceAll("\\{prop}", name)
+                .replace("{required}", required + "");
         return columnStr;
     }
 

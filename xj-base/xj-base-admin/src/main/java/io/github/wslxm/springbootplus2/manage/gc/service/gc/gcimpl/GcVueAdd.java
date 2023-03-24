@@ -58,7 +58,8 @@ public class GcVueAdd extends BaseGcImpl implements GcSevice {
                     dbField.getTypeDetail(),
                     getDesc(dbField.getDesc(), dbField.getName()),
                     dbField.getVueFieldType(),
-                    dbField.getDictCode()
+                    dbField.getDictCode(),
+                    dbField.getIsNull()
             );
             vueAddColumns.append(vueColumn);
             // 生成字段 插槽

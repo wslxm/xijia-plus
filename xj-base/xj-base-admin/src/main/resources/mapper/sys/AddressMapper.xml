@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.wslxm.springbootplus2.manage.sys.mapper.AddressMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="io.github.wslxm.springbootplus2.manage.sys.model.entity.Address">
+
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="version" property="version"/>
+        <result column="pid" property="pid"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="remark" property="remark"/>
+        <result column="level" property="level"/>
+    </resultMap>
+
+    <!-- 通用查询结果列: <include refid="Base_Column_List"></include> -->
+    <sql id="Base_Column_List">
+
+        t.id,
+        t.create_user,
+        t.update_user,
+        t.create_time,
+        t.update_time,
+        t.deleted,
+        t.version,
+        t.pid,
+        t.name,
+        t.code,
+        t.remark,
+        t.level
+    </sql>
+
+
+    <!-- id 查询 -->
+    <select id="findId" resultType="io.github.wslxm.springbootplus2.manage.sys.model.vo.AddressVO">
+        select
+        <include refid="Base_Column_List"></include>
+        from t_sys_address t
+        where t.deleted = 0
+        t.id = #{id}
+    </select>
+
+    <!-- 全部查询 -->
+    <select id="list" resultType="io.github.wslxm.springbootplus2.manage.sys.model.vo.AddressVO">
+        select
+        <include refid="Base_Column_List"></include>
+        from t_sys_address t
+        where t.deleted = 0
+
+        <if test="query.pid != null and query.pid  != ''">
+            and t.pid like concat(#{query.pid},'%')
+        </if>
+        <if test="query.name != null and query.name  != ''">
+            and t.`name` like concat(#{query.name},'%')
+        </if>
+        <if test="query.code != null and query.code  != ''">
+            and t.code like concat(#{query.code},'%')
+        </if>
+        <if test="query.level != null">
+            and t.level = #{query.level}
+        </if>
+        order by t.create_time desc
+    </select>
+
+</mapper>
+

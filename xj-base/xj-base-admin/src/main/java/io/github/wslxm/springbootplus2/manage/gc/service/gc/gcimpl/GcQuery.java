@@ -58,11 +58,11 @@ public class GcQuery extends BaseGcImpl implements GcSevice {
                 fields.append("\r\n    /** \r\n     * " + desc + " \r\n     */");
             }
             // 2、生成必填参数jsr验证(先判断是否为必填参数)
-            String isNull = fieldMap.getIsNull();
-            String jsrModel = super.jsrModel(isNull, type, typeDetail, desc);
-            if (StringUtils.isNotBlank(jsrModel) ) {
-                fields.append("\r\n" + jsrModel);
-            }
+             String isNull = fieldMap.getIsNull();
+             String jsrModel = super.jsrModel(isNull, type, typeDetail, desc,false);
+             if (StringUtils.isNotBlank(jsrModel) ) {
+                 fields.append("\r\n" + jsrModel);
+             }
             // 3、生成字段
             fields.append("\r\n    " + super.jxModel(gcConfig, fieldName, type, true) + "\r\n");
         }

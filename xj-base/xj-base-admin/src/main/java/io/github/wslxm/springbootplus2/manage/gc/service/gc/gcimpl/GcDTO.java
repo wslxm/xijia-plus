@@ -66,7 +66,7 @@ public class GcDTO extends BaseGcImpl implements GcSevice {
 
             // 2、生成必填参数jsr验证(先判断是否为必填参数)
             String isNull = fieldMap.getIsNull();
-            String jsrModel = super.jsrModel( isNull,type, typeDetail, desc);
+            String jsrModel = super.jsrModel( isNull,type, typeDetail, desc,true);
             if (StringUtils.isNotBlank(jsrModel) ) {
                 fields.append("\r\n" + jsrModel);
             }
