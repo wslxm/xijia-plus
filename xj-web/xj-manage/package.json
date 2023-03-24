@@ -13,7 +13,7 @@
   "dependencies": {
     "vue": "^2.6.14",
     "element-ui": "^2.15.6",
-    "@smallwei/avue": "^2.10.7",
+    "@smallwei/avue": "^2.10.10",
     "avue-plugin-ueditor": "^0.0.9",
     "axios": "^0.21.1",
     "vue-axios": "^2.1.2",
