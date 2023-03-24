@@ -2,8 +2,8 @@ package io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth;
 
 
 import com.google.common.util.concurrent.RateLimiter;
-import io.github.wslxm.springbootplus2.common.annotation.XjCurrentLimit;
 import io.github.wslxm.springbootplus2.common.cache.AuthCacheKeyUtil;
+import io.github.wslxm.springbootplus2.core.base.annotation.XjCurrentLimit;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;

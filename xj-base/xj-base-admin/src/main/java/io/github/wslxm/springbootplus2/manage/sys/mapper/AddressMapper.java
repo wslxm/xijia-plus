@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.sys.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Address;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.AddressVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.AddressQuery;
@@ -36,7 +36,7 @@ public interface AddressMapper extends BaseMapper<Address> {
      * @param query
      * @return java.util.List<Address>
      */
-    List<AddressVO> list(IPage<AddressVO> page, AddressQuery query);
+    List<AddressVO> list(BasePage<AddressVO> page, AddressQuery query);
 
 }
 

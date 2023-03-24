@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.sys.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Address;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.AddressVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.AddressDTO;
@@ -35,7 +35,7 @@ public interface AddressService extends IService<Address> {
      * @param query query
      * @return 分页列表数据
      */
-    IPage<AddressVO> findPage(AddressQuery query);
+    BasePage<AddressVO> findPage(AddressQuery query);
 
     /**
      * id 查询

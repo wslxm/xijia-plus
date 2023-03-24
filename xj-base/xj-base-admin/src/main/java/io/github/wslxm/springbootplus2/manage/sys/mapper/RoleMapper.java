@@ -24,7 +24,7 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @version 1.0.0
      */
     List<RoleVO> list(IPage page,
-                           @Param("query") RoleQuery query,
-                           @Param("createUserId") String createUserId);
+                      @Param("query") RoleQuery query,
+                      @Param("createUserId") String createUserId);
 
 }

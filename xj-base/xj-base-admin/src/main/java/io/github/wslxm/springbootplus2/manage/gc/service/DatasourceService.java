@@ -1,7 +1,8 @@
 package io.github.wslxm.springbootplus2.manage.gc.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.gc.model.entity.Datasource;
 import io.github.wslxm.springbootplus2.manage.gc.model.query.DatasourceQuery;
 import io.github.wslxm.springbootplus2.manage.gc.model.vo.DatasourceVO;
@@ -22,16 +23,16 @@ public interface DatasourceService extends IService<Datasource> {
      * 列表查询
      *
      * @param query query
-     * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.gc.model.vo.DatasourceVO>
+     * @return com.baomidou.mybatisplus.core.metadata.BasePage<io.github.wslxm.springbootplus2.manage.gc.model.vo.DatasourceVO>
      * @version 1.0.0
      */
-    IPage<DatasourceVO> findPage(DatasourceQuery query);
+    BasePage<DatasourceVO> findPage(DatasourceQuery query);
 
     /**
      * id查询
      *
      * @param id id
-     * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.gc.model.vo.DatasourceVO>
+     * @return com.baomidou.mybatisplus.core.metadata.BasePage<io.github.wslxm.springbootplus2.manage.gc.model.vo.DatasourceVO>
      * @version 1.0.0
      */
     DatasourceVO findId(String id);

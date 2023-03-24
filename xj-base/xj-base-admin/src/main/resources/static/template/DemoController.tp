@@ -1,14 +1,15 @@
 package {packPath}.{rootModule}.{moduleName}.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
+
 import {packPath}.{rootModule}.{moduleName}.model.vo.{tableNameUp}VO;
 import {packPath}.{rootModule}.{moduleName}.model.dto.{tableNameUp}DTO;
 import {packPath}.{rootModule}.{moduleName}.model.query.{tableNameUp}Query;
 import {packPath}.{rootModule}.{moduleName}.service.{tableNameUp}Service;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.Result;
 
@@ -30,7 +31,7 @@ public class {tableNameUp}Controller extends BaseController<{tableNameUp}Service
 {filterCrud}
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public Result<IPage<{tableNameUp}VO>> findPage(@ModelAttribute @Validated {tableNameUp}Query query) {
+    public Result<BasePage<{tableNameUp}VO>> findPage(@ModelAttribute @Validated {tableNameUp}Query query) {
         return Result.success(baseService.findPage(query));
     }
 

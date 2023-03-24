@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.common.cache.CacheKey;
@@ -35,14 +35,14 @@ import org.springframework.stereotype.Service;
 public class ConfigServiceImpl extends BaseServiceImpl<ConfigMapper, Config> implements ConfigService {
 
     @Override
-    public IPage<ConfigVO> findPage(ConfigQuery query) {
+    public BasePage<ConfigVO> findPage(ConfigQuery query) {
         LambdaQueryWrapper<Config> queryWrapper = new LambdaQueryWrapper<Config>()
                 .orderByAsc(Config::getSort)
                 .orderByDesc(Config::getCreateTime)
                 .eq(StringUtils.isNotBlank(query.getCode()), Config::getCode, query.getCode())
                 .eq(query.getType() != null, Config::getType, query.getType())
                 .likeRight(StringUtils.isNotBlank(query.getName()), Config::getName, query.getName());
-        IPage<ConfigVO> resPage = null;
+        BasePage<ConfigVO> resPage = null;
         resPage = BeanDtoVoUtil.pageVo(this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper), ConfigVO.class);
         // 如果是富文本不返回内容
         for (ConfigVO xjAdminConfigVO : resPage.getRecords()) {

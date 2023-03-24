@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.client.sys.controller;
 
-import io.github.wslxm.springbootplus2.common.annotation.XjCurrentLimit;
+import io.github.wslxm.springbootplus2.core.base.annotation.XjCurrentLimit;
+import io.github.wslxm.springbootplus2.core.base.annotation.XjSecret;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.Result;
@@ -35,7 +36,7 @@ public class UbannerController extends BaseController<BannerService> {
     @ApiOperation(value = "列表-位置查询")
     @ApiImplicitParam(name = "position", value = "位置(字典code)", required = true, paramType = "path", example = "")
     @XjCurrentLimit(qbs = 200)
-    public Result<List<BannerVO>> list(@PathVariable Integer position) {
+    public Result<List<BannerVO>> list(@PathVariable @XjSecret Integer position) {
         return Result.successFind(baseService.findByPosition(position));
     }
 }

@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
 import io.github.wslxm.springbootplus2.core.constant.SymbolConst;
@@ -42,7 +42,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, Address> 
 
 
     @Override
-    public IPage<AddressVO> findPage(AddressQuery query) {
+    public BasePage<AddressVO> findPage(AddressQuery query) {
         LambdaQueryWrapper<Address> queryWrapper = new LambdaQueryWrapper<Address>().orderByDesc(Address::getCreateTime);
         queryWrapper.likeRight(StringUtils.isNotBlank(query.getPid()), Address::getPid, query.getPid());
         queryWrapper.likeRight(StringUtils.isNotBlank(query.getName()), Address::getName, query.getName());

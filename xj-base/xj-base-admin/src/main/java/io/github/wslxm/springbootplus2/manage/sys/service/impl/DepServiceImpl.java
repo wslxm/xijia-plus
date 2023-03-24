@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
@@ -43,7 +43,7 @@ public class DepServiceImpl extends BaseServiceImpl<DepMapper, Dep> implements D
 
 
     @Override
-    public IPage<DepVO> findPage(DepQuery query) {
+    public BasePage<DepVO> findPage(DepQuery query) {
         LambdaQueryWrapper<Dep> queryWrapper = new LambdaQueryWrapper<Dep>().orderByDesc(Dep::getCreateTime);
         queryWrapper.likeRight(StringUtils.isNotBlank(query.getPid()), Dep::getPid, query.getPid());
         queryWrapper.likeRight(StringUtils.isNotBlank(query.getName()), Dep::getName, query.getName());

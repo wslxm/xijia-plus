@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.test.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.test.model.entity.GcTest;
 import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
 import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
@@ -36,7 +36,7 @@ public interface GcTestMapper extends BaseMapper<GcTest> {
      * @param query
      * @return java.util.List<GcTest>
      */
-    List<GcTestVO> list(IPage<GcTestVO> page, GcTestQuery query);
+    List<GcTestVO> list(BasePage<GcTestVO> page, GcTestQuery query);
 
 }
 

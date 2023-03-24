@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.test.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
@@ -30,7 +30,7 @@ public class GcTestController extends BaseController<GcTestService> {
 
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public Result<IPage<GcTestVO>> findPage(@ModelAttribute @Validated GcTestQuery query) {
+    public Result<BasePage<GcTestVO>> findPage(@ModelAttribute @Validated GcTestQuery query) {
         return Result.success(baseService.findPage(query));
     }
 

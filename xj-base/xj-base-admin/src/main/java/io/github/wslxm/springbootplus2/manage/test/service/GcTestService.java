@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.test.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.test.model.entity.GcTest;
 import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
 import io.github.wslxm.springbootplus2.manage.test.model.dto.GcTestDTO;
@@ -26,7 +26,7 @@ public interface GcTestService extends IService<GcTest> {
      * @param query query
      * @return 分页列表数据
      */
-    IPage<GcTestVO> findPage(GcTestQuery query);
+    BasePage<GcTestVO> findPage(GcTestQuery query);
 
     /**
      * id 查询

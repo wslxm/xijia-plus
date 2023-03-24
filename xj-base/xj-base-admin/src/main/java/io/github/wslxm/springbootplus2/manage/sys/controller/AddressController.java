@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.sys.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
@@ -37,7 +37,7 @@ public class AddressController extends BaseController<AddressService> {
 
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public Result<IPage<AddressVO>> findPage(@ModelAttribute @Validated AddressQuery query) {
+    public Result<BasePage<AddressVO>> findPage(@ModelAttribute @Validated AddressQuery query) {
         return Result.success(baseService.findPage(query));
     }
 

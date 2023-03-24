@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 public class LogServiceImpl extends BaseServiceImpl<LogMapper, Log> implements LogService {
 
     @Override
-    public IPage<LogVO> findPage(LogQuery query) {
+    public BasePage<LogVO> findPage(LogQuery query) {
         LambdaQueryWrapper<Log> queryWrapper = new LambdaQueryWrapper<Log>()
                 .orderByDesc(Log::getCreateTime)
                 .likeRight(StringUtils.isNotBlank(query.getFullName()), Log::getFullName, query.getFullName())

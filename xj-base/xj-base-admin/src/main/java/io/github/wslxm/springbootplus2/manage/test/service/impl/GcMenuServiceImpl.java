@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.test.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
 import io.github.wslxm.springbootplus2.core.constant.SymbolConst;
@@ -42,7 +42,7 @@ public class GcMenuServiceImpl extends BaseServiceImpl<GcMenuMapper, GcMenu> imp
 
 
     @Override
-    public IPage<GcMenuVO> findPage(GcMenuQuery query) {
+    public BasePage<GcMenuVO> findPage(GcMenuQuery query) {
         LambdaQueryWrapper<GcMenu> queryWrapper = new LambdaQueryWrapper<GcMenu>().orderByDesc(GcMenu::getCreateTime);
         queryWrapper.likeRight(StringUtils.isNotBlank(query.getPid()), GcMenu::getPid, query.getPid());
         queryWrapper.likeRight(StringUtils.isNotBlank(query.getName()), GcMenu::getName, query.getName());

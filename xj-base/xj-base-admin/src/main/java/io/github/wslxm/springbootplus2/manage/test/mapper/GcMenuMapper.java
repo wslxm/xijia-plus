@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.test.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.test.model.entity.GcMenu;
 import io.github.wslxm.springbootplus2.manage.test.model.vo.GcMenuVO;
 import io.github.wslxm.springbootplus2.manage.test.model.query.GcMenuQuery;
@@ -36,7 +36,7 @@ public interface GcMenuMapper extends BaseMapper<GcMenu> {
      * @param query
      * @return java.util.List<GcMenu>
      */
-    List<GcMenuVO> list(IPage<GcMenuVO> page, GcMenuQuery query);
+    List<GcMenuVO> list(BasePage<GcMenuVO> page, GcMenuQuery query);
 
 }
 

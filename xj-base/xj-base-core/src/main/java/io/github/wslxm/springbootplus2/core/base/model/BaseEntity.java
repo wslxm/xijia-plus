@@ -1,9 +1,6 @@
 package io.github.wslxm.springbootplus2.core.base.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -29,6 +26,7 @@ public class BaseEntity extends Convert {
     /**
      * 创建人(ID)
      */
+    @TableField(fill = FieldFill.INSERT)
     private String createUser;
     /**
      * 创建时间(数据库策略--添加数据自动插入时间)
@@ -37,6 +35,7 @@ public class BaseEntity extends Convert {
     /**
      * 更新人(ID)
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updateUser;
     /**
      * 更新时间(数据库策略--修改数据自动更新时间)

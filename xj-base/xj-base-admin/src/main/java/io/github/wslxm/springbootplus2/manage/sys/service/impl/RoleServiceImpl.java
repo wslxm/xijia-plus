@@ -3,10 +3,12 @@ package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
+import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.sys.mapper.RoleMapper;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.RoleDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Role;
@@ -42,7 +44,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
 
 
     @Override
-    public IPage<RoleVO> findPage(RoleQuery query) {
+    public BasePage<RoleVO> findPage(RoleQuery query) {
 
         // 是否只查询当前登录人创建的角色
         String loginUserId = ObjectUtil.defaultIfNull(query.getIsLoginUser(), () -> JwtUtil.getJwtUser(request).getUserId(), null);
@@ -54,10 +56,10 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
             query.setUserId(null);
         }
         // 查询
-        IPage<RoleVO> page = new Page<>(query.getCurrent(), query.getSize());
+        Page<RoleVO> page = new Page<>(query.getCurrent(), query.getSize());
         page = page.setRecords(baseMapper.list(page, query, loginUserId));
         if (page.getRecords() == null || page.getRecords().size() == 0) {
-            return page;
+            return BeanDtoVoUtil.pageVo(page);
         }
 
         // 处理指定用户当前拥有的角色
@@ -68,7 +70,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
                 page.getRecords().forEach((p) -> p.setIsChecked(userRoleIds.contains(p.getId())));
             }
         }
-        return page;
+        return BeanDtoVoUtil.pageVo(page);
     }
 
 
@@ -85,7 +87,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
     @Transactional(rollbackFor = Exception.class)
     @XjDistributedLock(lockName = "'xj-sys-role_'+#dto.code", waitTime = 5L)
     public String insert(RoleDTO dto) {
-        this.isCodeRepeat(dto.getCode(),null);
+        this.isCodeRepeat(dto.getCode(), null);
 
         Role role = dto.convert(Role.class);
         this.save(role);
@@ -98,7 +100,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
     @Transactional(rollbackFor = Exception.class)
     @XjDistributedLock(lockName = "'xj-sys-role_'+#dto.code", waitTime = 5L)
     public Boolean upd(String id, RoleDTO dto) {
-        this.isCodeRepeat(dto.getCode(),id);
+        this.isCodeRepeat(dto.getCode(), id);
 
         Role role = dto.convert(Role.class);
         role.setId(id);
@@ -130,6 +132,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
 
     /**
      * 角色code重复验证
+     *
      * @author wangsong
      * @mail 1720696548@qq.com
      * @date 2022/8/20 0020 14:33
