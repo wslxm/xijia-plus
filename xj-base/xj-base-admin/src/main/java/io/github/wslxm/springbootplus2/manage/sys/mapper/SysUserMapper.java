@@ -1,7 +1,8 @@
 package io.github.wslxm.springbootplus2.manage.sys.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.SysUserQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserVO;
@@ -24,7 +25,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return java.util.List<io.github.wslxm.springbootplus2.manage.admin.model.vo.SysUserVO>
      * @version 1.0.0
      */
-    List<SysUserVO> list(IPage<SysUserVO> page, SysUserQuery query, String createUserId);
+    List<SysUserVO> list(Page<SysUserVO> page, SysUserQuery query, String createUserId);
 
     /**
      * 根据角色Id查询指定用户信息

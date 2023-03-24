@@ -7,6 +7,7 @@ import io.github.wslxm.springbootplus2.manage.gc.model.po.DbFieldPO;
 import io.github.wslxm.springbootplus2.manage.gc.service.gc.GcSevice;
 import io.github.wslxm.springbootplus2.manage.gc.util.GcFileUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class GcDTO extends BaseGcImpl implements GcSevice {
 
     @Override
     public void run(GcConfig gcConfig) {
-          log.info("开始生成: {}", KEY_NAME);
+        log.info("开始生成: {}", KEY_NAME);
         // 数据拼接(所有字段)
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         this.generateParameters(gcConfig, dbFields);
@@ -48,8 +49,10 @@ public class GcDTO extends BaseGcImpl implements GcSevice {
                 continue;
             }
             String type = fieldMap.getType();
-            String desc = fieldMap.getDesc();
             String fieldName = fieldMap.getName();
+            String desc = fieldMap.getDesc();
+            desc = super.removeDescTheNewlineCharacter(desc, fieldName);
+
             String typeDetail = fieldMap.getTypeDetail();
             // 1、生成注释
             Boolean entitySwagger = Boolean.valueOf(gcConfig.getDefaultTemplateParam(TpParamConstant.ENTITY_SWAGGER));
@@ -63,14 +66,12 @@ public class GcDTO extends BaseGcImpl implements GcSevice {
 
             // 2、生成必填参数jsr验证(先判断是否为必填参数)
             String isNull = fieldMap.getIsNull();
-            if (("NO").equals(isNull)) {
-                String jsrModel = super.jsrModel(type, typeDetail, desc);
-                if (jsrModel != null) {
-                    fields.append("\r\n    " + jsrModel);
-                }
+            String jsrModel = super.jsrModel( isNull,type, typeDetail, desc,true);
+            if (StringUtils.isNotBlank(jsrModel) ) {
+                fields.append("\r\n" + jsrModel);
             }
             // 3、生成字段
-            fields.append("\r\n    " + super.jxModel(gcConfig, fieldName, type,false) + "\r\n");
+            fields.append("\r\n    " + super.jxModel(gcConfig, fieldName, type, false) + "\r\n");
         }
         // 数据保存到替换对象类,使模板中可以读取
         gcConfig.setTemplateParam("entitys", fields.toString());

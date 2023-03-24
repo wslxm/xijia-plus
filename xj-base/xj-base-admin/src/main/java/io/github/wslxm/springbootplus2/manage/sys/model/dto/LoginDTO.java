@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.sys.model.dto;
 
-import io.github.wslxm.springbootplus2.common.annotation.XjSecret;
+import io.github.wslxm.springbootplus2.core.base.annotation.XjSecret;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

@@ -2,7 +2,7 @@ package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
@@ -48,7 +48,7 @@ public class MsgServiceImpl extends BaseServiceImpl<MsgMapper, Msg> implements M
     private DictionaryService dictionaryService;
 
     @Override
-    public IPage<MsgVO> findPage(MsgQuery query) {
+    public BasePage<MsgVO> findPage(MsgQuery query) {
         if (query.getIsLoginUser() == null) {
             query.setIsLoginUser(true);
         }

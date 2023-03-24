@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.sys.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
@@ -35,7 +35,7 @@ public class SysUserController extends BaseController<SysUserService> {
 
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public Result<IPage<SysUserVO>> findPage(@ModelAttribute @Validated SysUserQuery query) {
+    public Result<BasePage<SysUserVO>> findPage(@ModelAttribute @Validated SysUserQuery query) {
         return Result.successFind(baseService.findPage(query));
     }
 

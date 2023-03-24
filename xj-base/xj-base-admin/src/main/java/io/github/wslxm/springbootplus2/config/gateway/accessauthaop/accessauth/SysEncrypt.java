@@ -2,13 +2,14 @@ package io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth;
 
 
 import cn.hutool.core.util.StrUtil;
-import io.github.wslxm.springbootplus2.common.annotation.XjSecret;
+import io.github.wslxm.springbootplus2.core.base.annotation.XjSecret;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.Base64Util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
@@ -16,16 +17,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 
 
 /**
  * 请求 参数自动解密 和 响应参数自动加密工具类
+ *
  * @author wangsong
+ * @version 1.0.1
  * @mail 1720696548@qq.com
  * @date 2021/4/9 0009 17:16
- * @version 1.0.1
  */
 @Aspect
 @Component
@@ -39,6 +42,7 @@ public class SysEncrypt {
 
     /**
      * 请求参数解密
+     *
      * @param pjp
      * @return args
      * @throws Throwable
@@ -78,6 +82,7 @@ public class SysEncrypt {
 
     /**
      * query 参数解密
+     *
      * @param args 参数
      * @return
      */
@@ -103,12 +108,13 @@ public class SysEncrypt {
     /**
      * body参数解密or加密（使用反射）
      * 流程：
-     *  1、获取到 aop 代码后接收参数的实体类参数 obj
-     *  2、获取请求entity 类的所有参数
-     *  3、判断为子对象或子集合，是进行递归重复1-5操作，只是参数就进行加密or解密操作
-     *  4、获取到需要解密or加密的的参数 (默认参数为obj类型)
-     *  5、对需要解密or加密的参数 进行 base64解密or加密 (默认参数为obj类型)
-     * @param obj 参数 args参数
+     * 1、获取到 aop 代码后接收参数的实体类参数 obj
+     * 2、获取请求 entity 类的所有参数
+     * 3、判断为子对象或子集合，是进行递归重复1-5操作，只是参数就进行加密or解密操作
+     * 4、获取到需要解密or加密的的参数 (默认参数为obj类型)
+     * 5、对需要解密or加密的参数 进行 base64解密or加密 (默认参数为obj类型)
+     *
+     * @param obj  参数 args参数
      * @param type 1=响应（加密或脱敏） 2=请求(解密)
      * @return
      */
@@ -122,10 +128,10 @@ public class SysEncrypt {
         for (Field field : declaredFields) {
             String name = field.getName();
             field.setAccessible(true);
-	        XjSecret xjSecret = field.getAnnotation(XjSecret.class);
+            XjSecret xjSecret = field.getAnnotation(XjSecret.class);
             // 判断是否为子对象或子list集合，是的话进行递归解密
-	        if (xjSecret != null) {
-		        if (xjSecret.isNext()) {
+            if (xjSecret != null) {
+                if (xjSecret.isNext()) {
                     try {
                         Object fieldVal = field.get(obj);
                         if (fieldVal == null) {
@@ -147,23 +153,23 @@ public class SysEncrypt {
                     }
                 } else {
                     try {
-	                    int xjSecretType = xjSecret.type();
+                        int xjSecretType = xjSecret.type();
                         String fieldVal = (String) field.get(obj);
                         if (type == 1) {
-	                        // 响应
-	                        if (xjSecretType == 1 || xjSecretType == 3) {
-		                        // 加密
-		                        field.set(obj, Base64Util.encode(fieldVal));
-	                        } else if (xjSecretType == 4) {
-		                        // 脱敏
-		                        int[] ints = xjSecret.desensitizedIndex();
-		                        field.set(obj, StrUtil.hide(fieldVal, ints[0], ints[1]));
-	                        }
+                            // 响应
+                            if (xjSecretType == 1 || xjSecretType == 3) {
+                                // 加密
+                                field.set(obj, Base64Util.encode(fieldVal));
+                            } else if (xjSecretType == 4) {
+                                // 脱敏
+                                int[] ints = xjSecret.desensitizedIndex();
+                                field.set(obj, StrUtil.hide(fieldVal, ints[0], ints[1]));
+                            }
                         } else if (type == 2) {
-	                        // 请求
-	                        if (xjSecretType == 1 || xjSecretType == 2) {
-		                        field.set(obj, Base64Util.decrypt(fieldVal));
-	                        }
+                            // 请求
+                            if (xjSecretType == 1 || xjSecretType == 2) {
+                                field.set(obj, Base64Util.decrypt(fieldVal));
+                            }
                         }
                     } catch (Exception e) {
                         log.error(name + ": 参数" + logMsg + "失败");
@@ -178,16 +184,18 @@ public class SysEncrypt {
 
     /**
      * 返回参数加密
+     *
+     * @return args
      * @author wangsong
      * @date 2021/4/9 0009 17:17
-     * @return args
      * @version 1.0.1
      */
-    public Object encrypt(Object obj) {
-        if(obj == null){
-            return null;
-        }
-        if (!isEncrypt) {
+    public Object encrypt(ProceedingJoinPoint pjp, Object obj) {
+        Signature signature = pjp.getSignature();
+        MethodSignature methodSignature = (MethodSignature) signature;
+        Method method = methodSignature.getMethod();
+        XjSecret xjSecret = method.getAnnotation(XjSecret.class);
+        if (obj == null || !isEncrypt || xjSecret == null) {
             return obj;
         }
         Result<Object> r = null;
@@ -202,7 +210,7 @@ public class SysEncrypt {
     }
 
 
-	public static void main(String[] args) {
-		System.out.println(StrUtil.hide(null, 3, 7));
-	}
+    public static void main(String[] args) {
+        System.out.println(StrUtil.hide(null, 3, 7));
+    }
 }

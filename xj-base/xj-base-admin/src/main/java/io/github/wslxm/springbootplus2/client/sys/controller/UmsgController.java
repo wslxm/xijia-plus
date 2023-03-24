@@ -1,6 +1,7 @@
 package io.github.wslxm.springbootplus2.client.sys.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.MsgQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.MsgVO;
@@ -30,7 +31,7 @@ public class UmsgController extends BaseController<MsgService> {
 
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "分页查询")
-    public Result<IPage<MsgVO>> findPage(@ModelAttribute @Validated MsgQuery query) {
+    public Result<BasePage<MsgVO>> findPage(@ModelAttribute @Validated MsgQuery query) {
         return Result.successFind(baseService.findPage(query));
     }
 

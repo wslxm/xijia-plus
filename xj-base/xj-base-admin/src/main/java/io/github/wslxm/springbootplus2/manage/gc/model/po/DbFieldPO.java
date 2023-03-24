@@ -47,7 +47,7 @@ public class DbFieldPO {
      */
     private Boolean isSearch;
     /**
-     * 是否必填(NO /YES)
+     * 是否必填 NO 代表必填, YES 非必填
      */
     private String isNull;
     /**

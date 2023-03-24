@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.sys.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.BlacklistDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Blacklist;
@@ -27,10 +27,10 @@ public interface BlacklistService extends IService<Blacklist> {
      * 分页查询
      *
      * @param query query
-     * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.xj.model.vo.BlacklistVO>
+     * @return com.baomidou.mybatisplus.core.metadata.BasePage<io.github.wslxm.springbootplus2.manage.xj.model.vo.BlacklistVO>
      * @version 1.0.0
      */
-    IPage<BlacklistVO> findPage(BlacklistQuery query);
+    BasePage<BlacklistVO> findPage(BlacklistQuery query);
 
 
     /**

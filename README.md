@@ -1,5 +1,5 @@
 <h1 align="center">
-   <a href="http://xijia.plus">xijia-plus v2.1.6  </a>
+   <a href="http://xijia.plus">xijia-plus v2.1.7  </a>
 </h1>
 <div align="center">
    <a  href='https://gitee.com/wslxm/xijia-plus/stargazers'><img src='https://gitee.com/wslxm/xijia-plus/badge/star.svg?theme=white' alt='star'></img></a>
@@ -22,7 +22,7 @@ xijia-plus 是一套完全开源的快速开发平台，毫无保留给个人及
 - 这是一个 网站应用 /App /小程序 等应用的后台快速开发架构/脚手架
 - 主要应用于中小型项目的快速开发 (为什么不是大型项目呢? 一般开发大型项目的公司都有自己的架构团队)
 - 完善的分布式解决方案： 支持集群，支持模块化开发，分布式缓存，分布式锁，分布式唯一编号
-- 完善的基础功能： 已经历数年的优化改进, 让其更简洁易懂易操作及美观 
+- 完善的基础功能： 已经历数年的优化改进, 让其更简洁易懂易操作及美观
 - 完善的代码生成功能： 提供管理端接口+页面自动生成, 生成后的页面crud功能将直接可以正常使用
 
 ----------
@@ -31,15 +31,15 @@ xijia-plus 是一套完全开源的快速开发平台，毫无保留给个人及
 - [项目文档: (http://xijia.plus/)](http://xijia.plus/)  |  [原文档地址 wikis (已停止维护)](https://gitee.com/wslxm/xijia-plus/wikis/pages)
 
 - [项目文档-启动项目](http://xijia.plus/%E6%9C%8D%E5%8A%A1%E7%AB%AF/%E5%BF%AB%E9%80%9F%E4%BD%BF%E7%94%A8.html)
-- [更新日志](https://gitee.com/wslxm/xijia-plus/blob/2.x/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md) 
+- [更新日志](https://gitee.com/wslxm/xijia-plus/blob/2.x/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md)
 - [目录结构](https://gitee.com/wslxm/xijia-plus/blob/2.x/%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3/2.x%20%E7%89%88%E6%9C%AC%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.md)
 ----------
 
 #### 项目宗旨：
- - 只为急速开发而生, 主要针对于中小型的项目快速开发
- - `快速` (提供基础crud生成, 包括前端页面生成且与接口进行自动匹配)
- - `简洁` (对重复使用率高的工具代码进行封装)
- - `规范` (对接口命名,方法命名等,请求方式等统一规范,让接口对接更简单)
+- 只为急速开发而生, 主要针对于中小型的项目快速开发
+- `快速` (提供基础crud生成, 包括前端页面生成且与接口进行自动匹配)
+- `简洁` (对重复使用率高的工具代码进行封装)
+- `规范` (对接口命名,方法命名等,请求方式等统一规范,让接口对接更简单)
 
 #### 系统功能：
 - `接口文档`：swagger + knife4j
@@ -57,7 +57,7 @@ xijia-plus 是一套完全开源的快速开发平台，毫无保留给个人及
 ## 采用技术:
 - `2.x 后端`：springboot2.2.2 + mysql + redis + swagger
 - `2.x 前端`：vue2 + element-ui +  avue
-- [更多祥见](http://xijia.plus/%E6%9C%8D%E5%8A%A1%E7%AB%AF/%E9%87%87%E7%94%A8%E6%8A%80%E6%9C%AF.html) 
+- [更多祥见](http://xijia.plus/%E6%9C%8D%E5%8A%A1%E7%AB%AF/%E9%87%87%E7%94%A8%E6%8A%80%E6%9C%AF.html)
 
 
 

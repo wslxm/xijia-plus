@@ -44,7 +44,7 @@
         <!-- ================== 编码环境 END ======================= -->
 
         <!-- 数据源相关 -->
-        <mybatis-plus-boot-starter.version>3.5.1</mybatis-plus-boot-starter.version>
+        <mybatis-plus-boot-starter.version>3.5.3</mybatis-plus-boot-starter.version>
         <!--<mybatis-plus-generator.version>3.1.0.tmp</mybatis-plus-generator.version>-->
         <mysql-connector-java.version>8.0.16</mysql-connector-java.version>
         <druid-spring-boot-starter.version>1.2.6</druid-spring-boot-starter.version>

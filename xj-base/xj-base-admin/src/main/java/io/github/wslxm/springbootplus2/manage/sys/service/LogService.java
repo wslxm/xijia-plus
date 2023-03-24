@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.sys.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Log;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.LogQuery;
@@ -22,10 +22,10 @@ public interface LogService extends IService<Log> {
      * 列表查询
      *
      * @param query query
-     * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.xj.model.vo.LogVO>
+     * @return com.baomidou.mybatisplus.core.metadata.BasePage<io.github.wslxm.springbootplus2.manage.xj.model.vo.LogVO>
      * @version 1.0.0
      */
-    IPage<LogVO> findPage(LogQuery query);
+    BasePage<LogVO> findPage(LogQuery query);
 
 }
 

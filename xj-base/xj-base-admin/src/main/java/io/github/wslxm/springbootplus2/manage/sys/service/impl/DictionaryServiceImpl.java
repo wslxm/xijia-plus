@@ -57,7 +57,7 @@ public class DictionaryServiceImpl extends BaseServiceImpl<DictionaryMapper, Dic
         if (StringUtils.isNotBlank(code)) {
             ValidUtil.isTrue(StringUtil.isInteger(code), "code 参数不能传递数字");
         }
-        //2、获取所有字典数据
+        // 2、获取所有字典数据
         List<DictionaryVO> dictListVO = XjCacheUtil.findListAll(isDisable);
         if (dictListVO == null || dictListVO.size() == 0) {
             return dictListVO;

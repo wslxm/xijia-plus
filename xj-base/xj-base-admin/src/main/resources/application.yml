@@ -1,94 +1,60 @@
-# 当前项目版本
-xijia-plus:
-  version: "@revision@"
-
 spring:
-  ## maven面板动态切换dev/pro环境
+  application:
+    name: "xijia-plus"
   profiles:
     active: "@profiles.active@"
-  ## 当遇到同样bend名字的时候，是否允许覆盖注册
   main:
     allow-bean-definition-overriding: true
-  ## 处理静态资源中文乱码
   http:
     encoding:
       force: true
       charset: UTF-8
-  ## thymeleaf 配置
-  thymeleaf:
-    cache: false
-    check-template-location: true
-    enabled: true
-    mode: LEGACYHTML5
-    prefix: classpath:/templates/
-    suffix: .html
-  ## 时间格式处理
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-  ## 文件上传配置
   servlet:
     multipart:
-      max-file-size: 1024MB      # 单个文件的最大上限
-      max-request-size: 1024MB   # 单个请求的文件总大小上限
-  ## 数据源的连接的基础配置, 当前为mybatis-plus配置方法
+      max-file-size: 100MB
+      max-request-size: 100MB
   datasource:
-    ## druid 连接池配置
-    initialSize: 5    # 初始化大小
-    minIdle: 5        # 最小值
-    maxActive: 20     # 最大值
-    maxWait: 60000    # 最大等待时间，配置获取连接等待超时，时间单位都是毫秒ms
-    timeBetweenEvictionRunsMillis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接
-    minEvictableIdleTimeMillis: 300000    # 配置一个连接在池中最小生存的时间
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
     validationQuery: SELECT 1 FROM DUAL
     testWhileIdle: true
     testOnBorrow: false
     testOnReturn: false
     poolPreparedStatements: true
-    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，
-    # 'wall'用于防火墙，SpringBoot中没有log4j，我改成了 slf4j | log4j2
     filters: stat,wall,slf4j,log4j2
-    #最大PSCache连接
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
-    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
     connectionProperties: druid.stat.mergeSql=true:druid.stat.slowSqlMillis=500
 
-
-
-# mybatis-plus相关配置
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
   configuration:
-    # 是否开启自动驼峰命名规则映射,从数据库列名到Java属性驼峰命名的类似映射
     map-underscore-to-camel-case: true
-    # 如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段
     call-setters-on-nulls: true
-    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
-    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-# 代码生成配置
 gc:
-  # 代码生成后每个类上的描叙信息
   describe: ::本代码由[兮家小二]提供的代码生成器生成,如有问题,请手动修改 ::作者CSDN:https://blog.csdn.net/qq_41463655
-  author: ws                              # 作者
-  email: 1720696548@qq.com                # 邮箱
-  projectName: xj-base/xj-base-admin      # 项目名/路径，如：xj-server/xj-test-server
-  packPath: io.github.wslxm.springbootplus2 # 包路径(如: io.github.wslxm)
-  rootModule: manage                      # 根模块(固定为：manage (管理端), 用户端为：client)
-  moduleName: test                        # 子模块(如用户管理,订单管理模块拆分，也可以统一一个名称放在一起,但不建议)
-  tablePrefixDefault: t_                  # 表前缀 (生成的类名会过滤掉前缀)
-  fieldPrefixDefault:                     # 字段前缀 (生成的字段名会过滤掉前缀)
-  entitySwagger: true                     # 实体类是否使用swagger注释 (false情况下使用doc注释)
-  fatherPath:                             # 生成路径(不填默认当前项目跟目录,可指定绝对路径,本地启动时生效)
-  ## 是否过滤crud方法- 默认生成 (controller/service/mapper/xml)
+  author: ws
+  email: 1720696548@qq.com
+  projectName: xj-base/xj-base-admin
+  packPath: io.github.wslxm.springbootplus2
+  rootModule: manage
+  moduleName: test
+  tablePrefixDefault: t_
+  fieldPrefixDefault:
+  entitySwagger: true
+  fatherPath:
   filterCrud: false
-  ## 18=富文本 19=md编辑器
-  # vue列表排除展示指定类型字段, 同时list接口 mybatis-plus 查询模式不查询该类型字段值 （详见字典- VueFieldType）
   vueFieldTypes: 18,19
-  # 数据库通用字段配置
   basefields: id,create_user,update_user,create_time,update_time,deleted,version
-  # 数据库关键字,标注后会在实体类 @TableField 注解上自动加引号
   keywordArray: time,desc,name,key,value,mysql,info,form,sort,icon,like,unlock,unLock,comment,disable,force,describe,host,port,from,to
 
 

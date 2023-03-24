@@ -205,7 +205,7 @@ public class XjGenerationSeviceImplI extends BaseServiceImpl implements Generati
         }
 
         try {
-            // 每次生成前 清空该生成模块下原文件,不处理非改模块的其他代码，下载文件默认生成在预览文件目录
+            // 每次生成前 清空该生成模块下原文件,不处理非该模块的其他代码，下载文件默认生成在预览文件目录
             String projectName = gcConfig.getDefaultTemplateParam(TpParamConstant.PROJECT_NAME);
             String gcPath = GcTPConfig.PREVIEW_FILE_PATH + projectName;
             File srcFile = new File(gcPath);

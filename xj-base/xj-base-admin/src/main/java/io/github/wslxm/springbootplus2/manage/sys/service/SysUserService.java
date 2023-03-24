@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.sys.service;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.LoginDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.SysUserDTO;
@@ -24,10 +24,10 @@ public interface SysUserService extends IService<SysUser> {
      * 列表查询
      *
      * @param query query
-     * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.admin.model.vo.SysUserVO>
+     * @return com.baomidou.mybatisplus.core.metadata.BasePage<io.github.wslxm.springbootplus2.manage.admin.model.vo.SysUserVO>
      * @version 1.0.0
      */
-    IPage<SysUserVO> findPage(SysUserQuery query);
+    BasePage<SysUserVO> findPage(SysUserQuery query);
 
     /**
      * 添加

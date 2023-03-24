@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.sys.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.BannerDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Banner;
@@ -25,10 +25,10 @@ public interface BannerService extends IService<Banner> {
      * 列表查询
      *
      * @param query query
-     * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.xj.model.vo.BannerVO>
+     * @return com.baomidou.mybatisplus.core.metadata.BasePage<io.github.wslxm.springbootplus2.manage.xj.model.vo.BannerVO>
      * @version 1.0.0
      */
-    IPage<BannerVO> findPage(BannerQuery query);
+    BasePage<BannerVO> findPage(BannerQuery query);
 
 
     /**

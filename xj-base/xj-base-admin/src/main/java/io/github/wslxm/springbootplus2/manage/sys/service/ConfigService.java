@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.sys.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.ConfigDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Config;
@@ -23,10 +23,10 @@ public interface ConfigService extends IService<Config> {
      * 列表查询
      *
      * @param query query
-     * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.xj.model.vo.ConfigVO>
+     * @return com.baomidou.mybatisplus.core.metadata.BasePage<io.github.wslxm.springbootplus2.manage.xj.model.vo.ConfigVO>
      * @version 1.0.0
      */
-    IPage<ConfigVO> findPage(ConfigQuery query);
+    BasePage<ConfigVO> findPage(ConfigQuery query);
 
 
     /**

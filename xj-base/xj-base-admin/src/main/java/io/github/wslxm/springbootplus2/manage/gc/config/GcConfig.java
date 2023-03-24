@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GcConfig {
 
     /**
-     * 是否生成数据结构
+     * 是否生成 数结构 页面/代码
      */
     private Boolean isTree;
 

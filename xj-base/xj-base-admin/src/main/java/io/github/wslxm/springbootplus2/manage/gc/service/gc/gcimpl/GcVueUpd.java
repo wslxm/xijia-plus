@@ -47,9 +47,10 @@ public class GcVueUpd extends BaseGcImpl implements GcSevice {
                     dbField.getName(),
                     dbField.getType(),
                     dbField.getTypeDetail(),
-                    getDesc(dbField.getDesc()),
+                    getDesc(dbField.getDesc(), dbField.getName()),
                     dbField.getVueFieldType(),
-                    dbField.getDictCode()
+                    dbField.getDictCode(),
+                    dbField.getIsNull()
             ));
 
             // 生成字段 插槽

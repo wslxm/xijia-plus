@@ -47,11 +47,18 @@
         from t_sys_menu m
         <if test="loginUserId != null">
             left join t_sys_role_menu rm on rm.menu_id = m.id
+            left join t_sys_role r on r.id = rm.role_id
             left join t_sys_role_user ru on ru.role_id = rm.role_id
             left join t_sys_user u on u.id = ru.user_id
         </if>
         where m.deleted = 0
         <if test="loginUserId != null">
+            and rm.deleted = 0
+            and ru.deleted = 0
+            and r.deleted = 0
+            and u.deleted = 0
+            and r.`disable` = 0
+            and u.`disable` = 0
             and u.id = #{loginUserId}
         </if>
         <if test="disable != null">

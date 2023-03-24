@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.test.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
 import io.github.wslxm.springbootplus2.core.constant.SymbolConst;
@@ -34,7 +34,7 @@ import java.util.List;
 public class GcTestServiceImpl extends BaseServiceImpl<GcTestMapper, GcTest> implements GcTestService {
 
     @Override
-    public IPage<GcTestVO> findPage(GcTestQuery query) {
+    public BasePage<GcTestVO> findPage(GcTestQuery query) {
         LambdaQueryWrapper<GcTest> queryWrapper = new LambdaQueryWrapper<GcTest>().orderByDesc(GcTest::getCreateTime);
         queryWrapper.select(GcTest.class, info -> !"text_two".equals(info.getColumn())
                   && !"text_three".equals(info.getColumn()));

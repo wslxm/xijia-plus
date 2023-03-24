@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.sys.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
@@ -37,7 +37,7 @@ public class DepController extends BaseController<DepService> {
 
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public Result<IPage<DepVO>> findPage(@ModelAttribute @Validated DepQuery query) {
+    public Result<BasePage<DepVO>> findPage(@ModelAttribute @Validated DepQuery query) {
         return Result.success(baseService.findPage(query));
     }
 

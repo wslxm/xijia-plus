@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gc.gcimpl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSON;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
@@ -29,6 +30,11 @@ public class GcMapperXml extends BaseServiceImpl implements GcSevice {
      * 模板key
      */
     public static final String KEY_NAME = "X-MapperXml";
+
+    /**
+     * 生成查询时将下方定义的字段名修改为使用 eq 查询的字段 (只针对字符串类型的字段, 原 likeRight -> eq)
+     */
+    public static final List<String> EQ_FIELD = CollUtil.newArrayList("id", "pid");
 
     /**
      * 生成Dao 对应的xml
@@ -89,7 +95,11 @@ public class GcMapperXml extends BaseServiceImpl implements GcSevice {
             )) {
                 // 字符串默认右模糊
                 selectSearcListSb.append("\r\n        <if test=\"query." + fieldNameHump + " != null and query." + fieldNameHump + "  != ''\">");
-                selectSearcListSb.append("\r\n            and t." + fieldName + " like concat(#{query." + fieldNameHump + "},'%')");
+                if (EQ_FIELD.contains(fieldMap.getName())) {
+                    selectSearcListSb.append("\r\n            and t." + fieldName + " = #{query." + fieldNameHump + "}");
+                }else{
+                    selectSearcListSb.append("\r\n            and t." + fieldName + " like concat(#{query." + fieldNameHump + "},'%')");
+                }
                 selectSearcListSb.append("\r\n        </if>");
             } else if (type.equals(FieldTypeConstant.DATETIME)) {
                 // 时间默认时间范围搜索(传入字符串分割的开始时间+结束时间)

@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.sys.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.Result;
@@ -31,7 +31,7 @@ public class ConfigController extends BaseController<ConfigService> {
 
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "分页查询")
-    public Result<IPage<ConfigVO>> findPage(@ModelAttribute @Validated ConfigQuery query) {
+    public Result<BasePage<ConfigVO>> findPage(@ModelAttribute @Validated ConfigQuery query) {
         return Result.success(baseService.findPage(query));
     }
 

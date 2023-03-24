@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.sys.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.Result;
@@ -31,7 +31,7 @@ public class BlacklistController extends BaseController<BlacklistService> {
 
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
-    public Result<IPage<BlacklistVO>> findPage(@ModelAttribute @Validated BlacklistQuery query) {
+    public Result<BasePage<BlacklistVO>> findPage(@ModelAttribute @Validated BlacklistQuery query) {
         return Result.success(baseService.findPage(query));
     }
 

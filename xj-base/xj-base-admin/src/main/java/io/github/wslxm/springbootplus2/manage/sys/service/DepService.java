@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.sys.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Dep;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DepVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.DepDTO;
@@ -35,7 +35,7 @@ public interface DepService extends IService<Dep> {
      * @param query query
      * @return 分页列表数据
      */
-    IPage<DepVO> findPage(DepQuery query);
+    BasePage<DepVO> findPage(DepQuery query);
 
     /**
      * id 查询

@@ -1,6 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.sys.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.MsgDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Msg;
@@ -24,10 +24,10 @@ public interface MsgService extends IService<Msg> {
      * 列表查询
      *
      * @param query query
-     * @return com.baomidou.mybatisplus.core.metadata.IPage<io.github.wslxm.springbootplus2.manage.xj.model.vo.MsgVO>
+     * @return com.baomidou.mybatisplus.core.metadata.BasePage<io.github.wslxm.springbootplus2.manage.xj.model.vo.MsgVO>
      * @version 1.0.0
      */
-    IPage<MsgVO> findPage(MsgQuery query);
+    BasePage<MsgVO> findPage(MsgQuery query);
 
 
     /**

@@ -3,8 +3,10 @@ package io.github.wslxm.springbootplus2.manage.sys.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.RoleUser;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserRolesVO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *   角色+用户管理
@@ -15,36 +17,46 @@ import java.util.List;
  */
 public interface RoleUserService extends IService<RoleUser> {
 
-	/**
-	 * 用户角色重分配
-	 *
-	 * @param userId
-	 * @param roleIds
-	 * @return boolean
-	 * @author wangsong
-	 * @date 2022/8/18 14:31
-	 */
-	boolean updUserRole(String userId, List<String> roleIds);
+    /**
+     * 用户角色重分配
+     *
+     * @param userId
+     * @param roleIds
+     * @return boolean
+     * @author wangsong
+     * @date 2022/8/18 14:31
+     */
+    boolean updUserRole(String userId, List<String> roleIds);
 
 
-	/**
-	 * 删除指定用户 关联的角色
-	 *
-	 * @param userId
-	 * @return boolean
-	 * @author wangsong
-	 * @date 2022/8/18 14:31
-	 */
-	boolean delByUserId(String userId);
+    /**
+     * 删除指定用户 关联的角色
+     *
+     * @param userId
+     * @return boolean
+     * @author wangsong
+     * @date 2022/8/18 14:31
+     */
+    boolean delByUserId(String userId);
 
 
-	/**
-	 * 删除指定角色 关联的用户
-	 *
-	 * @param roleId
-	 * @return boolean
-	 * @author wangsong
-	 * @date 2022/8/18 14:31
-	 */
-	boolean delByRoleId(String roleId);
+    /**
+     * 删除指定角色 关联的用户
+     *
+     * @param roleId
+     * @return boolean
+     * @author wangsong
+     * @date 2022/8/18 14:31
+     */
+    boolean delByRoleId(String roleId);
+
+    /**
+     * 查询指定用户的当前角色列表
+     * @param userIds
+     * @return Map<用户id, 用户角色列表>
+     * @author wangsong
+     * @date 2022/8/18 14:31
+     */
+    public Map<String, List<SysUserRolesVO>> findUserRoles(List<String> userIds);
+
 }

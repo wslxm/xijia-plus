@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.common.cache.CacheKey;
@@ -32,7 +32,7 @@ import java.util.List;
 public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, Banner> implements BannerService {
 
     @Override
-    public IPage<BannerVO> findPage(BannerQuery query) {
+    public BasePage<BannerVO> findPage(BannerQuery query) {
         LambdaQueryWrapper<Banner> queryWrapper = new LambdaQueryWrapper<Banner>()
                 .orderByAsc(Banner::getPosition)
                 .orderByAsc(Banner::getSort)
@@ -52,6 +52,7 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, Banner> imp
     }
 
     @Override
+    @CacheEvict(value = CacheKey.BENNER_BY_POSITION, key = "#dto.position", allEntries = true)
     public String insert(BannerDTO dto) {
         Banner entity = dto.convert(Banner.class);
         boolean b = this.save(entity);
@@ -59,7 +60,7 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, Banner> imp
     }
 
     @Override
-    @CacheEvict(value = CacheKey.BENNER_BY_POSITION, allEntries = true)
+    @CacheEvict(value = CacheKey.BENNER_BY_POSITION, key = "#dto.position", allEntries = true)
     public boolean upd(String id, BannerDTO dto) {
         Banner entity = dto.convert(Banner.class);
         entity.setId(id);

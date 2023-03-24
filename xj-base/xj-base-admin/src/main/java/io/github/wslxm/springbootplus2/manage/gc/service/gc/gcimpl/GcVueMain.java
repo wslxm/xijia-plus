@@ -36,7 +36,7 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
      */
     @Override
     public void run(GcConfig gcConfig) {
-          log.info("开始生成: {}", KEY_NAME);
+        log.info("开始生成: {}", KEY_NAME);
         // 数据表格字段
         StringBuffer vueInfoColumns = new StringBuffer(" ");
         StringBuffer vueInfoColumnSlots = new StringBuffer(" ");
@@ -55,7 +55,7 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
             }
 
             String name = GcDataUtil.getFieldName(gcConfig, dbFieldPO.getName());
-            String newDesc = super.getDesc(dbFieldPO.getDesc());
+            String newDesc = super.getDesc(dbFieldPO.getDesc(), dbFieldPO.getName());
             // 判断是否需要生成查询
             boolean isSearch = dbFieldPO.getIsSearch() == null ? false : dbFieldPO.getIsSearch();
 
@@ -117,5 +117,4 @@ public class GcVueMain extends BaseGcImpl implements GcSevice {
         // 开始生成文件并进行数据替换
         GcFileUtil.replacBrBwWritee(gcConfig, GcFileUtil.getBrBwPath(gcConfig, KEY_NAME));
     }
-
 }

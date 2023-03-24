@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.gc.gcimpl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSON;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.manage.gc.config.GcConfig;
@@ -22,19 +23,23 @@ public class GcIServiceImpl extends BaseServiceImpl implements GcSevice {
      * 模板key
      */
     public static final String KEY_NAME = "X-ServiceImpl";
+    /**
+     * 生成查询时将下方定义的字段名修改为使用 eq 查询的字段 (只针对字符串类型的字段, 原 likeRight -> eq)
+     */
+    public static final List<String> EQ_FIELD = CollUtil.newArrayList("id", "pid");
 
     /**
      * 生成ServiceImpl
      *
-     * @param data    数据
+     * @param data           数据
      * @param GenerateConfig 数据
-     * @param path    生成代码路径
+     * @param path           生成代码路径
      * @return void
      * @date 2019/11/20 19:18
      */
     @Override
     public void run(GcConfig gcConfig) {
-          log.info("开始生成: {}", KEY_NAME);
+        log.info("开始生成: {}", KEY_NAME);
         List<DbFieldPO> dbFields = gcConfig.getDbFields();
         this.generateParameters(gcConfig, dbFields);
         // 开始生成文件并进行数据替换
@@ -105,7 +110,11 @@ public class GcIServiceImpl extends BaseServiceImpl implements GcSevice {
                 /**
                  * 字符串 / 大文本、超大文本
                  */
-                findPageMybatisPlus.append("queryWrapper.likeRight(StringUtils.isNotBlank(query.get" + fieldName + "()), " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "());");
+                if (EQ_FIELD.contains(fieldMap.getName())) {
+                    findPageMybatisPlus.append("queryWrapper.eq(StringUtils.isNotBlank(query.get" + fieldName + "()), " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "());");
+                } else {
+                    findPageMybatisPlus.append("queryWrapper.likeRight(StringUtils.isNotBlank(query.get" + fieldName + "()), " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "());");
+                }
             } else if (type.equals(FieldTypeConstant.DATETIME) || type.equals(FieldTypeConstant.TIME)
                     || type.equals(FieldTypeConstant.TIMESTAMP)) {
                 /**
@@ -113,9 +122,9 @@ public class GcIServiceImpl extends BaseServiceImpl implements GcSevice {
                  */
                 if (type.equals(FieldTypeConstant.DATETIME)) {
                     String hql = "if (StringUtils.isNotBlank(query.get{prop}()) && query.get{prop}().split(SymbolConst.COMMA).length >= 1) {\n" +
-                            "            queryWrapper.between(GcTest::get{prop}, query.get{prop}().split(\",\")[0], query.get{prop}().split(\",\")[1]);\n" +
+                            "            queryWrapper.between({tableNameUp}::get{prop}, query.get{prop}().split(\",\")[0], query.get{prop}().split(\",\")[1]);\n" +
                             "        }";
-                    findPageMybatisPlus.append(hql.replaceAll("\\{prop}",fieldName));
+                    findPageMybatisPlus.append(hql.replaceAll("\\{prop}", fieldName).replaceAll("\\{tableNameUp}", tableNameUp));
                 } else {
                     findPageMybatisPlus.append("queryWrapper.eq(query.get" + fieldName + "() != null, " + tableNameUp + "::get" + fieldName + ", query.get" + fieldName + "());");
                 }

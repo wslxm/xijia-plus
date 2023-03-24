@@ -3,7 +3,7 @@ package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
@@ -24,7 +24,7 @@ import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.SysUserQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DepVO;
-import io.github.wslxm.springbootplus2.manage.sys.model.vo.RoleVO;
+import io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserRolesVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserVO;
 import io.github.wslxm.springbootplus2.manage.sys.service.ConfigService;
 import io.github.wslxm.springbootplus2.manage.sys.service.DepService;
@@ -38,6 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -56,14 +57,27 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     private DepService depService;
 
     @Override
-    public IPage<SysUserVO> findPage(SysUserQuery query) {
+    public BasePage<SysUserVO> findPage(SysUserQuery query) {
         if (query.getIsLoginUser() == null) {
             query.setIsLoginUser(false);
         }
         // 是否只查询当前登录人创建的用户
         String createUserId = query.getIsLoginUser() ? JwtUtil.getJwtUser(request).getUserId() : null;
-        IPage<SysUserVO> page = new Page<>(query.getCurrent(), query.getSize());
-        return page.setRecords(baseMapper.list(page, query, createUserId));
+        Page<SysUserVO> page = new Page<>(query.getCurrent(), query.getSize());
+        Page<SysUserVO> pageVo = page.setRecords(baseMapper.list(page, query, createUserId));
+
+        // 查询并设置角色信息
+        if (pageVo.getRecords() != null && pageVo.getRecords().size() > 0) {
+            List<String> userIds = pageVo.getRecords().stream().map(SysUserVO::getId).collect(Collectors.toList());
+            Map<String, List<SysUserRolesVO>> userRolesMap = roleUserService.findUserRoles(userIds);
+            for (SysUserVO sysUserVO : pageVo.getRecords()) {
+                // 设置角色信息
+                sysUserVO.setRoles(userRolesMap.get(sysUserVO.getId()));
+                // 角色id组装便于角色回显
+                sysUserVO.setRoleIds(sysUserVO.getRoles() == null ? null : sysUserVO.getRoles().stream().map(SysUserRolesVO::getRoleId).collect(Collectors.toList()));
+            }
+        }
+        return BeanDtoVoUtil.pageVo(pageVo);
     }
 
     @Override
@@ -126,14 +140,12 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         // id查询数据
         SysUserQuery query = new SysUserQuery();
         query.setId(id);
-        IPage<SysUserVO> list = this.findPage(query);
+        BasePage<SysUserVO> list = this.findPage(query);
         if (list.getRecords().size() == 0) {
             throw new ErrorException(ResultType.PARAM_ERROR.getValue(), ResultType.PARAM_ERROR.getMsg() + ":id");
         }
         SysUserVO userVO = list.getRecords().get(0);
 
-        // 角色id组装便于角色回显
-        userVO.setRoleIds(userVO.getRoles() == null ? null : userVO.getRoles().stream().map(RoleVO::getId).collect(Collectors.toList()));
         // 公司/部门信息
         if (StringUtils.isNotBlank(userVO.getDepIds())) {
             String[] depIds = userVO.getDepIds().split(",");

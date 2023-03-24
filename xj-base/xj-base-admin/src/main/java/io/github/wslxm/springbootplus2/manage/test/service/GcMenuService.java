@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.test.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.test.model.entity.GcMenu;
 import io.github.wslxm.springbootplus2.manage.test.model.vo.GcMenuVO;
 import io.github.wslxm.springbootplus2.manage.test.model.dto.GcMenuDTO;
@@ -35,7 +35,7 @@ public interface GcMenuService extends IService<GcMenu> {
      * @param query query
      * @return 分页列表数据
      */
-    IPage<GcMenuVO> findPage(GcMenuQuery query);
+    BasePage<GcMenuVO> findPage(GcMenuQuery query);
 
     /**
      * id 查询

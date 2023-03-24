@@ -1,9 +1,9 @@
 package io.github.wslxm.springbootplus2.manage.gc.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.manage.gc.mapper.DatasourceMapper;
@@ -27,7 +27,7 @@ public class DatasourceServiceImpl extends BaseServiceImpl<DatasourceMapper, Dat
 
 
     @Override
-    public IPage<DatasourceVO> findPage(DatasourceQuery query) {
+    public BasePage<DatasourceVO> findPage(DatasourceQuery query) {
         LambdaQueryWrapper<Datasource> queryWrapper = new LambdaQueryWrapper<Datasource>()
                 .orderByDesc(Datasource::getCreateTime)
                 .select(Datasource.class, info -> !"db_password".equals(info.getColumn()))

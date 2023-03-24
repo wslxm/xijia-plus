@@ -3,6 +3,7 @@ package io.github.wslxm.springbootplus2.config.gateway.accessauthaop;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth.*;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
+import io.github.wslxm.springbootplus2.core.base.annotation.XjSecret;
 import io.github.wslxm.springbootplus2.core.config.error.GlobalExceptionHandler;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
@@ -17,6 +18,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -223,7 +225,7 @@ public class SysAspect {
             // 6.2、请求接口
             obj = proceed.proceed(rArgs.getData());
             // 6.3、响应核心参数加密
-            obj = sysEncrypt.encrypt(obj);
+            obj = sysEncrypt.encrypt( proceed,obj);
         } catch (Exception e) {
             // 记录 业务代码异常, 这里try后, 全局异常将不生效，在直接主动调用(如果没有try exceptionHandler在异常时会自动进行拦截,在这里拦截主要是响应结果信息)
             obj = globalExceptionHandler.exceptionHandler(e);
@@ -237,4 +239,6 @@ public class SysAspect {
         return obj;
     }
 }
+
+
 

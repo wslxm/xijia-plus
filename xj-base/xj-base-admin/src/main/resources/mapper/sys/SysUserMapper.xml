@@ -21,12 +21,6 @@
         <result column="end_time" property="endTime"/>
         <result column="wx_open_id" property="wxOpenId"/>
         <result column="remarks" property="remarks"/>
-        <!-- 角色信息 -->
-        <collection property="roles" ofType="io.github.wslxm.springbootplus2.manage.sys.model.vo.RoleVO">
-            <id column="roleId" property="id"/>
-            <result column="roleName" property="name"/>
-            <result column="roleCode" property="code"/>
-        </collection>
     </resultMap>
 
     <!-- 通用查询结果列: <include refid="Base_Column_List"></include>  -->
@@ -53,13 +47,8 @@
 
     <select id="list" resultMap="BaseResultMap">
         select
-        u.*,
-        r.id as roleId,
-        r.code as roleCode,
-        r.name as roleName
+        u.*
         from t_sys_user u
-        left join t_sys_role_user ru on u.id = ru.user_id
-        left join t_sys_role r on r.id = ru.role_id
         where u.deleted = 0
         <if test="query.id != null and query.id != ''">
             and u.id = #{query.id}

@@ -36,7 +36,6 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class MyMetaObjectHandler implements MetaObjectHandler {
 
-
 	@Autowired
 	private HttpServletRequest request;
 

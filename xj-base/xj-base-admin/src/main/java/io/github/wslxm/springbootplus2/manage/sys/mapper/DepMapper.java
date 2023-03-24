@@ -1,7 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.sys.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Dep;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DepVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.DepQuery;
@@ -36,7 +36,7 @@ public interface DepMapper extends BaseMapper<Dep> {
      * @param query
      * @return java.util.List<Dep>
      */
-    List<DepVO> list(IPage<DepVO> page, DepQuery query);
+    List<DepVO> list(BasePage<DepVO> page, DepQuery query);
 
 }
 

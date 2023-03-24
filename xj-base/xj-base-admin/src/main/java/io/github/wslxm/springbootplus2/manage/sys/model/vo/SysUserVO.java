@@ -51,10 +51,10 @@ public class SysUserVO extends BaseVo {
     private Integer wxOpenId;
     @ApiModelProperty(value = "备注")
     private String remarks;
-    @ApiModelProperty(value = "用户角色ids, id 查询存在")
+    @ApiModelProperty(value = "用户角色ids,id 查询/列表查询 都返回")
     private List<String> roleIds;
-    @ApiModelProperty(value = "用户角色信息,id 查询存在/列表查询都返回(只返回id/name)")
-    private List<RoleVO> roles;
+    @ApiModelProperty(value = "用户角色信息,id 查询/列表查询 都返回")
+    private List<SysUserRolesVO> roles;
     @ApiModelProperty(value = "公司/部门信息,存在下级关联数据")
     private DepVO dep;
     @ApiModelProperty(value = "公司/部门信息 / 公司/部门信息")

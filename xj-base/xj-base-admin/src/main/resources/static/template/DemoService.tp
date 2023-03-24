@@ -1,7 +1,7 @@
 package {packPath}.{rootModule}.{moduleName}.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import {packPath}.{rootModule}.{moduleName}.model.entity.{tableNameUp};
 import {packPath}.{rootModule}.{moduleName}.model.vo.{tableNameUp}VO;
 import {packPath}.{rootModule}.{moduleName}.model.dto.{tableNameUp}DTO;
@@ -26,7 +26,7 @@ public interface {tableNameUp}Service extends IService<{tableNameUp}> {
      * @param query query
      * @return 分页列表数据
      */
-    IPage<{tableNameUp}VO> findPage({tableNameUp}Query query);
+    BasePage<{tableNameUp}VO> findPage({tableNameUp}Query query);
 
     /**
      * id 查询

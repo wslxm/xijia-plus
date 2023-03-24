@@ -45,7 +45,7 @@ public enum ResultType implements IEnum {
 
 
     AUTHORITY_JWT_SIGN_ERROR(10003, "JWT签名与本地计算签名不匹配"),
-    AUTHORITY_DISABLE(10004, "账号已被禁用,禁止访问"),
+    AUTHORITY_DISABLE(10004, "禁止访问/操作"),
     AUTHORITY_NO_PERMISSION(10005, "该账号没有当前操作权限"),
     AUTHORITY_BLACK_LIST_IP(10006, "该ip被列入黑名单,禁止访问"),
     AUTHORITY_WHITE_LIST_NO_IP(10007, "服务器开启了ip验证,请先配置请求ip为白名单在进行访问"),

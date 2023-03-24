@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.common.annotation;
+package io.github.wslxm.springbootplus2.core.base.annotation;
 
 
 import java.lang.annotation.ElementType;
