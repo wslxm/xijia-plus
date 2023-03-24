@@ -52,7 +52,7 @@ public interface RoleUserService extends IService<RoleUser> {
 
     /**
      * 查询指定用户的当前角色列表
-     * @param roleId
+     * @param userIds
      * @return Map<用户id, 用户角色列表>
      * @author wangsong
      * @date 2022/8/18 14:31
