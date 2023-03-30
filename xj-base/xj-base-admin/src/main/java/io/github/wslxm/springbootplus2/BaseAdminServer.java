@@ -1,9 +1,17 @@
 package io.github.wslxm.springbootplus2;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 
 /**
@@ -21,12 +29,14 @@ import org.springframework.cache.annotation.EnableCaching;
  * @email 1720696548@qq.com
  * @date 2019/10/31 20:45
  */
-@SpringBootApplication(scanBasePackages = {"io.github.wslxm.springbootplus2"})
+@SpringBootApplication(scanBasePackages = {"io.github.wslxm.springbootplus2"}, exclude = {DataSourceAutoConfiguration.class})
 @MapperScan({"io.github.wslxm.springbootplus2.*.*.mapper"})
 public class BaseAdminServer {
 
     public static void main(String[] args) {
         SpringApplication.run(BaseAdminServer.class, args);
     }
+
+
 }
 

@@ -76,7 +76,7 @@ public class GcTestDTO extends BaseDto {
     @Length(min = 0, max = 1024, message = "任意文件  必须>=0 和 <=1024位")
     private String files;
 
-    @ApiModelProperty(value = "时间 (默认 yyyy-MM-dd hh:mm:ss 格式)", position = 10)
+    @ApiModelProperty(value = "时间 (默认 yyyy-MM-dd HH:mm:ss 格式)", position = 10)
     private LocalDateTime time;
 
     @ApiModelProperty(value = "时间-小时 (默认 hh:mm 字串)", position = 11)

@@ -279,8 +279,8 @@
                             label: '时间 ',
                             prop: 'time',
                             type: 'datetime',
-                            format: 'yyyy-MM-dd hh:mm:ss',
-                            valueFormat: 'yyyy-MM-dd hh:mm:ss',
+                            format: 'yyyy-MM-dd HH:mm:ss',
+                            valueFormat: 'yyyy-MM-dd HH:mm:ss',
                             span: 20,
                             rules: [{
                                 required: true,

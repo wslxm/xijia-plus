@@ -12,7 +12,6 @@
     <artifactId>xj-base</artifactId>
     <packaging>pom</packaging>
 
-
     <modules>
         <module>xj-base-core</module>
         <module>xj-base-admin</module>

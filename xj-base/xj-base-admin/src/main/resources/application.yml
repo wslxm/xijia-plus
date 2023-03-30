@@ -4,11 +4,7 @@ spring:
   profiles:
     active: "@profiles.active@"
   main:
-    allow-bean-definition-overriding: true
-  http:
-    encoding:
-      force: true
-      charset: UTF-8
+    allow-bean-definition-overriding: false
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -17,21 +13,51 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
   datasource:
-    initialSize: 5
-    minIdle: 5
-    maxActive: 20
-    maxWait: 60000
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: SELECT 1 FROM DUAL
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    filters: stat,wall,slf4j,log4j2
-    maxPoolPreparedStatementPerConnectionSize: 20
-    useGlobalDataSourceStat: true
-    connectionProperties: druid.stat.mergeSql=true:druid.stat.slowSqlMillis=500
+    druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      filters: stat,wall,slf4j,log4j2
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true:druid.stat.slowSqlMillis=500
+      # 配置 DruidStatViewServlet
+      stat-view-servlet:
+        url-pattern: /druid/*
+        # allow: 127.0.0.1
+        # deny: 192.168.3.3
+        login-username: admin
+        login-password: 123456
+        # 控制台启用页面开关
+        enabled: true
+      # 监控过滤器配置
+      filter:
+        stat:
+          enabled: true
+          merge-sql: true
+          slow-sql-millis: 3000
+        wall:
+          enabled: true
+          db-type: mysql
+          config:
+            delete-allow: false
+        slf4j:
+          enabled: true
+          statement-executable-sql-log-enable: true
+      # web模块
+      web-stat-filter:
+        enabled: true
+        session-stat-enable: false
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
 
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml

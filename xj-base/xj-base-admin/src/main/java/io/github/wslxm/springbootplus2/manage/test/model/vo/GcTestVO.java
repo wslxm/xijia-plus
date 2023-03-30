@@ -56,7 +56,7 @@ public class GcTestVO extends BaseVo {
     @ApiModelProperty(value = "任意文件 (任意文件上传-默认多上传)" ,position = 9)
     private String files;
 
-    @ApiModelProperty(value = "时间 (默认 yyyy-MM-dd hh:mm:ss 格式)" ,position = 10)
+    @ApiModelProperty(value = "时间 (默认 yyyy-MM-dd HH:mm:ss 格式)" ,position = 10)
     private LocalDateTime time;
 
     @ApiModelProperty(value = "时间-小时 (默认 hh:mm 字串)" ,position = 11)

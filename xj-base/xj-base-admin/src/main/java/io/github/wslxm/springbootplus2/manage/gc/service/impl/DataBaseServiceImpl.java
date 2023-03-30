@@ -34,14 +34,37 @@ import java.util.List;
 @Slf4j
 public class DataBaseServiceImpl extends BaseServiceImpl implements DataBaseService {
 
-    @Value("${spring.datasource.url}")
+
+    @Value("${spring.datasource.url:}")
     private String dbUrl;
 
-    @Value("${spring.datasource.username}")
+    @Value("${spring.datasource.username:}")
     private String dbUserName;
 
-    @Value("${spring.datasource.password}")
+    @Value("${spring.datasource.password:}")
     private String dbPassWord;
+
+    @Value("${spring.datasource.dynamic.datasource.master.url:}")
+    private String dbUrl2;
+
+    @Value("${spring.datasource.dynamic.datasource.master.username:}")
+    private String dbUserName2;
+
+    @Value("${spring.datasource.dynamic.datasource.master.password:}")
+    private String dbPassWord2;
+
+
+    public String getDbUrl() {
+        return StringUtils.isNotBlank(dbUrl) ? dbUrl : dbUrl2;
+    }
+
+    public String getDbUserName() {
+        return StringUtils.isNotBlank(dbUserName) ? dbUserName : dbUserName2;
+    }
+
+    public String getDbPassWord() {
+        return StringUtils.isNotBlank(dbPassWord) ? dbPassWord : dbPassWord2;
+    }
 
     @Autowired
     private DataBaseMapper dataBaseMapper;
@@ -58,7 +81,7 @@ public class DataBaseServiceImpl extends BaseServiceImpl implements DataBaseServ
     }
 
     /**
-     *   查询数据库下指定表的数据-字段名/类型/备注
+     * 查询数据库下指定表的数据-字段名/类型/备注
      *
      * @return java.util.List<java.lang.String>
      * @date 2019/11/20 10:41
@@ -72,9 +95,10 @@ public class DataBaseServiceImpl extends BaseServiceImpl implements DataBaseServ
 
     /**
      * 使用jdbc 查询使用数据表
+     *
+     * @return java.util.List<io.github.wslxm.others.generatecode.model.vo.TableVO>
      * @author wangsong
      * @date 2020/11/4 0004 17:55
-     * @return java.util.List<io.github.wslxm.others.generatecode.model.vo.TableVO>
      * @version 1.0.1
      */
     private List<TableVO> findJdbcTable(String dataSourceId) {
@@ -97,7 +121,7 @@ public class DataBaseServiceImpl extends BaseServiceImpl implements DataBaseServ
         } else {
             pstmt = JdbcPool.getPstmt(datasource.getDbUrl(),
                     datasource.getDbUsername(),
-                    Base64Util.decrypt(datasource.getDbPassword()) ,
+                    Base64Util.decrypt(datasource.getDbPassword()),
                     sql);
         }
         // 4、处理返回sql
@@ -123,7 +147,7 @@ public class DataBaseServiceImpl extends BaseServiceImpl implements DataBaseServ
 
 
     /**
-     *  使用jdbc  查询数据库下指定表的数据-字段名/类型/备注
+     * 使用jdbc  查询数据库下指定表的数据-字段名/类型/备注
      *
      * @return java.util.List<java.lang.String>
      * @date 2019/11/20 10:41

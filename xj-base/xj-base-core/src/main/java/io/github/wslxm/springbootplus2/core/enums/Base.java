@@ -33,7 +33,7 @@ public interface Base{
         V8(8, "下拉选择 (select-多选+搜索)"),    // -
         V9(9, "开关-(switch)"),    // -
         V10(10, "日期-(data)"),    // yyyy-MM-dd
-        V11(11, "日期时间-(datetime)"),    // yyyy-MM-dd hh:mm:ss
+        V11(11, "日期时间-(datetime)"),    // yyyy-MM-dd HH:mm:ss
         V12(12, "时间-小时选择 (time)"),    // 默认 hh:mm 格式，06:00 到 23::00, 步长30分钟,  如： 09::00 | 09:30
         V13(13, "文件上传 (单图)"),    // 默认限制 jpg/png/gif 格式
         V14(14, "文件上传 (多图)"),    // 默认限制文件数量10
