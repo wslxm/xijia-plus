@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(BaseConstant.Uri.API_ADMIN + "/sys/address")
-@Api(value = "AddressController", tags = "")
+@Api(value = "AddressController", tags = "base--sys--地址管理")
 public class AddressController extends BaseController<AddressService> {
 
     @GetMapping(value = "/tree")
