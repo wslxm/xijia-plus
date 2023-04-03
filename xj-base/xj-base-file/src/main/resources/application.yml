@@ -13,7 +13,7 @@ spring:
 # 默认支持： ALI_YUN_OSS -阿里云oss | LOCAL -本地服务器存储
 file:
   ## 文件存储渠道
-  channel: ALI_YUN_OSS
+  channel: LOCAL
   ## 本地服务器存储：本地文件存储的根目录 | 文件访问地址
   local:
     path: upload/file

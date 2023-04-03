@@ -118,7 +118,8 @@ const user = {
          * @version 1.0.1
          */
         GetMenu({commit}, item) {
-            console.log("菜单获取", item);
+            // 清楚 tag
+            commit('DEL_ALL_TAG', []);
             return new Promise(resolve => {
                 crud.get("/api/admin/sys/menu/tree", {
                     pid: item.id,

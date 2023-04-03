@@ -1,19 +1,18 @@
 package io.github.wslxm.springbootplus2;
 
+import com.sun.xml.internal.bind.v2.util.DataSourceSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+
+import javax.sql.DataSource;
 
 /**
- * websocket
- * <P>
- *     这里因为我的 swagger 也在io.github.wslxm.springbootplus2 这个包下，就不配用单独配扫描了
- * </P>
+ * 文件服务  (无需启动)
  * @author wangsong
  * @date 2022/5/26 17:30
- * @return
  */
-//scanBasePackages = {"io.github.wslxm.springbootplus2"},
-@SpringBootApplication
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class FileServer {
 
     public static void main(String[] args) {
