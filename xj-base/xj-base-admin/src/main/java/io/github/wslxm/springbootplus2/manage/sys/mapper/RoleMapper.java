@@ -23,7 +23,7 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @return java.util.List<io.github.wslxm.springbootplus2.manage.admin.model.vo.RoleVO>
      * @version 1.0.0
      */
-    List<RoleVO> list(IPage page,
+    List<RoleVO> list(@Param("page") IPage page,
                       @Param("query") RoleQuery query,
                       @Param("createUserId") String createUserId);
 

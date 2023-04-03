@@ -86,5 +86,8 @@ gc:
   vueFieldTypes: 18,19
   basefields: id,create_user,update_user,create_time,update_time,deleted,version
   keywordArray: time,desc,name,key,value,mysql,info,form,sort,icon,like,unlock,unLock,comment,disable,force,describe,host,port,from,to
-
+#  db:
+#    url: jdbc:mysql://212.64.69.29:3308/bt-content-platform
+#    username: root
+#    password: tengxunPtpkMysql
 

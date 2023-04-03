@@ -13,6 +13,7 @@ spring:
     redisson:
       file: classpath:redisson-dev.yml
 
+
 file:
   # ALI_YUN_OSS | 本地
   channel: ALI_YUN_OSS

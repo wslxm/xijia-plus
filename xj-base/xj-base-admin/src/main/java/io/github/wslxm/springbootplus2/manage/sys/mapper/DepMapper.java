@@ -5,6 +5,7 @@ import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Dep;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.DepVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.DepQuery;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public interface DepMapper extends BaseMapper<Dep> {
      * @param id
      * @return List<Dep>
      */
-    DepVO findId(String id);
+    DepVO findId(@Param("id") String id);
 
     /**
      * 列表查询/分页查询
@@ -36,7 +37,7 @@ public interface DepMapper extends BaseMapper<Dep> {
      * @param query
      * @return java.util.List<Dep>
      */
-    List<DepVO> list(BasePage<DepVO> page, DepQuery query);
+    List<DepVO> list(@Param("page") BasePage<DepVO> page, @Param("query") DepQuery query);
 
 }
 

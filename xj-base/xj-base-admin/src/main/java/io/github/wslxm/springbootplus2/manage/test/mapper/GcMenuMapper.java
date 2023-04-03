@@ -5,6 +5,7 @@ import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.test.model.entity.GcMenu;
 import io.github.wslxm.springbootplus2.manage.test.model.vo.GcMenuVO;
 import io.github.wslxm.springbootplus2.manage.test.model.query.GcMenuQuery;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public interface GcMenuMapper extends BaseMapper<GcMenu> {
      * @param id
      * @return List<GcMenu>
      */
-    GcMenuVO findId(String id);
+    GcMenuVO findId(@Param("id") String id);
 
     /**
      * 列表查询/分页查询
@@ -36,7 +37,7 @@ public interface GcMenuMapper extends BaseMapper<GcMenu> {
      * @param query
      * @return java.util.List<GcMenu>
      */
-    List<GcMenuVO> list(BasePage<GcMenuVO> page, GcMenuQuery query);
+    List<GcMenuVO> list(@Param("page") BasePage<GcMenuVO> page, @Param("query") GcMenuQuery query);
 
 }
 

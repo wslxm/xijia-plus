@@ -37,6 +37,5 @@ public class BaseAdminServer {
         SpringApplication.run(BaseAdminServer.class, args);
     }
 
-
 }
 
