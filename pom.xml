@@ -193,7 +193,7 @@
             <id>release</id>
             <!--打包配置到中央仓库的统一配置,如果使用该源码开发，请移除-->
             <build>
-                <finalName>${artifactId}-${revision}</finalName>
+                <finalName>${project.artifactId}-${revision}</finalName>
                 <plugins>
                     <!-- java-doc配置 -->
                     <plugin>
