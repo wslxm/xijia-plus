@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.manage.sys.model.dto;
+package io.github.wslxm.springbootplus2.manage.sys.model.dto.login;
 
 import io.github.wslxm.springbootplus2.core.base.annotation.XjSecret;
 import io.swagger.annotations.ApiModelProperty;

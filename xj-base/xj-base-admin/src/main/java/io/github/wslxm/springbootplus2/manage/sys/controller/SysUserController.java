@@ -1,12 +1,11 @@
 package io.github.wslxm.springbootplus2.manage.sys.controller;
 
-import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
-import io.github.wslxm.springbootplus2.manage.sys.model.dto.LoginDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.SysUserDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.SysUserQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserVO;
@@ -91,17 +90,6 @@ public class SysUserController extends BaseController<SysUserService> {
     })
     public Result<List<SysUserVO>> listKeyData(@RequestParam(required = false) String searchName) {
         return Result.success(baseService.listKeyData(searchName));
-    }
-
-
-    @ApiOperation("用户登录")
-    @PostMapping(value = "/login")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "账号/手机号", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query"),
-    })
-    public Result<Boolean> login(@RequestBody @Validated LoginDTO dto) {
-        return Result.success(baseService.login(dto));
     }
 
 

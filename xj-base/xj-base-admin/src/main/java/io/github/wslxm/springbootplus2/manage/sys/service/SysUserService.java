@@ -1,9 +1,8 @@
 package io.github.wslxm.springbootplus2.manage.sys.service;
 
 
-import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import io.github.wslxm.springbootplus2.manage.sys.model.dto.LoginDTO;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.SysUserDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.SysUserQuery;
@@ -87,15 +86,6 @@ public interface SysUserService extends IService<SysUser> {
      * @version 1.0.0
      */
     List<SysUserVO> listKeyData(String searchName);
-
-    /**
-     * 登录
-     *
-     * @param dto
-     * @return java.lang.Boolean
-     * @version 1.0.0
-     */
-    Boolean login(LoginDTO dto);
 
     /**
      * 重置用户密码
