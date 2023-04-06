@@ -152,11 +152,11 @@
                     if (data.length !== 0) {
                         this.$router.$avueRouter.formatRoutes(data, true);
                     }
-                    //当点击顶部菜单做的事件
+                    // 当点击顶部菜单做的事件
                     if (!validatenull(item)) {
                         let itemActive = {},
                             childItemActive = 0;
-                        //vue-router路由
+                        // vue-router路由
                         if (item.path) {
                             itemActive = item;
                         } else {
@@ -172,7 +172,6 @@
                                 itemActive = this.menu[childItemActive].menus[childItemActive];
                             }
                         }
-                        console.debug("=======3")
                         this.$store.commit('SET_MENUID', item);
                         this.$router.push({
                             path: itemActive.path
