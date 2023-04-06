@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.file.properties.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
+import io.github.wslxm.springbootplus2.file.util.FileUploadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,8 @@ public class LocalFileStrategy implements FileStrategy {
 
     @Override
     public String upload(InputStream inputStream, String filePath, String fileName) {
+        // 验证文件格式、保存路径，并处理文件名防止重复
+        fileName = FileUploadUtil.getPath(filePath, fileName);
         try {
             // 目录路径
             String baseUrl = fileProperties.getLocal().getBaseUrl();
