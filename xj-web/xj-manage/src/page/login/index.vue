@@ -34,7 +34,6 @@
                         <!-- <a href="#" @click.stop="activeName='face'">{{ $t('login.faceLogin') }} </a>-->
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

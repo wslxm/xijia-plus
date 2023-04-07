@@ -202,7 +202,7 @@
                 {
                     label: '角色',
                     prop: 'roleNames',
-                    search: true,
+                    search: false,
                     searchSpan: 5,
                     overHidden: true,
                     formatter: (val) => {
