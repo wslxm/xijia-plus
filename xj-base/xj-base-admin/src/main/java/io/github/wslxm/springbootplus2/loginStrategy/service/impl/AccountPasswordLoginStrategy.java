@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.manage.sys.loginStrategy.service.impl;
+package io.github.wslxm.springbootplus2.loginStrategy.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -8,27 +8,28 @@ import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.Base64Util;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
-import io.github.wslxm.springbootplus2.manage.sys.loginStrategy.service.LoginStrategy;
+import io.github.wslxm.springbootplus2.loginStrategy.service.LoginStrategy;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.login.AccountPasswordLoginDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.login.LoginDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
 import io.github.wslxm.springbootplus2.manage.sys.service.SysUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 /**
- * 阿里云oss 文件上传
+ * 账号+密码登录
  *
  * @author wangsong
  * @version 1.0.0
  * @mail 1720696548@qq.com
- * @date 2022/10/15 0015 18:18
+ * @date 2022/10/15 0015 18:19
  */
 @Service
-public class AccountOrPhonePasswordLoginStrategy implements LoginStrategy {
+@Slf4j
+public class AccountPasswordLoginStrategy implements LoginStrategy {
 
     @Autowired
     private SysUserService sysUserService;
@@ -43,25 +44,24 @@ public class AccountOrPhonePasswordLoginStrategy implements LoginStrategy {
         ValidUtil.isStrLen(username, 1, 20, "账号必须大于1且小于20位");
         ValidUtil.isBlank(password, "密码不能为空");
         ValidUtil.isStrLen(password, 1, 20, "密码必须大于1且小于20位");
-        return this.loginUsernameOrPhone(username, password);
+        return this.accountLogin(username, password);
     }
 
+
     /**
-     * 手机号和电话号登录验证，失败自动进入全局异常,成功返回用户信息
+     * 账号登录
      *
-     * @param username 账号
+     * @param account 账号
      * @param password 密码
      * @return boolean
      * @author wangsong
      * @date 2021/9/30 0030 14:18
      * @version 1.0.1
      */
-    private SysUser loginUsernameOrPhone(String username, String password) {
+    private SysUser accountLogin(String account, String password) {
         // 1、判断账号
         List<SysUser> users = sysUserService.list(new LambdaQueryWrapper<SysUser>()
-                .and(i -> i.eq(SysUser::getUsername, username)
-                        .or().eq(SysUser::getPhone, username))
-        );
+                .eq(SysUser::getUsername, account));
 
         if (users.isEmpty()) {
             throw new ErrorException(ResultType.LOGIN_IS_NO_ACCOUNT);

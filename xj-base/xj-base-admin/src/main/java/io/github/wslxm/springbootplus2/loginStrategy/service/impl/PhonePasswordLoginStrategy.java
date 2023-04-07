@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.manage.sys.loginStrategy.service.impl;
+package io.github.wslxm.springbootplus2.loginStrategy.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -8,7 +8,7 @@ import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.Base64Util;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
-import io.github.wslxm.springbootplus2.manage.sys.loginStrategy.service.LoginStrategy;
+import io.github.wslxm.springbootplus2.loginStrategy.service.LoginStrategy;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.login.LoginDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.login.PhonePasswordLoginDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
@@ -20,7 +20,7 @@ import java.util.List;
 
 
 /**
- * 阿里云oss 文件上传
+ * 电话+密码 登录
  *
  * @author wangsong
  * @version 1.0.0
@@ -32,6 +32,7 @@ public class PhonePasswordLoginStrategy implements LoginStrategy {
 
     @Autowired
     private SysUserService sysUserService;
+
 
     @Override
     public SysUser login(LoginDTO dto) {
@@ -45,6 +46,7 @@ public class PhonePasswordLoginStrategy implements LoginStrategy {
         ValidUtil.isStrLen(password, 1, 20, "密码必须大于1且小于20位");
         return this.phoneLogin(phone, password);
     }
+
 
     /**
      * 手机号登录验证

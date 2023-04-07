@@ -86,8 +86,8 @@ axios.interceptors.response.use(res => {
     // 统一处理业务code码
     if (res.data.code !== 200) {
         // 请求失败
-        // 返回 10000 表示码云登录,跳登录页
-        if (res.data.code === 10000) {
+        // 返回 10000 表示没有登录过期, 10001 表示没有登录 跳登录页
+        if (res.data.code === 10000 || res.data.code === 10001) {
             // 退出登录
             Message({message: res.data.msg, type: 'error'});
             store.dispatch("LogOut").then(() => {

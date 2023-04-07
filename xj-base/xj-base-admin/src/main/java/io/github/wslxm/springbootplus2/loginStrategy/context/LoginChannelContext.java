@@ -1,10 +1,10 @@
-package io.github.wslxm.springbootplus2.manage.sys.loginStrategy.context;
+package io.github.wslxm.springbootplus2.loginStrategy.context;
 
 import io.github.wslxm.springbootplus2.constant.LoginTypeConst;
-import io.github.wslxm.springbootplus2.manage.sys.loginStrategy.service.LoginStrategy;
-import io.github.wslxm.springbootplus2.manage.sys.loginStrategy.service.impl.AccountOrPhonePasswordLoginStrategy;
-import io.github.wslxm.springbootplus2.manage.sys.loginStrategy.service.impl.AccountPasswordLoginStrategy;
-import io.github.wslxm.springbootplus2.manage.sys.loginStrategy.service.impl.PhonePasswordLoginStrategy;
+import io.github.wslxm.springbootplus2.loginStrategy.service.LoginStrategy;
+import io.github.wslxm.springbootplus2.loginStrategy.service.impl.AccountPasswordLoginStrategy;
+import io.github.wslxm.springbootplus2.loginStrategy.service.impl.PhonePasswordLoginStrategy;
+import io.github.wslxm.springbootplus2.loginStrategy.service.impl.AccountOrPhonePasswordLoginStrategy;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

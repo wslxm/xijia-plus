@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.manage.sys.loginStrategy.service;
+package io.github.wslxm.springbootplus2.loginStrategy.service;
 
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.login.LoginDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
@@ -16,7 +16,7 @@ import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
 public interface LoginStrategy {
 
     /**
-     * 文件上传
+     * 登录
      */
     SysUser login(LoginDTO dto);
 

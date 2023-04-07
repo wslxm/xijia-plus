@@ -22,5 +22,4 @@ public interface LoginService {
      */
     boolean login(LoginDTO dto);
 
-
 }
