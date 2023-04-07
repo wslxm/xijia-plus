@@ -37,16 +37,19 @@ const user = {
                 });
             })
         },
+
         //根据手机号登录
         LoginByPhone({commit}, userInfo) {
             return new Promise((resolve) => {
-                crud.post("/api/admin/sys/user/login", {
-                    username: userInfo.phone,
-                    password: password,
-                    code: userInfo.code,
-                    redomStr: userInfo.redomStr,
-                }).then(res => {
-                    //commit('SET_TOKEN', res.headers.token);
+                let data = {
+                    "channel": "PHONE_CODE",
+                    "data": {
+                        "phone": userInfo.phone,
+                        "code": userInfo.code
+                    }
+                }
+                crud.post("/api/admin/sys/login", data).then(res => {
+                    commit('SET_TOKEN', res.headers[website.Authorization]);
                     commit('DEL_ALL_TAG', []);
                     commit('CLEAR_LOCK');
                     resolve(res);

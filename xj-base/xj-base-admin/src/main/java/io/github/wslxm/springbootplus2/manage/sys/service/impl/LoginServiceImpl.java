@@ -3,6 +3,7 @@ package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
+import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.github.wslxm.springbootplus2.loginStrategy.context.LoginChannelContext;
 import io.github.wslxm.springbootplus2.loginStrategy.service.LoginStrategy;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.login.LoginDTO;
@@ -42,6 +43,7 @@ public class LoginServiceImpl implements LoginService {
     public boolean login(LoginDTO dto) {
         // 登录
         LoginStrategy channel = loginChannelContext.getChannel(dto.getChannel());
+        ValidUtil.isNull(channel, "登录渠道 " + dto.getChannel() + " 不存在");
         SysUser user = channel.login(dto);
 
         // 登录成功
