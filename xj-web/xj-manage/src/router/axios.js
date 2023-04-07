@@ -64,6 +64,7 @@ axios.interceptors.request.use(config => {
 
 //HTTP response拦截
 axios.interceptors.response.use(res => {
+    console.debug("------------------")
     console.debug(res.config.url, "  =》 res:", res)
     NProgress.done();
     const status = Number(res.status) || 200;
@@ -105,8 +106,8 @@ axios.interceptors.response.use(res => {
             Message({message: res.data.msg, type: 'success'})
         }
         // 自动刷新 token 来进行续期
-        if (res.headers.token !== undefined && res.headers.token !== null) {
-            let newToken = res.headers.token;
+        if (res.headers[website.Authorization] !== undefined && res.headers[website.Authorization] !== null) {
+            let newToken = res.headers[website.Authorization];
             setToken(newToken);
         }
     }

@@ -19,7 +19,6 @@ public class ValidUtil {
      * 当判断条件 expression = true, 跳出程序，返回错误信息 errorMsg
      * 当判断条件=false时，不处理
      * @param expression 判断条件结果
-     * @param resultType 判断条件为true时返回的错误信息
      */
     public static void isTrue(boolean expression, String errorMsg) {
         if (expression) {
@@ -51,7 +50,7 @@ public class ValidUtil {
     /**
      * 判空(任意数据类型)
      */
-    public static void isNotNull(Object obj, String errorMsg) {
+    public static void isNull(Object obj, String errorMsg) {
         if (obj == null) {
             throw new ErrorException(ResultType.PARAM_MISSING.getValue(), errorMsg);
         }
@@ -60,7 +59,7 @@ public class ValidUtil {
     /**
      * 判空或空字符 (string))
      */
-    public static void isNotBlank(String str, String errorMsg) {
+    public static void isBlank(String str, String errorMsg) {
         if (StringUtils.isBlank(str)) {
             throw new ErrorException(ResultType.PARAM_MISSING.getValue(), errorMsg);
         }
@@ -75,7 +74,7 @@ public class ValidUtil {
      * @version 1.0.1
      */
     public static void isStrLen(String str, Integer min, Integer max, String errorMsg) {
-        isNotBlank(str, errorMsg);
+        isBlank(str, errorMsg);
         boolean reg = (str.length() >= min && str.length() <= max);
         if (!reg) {
             throw new ErrorException(ResultType.PARAM_ERROR.getValue(), errorMsg);
@@ -90,7 +89,7 @@ public class ValidUtil {
      * 校验手机号
      */
     public static void isPhone(String mobile, String errorMsg) {
-        isNotBlank(mobile, errorMsg);
+        isBlank(mobile, errorMsg);
         if (!RegUtil.isPhone(mobile)) {
             throw new ErrorException(ResultType.PARAM_ERROR.getValue(), errorMsg);
         }
@@ -100,7 +99,7 @@ public class ValidUtil {
      * 校验邮箱
      */
     public static void isEmail(String email, String errorMsg) {
-        isNotBlank(email, errorMsg);
+        isBlank(email, errorMsg);
         if (!RegUtil.isEmail(email)) {
             throw new ErrorException(ResultType.PARAM_ERROR.getValue(), errorMsg);
         }
@@ -111,7 +110,7 @@ public class ValidUtil {
      * 校验身份证
      */
     public static void isIdCard(String idCard, String errorMsg) {
-        isNotBlank(idCard, errorMsg);
+        isBlank(idCard, errorMsg);
         if (!RegUtil.isIDCard(idCard)) {
             throw new ErrorException(ResultType.PARAM_ERROR.getValue(), errorMsg + ":" + RegUtil.ID_CARD_MSG);
         }
@@ -128,7 +127,7 @@ public class ValidUtil {
      * @version 1.0.1
      */
     public static void isChinese(String chinese, String paramName) {
-        isNotBlank(chinese, paramName);
+        isBlank(chinese, paramName);
         if (!RegUtil.isChinese(chinese)) {
             throw new ErrorException(ResultType.PARAM_ERROR.getValue(), paramName + RegUtil.CHINESE_MSG);
         }

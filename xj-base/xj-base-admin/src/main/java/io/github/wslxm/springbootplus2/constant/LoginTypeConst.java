@@ -21,7 +21,7 @@ public interface LoginTypeConst {
      */
     String ACCOUNT_OR_PHONE_PASSWORD = "ACCOUNT_OR_PHONE_PASSWORD";
     /**
-     * 手机号+验证码
+     * 手机号+验证码 (自行实现)
      */
-    String PHONE_CODE = "EMAIL_CODE";
+    String PHONE_CODE = "PHONE_CODE";
 }

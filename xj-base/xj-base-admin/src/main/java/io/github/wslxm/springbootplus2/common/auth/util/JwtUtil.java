@@ -37,7 +37,7 @@ public class JwtUtil {
 
 
     // TOKEN KEY值
-    public static String TOKEN = "TOKEN";
+    public static String TOKEN = "token";
     // TOKEN 有效期 key值, 刷新 token时动态刷新
     public static String EXPIRED_TIME = "EXPIRED_TIME";
     // 登录类型 0=管理端 | 1=用户端 | 2-扩展端1 | 3-扩展端2 | 4-扩展端3 | 更多自定义

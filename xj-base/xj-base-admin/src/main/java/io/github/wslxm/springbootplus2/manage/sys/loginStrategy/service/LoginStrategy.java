@@ -1,13 +1,11 @@
 package io.github.wslxm.springbootplus2.manage.sys.loginStrategy.service;
 
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.login.LoginDTO;
+import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
 
 /**
- * 文件策略类 （目前支持 上传/删除）
+ * 登录策略类
  * <p>
- * 计划支持
- * - 本地存储
- * - 阿里云oss
  * </P>
  *
  * @author wangsong
@@ -20,8 +18,6 @@ public interface LoginStrategy {
     /**
      * 文件上传
      */
-    boolean login(LoginDTO dto);
-
-
+    SysUser login(LoginDTO dto);
 
 }

@@ -9,7 +9,7 @@ export default {
     indexTitle: '兮家 plus',
     lockPage: '/lock',
     tokenTime: 60 * 60 * 24 * 15, //token过期时间(秒) 前端过期 不代表后端服务过期时间
-    Authorization: 'TOKEN',
+    Authorization: 'token',
     // http的status默认放行不才用统一处理的
     // statusWhiteList: [200],
     // 标签是否可关闭

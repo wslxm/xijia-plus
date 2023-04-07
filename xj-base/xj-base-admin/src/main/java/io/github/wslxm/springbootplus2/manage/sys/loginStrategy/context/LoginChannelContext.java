@@ -31,7 +31,7 @@ public class LoginChannelContext {
                                PhonePasswordLoginStrategy phonePasswordLoginStrategy,
                                AccountOrPhonePasswordLoginStrategy accountOrPhonePasswordLoginStrategy
     ) {
-        // 注册渠道
+        // 注册登录渠道
         classMap = new ConcurrentHashMap<>();
         classMap.put(LoginTypeConst.ACCOUNT_PASSWORD, accountPasswordLoginStrategy);
         classMap.put(LoginTypeConst.PHONE_PASSWORD, phonePasswordLoginStrategy);

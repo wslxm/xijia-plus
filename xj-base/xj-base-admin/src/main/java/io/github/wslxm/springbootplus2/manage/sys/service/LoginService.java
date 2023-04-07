@@ -1,9 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.sys.service;
 
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.login.LoginDTO;
-import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
 
 /**
  * 用户
@@ -12,8 +10,7 @@ import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
  * @WX-QQ 1720696548
  * @date 2019/11/13 15:10
  */
-public interface LoginService extends IService<SysUser> {
-
+public interface LoginService {
 
 
     /**
@@ -23,7 +20,7 @@ public interface LoginService extends IService<SysUser> {
      * @return java.lang.Boolean
      * @version 1.0.0
      */
-    Boolean login(LoginDTO dto);
+    boolean login(LoginDTO dto);
 
 
 }

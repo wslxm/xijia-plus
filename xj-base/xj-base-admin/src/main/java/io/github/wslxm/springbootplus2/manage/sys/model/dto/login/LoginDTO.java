@@ -1,9 +1,7 @@
 package io.github.wslxm.springbootplus2.manage.sys.model.dto.login;
 
-import io.github.wslxm.springbootplus2.core.base.annotation.XjSecret;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
 /**
  * 登录
@@ -15,13 +13,14 @@ import org.hibernate.validator.constraints.Length;
 @Data
 public class LoginDTO {
 
-    @ApiModelProperty(value = "账号或手机号")
-    @Length(min = 1,max = 20,message = "账号必须大于1且小于20位")
-    private String username;
+    @ApiModelProperty(value = "登录渠道 \n" +
+            "登录方式: 登录渠道key -> 登录参数 data 参数对应的 dto \n" +
+            "账号+密码: ACCOUNT_PASSWORD  ->  AccountPasswordLoginDTO\n" +
+            "电话+密码: PHONE_PASSWORD  -> PhonePasswordLoginDTO \n" +
+            "(账号or电话)+密码: ACCOUNT_OR_PHONE_PASSWORD -> AccountOrPhonePasswordLoginDTO \n" +
+            "电话+手机验证码: PHONE_CODE : -> PhoneCodeLoginDTO (需自行实现登录逻辑)\n")
+    private String channel;
 
-    @ApiModelProperty(value = "密码")
-    @XjSecret
-    // @Length(min = 1,max = 20,message = "密码必须大于1且小于20位")
-    private String password;
-
+    @ApiModelProperty(value = "登录参数")
+    private Object data;
 }

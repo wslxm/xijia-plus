@@ -3,6 +3,7 @@ import {getStore, setStore} from '@/util/store'
 import {deepClone} from '@/util/util'
 import {formatPath} from '@/router/avue-router';
 import crud from '@/util/crud'
+import website from '@/config/website';
 
 const user = {
     state: {
@@ -18,14 +19,18 @@ const user = {
         // 根据用户名登录
         LoginByUsername({commit}, userInfo = {}) {
             return new Promise((resolve) => {
+                // code: userInfo.code,
+                // redomStr: userInfo.redomStr,
                 let password = Base64.encode(userInfo.password);
-                crud.post("/api/admin/sys/user/login", {
-                    username: userInfo.username,
-                    password: password,
-                    code: userInfo.code,
-                    redomStr: userInfo.redomStr,
-                }).then(res => {
-                    commit('SET_TOKEN', res.headers.token);
+                let data = {
+                    "channel": "ACCOUNT_OR_PHONE_PASSWORD",
+                    "data": {
+                        "username": userInfo.username,
+                        "password": password
+                    }
+                }
+                crud.post("/api/admin/sys/login", data).then(res => {
+                    commit('SET_TOKEN', res.headers[website.Authorization]);
                     commit('DEL_ALL_TAG', []);
                     commit('CLEAR_LOCK');
                     resolve(res);
@@ -41,7 +46,7 @@ const user = {
                     code: userInfo.code,
                     redomStr: userInfo.redomStr,
                 }).then(res => {
-                    commit('SET_TOKEN', res.headers.token);
+                    //commit('SET_TOKEN', res.headers.token);
                     commit('DEL_ALL_TAG', []);
                     commit('CLEAR_LOCK');
                     resolve(res);

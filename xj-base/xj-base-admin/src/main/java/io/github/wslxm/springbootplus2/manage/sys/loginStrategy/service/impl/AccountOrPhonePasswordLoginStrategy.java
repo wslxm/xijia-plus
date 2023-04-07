@@ -1,25 +1,21 @@
 package io.github.wslxm.springbootplus2.manage.sys.loginStrategy.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
-import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.common.auth.util.Md5Util;
-import io.github.wslxm.springbootplus2.common.cache.ConfigCacheKey;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
+import io.github.wslxm.springbootplus2.core.utils.Base64Util;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.github.wslxm.springbootplus2.manage.sys.loginStrategy.service.LoginStrategy;
+import io.github.wslxm.springbootplus2.manage.sys.model.dto.login.AccountPasswordLoginDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.login.LoginDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.SysUser;
-import io.github.wslxm.springbootplus2.manage.sys.model.vo.ConfigVO;
-import io.github.wslxm.springbootplus2.manage.sys.service.ConfigService;
 import io.github.wslxm.springbootplus2.manage.sys.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -36,35 +32,18 @@ public class AccountOrPhonePasswordLoginStrategy implements LoginStrategy {
 
     @Autowired
     private SysUserService sysUserService;
-    @Autowired
-    private ConfigService configService;
-
-    @Autowired
-    private HttpServletResponse response;
 
     @Override
-    public boolean login(LoginDTO dto) {
-        ValidUtil.isStrLen(dto.getPassword(), 1, 20, "密码必须大于1且小于20位");
-        SysUser user = loginUsernameOrPhone(dto.getUsername(), dto.getPassword());
-        // 登录成功
-        // 获取token 默认设置的有效期
-        ConfigVO xjConfig = configService.findByCode(ConfigCacheKey.MANAGE_LOGIN_EXPIRATION);
-        Integer expiration = xjConfig != null ? Integer.parseInt(xjConfig.getContent()) : 60;
-
-        // 5、生成jwt
-        JwtUser jwtUser = new JwtUser();
-        jwtUser.setUserId(user.getId());
-        jwtUser.setFullName(user.getFullName());
-        jwtUser.setType(JwtUtil.userType[0]);
-        // 设置token有效期(分)
-        jwtUser.setExpiration(expiration);
-        JwtUtil.createToken(jwtUser, response);
-
-        // 6、刷新最后登录时间
-        SysUser updUser = new SysUser();
-        updUser.setId(user.getId());
-        updUser.setEndTime(LocalDateTime.now());
-        return sysUserService.updateById(updUser);
+    public SysUser login(LoginDTO dto) {
+        AccountPasswordLoginDTO loginDTO = JSON.parseObject(JSON.toJSONString(dto.getData()), AccountPasswordLoginDTO.class);
+        ValidUtil.isNull(loginDTO, "没有获取到请求参数");
+        String username = loginDTO.getUsername();
+        String password = Base64Util.decrypt(loginDTO.getPassword());
+        ValidUtil.isBlank(username, "账号不能为空");
+        ValidUtil.isStrLen(username, 1, 20, "账号必须大于1且小于20位");
+        ValidUtil.isBlank(password, "密码不能为空");
+        ValidUtil.isStrLen(password, 1, 20, "密码必须大于1且小于20位");
+        return this.loginUsernameOrPhone(username, password);
     }
 
     /**
