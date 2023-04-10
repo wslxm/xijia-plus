@@ -87,6 +87,12 @@
                 <artifactId>xj-websocket</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- 机器人 服务 -->
+            <dependency>
+                <groupId>io.github.wslxm</groupId>
+                <artifactId>xj-robot</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!--  ================================================  -->
             <!--  ============== 当前架构jar - end  ================  -->
             <!--  ============== 外部jar - start  ================  -->

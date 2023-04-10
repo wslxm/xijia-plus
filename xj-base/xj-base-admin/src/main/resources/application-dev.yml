@@ -32,6 +32,16 @@ logging:
   filePath: logs
   methods: POST,PUT,DELETE
 
+robot:
+  # 飞书
+#  feishu:
+#    url: https://open.feishu.cn/open-apis/bot/v2/hook/f507a119-1f03-4a96-a844-e8b95d17972b
+#    secret: Zra8DF3rI4d4w4DYWL62Gc
+  # 企业微信
+  wechat:
+    url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=28fe9173-380b-4a13-a912-996e99a3ae59
+    mobiles: "@all"
+
 swagger:
   packages:
     - "架构--系统功能-管理端 | io.github.wslxm.springbootplus2.manage"

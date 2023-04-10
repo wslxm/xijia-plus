@@ -1,16 +1,19 @@
 package io.github.wslxm.springbootplus2.manage.test.controller;
 
-import io.github.wslxm.springbootplus2.core.base.model.BasePage;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import io.swagger.annotations.*;
-import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
-import io.github.wslxm.springbootplus2.manage.test.model.dto.GcTestDTO;
-import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
-import io.github.wslxm.springbootplus2.manage.test.service.GcTestService;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.Result;
+import io.github.wslxm.springbootplus2.manage.test.model.dto.GcTestDTO;
+import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
+import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
+import io.github.wslxm.springbootplus2.manage.test.service.GcTestService;
+import io.github.wslxm.springbootplus2.starter.robot.service.RobotService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 代码生成测试表 前端控制器
@@ -27,6 +30,9 @@ import io.github.wslxm.springbootplus2.core.result.Result;
 @RequestMapping(BaseConstant.Uri.API_ADMIN + "/test/gcTest")
 @Api(value = "GcTestController", tags = "代码生成测试表")
 public class GcTestController extends BaseController<GcTestService> {
+
+    @Autowired
+    private RobotService robotService;
 
     @GetMapping(value = "/findPage")
     @ApiOperation(value = "列表查询")
@@ -56,6 +62,14 @@ public class GcTestController extends BaseController<GcTestService> {
     @ApiOperation(value = "ID删除")
     public Result<Boolean> del(@PathVariable String id) {
         return Result.successDelete(baseService.del(id));
+    }
+
+
+    @PostMapping(value = "/sendMsg")
+    @ApiOperation(value = "发送机器人消息")
+    public Result<Boolean> sendMsg(@RequestParam String content) {
+        int c = 1 / 0;
+        return Result.successDelete(robotService.sendMsg(content));
     }
 
 }

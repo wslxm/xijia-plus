@@ -47,6 +47,11 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
+        <!-- 机器人 -->
+        <dependency>
+            <groupId>io.github.wslxm</groupId>
+            <artifactId>xj-robot</artifactId>
+        </dependency>
     </dependencies>
 
     <!-- 多环境配置 -->

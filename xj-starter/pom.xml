@@ -17,5 +17,6 @@
         <module>xj-swagger2</module>
         <module>xj-websocket</module>
         <module>xj-redis</module>
+        <module>xj-robot</module>
     </modules>
 </project>

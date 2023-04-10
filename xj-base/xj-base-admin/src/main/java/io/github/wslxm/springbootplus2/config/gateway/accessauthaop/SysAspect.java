@@ -1,12 +1,11 @@
 package io.github.wslxm.springbootplus2.config.gateway.accessauthaop;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth.*;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
-import io.github.wslxm.springbootplus2.core.base.annotation.XjSecret;
-import io.github.wslxm.springbootplus2.core.config.error.GlobalExceptionHandler;
+import io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth.*;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
+import io.github.wslxm.springbootplus2.error.GlobalExceptionHandler;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -18,7 +17,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
