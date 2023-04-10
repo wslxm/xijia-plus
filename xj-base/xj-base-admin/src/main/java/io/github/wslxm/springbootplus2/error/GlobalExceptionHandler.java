@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.error;
 
+import com.alibaba.fastjson.JSON;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
@@ -231,7 +232,13 @@ public class GlobalExceptionHandler {
      * @param content 内容
      */
     private void setRobotMsg(Integer code, String msg, String errorMsg) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        String parameterMapStr = "";
+        if (parameterMap != null) {
+            parameterMapStr = JSON.toJSONString(parameterMap);
+        }
         // 异步发送通知
+        String finalParameterMapStr = parameterMapStr;
         XjThreadUtil.asyncExecute(() -> {
             Result<JwtUser> jwtUserR = JwtUtil.getJwtUserR(request, response);
             String userId = "";

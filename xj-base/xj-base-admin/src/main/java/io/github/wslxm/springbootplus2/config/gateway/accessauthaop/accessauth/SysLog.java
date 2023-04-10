@@ -118,7 +118,6 @@ public class SysLog {
         this.printLog(log);
         // 数据是否入库,根据请求方式判断,yml 日志配置中配置
         if (methods.indexOf(method) != -1) {
-            // adminLogService.save(log);
             return log;
         } else {
             return null;
