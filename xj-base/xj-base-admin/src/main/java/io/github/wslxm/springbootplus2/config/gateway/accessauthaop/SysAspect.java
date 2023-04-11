@@ -34,33 +34,14 @@ import java.util.concurrent.*;
 @Component
 public class SysAspect {
 
-    /**
-     * 日志记录
-     */
     @Autowired
     private SysLog sysLog;
-
-    /**
-     * 黑名单认证
-     */
     @Autowired
     private SysBlacklist sysBlacklist;
-    /**
-     * 登录授权认证
-     */
     @Autowired
     private SysAuth sysAuth;
-
-
-    /**
-     * 参数加密解密
-     */
     @Autowired
     private SysEncrypt sysEncrypt;
-
-    /**
-     * 参数加密解密
-     */
     @Autowired
     private SysRateLimiter sysRateLimiter;
 
@@ -168,7 +149,7 @@ public class SysAspect {
      * @version 1.0.1
      */
     private Object run(ProceedingJoinPoint proceed) throws Throwable {
-        long startTime1 = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
         // 获取请求参数
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (sra == null) {
@@ -193,7 +174,7 @@ public class SysAspect {
         Result rateLimiter = sysRateLimiter.run(proceed);
         if (!rateLimiter.getCode().equals(ResultType.SYS_SUCCESS.getValue())) {
             // 7、记录响应结果
-            sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, rateLimiter);
+            sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime), 0L, method, uri, rateLimiter);
             return rateLimiter;
         }
 
@@ -202,7 +183,7 @@ public class SysAspect {
         Result blacklistR = sysBlacklist.blacklistAuth();
         if (!blacklistR.getCode().equals(ResultType.SYS_SUCCESS.getValue())) {
             // 7、记录响应结果
-            sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, blacklistR);
+            sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime), 0L, method, uri, blacklistR);
             return blacklistR;
         }
 
@@ -210,31 +191,31 @@ public class SysAspect {
         Result<JwtUser> jwtUserR = sysAuth.loginAuth();
         if (!jwtUserR.getCode().equals(ResultType.SYS_SUCCESS.getValue())) {
             // 7、记录响应结果
-            sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime1), 0L, method, uri, jwtUserR);
+            sysLog.responseLogAndSave(future, 0, (System.currentTimeMillis() - startTime), 0L, method, uri, jwtUserR);
             return jwtUserR;
         }
 
         // 7、调用业务方法并记录执行时间
         long startTime2 = System.currentTimeMillis();
-        Object obj = null;
+        Object resObj = null;
         try {
             // 6.1、请求核心参数解密
             Result<Object[]> rArgs = sysEncrypt.decrypt(proceed);
             // 6.2、请求接口
-            obj = proceed.proceed(rArgs.getData());
+            resObj = proceed.proceed(rArgs.getData());
             // 6.3、响应核心参数加密
-            obj = sysEncrypt.encrypt( proceed,obj);
+            resObj = sysEncrypt.encrypt( proceed,resObj);
         } catch (Exception e) {
             // 记录 业务代码异常, 这里try后, 全局异常将不生效，在直接主动调用(如果没有try exceptionHandler在异常时会自动进行拦截,在这里拦截主要是响应结果信息)
-            obj = globalExceptionHandler.exceptionHandler(e);
+            resObj = globalExceptionHandler.exceptionHandler(e);
         }
 
         // 8、记录响应结果和记录响应时间(state=1-成功,等待请求线程执行完毕立即执行)
-        long endTime1 = System.currentTimeMillis();
-        sysLog.responseLogAndSave(future, 1, (endTime1 - startTime1), (endTime1 - startTime2), method, uri, obj);
+        long endTime = System.currentTimeMillis();
+        sysLog.responseLogAndSave(future, 1, (endTime - startTime), (endTime - startTime2), method, uri, resObj);
 
         // 9、返回结果
-        return obj;
+        return resObj;
     }
 }
 

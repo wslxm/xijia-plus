@@ -185,6 +185,8 @@ public class SysEncrypt {
     /**
      * 返回参数加密
      *
+     * @param  pjp aop 代理类
+     * @param  obj 响应参数
      * @return args
      * @author wangsong
      * @date 2021/4/9 0009 17:17
