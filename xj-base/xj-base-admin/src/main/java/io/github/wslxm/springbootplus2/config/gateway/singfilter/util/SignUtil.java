@@ -63,7 +63,7 @@ public class SignUtil {
             Map<String, String> sParaNew = paraFilter(params);
             // 获取待签名字符串
             String preSignStr = createLinkString(sParaNew, false);
-            log.info("加签参数:{}", preSignStr);
+            log.debug("加签参数:{}", preSignStr);
             // 获得签名验证结果
             String mysign = Md5SignUtil.md5(APP_KEY + preSignStr + SECRET_KEY);
             if (mysign.equals(sign)) {

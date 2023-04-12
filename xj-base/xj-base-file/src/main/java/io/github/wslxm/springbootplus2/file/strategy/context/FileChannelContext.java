@@ -4,6 +4,7 @@ import io.github.wslxm.springbootplus2.file.constant.FileChannel;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
 import io.github.wslxm.springbootplus2.file.strategy.service.impl.AliYunOssFileStrategy;
 import io.github.wslxm.springbootplus2.file.strategy.service.impl.LocalFileStrategy;
+import io.github.wslxm.springbootplus2.file.strategy.service.impl.LocalProxyFileStrategy;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -26,11 +27,15 @@ public class FileChannelContext {
     private Map<String, FileStrategy> classMap = null;
 
 
-    public FileChannelContext(AliYunOssFileStrategy aliYunOssFileStrategy, LocalFileStrategy localFileStrategy) {
+    public FileChannelContext(AliYunOssFileStrategy aliYunOssFileStrategy,
+                              LocalFileStrategy localFileStrategy,
+                              LocalProxyFileStrategy localProxyFileStrategy
+    ) {
         // 注册渠道
         classMap = new ConcurrentHashMap<>();
         classMap.put(FileChannel.ALI_YUN_OSS, aliYunOssFileStrategy);
         classMap.put(FileChannel.LOCAL, localFileStrategy);
+        classMap.put(FileChannel.LOCAL_PROXY, localProxyFileStrategy);
     }
 
 

@@ -1,7 +1,9 @@
-package io.github.wslxm.springbootplus2.core.config.error;
+package io.github.wslxm.springbootplus2.error;
 
+import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
+import io.github.wslxm.springbootplus2.starter.robot.service.RobotService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +32,13 @@ import java.util.Map;
 @Slf4j
 public class GlobalExceptionHandler {
 
+
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private HttpServletResponse response;
+    @Autowired
+    private RobotService robotService;
 
     /**
      * 运行时异常log4j日志信息转换中文提示，key=为异常类，value=提示信息，可任意扩展
@@ -85,7 +93,8 @@ public class GlobalExceptionHandler {
              * 程序错误 - mapException 中所有异常类（打印及返回完整错误信息）
              */
             log.error(logStr + mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
-            return Result.error(ResultType.SYS_ERROR_CODE_500, mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString());
+            String errorMsg = mapException.get(exceptionClassName) + e.getMessage() + errorDesc.toString();
+            return Result.error(ResultType.SYS_ERROR_CODE_500, errorMsg);
         } else if (e instanceof ErrorException) {
             /**
              * 自定义异常-> 全局异常类 ErrorException
@@ -129,8 +138,9 @@ public class GlobalExceptionHandler {
             String parameterType = ((MissingServletRequestParameterException) e).getParameterType();
             String errorMsg = ResultType.PARAM_MISSING.getMsg() + "  --> 【 " + parameterName + ":" + parameterType + "】  --->  详细错误信息:" + e.getMessage();
             log.error(logStr + errorMsg);
+            String msg = ResultType.PARAM_MISSING.getMsg() + "-> " + parameterName + " : " + parameterType;
             //  返回前端提示name参数:类型 类型参数未传递
-            return Result.error(ResultType.PARAM_MISSING.getValue(), ResultType.PARAM_MISSING.getMsg() + "-> " + parameterName + " : " + parameterType, errorMsg);
+            return Result.error(ResultType.PARAM_MISSING.getValue(), msg, errorMsg);
         } else if (e instanceof MethodArgumentTypeMismatchException) {
             /**
              * 方法参数类型不匹配 mvc
@@ -140,8 +150,9 @@ public class GlobalExceptionHandler {
             Class<?> requiredType = ((MethodArgumentTypeMismatchException) e).getRequiredType();
             String errorMsg = ResultType.PARAM_ERROR.getMsg() + " 类型不匹配 --> 【 " + name + " : " + requiredType + "】  --->  详细错误信息:" + e.getMessage();
             log.error(logStr + errorMsg);
+            String msg = name + ":" + requiredType + ResultType.PARAM_ERROR.getMsg() + ":类型不匹配";
             //  返回前端提示name参数:类型 参数不匹配
-            return Result.error(ResultType.PARAM_ERROR.getValue(), name + ":" + requiredType + ResultType.PARAM_ERROR.getMsg() + ":类型不匹配", errorMsg);
+            return Result.error(ResultType.PARAM_ERROR.getValue(), msg, errorMsg);
         } else if (e instanceof DataIntegrityViolationException) {
             /**
              * 保存到数据库DB相关错误
@@ -159,8 +170,9 @@ public class GlobalExceptionHandler {
                 String name = message.substring(indexStart + 1, indexEnd);
                 String errorMsg = ResultType.PARAM_SAVE_TO_DB_MISSING.getMsg() + "  --> 【 " + name + " : " + name + "】  --->  详细错误信息:" + e.getMessage();
                 log.error(logStr + errorMsg);
+                String msg = name + ResultType.PARAM_SAVE_TO_DB_MISSING.getMsg();
                 // 返回前端提示 name参数不存在
-                return Result.error(ResultType.PARAM_SAVE_TO_DB_MISSING.getValue(), name + ResultType.PARAM_SAVE_TO_DB_MISSING.getMsg(), errorMsg);
+                return Result.error(ResultType.PARAM_SAVE_TO_DB_MISSING.getValue(), msg, errorMsg);
             } else if (message.indexOf("for key 'PRIMARY'") != -1) {
                 /**
                  * 主键ID重复
@@ -184,6 +196,9 @@ public class GlobalExceptionHandler {
             return Result.error(ResultType.SYS_ERROR_CODE_500, e.getMessage() + errorDesc.toString());
         }
     }
+
+
+
 }
 
 

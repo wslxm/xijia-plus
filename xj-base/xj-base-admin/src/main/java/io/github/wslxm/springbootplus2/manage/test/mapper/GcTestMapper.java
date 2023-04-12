@@ -5,6 +5,7 @@ import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.test.model.entity.GcTest;
 import io.github.wslxm.springbootplus2.manage.test.model.vo.GcTestVO;
 import io.github.wslxm.springbootplus2.manage.test.model.query.GcTestQuery;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public interface GcTestMapper extends BaseMapper<GcTest> {
      * @param id
      * @return List<GcTest>
      */
-    GcTestVO findId(String id);
+    GcTestVO findId(@Param("id") String id);
 
     /**
      * 列表查询/分页查询
@@ -36,7 +37,7 @@ public interface GcTestMapper extends BaseMapper<GcTest> {
      * @param query
      * @return java.util.List<GcTest>
      */
-    List<GcTestVO> list(BasePage<GcTestVO> page, GcTestQuery query);
+    List<GcTestVO> list(@Param("page") BasePage<GcTestVO> page, @Param("query") GcTestQuery query);
 
 }
 

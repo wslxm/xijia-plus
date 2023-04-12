@@ -6,7 +6,7 @@
     <parent>
         <artifactId>xijia-plus</artifactId>
         <groupId>io.github.wslxm</groupId>
-         <version>2.1.7</version>
+         <version>2.1.8</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,5 +17,6 @@
         <module>xj-swagger2</module>
         <module>xj-websocket</module>
         <module>xj-redis</module>
+        <module>xj-robot</module>
     </modules>
 </project>

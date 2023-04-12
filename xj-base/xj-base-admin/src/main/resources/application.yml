@@ -4,11 +4,7 @@ spring:
   profiles:
     active: "@profiles.active@"
   main:
-    allow-bean-definition-overriding: true
-  http:
-    encoding:
-      force: true
-      charset: UTF-8
+    allow-bean-definition-overriding: false
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -17,21 +13,55 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
   datasource:
-    initialSize: 5
-    minIdle: 5
-    maxActive: 20
-    maxWait: 60000
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: SELECT 1 FROM DUAL
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    filters: stat,wall,slf4j,log4j2
-    maxPoolPreparedStatementPerConnectionSize: 20
-    useGlobalDataSourceStat: true
-    connectionProperties: druid.stat.mergeSql=true:druid.stat.slowSqlMillis=500
+    druid:
+      initialSize: 5    # 初始化大小
+      minIdle: 5        # 最小值
+      maxActive: 20     # 最大值
+      maxWait: 60000    # 最大等待时间，配置获取连接等待超时，时间单位都是毫秒ms
+      timeBetweenEvictionRunsMillis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接
+      minEvictableIdleTimeMillis: 300000    # 配置一个连接在池中最小生存的时间
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，
+      # 'wall'用于防火墙，SpringBoot中没有log4j，我改成了 slf4j | log4j2
+      filters: stat,wall,slf4j,log4j2
+      #最大PSCache连接
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true:druid.stat.slowSqlMillis=500
+      # 配置 DruidStatViewServlet
+      stat-view-servlet:
+        url-pattern: /druid/*
+        # allow: 127.0.0.1
+        # deny: 192.168.3.3
+        login-username: admin
+        login-password: 123456
+        # 控制台启用页面开关
+        enabled: true
+      # 监控过滤器配置
+      filter:
+        stat:
+          enabled: true
+          merge-sql: true
+          slow-sql-millis: 3000
+        wall:
+          enabled: true
+          db-type: mysql
+          config:
+            delete-allow: true
+        slf4j:
+          enabled: true
+          statement-executable-sql-log-enable: true
+      # web模块
+      web-stat-filter:
+        enabled: true
+        session-stat-enable: false
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
 
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
@@ -56,5 +86,8 @@ gc:
   vueFieldTypes: 18,19
   basefields: id,create_user,update_user,create_time,update_time,deleted,version
   keywordArray: time,desc,name,key,value,mysql,info,form,sort,icon,like,unlock,unLock,comment,disable,force,describe,host,port,from,to
-
+#  db:
+#    url: jdbc:mysql://212.64.69.29:3308/bt-content-platform
+#    username: root
+#    password: tengxunPtpkMysql
 

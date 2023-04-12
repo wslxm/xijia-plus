@@ -5,6 +5,7 @@ import io.github.wslxm.springbootplus2.starter.redis.util.RedisUtil;
 import io.github.wslxm.springbootplus2.starter.websocket.constant.WebsocketConst;
 import io.github.wslxm.springbootplus2.starter.websocket.model.dto.WebsocketMsgDTO;
 import io.github.wslxm.springbootplus2.starter.websocket.model.entity.OnlineUser;
+import io.github.wslxm.springbootplus2.starter.websocket.model.entity.RedisOnlineUser;
 import io.github.wslxm.springbootplus2.starter.websocket.model.vo.SendMsgVO;
 import io.github.wslxm.springbootplus2.starter.websocket.service.WebsocketService;
 import io.github.wslxm.springbootplus2.starter.websocket.topic.WebsocketMsgPublisher;
@@ -37,7 +38,7 @@ public class WebsocketServer {
     /**
      * 所有用户信息(session + userId + username + createTime  --> 以用户的id为key, 通过用户key来获取用户session进行消息发送)
      */
-    private final static Map<String, OnlineUser> CLIENTS = new ConcurrentHashMap<>();
+    private final static Map<String, List<OnlineUser>> CLIENTS = new ConcurrentHashMap<>();
 
     /**
      * 监听连接（有用户连接，立马到来执行这个方法），session 发生变化
@@ -52,34 +53,41 @@ public class WebsocketServer {
     public void onOpen(@PathParam("userId") String userId, @PathParam("username") String username, Session session) {
         WebsocketMsgPublisher websocketMsgPublisher = WebsocketSpringContextUtil.getBean(WebsocketMsgPublisher.class);
         WebsocketService websocketService = WebsocketSpringContextUtil.getBean(WebsocketService.class);
-        RedisUtil redisUtil = WebsocketSpringContextUtil.getBean(RedisUtil.class);
-        // 判断账号是否重复登录
         Integer onlineCount = websocketService.getOnlineCount();
+        RedisUtil redisUtil = WebsocketSpringContextUtil.getBean(RedisUtil.class);
+        // 保存到当前服务器
         if (CLIENTS.containsKey(userId)) {
-            // 给上一个使用该账号的用户发送被迫下线提示, 集群时同一账号允许连接到多台服务器共享
-            String noticeMsg = assembleNoticeMsg("系统消息", "【及时通知系统】被迫下线提示, 您的账号正在其他地方使用");
-            SendMsgVO sendMsgVO = new SendMsgVO(userId, username, userId, noticeMsg, null, onlineCount);
-            this.send(sendMsgVO);
-            // 踢下线
-            try {
-                CLIENTS.get(userId).getSession().close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            log.info("重复登录,原用户被迫下线！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, onlineCount);
+            // 保存已存在用户的 session 会话
+            CLIENTS.get(userId).add(new OnlineUser(userId, username, session));
         } else {
+            // 保存用户 session 会话
+            ArrayList<OnlineUser> onlineUsers = new ArrayList<>();
+            onlineUsers.add(new OnlineUser(userId, username, session));
+            CLIENTS.put(userId, onlineUsers);
+        }
+        // 保存到 redis
+        boolean isUser = redisUtil.hHasKey(WebsocketConst.WEBSOCKET_CACHE_KEY, userId);
+        if (isUser) {
+            // 保存已存在用户到 redis 中
+            List<RedisOnlineUser> redisOnlineUsers = (List<RedisOnlineUser>) redisUtil.hGet(WebsocketConst.WEBSOCKET_CACHE_KEY, userId);
+            redisOnlineUsers.add(new RedisOnlineUser(userId, username, session.getId()));
+            redisUtil.hPut(WebsocketConst.WEBSOCKET_CACHE_KEY, userId, redisOnlineUsers);
+            log.info("重复登录,登录数量 {}！sessionId：{} userId：{} userName：{} 当前在线人数:{}", redisOnlineUsers.size(), session.getId(), userId, username, onlineCount);
+        } else {
+            // 保存用户到 redis 中
+            ArrayList<RedisOnlineUser> redisOnlineUsers = new ArrayList<>();
+            redisOnlineUsers.add(new RedisOnlineUser(userId, username, session.getId()));
+            redisUtil.hPut(WebsocketConst.WEBSOCKET_CACHE_KEY, userId, redisOnlineUsers);
             log.info("有新连接加入！sessionId：{} userId：{} userName：{} 当前在线人数:{}", session.getId(), userId, username, onlineCount + 1);
         }
-        // 保存新用户id,用户名,session会话
-        CLIENTS.put(userId, new OnlineUser(userId, username, session));
-
-        // 添加到用户信息到 redis
-        redisUtil.hPut(WebsocketConst.WEBSOCKET_CACHE_KEY, userId, new OnlineUser(userId, username, null));
-
         // 给自己发条消息,告诉自己连接成功
-        String noticeMsg = assembleNoticeMsg("系统消息", "欢迎您: " + username);
-        SendMsgVO sendMsgVO = new SendMsgVO(userId, username, userId, noticeMsg, null, onlineCount + 1);
-        this.send(sendMsgVO);
+        String noticeMsg = this.assembleNoticeMsg("系统消息", "欢迎您: " + username);
+        SendMsgVO sendMsgVO = new SendMsgVO(userId, username, userId, noticeMsg, null, websocketService.getOnlineCount());
+        try {
+            session.getBasicRemote().sendText(JSON.toJSONString(sendMsgVO));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -92,13 +100,35 @@ public class WebsocketServer {
      */
     @OnClose
     public void onClose(@PathParam("userId") String userId, @PathParam("username") String username, Session session) {
-        WebsocketMsgPublisher websocketMsgPublisher = WebsocketSpringContextUtil.getBean(WebsocketMsgPublisher.class);
         RedisUtil redisUtil = WebsocketSpringContextUtil.getBean(RedisUtil.class);
         WebsocketService websocketService = WebsocketSpringContextUtil.getBean(WebsocketService.class);
-        // 剔除下线用户
-        CLIENTS.remove(userId);
-        // 从 redis 剔除下线用户
-        redisUtil.hDelete(WebsocketConst.WEBSOCKET_CACHE_KEY, userId);
+        // 剔除下线用户 (当前服务中剔除)
+        List<OnlineUser> onlineUsers = CLIENTS.get(userId);
+        for (OnlineUser onlineUser : onlineUsers) {
+            if (onlineUser.getSession() == session) {
+                onlineUsers.remove(onlineUser);
+                break;
+            }
+        }
+        if (onlineUsers.size() == 0) {
+            CLIENTS.remove(userId);
+        } else {
+            CLIENTS.put(userId, onlineUsers);
+        }
+
+        // 剔除下线用户 (redis 中剔除)
+        List<RedisOnlineUser> redisOnlineUsers = (List<RedisOnlineUser>) redisUtil.hGet(WebsocketConst.WEBSOCKET_CACHE_KEY, userId);
+        for (RedisOnlineUser redisOnlineUser : redisOnlineUsers) {
+            if (redisOnlineUser.getSessionId().equals(session.getId())) {
+                redisOnlineUsers.remove(redisOnlineUser);
+                break;
+            }
+        }
+        if (redisOnlineUsers.size() == 0) {
+            redisUtil.hDelete(WebsocketConst.WEBSOCKET_CACHE_KEY, userId);
+        } else {
+            redisUtil.hPut(WebsocketConst.WEBSOCKET_CACHE_KEY, userId, redisOnlineUsers);
+        }
         log.info(username + ":已离线！ 当前在线人数" + websocketService.getOnlineCount());
     }
 
@@ -138,9 +168,8 @@ public class WebsocketServer {
         // 请求参数（接收人+发送内容）
         try {
             WebsocketMsgDTO sendMsgDTO = JSON.parseObject(message, WebsocketMsgDTO.class);
-            // 接收到消息
+            // 接收到消息 发送
             // log.info("接收消息：id:{}  username:{}  message：{}", userId, username, message);
-            // 发送
             SendMsgVO sendMsgVO = new SendMsgVO(userId, username, sendMsgDTO.getTo(), sendMsgDTO.getContent(), null, websocketService.getOnlineCount());
             websocketMsgPublisher.sendMsg(sendMsgVO);
         } catch (Exception e) {
@@ -163,7 +192,7 @@ public class WebsocketServer {
      * @param sendMsg：消息内容
      */
     public void send(SendMsgVO sendMsg) {
-        List all = Arrays.asList("all", "ALL");
+        List<String> all = Arrays.asList("all", "ALL");
         if (all.contains(sendMsg.getTo())) {
             // 发送消息给所有人
             Set<String> userIds = CLIENTS.keySet();
@@ -193,12 +222,15 @@ public class WebsocketServer {
         // 判断用户是否在线, 在线发送消息推送
         if (CLIENTS.containsKey(userId)) {
             try {
-                Session session = CLIENTS.get(userId).getSession();
-                if (session != null) {
-                    // 这里因为是提供发布订阅来发送信息, 在线程中存在同一个session发送存在问题，使用异步发送
-                    synchronized (session) {
-                        CLIENTS.get(userId).getSession().getBasicRemote().sendText(JSON.toJSONString(sendMsg));
-                        // log.info("websocket用户ID:{} 在线: 成功推送信息, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));
+                List<OnlineUser> onlineUsers = CLIENTS.get(userId);
+                for (OnlineUser onlineUser : onlineUsers) {
+                    Session session = onlineUser.getSession();
+                    if (session != null) {
+                        // 这里因为是提供发布订阅来发送信息, 在线程中存在同一个 session 发送存在问题，使用异步发送
+                        synchronized (this) {
+                            onlineUser.getSession().getBasicRemote().sendText(JSON.toJSONString(sendMsg));
+                            // log.info("websocket用户ID:{} 在线: 成功推送信息, 消息：{} ", userId, JSON.toJSONString(sendMsg.toString()));
+                        }
                     }
                 }
                 return true;

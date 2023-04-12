@@ -161,7 +161,7 @@ CREATE TABLE `t_gc_test`  (
   `head_files` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '多图文件 (多图-默认限制10张图片, 字符串分割存储)',
   `video_files` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '视频文件 (视频-默认多上传)',
   `files` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '任意文件 (任意文件上传-默认多上传)',
-  `time` datetime NULL DEFAULT NULL COMMENT '时间 (默认 yyyy-MM-dd hh:mm:ss 格式)',
+  `time` datetime NULL DEFAULT NULL COMMENT '时间 (默认 yyyy-MM-dd HH:mm:ss 格式)',
   `time_two` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '时间-小时 (默认 hh:mm 字串)',
   `text` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更多信息-text (大文本)',
   `text_two` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '更多信息-fwb (富文本)',
@@ -3796,7 +3796,7 @@ INSERT INTO `t_sys_dictionary` VALUES ('1455154454599905281', '-1', '-1', '2021-
 INSERT INTO `t_sys_dictionary` VALUES ('1455154827834241025', '-1', '-1', '2021-11-01 20:48:41', '2022-10-30 16:11:24', 0, 0, '9', '开关-(switch)', '1455153732051349505', '-', 9, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1455154939453059073', '-1', '-1', '2021-11-01 20:49:07', '2022-10-30 16:11:24', 0, 0, '5', '多选-(checkbox)', '1455153732051349505', '-', 5, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1455155390269435905', '-1', '-1', '2021-11-01 20:50:55', '2022-10-30 16:11:24', 0, 0, '10', '日期-(data)', '1455153732051349505', 'yyyy-MM-dd', 10, 1, NULL, NULL, NULL);
-INSERT INTO `t_sys_dictionary` VALUES ('1455155744738455553', '-1', '-1', '2021-11-01 20:52:19', '2022-10-30 16:11:24', 0, 0, '11', '日期时间-(datetime)', '1455153732051349505', 'yyyy-MM-dd hh:mm:ss', 11, 0, NULL, NULL, NULL);
+INSERT INTO `t_sys_dictionary` VALUES ('1455155744738455553', '-1', '-1', '2021-11-01 20:52:19', '2022-10-30 16:11:24', 0, 0, '11', '日期时间-(datetime)', '1455153732051349505', 'yyyy-MM-dd HH:mm:ss', 11, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1455155995658498049', '-1', '-1', '2021-11-01 20:53:19', '2022-10-30 16:11:25', 0, 0, '12', '时间-小时选择 (time)', '1455153732051349505', '默认 hh:mm 格式，06:00 到 23::00, 步长30分钟,  如： 09::00 | 09:30', 12, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1455156254728073217', '-1', '-1', '2021-11-01 20:54:21', '2022-10-30 16:11:25', 0, 0, '6', '下拉选择-(select-单选)', '1455153732051349505', '-默认支持搜索', 6, 0, NULL, NULL, NULL);
 INSERT INTO `t_sys_dictionary` VALUES ('1455156611625594881', '-1', '-1', '2021-11-01 20:55:46', '2022-10-30 16:11:25', 0, 0, '3', '密码-(password)', '1455153732051349505', '-', 3, 0, NULL, NULL, NULL);

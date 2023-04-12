@@ -27,12 +27,12 @@ export default {
         content: String
     },
     created() {
-        console.log("--------加载md编辑器")
+        console.debug("--------加载md编辑器")
     },
     methods: {
         // v-md-editor 文件上传
         handleUploadImage(event, insertImage, files) {
-            // console.log(files);
+            // console.debug(files);
             // 上传
             for (let i = 0; i < files.length; i++) {
                 this.crud.upload(files[i], "image/vMdEditor/").then(res => {

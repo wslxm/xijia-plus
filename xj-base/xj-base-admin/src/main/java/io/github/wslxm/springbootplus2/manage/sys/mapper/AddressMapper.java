@@ -5,6 +5,7 @@ import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Address;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.AddressVO;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.AddressQuery;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public interface AddressMapper extends BaseMapper<Address> {
      * @param id
      * @return List<Address>
      */
-    AddressVO findId(String id);
+    AddressVO findId(@Param("id") String id);
 
     /**
      * 列表查询/分页查询
@@ -36,7 +37,7 @@ public interface AddressMapper extends BaseMapper<Address> {
      * @param query
      * @return java.util.List<Address>
      */
-    List<AddressVO> list(BasePage<AddressVO> page, AddressQuery query);
+    List<AddressVO> list(@Param("page") BasePage<AddressVO> page, @Param("query") AddressQuery query);
 
 }
 

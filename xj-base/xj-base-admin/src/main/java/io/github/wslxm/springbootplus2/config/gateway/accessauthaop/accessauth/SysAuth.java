@@ -52,7 +52,7 @@ public class SysAuth {
 
     public SysAuth() {
         // 管理端登录接口
-        URIS.add("/api/admin/sys/user/login");
+        URIS.add("/api/admin/sys/login");
     }
 
 

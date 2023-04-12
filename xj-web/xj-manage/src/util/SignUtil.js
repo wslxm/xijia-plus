@@ -143,8 +143,7 @@ function addSing(theRequest, timestamp) {
         dataParams += "&" + key + "=" + theRequest[key];
     }
     dataParams = dataParams.substring(1);
-    //TODO 加签参数(部署时请注释)
-    console.log("加签参数：" + dataParams);
+    console.debug("加签参数：" + dataParams);
     // 加签
     return md5(signConfig.appKey + dataParams + signConfig.secretKey);
 }

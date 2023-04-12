@@ -140,7 +140,7 @@ export default {
     watch: {
         //newNum = 新值，旧值
         "obj.code": function (newNum, oldNum) {
-            console.log("=========" + this.newNum)
+            console.debug("=========" + this.newNum)
             this.$nextTick(() => {
                 if (this.checkNumber(this.obj.code)) {
                     this.obj.sort = this.obj.code;
@@ -179,9 +179,9 @@ export default {
             return false;
         },
         toUp(str) {
-            console.log(str)
+            console.debug(str)
             str = str.replace(/([A-Z])/g, "_$1").toUpperCase()
-            console.log(str)
+            console.debug(str)
             return str;
         }
     }

@@ -5,7 +5,6 @@ import io.github.wslxm.springbootplus2.file.properties.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.context.FileChannelContext;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
 import io.github.wslxm.springbootplus2.file.util.FileDownloadUtil;
-import io.github.wslxm.springbootplus2.file.util.FileUploadUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -55,6 +54,7 @@ public class FileController {
 
     @Autowired
     private HttpServletRequest request;
+
     @Autowired
     private HttpServletResponse response;
 
@@ -87,11 +87,8 @@ public class FileController {
             String[] refererArray = referer.split("/");
             filePath += refererArray[refererArray.length - 1] + "/";
         }
-
-        // 验证文件格式、保存路径，并处理文件名防止重复
-        String fileName = FileUploadUtil.getPath(filePath, file.getOriginalFilename());
         // 上传
-        String url = fileStrategy.upload(file.getInputStream(), filePath, fileName);
+        String url = fileStrategy.upload(file.getInputStream(), filePath,  file.getOriginalFilename());
         // 返回数据处理
         if (resType == null || resType == 1) {
             return Result.success(url);
@@ -134,6 +131,7 @@ public class FileController {
         FileDownloadUtil.download(filePath, response);
     }
 
+
     @ApiOperation("文件下载--多文件下载 (批量下载-打压缩包)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "filePaths", value = "文件可访问的完整URL,多个逗号分隔", required = true),
@@ -143,5 +141,6 @@ public class FileController {
     public void downloadZip(@RequestParam String filePaths, @RequestParam String zipName) {
         FileDownloadUtil.downloadZip(Arrays.asList(filePaths.split(",")), zipName, response);
     }
+
 }
 

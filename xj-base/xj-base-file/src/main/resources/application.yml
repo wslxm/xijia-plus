@@ -10,23 +10,25 @@ spring:
       max-request-size: 1024MB   # 单个请求的文件总大小上限
 
 # 文件配置
-# 默认支持： ALI_YUN_OSS -阿里云oss | LOCAL -本地服务器存储
+# 默认支持： ALI_YUN_OSS -阿里云oss | LOCAL -本地服务器存储 | LOCAL_PROXY 文件统一服务器代理
 file:
   ## 文件存储渠道
-  channel: ALI_YUN_OSS
-  ## 本地服务器存储：本地文件存储的根目录 | 文件访问地址
+  channel: LOCAL
+  #  localProxy:
+  #    url: http://file.xxx-xxx.com
+  #  ## 本地服务器存储：本地文件存储的根目录 | 文件访问地址
   local:
-    path: upload/file
+    path: upload
     baseUrl: http://127.0.0.1:10001
-  ## 阿里云oss文件存储
-  aliyun-oss:
-    path: oss/file/
-    ## 对象存储服务，个人账号,拉取此代码调试后请修改为自己的,如发现滥用,将关停
-    endpoint: oss-cn-shenzhen.aliyuncs.com
-    accessKeyId: LTAI4Fyfy2DTf4yUrvKqHwH4
-    accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8
-    bucketName: xijia-sz
-    bucket: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
+#  ## 阿里云oss文件存储
+#  aliyun-oss:
+#    path: oss/file/
+#    ## 对象存储服务，个人账号,拉取此代码调试后请修改为自己的,如发现滥用,将关停
+#    endpoint: oss-cn-shenzhen.aliyuncs.com
+#    accessKeyId: LTAI4Fyfy2DTf4yUrvKqHwH4
+#    accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8
+#    bucketName: xijia-sz
+#    bucket: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
 
 
 # swagger配置

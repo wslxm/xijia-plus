@@ -18,13 +18,14 @@ import java.io.IOException;
 
 /**
  * swagger 文档控制 过滤器 (数据库动态控制)
- * <P>
- *    判断是否可访问swagger文档, 不可访问时 直接返回无权限json格式提示
+ * <p>
+ * 判断是否可访问swagger文档, 不可访问时 直接返回无权限json格式提示
  * </P>
+ *
  * @author wangsong
+ * @version 1.0.1
  * @mail 1720696548@qq.com
  * @date 2021/3/29 0029 19:49
- * @version 1.0.1
  */
 @Component
 @Slf4j
@@ -42,7 +43,7 @@ public class SwaggerFilter implements Filter {
         String uri = request.getRequestURI();
         if (uri.contains(SWAGGER_UI)) {
             // 默认展示,配置为false不展示
-            ConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.IS_SWAGGER );
+            ConfigVO xjAdminConfig = xjAdminConfigService.findByCode(ConfigCacheKey.IS_SWAGGER);
             if (xjAdminConfig != null && BooleanConst.FALSE_STR.equals(xjAdminConfig.getContent())) {
                 Result<Void> r = Result.error(ResultType.SYS_ERROR_CODE_403);
                 servletResponse.setContentType("application/json;charset=utf-8");

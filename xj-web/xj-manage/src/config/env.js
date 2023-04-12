@@ -12,7 +12,7 @@ let webSocketPath = proxyPath + "/websocket/{userId}/{fullName}";
 let uploadPath = proxyPath + '/api/open/file/upload?resType=2&filePath=';
 
 // 启动输出
-console.log("当前 请求服务器地址: " + basePath);
+console.debug("当前 请求服务器地址: " + basePath);
 console.log("当前 websocket请求地址: " + webSocketPath);
 console.log("当前 转发代理地址: " + proxyPath);
 console.log("当前 文件上传地址: " + uploadPath);

@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
  * @return
  * @version 1.0.1
  */
-@SuppressWarnings("all")
 @Configuration
 @ConfigurationProperties(prefix = "file")
 @Data
@@ -32,5 +31,9 @@ public class FileProperties {
      * 阿里云删除配置
      */
     private AliYunOssProperties aliyunOss;
+    /**
+     * 文件操作 代理地址 (上传/删除等)
+     */
+    private LocalProxyFileProperties localProxy;
 
 }

@@ -25,7 +25,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return java.util.List<io.github.wslxm.springbootplus2.manage.admin.model.vo.SysUserVO>
      * @version 1.0.0
      */
-    List<SysUserVO> list(Page<SysUserVO> page, SysUserQuery query, String createUserId);
+    List<SysUserVO> list(@Param("page") Page<SysUserVO> page, @Param("query") SysUserQuery query, @Param("createUserId") String createUserId);
 
     /**
      * 根据角色Id查询指定用户信息

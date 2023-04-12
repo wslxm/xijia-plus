@@ -24,8 +24,8 @@ public class DateConverterConfig implements Converter<String, Date> {
     static {
         FORMATS.add("yyyy-MM");
         FORMATS.add("yyyy-MM-dd");
-        FORMATS.add("yyyy-MM-dd hh:mm");
-        FORMATS.add("yyyy-MM-dd hh:mm:ss");
+        FORMATS.add("yyyy-MM-dd HH:mm");
+        FORMATS.add("yyyy-MM-dd HH:mm:ss");
     }
 
     @Override

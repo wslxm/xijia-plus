@@ -43,7 +43,7 @@ public class GcTestQuery extends BaseQuery {
     @ApiModelProperty(value = "禁用 (开关--字典)" ,position = 4)
     private Integer disable;
 
-    @ApiModelProperty(value = "时间 (默认 yyyy-MM-dd hh:mm:ss 格式)" ,position = 5)
+    @ApiModelProperty(value = "时间 (默认 yyyy-MM-dd HH:mm:ss 格式)" ,position = 5)
     private String time;
 
     @ApiModelProperty(value = "时间-小时 (默认 hh:mm 字串)" ,position = 6)

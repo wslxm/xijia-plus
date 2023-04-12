@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.file.strategy.service.impl;
 
 import io.github.wslxm.springbootplus2.file.properties.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
+import io.github.wslxm.springbootplus2.file.util.FileUploadUtil;
 import io.github.wslxm.springbootplus2.file.util.OSSUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,8 @@ public class AliYunOssFileStrategy implements FileStrategy {
 
     @Override
     public String upload(InputStream inputStream, String filePath, String fileName) {
+        // 验证文件格式、保存路径，并处理文件名防止重复
+        fileName = FileUploadUtil.getPath(filePath, fileName);
         // 参数1：上传后保存的跟路径地址
         return ossUtil.upload(fileProperties.getAliyunOss().getPath(), filePath, fileName, inputStream);
     }

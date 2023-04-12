@@ -118,7 +118,6 @@ public class AuthorityServiceImpl extends BaseServiceImpl<AuthorityMapper, Autho
     }
 
 
-
     /**
      * 接口自动扫描（1、项目启动时自动执行   2、设置了权限授权状态更新
      * <p>
@@ -153,7 +152,7 @@ public class AuthorityServiceImpl extends BaseServiceImpl<AuthorityMapper, Autho
         log.info("  @.@...正在更新接口资源,所有被权限管理的接口将被打印出来…… ^.^ ");
         // 扫描包，获得包下的所有类
         // ClassUtil.getClasses(PACKAGE_NAME);
-        // 当前当前数据库已经存在的所有url权限列表--> key=url，value=对象，获取后移除Map中已取出，最后剩下的全部删除
+        // 当前数据库已经存在的所有url权限列表--> key=url，value=对象，获取后移除Map中已取出, 最后剩下的全部删除
         List<Authority> list = this.list();
         Map<String, Authority> authorityMap = new HashMap<>();
         if (list != null && list.size() > 0) {
@@ -164,6 +163,8 @@ public class AuthorityServiceImpl extends BaseServiceImpl<AuthorityMapper, Autho
         List<Authority> addAuth = new ArrayList<>();
         List<String> delIds = new ArrayList<>();
         int classNum = 0;
+        // 类上url
+        List<String> classUrl = new ArrayList<>();
         // 遍历所有类
         for (Class<?> classInfo : classByPackageName) {
             // 类上存在 @Api 注解 + @RequestMapping 的类进行下一步操作
@@ -183,19 +184,19 @@ public class AuthorityServiceImpl extends BaseServiceImpl<AuthorityMapper, Autho
                 className = api.value();
             }
             String url = requestMappingClass.value()[0];
-            if (url.indexOf(BaseConstant.Uri.API_ADMIN) != -1) {
+            if (url.contains(BaseConstant.Uri.API_ADMIN)) {
                 // 管理端 | 默认需登录
                 uriType = Base.AuthorityType.V0.getValue();
                 state = Base.AuthorityState.V1.getValue();
-            } else if (url.indexOf(BaseConstant.Uri.API_CLIENT) != -1) {
+            } else if (url.contains(BaseConstant.Uri.API_CLIENT)) {
                 // 用户端 | 默认需登录
                 uriType = Base.AuthorityType.V1.getValue();
                 state = Base.AuthorityState.V0.getValue();
-            } else if (url.indexOf(BaseConstant.Uri.API_OPEN) != -1) {
+            } else if (url.contains(BaseConstant.Uri.API_OPEN)) {
                 // 通用 | 默认无需登录+无需授权
                 uriType = Base.AuthorityType.V2.getValue();
                 state = Base.AuthorityState.V0.getValue();
-            } else if (url.indexOf(BaseConstant.Uri.API_OAUTH2) != -1) {
+            } else if (url.contains(BaseConstant.Uri.API_OAUTH2)) {
                 // Oauth2.0接口 | 默认需Oauth2.0授权
                 uriType = Base.AuthorityType.V3.getValue();
                 state = Base.AuthorityState.V3.getValue();
@@ -234,10 +235,12 @@ public class AuthorityServiceImpl extends BaseServiceImpl<AuthorityMapper, Autho
                 this.putMethods(classInfo, authorityMap, addAuthority, updAuth, addAuth);
                 addAuth.add(addAuthority);
             }
+            classUrl.add(url);
             //被管理的类数量
             classNum++;
         }
-        //
+        log.info("检查多个类 URI 地址是否重复命名, 多个类的 URI 跟路径不能相同");
+        classUrl.stream().collect(Collectors.toMap(item -> item, item -> item));
         log.info("  本次刷新接口+类 总数量为:{} ,如接口 [备注信息] 或 [请求方式] 或 [终端] 发送改变,则已被刷新", updAuth.size());
         log.info("  本次添加接口+类 总量为:  {}", addAuth.size());
         // 修改
@@ -247,13 +250,8 @@ public class AuthorityServiceImpl extends BaseServiceImpl<AuthorityMapper, Autho
         // 新增
         if (addAuth.size() > 0) {
             // 判断新增的接口中是否有重复的url，如果Url有重复直接将直接抛出异常
-            Map<String, Authority> addUrls = null;
-            try {
-                addUrls = list.stream().collect(Collectors.toMap(item -> AuthCacheKeyUtil.getAuthKey(item.getMethod(), item.getUrl()), item -> item));
-            } catch (Exception e) {
-                log.info("接口 URI 地址重复命名,不能存在相同的【请求方式+请求uri】");
-                e.printStackTrace();
-            }
+            log.info("检查接口 URI 地址是否存在重复命名,不能存在多个【请求方式+请求uri】完全相同的URL");
+            addAuth.stream().collect(Collectors.toMap(item -> AuthCacheKeyUtil.getAuthKey(item.getMethod(), item.getUrl()), item -> item));
             // 添加权限
             this.saveBatch(addAuth, 1024);
         }

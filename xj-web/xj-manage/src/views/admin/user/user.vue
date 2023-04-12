@@ -202,7 +202,7 @@
                 {
                     label: '角色',
                     prop: 'roleNames',
-                    search: true,
+                    search: false,
                     searchSpan: 5,
                     overHidden: true,
                     formatter: (val) => {
@@ -261,7 +261,7 @@
                     dicData: this.dict.get(this.website.Dict.Base.Disable),
                 }
             ]
-            console.log("获取组织架构-加载字段结束" + JSON.stringify(this.deps))
+            console.debug("获取组织架构-加载字段结束" + JSON.stringify(this.deps))
         },
         watch: {
             // 监听路由参数变化, 让其支持消息点击跳转，并能携带动态参数进行查询

@@ -1,12 +1,11 @@
 package io.github.wslxm.springbootplus2.manage.sys.controller;
 
-import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.core.base.controller.BaseController;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.core.constant.BaseConstant;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
-import io.github.wslxm.springbootplus2.manage.sys.model.dto.LoginDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.dto.SysUserDTO;
 import io.github.wslxm.springbootplus2.manage.sys.model.query.SysUserQuery;
 import io.github.wslxm.springbootplus2.manage.sys.model.vo.SysUserVO;
@@ -94,17 +93,6 @@ public class SysUserController extends BaseController<SysUserService> {
     }
 
 
-    @ApiOperation("用户登录")
-    @PostMapping(value = "/login")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "账号/手机号", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query"),
-    })
-    public Result<Boolean> login(@RequestBody @Validated LoginDTO dto) {
-        return Result.success(baseService.login(dto));
-    }
-
-
     @PutMapping(value = "/updUser")
     @ApiOperation(value = "修改当前登录人的信息")
     public Result<Boolean> updUser(@RequestBody SysUserDTO dto) {
@@ -115,14 +103,18 @@ public class SysUserController extends BaseController<SysUserService> {
     @PutMapping(value = "/updByPassword")
     @ApiOperation(value = "修改当前登录人的密码", notes = "判断原密码是否正确,不正确返回错误信息msg ,正确直接修改,密码进行MD5加密 --> val(前端输入密码值)+盐(后端规则指定)=最终密码）")
     public Result<Boolean> updByPassword(@RequestParam String oldPassword, @RequestParam String password) {
-        return Result.successUpdate(baseService.updByPassword(oldPassword, password));
+        Result<Boolean> result = Result.successUpdate(baseService.updByPassword(oldPassword, password));
+        result.setMsg("修改密码成功");
+        return result;
     }
 
 
     @PutMapping(value = "/{id}/resetPassword")
     @ApiOperation(value = "重置任意用户密码")
     public Result<Boolean> updResetPassword(@PathVariable String id, @RequestParam String password) {
-        return Result.successUpdate(baseService.updResetPassword(id, password));
+        Result<Boolean> result = Result.successUpdate(baseService.updResetPassword(id, password));
+        result.setMsg("重置密码成功");
+        return result;
     }
 
 }

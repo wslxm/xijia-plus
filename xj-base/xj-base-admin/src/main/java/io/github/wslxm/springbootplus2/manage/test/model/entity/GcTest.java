@@ -71,7 +71,7 @@ public class GcTest extends BaseEntity {
     @TableField(value = "files")
     private String files;
 
-    @ApiModelProperty(notes = "时间 (默认 yyyy-MM-dd hh:mm:ss 格式)" ,position = 10)
+    @ApiModelProperty(notes = "时间 (默认 yyyy-MM-dd HH:mm:ss 格式)" ,position = 10)
     @TableField(value = "`time`")
     private LocalDateTime time;
 

@@ -7,12 +7,15 @@ import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
 import io.github.wslxm.springbootplus2.common.cache.XjCacheUtil;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
+import io.github.wslxm.springbootplus2.core.utils.date.LocalDateTimeUtil;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Authority;
 import io.github.wslxm.springbootplus2.manage.sys.model.entity.Log;
 import io.github.wslxm.springbootplus2.manage.sys.service.LogService;
+import io.github.wslxm.springbootplus2.starter.robot.service.RobotService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -39,6 +43,9 @@ public class SysLog {
 
     @Autowired
     private LogService adminLogService;
+
+    @Autowired
+    private RobotService robotService;
 
 
     /**
@@ -118,7 +125,6 @@ public class SysLog {
         this.printLog(log);
         // 数据是否入库,根据请求方式判断,yml 日志配置中配置
         if (methods.indexOf(method) != -1) {
-            // adminLogService.save(log);
             return log;
         } else {
             return null;
@@ -178,6 +184,8 @@ public class SysLog {
                     log.info("note logging failed logs null request uri " + uri);
                 }
                 // log.info(logs.getClassDesc() + logs.getUrl() + "  --> " + data);
+                // 发送机器人消息(只发异常信息)
+                this.sendRobotMsg(logs);
                 break;
             }
             // 防止cpu飚高, 5毫秒循环一次
@@ -277,5 +285,33 @@ public class SysLog {
             ip = request.getRemoteAddr();
         }
         return ip;
+    }
+
+
+    /**
+     * 发送机器人消息
+     *
+     * @param args 请求参数
+     * @param resObj 响应参数
+     */
+    public void sendRobotMsg(Log logs) {
+        String responseData = logs.getResponseData();
+        if (StringUtils.isBlank(responseData) || "无法解析".equals(responseData)) {
+            return;
+        }
+        Result result = JSON.parseObject(responseData, Result.class);
+        if (result.getCode().equals(Result.success().getCode())) {
+            return;
+        }
+        String content = "请求错误: " + LocalDateTimeUtil.parse(LocalDateTime.now()) +
+                "\n操作人Id: " + logs.getUserId() +
+                "\n操作人: " + logs.getFullName() +
+                "\n操作ip: " + logs.getIp() +
+                "\n操作功能: " + logs.getClassDesc() + "-" + logs.getMethodDesc() +
+                "\n请求接口: " + logs.getUri() +
+                "\n来源: " + logs.getReferer() +
+                "\n请求参数: " + logs.getRequestData() +
+                "\n响应参数: " + logs.getResponseData();
+        robotService.sendMsg(content);
     }
 }

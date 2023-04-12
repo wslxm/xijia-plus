@@ -64,6 +64,7 @@ axios.interceptors.request.use(config => {
 
 //HTTP response拦截
 axios.interceptors.response.use(res => {
+    console.debug("------------------")
     console.debug(res.config.url, "  =》 res:", res)
     NProgress.done();
     const status = Number(res.status) || 200;
@@ -85,8 +86,8 @@ axios.interceptors.response.use(res => {
     // 统一处理业务code码
     if (res.data.code !== 200) {
         // 请求失败
-        // 返回 10000 表示码云登录,跳登录页
-        if (res.data.code === 10000) {
+        // 返回 10000 表示没有登录过期, 10001 表示没有登录 跳登录页
+        if (res.data.code === 10000 || res.data.code === 10001) {
             // 退出登录
             Message({message: res.data.msg, type: 'error'});
             store.dispatch("LogOut").then(() => {
@@ -105,8 +106,8 @@ axios.interceptors.response.use(res => {
             Message({message: res.data.msg, type: 'success'})
         }
         // 自动刷新 token 来进行续期
-        if (res.headers.token !== undefined && res.headers.token !== null) {
-            let newToken = res.headers.token;
+        if (res.headers[website.Authorization] !== undefined && res.headers[website.Authorization] !== null) {
+            let newToken = res.headers[website.Authorization];
             setToken(newToken);
         }
     }

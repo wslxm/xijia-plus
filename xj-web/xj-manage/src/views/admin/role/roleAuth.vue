@@ -107,7 +107,7 @@
              * 勾选指定字段， 处理源数据--选中未选中
              */
             select(selection, row) {
-                console.log("勾选单个")
+                console.debug("勾选单个")
                 row.isChecked = !row.isChecked;
                 // 处理下级数据，勾选的如果是父级设置下级 所有为 选中 或 取消选中
                 if (row.authoritys != null && row.authoritys.length > 0) {
@@ -126,7 +126,7 @@
              * @version 1.0.0
              */
             selectAll() {//selection
-                console.log("勾选全选");
+                console.debug("勾选全选");
                 // 判断是否有选中, 有取消全部选中，没有选择全部
                 let isChecked = true;
                 for (let i = 0; i < this.data.length; i++) {

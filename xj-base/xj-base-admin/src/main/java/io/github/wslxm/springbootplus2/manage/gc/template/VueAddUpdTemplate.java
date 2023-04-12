@@ -141,8 +141,8 @@ public interface VueAddUpdTemplate {
             "                            prop: '{prop}',\n" +
             "                            type: 'datetime',\n" +
             "                            labelWidth: 110,\n" +
-            "                            format: 'yyyy-MM-dd hh:mm:ss',\n" +
-            "                            valueFormat: 'yyyy-MM-dd hh:mm:ss',\n" +
+            "                            format: 'yyyy-MM-dd HH:mm:ss',\n" +
+            "                            valueFormat: 'yyyy-MM-dd HH:mm:ss',\n" +
             "                            span: 20,\n" +
             "                            rules: [{\n" +
             "                                required: {required},\n" +

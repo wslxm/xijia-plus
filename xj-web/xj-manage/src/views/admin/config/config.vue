@@ -3,7 +3,7 @@
     <el-card class="box-card" style="width: 100%;margin-left: 0%">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="全部" name="-1"></el-tab-pane>
-        <el-tab-pane v-for="(item,index) in configTypes" :label="item.label" :name="item.value+''"></el-tab-pane>
+        <el-tab-pane v-for="(item,index) in configTypes"  :key="index" :label="item.label" :name="item.value+''"></el-tab-pane>
       </el-tabs>
 
       <avue-crud ref="crudxjAdminConfig"
@@ -108,7 +108,7 @@ export default {
   },
   created() {
     this.configTypes = this.dict.get(this.website.Dict.Base.ConfigType)
-    console.log("===" + JSON.stringify(this.configTypes))
+    console.debug("===" + JSON.stringify(this.configTypes))
   },
   activated: function () {
     this.crud.doLayout(this, this.$refs.crudxjAdminConfig)

@@ -12,9 +12,13 @@ public interface FileChannel {
     /**
      * 阿里云
      */
-    public String ALI_YUN_OSS = "ALI_YUN_OSS";
+    String ALI_YUN_OSS = "ALI_YUN_OSS";
     /**
      * 本地
      */
-    public String LOCAL = "LOCAL";
+    String LOCAL = "LOCAL";
+    /**
+     * 单独部署本地服务器, 在使用代理直接上传到本地服务器中
+     */
+    String LOCAL_PROXY = "LOCAL_PROXY";
 }

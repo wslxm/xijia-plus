@@ -140,7 +140,7 @@ export const formatPath = (ele, first) => {
     // 空path处理，path=随机时间戳 2022-1-14 新增
     if (ele[propsDefault.path] == null || ele[propsDefault.path] === "null" || ele[propsDefault.path] === "") {
         ele[propsDefault.path] = ele.id;
-        console.log("=========空路由")
+        console.debug("-----空路由-------")
     }
     const icon = ele[propsDefault.icon];
     ele[propsDefault.icon] = !icon ? propsDefault.iconDefault : icon;
