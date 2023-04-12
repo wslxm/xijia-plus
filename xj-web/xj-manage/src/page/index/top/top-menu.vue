@@ -40,7 +40,7 @@
                 this.index.openMenu(item)
             },
             getMenu() {
-                console.log("--获取顶部菜单");
+                console.debug("--获取顶部菜单");
                 this.$store.dispatch("GetTopMenu").then(res => {
                     this.items = res;
                 });

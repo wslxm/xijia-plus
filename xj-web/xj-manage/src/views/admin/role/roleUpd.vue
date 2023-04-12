@@ -123,8 +123,8 @@
                 this.obj.menuIds = [];
                 this.menuDefaultCheckedKeys = [];
                 this.nextMenuIds(res.data.data, this.obj.menuIds, this.menuDefaultCheckedKeys);
-                console.log("总值=", this.obj.menuIds);
-                console.log("需回显值=", this.menuDefaultCheckedKeys)
+                console.debug("总值=", this.obj.menuIds);
+                console.debug("需回显值=", this.menuDefaultCheckedKeys)
             })
         },
 

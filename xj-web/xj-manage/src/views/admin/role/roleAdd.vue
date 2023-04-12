@@ -139,7 +139,7 @@
             },
             submit(form, done) {
                 this.crud.post(this.uri.info, this.obj).then((res) => {
-                    console.log(res);
+                    console.debug(res);
                     // 添加成功关闭弹层并刷新数据
                     this.closeDialog(true);
                     done(form);
@@ -154,7 +154,7 @@
                 this.obj.menuIds = [];
                 this.obj.menuIds.push.apply(this.obj.menuIds, nodes.checkedKeys);
                 this.obj.menuIds.push.apply(this.obj.menuIds, nodes.halfCheckedKeys);
-                console.log("menuIds=", this.obj.menuIds)
+                console.debug("menuIds=", this.obj.menuIds)
             },
         }
     }

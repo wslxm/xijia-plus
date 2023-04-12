@@ -120,7 +120,7 @@
         watch: {
             //newNum = 新值，旧值
             "obj.code": function (newNum, oldNum) {
-                console.log("=========" + this.newNum)
+                console.debug("=========" + this.newNum)
                 this.$nextTick(() => {
                     if (this.checkNumber(this.obj.code)) {
                         this.obj.sort = this.obj.code;

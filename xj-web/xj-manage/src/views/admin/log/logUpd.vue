@@ -23,7 +23,7 @@
         },
         watch: {
             rowData: function (newRowData, oldRowData) {
-                console.log("原:", oldRowData.id, "  -->新:", newRowData.id)
+                console.debug("原:", oldRowData.id, "  -->新:", newRowData.id)
                 if (this.isIdFind) {
                     this.findId(newRowData);
                 } else {

@@ -35,7 +35,7 @@
                     images_file_types: 'jpeg,jpg,png,gif,bmp,webp',
                     // 此处为图片上传处理函数 (手动上传)
                     images_upload_handler: (blobInfo, success, failure, progress) => {
-                        console.log('上传处理器111：');
+                        console.debug('上传处理器111：');
                         // const formData = new FormData()
                         // formData.append('file', blobInfo.blob(), blobInfo.filename());
                         let file = new window.File([blobInfo.blob()], blobInfo.filename());
@@ -69,7 +69,7 @@
         }
         ,
         created() {
-            console.log("--------加载 vue-tinymce 富文本编辑器")
+            console.debug("--------加载 vue-tinymce 富文本编辑器")
         },
         watch: {
             editorValue: function (newNum, oldNum) {

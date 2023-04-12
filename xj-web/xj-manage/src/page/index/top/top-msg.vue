@@ -155,7 +155,7 @@
 
                 // 跳转路由
                 let routePath = JSON.parse(item.content).routePath;
-                console.log("跳转路由:" + routePath);
+                console.debug("跳转路由:" + routePath);
                 if (routePath != null && routePath !== "") {
                     router.push({path: routePath + "&time=" + new Date().getTime()});
                 }

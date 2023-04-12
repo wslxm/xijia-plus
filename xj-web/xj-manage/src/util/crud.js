@@ -218,8 +218,8 @@ export default {
      * @date  2021/11/14 0014 9:55
      */
     doLayout(thih, refP) {
-        console.log(thih)
-        console.log(refP)
+        console.debug(thih)
+        console.debug(refP)
         thih.$nextTick(() => {
             if (refP != null) {
                 try {

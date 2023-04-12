@@ -306,6 +306,7 @@ public class SysLog {
         String content = "请求错误: " + LocalDateTimeUtil.parse(LocalDateTime.now()) +
                 "\n操作人Id: " + logs.getUserId() +
                 "\n操作人: " + logs.getFullName() +
+                "\n操作ip: " + logs.getIp() +
                 "\n操作功能: " + logs.getClassDesc() + "-" + logs.getMethodDesc() +
                 "\n请求接口: " + logs.getUrl() +
                 "\n来源: " + logs.getReferer() +

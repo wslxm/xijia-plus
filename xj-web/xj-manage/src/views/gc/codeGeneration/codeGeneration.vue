@@ -341,7 +341,7 @@ export default {
             this.$nextTick(function () {
                 let checkednNames = list.map(item => item.name);
                 this.data.forEach(item => {
-                    console.log(item.name, "--", checkednNames.includes(item.name));
+                    console.debug(item.name, "--", checkednNames.includes(item.name));
                     item.isChecked = checkednNames.includes(item.name)
                 });
             })
@@ -445,7 +445,7 @@ export default {
          * 字典选择监听
          */
         handleChange(value) {
-            console.log(value);
+            console.debug(value);
         },
 
 
@@ -463,7 +463,7 @@ export default {
          * 数据源选择
          */
         datasourceChange() {
-            console.log("切换数据源:" + this.dataSourceId);
+            console.debug("切换数据源:" + this.dataSourceId);
             this.findTableList();
         }
 
