@@ -6,6 +6,7 @@ const env = require('./src/config/env');
 let basePath = env.basePath;
 
 module.exports = {
+    //关闭eslint检查（语法检查）
     lintOnSave: true,
     productionSourceMap: false,
     devServer: {
