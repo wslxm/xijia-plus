@@ -1,5 +1,5 @@
 <h1 align="center">
-   <a href="http://xijia.plus">xijia-plus v2.1.7  </a>
+   <a href="http://xijia.plus">xijia-plus v2.1.8  </a>
 </h1>
 <div align="center">
    <a  href='https://gitee.com/wslxm/xijia-plus/stargazers'><img src='https://gitee.com/wslxm/xijia-plus/badge/star.svg?theme=white' alt='star'></img></a>
