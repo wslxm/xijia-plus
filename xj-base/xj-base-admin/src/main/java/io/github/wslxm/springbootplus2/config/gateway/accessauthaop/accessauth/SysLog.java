@@ -308,7 +308,7 @@ public class SysLog {
                 "\n操作人: " + logs.getFullName() +
                 "\n操作ip: " + logs.getIp() +
                 "\n操作功能: " + logs.getClassDesc() + "-" + logs.getMethodDesc() +
-                "\n请求接口: " + logs.getUrl() +
+                "\n请求接口: " + logs.getUri() +
                 "\n来源: " + logs.getReferer() +
                 "\n请求参数: " + logs.getRequestData() +
                 "\n响应参数: " + logs.getResponseData();
