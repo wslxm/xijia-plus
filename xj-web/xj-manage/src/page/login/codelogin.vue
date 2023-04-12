@@ -105,7 +105,7 @@ export default {
             this.$message.warning('注意: 手机号登录需自行对接, 这里不会真正的发送短信');
             if (this.msgKey) return;
             // 发送验证码
-            // crud.get("")
+            // crud.post("/api/admin/sms/sendCode", null, {phone: this.loginForm.phone, type: "BTP_LOGIN"})
             this.msgText = this.msgTime + this.config.MSGSCUCCESS;
             this.msgKey = true;
             const time = setInterval(() => {
