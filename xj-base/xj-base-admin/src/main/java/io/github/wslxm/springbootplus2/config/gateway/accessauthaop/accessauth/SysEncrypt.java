@@ -4,7 +4,6 @@ package io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth;
 import cn.hutool.core.util.StrUtil;
 import io.github.wslxm.springbootplus2.core.base.annotation.XjSecret;
 import io.github.wslxm.springbootplus2.core.result.Result;
-import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.Base64Util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
@@ -66,7 +65,7 @@ public class SysEncrypt {
                 if (annotation instanceof RequestBody
                         || annotation instanceof ModelAttribute) {
                     // RequestBody 或 ModelAttribute 方式接收参数
-                    args[0] = this.decryptOrEncryptEntity(args[0], 2).getData();
+                    this.decryptOrEncryptEntity(args[0], 2);
                 } else if (annotation instanceof RequestParam
                         || annotation instanceof PathVariable
                         || annotation instanceof RequestHeader
@@ -118,9 +117,9 @@ public class SysEncrypt {
      * @param type 1=响应（加密或脱敏） 2=请求(解密)
      * @return
      */
-    public Result<Object> decryptOrEncryptEntity(Object obj, Integer type) {
+    public void decryptOrEncryptEntity(Object obj, Integer type) {
         if (obj == null) {
-            return Result.success(obj);
+            return;
         }
         Class<?> aClass = obj.getClass();
         Field[] declaredFields = aClass.getDeclaredFields();
@@ -149,7 +148,7 @@ public class SysEncrypt {
                         }
                     } catch (Exception e) {
                         log.error(name + ": 参数" + logMsg + "失败");
-                        return Result.error(ResultType.PARAM_DECRYPTION_ERROR.getValue(), ResultType.PARAM_DECRYPTION_ERROR.getMsg(), obj, name + logMsg + ": 失败");
+                        // return Result.error(ResultType.PARAM_DECRYPTION_ERROR.getValue(), ResultType.PARAM_DECRYPTION_ERROR.getMsg(), obj, name + logMsg + ": 失败");
                     }
                 } else {
                     try {
@@ -173,12 +172,11 @@ public class SysEncrypt {
                         }
                     } catch (Exception e) {
                         log.error(name + ": 参数" + logMsg + "失败");
-                        return Result.error(ResultType.PARAM_DECRYPTION_ERROR.getValue(), ResultType.PARAM_DECRYPTION_ERROR.getMsg(), obj, name + logMsg + ": 失败");
+                        // return Result.error(ResultType.PARAM_DECRYPTION_ERROR.getValue(), ResultType.PARAM_DECRYPTION_ERROR.getMsg(), obj, name + logMsg + ": 失败");
                     }
                 }
             }
         }
-        return Result.success(obj);
     }
 
 
@@ -206,9 +204,8 @@ public class SysEncrypt {
         } catch (Exception e) {
             return obj;
         }
-        Result<Object> objectR = decryptOrEncryptEntity(r.getData(), 1);
-        objectR.setMsg(r.getMsg());
-        return objectR;
+        decryptOrEncryptEntity(r, 1);
+        return r;
     }
 
 
