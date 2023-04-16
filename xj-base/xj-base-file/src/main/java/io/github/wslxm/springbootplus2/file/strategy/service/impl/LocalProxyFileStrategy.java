@@ -55,45 +55,57 @@ public class LocalProxyFileStrategy implements FileStrategy {
         params.put("file", inputStreamResource);
         // 链式构建请求
         String proxyUrl = this.getProxyUrl();
+        Result result = null;
         try {
             String resultStr = HttpRequest.post(proxyUrl + UPLOAD_URL)
                     .header("Content-type", "multipart/form-data")
                     .form(params).timeout(59000).execute().body();
-            Result result = JSON.parseObject(resultStr, Result.class);
-            return result.getData() + "";
+            result = JSON.parseObject(resultStr, Result.class);
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new ErrorException(ResultType.SYS_ERROR_CODE_500.getValue(), "上传错误");
+            throw new ErrorException("上传错误");
         }
+        if (!result.getCode().equals(Result.success().getCode())) {
+            throw new ErrorException(result.getCode(), result.getMsg());
+        }
+        return result.getData() + "";
     }
 
     @Override
-    public Boolean del(String filePath) {
+    public boolean del(String filePath) {
         Map<String, Object> params = new HashMap<>();
         params.put("filePath", filePath);
         // 链式构建请求
         String resultStr = HttpRequest.delete(this.getProxyUrl() + DEL_URL).form(params)
                 .execute().body();
+        Result result = null;
         try {
-            Result result = JSON.parseObject(resultStr, Result.class);
-            return Boolean.valueOf(result.getData() + "");
+            result = JSON.parseObject(resultStr, Result.class);
         } catch (Exception e) {
             throw new ErrorException(ResultType.SYS_ERROR_CODE_500.getValue(), "删除文件错误");
         }
+        if (!result.getCode().equals(Result.success().getCode())) {
+            throw new ErrorException(result.getCode(), result.getMsg());
+        }
+        return Boolean.parseBoolean(result.getData() + "");
     }
 
     @Override
-    public Boolean delFolder(String filePath) {
+    public boolean delFolder(String filePath) {
         Map<String, Object> params = new HashMap<>();
         params.put("filePath", filePath);
         String resultStr = HttpRequest.delete(this.getProxyUrl() + DEL_FOLDER).form(params)
                 .execute().body();
+        Result result = null;
         try {
-            Result result = JSON.parseObject(resultStr, Result.class);
-            return Boolean.valueOf(result.getData() + "");
+            JSON.parseObject(resultStr, Result.class);
         } catch (Exception e) {
             throw new ErrorException(ResultType.SYS_ERROR_CODE_500.getValue(), "删除目录错误");
         }
+        if (!result.getCode().equals(Result.success().getCode())) {
+            throw new ErrorException(result.getCode(), result.getMsg());
+        }
+        return Boolean.parseBoolean(result.getData() + "");
     }
 
 

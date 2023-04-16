@@ -2,6 +2,7 @@ package io.github.wslxm.springbootplus2.file.strategy.service.impl;
 
 import cn.hutool.core.io.FileUtil;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
+import io.github.wslxm.springbootplus2.file.constant.RequestPrefixConst;
 import io.github.wslxm.springbootplus2.file.properties.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
 import io.github.wslxm.springbootplus2.file.util.FileUploadUtil;
@@ -9,10 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.InputStream;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 /**
  * 本地文件
@@ -32,8 +35,9 @@ public class LocalFileStrategy implements FileStrategy {
     @Autowired
     private FileProperties fileProperties;
 
-    @Autowired
-    private HttpServletRequest request;
+
+
+
 
     @Override
     public String upload(InputStream inputStream, String filePath, String fileName) {
@@ -51,8 +55,7 @@ public class LocalFileStrategy implements FileStrategy {
             // 拷贝文件
             Files.copy(inputStream, directory.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
             // url路径
-            String path = baseUrl + "/" + uploadPath + "/" + filePath + fileName;
-            return path;
+            return baseUrl + "/" + uploadPath + "/" + filePath + fileName;
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new ErrorException("上传过程中遇到错误");
@@ -60,19 +63,17 @@ public class LocalFileStrategy implements FileStrategy {
     }
 
     @Override
-    public Boolean del(String filePath) {
+    public boolean del(String filePath) {
         // 去除访问地址
-        // 去除访问地址
-        if (filePath.indexOf("http://") != -1 || filePath.indexOf("https://") != -1) {
-            filePath = filePath.replace("http://", "").replace("https://", "");
-            int index = filePath.indexOf("/");
-            filePath = filePath.substring(index + 1);
+        if (filePath.contains(RequestPrefixConst.HTTP) || filePath.contains(RequestPrefixConst.HTTPS)) {
+            filePath = filePath.replace(RequestPrefixConst.HTTP, "").replace(RequestPrefixConst.HTTPS, "");
+            filePath = filePath.substring( filePath.indexOf("/") + 1);
         }
         return FileUtil.del(new File(filePath));
     }
 
     @Override
-    public Boolean delFolder(String prefix) {
+    public boolean delFolder(String prefix) {
         return FileUtil.del(new File(prefix));
     }
 }

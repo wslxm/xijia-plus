@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
 import io.github.wslxm.springbootplus2.core.utils.Base64Util;
 import io.github.wslxm.springbootplus2.core.utils.PropUtil;
+import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
 import io.github.wslxm.springbootplus2.manage.gc.config.GenerateProperties;
 import io.github.wslxm.springbootplus2.manage.gc.model.entity.Datasource;
 import io.github.wslxm.springbootplus2.manage.gc.model.vo.TableFieldVO;
@@ -48,14 +49,14 @@ public class DataBaseServiceImpl extends BaseServiceImpl implements DataBaseServ
                 dbUrl = gcUrl.toString();
                 dbUserName = gcUsername.toString();
                 dbPassWord = gcPassword.toString();
-                log.info("当前数据源: {}", dbUrl);
+                log.info("代码生成: 当前数据源: {}", dbUrl);
             } else if (url != null && username != null && password != null) {
                 dbUrl = url.toString();
                 dbUserName = username.toString();
                 dbPassWord = password.toString();
-                log.info("当前数据源: {}", dbUrl);
+                log.info("代码生成: 当前数据源: {}", dbUrl);
             } else {
-                log.info("没有配置 gc 数据源[gc.db.url], 并且没有找到默认数据源[spring.datasource.url] 相关配置");
+                log.warn("代码生成: 没有配置 gc 数据源[gc.db.url], 并且没有找到默认数据源[spring.datasource.url] 相关配置");
             }
         }
     }
@@ -95,6 +96,7 @@ public class DataBaseServiceImpl extends BaseServiceImpl implements DataBaseServ
      * @version 1.0.1
      */
     private List<TableVO> findJdbcTable(String dataSourceId) {
+        this.init();
         Datasource datasource = adminDatasourceService.getById(dataSourceId);
         // 1、判断使用默认数据源还是动态数据源来获取数据库名称
         String dbName = getDbName(dataSourceId, datasource);
@@ -210,6 +212,8 @@ public class DataBaseServiceImpl extends BaseServiceImpl implements DataBaseServ
     private String getDbName(String dataSourceId, Datasource datasource) {
         String dbName = "";
         if (StringUtils.isBlank(dataSourceId)) {
+            ValidUtil.isTrue(StringUtils.isBlank(dbUrl), "在多数据源下请配置 gc.db.url 参数");
+            // 使用 yml 配置的数据源
             dbUrl = dbUrl.replace("jdbc:mysql://", "");
             int index = dbUrl.indexOf("?");
             if (index == -1) {
@@ -227,6 +231,9 @@ public class DataBaseServiceImpl extends BaseServiceImpl implements DataBaseServ
     private PreparedStatement getPreparedStatement(String dataSourceId, Datasource datasource, String sql) {
         PreparedStatement pstmt = null;
         if (StringUtils.isBlank(dataSourceId)) {
+            ValidUtil.isTrue(StringUtils.isBlank(dbUrl), "在多数据源下请配置 gc.db.url 参数");
+            ValidUtil.isTrue(StringUtils.isBlank(dbUserName), "没有配置数据源账号");
+            ValidUtil.isTrue(StringUtils.isBlank(dbPassWord), "没有配置数据源密码");
             int index = dbUrl.indexOf("?");
             if (index == -1) {
                 pstmt = JdbcPool.getPstmt(dbUrl, dbUserName, dbPassWord, sql);

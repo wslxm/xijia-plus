@@ -1,7 +1,5 @@
 package io.github.wslxm.springbootplus2.file.strategy.service;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.InputStream;
 
 /**
@@ -41,7 +39,7 @@ public interface FileStrategy {
      * @param filePath 路径地址
      * @return
      */
-    Boolean del(String filePath);
+    boolean del(String filePath);
 
 
     /**
@@ -50,6 +48,6 @@ public interface FileStrategy {
      * @param filePath 路径: 如 oss/file/image/test
      * @return
      */
-    Boolean delFolder(String filePath);
+    boolean delFolder(String filePath);
 
 }

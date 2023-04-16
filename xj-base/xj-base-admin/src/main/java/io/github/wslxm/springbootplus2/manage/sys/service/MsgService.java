@@ -65,5 +65,22 @@ public interface MsgService extends IService<Msg> {
      * @version 1.0.0
      */
     MsgFindAllNumVO findAllNum();
+
+
+    /**
+     * 发送系统信息 （同时发送 Websocket 消息）
+     *
+     * @param userId 用户id
+     * @param content 内容
+     */
+    boolean sendSysMsg(String userId, String content);
+
+    /**
+     * 发送系统信息
+     *
+     * @param userId 用户id
+     * @param content 内容
+     */
+    boolean sendSysMsg(String userId, String content, boolean isWebsocket);
 }
 

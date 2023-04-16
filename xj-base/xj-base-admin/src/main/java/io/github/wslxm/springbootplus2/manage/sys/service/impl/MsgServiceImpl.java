@@ -2,10 +2,12 @@ package io.github.wslxm.springbootplus2.manage.sys.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Maps;
 import io.github.wslxm.springbootplus2.common.auth.util.JwtUtil;
+import io.github.wslxm.springbootplus2.core.base.model.BasePage;
 import io.github.wslxm.springbootplus2.core.base.service.impl.BaseServiceImpl;
+import io.github.wslxm.springbootplus2.core.enums.Admin;
 import io.github.wslxm.springbootplus2.core.enums.Base;
 import io.github.wslxm.springbootplus2.core.utils.BeanDtoVoUtil;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
@@ -150,5 +152,30 @@ public class MsgServiceImpl extends BaseServiceImpl<MsgMapper, Msg> implements M
         vo.setHaveReadNum(this.count(new LambdaQueryWrapper<Msg>().eq(Msg::getIsRead, Base.IsRead.V1.getValue()).eq(Msg::getUserId, userId)));
         vo.setUnreadNum(this.count(new LambdaQueryWrapper<Msg>().eq(Msg::getIsRead, Base.IsRead.V0.getValue()).eq(Msg::getUserId, userId)));
         return vo;
+    }
+
+
+    public boolean sendSysMsg(String userId, String content) {
+        return this.sendSysMsg(userId, content, true);
+    }
+
+    /**
+     * 发送系统信息
+     *
+     * @param userId 用户id
+     * @param content 内容
+     */
+    public boolean sendSysMsg(String userId, String content, boolean isWebsocket) {
+        // 消息参数
+        MsgDTO dto = new MsgDTO();
+        dto.setUserId(userId);
+        dto.setContent(content);
+        dto.setUserType(Admin.MsgUserType.V2.getValue());
+        dto.setMsgType(Admin.MsgType.V1.getValue());
+        dto.setRouteParams(Maps.newHashMap());
+        dto.setIsWebsocket(isWebsocket);
+        // 发送消息
+        this.insert(dto);
+        return true;
     }
 }

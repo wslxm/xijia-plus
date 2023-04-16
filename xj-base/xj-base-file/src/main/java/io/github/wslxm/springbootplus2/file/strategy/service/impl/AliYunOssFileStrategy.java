@@ -1,5 +1,6 @@
 package io.github.wslxm.springbootplus2.file.strategy.service.impl;
 
+import io.github.wslxm.springbootplus2.file.constant.RequestPrefixConst;
 import io.github.wslxm.springbootplus2.file.properties.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
 import io.github.wslxm.springbootplus2.file.util.FileUploadUtil;
@@ -30,6 +31,9 @@ public class AliYunOssFileStrategy implements FileStrategy {
     @Autowired
     private FileProperties fileProperties;
 
+    private static final String HTTP = "http://";
+    private static final String HTTPS = "https://";
+
 
     @Override
     public String upload(InputStream inputStream, String filePath, String fileName) {
@@ -41,18 +45,17 @@ public class AliYunOssFileStrategy implements FileStrategy {
 
 
     @Override
-    public Boolean del(String filePath) {
+    public boolean del(String filePath) {
         // 去除访问地址
-        if (filePath.indexOf("http://") != -1 || filePath.indexOf("https://") != -1) {
-            filePath = filePath.replace("http://", "").replace("https://", "");
-            int index = filePath.indexOf("/");
-            filePath = filePath.substring(index + 1);
+        if (filePath.contains(RequestPrefixConst.HTTP) || filePath.contains(RequestPrefixConst.HTTPS)) {
+            filePath = filePath.replace(RequestPrefixConst.HTTP, "").replace(RequestPrefixConst.HTTPS, "");
+            filePath = filePath.substring(filePath.indexOf("/") + 1);
         }
         return ossUtil.deleteObject(filePath);
     }
 
     @Override
-    public Boolean delFolder(String filePath) {
+    public boolean delFolder(String filePath) {
         return ossUtil.deleteObjectFolde(filePath);
     }
 }
