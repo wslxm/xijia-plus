@@ -40,11 +40,8 @@ import java.util.List;
  * @version 1.0.1
  */
 @Configuration
-//@EnableSwagger2
-//@EnableOpenApi
 @EnableSwagger2WebMvc
 public class SwaggerConfig {
-
 
     @Autowired
     private SwaggerProperties swaggerProperties;
