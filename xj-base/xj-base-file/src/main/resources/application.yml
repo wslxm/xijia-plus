@@ -3,6 +3,8 @@ server:
   port: 10001
 
 spring:
+  application:
+    name: "xijia-file"
   ## 文件上传配置
   servlet:
     multipart:
@@ -13,13 +15,13 @@ spring:
 # 默认支持： ALI_YUN_OSS -阿里云oss | LOCAL -本地服务器存储 | LOCAL_PROXY 文件统一服务器代理
 file:
   ## 文件存储渠道
-  channel: LOCAL
-  #  localProxy:
-  #    url: http://file.xxx-xxx.com
+  channel: LOCAL_PROXY
+    localProxy:
+      url: http://file.xxx-xxx.com
   #  ## 本地服务器存储：本地文件存储的根目录 | 文件访问地址
-  local:
-    path: upload
-    baseUrl: http://127.0.0.1:10001
+#  local:
+#    path: upload
+#    baseUrl: http://127.0.0.1:10001
 #  ## 阿里云oss文件存储
 #  aliyun-oss:
 #    path: oss/file/
@@ -29,7 +31,9 @@ file:
 #    accessKeySecret: Jf3gn1kSRLdh1j14F5mznnJyIBIhA8
 #    bucketName: xijia-sz
 #    bucket: http://xijia-sz.oss-cn-shenzhen.aliyuncs.com
-
+#  localProxy:
+#    ## 统一文件服务的服务域名 或 ip
+#    url: http://file.biotech-pack.com
 
 # swagger配置
 swagger:
@@ -41,6 +45,9 @@ swagger:
   url: https://gitee.com/wslxm/spring-boot-plus2   # 作者/负责人-个人社交地址
   termsOfServiceUrl:                               # 服务条款-访问地址
   version: 2.0.0                                   # 版本号
-  defaultKey: TOKEN | Authorization                # 默认请求头key
-  defaultValue: token | token                      # 默认请求头值-当为token时，可以访问任意接口, 但接口中存在获取token用户信息时,将返回jwt解析错误
+  defaultKey: token | Application-Name | Filename-Rule  # 默认请求头key
+  defaultValue: token |  | |                       # 默认请求头值-当为token时，可以访问任意接口, 但接口中存在获取token用户信息时,将返回jwt解析错误
   isShow: true                                     # 是否开启文档 true展示 false隐藏
+
+
+

@@ -1,16 +1,19 @@
 package io.github.wslxm.springbootplus2.file.controller;
 
 import io.github.wslxm.springbootplus2.core.result.Result;
+import io.github.wslxm.springbootplus2.file.constant.FilenameRuleEnum;
 import io.github.wslxm.springbootplus2.file.properties.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.context.FileChannelContext;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
 import io.github.wslxm.springbootplus2.file.util.FileDownloadUtil;
+import io.github.wslxm.springbootplus2.file.util.FileGlobalHeader;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,6 +61,9 @@ public class FileController {
     @Autowired
     private HttpServletResponse response;
 
+    @Value("${spring.application.name:test}")
+    private String applicationName;
+
 
     @SneakyThrows
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
@@ -77,8 +83,9 @@ public class FileController {
     public Result<Object> upload(@RequestParam(required = true) MultipartFile file,
                                  @RequestParam(required = true) String filePath,
                                  @RequestParam(required = false) Integer resType) {
-        // 指定文件处理渠道
-        FileStrategy fileStrategy = fileChannelContext.getChannel(fileProperties.getChannel());
+
+        // 设置请求头参数
+        FileGlobalHeader.setHeaders(request, applicationName, FilenameRuleEnum.TIME.getValue());
 
         // 上传的最后一级目录拼接来源的最后一级地址
         String referer = request.getHeader("referer");
@@ -87,8 +94,14 @@ public class FileController {
             String[] refererArray = referer.split("/");
             filePath += refererArray[refererArray.length - 1] + "/";
         }
-        // 上传
-        String url = fileStrategy.upload(file.getInputStream(), filePath,  file.getOriginalFilename());
+
+        // 获取渠道进行上传
+        FileStrategy fileStrategy = fileChannelContext.getChannel(fileProperties.getChannel());
+        String url = fileStrategy.upload(file.getInputStream(), filePath, file.getOriginalFilename());
+
+        // 清除数据
+        FileGlobalHeader.delApplicationName();
+        FileGlobalHeader.delFilenameRule();
         // 返回数据处理
         if (resType == null || resType == 1) {
             return Result.success(url);
@@ -100,13 +113,6 @@ public class FileController {
         }
     }
 
-    //  @ApiOperation("文件列表")
-    //  @RequestMapping(value = "/fileList", method = RequestMethod.GET)
-    //  public Object fileList() {
-    //      // 指定文件处理渠道
-    //      FileStrategy fileStrategy = fileContext.getChannel(fileChannel);
-    //      return Result.success(fileStrategy.fileList());
-    //  }
 
     @ApiOperation("文件删除")
     @ApiImplicitParam(name = "filePath", value = "文件存储路径 或 文件可访问的URL ", required = true)

@@ -219,10 +219,8 @@
 
 package io.github.wslxm.springbootplus2.file.util;
 
-import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
-import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.*;
 import io.github.wslxm.springbootplus2.file.properties.AliYunOssProperties;
 import io.github.wslxm.springbootplus2.file.properties.FileProperties;
@@ -230,10 +228,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -259,13 +255,6 @@ import java.util.List;
 @Service
 public class OSSUtil {
 
-    /**
-     * 文件一级目录, 文件保存到oss的路径,
-     */
-    //private static final String FILE_PATH = "oss/file/";
-
-    @Autowired
-    private HttpServletRequest request;
 
     @Autowired
     private FileProperties fileProperties;
@@ -293,6 +282,7 @@ public class OSSUtil {
      * 链接地址：https://help.aliyun.com/document_detail/oss/sdk/java-sdk/upload_object.html?spm=5176.docoss/user_guide/upload_object
      * </P>
      *
+     * @param uploadPath  文件保存路径
      * @param filePath  文件保存到的二级目录
      * @param fileName  文件名称
      * @param inputStream  文件流
@@ -316,6 +306,11 @@ public class OSSUtil {
         putObjectRequest.setMetadata(metadata);
         // 开始上传
         ossClient.putObject(putObjectRequest);
+        try {
+            inputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         log.info("上传-" + yourObjectName + " 成功");
         // 关闭OSSClient。
         // ossClient.shutdown();

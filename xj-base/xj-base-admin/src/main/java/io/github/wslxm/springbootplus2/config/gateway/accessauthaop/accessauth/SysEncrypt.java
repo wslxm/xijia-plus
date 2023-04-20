@@ -98,7 +98,9 @@ public class SysEncrypt {
             // query指定参数解密
             int paramIndex = ArrayUtils.indexOf(parameterAnnotations, parameterAnnotation);
             Object paramValue = args[paramIndex];
-            args[paramIndex] = Base64Util.decrypt((String) paramValue);
+            if (paramValue instanceof String) {
+                args[paramIndex] = Base64Util.decrypt(paramValue.toString());
+            }
         }
         return args;
     }

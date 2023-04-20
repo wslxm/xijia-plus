@@ -7,13 +7,17 @@ import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
 import io.github.wslxm.springbootplus2.core.result.Result;
 import io.github.wslxm.springbootplus2.core.result.ResultType;
 import io.github.wslxm.springbootplus2.core.utils.validated.ValidUtil;
+import io.github.wslxm.springbootplus2.file.constant.RequestConst;
 import io.github.wslxm.springbootplus2.file.properties.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
+import io.github.wslxm.springbootplus2.file.util.FileGlobalHeader;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,8 +50,17 @@ public class LocalProxyFileStrategy implements FileStrategy {
     @Autowired
     private FileProperties fileProperties;
 
+    @Value("${spring.application.name:}")
+    private String applicationName;
+
+    @Autowired
+    private HttpServletRequest request;
+
     @Override
     public String upload(InputStream inputStream, String filePath, String fileName) {
+        String applicationName = FileGlobalHeader.getApplicationName();
+        String filenameRule = FileGlobalHeader.getFilenameRule();
+        //
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream, fileName);
         Map<String, Object> params = new HashMap<>();
         params.put("filePath", filePath);
@@ -59,6 +72,8 @@ public class LocalProxyFileStrategy implements FileStrategy {
         try {
             String resultStr = HttpRequest.post(proxyUrl + UPLOAD_URL)
                     .header("Content-type", "multipart/form-data")
+                    .header(RequestConst.APPLICATION_NAME, applicationName)
+                    .header(RequestConst.FILENAME_RULE, filenameRule)
                     .form(params).timeout(59000).execute().body();
             result = JSON.parseObject(resultStr, Result.class);
         } catch (Exception e) {

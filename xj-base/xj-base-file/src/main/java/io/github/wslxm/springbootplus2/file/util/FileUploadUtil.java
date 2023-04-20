@@ -1,7 +1,9 @@
 package io.github.wslxm.springbootplus2.file.util;
 
 
+import cn.hutool.core.util.IdUtil;
 import io.github.wslxm.springbootplus2.core.config.error.ErrorException;
+import io.github.wslxm.springbootplus2.file.constant.FilenameRuleEnum;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -55,58 +57,44 @@ public class FileUploadUtil {
     }
 
 
+
+
     /**
      * 上传路径文件格式判断
      *
      * @param filePath 文件上传路径 (上方静态变量)
      * @param fileName 当前上传的文件名称
+     * @param filenameRule 保存后的文件名规则
      * @return fileName
      */
-    public static String getPath(String filePath, String fileName) {
+    public static String getPath(String filePath, String fileName, String filenameRule) {
         if (filePath.lastIndexOf("/") != filePath.length() - 1) {
             throw new ErrorException("路径必须以 [/] 结束");
         }
-
-        // 文件名中对url中不安全的字符处理
-        fileName = fileName.replaceAll("\\+", "")
-                .replaceAll(":", "")
-                .replaceAll("：", "")
-                .replaceAll("（", "")
-                .replaceAll("）", "")
-                .replaceAll("\\(", "")
-                .replaceAll("\\)", "")
-                .replaceAll(" ", "")
-                .replaceAll("/", "")
-                .replaceAll("\\?", "")
-                .replaceAll("%", "")
-                .replaceAll("#", "")
-                .replaceAll("&", "")
-                .replaceAll("=", "");
-
+        fileName = fileNameHandle(fileName);
         // 获取上传的跟目录(如：image)
         String path = filePath.split("/")[0];
         // 获取后缀(小写)
         String suffixName = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()).toLowerCase();
-
         // 文件格式验证, 以及处理文件名, 让其可以传递重复文件
         if (PATH_IMAGE.equals(path)) {
             // 图片
-            return formatVerification(imageSuffix, null, suffixName, fileName);
+            return formatVerification(imageSuffix, null, suffixName, fileName, filenameRule);
         } else if (PATH_MUSIC.equals(path)) {
             // 音频
-            return formatVerification(musicSuffix, null, suffixName, fileName);
+            return formatVerification(musicSuffix, null, suffixName, fileName, filenameRule);
         } else if (PATH_VIDEO.equals(path)) {
             // 视频
-            return formatVerification(videoSuffix, null, suffixName, fileName);
+            return formatVerification(videoSuffix, null, suffixName, fileName, filenameRule);
         } else if (PATH_DOC.equals(path)) {
             // 文档
-            return formatVerification(docSuffix, null, suffixName, fileName);
+            return formatVerification(docSuffix, null, suffixName, fileName, filenameRule);
         } else if (PATH_EXCEL.equals(path)) {
             // EXCEL
-            return formatVerification(excelSuffix, null, suffixName, fileName);
+            return formatVerification(excelSuffix, null, suffixName, fileName, filenameRule);
         } else if (PATH_FILE.equals(path)) {
             // 任意文件，不做限制, 推送文件禁止上传
-            return formatVerification(null, excludeFileSuffix, suffixName, fileName);
+            return formatVerification(null, excludeFileSuffix, suffixName, fileName, filenameRule);
         } else {
             // 不支持的路径
             throw new ErrorException("filePath参数错误,不支持的保存路径");
@@ -115,12 +103,13 @@ public class FileUploadUtil {
 
 
     /**
-     * 格式验证
+     * 格式验证 + 上传后的文件名处理
+     *
      * suffixs    验证集(判断是否存在当前值)
      * suffixs    排除集(判断是否存在当前值)
      * suffixName 当前值
      */
-    private static String formatVerification(List<String> suffixs, List<String> excludeFileSuffix, String suffixName, String fileName) {
+    private static String formatVerification(List<String> suffixs, List<String> excludeFileSuffix, String suffixName, String fileName, String filenameRule) {
         // 验证格式是否在范围内
         if (suffixs != null && !suffixs.contains(suffixName)) {
             throw new ErrorException("格式错误,仅支持:" + suffixs.toString() + ", 当前格式为：" + suffixName);
@@ -129,7 +118,18 @@ public class FileUploadUtil {
         if (excludeFileSuffix != null && excludeFileSuffix.contains(suffixName)) {
             throw new ErrorException("禁止上传文件格式:" + excludeFileSuffix.toString());
         }
-        return getTimeStr12() + "-" + fileName;
+        // 生成上传后的文件名前缀
+        String prefix = "";
+        if (FilenameRuleEnum.NO.getValue().equals(filenameRule)) {
+            prefix = "";
+        } else if (FilenameRuleEnum.TIME.getValue().equals(filenameRule)) {
+            prefix = getTimeStr12() + "-";
+        } else if (FilenameRuleEnum.UUID.getValue().equals(filenameRule)) {
+            prefix = IdUtil.simpleUUID() + "-";
+        } else if (FilenameRuleEnum.SNOWFLAKE.getValue().equals(filenameRule)) {
+            prefix = IdUtil.getSnowflakeNextIdStr() + "-";
+        }
+        return prefix + fileName;
     }
 
 
@@ -183,4 +183,30 @@ public class FileUploadUtil {
         }
         return count;
     }
+
+    /**
+     * 文件名处理
+     *
+     * @param fileName 文件名称
+     * @return {@link String}
+     */
+    private static String fileNameHandle(String fileName) {
+        // 文件名中对url中不安全的字符处理
+        return fileName.replaceAll("\\+", "")
+                .replaceAll(":", "")
+                .replaceAll("：", "")
+                .replaceAll("（", "")
+                .replaceAll("）", "")
+                .replaceAll("\\(", "")
+                .replaceAll("\\)", "")
+                .replaceAll(" ", "")
+                .replaceAll("/", "")
+                .replaceAll("\\?", "")
+                .replaceAll("%", "")
+                .replaceAll("#", "")
+                .replaceAll("&", "")
+                .replaceAll("=", "");
+    }
+
+
 }

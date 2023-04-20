@@ -1,9 +1,10 @@
 package io.github.wslxm.springbootplus2.file.strategy.service.impl;
 
-import io.github.wslxm.springbootplus2.file.constant.RequestPrefixConst;
+import io.github.wslxm.springbootplus2.file.constant.RequestConst;
 import io.github.wslxm.springbootplus2.file.properties.FileProperties;
 import io.github.wslxm.springbootplus2.file.strategy.service.FileStrategy;
 import io.github.wslxm.springbootplus2.file.util.FileUploadUtil;
+import io.github.wslxm.springbootplus2.file.util.FileGlobalHeader;
 import io.github.wslxm.springbootplus2.file.util.OSSUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,24 +32,24 @@ public class AliYunOssFileStrategy implements FileStrategy {
     @Autowired
     private FileProperties fileProperties;
 
-    private static final String HTTP = "http://";
-    private static final String HTTPS = "https://";
-
 
     @Override
     public String upload(InputStream inputStream, String filePath, String fileName) {
+        String applicationName = FileGlobalHeader.getApplicationName();
+        String filenameRule = FileGlobalHeader.getFilenameRule();
+
         // 验证文件格式、保存路径，并处理文件名防止重复
-        fileName = FileUploadUtil.getPath(filePath, fileName);
+        fileName = FileUploadUtil.getPath(filePath, fileName, filenameRule);
         // 参数1：上传后保存的跟路径地址
-        return ossUtil.upload(fileProperties.getAliyunOss().getPath(), filePath, fileName, inputStream);
+        return ossUtil.upload(fileProperties.getAliyunOss().getPath(), applicationName + "/" + filePath, fileName, inputStream);
     }
 
 
     @Override
     public boolean del(String filePath) {
         // 去除访问地址
-        if (filePath.contains(RequestPrefixConst.HTTP) || filePath.contains(RequestPrefixConst.HTTPS)) {
-            filePath = filePath.replace(RequestPrefixConst.HTTP, "").replace(RequestPrefixConst.HTTPS, "");
+        if (filePath.contains(RequestConst.HTTP) || filePath.contains(RequestConst.HTTPS)) {
+            filePath = filePath.replace(RequestConst.HTTP, "").replace(RequestConst.HTTPS, "");
             filePath = filePath.substring(filePath.indexOf("/") + 1);
         }
         return ossUtil.deleteObject(filePath);
