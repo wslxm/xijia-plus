@@ -133,13 +133,23 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implement
 
 
     @Override
-    public Boolean upd(String id, MenuDTO dto) {
+    public boolean upd(String id, MenuDTO dto) {
         // 修改当前数据
         Menu entity = dto.convert(Menu.class);
         entity.setId(id);
         return this.updateById(entity);
     }
 
+    @Override
+    public boolean updPid(String id, String pid) {
+        // 把顶级菜单 变更到其他目录/菜单下
+        Menu menu = this.getById(id);
+        menu.setPid(pid);
+        if (menu.getRoot().equals(Base.MenuRoot.V1.getValue())) {
+            menu.setRoot(Base.MenuRoot.V2.getValue());
+        }
+        return this.updateById(menu);
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)

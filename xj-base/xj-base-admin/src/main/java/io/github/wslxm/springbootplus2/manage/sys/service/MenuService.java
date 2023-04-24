@@ -47,8 +47,17 @@ public interface MenuService extends IService<Menu> {
      * @return java.lang.Boolean
      * @version 1.0.0
      */
-    Boolean upd(String id, MenuDTO dto);
+    boolean upd(String id, MenuDTO dto);
 
+
+    /**
+     * 修改 父级
+     *
+     * @param id id
+     * @param pid pid
+     * @return boolean
+     */
+    boolean updPid(String id, String pid);
 
     /**
      * 删除菜单并删除菜单的所有下级 以及 菜单和角色的绑定关系数据, 返回ids 让前端可以判断删除了多少条数据

@@ -104,6 +104,7 @@
                     infoList: "/api/admin/sys/menu/tree",
                     info: "/api/admin/sys/menu",
                     updPidInfoList: "/api/admin/sys/menu/tree?root=2",
+                    updPid: "/api/admin/sys/menu/updPid",
                 },
                 loading: true,
                 dialogWidth: "60%",

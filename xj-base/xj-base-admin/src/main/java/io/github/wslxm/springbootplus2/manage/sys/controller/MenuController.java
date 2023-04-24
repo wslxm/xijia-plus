@@ -42,9 +42,16 @@ public class MenuController extends BaseController<MenuService> {
 
 
     @PutMapping(value = "/{id}")
-    @ApiOperation(value = "ID编辑", notes = "如果修改了终端,那么下级数据全部变更为父级选中的终端")
+    @ApiOperation(value = "ID编辑", notes = "")
     public Result<Boolean> upd(@PathVariable String id, @RequestBody MenuDTO dto) {
         return Result.successUpdate(baseService.upd(id, dto));
+    }
+
+
+    @PutMapping(value = "updPid/{id}")
+    @ApiOperation(value = "修改父级", notes = "")
+    public Result<Boolean> updPid(@PathVariable String id, @RequestParam  String pid) {
+        return Result.successUpdate(baseService.updPid(id, pid));
     }
 
 
