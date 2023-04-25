@@ -1,4 +1,4 @@
-package io.github.wslxm.springbootplus2.core.config.error;
+package io.github.wslxm.springbootplus2.error;
 
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;

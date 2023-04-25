@@ -110,19 +110,19 @@ export default {
         //title:'标题',                 // 新增编辑弹层标题
         //dialogWidth:'50%',            // 新增编辑弹层宽度
         filterText: "搜索关键字",        // 搜索提示
-        defaultExpandAll: false,       // 是否展开节点
+        defaultExpandAll: false,       // 默认是否展开节点
         filter: true,               // 是否显示搜索
         addBtn: false,              // 是否展示新增按钮
         editBtn: false,             // 是否展示删除按钮
         delBtn: false,              // 是否展示编辑按钮
         menu: false,                // 菜单开关
-        // 字段配置 (页面重配置)
-        // this.website.treeOption.props.label = "name";
-        // this.website.treeOption.props.children = "menus";
+        // 字段配置 (页面可重配置)
         props: {
             labelText: '标题',     // 添加弹窗标题
-            label: 'name',        // 标题字段
-            children: 'menus'     // 层级字段
+            value: 'id',            // key
+            label: 'name',          // value
+            children: 'children',   // 层级字段
+
         }
     },
 
