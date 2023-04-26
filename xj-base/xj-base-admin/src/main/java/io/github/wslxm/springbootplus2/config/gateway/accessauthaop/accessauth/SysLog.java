@@ -116,8 +116,10 @@ public class SysLog {
         log.setState(0);
         // 请求数据
         try {
-            String jsonParam = JSON.toJSONString(args);
-            log.setRequestData(jsonParam);
+            if (args != null) {
+                String jsonParam = JSON.toJSONString(args);
+                log.setRequestData(jsonParam);
+            }
         } catch (Exception e) {
             log.setRequestData("the request data cannot be parsed");
         }
@@ -163,7 +165,10 @@ public class SysLog {
                 String data = "";
                 try {
                     logs = future.get();
-                    data = JSON.toJSONString(obj);
+                    if (obj != null) {
+                        String jsonParam = JSON.toJSONString(obj);
+                        data = JSON.toJSONString(obj);
+                    }
                     if (data.length() > 65534) {
                         data = data.substring(0, 65534);
                     }
