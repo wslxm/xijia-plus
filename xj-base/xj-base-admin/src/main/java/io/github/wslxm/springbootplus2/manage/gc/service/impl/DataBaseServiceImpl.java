@@ -32,6 +32,11 @@ import java.util.*;
 @Slf4j
 public class DataBaseServiceImpl extends BaseServiceImpl implements DataBaseService {
 
+    @Autowired
+    private DatasourceService adminDatasourceService;
+    @Autowired
+    private GenerateProperties generateProperties;
+
     private String dbUrl;
     private String dbUserName;
     private String dbPassWord;
@@ -62,10 +67,7 @@ public class DataBaseServiceImpl extends BaseServiceImpl implements DataBaseServ
     }
 
 
-    @Autowired
-    private DatasourceService adminDatasourceService;
-    @Autowired
-    private GenerateProperties generateProperties;
+
 
     @Override
     public List<TableVO> findTable(String dataSourceId) {
