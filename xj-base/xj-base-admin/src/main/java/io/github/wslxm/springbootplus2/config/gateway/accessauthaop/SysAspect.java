@@ -1,6 +1,5 @@
 package io.github.wslxm.springbootplus2.config.gateway.accessauthaop;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.wslxm.springbootplus2.common.auth.entity.JwtUser;
 import io.github.wslxm.springbootplus2.config.gateway.accessauthaop.accessauth.*;
@@ -12,11 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -213,14 +209,6 @@ public class SysAspect {
         } catch (Exception e) {
             // 记录 业务代码异常, 这里try后, 全局异常将不生效，在直接主动调用(如果没有try exceptionHandler在异常时会自动进行拦截,在这里拦截主要是响应结果信息)
             resObj = globalExceptionHandler.exceptionHandler(e);
-
-            // 判断返回格式是 json 还是字符串
-            MethodSignature signature = (MethodSignature) proceed.getSignature();
-            boolean isMethodBody = signature.getMethod().getAnnotation(ResponseBody.class) != null;
-            boolean isClassBody = proceed.getTarget().getClass().getDeclaredAnnotation(Controller.class) == null;
-            if (!isMethodBody || !isClassBody) {
-                resObj = JSON.toJSONString(resObj);
-            }
         }
         // 8、记录响应结果和记录响应时间(state=1-成功,等待请求线程执行完毕立即执行)
         long endTime = System.currentTimeMillis();
